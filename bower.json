@@ -1,0 +1,30 @@
+{
+  "name": "sugar",
+  "version": "1.0.0",
+  "authors": [
+    "Olivier Bossel <olivier.bossel@gmail.com>"
+  ],
+  "main": [
+    "sass/sugar/_sugar.scss"
+  ],
+  "description": "A little sugar in your sass files",
+  "keywords": [
+    "gridle",
+    "grid",
+    "system",
+    "scss",
+    "sass",
+    "css"
+  ],
+  "license": "MIT",
+  "homepage": "http://sugar.io",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {},
+  "devDependencies": {}
+}

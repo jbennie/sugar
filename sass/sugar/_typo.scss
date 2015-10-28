@@ -1,0 +1,50 @@
+//
+// Helpers with typography
+//
+
+@function rem(
+	$size
+) {
+
+}
+
+
+@function convert($value, $convertUnit){
+
+	// get the unit
+	$unit : str-slice(#{$value}, -2);
+
+	// strip unit of value
+	$value : strip-units($value);
+
+	@if $unit == px {
+		@if $convertUnit == em {
+			@return $value / 16 + 0em;
+		} @else if $convertUnit == percent {
+			@return percentage($value / 16);
+		}
+	}
+	@else if $unit == em {
+		@if $convertUnit == px {
+			@return $value * 16 + 0px;
+		} @else if $convertUnit == "%" {
+			@return percentage($value);
+		}
+	}
+	@else if $unit == "%" {
+		@if $convertUnit == px {
+			@return $value * 16 / 100 + 0px;
+		} @else if $convertUnit == em {
+			@return $value / 100 + 0em;
+		}
+	}
+	@else if $unit == pt {
+		@if $convertUnit == px {
+			@return $value * 1.3333 + 0px;
+		} @else if $convertUnit == em {
+			@return $value / 12 + 0em;
+		} @else if $convertUnit == "%" {
+			@return percentage($value / 12);
+		}
+	}
+}

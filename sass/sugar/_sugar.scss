@@ -1,0 +1,62 @@
+//
+// colors helpers
+// font helpers
+// - rem function
+// **
+
+//
+// Helpers functions
+//
+@import 'helper-functions';
+
+//
+// Typo
+//
+@import 'typo';
+
+//
+// Variables
+//
+$_sugar-settings : (); 					// store all the settings
+
+//
+// Sugar mixin
+//
+@mixin sugar(
+	$what
+) {
+	@if type-of($what) == map {
+		// setup
+		@include sugar_setup($what);
+	}
+}
+
+//
+// Sugar function
+//
+@function sugar(
+	$what
+) {
+	@if type-of($what) == string and str-index($what, ".") {
+		// get a configuration
+		@return sugar_conf($what);
+	}
+}
+
+//
+// Get a configuration
+//
+@function sugar_conf(
+	$path
+) {
+	
+}
+
+//
+// Setup
+//
+@mixin sugar_setup(
+	$settings
+) {
+	$_sugar-settings : map-merge($_sugar-settings, $settings) !global;
+}

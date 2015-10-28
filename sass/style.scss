@@ -1,0 +1,14 @@
+/**
+ * Sugar
+ */
+@import 'sugar/sugar';
+
+@include sugar((
+	font-size : 16px,
+	line-height : 20px
+));
+
+body {
+	@debug(convert(12px, em));
+	font-size : convert(12px, em);
+}

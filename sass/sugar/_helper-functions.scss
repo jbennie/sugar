@@ -1,0 +1,10 @@
+//
+// Helpers functions
+//
+
+//
+// Strip units
+//
+@function strip-units($number) {
+	@return $number / ($number * 0 + 1);
+}
