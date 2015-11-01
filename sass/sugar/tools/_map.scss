@@ -1,0 +1,32 @@
+//
+// Map set
+//
+// @param 	Map 	$map 		The map to use
+// @param 	String 	$key 		The key to update
+// @param 	Mixed 	$value 		The new value
+// @return 	Map 			The new map
+//
+@function map-set($map, $key, $value) {
+	$new: ($key: $value);
+	@return map-merge($map, $new);
+}
+
+
+//
+// Map get or
+// This will try to get the elements in map by index order
+//
+@function map-get-or(
+	$map,
+	$index-list,
+	$default : null
+) {
+	@each $index in $index-list {
+		$res : map-get($map, $index);
+		@if $res != null {
+			@return $res;
+		}
+	}
+	// we do not find anything
+	@return $default;
+}

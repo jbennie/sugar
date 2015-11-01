@@ -4,11 +4,53 @@
 @import 'sugar/sugar';
 
 @include sugar((
-	font-size : 16px,
-	line-height : 20px
+	typo : (
+		font-size : 16px,
+		line-height : 20px,
+	),
+	fonts : (
+		helvetica : (
+			font-face : '/fonts/helvetica-neue/font.css',
+			declaration : 'Verdana, "Helvetica Neue", Arial, sans-serif',
+			cap-height : 0.68
+		),
+		lobster : (
+			font-face : '/fonts/lobster/font.css',
+			declaration : 'lobster, Times, serif'
+		)
+	),
+	colors : (
+		green : #00ff00,
+		pink : #ffff00
+	)
 ));
 
+.round {
+	// background: red;
+	// @include border-radius(t 200px 100px b 100px bl 200px);
+	// @include triangle(green, 200px, 200px, top);
+	@include triangle(150px 100px color(green) br, 5px color(green, invert), all .1s ease-in-out);
+	&:hover {
+		@include triangle(300px 200px color(pink) br, 100px color(pink, invert));
+	}
+}
+
 body {
-	@debug(convert(12px, em));
-	font-size : convert(12px, em);
+	color : color(green);
+	background-image: -webkit-linear-gradient(top, cyan 0, rgba(255,255,255,0) 1px);
+ background-image: -moz-linear-gradient(top, cyan 0, rgba(255,255,255,0) 1px);
+  background-image: -o-linear-gradient(top, cyan 0, rgba(255,255,255,0) 1px);
+  background-image: linear-gradient(to bottom, cyan 0, rgba(255,255,255,0) 1px);
+  background-repeat: repeat-y;
+  background-size: 100% 1em;
+}
+
+h1 {
+	@include font(30px helvetica rythme);
+}
+h2 {
+	@include font(20px helvetica rythme);
+}
+p {
+	@include font(16px helvetica);
 }

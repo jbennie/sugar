@@ -78,7 +78,21 @@ module.exports = (grunt) ->
 					dest: 'css',
 					ext: '.min.css'
 				}]
-			
+		
+		copy:
+			sassyStrings:
+				expand: true,
+				cwd: 'bower_components/SassyStrings/stylesheets/',
+				src: '**',
+				dest: 'sass/sugar/vendors/sassyStrings/',
+				filter: 'isFile'
+			sassline:
+				expand: true,
+				cwd: 'bower_components/sassline/assets/sass/base/',
+				src: '**',
+				dest: 'sass/sugar/vendors/sassline/',
+				filter: 'isFile'
+
 		uglify:
 			my_target:
 				files:
@@ -138,6 +152,7 @@ module.exports = (grunt) ->
 	grunt.loadNpmTasks 'grunt-contrib-uglify'
 	grunt.loadNpmTasks 'grunt-contrib-concat'
 	grunt.loadNpmTasks 'grunt-contrib-clean'
+	grunt.loadNpmTasks 'grunt-contrib-copy'
 
 	grunt.registerTask 'default', [
 		'clean'

@@ -1,0 +1,82 @@
+//
+// Colors management
+//
+
+//
+// Color function
+//
+@function color(
+	$name,
+	$actions : null
+) {
+	// grab the colors
+	$colors : sugar('settings.colors');
+	$color : map-get($colors, $name);
+	// check that we have the color
+	@if $color == null {
+		@error('The color "#{$name}" does not exist...');
+	}
+	// check action to do
+	@if $actions {
+		// parse action
+		$actions-map : _sugar_parse_properties($actions, (
+			hue : number,
+			lighten : number,
+			darken : number,
+			grayscale : true,
+			complement : true,
+			invert : true,
+			saturate : true,
+			desaturate : true
+		));
+		@debug($actions-map);
+		// loop on each action to process to keep order
+		@each $action, $value in $actions-map {
+			// hue
+			@if $action == hue and type-of($value) == number {
+				$color : adjust-hue($color, $value);
+			}
+			// lighten
+			@if $action == lighten and type-of($value) == number {
+				$color : lighten($color, $value);
+			}
+			// darken
+			@if $action == darken and type-of($value) == number {
+				$color : darken($color, $value);
+			}
+			// saturate
+			@if $action == saturate and type-of($value) == number {
+				$color : saturate($color, $value);
+			}
+			// desaturate
+			@if $action == desaturate and type-of($value) == number {
+				$color : desaturate($color, $value);
+			}
+			// grayscale
+			@if $action == grayscale and $value == true {
+				$color : grayscale($color);
+			}
+			// complement
+			@if $action == complement and $value == true {
+				$color : complement($color);
+			}
+			// invert
+			@if $action == invert and $value == true {
+				$color : invert($color);
+			}
+		}
+	}
+	// return the color
+	@return $color;
+}
+
+//
+// Check if is color
+//
+@function is_color($color) {
+	@if type-of($color) == color {
+		@return true;
+	} @else {
+		@return false;
+	}
+}

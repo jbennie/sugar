@@ -1,0 +1,11 @@
+@function str-explode($string, $delimiter: '') {
+  @if type-of($string) != "string" {
+    @error "`explode` function expecting a string; #{type-of($string)} given.";
+  }
+
+  @if type-of($delimiter) != "string" {
+    @error "`explode` function expecting a string; #{type-of($delimiter)} given.";
+  }
+
+  @return _ss-str-explode($string, $delimiter);
+}

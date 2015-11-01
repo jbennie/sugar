@@ -1,0 +1,279 @@
+//
+// Shapes helpers
+//
+
+//
+// Corner
+//
+@mixin corner(
+	$radius
+) {
+	@if length($radius) == 1 and type-of($radius) == number {
+		border-radius: $radius;
+	} @else {
+		// parse properties
+		$props : _sugar_parse_properties($radius, (
+			top : true,
+			t : true,
+			right : true,
+			r : true,
+			bottom : true,
+			b : true,
+			left : true,
+			l : true,
+			top-left : true,
+			tl : true,
+			top-right : true,
+			tr : true,
+			bottom-left : true,
+			bl : true,
+			bottom-right : true,
+			br : true
+		));
+
+		// top
+		$top : map-get-or($props, top t);
+		@if $top and type-of($top) == number or type-of($top) == list {
+			border-top-left-radius: $top;
+			border-top-right-radius: $top;
+		}
+		// right
+		$right : map-get-or($props, right r);
+		@if $right and type-of($right) == number or type-of($right) == list {
+			border-right-left-radius: $right;
+			border-right-right-radius: $right;
+		}
+		// bottom
+		$bottom : map-get-or($props, bottom b);
+		@if $bottom and type-of($bottom) == number or type-of($bottom) == list {
+			border-bottom-left-radius: $bottom;
+			border-bottom-right-radius: $bottom;
+		}
+		// left
+		$left : map-get-or($props, left l);
+		@if $left and type-of($left) == number or type-of($left) == list {
+			border-left-left-radius: $left;
+			border-left-right-radius: $left;
+		}
+		// top left
+		$top-left : map-get-or($props, top-left tl);
+		@if $top-left and type-of($top-left) == number or type-of($top-left) == list {
+			border-top-left-radius: $top-left;
+		}
+		// top-right
+		$top-right : map-get-or($props, top-right tl);
+		@if $top-right and type-of($top-right) == number or type-of($top-right) == list {
+			border-top-right-radius: $top-right;
+		}
+		// bottom-left
+		$bottom-left : map-get-or($props, bottom-left bl);
+		@if $bottom-left and type-of($bottom-left) == number or type-of($bottom-left) == list {
+			border-bottom-left-radius: $bottom-left;
+		}
+		// bottom-right
+		$bottom-right : map-get-or($props, bottom-right br);
+		@if $bottom-right and type-of($bottom-right) == number or type-of($bottom-right) == list {
+			border-bottom-right-radius: $bottom-right;
+		}
+	}
+}
+@mixin border-radius($radius) {
+	@include corner($radius);
+}
+
+
+//
+// Round
+//
+@mixin round() {
+	border-radius:50%;
+}
+
+
+
+//
+// Triangle
+//
+@mixin triangle(
+	$triangle,
+	$border : null,
+	$transition : null
+) {
+
+	$triangle : _sugar_parse_properties($triangle, (
+		width : number,
+		height : number,
+		color : color,
+		direction : 'top|t|right|r|bottom|b|left|l|top-left|tl|top-right|tr|bottom-left|bl|bottom-right|br'
+	));
+	$border : _sugar_parse_properties($border, (
+		width : number,
+		color : color
+	));
+
+	$direction : map-get-or($triangle, direction d, top);
+	$width : map-get-or($triangle, width w, 100px);
+	$height : map-get-or($triangle, height h, 100px);
+	$color : map-get-or($triangle, color c, red);
+	$b-width : map-get-or($border, width w);
+	$b-color : map-get-or($border, color c, darken(red,20%));
+
+	display: inline-block;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	-webkit-transform:rotate(360deg);
+	&:before,
+	&:after {
+		content:'';
+		display: block;
+		position: absolute;
+		width:0; height:0;
+		border-style: solid;
+		top:0; left:0;
+	}
+	@if $transition {
+		&:before,
+		&:after {
+			transition : $transition;
+		}
+	}
+	// top
+	@if $direction == top or $direction == t {
+		&:after {
+			border-width: 0 $width*.5 $height $width*.5;
+			border-color: transparent transparent $color transparent;
+		}
+		@if $b-width {
+			$angle : atan($height / ($width*.5));
+			$hyp : $height / sin($angle);
+			$centerX : (0 + $width + $width*.5) / 3;
+			$centerY : (0 + 0 + $height) / 3;
+			$ratio : 1 / $height * ($height + $b-width*2);
+			&:before {
+				transform-origin: $centerX ($height - $centerY);
+				transform:scale($ratio);
+				border-width: 0 $width*.5 $height $width*.5;
+				border-color: transparent transparent $b-color transparent;	
+			}
+		}
+	} @else if $direction == right or $direction == r {
+		&:after {
+			border-width: $height*.5 0 $height*.5 $width;
+			border-color: transparent transparent transparent $color;
+		}
+		@if $b-width {
+			$angle : atan($width / ($height*.5));
+			$hyp : $width / sin($angle);
+			$centerX : (0 + 0 + $width) / 3;
+			$centerY : (0 + $height + $height*.5) / 3;
+			$ratio : 1 / $height * ($height + $b-width*2);
+			&:before {
+				transform-origin: ($width - $centerX) $centerY;
+				transform:scale($ratio);
+				border-width: $height*.5 0 $height*.5 $width;
+				border-color: transparent transparent transparent $b-color;
+			}
+		}
+	} @else if $direction == bottom or $direction == b {
+		&:after {
+			border-width: $height $width*.5 0 $width*.5;
+			border-color: $color transparent transparent transparent;
+		}
+		@if $b-width {
+			$angle : atan($height / ($width*.5));
+			$hyp : $height / sin($angle);
+			$centerX : (0 + $width + $width*.5) / 3;
+			$centerY : (0 + 0 + $height) / 3;
+			$ratio : 1 / $height * ($height + $b-width*2);
+			&:before {
+				transform-origin: $centerX $centerY;
+				transform:scale($ratio);
+				border-width: $height $width*.5 0 $width*.5;
+				border-color: $b-color transparent transparent transparent;	
+			}
+		}
+	} @else if $direction == left or $direction == l {
+		&:after {
+			border-width: $height*.5 $width $height*.5 0;
+			border-color: transparent $color transparent transparent;
+		}
+		@if $b-width {
+			$angle : atan($width / ($height*.5));
+			$hyp : $width / sin($angle);
+			$centerX : (0 + 0 + $width) / 3;
+			$centerY : (0 + $height + $height*.5) / 3;
+			$ratio : 1 / $height * ($height + $b-width*2);
+			&:before {
+				transform-origin: ($width - $centerX) $centerY;
+				transform:scale($ratio);
+				border-width: $height*.5 $width $height*.5 0;
+				border-color: transparent $b-color transparent transparent;
+			}
+		}
+	} @else if $direction == top-left or $direction == tl {
+		&:after {
+			border-width: $height $width 0 0;
+			border-color: $color transparent transparent transparent;
+		}
+		@if $b-width {
+			$centerX : (0 + $width + $width) / 3;
+			$centerY : (0 + 0 + $height) / 3;
+			$ratio : 1 / $height * ($height + $b-width*2);
+			&:before {
+				transform-origin: ($width - $centerX) $centerY;
+				transform:scale($ratio);
+				border-width: $height $width 0 0;
+				border-color: $b-color transparent transparent transparent;
+			}
+		}
+	} @else if $direction == top-right or $direction == tr {
+		&:after {
+			border-width: 0 $width $height 0;
+			border-color: transparent $color transparent transparent;
+		}
+		@if $b-width {
+			$centerX : (0 + $width + $width) / 3;
+			$centerY : (0 + 0 + $height) / 3;
+			$ratio : 1 / $height * ($height + $b-width*2);
+			&:before {
+				transform-origin: $centerX $centerY;
+				transform:scale($ratio);
+				border-width: 0 $width $height 0;
+				border-color: transparent $b-color transparent transparent;
+			}
+		}
+	} @else if $direction == bottom-left or $direction == bl {
+		&:after {
+			border-width: $height 0 0 $width;
+			border-color: transparent transparent transparent $color;
+		}
+		@if $b-width {
+			$centerX : (0 + 0 + $width) / 3;
+			$centerY : (0 + $height + $height) / 3;
+			$ratio : 1 / $height * ($height + $b-width*2);
+			&:before {
+				transform-origin: $centerX $centerY;
+				transform:scale($ratio);
+				border-width: $height 0 0 $width;
+				border-color: transparent transparent transparent $b-color;
+			}
+		}
+	} @else if $direction == bottom-right or $direction == br {
+		&:after {
+			border-width: 0 0 $height $width;
+			border-color: transparent transparent $color transparent;
+		}
+		@if $b-width {
+			$centerX : (0 + $width + $width) / 3;
+			$centerY : (0 + $height + $height) / 3;
+			$ratio : 1 / $height * ($height + $b-width*2);
+			&:before {
+				transform-origin: $centerX $centerY;
+				transform:scale($ratio);
+				border-width: 0 0 $height $width;
+				border-color: transparent transparent $b-color transparent;
+			}
+		}
+	}
+}

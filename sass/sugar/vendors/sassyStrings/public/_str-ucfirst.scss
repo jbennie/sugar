@@ -1,0 +1,7 @@
+@function str-ucfirst($string) {
+  @if type-of($string) != "string" {
+    @error "`str-ucfirst` function expecting a string for $string; #{type-of($string)} given.";
+  }
+
+  @return _ss-str-ucfirst($string);
+}

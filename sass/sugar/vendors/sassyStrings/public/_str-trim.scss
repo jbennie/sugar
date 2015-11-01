@@ -1,0 +1,7 @@
+@function str-trim($string) {
+  @if type-of($string) != "string" {
+    @error "`str-trim` function expecting a string for $string; #{type-of($string)} given.";
+  }
+
+  @return _ss-str-trim($string);
+}

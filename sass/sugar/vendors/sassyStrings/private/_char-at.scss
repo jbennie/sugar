@@ -1,0 +1,8 @@
+/// Return character from `$string` at `$index`.
+/// @since 1.2.0
+/// @param {String} $string - string to check
+/// @param {String} $index  - index to inspect
+/// @return {String}
+@function _ss-char-at($string, $index) {
+  @return str-slice($string, $index, $index);
+}
