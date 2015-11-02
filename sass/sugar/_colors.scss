@@ -14,7 +14,11 @@
 	$color : map-get($colors, $name);
 	// check that we have the color
 	@if $color == null {
-		@error('The color "#{$name}" does not exist...');
+		@if is-color($name) {
+			$color : $name;
+		} @else {
+			@error('The color "#{$name}" does not exist...');
+		}
 	}
 	// check action to do
 	@if $actions {
@@ -26,10 +30,18 @@
 			grayscale : true,
 			complement : true,
 			invert : true,
-			saturate : true,
-			desaturate : true
+			saturate : number,
+			desaturate : number
+		), (
+			hue : 'h',
+			lighten : 'li',
+			darken : 'da',
+			grayscale : 'gr',
+			complement : 'comp',
+			invert : 'inv',
+			saturate : 'sa',
+			desaturate : 'desa'
 		));
-		@debug($actions-map);
 		// loop on each action to process to keep order
 		@each $action, $value in $actions-map {
 			// hue
@@ -69,11 +81,17 @@
 	// return the color
 	@return $color;
 }
+@function c(
+	$name,
+	$actions : null
+) {
+	@return color($name, $actions);
+}
 
 //
 // Check if is color
 //
-@function is_color($color) {
+@function is-color($color) {
 	@if type-of($color) == color {
 		@return true;
 	} @else {

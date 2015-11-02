@@ -1,0 +1,134 @@
+//
+// Media queries specific
+//
+
+//
+// Size specific
+//
+@mixin media(
+	$props
+) {
+	$props : _sugar_parse_properties($props, (
+		device : 'screen|handheld|print|aural|braille|embossed|projection|tty|tv|all',
+		min-width : number,
+		max-width : number,
+		min-height : number,
+		max-height : number,
+		orientation : 'landscape|portrait'
+	), (
+		device : 'd',
+		min-width: 'min-w|minw',
+		max-width: 'max-w|maxw',
+		min-height: 'min-h|minh',
+		max-height: 'max-h|maxh',
+		orientation : 'o'
+	));
+
+	$device : map-get-or($props, device);
+	$min-width : map-get-or($props, min-width);
+	$max-width : map-get-or($props, max-width);
+	$min-height : map-get-or($props, min-height);
+	$max-height : map-get-or($props, max-height);
+	$orientation : map-get-or($props, orientation);
+
+	$media : ();
+	@if $device {
+		$media : append($media, $device);
+	}
+	@if $orientation {
+		$media : append($media, '(orientation : #{$orientation})');
+	}
+	@if $min-width {
+		$media : append($media, '(min-width : #{$min-width})');
+	}
+	@if $max-width {
+		$media : append($media, '(max-width : #{$max-width})');
+	}
+	@if $min-height {
+		$media : append($media, '(min-height : #{$min-height})');
+	}
+	@if $max-height {
+		$media : append($media, '(max-height : #{$max-height})');
+	}
+
+	$med : '';
+	$idx : 1;
+	$med_length : length($media);
+	@each $m in $media {
+		@if $idx < $med_length {
+			$med : '#{$med} #{$m} and';
+		} @else {
+			$med : '#{$med} #{$m}';
+		}
+		$idx : $idx + 1;
+	}
+
+	// @debug($med);
+
+	@media #{$med} {
+		@content;
+	}
+}
+
+//
+// Retina
+//
+@mixin retina() {
+	@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+		@content;
+	}
+}
+
+//
+// Landscape
+//
+@mixin landscape() {
+	@media (orientation : landscape) {
+		@content;
+	}
+}
+
+//
+// Portrait
+//
+@mixin portrait() {
+	@media (orientation : portrait) {
+		@content;
+	}
+}
+
+//
+// Print
+//
+@mixin print() {
+	@media print {
+		@content;
+	}
+}
+
+//
+// TV
+//
+@mixin tv() {
+	@media tv {
+		@content;
+	}
+}
+
+//
+// Phone
+//
+@mixin phone() {
+	@media only screen and (min-device-width: 480px) {
+		@content;
+	}
+}
+
+//
+// Tablet
+//
+@mixin tablet() {
+	@media only screen and (min-device-width: 768px) {
+		@content;
+	}
+}

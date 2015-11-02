@@ -25,14 +25,53 @@
 	)
 ));
 
-.round {
-	// background: red;
-	// @include border-radius(t 200px 100px b 100px bl 200px);
-	// @include triangle(green, 200px, 200px, top);
-	@include triangle(150px 100px color(green) br, 5px color(green, invert), all .1s ease-in-out);
-	&:hover {
-		@include triangle(300px 200px color(pink) br, 100px color(pink, invert));
+.media {
+	@include media(200px) {
+		content : 200px;
 	}
+	@include media(tv 200px 300px) {
+		content : 200px 300px;
+	}
+	@include media(-minh 100px) {
+		content : -min-height 100px;
+	}
+	@include media(screen landscape) {
+		content : landscape;
+	}
+	@include media(portrait) {
+		content : portrait;
+	}
+}
+
+.rect {
+	// @include rect(100px 200px);
+	// @include round();
+}
+
+.bubble {
+	margin-left: 100px;
+	@include bubble(red 20px 10px bottom, null, all .1s ease-in-out);
+	&:hover {
+		@include bubble(blue top 20px 10px);
+	}
+	// @include corner(5px);
+	padding: 10px 15px;
+	box-shadow: #000 0 0 10px;
+}
+
+.triangle {
+	// @include triangle(200px 100px c(green) bottom, 5px c(green, invert), all .1s ease-in-out);
+	// &:hover {
+	// 	@include triangle(300px 200px color(pink) br, 100px color(pink, invert));
+	// }
+}
+
+.round {
+	@include round(100px c(green));
+}
+
+.circle {
+	@include round(100px c(pink), 2px solid black);
 }
 
 body {
@@ -46,11 +85,11 @@ body {
 }
 
 h1 {
-	@include font(30px helvetica rythme);
+	// @include font(30px helvetica rythme);
 }
 h2 {
-	@include font(20px helvetica rythme);
+	// @include font(20px helvetica rythme);
 }
 p {
-	@include font(16px helvetica);
+	// @include font(16px helvetica);
 }

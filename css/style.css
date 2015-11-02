@@ -1,6 +1,21 @@
 /**
  * Sugar
  */
+/* # CLEARFIX
+	More infos to come..
+	
+	https://github.com/stubbornella/oocss/blob/master/oocss/src/components/utils/_clearfix-me.scss
+	
+	clearfix   used project wide to clear floats and create a new formatting context
+	
+	usage      @include clearfix-me(<empty|overflow|facebook|micro|stubborn>)
+	
+	$clearfix-method sets default method
+*/
+.clearfix-overflow {
+  overflow: hidden;
+}
+
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
   margin: 0;
   padding: 0;
@@ -52,14 +67,49 @@ html {
   line-height: 20pxrem;
 }
 
-.round {
+@media (min-width: 200px) {
+  .media {
+    content: 200px;
+  }
+}
+@media tv and (min-width: 200px) and (max-width: 300px) {
+  .media {
+    content: 200px 300px;
+  }
+}
+@media (min-height: 100px) {
+  .media {
+    content: -min-height 100px;
+  }
+}
+@media screen and (orientation: landscape) {
+  .media {
+    content: landscape;
+  }
+}
+@media (orientation: portrait) {
+  .media {
+    content: portrait;
+  }
+}
+
+.bubble {
+  margin-left: 100px;
   display: inline-block;
   width: 0;
   height: 0;
   border-style: solid;
   -webkit-transform: rotate(360deg);
+  position: relative;
+  background: red;
+  width: auto;
+  height: auto;
+  transition: all 0.1s ease-in-out;
+  padding: 10px 15px;
+  box-shadow: #000 0 0 10px;
 }
-.round:before, .round:after {
+.bubble:before, .bubble:after {
+  color: transparent;
   content: '';
   display: block;
   position: absolute;
@@ -69,27 +119,33 @@ html {
   top: 0;
   left: 0;
 }
-.round:before, .round:after {
+.bubble:before, .bubble:after {
   transition: all 0.1s ease-in-out;
 }
-.round:after {
-  border-width: 0 0 100px 150px;
-  border-color: transparent transparent #00ff00 transparent;
+.bubble:after {
+  border-width: 10px 10px 0 10px;
+  border-color: red transparent transparent transparent;
 }
-.round:before {
-  transform-origin: 100px 66.66666667px;
-  transform: scale(1.1);
-  border-width: 0 0 100px 150px;
-  border-color: transparent transparent magenta transparent;
+.bubble:after, .bubble:before {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-left: 0;
 }
-.round:hover {
+.bubble:hover {
   display: inline-block;
   width: 0;
   height: 0;
   border-style: solid;
   -webkit-transform: rotate(360deg);
+  position: relative;
+  background: blue;
+  width: auto;
+  height: auto;
 }
-.round:hover:before, .round:hover:after {
+.bubble:hover:before, .bubble:hover:after {
+  color: transparent;
   content: '';
   display: block;
   position: absolute;
@@ -99,15 +155,33 @@ html {
   top: 0;
   left: 0;
 }
-.round:hover:after {
-  border-width: 0 0 200px 300px;
-  border-color: transparent transparent #ffff00 transparent;
-}
-.round:hover:before {
-  transform-origin: 200px 133.33333333px;
-  transform: scale(2);
-  border-width: 0 0 200px 300px;
+.bubble:hover:after {
+  border-width: 0 10px 10px 10px;
   border-color: transparent transparent blue transparent;
+}
+.bubble:hover:after, .bubble:hover:before {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100%);
+  margin-left: 0;
+}
+
+.round {
+  width: 100px;
+  height: 100px;
+  background-color: #00ff00;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.circle {
+  width: 100px;
+  height: 100px;
+  background-color: #ffff00;
+  border: solid 2px black;
+  border-radius: 50%;
+  overflow: hidden;
 }
 
 body {
@@ -118,16 +192,4 @@ body {
   background-image: linear-gradient(to bottom, cyan 0, rgba(255, 255, 255, 0) 1px);
   background-repeat: repeat-y;
   background-size: 100% 1em;
-}
-
-h1 {
-  font-family: Verdana, "Helvetica Neue", Arial, sans-serif;
-}
-
-h2 {
-  font-family: Verdana, "Helvetica Neue", Arial, sans-serif;
-}
-
-p {
-  font-family: Verdana, "Helvetica Neue", Arial, sans-serif;
 }

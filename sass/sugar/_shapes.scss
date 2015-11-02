@@ -85,8 +85,188 @@
 //
 // Round
 //
-@mixin round() {
+@mixin round(
+	$props : null,
+	$border : null
+) {
+	@if $props {
+		$props : _sugar_parse_properties($props, (
+			width : number,
+			height : number,
+			color : color
+		));
+		$width : map-get-or($props, width w);
+		$height : map-get-or($props, height h, $width);
+		$color : map-get-or($props, color c);
+		width: $width;
+		height: $height;
+		@if $color {
+			background-color: $color;
+		}
+	}
+	@if $border {
+		$border : _sugar_parse_properties($border, (
+			width : number,
+			color : color,
+			style : 'solid|dotted|dashed|double|groove|ridge|inset|outset|initial|inherit'
+		), (
+			style : 's'
+		));
+		$width : map-get-or($border, width w);
+		$color : map-get-or($border, color c);
+		$style : map-get-or($border, style s, solid);
+		@if $width and $color {
+			border: $style $width $color;
+		}
+	}
 	border-radius:50%;
+	overflow: hidden;
+}
+
+
+//
+// Restangle
+//
+@mixin rect(
+	$size
+) {
+	$size : _sugar_parse_properties($size, (
+		width : number,
+		height : number
+	));
+	$width : map-get($size, width);
+	$height : map-get($size, height);
+	@if type-of($width) != number or type-of($height) != number {
+		@error "To create a rectangle, you need to specify a width and an height";
+	}
+	width : $width;
+	height : $height;
+}
+
+
+//
+// Bubble
+//
+@mixin bubble(
+	$base : null,
+	$border : null,
+	$transition : null
+) {
+
+	$directions : 'top|right|r|bottom|b|left|l|top-left|tl|top-right|tr|bottom-left|bl|bottom-right|br';
+	$positions : 'top|right|bottom|left|top-left|top-right|right-top|right-bottom|bottom-left|bottom-right|left-bottom|left-top';
+	$base : _sugar_parse_properties($base, (
+		position : $positions,
+		color : color,
+		arrow-width : number,
+		arrow-height : number,
+		offset : number
+	), (
+		position : 'p',
+		arrow-width : 'aw',
+		arrow-height : 'ah',
+		offset : 'o'
+	));
+	$border_map : _sugar_parse_properties($border, (
+		width : number,
+		color : color
+	));
+	$position : map-get-or($base, position, bottom);
+	$color : map-get-or($base, color, red);
+	$width : map-get-or($base, arrow-width, 20px);
+	$height : map-get-or($base, arrow-height, 10px);
+	$b-width : map-get-or($border_map, width);
+	$b-color : map-get-or($border_map, color, darken(red,10%));
+	$offset : map-get-or($base, offset, 0);
+
+	// direction
+	$direction : top;
+	@if $position == 'right' or $position == 'right-top' or $position == 'right-bottom' {
+		$direction : right;
+	} @else if $position == 'bottom' or $position == 'bottom-left' or $position == 'bottom-right' {
+		$direction : bottom;
+	} @else if $position == 'left' or $position == 'left-bottom' or $position == 'left-top' {
+		$direction : left;
+	}
+
+	// create the bubble
+	@include triangle($width $height $color $direction, $border, $transition);
+
+	position: relative;
+	background: $color;
+	width: auto;
+	height: auto;
+	@if $b-width {
+		border: $b-width solid $b-color;
+	}
+	@if $transition {
+		transition: $transition;
+	}
+
+	&:after,
+	&:before {
+		position: absolute;
+		@if $position == top {
+			top:0;
+			left: 50%;
+			transform: translateX(-50%) translateY(-100%);
+			margin-left: $offset;
+		} @else if $position == top-left {
+			top: 0;
+			left: 0;
+			transform: translateY(-100%);
+			margin-left: $offset;
+		} @else if $position == top-right {
+			top: 0;
+			left: 100%;
+			transform: translateY(-100%) translateX(-100%);
+			margin-left: $offset * -1;
+		} @else if $position == right {
+			top: 50%;
+			left: 100%;
+			transform: translateY(-50%);
+			margin-top: $offset;
+		} @else if $position == right-top {
+			top: 0;
+			left: 100%;
+			margin-top: $offset;
+		} @else if $position == right-bottom {
+			top: 100%;
+			left: 100%;
+			transform: translateY(-100%);
+			margin-top: $offset * -1;
+		} @else if $position == bottom {
+			top: 100%;
+			left: 50%;
+			transform: translateX(-50%);
+			margin-left: $offset;
+		} @else if $position == bottom-left {
+			top: 100%;
+			left: 0;
+			margin-left: $offset;
+		} @else if $position == bottom-right {
+			top: 100%;
+			left: 100%;
+			transform: translateX(-100%);
+			margin-left: $offset * -1;
+		} @else if $position == left {
+			top: 50%;
+			left: 0;
+			transform: translateX(-100%) translateY(-50%);
+			margin-top: $offset;
+		} @else if $position == left-top {
+			top: 0;
+			left: 0;
+			transform: translateX(-100%);
+			margin-top: $offset;
+		} @else if $position == left-bottom {
+			top: 100%;
+			left: 0;
+			transform: translateX(-100%) translateY(-100%);
+			margin-top: $offset * -1;
+		}
+	}
+
 }
 
 
@@ -105,6 +285,8 @@
 		height : number,
 		color : color,
 		direction : 'top|t|right|r|bottom|b|left|l|top-left|tl|top-right|tr|bottom-left|bl|bottom-right|br'
+	), (
+		direction : 'd'
 	));
 	$border : _sugar_parse_properties($border, (
 		width : number,
@@ -118,6 +300,13 @@
 	$b-width : map-get-or($border, width w);
 	$b-color : map-get-or($border, color c, darken(red,20%));
 
+	// swap width and height of arrow
+	@if $direction == right or $direction == left {
+		$_width : $width;
+		$width : $height;
+		$height : $_width;
+	}
+
 	display: inline-block;
 	width: 0;
 	height: 0;
@@ -125,6 +314,7 @@
 	-webkit-transform:rotate(360deg);
 	&:before,
 	&:after {
+		color: transparent;
 		content:'';
 		display: block;
 		position: absolute;
