@@ -190,7 +190,7 @@
 	}
 
 	// create the bubble
-	@include triangle($width $height $color $direction, $border, $transition);
+	@include triangle($width $height $color $direction -transform-origin base, $border, $transition);
 
 	position: relative;
 	background: $color;
@@ -207,25 +207,25 @@
 	&:before {
 		position: absolute;
 		@if $position == top {
-			top:0;
+			top: - $height;
 			left: 50%;
-			transform: translateX(-50%) translateY(-100%);
-			margin-left: $offset;
+			margin-left: $offset - $width * .5;
+			// transform: translateX(-50%) translateY(-100%);
 		} @else if $position == top-left {
-			top: 0;
+			top: - $height;
 			left: 0;
-			transform: translateY(-100%);
+			// transform: translateY(-100%);
 			margin-left: $offset;
 		} @else if $position == top-right {
-			top: 0;
+			top: - $height;
 			left: 100%;
-			transform: translateY(-100%) translateX(-100%);
+			// transform: translateY(-100%) translateX(-100%);
 			margin-left: $offset * -1;
 		} @else if $position == right {
 			top: 50%;
 			left: 100%;
-			transform: translateY(-50%);
-			margin-top: $offset;
+			// transform: translateY(-50%);
+			margin-top: $offset - $width * .5;
 		} @else if $position == right-top {
 			top: 0;
 			left: 100%;
@@ -233,13 +233,13 @@
 		} @else if $position == right-bottom {
 			top: 100%;
 			left: 100%;
-			transform: translateY(-100%);
-			margin-top: $offset * -1;
+			// transform: translateY(-100%);
+			margin-top: $offset * -1 - $width;
 		} @else if $position == bottom {
 			top: 100%;
 			left: 50%;
-			transform: translateX(-50%);
-			margin-left: $offset;
+			// transform: translateX(-50%);
+			margin-left: $offset - $width * .5;
 		} @else if $position == bottom-left {
 			top: 100%;
 			left: 0;
@@ -247,23 +247,23 @@
 		} @else if $position == bottom-right {
 			top: 100%;
 			left: 100%;
-			transform: translateX(-100%);
-			margin-left: $offset * -1;
+			// transform: translateX(-100%);
+			margin-left: $offset * -1 - $width;
 		} @else if $position == left {
 			top: 50%;
-			left: 0;
-			transform: translateX(-100%) translateY(-50%);
-			margin-top: $offset;
+			left: - $height;
+			// transform: translateX(-100%) translateY(-50%);
+			margin-top: $offset - $width * .5;
 		} @else if $position == left-top {
 			top: 0;
-			left: 0;
-			transform: translateX(-100%);
+			left: - $height;
+			// transform: translateX(-100%);
 			margin-top: $offset;
 		} @else if $position == left-bottom {
 			top: 100%;
-			left: 0;
-			transform: translateX(-100%) translateY(-100%);
-			margin-top: $offset * -1;
+			left: - $height;
+			// transform: translateX(-100%) translateY(-100%);
+			margin-top: $offset * -1 - $width;
 		}
 	}
 
@@ -284,21 +284,24 @@
 		width : number,
 		height : number,
 		color : color,
-		direction : 'top|t|right|r|bottom|b|left|l|top-left|tl|top-right|tr|bottom-left|bl|bottom-right|br'
+		direction : 'top|t|right|r|bottom|b|left|l|top-left|tl|top-right|tr|bottom-left|bl|bottom-right|br',
+		transform-origin : 'base|center|top'
 	), (
-		direction : 'd'
+		direction : 'd',
+		transform-origin : 'to'
 	));
 	$border : _sugar_parse_properties($border, (
 		width : number,
 		color : color
 	));
 
-	$direction : map-get-or($triangle, direction d, top);
-	$width : map-get-or($triangle, width w, 100px);
-	$height : map-get-or($triangle, height h, 100px);
-	$color : map-get-or($triangle, color c, red);
-	$b-width : map-get-or($border, width w);
-	$b-color : map-get-or($border, color c, darken(red,20%));
+	$direction : map-get-or($triangle, direction, top);
+	$width : map-get-or($triangle, width, 100px);
+	$height : map-get-or($triangle, height, 100px);
+	$color : map-get-or($triangle, color, red);
+	$b-width : map-get-or($border, width);
+	$b-color : map-get-or($border, color, darken(red,20%));
+	$transform-origin : map-get-or($triangle, transform-origin, center);
 
 	// swap width and height of arrow
 	@if $direction == right or $direction == left {
@@ -308,8 +311,8 @@
 	}
 
 	display: inline-block;
-	width: 0;
-	height: 0;
+	width: $width;
+	height: $height;
 	border-style: solid;
 	-webkit-transform:rotate(360deg);
 	&:before,
@@ -323,6 +326,7 @@
 		top:0; left:0;
 	}
 	@if $transition {
+		&,
 		&:before,
 		&:after {
 			transition : $transition;
@@ -339,9 +343,17 @@
 			$hyp : $height / sin($angle);
 			$centerX : (0 + $width + $width*.5) / 3;
 			$centerY : (0 + 0 + $height) / 3;
-			$ratio : 1 / $height * ($height + $b-width*2);
+			$ratio-width : $b-width * 2;
+			// @if $transform-origin == base {
+			// 	$ratio-width : $b-width;
+			// }
+			$ratio : 1 / $height * ($height + $ratio-width);
 			&:before {
-				transform-origin: $centerX ($height - $centerY);
+				@if $transform-origin == base {
+					transform-origin: $centerX $height;
+				} @else {
+					transform-origin: $centerX ($height - $centerY);
+				}
 				transform:scale($ratio);
 				border-width: 0 $width*.5 $height $width*.5;
 				border-color: transparent transparent $b-color transparent;	
@@ -357,9 +369,17 @@
 			$hyp : $width / sin($angle);
 			$centerX : (0 + 0 + $width) / 3;
 			$centerY : (0 + $height + $height*.5) / 3;
-			$ratio : 1 / $height * ($height + $b-width*2);
+			$ratio-width : $b-width * 2;
+			// @if $transform-origin == base {
+			// 	$ratio-width : $b-width;
+			// }
+			$ratio : 1 / $height * ($height + $ratio-width);
 			&:before {
-				transform-origin: ($width - $centerX) $centerY;
+				@if $transform-origin == base {
+					transform-origin: 0 $centerY;
+				} @else {
+					transform-origin: ($width - $centerX) $centerY;
+				}
 				transform:scale($ratio);
 				border-width: $height*.5 0 $height*.5 $width;
 				border-color: transparent transparent transparent $b-color;
@@ -375,9 +395,17 @@
 			$hyp : $height / sin($angle);
 			$centerX : (0 + $width + $width*.5) / 3;
 			$centerY : (0 + 0 + $height) / 3;
-			$ratio : 1 / $height * ($height + $b-width*2);
+			$ratio-width : $b-width * 2;
+			// @if $transform-origin == base {
+			// 	$ratio-width : $b-width;
+			// }
+			$ratio : 1 / $width * ($width + $ratio-width);
 			&:before {
-				transform-origin: $centerX $centerY;
+				@if $transform-origin == base {
+					transform-origin: $centerX 0;
+				} @else {
+					transform-origin: $centerX $centerY;
+				}
 				transform:scale($ratio);
 				border-width: $height $width*.5 0 $width*.5;
 				border-color: $b-color transparent transparent transparent;	
@@ -393,9 +421,17 @@
 			$hyp : $width / sin($angle);
 			$centerX : (0 + 0 + $width) / 3;
 			$centerY : (0 + $height + $height*.5) / 3;
-			$ratio : 1 / $height * ($height + $b-width*2);
+			$ratio-width : $b-width * 2;
+			// @if $transform-origin == base {
+			// 	$ratio-width : $b-width;
+			// }
+			$ratio : 1 / $height * ($height + $ratio-width);
 			&:before {
-				transform-origin: ($width - $centerX) $centerY;
+				@if $transform-origin == base {
+					transform-origin: $width $centerY;
+				} @else {
+					transform-origin: ($width - $centerX) $centerY;
+				}
 				transform:scale($ratio);
 				border-width: $height*.5 $width $height*.5 0;
 				border-color: transparent $b-color transparent transparent;
@@ -409,7 +445,11 @@
 		@if $b-width {
 			$centerX : (0 + $width + $width) / 3;
 			$centerY : (0 + 0 + $height) / 3;
-			$ratio : 1 / $height * ($height + $b-width*2);
+			$ratio-width : $b-width * 2;
+			// @if $transform-origin == base {
+			// 	$ratio-width : $b-width;
+			// }
+			$ratio : 1 / $height * ($height + $ratio-width);
 			&:before {
 				transform-origin: ($width - $centerX) $centerY;
 				transform:scale($ratio);
@@ -425,7 +465,11 @@
 		@if $b-width {
 			$centerX : (0 + $width + $width) / 3;
 			$centerY : (0 + 0 + $height) / 3;
-			$ratio : 1 / $height * ($height + $b-width*2);
+			$ratio-width : $b-width * 2;
+			// @if $transform-origin == base {
+			// 	$ratio-width : $b-width;
+			// }
+			$ratio : 1 / $height * ($height + $ratio-width);
 			&:before {
 				transform-origin: $centerX $centerY;
 				transform:scale($ratio);
@@ -441,7 +485,11 @@
 		@if $b-width {
 			$centerX : (0 + 0 + $width) / 3;
 			$centerY : (0 + $height + $height) / 3;
-			$ratio : 1 / $height * ($height + $b-width*2);
+			$ratio-width : $b-width * 2;
+			// @if $transform-origin == base {
+			// 	$ratio-width : $b-width;
+			// }
+			$ratio : 1 / $height * ($height + $ratio-width);
 			&:before {
 				transform-origin: $centerX $centerY;
 				transform:scale($ratio);
@@ -457,7 +505,11 @@
 		@if $b-width {
 			$centerX : (0 + $width + $width) / 3;
 			$centerY : (0 + $height + $height) / 3;
-			$ratio : 1 / $height * ($height + $b-width*2);
+			$ratio-width : $b-width * 2;
+			// @if $transform-origin == base {
+			// 	$ratio-width : $b-width;
+			// }
+			$ratio : 1 / $height * ($height + $ratio-width);
 			&:before {
 				transform-origin: $centerX $centerY;
 				transform:scale($ratio);

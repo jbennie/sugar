@@ -3,11 +3,52 @@
 //
 
 //
-// Size specific
+// Universal media mixin
 //
+$media-keywords : (
+	gecko : '.ua-gecko',
+	webkit : '.ua-webkit',
+	chrome : '.ua-chrome',
+	safari : '.ua-safari',
+	firefox : '.ua-firefox',
+	opera : '.ua-opera',
+	ie : '.ua-ie',
+	mobile : '.ua-mobile',
+	tablet : '.ua-tablet',
+	desktop : '.ua-desktop',
+	iphone : '.ua-mobile-iphone',
+	ipad : '.ua-mobile-ipad',
+	ios : '.ua-ios',
+	android : '.ua-android',
+	webos : '.ua-webos',
+	blackberry : '.ua-blackberry',
+	retina : '(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)'
+);
+@for $idx from 6 through 20 {
+	$media-keywords : map-set($media-keywords, 'ie#{$idx}', '.ua-ie-#{$idx}');
+}
 @mixin media(
+	$queries...
+) {
+	@each $querie in $queries {
+		@include _media($querie) {
+			@content;
+		}
+	}
+}
+@mixin _media(
 	$props
 ) {
+	// loop through all keywords
+	$refine : ();
+	@each $prop in $props {
+		$sel : map-get($media-keywords, $prop);
+		@if $sel {
+			$refine : append($refine, $sel);
+			$props : remove-nth($props, index($props, $prop));
+		}
+	}
+
 	$props : _sugar_parse_properties($props, (
 		device : 'screen|handheld|print|aural|braille|embossed|projection|tty|tv|all',
 		min-width : number,
@@ -51,6 +92,15 @@
 		$media : append($media, '(max-height : #{$max-height})');
 	}
 
+	// append media from refine
+	@each $ref in $refine {
+		@if str-slice($ref,1,1) != '.' {
+			$media : append($media, $ref);
+			$refine : remove-nth($refine, index($refine, $ref));
+		}
+	}
+
+	// construct media querie
 	$med : '';
 	$idx : 1;
 	$med_length : length($media);
@@ -63,72 +113,23 @@
 		$idx : $idx + 1;
 	}
 
-	// @debug($med);
-
-	@media #{$med} {
-		@content;
-	}
-}
-
-//
-// Retina
-//
-@mixin retina() {
-	@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-		@content;
-	}
-}
-
-//
-// Landscape
-//
-@mixin landscape() {
-	@media (orientation : landscape) {
-		@content;
-	}
-}
-
-//
-// Portrait
-//
-@mixin portrait() {
-	@media (orientation : portrait) {
-		@content;
-	}
-}
-
-//
-// Print
-//
-@mixin print() {
-	@media print {
-		@content;
-	}
-}
-
-//
-// TV
-//
-@mixin tv() {
-	@media tv {
-		@content;
-	}
-}
-
-//
-// Phone
-//
-@mixin phone() {
-	@media only screen and (min-device-width: 480px) {
-		@content;
-	}
-}
-
-//
-// Tablet
-//
-@mixin tablet() {
-	@media only screen and (min-device-width: 768px) {
-		@content;
+	@if $med_length > 0 {
+		@media #{$med} {
+			@if length($refine) {
+				#{str-implode($refine)} & {
+					@content;
+				}
+			} @else {
+				@content;
+			}
+		}
+	} @else {
+		@if length($refine) {
+			#{str-implode($refine)} & {
+				@content;
+			}
+		} @else {
+			@content;
+		}
 	}
 }

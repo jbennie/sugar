@@ -24,19 +24,12 @@ module.exports = (grunt) ->
 				outputStyle: 'expanded'			
 
 		concat:
-			matchMedia:
-				src: [
-					'bower_components/matchMedia/matchMedia.js',
-					'js/gridle.js'
-				]
-				dest: 'js/gridle.js'
 			extras:
 				src: [
-					'bower_components/css-element-queries/src/ResizeSensor.js'
-					'bower_components/css-element-queries/src/ElementQueries.js'
-					'js/gridle-eq.js'
+					'bower_components/cssua.js/cssua.min.js'
+					'js/sugar.js'
 				]
-				dest: 'js/gridle-eq.js'
+				dest: 'js/sugar.js'
 
 		sass:
 			options:
@@ -119,7 +112,7 @@ module.exports = (grunt) ->
 				tasks: ['notify:default']
 			sass:
 				files: paths.compass.cwd + '/' + paths.compass.src
-				tasks: ['compass', 'cssmin', 'notify:compass']
+				tasks: ['compass', 'cssmin', 'postcss', 'notify:compass']
 			coffee:
 				files: paths.coffee.cwd+'/'+paths.coffee.src
 				tasks: ['clean', 'coffee', 'concat', 'uglify', 'notify:coffee']
@@ -127,6 +120,14 @@ module.exports = (grunt) ->
 		clean: [
 			'js'
 		]
+
+		postcss:
+			options:
+				processors: [
+					require('autoprefixer')({browsers: 'last 2 versions'})
+				]
+			dist:
+				src: 'css/*.css'
 
 		notify:
 			default:
@@ -153,11 +154,13 @@ module.exports = (grunt) ->
 	grunt.loadNpmTasks 'grunt-contrib-concat'
 	grunt.loadNpmTasks 'grunt-contrib-clean'
 	grunt.loadNpmTasks 'grunt-contrib-copy'
+	grunt.loadNpmTasks 'grunt-postcss'
 
 	grunt.registerTask 'default', [
 		'clean'
 		'compass'
 		'cssmin'
+		'postcss'
 		'coffee'
 		'concat'
 		'uglify'

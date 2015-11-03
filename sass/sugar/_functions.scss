@@ -1,0 +1,115 @@
+//
+// Parse properties
+//
+@function _sugar_parse_properties(
+	$properties,
+	$keywords,
+	$aliases : ()
+) {
+	// default aliases
+	$aliases : map-merge($aliases, (
+		width : 'w',
+		height : 'h',
+		color : 'c'
+	));
+
+	$map : ();
+	$values : ();
+	$current_prop : null;
+	$first : true;
+	@each $prop in $properties {
+		
+		@if type-of($prop) == string and str-slice($prop,1,1) == '-' {
+			
+			// remove the - at property beginning
+			$prop : str-slice($prop, 2);
+
+			// check if we have a property named like this in map
+			$in_keywords : map-get($keywords, $prop);
+
+			// if not in keywords, try to get the alias
+			@if $in_keywords == null {
+				$alias_found : false;
+				@each $alias_prop, $alias in $aliases {
+					@if $alias_found == false {
+						$split : str-explode($alias,'|');
+						$al : index($split, $prop);
+						@if $al {
+							$alias_found : true;
+							$prop : $alias_prop;
+						}
+					}
+				}
+				// check again if now we have a property like this
+				$in_keywords : map-get($keywords, $prop);
+			}
+
+			// if we have a property in map
+			@if $in_keywords {
+
+				// explicit naming
+				@if $current_prop {
+					@if length($values) == 0 {
+						$values : true
+					} @else if length($values) == 1 {
+						$values : nth($values, 1);
+					}
+					$map : map-set($map, $current_prop, $values);
+				}
+				$first : false;
+				$current_prop : $prop;
+				$values : ();
+			}
+		} @else {
+
+			@if $first {
+				// check if the type is ok
+				$found : false;
+				@each $name, $type in $keywords {
+					@if $found == false {
+						@if type-of($type) == string and str-index($type,'|') {
+							$parts : str-explode($type,'|');
+							@if index($parts, $prop) {
+								$map : map-set($map, $name, $prop);
+								// remove the item from keywords
+								$keywords : map-remove($keywords, $name);
+								// stop searching
+								$found : true;
+							}
+						} @else {
+							@if type-of($prop) == $type {
+								$map : map-set($map, $name, $prop);
+								// remove the item from keywords
+								$keywords : map-remove($keywords, $name);
+								// stop searching
+								$found : true;
+							}
+						}
+					}
+				}
+			} @else {
+				$values : append($values, $prop);
+			}
+
+			@if $current_prop {
+				@if length($values) == 0 {
+					$values : true
+				} @else if length($values) == 1 {
+					$values : nth($values, 1);
+				}
+				$map : map-set($map, $current_prop, $values);
+			}
+		}
+	}
+	@if $current_prop {
+		@if length($values) == 0 {
+			$values : true
+		} @else if length($values) == 1 {
+			$values : nth($values, 1);
+		}
+		$map : map-set($map, $current_prop, $values);
+	}
+
+	// return map
+	@return $map;
+}

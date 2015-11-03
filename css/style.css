@@ -57,8 +57,6 @@ table {
 }
 
 * {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 
@@ -92,6 +90,22 @@ html {
     content: portrait;
   }
 }
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .ua-desktop .media {
+    content: retina;
+  }
+}
+.ua-mobile.ua-chrome .media {
+  content: retina;
+}
+.ua-ie-11 .media {
+  content: ie9;
+}
+
+.rect {
+  width: 100px;
+  height: 200px;
+}
 
 .bubble {
   margin-left: 100px;
@@ -101,12 +115,13 @@ html {
   border-style: solid;
   -webkit-transform: rotate(360deg);
   position: relative;
-  background: red;
+  background: white;
   width: auto;
   height: auto;
+  border: 2px solid #ddd;
   transition: all 0.1s ease-in-out;
+  border-radius: 5px;
   padding: 10px 15px;
-  box-shadow: #000 0 0 10px;
 }
 .bubble:before, .bubble:after {
   color: transparent;
@@ -119,30 +134,38 @@ html {
   top: 0;
   left: 0;
 }
-.bubble:before, .bubble:after {
+.bubble, .bubble:before, .bubble:after {
   transition: all 0.1s ease-in-out;
 }
 .bubble:after {
-  border-width: 10px 10px 0 10px;
-  border-color: red transparent transparent transparent;
+  border-width: 0 0 0 0;
+  border-color: white transparent transparent transparent;
+}
+.bubble:before {
+  -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
+  -webkit-transform: scale(Infinitypx);
+          transform: scale(Infinitypx);
+  border-width: 0 0 0 0;
+  border-color: #ddd transparent transparent transparent;
 }
 .bubble:after, .bubble:before {
   position: absolute;
   top: 100%;
   left: 50%;
-  transform: translateX(-50%);
   margin-left: 0;
 }
 .bubble:hover {
   display: inline-block;
-  width: 0;
-  height: 0;
+  width: 20px;
+  height: 10px;
   border-style: solid;
   -webkit-transform: rotate(360deg);
   position: relative;
-  background: blue;
+  background: white;
   width: auto;
   height: auto;
+  border: 2px solid #ddd;
 }
 .bubble:hover:before, .bubble:hover:after {
   color: transparent;
@@ -156,15 +179,86 @@ html {
   left: 0;
 }
 .bubble:hover:after {
-  border-width: 0 10px 10px 10px;
-  border-color: transparent transparent blue transparent;
+  border-width: 10px 10px 0 10px;
+  border-color: white transparent transparent transparent;
+}
+.bubble:hover:before {
+  -webkit-transform-origin: 10px 0;
+          transform-origin: 10px 0;
+  -webkit-transform: scale(1.2);
+          transform: scale(1.2);
+  border-width: 10px 10px 0 10px;
+  border-color: #ddd transparent transparent transparent;
 }
 .bubble:hover:after, .bubble:hover:before {
   position: absolute;
-  top: 0;
+  top: 100%;
   left: 50%;
-  transform: translateX(-50%) translateY(-100%);
-  margin-left: 0;
+  margin-left: -10px;
+}
+
+.triangle {
+  display: inline-block;
+  width: 200px;
+  height: 100px;
+  border-style: solid;
+  -webkit-transform: rotate(360deg);
+}
+.triangle:before, .triangle:after {
+  color: transparent;
+  content: '';
+  display: block;
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  top: 0;
+  left: 0;
+}
+.triangle, .triangle:before, .triangle:after {
+  transition: all 0.1s ease-in-out;
+}
+.triangle:after {
+  border-width: 0 100px 100px 100px;
+  border-color: transparent transparent #00ff00 transparent;
+}
+.triangle:before {
+  -webkit-transform-origin: 100px 66.66666667px;
+          transform-origin: 100px 66.66666667px;
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+  border-width: 0 100px 100px 100px;
+  border-color: transparent transparent #00cc00 transparent;
+}
+.triangle:hover {
+  display: inline-block;
+  width: 300px;
+  height: 200px;
+  border-style: solid;
+  -webkit-transform: rotate(360deg);
+}
+.triangle:hover:before, .triangle:hover:after {
+  color: transparent;
+  content: '';
+  display: block;
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  top: 0;
+  left: 0;
+}
+.triangle:hover:after {
+  border-width: 0 150px 200px 150px;
+  border-color: transparent transparent #ffff00 transparent;
+}
+.triangle:hover:before {
+  -webkit-transform-origin: 150px 133.33333333px;
+          transform-origin: 150px 133.33333333px;
+  -webkit-transform: scale(2);
+          transform: scale(2);
+  border-width: 0 150px 200px 150px;
+  border-color: transparent transparent #00cc00 transparent;
 }
 
 .round {
@@ -185,10 +279,6 @@ html {
 }
 
 body {
-  color: #00ff00;
-  background-image: -webkit-linear-gradient(top, cyan 0, rgba(255, 255, 255, 0) 1px);
-  background-image: -moz-linear-gradient(top, cyan 0, rgba(255, 255, 255, 0) 1px);
-  background-image: -o-linear-gradient(top, cyan 0, rgba(255, 255, 255, 0) 1px);
   background-image: linear-gradient(to bottom, cyan 0, rgba(255, 255, 255, 0) 1px);
   background-repeat: repeat-y;
   background-size: 100% 1em;

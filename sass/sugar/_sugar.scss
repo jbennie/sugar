@@ -10,6 +10,11 @@
 @import 'vendors/sassyStrings/SassyStrings';
 
 //
+// Functions
+//
+@import 'functions';
+
+//
 // Math
 //
 @import 'tools/math';
@@ -18,6 +23,11 @@
 // Map
 //
 @import 'tools/map';
+
+//
+// List
+//
+@import 'tools/list';
 
 //
 // Clearfix

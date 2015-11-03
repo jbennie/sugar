@@ -41,29 +41,34 @@
 	@include media(portrait) {
 		content : portrait;
 	}
+	@include media(retina desktop, mobile chrome) {
+		content : retina;
+	}
+	@include media(ie11) {
+		content : ie9;
+	}
 }
 
 .rect {
-	// @include rect(100px 200px);
-	// @include round();
+	@include rect(100px 200px);
 }
 
 .bubble {
 	margin-left: 100px;
-	@include bubble(red 20px 10px bottom, null, all .1s ease-in-out);
+	@include bubble(white 0 0 bottom, #ddd 2px, all .1s ease-in-out);
 	&:hover {
-		@include bubble(blue top 20px 10px);
+		@include bubble(white bottom 20px 10px, #ddd 2px);
 	}
-	// @include corner(5px);
+	@include corner(5px);
 	padding: 10px 15px;
-	box-shadow: #000 0 0 10px;
+	// box-shadow: #000 0 0 10px;
 }
 
 .triangle {
-	// @include triangle(200px 100px c(green) bottom, 5px c(green, invert), all .1s ease-in-out);
-	// &:hover {
-	// 	@include triangle(300px 200px color(pink) br, 100px color(pink, invert));
-	// }
+	@include triangle(200px 100px c(green) top, 5px c(green, -darken 10%), all .1s ease-in-out);
+	&:hover {
+		@include triangle(300px 200px color(pink) top, 100px color(green, -darken 10%));
+	}
 }
 
 .round {
@@ -75,7 +80,6 @@
 }
 
 body {
-	color : color(green);
 	background-image: -webkit-linear-gradient(top, cyan 0, rgba(255,255,255,0) 1px);
  background-image: -moz-linear-gradient(top, cyan 0, rgba(255,255,255,0) 1px);
   background-image: -o-linear-gradient(top, cyan 0, rgba(255,255,255,0) 1px);

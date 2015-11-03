@@ -46,8 +46,6 @@
   display: table-cell;
   width: 1px;
   white-space: nowrap !important;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   font-size: 1rem;
   padding-right: 10px;
@@ -58,8 +56,6 @@
   display: table-cell;
   width: 1px;
   white-space: nowrap !important;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   font-size: 1rem;
   padding-right: 10px;
@@ -69,8 +65,6 @@
   display: table-cell;
   width: 99999px;
   white-space: nowrap;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   font-size: 1rem;
   padding-right: 10px;
@@ -81,8 +75,6 @@
   display: table-cell;
   width: 99999px;
   white-space: nowrap;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   font-size: 1rem;
   padding-right: 10px;
@@ -188,8 +180,6 @@
     display: table-cell;
     width: 1px;
     white-space: nowrap !important;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
     box-sizing: border-box;
     font-size: 1rem;
     padding-right: 10px;
@@ -200,8 +190,6 @@
   display: table-cell;
   width: 1px;
   white-space: nowrap !important;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   font-size: 1rem;
   padding-right: 10px;
@@ -212,8 +200,6 @@
     display: table-cell;
     width: 99999px;
     white-space: nowrap;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
     box-sizing: border-box;
     font-size: 1rem;
     padding-right: 10px;
@@ -224,8 +210,6 @@
   display: table-cell;
   width: 99999px;
   white-space: nowrap;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   font-size: 1rem;
   padding-right: 10px;
@@ -336,8 +320,6 @@
     display: table-cell;
     width: 1px;
     white-space: nowrap !important;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
     box-sizing: border-box;
     font-size: 1rem;
     padding-right: 10px;
@@ -348,8 +330,6 @@
   display: table-cell;
   width: 1px;
   white-space: nowrap !important;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   font-size: 1rem;
   padding-right: 10px;
@@ -360,8 +340,6 @@
     display: table-cell;
     width: 99999px;
     white-space: nowrap;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
     box-sizing: border-box;
     font-size: 1rem;
     padding-right: 10px;
@@ -372,8 +350,6 @@
   display: table-cell;
   width: 99999px;
   white-space: nowrap;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   font-size: 1rem;
   padding-right: 10px;
@@ -484,8 +460,6 @@
     display: table-cell;
     width: 1px;
     white-space: nowrap !important;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
     box-sizing: border-box;
     font-size: 1rem;
     padding-right: 10px;
@@ -496,8 +470,6 @@
   display: table-cell;
   width: 1px;
   white-space: nowrap !important;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   font-size: 1rem;
   padding-right: 10px;
@@ -508,8 +480,6 @@
     display: table-cell;
     width: 99999px;
     white-space: nowrap;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
     box-sizing: border-box;
     font-size: 1rem;
     padding-right: 10px;
@@ -520,8 +490,6 @@
   display: table-cell;
   width: 99999px;
   white-space: nowrap;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   font-size: 1rem;
   padding-right: 10px;
@@ -866,9 +834,8 @@
   margin-right: 0 !important;
   -webkit-transform: translateX(-50%);
   -moz-transition: translateX(-50%);
-  -ms-transform: translateX(-50%);
-  -o-transform: translateX(-50%);
-  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
 }
 .state-default .col {
   padding-left: 0 !important;
@@ -1361,9 +1328,8 @@
   margin-right: 0 !important;
   -webkit-transform: translateX(-50%);
   -moz-transition: translateX(-50%);
-  -ms-transform: translateX(-50%);
-  -o-transform: translateX(-50%);
-  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
 }
 
 .col {
@@ -1790,9 +1756,8 @@ body {
   margin-right: 0 !important;
   -webkit-transform: translateX(-50%);
   -moz-transition: translateX(-50%);
-  -ms-transform: translateX(-50%);
-  -o-transform: translateX(-50%);
-  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
 }
 .state-mobile .col\@mobile {
   padding-left: 0 !important;
@@ -2286,9 +2251,8 @@ body {
     margin-right: 0 !important;
     -webkit-transform: translateX(-50%);
     -moz-transition: translateX(-50%);
-    -ms-transform: translateX(-50%);
-    -o-transform: translateX(-50%);
-    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
   }
 
   .col\@mobile {
@@ -2715,9 +2679,8 @@ body {
   margin-right: 0 !important;
   -webkit-transform: translateX(-50%);
   -moz-transition: translateX(-50%);
-  -ms-transform: translateX(-50%);
-  -o-transform: translateX(-50%);
-  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
 }
 .state-tablet .col\@tablet {
   padding-left: 0 !important;
@@ -3211,9 +3174,8 @@ body {
     margin-right: 0 !important;
     -webkit-transform: translateX(-50%);
     -moz-transition: translateX(-50%);
-    -ms-transform: translateX(-50%);
-    -o-transform: translateX(-50%);
-    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
   }
 
   .col\@tablet {
@@ -3648,9 +3610,8 @@ body {
   margin-right: 0 !important;
   -webkit-transform: translateX(-50%);
   -moz-transition: translateX(-50%);
-  -ms-transform: translateX(-50%);
-  -o-transform: translateX(-50%);
-  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
 }
 .state-ipad-landscape .col\@ipad-landscape {
   padding-left: 0 !important;
@@ -4154,9 +4115,8 @@ body {
     margin-right: 0 !important;
     -webkit-transform: translateX(-50%);
     -moz-transition: translateX(-50%);
-    -ms-transform: translateX(-50%);
-    -o-transform: translateX(-50%);
-    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
   }
 
   .col\@ipad-landscape {
