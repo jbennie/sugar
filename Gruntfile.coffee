@@ -73,12 +73,31 @@ module.exports = (grunt) ->
 				}]
 		
 		copy:
+			animatecss:
+				src: 'bower_components/animate.css/animate.css'
+				dest: 'sass/sugar/vendors/animatecss/_animate.scss'
 			sassyStrings:
 				expand: true,
 				cwd: 'bower_components/SassyStrings/stylesheets/',
 				src: '**',
 				dest: 'sass/sugar/vendors/sassyStrings/',
 				filter: 'isFile'
+			cssgram:
+				expand: true,
+				cwd: 'bower_components/cssgram/source/scss/',
+				src: '**',
+				dest: 'sass/sugar/vendors/cssgram/',
+				filter: 'isFile'
+				rename: (dest, src) ->
+					return dest + '_' + src if src.substring(0,1) != '_'
+					return dest + src
+				options:
+					process: (content, srcpath) ->
+						content = '$cssgram : () !default;' + content
+						content = content.replace /(%[a-zA-Z0-9_-]{3,60},)/gi, '' if content?
+						content = content.replace /(\.)([a-zA-Z0-9_-]{3,60})/gi, "$cssgram : append($cssgram, $2); \r %cssgram-$2" if content?
+						content
+
 			sassline:
 				expand: true,
 				cwd: 'bower_components/sassline/assets/sass/base/',
@@ -98,6 +117,21 @@ module.exports = (grunt) ->
 						'js/gridle.js'
 						'js/gridle-eq.js'
 					]
+
+		replace:
+			animate:
+				options:
+					patterns: [{
+			  			match: /(\.)([a-zA-Z]+)/gi
+			  			replacement: '%$2'
+					}]
+				files: [{
+					expand: true
+					flatten: true
+					src: ['sass/sugar/vendors/animatecss/animate.scss'],
+					dest: 'sass/sugar/vendors/animatecss/'
+				}]
+
 		watch:
 			livereload:
 				options:
@@ -118,6 +152,8 @@ module.exports = (grunt) ->
 				tasks: ['clean', 'coffee', 'concat', 'uglify', 'notify:coffee']
 
 		clean: [
+			'css'
+			'sass/sugar/vendors'
 			'js'
 		]
 
@@ -155,9 +191,12 @@ module.exports = (grunt) ->
 	grunt.loadNpmTasks 'grunt-contrib-clean'
 	grunt.loadNpmTasks 'grunt-contrib-copy'
 	grunt.loadNpmTasks 'grunt-postcss'
+	grunt.loadNpmTasks 'grunt-replace'
+	grunt.loadNpmTasks 'grunt-contrib-rename'
 
 	grunt.registerTask 'default', [
 		'clean'
+		'copy'
 		'compass'
 		'cssmin'
 		'postcss'

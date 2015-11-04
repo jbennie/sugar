@@ -8,6 +8,8 @@
 // Vendors
 //
 @import 'vendors/sassyStrings/SassyStrings';
+@import 'vendors/animatecss/animate.scss';
+@import 'vendors/cssgram/cssgram.scss';
 
 //
 // Functions
@@ -38,6 +40,11 @@
 // Forms
 //
 @import 'forms';
+
+//
+// Animations
+//
+@import 'animations';
 
 //
 // Filters

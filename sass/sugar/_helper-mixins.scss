@@ -6,7 +6,29 @@
 // Fit
 // Make an element 100% width and height
 //
-@mixin fit() {
+@mixin _fit() {
 	width: 100%;
 	height: 100%;
+}
+%fit { @include _fit(); }
+@mixin fit() { @include _fit(); }
+
+//
+// Visually hidden
+//
+@mixin _visually_hidden {
+	margin: -1px;
+	padding: 0;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	clip: rect(0, 0, 0, 0);
+	position: absolute;
+}
+%visually-hidden {
+	@include _visually_hidden();
+}
+@mixin visually_hidden() {
+	@include _visually_hidden();
 }

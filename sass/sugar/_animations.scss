@@ -1,0 +1,74 @@
+//
+// Animations specific
+//
+
+//
+// Animate mixin
+//
+@mixin animate(
+	$animations...
+) {
+	// loop on animations
+	$anims : ();
+	$current_delay : 0;
+	$current_duration : 0;
+	$previous_duration : 0;
+	@each $animation in $animations {
+		$animation : _sugar_parse_properties($animation, (
+			name : string,
+			duration : number,
+			delay : number,
+			ease : string,
+			iteration : '1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|infinite|initial|inherit',
+			direction : 'normal|reverse|alternate|alternate-reverse|initial|inherit',
+			fill-mode : 'none|forwards|backwards|both|initial|inherit',
+			parallel : true
+		), (
+			name : 'n',
+			duration : 'du',
+			delay : 'de',
+			ease : 'e',
+			iteration : 'i|iteration-count',
+			direction : 'di',
+			fill-mode : 'fm',
+			parallel : 'p'
+		));
+		$name : map-get-or($animation, name);
+		$duration : map-get-or($animation, duration, 1s);
+		$delay : map-get-or($animation, delay, 0s);
+		$ease : map-get-or($animation, ease, ease-in-out);
+		$iteration : map-get-or($animation, iteration, 1);
+		$direction : map-get-or($animation, direction, normal);
+		$fill-mode : map-get-or($animation, fill-mode, forwards);
+		$parallel : map-get-or($animation, parallel, false);
+		
+		// update delay
+		$current_delay : $current_delay + $delay;
+
+		// extend the animation if exist
+		@extend %#{$name} !optional;
+		
+		// create the animations list	
+		$anims : append($anims, $name $duration $current_delay $ease $iteration $direction $fill-mode, comma);
+		
+		// manage if animation is parallel with next one
+		@if type-of($iteration) == number {
+			@if $parallel == false {
+				$current_delay : $current_delay + $duration * $iteration;
+			}
+		}
+	}
+	
+	// set animation
+	animation: $anims;
+}
+
+@mixin transition(
+	$transition
+) {
+	&,
+	&:before,
+	&:after {
+		transition: $transition;
+	}
+}

@@ -55,20 +55,22 @@
 
 .bubble {
 	margin-left: 100px;
-	@include bubble(white 0 0 bottom, #ddd 2px, all .1s ease-in-out);
+	@include bubble(white 0 0 bottom, #ddd 2px);
 	&:hover {
-		@include bubble(white bottom 20px 10px, #ddd 2px);
+		@include bubble(white bottom 100px 50px, #ddd 2px);
 	}
+	@include transition(all .1s ease-in-out);
 	@include corner(5px);
 	padding: 10px 15px;
-	// box-shadow: #000 0 0 10px;
+	@include filter(drop-shadow(rgba(0,0,0,1) 0 0 10px));
 }
 
 .triangle {
-	@include triangle(200px 100px c(green) top, 5px c(green, -darken 10%), all .1s ease-in-out);
+	@include triangle(200px 100px c(green, -darken 20% ) top, 5px c(green, -darken 10));
 	&:hover {
 		@include triangle(300px 200px color(pink) top, 100px color(green, -darken 10%));
 	}
+	@include transition(all .1s ease-in-out);
 }
 
 .round {
@@ -77,6 +79,34 @@
 
 .circle {
 	@include round(100px c(pink), 2px solid black);
+}
+
+@keyframes hello {
+	0% {
+		top : 0;
+	}
+	100% {
+		top : 100%;
+	}
+}
+
+.cssgram {
+	@include filter(lofi);
+	&:hover {
+		@include filter(xpro2);
+	}
+}
+
+.animated {
+	display: block;
+	width: 100px;
+	height: 100px;
+	background: red;
+	@include animate(fadeIn);
+
+	&:hover {
+		@include animate(rubberBand, tada 1s, flipOutX);
+	}
 }
 
 body {

@@ -10,71 +10,74 @@
 ) {
 	@if length($radius) == 1 and type-of($radius) == number {
 		border-radius: $radius;
-	} @else {
-		// parse properties
-		$props : _sugar_parse_properties($radius, (
-			top : true,
-			t : true,
-			right : true,
-			r : true,
-			bottom : true,
-			b : true,
-			left : true,
-			l : true,
-			top-left : true,
-			tl : true,
-			top-right : true,
-			tr : true,
-			bottom-left : true,
-			bl : true,
-			bottom-right : true,
-			br : true
-		));
+		$radius : remove-nth($radius, 1);
+	}
+		
+	// parse properties
+	$props : _sugar_parse_properties($radius, (
+		top : true,
+		right : true,
+		bottom : true,
+		left : true,
+		top-left : true,
+		top-right : true,
+		bottom-left : true,
+		bottom-right : true
+	), (
+		top : 't',
+		right : 'r',
+		bottom : 'b',
+		left : 'l',
+		top-left : 'tl',
+		top-right : 'tr',
+		bottom-left : 'bl',
+		bottom-right : 'br'
+	));
 
-		// top
-		$top : map-get-or($props, top t);
-		@if $top and type-of($top) == number or type-of($top) == list {
-			border-top-left-radius: $top;
-			border-top-right-radius: $top;
-		}
-		// right
-		$right : map-get-or($props, right r);
-		@if $right and type-of($right) == number or type-of($right) == list {
-			border-right-left-radius: $right;
-			border-right-right-radius: $right;
-		}
-		// bottom
-		$bottom : map-get-or($props, bottom b);
-		@if $bottom and type-of($bottom) == number or type-of($bottom) == list {
-			border-bottom-left-radius: $bottom;
-			border-bottom-right-radius: $bottom;
-		}
-		// left
-		$left : map-get-or($props, left l);
-		@if $left and type-of($left) == number or type-of($left) == list {
-			border-left-left-radius: $left;
-			border-left-right-radius: $left;
-		}
-		// top left
-		$top-left : map-get-or($props, top-left tl);
-		@if $top-left and type-of($top-left) == number or type-of($top-left) == list {
-			border-top-left-radius: $top-left;
-		}
-		// top-right
-		$top-right : map-get-or($props, top-right tl);
-		@if $top-right and type-of($top-right) == number or type-of($top-right) == list {
-			border-top-right-radius: $top-right;
-		}
-		// bottom-left
-		$bottom-left : map-get-or($props, bottom-left bl);
-		@if $bottom-left and type-of($bottom-left) == number or type-of($bottom-left) == list {
-			border-bottom-left-radius: $bottom-left;
-		}
-		// bottom-right
-		$bottom-right : map-get-or($props, bottom-right br);
-		@if $bottom-right and type-of($bottom-right) == number or type-of($bottom-right) == list {
-			border-bottom-right-radius: $bottom-right;
-		}
+	// top
+	$top : map-get-or($props, top);
+	@if $top and type-of($top) == number or type-of($top) == list {
+		border-top-left-radius: $top;
+		border-top-right-radius: $top;
+	}
+	// right
+	$right : map-get-or($props, right);
+	@if $right and type-of($right) == number or type-of($right) == list {
+		border-top-right-radius: $right;
+		border-bottom-right-radius: $right;
+	}
+	// bottom
+	$bottom : map-get-or($props, bottom);
+	@if $bottom and type-of($bottom) == number or type-of($bottom) == list {
+		border-bottom-left-radius: $bottom;
+		border-bottom-right-radius: $bottom;
+	}
+	// left
+	$left : map-get-or($props, left);
+	@if $left and type-of($left) == number or type-of($left) == list {
+		@debug($props);
+		border-top-left-radius: $left;
+		border-bottom-left-radius: $left;
+	}
+	// top left
+	$top-left : map-get-or($props, top-left);
+	@if $top-left and type-of($top-left) == number or type-of($top-left) == list {
+		border-top-left-radius: $top-left;
+	}
+	// top-right
+	$top-right : map-get-or($props, top-right);
+	@if $top-right and type-of($top-right) == number or type-of($top-right) == list {
+		border-top-right-radius: $top-right;
+	}
+	// bottom-left
+	$bottom-left : map-get-or($props, bottom-left);
+	@if $bottom-left and type-of($bottom-left) == number or type-of($bottom-left) == list {
+		border-bottom-left-radius: $bottom-left;
+	}
+	// bottom-right
+	$bottom-right : map-get-or($props, bottom-right);
+	@if $bottom-right and type-of($bottom-right) == number or type-of($bottom-right) == list {
+		border-bottom-right-radius: $bottom-right;
 	}
 }
 @mixin border-radius($radius) {
@@ -149,8 +152,7 @@
 //
 @mixin bubble(
 	$base : null,
-	$border : null,
-	$transition : null
+	$border : null
 ) {
 
 	$directions : 'top|right|r|bottom|b|left|l|top-left|tl|top-right|tr|bottom-left|bl|bottom-right|br';
@@ -190,7 +192,7 @@
 	}
 
 	// create the bubble
-	@include triangle($width $height $color $direction -transform-origin base, $border, $transition);
+	@include triangle($width $height $color $direction -transform-origin base, $border);
 
 	position: relative;
 	background: $color;
@@ -198,9 +200,6 @@
 	height: auto;
 	@if $b-width {
 		border: $b-width solid $b-color;
-	}
-	@if $transition {
-		transition: $transition;
 	}
 
 	&:after,
@@ -276,8 +275,7 @@
 //
 @mixin triangle(
 	$triangle,
-	$border : null,
-	$transition : null
+	$border : null
 ) {
 
 	$triangle : _sugar_parse_properties($triangle, (
@@ -324,13 +322,6 @@
 		width:0; height:0;
 		border-style: solid;
 		top:0; left:0;
-	}
-	@if $transition {
-		&,
-		&:before,
-		&:after {
-			transition : $transition;
-		}
 	}
 	// top
 	@if $direction == top or $direction == t {

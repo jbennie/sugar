@@ -1,0 +1,370 @@
+$cssgram : () !default;//  VARS
+
+$dusky-blue: #649CA7;
+$maroon: #c63082;
+$purple: #9b1c9b;
+$lightgrey: #cad1cc;
+$black: #000;
+$green: #62B859;
+$midgrey: mix($black, $lightgrey, 15%);
+$lightergrey: mix(white, $lightgrey, 70%);
+
+$accent: $purple;
+$secondary: $maroon;
+
+//  MIXINS
+
+// Grid Mixin
+@mixin breakpoint($class) {
+  @if $class == xs {
+    @media (max-width: 500px) { @content; }
+  }
+
+  @else if $class == sm {
+    @media (max-width: 768px) { @content; }
+  }
+
+  @else if $class == md {
+    @media (max-width: 992px) { @content; }
+  }
+
+  @else if $class == lg {
+    @media (max-width: 1240px) { @content; }
+  }
+
+  @else {
+    @warn "Breakpoint mixin supports: xs, sm, md, lg";
+  }
+}
+
+&::selection {
+  background: $accent;
+  color: white;
+}
+
+body {
+  font-family: 'Open Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  margin: 0 auto;
+  padding: 0 2em;
+  max-width: 1200px;
+  line-height: 1.5;
+  font-size: 1$cssgram : append($cssgram, 1em);  %cssgram-1em;
+  overflow-x: hidden;
+
+  @include breakpoint(xs) {
+    font-size: $cssgram : append($cssgram, 9em);  %cssgram-9em;
+  }
+}
+
+section {
+  overflow-x: hidden;
+}
+
+h1,
+h2 {
+  color: $accent;
+
+  @include breakpoint(xs) {
+    text-align: center;
+  }
+}
+
+h3,
+em {
+  color: $secondary;
+}
+
+pre, code {
+  background: $lightergrey;
+
+  code {
+    border: none;
+    background: none;
+  }
+}
+
+code {
+  font-family: monospace;
+  padding: 0;
+  padding: $cssgram : append($cssgram, 25em);  %cssgram-25em $cssgram : append($cssgram, 5em);  %cssgram-5em;
+}
+
+$cssgram : append($cssgram, highlight);  %cssgram-highlight {
+  color: $secondary;
+  font-weight: 800;
+}
+
+$cssgram : append($cssgram, comment);  %cssgram-comment {
+  color: $midgrey;
+}
+
+ul {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+ol {
+  line-height: 1.8;
+}
+
+a {
+  text-decoration: none;
+  color: $accent;
+  transition-duration: $cssgram : append($cssgram, 35s);  %cssgram-35s;
+  border-bottom: 1px solid $secondary;
+  padding-bottom: $cssgram : append($cssgram, 05em);  %cssgram-05em;
+
+  &:hover,
+  &:focus {
+    color: mix(white, $secondary, 50%);
+    border-color: mix(white, $secondary, 50%);
+  }
+}
+
+figure {
+  max-width: 350px;
+  max-height: 350px;
+  overflow: hidden;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  transition-duration: $cssgram : append($cssgram, 35s);  %cssgram-35s;
+
+  @include breakpoint(lg) {
+    max-width: 300px;
+    max-height: 300px;
+  }
+
+  @include breakpoint(md) {
+    max-width: 250px;
+    max-height: 250px;
+  }
+
+  @include breakpoint(sm) {
+    max-width: 300px;
+    max-height: 300px;
+  }
+
+  @include breakpoint(xs) {
+    max-width: 400px;
+    max-height: 400px;
+  }
+
+  &:hover,
+  &:focus {
+    filter: none !important;
+  }
+
+  &:after {
+    transition-duration: $cssgram : append($cssgram, 35s);  %cssgram-35s;
+  }
+
+  &:hover:after,
+  &:focus:after {
+    opacity: 0 !important;
+  }
+}
+
+figcaption {
+  position: absolute;
+  bottom: 1em;
+  right: 0;
+  padding: $cssgram : append($cssgram, 25em);  %cssgram-25em 1em $cssgram : append($cssgram, 25em);  %cssgram-25em $cssgram : append($cssgram, 25em);  %cssgram-25em;
+  background: $black;
+  color: white;
+  font-weight: 200;
+}
+
+hr {
+  clear: both;
+  float: none;
+  border: 1px solid $lightergrey;
+  margin: 2em auto;
+  display: block;
+}
+
+img {
+  display: block;
+  margin: auto;
+
+  height: auto;
+  max-height: 100%;
+
+  width: auto;
+  max-width: 100%;
+}
+
+$cssgram : append($cssgram, demo);  %cssgram-demo {
+  &__section {
+    font-weight: 300;
+    font-size: 1$cssgram : append($cssgram, 2em);  %cssgram-2em;
+  }
+
+  &__subtitle {
+    font-size: 2em;
+    text-align: center;
+  }
+
+  &__note {
+    font-style: italic;
+    text-align: center;
+    display: block;
+    margin: 2em auto 0;
+  }
+
+  &__input-area {
+    display: block;
+    font-size: 1em;
+    text-align: center;
+    font-weight: 300;
+    margin: 1em auto;
+    padding: 1em 0;
+
+    @include breakpoint(xs) {
+      margin: 0;
+      font-size: $cssgram : append($cssgram, 8em);  %cssgram-8em;
+    }
+  }
+
+  &__input-label {
+    text-align: center;
+    color: $accent;
+  }
+
+  &__input-img {
+    max-width: 16em;
+    font-size: 1em;
+    padding: $cssgram : append($cssgram, 5em);  %cssgram-5em;
+    border: 2px solid $accent;
+    outline: none;
+    margin: $cssgram : append($cssgram, 5em);  %cssgram-5em;
+    font-weight: 200;
+    transition-duration: $cssgram : append($cssgram, 35s);  %cssgram-35s;
+
+    &:hover {
+      background: mix(white, $accent, 90%);
+    }
+
+    &:focus {
+      background: mix(white, $accent, 75%);
+    }
+  }
+
+  &__option-field {
+    color: $accent;
+    border: 1px solid $lightgrey;
+    min-width: 200px;
+  }
+
+  &__option-img {
+    max-width: 150px;
+    height: 150px;
+    display: inline-block;
+    cursor: pointer;
+
+    @include breakpoint(sm) {
+      height: 100px;
+    }
+
+    @include breakpoint(xs) {
+      height: 60px;
+    }
+  }
+
+  &__list {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  &__item {
+    margin: $cssgram : append($cssgram, 75em);  %cssgram-75em;
+    list-style: none;
+
+    @include breakpoint(md) {
+      margin: $cssgram : append($cssgram, 5em);  %cssgram-5em;
+    }
+
+    @include breakpoint(xs) {
+      margin: $cssgram : append($cssgram, 5em);  %cssgram-5em 0;
+    }
+  }
+}
+
+$cssgram : append($cssgram, title);  %cssgram-title {
+  &-section {
+    width: 100%;
+    text-align: center;
+  }
+
+  &--logo {
+    max-width: 400px;
+  }
+
+  &--top-sub {
+    font-weight: 200;
+    margin: 0 auto;
+    text-align: center;
+    max-width: 26em;
+
+    @include breakpoint(xs) {
+      font-size: 1$cssgram : append($cssgram, 2em);  %cssgram-2em;
+    }
+  }
+}
+
+$cssgram : append($cssgram, how-to-section);  %cssgram-how-to-section,
+$cssgram : append($cssgram, explanation-section);  %cssgram-explanation-section {
+  font-size: 1$cssgram : append($cssgram, 2em);  %cssgram-2em;
+  font-weight: 300;
+  max-width: 40em;
+  margin: 0 auto;
+  display: block;
+}
+
+$cssgram : append($cssgram, attribution);  %cssgram-attribution {
+  padding: 1em 0 4em;
+  text-align: center;
+}
+
+$cssgram : append($cssgram, callout);  %cssgram-callout {
+  max-width: 14em;
+  background: $lightergrey;
+  padding: 2em;
+  margin: -$cssgram : append($cssgram, 5em);  %cssgram-5em 2em 0;
+  display: block;
+  font-weight: 200;
+  float: right;
+
+  @include breakpoint(sm) {
+    max-width: 28em;
+    margin: 1em auto;
+    float: none;
+    font-size: $cssgram : append($cssgram, 8em);  %cssgram-8em;
+  }
+}
+
+$cssgram : append($cssgram, available-classes);  %cssgram-available-classes,
+$cssgram : append($cssgram, available-extends);  %cssgram-available-extends,
+$cssgram : append($cssgram, supported-browsers);  %cssgram-supported-browsers {
+  columns: 15em 2;
+}
+
+$cssgram : append($cssgram, supported);  %cssgram-supported {
+  &:after {
+    content: '✔';
+    color: $green;
+    margin-left: $cssgram : append($cssgram, 5em);  %cssgram-5em;
+  }
+}
+
+$cssgram : append($cssgram, not-supported);  %cssgram-not-supported {
+  &:after {
+    content: '✘';
+    color: $maroon;
+    margin-left: $cssgram : append($cssgram, 5em);  %cssgram-5em;
+  }
+}
