@@ -3,7 +3,7 @@ $cssgram : () !default;/*
  * Gingham
  *
  */
-@import 'shared';
+
 
 
 $cssgram : append($cssgram, gingham);  %cssgram-gingham {

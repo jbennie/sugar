@@ -5,7 +5,7 @@
 //
 // Corner
 //
-@mixin corner(
+@mixin s-corner(
 	$radius
 ) {
 	@if length($radius) == 1 and type-of($radius) == number {
@@ -14,7 +14,7 @@
 	}
 		
 	// parse properties
-	$props : _sugar_parse_properties($radius, (
+	$props : _sugar-parse-properties($radius, (
 		top : true,
 		right : true,
 		bottom : true,
@@ -33,6 +33,9 @@
 		bottom-left : 'bl',
 		bottom-right : 'br'
 	));
+
+	// handle nested
+	$props : _sugar-handle-nested(corner, $props);
 
 	// top
 	$top : map-get-or($props, top);
@@ -79,25 +82,33 @@
 	@if $bottom-right and type-of($bottom-right) == number or type-of($bottom-right) == list {
 		border-bottom-right-radius: $bottom-right;
 	}
+
+	// handle nested
+	@include _sugar-handle-nested(corner) {
+		@content;
+	}
 }
-@mixin border-radius($radius) {
-	@include corner($radius);
+@mixin s-border-radius($radius) {
+	@include s-corner($radius);
 }
 
 
 //
 // Round
 //
-@mixin round(
+@mixin s-round(
 	$props : null,
 	$border : null
 ) {
 	@if $props {
-		$props : _sugar_parse_properties($props, (
+		$props : _sugar-parse-properties($props, (
 			width : number,
 			height : number,
 			color : color
 		));
+		$props : _sugar-handle-nested(round, $props);
+	
+		// build
 		$width : map-get-or($props, width w);
 		$height : map-get-or($props, height h, $width);
 		$color : map-get-or($props, color c);
@@ -108,13 +119,16 @@
 		}
 	}
 	@if $border {
-		$border : _sugar_parse_properties($border, (
+		$border : _sugar-parse-properties($border, (
 			width : number,
 			color : color,
 			style : 'solid|dotted|dashed|double|groove|ridge|inset|outset|initial|inherit'
 		), (
 			style : 's'
 		));
+
+		// handle nested
+		$border : _sugar-handle-nested(round-border, $border);
 		$width : map-get-or($border, width w);
 		$color : map-get-or($border, color c);
 		$style : map-get-or($border, style s, solid);
@@ -124,19 +138,29 @@
 	}
 	border-radius:50%;
 	overflow: hidden;
+	> img {
+		border-radius:50%;
+		overflow: hidden;
+	}
+
+	// handle nested
+	@include _sugar-handle-nested(round round-border) {
+		@content;
+	}
 }
 
 
 //
 // Restangle
 //
-@mixin rect(
+@mixin s-rect(
 	$size
 ) {
-	$size : _sugar_parse_properties($size, (
+	$size : _sugar-parse-properties($size, (
 		width : number,
 		height : number
 	));
+	$size : _sugar-handle-nested(size, $size);
 	$width : map-get($size, width);
 	$height : map-get($size, height);
 	@if type-of($width) != number or type-of($height) != number {
@@ -144,20 +168,23 @@
 	}
 	width : $width;
 	height : $height;
+	@include _sugar-handle-nested(size) {
+		@content;
+	}
 }
 
 
 //
 // Bubble
 //
-@mixin bubble(
+@mixin s-bubble(
 	$base : null,
 	$border : null
 ) {
 
 	$directions : 'top|right|r|bottom|b|left|l|top-left|tl|top-right|tr|bottom-left|bl|bottom-right|br';
 	$positions : 'top|right|bottom|left|top-left|top-right|right-top|right-bottom|bottom-left|bottom-right|left-bottom|left-top';
-	$base : _sugar_parse_properties($base, (
+	$base : _sugar-parse-properties($base, (
 		position : $positions,
 		color : color,
 		arrow-width : number,
@@ -169,10 +196,12 @@
 		arrow-height : 'ah',
 		offset : 'o'
 	));
-	$border_map : _sugar_parse_properties($border, (
+	$border_map : _sugar-parse-properties($border, (
 		width : number,
 		color : color
 	));
+	$base : _sugar-handle-nested(bubble, $base);
+	$border_map : _sugar-handle-nested(bubble-border, $border_map);
 	$position : map-get-or($base, position, bottom);
 	$color : map-get-or($base, color, red);
 	$width : map-get-or($base, arrow-width, 20px);
@@ -192,7 +221,7 @@
 	}
 
 	// create the bubble
-	@include triangle($width $height $color $direction -transform-origin base, $border);
+	@include s-triangle($width $height $color $direction -transform-origin base, $border);
 
 	position: relative;
 	background: $color;
@@ -265,7 +294,10 @@
 			margin-top: $offset * -1 - $width;
 		}
 	}
-
+	
+	@include _sugar-handle-nested(bubble bubble-border) {
+		@content;
+	}
 }
 
 
@@ -273,12 +305,12 @@
 //
 // Triangle
 //
-@mixin triangle(
+@mixin s-triangle(
 	$triangle,
 	$border : null
 ) {
 
-	$triangle : _sugar_parse_properties($triangle, (
+	$triangle : _sugar-parse-properties($triangle, (
 		width : number,
 		height : number,
 		color : color,
@@ -288,10 +320,12 @@
 		direction : 'd',
 		transform-origin : 'to'
 	));
-	$border : _sugar_parse_properties($border, (
+	$border : _sugar-parse-properties($border, (
 		width : number,
 		color : color
 	));
+	$triangle : _sugar-handle-nested(triangle, $triangle);
+	$border : _sugar-handle-nested(triangle-border, $border);
 
 	$direction : map-get-or($triangle, direction, top);
 	$width : map-get-or($triangle, width, 100px);
@@ -508,5 +542,9 @@
 				border-color: transparent transparent $b-color transparent;
 			}
 		}
+	}
+
+	@include _sugar-handle-nested(triangle triangle-border) {
+		@content;
 	}
 }

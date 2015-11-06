@@ -5,13 +5,51 @@
 //
 // filter universal mixin
 //
-@mixin filter(
-	$filters
+@mixin s-filter(
+	$filters...
+) {
+	@each $filter in $filters {
+		@include _s-filter($filter);
+	}
+}
+@mixin _s-filter(
+	$filter
 ) {
 	// cssgram
-	@if $cssgram and type-of($cssgram) == list and index($cssgram, $filters) {
-		@extend %cssgram-#{$filters} !optional;
+	@if $cssgram and type-of($cssgram) == list and index($cssgram, $filter) {
+		@extend %cssgram-#{$filter} !optional;
 	} @else {
+		$filter : _sugar-parse-properties($filter, (
+			drop-shadow : true,
+			blur : true,
+			brightness : true,
+			contrast : true,
+			grayscale : true,
+			hue-rotate : true,
+			invert : true,
+			opacity : true,
+			saturate : true,
+			sepia : true,
+			url : true	
+		), (
+			drop-shadow : 'ds',
+			blur : 'bl',
+			brightness : 'br',
+			contrast : 'con',
+			grayscale : 'gr',
+			hue-rotate : 'hue',
+			invert : 'i',
+			opacity : 'o',
+			saturate : 'sat',
+			sepia : 'sep',
+			url : 'u'
+		));
+		
+		// loop on each filters
+		$filters : ();
+		@each $name, $value in $filter {
+			$filters : append($filters, unquote("#{$name}(#{$value})"));
+		}
 		filter : $filters;
 	}
 }

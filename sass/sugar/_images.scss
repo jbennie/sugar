@@ -1,0 +1,104 @@
+//
+// Images specific
+//
+
+//
+// Image rendering
+//
+@mixin image-rendering (
+	$mode:auto
+) {
+	@if ($mode == crisp-edges) {
+		-ms-interpolation-mode: nearest-neighbor; // IE8+
+		image-rendering: -moz-crisp-edges;
+		image-rendering: -o-crisp-edges;
+		image-rendering: -webkit-optimize-contrast;
+		image-rendering: crisp-edges;
+	}
+	@else {
+		image-rendering: $mode;
+	}
+}
+
+//
+// Background
+//
+@mixin s-background(
+	$background
+) {
+	$background : _sugar-parse-properties($background, (
+		repeat : 'repeat|repeat-x|repeat-y|no-repeat',
+		size : 'auto|length|cover|contain|initial|inherit',
+		url : string,
+		width : number,
+		height : number,
+		top : number,
+		left : number,
+		retina : string,
+		position : true
+	), (
+		url : 'u',
+		retina : 'ret',
+		position : 'p'
+	));
+	$background : _sugar-handle-nested(background, $background);
+	
+	@debug($background);
+
+	// get values
+	$repeat : map-get($background, repeat);
+	$size : map-get($background, size);
+	$url : map-get($background, url);
+	$top : map-get($background, top);
+	$left : map-get($background, left);
+	$width : map-get($background, width);
+	$height : map-get($background, height);
+	$retina : map-get-or($background, retina);
+	@if $retina == true { $retina : '@2x'; }
+	$position : map-get($background, position);
+
+	// build background
+	$back : ();
+	@if $repeat {
+		background-repeat: $repeat;
+	}
+	@if $size {
+		background-size: $size;
+	} @else {
+		@if $height and $width == null {
+			background-size: 0 $height;
+		} @else if $height == null and $width {
+			background-size: $width 0;
+		} @else if $height and $width {
+			background-size: $width $height
+		}
+	}
+	@if $url {
+		background-image: url("#{$url}");
+	}
+	@if $position {
+		background-position: $position;
+	} @else {
+		@if $top and $left == null {
+			background-position: 0 $top;
+		} @else if $top == null and $left {
+			background-position: $left 0;
+		} @else if $top and $left {
+			background-position: $left $top
+		}
+	}
+	@if $retina and $url {
+		$split : str-explode($url,'.');
+		$name : nth($split, length($split)-1);
+		$split : sl-replace-nth($split, length($split)-1, #{$name}#{$retina});
+		$url : sl-to-string($split, '.');
+		@include s-media(retina) {
+			background-image: url("#{$url}");
+		}
+	}
+
+	// handle nested
+	@include _sugar-handle-nested(background) {
+		@content;
+	}
+}

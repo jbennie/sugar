@@ -3,7 +3,7 @@ $cssgram : () !default;/*
  * Earlybird
  *
  */
-@import 'shared';
+
 
 
 $cssgram : append($cssgram, earlybird);  %cssgram-earlybird {

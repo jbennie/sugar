@@ -3,7 +3,7 @@ $cssgram : () !default;/*
  * Perpetua
  *
  */
-@import 'shared';
+
 
 
 $cssgram : append($cssgram, perpetua);  %cssgram-perpetua {

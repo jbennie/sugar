@@ -27,16 +27,16 @@ $media-keywords : (
 @for $idx from 6 through 20 {
 	$media-keywords : map-set($media-keywords, 'ie#{$idx}', '.ua-ie-#{$idx}');
 }
-@mixin media(
+@mixin s-media(
 	$queries...
 ) {
 	@each $querie in $queries {
-		@include _media($querie) {
+		@include _s-media($querie) {
 			@content;
 		}
 	}
 }
-@mixin _media(
+@mixin _s-media(
 	$props
 ) {
 	// loop through all keywords
@@ -49,7 +49,7 @@ $media-keywords : (
 		}
 	}
 
-	$props : _sugar_parse_properties($props, (
+	$props : _sugar-parse-properties($props, (
 		device : 'screen|handheld|print|aural|braille|embossed|projection|tty|tv|all',
 		min-width : number,
 		max-width : number,

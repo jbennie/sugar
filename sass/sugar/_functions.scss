@@ -1,7 +1,31 @@
 //
+// Handle nested
+//
+$_s_nested_properties : ();
+@function _sugar-handle-nested(
+	$name,
+	$map
+) {
+	@if map-get($_s_nested_properties, $name) {
+		$map : map-merge(map-get($_s_nested_properties, $name), $map);
+	} @else {
+		$_s_nested_properties : map-set($_s_nested_properties, $name, $map) !global;
+	}
+	@return $map;
+}
+@mixin _sugar-handle-nested(
+	$names
+) {
+	@content;
+	@each $name in $names {
+		$_s_nested_properties : map-set($_s_nested_properties, $name, null) !global;
+	}
+}
+
+//
 // Parse properties
 //
-@function _sugar_parse_properties(
+@function _sugar-parse-properties(
 	$properties,
 	$keywords,
 	$aliases : ()
@@ -10,7 +34,11 @@
 	$aliases : map-merge($aliases, (
 		width : 'w',
 		height : 'h',
-		color : 'c'
+		color : 'c',
+		top : 't',
+		right : 'r',
+		bottom : 'b',
+		left : 'l'
 	));
 
 	$map : ();
@@ -25,27 +53,31 @@
 			$prop : str-slice($prop, 2);
 
 			// check if we have a property named like this in map
-			$in_keywords : map-get($keywords, $prop);
+			$in_keywords : null;
 
-			// if not in keywords, try to get the alias
-			@if $in_keywords == null {
-				$alias_found : false;
-				@each $alias_prop, $alias in $aliases {
-					@if $alias_found == false {
-						$split : str-explode($alias,'|');
-						$al : index($split, $prop);
-						@if $al {
-							$alias_found : true;
-							$prop : $alias_prop;
+			@if $keywords {
+				$in_keywords : map-get($keywords, $prop);
+
+				// if not in keywords, try to get the alias
+				@if $in_keywords == null {
+					$alias_found : false;
+					@each $alias_prop, $alias in $aliases {
+						@if $alias_found == false {
+							$split : str-explode($alias,'|');
+							$al : index($split, $prop);
+							@if $al {
+								$alias_found : true;
+								$prop : $alias_prop;
+							}
 						}
 					}
+					// check again if now we have a property like this
+					$in_keywords : map-get($keywords, $prop);
 				}
-				// check again if now we have a property like this
-				$in_keywords : map-get($keywords, $prop);
 			}
 
 			// if we have a property in map
-			@if $in_keywords {
+			@if $in_keywords or $keywords == null {
 
 				// explicit naming
 				@if $current_prop {

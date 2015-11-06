@@ -3,7 +3,7 @@ $cssgram : () !default;/*
  * Walden
  *
  */
-@import 'shared';
+
 
 
 $cssgram : append($cssgram, walden);  %cssgram-walden {

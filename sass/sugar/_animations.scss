@@ -5,7 +5,7 @@
 //
 // Animate mixin
 //
-@mixin animate(
+@mixin s-animate(
 	$animations...
 ) {
 	// loop on animations
@@ -14,7 +14,7 @@
 	$current_duration : 0;
 	$previous_duration : 0;
 	@each $animation in $animations {
-		$animation : _sugar_parse_properties($animation, (
+		$animation : _sugar-parse-properties($animation, (
 			name : string,
 			duration : number,
 			delay : number,
@@ -63,12 +63,20 @@
 	animation: $anims;
 }
 
-@mixin transition(
+//
+// Transition
+//
+@mixin s-transition(
 	$transition
 ) {
 	&,
 	&:before,
 	&:after {
-		transition: $transition;
+		// check if a transition exist in settings
+		@if type-of($transition) == string and map-get(sugar('settings.transitions'), $transition) {
+			transition: map-get(sugar('settings.transitions'), $transition);
+		} @else {
+			transition: $transition;
+		}
 	}
 }

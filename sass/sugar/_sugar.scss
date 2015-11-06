@@ -8,8 +8,16 @@
 // Vendors
 //
 @import 'vendors/sassyStrings/SassyStrings';
+@import 'vendors/sassyLists/SassyLists';
 @import 'vendors/animatecss/animate.scss';
 @import 'vendors/cssgram/cssgram.scss';
+
+//
+// Sassline
+//
+// @import 'vendors/sassline/variables';
+// @import 'vendors/sassline/mixins';
+// @import 'vendors/sassline/modular-scale';
 
 //
 // Functions
@@ -40,6 +48,11 @@
 // Forms
 //
 @import 'forms';
+
+//
+// Images
+//
+@import 'images';
 
 //
 // Animations
@@ -98,6 +111,7 @@ $_sugar-settings : (								// store all the settings
 								),
 	colors 						: (), 				// store all the colors
 	fonts  						: (), 				// store all the fonts
+	transition 					: (), 				// store all the transitions
 );		
 
 //
@@ -108,9 +122,9 @@ $_sugar-settings : (								// store all the settings
 ) {
 	@if type-of($what) == map {
 		// setup
-		@include sugar_setup($what);
+		@include sugar-setup($what);
 		// init
-		@include sugar_init();
+		@include sugar-init();
 	}
 }
 
@@ -122,14 +136,14 @@ $_sugar-settings : (								// store all the settings
 ) {
 	@if type-of($what) == string and str-index($what, "settings.") {
 		// get a configuration
-		@return sugar_conf(str-slice($what,10));
+		@return sugar-setting(str-slice($what,10));
 	}
 }
 
 //
 // Get a configuration
 //
-@function sugar_conf(
+@function sugar-setting(
 	$path
 ) {
 	$parts : str-explode($path, '.');
@@ -148,7 +162,7 @@ $_sugar-settings : (								// store all the settings
 //
 // Setup
 //
-@mixin sugar_setup(
+@mixin sugar-setup(
 	$settings
 ) {
 	$_sugar-settings : map-merge($_sugar-settings, $settings) !global;
@@ -157,7 +171,7 @@ $_sugar-settings : (								// store all the settings
 //
 // Init
 //
-@mixin sugar_init() {
+@mixin sugar-init() {
 	// reset
 	@if sugar('settings.reset') == true {
 		@include sugar_reset();

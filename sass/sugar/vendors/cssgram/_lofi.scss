@@ -2,7 +2,7 @@ $cssgram : () !default;/*
  * Lo-fi
  *
  */
-@import 'shared';
+
 
 
 $cssgram : append($cssgram, lofi);  %cssgram-lofi {

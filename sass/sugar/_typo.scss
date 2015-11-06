@@ -5,27 +5,71 @@
 //
 // Font mixin
 //
-@mixin font(
-	$what
-) {
-	// get font size
-	$font-size : null;
-	@if type-of(nth($what,1)) == number {
-		$font-size : nth($what,1);
-	}
-	@if $font-size {
-		// @include baseline($font-size);
-	}
 
-	// loop on each declared fonts
-	@each $name, $value in sugar('settings.fonts') {
-		@if index($what, $name) != null {
-			font-family: unquote(map-get($value, declaration));
+// font-size: x rem;
+// line-height : y rem ou ratio;
+// margin-top: -y / 2 ou -x * ratio / 2;
+
+@mixin font(
+	$font
+) {
+	$font : _sugar-parse-properties($font, (
+		name : string,
+		size : number,
+		line-height : number
+	));
+	$name : map-get-or($font, name);
+	$size : map-get-or($font, size, 1rem);
+	$line-height : map-get-or($font, line-height, 1);
+
+	// get the font object
+	$f : map-get(sugar('settings.fonts'), $name);
+
+	// $font-size-rem : strip-units(rem($size));
+	$base-line-height : strip-units(sugar('settings.typo.line-height'));
+	
+	$base-line-height : 1rem * $base-line-height;
+	// $lines : ceil($font-size-rem);
+	
+	// @debug($lines);
+
+	// $computed-line-height : $lines * $base-line-height;
+
+	// @debug($computed-line-height);
+
+	$dec : $line-height % 1;
+	@if $dec > 0 {
+		$dec : $dec - .5;
+		@if $dec < 0 {
+			$dec : $dec * -1;
 		}
 	}
+	// $dec : "#{$line-height}";
+	// $split : sl-explode($dec,'.');
+	// @if length($split) == 2 {
+	// 	$dec : nth($split, length($split));
+	// 	$dec : unquote($dec);
+	// 	$dec : $dec / 10;
+	// 	$dec : $dec - .5;
+	// 	@debug($dec);
+	// 	@if $dec < 0 {
+	// 		$dec : $dec * -1;
+	// 	}
+	// 	@debug($dec);
+	// }
+
+	padding: 0;
+	margin: 0;
+	// set the font
+	font-family : unquote(map-get($f, declaration));
+	font-size: rem($size);
+	line-height: $line-height * $base-line-height;
+	// margin-top : - rem($size) * $line-height / 2;
+	margin-bottom: $base-line-height + $base-line-height * $dec * 2;
+	
 
 	// parse properties
-	// $props : _sugar_parse_properties($what, margin padding rhythm);
+	// $props : _sugar-parse-properties($what, margin padding rhythm);
 
 	// rhytme
 	// $rhythm : map-get($props, rhythm);
@@ -39,61 +83,42 @@
 	// }
 }
 
+@mixin font-size($size) {
+      font-size: 0px + $size;
+      font-size: 0rem + $size / $doc-font-size;
+      line-height: ceil($size / $doc-line-height) * ($doc-line-height / $size);
+      margin-bottom: 0px + $doc-line-height;
+      margin-bottom: ($doc-line-height / $doc-font-size) +rem;
+}
 
-// this value may vary for each font
-// unitless value relative to 1em
-$cap-height: 		0.76;
+//
+// Truncate
+//
+@mixin _truncate() {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+%truncate {
+	@include _truncate();
+}
+@mixin truncate() {
+	@include _truncate();
+}
 
-
-@mixin baseline($font-size, $scale: 2) {
-
-	$base-line-height : strip-units(sugar('settings.typo.line-height'));
-	$base-font-size : strip-units(sugar('settings.typo.font-size'));
-	$font-size : strip-units($font-size);
-
-	font-size: 0px + $font-size;
-	font-size: $font-size / $base-font-size +rem;
-	// because you have to include the font size as a number for the keywor you can still get the line-height 
-
-	line-height: rem($base-line-height / $font-size);
-	margin-bottom: 0px + $base-line-height;
-	margin-bottom: ($base-line-height / $base-font-size)+rem ;
-
-	// rhythm unit
-	// $rhythm: $base-line-height * $font-size / $scale;
-
-	// // number of rhythm units that can fit the font-size
-	// $lines: ceil(($font-size + 0.001px) / $rhythm);
-
-	// // calculate the new line-height
-	// $line-height: $rhythm * $lines / $font-size;
-
-	// use the results
-	// font-size: $font-size;
-	// line-height: $line-height;
-
-	// $baseline-distance: ($line-height - $cap-height) / 2;
-
-
-
-	// // METHOD 1
-	// /////////////////
-
-	// // this method can relatively move down elements you may not want to
-	// // position: relative;
-	// // top: $baseline-distance + em;
-
-
-
-	// // METHOD 2
-	// /////////////////
-
-	// // if you use this mixin only on elements that have one direction margins
-	// // http://csswizardry.com/2012/06/single-direction-margin-declarations/
-	// // you can use this method with no worries. 
-	// // this method assumes the direction is down and the margin is $base-line-height
-	// padding-top: $baseline-distance + em;
-	// margin-bottom: $base-line-height - $baseline-distance + em;
+//
+// Hide text
+//
+@mixin _hide-text() {
+	overflow:hidden;
+    text-indent:-9000px;
+    display:block;
+}
+%hide-text {
+	@include _hide-text();
+}
+@mixin hide-text() {
+	@include _hide-text();
 }
 
 //

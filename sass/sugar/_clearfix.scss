@@ -46,10 +46,10 @@ $clearfix-method: overflow !default;
 
 // extends so the output will be smaller
 
-@mixin clearfix($method: $clearfix-method) {
+@mixin s-clearfix($method: $clearfix-method) {
 	@if $method != overflow and $method != facebook and $method != micro and $method != float {
 		@warn "The clearfix method #{$method} is unkown";
-		@include clearfix(micro);
+		@include s-clearfix(micro);
 	} 
 	@else {
 		@extend %clearfix-#{$method};

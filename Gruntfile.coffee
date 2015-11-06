@@ -82,6 +82,12 @@ module.exports = (grunt) ->
 				src: '**',
 				dest: 'sass/sugar/vendors/sassyStrings/',
 				filter: 'isFile'
+			sassyLists:
+				expand: true,
+				cwd: 'bower_components/SassyLists/stylesheets/',
+				src: '**',
+				dest: 'sass/sugar/vendors/sassyLists/',
+				filter: 'isFile'
 			cssgram:
 				expand: true,
 				cwd: 'bower_components/cssgram/source/scss/',
@@ -94,6 +100,7 @@ module.exports = (grunt) ->
 				options:
 					process: (content, srcpath) ->
 						content = '$cssgram : () !default;' + content
+						content = content.replace /@import 'shared';/gi, '' if content? and not srcpath.match /cssgram\.scss/
 						content = content.replace /(%[a-zA-Z0-9_-]{3,60},)/gi, '' if content?
 						content = content.replace /(\.)([a-zA-Z0-9_-]{3,60})/gi, "$cssgram : append($cssgram, $2); \r %cssgram-$2" if content?
 						content

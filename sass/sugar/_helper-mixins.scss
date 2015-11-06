@@ -3,6 +3,145 @@
 //
 
 //
+// Position
+//
+@mixin s-position(
+	$position
+) {
+	$position : _sugar-parse-properties($position, (
+		position : 'fixed|relative|absolute',
+		top : number,
+		right : number,
+		bottom : number,
+		left : number,
+		z : number
+	), (
+		position : 'p',
+		top : 't|y',
+		right : 'r',
+		bottom : 'b',
+		left : 'l|x'
+	));
+
+	// handle nested
+	$position : _sugar-handle-nested(position, $position);
+
+	// get values
+	$pos : map-get($position, position);
+	$top : map-get($position, top);
+	$right : map-get($position, right);
+	$bottom : map-get($position, bottom);
+	$left : map-get($position, left);
+	$z : map-get($position, z);
+
+	@if $pos {
+		position : $pos;
+	}
+	@if $z {
+		transform: translateZ($z);
+	}
+	@if $top {top: $top; }
+	@if $right { right: $right; }
+	@if $bottom { bottom: $bottom; }
+	@if $left { left: $left; }
+
+	// handle nested
+	@include _sugar-handle-nested(position) {
+		@content;
+	}
+}
+
+//
+// Translate
+//
+@mixin s-translate(
+	$translate
+) {
+	$translate : _sugar-parse-properties($translate, (
+		x : number,
+		y : number,
+		z : number
+	));
+	
+	// handle nested
+	$translate : _sugar-handle-nested(translate, $translate);
+
+	// get values
+	$x : map-get($translate, x);
+	$y : map-get($translate, y);
+	$z : map-get($translate, z);
+
+	// build translate
+	$translates : ();
+	@if $x {
+		$translates : append($translates, translateX($x));
+	}
+	@if $y {
+		$translates : append($translates, translateY($y));
+	}
+	@if $z {
+		$translates : append($translates, translateZ($z));
+	}
+	transform : $translates;
+
+	// handle nested
+	@include _sugar-handle-nested(translate) {
+		@content;
+	}
+}
+
+//
+// Transform
+//
+@mixin s-transform(
+	$transform
+) {
+	// parse properties
+	$transform : _sugar-parse-properties($transform, null);
+
+	// handle nested transforms
+	$transform : _sugar-handle-nested(transform, $transform);
+
+	// build transform
+	$transforms : ();
+	@each $name, $value in $transform {
+		$values : ();
+		@each $val in $value {
+			$values : append($values, $val, comma);
+		}
+		$transforms : append($transforms, unquote("#{$name}(#{$values})"));
+	}
+	transform : $transforms;
+
+	// handle nested transforms
+	@include _sugar-handle-nested(transform) {
+		@content;
+	}
+}
+
+//
+// Ratio
+//
+@mixin s-ratio(
+	$ratio
+) {
+	$ratio : _sugar-parse-properties($ratio, (
+		ratio : number,
+		type : 'before|after'
+	));
+	$rat : map-get($ratio, ratio);
+	$type : map-get-or($ratio, type, before);
+	position: relative;
+	overflow: hidden;
+	&:#{$type} {
+		content:'';
+		display: block;
+		height: 0;
+		padding-top: percentage(1 / $rat);
+	}
+}
+
+//
 // Fit
 // Make an element 100% width and height
 //
@@ -14,9 +153,53 @@
 @mixin fit() { @include _fit(); }
 
 //
+// Size
+//
+@mixin s-size(
+	$size
+) {
+	$size : _sugar-parse-properties($size, (
+		width : number,
+		height : number
+	));
+	$size : _sugar-handle-nested(size, $size);
+	$width : map-get($size, width);
+	$height : map-get($size, height);
+	@if $width {
+		width : $width;
+	}
+	@if $height {
+		height : $height;
+	}
+	@include _sugar-handle-nested(size) {
+		@content;
+	}
+}
+
+@mixin abs-cover() {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	min-width: 100%;
+	min-height: 100%;
+	transform: translateX(-50%) translateY(-50%);
+}
+
+/**
+ * Abs-contain
+ */
+@mixin abs-contain() {
+	position: absolute;
+	top:50%; left:50%;
+	max-width:100%;
+	max-height:100%;
+	transform: translateX(-50%) translateY(-50%);
+}
+
+//
 // Visually hidden
 //
-@mixin _visually_hidden {
+@mixin _visually-hidden {
 	margin: -1px;
 	padding: 0;
 	width: 1px;
@@ -27,8 +210,8 @@
 	position: absolute;
 }
 %visually-hidden {
-	@include _visually_hidden();
+	@include _visually-hidden();
 }
-@mixin visually_hidden() {
-	@include _visually_hidden();
+@mixin visually-hidden() {
+	@include _visually-hidden();
 }

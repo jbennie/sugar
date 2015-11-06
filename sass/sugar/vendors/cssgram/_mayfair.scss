@@ -3,7 +3,7 @@ $cssgram : () !default;/*
  * Mayfair
  *
  */
-@import 'shared';
+
 
 
 $cssgram : append($cssgram, mayfair);  %cssgram-mayfair {

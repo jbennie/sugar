@@ -3,7 +3,7 @@ $cssgram : () !default;/*
  * X-Pro II
  *
  */
-@import 'shared';
+
 
 
 $cssgram : append($cssgram, xpro2);  %cssgram-xpro2 {

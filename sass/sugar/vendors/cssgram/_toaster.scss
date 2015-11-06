@@ -3,7 +3,7 @@ $cssgram : () !default;/*
  * Toaster
  *
  */
-@import 'shared';
+
 
 
 $cssgram : append($cssgram, toaster);  %cssgram-toaster {

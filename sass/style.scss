@@ -6,12 +6,12 @@
 @include sugar((
 	typo : (
 		font-size : 16px,
-		line-height : 20px,
+		line-height : 1.5,
 	),
 	fonts : (
 		helvetica : (
 			font-face : '/fonts/helvetica-neue/font.css',
-			declaration : 'Verdana, "Helvetica Neue", Arial, sans-serif',
+			declaration : 'Helvetica, "Helvetica Neue", Arial, sans-serif',
 			cap-height : 0.68
 		),
 		lobster : (
@@ -22,63 +22,92 @@
 	colors : (
 		green : #00ff00,
 		pink : #ffff00
+	),
+	transitions : (
+		fast : all .1s ease-in-out,
+		normal : all .2s ease-in-out,
+		slow : all .5s ease-in-out
 	)
 ));
 
+* {
+	@include s-transition(fast);
+}
+
 .media {
-	@include media(200px) {
+	@include s-media(200px) {
 		content : 200px;
 	}
-	@include media(tv 200px 300px) {
+	@include s-media(tv 200px 300px) {
 		content : 200px 300px;
 	}
-	@include media(-minh 100px) {
+	@include s-media(-minh 100px) {
 		content : -min-height 100px;
 	}
-	@include media(screen landscape) {
+	@include s-media(screen landscape) {
 		content : landscape;
 	}
-	@include media(portrait) {
+	@include s-media(portrait) {
 		content : portrait;
 	}
-	@include media(retina desktop, mobile chrome) {
+	@include s-media(retina desktop, mobile chrome) {
 		content : retina;
 	}
-	@include media(ie11) {
+	@include s-media(ie11) {
 		content : ie9;
 	}
 }
 
 .rect {
-	@include rect(100px 200px);
+	@include s-rect(100px 200px);
 }
 
 .bubble {
 	margin-left: 100px;
-	@include bubble(white 0 0 bottom, #ddd 2px);
-	&:hover {
-		@include bubble(white bottom 100px 50px, #ddd 2px);
+	@include s-bubble(white 0 0 right, #ddd 2px) {
+		&:hover {
+			@include s-bubble(20px 10px);
+		}
 	}
-	@include transition(all .1s ease-in-out);
-	@include corner(5px);
+	@include s-corner(5px);
 	padding: 10px 15px;
-	@include filter(drop-shadow(rgba(0,0,0,1) 0 0 10px));
+	@include s-filter(-drop-shadow rgba(0,0,0,1) 0 0 10px);
 }
 
 .triangle {
-	@include triangle(200px 100px c(green, -darken 20% ) top, 5px c(green, -darken 10));
-	&:hover {
-		@include triangle(300px 200px color(pink) top, 100px color(green, -darken 10%));
+	@include s-triangle(200px 100px c(green, -darken 20% ) top, 5px c(green, -darken 10%)) {
+		&:hover {
+			@include s-triangle(300px 200px color(pink), 100px);
+		}
 	}
-	@include transition(all .1s ease-in-out);
+}
+
+.corner {
+	display: block;
+	width: 100px;
+	height: 100px;
+	background: pink;
+	@include s-corner(-l 20px -r 100px) {
+		&:hover {
+			@include s-corner(-tl 100px);
+		}
+	}
 }
 
 .round {
-	@include round(100px c(green));
+	@include s-round(100px c(green)) {
+		&:hover {
+			@include s-round(200px);
+		}
+	}
 }
 
 .circle {
-	@include round(100px c(pink), 2px solid black);
+	@include s-round(100px c(pink), 2px solid black) {
+		&:hover {
+			@include s-round(200px);
+		}
+	}
 }
 
 @keyframes hello {
@@ -91,9 +120,12 @@
 }
 
 .cssgram {
-	@include filter(lofi);
-	&:hover {
-		@include filter(xpro2);
+	@include s-filter(toaster);
+	@include s-round();
+	border:2px solid white;
+	box-shadow:c(black, -o 30%) 0 0 30px;
+	img {
+		@include abs-cover();
 	}
 }
 
@@ -102,28 +134,83 @@
 	width: 100px;
 	height: 100px;
 	background: red;
-	@include animate(fadeIn);
+	@include s-animate(fadeIn);
 
 	&:hover {
-		@include animate(rubberBand, tada 1s, flipOutX);
+		@include s-animate(rubberBand, tada 1s, flipOutX);
 	}
 }
 
+.position {
+	display: block;
+	width: 100px;
+	height: 100px;
+	background: blue;
+	@include s-position(relative -x 10px -y 30px -z 30px);
+}
+
+.translate {
+	display: block;
+	width: 100px;
+	height: 100px;
+	background: blue;
+	@include s-translate(10px 30px) {
+		&:hover {
+			@include s-translate(0);
+		}
+	}
+}
+
+.transform {
+	display: block;
+	width: 100px;
+	height: 100px;
+	background: green;
+	@include s-transform(-skew 20deg 40deg -rotate 10deg) {
+		&:hover {
+			@include s-transform(-rotate 50deg);
+		}
+	}
+}
+
+.background {
+	display: block;
+	@include s-size(200px 200px);
+	@include s-background('http://una.im/CSSgram/img/lakegeneva.jpg' no-repeat 300px 400px -t 20px -ret '@coco');
+	&:hover {
+		@include s-background(contain);
+	}
+}
+
+.ratio {
+	@include s-size(200px);
+	@include s-ratio(16/9);
+	background: red;
+	display: block;
+}
+
+.show-grid {
+	background-image: -webkit-linear-gradient(top,#0ff 0,rgba(255,255,255,0)1px);
+    background-image: -moz-linear-gradient(top,#0ff 0,rgba(255,255,255,0)1px);
+    background-image: -o-linear-gradient(top,#0ff 0,rgba(255,255,255,0)1px);
+    background-image: linear-gradient(to bottom,#0ff 0,rgba(255,255,255,0)1px);
+    background-repeat: repeat-y;
+    background-size: 100% sugar('settings.typo.line-height') * 1rem;
+}
+
 body {
-	background-image: -webkit-linear-gradient(top, cyan 0, rgba(255,255,255,0) 1px);
- background-image: -moz-linear-gradient(top, cyan 0, rgba(255,255,255,0) 1px);
-  background-image: -o-linear-gradient(top, cyan 0, rgba(255,255,255,0) 1px);
-  background-image: linear-gradient(to bottom, cyan 0, rgba(255,255,255,0) 1px);
-  background-repeat: repeat-y;
-  background-size: 100% 1em;
+	perspective: 400px;
 }
 
 h1 {
-	// @include font(30px helvetica rythme);
+	@include font(30px 1.7 helvetica);
 }
 h2 {
-	// @include font(20px helvetica rythme);
+	@include font(20px 2 helvetica);
 }
 p {
-	// @include font(16px helvetica);
+	@include font(16px 2 helvetica);
+}
+p.lead {
+	@include font(20px 2 helvetica);
 }

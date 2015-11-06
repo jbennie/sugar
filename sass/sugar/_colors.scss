@@ -23,7 +23,7 @@
 	// check action to do
 	@if $actions {
 		// parse action
-		$actions-map : _sugar_parse_properties($actions, (
+		$actions-map : _sugar-parse-properties($actions, (
 			hue : number,
 			lighten : number,
 			darken : number,
@@ -31,7 +31,9 @@
 			complement : true,
 			invert : true,
 			saturate : number,
-			desaturate : number
+			desaturate : number,
+			opacity : number,
+			mix : color
 		), (
 			hue : 'h',
 			lighten : 'li',
@@ -40,7 +42,9 @@
 			complement : 'comp',
 			invert : 'inv',
 			saturate : 'sa',
-			desaturate : 'desa'
+			desaturate : 'desa',
+			opacity : 'o',
+			mix : 'm'
 		));
 		// loop on each action to process to keep order
 		@each $action, $value in $actions-map {
@@ -75,6 +79,14 @@
 			// invert
 			@if $action == invert and $value == true {
 				$color : invert($color);
+			}
+			// opacity
+			@if $action == opacity and type-of($value) == number {
+				$color : transparentize($color, 1 - strip-units($value) / 100);
+			}
+			// mix
+			@if $action == mix and type-of($value) == color {
+				$color : mix($color, $value);
 			}
 		}
 	}

@@ -110,11 +110,11 @@ $max-widths: map-values($maxwidths);
   @if $break-value == number and $breakpoint <= ($breakpoints-limit - 1) and $breakpoint > 0 {
 
     @if $gutter == small {
-      $gutter: map-get($gutterwidths, small) * 2 / 1rem;
+      $gutter: map-get($gutterwidths, small) / 1rem;
     } @else if $gutter == medium {
-      $gutter: map-get($gutterwidths, medium) * 2 / 1rem;
+      $gutter: map-get($gutterwidths, medium) / 1rem;
     } @else if $gutter == large {
-      $gutter: map-get($gutterwidths, large) * 2 / 1rem;
+      $gutter: map-get($gutterwidths, large) / 1rem;
     } @else {
       $gutter: 0;
     }
@@ -218,7 +218,7 @@ $max-widths: map-values($maxwidths);
 // Advanced baseline magic.
 // ! Read the README to help understand what is going on here.
 // Parts based on https://gist.github.com/razwan/10662500
-@mixin baseline($fontsize, $font, $lineheight: 2, $below: 2, $breakpoint: 0) {
+@mixin baseline($fontsize, $font, $lineheight: 1, $below: 2, $breakpoint: 0) {
   // Type of chosen variables.
   $font-value: type-of($fontsize);
   $break-value: type-of($breakpoint);
