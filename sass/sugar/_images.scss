@@ -29,6 +29,10 @@
 	$background : _sugar-parse-properties($background, (
 		repeat : 'repeat|repeat-x|repeat-y|no-repeat',
 		size : 'auto|length|cover|contain|initial|inherit',
+		attachment : 'scroll|fixed|local|initial|inherit',
+		blend-mode : 'normal|multiply|screen|overlay|darken|lighten|color-dodge|saturation|color|luminosity',
+		clip : 'border-box|padding-box|content-box|initial|inherit',
+		origin : 'padding-box|border-box|content-box|initial|inherit',
 		url : string,
 		width : number,
 		height : number,
@@ -39,15 +43,19 @@
 	), (
 		url : 'u',
 		retina : 'ret',
-		position : 'p'
+		position : 'p',
+		attachment : 'att',
+		clip : 'cl'
 	));
 	$background : _sugar-handle-nested(background, $background);
-	
-	@debug($background);
 
 	// get values
 	$repeat : map-get($background, repeat);
 	$size : map-get($background, size);
+	$attachment : map-get($background, attachment);
+	$blend-mode : map-get($background, blend-mode);
+	$clip : map-get($background, clip);
+	$origin : map-get($background, origin);
 	$url : map-get($background, url);
 	$top : map-get($background, top);
 	$left : map-get($background, left);
@@ -96,9 +104,21 @@
 			background-image: url("#{$url}");
 		}
 	}
+	@if $attachment {
+		background-attachment : $attachment;
+	}
+	@if $blend-mode {
+		background-blend-mode : $blend-mode;
+	}
+	@if $clip {
+		background-clip : $clip;
+	}
+	@if $origin {
+		background-origin : $origin;
+	}
 
 	// handle nested
-	@include _sugar-handle-nested(background) {
+	@include _sugar-handle-nested(background, $background) {
 		@content;
 	}
 }

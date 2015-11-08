@@ -14,12 +14,26 @@ $_s_nested_properties : ();
 	@return $map;
 }
 @mixin _sugar-handle-nested(
-	$names
+	$args...
 ) {
 	@content;
-	@each $name in $names {
-		$_s_nested_properties : map-set($_s_nested_properties, $name, null) !global;
+
+	@each $arg in $args {
+		$name : nth($arg,1);
+		$map : null;
+		@if length($arg) == 2 {
+			$map : nth($arg,2);
+		}
+		$restore : false;
+		@if type-of($map) == map {
+			$restore : map-get($map, restore);
+		}
+		@if $restore == null or $restore == false {
+			$_s_nested_properties : map-set($_s_nested_properties, $name, null) !global;
+		}
 	}
+
+	
 }
 
 //
@@ -40,6 +54,12 @@ $_s_nested_properties : ();
 		bottom : 'b',
 		left : 'l'
 	));
+
+	@if $keywords {
+		$keywords : map-merge($keywords, (
+			restore : true
+		));
+	}
 
 	$map : ();
 	$values : ();

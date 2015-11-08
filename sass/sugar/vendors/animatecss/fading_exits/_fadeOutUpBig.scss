@@ -1,0 +1,15 @@
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeOutUpBig) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeOutUpBig); @keyframes fadeOutUpBig {
+  from {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -2000px, 0);
+  }
+}
+
+%fadeOutUpBig {
+  animation-name: fadeOutUpBig;
+}
+}

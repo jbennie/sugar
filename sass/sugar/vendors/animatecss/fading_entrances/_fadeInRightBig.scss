@@ -1,0 +1,16 @@
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeInRightBig) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeInRightBig); @keyframes fadeInRightBig {
+  from {
+    opacity: 0;
+    transform: translate3d(2000px, 0, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+%fadeInRightBig {
+  animation-name: fadeInRightBig;
+}
+}

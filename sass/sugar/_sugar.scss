@@ -11,6 +11,7 @@
 @import 'vendors/sassyLists/SassyLists';
 @import 'vendors/animatecss/animate.scss';
 @import 'vendors/cssgram/cssgram.scss';
+@import 'vendors/modularscale/modular-scale';
 
 //
 // Sassline
@@ -38,6 +39,11 @@
 // List
 //
 @import 'tools/list';
+
+//
+// BEM
+//
+@import 'BEM';
 
 //
 // Clearfix
@@ -107,8 +113,17 @@ $_sugar-settings : (								// store all the settings
 	border-box 					: true, 			// set if need to set all as border box model
 	typo 						: (
 		font-size 					: 16px, 			// default font-size
-		line-height 				: 1.618				// default line-height
+		line-height 				: 1.618,			// default line-height
+		line-letters-count			: 55				// optimal letters count in a line
 								),
+	BEM 						: ( 				// BEM settings
+		element-separator 			: '__', 			// element separator
+		modifier-separator 			: '--' 				// modifier separator
+								),
+	modular-scale 				: ( 				// Modular scale settings
+		base 						: 1rem, 			// the modular scale base
+		ratio 						: $golden 			// the ratio to use
+	),
 	colors 						: (), 				// store all the colors
 	fonts  						: (), 				// store all the fonts
 	transition 					: (), 				// store all the transitions
@@ -165,7 +180,7 @@ $_sugar-settings : (								// store all the settings
 @mixin sugar-setup(
 	$settings
 ) {
-	$_sugar-settings : map-merge($_sugar-settings, $settings) !global;
+	$_sugar-settings : map-extend($_sugar-settings, $settings, true) !global;
 }
 
 //
@@ -191,4 +206,7 @@ $_sugar-settings : (								// store all the settings
 		font-size: $base-font-size;
 		line-height: $base-line-height + rem;
 	}
+	// modular scale
+	$ms-base : sugar('settings.modular-scale.base');
+	$ms-ratio : sugar('settings.modular-scale.ratio');
 }

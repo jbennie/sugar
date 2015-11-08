@@ -5,7 +5,7 @@
 //
 // Color function
 //
-@function color(
+@function s-color(
 	$name,
 	$actions : null
 ) {
@@ -93,11 +93,11 @@
 	// return the color
 	@return $color;
 }
-@function c(
+@function s-c(
 	$name,
 	$actions : null
 ) {
-	@return color($name, $actions);
+	@return s-color($name, $actions);
 }
 
 //

@@ -32,6 +32,7 @@
     "cssua.js": "https://github.com/mckamey/cssuseragent.git#~2.1.30",
     "animate.css": "https://github.com/daneden/animate.css.git#~3.4.0",
     "cssgram": "https://github.com/una/CSSgram.git",
-    "SassyLists": "~2.2.4"
+    "SassyLists": "~2.2.4",
+    "modular-scale": "~2.1.1"
   }
 }

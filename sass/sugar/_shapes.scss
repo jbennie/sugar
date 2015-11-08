@@ -58,7 +58,6 @@
 	// left
 	$left : map-get-or($props, left);
 	@if $left and type-of($left) == number or type-of($left) == list {
-		@debug($props);
 		border-top-left-radius: $left;
 		border-bottom-left-radius: $left;
 	}
@@ -84,7 +83,7 @@
 	}
 
 	// handle nested
-	@include _sugar-handle-nested(corner) {
+	@include _sugar-handle-nested(corner $props) {
 		@content;
 	}
 }
@@ -144,7 +143,7 @@
 	}
 
 	// handle nested
-	@include _sugar-handle-nested(round round-border) {
+	@include _sugar-handle-nested(round $props, round-border $border) {
 		@content;
 	}
 }
@@ -168,7 +167,7 @@
 	}
 	width : $width;
 	height : $height;
-	@include _sugar-handle-nested(size) {
+	@include _sugar-handle-nested(size $size) {
 		@content;
 	}
 }
@@ -295,7 +294,7 @@
 		}
 	}
 	
-	@include _sugar-handle-nested(bubble bubble-border) {
+	@include _sugar-handle-nested(bubble $base, bubble-border $border_map) {
 		@content;
 	}
 }
@@ -544,7 +543,7 @@
 		}
 	}
 
-	@include _sugar-handle-nested(triangle triangle-border) {
+	@include _sugar-handle-nested(triangle $triangle, triangle-border $border) {
 		@content;
 	}
 }

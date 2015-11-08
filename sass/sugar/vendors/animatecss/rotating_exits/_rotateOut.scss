@@ -1,0 +1,17 @@
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rotateOut) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rotateOut); @keyframes rotateOut {
+  from {
+    transform-origin: center;
+    opacity: 1;
+  }
+
+  100% {
+    transform-origin: center;
+    transform: rotate3d(0, 0, 1, 200deg);
+    opacity: 0;
+  }
+}
+
+%rotateOut {
+  animation-name: rotateOut;
+}
+}

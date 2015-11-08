@@ -46,7 +46,7 @@
 	@if $left { left: $left; }
 
 	// handle nested
-	@include _sugar-handle-nested(position) {
+	@include _sugar-handle-nested(position, $position) {
 		@content;
 	}
 }
@@ -85,7 +85,7 @@
 	transform : $translates;
 
 	// handle nested
-	@include _sugar-handle-nested(translate) {
+	@include _sugar-handle-nested(translate, $translate) {
 		@content;
 	}
 }
@@ -114,7 +114,7 @@
 	transform : $transforms;
 
 	// handle nested transforms
-	@include _sugar-handle-nested(transform) {
+	@include _sugar-handle-nested(transform, $transform) {
 		@content;
 	}
 }
@@ -171,7 +171,7 @@
 	@if $height {
 		height : $height;
 	}
-	@include _sugar-handle-nested(size) {
+	@include _sugar-handle-nested(size, $size) {
 		@content;
 	}
 }

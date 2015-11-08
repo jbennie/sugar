@@ -1,0 +1,34 @@
+//
+// BEM specific
+//
+
+//
+// Block
+//
+@mixin s-Bem($name) {
+	@at-root {
+		.#{$name} {
+			@content;
+		}
+	}
+}
+
+//
+// Block element
+//
+@mixin s-bEm($name) {
+	$separator : sugar('settings.BEM.element-separator');
+	&#{$separator}#{$name} {
+		@content;
+	}
+}
+
+//
+// Block modifier
+//
+@mixin s-beM($name) {
+	$separator : sugar('settings.BEM.modifier-separator');
+	&#{$separator}#{$name} {
+		@content;
+	}
+}

@@ -24,6 +24,9 @@ module.exports = (grunt) ->
 				outputStyle: 'expanded'			
 
 		concat:
+			animatecss:
+				src : 'sass/sugar/vendors/animatecss/*/*.scss'
+				dest : 'sass/sugar/vendors/animatecss/_animate.scss'
 			extras:
 				src: [
 					'bower_components/cssua.js/cssua.min.js'
@@ -73,9 +76,38 @@ module.exports = (grunt) ->
 				}]
 		
 		copy:
+			modularscale:
+				expand: true,
+				cwd: 'bower_components/modular-scale/stylesheets/',
+				src: '**',
+				dest: 'sass/sugar/vendors/modularscale/',
+				filter: 'isFile'
 			animatecss:
-				src: 'bower_components/animate.css/animate.css'
-				dest: 'sass/sugar/vendors/animatecss/_animate.scss'
+				expand: true,
+				cwd: 'bower_components/animate.css/source',
+				src: '**',
+				dest: 'sass/sugar/vendors/animatecss/',
+				filter: 'isFile'
+				rename: (dest, src) ->
+					src = src.replace 'css', 'scss'
+					split = src.split '/'
+					path = split[0]
+					file = split[1]
+					if file
+						file = '_' + file
+						res = dest + path + '/' + file
+					else
+						res = dest + src
+					return res
+				options:
+					process: (content, srcpath) ->
+						split = srcpath.split '/'
+						filename = split[split.length-1]
+						name = filename.replace '.scss',''
+						name = filename.replace '.css',''
+						content = content.replace /(\.)([a-zA-Z_-]{3,60})/gi, "%$2"
+						content = '@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, ' + name + ') { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, ' + name + '); ' + content + '}'
+						content
 			sassyStrings:
 				expand: true,
 				cwd: 'bower_components/SassyStrings/stylesheets/',
@@ -204,11 +236,11 @@ module.exports = (grunt) ->
 	grunt.registerTask 'default', [
 		'clean'
 		'copy'
-		'compass'
-		'cssmin'
-		'postcss'
 		'coffee'
 		'concat'
 		'uglify'
+		'compass'
+		'cssmin'
+		'postcss'
 		'notify:default'
 	]
