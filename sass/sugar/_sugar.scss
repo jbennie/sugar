@@ -131,7 +131,14 @@ $_sugar-settings : (								// store all the settings
 		classes 					: null, 		// list of icons to generate
 								),
 	sizes 						: (), 				// store all the sizes available
-	colors 						: (), 				// store all the colors
+	colors 						: (					// store all the colors
+		classes 					: (
+			color 						: 'c-{color}',
+			color-modifier 				: 'c-{color}--{modifier}',
+			bkg 						: 'bkg-{color}',
+			bkg-modifier 				: 'bkg-{color}--{modifier}'
+									)
+								), 				
 	fonts  						: (), 				// store all the fonts
 	transition 					: (), 				// store all the transitions
 );		
@@ -224,6 +231,10 @@ $_sugar-settings : (								// store all the settings
 	// colors
 	@if $packages == null or index($package, colors) {
 		$colors : sugar('settings.colors');
+		$classes-color : sugar('settings.colors.classes.color');
+		$classes-color-mod : sugar('settings.colors.classes.color-modifier');
+		$classes-bkg : sugar('settings.colors.classes.bkg');
+		$classes-bkg-mod : sugar('settings.colors.classes.bkg-modifier');
 		@each $name, $color in $colors {
 			$modifiers : ();
 			@if type-of($color) == map {
@@ -232,12 +243,14 @@ $_sugar-settings : (								// store all the settings
 				$classes : map-get($color, classes);
 				@if $classes {
 					@if $classes == true or in-list($classes, color c) {
-						#{unquote(".c-#{$name}")} {
+						$cls : str-replace($classes-color, '{color}', #{$name});
+						#{unquote(".#{$cls}")} {
 							color : $c;
 						}
 					}
 					@if $classes == true or in-list($classes, background-color bkg) {
-						#{unquote(".bkg-#{$name}")} {
+						$cls : str-replace($classes-bkg, '{color}', #{$name});
+						#{unquote(".#{$cls}")} {
 							background-color : $c;
 						}
 					}
@@ -245,12 +258,16 @@ $_sugar-settings : (								// store all the settings
 					@if $modifiers {
 						@each $mod-name, $mod in $modifiers {
 							@if $classes == true or in-list($classes, color c) {
-								#{unquote(".c-#{$name}--#{$mod-name}")} {
+								$cls : str-replace($classes-color-mod, '{color}', #{$name});
+								$cls : str-replace($cls, '{modifier}', #{$mod-name});
+								#{unquote(".#{$cls}")} {
 									color : s-color($name, $mod-name);
 								}
 							}
 							@if $classes == true or in-list($classes, background-color bkg) {
-								#{unquote(".bkg-#{$name}--#{$mod-name}")} {
+								$cls : str-replace($classes-bkg-mod, '{color}', #{$name});
+								$cls : str-replace($cls, '{modifier}', #{$mod-name});
+								#{unquote(".#{$cls}")} {
 									background-color : s-color($name, $mod-name);
 								}
 							}
