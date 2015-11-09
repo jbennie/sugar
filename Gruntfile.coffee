@@ -83,7 +83,7 @@ module.exports = (grunt) ->
 				dest: 'sass/sugar/vendors/fontawesome/',
 				filter: 'isFile'
 				rename: (dest, src) ->
-					dest + src.replace '.css', '.scss'
+					dest + '_' + src.replace '.css', '.scss'
 				options:
 					process: (content, srcpath) =>
 						content = content.replace /@font-face\s\{[\s\S]*\}[\s\S]\.fa\s\{/g, '.fa {'

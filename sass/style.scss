@@ -114,11 +114,15 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 	@include s-rect(100px 200px);
 }
 
+.caret {
+	@include s-bubble(black right 10px 10px);
+}
+
 .bubble {
 	margin-left: 100px;
-	@include s-bubble(white 0 0 right, #ddd 2px) {
+	@include s-bubble(white 100px 20px bottom, #ddd 2px) {
 		&:hover {
-			@include s-bubble(20px 10px);
+			@include s-bubble(top);
 		}
 	}
 	@include s-corner(5px);

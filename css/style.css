@@ -1365,11 +1365,44 @@ html {
   height: 200px;
 }
 
+.caret {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-style: solid;
+  -webkit-transform: rotate(360deg);
+  position: relative;
+  background: black;
+  width: auto;
+  height: auto;
+}
+.caret:before, .caret:after {
+  color: transparent;
+  content: '';
+  display: block;
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  top: 0;
+  left: 0;
+}
+.caret:after {
+  border-width: 5px 0 5px 10px;
+  border-color: transparent transparent transparent black;
+}
+.caret:after, .caret:before {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  margin-top: -5px;
+}
+
 .bubble {
   margin-left: 100px;
   display: inline-block;
-  width: 0;
-  height: 0;
+  width: 100px;
+  height: 20px;
   border-style: solid;
   -webkit-transform: rotate(360deg);
   position: relative;
@@ -1394,26 +1427,26 @@ html {
   left: 0;
 }
 .bubble:after {
-  border-width: 0 0 0 0;
-  border-color: transparent transparent transparent white;
+  border-width: 20px 50px 0 50px;
+  border-color: white transparent transparent transparent;
 }
 .bubble:before {
-  -webkit-transform-origin: 0 0;
-          transform-origin: 0 0;
-  -webkit-transform: scale(Infinitypx);
-          transform: scale(Infinitypx);
-  border-width: 0 0 0 0;
-  border-color: transparent transparent transparent #ddd;
+  -webkit-transform-origin: 50px 0;
+          transform-origin: 50px 0;
+  -webkit-transform: scale(1.2);
+          transform: scale(1.2);
+  border-width: 20px 50px 0 50px;
+  border-color: #ddd transparent transparent transparent;
 }
 .bubble:after, .bubble:before {
   position: absolute;
-  top: 50%;
-  left: 100%;
-  margin-top: 0;
+  top: 100%;
+  left: 50%;
+  margin-left: -50px;
 }
 .bubble:hover {
   display: inline-block;
-  width: 10px;
+  width: 100px;
   height: 20px;
   border-style: solid;
   -webkit-transform: rotate(360deg);
@@ -1435,14 +1468,22 @@ html {
   left: 0;
 }
 .bubble:hover:after {
-  border-width: 10px 0 10px 10px;
-  border-color: transparent transparent transparent white;
+  border-width: 0 50px 20px 50px;
+  border-color: transparent transparent white transparent;
+}
+.bubble:hover:before {
+  -webkit-transform-origin: 50px 20px;
+          transform-origin: 50px 20px;
+  -webkit-transform: scale(1.2);
+          transform: scale(1.2);
+  border-width: 0 50px 20px 50px;
+  border-color: transparent transparent #ddd transparent;
 }
 .bubble:hover:after, .bubble:hover:before {
   position: absolute;
-  top: 50%;
-  left: 100%;
-  margin-top: -10px;
+  top: -20px;
+  left: 50%;
+  margin-left: -50px;
 }
 
 .triangle {

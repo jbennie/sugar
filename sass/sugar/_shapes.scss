@@ -220,7 +220,7 @@
 	}
 
 	// create the bubble
-	@include s-triangle($width $height $color $direction -transform-origin base, $border);
+	@include s-triangle($width $height $color $direction -transform-origin base, $border_map);
 
 	position: relative;
 	background: $color;
@@ -319,10 +319,12 @@
 		direction : 'd',
 		transform-origin : 'to'
 	));
-	$border : _sugar-parse-properties($border, (
-		width : number,
-		color : color
-	));
+	@if type-of($border) != map {
+		$border : _sugar-parse-properties($border, (
+			width : number,
+			color : color
+		));
+	}
 	$triangle : _sugar-handle-nested(triangle, $triangle);
 	$border : _sugar-handle-nested(triangle-border, $border);
 
@@ -423,7 +425,7 @@
 			// @if $transform-origin == base {
 			// 	$ratio-width : $b-width;
 			// }
-			$ratio : 1 / $width * ($width + $ratio-width);
+			$ratio : 1 / $height * ($height + $ratio-width);
 			&:before {
 				@if $transform-origin == base {
 					transform-origin: $centerX 0;
