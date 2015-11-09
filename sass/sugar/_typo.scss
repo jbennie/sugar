@@ -29,6 +29,8 @@
 		font-size : number,
 		line-height : number,
 		margin-bottom : number,
+		padding-top : number,
+		padding-bottom : number,
 		max-width : number,
 		letter-spacing : number,
 		text-indent : number
@@ -45,6 +47,8 @@
 		white-space : 'ws',
 		line-height : 'lh',
 		margin-bottom : 'mb',
+		padding-top : 'pt',
+		padding-bottom : 'pb',
 		max-width : 'mw',
 		letter-spacing : 'ls',
 		text-indent : 'ti',
@@ -67,6 +71,8 @@
 	$white-space : map-get($font, white-space);
 	$line-height : map-get-or($font, line-height, null);
 	$margin-bottom : map-get-or($font, margin-bottom, 2);
+	$padding-top : map-get-or($font, padding-top, 0);
+	$padding-bottom : map-get-or($font, padding-bottom, 0);
 	$max-width : map-get-or($font, max-width, false);
 	$letter-spacing : map-get($font, letter-spacing);
 	$text-indent : map-get($font, text-indent);
@@ -84,7 +90,7 @@
 	// set the font
 	font-family : unquote(map-get($f, font-family));
 
-	@include s-set-rhytme($size, map-get($f, cap-height), $line-height, $margin-bottom);
+	@include s-set-rhytme($size, map-get($f, cap-height), $line-height, $margin-bottom, $padding-top, $padding-bottom);
 	@if $max-width {
 		@if type-of($max-width) == number {
 			@include s-set-rhytme-width($max-width);
@@ -143,7 +149,7 @@
 	}
 
 	// handle nested
-	@include _sugar-handle-nested(font $font) {
+	@include _sugar-handle-nested(font) {
 		@content;
 	}
 }
@@ -164,7 +170,14 @@
 //
 // Set fontsize and baseline at once. Mix of fontsize and baseline mixin.
 //
-@mixin s-set-rhytme($fontsize, $cap-height: 0, $lineheight: 2, $below: 2) {
+@mixin s-set-rhytme(
+	$fontsize,
+	$cap-height: 0,
+	$lineheight: 2,
+	$below: 2,
+	$padding-top : 0,
+	$padding-bottom : 0
+) {
 	$font-value: type-of($fontsize);
 	$root-font-size : sugar('settings.typo.font-size');
 	@if unit($fontsize) != px {
@@ -174,11 +187,14 @@
 
 	@if $font-value == number {
 		$rootsize: $root-font-size;
-		$baseline-shift: #{($fontsize / 2 * (($lineheight * $rootsize / $fontsize) - $cap-height)) / $rootsize + 0.00001};
-		$baseline-push: #{$below - (($fontsize / 2 * (($lineheight * $rootsize / $fontsize) - $cap-height)) / $rootsize + 0.00001)};
+		$baseline-shift: ($fontsize / 2 * (($lineheight * $rootsize / $fontsize) - $cap-height)) / $rootsize + 0.00001;
+		$baseline-push: $below - (($fontsize / 2 * (($lineheight * $rootsize / $fontsize) - $cap-height)) / $rootsize + 0.00001);
 		font-size: rem($fontsize);
 		margin-bottom: #{$baseline-push}rem;
-		padding-top: #{$baseline-shift}rem;
+		padding-top: #{($baseline-shift + $padding-top)}rem;
+		@if $padding-bottom {
+			padding-bottom : $padding-bottom - $baseline-push + rem;
+		}
 	} @else {
 		@warn "#{$fontsize} is not a valid scale variable";
 	}
@@ -269,7 +285,7 @@
 	}
 
 	// handle nested
-	@include _sugar-handle-nested(columns $columns) {
+	@include _sugar-handle-nested(columns) {
 		@content;
 	}
 }
@@ -329,25 +345,39 @@
 @function convert($value, $convertUnit){
 
 	// get the unit
-	$unit : str-slice(#{$value}, -2);
-	@if str-slice(#{$value}, -3) == rem {
-		$unit : rem;
+	$unit : null;
+	@if $value and unitless($value) {
+
+	} @else {
+		$unit : unit($value);
 	}
 	
 	// get the default font-size
 	$font-size : strip-units(sugar('settings.typo.font-size'));
 
-	@if unit($value) == $convertUnit {
+	@if $unit and $unit == $convertUnit {
 		@return $value;
 	}
 
 	// strip unit of value
 	$value : strip-units($value);
 
-	@if $unit == px {
+	@if $unit == null {
+		@if $convertUnit == px {
+			@return $value + px;
+		} @else if $convertUnit == em {
+			@return $value + em;
+		} @else if $convertUnit == rem {
+			@return $value + rem;
+		} @else if $convertUnit == pt {
+			@return $value + pt;
+		} @else if $convertUnit == '%' {
+			@return percentage($values / 100);
+		}
+	} @else if $unit == px {
 		@if $convertUnit == em {
 			@return $value / $font-size + 0em;
-		} @else if $convertUnit == percent {
+		} @else if $convertUnit == percent or $convertUnit == '%' {
 			@return percentage($value / $font-size);
 		} @else if $convertUnit == rem {
 			@return $value / $font-size + 0rem;
@@ -361,7 +391,7 @@
 	@else if $unit == em {
 		@if $convertUnit == px {
 			@return $value * $font-size + 0px;
-		} @else if $convertUnit == "%" {
+		} @else if $convertUnit == "%" or $convertUnit == percent {
 			@return percentage($value);
 		} @else if $convertUnit == em {
 			@return $value + em;
@@ -387,7 +417,7 @@
 			@return $value * 1.3333 + 0px;
 		} @else if $convertUnit == em {
 			@return $value / 12 + 0em;
-		} @else if $convertUnit == "%" {
+		} @else if $convertUnit == "%" or $convertUnit == percent {
 			@return percentage($value / 12);
 		} @else if $convertUnit == pt {
 			@return $value + pt;

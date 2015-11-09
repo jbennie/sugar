@@ -73,8 +73,14 @@
 	&:before,
 	&:after {
 		// check if a transition exist in settings
-		@if type-of($transition) == string and map-get(sugar('settings.transitions'), $transition) {
-			transition: map-get(sugar('settings.transitions'), $transition);
+		$transitions : sugar('settings.transitions');
+		@if type-of($transition) == string and map-get($transitions, $transition) {
+			$t : map-get($transitions, $transition);
+			@if type-of($t) == map {
+				transition : map-get($t, transition);
+			} @else {
+				transition : $transition;
+			}
 		} @else {
 			transition: $transition;
 		}

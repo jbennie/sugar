@@ -11,7 +11,11 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 // setup sugar
 @include sugar((
 	typo : (
-		font-size : 13px
+		font-size : 13px,
+		font-sizes : (
+			11.5px : 0 800px,
+			9.5px : 0 400px
+		)
 	),
 	fonts : (
 		helvetica : (
@@ -24,12 +28,55 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 			font-family : 'lobster, Times, serif'
 		)
 	),
+	font-awesome : (
+		classes : user gg-circle
+	),
 	colors : (
 		green : #00ff00,
-		pink : #ffff00
+		pink : (
+			color : #ffff00,
+			classes : true
+		),
+		orange : (
+			color : #f2bc2b,
+			classes : color bkg,
+			modifiers : (
+				dark : -darken 55%,
+				light : #f00
+			)
+		)
+	),
+	sizes : (
+		smaller : (
+			size : 1rem,
+			classes : true
+		),
+		small : (
+			size : 2rem,
+			classes : true
+		),
+		normal : (
+			size : 3rem,
+			classes : true
+		),
+		medium : (
+			size : 4rem,
+			classes : true
+		),
+		big : (
+			size : 5rem,
+			classes : true
+		),
+		bigger : (
+			size : 6rem,
+			classes : true
+		)
 	),
 	transitions : (
-		fast : all .1s ease-in-out,
+		fast : (
+			transition : all .1s ease-in-out,
+			classes : true
+		),
 		normal : all .2s ease-in-out,
 		slow : all .5s ease-in-out
 	)
@@ -115,6 +162,27 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 	}
 }
 
+.btn {
+	display: inline-block;
+	padding: s-size(smaller) s-size(small);
+	margin-bottom: s-size(2);
+
+	background: s-color(green);
+	color: white;
+	text-decoration: none;
+
+	span {
+		@include s-font(16px helvetica);
+	}
+}
+
+.abs-cover {
+	@include s-size(cover);
+}
+.abs-contain {
+	@include s-size(contain);
+}
+
 @keyframes hello {
 	0% {
 		top : 0;
@@ -130,7 +198,7 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 	border:2px solid white;
 	box-shadow:s-color(black, -o 30%) 0 0 30px;
 	img {
-		@include abs-cover();
+		@include s-size(cover);
 	}
 }
 
@@ -224,12 +292,13 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 
 }
 
+i.user {
+	@include s-icon(fa-user);
+	color: s-color(orange);
+}
+
 h1 {
-	@include s-font(ms(3.5) helvetica uppercase underline -mw) {
-		@include s-media(0 400px) {
-			@include s-font(20px -restore);
-		}
-	}
+	@include s-font(ms(3.5) helvetica uppercase underline -mw);
 }
 h2 {
 	@include s-font(ms(3) helvetica);
@@ -247,9 +316,9 @@ h6 {
 	@include s-font(ms(1) helvetica);
 }
 blockquote {
-	padding: 2rem;
+	padding: s-size(1);
 	border-left: 5px solid s-color(#ddd);
-	margin-left: -2rem;
+	margin-left: s-size(-1);
 }
 p {
 	@include s-font(ms(0.5) 2 helvetica);
@@ -260,3 +329,5 @@ p {
 p.lead {
 	@include s-font(ms(1) 2 helvetica bold underline);
 }
+
+@include sugar(classes);

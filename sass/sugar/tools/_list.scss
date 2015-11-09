@@ -31,6 +31,21 @@
 }
 
 //
+// Search in a list a one value exist
+//
+@function in-list(
+	$list,
+	$values
+) {
+	@each $val in $values {
+		@if index($list, $val) {
+			@return true;
+		}
+	}
+	@return false;
+}
+
+//
 // List shift
 //
 // @param 	List 	$list 		The list to use

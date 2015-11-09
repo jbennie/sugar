@@ -2,6 +2,7 @@
 // Handle nested
 //
 $_s_nested_properties : ();
+$_s_nested_properties_depth : ();
 @function _sugar-handle-nested(
 	$name,
 	$map
@@ -16,19 +17,31 @@ $_s_nested_properties : ();
 @mixin _sugar-handle-nested(
 	$args...
 ) {
+	@each $arg in $args {
+		$name : $arg;
+		// up depth
+		$depth : map-get($_s_nested_properties_depth, $name);
+		@if $depth == null or $depth == 0 {
+			$depth : 1;
+		} @else {
+			$depth : $depth + 1;
+		}
+		
+		$_s_nested_properties_depth : map-set($_s_nested_properties_depth, $name, $depth) !global;
+	}
+
 	@content;
 
 	@each $arg in $args {
-		$name : nth($arg,1);
-		$map : null;
-		@if length($arg) == 2 {
-			$map : nth($arg,2);
+		$name : $arg;
+		$reset : false;
+		$depth : map-get($_s_nested_properties_depth, $name);
+		$depth : $depth - 1;
+		$_s_nested_properties_depth : map-set($_s_nested_properties_depth, $name, $depth) !global;
+		@if $depth <= 0 {
+			$reset : true;
 		}
-		$restore : false;
-		@if type-of($map) == map {
-			$restore : map-get($map, restore);
-		}
-		@if $restore == null or $restore == false {
+		@if $reset {
 			$_s_nested_properties : map-set($_s_nested_properties, $name, null) !global;
 		}
 	}

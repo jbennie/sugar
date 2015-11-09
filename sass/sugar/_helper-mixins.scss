@@ -46,7 +46,7 @@
 	@if $left { left: $left; }
 
 	// handle nested
-	@include _sugar-handle-nested(position, $position) {
+	@include _sugar-handle-nested(position) {
 		@content;
 	}
 }
@@ -85,7 +85,7 @@
 	transform : $translates;
 
 	// handle nested
-	@include _sugar-handle-nested(translate, $translate) {
+	@include _sugar-handle-nested(translate) {
 		@content;
 	}
 }
@@ -114,7 +114,7 @@
 	transform : $transforms;
 
 	// handle nested transforms
-	@include _sugar-handle-nested(transform, $transform) {
+	@include _sugar-handle-nested(transform) {
 		@content;
 	}
 }
@@ -145,12 +145,12 @@
 // Fit
 // Make an element 100% width and height
 //
-@mixin _fit() {
+@mixin _s-fit() {
 	width: 100%;
 	height: 100%;
 }
-%fit { @include _fit(); }
-@mixin fit() { @include _fit(); }
+%s-fit { @include _s-fit(); }
+@mixin s-fit() { @include _s-fit(); }
 
 //
 // Size
@@ -159,47 +159,53 @@
 	$size
 ) {
 	$size : _sugar-parse-properties($size, (
+		size : 'cover|contain',
 		width : number,
 		height : number
+	), (
+		size : 's'
 	));
+
+	// handle nested
 	$size : _sugar-handle-nested(size, $size);
+
+	// get values
 	$width : map-get($size, width);
 	$height : map-get($size, height);
-	@if $width {
-		width : $width;
+	$s : map-get($size, size);
+
+	// apply values
+	@if $s {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		@if $s == cover {
+			min-width: 100%;
+			min-height: 100%;
+		} @else if $s == contain {
+			max-width:100%;
+			max-height:100%;
+		}
+	} @else {
+		@if $width {
+			width : $width;
+		}
+		@if $height {
+			height : $height;
+		}
 	}
-	@if $height {
-		height : $height;
-	}
-	@include _sugar-handle-nested(size, $size) {
+
+	// handle nested
+	@include _sugar-handle-nested(size) {
 		@content;
 	}
-}
-
-@mixin abs-cover() {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	min-width: 100%;
-	min-height: 100%;
-	transform: translateX(-50%) translateY(-50%);
-}
-
-/**
- * Abs-contain
- */
-@mixin abs-contain() {
-	position: absolute;
-	top:50%; left:50%;
-	max-width:100%;
-	max-height:100%;
-	transform: translateX(-50%) translateY(-50%);
 }
 
 //
 // Visually hidden
 //
-@mixin _visually-hidden {
+@mixin _s-visually-hidden {
 	margin: -1px;
 	padding: 0;
 	width: 1px;
@@ -209,9 +215,9 @@
 	clip: rect(0, 0, 0, 0);
 	position: absolute;
 }
-%visually-hidden {
-	@include _visually-hidden();
+%s-visually-hidden {
+	@include _s-visually-hidden();
 }
-@mixin visually-hidden() {
-	@include _visually-hidden();
+@mixin s-visually-hidden() {
+	@include _s-visually-hidden();
 }

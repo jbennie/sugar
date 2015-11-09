@@ -83,7 +83,7 @@
 	}
 
 	// handle nested
-	@include _sugar-handle-nested(corner $props) {
+	@include _sugar-handle-nested(corner) {
 		@content;
 	}
 }
@@ -143,7 +143,7 @@
 	}
 
 	// handle nested
-	@include _sugar-handle-nested(round $props, round-border $border) {
+	@include _sugar-handle-nested(round, round-border) {
 		@content;
 	}
 }
@@ -167,7 +167,7 @@
 	}
 	width : $width;
 	height : $height;
-	@include _sugar-handle-nested(size $size) {
+	@include _sugar-handle-nested(size) {
 		@content;
 	}
 }
@@ -294,7 +294,7 @@
 		}
 	}
 	
-	@include _sugar-handle-nested(bubble $base, bubble-border $border_map) {
+	@include _sugar-handle-nested(bubble, bubble-border) {
 		@content;
 	}
 }
@@ -543,7 +543,7 @@
 		}
 	}
 
-	@include _sugar-handle-nested(triangle $triangle, triangle-border $border) {
+	@include _sugar-handle-nested(triangle, triangle-border) {
 		@content;
 	}
 }

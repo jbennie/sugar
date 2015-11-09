@@ -4,6 +4,32 @@
 
 
 //
+// Size
+//
+@function s-size(
+	$size
+) {
+	$sizes : sugar('settings.sizes');
+	$s : map-get($sizes, $size);
+	@if $s {
+		@if type-of($s) == map {
+			@return map-get($s, size);
+		} @else {
+			@if unitless($s) {
+				@return rem($s);
+			}
+			@return $s;
+		}	
+	} @else {
+		@if unitless($size) {
+			@return rem($size);
+		}
+		@return $size;
+	}
+}
+
+
+//
 // Strip units
 //
 @function strip-units($number) {

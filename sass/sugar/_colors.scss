@@ -12,6 +12,8 @@
 	// grab the colors
 	$colors : sugar('settings.colors');
 	$color : map-get($colors, $name);
+	$modifiers : null;
+
 	// check that we have the color
 	@if $color == null {
 		@if is-color($name) {
@@ -20,6 +22,24 @@
 			@error('The color "#{$name}" does not exist...');
 		}
 	}
+
+	// check if is a map
+	@if type-of($color) == map {
+		$modifiers : map-get($color, modifiers);
+		$color : map-get($color, color);
+	}
+	
+	// check if action is a string to check if is a modifier
+	@if type-of($actions) == string and $modifiers and map-get($modifiers, $actions) {
+		$mod : map-get($modifiers, $actions);
+		@if type-of($mod) == color {
+			$color : $mod;
+			$actions : null;
+		} @else {
+			$actions : $mod;
+		}
+	}
+
 	// check action to do
 	@if $actions {
 		// parse action

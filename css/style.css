@@ -1176,6 +1176,69 @@
 * X-Pro II
 *
 */
+/*!
+ *  Font Awesome 4.4.0 by @davegandy - http://fontawesome.io - @fontawesome
+ *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
+ */
+/* FONT PATH
+ * -------------------------- */
+i.user, .fa-user, .fa-gg-circle {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* makes the font 33% larger relative to the icon container */
+/* Deprecated as of 4.4.0 */
+.pull-right {
+  float: right;
+}
+
+.pull-left {
+  float: left;
+}
+
+i.pull-left.user, .pull-left.fa-user, .pull-left.fa-gg-circle {
+  margin-right: .3em;
+}
+
+i.pull-right.user, .pull-right.fa-user, .pull-right.fa-gg-circle {
+  margin-left: .3em;
+}
+
+@-webkit-keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+@keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+/* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen
+   readers do not read off random characters that represent icons */
+i.user:before, .fa-user:before {
+  content: "\f007";
+}
+
+.fa-gg-circle:before {
+  content: "\f261";
+}
+
 /* # CLEARFIX
 	More infos to come..
 	
@@ -1191,9 +1254,6 @@
   overflow: hidden;
 }
 
-/**
- * Abs-contain
- */
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
   margin: 0;
   padding: 0;
@@ -1240,9 +1300,25 @@ table {
 
 html {
   font-size: 13px;
-  line-height: 1.618rem;
+}
+@media (min-width: 0) and (max-width: 800px) {
+  html {
+    font-size: 11.5px;
+  }
+}
+@media (min-width: 0) and (max-width: 400px) {
+  html {
+    font-size: 9.5px;
+  }
 }
 
+@font-face {
+  font-family: 'FontAwesome';
+  src: url("../fonts/font-awesome/fontawesome-webfont.eot?v=4.4 0");
+  src: url("../fonts/font-awesome/fontawesome-webfont.eot?#iefix&v=4.4 0") format("embedded-opentype"), url("../fonts/font-awesome/fontawesome-webfont.woff2?v=4.4 0") format("woff2"), url("../fonts/font-awesome/fontawesome-webfont.woff?v=4.4 0") format("woff"), url("../fonts/font-awesome/fontawesome-webfont.ttf?v=4.4 0") format("truetype"), url("../fonts/font-awesome/fontawesome-webfont.svg?v=4.4 0#fontawesomeregular") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
 *, *:before, *:after {
   transition: all 0.1s ease-in-out;
 }
@@ -1495,6 +1571,43 @@ html {
   overflow: hidden;
 }
 
+.btn {
+  display: inline-block;
+  padding: 1rem 2rem;
+  margin-bottom: 2rem;
+  background: #00ff00;
+  color: white;
+  text-decoration: none;
+}
+.btn span {
+  font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
+  line-height: 2rem;
+  font-size: 1.23076923rem;
+  margin-bottom: 1.39999rem;
+  padding-top: 0.60001rem;
+  padding-bottom: -1.39999rem;
+}
+
+.abs-cover {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+          transform: translateX(-50%) translateY(-50%);
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.abs-contain {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+          transform: translateX(-50%) translateY(-50%);
+  max-width: 100%;
+  max-height: 100%;
+}
+
 @-webkit-keyframes hello {
   0% {
     top: 0;
@@ -1526,10 +1639,10 @@ html {
   position: absolute;
   top: 50%;
   left: 50%;
-  min-width: 100%;
-  min-height: 100%;
   -webkit-transform: translateX(-50%) translateY(-50%);
           transform: translateX(-50%) translateY(-50%);
+  min-width: 100%;
+  min-height: 100%;
 }
 
 .animated {
@@ -1637,27 +1750,20 @@ html {
   content: coco mod modifier coco -moz-element;
   content: coco mod modifier coco element;
 }
+i.user {
+  color: #f2bc2b;
+}
+
 h1 {
   font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
   line-height: 6rem;
   font-size: 5.38836184rem;
   margin-bottom: 0.7512076rem;
   padding-top: 1.2487924rem;
+  padding-bottom: -0.7512076rem;
   max-width: 55ex;
   text-decoration: underline;
   text-transform: uppercase;
-}
-@media (min-width: 0) and (max-width: 400px) {
-  h1 {
-    font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
-    line-height: 2rem;
-    font-size: 1.53846154rem;
-    margin-bottom: 1.49999rem;
-    padding-top: 0.50001rem;
-    max-width: 55ex;
-    text-decoration: underline;
-    text-transform: uppercase;
-  }
 }
 
 h2 {
@@ -1666,6 +1772,7 @@ h2 {
   font-size: 4.23606807rem;
   margin-bottom: 0.87671212rem;
   padding-top: 1.12328788rem;
+  padding-bottom: -0.87671212rem;
 }
 
 h3 {
@@ -1674,6 +1781,7 @@ h3 {
   font-size: 3.33019073rem;
   margin-bottom: 1.08230199rem;
   padding-top: 0.91769801rem;
+  padding-bottom: -1.08230199rem;
 }
 
 h4 {
@@ -1682,6 +1790,7 @@ h4 {
   font-size: 2.61803403rem;
   margin-bottom: 1.35085106rem;
   padding-top: 0.64914894rem;
+  padding-bottom: -1.35085106rem;
 }
 
 h5 {
@@ -1690,6 +1799,7 @@ h5 {
   font-size: 2.05817105rem;
   margin-bottom: 1.16889559rem;
   padding-top: 0.83110441rem;
+  padding-bottom: -1.16889559rem;
 }
 
 h6 {
@@ -1698,12 +1808,13 @@ h6 {
   font-size: 1.618034rem;
   margin-bottom: 1.52585105rem;
   padding-top: 0.47414895rem;
+  padding-bottom: -1.52585105rem;
 }
 
 blockquote {
-  padding: 2rem;
+  padding: 1rem;
   border-left: 5px solid #ddd;
-  margin-left: -2rem;
+  margin-left: -1rem;
 }
 
 p {
@@ -1712,6 +1823,7 @@ p {
   font-size: 1.27201965rem;
   margin-bottom: 1.41339639rem;
   padding-top: 0.58660361rem;
+  padding-bottom: -1.41339639rem;
 }
 @media (min-width: 0) and (max-width: 500px) {
   p {
@@ -1730,6 +1842,295 @@ p.lead {
   font-size: 1.618034rem;
   margin-bottom: 1.52585105rem;
   padding-top: 0.47414895rem;
+  padding-bottom: -1.52585105rem;
   font-weight: bold;
   text-decoration: underline;
+}
+
+.t-fast, .t-fast:before, .t-fast:after {
+  transition: all 0.1s ease-in-out;
+}
+
+.c-pink {
+  color: #ffff00;
+}
+
+.bkg-pink {
+  background-color: #ffff00;
+}
+
+.c-orange {
+  color: #f2bc2b;
+}
+
+.bkg-orange {
+  background-color: #f2bc2b;
+}
+
+.c-orange--dark {
+  color: #040300;
+}
+
+.bkg-orange--dark {
+  background-color: #040300;
+}
+
+.c-orange--light {
+  color: #f00;
+}
+
+.bkg-orange--light {
+  background-color: #f00;
+}
+
+.m-b-smaller {
+  margin-bottom: 1rem;
+}
+
+.m-t-smaller {
+  margin-top: 1rem;
+}
+
+.m-l-smaller {
+  margin-left: 1rem;
+}
+
+.m-r-smaller {
+  margin-right: 1rem;
+}
+
+.m-s-smaller {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.p-b-smaller {
+  padding-bottom: 1rem;
+}
+
+.p-t-smaller {
+  padding-top: 1rem;
+}
+
+.p-l-smaller {
+  padding-left: 1rem;
+}
+
+.p-r-smaller {
+  padding-right: 1rem;
+}
+
+.p-s-smaller {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.m-b-small {
+  margin-bottom: 2rem;
+}
+
+.m-t-small {
+  margin-top: 2rem;
+}
+
+.m-l-small {
+  margin-left: 2rem;
+}
+
+.m-r-small {
+  margin-right: 2rem;
+}
+
+.m-s-small {
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
+.p-b-small {
+  padding-bottom: 2rem;
+}
+
+.p-t-small {
+  padding-top: 2rem;
+}
+
+.p-l-small {
+  padding-left: 2rem;
+}
+
+.p-r-small {
+  padding-right: 2rem;
+}
+
+.p-s-small {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.m-b-normal {
+  margin-bottom: 3rem;
+}
+
+.m-t-normal {
+  margin-top: 3rem;
+}
+
+.m-l-normal {
+  margin-left: 3rem;
+}
+
+.m-r-normal {
+  margin-right: 3rem;
+}
+
+.m-s-normal {
+  margin-left: 3rem;
+  margin-right: 3rem;
+}
+
+.p-b-normal {
+  padding-bottom: 3rem;
+}
+
+.p-t-normal {
+  padding-top: 3rem;
+}
+
+.p-l-normal {
+  padding-left: 3rem;
+}
+
+.p-r-normal {
+  padding-right: 3rem;
+}
+
+.p-s-normal {
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+.m-b-medium {
+  margin-bottom: 4rem;
+}
+
+.m-t-medium {
+  margin-top: 4rem;
+}
+
+.m-l-medium {
+  margin-left: 4rem;
+}
+
+.m-r-medium {
+  margin-right: 4rem;
+}
+
+.m-s-medium {
+  margin-left: 4rem;
+  margin-right: 4rem;
+}
+
+.p-b-medium {
+  padding-bottom: 4rem;
+}
+
+.p-t-medium {
+  padding-top: 4rem;
+}
+
+.p-l-medium {
+  padding-left: 4rem;
+}
+
+.p-r-medium {
+  padding-right: 4rem;
+}
+
+.p-s-medium {
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
+
+.m-b-big {
+  margin-bottom: 5rem;
+}
+
+.m-t-big {
+  margin-top: 5rem;
+}
+
+.m-l-big {
+  margin-left: 5rem;
+}
+
+.m-r-big {
+  margin-right: 5rem;
+}
+
+.m-s-big {
+  margin-left: 5rem;
+  margin-right: 5rem;
+}
+
+.p-b-big {
+  padding-bottom: 5rem;
+}
+
+.p-t-big {
+  padding-top: 5rem;
+}
+
+.p-l-big {
+  padding-left: 5rem;
+}
+
+.p-r-big {
+  padding-right: 5rem;
+}
+
+.p-s-big {
+  padding-left: 5rem;
+  padding-right: 5rem;
+}
+
+.m-b-bigger {
+  margin-bottom: 6rem;
+}
+
+.m-t-bigger {
+  margin-top: 6rem;
+}
+
+.m-l-bigger {
+  margin-left: 6rem;
+}
+
+.m-r-bigger {
+  margin-right: 6rem;
+}
+
+.m-s-bigger {
+  margin-left: 6rem;
+  margin-right: 6rem;
+}
+
+.p-b-bigger {
+  padding-bottom: 6rem;
+}
+
+.p-t-bigger {
+  padding-top: 6rem;
+}
+
+.p-l-bigger {
+  padding-left: 6rem;
+}
+
+.p-r-bigger {
+  padding-right: 6rem;
+}
+
+.p-s-bigger {
+  padding-left: 6rem;
+  padding-right: 6rem;
 }

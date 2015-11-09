@@ -5,7 +5,7 @@
 //
 // Image rendering
 //
-@mixin image-rendering (
+@mixin s-image-rendering (
 	$mode:auto
 ) {
 	@if ($mode == crisp-edges) {
@@ -118,7 +118,7 @@
 	}
 
 	// handle nested
-	@include _sugar-handle-nested(background, $background) {
+	@include _sugar-handle-nested(background) {
 		@content;
 	}
 }

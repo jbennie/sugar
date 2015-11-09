@@ -1,8 +1,0 @@
-$animatecss : () !default;@keyframes fadeIn {
-  from {opacity: 0;}
-  100% {opacity: 1;}
-}
-
-.fadeIn {
-  animation-name: fadeIn;
-}

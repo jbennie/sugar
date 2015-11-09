@@ -12,13 +12,7 @@
 @import 'vendors/animatecss/animate.scss';
 @import 'vendors/cssgram/cssgram.scss';
 @import 'vendors/modularscale/modular-scale';
-
-//
-// Sassline
-//
-// @import 'vendors/sassline/variables';
-// @import 'vendors/sassline/mixins';
-// @import 'vendors/sassline/modular-scale';
+@import 'vendors/fontawesome/font-awesome';
 
 //
 // Functions
@@ -59,6 +53,11 @@
 // Images
 //
 @import 'images';
+
+//
+// Icons
+//
+@import 'icons';
 
 //
 // Animations
@@ -113,7 +112,7 @@ $_sugar-settings : (								// store all the settings
 	border-box 					: true, 			// set if need to set all as border box model
 	typo 						: (
 		font-size 					: 16px, 			// default font-size
-		line-height 				: 1.618,			// default line-height
+		font-sizes 					: null, 			// map of font-sizes by media (size : media)
 		line-letters-count			: 55				// optimal letters count in a line
 								),
 	BEM 						: ( 				// BEM settings
@@ -121,9 +120,17 @@ $_sugar-settings : (								// store all the settings
 		modifier-separator 			: '--' 				// modifier separator
 								),
 	modular-scale 				: ( 				// Modular scale settings
-		base 						: 1rem, 			// the modular scale base
-		ratio 						: $golden 			// the ratio to use
+		base 						: 1vw, 				// the modular scale base
+		ratio 						: $golden, 			// the ratio to use
+		range 						: null, 			// range
+		fluid 						: false 			// is fluid modular scale
 	),
+	font-awesome 				: ( 				// font awesome settings
+		font-path 					: '../fonts/font-awesome', 		// path to dont without trailing slash
+		version 					: 4.4.0, 			// font-awesome version
+		classes 					: null, 		// list of icons to generate
+								),
+	sizes 						: (), 				// store all the sizes available
 	colors 						: (), 				// store all the colors
 	fonts  						: (), 				// store all the fonts
 	transition 					: (), 				// store all the transitions
@@ -133,13 +140,20 @@ $_sugar-settings : (								// store all the settings
 // Sugar mixin
 //
 @mixin sugar(
-	$what
+	$what...
 ) {
-	@if type-of($what) == map {
+	@if type-of(nth($what,1)) == map {
 		// setup
-		@include sugar-setup($what);
+		@include sugar-setup(nth($what,1));
 		// init
 		@include sugar-init();
+	} @else if nth($what,1) == classes {
+		// classes
+		$packages : null;
+		@if length($what) == 2 {
+			$packages : nth($what,2);
+		}
+		@include sugar-classes($packages);
 	}
 }
 
@@ -175,6 +189,149 @@ $_sugar-settings : (								// store all the settings
 }
 
 //
+// Classes
+//
+@mixin sugar-classes(
+	$packages
+) {
+	// font-awesome
+	$fa-icons : sugar('settings.font-awesome.classes');
+	@if $fa-icons {
+		@each $icon in $fa-icons {
+			.fa-#{$icon} {
+				@extend %fa;
+				@extend %fa-#{$icon} !optional;
+			}
+		}
+	}
+
+	// transitions
+	@if $packages == null or index($package, transitions) {
+		$transitions : sugar('settings.transitions');
+		@each $name, $transition in $transitions {
+			@if type-of($transition) == map {
+				$t : map-get($transition, transition);
+				$classes : map-get($transition, classes);
+				@if $classes {
+					.t-#{$name} {
+						@include s-transition($name);
+					}
+				}
+			}
+		}
+	}
+
+	// colors
+	@if $packages == null or index($package, colors) {
+		$colors : sugar('settings.colors');
+		@each $name, $color in $colors {
+			$modifiers : ();
+			@if type-of($color) == map {
+				$c : map-get($color, color);
+				$modifiers : map-get($color, modifiers);
+				$classes : map-get($color, classes);
+				@if $classes {
+					@if $classes == true or in-list($classes, color c) {
+						#{unquote(".c-#{$name}")} {
+							color : $c;
+						}
+					}
+					@if $classes == true or in-list($classes, background-color bkg) {
+						#{unquote(".bkg-#{$name}")} {
+							background-color : $c;
+						}
+					}
+					// modifiers
+					@if $modifiers {
+						@each $mod-name, $mod in $modifiers {
+							@if $classes == true or in-list($classes, color c) {
+								#{unquote(".c-#{$name}--#{$mod-name}")} {
+									color : s-color($name, $mod-name);
+								}
+							}
+							@if $classes == true or in-list($classes, background-color bkg) {
+								#{unquote(".bkg-#{$name}--#{$mod-name}")} {
+									background-color : s-color($name, $mod-name);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// sizes
+	@if $packages == null or index($package, sizes) {
+		$sizes : sugar('settings.sizes');
+		@each $name, $size in $sizes {
+			@if type-of($size) == map {
+				$s : map-get($size, size);
+				$classes : map-get($size, classes);
+				@if $classes {
+
+					// margins
+					@if $classes == true or in-list($classes, margin margin-bottom m-b) {
+						.m-b-#{$name} {
+							margin-bottom : s-size($name);
+						}
+					}
+					@if $classes == true or in-list($classes, margin margin-top m-t) {
+						.m-t-#{$name} {
+							margin-top : s-size($name);
+						}
+					}
+					@if $classes == true or in-list($classes, margin margin-left m-l) {
+						.m-l-#{$name} {
+							margin-left : s-size($name);
+						}
+					}
+					@if $classes == true or in-list($classes, margin margin-right m-r) {
+						.m-r-#{$name} {
+							margin-right : s-size($name);
+						}
+					}
+					@if $classes == true or in-list($classes, margin margin-side m-s) {
+						.m-s-#{$name} {
+							margin-left : s-size($name);
+							margin-right : s-size($name);
+						}
+					}
+
+					// paddings
+					@if $classes == true or in-list($classes, padding padding-bottom p-b) {
+						.p-b-#{$name} {
+							padding-bottom : s-size($name);
+						}
+					}
+					@if $classes == true or in-list($classes, padding padding-top p-t) {
+						.p-t-#{$name} {
+							padding-top : s-size($name);
+						}
+					}
+					@if $classes == true or in-list($classes, padding padding-left p-l) {
+						.p-l-#{$name} {
+							padding-left : s-size($name);
+						}
+					}
+					@if $classes == true or in-list($classes, padding padding-right p-r) {
+						.p-r-#{$name} {
+							padding-right : s-size($name);
+						}
+					}
+					@if $classes == true or in-list($classes, padding padding-side p-s) {
+						.p-s-#{$name} {
+							padding-left : s-size($name);
+							padding-right : s-size($name);
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+//
 // Setup
 //
 @mixin sugar-setup(
@@ -189,8 +346,9 @@ $_sugar-settings : (								// store all the settings
 @mixin sugar-init() {
 	// reset
 	@if sugar('settings.reset') == true {
-		@include sugar_reset();
+		@include sugar-reset();
 	}
+
 	// border box
 	@if sugar('settings.border-box') == true {
 		* {
@@ -199,14 +357,43 @@ $_sugar-settings : (								// store all the settings
 			box-sizing: border-box;
 		}
 	}
-	// vertical rhythm
+	
+	// font
 	html {
 		$base-font-size : sugar('settings.typo.font-size');
-		$base-line-height : sugar('settings.typo.line-height');
+		$base-font-sizes : sugar('settings.typo.font-sizes');
 		font-size: $base-font-size;
-		line-height: $base-line-height + rem;
+		@if type-of($base-font-sizes) == map {
+			@each $size, $media in $base-font-sizes {
+				@include s-media($media) {
+					font-size: $size;
+				}
+			} 
+		}
 	}
+
 	// modular scale
 	$ms-base : sugar('settings.modular-scale.base');
 	$ms-ratio : sugar('settings.modular-scale.ratio');
+	$ms-range : sugar('settings.modular-scale.range');
+	$ms-fluid : sugar('settings.modular-scale.fluid');
+
+	// font-awesome
+	$font-awesome : sugar('settings.font-awesome');
+	@if $font-awesome {
+		$font-path : sugar('settings.font-awesome.font-path');
+		$font-version : sugar('settings.font-awesome.version');
+		@font-face {
+			font-family: 'FontAwesome';
+			src: url('#{$font-path}/fontawesome-webfont.eot?v=#{$font-version}');
+			src: url('#{$font-path}/fontawesome-webfont.eot?#iefix&v=#{$font-version}') format('embedded-opentype'),
+				url('#{$font-path}/fontawesome-webfont.woff2?v=#{$font-version}') format('woff2'),
+				url('#{$font-path}/fontawesome-webfont.woff?v=#{$font-version}') format('woff'),
+				url('#{$font-path}/fontawesome-webfont.ttf?v=#{$font-version}') format('truetype'),
+				url('#{$font-path}/fontawesome-webfont.svg?v=#{$font-version}#fontawesomeregular') format('svg');
+			//  src: url('#{$font-path}/FontAwesome.otf') format('opentype'); // used when developing fonts
+			font-weight: normal;
+			font-style: normal;
+		}
+	}
 }

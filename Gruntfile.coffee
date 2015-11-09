@@ -76,6 +76,19 @@ module.exports = (grunt) ->
 				}]
 		
 		copy:
+			fontawesome:
+				expand: true,
+				cwd: 'bower_components/font-awesome/css/',
+				src: 'font-awesome.css',
+				dest: 'sass/sugar/vendors/fontawesome/',
+				filter: 'isFile'
+				rename: (dest, src) ->
+					dest + src.replace '.css', '.scss'
+				options:
+					process: (content, srcpath) =>
+						content = content.replace /@font-face\s\{[\s\S]*\}[\s\S]\.fa\s\{/g, '.fa {'
+						content = content.replace /\.(fa[a-zA-Z_-]{0,60})/gi, "%$1"
+						content
 			modularscale:
 				expand: true,
 				cwd: 'bower_components/modular-scale/stylesheets/',
@@ -136,13 +149,6 @@ module.exports = (grunt) ->
 						content = content.replace /(%[a-zA-Z0-9_-]{3,60},)/gi, '' if content?
 						content = content.replace /(\.)([a-zA-Z0-9_-]{3,60})/gi, "$cssgram : append($cssgram, $2); \r %cssgram-$2" if content?
 						content
-
-			sassline:
-				expand: true,
-				cwd: 'bower_components/sassline/assets/sass/base/',
-				src: '**',
-				dest: 'sass/sugar/vendors/sassline/',
-				filter: 'isFile'
 
 		uglify:
 			my_target:
