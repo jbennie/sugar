@@ -1,0 +1,12 @@
+@font-face {
+  font-family: 'stink-on-the-death';
+  src: url('Stink on the Death.eot'); /* IE9 Compat Modes */
+  src: url('Stink on the Death.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('Stink on the Death.woff') format('woff'), /* Modern Browsers */
+       url('Stink on the Death.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('Stink on the Death.svg#9a7d6abc67799162b7fdd5fa3ea038cc') format('svg'); /* Legacy iOS */
+       
+  font-style:   normal;
+  font-weight:  400;
+}
+

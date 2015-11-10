@@ -88,7 +88,7 @@
 	}
 
 	// set the font
-	font-family : unquote(map-get($f, font-family));
+	font-family : $name;
 
 	@include s-set-rhytme($size, map-get($f, cap-height), $line-height, $margin-bottom, $padding-top, $padding-bottom);
 	@if $max-width {
@@ -155,6 +155,68 @@
 }
 
 //
+// Font face
+//
+@mixin s-font-face(
+	$font-face
+) {
+	$font-face : _sugar-parse-properties($font-face, (
+		name : string,
+		url : string,
+		ext : 'eot|eot2|otf|woff2|woff|ttf|svg|svgz',
+		font-weight : 'normal|bold|bolder|lighter|number|initial|inherit',
+		font-style : 'normal|italic|oblique|initial|inherit'
+	));
+	$name : map-get($font-face, name);
+	$url : map-get($font-face, url);
+	$ext : map-get-or($font-face, ext, ());
+	$font-weight : map-get($font-face, font-weight);
+	$font-style : map-get($font-face, font-style);
+
+	// protect
+	@if $name == null {
+		@error("You need to specify a name for your s-font-face statement...");
+	}
+	@if $url == null {
+		@error("You need to specify an url for your s-font-face statement...");
+	}
+
+	// get font format from settings
+	$font-format : sugar('settings.typo.font-format');
+
+	// process url
+	$split : str-explode($url, '.');
+	$e : last-nth($split);
+	$split : list-pop($split);
+	$path : list-implode($split, '.');
+
+	// add extention in list
+	@if index($ext, $e) == null {
+		$ext : append($ext, $e);
+	}
+
+	// loop on each extensions
+	$srcs : ();
+	@each $e in $ext {
+		// get the format
+		$format : map-get($font-format, $e);
+		$srcs : append($srcs, url('#{$path}.#{$e}') format('#{$format}'), comma);
+	}
+
+	// declare font
+	@font-face {
+		font-family: "#{$name}";
+		src : $srcs;
+		@if $font-style {
+			font-style : $font-style;
+		}
+		@if $font-weight {
+			font-weight : $font-weight;
+		}
+	}
+}
+
+//
 // Set rhythme max-width
 //
 @mixin s-set-rhytme-width(
@@ -182,6 +244,9 @@
 	$root-font-size : sugar('settings.typo.font-size');
 	@if unit($fontsize) != px {
 		$fontsize : px($fontsize);
+	}
+	@if $cap-height == null {
+		$cap-height : 0;
 	}
 	line-height: #{$lineheight}rem;
 

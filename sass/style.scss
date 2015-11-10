@@ -19,13 +19,22 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 	),
 	fonts : (
 		helvetica : (
-			font-face : '/fonts/helvetica-neue/font.css',
-			font-family : 'Helvetica, "Helvetica Neue", Arial, sans-serif',
+			font-face : "../fonts/helvetica-neue-regular/helveticaneue.eot"
+						normal
+						normal
+						-ext eot svg ttf woff,
 			cap-height : 0.65
 		),
-		lobster : (
-			font-face : '/fonts/lobster/font.css',
-			font-family : 'lobster, Times, serif'
+		helvetica-ultralight : (
+			font-face : "../fonts/helvetica-neue-ultralight/helveticaneueultralight.eot"
+						lighter
+						normal
+						-ext eot svg ttf woff,
+			cap-height : 0.65
+		),
+		VT323 : (
+			import : "https://fonts.googleapis.com/css?family=VT323",
+			cap-height : 0.65
 		)
 	),
 	font-awesome : (
@@ -302,10 +311,10 @@ i.user {
 }
 
 h1 {
-	@include s-font(ms(3.5) helvetica uppercase underline -mw);
+	@include s-font(ms(3.5) helvetica-ultralight uppercase underline -mw);
 }
 h2 {
-	@include s-font(ms(3) helvetica);
+	@include s-font(ms(3) VT323);
 }
 h3 {
 	@include s-font(ms(2.5) helvetica);
