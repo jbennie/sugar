@@ -30,6 +30,25 @@
 
 
 //
+// Ratio
+//
+@function s-ratio(
+	$ratio
+) {
+	$ratio : _sugar-parse-properties($ratio, (
+		width : number,
+		height : number
+	));
+	$width : map-get($ratio, width);
+	$height : map-get($ratio, height);
+	@if $width == null or $height == null {
+		@error("missing width or height in s-ratio...");
+	}
+	@return percentage(1 / $width * $height);
+}
+
+
+//
 // Strip units
 //
 @function strip-units($number) {

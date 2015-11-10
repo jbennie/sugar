@@ -16,8 +16,7 @@ $clearfix-method: overflow !default;
 
 // create stub classes for each of the four clearfix methods
 
-%clearfix-overflow,
-.clearfix-overflow {
+%clearfix-overflow {
 	overflow: hidden;
 }
 

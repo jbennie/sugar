@@ -88,7 +88,8 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 		),
 		normal : all .2s ease-in-out,
 		slow : all .5s ease-in-out
-	)
+	),
+	helper-classes : 'pull' 'display' 'clearfix' 'text'
 ));
 
 * {
@@ -174,6 +175,8 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 		}
 	}
 }
+
+$map : map-deep-set(sugar('settings.typo'), 'coco.hello', 'hello world');
 
 .btn {
 	display: inline-block;

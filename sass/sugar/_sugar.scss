@@ -20,6 +20,11 @@
 @import 'functions';
 
 //
+// Units
+//
+@import 'units';
+
+//
 // Math
 //
 @import 'tools/math';
@@ -151,6 +156,7 @@ $_sugar-settings : (								// store all the settings
 								), 				
 	fonts  						: (), 				// store all the fonts
 	transition 					: (), 				// store all the transitions
+	helper-classes 				: ()
 );		
 
 //
@@ -227,6 +233,27 @@ $_sugar-settings-cache : ();
 			.fa-#{$icon} {
 				@extend %fa;
 				@extend %fa-#{$icon} !optional;
+			}
+		}
+	}
+
+	// helpers
+	$helpers : sugar('settings.helper-classes');
+	@each $namespace in $helpers {
+		// get values
+		$values : map-deep-get($_sugar-helper-classes, $namespace);
+		// get values
+		@if type-of($values) == map {
+			$values : map-values($values);
+			// loop to create each classes
+			@each $value in $values {
+				.#{$value} {
+					@extend %#{$value} !optional;
+				}
+			}
+		} @else if type-of($values) == string {
+			.#{$values} {
+				@extend %#{$values} !optional;
 			}
 		}
 	}
@@ -440,3 +467,22 @@ $_sugar-settings-cache : ();
 			-ext eot ttf woff woff2 svg);
 	}
 }
+
+//
+// Register helper class
+//
+$_sugar-helper-classes : () !default;
+@mixin sugar-register-helper-class(
+	$namespace,
+	$name
+) {
+	$_sugar-helper-classes : map-deep-set($_sugar-helper-classes, $namespace, $name) !global;
+	%#{$name} {
+		@content;
+	}
+}
+
+//
+// Helper classes
+//
+@import 'helper-classes';

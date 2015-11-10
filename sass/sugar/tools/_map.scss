@@ -13,6 +13,76 @@
 
 
 //
+// Map deep get
+//
+@function map-deep-get(
+	$map,
+	$path
+) {
+	// @if type-of($map) != list or type-of($map) != map {
+	// 	@error("$map need to be a valid map...");
+	// }
+	// @if type-of($path) != string {
+	// 	@error("$path need to be point separated string...");
+	// }
+	// current value
+	$value : $map;
+	// split paths
+	$segments : str-explode($path, '.');
+	// loop on each segments
+	@each $seg in $segments {
+		$val : map-get($value, $seg);
+		@if $val == null {
+			@return null;
+		}
+		$value : $val;
+	}
+	// return value
+	@return $value;
+}
+
+
+//
+// Map deep set
+//
+@function map-deep-set(
+	$map,
+	$path,
+	$value
+) {
+	// @if type-of($map) != map {
+	// 	@error("$map need to be a valid map...");
+	// }
+	@if type-of($path) != string {
+		@error("$pat ,MKL;h need to be point separated string...");
+	}
+	// split paths
+	$segments : str-explode($path, '.');
+	$segments : sl-reverse($segments);
+	// construct a map
+	$new-map : ();
+	$previous-seg : null;
+	$idx : 1;
+	$length : length($segments);
+	@each $seg in $segments {
+		@if $idx == 1 {
+			$new-map : map-set($new-map, $seg, $value);
+		} @else {
+			$new-map : map-set($new-map, $seg, $new-map);
+		}
+		@if $previous-seg {
+			$new-map : map-remove($new-map, $previous-seg);
+		}
+		$previous-seg : $seg;
+		$idx : $idx + 1;
+	}
+	// merge maps
+	$map : map-extend($map, $new-map, true);
+	@return $map;
+}
+
+
+//
 // Map get or
 // This will try to get the elements in map by index order
 //
@@ -41,33 +111,33 @@
 // @param {Bool} $deep - recursive mode
 // @return {Map}
 @function map-extend($map, $maps.../*, $deep */) {
-  $last: nth($maps, -1);
-  $deep: $last == true;
-  $max: if($deep, length($maps) - 1, length($maps));
+	$last: nth($maps, -1);
+	$deep: $last == true;
+	$max: if($deep, length($maps) - 1, length($maps));
 
-  // Loop through all maps in $maps...
-  @for $i from 1 through $max {
-    // Store current map
-    $current: nth($maps, $i);
+	// Loop through all maps in $maps...
+	@for $i from 1 through $max {
+		// Store current map
+		$current: nth($maps, $i);
 
-    // If not in deep mode, simply merge current map with map
-    @if not $deep {
-      $map: map-merge($map, $current);
-    } @else {
-      // If in deep mode, loop through all tuples in current map
-      @each $key, $value in $current {
+		// If not in deep mode, simply merge current map with map
+		@if not $deep {
+			$map: map-merge($map, $current);
+		} @else {
+			// If in deep mode, loop through all tuples in current map
+			@each $key, $value in $current {
 
-        // If value is a nested map and same key from map is a nested map as well
-        @if type-of($value) == "map" and type-of(map-get($map, $key)) == "map" {
-          // Recursive extend
-          $value: map-extend(map-get($map, $key), $value, true);
-        }
+				// If value is a nested map and same key from map is a nested map as well
+				@if type-of($value) == "map" and type-of(map-get($map, $key)) == "map" {
+					// Recursive extend
+					$value: map-extend(map-get($map, $key), $value, true);
+				}
 
-        // Merge current tuple with map
-        $map: map-merge($map, ($key: $value));
-      }
-    }
-  }
+				// Merge current tuple with map
+				$map: map-merge($map, ($key: $value));
+			}
+		}
+	}
 
-  @return $map;
+	@return $map;
 }

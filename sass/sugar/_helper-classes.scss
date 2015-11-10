@@ -1,0 +1,74 @@
+//
+// Helper classes
+//
+
+//
+// Pull
+//
+@include sugar-register-helper-class('pull.left', pull-left) {
+	float: left;
+}
+@include sugar-register-helper-class('pull.right', pull-right) {
+	float: right;
+}
+
+
+//
+// Show / hide
+//
+@include sugar-register-helper-class('display.show', show) {
+	display : block;
+}
+@include sugar-register-helper-class('display.show-inline', show-inline) {
+	display: inline-block;
+}
+@include sugar-register-helper-class('display.hidden', hidden) {
+	display: none;
+}
+@include sugar-register-helper-class('display.visible', visible) {
+	visibility: visible;
+}
+@include sugar-register-helper-class('display.invisible', invisible) {
+	visibility: hidden;
+}
+@include sugar-register-helper-class('display.visually-hidden', visually-hidden) {
+	@include s-visually-hidden();
+}
+
+//
+// Text
+//
+@include sugar-register-helper-class('text.hide', text-hide) {
+	@include s-text-hide();
+}
+@include sugar-register-helper-class('text.truncate', truncate) {
+	@include s-truncate();
+}
+
+//
+// Blocks
+//
+@include sugar-register-helper-class('block.center', center-block) {
+	display : block;
+	margin-left : auto;
+	margin-right : auto;
+}
+
+//
+// Clearfix
+//
+@include sugar-register-helper-class('clearfix.default', clearfix) {
+	@include s-clearfix(micro);
+}
+@include sugar-register-helper-class('clearfix.float', clearfix-float) {
+	@include s-clearfix(float);
+}
+@include sugar-register-helper-class('clearfix.micro', clearfix-micro) {
+	@include s-clearfix(micro);
+}
+@include sugar-register-helper-class('clearfix.overflow', clearfix-overflow) {
+	@include s-clearfix(overflow);
+}
+@include sugar-register-helper-class('clearfix.facebook', clearfix-facebook) {
+	@include s-clearfix(facebook);
+}
