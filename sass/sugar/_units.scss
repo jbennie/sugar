@@ -28,13 +28,10 @@
 
 	// get the unit
 	$unit : null;
-	@if $value and unitless($value) {
-		// do nothing
-	} @else {
-		// get the unit
-		$unit : unit($value);
-	}
-	
+
+	// get the unit
+	$unit : unit($value);
+
 	// get the default font-size
 	$font-size : strip-units(sugar('settings.typo.font-size'));
 
@@ -46,15 +43,15 @@
 	// strip unit of value
 	$value : strip-units($value);
 
-	@if $unit == null {
+	@if $unit == null or $unit == '' {
 		@if $convertUnit == px {
-			@return $value + px;
+			@return $value + 0px;
 		} @else if $convertUnit == em {
-			@return $value + em;
+			@return $value + 0em;
 		} @else if $convertUnit == rem {
-			@return $value + rem;
+			@return $value + 0rem;
 		} @else if $convertUnit == pt {
-			@return $value + pt;
+			@return $value + 0pt;
 		} @else if $convertUnit == '%' {
 			@return percentage($values / 100);
 		}
@@ -66,7 +63,7 @@
 		} @else if $convertUnit == rem {
 			@return $value / $font-size + 0rem;
 		} @else if $convertUnit == px {
-			@return $value + px;
+			@return $value + 0px;
 		} @else {
 			@error("Unit #{$unit} cannot be converted to #{$convertUnit}");
 			@return null;
@@ -78,7 +75,7 @@
 		} @else if $convertUnit == "%" or $convertUnit == percent {
 			@return percentage($value);
 		} @else if $convertUnit == em {
-			@return $value + em;
+			@return $value + 0em;
 		} @else {
 			@error("Unit #{$unit} cannot be converted to #{$convertUnit}");
 			@return null;
@@ -104,7 +101,7 @@
 		} @else if $convertUnit == "%" or $convertUnit == percent {
 			@return percentage($value / 12);
 		} @else if $convertUnit == pt {
-			@return $value + pt;
+			@return $value + 0pt;
 		} @else {
 			@error("Unit #{$unit} cannot be converted to #{$convertUnit}");
 			@return null;
@@ -113,7 +110,7 @@
 		@if $convertUnit == px {
 			@return $value * $font-size + 0px;
 		} @else if $convertUnit == rem {
-			@return $value + rem;
+			@return $value + 0rem;
 		} @else if $convertUnit == pt {
 			@return $value * $font-size * 0.75 + 0pt;
 		}

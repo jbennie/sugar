@@ -5,50 +5,76 @@
 //
 // Pull
 //
-@include sugar-register-helper-class('pull.left', pull-left) {
+@include sugar-register-class('helper.pull.left', pull-left) {
 	float: left;
 }
-@include sugar-register-helper-class('pull.right', pull-right) {
+@include sugar-register-class('helper.pull.right', pull-right) {
 	float: right;
+}
+
+
+//
+// Clear
+//
+@include sugar-register-class('helper.clear.left', clear-left) {
+	clear: left;
+}
+@include sugar-register-class('helper.clear.right', clear-right) {
+	clear: right;
+}
+@include sugar-register-class('helper.clear.both', clear) {
+	clear: both;
 }
 
 
 //
 // Show / hide
 //
-@include sugar-register-helper-class('display.show', show) {
+@include sugar-register-class('helper.display.show', show) {
 	display : block;
 }
-@include sugar-register-helper-class('display.show-inline', show-inline) {
+@include sugar-register-class('helper.display.show-inline', show-inline) {
 	display: inline-block;
 }
-@include sugar-register-helper-class('display.hidden', hidden) {
+@include sugar-register-class('helper.display.hidden', hidden) {
 	display: none;
 }
-@include sugar-register-helper-class('display.visible', visible) {
+@include sugar-register-class('helper.display.visible', visible) {
 	visibility: visible;
 }
-@include sugar-register-helper-class('display.invisible', invisible) {
+@include sugar-register-class('helper.display.invisible', invisible) {
 	visibility: hidden;
 }
-@include sugar-register-helper-class('display.visually-hidden', visually-hidden) {
+@include sugar-register-class('helper.display.visually-hidden', visually-hidden) {
 	@include s-visually-hidden();
 }
 
 //
 // Text
 //
-@include sugar-register-helper-class('text.hide', text-hide) {
+@include sugar-register-class('helper.text.hide', text-hide) {
 	@include s-text-hide();
 }
-@include sugar-register-helper-class('text.truncate', truncate) {
+@include sugar-register-class('helper.text.truncate', truncate) {
 	@include s-truncate();
+}
+@include sugar-register-class('helper.text.align.left', align-left) {
+	text-align: left;
+}
+@include sugar-register-class('helper.text.align.right', align-right) {
+	text-align: right;
+}
+@include sugar-register-class('helper.text.align.center', align-center) {
+	text-align: center;
+}
+@include sugar-register-class('helper.text.align.justify', align-justify) {
+	text-align: justify;
 }
 
 //
 // Blocks
 //
-@include sugar-register-helper-class('block.center', center-block) {
+@include sugar-register-class('helper.block.center', center-block) {
 	display : block;
 	margin-left : auto;
 	margin-right : auto;
@@ -57,18 +83,18 @@
 //
 // Clearfix
 //
-@include sugar-register-helper-class('clearfix.default', clearfix) {
+@include sugar-register-class('helper.clearfix.default', clearfix) {
 	@include s-clearfix(micro);
 }
-@include sugar-register-helper-class('clearfix.float', clearfix-float) {
+@include sugar-register-class('helper.clearfix.float', clearfix-float) {
 	@include s-clearfix(float);
 }
-@include sugar-register-helper-class('clearfix.micro', clearfix-micro) {
+@include sugar-register-class('helper.clearfix.micro', clearfix-micro) {
 	@include s-clearfix(micro);
 }
-@include sugar-register-helper-class('clearfix.overflow', clearfix-overflow) {
+@include sugar-register-class('helper.clearfix.overflow', clearfix-overflow) {
 	@include s-clearfix(overflow);
 }
-@include sugar-register-helper-class('clearfix.facebook', clearfix-facebook) {
+@include sugar-register-class('helper.clearfix.facebook', clearfix-facebook) {
 	@include s-clearfix(facebook);
 }

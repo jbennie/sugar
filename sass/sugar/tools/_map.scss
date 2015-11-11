@@ -81,6 +81,26 @@
 	@return $map;
 }
 
+//
+// Get deep values in map
+//
+@function map-deep-values(
+	$map
+) {
+	$values : ();
+	// loop on each keys
+	@each $key, $value in $map {
+		@if type-of($value) == map or type-of($value) == list {
+			// add to values :
+			$values : join($values, map-deep-values($value));
+		} @else {
+			// add to values :
+			$values : append($values, $value);
+		}
+	}
+	// return values
+	@return $values;
+}
 
 //
 // Map get or

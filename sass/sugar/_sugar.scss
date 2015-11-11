@@ -119,6 +119,7 @@ $_sugar-settings : (								// store all the settings
 		font-size 					: 16px, 			// default font-size
 		font-sizes 					: null, 			// map of font-sizes by media (size : media)
 		line-letters-count			: 55,				// optimal letters count in a line
+		vertical-rhythme 			: true, 			// by default, vertical rhytme is activate font s-font mixin
 		font-format 				: ( 				// font format used in font-face
 			eot 						: embedded-opentype,
 			woff2 						: woff2,
@@ -237,23 +238,25 @@ $_sugar-settings-cache : ();
 		}
 	}
 
-	// helpers
-	$helpers : sugar('settings.helper-classes');
-	@each $namespace in $helpers {
-		// get values
-		$values : map-deep-get($_sugar-helper-classes, $namespace);
-		// get values
-		@if type-of($values) == map {
-			$values : map-values($values);
-			// loop to create each classes
-			@each $value in $values {
-				.#{$value} {
-					@extend %#{$value} !optional;
+	// classes
+	$classes : sugar('settings.classes');
+	@if $classes {
+		@each $namespace in $classes {
+			// get values
+			$values : map-deep-get($_sugar-classes, $namespace);
+			// get values
+			@if type-of($values) == map {
+				$values : map-deep-values($values);
+				// loop to create each classes
+				@each $value in $values {
+					.#{$value} {
+						@extend %#{$value} !optional;
+					}
 				}
-			}
-		} @else if type-of($values) == string {
-			.#{$values} {
-				@extend %#{$values} !optional;
+			} @else if type-of($values) == string {
+				.#{$values} {
+					@extend %#{$values} !optional;
+				}
 			}
 		}
 	}
@@ -471,12 +474,12 @@ $_sugar-settings-cache : ();
 //
 // Register helper class
 //
-$_sugar-helper-classes : () !default;
-@mixin sugar-register-helper-class(
+$_sugar-classes : () !default;
+@mixin sugar-register-class(
 	$namespace,
 	$name
 ) {
-	$_sugar-helper-classes : map-deep-set($_sugar-helper-classes, $namespace, $name) !global;
+	$_sugar-classes : map-deep-set($_sugar-classes, $namespace, $name) !global;
 	%#{$name} {
 		@content;
 	}

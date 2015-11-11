@@ -89,8 +89,8 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 		normal : all .2s ease-in-out,
 		slow : all .5s ease-in-out
 	),
-	helper-classes : 'pull' 'display' 'clearfix' 'text'
-));
+	classes : helper
+)); 
 
 * {
 	@include s-transition(fast);
@@ -176,19 +176,21 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 	}
 }
 
-$map : map-deep-set(sugar('settings.typo'), 'coco.hello', 'hello world');
-
 .btn {
 	display: inline-block;
-	padding: s-size(smaller) s-size(small);
+	// height: s-size(medium);
+	// line-height: s-size(medium);
+	// padding: 0 s-size(small);
 	margin-bottom: s-size(2);
-
 	background: s-color(green);
 	color: white;
 	text-decoration: none;
 
+	padding: 0 s-size(2);
+	@include s-font(23.4px helvetica bold -pt 1 -pb 1 -mb 2);
+
 	span {
-		@include s-font(16px helvetica);
+		
 	}
 }
 
@@ -314,7 +316,7 @@ i.user {
 }
 
 h1 {
-	@include s-font(ms(3.5) helvetica-ultralight uppercase underline -mw);
+	@include s-font(ms(3.5) helvetica-ultralight uppercase -mw);
 }
 h2 {
 	@include s-font(ms(3) VT323);
@@ -332,9 +334,12 @@ h6 {
 	@include s-font(ms(1) helvetica);
 }
 blockquote {
-	padding: s-size(1);
-	border-left: 5px solid s-color(#ddd);
-	margin-left: s-size(-1);
+	// padding: s-size(3);
+	border-left: 5px solid s-color(orange);
+	margin-left: s-size(-2);
+	@include s-font(27px helvetica italic -ptd 3 -pbs 3 -mb 2);
+	background: s-color(#eee);
+	// @include s-set-rhythme-font-size(20px);
 }
 p {
 	@include s-font(ms(0.5) 2 helvetica);

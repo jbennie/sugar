@@ -19,19 +19,19 @@
 			duration : number,
 			delay : number,
 			ease : string,
-			iteration : '1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|infinite|initial|inherit',
-			direction : 'normal|reverse|alternate|alternate-reverse|initial|inherit',
-			fill-mode : 'none|forwards|backwards|both|initial|inherit',
+			iteration : 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 infinite initial inherit,
+			direction : normal reverse alternate alternate-reverse initial inherit,
+			fill-mode : none forwards backwards both initial inherit,
 			parallel : true
 		), (
-			name : 'n',
-			duration : 'du',
-			delay : 'de',
-			ease : 'e',
-			iteration : 'i|iteration-count',
-			direction : 'di',
-			fill-mode : 'fm',
-			parallel : 'p'
+			name : n,
+			duration : du,
+			delay : de,
+			ease : e,
+			iteration : i iteration-count,
+			direction : di,
+			fill-mode : fm,
+			parallel : p
 		));
 		$name : map-get-or($animation, name);
 		$duration : map-get-or($animation, duration, 1s);

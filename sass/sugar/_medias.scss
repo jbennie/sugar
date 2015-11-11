@@ -50,19 +50,19 @@ $media-keywords : (
 	}
 
 	$props : _sugar-parse-properties($props, (
-		device : 'screen|handheld|print|aural|braille|embossed|projection|tty|tv|all',
+		device : screen handheld print aural braille embossed projection tty tv all,
 		min-width : number,
 		max-width : number,
 		min-height : number,
 		max-height : number,
-		orientation : 'landscape|portrait'
+		orientation : landscape portrait
 	), (
-		device : 'd',
-		min-width: 'min-w|minw',
-		max-width: 'max-w|maxw',
-		min-height: 'min-h|minh',
-		max-height: 'max-h|maxh',
-		orientation : 'o'
+		device : d,
+		min-width: min-w minw,
+		max-width: max-w maxw,
+		min-height: min-h minh,
+		max-height: max-h maxh,
+		orientation : o
 	));
 
 	$device : map-get-or($props, device);

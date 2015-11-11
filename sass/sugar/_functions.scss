@@ -59,20 +59,14 @@ $_s_nested_properties_depth : ();
 ) {
 	// default aliases
 	$aliases : map-merge($aliases, (
-		width : 'w',
-		height : 'h',
-		color : 'c',
-		top : 't',
-		right : 'r',
-		bottom : 'b',
-		left : 'l'
+		width : w,
+		height : h,
+		color : c,
+		top : t,
+		right : r,
+		bottom : b,
+		left : l
 	));
-
-	@if $keywords {
-		$keywords : map-merge($keywords, (
-			restore : true
-		));
-	}
 
 	$map : ();
 	$values : ();
@@ -93,12 +87,12 @@ $_s_nested_properties_depth : ();
 
 				// if not in keywords, try to get the alias
 				@if $in_keywords == null {
+
 					$alias_found : false;
 					@each $alias_prop, $alias in $aliases {
 						@if $alias_found == false {
-							$split : str-explode($alias,'|');
-							$al : index($split, $prop);
-							@if $al {
+							$al : index($alias, $prop);
+							@if $al or type-of($alias) == string and $prop == $alias {
 								$alias_found : true;
 								$prop : $alias_prop;
 							}
@@ -124,6 +118,14 @@ $_s_nested_properties_depth : ();
 				$first : false;
 				$current_prop : $prop;
 				$values : ();
+			} @else {
+				// we do not have the property in keywords
+				// but it is still a property...
+				// we have to reset the current prop to null
+				// in order to not append values in previous
+				// founded property
+				$current_prop : null;
+				$values : ();
 			}
 		} @else {
 
@@ -132,9 +134,8 @@ $_s_nested_properties_depth : ();
 				$found : false;
 				@each $name, $type in $keywords {
 					@if $found == false {
-						@if type-of($type) == string and str-index($type,'|') {
-							$parts : str-explode($type,'|');
-							@if index($parts, $prop) {
+						@if $type == number or $type == color or $type == string or $type == list or $type == map {
+							@if type-of($prop) == $type {
 								$map : map-set($map, $name, $prop);
 								// remove the item from keywords
 								$keywords : map-remove($keywords, $name);
@@ -142,7 +143,7 @@ $_s_nested_properties_depth : ();
 								$found : true;
 							}
 						} @else {
-							@if type-of($prop) == $type {
+							@if index($type, $prop) {
 								$map : map-set($map, $name, $prop);
 								// remove the item from keywords
 								$keywords : map-remove($keywords, $name);

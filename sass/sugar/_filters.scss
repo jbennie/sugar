@@ -32,17 +32,17 @@
 			sepia : true,
 			url : true	
 		), (
-			drop-shadow : 'ds',
-			blur : 'bl',
-			brightness : 'br',
-			contrast : 'con',
-			grayscale : 'gr',
-			hue-rotate : 'hue',
-			invert : 'i',
-			opacity : 'o',
-			saturate : 'sat',
-			sepia : 'sep',
-			url : 'u'
+			drop-shadow : ds,
+			blur : bl,
+			brightness : br,
+			contrast : con,
+			grayscale : gr,
+			hue-rotate : hue,
+			invert : i,
+			opacity : o,
+			saturate : sat,
+			sepia : sep,
+			url : u
 		));
 		
 		// loop on each filters

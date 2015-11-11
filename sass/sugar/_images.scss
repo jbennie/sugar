@@ -27,12 +27,12 @@
 	$background
 ) {
 	$background : _sugar-parse-properties($background, (
-		repeat : 'repeat|repeat-x|repeat-y|no-repeat',
-		size : 'auto|length|cover|contain|initial|inherit',
-		attachment : 'scroll|fixed|local|initial|inherit',
-		blend-mode : 'normal|multiply|screen|overlay|darken|lighten|color-dodge|saturation|color|luminosity',
-		clip : 'border-box|padding-box|content-box|initial|inherit',
-		origin : 'padding-box|border-box|content-box|initial|inherit',
+		repeat : repeat repeat-x repeat-y no-repeat,
+		size : auto length cover contain initial inherit,
+		attachment : scroll fixed local initial inherit,
+		blend-mode : normal multiply screen overlay darken lighten color-dodge saturation color luminosity,
+		clip : border-box padding-box content-box initial inherit,
+		origin : padding-box border-box content-box initial inherit,
 		url : string,
 		width : number,
 		height : number,
@@ -41,11 +41,11 @@
 		retina : string,
 		position : true
 	), (
-		url : 'u',
-		retina : 'ret',
-		position : 'p',
-		attachment : 'att',
-		clip : 'cl'
+		url : u,
+		retina : ret,
+		position : p,
+		attachment : att,
+		clip : cl
 	));
 	$background : _sugar-handle-nested(background, $background);
 

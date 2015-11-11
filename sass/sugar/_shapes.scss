@@ -24,14 +24,14 @@
 		bottom-left : true,
 		bottom-right : true
 	), (
-		top : 't',
-		right : 'r',
-		bottom : 'b',
-		left : 'l',
-		top-left : 'tl',
-		top-right : 'tr',
-		bottom-left : 'bl',
-		bottom-right : 'br'
+		top : t,
+		right : r,
+		bottom : b,
+		left : l,
+		top-left : tl,
+		top-right : tr,
+		bottom-left : bl,
+		bottom-right : br
 	));
 
 	// handle nested
@@ -121,9 +121,9 @@
 		$border : _sugar-parse-properties($border, (
 			width : number,
 			color : color,
-			style : 'solid|dotted|dashed|double|groove|ridge|inset|outset|initial|inherit'
+			style : solid dotted dashed double groove ridge inset outset initial inherit
 		), (
-			style : 's'
+			style : s
 		));
 
 		// handle nested
@@ -181,8 +181,8 @@
 	$border : null
 ) {
 
-	$directions : 'top|right|r|bottom|b|left|l|top-left|tl|top-right|tr|bottom-left|bl|bottom-right|br';
-	$positions : 'top|right|bottom|left|top-left|top-right|right-top|right-bottom|bottom-left|bottom-right|left-bottom|left-top';
+	$directions : top right r bottom b left l top-left tl top-right tr bottom-left bl bottom-right br;
+	$positions : top right bottom left top-left top-right right-top right-bottom bottom-left bottom-right left-bottom left-top;
 	$base : _sugar-parse-properties($base, (
 		position : $positions,
 		color : color,
@@ -190,10 +190,10 @@
 		arrow-height : number,
 		offset : number
 	), (
-		position : 'p',
-		arrow-width : 'aw',
-		arrow-height : 'ah',
-		offset : 'o'
+		position : p,
+		arrow-width : aw,
+		arrow-height : ah,
+		offset : o
 	));
 	$border_map : _sugar-parse-properties($border, (
 		width : number,
@@ -313,11 +313,11 @@
 		width : number,
 		height : number,
 		color : color,
-		direction : 'top|t|right|r|bottom|b|left|l|top-left|tl|top-right|tr|bottom-left|bl|bottom-right|br',
-		transform-origin : 'base|center|top'
+		direction : top t right r bottom b left l top-left tl top-right tr bottom-left bl bottom-right br,
+		transform-origin : base center top
 	), (
-		direction : 'd',
-		transform-origin : 'to'
+		direction : d,
+		transform-origin : to
 	));
 	@if type-of($border) != map {
 		$border : _sugar-parse-properties($border, (

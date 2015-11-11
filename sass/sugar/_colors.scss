@@ -55,16 +55,16 @@
 			opacity : number,
 			mix : color
 		), (
-			hue : 'h',
-			lighten : 'li',
-			darken : 'da',
-			grayscale : 'gr',
-			complement : 'comp',
-			invert : 'inv',
-			saturate : 'sa',
-			desaturate : 'desa',
-			opacity : 'o',
-			mix : 'm'
+			hue : h,
+			lighten : li,
+			darken : da,
+			grayscale : gr,
+			complement : comp,
+			invert : inv,
+			saturate : sa,
+			desaturate : desa,
+			opacity : o,
+			mix : m
 		));
 		// loop on each action to process to keep order
 		@each $action, $value in $actions-map {

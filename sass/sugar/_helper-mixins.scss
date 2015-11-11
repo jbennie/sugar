@@ -9,18 +9,18 @@
 	$position
 ) {
 	$position : _sugar-parse-properties($position, (
-		position : 'fixed|relative|absolute',
+		position : fixed relative absolute,
 		top : number,
 		right : number,
 		bottom : number,
 		left : number,
 		z : number
 	), (
-		position : 'p',
-		top : 't|y',
-		right : 'r',
-		bottom : 'b',
-		left : 'l|x'
+		position : p,
+		top : t y,
+		right : r,
+		bottom : b,
+		left : l x
 	));
 
 	// handle nested
@@ -126,8 +126,8 @@
 	$ratio
 ) {
 	$ratio : _sugar-parse-properties($ratio, (
-		ratio : number,
-		type : 'before|after'
+		type : before after,
+		ratio : number
 	));
 	$rat : map-get($ratio, ratio);
 	$type : map-get-or($ratio, type, before);
@@ -159,11 +159,11 @@
 	$size
 ) {
 	$size : _sugar-parse-properties($size, (
-		size : 'cover|contain',
+		size : cover contain,
 		width : number,
 		height : number
 	), (
-		size : 's'
+		size : s
 	));
 
 	// handle nested

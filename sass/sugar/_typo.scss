@@ -15,45 +15,49 @@
 	$reset : true
 ) {
 	$font : _sugar-parse-properties($font, (
-		word-wrap : 'normal|break-word|initial|inherit',
-		word-break : 'normal|break-all|keep-all|initial|inherit',
-		font-style : 'normal|italic|oblique|initial|inherit',
-		font-variant : 'normal|small-caps|initial|inherit',
-		font-weight : 'normal|bold|bolder|lighter|number|initial|inherit',
-		text-decoration : ' none|underline|overline|line-through|initial|inherit',
-		text-align : 'left|right|center|justify|initial|inherit',
-		text-transform : 'none|capitalize|uppercase|lowercase|initial|inherit',
-		font-stretch : 'ultra-condensed|extra-condensed|condensed|semi-condensed|normal|semi-expanded|expanded|extra-expanded|ultra-expanded|initial|inherit',
-		white-space : 'normal|nowrap|pre|pre-line|pre-wrap|initial|inherit',
+		word-wrap : normal break-word initial inherit,
+		word-break : normal break-all keep-all initial inherit,
+		font-style : normal italic oblique initial inherit,
+		font-variant : normal small-caps initial inherit,
+		font-weight : normal bold bolder lighter number initial inherit,
+		text-decoration :  none underline overline line-through initial inherit,
+		text-align : left right center justify initial inherit,
+		text-transform : none capitalize uppercase lowercase initial inherit,
+		font-stretch : ultra-condensed extra-condensed condensed semi-condensed normal semi-expanded expanded extra-expanded ultra-expanded initial inherit,
+		white-space : normal nowrap pre pre-line pre-wrap initial inherit,
 		name : string,
 		font-size : number,
 		line-height : number,
+		margin-top : number,
 		margin-bottom : number,
 		padding-top : number,
 		padding-bottom : number,
 		max-width : number,
 		letter-spacing : number,
-		text-indent : number
+		text-indent : number,
+		vertical-rhythme : true
 	), (
-		name : 'n',
-		font-size : 'fs',
-		font-style : 'fst',
-		font-variant : 'fv',
-		font-weight : 'fw',
-		text-decoration : 'td',
-		text-align : 'ta',
-		text-transform : 'tt',
-		font-stretch : 'fstr',
-		white-space : 'ws',
-		line-height : 'lh',
-		margin-bottom : 'mb',
-		padding-top : 'pt',
-		padding-bottom : 'pb',
-		max-width : 'mw',
-		letter-spacing : 'ls',
-		text-indent : 'ti',
-		word-break : 'wb',
-		word-wrap : 'ww'
+		name : n,
+		font-size : fs,
+		font-style : fst,
+		font-variant : fv,
+		font-weight : fw,
+		text-decoration : td,
+		text-align : ta,
+		text-transform : tt,
+		font-stretch : fstr,
+		white-space : ws,
+		line-height : lh,
+		margin-top : mt,
+		margin-bottom : mb,
+		padding-top : pt,
+		padding-bottom : pb,
+		max-width : mw,
+		letter-spacing : ls,
+		text-indent : ti,
+		word-break : wb,
+		word-wrap : ww,
+		vertical-rhythme : vr
 	));
 	// handle nested
 	$font : _sugar-handle-nested(font, $font);
@@ -70,6 +74,7 @@
 	$font-stretch : map-get($font, font-stretch);
 	$white-space : map-get($font, white-space);
 	$line-height : map-get-or($font, line-height, null);
+	$margin-top : map-get-or($font, margin-top, 0);
 	$margin-bottom : map-get-or($font, margin-bottom, 2);
 	$padding-top : map-get-or($font, padding-top, 0);
 	$padding-bottom : map-get-or($font, padding-bottom, 0);
@@ -78,6 +83,7 @@
 	$text-indent : map-get($font, text-indent);
 	$word-break : map-get($font, word-break);
 	$word-wrap : map-get($font, word-wrap);
+	$vertical-rhythme : map-get-or($font, vertical-rhythme, sugar('settings.typo.vertical-rhythme'));
 
 	// get the font object
 	$f : map-get(sugar('settings.fonts'), $name);
@@ -90,7 +96,28 @@
 	// set the font
 	font-family : $name;
 
-	@include s-set-rhytme($size, map-get($f, cap-height), $line-height, $margin-bottom, $padding-top, $padding-bottom);
+	// vertical rhytme ?
+	@if $vertical-rhythme {
+		$cap-height : map-get($f, cap-height);
+		@include s-set-rhytme(
+			-font-size $size
+			-line-height $line-height
+			-margin-top $margin-top
+			-margin-bottom $margin-bottom
+			-padding-top $padding-top
+			-padding-bottom $padding-bottom
+			-cap-height $cap-height);
+	} @else {
+		font-size: $size;
+		@if $line-height {
+			line-height: $line-height;
+		}
+		@if $margin-bottom {
+			margin-bottom : $margin-bottom;
+		}
+	}
+
+	// max width
 	@if $max-width {
 		@if type-of($max-width) == number {
 			@include s-set-rhytme-width($max-width);
@@ -161,11 +188,11 @@
 	$font-face
 ) {
 	$font-face : _sugar-parse-properties($font-face, (
+		ext : eot eot2 otf woff2 woff ttf svg svgz,
+		font-weight : normal bold bolder lighter number initial inherit,
+		font-style : normal italic oblique initial inherit,
 		name : string,
-		url : string,
-		ext : 'eot|eot2|otf|woff2|woff|ttf|svg|svgz',
-		font-weight : 'normal|bold|bolder|lighter|number|initial|inherit',
-		font-style : 'normal|italic|oblique|initial|inherit'
+		url : string
 	));
 	$name : map-get($font-face, name);
 	$url : map-get($font-face, url);
@@ -230,38 +257,155 @@
 }
 
 //
-// Set fontsize and baseline at once. Mix of fontsize and baseline mixin.
+// Set rhythme
 //
 @mixin s-set-rhytme(
-	$fontsize,
-	$cap-height: 0,
-	$lineheight: 2,
-	$below: 2,
-	$padding-top : 0,
-	$padding-bottom : 0
+	$rhythme
 ) {
-	$font-value: type-of($fontsize);
-	$root-font-size : sugar('settings.typo.font-size');
-	@if unit($fontsize) != px {
-		$fontsize : px($fontsize);
+	$f : _sugar-parse-properties($rhythme, (
+		font-size : number
+	), (
+		font-size: fs
+	));
+
+	// get the font-size
+	$font-size : map-get($f, font-size);
+
+	// transform in rem if are pixels passed
+	@if unit($font-size) != px {
+		$font-size : px($font-size);
 	}
+
+	// set the font-size in rem
+	font-size: rem($font-size);
+
+	// set the baseline
+	@include s-set-rhytme-baseline($rhythme);
+}
+
+//
+// Set fontsize and baseline at once. Mix of fontsize and baseline mixin.
+//
+@mixin s-set-rhytme-baseline(
+	$rhythme
+) {
+	$rhythme : _sugar-parse-properties($rhythme, (
+		font-size : number,
+		line-height : number,
+		margin-top : number,
+		margin-bottom : number,
+		padding-top : number,
+		padding-bottom : number,
+		cap-height : number
+	), (
+		font-size : fs,
+		line-height : lh,
+		margin-top: mt,
+		margin-bottom: mb,
+		padding-top: pt,
+		padding-bottom: pb,
+		cap-height: ch
+	));
+
+	$font-size : map-get($rhythme, font-size);
+	$line-height : map-get-or($rhythme, line-height, 2);
+	$margin-top : map-get-or($rhythme, margin-top, 0);
+	$margin-bottom : map-get-or($rhythme, margin-bottom, 2);
+	$padding-top : map-get-or($rhythme, padding-top, 0);
+	$padding-bottom : map-get-or($rhythme, padding-bottom, 0);
+	$cap-height : map-get-or($rhythme, cap-height, 0);
+	$root-font-size : sugar('settings.typo.font-size');
+	
+	// process values
+	@if $margin-top > 0 {
+		@if unit($margin-top) != rem {
+			// transform margin top in rems
+			$margin-top : rem($margin-top);
+			// round the margin top
+			$margin-top : round(strip-units($margin-top));
+			// set to rem again
+			$margin-top : rem($margin-top);
+		}
+	}
+	@if $margin-bottom > 0 {
+		@if unit($margin-bottom) != rem {
+			// transform margin bottom in rems
+			$margin-bottom : rem($margin-bottom);
+			// round the margin bottom
+			$margin-bottom : round(strip-units($margin-bottom));
+			// set to rem again
+			$margin-bottom : rem($margin-bottom);
+		}
+	}
+	@if $padding-top > 0 {
+		@if unit($padding-top) != rem {
+			// transform margin top in rems
+			$padding-top : rem($padding-top);
+			// round the margin top
+			$padding-top : round(strip-units($padding-top));
+			// set to rem again
+			$padding-top : rem($padding-top);
+		}
+	}
+	@if $padding-bottom > 0 {
+		@if unit($padding-bottom) != rem {
+			// transform margin top in rems
+			$padding-bottom : rem($padding-bottom);
+			// round the margin top
+			$padding-bottom : round(strip-units($padding-bottom));
+			// set to rem again
+			$padding-bottom : rem($padding-bottom);
+		}
+	}
+	@if $line-height > 0 {
+		@if unit($line-height) != rem {
+			// transform margin top in rems
+			$line-height : rem($line-height);
+			// round the margin top
+			$line-height : round(strip-units($line-height));
+			// set to rem again
+			$line-height : rem($line-height);
+		}
+	}
+
+	// transform in rem if are pixels passed
+	@if unit($font-size) != px {
+		$font-size : px($font-size);
+	}
+
+	// manage cap height
 	@if $cap-height == null {
 		$cap-height : 0;
 	}
-	line-height: #{$lineheight}rem;
 
-	@if $font-value == number {
+	// set line-height
+	line-height: rem($line-height);
+
+	// protect
+	@if type-of($font-size) == number {
 		$rootsize: $root-font-size;
-		$baseline-shift: ($fontsize / 2 * (($lineheight * $rootsize / $fontsize) - $cap-height)) / $rootsize + 0.00001;
-		$baseline-push: $below - (($fontsize / 2 * (($lineheight * $rootsize / $fontsize) - $cap-height)) / $rootsize + 0.00001);
-		font-size: rem($fontsize);
-		margin-bottom: #{$baseline-push}rem;
-		padding-top: #{($baseline-shift + $padding-top)}rem;
+		$baseline-shift: ($font-size / 2 * (($line-height * $rootsize / $font-size) - $cap-height)) / $rootsize + 0.00001;
+		$baseline-push: $margin-bottom - (($font-size / 2 * (($line-height * $rootsize / $font-size) - $cap-height)) / $rootsize + 0.00001);
+
+		// if we have a padding top, respect it and
+		// push a little bit the content lower to respect
+		// vertical rhythme
+		@if $padding-top and $padding-top >= 1 {
+			padding-top: $padding-top;
+			margin-bottom: $margin-bottom;
+		} @else {
+			padding-top: $baseline-shift;
+			@if $baseline-push < $margin-bottom {
+				$baseline-push : $baseline-push + 1;
+			}
+			margin-bottom: $baseline-push;
+		}
+		
 		@if $padding-bottom {
-			padding-bottom : $padding-bottom - $baseline-push + rem;
+			padding-bottom : $padding-bottom;
 		}
 	} @else {
-		@warn "#{$fontsize} is not a valid scale variable";
+		@warn "#{$font-size} is not a valid scale variable";
 	}
 }
 
@@ -271,12 +415,22 @@
 @mixin s-show-rhythme(
 	$color : #0ff
 ) {
-	background-image: -webkit-linear-gradient(top,$color 0,rgba(255,255,255,0)1px);
-	background-image: -moz-linear-gradient(top,$color 0,rgba(255,255,255,0)1px);
-	background-image: -o-linear-gradient(top,$color 0,rgba(255,255,255,0)1px);
-	background-image: linear-gradient(to bottom,$color 0,rgba(255,255,255,0)1px);
-	background-repeat: repeat-y;
-	background-size: 100% 1rem;
+	// overflow: hidden;
+	position: relative;
+	&:after {
+		pointer-events: none;
+		content:'';
+		display: block;
+		position: absolute;
+		top:0; left:0;
+		width:100%; height:100%;
+		background-image: -webkit-linear-gradient(top,$color 0,rgba(255,255,255,0)1px);
+		background-image: -moz-linear-gradient(top,$color 0,rgba(255,255,255,0)1px);
+		background-image: -o-linear-gradient(top,$color 0,rgba(255,255,255,0)1px);
+		background-image: linear-gradient(to bottom,$color 0,rgba(255,255,255,0)1px);
+		background-repeat: repeat-y;
+		background-size: 100% 1rem;
+	}
 }
 
 //
@@ -286,8 +440,8 @@
 	$columns
 ) {
 	$columns : _sugar-parse-properties($columns, (
-		fill : 'balance|auto|initial|inherit',
-		rule-style : 'none|hidden|dotted|dashed|solid|double|groove|ridge|inset|outset|initial|inherit',
+		fill : balance auto initial inherit,
+		rule-style : none hidden dotted dashed solid double groove ridge inset outset initial inherit,
 		count : number,
 		gap : number,
 		width : number,
@@ -296,14 +450,14 @@
 		rule-width : number,
 		rule : true,
 	), (
-		fill : 'f',
-		rule-style : 'gstl',
-		count : 'c',
-		gap : 'g',
-		span : 's',
-		rule-color : 'rc',
-		rule-width : 'rw',
-		rule : 'r'
+		fill : f,
+		rule-style : rstl,
+		count : c,
+		gap : g,
+		span : s,
+		rule-color : rc,
+		rule-width : rw,
+		rule : r
 	));
 	
 	// handle nested
