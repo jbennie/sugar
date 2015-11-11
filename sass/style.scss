@@ -285,7 +285,7 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 .show-grid {
 	@include s-show-rhythme();
 	margin: 0 auto;
-	max-width: 960px;
+	max-width: 1200px;
 }
 
 // BEM
@@ -315,31 +315,27 @@ i.user {
 	color: s-color(orange);
 }
 
+.legend {
+	@include s-font(20px helvetica s-color(white, -darken 30%) -mw);
+}
 h1 {
-	@include s-font(ms(3.5) helvetica-ultralight uppercase -mw);
+	@include s-font(ms(3) helvetica-ultralight uppercase -mw);
 }
 h2 {
-	@include s-font(ms(3) VT323);
+	@include s-font(ms(2.5) VT323);
 }
 h3 {
-	@include s-font(ms(2.5) helvetica);
-}
-h4 {
 	@include s-font(ms(2) helvetica);
 }
-h5 {
+h4 {
 	@include s-font(ms(1.5) helvetica);
 }
-h6 {
+h5 {
 	@include s-font(ms(1) helvetica);
 }
-blockquote {
-	// padding: s-size(3);
-	border-left: 5px solid s-color(orange);
-	margin-left: s-size(-2);
-	@include s-font(27px helvetica italic -ptd 3 -pbs 3 -mb 2);
-	background: s-color(#eee);
-	// @include s-set-rhythme-font-size(20px);
+h6 {
+	@include s-font(ms(0.5) helvetica);
+	content : str-url-ext('hello/world.ddd/coco.jpg');
 }
 p {
 	@include s-font(ms(0.5) 2 helvetica);
@@ -350,5 +346,57 @@ p {
 p.lead {
 	@include s-font(ms(1) 2 helvetica bold underline);
 }
+blockquote {
+	padding: s-size(3);
+	border-left: 5px solid s-color(orange);
+	margin-left: s-size(-2);
+	@include s-font(27px helvetica italic -pt 3 -pb 3 -mb 2);
+	background: s-color(#eee);
+}
+.ul {
+	@include s-list(
+		outside
+		-padding-left 40px
+		-style-icon fa-gg-circle
+		-style-icon-color s-color(orange)
+		-style-icon-size 22px
+		-style-icon-offset 8px
+		-font (20px helvetica -mb 0 -mw true)
+		);
+	// margin-bottom:s-size(2);
+	li:hover:before {
+		color: s-color(orange, -darken 15%);
+	}
+}
+.ul--inside {
+	@include s-list(
+		inside
+		-padding-left 30px
+		-style-icon fa-gg-circle
+		-style-icon-color s-color(#ff0000)
+		-style-icon-size 16px
+		-style-icon-offset 12px
+		-font (20px helvetica -mb 0 -mw true)
+		);
+	// margin-bottom:s-size(2);
+	li:hover:before {
+		color: s-color(orange, -darken 15%);
+	}
+}
+.ul--small {
+	@include s-list(
+		outside
+		-padding-left 40px
+		-style-icon fa-user
+		-style-icon-color s-color(orange)
+		-style-icon-size 22px
+		-style-icon-offset 8px
+		-font (16px helvetica -mb 0)
+		);
+	li:hover:before {
+		color: s-color(orange, -darken 15%);
+	}
+}
+
 
 @include sugar(classes);

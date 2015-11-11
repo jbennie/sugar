@@ -40,6 +40,11 @@
 @import 'tools/list';
 
 //
+// String
+//
+@import 'tools/string';
+
+//
 // BEM
 //
 @import 'BEM';
@@ -53,6 +58,11 @@
 // Forms
 //
 @import 'forms';
+
+//
+// Lists
+//
+@import 'lists';
 
 //
 // Images
@@ -136,7 +146,7 @@ $_sugar-settings : (								// store all the settings
 		modifier-separator 			: '--' 				// modifier separator
 								),
 	modular-scale 				: ( 				// Modular scale settings
-		base 						: 1vw, 				// the modular scale base
+		base 						: 1rem, 			// the modular scale base
 		ratio 						: $golden, 			// the ratio to use
 		range 						: null, 			// range
 		fluid 						: false 			// is fluid modular scale

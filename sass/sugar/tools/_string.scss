@@ -1,0 +1,38 @@
+//
+// String specific
+//
+
+//
+// Get url extension
+//
+@function str-url-ext(
+	$url
+) {
+	// protect
+	@if type-of($url) != string {
+		@error("str-url-ext : $url has to be a string");
+	}
+	// split
+	$split : str-explode($url,'.');
+	// get the last item
+	$last : last-nth($split);
+	@if str-length($last) <= 5 and length($split) >= 2 {
+		@return $last;
+	} @else {
+		@return null;
+	}
+}
+
+//
+// Check if is url
+//
+@function str-is-url(
+	$url
+) {
+	$ext : str-url-ext($url);
+	@if $ext {
+		@return true;
+	} @else {
+		@return false;
+	}
+}

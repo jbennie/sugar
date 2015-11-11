@@ -124,6 +124,7 @@ $_s_nested_properties_depth : ();
 				// we have to reset the current prop to null
 				// in order to not append values in previous
 				// founded property
+				$first : false;
 				$current_prop : null;
 				$values : ();
 			}
@@ -134,7 +135,15 @@ $_s_nested_properties_depth : ();
 				$found : false;
 				@each $name, $type in $keywords {
 					@if $found == false {
-						@if $type == number or $type == color or $type == string or $type == list or $type == map {
+						@if $type == url {
+							@if str-is-url($prop) {
+								$map : map-set($map, $name, $prop);
+								// remove the item from keywords
+								$keywords : map-remove($keywords, $name);
+								// stop searching
+								$found : true;
+							}
+						} @else if $type == number or $type == color or $type == string or $type == list or $type == map {
 							@if type-of($prop) == $type {
 								$map : map-set($map, $name, $prop);
 								// remove the item from keywords

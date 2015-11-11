@@ -25,6 +25,7 @@
 		text-transform : none capitalize uppercase lowercase initial inherit,
 		font-stretch : ultra-condensed extra-condensed condensed semi-condensed normal semi-expanded expanded extra-expanded ultra-expanded initial inherit,
 		white-space : normal nowrap pre pre-line pre-wrap initial inherit,
+		color : color,
 		name : string,
 		font-size : number,
 		line-height : number,
@@ -38,6 +39,7 @@
 		vertical-rhythme : true
 	), (
 		name : n,
+		color : c,
 		font-size : fs,
 		font-style : fst,
 		font-variant : fv,
@@ -64,6 +66,7 @@
 
 	// get values
 	$name : map-get-or($font, name);
+	$color : map-get($font, color);
 	$size : map-get-or($font, font-size, 1rem);
 	$font-style : map-get($font, font-style);
 	$font-variant : map-get($font, font-variant);
@@ -96,10 +99,15 @@
 	// set the font
 	font-family : $name;
 
-	// vertical rhytme ?
+	// color
+	@if $color {
+		color: $color;
+	}
+
+	// vertical rhythme ?
 	@if $vertical-rhythme {
 		$cap-height : map-get($f, cap-height);
-		@include s-set-rhytme(
+		@include s-set-rhythme(
 			-font-size $size
 			-line-height $line-height
 			-margin-top $margin-top
@@ -108,7 +116,7 @@
 			-padding-bottom $padding-bottom
 			-cap-height $cap-height);
 	} @else {
-		font-size: $size;
+		font-size: rem($size);
 		@if $line-height {
 			line-height: $line-height;
 		}
@@ -120,9 +128,9 @@
 	// max width
 	@if $max-width {
 		@if type-of($max-width) == number {
-			@include s-set-rhytme-width($max-width);
+			@include s-set-rhythme-width($max-width);
 		} @else {
-			@include s-set-rhytme-width();
+			@include s-set-rhythme-width();
 		}
 	}
 
@@ -246,9 +254,10 @@
 //
 // Set rhythme max-width
 //
-@mixin s-set-rhytme-width(
+@mixin s-set-rhythme-width(
 	$letters-count : sugar('settings.typo.line-letters-count')
 ) {
+	display: block;
 	@if unitless($letters-count) {
 		max-width : $letters-count + ex;
 	} @else {
@@ -259,13 +268,25 @@
 //
 // Set rhythme
 //
-@mixin s-set-rhytme(
+@mixin s-set-rhythme(
 	$rhythme
 ) {
 	$f : _sugar-parse-properties($rhythme, (
-		font-size : number
+		font-size : number,
+		line-height : number,
+		margin-top : number,
+		margin-bottom : number,
+		padding-top : number,
+		padding-bottom : number,
+		cap-height : number
 	), (
-		font-size: fs
+		font-size : fs,
+		line-height : lh,
+		margin-top: mt,
+		margin-bottom: mb,
+		padding-top: pt,
+		padding-bottom: pb,
+		cap-height: ch
 	));
 
 	// get the font-size
@@ -280,13 +301,10 @@
 	font-size: rem($font-size);
 
 	// set the baseline
-	@include s-set-rhytme-baseline($rhythme);
+	@include s-set-rhythme-baseline($rhythme);
 }
 
-//
-// Set fontsize and baseline at once. Mix of fontsize and baseline mixin.
-//
-@mixin s-set-rhytme-baseline(
+@function s-get-rhythme-values(
 	$rhythme
 ) {
 	$rhythme : _sugar-parse-properties($rhythme, (
@@ -306,6 +324,8 @@
 		padding-bottom: pb,
 		cap-height: ch
 	));
+
+	@debug($rhythme);
 
 	$font-size : map-get($rhythme, font-size);
 	$line-height : map-get-or($rhythme, line-height, 2);
@@ -378,9 +398,6 @@
 		$cap-height : 0;
 	}
 
-	// set line-height
-	line-height: rem($line-height);
-
 	// protect
 	@if type-of($font-size) == number {
 		$rootsize: $root-font-size;
@@ -391,26 +408,79 @@
 		// push a little bit the content lower to respect
 		// vertical rhythme
 		@if $padding-top and $padding-top >= 1 {
-			padding-top: $padding-top;
-			margin-bottom: $margin-bottom;
+			@return (
+				padding-top : $padding-top,
+				margin-top : $margin-top,
+				margin-bottom : $margin-bottom,
+				padding-bottom : $padding-bottom
+			);
 		} @else {
-			padding-top: $baseline-shift;
-			@if $baseline-push < $margin-bottom {
+			$baseline-shift : $baseline-shift % 1;
+			$decimal : $baseline-push % 1;
+			@if $decimal < 0.5 and $baseline-push < $margin-bottom {
+				$baseline-push : $baseline-push + 1;
+			} @else if $decimal >= 0.5 and $baseline-push > $margin-bottom {
+				$baseline-push : $baseline-push - 1;
+			} @else if $decimal < 0.5 and $baseline-push > $margin-bottom {
+				$baseline-push : $baseline-push - 1;
+			} @else if $decimal >= 0.5 and $baseline-push < $margin-bottom {
 				$baseline-push : $baseline-push + 1;
 			}
-			margin-bottom: $baseline-push;
-		}
-		
-		@if $padding-bottom {
-			padding-bottom : $padding-bottom;
+			@return (
+				padding-top : $baseline-shift,
+				margin-top : $margin-top,
+				margin-bottom : $baseline-push,
+				padding-bottom : $padding-bottom
+			);
 		}
 	} @else {
 		@warn "#{$font-size} is not a valid scale variable";
 	}
+	@return null;
 }
 
 //
-// Show rhytme
+// Set fontsize and baseline at once. Mix of fontsize and baseline mixin.
+//
+@mixin s-set-rhythme-baseline(
+	$rhythme
+) {
+	@debug($rhythme);
+	$rh : _sugar-parse-properties($rhythme, (
+		font-size : number,
+		line-height : number,
+		margin-top : number,
+		margin-bottom : number,
+		padding-top : number,
+		padding-bottom : number,
+		cap-height : number
+	), (
+		font-size : fs,
+		line-height : lh,
+		margin-top: mt,
+		margin-bottom: mb,
+		padding-top: pt,
+		padding-bottom: pb,
+		cap-height: ch
+	));
+
+	// get the line-height
+	$line-height : map-get-or($rh, line-height, 2);
+
+	// get the rhythme values
+	$rhythme-values : s-get-rhythme-values($rhythme);
+
+	// set line-height
+	line-height: rem($line-height);
+
+	// set rhythme
+	@each $prop, $value in $rhythme-values {
+		#{$prop} : $value;
+	}
+}
+
+//
+// Show rhythme
 //
 @mixin s-show-rhythme(
 	$color : #0ff

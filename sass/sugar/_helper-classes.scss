@@ -58,23 +58,32 @@
 @include sugar-register-class('helper.text.truncate', truncate) {
 	@include s-truncate();
 }
-@include sugar-register-class('helper.text.align.left', align-left) {
+@include sugar-register-class('helper.text.align.left', text-left) {
 	text-align: left;
 }
-@include sugar-register-class('helper.text.align.right', align-right) {
+@include sugar-register-class('helper.text.align.right', text-right) {
 	text-align: right;
 }
-@include sugar-register-class('helper.text.align.center', align-center) {
+@include sugar-register-class('helper.text.align.center', text-center) {
 	text-align: center;
 }
-@include sugar-register-class('helper.text.align.justify', align-justify) {
+@include sugar-register-class('helper.text.align.justify', text-justify) {
 	text-align: justify;
+}
+@include sugar-register-class('helper.text.transform.lowercase', text-lowercase) {
+	text-transform: lowercase;
+}
+@include sugar-register-class('helper.text.transform.uppercase', text-uppercase) {
+	text-transform: uppercase;
+}
+@include sugar-register-class('helper.text.transform.capitalize', text-capitalize) {
+	text-transform: capitalize;
 }
 
 //
 // Blocks
 //
-@include sugar-register-class('helper.block.center', center-block) {
+@include sugar-register-class('helper.block.center', block-center) {
 	display : block;
 	margin-left : auto;
 	margin-right : auto;

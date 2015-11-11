@@ -1183,7 +1183,7 @@
  */
 /* FONT PATH
  * -------------------------- */
-i.user, .fa-user, .fa-gg-circle {
+i.user, .ul > li:before, .ul dt:before, .ul dd:before, .ul--inside > li:before, .ul--inside dt:before, .ul--inside dd:before, .ul--small > li:before, .ul--small dt:before, .ul--small dd:before, .fa-user, .fa-gg-circle {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
@@ -1202,11 +1202,11 @@ i.user, .fa-user, .fa-gg-circle {
   float: left;
 }
 
-i.pull-left.user, .pull-left.fa-user, .pull-left.fa-gg-circle {
+i.pull-left.user, .ul > li.pull-left:before, .ul dt.pull-left:before, .ul dd.pull-left:before, .ul--inside > li.pull-left:before, .ul--inside dt.pull-left:before, .ul--inside dd.pull-left:before, .ul--small > li.pull-left:before, .ul--small dt.pull-left:before, .ul--small dd.pull-left:before, .pull-left.fa-user, .pull-left.fa-gg-circle {
   margin-right: .3em;
 }
 
-i.pull-right.user, .pull-right.fa-user, .pull-right.fa-gg-circle {
+i.pull-right.user, .ul > li.pull-right:before, .ul dt.pull-right:before, .ul dd.pull-right:before, .ul--inside > li.pull-right:before, .ul--inside dt.pull-right:before, .ul--inside dd.pull-right:before, .ul--small > li.pull-right:before, .ul--small dt.pull-right:before, .ul--small dd.pull-right:before, .pull-right.fa-user, .pull-right.fa-gg-circle {
   margin-left: .3em;
 }
 
@@ -1232,11 +1232,11 @@ i.pull-right.user, .pull-right.fa-user, .pull-right.fa-gg-circle {
 }
 /* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen
    readers do not read off random characters that represent icons */
-i.user:before, .fa-user:before {
+i.user:before, .ul--small > li:before, .ul--small dt:before, .ul--small dd:before, .fa-user:before {
   content: "\f007";
 }
 
-.fa-gg-circle:before {
+.ul > li:before, .ul dt:before, .ul dd:before, .ul--inside > li:before, .ul--inside dt:before, .ul--inside dd:before, .fa-gg-circle:before {
   content: "\f261";
 }
 
@@ -1341,23 +1341,35 @@ i.user:before, .fa-user:before {
   white-space: nowrap;
 }
 
-.align-left {
+.text-left {
   text-align: left;
 }
 
-.align-right {
+.text-right {
   text-align: right;
 }
 
-.align-center {
+.text-center {
   text-align: center;
 }
 
-.align-justify {
+.text-justify {
   text-align: justify;
 }
 
-.center-block {
+.text-lowercase {
+  text-transform: lowercase;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+.text-capitalize {
+  text-transform: capitalize;
+}
+
+.block-center {
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -1743,6 +1755,7 @@ html {
   font-size: 1.8rem;
   line-height: 2rem;
   padding-top: 1rem;
+  margin-top: 0;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
   font-weight: bold;
@@ -1826,8 +1839,6 @@ html {
   position: relative;
   -webkit-transform: translateZ(30px);
           transform: translateZ(30px);
-  top: 10px;
-  right: 30px;
 }
 
 .translate {
@@ -1888,7 +1899,7 @@ html {
 .show-grid {
   position: relative;
   margin: 0 auto;
-  max-width: 960px;
+  max-width: 1200px;
 }
 .show-grid:after {
   pointer-events: none;
@@ -1925,73 +1936,81 @@ i.user {
   color: #f2bc2b;
 }
 
+.legend {
+  font-family: helvetica;
+  color: #b3b3b3;
+  font-size: 1.53846154rem;
+  line-height: 2rem;
+  padding-top: 0.50001rem;
+  margin-top: 0;
+  margin-bottom: 2.49999rem;
+  padding-bottom: 0;
+  display: block;
+  max-width: 55ex;
+}
+
 h1 {
   font-family: helvetica-ultralight;
-  font-size: 5.38836184rem;
-  line-height: 6rem;
-  padding-top: 1.2487924rem;
-  margin-bottom: 1.7512076rem;
+  font-size: 4.23606807rem;
+  line-height: 5rem;
+  padding-top: 0.12328788rem;
+  margin-top: 0;
+  margin-bottom: 1.87671212rem;
   padding-bottom: 0;
+  display: block;
   max-width: 55ex;
   text-transform: uppercase;
 }
 
 h2 {
   font-family: VT323;
-  font-size: 4.23606807rem;
-  line-height: 5rem;
-  padding-top: 1.12328788rem;
-  margin-bottom: 1.87671212rem;
+  font-size: 3.33019073rem;
+  line-height: 4rem;
+  padding-top: 0.91769801rem;
+  margin-top: 0;
+  margin-bottom: 2.08230199rem;
   padding-bottom: 0;
 }
 
 h3 {
   font-family: helvetica;
-  font-size: 3.33019073rem;
-  line-height: 4rem;
-  padding-top: 0.91769801rem;
-  margin-bottom: 2.08230199rem;
+  font-size: 2.61803403rem;
+  line-height: 3rem;
+  padding-top: 0.64914894rem;
+  margin-top: 0;
+  margin-bottom: 2.35085106rem;
   padding-bottom: 0;
 }
 
 h4 {
   font-family: helvetica;
-  font-size: 2.61803403rem;
+  font-size: 2.05817105rem;
   line-height: 3rem;
-  padding-top: 0.64914894rem;
-  margin-bottom: 2.35085106rem;
+  padding-top: 0.83110441rem;
+  margin-top: 0;
+  margin-bottom: 2.16889559rem;
   padding-bottom: 0;
 }
 
 h5 {
   font-family: helvetica;
-  font-size: 2.05817105rem;
-  line-height: 3rem;
-  padding-top: 0.83110441rem;
-  margin-bottom: 2.16889559rem;
+  font-size: 1.618034rem;
+  line-height: 2rem;
+  padding-top: 0.47414895rem;
+  margin-top: 0;
+  margin-bottom: 2.52585105rem;
   padding-bottom: 0;
 }
 
 h6 {
   font-family: helvetica;
-  font-size: 1.618034rem;
+  font-size: 1.27201965rem;
   line-height: 2rem;
-  padding-top: 0.47414895rem;
-  margin-bottom: 2.52585105rem;
+  padding-top: 0.58660361rem;
+  margin-top: 0;
+  margin-bottom: 2.41339639rem;
   padding-bottom: 0;
-}
-
-blockquote {
-  border-left: 5px solid #f2bc2b;
-  margin-left: -2rem;
-  font-family: helvetica;
-  font-size: 2.07692308rem;
-  line-height: 3rem;
-  padding-top: 0.82501rem;
-  margin-bottom: 2.17499rem;
-  padding-bottom: 0;
-  font-style: italic;
-  background: #eee;
+  content: "jpg";
 }
 
 p {
@@ -1999,6 +2018,7 @@ p {
   font-size: 1.27201965rem;
   line-height: 2rem;
   padding-top: 0.58660361rem;
+  margin-top: 0;
   margin-bottom: 2.41339639rem;
   padding-bottom: 0;
 }
@@ -2018,10 +2038,149 @@ p.lead {
   font-size: 1.618034rem;
   line-height: 2rem;
   padding-top: 0.47414895rem;
+  margin-top: 0;
   margin-bottom: 2.52585105rem;
   padding-bottom: 0;
   font-weight: bold;
   text-decoration: underline;
+}
+
+blockquote {
+  padding: 3rem;
+  border-left: 5px solid #f2bc2b;
+  margin-left: -2rem;
+  font-family: helvetica;
+  font-size: 2.07692308rem;
+  line-height: 3rem;
+  padding-top: 3rem;
+  margin-top: 0;
+  margin-bottom: 2rem;
+  padding-bottom: 3rem;
+  font-style: italic;
+  background: #eee;
+}
+
+.ul {
+  margin-bottom: 2.49999rem;
+  list-style-type: none;
+  margin-left: -3.07692308rem;
+}
+.ul > li, .ul dt, .ul dd {
+  font-family: helvetica;
+  font-size: 1.53846154rem;
+  line-height: 2rem;
+  padding-top: 0.50001rem;
+  margin-top: 0;
+  margin-bottom: 0.49999rem;
+  padding-bottom: 0;
+  display: block;
+  max-width: 55ex;
+}
+.ul > li, .ul dt, .ul dd {
+  position: relative;
+  padding-left: 3.07692308rem;
+}
+.ul > li:before, .ul dt:before, .ul dd:before {
+  position: absolute;
+  left: 0rem;
+  top: 0.61538462rem;
+  color: #f2bc2b;
+  font-size: 1.69230769rem;
+}
+.ul > li > ul,
+.ul > li > ol,
+.ul > li > dl, .ul dt > ul,
+.ul dt > ol,
+.ul dt > dl, .ul dd > ul,
+.ul dd > ol,
+.ul dd > dl {
+  margin-left: 0;
+  margin-top: 0.50001rem;
+  margin-bottom: 0;
+}
+.ul li:hover:before {
+  color: #c4920c;
+}
+
+.ul--inside {
+  margin-bottom: 2.49999rem;
+  list-style-type: none;
+}
+.ul--inside > li, .ul--inside dt, .ul--inside dd {
+  font-family: helvetica;
+  font-size: 1.53846154rem;
+  line-height: 2rem;
+  padding-top: 0.50001rem;
+  margin-top: 0;
+  margin-bottom: 0.49999rem;
+  padding-bottom: 0;
+  display: block;
+  max-width: 55ex;
+}
+.ul--inside > li, .ul--inside dt, .ul--inside dd {
+  position: relative;
+  padding-left: 2.30769231rem;
+}
+.ul--inside > li:before, .ul--inside dt:before, .ul--inside dd:before {
+  position: absolute;
+  left: 0rem;
+  top: 0.92307692rem;
+  color: #ff0000;
+  font-size: 1.23076923rem;
+}
+.ul--inside > li > ul,
+.ul--inside > li > ol,
+.ul--inside > li > dl, .ul--inside dt > ul,
+.ul--inside dt > ol,
+.ul--inside dt > dl, .ul--inside dd > ul,
+.ul--inside dd > ol,
+.ul--inside dd > dl {
+  margin-left: 0;
+  margin-top: 0.50001rem;
+  margin-bottom: 0;
+}
+.ul--inside li:hover:before {
+  color: #c4920c;
+}
+
+.ul--small {
+  margin-bottom: 2.39999rem;
+  list-style-type: none;
+  margin-left: -3.07692308rem;
+}
+.ul--small > li, .ul--small dt, .ul--small dd {
+  font-family: helvetica;
+  font-size: 1.23076923rem;
+  line-height: 2rem;
+  padding-top: 0.60001rem;
+  margin-top: 0;
+  margin-bottom: 0.39999rem;
+  padding-bottom: 0;
+}
+.ul--small > li, .ul--small dt, .ul--small dd {
+  position: relative;
+  padding-left: 3.07692308rem;
+}
+.ul--small > li:before, .ul--small dt:before, .ul--small dd:before {
+  position: absolute;
+  left: 0rem;
+  top: 0.61538462rem;
+  color: #f2bc2b;
+  font-size: 1.69230769rem;
+}
+.ul--small > li > ul,
+.ul--small > li > ol,
+.ul--small > li > dl, .ul--small dt > ul,
+.ul--small dt > ol,
+.ul--small dt > dl, .ul--small dd > ul,
+.ul--small dd > ol,
+.ul--small dd > dl {
+  margin-left: 0;
+  margin-top: 0.60001rem;
+  margin-bottom: 0;
+}
+.ul--small li:hover:before {
+  color: #c4920c;
 }
 
 .t-fast, .t-fast:before, .t-fast:after {
