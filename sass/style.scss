@@ -11,6 +11,7 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 // setup sugar
 @include sugar((
 	typo : (
+		font-family : helvetica,
 		font-size : 13px,
 		font-sizes : (
 			11.5px : 0 800px,
@@ -178,20 +179,11 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 
 .btn {
 	display: inline-block;
-	// height: s-size(medium);
-	// line-height: s-size(medium);
-	// padding: 0 s-size(small);
-	margin-bottom: s-size(2);
 	background: s-color(green);
 	color: white;
 	text-decoration: none;
-
 	padding: 0 s-size(2);
-	@include s-font(23.4px helvetica bold -pt 1 -pb 1 -mb 2);
-
-	span {
-		
-	}
+	@include s-font(24px helvetica bold -pt 1 -pb 1 -mb 2);
 }
 
 .abs-cover {
@@ -199,15 +191,6 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 }
 .abs-contain {
 	@include s-size(contain);
-}
-
-@keyframes hello {
-	0% {
-		top : 0;
-	}
-	100% {
-		top : 100%;
-	}
 }
 
 .cssgram {
@@ -316,7 +299,7 @@ i.user {
 }
 
 .legend {
-	@include s-font(20px helvetica s-color(white, -darken 30%) -mw);
+	@include s-font(20px s-color(white, -darken 30%) -mw);
 }
 h1 {
 	@include s-font(ms(3) helvetica-ultralight uppercase -mw);
@@ -325,32 +308,29 @@ h2 {
 	@include s-font(ms(2.5) VT323);
 }
 h3 {
-	@include s-font(ms(2) helvetica);
+	@include s-font(ms(2));
 }
 h4 {
-	@include s-font(ms(1.5) helvetica);
+	@include s-font(ms(1.5));
 }
 h5 {
-	@include s-font(ms(1) helvetica);
+	@include s-font(ms(1));
 }
 h6 {
-	@include s-font(ms(0.5) helvetica);
+	@include s-font(ms(0.5));
 	content : str-url-ext('hello/world.ddd/coco.jpg');
 }
 p {
-	@include s-font(ms(0.5) 2 helvetica);
-	@include s-media(0 500px) {
-		@include s-columns(1 40px);
-	}
+	@include s-font(ms(0.5) 2);
 }
 p.lead {
-	@include s-font(ms(1) 2 helvetica bold underline);
+	@include s-font(ms(1) 2 bold underline);
 }
 blockquote {
 	padding: s-size(3);
 	border-left: 5px solid s-color(orange);
 	margin-left: s-size(-2);
-	@include s-font(27px helvetica italic -pt 3 -pb 3 -mb 2);
+	@include s-font(27px italic -pt 3 -pb 3 -mb 2);
 	background: s-color(#eee);
 }
 .ul {
@@ -358,44 +338,68 @@ blockquote {
 		outside
 		-padding-left 40px
 		-style-icon fa-gg-circle
-		-style-icon-color s-color(orange)
-		-style-icon-size 22px
-		-style-icon-offset 8px
-		-font (20px helvetica -mb 0 -mw true)
+		-bullet-color s-color(orange)
+		-bullet-size 22px
+		-bullet-offset 8px
+		-font (20px -mb 0 -mw true)
+		-hover (-bullet-color s-color(red))
 		);
-	// margin-bottom:s-size(2);
-	li:hover:before {
-		color: s-color(orange, -darken 15%);
-	}
 }
 .ul--inside {
 	@include s-list(
 		inside
-		-padding-left 30px
+		-padding-left 40px
 		-style-icon fa-gg-circle
-		-style-icon-color s-color(#ff0000)
-		-style-icon-size 16px
-		-style-icon-offset 12px
-		-font (20px helvetica -mb 0 -mw true)
+		-bullet-color s-color(#ff0000)
+		-bullet-size 16px
+		-bullet-offset 12px
+		-font (20px -mb 0 -mw true)
+		-hover (-bullet-color s-color(red))
 		);
-	// margin-bottom:s-size(2);
-	li:hover:before {
-		color: s-color(orange, -darken 15%);
-	}
 }
 .ul--small {
 	@include s-list(
 		outside
 		-padding-left 40px
 		-style-icon fa-user
-		-style-icon-color s-color(orange)
-		-style-icon-size 22px
-		-style-icon-offset 8px
-		-font (16px helvetica -mb 0)
+		-bullet-color s-color(orange)
+		-bullet-size 22px
+		-bullet-offset 8px
+		-font (16px -mb 0)
+		-hover (-bullet-color s-color(red))
 		);
-	li:hover:before {
-		color: s-color(orange, -darken 15%);
-	}
+}
+.ul--image {
+	@include s-list(
+		outside
+		-padding-left 40px
+		-style-image '../img/list-puce-gray.svgz'
+		-bullet-offset 12px
+		-bullet-size 14px 20px
+		-font (20px -mb 0)
+		-hover (-style-image '../img/list-puce-red.svgz')
+		);
+}
+.ul--decimal {
+	@include s-list(
+		outside
+		upper-roman
+		-padding-left 40px
+		-bullet-size 14px
+		-font (20px -mb 0)
+		-bullet-font (15px -mb 0)
+		-hover (-bullet-color s-color(orange))
+		);
+}
+.ul--circle {
+	@include s-list(
+		outside
+		circle
+		-padding-left 40px
+		-bullet-size 14px
+		-font (20px -mb 0)
+		-hover (-bullet-color s-color(orange))
+		);
 }
 
 

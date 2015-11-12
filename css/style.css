@@ -1183,7 +1183,7 @@
  */
 /* FONT PATH
  * -------------------------- */
-i.user, .ul > li:before, .ul dt:before, .ul dd:before, .ul--inside > li:before, .ul--inside dt:before, .ul--inside dd:before, .ul--small > li:before, .ul--small dt:before, .ul--small dd:before, .fa-user, .fa-gg-circle {
+i.user, .ul > *:before, .ul--inside > *:before, .ul--small > *:before, .fa-user, .fa-gg-circle {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
@@ -1202,11 +1202,11 @@ i.user, .ul > li:before, .ul dt:before, .ul dd:before, .ul--inside > li:before, 
   float: left;
 }
 
-i.pull-left.user, .ul > li.pull-left:before, .ul dt.pull-left:before, .ul dd.pull-left:before, .ul--inside > li.pull-left:before, .ul--inside dt.pull-left:before, .ul--inside dd.pull-left:before, .ul--small > li.pull-left:before, .ul--small dt.pull-left:before, .ul--small dd.pull-left:before, .pull-left.fa-user, .pull-left.fa-gg-circle {
+i.pull-left.user, .ul > .pull-left:before, .ul--inside > .pull-left:before, .ul--small > .pull-left:before, .pull-left.fa-user, .pull-left.fa-gg-circle {
   margin-right: .3em;
 }
 
-i.pull-right.user, .ul > li.pull-right:before, .ul dt.pull-right:before, .ul dd.pull-right:before, .ul--inside > li.pull-right:before, .ul--inside dt.pull-right:before, .ul--inside dd.pull-right:before, .ul--small > li.pull-right:before, .ul--small dt.pull-right:before, .ul--small dd.pull-right:before, .pull-right.fa-user, .pull-right.fa-gg-circle {
+i.pull-right.user, .ul > .pull-right:before, .ul--inside > .pull-right:before, .ul--small > .pull-right:before, .pull-right.fa-user, .pull-right.fa-gg-circle {
   margin-left: .3em;
 }
 
@@ -1232,11 +1232,11 @@ i.pull-right.user, .ul > li.pull-right:before, .ul dt.pull-right:before, .ul dd.
 }
 /* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen
    readers do not read off random characters that represent icons */
-i.user:before, .ul--small > li:before, .ul--small dt:before, .ul--small dd:before, .fa-user:before {
+i.user:before, .ul--small > :before, .fa-user:before {
   content: "\f007";
 }
 
-.ul > li:before, .ul dt:before, .ul dd:before, .ul--inside > li:before, .ul--inside dt:before, .ul--inside dd:before, .fa-gg-circle:before {
+.ul > :before, .ul--inside > :before, .fa-gg-circle:before {
   content: "\f261";
 }
 
@@ -1421,6 +1421,7 @@ table {
 
 html {
   font-size: 13px;
+  font-family: helvetica;
 }
 @media (min-width: 0) and (max-width: 800px) {
   html {
@@ -1564,8 +1565,10 @@ html {
 }
 .bubble:before {
   -webkit-transform-origin: 50px 0;
+      -ms-transform-origin: 50px 0;
           transform-origin: 50px 0;
   -webkit-transform: scale(1.2);
+      -ms-transform: scale(1.2);
           transform: scale(1.2);
   border-width: 20px 50px 0 50px;
   border-color: #ddd transparent transparent transparent;
@@ -1605,8 +1608,10 @@ html {
 }
 .bubble:hover:before {
   -webkit-transform-origin: 50px 20px;
+      -ms-transform-origin: 50px 20px;
           transform-origin: 50px 20px;
   -webkit-transform: scale(1.2);
+      -ms-transform: scale(1.2);
           transform: scale(1.2);
   border-width: 0 50px 20px 50px;
   border-color: transparent transparent #ddd transparent;
@@ -1642,8 +1647,10 @@ html {
 }
 .triangle:before {
   -webkit-transform-origin: 100px 66.66666667px;
+      -ms-transform-origin: 100px 66.66666667px;
           transform-origin: 100px 66.66666667px;
   -webkit-transform: scale(1.1);
+      -ms-transform: scale(1.1);
           transform: scale(1.1);
   border-width: 0 100px 100px 100px;
   border-color: transparent transparent #00cc00 transparent;
@@ -1672,8 +1679,10 @@ html {
 }
 .triangle:hover:before {
   -webkit-transform-origin: 150px 133.33333333px;
+      -ms-transform-origin: 150px 133.33333333px;
           transform-origin: 150px 133.33333333px;
   -webkit-transform: scale(2);
+      -ms-transform: scale(2);
           transform: scale(2);
   border-width: 0 150px 200px 150px;
   border-color: transparent transparent #00cc00 transparent;
@@ -1746,18 +1755,17 @@ html {
 
 .btn {
   display: inline-block;
-  margin-bottom: 2rem;
   background: #00ff00;
   color: white;
   text-decoration: none;
   padding: 0 2rem;
   font-family: helvetica;
-  font-size: 1.8rem;
-  line-height: 2rem;
   padding-top: 1rem;
   margin-top: 0;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
+  font-size: 1.84615385rem;
+  line-height: 2rem;
   font-weight: bold;
 }
 
@@ -1766,6 +1774,7 @@ html {
   top: 50%;
   left: 50%;
   -webkit-transform: translateX(-50%) translateY(-50%);
+      -ms-transform: translateX(-50%) translateY(-50%);
           transform: translateX(-50%) translateY(-50%);
   min-width: 100%;
   min-height: 100%;
@@ -1776,28 +1785,12 @@ html {
   top: 50%;
   left: 50%;
   -webkit-transform: translateX(-50%) translateY(-50%);
+      -ms-transform: translateX(-50%) translateY(-50%);
           transform: translateX(-50%) translateY(-50%);
   max-width: 100%;
   max-height: 100%;
 }
 
-@-webkit-keyframes hello {
-  0% {
-    top: 0;
-  }
-  100% {
-    top: 100%;
-  }
-}
-
-@keyframes hello {
-  0% {
-    top: 0;
-  }
-  100% {
-    top: 100%;
-  }
-}
 .cssgram {
   border-radius: 50%;
   overflow: hidden;
@@ -1813,6 +1806,7 @@ html {
   top: 50%;
   left: 50%;
   -webkit-transform: translateX(-50%) translateY(-50%);
+      -ms-transform: translateX(-50%) translateY(-50%);
           transform: translateX(-50%) translateY(-50%);
   min-width: 100%;
   min-height: 100%;
@@ -1847,10 +1841,12 @@ html {
   height: 100px;
   background: blue;
   -webkit-transform: translateX(10px) translateY(30px);
+      -ms-transform: translateX(10px) translateY(30px);
           transform: translateX(10px) translateY(30px);
 }
 .translate:hover {
   -webkit-transform: translateX(0) translateY(30px);
+      -ms-transform: translateX(0) translateY(30px);
           transform: translateX(0) translateY(30px);
 }
 
@@ -1860,10 +1856,12 @@ html {
   height: 100px;
   background: green;
   -webkit-transform: skew(20deg, 40deg) rotate(10deg);
+      -ms-transform: skew(20deg, 40deg) rotate(10deg);
           transform: skew(20deg, 40deg) rotate(10deg);
 }
 .transform:hover {
   -webkit-transform: skew(20deg, 40deg) rotate(50deg);
+      -ms-transform: skew(20deg, 40deg) rotate(50deg);
           transform: skew(20deg, 40deg) rotate(50deg);
 }
 
@@ -1937,26 +1935,25 @@ i.user {
 }
 
 .legend {
-  font-family: helvetica;
   color: #b3b3b3;
-  font-size: 1.53846154rem;
-  line-height: 2rem;
   padding-top: 0.50001rem;
   margin-top: 0;
   margin-bottom: 2.49999rem;
   padding-bottom: 0;
+  font-size: 1.53846154rem;
+  line-height: 2rem;
   display: block;
   max-width: 55ex;
 }
 
 h1 {
   font-family: helvetica-ultralight;
-  font-size: 4.23606807rem;
-  line-height: 5rem;
   padding-top: 0.12328788rem;
   margin-top: 0;
   margin-bottom: 1.87671212rem;
   padding-bottom: 0;
+  font-size: 4.23606807rem;
+  line-height: 5rem;
   display: block;
   max-width: 55ex;
   text-transform: uppercase;
@@ -1964,83 +1961,67 @@ h1 {
 
 h2 {
   font-family: VT323;
-  font-size: 3.33019073rem;
-  line-height: 4rem;
   padding-top: 0.91769801rem;
   margin-top: 0;
   margin-bottom: 2.08230199rem;
   padding-bottom: 0;
+  font-size: 3.33019073rem;
+  line-height: 4rem;
 }
 
 h3 {
-  font-family: helvetica;
-  font-size: 2.61803403rem;
-  line-height: 3rem;
   padding-top: 0.64914894rem;
   margin-top: 0;
   margin-bottom: 2.35085106rem;
   padding-bottom: 0;
+  font-size: 2.61803403rem;
+  line-height: 3rem;
 }
 
 h4 {
-  font-family: helvetica;
-  font-size: 2.05817105rem;
-  line-height: 3rem;
   padding-top: 0.83110441rem;
   margin-top: 0;
   margin-bottom: 2.16889559rem;
   padding-bottom: 0;
+  font-size: 2.05817105rem;
+  line-height: 3rem;
 }
 
 h5 {
-  font-family: helvetica;
-  font-size: 1.618034rem;
-  line-height: 2rem;
   padding-top: 0.47414895rem;
   margin-top: 0;
   margin-bottom: 2.52585105rem;
   padding-bottom: 0;
+  font-size: 1.618034rem;
+  line-height: 2rem;
 }
 
 h6 {
-  font-family: helvetica;
-  font-size: 1.27201965rem;
-  line-height: 2rem;
   padding-top: 0.58660361rem;
   margin-top: 0;
   margin-bottom: 2.41339639rem;
   padding-bottom: 0;
+  font-size: 1.27201965rem;
+  line-height: 2rem;
   content: "jpg";
 }
 
 p {
-  font-family: helvetica;
-  font-size: 1.27201965rem;
-  line-height: 2rem;
   padding-top: 0.58660361rem;
   margin-top: 0;
   margin-bottom: 2.41339639rem;
   padding-bottom: 0;
-}
-@media (min-width: 0) and (max-width: 500px) {
-  p {
-    -webkit-column-count: 1;
-       -moz-column-count: 1;
-            column-count: 1;
-    -webkit-column-gap: 40px;
-       -moz-column-gap: 40px;
-            column-gap: 40px;
-  }
+  font-size: 1.27201965rem;
+  line-height: 2rem;
 }
 
 p.lead {
-  font-family: helvetica;
-  font-size: 1.618034rem;
-  line-height: 2rem;
   padding-top: 0.47414895rem;
   margin-top: 0;
   margin-bottom: 2.52585105rem;
   padding-bottom: 0;
+  font-size: 1.618034rem;
+  line-height: 2rem;
   font-weight: bold;
   text-decoration: underline;
 }
@@ -2049,138 +2030,346 @@ blockquote {
   padding: 3rem;
   border-left: 5px solid #f2bc2b;
   margin-left: -2rem;
-  font-family: helvetica;
-  font-size: 2.07692308rem;
-  line-height: 3rem;
   padding-top: 3rem;
   margin-top: 0;
   margin-bottom: 2rem;
   padding-bottom: 3rem;
+  font-size: 2.07692308rem;
+  line-height: 3rem;
   font-style: italic;
   background: #eee;
 }
 
 .ul {
   margin-bottom: 2.49999rem;
-  list-style-type: none;
   margin-left: -3.07692308rem;
 }
-.ul > li, .ul dt, .ul dd {
-  font-family: helvetica;
-  font-size: 1.53846154rem;
-  line-height: 2rem;
+.ul > * {
   padding-top: 0.50001rem;
   margin-top: 0;
   margin-bottom: 0.49999rem;
   padding-bottom: 0;
+  font-size: 1.53846154rem;
+  line-height: 2rem;
   display: block;
   max-width: 55ex;
-}
-.ul > li, .ul dt, .ul dd {
-  position: relative;
   padding-left: 3.07692308rem;
+  position: relative;
+  position: relative;
 }
-.ul > li:before, .ul dt:before, .ul dd:before {
-  position: absolute;
+.ul > *:before {
   left: 0rem;
   top: 0.61538462rem;
   color: #f2bc2b;
   font-size: 1.69230769rem;
 }
-.ul > li > ul,
-.ul > li > ol,
-.ul > li > dl, .ul dt > ul,
-.ul dt > ol,
-.ul dt > dl, .ul dd > ul,
-.ul dd > ol,
-.ul dd > dl {
+.ul > *:hover {
+  position: relative;
+}
+.ul > *:hover:before {
+  left: 0;
+  color: red;
+}
+.ul > *:hover:before {
+  position: absolute;
+  display: block;
+}
+.ul > *:hover > ul,
+.ul > *:hover > ol,
+.ul > *:hover > dl {
   margin-left: 0;
-  margin-top: 0.50001rem;
   margin-bottom: 0;
 }
-.ul li:hover:before {
-  color: #c4920c;
+.ul > *:before {
+  position: absolute;
+  display: block;
+}
+.ul > * > ul,
+.ul > * > ol,
+.ul > * > dl {
+  margin-left: 0;
+  margin-bottom: 0;
+  margin-top: 0.50001rem;
 }
 
 .ul--inside {
   margin-bottom: 2.49999rem;
-  list-style-type: none;
 }
-.ul--inside > li, .ul--inside dt, .ul--inside dd {
-  font-family: helvetica;
-  font-size: 1.53846154rem;
-  line-height: 2rem;
+.ul--inside > * {
   padding-top: 0.50001rem;
   margin-top: 0;
   margin-bottom: 0.49999rem;
   padding-bottom: 0;
+  font-size: 1.53846154rem;
+  line-height: 2rem;
   display: block;
   max-width: 55ex;
-}
-.ul--inside > li, .ul--inside dt, .ul--inside dd {
+  padding-left: 3.07692308rem;
   position: relative;
-  padding-left: 2.30769231rem;
+  position: relative;
 }
-.ul--inside > li:before, .ul--inside dt:before, .ul--inside dd:before {
-  position: absolute;
+.ul--inside > *:before {
   left: 0rem;
   top: 0.92307692rem;
   color: #ff0000;
   font-size: 1.23076923rem;
 }
-.ul--inside > li > ul,
-.ul--inside > li > ol,
-.ul--inside > li > dl, .ul--inside dt > ul,
-.ul--inside dt > ol,
-.ul--inside dt > dl, .ul--inside dd > ul,
-.ul--inside dd > ol,
-.ul--inside dd > dl {
+.ul--inside > *:hover {
+  position: relative;
+}
+.ul--inside > *:hover:before {
+  left: 0;
+  color: red;
+}
+.ul--inside > *:hover:before {
+  position: absolute;
+  display: block;
+}
+.ul--inside > *:hover > ul,
+.ul--inside > *:hover > ol,
+.ul--inside > *:hover > dl {
   margin-left: 0;
-  margin-top: 0.50001rem;
   margin-bottom: 0;
 }
-.ul--inside li:hover:before {
-  color: #c4920c;
+.ul--inside > *:before {
+  position: absolute;
+  display: block;
+}
+.ul--inside > * > ul,
+.ul--inside > * > ol,
+.ul--inside > * > dl {
+  margin-left: 0;
+  margin-bottom: 0;
+  margin-top: 0.50001rem;
 }
 
 .ul--small {
   margin-bottom: 2.39999rem;
-  list-style-type: none;
   margin-left: -3.07692308rem;
 }
-.ul--small > li, .ul--small dt, .ul--small dd {
-  font-family: helvetica;
-  font-size: 1.23076923rem;
-  line-height: 2rem;
+.ul--small > * {
   padding-top: 0.60001rem;
   margin-top: 0;
   margin-bottom: 0.39999rem;
   padding-bottom: 0;
-}
-.ul--small > li, .ul--small dt, .ul--small dd {
-  position: relative;
+  font-size: 1.23076923rem;
+  line-height: 2rem;
   padding-left: 3.07692308rem;
+  position: relative;
+  position: relative;
 }
-.ul--small > li:before, .ul--small dt:before, .ul--small dd:before {
-  position: absolute;
+.ul--small > *:before {
   left: 0rem;
   top: 0.61538462rem;
   color: #f2bc2b;
   font-size: 1.69230769rem;
 }
-.ul--small > li > ul,
-.ul--small > li > ol,
-.ul--small > li > dl, .ul--small dt > ul,
-.ul--small dt > ol,
-.ul--small dt > dl, .ul--small dd > ul,
-.ul--small dd > ol,
-.ul--small dd > dl {
+.ul--small > *:hover {
+  position: relative;
+}
+.ul--small > *:hover:before {
+  left: 0;
+  color: red;
+}
+.ul--small > *:hover:before {
+  position: absolute;
+  display: block;
+}
+.ul--small > *:hover > ul,
+.ul--small > *:hover > ol,
+.ul--small > *:hover > dl {
   margin-left: 0;
-  margin-top: 0.60001rem;
   margin-bottom: 0;
 }
-.ul--small li:hover:before {
-  color: #c4920c;
+.ul--small > *:before {
+  position: absolute;
+  display: block;
+}
+.ul--small > * > ul,
+.ul--small > * > ol,
+.ul--small > * > dl {
+  margin-left: 0;
+  margin-bottom: 0;
+  margin-top: 0.60001rem;
+}
+
+.ul--image {
+  margin-bottom: 2.49999rem;
+  margin-left: -3.07692308rem;
+}
+.ul--image > * {
+  padding-top: 0.50001rem;
+  margin-top: 0;
+  margin-bottom: 0.49999rem;
+  padding-bottom: 0;
+  font-size: 1.53846154rem;
+  line-height: 2rem;
+  padding-left: 3.07692308rem;
+  position: relative;
+  position: relative;
+}
+.ul--image > *:before {
+  left: 0rem;
+  top: 0.92307692rem;
+  width: 14px 20px;
+}
+.ul--image > *:hover {
+  position: relative;
+  position: relative;
+}
+.ul--image > *:hover:before {
+  left: 0;
+}
+.ul--image > *:hover:before {
+  position: absolute;
+  display: block;
+}
+.ul--image > *:hover:before {
+  content: '';
+  display: block;
+  width: 1ex;
+  height: 1em;
+  background-image: url("../img/list-puce-red.svgz");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: 50% 50%;
+}
+.ul--image > *:hover > ul,
+.ul--image > *:hover > ol,
+.ul--image > *:hover > dl {
+  margin-left: 0;
+  margin-bottom: 0;
+}
+.ul--image > *:before {
+  position: absolute;
+  display: block;
+}
+.ul--image > *:before {
+  content: '';
+  display: block;
+  width: 1ex;
+  height: 1em;
+  background-image: url("../img/list-puce-gray.svgz");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: 50% 50%;
+}
+.ul--image > * > ul,
+.ul--image > * > ol,
+.ul--image > * > dl {
+  margin-left: 0;
+  margin-bottom: 0;
+  margin-top: 0.50001rem;
+}
+
+.ul--decimal {
+  margin-bottom: 2.49999rem;
+  margin-left: -3.07692308rem;
+  counter-reset: s-list;
+}
+.ul--decimal > * {
+  padding-top: 0.50001rem;
+  margin-top: 0;
+  margin-bottom: 0.49999rem;
+  padding-bottom: 0;
+  font-size: 1.53846154rem;
+  line-height: 2rem;
+  padding-left: 3.07692308rem;
+  position: relative;
+}
+.ul--decimal > *:before {
+  content: counter(s-list,upper-roman);
+  counter-increment: s-list;
+}
+.ul--decimal > *:before {
+  left: 0;
+  font-size: 1.07692308rem;
+  padding-top: 0.62501rem;
+  margin-top: 0;
+  margin-bottom: 0.37499rem;
+  padding-bottom: 0;
+  font-size: 1.15384615rem;
+  line-height: 2rem;
+}
+.ul--decimal > *:hover {
+  position: relative;
+}
+.ul--decimal > *:hover:before {
+  left: 0;
+  color: #f2bc2b;
+}
+.ul--decimal > *:hover:before {
+  position: absolute;
+  display: block;
+}
+.ul--decimal > *:hover > ul,
+.ul--decimal > *:hover > ol,
+.ul--decimal > *:hover > dl {
+  margin-left: 0;
+  margin-bottom: 0;
+}
+.ul--decimal > *:before {
+  position: absolute;
+  display: block;
+}
+.ul--decimal > * > ul,
+.ul--decimal > * > ol,
+.ul--decimal > * > dl {
+  margin-left: 0;
+  margin-bottom: 0;
+  margin-top: 0.50001rem;
+}
+
+.ul--circle {
+  margin-bottom: 2.49999rem;
+  margin-left: -3.07692308rem;
+  counter-reset: s-list;
+}
+.ul--circle > * {
+  padding-top: 0.50001rem;
+  margin-top: 0;
+  margin-bottom: 0.49999rem;
+  padding-bottom: 0;
+  font-size: 1.53846154rem;
+  line-height: 2rem;
+  padding-left: 3.07692308rem;
+  position: relative;
+}
+.ul--circle > *:before {
+  content: counter(s-list,circle);
+  counter-increment: s-list;
+}
+.ul--circle > *:before {
+  left: 0;
+  font-size: 1.07692308rem;
+}
+.ul--circle > *:hover {
+  position: relative;
+}
+.ul--circle > *:hover:before {
+  left: 0;
+  color: #f2bc2b;
+}
+.ul--circle > *:hover:before {
+  position: absolute;
+  display: block;
+}
+.ul--circle > *:hover > ul,
+.ul--circle > *:hover > ol,
+.ul--circle > *:hover > dl {
+  margin-left: 0;
+  margin-bottom: 0;
+}
+.ul--circle > *:before {
+  position: absolute;
+  display: block;
+}
+.ul--circle > * > ul,
+.ul--circle > * > ol,
+.ul--circle > * > dl {
+  margin-left: 0;
+  margin-bottom: 0;
+  margin-top: 0.50001rem;
 }
 
 .t-fast, .t-fast:before, .t-fast:after {

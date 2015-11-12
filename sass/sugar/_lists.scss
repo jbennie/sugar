@@ -1,105 +1,206 @@
 //
 // Lists specific
 //
+$s-list-props : (
+	style-type : circle disc square armenian cjk-ideographic decimal decimal-leading-zero georgian hebrew hiragana hiragana-iroha katakana katakana-iroha lower-alpha lower-greek lower-latin lower-roman upper-alpha upper-latin upper-roman none inherit,
+	style-image : url,
+	style-position : inside outside,
+	style-icon : string,
+	bullet-color : color,
+	bullet-size : true,
+	bullet-offset : true,
+	bullet-font : true,
+	padding-left : number,
+	margin-bottom : number,
+	font : true,
+	hover : true
+);
+$s-list-alias : (
+	style-type : type t,
+	style-image : image img,
+	style-position : position p,
+	style-icon : icon i,
+	bullet-color : bc,
+	bullet-size : bs,
+	bullet-offset : bo,
+	padding-left : pl,
+	margin-bottom : mb,
+	font : f,
+	hover : h
+);
 @mixin s-list(
-	$list
+	$_list
 ) {
-	$list : _sugar-parse-properties($list, (
-		style-type : circle disc square armenian cjk-ideographic decimal decimal-leading-zero georgian hebrew hiragana hiragana-iroha katakana katakana-iroha lower-alpha lower-greek lower-latin lower-roman upper-alpha upper-latin upper-roman none inherit,
-		style-image : url,
-		style-position : inside outside,
-		style-icon : string,
-		style-icon-color : color,
-		style-icon-size : number,
-		style-icon-offset : true,
-		padding-left : number,
-		margin-bottom : number,
-		font : true
-	));
+	$list : _sugar-parse-properties($_list, $s-list-props, $s-list-alias);
 
 	// handle nested
 	$list : _sugar-handle-nested(s-list, $list);
 
-	$style-type : map-get-or($list, style-type, none);
-	$style-image : map-get($list, style-image);
-	$style-position : map-get-or($list, style-position, inside);
-	$style-icon : map-get($list, style-icon);
-	$style-icon-color : map-get($list, style-icon-color);
-	$style-icon-size : map-get($list, style-icon-size);
-	$style-icon-offset : map-get($list, style-icon-offset);
+	$style-type : map-get($list, style-type);
+	$style-position : map-get-or($list, style-position, null);
 	$margin-bottom : map-get-or($list, margin-bottom, 2);
-	$padding-left : map-get-or($list, padding-left, 3);
+	$padding-left : map-get-or($list, padding-left, null);
 	$font : map-get($list, font);
 
 	// get rhythme values
 	$rhythme-values : null;
 	@if $font {
 		$font : join($font, -cap-height 0.65);
-		$rhythme-values : s-get-rhythme-values($font);
+		$rhythme-values : s-get-rhythme($font);
 		margin-bottom : map-get($rhythme-values, margin-bottom) + $margin-bottom;
 	}
 
-	@if $font {
-		> li,dt,dd {
-			@include s-font($font);
-		}
+	// style position
+	@if $style-position == outside and $padding-left {
+		margin-left: rem($padding-left * -1);
 	}
 
-	list-style-type : $style-type;
-	@if $style-image {
-		list-style-image : url($style-image);
-	} @else if $style-icon {
+	// style type
+	@if $style-type {
+		counter-reset : s-list;
+	}
 
-
-		@if $style-position == outside {
-			margin-left: rem($padding-left * -1);
-		}
-
-		> li,dt,dd {
-			position: relative;
-			padding-left: rem($padding-left);
-		
-			&:before {
-				@include s-icon($style-icon);
-				position: absolute;
-				@if $style-icon-offset {
-					$left : 0;
-					$top : 0;
-					@if length($style-icon-offset) == 2 {
-						$left : nth($style-icon-offset,2);
-						$top : nth($style-icon-offset,1);
-					} @else if type-of($style-icon-offset) == number {
-						$top : $style-icon-offset;
-					}
-					left : rem($left);
-					top : rem($top);
-				} @else {
-					left: 0;
-					top: 0.5em;
-				}
-				@if $style-icon-color {
-					color : $style-icon-color;
-				}
-				@if $style-icon-size {
-					font-size: rem($style-icon-size);
-				}
-			}
-
-			// reset margin-left for nested lists
-			> ul,
-			> ol,
-			> dl, {
-				margin-left: 0;
-				margin-top: map-get($rhythme-values, padding-top) + map-get($rhythme-values, margin-top);
-				margin-bottom: 0;
-			}
-
-		}
-		
+	// item
+	> * {
+		@include s-list-item($_list);
 	}
 
 	// handle nested
 	@include _sugar-handle-nested(s-list) {
+		@content;
+	}
+}
+
+//
+// List item
+//
+@mixin s-list-item(
+	$list
+) {
+	$list : _sugar-parse-properties($list, $s-list-props, $s-list-alias);
+
+	// handle nested
+	@if not map-get($list, hover) {
+		$list : _sugar-handle-nested(s-list-item, $list);
+	}
+
+	$style-type : map-get($list, style-type);
+	$style-image : map-get($list, style-image);
+	$style-position : map-get-or($list, style-position, null);
+	$style-icon : map-get($list, style-icon);
+	$bullet-color : map-get($list, bullet-color);
+	$bullet-size : map-get($list, bullet-size);
+	$bullet-offset : map-get($list, bullet-offset);
+	$bullet-font : map-get($list, bullet-font);
+	$padding-left : map-get-or($list, padding-left, null);
+	$font : map-get($list, font);
+	$hover : map-get($list, hover);
+
+	// get rhythme values
+	$rhythme-values : null;
+	@if $font {
+		$font : join($font, -cap-height 0.65);
+		$rhythme-values : s-get-rhythme($font);
+	}
+
+	@if $font {
+		@include s-font($font);
+	}
+
+	// padding
+	@if $padding-left {
+		padding-left: rem($padding-left);
+	}
+
+	// style type
+	@if $style-type {
+		&:before {
+			content: counter(s-list, $style-type);
+			counter-increment: s-list;
+		}
+	}
+
+	&:before {
+		@if $bullet-offset {
+			$left : 0;
+			$top : 0;
+			@if length($bullet-offset) == 2 {
+				$left : nth($bullet-offset,2);
+				$top : nth($bullet-offset,1);
+			} @else if type-of($bullet-offset) == number {
+				$top : $bullet-offset;
+			}
+			left : rem($left);
+			top : rem($top);
+		} @else {
+			left : 0;
+		}
+		@if $bullet-color {
+			color : $bullet-color;
+		}
+		@if $bullet-size {
+			@if type-of($bullet-size) == list and length($bullet-size) == 2 {
+				width : nth($bullet-size,1) nth($bullet-size,2);
+			} @else if type-of($bullet-size) == number {
+				font-size: rem($bullet-size);
+			}
+		}
+		@if $bullet-font {
+			@include s-font($bullet-font);
+		}
+	}
+
+	// manage hover
+	@if $hover {
+		&:hover {
+			@include s-list-item($hover);
+		}
+	}
+
+	// before
+	position: relative;
+	&:before {
+		position: absolute;
+		display: block;
+	}
+
+	// style image
+	@if $style-image {
+		position: relative;
+		&:before {
+			content:'';
+			display: block;
+			width: 1ex; height:1em;
+			background-image: url($style-image);
+			background-repeat: no-repeat;
+			background-size: 100% 100%;
+			background-position: 50% 50%;
+		}
+	
+	} @else if $style-icon {
+		position: relative;
+		&:before {
+			@include s-icon($style-icon);
+		}
+		
+	}
+
+	// reset margin-left for nested lists
+	// and manage vertical rhythme
+	> ul,
+	> ol,
+	> dl, {
+		margin-left: 0;
+		margin-bottom: 0;
+
+		// manage rhythme
+		@if $rhythme-values {
+			margin-top: map-get($rhythme-values, padding-top) + map-get($rhythme-values, margin-top);
+		}
+	}
+
+	// handle nested
+	@include _sugar-handle-nested(s-list-item) {
 		@content;
 	}
 }

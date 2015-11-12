@@ -8,6 +8,23 @@
 @mixin s-position(
 	$position
 ) {
+	// get map
+	$map : s-position($position, $_handle-nested : true);
+
+	// get map
+	@each $prop, $value in $map {
+		#{$prop} : $value;
+	}
+
+	// handle nested
+	@include _sugar-handle-nested(position) {
+		@content;
+	}
+}
+@function s-position(
+	$position,
+	$_handle-nested : false
+) {
 	$position : _sugar-parse-properties($position, (
 		position : fixed relative absolute,
 		top : number,
@@ -23,8 +40,12 @@
 		left : l x
 	));
 
+	$return : ();
+
 	// handle nested
-	$position : _sugar-handle-nested(position, $position);
+	@if $_handle-nested {
+		$position : _sugar-handle-nested(position, $position);
+	}
 
 	// get values
 	$pos : map-get($position, position);
@@ -35,20 +56,26 @@
 	$z : map-get($position, z);
 
 	@if $pos {
-		position : $pos;
+		$return : map-set($return, position, $pos);
 	}
 	@if $z {
-		transform: translateZ($z);
+		$return : map-set($return, transform, translateZ($z));
 	}
-	@if $top {top: $top; }
-	@if $right { right: $right; }
-	@if $bottom { bottom: $bottom; }
-	@if $left { left: $left; }
+	@if $top {
+		$return : map-set($return, top, $top);
+	}
+	@if $right {
+		$return : map-set($return, right, $right);
+	}
+	@if $bottom {
+		$return : map-set($return, bottom, $bottom);
+	}
+	@if $left {
+		$return : map-set($return, left, $left);
+	}
 
-	// handle nested
-	@include _sugar-handle-nested(position) {
-		@content;
-	}
+	// return map
+	@return $return;
 }
 
 //
@@ -57,6 +84,23 @@
 @mixin s-translate(
 	$translate
 ) {
+	// get the translate props
+	$translate : s-translate($translate, $_handle-nested : true);
+
+	// get map
+	@each $prop, $value in $translate {
+		#{$prop} : $value;
+	}
+
+	// handle nested
+	@include _sugar-handle-nested(translate) {
+		@content;
+	}
+}
+@function s-translate(
+	$translate,
+	$_handle-nested : false
+) {
 	$translate : _sugar-parse-properties($translate, (
 		x : number,
 		y : number,
@@ -64,7 +108,9 @@
 	));
 	
 	// handle nested
-	$translate : _sugar-handle-nested(translate, $translate);
+	@if $_handle-nested {
+		$translate : _sugar-handle-nested(translate, $translate);
+	}
 
 	// get values
 	$x : map-get($translate, x);
@@ -82,12 +128,11 @@
 	@if $z {
 		$translates : append($translates, translateZ($z));
 	}
-	transform : $translates;
 
-	// handle nested
-	@include _sugar-handle-nested(translate) {
-		@content;
-	}
+	// return translate
+	@return (
+		transform : $translates
+	);
 }
 
 //
@@ -96,11 +141,30 @@
 @mixin s-transform(
 	$transform
 ) {
+	// get the translate props
+	$transform : s-transform($transform, $_handle-nested : true);
+
+	// get map
+	@each $prop, $value in $transform {
+		#{$prop} : $value;
+	}
+
+	// handle nested transforms
+	@include _sugar-handle-nested(transform) {
+		@content;
+	}
+}
+@function s-transform(
+	$transform,
+	$_handle-nested : false
+) {
 	// parse properties
 	$transform : _sugar-parse-properties($transform, null);
 
 	// handle nested transforms
-	$transform : _sugar-handle-nested(transform, $transform);
+	@if $_handle-nested {
+		$transform : _sugar-handle-nested(transform, $transform);
+	}
 
 	// build transform
 	$transforms : ();
@@ -111,12 +175,10 @@
 		}
 		$transforms : append($transforms, unquote("#{$name}(#{$values})"));
 	}
-	transform : $transforms;
-
-	// handle nested transforms
-	@include _sugar-handle-nested(transform) {
-		@content;
-	}
+	// return
+	@return (
+		transform : $transforms
+	);
 }
 
 //
@@ -159,10 +221,12 @@
 	$size
 ) {
 	$size : _sugar-parse-properties($size, (
+		position : absolute relative,
 		size : cover contain,
 		width : number,
 		height : number
 	), (
+		position : p,
 		size : s
 	));
 
@@ -173,10 +237,11 @@
 	$width : map-get($size, width);
 	$height : map-get($size, height);
 	$s : map-get($size, size);
+	$p : map-get-or($size, position, absolute);
 
 	// apply values
 	@if $s {
-		position: absolute;
+		position: $p;
 		top: 50%;
 		left: 50%;
 		transform: translateX(-50%) translateY(-50%);
