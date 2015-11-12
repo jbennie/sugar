@@ -66,8 +66,23 @@
 
 	// set values
 	@each $prop, $value in $font-map {
-		@if $prop != cap-height {
-			#{$prop} : $value;
+		@if $prop == rhythme {
+			$scope-class : sugar('settings.vertical-rhythme.scope-class');
+			@if $scope-class {
+				.#{$scope-class} & {
+					@each $prop, $value in $value {
+						#{$prop} : $value;
+					}
+				}
+			} @else {
+				@each $prop, $value in $value {
+					#{$prop} : $value;
+				}	
+			}
+		} @else {
+			@if $prop != cap-height {
+				#{$prop} : $value;
+			}
 		}
 	}
 
@@ -159,7 +174,7 @@
 	$text-indent : map-get($font, text-indent);
 	$word-break : map-get($font, word-break);
 	$word-wrap : map-get($font, word-wrap);
-	$vertical-rhythme : map-get-or($font, vertical-rhythme, sugar('settings.typo.vertical-rhythme'));
+	$vertical-rhythme : map-get-or($font, vertical-rhythme, sugar('settings.vertical-rhythme'));
 
 	// get the font object
 	$_font-family : sugar('settings.typo.font-family');
@@ -185,6 +200,13 @@
 		$return : map-set($return, color, $color);
 	}
 
+	// font-size
+	$return : map-set($return, font-size, rem($size));
+
+	@if $line-height {
+		$return : map-set($return, line-height, rem($line-height));
+	}
+
 	// vertical rhythme ?
 	@if $vertical-rhythme {
 		// get the rhythme
@@ -197,15 +219,20 @@
 			-padding-bottom $padding-bottom
 			-cap-height $cap-height
 		);
-		$return : map-merge($return, $rhythme-map);
-	} @else {
-		$return : map-set($return, font-size, rem($size));
-		@if $line-height {
-			$return : map-set($return, line-height, $line-height);
-		}
-		@if $margin-bottom {
-			$return : map-set($return, margin-bottom, $margin-bottom);
-		}
+		$return : map-set($return, rhythme, $rhythme-map);
+	}
+
+	@if $margin-top {
+		$return : map-set($return, margin-top, rem($margin-top));
+	}
+	@if $margin-bottom {
+		$return : map-set($return, margin-bottom, rem($margin-bottom));
+	}
+	@if $padding-top {
+		$return : map-set($return, padding-top, rem($padding-top));
+	}
+	@if $padding-bottom {
+		$return : map-set($return, padding-bottom, rem($padding-bottom));
 	}
 
 	// max width
@@ -368,13 +395,25 @@
 @mixin s-set-rhythme(
 	$rhythme
 ) {
+	// scope class
+	$scope-class : sugar('settings.vertical-rhythme.scope-class');
+
 	// get the rhythme values
 	$rhythme-values : s-get-rhythme($rhythme);
 
 	// set rhythme
-	@each $prop, $value in $rhythme-values {
-		#{$prop} : $value;
+	@if $scope-class {
+		.#{$scope-class} & {
+			@each $prop, $value in $rhythme-values {
+				#{$prop} : $value;
+			}
+		}
+	} @else {
+		@each $prop, $value in $rhythme-values {
+			#{$prop} : $value;
+		}
 	}
+	
 }
 
 //
@@ -493,14 +532,14 @@
 		} @else {
 			$baseline-shift : $baseline-shift % 1;
 			$decimal : $baseline-push % 1;
-			@if $decimal < 0.5 and $baseline-push < $margin-bottom {
+			$baseline-push : $decimal + $margin-bottom;
+			@if $decimal <= 0.33 and $baseline-push < $margin-bottom {
 				$baseline-push : $baseline-push + 1;
-			} @else if $decimal >= 0.5 and $baseline-push > $margin-bottom {
+			} @else if $decimal >= 0.66 and $baseline-push > $margin-bottom {
 				$baseline-push : $baseline-push - 1;
-			} @else if $decimal < 0.5 and $baseline-push > $margin-bottom {
-				$baseline-push : $baseline-push - 1;
-			} @else if $decimal >= 0.5 and $baseline-push < $margin-bottom {
-				$baseline-push : $baseline-push + 1;
+			}
+			@if $baseline-shift >= 0.66 {
+				$margin-top : $margin-top - 1rem;
 			}
 			@return (
 				padding-top : $baseline-shift,

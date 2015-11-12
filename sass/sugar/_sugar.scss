@@ -130,7 +130,6 @@ $_sugar-settings : (								// store all the settings
 		font-sizes 					: null, 			// map of font-sizes by media (size : media)
 		font-family 				: null, 			// default font family to use. If match a registered font, use that font instead
 		line-letters-count			: 55,				// optimal letters count in a line
-		vertical-rhythme 			: true, 			// by default, vertical rhytme is activate font s-font mixin
 		font-format 				: ( 				// font format used in font-face
 			eot 						: embedded-opentype,
 			woff2 						: woff2,
@@ -141,6 +140,9 @@ $_sugar-settings : (								// store all the settings
 			svgz 						: svgz
 
 									)
+								),
+	vertical-rhythme 			: ( 				// Vertical rhythme options
+		scope-class 				: typeset 			// the class in which the vertical rhythme will be applied
 								),
 	BEM 						: ( 				// BEM settings
 		element-separator 			: '__', 			// element separator

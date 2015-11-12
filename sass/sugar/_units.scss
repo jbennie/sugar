@@ -76,6 +76,8 @@
 			@return percentage($value);
 		} @else if $convertUnit == em {
 			@return $value + 0em;
+		} @else if $convertUnit == rem {
+			@return strip-units($value) + 0rem;
 		} @else {
 			@error("Unit #{$unit} cannot be converted to #{$convertUnit}");
 			@return null;

@@ -1760,13 +1760,21 @@ html {
   text-decoration: none;
   padding: 0 2rem;
   font-family: helvetica;
+  font-size: 1.84615385rem;
+  line-height: 2rem;
+  margin-top: 0rem;
+  margin-bottom: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  font-weight: bold;
+}
+.typeset .btn {
   padding-top: 1rem;
   margin-top: 0;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
   font-size: 1.84615385rem;
   line-height: 2rem;
-  font-weight: bold;
 }
 
 .abs-cover {
@@ -1936,33 +1944,57 @@ i.user {
 
 .legend {
   color: #b3b3b3;
+  font-size: 1.53846154rem;
+  line-height: 2rem;
+  margin-top: 0rem;
+  margin-bottom: 2rem;
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+  display: block;
+  max-width: 55ex;
+}
+.typeset .legend {
   padding-top: 0.50001rem;
   margin-top: 0;
   margin-bottom: 2.49999rem;
   padding-bottom: 0;
   font-size: 1.53846154rem;
   line-height: 2rem;
-  display: block;
-  max-width: 55ex;
 }
 
 h1 {
   font-family: helvetica-ultralight;
+  font-size: 4.23606807rem;
+  line-height: 5rem;
+  margin-top: 0rem;
+  margin-bottom: 2rem;
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+  display: block;
+  max-width: 55ex;
+  text-transform: uppercase;
+}
+.typeset h1 {
   padding-top: 0.12328788rem;
   margin-top: 0;
   margin-bottom: 1.87671212rem;
   padding-bottom: 0;
   font-size: 4.23606807rem;
   line-height: 5rem;
-  display: block;
-  max-width: 55ex;
-  text-transform: uppercase;
 }
 
 h2 {
   font-family: VT323;
+  font-size: 3.33019073rem;
+  line-height: 4rem;
+  margin-top: 0rem;
+  margin-bottom: 2rem;
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+}
+.typeset h2 {
   padding-top: 0.91769801rem;
-  margin-top: 0;
+  margin-top: -1rem;
   margin-bottom: 2.08230199rem;
   padding-bottom: 0;
   font-size: 3.33019073rem;
@@ -1970,6 +2002,14 @@ h2 {
 }
 
 h3 {
+  font-size: 2.61803403rem;
+  line-height: 3rem;
+  margin-top: 0rem;
+  margin-bottom: 2rem;
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+}
+.typeset h3 {
   padding-top: 0.64914894rem;
   margin-top: 0;
   margin-bottom: 2.35085106rem;
@@ -1979,8 +2019,16 @@ h3 {
 }
 
 h4 {
+  font-size: 2.05817105rem;
+  line-height: 3rem;
+  margin-top: 0rem;
+  margin-bottom: 2rem;
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+}
+.typeset h4 {
   padding-top: 0.83110441rem;
-  margin-top: 0;
+  margin-top: -1rem;
   margin-bottom: 2.16889559rem;
   padding-bottom: 0;
   font-size: 2.05817105rem;
@@ -1988,6 +2036,14 @@ h4 {
 }
 
 h5 {
+  font-size: 1.618034rem;
+  line-height: 2rem;
+  margin-top: 0rem;
+  margin-bottom: 2rem;
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+}
+.typeset h5 {
   padding-top: 0.47414895rem;
   margin-top: 0;
   margin-bottom: 2.52585105rem;
@@ -1997,16 +2053,32 @@ h5 {
 }
 
 h6 {
+  font-size: 1.27201965rem;
+  line-height: 2rem;
+  margin-top: 0rem;
+  margin-bottom: 2rem;
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+  content: "jpg";
+}
+.typeset h6 {
   padding-top: 0.58660361rem;
   margin-top: 0;
   margin-bottom: 2.41339639rem;
   padding-bottom: 0;
   font-size: 1.27201965rem;
   line-height: 2rem;
-  content: "jpg";
 }
 
 p {
+  font-size: 1.27201965rem;
+  line-height: 2rem;
+  margin-top: 0rem;
+  margin-bottom: 2rem;
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+}
+.typeset p {
   padding-top: 0.58660361rem;
   margin-top: 0;
   margin-bottom: 2.41339639rem;
@@ -2016,28 +2088,44 @@ p {
 }
 
 p.lead {
+  font-size: 1.618034rem;
+  line-height: 2rem;
+  margin-top: 0rem;
+  margin-bottom: 2rem;
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+  font-weight: bold;
+  text-decoration: underline;
+}
+.typeset p.lead {
   padding-top: 0.47414895rem;
   margin-top: 0;
   margin-bottom: 2.52585105rem;
   padding-bottom: 0;
   font-size: 1.618034rem;
   line-height: 2rem;
-  font-weight: bold;
-  text-decoration: underline;
 }
 
 blockquote {
   padding: 3rem;
   border-left: 5px solid #f2bc2b;
   margin-left: -2rem;
+  font-size: 2.07692308rem;
+  line-height: 3rem;
+  margin-top: 0rem;
+  margin-bottom: 2rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  font-style: italic;
+  background: #eee;
+}
+.typeset blockquote {
   padding-top: 3rem;
   margin-top: 0;
   margin-bottom: 2rem;
   padding-bottom: 3rem;
   font-size: 2.07692308rem;
   line-height: 3rem;
-  font-style: italic;
-  background: #eee;
 }
 
 .ul {
@@ -2045,17 +2133,25 @@ blockquote {
   margin-left: -3.07692308rem;
 }
 .ul > * {
+  font-size: 1.53846154rem;
+  line-height: 2rem;
+  margin-top: 0rem;
+  margin-bottom: 0rem;
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+  display: block;
+  max-width: 55ex;
+  padding-left: 3.07692308rem;
+  position: relative;
+  position: relative;
+}
+.typeset .ul > * {
   padding-top: 0.50001rem;
   margin-top: 0;
   margin-bottom: 0.49999rem;
   padding-bottom: 0;
   font-size: 1.53846154rem;
   line-height: 2rem;
-  display: block;
-  max-width: 55ex;
-  padding-left: 3.07692308rem;
-  position: relative;
-  position: relative;
 }
 .ul > *:before {
   left: 0rem;
@@ -2096,17 +2192,25 @@ blockquote {
   margin-bottom: 2.49999rem;
 }
 .ul--inside > * {
+  font-size: 1.53846154rem;
+  line-height: 2rem;
+  margin-top: 0rem;
+  margin-bottom: 0rem;
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+  display: block;
+  max-width: 55ex;
+  padding-left: 3.07692308rem;
+  position: relative;
+  position: relative;
+}
+.typeset .ul--inside > * {
   padding-top: 0.50001rem;
   margin-top: 0;
   margin-bottom: 0.49999rem;
   padding-bottom: 0;
   font-size: 1.53846154rem;
   line-height: 2rem;
-  display: block;
-  max-width: 55ex;
-  padding-left: 3.07692308rem;
-  position: relative;
-  position: relative;
 }
 .ul--inside > *:before {
   left: 0rem;
@@ -2148,15 +2252,23 @@ blockquote {
   margin-left: -3.07692308rem;
 }
 .ul--small > * {
+  font-size: 1.23076923rem;
+  line-height: 2rem;
+  margin-top: 0rem;
+  margin-bottom: 0rem;
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+  padding-left: 3.07692308rem;
+  position: relative;
+  position: relative;
+}
+.typeset .ul--small > * {
   padding-top: 0.60001rem;
   margin-top: 0;
   margin-bottom: 0.39999rem;
   padding-bottom: 0;
   font-size: 1.23076923rem;
   line-height: 2rem;
-  padding-left: 3.07692308rem;
-  position: relative;
-  position: relative;
 }
 .ul--small > *:before {
   left: 0rem;
@@ -2198,15 +2310,23 @@ blockquote {
   margin-left: -3.07692308rem;
 }
 .ul--image > * {
+  font-size: 1.53846154rem;
+  line-height: 2rem;
+  margin-top: 0rem;
+  margin-bottom: 0rem;
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+  padding-left: 3.07692308rem;
+  position: relative;
+  position: relative;
+}
+.typeset .ul--image > * {
   padding-top: 0.50001rem;
   margin-top: 0;
   margin-bottom: 0.49999rem;
   padding-bottom: 0;
   font-size: 1.53846154rem;
   line-height: 2rem;
-  padding-left: 3.07692308rem;
-  position: relative;
-  position: relative;
 }
 .ul--image > *:before {
   left: 0rem;
@@ -2268,14 +2388,22 @@ blockquote {
   counter-reset: s-list;
 }
 .ul--decimal > * {
+  font-size: 1.53846154rem;
+  line-height: 2rem;
+  margin-top: 0rem;
+  margin-bottom: 0rem;
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+  padding-left: 3.07692308rem;
+  position: relative;
+}
+.typeset .ul--decimal > * {
   padding-top: 0.50001rem;
   margin-top: 0;
   margin-bottom: 0.49999rem;
   padding-bottom: 0;
   font-size: 1.53846154rem;
   line-height: 2rem;
-  padding-left: 3.07692308rem;
-  position: relative;
 }
 .ul--decimal > *:before {
   content: counter(s-list,upper-roman);
@@ -2284,6 +2412,14 @@ blockquote {
 .ul--decimal > *:before {
   left: 0;
   font-size: 1.07692308rem;
+  font-size: 1.15384615rem;
+  line-height: 2rem;
+  margin-top: 0rem;
+  margin-bottom: 0rem;
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+}
+.typeset .ul--decimal > *:before {
   padding-top: 0.62501rem;
   margin-top: 0;
   margin-bottom: 0.37499rem;
@@ -2326,14 +2462,22 @@ blockquote {
   counter-reset: s-list;
 }
 .ul--circle > * {
+  font-size: 1.53846154rem;
+  line-height: 2rem;
+  margin-top: 0rem;
+  margin-bottom: 0rem;
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+  padding-left: 3.07692308rem;
+  position: relative;
+}
+.typeset .ul--circle > * {
   padding-top: 0.50001rem;
   margin-top: 0;
   margin-bottom: 0.49999rem;
   padding-bottom: 0;
   font-size: 1.53846154rem;
   line-height: 2rem;
-  padding-left: 3.07692308rem;
-  position: relative;
 }
 .ul--circle > *:before {
   content: counter(s-list,circle);
