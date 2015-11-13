@@ -5,69 +5,65 @@
 //
 // Font mixin
 //
-
-// font-size: x rem;
-// line-height : y rem ou ratio;
-// margin-top: -y / 2 ou -x * ratio / 2;
+$_s-font-properties : (
+	font-weight : normal bold bolder lighter number initial inherit,
+	font-style : normal italic oblique initial inherit,
+	font-variant : normal small-caps initial inherit,
+	font-stretch : ultra-condensed extra-condensed condensed semi-condensed normal semi-expanded expanded extra-expanded ultra-expanded initial inherit,
+	text-decoration :  none underline overline line-through initial inherit,
+	text-transform : none capitalize uppercase lowercase initial inherit,
+	text-align : left right center justify initial inherit,
+	word-wrap : normal break-word initial inherit,
+	word-break : normal break-all keep-all initial inherit,
+	white-space : normal nowrap pre pre-line pre-wrap initial inherit,
+	color : color,
+	font-family : string,
+	font-size : number,
+	line-height : number,
+	letter-spacing : number,
+	text-indent : number,
+	margin-top : number,
+	margin-bottom : number,
+	padding-top : number,
+	padding-bottom : number,
+	max-width : number,
+	vertical-rhythme : true
+);
+$_s-font-aliases : (
+	font-family : ff,
+	color : c,
+	font-size : fs,
+	font-style : fstl,
+	font-variant : fv,
+	font-weight : fw,
+	text-decoration : td,
+	text-align : ta,
+	text-transform : tt,
+	font-stretch : fstr,
+	white-space : ws,
+	line-height : lh,
+	margin-top : mt,
+	margin-bottom : mb,
+	padding-top : pt,
+	padding-bottom : pb,
+	max-width : mw,
+	letter-spacing : ls,
+	text-indent : ti,
+	word-break : wb,
+	word-wrap : ww,
+	vertical-rhythme : vr
+);
 
 @mixin s-font(
-	$_font
+	$font
 ) {
-	$font : _sugar-parse-properties($_font, (
-		word-wrap : normal break-word initial inherit,
-		word-break : normal break-all keep-all initial inherit,
-		font-style : normal italic oblique initial inherit,
-		font-variant : normal small-caps initial inherit,
-		font-weight : normal bold bolder lighter number initial inherit,
-		text-decoration :  none underline overline line-through initial inherit,
-		text-align : left right center justify initial inherit,
-		text-transform : none capitalize uppercase lowercase initial inherit,
-		font-stretch : ultra-condensed extra-condensed condensed semi-condensed normal semi-expanded expanded extra-expanded ultra-expanded initial inherit,
-		white-space : normal nowrap pre pre-line pre-wrap initial inherit,
-		color : color,
-		name : string,
-		font-size : number,
-		line-height : number,
-		margin-top : number,
-		margin-bottom : number,
-		padding-top : number,
-		padding-bottom : number,
-		max-width : number,
-		letter-spacing : number,
-		text-indent : number,
-		vertical-rhythme : true
-	), (
-		name : n,
-		color : c,
-		font-size : fs,
-		font-style : fst,
-		font-variant : fv,
-		font-weight : fw,
-		text-decoration : td,
-		text-align : ta,
-		text-transform : tt,
-		font-stretch : fstr,
-		white-space : ws,
-		line-height : lh,
-		margin-top : mt,
-		margin-bottom : mb,
-		padding-top : pt,
-		padding-bottom : pb,
-		max-width : mw,
-		letter-spacing : ls,
-		text-indent : ti,
-		word-break : wb,
-		word-wrap : ww,
-		vertical-rhythme : vr
-	));
-
 	// get the map
-	$font-map : s-font($_font, $_handle-nested : true);
+	$font-map : s-font($font, $_handle-nested : true);
 
 	// set values
 	@each $prop, $value in $font-map {
 		@if $prop == rhythme {
-			$scope-class : sugar('settings.vertical-rhythme.scope-class');
+			$scope-class : sugar('settings.typo.vertical-rhythme.scope-class');
 			@if $scope-class {
 				.#{$scope-class} & {
 					@each $prop, $value in $value {
@@ -99,53 +95,7 @@
 	$font,
 	$_handle-nested : false
 ) {
-	$font : _sugar-parse-properties($font, (
-		word-wrap : normal break-word initial inherit,
-		word-break : normal break-all keep-all initial inherit,
-		font-style : normal italic oblique initial inherit,
-		font-variant : normal small-caps initial inherit,
-		font-weight : normal bold bolder lighter number initial inherit,
-		text-decoration :  none underline overline line-through initial inherit,
-		text-align : left right center justify initial inherit,
-		text-transform : none capitalize uppercase lowercase initial inherit,
-		font-stretch : ultra-condensed extra-condensed condensed semi-condensed normal semi-expanded expanded extra-expanded ultra-expanded initial inherit,
-		white-space : normal nowrap pre pre-line pre-wrap initial inherit,
-		color : color,
-		name : string,
-		font-size : number,
-		line-height : number,
-		margin-top : number,
-		margin-bottom : number,
-		padding-top : number,
-		padding-bottom : number,
-		max-width : number,
-		letter-spacing : number,
-		text-indent : number,
-		vertical-rhythme : true
-	), (
-		name : n,
-		color : c,
-		font-size : fs,
-		font-style : fst,
-		font-variant : fv,
-		font-weight : fw,
-		text-decoration : td,
-		text-align : ta,
-		text-transform : tt,
-		font-stretch : fstr,
-		white-space : ws,
-		line-height : lh,
-		margin-top : mt,
-		margin-bottom : mb,
-		padding-top : pt,
-		padding-bottom : pb,
-		max-width : mw,
-		letter-spacing : ls,
-		text-indent : ti,
-		word-break : wb,
-		word-wrap : ww,
-		vertical-rhythme : vr
-	));
+	$font : _sugar-parse-properties($font, $_s-font-properties, $_s-font-aliases);
     
 	// handle nested
 	@if $_handle-nested {
@@ -153,7 +103,7 @@
 	}
 
 	// get values
-	$name : map-get-or($font, name, null);
+	$font-family : map-get-or($font, font-family, null);
 	$color : map-get($font, color);
 	$size : map-get-or($font, font-size, 1rem);
 	$font-style : map-get($font, font-style);
@@ -174,13 +124,24 @@
 	$text-indent : map-get($font, text-indent);
 	$word-break : map-get($font, word-break);
 	$word-wrap : map-get($font, word-wrap);
-	$vertical-rhythme : map-get-or($font, vertical-rhythme, sugar('settings.vertical-rhythme'));
+	$vertical-rhythme : map-get-or($font, vertical-rhythme, sugar('settings.typo.vertical-rhythme'));
 
 	// get the font object
-	$_font-family : sugar('settings.typo.font-family');
-	$f : map-get(sugar('settings.fonts'), $_font-family);
-	$cap-height : map-get-or($f, cap-height, 0);
-
+	$default-font-family : sugar('settings.typo.font-family');
+	$fonts : sugar('settings.fonts');
+	$font : map-get($fonts, $default-font-family);
+	$cap-height : map-get-or($font, cap-height, 0);
+	
+	// if a font family is passed
+	@if $font-family {
+		@if map-get($fonts, $font-family) {
+			$font : map-get($fonts, $font-family);
+			$cap-height : map-get-or($font, cap-height, 0);
+			$font-family : map-get-or($font, font-family, $font-family);
+		}			
+	}
+	
+	// init object to return
 	$return : (
 		cap-height : $cap-height
 	);
@@ -191,8 +152,8 @@
 	}
 
 	// set the font
-	@if $name {
-		$return : map-set($return, font-family, $name);
+	@if $font-family {
+		$return : map-set($return, font-family, $font-family);
 	}
 
 	// color
@@ -307,28 +268,34 @@
 		ext : eot eot2 otf woff2 woff ttf svg svgz,
 		font-weight : normal bold bolder lighter number initial inherit,
 		font-style : normal italic oblique initial inherit,
-		name : string,
-		url : string
+		font-family : string,
+		src : string
+	), (
+		ext : e,
+		font-weight : fw,
+		font-style : fs,
+		font-family : ff,
+		src : s
 	));
-	$name : map-get($font-face, name);
-	$url : map-get($font-face, url);
+	$font-family : map-get($font-face, font-family);
+	$src : map-get($font-face, src);
 	$ext : map-get-or($font-face, ext, ());
 	$font-weight : map-get($font-face, font-weight);
 	$font-style : map-get($font-face, font-style);
 
 	// protect
-	@if $name == null {
-		@error("You need to specify a name for your s-font-face statement...");
+	@if $font-family == null {
+		@error("You need to specify a font-family for your s-font-face statement...");
 	}
-	@if $url == null {
-		@error("You need to specify an url for your s-font-face statement...");
+	@if $src == null {
+		@error("You need to specify an src for your s-font-face statement...");
 	}
 
 	// get font format from settings
 	$font-format : sugar('settings.typo.font-format');
 
-	// process url
-	$split : str-explode($url, '.');
+	// process src
+	$split : str-explode($src, '.');
 	$e : last-nth($split);
 	$split : list-pop($split);
 	$path : list-implode($split, '.');
@@ -348,7 +315,7 @@
 
 	// declare font
 	@font-face {
-		font-family: "#{$name}";
+		font-family: "#{$font-family}";
 		src : $srcs;
 		@if $font-style {
 			font-style : $font-style;
@@ -396,7 +363,7 @@
 	$rhythme
 ) {
 	// scope class
-	$scope-class : sugar('settings.vertical-rhythme.scope-class');
+	$scope-class : sugar('settings.typo.vertical-rhythme.scope-class');
 
 	// get the rhythme values
 	$rhythme-values : s-get-rhythme($rhythme);

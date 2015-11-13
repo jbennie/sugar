@@ -60,7 +60,7 @@
 			darken : da,
 			grayscale : gr,
 			complement : comp,
-			invert : inv,
+			invert : i,
 			saturate : sa,
 			desaturate : desa,
 			opacity : o,
@@ -102,7 +102,12 @@
 			}
 			// opacity
 			@if $action == opacity and type-of($value) == number {
-				$color : transparentize($color, 1 - strip-units($value) / 100);
+
+				$transparentize : 1 - strip-units($value);
+				@if unit($value) == '%' {
+					$transparentize : (100 - strip-units($value)) / 100;
+				}
+				$color : transparentize($color, $transparentize);
 			}
 			// mix
 			@if $action == mix and type-of($value) == color {
