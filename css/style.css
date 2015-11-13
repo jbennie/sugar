@@ -1762,7 +1762,6 @@ html {
   font-family: helvetica;
   font-size: 1.84615385rem;
   line-height: 2rem;
-  margin-top: 0rem;
   margin-bottom: 2rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
@@ -1946,10 +1945,7 @@ i.user {
   color: #b3b3b3;
   font-size: 1.53846154rem;
   line-height: 2rem;
-  margin-top: 0rem;
   margin-bottom: 2rem;
-  padding-top: 0rem;
-  padding-bottom: 0rem;
   display: block;
   max-width: 55ex;
 }
@@ -1966,10 +1962,7 @@ h1 {
   font-family: helvetica-ultralight;
   font-size: 4.23606807rem;
   line-height: 5rem;
-  margin-top: 0rem;
   margin-bottom: 2rem;
-  padding-top: 0rem;
-  padding-bottom: 0rem;
   display: block;
   max-width: 55ex;
   text-transform: uppercase;
@@ -1987,10 +1980,7 @@ h2 {
   font-family: VT323;
   font-size: 3.33019073rem;
   line-height: 4rem;
-  margin-top: 0rem;
   margin-bottom: 2rem;
-  padding-top: 0rem;
-  padding-bottom: 0rem;
 }
 .typeset h2 {
   padding-top: 0.91769801rem;
@@ -2004,10 +1994,7 @@ h2 {
 h3 {
   font-size: 2.61803403rem;
   line-height: 3rem;
-  margin-top: 0rem;
   margin-bottom: 2rem;
-  padding-top: 0rem;
-  padding-bottom: 0rem;
 }
 .typeset h3 {
   padding-top: 0.64914894rem;
@@ -2021,10 +2008,7 @@ h3 {
 h4 {
   font-size: 2.05817105rem;
   line-height: 3rem;
-  margin-top: 0rem;
   margin-bottom: 2rem;
-  padding-top: 0rem;
-  padding-bottom: 0rem;
 }
 .typeset h4 {
   padding-top: 0.83110441rem;
@@ -2038,10 +2022,7 @@ h4 {
 h5 {
   font-size: 1.618034rem;
   line-height: 2rem;
-  margin-top: 0rem;
   margin-bottom: 2rem;
-  padding-top: 0rem;
-  padding-bottom: 0rem;
 }
 .typeset h5 {
   padding-top: 0.47414895rem;
@@ -2055,10 +2036,7 @@ h5 {
 h6 {
   font-size: 1.27201965rem;
   line-height: 2rem;
-  margin-top: 0rem;
   margin-bottom: 2rem;
-  padding-top: 0rem;
-  padding-bottom: 0rem;
   content: "jpg";
 }
 .typeset h6 {
@@ -2073,10 +2051,7 @@ h6 {
 p {
   font-size: 1.27201965rem;
   line-height: 2rem;
-  margin-top: 0rem;
   margin-bottom: 2rem;
-  padding-top: 0rem;
-  padding-bottom: 0rem;
 }
 .typeset p {
   padding-top: 0.58660361rem;
@@ -2090,10 +2065,7 @@ p {
 p.lead {
   font-size: 1.618034rem;
   line-height: 2rem;
-  margin-top: 0rem;
   margin-bottom: 2rem;
-  padding-top: 0rem;
-  padding-bottom: 0rem;
   font-weight: bold;
   text-decoration: underline;
 }
@@ -2112,7 +2084,6 @@ blockquote {
   margin-left: -2rem;
   font-size: 2.07692308rem;
   line-height: 3rem;
-  margin-top: 0rem;
   margin-bottom: 2rem;
   padding-top: 3rem;
   padding-bottom: 3rem;
@@ -2135,10 +2106,6 @@ blockquote {
 .ul > * {
   font-size: 1.53846154rem;
   line-height: 2rem;
-  margin-top: 0rem;
-  margin-bottom: 0rem;
-  padding-top: 0rem;
-  padding-bottom: 0rem;
   display: block;
   max-width: 55ex;
   padding-left: 3.07692308rem;
@@ -2194,10 +2161,6 @@ blockquote {
 .ul--inside > * {
   font-size: 1.53846154rem;
   line-height: 2rem;
-  margin-top: 0rem;
-  margin-bottom: 0rem;
-  padding-top: 0rem;
-  padding-bottom: 0rem;
   display: block;
   max-width: 55ex;
   padding-left: 3.07692308rem;
@@ -2254,10 +2217,6 @@ blockquote {
 .ul--small > * {
   font-size: 1.23076923rem;
   line-height: 2rem;
-  margin-top: 0rem;
-  margin-bottom: 0rem;
-  padding-top: 0rem;
-  padding-bottom: 0rem;
   padding-left: 3.07692308rem;
   position: relative;
   position: relative;
@@ -2312,10 +2271,6 @@ blockquote {
 .ul--image > * {
   font-size: 1.53846154rem;
   line-height: 2rem;
-  margin-top: 0rem;
-  margin-bottom: 0rem;
-  padding-top: 0rem;
-  padding-bottom: 0rem;
   padding-left: 3.07692308rem;
   position: relative;
   position: relative;
@@ -2390,10 +2345,6 @@ blockquote {
 .ul--decimal > * {
   font-size: 1.53846154rem;
   line-height: 2rem;
-  margin-top: 0rem;
-  margin-bottom: 0rem;
-  padding-top: 0rem;
-  padding-bottom: 0rem;
   padding-left: 3.07692308rem;
   position: relative;
 }
@@ -2414,10 +2365,6 @@ blockquote {
   font-size: 1.07692308rem;
   font-size: 1.15384615rem;
   line-height: 2rem;
-  margin-top: 0rem;
-  margin-bottom: 0rem;
-  padding-top: 0rem;
-  padding-bottom: 0rem;
 }
 .typeset .ul--decimal > *:before {
   padding-top: 0.62501rem;
@@ -2464,10 +2411,6 @@ blockquote {
 .ul--circle > * {
   font-size: 1.53846154rem;
   line-height: 2rem;
-  margin-top: 0rem;
-  margin-bottom: 0rem;
-  padding-top: 0rem;
-  padding-bottom: 0rem;
   padding-left: 3.07692308rem;
   position: relative;
 }

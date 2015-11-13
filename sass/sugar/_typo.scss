@@ -165,10 +165,10 @@
 	$font-stretch : map-get($font, font-stretch);
 	$white-space : map-get($font, white-space);
 	$line-height : map-get-or($font, line-height, null);
-	$margin-top : map-get-or($font, margin-top, 0);
-	$margin-bottom : map-get-or($font, margin-bottom, 2);
-	$padding-top : map-get-or($font, padding-top, 0);
-	$padding-bottom : map-get-or($font, padding-bottom, 0);
+	$margin-top : map-get-or($font, margin-top, null);
+	$margin-bottom : map-get-or($font, margin-bottom, null);
+	$padding-top : map-get-or($font, padding-top, null);
+	$padding-bottom : map-get-or($font, padding-bottom, null);
 	$max-width : map-get-or($font, max-width, false);
 	$letter-spacing : map-get($font, letter-spacing);
 	$text-indent : map-get($font, text-indent);
@@ -443,7 +443,7 @@
 	$font-size : map-get($rhythme, font-size);
 	$line-height : map-get-or($rhythme, line-height, 2);
 	$margin-top : map-get-or($rhythme, margin-top, 0);
-	$margin-bottom : map-get-or($rhythme, margin-bottom, 2);
+	$margin-bottom : map-get-or($rhythme, margin-bottom, 0);
 	$padding-top : map-get-or($rhythme, padding-top, 0);
 	$padding-bottom : map-get-or($rhythme, padding-bottom, 0);
 	$cap-height : map-get-or($rhythme, cap-height, 0);
