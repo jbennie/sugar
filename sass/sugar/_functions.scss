@@ -151,6 +151,14 @@ $_s_nested_properties_depth : ();
 								// stop searching
 								$found : true;
 							}
+						} @else if $type == degree {
+							@if unit($prop) == deg {
+								$map : map-set($map, $name, $prop);
+								// remove the item from keywords
+								$keywords : map-remove($keywords, $name);
+								// stop searching
+								$found : true;
+							}
 						} @else {
 							@if index($type, $prop) {
 								$map : map-set($map, $name, $prop);

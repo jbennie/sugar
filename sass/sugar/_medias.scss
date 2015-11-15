@@ -116,7 +116,7 @@ $media-keywords : (
 	@if $med_length > 0 {
 		@media #{$med} {
 			@if length($refine) {
-				#{str-implode($refine)} & {
+				#{_join($refine,'')} & {
 					@content;
 				}
 			} @else {
@@ -125,7 +125,7 @@ $media-keywords : (
 		}
 	} @else {
 		@if length($refine) {
-			#{str-implode($refine)} & {
+			#{_join($refine,'')} & {
 				@content;
 			}
 		} @else {

@@ -56,6 +56,12 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 			)
 		)
 	),
+	filters : (
+		jesus : (
+			filter : -grayscale 40% -blur 20px,
+			classes : true
+		)
+	),
 	sizes : (
 		smaller : (
 			size : 1rem,
@@ -82,19 +88,25 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 			classes : true
 		)
 	),
-	transitions : (
-		fast : (
-			transition : all .1s ease-in-out,
-			classes : true
-		),
-		normal : all .2s ease-in-out,
-		slow : all .5s ease-in-out
+	transition : (
+		transitions : (
+			fast : (
+				transition : all .1s ease-in-out,
+				classes : true
+			),
+			normal : all .2s ease-in-out,
+			slow : all .5s ease-in-out
+		)
 	),
 	classes : helper
 )); 
 
 * {
 	@include s-transition(fast);
+}
+
+.custom-transition {
+	@include s-transition(width 10s);
 }
 
 .media {
@@ -194,7 +206,7 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 }
 
 .cssgram {
-	@include s-filter(toaster);
+	@include s-filter(cssgram-toaster);
 	@include s-round();
 	border:2px solid white;
 	box-shadow:s-color(black, -o 30%) 0 0 30px;
@@ -208,10 +220,10 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 	width: 100px;
 	height: 100px;
 	background: red;
-	@include s-animate(fadeIn);
+	@include s-animation(fadeIn);
 
 	&:hover {
-		@include s-animate(rubberBand, tada 1s, flipOutX);
+		@include s-animation(rubberBand, tada 1s, flipOutX);
 	}
 }
 
@@ -233,6 +245,10 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 			@include s-translate(0);
 		}
 	}
+}
+
+.filter {
+	@include s-filter(jesus);
 }
 
 .transform {
@@ -271,19 +287,38 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 	max-width: 1200px;
 }
 
+// @include s-bEm(element -r) {
+// 	content : element;
+
+// 	@include s-beM(small) {
+// 		content : element--small
+// 	}
+// 	@include s-beM(big -e small) {
+// 		content : element--big extend small;
+// 	}
+// }
+
 // BEM
 @include s-Bem(coco) {
 	content : coco block;
 
-	@include s-bEm(coco) {
+	@include s-bEm(hello) {
 		content : coco hello element;
 
 		@include s-beM(mod) {
 			content : coco hello mod modifier;
 		}
+
+		@include s-beM(jesus -e mod) {
+			content : coco hello jesus modifier;
+		}
 	}
 
-	@include s-beM(mod) {
+	@include s-bEm(jojo -e hello) {
+		content : coco jojo extend hello;
+	}
+
+	@include s-beM(mod -s) {
 		content : coco mod modifier;
 
 		@include s-bEm(coco) {
@@ -303,6 +338,7 @@ i.user {
 }
 h1 {
 	@include s-font(ms(3) helvetica-ultralight uppercase -mw);
+	@include s-long-shadow(#ff0000 10deg 30);
 }
 h2 {
 	@include s-font(ms(2.5) VT323);

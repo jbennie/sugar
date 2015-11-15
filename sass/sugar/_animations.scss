@@ -5,7 +5,7 @@
 //
 // Animate mixin
 //
-@mixin s-animate(
+@mixin s-animation(
 	$animations...
 ) {
 	// loop on animations
@@ -67,13 +67,16 @@
 // Transition
 //
 @mixin s-transition(
-	$transition
+	$transition : null
 ) {
+	@if not $transition {
+		$transition : ();
+	}
 	&,
 	&:before,
 	&:after {
 		// check if a transition exist in settings
-		$transitions : sugar('settings.transitions');
+		$transitions : sugar('settings.transition.transitions');
 		@if type-of($transition) == string and map-get($transitions, $transition) {
 			$t : map-get($transitions, $transition);
 			@if type-of($t) == map {
@@ -82,7 +85,17 @@
 				transition : $transition;
 			}
 		} @else {
-			transition: $transition;
+			$tran : _sugar-parse-properties($transition, (
+				property : string,
+				duration : number,
+				ease : string,
+				delay : number
+			));
+			$property : map-get-or($tran, property, sugar('settings.transition.property'));
+			$duration : map-get-or($tran, duration, sugar('settings.transition.duration'));
+			$delay : map-get-or($tran, delay, sugar('settings.transition.delay'));
+			$ease : map-get-or($tran, ease, sugar('settings.transition.ease'));
+			transition: $property $duration $ease $delay;
 		}
 	}
 }

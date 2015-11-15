@@ -24,6 +24,33 @@
 }
 
 //
+// Replace
+//
+@function str-replace($string, $search, $replace: '') {
+	@if type-of($string) != "string" {
+		@error "`str-replace` function expecting a string for $string; #{type-of($string)} given.";
+	}
+
+	@if type-of($search) != "string" {
+		@error "`str-replace` function expecting a string for $search; #{type-of($search)} given.";
+	}
+
+	@if type-of($replace) != "string" {
+		@error "`str-replace` function expecting a string for $replace; #{type-of($replace)} given.";
+	}
+
+	$index: str-index($string, $search);
+
+	@if $index {
+		@return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+	}
+
+	@return $string;
+}
+
+
+
+//
 // Check if is url
 //
 @function str-is-url(

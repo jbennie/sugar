@@ -328,7 +328,7 @@
 	$font-format : sugar('settings.typo.font-format');
 
 	// process url
-	$split : str-explode($url, '.');
+	$split : _split($url, '.');
 	$e : last-nth($split);
 	$split : list-pop($split);
 	$path : list-implode($split, '.');
@@ -678,30 +678,30 @@
 //
 // Truncate
 //
-@mixin _s-truncate() {
+@mixin _s-text-truncate() {
 	display: inline-block;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
-%s-truncate {
-	@include _s-truncate();
+%s-text-truncate {
+	@include _s-text-truncate();
 }
-@mixin s-truncate() {
-	@include _s-truncate();
+@mixin s-text-truncate() {
+	@include _s-text-truncate();
 }
 
 //
 // Hide text
 //
-@mixin _s-text-hide() {
+@mixin _s-text-hidden() {
 	overflow:hidden;
     text-indent:-9000px;
     display:block;
 }
-%s-text-hide {
-	@include _s-text-hide();
+%s-text-hidden {
+	@include _s-text-hidden();
 }
-@mixin s-text-hide() {
-	@include _s-text-hide();
+@mixin s-text-hidden() {
+	@include _s-text-hidden();
 }

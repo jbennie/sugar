@@ -7,8 +7,7 @@
 //
 // Vendors
 //
-@import 'vendors/sassyStrings/SassyStrings';
-@import 'vendors/sassyLists/SassyLists';
+@import 'vendors/sassdash/sassdash';
 @import 'vendors/animatecss/animate.scss';
 @import 'vendors/cssgram/cssgram.scss';
 @import 'vendors/modularscale/modular-scale';
@@ -85,6 +84,11 @@
 @import 'filters';
 
 //
+// Effects
+//
+@import 'effects';
+
+//
 // Helpers functions
 //
 @import 'helper-functions';
@@ -122,6 +126,7 @@
 //
 // Variables
 //
+$sugar-animatecss : () !default; 					// store all the icons wanted from animate.css package
 $_sugar-settings : (								// store all the settings
 	reset 						: true, 			// by default, a reset will be applied
 	border-box 					: true, 			// set if need to set all as border box model
@@ -145,6 +150,7 @@ $_sugar-settings : (								// store all the settings
 		scope-class 				: typeset 			// the class in which the vertical rhythme will be applied
 								),
 	BEM 						: ( 				// BEM settings
+		standelone-modifier			: false, 			// set if by default need to extend base element
 		element-separator 			: '__', 			// element separator
 		modifier-separator 			: '--' 				// modifier separator
 								),
@@ -153,6 +159,11 @@ $_sugar-settings : (								// store all the settings
 		ratio 						: $golden, 			// the ratio to use
 		range 						: null, 			// range
 		fluid 						: false 			// is fluid modular scale
+	),
+	animate-css 				: ( 				// store the animatecss settings
+		duration 					: 1s, 				// default animatecss duration
+		ease 						: ease-in-out, 		// default animatecss ease
+		fill-mode					: both 				// defaull animatecss fill mode
 	),
 	font-awesome 				: ( 				// font awesome settings
 		font-path 					: '../fonts/font-awesome', 		// path to dont without trailing slash
@@ -169,7 +180,14 @@ $_sugar-settings : (								// store all the settings
 									)
 								), 				
 	fonts  						: (), 				// store all the fonts
-	transition 					: (), 				// store all the transitions
+	filters 					: (), 				// store all the registered filters
+	transition 					: ( 				// store all the transition settings
+		duration 					: .2s, 				// default transition duration
+		ease 						: ease-in-out, 		// default easing function 
+		delay 						: 0s, 				// default delay
+		property 					: all, 				// default property
+		transitions 				: () 				// store all registered transitions
+	), 
 	helper-classes 				: ()
 );		
 
@@ -220,7 +238,7 @@ $_sugar-settings-cache : ();
 	}
 
 	// do not have any cache
-	$parts : str-explode($path, '.');
+	$parts : _split($path, '.');
 	$length : length($parts);
 	$idx : 0;
 	$value : $_sugar-settings;
@@ -256,7 +274,7 @@ $_sugar-settings-cache : ();
 	@if $classes {
 		@each $namespace in $classes {
 			// get values
-			$values : map-deep-get($_sugar-classes, $namespace);
+			$values : _get($_sugar-classes, _split($namespace,'.'));
 			// get values
 			@if type-of($values) == map {
 				$values : map-deep-values($values);
@@ -271,6 +289,19 @@ $_sugar-settings-cache : ();
 					@extend %#{$values} !optional;
 				}
 			}
+		}
+	}
+
+	// animatecss
+	%animatecss-animated {
+		animation-duration : sugar('settings.animate-css.duration');
+		animation-fill-mode : sugar('settings.animate-css.fill-mode');
+		animation-timing-function : sugar('settings.animate-css.ease');
+	}
+	@each $anim in $sugar-animatecss {
+		.#{$anim} {
+			@extend %animatecss-animated;
+			@extend %#{$anim} !optional;
 		}
 	}
 
@@ -340,6 +371,22 @@ $_sugar-settings-cache : ();
 		}
 	}
 
+	// filters
+	@if $packages == null or index($package, filters) {
+		$filters : sugar('settings.filters');
+		@each $name, $filter in $filters {
+			@if type-of($filter) == map {
+				$f : map-get($filter, filter);
+				$classes : map-get($filter, classes);
+				@if $classes {
+					.f-#{$name} {
+						@include s-filter($f);
+					}
+				}
+			}
+		}
+	}
+
 	// sizes
 	@if $packages == null or index($package, sizes) {
 		$sizes : sugar('settings.sizes');
@@ -350,27 +397,27 @@ $_sugar-settings-cache : ();
 				@if $classes {
 
 					// margins
-					@if $classes == true or in-list($classes, margin margin-bottom m-b) {
+					@if $classes == true or in-list($classes, margin m margin-bottom m-b) {
 						.m-b-#{$name} {
 							margin-bottom : s-size($name);
 						}
 					}
-					@if $classes == true or in-list($classes, margin margin-top m-t) {
+					@if $classes == true or in-list($classes, margin m margin-top m-t) {
 						.m-t-#{$name} {
 							margin-top : s-size($name);
 						}
 					}
-					@if $classes == true or in-list($classes, margin margin-left m-l) {
+					@if $classes == true or in-list($classes, margin m margin-left m-l) {
 						.m-l-#{$name} {
 							margin-left : s-size($name);
 						}
 					}
-					@if $classes == true or in-list($classes, margin margin-right m-r) {
+					@if $classes == true or in-list($classes, margin m margin-right m-r) {
 						.m-r-#{$name} {
 							margin-right : s-size($name);
 						}
 					}
-					@if $classes == true or in-list($classes, margin margin-side m-s) {
+					@if $classes == true or in-list($classes, margin m margin-side m-s) {
 						.m-s-#{$name} {
 							margin-left : s-size($name);
 							margin-right : s-size($name);
@@ -378,27 +425,27 @@ $_sugar-settings-cache : ();
 					}
 
 					// paddings
-					@if $classes == true or in-list($classes, padding padding-bottom p-b) {
+					@if $classes == true or in-list($classes, padding p padding-bottom p-b) {
 						.p-b-#{$name} {
 							padding-bottom : s-size($name);
 						}
 					}
-					@if $classes == true or in-list($classes, padding padding-top p-t) {
+					@if $classes == true or in-list($classes, padding p padding-top p-t) {
 						.p-t-#{$name} {
 							padding-top : s-size($name);
 						}
 					}
-					@if $classes == true or in-list($classes, padding padding-left p-l) {
+					@if $classes == true or in-list($classes, padding p padding-left p-l) {
 						.p-l-#{$name} {
 							padding-left : s-size($name);
 						}
 					}
-					@if $classes == true or in-list($classes, padding padding-right p-r) {
+					@if $classes == true or in-list($classes, padding p padding-right p-r) {
 						.p-r-#{$name} {
 							padding-right : s-size($name);
 						}
 					}
-					@if $classes == true or in-list($classes, padding padding-side p-s) {
+					@if $classes == true or in-list($classes, padding p padding-side p-s) {
 						.p-s-#{$name} {
 							padding-left : s-size($name);
 							padding-right : s-size($name);
@@ -497,7 +544,8 @@ $_sugar-classes : () !default;
 	$namespace,
 	$name
 ) {
-	$_sugar-classes : map-deep-set($_sugar-classes, $namespace, $name) !global;
+	$split : _split($namespace, '.');
+	$_sugar-classes : _set($_sugar-classes, $split, $name) !global;
 	%#{$name} {
 		@content;
 	}

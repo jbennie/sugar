@@ -15,10 +15,21 @@
 @mixin _s-filter(
 	$filter
 ) {
+	$filters : sugar('settings.filters');
 	// cssgram
-	@if $cssgram and type-of($cssgram) == list and index($cssgram, $filter) {
-		@extend %cssgram-#{$filter} !optional;
-	} @else {
+	@if type-of($filter) == string and str-slice($filter,1,8) == 'cssgram-' {
+		$name : str-slice($filter,9);
+		@if $cssgram and type-of($cssgram) == list and index($cssgram, $name) {
+			@extend %cssgram-#{$name} !optional;
+		}
+	} @else if type-of($filter) == string and map-get($filters, $filter) {
+		// apply the registered filter
+		$filter : map-get($filters, $filter);
+		@if type-of($filter) == map {
+			$filter : map-get($filter, filter);
+		}
+		@include s-filter($filter);
+	} @else if type-of($filter) != string {
 		$filter : _sugar-parse-properties($filter, (
 			drop-shadow : true,
 			blur : true,

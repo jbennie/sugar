@@ -5,9 +5,23 @@
 //
 // Block
 //
-@mixin s-Bem($name) {
+@mixin s-Bem(
+	$bem
+) {
+	$bem : _sugar-parse-properties($bem, (
+		name : string,
+		extend : true
+	));
+	$name : map-get($bem, name);
+	$extend : map-get($bem, extend);
+
 	@at-root {
 		.#{$name} {
+			@if $extend {
+				@each $ext in $extend {
+					@extend .#{$ext} !optional;
+				}
+			}
 			@content;
 		}
 	}
@@ -16,19 +30,74 @@
 //
 // Block element
 //
-@mixin s-bEm($name) {
+@mixin s-bEm(
+	$bem
+) {
+	$bem : _sugar-parse-properties($bem, (
+		name : string,
+		extend : true,
+		root : true
+	), (
+		name : n,
+		extend : e,
+		root : r
+	));
+	$name : map-get($bem, name);
+	$extend : map-get($bem, extend);
+	$root : map-get-or($bem, root, false);
+
 	$separator : sugar('settings.BEM.element-separator');
-	&#{$separator}#{$name} {
-		@content;
+	$this : #{&};
+	@if $root {
+		$this : '.';
+		$separator : '';
+	}
+	@at-root {
+		#{$this}#{$separator}#{$name} {
+			@if $extend {
+				@each $ext in $extend {
+					// @debug(#{$this}#{$separator}#{$ext});
+					@extend #{$this}#{$separator}#{$ext} !optional;
+				}
+			}
+ 			@content;
+		}
 	}
 }
 
 //
 // Block modifier
 //
-@mixin s-beM($name) {
+@mixin s-beM(
+	$bem
+) {
+	$bem : _sugar-parse-properties($bem, (
+		name : string,
+		extend : true,
+		standelone : true
+	), (
+		name : n,
+		extend : e,
+		standelone : s
+	));
+	$name : map-get($bem, name);
+	$extend : map-get($bem, extend);
+	$standelone : map-get-or($bem, standelone, sugar('settings.BEM.standelone'));
+
 	$separator : sugar('settings.BEM.modifier-separator');
-	&#{$separator}#{$name} {
-		@content;
+	$this : #{&};
+	@at-root {
+		#{$this}#{$separator}#{$name} {
+			@if $extend {
+				@each $ext in $extend {
+					@debug(#{$this}#{$separator}#{$ext});
+					@extend #{$this}#{$separator}#{$ext} !optional;
+				}
+			}
+			@if $standelone {
+				@extend #{$this} !optional;
+			}
+			@content;
+		}
 	}
 }

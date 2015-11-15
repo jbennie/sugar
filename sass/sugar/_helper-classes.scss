@@ -52,11 +52,11 @@
 //
 // Text
 //
-@include sugar-register-class('helper.text.hide', text-hide) {
-	@include s-text-hide();
+@include sugar-register-class('helper.text.hidden', text-hidden) {
+	@include s-text-hidden();
 }
-@include sugar-register-class('helper.text.truncate', truncate) {
-	@include s-truncate();
+@include sugar-register-class('helper.text.truncate', text-truncate) {
+	@include s-text-truncate();
 }
 @include sugar-register-class('helper.text.align.left', text-left) {
 	text-align: left;

@@ -96,10 +96,10 @@
 		}
 	}
 	@if $retina and $url {
-		$split : str-explode($url,'.');
+		$split : _split($url,'.');
 		$name : nth($split, length($split)-1);
-		$split : sl-replace-nth($split, length($split)-1, #{$name}#{$retina});
-		$url : sl-to-string($split, '.');
+		$split : set-nth($split, length($split)-1, #{$name}#{$retina});
+		$url : _join($split, '.');
 		@include s-media(retina) {
 			background-image: url("#{$url}");
 		}

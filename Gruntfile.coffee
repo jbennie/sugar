@@ -121,17 +121,11 @@ module.exports = (grunt) ->
 						content = content.replace /(\.)([a-zA-Z_-]{3,60})/gi, "%$2"
 						content = '@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, ' + name + ') { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, ' + name + '); ' + content + '}'
 						content
-			sassyStrings:
+			sassdash:
 				expand: true,
-				cwd: 'bower_components/SassyStrings/stylesheets/',
+				cwd: 'bower_components/sassdash/scss/',
 				src: '**',
-				dest: 'sass/sugar/vendors/sassyStrings/',
-				filter: 'isFile'
-			sassyLists:
-				expand: true,
-				cwd: 'bower_components/SassyLists/stylesheets/',
-				src: '**',
-				dest: 'sass/sugar/vendors/sassyLists/',
+				dest: 'sass/sugar/vendors/sassdash/',
 				filter: 'isFile'
 			cssgram:
 				expand: true,
