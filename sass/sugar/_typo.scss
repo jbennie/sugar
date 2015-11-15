@@ -295,7 +295,7 @@ $_s-font-aliases : (
 	$font-format : sugar('settings.typo.font-format');
 
 	// process url
-	$split : _split($url, '.');
+	$split : _split($src, '.');
 	$e : last-nth($split);
 	$split : list-pop($split);
 	$path : list-implode($split, '.');
