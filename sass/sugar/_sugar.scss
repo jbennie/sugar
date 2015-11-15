@@ -133,8 +133,11 @@ $_sugar-settings : (								// store all the settings
 	typo 						: (
 		font-size 					: 16px, 			// default font-size
 		font-sizes 					: null, 			// map of font-sizes by media (size : media)
-		font-family 				: null, 			// default font family to use. If match a registered font, use that font instead
+		font-family 				: 'Helvetica,Verdana,Arial,sans-serif', 			// default font family to use. If match a registered font, use that font instead
 		line-letters-count			: 55,				// optimal letters count in a line
+		vertical-rhythme 			: ( 				// Vertical rhythme options
+			scope-class 				: typeset 			// the class in which the vertical rhythme will be applied
+									),
 		font-format 				: ( 				// font format used in font-face
 			eot 						: embedded-opentype,
 			woff2 						: woff2,
@@ -145,9 +148,6 @@ $_sugar-settings : (								// store all the settings
 			svgz 						: svgz
 
 									)
-								),
-	vertical-rhythme 			: ( 				// Vertical rhythme options
-		scope-class 				: typeset 			// the class in which the vertical rhythme will be applied
 								),
 	BEM 						: ( 				// BEM settings
 		standelone-modifier			: false, 			// set if by default need to extend base element
@@ -341,7 +341,7 @@ $_sugar-settings-cache : ();
 							color : $c;
 						}
 					}
-					@if $classes == true or in-list($classes, background-color bkg) {
+					@if $classes == true or in-list($classes, background-color background bkg) {
 						$cls : str-replace($classes-bkg, '{color}', #{$name});
 						#{unquote(".#{$cls}")} {
 							background-color : $c;
@@ -357,7 +357,7 @@ $_sugar-settings-cache : ();
 									color : s-color($name, $mod-name);
 								}
 							}
-							@if $classes == true or in-list($classes, background-color bkg) {
+							@if $classes == true or in-list($classes, background-color background bkg) {
 								$cls : str-replace($classes-bkg-mod, '{color}', #{$name});
 								$cls : str-replace($cls, '{modifier}', #{$mod-name});
 								#{unquote(".#{$cls}")} {
@@ -508,8 +508,13 @@ $_sugar-settings-cache : ();
 	@each $font-name, $font in $fonts {
 		$font-face : map-get($font, font-face);
 		$import : map-get($font, import);
+		$font-family : map-get($font, font-family);
 		@if $font-face {
-			$font-face : list-prepend($font-face, $font-name);
+			@if $font-family {
+				$font-face : list-prepend($font-face, $font-family);
+			} @else {
+				$font-face : list-prepend($font-face, $font-name);
+			}
 			@include s-font-face($font-face);
 		} @else if $import {
 			@import url(#{$import});

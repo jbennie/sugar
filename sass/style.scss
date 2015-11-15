@@ -334,33 +334,32 @@ i.user {
 }
 
 .legend {
-	@include s-font(20px s-color(white, -darken 30%) -mw);
+	@include s-font(20px s-color(white, -darken 30%) -mb 2 -mw);
 }
 h1 {
-	@include s-font(ms(3) helvetica-ultralight uppercase -mw);
-	@include s-long-shadow(#ff0000 10deg 30);
+	@include s-font(ms(3) helvetica-ultralight uppercase -mb 2 -mw);
 }
 h2 {
-	@include s-font(ms(2.5) VT323);
+	@include s-font(ms(2.5) VT323 -mb 2);
 }
 h3 {
-	@include s-font(ms(2));
+	@include s-font(ms(2) -mb 2);
 }
 h4 {
-	@include s-font(ms(1.5));
+	@include s-font(ms(1.5) -mb 2);
 }
 h5 {
-	@include s-font(ms(1));
+	@include s-font(ms(1) -mb 2);
 }
 h6 {
-	@include s-font(ms(0.5));
+	@include s-font(ms(0.5) -mb 2);
 	content : str-url-ext('hello/world.ddd/coco.jpg');
 }
 p {
-	@include s-font(ms(0.5) 2);
+	@include s-font(ms(0.5) 2 -mb 2);
 }
 p.lead {
-	@include s-font(ms(1) 2 bold underline);
+	@include s-font(ms(1) 2 bold underline -mb 2);
 }
 blockquote {
 	padding: s-size(3);
@@ -377,7 +376,7 @@ blockquote {
 		-bullet-color s-color(orange)
 		-bullet-size 22px
 		-bullet-offset 8px
-		-font (20px -mb 0 -mw true)
+		-font (20px -mw true)
 		-hover (-bullet-color s-color(red))
 		);
 }
@@ -389,7 +388,7 @@ blockquote {
 		-bullet-color s-color(#ff0000)
 		-bullet-size 16px
 		-bullet-offset 12px
-		-font (20px -mb 0 -mw true)
+		-font (20px -mw true)
 		-hover (-bullet-color s-color(red))
 		);
 }
@@ -401,7 +400,7 @@ blockquote {
 		-bullet-color s-color(orange)
 		-bullet-size 22px
 		-bullet-offset 8px
-		-font (16px -mb 0)
+		-font (16px)
 		-hover (-bullet-color s-color(red))
 		);
 }
@@ -412,7 +411,7 @@ blockquote {
 		-style-image '../img/list-puce-gray.svgz'
 		-bullet-offset 12px
 		-bullet-size 14px 20px
-		-font (20px -mb 0)
+		-font (20px)
 		-hover (-style-image '../img/list-puce-red.svgz')
 		);
 }
@@ -422,8 +421,8 @@ blockquote {
 		upper-roman
 		-padding-left 40px
 		-bullet-size 14px
-		-font (20px -mb 0)
-		-bullet-font (15px -mb 0)
+		-font (20px)
+		-bullet-font (15px)
 		-hover (-bullet-color s-color(orange))
 		);
 }
@@ -433,7 +432,7 @@ blockquote {
 		circle
 		-padding-left 40px
 		-bullet-size 14px
-		-font (20px -mb 0)
+		-font (20px)
 		-hover (-bullet-color s-color(orange))
 		);
 }
