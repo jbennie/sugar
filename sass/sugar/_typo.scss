@@ -21,13 +21,7 @@ $_s-font-properties : (
 	font-size : number,
 	line-height : number,
 	letter-spacing : number,
-	text-indent : number,
-	margin-top : number,
-	margin-bottom : number,
-	padding-top : number,
-	padding-bottom : number,
-	max-width : number,
-	vertical-rhythme : true
+	text-indent : number
 );
 $_s-font-aliases : (
 	font-family : ff,
@@ -42,17 +36,198 @@ $_s-font-aliases : (
 	font-stretch : fstr,
 	white-space : ws,
 	line-height : lh,
-	margin-top : mt,
-	margin-bottom : mb,
-	padding-top : pt,
-	padding-bottom : pb,
-	max-width : mw,
 	letter-spacing : ls,
 	text-indent : ti,
 	word-break : wb,
-	word-wrap : ww,
-	vertical-rhythme : vr
+	word-wrap : ww
 );
+
+@mixin s-vertical-rhythme(
+	$rhythme
+) {
+	$rhythme : _sugar-parse-properties($rhythme, (
+		font-size : number,
+		font-family : string,
+		line-height : number,
+		margin-top : number,
+		margin-bottom : number,
+		padding-top : number,
+		padding-bottom : number,
+		margin : true,
+		padding : true,
+		border-bottom : true,
+		border-top : true,
+		border-bottom-width : number,
+		border-top-width : number,
+		border : true,
+		s-font : true
+	), (
+		font-size: fs,
+		font-family: ff,
+		line-height: lh,
+		margin-top: mt,
+		margin-bottom: mb,
+		padding-top : pt,
+		padding-bottom : pb,
+		margin : m,
+		padding : p,
+		border-bottom : bb,
+		border-top : bt,
+		border-bottom-width : bbw,
+		border-top-width : btw,
+		border : b,
+		s-font : sf
+	));
+
+	// get values
+	$font-size : map-get($rhythme, font-size);
+	$font-family : map-get($rhythme, font-family);
+	$line-height : map-get($rhythme, line-height);
+	$s-font : map-get($rhythme, s-font);
+	$margin-bottom : map-get($rhythme, margin-bottom);
+	$margin-top : map-get($rhythme, margin-top);
+	$padding-bottom : map-get($rhythme, padding-bottom);
+	$padding-top : map-get($rhythme, padding-top);
+	$border-bottom-width : map-get($rhythme, border-bottom-width);
+	$border-top-width : map-get($rhythme, border-top-width);
+	$border-top : map-get($rhythme, border-top);
+	$border-bottom : map-get($rhythme, border-bottom);
+	$margin : map-get($rhythme, margin);
+	$padding : map-get($rhythme, padding);
+	$border : map-get($rhythme, border);
+	
+	// get values from s-font if passed	
+	@if $s-font {
+		$font : s-font($s-font);
+		$font-family : map-get-or($font, font-family, $font-family);
+		$font-size : map-get-or($font, font-size, $font-size);
+		$line-height : map-get-or($font, line-height, $line-height);
+	}
+
+	// calculate number of line height needed
+	@if not $line-height {
+		$line-height : strip-units(ceil(rem(px($font-size))));
+	}
+
+	// protect
+	@if not $font-size {
+		@error('s-vertical-rhythme need a font-size');
+	}
+	@if not $line-height {
+		@error('s-vertical-rhythme need a line-height');
+	}
+
+	// get the font object
+	$default-font-family : sugar('settings.typo.font-family');
+	$fonts : sugar('settings.fonts');
+	$f : map-get($fonts, $default-font-family);
+	$cap-height : map-get-or($f, cap-height, 0);
+	
+	// if a font family is passed
+	@if $font-family {
+		@if map-get($fonts, $font-family) {
+			$f : map-get($fonts, $font-family);
+			$cap-height : map-get-or($f, cap-height, 0);
+			$font-family : map-get-or($f, font-family, $font-family);
+		}			
+	}
+
+	// check some values
+	@if $border-bottom {
+		$map : s-border($border-bottom);
+		$border-bottom-width : map-get-or($map, width, $border-bottom-width);
+	}
+	@if $border-top {
+		$map : s-border($border-top);
+		$border-top-width : map-get-or($map, width, $border-top-width);
+	}
+	@if $margin {
+		$map : s-margin($margin);
+		$margin-top : map-get-or($map, top, $margin-top);
+		$margin-bottom : map-get-or($map, bottom, $margin-bottom);
+	}
+	@if $padding {
+		$map : s-margin($padding);
+		$padding-top : map-get-or($map, top, $padding-top);
+		$padding-bottom : map-get-or($map, bottom, $padding-bottom);
+	}
+
+	// get the rhythme
+	$rhythme-map : map-merge($rhythme, s-get-rhythme(
+		-font-size $font-size
+		-line-height $line-height
+		-margin-top $margin-top
+		-margin-bottom $margin-bottom
+		-padding-top $padding-top
+		-padding-bottom $padding-bottom
+		-border-top $border-top-width
+		-border-bottom $border-bottom-width
+		-cap-height $cap-height
+	));
+	// remove margin-top cause it's done by top and margin-bottom compensation
+	@if map-get($rhythme-map, top) {
+		$rhythme-map : map-remove($rhythme-map, margin-top);
+	}
+
+	// set values
+	@if $s-font {
+		@include s-font($s-font);
+	}
+	$rhythme-map : map-remove($rhythme-map, s-font);
+
+	$scope-class : sugar('settings.typo.vertical-rhythme.scope-class');
+	@if $scope-class {
+		.#{$scope-class} & {
+			@each $prop, $value in $rhythme-map {
+				#{$prop} : $value;
+			}
+		}
+	} @else {
+		@each $prop, $value in $rhythme-map {
+			#{$prop} : $value;
+		}	
+	}
+}
+
+@function s-margin(
+	$margin
+) {
+	@if type-of($margin) == number {
+		@return (
+			top : rem($margin),
+			right : rem($margin),
+			bottom : rem($margin),
+			left : rem($margin)
+		);
+	} @else if type-of($margin) == list and length($margin) == 2 {
+		@return (
+			top : rem(nth($margin,1)),
+			bottom : rem(nth($margin,1)),
+			left : rem(nth($margin,2)),
+			right : rem(nth($margin,2))
+		);
+	} @else if type-of($margin) == list and length($margin) == 4 {
+		@return (
+			top : rem(nth($margin,1)),
+			right : rem(nth($margin,2)),
+			bottom : rem(nth($margin,3)),
+			left : rem(nth($margin,4))
+		);
+	}
+}
+
+@function s-border(
+	$border
+) {
+	$border : _sugar-parse-properties($border, (
+		width : number,
+		color : color,
+		style : none hidden dotted dashed solid double groove ridge inset outset initial inherit
+	), (
+		style : stl
+	));
+	@return $border;
+}
 
 @mixin s-font(
 	$font
@@ -62,23 +237,8 @@ $_s-font-aliases : (
 
 	// set values
 	@each $prop, $value in $font-map {
-		@if $prop == rhythme {
-			$scope-class : sugar('settings.typo.vertical-rhythme.scope-class');
-			@if $scope-class {
-				.#{$scope-class} & {
-					@each $prop, $value in $value {
-						#{$prop} : $value;
-					}
-				}
-			} @else {
-				@each $prop, $value in $value {
-					#{$prop} : $value;
-				}	
-			}
-		} @else {
-			@if $prop != cap-height {
-				#{$prop} : $value;
-			}
+		@if $prop != cap-height {
+			#{$prop} : $value;
 		}
 	}
 
@@ -115,11 +275,6 @@ $_s-font-aliases : (
 	$font-stretch : map-get($font, font-stretch);
 	$white-space : map-get($font, white-space);
 	$line-height : map-get-or($font, line-height, null);
-	$margin-top : map-get-or($font, margin-top, null);
-	$margin-bottom : map-get-or($font, margin-bottom, null);
-	$padding-top : map-get-or($font, padding-top, null);
-	$padding-bottom : map-get-or($font, padding-bottom, null);
-	$max-width : map-get-or($font, max-width, false);
 	$letter-spacing : map-get($font, letter-spacing);
 	$text-indent : map-get($font, text-indent);
 	$word-break : map-get($font, word-break);
@@ -129,15 +284,15 @@ $_s-font-aliases : (
 	// get the font object
 	$default-font-family : sugar('settings.typo.font-family');
 	$fonts : sugar('settings.fonts');
-	$font : map-get($fonts, $default-font-family);
-	$cap-height : map-get-or($font, cap-height, 0);
+	$f : map-get($fonts, $default-font-family);
+	$cap-height : map-get-or($f, cap-height, 0);
 	
 	// if a font family is passed
 	@if $font-family {
 		@if map-get($fonts, $font-family) {
-			$font : map-get($fonts, $font-family);
-			$cap-height : map-get-or($font, cap-height, 0);
-			$font-family : map-get-or($font, font-family, $font-family);
+			$f : map-get($fonts, $font-family);
+			$cap-height : map-get-or($f, cap-height, 0);
+			$font-family : map-get-or($f, font-family, $font-family);
 		}			
 	}
 	
@@ -145,11 +300,6 @@ $_s-font-aliases : (
 	$return : (
 		cap-height : $cap-height
 	);
-
-	// calculate number of line height needed
-	@if $line-height == null {
-		$line-height : strip-units(ceil(rem(px($size))));
-	}
 
 	// set the font
 	@if $font-family {
@@ -166,43 +316,6 @@ $_s-font-aliases : (
 
 	@if $line-height {
 		$return : map-set($return, line-height, rem($line-height));
-	}
-
-	// vertical rhythme ?
-	@if $vertical-rhythme {
-		// get the rhythme
-		$rhythme-map : s-get-rhythme(
-			-font-size $size
-			-line-height $line-height
-			-margin-top $margin-top
-			-margin-bottom $margin-bottom
-			-padding-top $padding-top
-			-padding-bottom $padding-bottom
-			-cap-height $cap-height
-		);
-		$return : map-set($return, rhythme, $rhythme-map);
-	}
-
-	@if $margin-top {
-		$return : map-set($return, margin-top, rem($margin-top));
-	}
-	@if $margin-bottom {
-		$return : map-set($return, margin-bottom, rem($margin-bottom));
-	}
-	@if $padding-top {
-		$return : map-set($return, padding-top, rem($padding-top));
-	}
-	@if $padding-bottom {
-		$return : map-set($return, padding-bottom, rem($padding-bottom));
-	}
-
-	// max width
-	@if $max-width {
-		@if type-of($max-width) == number {
-			$return : map-merge($return, s-get-rhythme-width($max-width));
-		} @else {
-			$return : map-merge($return, s-get-rhythme-width());
-		}
 	}
 
 	// font-style
@@ -253,6 +366,9 @@ $_s-font-aliases : (
 	@if $word-wrap {
 		$return : map-set($return, word-wrap, $word-wrap);
 	}
+
+	// add all the others properties
+	$return : map-merge($return, map-get-or($font, others, ()));
 
 	// return the map
 	@return $return;
@@ -396,6 +512,8 @@ $_s-font-aliases : (
 		margin-bottom : number,
 		padding-top : number,
 		padding-bottom : number,
+		border-bottom : number,
+		border-top : number,
 		cap-height : number
 	), (
 		font-size : fs,
@@ -404,6 +522,8 @@ $_s-font-aliases : (
 		margin-bottom: mb,
 		padding-top: pt,
 		padding-bottom: pb,
+		border-bottom : bb,
+		border-top : bt,
 		cap-height: ch
 	));
 
@@ -413,6 +533,8 @@ $_s-font-aliases : (
 	$margin-bottom : map-get-or($rhythme, margin-bottom, 0);
 	$padding-top : map-get-or($rhythme, padding-top, 0);
 	$padding-bottom : map-get-or($rhythme, padding-bottom, 0);
+	$border-bottom : map-get-or($rhythme, border-bottom, 0);
+	$border-top : map-get-or($rhythme, border-top, 0);
 	$cap-height : map-get-or($rhythme, cap-height, 0);
 	$root-font-size : sugar('settings.typo.font-size');
 	
@@ -457,6 +579,18 @@ $_s-font-aliases : (
 			$padding-bottom : rem($padding-bottom);
 		}
 	}
+	@if $border-bottom > 0 {
+		@if unit($border-bottom) != rem {
+			// transform margin top in rems
+			$border-bottom : rem($border-bottom);
+		}
+	}
+	@if $border-top > 0 {
+		@if unit($border-top) != rem {
+			// transform margin top in rems
+			$border-top : rem($border-top);
+		}
+	}
 	@if $line-height > 0 {
 		@if unit($line-height) != rem {
 			// transform margin top in rems
@@ -488,14 +622,31 @@ $_s-font-aliases : (
 		// push a little bit the content lower to respect
 		// vertical rhythme
 		@if $padding-top and $padding-top >= 1 {
-			@return (
+
+			// if we have some borders
+			@if $border-top > 0 {
+				$dec : $border-top % 1;
+				$margin-top : $margin-top + ( 1 - $dec );
+			}
+			@if $border-bottom > 0 {
+				$dec : $border-bottom % 1;
+				$margin-bottom : $margin-bottom + ( 1 - $dec );
+			}
+			$ret : (
 				padding-top : $padding-top,
-				margin-top : $margin-top,
 				margin-bottom : $margin-bottom,
 				padding-bottom : $padding-bottom,
 				font-size : rem($font-size),
 				line-height : rem($line-height)
 			);
+			@if $margin-top > 0 {
+				$ret : map-merge($ret, (
+					position : relative,
+					top : $margin-top,
+					margin-bottom : $margin-bottom + $margin-top
+				));
+			}
+			@return $ret;
 		} @else {
 			$baseline-shift : $baseline-shift % 1;
 			$decimal : $baseline-push % 1;
@@ -508,14 +659,33 @@ $_s-font-aliases : (
 			@if $baseline-shift >= 0.66 {
 				$margin-top : $margin-top - 1rem;
 			}
-			@return (
+
+			@if $border-top > 0 {
+				$dec : $border-top % 1;
+				$margin-top : $margin-top + ( 1 - $dec );
+			}
+			@if $border-bottom > 0 {
+				$dec : $border-bottom % 1;
+				$baseline-push : $baseline-push + ( 1 - $dec );
+			}
+
+
+
+			$ret : (
 				padding-top : $baseline-shift,
-				margin-top : $margin-top,
 				margin-bottom : $baseline-push,
 				padding-bottom : $padding-bottom,
 				font-size : rem($font-size),
 				line-height : rem($line-height)
 			);
+			@if $margin-top > 0 {
+				$ret : map-merge($ret, (
+					position : relative,
+					top : $margin-top,
+					margin-bottom : $margin-bottom + $margin-top
+				));
+			}
+			@return $ret;
 		}
 	} @else {
 		@warn "#{$font-size} is not a valid scale variable";

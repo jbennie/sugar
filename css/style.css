@@ -858,17 +858,12 @@ html {
   padding: 0 2rem;
   font-family: helvetica;
   font-size: 1.84615385rem;
-  line-height: 2rem;
-  margin-bottom: 2rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
   font-weight: bold;
 }
 .typeset .btn {
   padding-top: 1rem;
-  margin-top: 0;
-  margin-bottom: 2rem;
   padding-bottom: 1rem;
+  margin-bottom: 2rem;
   font-size: 1.84615385rem;
   line-height: 2rem;
 }
@@ -935,8 +930,9 @@ html {
   height: 100px;
   background: blue;
   position: relative;
-  -webkit-transform: translateZ(30px);
-          transform: translateZ(30px);
+  top: 10px;
+  right: 30px;
+  bottom: 30px;
 }
 
 .translate {
@@ -1050,35 +1046,31 @@ i.user {
 }
 
 .legend {
+  font-family: helvetica;
   color: #b3b3b3;
   font-size: 1.53846154rem;
-  line-height: 2rem;
-  margin-bottom: 2rem;
-  display: block;
-  max-width: 55ex;
 }
 .typeset .legend {
-  padding-top: 0.50001rem;
-  margin-top: 0;
-  margin-bottom: 2.49999rem;
-  padding-bottom: 0;
+  margin-bottom: 3.46153846rem;
+  border-bottom: 15px solid red;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+  border-top: 5px solid blue;
   font-size: 1.53846154rem;
   line-height: 2rem;
+  position: relative;
+  top: 0.61538462rem;
 }
 
 h1 {
   font-family: helvetica-ultralight;
   font-size: 4.23606807rem;
-  line-height: 5rem;
-  margin-bottom: 2rem;
-  display: block;
-  max-width: 55ex;
   text-transform: uppercase;
 }
 .typeset h1 {
+  margin-bottom: 2.18440443rem;
+  border-bottom: 22px dashed red;
   padding-top: 0.12328788rem;
-  margin-top: 0;
-  margin-bottom: 1.87671212rem;
   padding-bottom: 0;
   font-size: 4.23606807rem;
   line-height: 5rem;
@@ -1087,13 +1079,11 @@ h1 {
 h2 {
   font-family: VT323;
   font-size: 3.33019073rem;
-  line-height: 4rem;
-  margin-bottom: 2rem;
 }
 .typeset h2 {
+  margin-bottom: 2.6976866rem;
+  border-bottom: 5px solid red;
   padding-top: 0.91769801rem;
-  margin-top: -1rem;
-  margin-bottom: 2.08230199rem;
   padding-bottom: 0;
   font-size: 3.33019073rem;
   line-height: 4rem;
@@ -1101,13 +1091,10 @@ h2 {
 
 h3 {
   font-size: 2.61803403rem;
-  line-height: 3rem;
-  margin-bottom: 2rem;
 }
 .typeset h3 {
-  padding-top: 0.64914894rem;
-  margin-top: 0;
   margin-bottom: 2.35085106rem;
+  padding-top: 0.64914894rem;
   padding-bottom: 0;
   font-size: 2.61803403rem;
   line-height: 3rem;
@@ -1115,13 +1102,10 @@ h3 {
 
 h4 {
   font-size: 2.05817105rem;
-  line-height: 3rem;
-  margin-bottom: 2rem;
 }
 .typeset h4 {
-  padding-top: 0.83110441rem;
-  margin-top: -1rem;
   margin-bottom: 2.16889559rem;
+  padding-top: 0.83110441rem;
   padding-bottom: 0;
   font-size: 2.05817105rem;
   line-height: 3rem;
@@ -1129,13 +1113,10 @@ h4 {
 
 h5 {
   font-size: 1.618034rem;
-  line-height: 2rem;
-  margin-bottom: 2rem;
 }
 .typeset h5 {
-  padding-top: 0.47414895rem;
-  margin-top: 0;
   margin-bottom: 2.52585105rem;
+  padding-top: 0.47414895rem;
   padding-bottom: 0;
   font-size: 1.618034rem;
   line-height: 2rem;
@@ -1143,13 +1124,10 @@ h5 {
 
 h6 {
   font-size: 1.27201965rem;
-  line-height: 2rem;
-  margin-bottom: 2rem;
 }
 .typeset h6 {
-  padding-top: 0.58660361rem;
-  margin-top: 0;
   margin-bottom: 2.41339639rem;
+  padding-top: 0.58660361rem;
   padding-bottom: 0;
   font-size: 1.27201965rem;
   line-height: 2rem;
@@ -1158,12 +1136,11 @@ h6 {
 p {
   font-size: 1.27201965rem;
   line-height: 2rem;
-  margin-bottom: 2rem;
+  text-align: justify;
 }
 .typeset p {
-  padding-top: 0.58660361rem;
-  margin-top: 0;
   margin-bottom: 2.41339639rem;
+  padding-top: 0.58660361rem;
   padding-bottom: 0;
   font-size: 1.27201965rem;
   line-height: 2rem;
@@ -1172,14 +1149,12 @@ p {
 p.lead {
   font-size: 1.618034rem;
   line-height: 2rem;
-  margin-bottom: 2rem;
   font-weight: bold;
   text-decoration: underline;
 }
 .typeset p.lead {
-  padding-top: 0.47414895rem;
-  margin-top: 0;
   margin-bottom: 2.52585105rem;
+  padding-top: 0.47414895rem;
   padding-bottom: 0;
   font-size: 1.618034rem;
   line-height: 2rem;
@@ -1189,19 +1164,14 @@ blockquote {
   padding: 3rem;
   border-left: 5px solid #f2bc2b;
   margin-left: -2rem;
-  font-size: 2.07692308rem;
-  line-height: 3rem;
-  margin-bottom: 2rem;
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-  font-style: italic;
   background: #eee;
+  font-size: 2.07692308rem;
+  font-style: italic;
 }
 .typeset blockquote {
   padding-top: 3rem;
-  margin-top: 0;
-  margin-bottom: 2rem;
   padding-bottom: 3rem;
+  margin-bottom: 2rem;
   font-size: 2.07692308rem;
   line-height: 3rem;
 }
@@ -1212,20 +1182,9 @@ blockquote {
 }
 .ul > * {
   font-size: 1.53846154rem;
-  line-height: 2rem;
-  display: block;
-  max-width: 55ex;
   padding-left: 3.07692308rem;
   position: relative;
   position: relative;
-}
-.typeset .ul > * {
-  padding-top: 0.50001rem;
-  margin-top: 0;
-  margin-bottom: 0.49999rem;
-  padding-bottom: 0;
-  font-size: 1.53846154rem;
-  line-height: 2rem;
 }
 .ul > *:before {
   left: 0rem;
@@ -1259,7 +1218,6 @@ blockquote {
 .ul > * > dl {
   margin-left: 0;
   margin-bottom: 0;
-  margin-top: 0.50001rem;
 }
 
 .ul--inside {
@@ -1267,20 +1225,9 @@ blockquote {
 }
 .ul--inside > * {
   font-size: 1.53846154rem;
-  line-height: 2rem;
-  display: block;
-  max-width: 55ex;
   padding-left: 3.07692308rem;
   position: relative;
   position: relative;
-}
-.typeset .ul--inside > * {
-  padding-top: 0.50001rem;
-  margin-top: 0;
-  margin-bottom: 0.49999rem;
-  padding-bottom: 0;
-  font-size: 1.53846154rem;
-  line-height: 2rem;
 }
 .ul--inside > *:before {
   left: 0rem;
@@ -1314,7 +1261,6 @@ blockquote {
 .ul--inside > * > dl {
   margin-left: 0;
   margin-bottom: 0;
-  margin-top: 0.50001rem;
 }
 
 .ul--small {
@@ -1323,18 +1269,9 @@ blockquote {
 }
 .ul--small > * {
   font-size: 1.23076923rem;
-  line-height: 2rem;
   padding-left: 3.07692308rem;
   position: relative;
   position: relative;
-}
-.typeset .ul--small > * {
-  padding-top: 0.60001rem;
-  margin-top: 0;
-  margin-bottom: 0.39999rem;
-  padding-bottom: 0;
-  font-size: 1.23076923rem;
-  line-height: 2rem;
 }
 .ul--small > *:before {
   left: 0rem;
@@ -1368,7 +1305,6 @@ blockquote {
 .ul--small > * > dl {
   margin-left: 0;
   margin-bottom: 0;
-  margin-top: 0.60001rem;
 }
 
 .ul--image {
@@ -1377,18 +1313,9 @@ blockquote {
 }
 .ul--image > * {
   font-size: 1.53846154rem;
-  line-height: 2rem;
   padding-left: 3.07692308rem;
   position: relative;
   position: relative;
-}
-.typeset .ul--image > * {
-  padding-top: 0.50001rem;
-  margin-top: 0;
-  margin-bottom: 0.49999rem;
-  padding-bottom: 0;
-  font-size: 1.53846154rem;
-  line-height: 2rem;
 }
 .ul--image > *:before {
   left: 0rem;
@@ -1441,7 +1368,6 @@ blockquote {
 .ul--image > * > dl {
   margin-left: 0;
   margin-bottom: 0;
-  margin-top: 0.50001rem;
 }
 
 .ul--decimal {
@@ -1451,17 +1377,8 @@ blockquote {
 }
 .ul--decimal > * {
   font-size: 1.53846154rem;
-  line-height: 2rem;
   padding-left: 3.07692308rem;
   position: relative;
-}
-.typeset .ul--decimal > * {
-  padding-top: 0.50001rem;
-  margin-top: 0;
-  margin-bottom: 0.49999rem;
-  padding-bottom: 0;
-  font-size: 1.53846154rem;
-  line-height: 2rem;
 }
 .ul--decimal > *:before {
   content: counter(s-list,upper-roman);
@@ -1471,15 +1388,6 @@ blockquote {
   left: 0;
   font-size: 1.07692308rem;
   font-size: 1.15384615rem;
-  line-height: 2rem;
-}
-.typeset .ul--decimal > *:before {
-  padding-top: 0.62501rem;
-  margin-top: 0;
-  margin-bottom: 0.37499rem;
-  padding-bottom: 0;
-  font-size: 1.15384615rem;
-  line-height: 2rem;
 }
 .ul--decimal > *:hover {
   position: relative;
@@ -1507,7 +1415,6 @@ blockquote {
 .ul--decimal > * > dl {
   margin-left: 0;
   margin-bottom: 0;
-  margin-top: 0.50001rem;
 }
 
 .ul--circle {
@@ -1517,17 +1424,8 @@ blockquote {
 }
 .ul--circle > * {
   font-size: 1.53846154rem;
-  line-height: 2rem;
   padding-left: 3.07692308rem;
   position: relative;
-}
-.typeset .ul--circle > * {
-  padding-top: 0.50001rem;
-  margin-top: 0;
-  margin-bottom: 0.49999rem;
-  padding-bottom: 0;
-  font-size: 1.53846154rem;
-  line-height: 2rem;
 }
 .ul--circle > *:before {
   content: counter(s-list,circle);
@@ -1563,7 +1461,6 @@ blockquote {
 .ul--circle > * > dl {
   margin-left: 0;
   margin-bottom: 0;
-  margin-top: 0.50001rem;
 }
 
 .rubberBand, .tada, .flipOutX, .fadeIn {

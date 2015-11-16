@@ -5,7 +5,7 @@
 //
 // Placeholder
 //
-@mixin placeholder {
+@mixin s-placeholder {
 	&::-webkit-input-placeholder {@content}
 	&:-moz-placeholder           {@content}
 	&::-moz-placeholder          {@content}

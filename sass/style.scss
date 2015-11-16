@@ -195,7 +195,12 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 	color: white;
 	text-decoration: none;
 	padding: 0 s-size(2);
-	@include s-font(24px helvetica bold -pt 1 -pb 1 -mb 2);
+	@include s-vertical-rhythme((
+		s-font : 24px helvetica bold,
+		padding-top : 1,
+		padding-bottom : 1,
+		margin-bottom : 2
+	));
 }
 
 .abs-cover {
@@ -232,7 +237,7 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 	width: 100px;
 	height: 100px;
 	background: blue;
-	@include s-position(relative -x 10px -y 30px -z 30px);
+	@include s-position(relative 10px 30px 30px);
 }
 
 .translate {
@@ -320,7 +325,7 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 
 	@include s-beM(mod -s) {
 		content : coco mod modifier;
-
+	
 		@include s-bEm(coco) {
 			content : coco mod modifier coco element;
 		}
@@ -334,39 +339,76 @@ i.user {
 }
 
 .legend {
-	@include s-font(20px s-color(white, -darken 30%) -mb 2 -mw);
+	@include s-vertical-rhythme((
+		s-font : 20px helvetica s-color(white, -darken 30%) -mw,
+		margin-bottom : 2,
+		border-bottom : 15px solid red,
+		padding-bottom : 1,
+		padding-top : 1,
+		border-top : 5px solid blue
+	));
 }
 h1 {
-	@include s-font(ms(3) helvetica-ultralight uppercase -mb 2 -mw);
+	@include s-vertical-rhythme((
+		s-font : ms(3) helvetica-ultralight uppercase,
+		margin-bottom : 2,
+		border-bottom : 22px dashed red
+	));
 }
 h2 {
-	@include s-font(ms(2.5) VT323 -mb 2);
+	@include s-vertical-rhythme((
+		s-font : ms(2.5) VT323,
+		margin-bottom : 2,
+		border-bottom : 5px solid red
+	));
 }
 h3 {
-	@include s-font(ms(2) -mb 2);
+	@include s-vertical-rhythme((
+		s-font : ms(2),
+		margin-bottom : 2
+	));
 }
 h4 {
-	@include s-font(ms(1.5) -mb 2);
+	@include s-vertical-rhythme((
+		s-font : ms(1.5),
+		margin-bottom : 2
+	));
 }
 h5 {
-	@include s-font(ms(1) -mb 2);
+	@include s-vertical-rhythme((
+		s-font : ms(1),
+		margin-bottom : 2
+	));
 }
 h6 {
-	@include s-font(ms(0.5) -mb 2);
-	content : str-url-ext('hello/world.ddd/coco.jpg');
+	@include s-vertical-rhythme((
+		s-font : ms(0.5),
+		margin-bottom : 2
+	));
 }
 p {
-	@include s-font(ms(0.5) 2 -mb 2);
+	@include s-vertical-rhythme((
+		s-font : ms(0.5) 2 justify,
+		margin-bottom : 2
+	));
 }
 p.lead {
-	@include s-font(ms(1) 2 bold underline -mb 2);
+	@include s-vertical-rhythme((
+		s-font : ms(1) 2 bold underline,
+		margin-bottom : 2
+	));
 }
-blockquote {
+blockquote {	
 	padding: s-size(3);
 	border-left: 5px solid s-color(orange);
 	margin-left: s-size(-2);
-	@include s-font(27px italic -pt 3 -pb 3 -mb 2);
 	background: s-color(#eee);
+	@include s-vertical-rhythme((
+		s-font : 27px italic,
+		padding-top : 3,
+		padding-bottom : 3,
+		margin-bottom : 2
+	));
 }
 .ul {
 	@include s-list(

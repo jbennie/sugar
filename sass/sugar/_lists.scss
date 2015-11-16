@@ -194,9 +194,9 @@ $s-list-alias : (
 		margin-bottom: 0;
 
 		// manage rhythme
-		@if $rhythme-values {
-			margin-top: map-get($rhythme-values, padding-top) + map-get($rhythme-values, margin-top);
-		}
+		// @if $rhythme-values {
+		// 	margin-top: map-get($rhythme-values, padding-top) + map-get($rhythme-values, margin-top);
+		// }
 	}
 
 	// handle nested

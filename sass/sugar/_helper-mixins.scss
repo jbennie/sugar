@@ -190,6 +190,9 @@
 	$ratio : _sugar-parse-properties($ratio, (
 		type : before after,
 		ratio : number
+	), (
+		type : t,
+		ratio : r
 	));
 	$rat : map-get($ratio, ratio);
 	$type : map-get-or($ratio, type, before);

@@ -68,45 +68,175 @@ $_s_nested_properties_depth : ();
 		left : l
 	));
 
-	$map : ();
-	$values : ();
-	$current_prop : null;
-	$first : true;
-	@each $prop in $properties {
-		
-		@if type-of($prop) == string and str-slice($prop,1,1) == '-' {
-			
-			// remove the - at property beginning
-			$prop : str-slice($prop, 2);
+	// check if is a map or a list
+	@if type-of($properties) == map {
+		$new-map : ();
 
-			// check if we have a property named like this in map
-			$in_keywords : null;
+		// loop on each properties to 
+		@each $prop, $value in $properties {
 
-			@if $keywords {
+			// check if exist
+			$in_keywords : map-get($keywords, $prop);
+
+			// if not in keywords, try to get the alias
+			@if $in_keywords == null {
+
+				$alias_found : false;
+				@each $alias_prop, $alias in $aliases {
+					@if $alias_found == false {
+						$al : index($alias, $prop);
+						@if $al or type-of($alias) == string and $prop == $alias {
+							$alias_found : true;
+							$prop : $alias_prop;
+						}
+					}
+				}
+				// check again if now we have a property like this
 				$in_keywords : map-get($keywords, $prop);
+			}
 
-				// if not in keywords, try to get the alias
-				@if $in_keywords == null {
+			// if we have found, check the type
+			@if $in_keywords {
 
-					$alias_found : false;
-					@each $alias_prop, $alias in $aliases {
-						@if $alias_found == false {
-							$al : index($alias, $prop);
-							@if $al or type-of($alias) == string and $prop == $alias {
-								$alias_found : true;
-								$prop : $alias_prop;
+				// check explicit values
+				@if type-of($in_keywords) == list {
+					// check if the passed value exist in possible values
+					@if index($in_keywords, $value) {
+						$new-map : map-set($new-map, $prop, $value);
+					}
+				} @else if type-of($in_keywords) == string {
+					// check the type
+					@if s-is($value, $in_keywords) {
+						$new-map : map-set($new-map, $prop, $value);
+					}
+				} @else {
+					// we do nothing but adding the value like this
+					$new-map : map-set($new-map, $prop, $value);
+				}
+
+			} @else {
+				// add the value to map
+				@if not map-get($new-map, others) {
+					$new-map : map-set($new-map, others, ());
+				}
+				$new-map : map-set($new-map, others, map-merge(map-get($new-map, others), (
+					$prop : $value
+				)));
+			}
+
+		}
+
+		// return new map
+		@return $new-map;
+
+	} @else {
+
+		$map : ();
+		$values : ();
+		$current_prop : null;
+		$first : true;
+		@each $prop in $properties {
+			
+			@if type-of($prop) == string and str-slice($prop,1,1) == '-' {
+				
+				// remove the - at property beginning
+				$prop : str-slice($prop, 2);
+
+				// check if we have a property named like this in map
+				$in_keywords : null;
+
+				@if $keywords {
+					$in_keywords : map-get($keywords, $prop);
+
+					// if not in keywords, try to get the alias
+					@if $in_keywords == null {
+
+						$alias_found : false;
+						@each $alias_prop, $alias in $aliases {
+							@if $alias_found == false {
+								$al : index($alias, $prop);
+								@if $al or type-of($alias) == string and $prop == $alias {
+									$alias_found : true;
+									$prop : $alias_prop;
+								}
+							}
+						}
+						// check again if now we have a property like this
+						$in_keywords : map-get($keywords, $prop);
+					}
+				}
+
+				// if we have a property in map
+				@if $in_keywords or $keywords == null {
+
+					// explicit naming
+					@if $current_prop {
+						@if length($values) == 0 {
+							$values : true
+						} @else if length($values) == 1 {
+							$values : nth($values, 1);
+						}
+						$map : map-set($map, $current_prop, $values);
+					}
+					$first : false;
+					$current_prop : $prop;
+					$values : ();
+				} @else {
+					// we do not have the property in keywords
+					// but it is still a property...
+					// we have to reset the current prop to null
+					// in order to not append values in previous
+					// founded property
+					$first : false;
+					$current_prop : null;
+					$values : ();
+				}
+			} @else {
+
+				@if $first {
+					// check if the type is ok
+					$found : false;
+					@each $name, $type in $keywords {
+						@if $found == false {
+							@if $type == url {
+								@if s-is($prop, url) {
+									$map : map-set($map, $name, $prop);
+									// remove the item from keywords
+									$keywords : map-remove($keywords, $name);
+									// stop searching
+									$found : true;
+								}
+							} @else if $type == number or $type == color or $type == string or $type == list or $type == map {
+								@if type-of($prop) == $type {
+									$map : map-set($map, $name, $prop);
+									// remove the item from keywords
+									$keywords : map-remove($keywords, $name);
+									// stop searching
+									$found : true;
+								}
+							} @else if $type == degree {
+								@if s-is($prop, degree) {
+									$map : map-set($map, $name, $prop);
+									// remove the item from keywords
+									$keywords : map-remove($keywords, $name);
+									// stop searching
+									$found : true;
+								}
+							} @else {
+								@if index($type, $prop) {
+									$map : map-set($map, $name, $prop);
+									// remove the item from keywords
+									$keywords : map-remove($keywords, $name);
+									// stop searching
+									$found : true;
+								}
 							}
 						}
 					}
-					// check again if now we have a property like this
-					$in_keywords : map-get($keywords, $prop);
+				} @else {
+					$values : append($values, $prop);
 				}
-			}
 
-			// if we have a property in map
-			@if $in_keywords or $keywords == null {
-
-				// explicit naming
 				@if $current_prop {
 					@if length($values) == 0 {
 						$values : true
@@ -115,84 +245,40 @@ $_s_nested_properties_depth : ();
 					}
 					$map : map-set($map, $current_prop, $values);
 				}
-				$first : false;
-				$current_prop : $prop;
-				$values : ();
-			} @else {
-				// we do not have the property in keywords
-				// but it is still a property...
-				// we have to reset the current prop to null
-				// in order to not append values in previous
-				// founded property
-				$first : false;
-				$current_prop : null;
-				$values : ();
-			}
-		} @else {
-
-			@if $first {
-				// check if the type is ok
-				$found : false;
-				@each $name, $type in $keywords {
-					@if $found == false {
-						@if $type == url {
-							@if str-is-url($prop) {
-								$map : map-set($map, $name, $prop);
-								// remove the item from keywords
-								$keywords : map-remove($keywords, $name);
-								// stop searching
-								$found : true;
-							}
-						} @else if $type == number or $type == color or $type == string or $type == list or $type == map {
-							@if type-of($prop) == $type {
-								$map : map-set($map, $name, $prop);
-								// remove the item from keywords
-								$keywords : map-remove($keywords, $name);
-								// stop searching
-								$found : true;
-							}
-						} @else if $type == degree {
-							@if unit($prop) == deg {
-								$map : map-set($map, $name, $prop);
-								// remove the item from keywords
-								$keywords : map-remove($keywords, $name);
-								// stop searching
-								$found : true;
-							}
-						} @else {
-							@if index($type, $prop) {
-								$map : map-set($map, $name, $prop);
-								// remove the item from keywords
-								$keywords : map-remove($keywords, $name);
-								// stop searching
-								$found : true;
-							}
-						}
-					}
-				}
-			} @else {
-				$values : append($values, $prop);
-			}
-
-			@if $current_prop {
-				@if length($values) == 0 {
-					$values : true
-				} @else if length($values) == 1 {
-					$values : nth($values, 1);
-				}
-				$map : map-set($map, $current_prop, $values);
 			}
 		}
-	}
-	@if $current_prop {
-		@if length($values) == 0 {
-			$values : true
-		} @else if length($values) == 1 {
-			$values : nth($values, 1);
+		@if $current_prop {
+			@if length($values) == 0 {
+				$values : true
+			} @else if length($values) == 1 {
+				$values : nth($values, 1);
+			}
+			$map : map-set($map, $current_prop, $values);
 		}
-		$map : map-set($map, $current_prop, $values);
-	}
 
-	// return map
-	@return $map;
+		// return map
+		@return $map;
+
+	}
+}
+
+@function s-is(
+	$value,
+	$type
+) {
+	@if $type == url {
+		@return str-is-url($value);
+	} @else if $type == number {
+		@return type-of($value) == number;
+	} @else if $type == string {
+		@return type-of($value) == string;
+	} @else if $type == color {
+		@return type-of($value) == color;
+	} @else if $type == list {
+		@return type-of($value) == list;
+	} @else if $type == map {
+		@return type-of($value) == map;
+	} @else if $type == degree or $type == deg {
+		@return unit($value) == deg;
+	}
 }
