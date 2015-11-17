@@ -22,7 +22,10 @@ $media-keywords : (
 	android : '.ua-android',
 	webos : '.ua-webos',
 	blackberry : '.ua-blackberry',
-	retina : '(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)'
+	retina : '(-webkit-min-device-pixel-ratio: 2), (min-resolution: 320dpi)',
+	2x : '(-webkit-min-device-pixel-ratio: 2), (min-resolution: 320dpi)',
+	3x : '(-webkit-min-device-pixel-ratio: 3), (min-resolution: 480dpi)',
+	4x : '(-webkit-min-device-pixel-ratio: 4), (min-resolution: 640dpi)'
 );
 @for $idx from 6 through 20 {
 	$media-keywords : map-set($media-keywords, 'ie#{$idx}', '.ua-ie-#{$idx}');

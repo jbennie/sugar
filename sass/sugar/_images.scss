@@ -38,11 +38,16 @@
 		height : number,
 		top : number,
 		left : number,
-		retina : string,
+		x2 : string,
+		x3 : string,
+		x4 : string,
 		position : true
 	), (
+		repeat : r,
+		size : s,
+		blend-mode : bm,
+		origin : o,
 		url : u,
-		retina : ret,
 		position : p,
 		attachment : att,
 		clip : cl
@@ -61,8 +66,13 @@
 	$left : map-get($background, left);
 	$width : map-get($background, width);
 	$height : map-get($background, height);
-	$retina : map-get-or($background, retina);
-	@if $retina == true { $retina : '@2x'; }
+	$_2x : map-get-or($background, x2);
+	@if $_2x == true { $_2x : '@2x'; }
+	$_3x : map-get-or($background, x3);
+	@if $_3x == true { $_3x : '@3x'; }
+	$_4x : map-get-or($background, x4);
+	@if $_4x == true { $_4x : '@4x'; }
+
 	$position : map-get($background, position);
 
 	// build background
@@ -95,12 +105,28 @@
 			background-position: $left $top
 		}
 	}
-	@if $retina and $url {
-		$split : _split($url,'.');
-		$name : nth($split, length($split)-1);
-		$split : set-nth($split, length($split)-1, #{$name}#{$retina});
+
+	// resolutions
+	$split : _split($url,'.');
+	$name : nth($split, length($split)-1);
+	@if $_2x and $url {
+		$split : set-nth($split, length($split)-1, #{$name}#{$_2x});
 		$url : _join($split, '.');
-		@include s-media(retina) {
+		@include s-media(2x) {
+			background-image: url("#{$url}");
+		}
+	}
+	@if $_3x and $url {
+		$split : set-nth($split, length($split)-1, #{$name}#{$_3x});
+		$url : _join($split, '.');
+		@include s-media(3x) {
+			background-image: url("#{$url}");
+		}
+	}
+	@if $_4x and $url {
+		$split : set-nth($split, length($split)-1, #{$name}#{$_4x});
+		$url : _join($split, '.');
+		@include s-media(4x) {
 			background-image: url("#{$url}");
 		}
 	}

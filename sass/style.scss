@@ -39,7 +39,7 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 		)
 	),
 	font-awesome : (
-		classes : user gg-circle
+		classes : user gg-circle angle-right
 	),
 	colors : (
 		green : #00ff00,
@@ -276,7 +276,8 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 		no-repeat 
 		cover 
 		-t 20px 
-		-ret '@coco');
+		-x2 '@coco'
+		-x3);
 }
 
 .ratio {
@@ -411,72 +412,132 @@ blockquote {
 	));
 }
 .ul {
-	@include s-list(
-		outside
-		-padding-left 40px
-		-style-icon fa-gg-circle
-		-bullet-color s-color(orange)
-		-bullet-size 22px
-		-bullet-offset 8px
-		-font (20px -mw true)
-		-hover (-bullet-color s-color(red))
-		);
+	@include s-list();
+	.ul {
+		@include s-vertical-rhythme((
+			s-font : 20px -mw true
+		));
+	}
+
+	> li {
+		@include s-vertical-rhythme((
+			s-font : 20px -mw true
+		));
+		@include s-list-item(
+			-padding-left 40px
+			-style-icon fa-gg-circle
+			-bullet-color s-color(orange)
+			-bullet-size 22px
+			-bullet-offset 8px
+		) {
+			li {
+				@include s-list-item(
+					-padding-left 30px
+					-style-icon fa-angle-right
+				);
+			}
+		}
+		&:hover {
+			@include s-list-item(
+				-bullet-color s-color(orange, -darken 20%)
+			);
+		}
+	}
 }
-.ul--inside {
-	@include s-list(
-		inside
-		-padding-left 40px
-		-style-icon fa-gg-circle
-		-bullet-color s-color(#ff0000)
-		-bullet-size 16px
-		-bullet-offset 12px
-		-font (20px -mw true)
-		-hover (-bullet-color s-color(red))
+.ul--outside {
+	@include s-list();
+	margin-left : -40px;
+	.ul {
+		@include s-vertical-rhythme((
+			s-font : 20px -mw true
+		));
+	}
+
+	> li {
+		@include s-vertical-rhythme((
+			s-font : 20px -mw true
+		));
+		@include s-list-item(
+			-padding-left 40px
+			-style-icon fa-user
+			-bullet-color s-color(orange)
+			-bullet-size 22px
+			-bullet-offset 8px
 		);
-}
-.ul--small {
-	@include s-list(
-		outside
-		-padding-left 40px
-		-style-icon fa-user
-		-bullet-color s-color(orange)
-		-bullet-size 22px
-		-bullet-offset 8px
-		-font (16px)
-		-hover (-bullet-color s-color(red))
-		);
+		&:hover {
+			@include s-list-item(
+				-bullet-color s-color(orange, -darken 20%)
+			);
+		}
+
+	}
 }
 .ul--image {
-	@include s-list(
-		outside
-		-padding-left 40px
-		-style-image '../img/list-puce-gray.svgz'
-		-bullet-offset 12px
-		-bullet-size 14px 20px
-		-font (20px)
-		-hover (-style-image '../img/list-puce-red.svgz')
+	@include s-list();
+	.ul {
+		@include s-vertical-rhythme((
+			s-font : 20px -mw true
+		));
+	}
+
+	> li {
+		@include s-vertical-rhythme((
+			s-font : 20px -mw true
+		));
+		@include s-list-item(
+			-padding-left 40px
+			-style-image '../img/list-puce-gray.svgz'
+			-bullet-color s-color(orange)
+			-bullet-size 22px
+			-bullet-offset 8px
 		);
+		&:hover {
+			@include s-list-item(
+				-style-image '../img/list-puce-red.svgz'
+			);
+		}
+	}
 }
 .ul--decimal {
-	@include s-list(
-		outside
-		upper-roman
-		-padding-left 40px
-		-bullet-size 14px
-		-font (20px)
-		-bullet-font (15px)
-		-hover (-bullet-color s-color(orange))
+	@include s-list();
+	.ul {
+		@include s-vertical-rhythme((
+			s-font : 20px -mw true
+		));
+	}
+
+	> li {
+		@include s-vertical-rhythme((
+			s-font : 20px -mw true
+		));
+		@include s-list-item(
+			decimal
+			-padding-left 40px
+			-bullet-color s-color(orange)
+			-bullet-size 14px
+			-bullet-offset 8px
 		);
+	}
 }
 .ul--circle {
-	@include s-list(
-		outside
-		circle
-		-padding-left 40px
-		-bullet-size 14px
-		-font (20px)
-		-hover (-bullet-color s-color(orange))
+	@include s-list();
+	.ul {
+		@include s-vertical-rhythme((
+			s-font : 20px -mw true
+		));
+	}
+
+	> li {
+		@include s-vertical-rhythme((
+			s-font : 20px -mw true
+		));
+		@include s-list-item(
+			circle
+			-padding-left 40px
+			-bullet-size 14px
+			-bullet-offset 8px
 		);
+	}
 }
 
 

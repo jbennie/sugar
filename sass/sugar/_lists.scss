@@ -4,66 +4,35 @@
 $s-list-props : (
 	style-type : circle disc square armenian cjk-ideographic decimal decimal-leading-zero georgian hebrew hiragana hiragana-iroha katakana katakana-iroha lower-alpha lower-greek lower-latin lower-roman upper-alpha upper-latin upper-roman none inherit,
 	style-image : url,
-	style-position : inside outside,
 	style-icon : string,
 	bullet-color : color,
 	bullet-size : true,
 	bullet-offset : true,
 	bullet-font : true,
-	padding-left : number,
-	margin-bottom : number,
-	font : true,
-	hover : true
+	padding-left : number
 );
 $s-list-alias : (
 	style-type : type t,
 	style-image : image img,
-	style-position : position p,
 	style-icon : icon i,
 	bullet-color : bc,
 	bullet-size : bs,
 	bullet-offset : bo,
-	padding-left : pl,
-	margin-bottom : mb,
-	font : f,
-	hover : h
+	padding-left : pl
 );
 @mixin s-list(
-	$_list
+	$_list : ()
 ) {
-	$list : _sugar-parse-properties($_list, $s-list-props, $s-list-alias);
+	$list : _sugar-parse-properties($_list, (
+		counter-reset : true
+	));
 
 	// handle nested
 	$list : _sugar-handle-nested(s-list, $list);
 
-	$style-type : map-get($list, style-type);
-	$style-position : map-get-or($list, style-position, null);
-	$margin-bottom : map-get-or($list, margin-bottom, 2);
-	$padding-left : map-get-or($list, padding-left, null);
-	$font : map-get($list, font);
+	$reset : map-get-or($list, counter-reset, s-list);
 
-	// get rhythme values
-	$rhythme-values : null;
-	@if $font {
-		$font : join($font, -cap-height 0.65);
-		$rhythme-values : s-get-rhythme($font);
-		margin-bottom : map-get($rhythme-values, margin-bottom) + $margin-bottom;
-	}
-
-	// style position
-	@if $style-position == outside and $padding-left {
-		margin-left: rem($padding-left * -1);
-	}
-
-	// style type
-	@if $style-type {
-		counter-reset : s-list;
-	}
-
-	// item
-	> * {
-		@include s-list-item($_list);
-	}
+	counter-reset : $reset;
 
 	// handle nested
 	@include _sugar-handle-nested(s-list) {
@@ -86,26 +55,12 @@ $s-list-alias : (
 
 	$style-type : map-get($list, style-type);
 	$style-image : map-get($list, style-image);
-	$style-position : map-get-or($list, style-position, null);
 	$style-icon : map-get($list, style-icon);
 	$bullet-color : map-get($list, bullet-color);
 	$bullet-size : map-get($list, bullet-size);
 	$bullet-offset : map-get($list, bullet-offset);
 	$bullet-font : map-get($list, bullet-font);
 	$padding-left : map-get-or($list, padding-left, null);
-	$font : map-get($list, font);
-	$hover : map-get($list, hover);
-
-	// get rhythme values
-	$rhythme-values : null;
-	@if $font {
-		$font : join($font, -cap-height 0.65);
-		$rhythme-values : s-get-rhythme($font);
-	}
-
-	@if $font {
-		@include s-font($font);
-	}
 
 	// padding
 	@if $padding-left {
@@ -150,13 +105,6 @@ $s-list-alias : (
 		}
 	}
 
-	// manage hover
-	@if $hover {
-		&:hover {
-			@include s-list-item($hover);
-		}
-	}
-
 	// before
 	position: relative;
 	&:before {
@@ -186,17 +134,11 @@ $s-list-alias : (
 	}
 
 	// reset margin-left for nested lists
-	// and manage vertical rhythme
 	> ul,
 	> ol,
 	> dl, {
 		margin-left: 0;
 		margin-bottom: 0;
-
-		// manage rhythme
-		// @if $rhythme-values {
-		// 	margin-top: map-get($rhythme-values, padding-top) + map-get($rhythme-values, margin-top);
-		// }
 	}
 
 	// handle nested

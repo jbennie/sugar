@@ -276,7 +276,7 @@
  */
 /* FONT PATH
  * -------------------------- */
-i.user, .ul > *:before, .ul--inside > *:before, .ul--small > *:before, .fa-user, .fa-gg-circle {
+i.user, .ul > li:before, .ul > li li:before, .ul--outside > li:before, .fa-user, .fa-gg-circle, .fa-angle-right {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
@@ -295,11 +295,11 @@ i.user, .ul > *:before, .ul--inside > *:before, .ul--small > *:before, .fa-user,
   float: left;
 }
 
-i.pull-left.user, .ul > .pull-left:before, .ul--inside > .pull-left:before, .ul--small > .pull-left:before, .pull-left.fa-user, .pull-left.fa-gg-circle {
+i.pull-left.user, .ul > li.pull-left:before, .ul > li li.pull-left:before, .ul--outside > li.pull-left:before, .pull-left.fa-user, .pull-left.fa-gg-circle, .pull-left.fa-angle-right {
   margin-right: .3em;
 }
 
-i.pull-right.user, .ul > .pull-right:before, .ul--inside > .pull-right:before, .ul--small > .pull-right:before, .pull-right.fa-user, .pull-right.fa-gg-circle {
+i.pull-right.user, .ul > li.pull-right:before, .ul > li li.pull-right:before, .ul--outside > li.pull-right:before, .pull-right.fa-user, .pull-right.fa-gg-circle, .pull-right.fa-angle-right {
   margin-left: .3em;
 }
 
@@ -325,11 +325,15 @@ i.pull-right.user, .ul > .pull-right:before, .ul--inside > .pull-right:before, .
 }
 /* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen
    readers do not read off random characters that represent icons */
-i.user:before, .ul--small > :before, .fa-user:before {
+i.user:before, .ul--outside > li:before, .fa-user:before {
   content: "\f007";
 }
 
-.ul > :before, .ul--inside > :before, .fa-gg-circle:before {
+.ul > li li:before, .fa-angle-right:before {
+  content: "\f105";
+}
+
+.ul > li:before, .fa-gg-circle:before {
   content: "\f261";
 }
 
@@ -578,7 +582,7 @@ html {
     content: portrait;
   }
 }
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+@media (-webkit-min-device-pixel-ratio: 2), (-webkit-min-device-pixel-ratio: 3.3333333333333335), (min-resolution: 320dpi) {
   .ua-desktop .media {
     content: retina;
   }
@@ -979,9 +983,14 @@ html {
   background-image: url("http://una.im/CSSgram/img/lakegeneva.jpg");
   background-position: 0 20px;
 }
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+@media (-webkit-min-device-pixel-ratio: 2), (-webkit-min-device-pixel-ratio: 3.3333333333333335), (min-resolution: 320dpi) {
   .background {
     background-image: url("http://una.im/CSSgram/img/lakegeneva@coco.jpg");
+  }
+}
+@media (-webkit-min-device-pixel-ratio: 3), (-webkit-min-device-pixel-ratio: 5), (min-resolution: 480dpi) {
+  .background {
+    background-image: url("http://una.im/CSSgram/img/lakegeneva@3x.jpg");
   }
 }
 
@@ -1177,183 +1186,184 @@ blockquote {
 }
 
 .ul {
-  margin-bottom: 2.49999rem;
-  margin-left: -3.07692308rem;
+  counter-reset: s-list;
 }
-.ul > * {
+.ul .ul {
+  font-size: 1.53846154rem;
+}
+.typeset .ul .ul {
+  padding-top: 0.50001rem;
+  margin-bottom: 0.49999rem;
+  padding-bottom: 0;
+  font-size: 1.53846154rem;
+  line-height: 2rem;
+}
+.ul > li {
   font-size: 1.53846154rem;
   padding-left: 3.07692308rem;
   position: relative;
   position: relative;
 }
-.ul > *:before {
+.typeset .ul > li {
+  padding-top: 0.50001rem;
+  margin-bottom: 0.49999rem;
+  padding-bottom: 0;
+  font-size: 1.53846154rem;
+  line-height: 2rem;
+}
+.ul > li:before {
   left: 0rem;
   top: 0.61538462rem;
   color: #f2bc2b;
   font-size: 1.69230769rem;
 }
-.ul > *:hover {
-  position: relative;
-}
-.ul > *:hover:before {
-  left: 0;
-  color: red;
-}
-.ul > *:hover:before {
+.ul > li:before {
   position: absolute;
   display: block;
 }
-.ul > *:hover > ul,
-.ul > *:hover > ol,
-.ul > *:hover > dl {
+.ul > li > ul,
+.ul > li > ol,
+.ul > li > dl {
   margin-left: 0;
   margin-bottom: 0;
 }
-.ul > *:before {
+.ul > li li {
+  padding-left: 2.30769231rem;
+  position: relative;
+  position: relative;
+}
+.ul > li li:before {
+  left: 0rem;
+  top: 0.61538462rem;
+  color: #f2bc2b;
+  font-size: 1.69230769rem;
+}
+.ul > li li:before {
   position: absolute;
   display: block;
 }
-.ul > * > ul,
-.ul > * > ol,
-.ul > * > dl {
+.ul > li li > ul,
+.ul > li li > ol,
+.ul > li li > dl {
+  margin-left: 0;
+  margin-bottom: 0;
+}
+.ul > li:hover {
+  position: relative;
+}
+.ul > li:hover:before {
+  left: 0;
+  color: #ac810b;
+}
+.ul > li:hover:before {
+  position: absolute;
+  display: block;
+}
+.ul > li:hover > ul,
+.ul > li:hover > ol,
+.ul > li:hover > dl {
   margin-left: 0;
   margin-bottom: 0;
 }
 
-.ul--inside {
-  margin-bottom: 2.49999rem;
+.ul--outside {
+  counter-reset: s-list;
+  margin-left: -40px;
 }
-.ul--inside > * {
+.ul--outside .ul {
+  font-size: 1.53846154rem;
+}
+.typeset .ul--outside .ul {
+  padding-top: 0.50001rem;
+  margin-bottom: 0.49999rem;
+  padding-bottom: 0;
+  font-size: 1.53846154rem;
+  line-height: 2rem;
+}
+.ul--outside > li {
   font-size: 1.53846154rem;
   padding-left: 3.07692308rem;
   position: relative;
   position: relative;
 }
-.ul--inside > *:before {
-  left: 0rem;
-  top: 0.92307692rem;
-  color: #ff0000;
-  font-size: 1.23076923rem;
+.typeset .ul--outside > li {
+  padding-top: 0.50001rem;
+  margin-bottom: 0.49999rem;
+  padding-bottom: 0;
+  font-size: 1.53846154rem;
+  line-height: 2rem;
 }
-.ul--inside > *:hover {
-  position: relative;
-}
-.ul--inside > *:hover:before {
-  left: 0;
-  color: red;
-}
-.ul--inside > *:hover:before {
-  position: absolute;
-  display: block;
-}
-.ul--inside > *:hover > ul,
-.ul--inside > *:hover > ol,
-.ul--inside > *:hover > dl {
-  margin-left: 0;
-  margin-bottom: 0;
-}
-.ul--inside > *:before {
-  position: absolute;
-  display: block;
-}
-.ul--inside > * > ul,
-.ul--inside > * > ol,
-.ul--inside > * > dl {
-  margin-left: 0;
-  margin-bottom: 0;
-}
-
-.ul--small {
-  margin-bottom: 2.39999rem;
-  margin-left: -3.07692308rem;
-}
-.ul--small > * {
-  font-size: 1.23076923rem;
-  padding-left: 3.07692308rem;
-  position: relative;
-  position: relative;
-}
-.ul--small > *:before {
+.ul--outside > li:before {
   left: 0rem;
   top: 0.61538462rem;
   color: #f2bc2b;
   font-size: 1.69230769rem;
 }
-.ul--small > *:hover {
-  position: relative;
-}
-.ul--small > *:hover:before {
-  left: 0;
-  color: red;
-}
-.ul--small > *:hover:before {
+.ul--outside > li:before {
   position: absolute;
   display: block;
 }
-.ul--small > *:hover > ul,
-.ul--small > *:hover > ol,
-.ul--small > *:hover > dl {
+.ul--outside > li > ul,
+.ul--outside > li > ol,
+.ul--outside > li > dl {
   margin-left: 0;
   margin-bottom: 0;
 }
-.ul--small > *:before {
+.ul--outside > li:hover {
+  position: relative;
+}
+.ul--outside > li:hover:before {
+  left: 0;
+  color: #ac810b;
+}
+.ul--outside > li:hover:before {
   position: absolute;
   display: block;
 }
-.ul--small > * > ul,
-.ul--small > * > ol,
-.ul--small > * > dl {
+.ul--outside > li:hover > ul,
+.ul--outside > li:hover > ol,
+.ul--outside > li:hover > dl {
   margin-left: 0;
   margin-bottom: 0;
 }
 
 .ul--image {
-  margin-bottom: 2.49999rem;
-  margin-left: -3.07692308rem;
+  counter-reset: s-list;
 }
-.ul--image > * {
+.ul--image .ul {
+  font-size: 1.53846154rem;
+}
+.typeset .ul--image .ul {
+  padding-top: 0.50001rem;
+  margin-bottom: 0.49999rem;
+  padding-bottom: 0;
+  font-size: 1.53846154rem;
+  line-height: 2rem;
+}
+.ul--image > li {
   font-size: 1.53846154rem;
   padding-left: 3.07692308rem;
   position: relative;
   position: relative;
 }
-.ul--image > *:before {
+.typeset .ul--image > li {
+  padding-top: 0.50001rem;
+  margin-bottom: 0.49999rem;
+  padding-bottom: 0;
+  font-size: 1.53846154rem;
+  line-height: 2rem;
+}
+.ul--image > li:before {
   left: 0rem;
-  top: 0.92307692rem;
-  width: 14px 20px;
+  top: 0.61538462rem;
+  color: #f2bc2b;
+  font-size: 1.69230769rem;
 }
-.ul--image > *:hover {
-  position: relative;
-  position: relative;
-}
-.ul--image > *:hover:before {
-  left: 0;
-}
-.ul--image > *:hover:before {
+.ul--image > li:before {
   position: absolute;
   display: block;
 }
-.ul--image > *:hover:before {
-  content: '';
-  display: block;
-  width: 1ex;
-  height: 1em;
-  background-image: url("../img/list-puce-red.svgz");
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  background-position: 50% 50%;
-}
-.ul--image > *:hover > ul,
-.ul--image > *:hover > ol,
-.ul--image > *:hover > dl {
-  margin-left: 0;
-  margin-bottom: 0;
-}
-.ul--image > *:before {
-  position: absolute;
-  display: block;
-}
-.ul--image > *:before {
+.ul--image > li:before {
   content: '';
   display: block;
   width: 1ex;
@@ -1363,102 +1373,127 @@ blockquote {
   background-size: 100% 100%;
   background-position: 50% 50%;
 }
-.ul--image > * > ul,
-.ul--image > * > ol,
-.ul--image > * > dl {
+.ul--image > li > ul,
+.ul--image > li > ol,
+.ul--image > li > dl {
+  margin-left: 0;
+  margin-bottom: 0;
+}
+.ul--image > li:hover {
+  position: relative;
+  position: relative;
+}
+.ul--image > li:hover:before {
+  left: 0;
+}
+.ul--image > li:hover:before {
+  position: absolute;
+  display: block;
+}
+.ul--image > li:hover:before {
+  content: '';
+  display: block;
+  width: 1ex;
+  height: 1em;
+  background-image: url("../img/list-puce-red.svgz");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: 50% 50%;
+}
+.ul--image > li:hover > ul,
+.ul--image > li:hover > ol,
+.ul--image > li:hover > dl {
   margin-left: 0;
   margin-bottom: 0;
 }
 
 .ul--decimal {
-  margin-bottom: 2.49999rem;
-  margin-left: -3.07692308rem;
   counter-reset: s-list;
 }
-.ul--decimal > * {
+.ul--decimal .ul {
+  font-size: 1.53846154rem;
+}
+.typeset .ul--decimal .ul {
+  padding-top: 0.50001rem;
+  margin-bottom: 0.49999rem;
+  padding-bottom: 0;
+  font-size: 1.53846154rem;
+  line-height: 2rem;
+}
+.ul--decimal > li {
   font-size: 1.53846154rem;
   padding-left: 3.07692308rem;
   position: relative;
 }
-.ul--decimal > *:before {
-  content: counter(s-list,upper-roman);
+.typeset .ul--decimal > li {
+  padding-top: 0.50001rem;
+  margin-bottom: 0.49999rem;
+  padding-bottom: 0;
+  font-size: 1.53846154rem;
+  line-height: 2rem;
+}
+.ul--decimal > li:before {
+  content: counter(s-list,decimal);
   counter-increment: s-list;
 }
-.ul--decimal > *:before {
-  left: 0;
-  font-size: 1.07692308rem;
-  font-size: 1.15384615rem;
-}
-.ul--decimal > *:hover {
-  position: relative;
-}
-.ul--decimal > *:hover:before {
-  left: 0;
+.ul--decimal > li:before {
+  left: 0rem;
+  top: 0.61538462rem;
   color: #f2bc2b;
+  font-size: 1.07692308rem;
 }
-.ul--decimal > *:hover:before {
+.ul--decimal > li:before {
   position: absolute;
   display: block;
 }
-.ul--decimal > *:hover > ul,
-.ul--decimal > *:hover > ol,
-.ul--decimal > *:hover > dl {
-  margin-left: 0;
-  margin-bottom: 0;
-}
-.ul--decimal > *:before {
-  position: absolute;
-  display: block;
-}
-.ul--decimal > * > ul,
-.ul--decimal > * > ol,
-.ul--decimal > * > dl {
+.ul--decimal > li > ul,
+.ul--decimal > li > ol,
+.ul--decimal > li > dl {
   margin-left: 0;
   margin-bottom: 0;
 }
 
 .ul--circle {
-  margin-bottom: 2.49999rem;
-  margin-left: -3.07692308rem;
   counter-reset: s-list;
 }
-.ul--circle > * {
+.ul--circle .ul {
+  font-size: 1.53846154rem;
+}
+.typeset .ul--circle .ul {
+  padding-top: 0.50001rem;
+  margin-bottom: 0.49999rem;
+  padding-bottom: 0;
+  font-size: 1.53846154rem;
+  line-height: 2rem;
+}
+.ul--circle > li {
   font-size: 1.53846154rem;
   padding-left: 3.07692308rem;
   position: relative;
 }
-.ul--circle > *:before {
+.typeset .ul--circle > li {
+  padding-top: 0.50001rem;
+  margin-bottom: 0.49999rem;
+  padding-bottom: 0;
+  font-size: 1.53846154rem;
+  line-height: 2rem;
+}
+.ul--circle > li:before {
   content: counter(s-list,circle);
   counter-increment: s-list;
 }
-.ul--circle > *:before {
-  left: 0;
+.ul--circle > li:before {
+  left: 0rem;
+  top: 0.61538462rem;
   font-size: 1.07692308rem;
 }
-.ul--circle > *:hover {
-  position: relative;
-}
-.ul--circle > *:hover:before {
-  left: 0;
-  color: #f2bc2b;
-}
-.ul--circle > *:hover:before {
+.ul--circle > li:before {
   position: absolute;
   display: block;
 }
-.ul--circle > *:hover > ul,
-.ul--circle > *:hover > ol,
-.ul--circle > *:hover > dl {
-  margin-left: 0;
-  margin-bottom: 0;
-}
-.ul--circle > *:before {
-  position: absolute;
-  display: block;
-}
-.ul--circle > * > ul,
-.ul--circle > * > ol,
-.ul--circle > * > dl {
+.ul--circle > li > ul,
+.ul--circle > li > ol,
+.ul--circle > li > dl {
   margin-left: 0;
   margin-bottom: 0;
 }

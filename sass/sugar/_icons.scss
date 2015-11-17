@@ -6,6 +6,8 @@
 ) {
 	$icon : _sugar-parse-properties($icon, (
 		name : string
+	), (
+		name : n
 	));
 	$name : map-get($icon, name);
 	
