@@ -265,7 +265,7 @@ $_s-font-aliases : (
 	// get values
 	$font-family : map-get-or($font, font-family, null);
 	$color : map-get($font, color);
-	$size : map-get-or($font, font-size, 1rem);
+	$size : map-get($font, font-size);
 	$font-style : map-get($font, font-style);
 	$font-variant : map-get($font, font-variant);
 	$font-weight : map-get($font, font-weight);
@@ -312,7 +312,9 @@ $_s-font-aliases : (
 	}
 
 	// font-size
-	$return : map-set($return, font-size, s-rem($size));
+	@if $size {
+		$return : map-set($return, font-size, s-rem($size));
+	}
 
 	@if $line-height {
 		$return : map-set($return, line-height, s-rem($line-height));
