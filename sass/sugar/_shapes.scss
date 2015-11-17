@@ -188,12 +188,12 @@
 		color : color,
 		arrow-width : number,
 		arrow-height : number,
-		offset : number
+		arrow-offset : number
 	), (
 		position : p,
 		arrow-width : aw,
 		arrow-height : ah,
-		offset : o
+		arrow-offset : ao
 	));
 	$border_map : _sugar-parse-properties($border, (
 		width : number,
@@ -207,7 +207,7 @@
 	$height : map-get-or($base, arrow-height, 10px);
 	$b-width : map-get-or($border_map, width);
 	$b-color : map-get-or($border_map, color, darken(red,10%));
-	$offset : map-get-or($base, offset, 0);
+	$offset : map-get-or($base, arrow-offset, 0);
 
 	// direction
 	$direction : top;
@@ -355,8 +355,8 @@
 			border-color: transparent transparent $color transparent;
 		}
 		@if $b-width {
-			$angle : atan($height / ($width*.5));
-			$hyp : $height / sin($angle);
+			$angle : s-atan($height / ($width*.5));
+			$hyp : $height / s-sin($angle);
 			$centerX : (0 + $width + $width*.5) / 3;
 			$centerY : (0 + 0 + $height) / 3;
 			$ratio-width : $b-width * 2;
@@ -381,8 +381,8 @@
 			border-color: transparent transparent transparent $color;
 		}
 		@if $b-width {
-			$angle : atan($width / ($height*.5));
-			$hyp : $width / sin($angle);
+			$angle : s-atan($width / ($height*.5));
+			$hyp : $width / s-sin($angle);
 			$centerX : (0 + 0 + $width) / 3;
 			$centerY : (0 + $height + $height*.5) / 3;
 			$ratio-width : $b-width * 2;
@@ -407,8 +407,8 @@
 			border-color: $color transparent transparent transparent;
 		}
 		@if $b-width {
-			$angle : atan($height / ($width*.5));
-			$hyp : $height / sin($angle);
+			$angle : s-atan($height / ($width*.5));
+			$hyp : $height / s-sin($angle);
 			$centerX : (0 + $width + $width*.5) / 3;
 			$centerY : (0 + 0 + $height) / 3;
 			$ratio-width : $b-width * 2;
@@ -433,8 +433,8 @@
 			border-color: transparent $color transparent transparent;
 		}
 		@if $b-width {
-			$angle : atan($width / ($height*.5));
-			$hyp : $width / sin($angle);
+			$angle : s-atan($width / ($height*.5));
+			$hyp : $width / s-sin($angle);
 			$centerX : (0 + 0 + $width) / 3;
 			$centerY : (0 + $height + $height*.5) / 3;
 			$ratio-width : $b-width * 2;

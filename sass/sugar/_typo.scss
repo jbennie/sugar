@@ -106,7 +106,7 @@ $_s-font-aliases : (
 
 	// calculate number of line height needed
 	@if not $line-height {
-		$line-height : strip-units(ceil(rem(px($font-size))));
+		$line-height : s-strip-units(ceil(s-rem(s-px($font-size))));
 	}
 
 	// protect
@@ -194,24 +194,24 @@ $_s-font-aliases : (
 ) {
 	@if type-of($margin) == number {
 		@return (
-			top : rem($margin),
-			right : rem($margin),
-			bottom : rem($margin),
-			left : rem($margin)
+			top : s-rem($margin),
+			right : s-rem($margin),
+			bottom : s-rem($margin),
+			left : s-rem($margin)
 		);
 	} @else if type-of($margin) == list and length($margin) == 2 {
 		@return (
-			top : rem(nth($margin,1)),
-			bottom : rem(nth($margin,1)),
-			left : rem(nth($margin,2)),
-			right : rem(nth($margin,2))
+			top : s-rem(nth($margin,1)),
+			bottom : s-rem(nth($margin,1)),
+			left : s-rem(nth($margin,2)),
+			right : s-rem(nth($margin,2))
 		);
 	} @else if type-of($margin) == list and length($margin) == 4 {
 		@return (
-			top : rem(nth($margin,1)),
-			right : rem(nth($margin,2)),
-			bottom : rem(nth($margin,3)),
-			left : rem(nth($margin,4))
+			top : s-rem(nth($margin,1)),
+			right : s-rem(nth($margin,2)),
+			bottom : s-rem(nth($margin,3)),
+			left : s-rem(nth($margin,4))
 		);
 	}
 }
@@ -312,10 +312,10 @@ $_s-font-aliases : (
 	}
 
 	// font-size
-	$return : map-set($return, font-size, rem($size));
+	$return : map-set($return, font-size, s-rem($size));
 
 	@if $line-height {
-		$return : map-set($return, line-height, rem($line-height));
+		$return : map-set($return, line-height, s-rem($line-height));
 	}
 
 	// font-style
@@ -542,69 +542,69 @@ $_s-font-aliases : (
 	@if $margin-top > 0 {
 		@if unit($margin-top) != rem {
 			// transform margin top in rems
-			$margin-top : rem($margin-top);
+			$margin-top : s-rem($margin-top);
 			// round the margin top
-			$margin-top : round(strip-units($margin-top));
+			$margin-top : round(s-strip-units($margin-top));
 			// set to rem again
-			$margin-top : rem($margin-top);
+			$margin-top : s-rem($margin-top);
 		}
 	}
 	@if $margin-bottom > 0 {
 		@if unit($margin-bottom) != rem {
 			// transform margin bottom in rems
-			$margin-bottom : rem($margin-bottom);
+			$margin-bottom : s-rem($margin-bottom);
 			// round the margin bottom
-			$margin-bottom : round(strip-units($margin-bottom));
+			$margin-bottom : round(s-strip-units($margin-bottom));
 			// set to rem again
-			$margin-bottom : rem($margin-bottom);
+			$margin-bottom : s-rem($margin-bottom);
 		}
 	}
 	@if $padding-top > 0 {
 		@if unit($padding-top) != rem {
 			// transform margin top in rems
-			$padding-top : rem($padding-top);
+			$padding-top : s-rem($padding-top);
 			// round the margin top
-			$padding-top : round(strip-units($padding-top));
+			$padding-top : round(s-strip-units($padding-top));
 			// set to rem again
-			$padding-top : rem($padding-top);
+			$padding-top : s-rem($padding-top);
 		}
 	}
 	@if $padding-bottom > 0 {
 		@if unit($padding-bottom) != rem {
 			// transform margin top in rems
-			$padding-bottom : rem($padding-bottom);
+			$padding-bottom : s-rem($padding-bottom);
 			// round the margin top
-			$padding-bottom : round(strip-units($padding-bottom));
+			$padding-bottom : round(s-strip-units($padding-bottom));
 			// set to rem again
-			$padding-bottom : rem($padding-bottom);
+			$padding-bottom : s-rem($padding-bottom);
 		}
 	}
 	@if $border-bottom > 0 {
 		@if unit($border-bottom) != rem {
 			// transform margin top in rems
-			$border-bottom : rem($border-bottom);
+			$border-bottom : s-rem($border-bottom);
 		}
 	}
 	@if $border-top > 0 {
 		@if unit($border-top) != rem {
 			// transform margin top in rems
-			$border-top : rem($border-top);
+			$border-top : s-rem($border-top);
 		}
 	}
 	@if $line-height > 0 {
 		@if unit($line-height) != rem {
 			// transform margin top in rems
-			$line-height : rem($line-height);
+			$line-height : s-rem($line-height);
 			// round the margin top
-			$line-height : round(strip-units($line-height));
+			$line-height : round(s-strip-units($line-height));
 			// set to rem again
-			$line-height : rem($line-height);
+			$line-height : s-rem($line-height);
 		}
 	}
 
 	// transform in rem if are pixels passed
 	@if unit($font-size) != px {
-		$font-size : px($font-size);
+		$font-size : s-px($font-size);
 	}
 
 	// manage cap height
@@ -636,8 +636,8 @@ $_s-font-aliases : (
 				padding-top : $padding-top,
 				margin-bottom : $margin-bottom,
 				padding-bottom : $padding-bottom,
-				font-size : rem($font-size),
-				line-height : rem($line-height)
+				font-size : s-rem($font-size),
+				line-height : s-rem($line-height)
 			);
 			@if $margin-top > 0 {
 				$ret : map-merge($ret, (
@@ -675,8 +675,8 @@ $_s-font-aliases : (
 				padding-top : $baseline-shift,
 				margin-bottom : $baseline-push,
 				padding-bottom : $padding-bottom,
-				font-size : rem($font-size),
-				line-height : rem($line-height)
+				font-size : s-rem($font-size),
+				line-height : s-rem($line-height)
 			);
 			@if $margin-top > 0 {
 				$ret : map-merge($ret, (

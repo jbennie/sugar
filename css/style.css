@@ -983,12 +983,12 @@ html {
   background-image: url("http://una.im/CSSgram/img/lakegeneva.jpg");
   background-position: 0 20px;
 }
-@media (-webkit-min-device-pixel-ratio: 2), (-webkit-min-device-pixel-ratio: 3.3333333333333335), (min-resolution: 320dpi) {
+@media (min-width: 2x) {
   .background {
     background-image: url("http://una.im/CSSgram/img/lakegeneva@coco.jpg");
   }
 }
-@media (-webkit-min-device-pixel-ratio: 3), (-webkit-min-device-pixel-ratio: 5), (min-resolution: 480dpi) {
+@media (min-width: 3x) {
   .background {
     background-image: url("http://una.im/CSSgram/img/lakegeneva@3x.jpg");
   }

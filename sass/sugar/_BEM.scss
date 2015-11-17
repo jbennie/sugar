@@ -56,7 +56,6 @@
 		#{$this}#{$separator}#{$name} {
 			@if $extend {
 				@each $ext in $extend {
-					// @debug(#{$this}#{$separator}#{$ext});
 					@extend #{$this}#{$separator}#{$ext} !optional;
 				}
 			}
@@ -90,7 +89,6 @@
 		#{$this}#{$separator}#{$name} {
 			@if $extend {
 				@each $ext in $extend {
-					@debug(#{$this}#{$separator}#{$ext});
 					@extend #{$this}#{$separator}#{$ext} !optional;
 				}
 			}

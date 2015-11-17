@@ -55,7 +55,7 @@
 		@if $blur-ratio > 0 {
 			$b : $blur + $i * $blur-ratio;
 		}
-		$shadow: $shadow, $i*$x $i*$y rem($b) hsla(hue($color) , saturation($color), (lightness($color) - ($i * $darken)), 1 - ($i * $opacify));     
+		$shadow: $shadow, $i*$x $i*$y s-rem($b) hsla(hue($color) , saturation($color), (lightness($color) - ($i * $darken)), 1 - ($i * $opacify));     
 	}       
 	#{$type}-shadow: $shadow;
 

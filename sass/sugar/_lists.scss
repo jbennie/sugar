@@ -64,7 +64,7 @@ $s-list-alias : (
 
 	// padding
 	@if $padding-left {
-		padding-left: rem($padding-left);
+		padding-left: s-rem($padding-left);
 	}
 
 	// style type
@@ -85,8 +85,8 @@ $s-list-alias : (
 			} @else if type-of($bullet-offset) == number {
 				$top : $bullet-offset;
 			}
-			left : rem($left);
-			top : rem($top);
+			left : s-rem($left);
+			top : s-rem($top);
 		} @else {
 			left : 0;
 		}
@@ -97,7 +97,7 @@ $s-list-alias : (
 			@if type-of($bullet-size) == list and length($bullet-size) == 2 {
 				width : nth($bullet-size,1) nth($bullet-size,2);
 			} @else if type-of($bullet-size) == number {
-				font-size: rem($bullet-size);
+				font-size: s-rem($bullet-size);
 			}
 		}
 		@if $bullet-font {

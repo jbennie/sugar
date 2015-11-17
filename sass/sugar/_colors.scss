@@ -16,7 +16,7 @@
 
 	// check that we have the color
 	@if $color == null {
-		@if is-color($name) {
+		@if s-is($name, color) {
 			$color : $name;
 		} @else {
 			@error('The color "#{$name}" does not exist...');
@@ -103,9 +103,9 @@
 			// opacity
 			@if $action == opacity and type-of($value) == number {
 
-				$transparentize : 1 - strip-units($value);
+				$transparentize : 1 - s-strip-units($value);
 				@if unit($value) == '%' {
-					$transparentize : (100 - strip-units($value)) / 100;
+					$transparentize : (100 - s-strip-units($value)) / 100;
 				}
 				$color : transparentize($color, $transparentize);
 			}
@@ -123,15 +123,4 @@
 	$actions : null
 ) {
 	@return s-color($name, $actions);
-}
-
-//
-// Check if is color
-//
-@function is-color($color) {
-	@if type-of($color) == color {
-		@return true;
-	} @else {
-		@return false;
-	}
 }

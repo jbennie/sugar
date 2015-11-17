@@ -5,10 +5,10 @@
 //
 // Pull
 //
-@include sugar-register-class('helper.pull.left', pull-left) {
+@include s-register-class(pull-left 'helper.pull.left') {
 	float: left;
 }
-@include sugar-register-class('helper.pull.right', pull-right) {
+@include s-register-class(pull-right 'helper.pull.right') {
 	float: right;
 }
 
@@ -16,13 +16,13 @@
 //
 // Clear
 //
-@include sugar-register-class('helper.clear.left', clear-left) {
+@include s-register-class(clear-left 'helper.clear.left') {
 	clear: left;
 }
-@include sugar-register-class('helper.clear.right', clear-right) {
+@include s-register-class(clear-right 'helper.clear.right') {
 	clear: right;
 }
-@include sugar-register-class('helper.clear.both', clear) {
+@include s-register-class(clear 'helper.clear.both') {
 	clear: both;
 }
 
@@ -30,60 +30,60 @@
 //
 // Show / hide
 //
-@include sugar-register-class('helper.display.show', show) {
+@include s-register-class(show 'helper.display.show') {
 	display : block;
 }
-@include sugar-register-class('helper.display.show-inline', show-inline) {
+@include s-register-class(show-inline 'helper.display.show-inline') {
 	display: inline-block;
 }
-@include sugar-register-class('helper.display.hidden', hidden) {
+@include s-register-class(hidden 'helper.display.hidden') {
 	display: none;
 }
-@include sugar-register-class('helper.display.visible', visible) {
+@include s-register-class(visible 'helper.display.visible') {
 	visibility: visible;
 }
-@include sugar-register-class('helper.display.invisible', invisible) {
+@include s-register-class(invisible 'helper.display.invisible') {
 	visibility: hidden;
 }
-@include sugar-register-class('helper.display.visually-hidden', visually-hidden) {
+@include s-register-class(visually-hidden 'helper.display.visually-hidden') {
 	@include s-visually-hidden();
 }
 
 //
 // Text
 //
-@include sugar-register-class('helper.text.hidden', text-hidden) {
+@include s-register-class(text-hidden 'helper.text.hidden') {
 	@include s-text-hidden();
 }
-@include sugar-register-class('helper.text.truncate', text-truncate) {
+@include s-register-class(text-truncate 'helper.text.truncate') {
 	@include s-text-truncate();
 }
-@include sugar-register-class('helper.text.align.left', text-left) {
+@include s-register-class(text-left 'helper.text.align.left') {
 	text-align: left;
 }
-@include sugar-register-class('helper.text.align.right', text-right) {
+@include s-register-class(text-right 'helper.text.align.right') {
 	text-align: right;
 }
-@include sugar-register-class('helper.text.align.center', text-center) {
+@include s-register-class(text-center 'helper.text.align.center') {
 	text-align: center;
 }
-@include sugar-register-class('helper.text.align.justify', text-justify) {
+@include s-register-class(text-justify 'helper.text.align.justify') {
 	text-align: justify;
 }
-@include sugar-register-class('helper.text.transform.lowercase', text-lowercase) {
+@include s-register-class(text-lowercase 'helper.text.transform.lowercase') {
 	text-transform: lowercase;
 }
-@include sugar-register-class('helper.text.transform.uppercase', text-uppercase) {
+@include s-register-class(text-uppercase 'helper.text.transform.uppercase') {
 	text-transform: uppercase;
 }
-@include sugar-register-class('helper.text.transform.capitalize', text-capitalize) {
+@include s-register-class(text-capitalize 'helper.text.transform.capitalize') {
 	text-transform: capitalize;
 }
 
 //
 // Blocks
 //
-@include sugar-register-class('helper.block.center', block-center) {
+@include s-register-class(block-center 'helper.block.center') {
 	display : block;
 	margin-left : auto;
 	margin-right : auto;
@@ -92,18 +92,18 @@
 //
 // Clearfix
 //
-@include sugar-register-class('helper.clearfix.default', clearfix) {
+@include s-register-class(clearfix 'helper.clearfix.default') {
 	@include s-clearfix(micro);
 }
-@include sugar-register-class('helper.clearfix.float', clearfix-float) {
+@include s-register-class(clearfix-float 'helper.clearfix.float') {
 	@include s-clearfix(float);
 }
-@include sugar-register-class('helper.clearfix.micro', clearfix-micro) {
+@include s-register-class(clearfix-micro 'helper.clearfix.micro') {
 	@include s-clearfix(micro);
 }
-@include sugar-register-class('helper.clearfix.overflow', clearfix-overflow) {
+@include s-register-class(clearfix-overflow 'helper.clearfix.overflow') {
 	@include s-clearfix(overflow);
 }
-@include sugar-register-class('helper.clearfix.facebook', clearfix-facebook) {
+@include s-register-class(clearfix-facebook 'helper.clearfix.facebook') {
 	@include s-clearfix(facebook);
 }

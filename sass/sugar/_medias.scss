@@ -23,9 +23,9 @@ $media-keywords : (
 	webos : '.ua-webos',
 	blackberry : '.ua-blackberry',
 	retina : '(-webkit-min-device-pixel-ratio: 2), (min-resolution: 320dpi)',
-	2x : '(-webkit-min-device-pixel-ratio: 2), (min-resolution: 320dpi)',
-	3x : '(-webkit-min-device-pixel-ratio: 3), (min-resolution: 480dpi)',
-	4x : '(-webkit-min-device-pixel-ratio: 4), (min-resolution: 640dpi)'
+	x2 : '(-webkit-min-device-pixel-ratio: 2), (min-resolution: 320dpi)',
+	x3 : '(-webkit-min-device-pixel-ratio: 3), (min-resolution: 480dpi)',
+	x4 : '(-webkit-min-device-pixel-ratio: 4), (min-resolution: 640dpi)'
 );
 @for $idx from 6 through 20 {
 	$media-keywords : map-set($media-keywords, 'ie#{$idx}', '.ua-ie-#{$idx}');
@@ -45,6 +45,9 @@ $media-keywords : (
 	// loop through all keywords
 	$refine : ();
 	@each $prop in $props {
+		@if type-of($prop) == string and str-slice($prop,1,1) == '-' {
+			$prop : str-slice($prop,2);
+		}
 		$sel : map-get($media-keywords, $prop);
 		@if $sel {
 			$refine : append($refine, $sel);
@@ -53,14 +56,14 @@ $media-keywords : (
 	}
 
 	$props : _sugar-parse-properties($props, (
-		device : screen handheld print aural braille embossed projection tty tv all,
+		screen : screen handheld print aural braille embossed projection tty tv all,
 		min-width : number,
 		max-width : number,
 		min-height : number,
 		max-height : number,
 		orientation : landscape portrait
 	), (
-		device : d,
+		screen : d,
 		min-width: min-w minw,
 		max-width: max-w maxw,
 		min-height: min-h minh,
@@ -68,7 +71,7 @@ $media-keywords : (
 		orientation : o
 	));
 
-	$device : map-get-or($props, device);
+	$screen : map-get-or($props, screen);
 	$min-width : map-get-or($props, min-width);
 	$max-width : map-get-or($props, max-width);
 	$min-height : map-get-or($props, min-height);
@@ -76,8 +79,8 @@ $media-keywords : (
 	$orientation : map-get-or($props, orientation);
 
 	$media : ();
-	@if $device {
-		$media : append($media, $device);
+	@if $screen {
+		$media : append($media, $screen);
 	}
 	@if $orientation {
 		$media : append($media, '(orientation : #{$orientation})');

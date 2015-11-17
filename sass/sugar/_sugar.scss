@@ -199,17 +199,22 @@ $_sugar-settings : (								// store all the settings
 ) {
 	@if type-of(nth($what,1)) == map {
 		// setup
-		@include sugar-setup(nth($what,1));
+		@include s-setup(nth($what,1));
 		// init
-		@include sugar-init();
+		@include s-init();
 	} @else if nth($what,1) == classes {
 		// classes
 		$packages : null;
 		@if length($what) == 2 {
 			$packages : nth($what,2);
 		}
-		@include sugar-classes($packages);
+		@include s-classes($packages);
 	}
+}
+@mixin s(
+	$what...
+) {
+	@include sugar($what...);
 }
 
 //
@@ -220,15 +225,20 @@ $_sugar-settings : (								// store all the settings
 ) {
 	@if type-of($what) == string and str-index($what, "settings.") {
 		// get a configuration
-		@return sugar-setting(str-slice($what,10));
+		@return s-setting(str-slice($what,10));
 	}
+}
+@function s(
+	$what
+) {
+	@return sugar($what);
 }
 
 //
 // Get a configuration
 //
 $_sugar-settings-cache : ();
-@function sugar-setting(
+@function s-setting(
 	$path
 ) {
 	// check in cache
@@ -255,7 +265,7 @@ $_sugar-settings-cache : ();
 //
 // Classes
 //
-@mixin sugar-classes(
+@mixin s-classes(
 	$packages
 ) {
 	// font-awesome
@@ -460,7 +470,7 @@ $_sugar-settings-cache : ();
 //
 // Setup
 //
-@mixin sugar-setup(
+@mixin s-setup(
 	$settings
 ) {
 	$_sugar-settings : map-extend($_sugar-settings, $settings, true) !global;
@@ -469,7 +479,7 @@ $_sugar-settings-cache : ();
 //
 // Init
 //
-@mixin sugar-init() {
+@mixin s-init() {
 	// reset
 	@if sugar('settings.reset') == true {
 		@include sugar-reset();
@@ -517,7 +527,9 @@ $_sugar-settings-cache : ();
 			}
 			@include s-font-face($font-face);
 		} @else if $import {
-			@import url(#{$import});
+			@at-root {
+				@import url(#{$import});
+			}
 		}
 	}
 
@@ -545,10 +557,28 @@ $_sugar-settings-cache : ();
 // Register helper class
 //
 $_sugar-classes : () !default;
-@mixin sugar-register-class(
-	$namespace,
-	$name
+@mixin s-register-class(
+	$class
 ) {
+	$class : _sugar-parse-properties($class, (
+		name : string,
+		namespace : string
+	), (
+		name : n,
+		namespace : ns
+	));
+	$name : map-get($class, name);
+	$namespace : map-get($class, namespace);
+
+	// protect
+	@if not $name {
+		@error('s-register-class need a name');
+	}
+	@if not $namespace {
+		@error('s-register-class need a namespace');
+	}
+
+	// register the class
 	$split : _split($namespace, '.');
 	$_sugar-classes : _set($_sugar-classes, $split, $name) !global;
 	%#{$name} {

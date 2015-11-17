@@ -278,8 +278,16 @@ $_s_nested_properties_depth : ();
 ) {
 	@if $type == url {
 		@return str-is-url($value);
+	} @else if $type == boolean or $type == bool {
+		@return _is-boolean($value);
+	} @else if $type == function {
+		@return _is-function($value);
+	} @else if $type == null {
+		@return _is-null($value);
 	} @else if $type == number {
 		@return type-of($value) == number;
+	} @else if $type == integer or $type == int {
+		@return round($value) == $value;
 	} @else if $type == string {
 		@return type-of($value) == string;
 	} @else if $type == color {

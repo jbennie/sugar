@@ -16,13 +16,13 @@
 			@return map-get($s, size);
 		} @else {
 			@if unitless($s) {
-				@return rem($s);
+				@return s-rem($s);
 			}
 			@return $s;
 		}	
 	} @else {
 		@if unitless($size) {
-			@return rem($size);
+			@return s-rem($size);
 		}
 		@return $size;
 	}
@@ -51,6 +51,6 @@
 //
 // Strip units
 //
-@function strip-units($number) {
+@function s-strip-units($number) {
 	@return $number / ($number * 0 + 1);
 }

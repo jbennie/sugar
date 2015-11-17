@@ -1,67 +1,196 @@
-$default-threshold: pi()/180/20;
+$_s-pi: 3.14159265359;
+$_s-default-threshold: $_s-pi/180/20;
+$_s-precision: 10;
 
-@function tan($angle) {
-  @return sin($angle) / cos($angle);
+//
+// Sqrt
+//
+@function s-sqrt($r) {
+	$x0: 1;
+	$x1: $x0;
+
+	@for $i from 1 through 10 {
+		$x1: $x0 - ($x0 * $x0 - abs($r)) / (2 * $x0);
+		$x0: $x1;
+	}
+
+	@return $x1;
 }
 
-@function convert-angle($value, $unit-name) {
-  $factors: (
-    rad: 1rad,
-    deg: 180deg/pi(),
-    grad: 200grad/pi(),
-    turn: .5turn/pi()
-  );
-
-  @if not unitless($value) {
-    @warn '`#{$value}` should be unitless';
-    @return false;
-  }
-
-  @if not map-has-key($factors, $unit-name) {
-    @warn 'unit `#{$unit-name}` is not a valid unit - please make sure it is either `deg`, `rad`, `grad` or `turn`';
-    @return false;
-  }
-
-  @return $value*map-get($factors, $unit-name);
+//
+// Power
+//
+@function s-pow($base, $exp) {
+	$value: $base;
+	@if $exp > 1 {
+		@for $i from 2 through $exp {
+			$value: $value * $base;
+		}
+	}
+	@if $exp < 1{
+		@for $i from 0 through -$exp {
+				$value: $value / $base;
+		}
+	}
+	@return $value;
 }
 
-@function asin($z, $unit-name: deg, $threshold: $default-threshold) {
-  $sum: 0;
-  $complement: false;
-  $sign: if($z != 0, $z/abs($z), 1);
-  $z: abs($z);
-  
-  @if $z > 1 {
-    @warn 'illegal `#{$z}` value for function';
-    @return false;
-  }
-
-  @if $z > sin(pi()/4) {
-    $complement: true;
-    $z: sqrt(1 - pow($z, 2));
-  }
-
-  $term: $z;
-  $i: 0;
-  $k: 1;
-
-  @while $term > $threshold {
-    $sum: $sum + $term;
-
-    $i: $i + 1;
-    $k: $k*(2*$i - 1)/(2*$i);
-    $j: 2*$i + 1;
-
-    $term: $k*pow($z, $j)/$j;
-  }
-
-  @return convert-angle($sign*(if($complement, pi()/2 - $sum, $sum)), $unit-name);
+//
+// Factoriel
+//
+@function s-fact($num) {
+	$fact: 1;
+	@if $num > 0{
+		@for $i from 1 through $num {
+			$fact: $fact * $i;
+		}
+	}
+	@return $fact;
 }
 
-@function acos($z, $unit-name: deg, $threshold: $default-threshold) {
-  @return convert-angle(pi()/2, $unit-name) - asin($z, $unit-name, $threshold);
+//
+// Degree
+//
+@function s-deg($angle) {
+	@return s-convert-angle($angle, deg);
 }
 
-@function atan($z, $unit-name: deg, $threshold: $default-threshold) {  
-  @return asin($z/sqrt(1 + pow($z, 2)), $unit-name, $threshold);
+//
+// Radian
+//
+@function s-rad($angle) {
+	@return s-convert-angle($angle, rad);
+}
+
+//
+// Grad
+//
+@function s-grad($angle) {
+	@return s-convert-angle($angle, grad);
+}
+
+//
+// Turn
+//
+@function s-turn($angle) {
+	@return s-convert-angle($angle, turn);
+}
+
+//
+// Convert angle
+//
+@function s-convert-angle($value, $unit-name) {
+	$factors: (
+		rad: 1rad,
+		deg: 180deg/$_s-pi,
+		grad: 200grad/$_s-pi,
+		turn: .5turn/$_s-pi
+	);
+
+	@if not unitless($value) {
+		@warn '`#{$value}` should be unitless';
+		@return false;
+	}
+
+	@if not map-has-key($factors, $unit-name) {
+		@warn 'unit `#{$unit-name}` is not a valid unit - please make sure it is either `deg`, `rad`, `grad` or `turn`';
+		@return false;
+	}
+
+	@return $value*map-get($factors, $unit-name);
+}
+
+//
+// Sinus inverse
+//
+@function s-asin($z, $unit-name: deg, $threshold: $_s-default-threshold) {
+	$sum: 0;
+	$complement: false;
+	$sign: if($z != 0, $z/abs($z), 1);
+
+	$z: abs($z);
+	
+	@if $z > 1 {
+		@warn 'illegal `#{$z}` value for function';
+		@return false;
+	}
+
+	@if $z > s-sin($_s-pi/4) {
+		$complement: true;
+		$z: s-sqrt(1 - s-pow($z, 2));
+	}
+
+	$term: $z;
+	$i: 0;
+	$k: 1;
+
+	@while $term > $threshold {
+		$sum: $sum + $term;
+
+		$i: $i + 1;
+		$k: $k*(2*$i - 1)/(2*$i);
+		$j: 2*$i + 1;
+
+		$term: $k*s-pow($z, $j)/$j;
+	}
+
+	@return s-convert-angle($sign*(if($complement, $_s-pi/2 - $sum, $sum)), $unit-name);
+}
+
+//
+// Consinus inverse
+//
+@function s-acos($z, $unit-name: deg, $threshold: $_s-default-threshold) {
+	@return s-convert-angle($_s-pi/2, $unit-name) - s-asin($z, $unit-name, $threshold);
+}
+
+//
+// Tangent inverse
+//
+@function s-atan($z, $unit-name: deg, $threshold: $_s-default-threshold) {  
+	@return s-asin($z/s-sqrt(1 + s-pow($z, 2)), $unit-name, $threshold);
+}
+
+//
+// Convert angle to unitless
+//
+@function _s_to_unitless_rad($angle) {
+	@if unit($angle) == "deg" {
+		$angle: $angle / 180deg * $_s-pi;
+	}
+	@if unit($angle) == "rad" {
+		$angle: $angle / 1rad;
+	}
+	@return $angle;
+}
+
+//
+// Sinus
+//
+@function s-sin($angle){
+	$a: _s_to_unitless_rad($angle);
+	$sin: $a;
+	@for $n from 1 through $_s-precision {
+		$sin: $sin + (s-pow(-1, $n) / s-fact(2 * $n + 1) ) * s-pow($a, (2 * $n + 1));
+	}
+	@return $sin;
+}
+
+//
+// Cosinus
+//
+@function s-cos($angle){
+	$a: _s_to_unitless_rad($angle);
+	$cos: 1;
+	@for $n from 1 through $_s-precision {
+		$cos: $cos + ( s-pow(-1,$n) / s-fact(2*$n) ) * s-pow($a,2*$n);
+	}
+	@return $cos;
+}
+
+//
+// Tangent
+//
+@function s-tan($angle){
+	@return s-sin($angle) / s-cos($angle);
 }
