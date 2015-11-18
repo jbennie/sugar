@@ -278,6 +278,32 @@ $_s_nested_properties_depth : ();
 ) {
 	@if $type == url {
 		@return str-is-url($value);
+	} @else if $type == px {
+		@return type-of($value) == number and not unitless($value) and unit($value) == px;
+	} @else if $type == rem {
+		@return type-of($value) == number and not unitless($value) and unit($value) == rem;
+	} @else if $type == em {
+		@return type-of($value) == number and not unitless($value) and unit($value) == em;
+	} @else if $type == pt {
+		@return type-of($value) == number and not unitless($value) and unit($value) == pt;
+	} @else if $type == percent or $type == '%' {
+		@return type-of($value) == number and not unitless($value) and unit($value) == '%';
+	} @else if $type == vw {
+		@return type-of($value) == number and not unitless($value) and unit($value) == vw;
+	} @else if $type == vh {
+		@return type-of($value) == number and not unitless($value) and unit($value) == vh;
+	} @else if $type == ex {
+		@return type-of($value) == number and not unitless($value) and unit($value) == ex;
+	} @else if $type == ch {
+		@return type-of($value) == number and not unitless($value) and unit($value) == ch;
+	} @else if $type == cm {
+		@return type-of($value) == number and not unitless($value) and unit($value) == cm;
+	} @else if $type == mm {
+		@return type-of($value) == number and not unitless($value) and unit($value) == mm;
+	} @else if $type == in {
+		@return type-of($value) == number and not unitless($value) and unit($value) == in;
+	} @else if $type == pc {
+		@return type-of($value) == number and not unitless($value) and unit($value) == pc;
 	} @else if $type == boolean or $type == bool {
 		@return _is-boolean($value);
 	} @else if $type == function {

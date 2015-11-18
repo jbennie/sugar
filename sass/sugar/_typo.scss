@@ -313,7 +313,10 @@ $_s-font-aliases : (
 
 	// font-size
 	@if $size {
-		$return : map-set($return, font-size, s-rem($size));
+		@if unitless($size) or unit($size) == px {
+			$size : s-rem($size);
+		}
+		$return : map-set($return, font-size, $size);
 	}
 
 	@if $line-height {
