@@ -271,6 +271,14 @@
 }
 
 //
+// Selection
+//
+@mixin s-selection {
+	::-moz-selection { @content; }
+	::selection { @content; }
+}
+
+//
 // Visually hidden
 //
 @mixin _s-visually-hidden {
