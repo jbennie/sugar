@@ -188,7 +188,7 @@ module.exports = (grunt) ->
 				tasks: ['compass', 'cssmin', 'postcss', 'notify:compass']
 			coffee:
 				files: paths.coffee.cwd+'/'+paths.coffee.src
-				tasks: ['clean', 'coffee', 'concat', 'uglify', 'notify:coffee']
+				tasks: ['coffee', 'concat', 'uglify', 'notify:coffee']
 
 		clean: [
 			'css'

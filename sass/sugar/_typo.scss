@@ -450,7 +450,7 @@ $_s-font-aliases : (
 //
 // Get rhythme max-width
 //
-@function s-get-rhythme-width(
+@function s-rhythme-width(
 	$letters-count : sugar('settings.typo.line-letters-count')
 ) {
 	@if unitless($letters-count) {
@@ -469,10 +469,10 @@ $_s-font-aliases : (
 //
 // Set rhythme max-width
 //
-@mixin s-set-rhythme-width(
+@mixin s-rhythme-width(
 	$letters-count : sugar('settings.typo.line-letters-count')
 ) {
-	@each $prop, $value in s-get-rhythme-width($letters-count) {
+	@each $prop, $value in s-rhythme-width($letters-count) {
 		#{$prop} : $value;
 	}
 }

@@ -1,6 +1,6 @@
 {
   "name": "sugar",
-  "description": "A little sugar in your sass files",
+  "description": "Writing SCSS has never tasted better!",
   "version": "1.0.0",
   "main": "sass/sugar/_sugar.scss",
   "scripts": {

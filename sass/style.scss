@@ -5,6 +5,9 @@
 // animation to generate
 $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 
+// import cousine font
+@import url(https://fonts.googleapis.com/css?family=Cousine);
+
 // import sugar
 @import 'sugar/sugar';
 
@@ -26,6 +29,13 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 						-ext eot svg ttf woff,
 			cap-height : 0.65
 		),
+		helvetica-bold : (
+			font-face : "../fonts/helvetica-neue-bold/helveticabold.eot"
+						bold
+						normal
+						-ext eot svg ttf woff,
+			cap-height : 0.65
+		),
 		helvetica-ultralight : (
 			font-face : "../fonts/helvetica-neue-ultralight/helveticaneueultralight.eot"
 						lighter
@@ -33,15 +43,25 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 						-ext eot svg ttf woff,
 			cap-height : 0.65
 		),
-		VT323 : (
-			import : "https://fonts.googleapis.com/css?family=VT323",
-			cap-height : 0.65
+		cousine : (
+			font-family: 'Cousine'
 		)
 	),
 	font-awesome : (
-		classes : user gg-circle angle-right
+		classes : user gg-circle angle-right bars check coffee camera-retro cloud arrow-up
 	),
 	colors : (
+		grey : (
+			color : #c1c1c1,
+			classes : true,
+			modifiers : (
+				light : #fafafa,
+				dark : -darken 15%
+			)
+		),
+		blue : (
+			color : #8195a1
+		),
 		green : #00ff00,
 		pink : (
 			color : #ffff00,
@@ -51,14 +71,26 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 			color : #f2bc2b,
 			classes : color bkg,
 			modifiers : (
-				dark : -darken 55%,
-				light : #f00
+				light : #f2ebd6,
+				dark : #563c05
 			)
 		)
 	),
 	filters : (
-		jesus : (
-			filter : -grayscale 40% -blur 20px,
+		toaster : (
+			filter : cssgram-toaster,
+			classes : true
+		),
+		1977 : (
+			filter : cssgram-_1977,
+			classes : true
+		),
+		walden : (
+			filter : cssgram-walden,
+			classes : true
+		),
+		moon : (
+			filter : cssgram-moon,
 			classes : true
 		)
 	),
@@ -101,254 +133,138 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 	classes : helper
 )); 
 
-* {
-	@include s-transition(fast);
-}
+// import prism
+@import 'prism';
 
-.custom-transition {
-	@include s-transition(width 10s);
-}
+//
+// Layout
+//
+#header {
+	background-image:url('http://sugarcss.io/assets/img/highlight-bkg.jpg');
+	background-size:cover;
+	background-position:50% 50%;
+	min-height:150px;
+	color: white;
+	padding:s-size(big) 0;
+	line-height:1;
 
-.media {
-	@include s-media(200px) {
-		content : 200px;
-	}
-	@include s-media(tv 200px 300px) {
-		content : 200px 300px;
-	}
-	@include s-media(-minh 100px) {
-		content : -min-height 100px;
-	}
-	@include s-media(screen landscape) {
-		content : landscape;
-	}
-	@include s-media(portrait) {
-		content : portrait;
-	}
-	@include s-media(retina desktop, mobile chrome) {
-		content : retina;
-	}
-	@include s-media(ie11) {
-		content : ie9;
+	&, * {
+		text-shadow:rgba(0,0,0,1) 0 0 7px;
 	}
 }
-
-.rect {
-	@include s-rect(100px 200px);
+#head {
+	padding: s-size(bigger) 0;
+}
+.separator {
+	width:100%;
+	height:1px;
+	background: s-color(grey, light);
+	margin-bottom:50px;
+	margin-top:50px;
+}
+#top-bar {
+	background: black;
+}
+.section {
+	padding: s-size(bigger) 0;
 }
 
-.caret {
-	@include s-bubble(black right 10px 10px);
-}
-
-.bubble {
-	margin-left: 100px;
-	@include s-bubble(white 100px 20px bottom, #ddd 2px) {
-		&:hover {
-			@include s-bubble(top);
+//
+// Vertical rhythme
+//
+[data-toggle-rhythme],
+[data-toggle-baseline] {
+	cursor: pointer;
+	@include s-vertical-rhythme((
+		s-font : 14px uppercase s-color(grey)
+	));
+	&:hover,
+	&.active {
+		i {
+			color : s-color(orange);
 		}
 	}
-	@include s-corner(5px);
-	padding: 10px 15px;
-	@include s-filter(-drop-shadow rgba(0,0,0,1) 0 0 10px);
+	margin-left: s-rem(20px);
+
+
 }
 
-.triangle {
-	@include s-triangle(200px 100px s-color(green, -darken 20% ) top, 5px s-color(green, -darken 10%)) {
-		&:hover {
-			@include s-triangle(300px 200px s-color(pink), 100px);
-		}
-	}
-}
-
-.corner {
-	display: block;
-	width: 100px;
-	height: 100px;
-	background: pink;
-	@include s-corner(-l 20px -r 100px) {
-		&:hover {
-			@include s-corner(-tl 100px);
-		}
-	}
-}
-
-.round {
-	@include s-round(100px s-color(green)) {
-		&:hover {
-			@include s-round(200px);
-		}
-	}
-}
-
-.circle {
-	@include s-round(100px s-color(pink), 2px solid black) {
-		&:hover {
-			@include s-round(200px);
-		}
-	}
-}
-
+//
+// Buttons
+//
 .btn {
 	display: inline-block;
-	background: s-color(green);
+	background: s-color(orange);
 	color: white;
 	text-decoration: none;
 	padding: 0 s-size(2);
+	@include s-transition(.1s);
 	@include s-vertical-rhythme((
-		s-font : 24px helvetica bold,
+		s-font : 20px,
 		padding-top : 1,
 		padding-bottom : 1,
 		margin-bottom : 2
 	));
+	&:hover {
+		background: s-color(orange, -darken 10%);
+	}
 }
 
-.abs-cover {
-	@include s-size(cover);
-}
-.abs-contain {
-	@include s-size(contain);
+//
+// Typeset
+//
+.typeset {
 }
 
-.cssgram {
-	@include s-filter(cssgram-toaster);
-	@include s-round();
-	border:2px solid white;
-	box-shadow:s-color(black, -o 30%) 0 0 30px;
+figure {
+	height: 10rem;
+	position: relative;
+	overflow: hidden;
+	margin-bottom: 1rem;
+
 	img {
 		@include s-size(cover);
+		width:100%;
 	}
 }
 
-.animated {
-	display: block;
-	width: 100px;
-	height: 100px;
-	background: red;
-	@include s-animation(fadeIn);
-
-	&:hover {
-		@include s-animation(rubberBand, tada 1s, flipOutX);
-	}
-}
-
-.position {
-	display: block;
-	width: 100px;
-	height: 100px;
-	background: blue;
-	@include s-position(relative 10px 30px 30px);
-}
-
-.translate {
-	display: block;
-	width: 100px;
-	height: 100px;
-	background: blue;
-	@include s-translate(10px 30px) {
-		&:hover {
-			@include s-translate(0);
-		}
-	}
-}
-
-.filter {
-	@include s-filter(jesus);
-}
-
-.transform {
-	display: block;
-	width: 100px;
-	height: 100px;
-	background: green;
-	@include s-transform(-skew 20deg 40deg -rotate 10deg) {
-		&:hover {
-			@include s-transform(-rotate 50deg);
-		}
-	}
-}
-
-.background {
-	display: block;
-	@include s-size(200px 200px);
-	@include s-background(
-		'http://una.im/CSSgram/img/lakegeneva.jpg'
-		no-repeat 
-		cover 
-		-t 20px 
-		-x2 '@coco'
-		-x3);
-}
-
-.ratio {
-	@include s-size(200px);
-	@include s-ratio(16/9);
-	background: red;
-	display: block;
-}
-
-.show-grid {
+.show-rhythme {
 	@include s-show-rhythme();
-	margin: 0 auto;
-	max-width: 1200px;
 }
 
-// @include s-bEm(element -r) {
-// 	content : element;
-
-// 	@include s-beM(small) {
-// 		content : element--small
-// 	}
-// 	@include s-beM(big -e small) {
-// 		content : element--big extend small;
-// 	}
-// }
-
-// BEM
-@include s-Bem(coco) {
-	content : coco block;
-
-	@include s-bEm(hello) {
-		content : coco hello element;
-
-		@include s-beM(mod) {
-			content : coco hello mod modifier;
-		}
-
-		@include s-beM(jesus -e mod) {
-			content : coco hello jesus modifier;
+//
+// List
+//
+.list {
+	&.list--inline {
+		.list__item {
+			display:inline-block;
 		}
 	}
-
-	@include s-bEm(jojo -e hello) {
-		content : coco jojo extend hello;
-	}
-
-	@include s-beM(mod -s) {
-		content : coco mod modifier;
+}
+.list--top-bar {
 	
-		@include s-bEm(coco) {
-			content : coco mod modifier coco element;
+	@extend .list--inline;
+
+	.list__item {
+
+		a {
+			display: inline-block;
+			padding:10px;
+
+			&:hover,
+			&.active {
+				color: white;
+				background: s-color(orange);
+				text-shadow:rgba(0,0,0,.3) 1px 1px 0;
+			}
 		}
 	}
-
 }
 
-i.user {
-	@include s-icon(fa-user);
-	color: s-color(orange);
-}
-
-.legend {
-	@include s-vertical-rhythme((
-		s-font : 20px helvetica s-color(white, -darken 30%) -mw,
-		margin-bottom : 2,
-		border-bottom : 15px solid red,
-		padding-bottom : 1,
-		padding-top : 1,
-		border-top : 5px solid blue
-	));
-}
+//
+// Typography
+//
 h1 {
 	@include s-vertical-rhythme((
 		s-font : ms(3) helvetica-ultralight uppercase,
@@ -358,7 +274,7 @@ h1 {
 }
 h2 {
 	@include s-vertical-rhythme((
-		s-font : ms(2.5) VT323,
+		s-font : ms(2.5),
 		margin-bottom : 2,
 		border-bottom : 5px solid red
 	));
@@ -389,155 +305,42 @@ h6 {
 }
 p {
 	@include s-vertical-rhythme((
-		s-font : ms(0.5) 2 justify,
+		s-font : ms(0.5) 2 s-color(blue) justify,
 		margin-bottom : 2
 	));
 }
-p.lead {
+p.heading {
 	@include s-vertical-rhythme((
-		s-font : ms(1) 2 bold underline,
+		s-font : ms(1) 2 s-color(blue),
 		margin-bottom : 2
 	));
+	@include s-rhythme-width();
+}
+a {
+	@include s-font(s-color(orange) -td none);
+}
+strong {
+	@include s-font(helvetica-bold);
 }
 blockquote {	
-	padding: s-size(3);
+	padding: s-size(2);
 	border-left: 5px solid s-color(orange);
 	margin-left: s-size(-2);
 	background: s-color(#eee);
 	@include s-vertical-rhythme((
-		s-font : 27px italic,
-		padding-top : 3,
-		padding-bottom : 3,
+		s-font : 20px italic,
+		padding-top : 2,
+		padding-bottom : 2,
 		margin-bottom : 2
 	));
 }
-.ul {
-	@include s-list();
-	.ul {
-		@include s-vertical-rhythme((
-			s-font : 20px -mw true
-		));
-	}
 
-	> li {
-		@include s-vertical-rhythme((
-			s-font : 20px -mw true
-		));
-		@include s-list-item(
-			-padding-left 40px
-			-style-icon fa-gg-circle
-			-bullet-color s-color(orange)
-			-bullet-size 22px
-			-bullet-offset 8px
-		) {
-			li {
-				@include s-list-item(
-					-padding-left 30px
-					-style-icon fa-angle-right
-				);
-			}
-		}
-		&:hover {
-			@include s-list-item(
-				-bullet-color s-color(orange, -darken 20%)
-			);
-		}
-	}
-}
-.ul--outside {
-	@include s-list();
-	margin-left : -40px;
-	.ul {
-		@include s-vertical-rhythme((
-			s-font : 20px -mw true
-		));
-	}
-
-	> li {
-		@include s-vertical-rhythme((
-			s-font : 20px -mw true
-		));
-		@include s-list-item(
-			-padding-left 40px
-			-style-icon fa-user
-			-bullet-color s-color(orange)
-			-bullet-size 22px
-			-bullet-offset 8px
-		);
-		&:hover {
-			@include s-list-item(
-				-bullet-color s-color(orange, -darken 20%)
-			);
-		}
-
-	}
-}
-.ul--image {
-	@include s-list();
-	.ul {
-		@include s-vertical-rhythme((
-			s-font : 20px -mw true
-		));
-	}
-
-	> li {
-		@include s-vertical-rhythme((
-			s-font : 20px -mw true
-		));
-		@include s-list-item(
-			-padding-left 40px
-			-style-image '../img/list-puce-gray.svgz'
-			-bullet-color s-color(orange)
-			-bullet-size 22px
-			-bullet-offset 8px
-		);
-		&:hover {
-			@include s-list-item(
-				-style-image '../img/list-puce-red.svgz'
-			);
-		}
-	}
-}
-.ul--decimal {
-	@include s-list();
-	.ul {
-		@include s-vertical-rhythme((
-			s-font : 20px -mw true
-		));
-	}
-
-	> li {
-		@include s-vertical-rhythme((
-			s-font : 20px -mw true
-		));
-		@include s-list-item(
-			decimal
-			-padding-left 40px
-			-bullet-color s-color(orange)
-			-bullet-size 14px
-			-bullet-offset 8px
-		);
-	}
-}
-.ul--circle {
-	@include s-list();
-	.ul {
-		@include s-vertical-rhythme((
-			s-font : 20px -mw true
-		));
-	}
-
-	> li {
-		@include s-vertical-rhythme((
-			s-font : 20px -mw true
-		));
-		@include s-list-item(
-			circle
-			-padding-left 40px
-			-bullet-size 14px
-			-bullet-offset 8px
-		);
-	}
+.top {
+	display: block;
+	background: s-color(orange);
+	color: white;
+	@include s-position(bottom right fixed);
+	padding:s-size(smaller);
 }
 
 

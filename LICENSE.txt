@@ -1,4 +1,4 @@
-Copyright Olivier Bossel <olivier.bossel@gmail.com>, http://sugar.io
+Copyright Olivier Bossel <olivier.bossel@gmail.com>, http://sugarcss.io
 
 The following license applies to all parts of this software except as
 documented below:

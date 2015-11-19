@@ -7,7 +7,7 @@
   "main": [
     "sass/sugar/_sugar.scss"
   ],
-  "description": "A little sugar in your sass files",
+  "description": "Writing SCSS has never tasted better!",
   "keywords": [
     "gridle",
     "grid",
@@ -29,9 +29,10 @@
   "devDependencies": {
     "cssua.js": "https://github.com/mckamey/cssuseragent.git#~2.1.30",
     "animate.css": "https://github.com/daneden/animate.css.git#~3.4.0",
-    "cssgram": "https://github.com/una/CSSgram.git",
+    "cssgram": "https://github.com/una/CSSgram.git#master",
     "modular-scale": "~2.1.1",
     "font-awesome": "~4.4.0",
-    "sassdash": "~0.8.0"
+    "sassdash": "~0.8.0",
+    "gridle": "~2.0.43"
   }
 }

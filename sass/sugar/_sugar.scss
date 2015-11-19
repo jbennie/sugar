@@ -535,9 +535,9 @@ $_sugar-inited : false;
 				}
 				@include s-font-face($font-face);
 			} @else if $import {
-				@at-root {
-					@import url(#{$import});
-				}
+				// @at-root {
+				// 	@import url(#{$import});
+				// }
 			}
 		}
 

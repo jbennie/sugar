@@ -1,201 +1,167 @@
 # Sugar (v1.0.0)
 
+The goal of Sugar is certainly not to tells you how to organize your project. It's just like a **sugar in the coffee, you choose the coffee, Sugar enhance it with a nice touch!**
 
-One grid system to rule them all (.scss)
-
-Gridle is a set of complete and simple settings, mixins and classes that make the creation and usage of grid systems (even complex ones) really simple. All of this with full responsive capabilities
-
-## [Visit Website](http://gridle.org/) for full documentation
+## [Visit Website](http://sugarcss.io) for full documentation
 
 
+## Write less, do more!
+
+Sugar has a lots of cool mixins to help you write cleaner scss:
+
+```scss
+.my-cool-element {
+    @include s-font(12px helvetica bold underline uppercase nowrap right);
+}
+```
+
+This will give:
+
+```css
+.my-cool-element {
+    font-size : 12px;
+    font-family : helvetica;
+    font-weight : bold;
+    text-decoration : underline;
+    text-transform : uppercase;
+    white-space : nowrap;
+    text-align : right;
+}
+```
 
 ## Quick start
 	
-Importing gridle
+Importing sugar
 
 ```scss
-import "gridle/gridle"
+@import "sugar/sugar"
 ```
 
-Configure your grid :
+Configure your sugar :
 
 ```scss
-@include gridle_setup( (
-	context : 12,
-	gutter-width : 20px,
-	direction : rtl,
-	// etc...
-) );
+@include sugar((
+	typo : (
+		font-size : 13px
+		// etc...
+	),
+	colors : (
+		orange : #f2bc2b
+		// your colors here...
+	),
+	transition : (
+		// your transitions settings here...
+	)
+	// and many more settings by packages
+	// like font-awesome, modular-scale,
+	// animate.css, BEM, etc...
+));
 ```
 
-Register states (media queries) (optional) :
+## Helper classes (if wanted) :
 
 ```scss
-@include gridle_register_state ( mobile , (
-	max-width : 480px 
-) );
-@include gridle_register_state ( tablet , (
-	min-width : 481px,
-	max-width : 1024px
-) ) ;
-
-// even with full custom queries :
-@include gridle_register_state ( landscape, (
-	query : "(orientation : landscape)"
-) );
+@include sugar(classes);
 ```
 
-Generate all classes :
+```css
+.pull-left, .pull-right
+.m-t-{size}, .m-b-{size}, .m-l-{size}, .m-r-{size}, .m-s-{size}
+.p-t-{size}, .p-b-{size}, .p-l-{size}, .p-r-{size}, .p-s-{size}
+.text-left, .text-right, .text-center, .text-justify, .text-uppercase, .text-lowercase, .text-capitalize
+.c-{color}, .bkg-{color}
+// and many more
+```
+
+## Take advantage of all the powerful sugar mixins, functions, etc...
 
 ```scss
-@include gridle_generate_classes();
+.h1 {
+    @include s-vertical-rhythme((
+        s-font : 30px helvetica uppercase,
+        margin-botton : 20px
+    ));
+}
+.my-font-element {
+    @include s-font(12px s-color(orange, light) uppercase underline nowrap);
+}
+.popover {
+    // an orange bubble with an arrow top 20px wide and 10px tall
+    @include s-bubble(top s-color(orange) 20px 10px);
+}
+// and many more mixins and functions...
 ```
 
-Use your grid in hrml :
+## Cool packages out of the box
 
-```markup
-<div class="row">
-	<div class="gr-12 hide-print">
-		Header
-	</div>
-	<div class="gr-8 gr-12@mobile">
-		Content
-	</div>
-	<div class="gr-4 gr-12@mobile">
-		Sidebar
-	</div>
-</div>
-```
+Sugar comes with some nice packages like font-awesome, animate.css, etc... out of the box. These packages are optimized to generate only the css you need!
 
-Or with mixins :
+- Font Awesome
+- Sassdash
+- CSSGram
+- modular-scale
+- animate.css
+- ...
 
-```scss
-.row {
-	@include gridle_row();
-	max-width:960px;
-	margin:0 auto;
-}
-#header {
-	@include gridle_grid(12);
-}
-#sidebar {
-	@include gridle_grid(8);
-	@include gridle_state( mobile tablet ) {
-		@include gridle_grid(12);
-		content : "#{gridle_current_state_name()}";
-	}
-}
-#sidebar {
-	@include gridle_set( (
-		grid : 4,
-		mobile : (
-			hide : true
-		)
-	) );
-}
-@footer {
-	@include gridle_grid(12);
-}
-```
+> You can choose or not to use the embeded packages. Nothing stop you to install them by yourself and use the versions you want...
 
-Customize your content look and feel with Gridle mixins
+## A not limited list of mixins
 
-```scss
-#sidebar {
-	background : red;
-
-	@include gridle_state(mobile) {
-		background : green;
-	}
-}
-```
-
-## Element queries support
-
-Gridle has support for element queries with an easy mixin as all the rest of the framework. Thanks to [Marc J Schmidt](https://github.com/marcj/css-element-queries) for his awesome work on the hight efficient "polyfill".
-
-```scss
-.component {
-	background: yellow;
-
-	@include gridle_eq(+600px) {
-		// when the component is 600px and greater
-		background: pink;
-	}
-	@include gridle_eq(-300px) {
-		// when the component is 300px and lower
-		background: green;
-	}
-	@include gridle_eq(-100px) {
-		// when the component is 100px and lower
-		background: black;
-
-		.my-nested-element {
-			display: none;
-		}
-	}
-}
-```
-
-## Flex as a choice
-
-Gridle allows you to choose between a standard grid generated with float, etc... and a flex one that use the flexbox model. All of this power with the same exact classes.
-
-## Generate custom classes
-
-Gridle allows you to generate custom classes that will be available for each of your states. Here's an exemple
-
-```scss
-@include gridle_generate_custom_class( ( 'center', '-', '%state' ) ) {
-	text-align : center;
-}
-```
-
-This will produce the classes : center, center-mobile, center-tablet and center-landscape automatically
+- s-font
+- s-animation
+- s-background
+- s-bubble
+- s-clearfix
+- s-columns
+- s-corner (s-border-radius)
+- s-filter
+- s-fit
+- s-font
+- s-font-face
+- s-icon
+- s-list / s-list-item
+- s-long-shadow
+- s-media
+- s-position
+- s-placeholder
+- s-ratio
+- s-show-rhythme
+- s-selection
+- s-size
+- s-text-hidden
+- s-text-truncate
+- s-transform
+- s-transition
+- s-translate
+- s-vertical-rhythme
+- s-visually-hidden
+- ...
 
 
-## Set multiple grid properties at one
+## A not limited list of functions
 
-Gridle offer you multiple ways to set grid properties on your elements, the gridle_set and gridle universal mixin are some of these ways
-
-```scss
-#sidebar {
-	@include gridle_set((
-		grid : 8,
-		push : 4,
-		tablet : (
-			grid : 10,
-			push : 2
-		),
-		mobile : (
-			grid : 12,
-			push : 0
-		)
-	));
-
-	// same with universal mixin
-	@include gridle(8 push 4 tablet 10 push 2 mobile 12 push 0);
-}
-```
+- s-color
+- s-is
+- s-setting
+- s-size
+- s-px
+- s-rem
+- s-em
+- s-percent
+- s-sqrt
+- s-pow
+- s-sin
+- s-cos
+- and many more...
 
 
-## More control with Gridle{.js}
-
-Gridle{.js} allows you to be notified when states changes. It find automatically your states registered in your sass. Simple but powerful
-
-```javascript
-Gridle.on('update', function(updatedStates, activeStates, unactiveStates) {
-	// do something here...
-});
-// see documentation for more informations...
-```
 
 
-## And more...
+## That's not finished...
 
-That's not finished. Gridle offer you a lot of features and advanced settings that you can discover on the full website. When I say that Gridle is powerful and fully customizable, I really mean it!
+Sugar offer you a lot of features and advanced settings that you can discover on the full website.
 
-## [Visit Website](http://gridle.org/) for full documentation
+## [Visit Website](http://sugarcss.io) for full documentation
 
 
 ## Tested with
