@@ -1,5 +1,5 @@
 {
-  "name": "sugar",
+  "name": "sugarcss",
   "version": "1.0.0",
   "authors": [
     "Olivier Bossel <olivier.bossel@gmail.com>"
@@ -17,7 +17,7 @@
     "css"
   ],
   "license": "MIT",
-  "homepage": "http://sugar.io",
+  "homepage": "http://sugarcss.io",
   "ignore": [
     "**/.*",
     "node_modules",
