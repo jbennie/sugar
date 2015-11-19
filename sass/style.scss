@@ -344,4 +344,63 @@ blockquote {
 }
 
 
+//
+// Bubble
+//
+.bubble {
+	position:relative;
+	padding:s-size(medium);
+	color:white;
+	width:100%;
+	@include s-font(22px center);
+	margin-bottom: s-size(small);
+	@include s-corner(s-rem(5px));
+
+	&:hover {
+		@include s-animation(tada);
+		z-index:1;
+	}
+
+	@include s-bubble(s-color(orange) 10px, s-color(orange, -darken 15%) 2px) {
+
+		&.bubble-top-left {
+			@include s-bubble(top left);
+		}
+		&.bubble-top-center {
+			@include s-bubble(top center);
+		}
+		&.bubble-top-right {
+			@include s-bubble(top right);
+		}
+		&.bubble-bottom-left {
+			@include s-bubble(bottom left);
+		}
+		&.bubble-bottom-center {
+			@include s-bubble(bottom center);
+		}
+		&.bubble-bottom-right {
+			@include s-bubble(bottom right);
+		}
+		&.bubble-left-top {
+			@include s-bubble(left top);
+		}
+		&.bubble-left-center {
+			@include s-bubble(left center);
+		}
+		&.bubble-left-bottom {
+			@include s-bubble(left bottom);
+		}
+		&.bubble-right-top {
+			@include s-bubble(right top);
+		}
+		&.bubble-right-center {
+			@include s-bubble(right center);
+		}
+		&.bubble-right-bottom {
+			@include s-bubble(right bottom);
+		}
+	}
+}
+
+
 @include sugar(classes);

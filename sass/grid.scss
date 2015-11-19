@@ -17,4 +17,12 @@
 .container {
 	max-width:1200px;
 	margin: 0 auto;
+	padding: 0 20px;
+}
+
+// mobile
+[class*="gr-"] {
+	@include gridle_state(mobile) {
+		@include gridle_grid(12);
+	}
 }

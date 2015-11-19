@@ -3,6 +3,7 @@
 <head>
 
 	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
 	<link href="css/style.css" rel="stylesheet" type="text/css" />
 	<link href="css/grid.css" rel="stylesheet" type="text/css" />
@@ -180,68 +181,72 @@
 
 		<div class="container typeset">
 
-			<div class="gr-12">
+			<div class="row">
 
-				<a href="http://sugarcss.io/documentation#mixins-s-animation" target="_blank" class="btn pull-right">Discover all the mixins</a>
+				<div class="gr-12">
 
-				<h3>Very usefull mixins</h3>
+					<a href="http://sugarcss.io/documentation#mixins-s-animation" target="_blank" class="btn pull-right">Discover all the mixins</a>
 
-				<p class="heading">
-					Sugar comes with a lot of very cool mixins that allows to <strong>write less and do more</strong>. All of that based on the css properties you already knows and love.
-				</p>
+					<h3>Very usefull mixins</h3>
 
-			</div>
+					<p class="heading">
+						Sugar comes with a lot of very cool mixins that allows to <strong>write less and do more</strong>. All of that based on the css properties you already knows and love.
+					</p>
 
-			<div class="gr-6">
+				</div>
 
-				<h4>s-font</h4>
+				<div class="gr-6">
 
-				<p>
-					Sugar gives you a nice mixin to set your font-family, text-transform, and all the font corresponding css properties.
-				</p>
+					<h4>s-font</h4>
 
-<pre><code class="language-scss">
-h1 {
-	@include s-font(22px helvetica uppercase underline);
-}
-p {
-	@include s-font(14px capitalize nowrap keep-all);
-}
-</code></pre>
+					<p>
+						Sugar gives you a nice mixin to set your font-family, text-transform, and all the font corresponding css properties.
+					</p>
 
-			</div>
-
-			<div class="gr-6">
-
-				<h4>s-media</h4>
-
-				<p>
-					The s-media is a helpful mixin to handle media queries
-				</p>
-
-<pre><code class="language-scss">
-.my-cool-element {
-	background: red;
-
-	@include s-media(chrome retina, webkit mobile) {
-		background: yellow;
+	<pre><code class="language-scss">
+	h1 {
+		@include s-font(22px helvetica uppercase underline);
 	}
-}
-</code></pre>
+	p {
+		@include s-font(14px capitalize nowrap keep-all);
+	}
+	</code></pre>
 
-			</div>
+				</div>
 
-			<div class="gr-12">
+				<div class="gr-6">
 
-				<h3>And many more</h3>
+					<h4>s-media</h4>
 
-				<p>
-					Sugar gives you access to <strong>more than 25 mixins and a lot of cool functions</strong> to make your development process easier and a lot more fun!
-				</p>
+					<p>
+						The s-media is a helpful mixin to handle media queries
+					</p>
 
-				<p>
-					<a href="http://sugarcss.io/documentation#mixins-s-animation" target="_blank" class="btn">Discover all the mixins</a>
-				</p>
+	<pre><code class="language-scss">
+	.my-cool-element {
+		background: red;
+
+		@include s-media(chrome retina, webkit mobile) {
+			background: yellow;
+		}
+	}
+	</code></pre>
+
+				</div>
+
+				<div class="gr-12">
+
+					<h3>And many more</h3>
+
+					<p>
+						Sugar gives you access to <strong>more than 25 mixins and a lot of cool functions</strong> to make your development process easier and a lot more fun!
+					</p>
+
+					<p>
+						<a href="http://sugarcss.io/documentation#mixins-s-animation" target="_blank" class="btn">Discover all the mixins</a>
+					</p>
+
+				</div>
 
 			</div>
 
@@ -253,76 +258,155 @@ p {
 
 		<div class="container typeset">
 
-			<div class="gr-12">
+			<div class="row">
 
-				<a href="http://sugarcss.io/documentation#packages-sassdash-080" target="_blank" class="btn pull-right">Discover all the packages</a>
+				<div class="gr-12">
 
-				<h3>Cool packages out of the box</h3>
+					<h3>Bubbles made more than easy</h3>
 
-				<p class="heading">
-					Sugar comes with some nice packages like font-awesome, animate.css, etc... out of the box. These packages are optimized to generate only the css you need!
-				</p>
+					<p class="heading">
+						Here's an exemple of one of the cool mixins that you can find in Sugar. The animate.css animation is also applied on each bubble hover state.
+					</p>
 
-				<h4>Font Awesome</h4>
+					<div class="row">
 
-				<p>
-					<a href="https://fortawesome.github.io/Font-Awesome/" target="_blank">Font awesome</a> is... <strong>AWESOME</strong>! The only issue with this library is that you css will contains a lot of unused icons and this is pretty bad!
-					<br />
-					Sugar helps you to handle that issue. This mean that if I need only the 5 icons bellow in my website, you will have only the 5 icons in your css.
-				</p>
+						<div class="gr-3">
+							<div class="bubble bubble-left-top">
+								left top
+							</div>
+							<div class="bubble bubble-left-center">
+								left center
+							</div>
+							<div class="bubble bubble-left-bottom">
+								left bottom
+							</div>
+						</div>
 
-				<p style="font-size:4rem;" class="c-orange--dark">
-					<i class="fa-bars"></i>
-					<i class="fa-gg-circle"></i>
-					<i class="fa-coffee"></i>
-					<i class="fa-camera-retro"></i>
-					<i class="fa-cloud"></i>
-				</p>
+						<div class="gr-3">
+							<div class="bubble bubble-top-left">
+								top left
+							</div>
+							<div class="bubble bubble-top-center">
+								top center
+							</div>
+							<div class="bubble bubble-top-right">
+								top right
+							</div>
+						</div>
 
-				<h4>CSS Gram</h4>
+						<div class="gr-3">
+							<div class="bubble bubble-bottom-left">
+								bottom left
+							</div>
+							<div class="bubble bubble-bottom-center">
+								bottom center
+							</div>
+							<div class="bubble bubble-bottom-right">
+								bottom right
+							</div>
+						</div>
 
-				<p>
-					CSS Gram is a nice little library to add instagram like filters on your pictures.<br />
-					Sugar embrace that library and let you use it with ease!
-				</p>
+						<div class="gr-3">
+							<div class="bubble bubble-right-top">
+								right top
+							</div>
+							<div class="bubble bubble-right-center">
+								right center
+							</div>
+							<div class="bubble bubble-right-bottom">
+								right bottom
+							</div>
+						</div>
 
-				<div class="row">
 
-					<div class="gr-6">
-						<figure class="f-toaster">
-							<img src="http://gridle.org/assets/img/highlight-bkg-04.jpg?1445699860" />
-						</figure>
 					</div>
-					<div class="gr-6">
-						<figure class="f-1977">
-							<img src="http://gridle.org/assets/img/highlight-bkg-04.jpg?1445699860" />
-						</figure>
-					</div>
-					<div class="gr-6">
-						<figure class="f-walden">
-							<img src="http://gridle.org/assets/img/highlight-bkg-04.jpg?1445699860" />
-						</figure>
-					</div>
-					<div class="gr-6">
-						<figure class="f-moon">
-							<img src="http://gridle.org/assets/img/highlight-bkg-04.jpg?1445699860" />
-						</figure>
-					</div>
+
 				</div>
 
-				<h4>And many more</h4>
+			</div>
 
-				<p>
-					Sugar does not stop here. There's some others packages that you can use like modular-scale, animate.css and Sassdash. This list can be updated in the future depending on your feedbacks.
-				</p>
+		</div>
 
-				<p>
-					<a href="http://sugarcss.io/documentation#packages-sassdash-080" target="_blank" class="btn">Discover all the packages</a>
-				</p>
+	</section>
 
-				<blockquote>
-					You can choose or not to use the embeded packages. Nothing stop you to install them by yourself and use the versions you want...
-				</blockquote>
+	<section class="section" id="font-awesome">
+
+		<div class="container typeset">
+
+			<div class="row">
+
+				<div class="gr-12">
+
+					<a href="http://sugarcss.io/documentation#packages-sassdash-080" target="_blank" class="btn pull-right">Discover all the packages</a>
+
+					<h3>Cool packages out of the box</h3>
+
+					<p class="heading">
+						Sugar comes with some nice packages like font-awesome, animate.css, etc... out of the box. These packages are optimized to generate only the css you need!
+					</p>
+
+					<h4>Font Awesome</h4>
+
+					<p>
+						<a href="https://fortawesome.github.io/Font-Awesome/" target="_blank">Font awesome</a> is... <strong>AWESOME</strong>! The only issue with this library is that you css will contains a lot of unused icons and this is pretty bad!
+						<br />
+						Sugar helps you to handle that issue. This mean that if I need only the 5 icons bellow in my website, you will have only the 5 icons in your css.
+					</p>
+
+					<p style="font-size:4rem;" class="c-orange--dark">
+						<i class="fa-bars"></i>
+						<i class="fa-gg-circle"></i>
+						<i class="fa-coffee"></i>
+						<i class="fa-camera-retro"></i>
+						<i class="fa-cloud"></i>
+					</p>
+
+					<h4>CSS Gram</h4>
+
+					<p>
+						CSS Gram is a nice little library to add instagram like filters on your pictures.<br />
+						Sugar embrace that library and let you use it with ease!
+					</p>
+
+					<div class="row">
+
+						<div class="gr-6">
+							<figure class="f-toaster">
+								<img src="http://gridle.org/assets/img/highlight-bkg-04.jpg?1445699860" />
+							</figure>
+						</div>
+						<div class="gr-6">
+							<figure class="f-1977">
+								<img src="http://gridle.org/assets/img/highlight-bkg-04.jpg?1445699860" />
+							</figure>
+						</div>
+						<div class="gr-6">
+							<figure class="f-walden">
+								<img src="http://gridle.org/assets/img/highlight-bkg-04.jpg?1445699860" />
+							</figure>
+						</div>
+						<div class="gr-6">
+							<figure class="f-moon">
+								<img src="http://gridle.org/assets/img/highlight-bkg-04.jpg?1445699860" />
+							</figure>
+						</div>
+					</div>
+
+					<h4>And many more</h4>
+
+					<p>
+						Sugar does not stop here. There's some others packages that you can use like modular-scale, animate.css and Sassdash. This list can be updated in the future depending on your feedbacks.
+					</p>
+
+					<p>
+						<a href="http://sugarcss.io/documentation#packages-sassdash-080" target="_blank" class="btn">Discover all the packages</a>
+					</p>
+
+					<blockquote>
+						You can choose or not to use the embeded packages. Nothing stop you to install them by yourself and use the versions you want...
+					</blockquote>
+
+				</div>
 
 			</div>
 
@@ -330,22 +414,26 @@ p {
 
 	</section>
 	
-	<section class="section" id="more">
+	<section class="section bkg-grey--light" id="more">
 
 		<div class="container typeset">
 
-			<div class="gr-12 text-center">
+			<div class="row">
 
-				<h3>Many more to discover on the official website</h3>
+				<div class="gr-12 text-center">
 
-				<iframe width="560" height="315" src="https://www.youtube.com/embed/xJjCnWm5cvE?start=83&end=95" frameborder="0" allowfullscreen></iframe>
+					<h3>Many more to discover on the official website</h3>
 
-				<br />
-				<br />
-				<br />
-				
+					<iframe width="560" height="315" src="https://www.youtube.com/embed/xJjCnWm5cvE?start=83&end=95" frameborder="0" allowfullscreen></iframe>
 
-				<a href="http://sugarcss.io" target="_blank" class="btn">Check out sugarcss.io</a>
+					<br />
+					<br />
+					<br />
+					
+
+					<a href="http://sugarcss.io" target="_blank" class="btn">Check out sugarcss.io</a>
+
+				</div>
 
 			</div>
 
@@ -361,15 +449,15 @@ p {
 
 	<script type="text/javascript">
 
-		// var _gaq = _gaq || [];
-		// _gaq.push(['_setAccount', 'UA-41893396-2']);
-		// _gaq.push(['_trackPageview']);
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-70303780-1']);
+		_gaq.push(['_trackPageview']);
 
-		// (function() {
-		// var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-		// ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-		// var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-		// })();
+		(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
 
 	</script>
 

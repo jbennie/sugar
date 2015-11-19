@@ -15,7 +15,7 @@
 @mixin _s-filter(
 	$filter
 ) {
-	@debug($filter);
+
 	$filters : sugar('settings.filters');
 	// cssgram
 	@if type-of($filter) == string and str-slice($filter,1,8) == 'cssgram-' {
