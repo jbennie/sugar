@@ -86,8 +86,8 @@ Configure your sugar :
     @include s-font(12px s-color(orange, light) uppercase underline nowrap);
 }
 .popover {
-    // an orange bubble with an arrow top 20px wide and 10px tall
-    @include s-bubble(top s-color(orange) 20px 10px);
+    // an orange bubble with an arrow top 20px
+    @include s-bubble(top s-color(orange) 20px);
 }
 // and many more mixins and functions...
 ```
