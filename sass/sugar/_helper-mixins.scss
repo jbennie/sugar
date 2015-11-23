@@ -16,9 +16,14 @@
 		color : color,
 		padding : number,
 		margin-top : number
+	), (
+		style : stl,
+		side : si,
+		padding : p,
+		margin-top : mt
 	));
 	
-	$props : _sugar-handle-nested(side-lined, $props);
+	$s : _sugar-handle-nested(side-lined, $props);
 
 	$side : map-get-or($props, side, both);
 	$height : map-get-or($props, height, s-rem(1px));

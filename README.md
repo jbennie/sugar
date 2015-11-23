@@ -1,4 +1,4 @@
-# Sugar (v1.0.0)
+# Sugar (v1.0.1)
 
 The goal of Sugar is certainly not to tells you how to organize your project. It's just like a **sugar in the coffee, you choose the coffee, Sugar enhance it with a nice touch!**
 
