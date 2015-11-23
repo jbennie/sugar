@@ -1,7 +1,6 @@
 /**
  * Sugar
  */
-@import url(https://fonts.googleapis.com/css?family=Cousine);
 @-webkit-keyframes rubberBand {
   from {
     -webkit-transform: scale3d(1, 1, 1);
@@ -598,7 +597,7 @@ table {
 
 html {
   font-size: 13px;
-  font-family: helvetica;
+  font-family: "Open Sans";
 }
 @media (min-width: 0) and (max-width: 800px) {
   html {
@@ -611,24 +610,6 @@ html {
   }
 }
 
-@font-face {
-  font-family: "helvetica";
-  src: url("../fonts/helvetica-neue-regular/helveticaneue.eot") format("embedded-opentype"), url("../fonts/helvetica-neue-regular/helveticaneue.svg") format("svg"), url("../fonts/helvetica-neue-regular/helveticaneue.ttf") format("truetype"), url("../fonts/helvetica-neue-regular/helveticaneue.woff") format("woff");
-  font-style: normal;
-  font-weight: normal;
-}
-@font-face {
-  font-family: "helvetica-bold";
-  src: url("../fonts/helvetica-neue-bold/helveticabold.eot") format("embedded-opentype"), url("../fonts/helvetica-neue-bold/helveticabold.svg") format("svg"), url("../fonts/helvetica-neue-bold/helveticabold.ttf") format("truetype"), url("../fonts/helvetica-neue-bold/helveticabold.woff") format("woff");
-  font-style: normal;
-  font-weight: bold;
-}
-@font-face {
-  font-family: "helvetica-ultralight";
-  src: url("../fonts/helvetica-neue-ultralight/helveticaneueultralight.eot") format("embedded-opentype"), url("../fonts/helvetica-neue-ultralight/helveticaneueultralight.svg") format("svg"), url("../fonts/helvetica-neue-ultralight/helveticaneueultralight.ttf") format("truetype"), url("../fonts/helvetica-neue-ultralight/helveticaneueultralight.woff") format("woff");
-  font-style: normal;
-  font-weight: lighter;
-}
 @font-face {
   font-family: "FontAwesome";
   src: url("../fonts/font-awesome/fontawesome-webfont.eot") format("embedded-opentype"), url("../fonts/font-awesome/fontawesome-webfont.ttf") format("truetype"), url("../fonts/font-awesome/fontawesome-webfont.woff") format("woff"), url("../fonts/font-awesome/fontawesome-webfont.woff2") format("woff2"), url("../fonts/font-awesome/fontawesome-webfont.svg") format("svg");
@@ -893,8 +874,9 @@ figure img {
 }
 
 h1 {
-  font-family: helvetica-ultralight;
+  font-family: "Open Sans";
   font-size: 4.23606807em;
+  font-weight: 300;
   text-transform: uppercase;
 }
 .typeset h1 {
@@ -997,7 +979,8 @@ a {
 }
 
 strong {
-  font-family: helvetica-bold;
+  font-family: "Open Sans";
+  font-weight: 700;
 }
 
 blockquote {

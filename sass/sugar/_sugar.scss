@@ -521,6 +521,15 @@ $_sugar-inited : false;
 			}
 			$font-family : sugar('settings.typo.font-family');
 			@if $font-family {
+				// try to get the font family from fonts
+				$fonts : sugar('settings.fonts');
+				$f : map-get($fonts, $font-family);
+				@if $f {
+					$ff : map-get($f, font-family);
+					@if $ff {
+						$font-family : $ff;
+					}
+				}
 				font-family: $font-family;
 			}
 		}

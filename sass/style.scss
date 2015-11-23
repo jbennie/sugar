@@ -6,7 +6,7 @@
 $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 
 // import cousine font
-@import url(https://fonts.googleapis.com/css?family=Cousine);
+// @import url(https://fonts.googleapis.com/css?family=Cousine);
 
 // import sugar
 @import 'sugar/sugar';
@@ -23,24 +23,17 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 	),
 	fonts : (
 		helvetica : (
-			font-face : "../fonts/helvetica-neue-regular/helveticaneue.eot"
-						normal
-						normal
-						-ext eot svg ttf woff,
+			font-family : 'Open Sans',
 			cap-height : 0.65
 		),
 		helvetica-bold : (
-			font-face : "../fonts/helvetica-neue-bold/helveticabold.eot"
-						bold
-						normal
-						-ext eot svg ttf woff,
+			font-family : 'Open Sans',
+			font-weight : 700,
 			cap-height : 0.65
 		),
-		helvetica-ultralight : (
-			font-face : "../fonts/helvetica-neue-ultralight/helveticaneueultralight.eot"
-						lighter
-						normal
-						-ext eot svg ttf woff,
+		helvetica-light : (
+			font-family : 'Open Sans',
+			font-weight : 300,
 			cap-height : 0.65
 		),
 		cousine : (
@@ -267,7 +260,7 @@ figure {
 //
 h1 {
 	@include s-vertical-rhythme((
-		s-font : ms(3) helvetica-ultralight uppercase,
+		s-font : ms(3) helvetica-light uppercase,
 		margin-bottom : 2,
 		border-bottom : 22px dashed red
 	));

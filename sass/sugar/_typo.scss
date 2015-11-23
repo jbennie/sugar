@@ -293,6 +293,12 @@ $_s-font-aliases : (
 			$f : map-get($fonts, $font-family);
 			$cap-height : map-get-or($f, cap-height, 0);
 			$font-family : map-get-or($f, font-family, $font-family);
+			@if not $font-style {
+				$font-style : map-get($f, font-style);
+			}
+			@if not $font-weight {
+				$font-weight : map-get($f, font-weight);
+			}
 		}			
 	}
 	

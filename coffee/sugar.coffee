@@ -28,7 +28,7 @@
 
 		# default settings that can be overrided on init
 		_settings :
-			debug : true
+			debug : false
 		
 		###
 		Init
@@ -51,7 +51,7 @@
 
 	# support AMD
 	if typeof window.define is 'function' && window.define.amd
-		window.define [], -> window.Gridle
+		window.define [], -> window.Sugar
 
 	# return the Sugar object
 	Sugar

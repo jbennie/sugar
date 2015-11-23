@@ -28,7 +28,7 @@ w.exec(b)?(a.mobile=RegExp.$1,s.exec(b)&&(delete a[a.mobile],a.blackberry=a.vers
   window.Sugar = {
     _inited: false,
     _settings: {
-      debug: true
+      debug: false
     },
 
     /*
@@ -54,7 +54,7 @@ w.exec(b)?(a.mobile=RegExp.$1,s.exec(b)&&(delete a[a.mobile],a.blackberry=a.vers
   }, 500);
   if (typeof window.define === 'function' && window.define.amd) {
     window.define([], function() {
-      return window.Gridle;
+      return window.Sugar;
     });
   }
   return Sugar;
