@@ -141,8 +141,8 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 	padding:s-size(big) 0;
 	line-height:1;
 
-	&, * {
-		text-shadow:rgba(0,0,0,1) 0 0 7px;
+	* {
+		@include s-filter(-drop-shadow rgba(0,0,0,.2) 0 0 7px);
 	}
 }
 #head {
@@ -203,10 +203,17 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 	}
 }
 
+.hey {
+	@include s-hey(top right 20px s-color(orange, dark) -margin-top -7px -margin-left 7px);
+}
+
 //
 // Typeset
 //
 .typeset {
+	* {
+		@include s-transition();
+	}
 }
 
 figure {
@@ -264,6 +271,9 @@ h1 {
 		margin-bottom : 2,
 		border-bottom : 22px dashed red
 	));
+	@include s-media(800px) {
+		@include s-side-lined(both 2px 150px s-color(orange) 10px double);
+	}
 }
 h2 {
 	@include s-vertical-rhythme((
@@ -271,6 +281,9 @@ h2 {
 		margin-bottom : 2,
 		border-bottom : 5px solid red
 	));
+	@include s-media(800px) {
+		@include s-side-lined(both 2px 50px s-color(orange) 10px double);
+	}
 }
 h3 {
 	@include s-vertical-rhythme((

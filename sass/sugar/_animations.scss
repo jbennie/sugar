@@ -15,13 +15,13 @@
 	$previous_duration : 0;
 	@each $animation in $animations {
 		$animation : _sugar-parse-properties($animation, (
+			iteration : 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 infinite initial inherit,
+			direction : normal reverse alternate alternate-reverse initial inherit,
+			fill-mode : none forwards backwards both initial inherit,
 			name : string,
 			duration : number,
 			delay : number,
 			ease : string,
-			iteration : 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 infinite initial inherit,
-			direction : normal reverse alternate alternate-reverse initial inherit,
-			fill-mode : none forwards backwards both initial inherit,
 			parallel : true
 		), (
 			name : n,

@@ -756,8 +756,9 @@ pre[class*="language-"] {
   padding: 5rem 0;
   line-height: 1;
 }
-#header, #header * {
-  text-shadow: black 0 0 7px;
+#header * {
+  -webkit-filter: drop-shadow(rgba(0, 0, 0, 0.2) 0 0 7px);
+          filter: drop-shadow(rgba(0, 0, 0, 0.2) 0 0 7px);
 }
 
 #head {
@@ -824,6 +825,56 @@ pre[class*="language-"] {
   background: #dca40e;
 }
 
+.hey {
+  position: relative;
+}
+@-webkit-keyframes s-hey {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes s-hey {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+.hey:before {
+  content: '';
+  position: absolute;
+  height: 10px;
+  width: 10px;
+  border-radius: 10px;
+  background-color: #563c05;
+  top: calc(0% + 5px + -7px - 0px);
+  right: calc(0% + 5px + 0px - 7px);
+}
+.hey:after {
+  content: '';
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  border-radius: 0.76923077rem;
+  background-color: transparent;
+  border: solid #563c05;
+  border-width: 2px;
+  boz-sizing: border-box;
+  -webkit-animation: s-hey 1s 0s ease-in-out infinite normal forwards;
+          animation: s-hey 1s 0s ease-in-out infinite normal forwards;
+  position: calc(absolute);
+  top: calc(0% + -7px - 0px);
+  right: calc(0% + 0px - 7px);
+}
+
+.typeset *, .typeset *:before, .typeset *:after {
+  transition: all 0.2s ease-in-out 0s;
+}
+
 figure {
   height: 10rem;
   position: relative;
@@ -887,6 +938,37 @@ h1 {
   font-size: 4.23606807rem;
   line-height: 5rem;
 }
+@media (min-width: 800px) {
+  h1 {
+    display: block;
+    overflow: hidden;
+    min-height: 1.2em;
+    text-align: center;
+  }
+  h1:before, h1:after {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    width: 150px;
+    border-top-style: double;
+    border-top-width: 2px;
+    border-top-color: #f2bc2b;
+    height: 4px;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-bottom-color: #f2bc2b;
+    bottom: 0.05em;
+  }
+  h1:before {
+    right: 10px;
+    margin-left: -50%;
+  }
+  h1:after {
+    left: 10px;
+    margin-right: -50%;
+  }
+}
 
 h2 {
   font-size: 3.33019073em;
@@ -898,6 +980,37 @@ h2 {
   padding-bottom: 0;
   font-size: 3.33019073rem;
   line-height: 4rem;
+}
+@media (min-width: 800px) {
+  h2 {
+    display: block;
+    overflow: hidden;
+    min-height: 1.2em;
+    text-align: center;
+  }
+  h2:before, h2:after {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    width: 50px;
+    border-top-style: double;
+    border-top-width: 2px;
+    border-top-color: #f2bc2b;
+    height: 4px;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-bottom-color: #f2bc2b;
+    bottom: 0.05em;
+  }
+  h2:before {
+    right: 10px;
+    margin-left: -50%;
+  }
+  h2:after {
+    left: 10px;
+    margin-right: -50%;
+  }
 }
 
 h3 {
@@ -1004,8 +1117,8 @@ blockquote {
   background: #f2bc2b;
   color: white;
   position: fixed;
-  bottom: 0;
-  right: 0;
+  bottom: 0%;
+  right: 0%;
   padding: 1rem;
 }
 

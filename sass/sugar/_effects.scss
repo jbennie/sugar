@@ -3,6 +3,116 @@
 //
 
 //
+// Hey
+//
+
+@mixin s-hey(
+	$props : ()
+) {
+	$props : _sugar-parse-properties($props, (
+		vertical-align : top middle bottom,
+		align : left center right,
+		size : number,
+		color : color,
+		margin-left : number,
+		margin-top : number,
+		margin-bottom : number,
+		margin-right : number
+	));
+
+	$props : _sugar-handle-nested(hey, $props);
+
+	$vertical-align : map-get-or($props, vertical-align, top);
+	$align : map-get-or($props, align, right);
+	$size : map-get-or($props, size, 20px);
+	$color : map-get-or($props, color, gold);
+	$margin-left : map-get-or($props, margin-left, 0px);
+	$margin-right : map-get-or($props, margin-right, 0px);
+	$margin-top : map-get-or($props, margin-top, 0px);
+	$margin-bottom : map-get-or($props, margin-bottom, 0px);
+
+	$position : s-position($vertical-align $align);
+	
+	@keyframes s-hey {
+		from {
+			opacity: 1;
+		}
+		to {
+			opacity: 0;
+		}
+	}
+
+	position: relative;
+	&:before {
+		$ratio : 2;
+		$s : round($size / $ratio);
+		content: '';
+		position: absolute;
+		// top : ($size / 2 - $s / 2) + $top;
+		// right : ($size / 2 - $s / 2) + $right;
+		height: $s; width: $s;
+		@include s-corner($s);
+		background-color: $color;
+
+		@each $prop, $value in $position {
+			@if $prop == top or $prop == bottom or $prop == left or $prop == right {
+				@if $prop == top and $value > 0%
+					or $prop == left and $value > 0% {
+					$value : "#{$value} - #{($size / 2 - $s / 2)}";
+				} @else {
+					$value : "#{$value} + #{($size / 2 - $s / 2)}";
+				}
+				@if $prop == top {
+					$value : "#{$value} + #{$margin-top} - #{$margin-bottom}";
+				} @else if $prop == right {
+					$value : "#{$value} + #{$margin-right} - #{$margin-left}";
+				} @else if $prop == bottom {
+					$value : "#{$value} + #{$margin-bottom} - #{$margin-top}";
+				} @else if $prop == left {
+					$value : "#{$value} + #{$margin-left} - #{$margin-right}";
+				}
+				@if $prop != position or $prop != transform {
+					#{$prop} : calc(#{$value});
+				}
+			}
+		}
+
+	}
+	&:after {
+		$border-width : floor(($size - $size / 2) / 3.5);
+		content: '';
+		position: absolute;
+		// top: $top; right: $right;
+		height: $size - $border-width * 2; width: $size - $border-width * 2;
+		@include s-corner(s-rem($size / 2));
+		background-color: transparent;
+		border: solid $color;
+		border-width: $border-width; // animates
+		boz-sizing: border-box;
+		@include s-animation(s-hey infinite);
+
+		@each $prop, $value in $position {
+			@if $prop == top {
+				$value : "#{$value} + #{$margin-top} - #{$margin-bottom}";
+			} @else if $prop == right {
+				$value : "#{$value} + #{$margin-right} - #{$margin-left}";
+			} @else if $prop == bottom {
+				$value : "#{$value} + #{$margin-bottom} - #{$margin-top}";
+			} @else if $prop == left {
+				$value : "#{$value} + #{$margin-left} - #{$margin-right}";
+			}
+			@if $prop != position or $prop != transform {
+				#{$prop} : calc(#{$value});
+			}
+		}
+	}
+
+	@include _sugar-handle-nested(hey) {
+		@content;
+	}
+}
+
+//
 // Shade
 //
 @mixin s-long-shadow(
