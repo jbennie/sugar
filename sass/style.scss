@@ -263,6 +263,57 @@ figure {
 }
 
 //
+// Loaders
+//
+.loader-container {
+	background: s-color(orange);
+	@include s-ratio(16/9);
+	@include s-corner(s-rem(5px));
+	margin-bottom:s-rem(20px);
+	border: s-color(orange, -darken 15%) 2px solid;
+
+	&:hover {
+		@include s-animation(tada);
+		z-index:1;
+	}
+}
+.loader {
+	@include s-position(center middle);
+}
+.loader-spinner-1 {
+	@include s-loader(spinner-1 white 1s 50px 10px);
+	display: block;
+}
+.loader-spinner-2 {
+	@include s-loader(spinner-2 white s-color(orange) 1s 50px 10px);
+	display: block;
+}
+.loader-spinner-3 {
+	@include s-loader(spinner-3 white s-color(orange) 1s 50px 20px);
+	display: block;
+}
+.loader-spinner-circles-1 {
+	@include s-loader(spinner-circles-1 white 2s 50px 15px);
+	display: block;
+}
+.loader-spinner-circles-2 {
+	@include s-loader(spinner-circles-2 white 1s 50px 10px);
+	display: block;
+}
+.loader-spinner-circles-3 {
+	@include s-loader(spinner-circles-3 white 1s 50px 15px);
+	display: block;
+}
+.loader-bars {
+	@include s-loader(bars white 1s 50px);
+	display: block;
+}
+.loader-circles {
+	@include s-loader(circles white 1s 50px);
+	display: block;
+}
+
+//
 // Typography
 //
 h1 {

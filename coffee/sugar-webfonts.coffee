@@ -47,6 +47,11 @@
 			# update inited state
 			@_inited = true
 
+			# check if a cachebuster is set
+			cb_split = @_settings.json_path.split '#'
+			@_settings.version = cb_split[1] if cb_split.length == 2
+			@_settings.json_path = cb_split[0] if cb_split.length == 2
+
 			try
 				@_cache = window.localStorage.getItem(@_key)
 				if @_cache
