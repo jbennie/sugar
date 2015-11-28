@@ -312,6 +312,18 @@ figure {
 	@include s-loader(circles white 1s 50px);
 	display: block;
 }
+.loader-grid-1 {
+	@include s-loader-grid(circle white 3 3 -size 10px,-scale 15px -spin 180deg -opacity 0 -spread 50px -duration 3s -delay 1s);
+}
+.loader-grid-2 {
+	@include s-loader-grid(circle white 6 6 -size 5px,-scale 7px -opacity 0 -spread 20px -duration 3s -delay 1s);
+}
+.loader-grid-3 {
+	@include s-loader-grid(white 2 2 -size 10px -gap 2px,-opacity 0 -duration 2s -delay .5s);
+}
+.loader-grid-4 {
+	@include s-loader-grid(white 6 6 -size 3px -gap 2px,-opacity 0 -spread 2px -duration 2s -delay .6s);
+}
 
 //
 // Typography

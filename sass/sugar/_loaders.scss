@@ -40,6 +40,153 @@
 	}
 }
 
+@mixin s-loader-grid(
+	$props : (),
+	$animation : ()
+) {
+	$props : _sugar-parse-properties($props, (
+		color : color,
+		cols : number,
+		rows : number,
+		size : number,
+		gap : number,
+		shape : circle rect
+	));
+	$animation : _sugar-parse-properties($animation, (
+		steps : integer,
+		spread : number,
+		rotate : number,
+		spin : number,
+		scale : number,
+		opacity : number,
+		duration : second,
+		delay : second
+	));
+
+	$offset : 200px;
+
+	$color : map-get-or($props, color, red);
+	$cols : map-get-or($props, cols, 5);
+	$rows : map-get-or($props, rows, 5);
+	$size : map-get-or($props, size, 10px);
+	$gap : map-get-or($props, gap, 5px);
+	$shape : map-get-or($props, shape, rect);
+
+	$a-steps : map-get-or($animation, steps, 5);
+	$a-spread : map-get($animation, spread);
+	$a-rotate : map-get($animation, rotate);
+	$a-spin : map-get($animation, spin);
+	$a-scale : map-get($animation, scale);
+	$a-opacity : map-get($animation, opacity);
+	$a-duration : map-get-or($animation, duration, 1s);
+	$a-delay : map-get-or($animation, delay, 0s);
+
+	width : $size;
+	height : $size;
+	@if $shape == circle {
+		border-radius: 50%;
+	}
+
+	// position grid
+	$width : $size * ($cols - 1) + $gap * ($cols - 1);
+	$height : $size * ($rows - 1) + $gap * ($rows - 1);
+	@include s-translate((-$width / 2 - $size - $gap - $offset) (-$height / 2 - $size - $gap - $offset));
+
+	$aname : "grid-#{unique-id()}";
+
+	// calculate box shadows
+	$shadows : ();
+	@for $i from 0 through $cols - 1 {
+		@for $j from 0 through $rows - 1 {
+			$x : ($size * $i + $gap * $i) + $size + $gap + $offset;
+			$y : ($size * $j + $gap * $j) + $size + $gap + $offset;
+			$shadows : append($shadows, $color $x $y 0 0, comma);
+		}
+	}
+
+	&:before {
+		@if $shape == circle {
+			border-radius: 50%;
+		}
+		position: relative;
+		z-index:1;
+		content:'';
+		display: block;
+		width: $size;
+		height: $size;
+		animation : $aname $a-duration ease-in-out 0s infinite;
+		// background: transparent;
+		box-shadow : $shadows;
+		transform-origin: ($offset + $width / 2 + $gap + $size) ($offset + $height / 2 + $gap + $size);
+	}
+
+	// calculate percentage of delay
+	$p-delay : 1 / $a-duration * $a-delay;
+	@debug($p-delay);
+
+	// animation
+	@keyframes #{$aname} {
+		@for $i from 1 through $a-steps {
+			$percentage : percentage((1 - $p-delay) / $a-steps * $i);
+			@debug($percentage);
+			#{$percentage} {
+				// loop on each box shadows
+				$shadows : ();
+				@for $j from 0 through $cols - 1 {
+					@for $k from 0 through $rows - 1 {
+						$x : ($size * $j + $gap * $j) + $size + $gap + $offset;
+						$y : ($size * $k + $gap * $k) + $size + $gap + $offset;
+						$s-spread : 0;
+						$blur : 0;
+						$c : $color;
+						$transparentize : 0;
+						@if $a-opacity and $i < $a-steps {
+							$transparentize : 1 - $a-opacity;
+							$transparentize : $transparentize * 10;
+							$t-rand : random($transparentize);
+							$transparentize : $t-rand / 10;
+							@debug($transparentize);
+							$c : transparentize($c, $transparentize);
+						}
+						@if $a-scale {
+							@if $i >= $a-steps {
+								$s-spread : 0;
+							} @else {
+								$s-spread : s-rem(random($a-scale - $size) + 0px);
+							}
+						}
+						@if $a-spread and $i < $a-steps {
+							$randX : random($a-spread / 2);
+							$randY : random($a-spread / 2);
+							@if random(10) < 5 {
+								$randX : $randX * -1;
+							}
+							@if random(10) < 5 {
+								$randY : $randY * -1;
+							}
+							$x : $x + $randX;
+							$y : $y + $randY;
+						}
+						@if $i >= $a-steps {
+							$shadows : append($shadows, $c $x $y 0 0, comma);
+						} @else {
+							$shadows : append($shadows, $c $x $y $blur $s-spread, comma);
+						}
+					}
+				}
+				@if $a-spin and $i < $a-steps {
+					transform : rotateZ($a-spin / $a-steps * $i);
+				} @else {
+					transform : rotateZ(0);
+				}
+				// apply shadows
+				box-shadow: $shadows;
+			}
+		}
+	}
+
+}
+
 @mixin _s-loader-spinner-3(
 	$color,
 	$duration : 1s,
