@@ -281,15 +281,27 @@ figure {
 	@include s-position(center middle);
 }
 .loader-spinner-1 {
-	@include s-loader(spinner-1 white 1s 50px 10px);
+	// @include s-loader(spinner-1 white 1s 50px 10px);
+	@include s-loader-spinner(linear 50px 10px white);
+	transform:rotate(90deg);
 	display: block;
 }
 .loader-spinner-2 {
-	@include s-loader(spinner-2 white s-color(orange) 1s 50px 10px);
+	// @include s-loader(spinner-2 white s-color(orange) 1s 50px 10px);
+	@include s-loader-spinner(elastic 50px 10px white, ease-in-out);
+	background: s-color(orange);
 	display: block;
 }
 .loader-spinner-3 {
-	@include s-loader(spinner-3 white s-color(orange) 1s 50px 20px);
+	@include s-loader-spinner(fade-out 50px 10px white s-color(orange));
+	display: block;
+}
+.loader-spinner-4 {
+	@include s-loader-spinner(fade-in 50px 10px white s-color(orange));
+	display: block;
+}
+.loader-spinner-5 {
+	@include s-loader-spinner(fade-in-out 50px 5px white s-color(orange));
 	display: block;
 }
 .loader-spinner-circles-1 {
@@ -305,7 +317,7 @@ figure {
 	display: block;
 }
 .loader-bars {
-	@include s-loader(bars white 1s 50px);
+	@include s-loader-bars(white 5px 30px 20, -near 10);
 	display: block;
 }
 .loader-circles {
@@ -313,7 +325,7 @@ figure {
 	display: block;
 }
 .loader-grid-1 {
-	@include s-loader-grid(circle white 3 3 -size 10px,-scale 15px -spin 180deg -opacity 0 -spread 50px -duration 3s -delay 1s);
+	@include s-loader-grid(circle white 3 3 -size 10px,-scale 15px -spin 180deg -opacity 0 -spread 50px -duration 3s -delay 1s -shape rect);
 }
 .loader-grid-2 {
 	@include s-loader-grid(circle white 6 6 -size 5px,-scale 7px -opacity 0 -spread 20px -duration 3s -delay 1s);
