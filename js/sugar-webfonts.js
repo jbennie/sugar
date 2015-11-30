@@ -32,9 +32,16 @@
     		Init
      */
     init: function(settings) {
-      var e;
+      var cb_split, e;
       this._settings = this._extend(this._settings, settings);
       this._inited = true;
+      cb_split = this._settings.json_path.split('#');
+      if (cb_split.length === 2) {
+        this._settings.version = cb_split[1];
+      }
+      if (cb_split.length === 2) {
+        this._settings.json_path = cb_split[0];
+      }
       try {
         this._cache = window.localStorage.getItem(this._key);
         if (this._cache) {
