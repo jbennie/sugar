@@ -99,18 +99,18 @@ $_s_nested_properties_depth : ();
 			@if $in_keywords {
 
 				// check explicit values
-				@if type-of($in_keywords) == list {
+				@if type-of($in_keywords) == string {
+					// check the type
+					@if s-is($value, $in_keywords) {
+						$new-map : map-set($new-map, $prop, $value);
+					}
+				} @else if type-of($in_keywords) == list {
 					// check if the passed value exist in possible values
 					@if type-of($value) == list and index($in_keywords, length) {
 						$new-map : map-set($new-map, $prop, $value);
 					} @else if type-of($value) == number and index($in_keywords, length) {
 						$new-map : map-set($new-map, $prop, $value);
 					} @else if index($in_keywords, $value) {
-						$new-map : map-set($new-map, $prop, $value);
-					}
-				} @else if type-of($in_keywords) == string {
-					// check the type
-					@if s-is($value, $in_keywords) {
 						$new-map : map-set($new-map, $prop, $value);
 					}
 				} @else {

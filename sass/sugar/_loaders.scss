@@ -912,12 +912,104 @@
 	}
 }
 
+@mixin s-loader-gradient(
+	$props : (),
+	$animation : ()
+) {
+	$props : _sugar-parse-properties($props, (
+		width : number,
+		height : number,
+		colors : list
+	));
+	$animation : _sugar-parse-properties($animation, (
+		type : translate laser radial,
+		duration : second,
+		delay : second
+	));
+	$width : map-get-or($props, width, 5em);
+	$height: map-get-or($props, height, 1em);
+	$colors : map-get-or($props, colors, (orange, red));
+	
+	$color1 : nth($colors,1);
+	$color2 : nth($colors,2);
+
+	$a-type : map-get-or($animation, type, laser);
+	$a-duration : map-get-or($animation, duration, 2s);
+	$a-delay : map-get-or($animation, delay, 0);
+
+	width : $width;
+	height : $height;
+
+	
+	transform-origin: $width / 2 $height / 2;
+
+	$a-name : unquote("gradient-#{unique-id()}");
+	@if $a-type == laser {
+		opacity:0;
+		$t-delay : 1 / $a-duration * $a-delay;
+		@keyframes #{$a-name}-opacity {
+			0% { opacity:0; }
+			50% { opacity:1; }
+			100% { opacity:0; }
+		}
+		@keyframes #{$a-name} {
+			0% {
+				background-size:0 100%;
+			}
+			100% {
+				background-size:100% 100%;
+			}
+		}
+		background: linear-gradient(to right, unquote(_join($colors,',')));
+		background-repeat : no-repeat;
+		animation: $a-name $a-duration cubic-bezier(1,.01,0,1) 0s infinite, #{$a-name}-opacity $a-duration - $a-delay ease-out infinite;
+	} @else if $a-type == radial {
+	
+		$a-name : unquote("gradient-#{unique-id()}");
+		@keyframes #{$a-name}-opacity {
+			0% { opacity:0; }
+			50% { opacity:1; }
+			100% { opacity:0; }
+		}
+		@keyframes #{$a-name} {
+			0% {
+				transform:scale(0,0);
+			}
+			100% {
+				transform:scale(1,1);
+			}
+		}
+		
+		position: relative;
+		&:before,
+		&:after {
+			content:'';
+			display: block;
+			width:$width;
+			height:$height;
+			position: absolute;
+			top:0; left:0;
+			@include s-translate(-50% -50%);
+			opacity:0;
+		}
+		&:before {
+			background: radial-gradient(transparent 30%, $color1 50%, transparent 70%);
+			animation: $a-name $a-duration cubic-bezier(1,.01,0,1) 0s infinite, #{$a-name}-opacity $a-duration ease-out infinite;
+		}
+		@if $color2 {
+			&:after {
+				background: radial-gradient(transparent 30%, $color2 50%, transparent 70%);
+				animation: $a-name $a-duration cubic-bezier(1,.01,0,1) $a-duration / 3 infinite, #{$a-name}-opacity $a-duration ease-out $a-duration / 3 infinite;
+			}
+		}
+	}
+}
+
 @mixin s-loader-bars(
 	$props : (),
 	$animation : ()
 ) {
 	$props : _sugar-parse-properties($props, (
-		shape : circle rect,
 		color : color,
 		width : number,
 		height : number,
@@ -925,45 +1017,50 @@
 		gap : number
 	));
 	$animation : _sugar-parse-properties($animation, (
-		shape : circle rect,
 		opacity : number,
 		duration : second,
 		delay : second,
-		near : integer
+		near : integer,
+		spread : number
 	));
-
-	$offset : 200px;
 
 	$color : map-get-or($props, color, red);
 	$count : map-get-or($props, count, 5);
-	$width : map-get-or($props, width, 10px);
-	$height : map-get-or($props, height, 20px);
-	$gap : map-get-or($props, gap, 5px);
-	$shape : map-get-or($props, shape, rect);
-
+	$width : map-get-or($props, width, 0.5em);
+	$height : map-get-or($props, height, 2em);
+	$gap : map-get-or($props, gap, 0.5em);
+	
 	$a-opacity : map-get($animation, opacity);
 	$a-duration : map-get-or($animation, duration, 1s);
 	$a-delay : map-get-or($animation, delay, 0s);
-	$a-shape : map-get($animation, shape);
 	$a-near : map-get-or($animation, near, 1);
+	$a-spread : map-get-or($animation, spread, 1em);
+
+	$offset : $width;
 
 	// position grid
 	$_width : $width * ($count - 1) + $gap * ($count - 1);
-	@include s-translate((-$_width / 2 - $width - $gap - $offset) (-$height - $offset));
+	@include s-translate((-$_width / 2 - $width - $gap - $offset) (-$height / 2 - $offset));
 
 	$a-name : unquote("bars-#{unique-id()}");
 
 	// calculate box shadows
 	$shadows : ();
-	@for $i from 0 through $count - 1 {
-		$x : ($width * $i + $gap * $i) + $width + $gap + $offset;
-		$y : $height / 2 + $offset;
-		$shadows : append($shadows, $color $x $y 0 0, comma);
+	$c : $color;
+	@if $a-opacity {
+		$c : transparentize($color, 1 - $a-opacity);
 	}
 	@for $i from 0 through $count - 1 {
 		$x : ($width * $i + $gap * $i) + $width + $gap + $offset;
 		$y : $height / 2 + $offset;
-		$shadows : append($shadows, $color $x $y 0 0, comma);
+		$shadows : append($shadows, $c $x $y 0 0, comma);
+	}
+	@if $a-spread > 0 {
+		@for $i from 0 through $count - 1 {
+			$x : ($width * $i + $gap * $i) + $width + $gap + $offset;
+			$y : $height / 2 + $offset;
+			$shadows : append($shadows, $c $x $y 0 0, comma);
+		}
 	}
 
 	&:before {
@@ -991,39 +1088,47 @@
 					$x : ($width * $i + $gap * $i) + $width + $gap + $offset;
 					$y : $height / 2 + $offset;
 					@if abs($j - $i) < $a-near {
-						$y : $y - 10px / abs($j - $i);
+						$y : $y - ($a-spread - ($a-spread / $a-near * abs($i - $j)));
 					} @else if $i == $j {
-						$y : $y - 10px;
+						$y : $y - $a-spread;
 					}
 					$c : $color;
-					$transparentize : 0;
-					@if $a-opacity and $i < $a-steps {
-						$transparentize : 1 - $a-opacity;
-						$transparentize : $transparentize * 10;
-						$t-rand : random($transparentize);
-						$transparentize : $t-rand / 10;
+					$opacity : 1;
+					@if $a-opacity {
+						@if abs($j - $i) < $a-near {
+							$opacity : 1 / $a-near * abs($j - $i);
+						}
+						@if 1 - $opacity < $a-opacity {
+							$opacity : 1 - $a-opacity
+						}
+						$transparentize : $opacity;
 						$c : transparentize($c, $transparentize);
 					}
 					$shadows : append($shadows, $c $x $y 0 0, comma);
 				}
-				@for $i from 0 through $count - 1 {
-					$x : ($width * $i + $gap * $i) + $width + $gap + $offset;
-					$y : $height / 2 + $offset;
-					@if abs($j - $i) < $a-near {
-						$y : $y + 10px / abs($j - $i);
-					} @else if $i == $j {
-						$y : $y + 10px;
+				@if s-strip-units($a-spread) > 0 {
+					@for $i from 0 through $count - 1 {
+						$x : ($width * $i + $gap * $i) + $width + $gap + $offset;
+						$y : $height / 2 + $offset;
+						@if abs($j - $i) < $a-near {
+							$y : $y + ($a-spread - ($a-spread / $a-near * abs($i - $j)));
+						} @else if $i == $j {
+							$y : $y + $a-spread;
+						}
+						$c : $color;
+						$opacity : 1;
+						@if $a-opacity {
+							@if abs($j - $i) < $a-near {
+								$opacity : 1 / $a-near * abs($j - $i);
+							}
+							@if 1 - $opacity < $a-opacity {
+								$opacity : 1 - $a-opacity
+							}
+							$transparentize : $a-opacity;
+							$c : transparentize($c, $transparentize);
+						}
+						$shadows : append($shadows, $c $x $y 0 0, comma);
 					}
-					$c : $color;
-					$transparentize : 0;
-					@if $a-opacity and $i < $a-steps {
-						$transparentize : 1 - $a-opacity;
-						$transparentize : $transparentize * 10;
-						$t-rand : random($transparentize);
-						$transparentize : $t-rand / 10;
-						$c : transparentize($c, $transparentize);
-					}
-					$shadows : append($shadows, $c $x $y 0 0, comma);
 				}
 				// apply shadows
 				box-shadow: $shadows;
