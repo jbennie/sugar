@@ -280,22 +280,22 @@ figure {
 .loader {
 	@include s-position(center middle);
 }
-.loader-circles {
-	@include s-loader(circles white 1s 50px);
-	display: block;
-}
-.loader-spinner-circles-1 {
-	@include s-loader(spinner-circles-1 white 2s 50px 15px);
-	display: block;
-}
-.loader-spinner-circles-2 {
-	@include s-loader(spinner-circles-2 white 1s 50px 10px);
-	display: block;
-}
-.loader-spinner-circles-3 {
-	@include s-loader(spinner-circles-3 white 1s 50px 15px);
-	display: block;
-}
+// .loader-circles {
+// 	@include s-loader(circles white 1s 50px);
+// 	display: block;
+// }
+// .loader-spinner-circles-1 {
+// 	@include s-loader(spinner-circles-1 white 2s 50px 15px);
+// 	display: block;
+// }
+// .loader-spinner-circles-2 {
+// 	@include s-loader(spinner-circles-2 white 1s 50px 10px);
+// 	display: block;
+// }
+// .loader-spinner-circles-3 {
+// 	@include s-loader(spinner-circles-3 white 1s 50px 15px);
+// 	display: block;
+// }
 
 .loader-spinner-1 {
 	@include s-loader-spinner(linear 50px 10px white);
@@ -352,6 +352,9 @@ figure {
 }
 .loader-grid-4 {
 	@include s-loader-grid(white 6 6 -size 3px -gap 2px,-opacity 0 -spread 2px -duration 2s -delay .6s);
+}
+.loader-circle-1 {
+	@include s-loader-circle(white, -opacity .2);
 }
 
 //
