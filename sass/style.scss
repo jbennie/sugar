@@ -335,6 +335,15 @@ figure {
 	@include s-loader-bars(white 5px 20px 10 5px, -near 1 -spread 10px);
 	display: block;
 }
+.loader-bars-5 {
+	@include s-loader-bars(white 10px 10px 3 5px, -near 1 -opacity .2);
+	display: block;
+}
+.loader-bars-6 {
+	@include s-loader-bars(white 10px 10px 3 5px, -near 1 -opacity .2);
+	border-radius: 50%;
+	display: block;
+}
 .loader-gradient-1 {
 	@include s-loader-gradient(80px 5px (transparent white));
 }
@@ -354,7 +363,16 @@ figure {
 	@include s-loader-grid(white 6 6 -size 3px -gap 2px,-opacity 0 -spread 2px -duration 2s -delay .6s);
 }
 .loader-circle-1 {
-	@include s-loader-circle(white, -opacity .2);
+	@include s-loader-circle(white -count 7 -size 10px, -near 3 -duration 1s -opacity .2 -scale 15px);
+}
+.loader-circle-2 {
+	@include s-loader-circle(white -count 12 -size 5px, -near 6 -duration 1s -scale 10px -spread 12px);
+}
+.loader-circle-3 {
+	@include s-loader-circle(white -count 5 -radius 15px -size 5px, -near 2 -duration 1s -scale 10px -opacity 0);
+}
+.loader-circle-4 {
+	@include s-loader-circle(white -count 8 -radius 30px -size 15px, -near 1 -duration 1s -opacity .3);
 }
 
 //
