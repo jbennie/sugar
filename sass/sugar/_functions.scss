@@ -203,11 +203,21 @@ $_s_nested_properties_depth : ();
 					@each $name, $type in $keywords {
 						@if $found == false {
 							@if s-is($type, list) and index($type, $prop) {
-								$map : map-set($map, $name, $prop);
-								// remove the item from keywords
-								$keywords : map-remove($keywords, $name);
-								// stop searching
-								$found : true;
+								$keywords-v : nth($type, index($type, $prop));
+								$ok : true;
+								@if s-is($prop, number) and index($type, length) {
+									$ok : true;
+								} @else if s-is($prop, number) and unit($prop) != unit($keywords-v) {
+									$ok : false;
+								}
+
+								@if $ok {
+									$map : map-set($map, $name, $prop);
+									// remove the item from keywords
+									$keywords : map-remove($keywords, $name);
+									// stop searching
+									$found : true;
+								}
 							} @else if s-is($type, string) and s-is($prop, $type) {
 								$map : map-set($map, $name, $prop);
 								// remove the item from keywords

@@ -47,11 +47,13 @@
 	$props : _sugar-parse-properties($props, (
 		shape : circle rect,
 		color : color,
+		colors : list,
 		cols : number,
 		rows : number,
 		size : number,
 		gap : number,
-		offset : number
+		offset : number,
+		rotate : degree
 	));
 	$animation : _sugar-parse-properties($animation, (
 		shape : circle rect,
@@ -66,12 +68,14 @@
 	));
 
 	$color : map-get-or($props, color, red);
+	$colors : map-get($props, colors);
 	$cols : map-get-or($props, cols, 5);
 	$rows : map-get-or($props, rows, 5);
 	$size : map-get-or($props, size, 10px);
 	$gap : map-get-or($props, gap, 5px);
 	$shape : map-get-or($props, shape, rect);
 	$offset : map-get-or($props, offset, 200px);
+	$rotate : map-get-or($props, rotate, 0);
 
 	$a-steps : map-get-or($animation, steps, 5);
 	$a-spread : map-get($animation, spread);
@@ -92,17 +96,29 @@
 	// position grid
 	$width : $size * ($cols - 1) + $gap * ($cols - 1);
 	$height : $size * ($rows - 1) + $gap * ($rows - 1);
-	@include s-translate((-$width / 2 - $size - $gap - $offset) (-$height / 2 - $size - $gap - $offset));
+
+	// @include s-translate((-$width / 2 - $size - $gap - $offset) (-$height / 2 - $size - $gap - $offset));
+	@include s-transform(
+		-translateX (-$width / 2 - $size - $gap - $offset)
+		-translateY (-$height / 2 - $size - $gap - $offset)
+		-rotate $rotate);
+	transform-origin: ($offset + $width / 2 + $gap + $size) ($offset + $height / 2 + $gap + $size);
 
 	$a-name : unquote("grid-#{unique-id()}");
 
 	// calculate box shadows
 	$shadows : ();
+	$color-idx : 1;
 	@for $i from 0 through $cols - 1 {
 		@for $j from 0 through $rows - 1 {
 			$x : ($size * $i + $gap * $i) + $size + $gap + $offset;
 			$y : ($size * $j + $gap * $j) + $size + $gap + $offset;
-			$shadows : append($shadows, $color $x $y 0 0, comma);
+			$c : $color;
+			@if $colors {
+				$c : nth($colors, $color-idx);
+				$color-idx : $color-idx + 1;
+			}
+			$shadows : append($shadows, $c $x $y 0 0, comma);
 		}
 	}
 
@@ -131,6 +147,7 @@
 			#{$percentage} {
 				// loop on each box shadows
 				$shadows : ();
+				$color-idx : 1;
 				@for $j from 0 through $cols - 1 {
 					@for $k from 0 through $rows - 1 {
 						$x : ($size * $j + $gap * $j) + $size + $gap + $offset;
@@ -138,6 +155,10 @@
 						$s-spread : 0;
 						$blur : 0;
 						$c : $color;
+						@if $colors {
+							$c : nth($colors, $color-idx);
+							$color-idx : $color-idx + 1;
+						}
 						$transparentize : 0;
 						@if $a-opacity and $i < $a-steps {
 							$transparentize : 1 - $a-opacity;
@@ -503,6 +524,7 @@
 	));
 
 	$color : map-get-or($props, color, red);
+	$colors : map-get($props, colors);
 	$size : map-get-or($props, size, 10px);
 	$radius : map-get-or($props, radius, 30px);
 	$count : map-get-or($props, count, 8);
@@ -518,16 +540,15 @@
 	$a-duration : map-get-or($animation, duration, 1s);
 	$a-delay : map-get-or($animation, delay, 1s);
 
-	border-radius:50%;
-	// background: red;
-	width : $size;
-	height : $size;
-
 	$shadows : ();
 	@for $i from 0 through $count {
 		$x : $radius * s-cos(360deg / $count * $i);
 		$y : $radius * s-sin(360deg / $count * $i);
-		$shadows : append($shadows, $color $x $y 0 0, comma);	
+		$c : $color;
+		@if $colors {
+			$c : nth($colors, $i + 1);
+		}
+		$shadows : append($shadows, $c $x $y 0 0, comma);	
 	}
 
 	$spread-map : ();
@@ -547,6 +568,9 @@
 					}
 
 					$c : $color;
+					@if $colors {
+						$c : nth($colors, $count-idx + 1);
+					}
 					$opacity : 1;
 					@if $a-opacity {
 						@if $diff < $a-near {
@@ -567,7 +591,7 @@
 							$scale : $size + $s - $s / $a-near * $diff;
 						}
 					}
-					@if $a-spread {
+					@if $a-spread and $diff < $a-near {
 						$randX : random(round($a-spread / 2));
 						$randY : random(round($a-spread / 2));
 						@if random(10) < 5 {
@@ -585,8 +609,13 @@
 						}
 						@if $step-idx == $count {
 							$map : map-get($spread-map, $count-idx);
-							$randX : map-get($map, x);
-							$randY : map-get($map, y);
+							@if $map {
+								$randX : map-get($map, x);
+								$randY : map-get($map, y);
+							} @else {
+								$randX : 0;
+								$randY : 0;
+							}
 						}
 						$x : $x + $randX;
 						$y : $y + $randY;
@@ -599,8 +628,15 @@
 			}
 		}
 	}
-	box-shadow: $shadows;
-	animation : $a-name $a-duration $a-ease 0s infinite;
+	&:after {
+		border-radius:50%;
+		width : $size;
+		height : $size;
+		display : block;
+		content : '';
+		box-shadow: $shadows;
+		animation : $a-name $a-duration $a-ease 0s infinite;
+	}
 	@include s-translate(-50% -50%);
 	// transform: rotate(- 360deg / $count / 2);
 }
@@ -1135,6 +1171,7 @@
 	$animation : ()
 ) {
 	$props : _sugar-parse-properties($props, (
+		shape : circle rect,
 		color : color,
 		width : number,
 		height : number,
@@ -1146,10 +1183,12 @@
 		duration : second,
 		delay : second,
 		near : integer,
+		ease : string,
 		spread : number,
 		continuous : true
 	));
 
+	$shape : map-get-or($props, shape, rect);
 	$color : map-get-or($props, color, red);
 	$count : map-get-or($props, count, 5);
 	$width : map-get-or($props, width, 0.5em);
@@ -1160,6 +1199,7 @@
 	$a-duration : map-get-or($animation, duration, 1s);
 	$a-delay : map-get-or($animation, delay, 0s);
 	$a-near : map-get-or($animation, near, 1);
+	$a-ease : map-get-or($animation, ease, ease-in-out);
 	$a-spread : map-get-or($animation, spread, null);
 	$a-continuous : map-get-or($animation, continuous, true);
 
@@ -1167,7 +1207,6 @@
 
 	// position grid
 	$_width : $width * ($count - 1) + $gap * ($count - 1);
-	@include s-translate((-$_width / 2 - $width - $gap - $offset) (-$height / 2 - $offset));
 
 	$a-name : unquote("bars-#{unique-id()}");
 
@@ -1191,11 +1230,17 @@
 		}
 	}
 
-	& {
+	&:before {
+		@if $shape == circle {
+			border-radius: 50%;
+		}
 		width: $width;
 		height: $height;
-		animation : $a-name $a-duration ease-in-out 0s infinite;
+		content: '';
+		display: block;
+		animation : $a-name $a-duration $a-ease 0s infinite;
 		box-shadow : $shadows;
+		@include s-translate((-$_width / 2 - $width - $gap - $offset) (-$height / 2 - $offset));
 		transform-origin: ($offset + $_width / 2 + $gap + $width) ($offset + $height / 2);
 	}
 
