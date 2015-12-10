@@ -276,6 +276,11 @@ figure {
 		@include s-animation(tada);
 		z-index:1;
 	}
+
+	&.loader-container--white {
+		background: s-color(white);
+		border : s-color(white, -darken 15%) 2px solid;
+	}
 }
 .loader {
 	@include s-position(center middle);
@@ -343,7 +348,7 @@ figure {
 	display: block;
 }
 .loader-bars-4 {
-	@include s-loader-bars(white 5px 20px 10 5px, -near 1 -spread 10px);
+	@include s-loader-bars(white 5px 20px 10 5px, -near 1 -spread 10px -duration .8s -delay .5s);
 	display: block;
 }
 .loader-bars-5 {
@@ -356,6 +361,10 @@ figure {
 }
 .loader-bars-7 {
 	@include s-loader-bars(circle white 10px 10px 3 5px, -near 1 -opacity .2 -duration .8s -spread 15px);
+	display: block;
+}
+.loader-bars-8 {
+	@include s-loader-bars(circle white 10px 10px 4 5px -colors (#4285F4 #DB4437 #F4B400 #0F9D58), -near 1 -duration 1s -delay .2s -spread 10px -direction up -ease linear);
 	display: block;
 }
 .loader-gradient-1 {

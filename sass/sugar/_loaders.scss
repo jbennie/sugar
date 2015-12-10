@@ -133,7 +133,6 @@
 		width: $size;
 		height: $size;
 		animation : $a-name $a-duration ease-in-out 0s infinite;
-		// background: transparent;
 		box-shadow : $shadows;
 		transform-origin: ($offset + $width / 2 + $gap + $size) ($offset + $height / 2 + $gap + $size);
 	}
@@ -1173,12 +1172,14 @@
 	$props : _sugar-parse-properties($props, (
 		shape : circle rect,
 		color : color,
+		colors : list,
 		width : number,
 		height : number,
 		count : integer,
 		gap : number
 	));
 	$animation : _sugar-parse-properties($animation, (
+		direction : up down both,
 		opacity : number,
 		duration : second,
 		delay : second,
@@ -1190,6 +1191,7 @@
 
 	$shape : map-get-or($props, shape, rect);
 	$color : map-get-or($props, color, red);
+	$colors : map-get($props, colors);
 	$count : map-get-or($props, count, 5);
 	$width : map-get-or($props, width, 0.5em);
 	$height : map-get-or($props, height, 2em);
@@ -1201,7 +1203,19 @@
 	$a-near : map-get-or($animation, near, 1);
 	$a-ease : map-get-or($animation, ease, ease-in-out);
 	$a-spread : map-get-or($animation, spread, null);
+	$a-direction : map-get-or($animation, direction, both);
 	$a-continuous : map-get-or($animation, continuous, true);
+
+	// manage duration
+	$a-duration : $a-duration + $a-delay;
+	@if $a-delay > 0 {
+		$a-continuous : false;
+	}
+
+	// manage direction
+	@if not $a-spread or $a-spread <= 0 {
+		$a-direction : up;
+	}
 
 	$offset : $width;
 
@@ -1212,23 +1226,36 @@
 
 	// calculate box shadows
 	$shadows : ();
-	$c : $color;
-	@if $a-opacity {
-		$c : transparentize($color, 1 - $a-opacity);
-	}
-	@for $i from 0 through $count - 1 {
-		$x : ($width * $i + $gap * $i) + $width + $gap + $offset;
-		$y : $height / 2 + $offset;
-		$shadows : append($shadows, $c $x $y 0 0, comma);
-	}
-	$base-shadows : $shadows;
-	@if $a-spread and $a-spread > 0 {
+	
+	@if $a-direction == both or $a-direction == up {
 		@for $i from 0 through $count - 1 {
 			$x : ($width * $i + $gap * $i) + $width + $gap + $offset;
 			$y : $height / 2 + $offset;
+			$c : $color;
+			@if $colors {
+				$c : nth($colors, $i + 1);
+			}
+			@if $a-opacity {
+				$c : transparentize($color, 1 - $a-opacity);
+			}
 			$shadows : append($shadows, $c $x $y 0 0, comma);
 		}
 	}
+	@if $a-direction == both or $a-direction == down {
+		@for $i from 0 through $count - 1 {
+			$x : ($width * $i + $gap * $i) + $width + $gap + $offset;
+			$y : $height / 2 + $offset;
+			$c : $color;
+			@if $colors {
+				$c : nth($colors, $i + 1);
+			}
+			@if $a-opacity {
+				$c : transparentize($color, 1 - $a-opacity);
+			}
+			$shadows : append($shadows, $c $x $y 0 0, comma);
+		}
+	}
+	$base-shadows : $shadows;
 
 	&:before {
 		@if $shape == circle {
@@ -1245,54 +1272,64 @@
 	}
 
 	// calculate percentage of delay
-	$p-delay : 1 / $a-duration * $a-delay;
+	$p-delay : 0;
+	$p-step : 1 / $count;
+	@if $a-delay > 0 {
+		$p-delay : 1 / $a-duration * $a-delay;
+		$p-step : (1 - $p-delay) / $count;
+	}
 	// animation
 	$step : 1 / $count;
 	@keyframes #{$a-name} {
-		// 0% {
-		// 	box-shadow : $base-shadows;
-		// }
 		@for $j from 0 through $count {
-			#{percentage(1/$count*$j)} {
+			#{percentage($j * $p-step)} {
+			// #{percentage((1 - $p-delay) / $count * $j)} {
 				// loop on each box shadows
 				$shadows : ();
-				@for $i from 0 through $count - 1 {
-					$x : ($width * $i + $gap * $i) + $width + $gap + $offset;
-					$y : $height / 2 + $offset;
-					
-					$diff : abs($j - $i);
 
-					@if $a-continuous {
-						@if $j + $a-near > $count and $i - $a-near < 0 {
-							$diff : abs($i - ($j - $count));
-						} @else if $j - $a-near < 0 and $i + $a-near > $count {
-							$diff : abs($j + ($count - $i));
-						}
-					}
+				@if $a-direction == both or $a-direction == up {
+					@for $i from 0 through $count - 1 {
+						$x : ($width * $i + $gap * $i) + $width + $gap + $offset;
+						$y : $height / 2 + $offset;
+						
+						$diff : abs($j - $i);
 
-					@if $a-spread {
-						@if $diff < $a-near {
-							$y : $y - ($a-spread - ($a-spread / $a-near * $diff));
-						} @else if $i == $j {
-							$y : $y - $a-spread;
+						@if $a-continuous {
+							@if $j + $a-near > $count and $i - $a-near < 0 {
+								$diff : abs($i - ($j - $count));
+							} @else if $j - $a-near < 0 and $i + $a-near > $count {
+								$diff : abs($j + ($count - $i));
+							}
 						}
+
+						@if $a-spread {
+							@if $diff < $a-near {
+								$y : $y - ($a-spread - ($a-spread / $a-near * $diff));
+							} @else if $i == $j {
+								$y : $y - $a-spread;
+							}
+						}
+						
+						$c : $color;
+						@if $colors {
+							$c : nth($colors, $i + 1);
+						}
+						$opacity : 1;
+						@if $a-opacity {
+							@if $diff < $a-near {
+								$opacity : 1 / $a-near * $diff;
+							}
+							@if 1 - $opacity < $a-opacity {
+								$opacity : 1 - $a-opacity
+							}
+							$transparentize : $opacity;
+							$c : transparentize($c, $transparentize);
+						}
+						$shadows : append($shadows, $c $x $y 0 0, comma);
 					}
-					
-					$c : $color;
-					$opacity : 1;
-					@if $a-opacity {
-						@if $diff < $a-near {
-							$opacity : 1 / $a-near * $diff;
-						}
-						@if 1 - $opacity < $a-opacity {
-							$opacity : 1 - $a-opacity
-						}
-						$transparentize : $opacity;
-						$c : transparentize($c, $transparentize);
-					}
-					$shadows : append($shadows, $c $x $y 0 0, comma);
 				}
-				@if $a-spread and s-strip-units($a-spread) > 0 {
+
+				@if $a-direction == both or $a-direction == down {
 					@for $i from 0 through $count - 1 {
 						$x : ($width * $i + $gap * $i) + $width + $gap + $offset;
 						$y : $height / 2 + $offset;
@@ -1312,6 +1349,9 @@
 							$y : $y + $a-spread;
 						}
 						$c : $color;
+						@if $colors {
+							$c : nth($colors, $i + 1);
+						}
 						$opacity : 1;
 						@if $a-opacity {
 							@if $diff < $a-near {
@@ -1326,12 +1366,10 @@
 						$shadows : append($shadows, $c $x $y 0 0, comma);
 					}
 				}
+
 				// apply shadows
 				box-shadow: $shadows;
 			}
 		}
-		// 100% {
-		// 	box-shadow : $base-shadows;
-		// }
 	}
 }
