@@ -308,19 +308,24 @@ figure {
 	display: block;
 }
 .loader-spinner-2 {
-	@include s-loader-spinner(elastic 50px 10px white, ease-in-out);
+	@include s-loader-spinner(elastic 50px 10px white, ease-in-out -length 1/2);
 	background: s-color(orange);
 	display: block;
 }
 .loader-spinner-3 {
-	@include s-loader-spinner(fade-out 50px 10px white s-color(orange));
+	@include s-loader-spinner(elastic 50px 10px white);
+	background: s-color(orange);
 	display: block;
 }
 .loader-spinner-4 {
-	@include s-loader-spinner(fade-in 50px 10px white s-color(orange));
+	@include s-loader-spinner(fade-out 50px 10px white s-color(orange));
 	display: block;
 }
 .loader-spinner-5 {
+	@include s-loader-spinner(fade-in 50px 10px white s-color(orange));
+	display: block;
+}
+.loader-spinner-6 {
 	@include s-loader-spinner(fade-in-out 50px 5px white s-color(orange));
 	display: block;
 }
@@ -340,7 +345,7 @@ figure {
 	@include s-animation(rotate-x 1s infinite);
 }
 .loader-bars-2 {
-	@include s-loader-bars(white -count 5, -near 2 -spread 1em);
+	@include s-loader-bars(white -count 5, -near 2 -spread 1em -delay 1s);
 	display: block;
 }
 .loader-bars-3 {
@@ -370,11 +375,20 @@ figure {
 .loader-gradient-1 {
 	@include s-loader-gradient(80px 5px (transparent white));
 }
-.loader-gradient-2 {
-	@include s-loader-gradient(30px 30px (white s-color(orange, -darken 20%)), radial 1s);
+.loader-radial-1 {
+	@include s-loader-radial(30px 30px (white s-color(orange, -darken 20%)), 3s -count 10 -spread 20px);
+}
+.loader-radial-2 {
+	@include s-loader-radial(50px 50px (white s-color(orange, -darken 20%)), 5s -count 30 -spread 20px);
+}
+.loader-radial-3 {
+	@include s-loader-radial(50px 50px (white s-color(orange, -darken 20%)), 5s -count 30);
+}
+.loader-radial-4 {
+	@include s-loader-radial(30px 30px -colors (#4285F4 #DB4437 #F4B400 #0F9D58), 1s -count 2 -delay 0.5s -spread 10px);
 }
 .loader-grid-1 {
-	@include s-loader-grid(circle white 3 3 -size 10px,-scale 15px -spin 180deg -opacity 0 -spread 50px -duration 3s -delay 1s -shape rect);
+	@include s-loader-grid(circle white 3 3 -size 10px,-scale 15px -opacity 0 -spread 20px -duration 1.5s -delay 1s -steps 3);
 }
 .loader-grid-2 {
 	@include s-loader-grid(circle white 6 6 -size 5px,-scale 7px -opacity 0 -spread 20px -duration 3s -delay 1s);
@@ -389,13 +403,152 @@ figure {
 	@include s-loader-grid(white 2 2 -size 10px -gap 2px -rotate 45deg, -opacity 0 -duration 2s -delay .5s);
 }
 .loader-grid-6 {
-	@include s-loader-grid(white 2 2 -size 10px -gap 2px -rotate 45deg -offset -18px, -opacity 0 -duration 2s -delay .5s);
+	@include s-loader-grid((white s-color(orange, -darken 20%)) 5 5 -size 5px -gap 2px -rotate 45deg, -opacity 0 -duration 2s -delay .5s);
+}
+.loader-grid-7 {
+	@include s-loader-grid(white 2 2 -colors (#4285F4 #DB4437 #F4B400 #0F9D58) -size 10px -gap 2px -rotate 45deg -offset -18px, -opacity 0 -duration 2s -delay .5s);
+	@include s-animation(rotate-blur 1.4s linear infinite -p, blur 1.4s ease-in-out infinite);
+}
+@keyframes blur {
+	0%,15% {
+		@include s-filter(-blur 0);
+	}
+	30% {
+		@include s-filter(-blur 1px);
+	}
+	50% {
+		@include s-filter(-blur 0);
+	}
+}
+@keyframes rotate-blur {
+	0% {
+		@include s-transform(-rotate 0);
+	}
+	15% {
+		@include s-transform(-rotate -30deg -scale 0.8);
+	}
+	30% {
+		@include s-transform(-rotate 180deg -scale 1.5);
+	}
+	50% {
+		@include s-transform(-rotate 360deg -scale 1);
+	}
+	100% {
+		@include s-transform(-rotate 360deg);
+	}
+}
+.loader-grid-8 {
+	@include s-loader-grid(white 2 2 -colors (#4285F4 #DB4437 #F4B400 #0F9D58) -size 10px -gap 2px -offset -18px, -duration 2s -delay .5s);
+	@include s-animation(walk-box 2s ease-in-out infinite);
+	position: relative;	
+}
+.loader--shadow {
+	// margin-left:-5px;
+	@include s-transform(-scaleX 1.5 scaleY 1.5);
+
+	&:after {
+		content:'';
+		display: block;
+		width:20px; height:10px;
+		position: absolute;
+		bottom:-10px; left:0;
+		background: black;
+		z-index:-1;
+		@include s-transform(-rotateX 85deg);
+		@include s-filter(-blur 5px);
+		@include s-animation(walk-box-shadow 2s ease-in-out infinite);
+	}
+}
+@keyframes walk-box-shadow {
+	0% {
+		opacity: 1;
+		left: -5px;
+	}
+	10% {
+		opacity: 1;
+		left: -15px;
+	}
+	20% {
+		opacity: .2;
+		left: -5px;
+	}
+	30% {
+		opacity: 1;
+		left: 5px;
+	}
+	50% {
+		opacity: 1;
+		left: -5px;
+	}
+	60% {
+		opacity: 1;
+		left: -15px;
+	}
+	70% {
+		opacity: .2;
+		left: -5px;
+	}
+	80% {
+		opacity: 1;
+		left: 5px;
+	}
+	100% {
+		opacity: 1;
+		left: -5px;
+	}
+}
+@keyframes walk-box {
+	0% {
+		@include s-transform(-rotate 0);
+		top: 0;
+		left: 0;
+	}
+	10% {
+		@include s-transform(-rotate 0);
+		top: 0;
+		left: -10px;
+	}
+	20% {
+		@include s-transform(-rotate 90deg);
+		top: -20px;
+		left: 0;
+	}
+	30% {
+		@include s-transform(-rotate 180deg);
+		top: 0;
+		left: 10px;
+	}
+	50% {
+		@include s-transform(-rotate 180deg);
+		top: 0;
+		left: 0;
+	}
+	60% {
+		@include s-transform(-rotate 180deg);
+		top: 0;
+		left: -10px;
+	}
+	70% {
+		@include s-transform(-rotate 270deg);
+		top: -20px;
+		left: 0;
+	}
+	80% {
+		@include s-transform(-rotate 360deg);
+		top: 0;
+		left: 10px;
+	}
+	100% {
+		@include s-transform(-rotate 360deg);
+		top: 0;
+		left: 0;
+	}
 }
 .loader-circle-1 {
 	@include s-loader-circle(white -count 7 -size 10px, -near 3 -duration 1s -opacity .2 -scale 15px);
 }
 .loader-circle-2 {
-	@include s-loader-circle(white -count 12 -size 5px, -near 6 -duration 1s -scale 10px -spread 12px);
+	@include s-loader-circle(white -count 8 -size 5px -radius 5px, -near 2 -duration 2s -scale 20px -spread 40px);
 }
 .loader-circle-3 {
 	@include s-loader-circle(white -count 5 -radius 15px -size 5px, -near 2 -duration 1s -scale 10px -opacity 0);
@@ -414,7 +567,7 @@ figure {
 	@include s-loader-circle(white -count 12 -size 5px -radius 20px, -near 3 -duration 1s -scale 10px -opacity .5 -spread 20px);
 }
 .loader-circle-7 {
-	@include s-loader-circle(white -count 8 -size 5px -radius 20px, -near 3 -duration 1.5s -scale 10px -spread 5px);
+	@include s-loader-circle(white -count 8 -size 5px -radius 20px, -near 3 -duration 1.5s -scale 10px -spread 5px -delay .5s);
 	@include s-animation(rotate 1.1s linear infinite);
 }
 

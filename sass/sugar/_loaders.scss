@@ -64,7 +64,8 @@
 		scale : number,
 		opacity : number,
 		duration : second,
-		delay : second
+		delay : second,
+		ease : string
 	));
 
 	$color : map-get-or($props, color, red);
@@ -86,6 +87,10 @@
 	$a-duration : map-get-or($animation, duration, 1s);
 	$a-delay : map-get-or($animation, delay, 0s);
 	$a-shape : map-get($animation, shape);
+	$a-ease : map-get-or($animation, ease, ease-in-out);
+	
+	// manage duration :
+	$a-duration : $a-duration + $a-delay;
 
 	width : $size;
 	height : $size;
@@ -94,8 +99,8 @@
 	}
 
 	// position grid
-	$width : $size * ($cols - 1) + $gap * ($cols - 1);
-	$height : $size * ($rows - 1) + $gap * ($rows - 1);
+	$width : $size * $cols + $gap * ($cols - 1);
+	$height : $size * $rows + $gap * ($rows - 1);
 
 	// @include s-translate((-$width / 2 - $size - $gap - $offset) (-$height / 2 - $size - $gap - $offset));
 	@include s-transform(
@@ -114,9 +119,14 @@
 			$x : ($size * $i + $gap * $i) + $size + $gap + $offset;
 			$y : ($size * $j + $gap * $j) + $size + $gap + $offset;
 			$c : $color;
-			@if $colors {
+			@if $colors and length($colors) == $cols * $rows {
 				$c : nth($colors, $color-idx);
 				$color-idx : $color-idx + 1;
+			} @else if length($colors) == 2 {
+				@if $j % 2 == 0 {
+					$color-idx : $color-idx - 1;
+				}
+				$c : nth($colors, $color-idx % 2 + 1);
 			}
 			$shadows : append($shadows, $c $x $y 0 0, comma);
 		}
@@ -132,7 +142,7 @@
 		display: block;
 		width: $size;
 		height: $size;
-		animation : $a-name $a-duration ease-in-out 0s infinite;
+		animation : $a-name $a-duration $a-ease 0s infinite;
 		box-shadow : $shadows;
 		transform-origin: ($offset + $width / 2 + $gap + $size) ($offset + $height / 2 + $gap + $size);
 	}
@@ -154,9 +164,14 @@
 						$s-spread : 0;
 						$blur : 0;
 						$c : $color;
-						@if $colors {
+						@if $colors and length($colors) == $cols * $rows {
 							$c : nth($colors, $color-idx);
 							$color-idx : $color-idx + 1;
+						} @else if length($colors) == 2 {
+							@if $j % 2 != 0 {
+								$color-idx : $color-idx - 1;
+							}
+							$c : nth($colors, $color-idx % 2 + 1);
 						}
 						$transparentize : 0;
 						@if $a-opacity and $i < $a-steps {
@@ -230,7 +245,8 @@
 	$animation : _sugar-parse-properties($animation, (
 		duration : second,
 		delay : second,
-		ease : string
+		ease : string,
+		length : number
 	));
 	
 
@@ -242,10 +258,14 @@
 	
 	$a-duration : map-get-or($animation, duration, 1s);
 	$a-delay : map-get-or($animation, delay, 0s);
-	$a-ease : map-get-or($animation, ease, linear);
+	$a-ease : map-get-or($animation, ease, ease);
+	$a-length : map-get-or($animation, length, 3/4);
+
+	// manage duration :
+	$a-duration : $a-duration + $a-delay;
 
 	$a-name : unquote("spinner-#{unique-id()}");
-	$p-delay : 1 / $a-duration * $a-delay;
+	$p-step : 1 / $a-duration * $a-delay;
 
 	@if $type == linear {
 		& {
@@ -264,7 +284,7 @@
 			width:1em;
 			height:1em;
 		}
-		$percentage : percentage((1 - $p-delay));
+		$percentage : percentage((1 - $p-step));
 		@keyframes #{$a-name} {
 			0% {
 				transform:rotate(0deg);
@@ -290,7 +310,7 @@
 			top:-0.1em;
 			left:-0.1em;
 			transform-origin:5.2em 5.1em;
-			animation:$a-name $a-duration infinite ease $a-duration / 4 * 3;
+			animation:$a-name $a-duration infinite $a-ease $a-duration * $a-length;
 		}
 		& {
 			font-size:$size / 10;
@@ -521,7 +541,6 @@
 		duration : second,
 		delay : second
 	));
-
 	$color : map-get-or($props, color, red);
 	$colors : map-get($props, colors);
 	$size : map-get-or($props, size, 10px);
@@ -537,9 +556,12 @@
 	$a-near : map-get-or($animation, near, round($count / 2));
 	$a-ease : map-get-or($animation, ease, ease-in-out);
 	$a-duration : map-get-or($animation, duration, 1s);
-	$a-delay : map-get-or($animation, delay, 1s);
+	$a-delay : map-get-or($animation, delay, 0s);
 
-	$shadows : ();
+	// manage duration
+	$a-duration : $a-duration + $a-delay;
+
+	$base-shadows : ();
 	@for $i from 0 through $count {
 		$x : $radius * s-cos(360deg / $count * $i);
 		$y : $radius * s-sin(360deg / $count * $i);
@@ -547,13 +569,28 @@
 		@if $colors {
 			$c : nth($colors, $i + 1);
 		}
-		$shadows : append($shadows, $c $x $y 0 0, comma);	
+		@if $a-opacity {
+			$c : transparentize($c, 1 - $a-opacity);
+		}
+		$base-shadows : append($base-shadows, $c $x $y 0 0, comma);	
 	}
 
 	$spread-map : ();
+	// calculate percentage of delay
+	$p-delay : 0;
+	$p-step : 1 / $count;
+	@if $a-delay > 0 {
+		$p-delay : 1 / $a-duration * $a-delay;
+		$p-step : (1 - $p-delay) / ($count + 1);
+	}
+	// animation
 	@keyframes #{$a-name} {
 		@for $step-idx from 0 through $count {
-			#{percentage(1 / $count * $step-idx)} {
+			$p : percentage($step-idx * $p-step);
+			@if $a-delay > 0 {
+				$p : percentage($step-idx * $p-step) + percentage($p-step);
+			}
+			#{$p} {
 				$shadows : ();
 				@for $count-idx from 0 through $count {
 					$x : $radius * s-cos(360deg / $count * $count-idx);
@@ -626,6 +663,11 @@
 				box-shadow : $shadows;
 			}
 		}
+		@if $a-delay > 0 and percentage($count * $p-step) + percentage($p-step) < 100 {
+			#{percentage($count * $p-step) + percentage($p-step) * 2} {
+				box-shadow: $base-shadows;
+			}
+		}
 	}
 	&:after {
 		border-radius:50%;
@@ -633,11 +675,12 @@
 		height : $size;
 		display : block;
 		content : '';
-		box-shadow: $shadows;
+		box-shadow: $base-shadows;
 		animation : $a-name $a-duration $a-ease 0s infinite;
 	}
-	@include s-translate(-50% -50%);
+	// @include s-translate(-50% -50%);
 	// transform: rotate(- 360deg / $count / 2);
+	@include s-transform(-translateX -50% -translateY -50% -rotate -90deg);
 }
 
 @mixin _s-loader-spinner-circles-1(
@@ -1084,7 +1127,9 @@
 	$animation : _sugar-parse-properties($animation, (
 		type : translate laser radial,
 		duration : second,
-		delay : second
+		delay : second,
+		count : integer,
+		spread : number
 	));
 	$width : map-get-or($props, width, 5em);
 	$height: map-get-or($props, height, 1em);
@@ -1093,9 +1138,11 @@
 	$color1 : nth($colors,1);
 	$color2 : nth($colors,2);
 
+	$a-count : map-get-or($animation, count, 2);
 	$a-type : map-get-or($animation, type, laser);
 	$a-duration : map-get-or($animation, duration, 2s);
-	$a-delay : map-get-or($animation, delay, 0);
+	$a-delay : map-get-or($animation, delay, 0s);
+	$a-spread : map-get-or($animation, spread, 0);
 
 	width : $width;
 	height : $height;
@@ -1126,17 +1173,69 @@
 	} @else if $a-type == radial {
 	
 		$a-name : unquote("gradient-#{unique-id()}");
-		@keyframes #{$a-name}-opacity {
-			0% { opacity:0; }
-			50% { opacity:1; }
-			100% { opacity:0; }
-		}
+		// @keyframes #{$a-name}-opacity {
+		// 	0% { opacity:0; }
+		// 	50% { opacity:1; }
+		// 	100% { opacity:0; }
+		// }
+		$step : percentage(1 / $a-count);
+		$current : 0%;
 		@keyframes #{$a-name} {
-			0% {
-				transform:scale(0,0);
-			}
-			100% {
-				transform:scale(1,1);
+			@for $i from 0 through $a-count {
+				@if $current < 100 {
+					#{$current} {
+						transform:scale(0,0);
+						opacity:0;
+						@if $a-spread > 0 {
+							$randX : random(round($a-spread));
+							@if random(10) < 5 {
+								$randX : $randX * -1;
+							}
+							$randY : random(round($a-spread));
+							@if random(10) < 5 {
+								$randY : $randY * -1;
+							}
+							top : 0;
+							left : 0;
+						}
+					}
+					#{$current + $step / 2 - 0.001%} {
+						transform:scale(0.5,0.5);
+						opacity:1;
+						@if $a-spread > 0 {
+							$randX : random(round($a-spread));
+							@if random(10) < 5 {
+								$randX : $randX * -1;
+							}
+							$randY : random(round($a-spread));
+							@if random(10) < 5 {
+								$randY : $randY * -1;
+							}
+							top : $randY + unquote(unit($a-spread));
+							left : $randX + unquote(unit($a-spread));
+						}
+					}
+					#{$current + $step - 0.001%} {
+						transform:scale(1,1);
+						opacity:0;
+						@if $a-spread > 0 {
+							$randX : random(round($a-spread));
+							@if random(10) < 5 {
+								$randX : $randX * -1;
+							}
+							$randY : random(round($a-spread));
+							@if random(10) < 5 {
+								$randY : $randY * -1;
+							}
+							top : $randY + unquote(unit($a-spread));
+							left : $randX + unquote(unit($a-spread));
+						}
+					}
+					#{$current + $step} {
+						transform:scale(0,0);
+					}
+				}
+				$current : $current + $step + 0.001%;
 			}
 		}
 		
@@ -1152,16 +1251,197 @@
 			@include s-translate(-50% -50%);
 			opacity:0;
 		}
+		// cubic-bezier(1,.01,0,1)
 		&:before {
 			background: radial-gradient(transparent 30%, $color1 50%, transparent 70%);
-			animation: $a-name $a-duration cubic-bezier(1,.01,0,1) 0s infinite, #{$a-name}-opacity $a-duration ease-out infinite;
+			animation: #{$a-name} $a-duration linear 0s infinite;
 		}
 		@if $color2 {
 			&:after {
 				background: radial-gradient(transparent 30%, $color2 50%, transparent 70%);
-				animation: $a-name $a-duration cubic-bezier(1,.01,0,1) $a-duration / 3 infinite, #{$a-name}-opacity $a-duration ease-out $a-duration / 3 infinite;
+				animation: #{$a-name} $a-duration linear $a-duration / $a-count / 2 infinite;
 			}
 		}
+	}
+}
+
+@mixin s-loader-radial(
+	$props : (),
+	$animation : ()
+) {
+	$props : _sugar-parse-properties($props, (
+		width : number,
+		height : number,
+		color : color,
+		colors : list
+	));
+	$animation : _sugar-parse-properties($animation, (
+		type : translate laser radial,
+		duration : second,
+		delay : second,
+		count : integer,
+		spread : number
+	));
+	$width : map-get-or($props, width, 5em);
+	$height: map-get-or($props, height, 1em);
+	$color : map-get-or($props, color, red);
+	$colors : map-get($props, colors);
+
+	$a-count : map-get-or($animation, count, 2);
+	$a-type : map-get-or($animation, type, laser);
+	$a-duration : map-get-or($animation, duration, 2s);
+	$a-delay : map-get-or($animation, delay, 0s);
+	$a-spread : map-get-or($animation, spread, 0);
+
+	// manage duration
+	$a-duration : $a-duration + $a-delay;
+
+	width : $width;
+	height : $height;
+	transform-origin: $width / 2 $height / 2;
+
+	// calculate percentage of delay
+	$p-delay : 1;
+	@if $a-delay > 0 {
+		$p-delay : 1 - 1 / $a-duration * $a-delay;
+	}
+
+	$a-name : unquote("radial-#{unique-id()}");
+	$step : percentage($p-delay / $a-count);
+	$current : 0%;
+	$current-idx : 1;
+	@keyframes #{$a-name}-b {
+		@for $i from 0 through $a-count - 1 {
+			@if $current < 100 {
+				#{$current} {
+					transform:scale(0,0);
+					opacity:0;
+					top : 0;
+					left : 0;
+					@if $colors and length($colors) == $a-count * 2 {
+						$c : nth($colors, $current-idx);
+						background: radial-gradient(transparent 30%, $c 50%, transparent 70%);
+					}
+				}
+				#{$current + $step / 2 - 0.001%} {
+					transform:scale(0.5,0.5);
+					opacity:1;
+					@if $colors and length($colors) == $a-count * 2 {
+						$c : nth($colors, $current-idx);
+						background: radial-gradient(transparent 30%, $c 50%, transparent 70%);
+					}
+				}
+				#{$current + $step - 0.001%} {
+					transform:scale(1,1);
+					opacity:0;
+					@if $a-spread > 0 {
+						$randX : random(round($a-spread));
+						@if random(10) < 5 {
+							$randX : $randX * -1;
+						}
+						$randY : random(round($a-spread));
+						@if random(10) < 5 {
+							$randY : $randY * -1;
+						}
+						top : $randY + unquote(unit($a-spread));
+						left : $randX + unquote(unit($a-spread));
+					}
+					@if $colors and length($colors) == $a-count * 2 {
+						$c : nth($colors, $current-idx);
+						background: radial-gradient(transparent 30%, $c 50%, transparent 70%);
+					}
+				}
+				#{$current + $step} {
+					transform:scale(0,0);
+					top: 0;
+					left: 0;
+				}
+			}
+			$current : $current + $step;
+			$current-idx : $current-idx + 2;
+		}
+	}
+	$current : 0%;
+	$current-idx : 2;
+	@keyframes #{$a-name}-a {
+		@for $i from 0 through $a-count - 1 {
+			@if $current < 100 {
+				#{$current} {
+					transform:scale(0,0);
+					opacity:0;
+					top : 0;
+					left : 0;
+					@if $colors and length($colors) == $a-count * 2 {
+						$c : nth($colors, $current-idx);
+						background: radial-gradient(transparent 30%, $c 50%, transparent 70%);
+					}
+				}
+				#{$current + $step / 2 - 0.001%} {
+					transform:scale(0.5,0.5);
+					opacity:1;
+					@if $colors and length($colors) == $a-count * 2 {
+						$c : nth($colors, $current-idx);
+						background: radial-gradient(transparent 30%, $c 50%, transparent 70%);
+					}
+				}
+				#{$current + $step - 0.001%} {
+					transform:scale(1,1);
+					opacity:0;
+					@if $a-spread > 0 {
+						$randX : random(round($a-spread));
+						@if random(10) < 5 {
+							$randX : $randX * -1;
+						}
+						$randY : random(round($a-spread));
+						@if random(10) < 5 {
+							$randY : $randY * -1;
+						}
+						top : $randY + unquote(unit($a-spread));
+						left : $randX + unquote(unit($a-spread));
+					}
+					@if $colors and length($colors) == $a-count * 2 {
+						$c : nth($colors, $current-idx);
+						background: radial-gradient(transparent 30%, $c 50%, transparent 70%);
+					}
+				}
+				#{$current + $step} {
+					transform:scale(0,0);
+					top: 0;
+					left: 0;
+				}
+			}
+			$current : $current + $step;
+			$current-idx : $current-idx + 2;
+		}
+	}
+	
+	position: relative;
+	&:before,
+	&:after {
+		content:'';
+		display: block;
+		width:$width;
+		height:$height;
+		position: absolute;
+		top:0; left:0;
+		@include s-translate(-50% -50%);
+		opacity:0;
+	}
+	// cubic-bezier(1,.01,0,1)
+	$c : $color;
+	@if $colors and length($colors) == 2 {
+		$c : nth($colors, 1);
+	}
+	&:before {
+		background: radial-gradient(transparent 30%, $c 50%, transparent 70%);
+		animation: #{$a-name}-b $a-duration linear 0s infinite;
+	}
+	@if $colors and length($colors) == 2 {
+		$c : nth($colors, 2);
+	}
+	&:after {
+		background: radial-gradient(transparent 30%, $c 50%, transparent 70%);
+		animation: #{$a-name}-a $a-duration linear ($a-duration - $a-delay) / $a-count / 2 infinite;
 	}
 }
 
@@ -1276,14 +1556,17 @@
 	$p-step : 1 / $count;
 	@if $a-delay > 0 {
 		$p-delay : 1 / $a-duration * $a-delay;
-		$p-step : (1 - $p-delay) / $count;
+		$p-step : (1 - $p-delay) / ($count + 1);
 	}
 	// animation
 	$step : 1 / $count;
 	@keyframes #{$a-name} {
 		@for $j from 0 through $count {
-			#{percentage($j * $p-step)} {
-			// #{percentage((1 - $p-delay) / $count * $j)} {
+			$p : percentage($j * $p-step);
+			@if $a-delay > 0 {
+				$p : percentage($j * $p-step) + percentage($p-step);
+			}
+			#{$p} {
 				// loop on each box shadows
 				$shadows : ();
 
@@ -1369,6 +1652,11 @@
 
 				// apply shadows
 				box-shadow: $shadows;
+			}
+		}
+		@if $a-delay > 0 and percentage($count * $p-step) + percentage($p-step) < 100 {
+			#{percentage($count * $p-step) + percentage($p-step) * 2} {
+				box-shadow: $base-shadows;
 			}
 		}
 	}
