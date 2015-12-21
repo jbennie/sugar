@@ -373,16 +373,16 @@ figure {
 	display: block;
 }
 .loader-gradient-1 {
-	@include s-loader-gradient(80px 5px (transparent white));
+	@include s-loader-gradient(80px 5px (transparentize(white,1) white));
 }
 .loader-radial-1 {
 	@include s-loader-radial(30px 30px (white s-color(orange, -darken 20%)), 3s -count 10 -spread 20px);
 }
 .loader-radial-2 {
-	@include s-loader-radial(50px 50px (white s-color(orange, -darken 20%)), 5s -count 30 -spread 20px);
+	@include s-loader-radial(50px 50px (white s-color(orange, -darken 20%)), 10s -count 30 -spread 20px);
 }
 .loader-radial-3 {
-	@include s-loader-radial(50px 50px (white s-color(orange, -darken 20%)), 5s -count 30);
+	@include s-loader-radial(50px 50px (white s-color(orange, -darken 20%)), 10s -count 30);
 }
 .loader-radial-4 {
 	@include s-loader-radial(30px 30px -colors (#4285F4 #DB4437 #F4B400 #0F9D58), 1s -count 2 -delay 0.5s -spread 10px);
@@ -402,9 +402,9 @@ figure {
 .loader-grid-5 {
 	@include s-loader-grid(white 2 2 -size 10px -gap 2px -rotate 45deg, -opacity 0 -duration 2s -delay .5s);
 }
-.loader-grid-6 {
-	@include s-loader-grid((white s-color(orange, -darken 20%)) 5 5 -size 5px -gap 2px -rotate 45deg, -opacity 0 -duration 2s -delay .5s);
-}
+// .loader-grid-6 {
+// 	@include s-loader-grid((white s-color(orange, -darken 20%)) 5 5 -size 5px -gap 2px -rotate 45deg, -opacity 0 -duration 2s -delay .5s);
+// }
 .loader-grid-7 {
 	@include s-loader-grid(white 2 2 -colors (#4285F4 #DB4437 #F4B400 #0F9D58) -size 10px -gap 2px -rotate 45deg -offset -18px, -opacity 0 -duration 2s -delay .5s);
 	@include s-animation(rotate-blur 1.4s linear infinite -p, blur 1.4s ease-in-out infinite);
@@ -449,13 +449,13 @@ figure {
 	&:after {
 		content:'';
 		display: block;
-		width:20px; height:10px;
+		width:40px; height:20px;
 		position: absolute;
-		bottom:-10px; left:0;
+		bottom:-16px; left:-10px;
 		background: black;
 		z-index:-1;
-		@include s-transform(-rotateX 85deg);
-		@include s-filter(-blur 5px);
+		@include s-transform(-rotateX 85deg -translateX -25%);
+		background: radial-gradient(rgba(0,0,0,.8) 10%, transparentize(black,1) 70%);
 		@include s-animation(walk-box-shadow 2s ease-in-out infinite);
 	}
 }
@@ -569,6 +569,9 @@ figure {
 .loader-circle-7 {
 	@include s-loader-circle(white -count 8 -size 5px -radius 20px, -near 3 -duration 1.5s -scale 10px -spread 5px -delay .5s);
 	@include s-animation(rotate 1.1s linear infinite);
+}
+.loader-couch-potato {
+	@include s-loader-couch-potato(white 30px, 1s ease-in-out 1s);
 }
 
 @keyframes rotate {

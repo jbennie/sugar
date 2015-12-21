@@ -435,7 +435,7 @@
 			width: 100%;
 			height: 100%;
 			border-radius: 50%;
-			background: linear-gradient($color, rgba(0,0,0,0) 60%);
+			background: linear-gradient($color, transparentize($color,1) 60%);
 			animation: $a-name $a-duration infinite linear;
 		}
 		$width : $size - $width * 2;
@@ -1320,7 +1320,7 @@
 					left : 0;
 					@if $colors and length($colors) == $a-count * 2 {
 						$c : nth($colors, $current-idx);
-						background: radial-gradient(transparent 30%, $c 50%, transparent 70%);
+						background: radial-gradient(transparentize($c, 1) 30%, $c 50%, transparentize($c, 1) 70%);
 					}
 				}
 				#{$current + $step / 2 - 0.001%} {
@@ -1328,7 +1328,7 @@
 					opacity:1;
 					@if $colors and length($colors) == $a-count * 2 {
 						$c : nth($colors, $current-idx);
-						background: radial-gradient(transparent 30%, $c 50%, transparent 70%);
+						background: radial-gradient(transparentize($c, 1) 30%, $c 50%, transparentize($c, 1) 70%);
 					}
 				}
 				#{$current + $step - 0.001%} {
@@ -1348,7 +1348,7 @@
 					}
 					@if $colors and length($colors) == $a-count * 2 {
 						$c : nth($colors, $current-idx);
-						background: radial-gradient(transparent 30%, $c 50%, transparent 70%);
+						background: radial-gradient(transparentize($c, 1) 30%, $c 50%, transparentize($c, 1) 70%);
 					}
 				}
 				#{$current + $step} {
@@ -1373,7 +1373,7 @@
 					left : 0;
 					@if $colors and length($colors) == $a-count * 2 {
 						$c : nth($colors, $current-idx);
-						background: radial-gradient(transparent 30%, $c 50%, transparent 70%);
+						background: radial-gradient(transparentize($c, 1) 30%, $c 50%, transparentize($c, 1) 70%);
 					}
 				}
 				#{$current + $step / 2 - 0.001%} {
@@ -1381,7 +1381,7 @@
 					opacity:1;
 					@if $colors and length($colors) == $a-count * 2 {
 						$c : nth($colors, $current-idx);
-						background: radial-gradient(transparent 30%, $c 50%, transparent 70%);
+						background: radial-gradient(transparentize($c, 1) 30%, $c 50%, transparentize($c, 1) 70%);
 					}
 				}
 				#{$current + $step - 0.001%} {
@@ -1401,7 +1401,7 @@
 					}
 					@if $colors and length($colors) == $a-count * 2 {
 						$c : nth($colors, $current-idx);
-						background: radial-gradient(transparent 30%, $c 50%, transparent 70%);
+						background: radial-gradient(transparentize($c, 1) 30%, $c 50%, transparentize($c, 1) 70%);
 					}
 				}
 				#{$current + $step} {
@@ -1433,14 +1433,14 @@
 		$c : nth($colors, 1);
 	}
 	&:before {
-		background: radial-gradient(transparent 30%, $c 50%, transparent 70%);
+		background: radial-gradient(transparentize($c, 1) 30%, $c 50%, transparentize($c, 1) 70%);
 		animation: #{$a-name}-b $a-duration linear 0s infinite;
 	}
 	@if $colors and length($colors) == 2 {
 		$c : nth($colors, 2);
 	}
 	&:after {
-		background: radial-gradient(transparent 30%, $c 50%, transparent 70%);
+		background: radial-gradient(transparentize($c, 1) 30%, $c 50%, transparentize($c, 1) 70%);
 		animation: #{$a-name}-a $a-duration linear ($a-duration - $a-delay) / $a-count / 2 infinite;
 	}
 }
@@ -1658,6 +1658,62 @@
 			#{percentage($count * $p-step) + percentage($p-step) * 2} {
 				box-shadow: $base-shadows;
 			}
+		}
+	}
+}
+
+@mixin s-loader-couch-potato(
+	$props : (),
+	$animation : ()
+) {
+	$props : _sugar-parse-properties($props, (
+		size : number,
+		color : color
+	));
+
+	$animation : _sugar-parse-properties($animation, (
+		duration : second,
+		delay : second,
+		ease : string
+	));
+
+	$size : map-get-or($props, size, 1em);
+	$color : map-get-or($props, color, red);
+
+	$a-duration : map-get-or($animation, duration, 1s);
+	$a-delay : map-get-or($animation, delay, 0s);
+	$a-ease : map-get-or($animation, ease, ease-in-out);
+
+	$a-duration : $a-duration + $a-delay;
+
+	$a-name : unquote("couch-potato-#{unique-id()}");
+
+	&:before {
+		display: block;
+		width : $size;
+		height: $size;
+		content:'';
+		@include s-translate(-50% -50%);
+		background: $color;
+		animation: $a-name $a-duration $a-ease 0s infinite;
+	}
+	
+	$p-delay : 0;
+	@if $a-delay > 0 {
+		$p-delay : 1 / $a-duration * $a-delay;
+	}
+	@keyframes #{$a-name} {
+		0% {
+			border-radius:0;
+			@include s-transform(-rotate 0deg);
+		}
+		#{50% - percentage($p-delay)} {
+			border-radius:50%;
+			@include s-transform(-rotate 360deg);
+		}
+		#{100% - percentage($p-delay)} {
+			border-radius:0;
+			@include s-transform(-rotate 720deg);
 		}
 	}
 }

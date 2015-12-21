@@ -19,6 +19,7 @@
   display: inline-block;
   min-height: 1px;
   float: left;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   vertical-align: top;
   padding-right: 10px;
@@ -29,6 +30,7 @@
   display: table-cell;
   width: 1px;
   white-space: nowrap !important;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   font-size: 1rem;
   padding-right: 10px;
@@ -39,6 +41,7 @@
   display: table-cell;
   width: 99999px;
   white-space: nowrap;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   font-size: 1rem;
   padding-right: 10px;
@@ -96,6 +99,7 @@
     display: inline-block;
     min-height: 1px;
     float: left;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     vertical-align: top;
     padding-right: 10px;
@@ -107,6 +111,7 @@
     display: table-cell;
     width: 1px;
     white-space: nowrap !important;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     font-size: 1rem;
     padding-right: 10px;
@@ -118,6 +123,7 @@
     display: table-cell;
     width: 99999px;
     white-space: nowrap;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     font-size: 1rem;
     padding-right: 10px;
@@ -180,6 +186,7 @@
     display: inline-block;
     min-height: 1px;
     float: left;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     vertical-align: top;
     padding-right: 10px;
@@ -191,6 +198,7 @@
     display: table-cell;
     width: 1px;
     white-space: nowrap !important;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     font-size: 1rem;
     padding-right: 10px;
@@ -202,6 +210,7 @@
     display: table-cell;
     width: 99999px;
     white-space: nowrap;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     font-size: 1rem;
     padding-right: 10px;
@@ -745,6 +754,8 @@
   left: 0;
   width: 100%;
   height: 99999px;
+  background: -webkit-gradient(linear, left top, right top, color-stop(50%, transparent), color-stop(50%, rgba(0, 0, 0, 0.02)));
+  background: -webkit-linear-gradient(left, transparent 50%, rgba(0, 0, 0, 0.02) 50%);
   background: linear-gradient(to right, transparent 50%, rgba(0, 0, 0, 0.02) 50%);
   background-size: 16.66666667% 100%;
   z-index: 99999;
@@ -1251,6 +1262,8 @@ body {
     left: 0;
     width: 100%;
     height: 99999px;
+    background: -webkit-gradient(linear, left top, right top, color-stop(50%, transparent), color-stop(50%, rgba(0, 0, 0, 0.02)));
+    background: -webkit-linear-gradient(left, transparent 50%, rgba(0, 0, 0, 0.02) 50%);
     background: linear-gradient(to right, transparent 50%, rgba(0, 0, 0, 0.02) 50%);
     background-size: 16.66666667% 100%;
     z-index: 99999;
@@ -1757,6 +1770,8 @@ body {
     left: 0;
     width: 100%;
     height: 99999px;
+    background: -webkit-gradient(linear, left top, right top, color-stop(50%, transparent), color-stop(50%, rgba(0, 0, 0, 0.02)));
+    background: -webkit-linear-gradient(left, transparent 50%, rgba(0, 0, 0, 0.02) 50%);
     background: linear-gradient(to right, transparent 50%, rgba(0, 0, 0, 0.02) 50%);
     background-size: 16.66666667% 100%;
     z-index: 99999;
