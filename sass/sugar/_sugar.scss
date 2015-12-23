@@ -386,13 +386,13 @@ $_sugar-settings-cache : ();
 				$classes : map-get($color, classes);
 				@if $classes {
 					@if $classes == true or in-list($classes, color c) {
-						$cls : str-replace($classes-color, '{color}', #{$name});
+						$cls : str-replace($classes-color, '{color}', "#{$name}");
 						#{unquote(".#{$cls}")} {
 							color : $c;
 						}
 					}
 					@if $classes == true or in-list($classes, background-color background bkg) {
-						$cls : str-replace($classes-bkg, '{color}', #{$name});
+						$cls : str-replace($classes-bkg, '{color}', "#{$name}");
 						#{unquote(".#{$cls}")} {
 							background-color : $c;
 						}
@@ -401,15 +401,15 @@ $_sugar-settings-cache : ();
 					@if $modifiers {
 						@each $mod-name, $mod in $modifiers {
 							@if $classes == true or in-list($classes, color c) {
-								$cls : str-replace($classes-color-mod, '{color}', #{$name});
-								$cls : str-replace($cls, '{modifier}', #{$mod-name});
+								$cls : str-replace($classes-color-mod, '{color}', "#{$name}");
+								$cls : str-replace($cls, '{modifier}', $mod-name);
 								#{unquote(".#{$cls}")} {
 									color : s-color($name, $mod-name);
 								}
 							}
 							@if $classes == true or in-list($classes, background-color background bkg) {
-								$cls : str-replace($classes-bkg-mod, '{color}', #{$name});
-								$cls : str-replace($cls, '{modifier}', #{$mod-name});
+								$cls : str-replace($classes-bkg-mod, '{color}', "#{$name}");
+								$cls : str-replace($cls, '{modifier}', $mod-name);
 								#{unquote(".#{$cls}")} {
 									background-color : s-color($name, $mod-name);
 								}
