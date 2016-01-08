@@ -1,6 +1,6 @@
 {
   "name": "sugarcss",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "authors": [
     "Olivier Bossel <olivier.bossel@gmail.com>"
   ],
@@ -28,10 +28,10 @@
   "dependencies": {},
   "devDependencies": {
     "cssua.js": "https://github.com/mckamey/cssuseragent.git#~2.1.30",
-    "animate.css": "https://github.com/daneden/animate.css.git#~3.4.0",
-    "cssgram": "https://github.com/una/CSSgram.git#master",
+    "animate.css": "https://github.com/daneden/animate.css.git#~3.5.1",
+    "cssgram": "https://github.com/una/CSSgram.git#0.1.4",
     "modular-scale": "~2.1.1",
-    "font-awesome": "~4.4.0",
+    "font-awesome": "~4.5.0",
     "sassdash": "~0.8.0",
     "gridle": "~2.0.43"
   }
