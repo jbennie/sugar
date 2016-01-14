@@ -1,0 +1,16 @@
+$cssgram : () !default;/*
+ * Clarendon
+ *
+ */
+
+
+
+$cssgram : append($cssgram, clarendon);  %cssgram-clarendon {
+  @extend %filter-base;
+  filter: contrast(1.2) saturate(1.35);
+
+  &:before {
+    background: rgba(127, 187, 227, .2);
+    mix-blend-mode: overlay;
+  }
+}

@@ -1,0 +1,127 @@
+/**
+ * Sugar
+ */
+
+// animation to generate
+$sugar-animatecss : rubberBand tada flipOutX fadeIn;
+
+// import cousine font
+// @import url(https://fonts.googleapis.com/css?family=Cousine);
+
+// import sugar
+@import 'sugar/sugar';
+
+// setup sugar
+@include sugar((
+	typo : (
+		font-family : helvetica,
+		font-size : 13px,
+		font-sizes : (
+			11.5px : 0 800px,
+			9.5px : 0 400px
+		)
+	),
+	fonts : (
+		helvetica : (
+			font-family : 'Open Sans',
+			cap-height : 0.65
+		),
+		helvetica-bold : (
+			font-family : 'Open Sans',
+			font-weight : 700,
+			cap-height : 0.65
+		),
+		helvetica-light : (
+			font-family : 'Open Sans',
+			font-weight : 300,
+			cap-height : 0.65
+		),
+		cousine : (
+			font-family: 'Cousine'
+		)
+	),
+	font-awesome : (
+		classes : user gg-circle angle-right bars check coffee camera-retro cloud arrow-up
+	),
+	colors : (
+		grey : (
+			color : #c1c1c1,
+			classes : true,
+			modifiers : (
+				light : #fafafa,
+				dark : -darken 15%
+			)
+		),
+		blue : (
+			color : #8195a1
+		),
+		green : #00ff00,
+		pink : (
+			color : #ffff00,
+			classes : true
+		),
+		orange : (
+			color : #f2bc2b,
+			classes : color bkg,
+			modifiers : (
+				light : #f2ebd6,
+				dark : #563c05
+			)
+		)
+	),
+	filters : (
+		toaster : (
+			filter : cssgram-toaster,
+			classes : true
+		),
+		1977 : (
+			filter : cssgram-_1977,
+			classes : true
+		),
+		walden : (
+			filter : cssgram-walden,
+			classes : true
+		),
+		moon : (
+			filter : cssgram-moon,
+			classes : true
+		)
+	),
+	sizes : (
+		smaller : (
+			size : 1rem,
+			classes : true
+		),
+		small : (
+			size : 2rem,
+			classes : true
+		),
+		normal : (
+			size : 3rem,
+			classes : true
+		),
+		medium : (
+			size : 4rem,
+			classes : true
+		),
+		big : (
+			size : 5rem,
+			classes : true
+		),
+		bigger : (
+			size : 6rem,
+			classes : true
+		)
+	),
+	transition : (
+		transitions : (
+			fast : (
+				transition : all .1s ease-in-out,
+				classes : true
+			),
+			normal : all .2s ease-in-out,
+			slow : all .5s ease-in-out
+		)
+	),
+	classes : helper
+)); 

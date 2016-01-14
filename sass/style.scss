@@ -1,130 +1,5 @@
-/**
- * Sugar
- */
-
-// animation to generate
-$sugar-animatecss : rubberBand tada flipOutX fadeIn;
-
-// import cousine font
-// @import url(https://fonts.googleapis.com/css?family=Cousine);
-
-// import sugar
-@import 'sugar/sugar';
-
-// setup sugar
-@include sugar((
-	typo : (
-		font-family : helvetica,
-		font-size : 13px,
-		font-sizes : (
-			11.5px : 0 800px,
-			9.5px : 0 400px
-		)
-	),
-	fonts : (
-		helvetica : (
-			font-family : 'Open Sans',
-			cap-height : 0.65
-		),
-		helvetica-bold : (
-			font-family : 'Open Sans',
-			font-weight : 700,
-			cap-height : 0.65
-		),
-		helvetica-light : (
-			font-family : 'Open Sans',
-			font-weight : 300,
-			cap-height : 0.65
-		),
-		cousine : (
-			font-family: 'Cousine'
-		)
-	),
-	font-awesome : (
-		classes : user gg-circle angle-right bars check coffee camera-retro cloud arrow-up
-	),
-	colors : (
-		grey : (
-			color : #c1c1c1,
-			classes : true,
-			modifiers : (
-				light : #fafafa,
-				dark : -darken 15%
-			)
-		),
-		blue : (
-			color : #8195a1
-		),
-		green : #00ff00,
-		pink : (
-			color : #ffff00,
-			classes : true
-		),
-		orange : (
-			color : #f2bc2b,
-			classes : color bkg,
-			modifiers : (
-				light : #f2ebd6,
-				dark : #563c05
-			)
-		)
-	),
-	filters : (
-		toaster : (
-			filter : cssgram-toaster,
-			classes : true
-		),
-		1977 : (
-			filter : cssgram-_1977,
-			classes : true
-		),
-		walden : (
-			filter : cssgram-walden,
-			classes : true
-		),
-		moon : (
-			filter : cssgram-moon,
-			classes : true
-		)
-	),
-	sizes : (
-		smaller : (
-			size : 1rem,
-			classes : true
-		),
-		small : (
-			size : 2rem,
-			classes : true
-		),
-		normal : (
-			size : 3rem,
-			classes : true
-		),
-		medium : (
-			size : 4rem,
-			classes : true
-		),
-		big : (
-			size : 5rem,
-			classes : true
-		),
-		bigger : (
-			size : 6rem,
-			classes : true
-		)
-	),
-	transition : (
-		transitions : (
-			fast : (
-				transition : all .1s ease-in-out,
-				classes : true
-			),
-			normal : all .2s ease-in-out,
-			slow : all .5s ease-in-out
-		)
-	),
-	classes : helper
-)); 
+// import sugar settings
+@import 'sugar';
 
 // import prism
 @import 'prism';
@@ -183,6 +58,113 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 }
 
 //
+// Motion blur
+//
+[data-motion-blur] {
+	
+}
+.motion-box {
+	width:100px; height:100px;
+	background: red;
+	
+	background: url(http://graph.facebook.com/622487880/picture?type=large) no-repeat 50% 50%;
+	background-size: cover;
+	position: relative;
+	@include s-animation(cross-screen 1s infinite);
+}
+@keyframes cross-screen {
+	0% {
+		left:0;
+	}
+	50% {
+		left:100%;
+		@include s-translate(-100%);
+	}
+	100% {
+		left:0;
+	}
+}
+
+//
+// Slidizle
+//
+[data-slidizle] {
+	position:relative;
+}
+
+	[data-slidizle-content] {
+		position:relative;
+		width: 99999px;
+
+		@for $i from 0 through 10 {
+			.slide-#{$i} & {
+				left : - 640 * $i + px;
+			}
+		}
+	}
+
+		[data-slidizle-item] {
+			float: left;
+			margin: 0 40px 0 0;
+			position:relative;
+			
+			width: 600px;
+			@include s-ratio(16/9);
+
+			img {
+				@include s-size(cover);
+			}
+
+			// .slidizle-left & {
+			// 	@include s-animation(slider-out-left .2s ease-in-out);
+
+			// 	&.active {
+			// 		@include s-animation(slider-in-left .2s ease-in-out);
+			// 	}
+			// }
+			// .slidizle-right & {
+			// 	@include s-animation(slider-out-right .2s ease-in-out);
+
+			// 	&.active {
+			// 		@include s-animation(slider-in-right .2s ease-in-out);
+			// 	}
+			// }
+		}
+
+@keyframes slider-in-left {
+	from {
+		left : -1000px;
+	}
+	to {
+		left : 0;
+	}
+}
+@keyframes slider-out-left {
+	from {
+		left : 0;
+	}
+	to {
+		left : -1000px;
+	}
+}
+@keyframes slider-in-right {
+	from {
+		left : 1000px;
+	}
+	to {
+		left : 0;
+	}
+}
+@keyframes slider-out-right {
+	from {
+		left : 0;
+	}
+	to {
+		left : 1000px;
+	}
+}
+
+//
 // Buttons
 //
 .btn {
@@ -203,9 +185,9 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 	}
 }
 
-.hey {
-	@include s-hey(top right 20px s-color(orange, dark) -margin-top -7px -margin-left 7px);
-}
+// .hey {
+// 	@include s-hey(top right 20px s-color(orange, dark) -margin-top -7px -margin-left 7px);
+// }
 
 //
 // Typeset
@@ -285,328 +267,6 @@ figure {
 			opacity:0;
 			pointer-events:none;
 		}
-	}
-}
-
-//
-// Loaders
-//
-.loader-container {
-	background: s-color(orange);
-	@include s-ratio(16/9);
-	@include s-corner(s-rem(5px));
-	margin-bottom:s-rem(20px);
-	border: s-color(orange, -darken 15%) 2px solid;
-
-	&:hover {
-		@include s-animation(tada);
-		z-index:1;
-	}
-
-	&.loader-container--white {
-		background: s-color(white);
-		border : s-color(white, -darken 15%) 2px solid;
-	}
-}
-.loader {
-	@include s-position(center middle);
-}
-.loader-spinner-1 {
-	@include s-loader-spinner(linear 50px 10px white);
-	transform:rotate(90deg);
-	display: block;
-}
-.loader-spinner-2 {
-	@include s-loader-spinner(elastic 50px 10px white -length 1/2, ease-in-out);
-	background: s-color(orange);
-	display: block;
-}
-.loader-spinner-3 {
-	@include s-loader-spinner(elastic 50px 10px white);
-	background: s-color(orange);
-	display: block;
-	@include s-animation(rotate 4s infinite);
-}
-.loader-spinner-4 {
-	@include s-loader-spinner(fade-out 50px 10px white s-color(orange));
-	display: block;
-}
-.loader-spinner-5 {
-	@include s-loader-spinner(fade-in 50px 10px white s-color(orange));
-	display: block;
-}
-.loader-spinner-6 {
-	@include s-loader-spinner(fade-in-out 50px 5px white s-color(orange));
-	display: block;
-}
-.loader-bars-1 {
-	@include s-loader-bars(white -count 5 -opacity .3, -near 2 -opacity 1 -continuous false -delay 1s);
-	display: block;
-}
-@keyframes rotate-x {
-	from {
-		@include s-transform(-rotateX 0);
-	}
-	to {
-		@include s-transform(-rotateX 360deg);
-	}
-}
-.loader-bars--rotate-x {
-	@include s-animation(rotate-x 1s infinite);
-}
-.loader-bars-2 {
-	@include s-loader-bars(white -count 5, -near 2 -spread 0.8em -delay 1s) {
-		border-radius: 5px;
-	}
-	display: block;
-}
-.loader-bars-3 {
-	@include s-loader-bars(white 2px 20px 20 2px, -near 4 -spread 10px);
-	display: block;
-}
-.loader-bars-4 {
-	@include s-loader-bars(white 5px 20px 10 5px, -near 1 -spread 10px -duration .8s -delay .5s);
-	display: block;
-}
-.loader-bars-5 {
-	@include s-loader-bars(white 10px 10px 3 5px -opacity .2, -near 1 -opacity 1);
-	display: block;
-}
-.loader-bars-6 {
-	@include s-loader-bars(circle white 10px 10px 3 5px -opacity .2, -near 1 -opacity 1);
-	display: block;
-}
-.loader-bars-7 {
-	@include s-loader-bars(circle white 10px 10px 3 5px -opacity .2, -near 1 -opacity 1 -duration .8s -spread 15px);
-	display: block;
-}
-.loader-bars-8 {
-	@include s-loader-bars(circle white 10px 10px 4 5px -colors (#4285F4 #DB4437 #F4B400 #0F9D58), -near 1 -duration 1s -delay .2s -spread 10px -direction up -ease linear);
-	display: block;
-}
-.loader-radial-1 {
-	@include s-loader-radial(30px (white s-color(orange, -darken 20%)), 3s -count 10 -spread 20px);
-}
-.loader-radial-2 {
-	@include s-loader-radial(50px (white s-color(orange, -darken 20%)), 10s -count 30 -spread 20px);
-}
-.loader-radial-3 {
-	@include s-loader-radial(50px (white s-color(orange, -darken 20%)), 1s -count 2 -delay 1s);
-}
-.loader-radial-4 {
-	@include s-loader-radial(30px dotted -width 5px -colors (#4285F4 #DB4437 #F4B400 #0F9D58), 1s -count 2 -delay 0.5s);
-	@include s-animation(rotate 1s infinite linear);
-}
-.loader-radial-5 {
-	@include s-loader-radial(rect 30px (white s-color(orange, -darken 20%)), 1s -count 2 -delay 1s);
-	@include s-animation(rotate 1s infinite linear);
-}
-.loader-grid-1 {
-	@include s-loader-grid(circle white 3 3 -size 10px,-scale 15px -opacity 0 -spread 20px -duration 1.5s -delay 1s -steps 3);
-}
-.loader-grid-2 {
-	@include s-loader-grid(circle white 6 6 -size 5px,-scale 7px -opacity 0 -spread 20px -duration 3s -delay 1s);
-}
-.loader-grid-3 {
-	@include s-loader-grid(white 2 2 -size 10px -gap 2px,-opacity 0 -duration 2s -delay .5s);
-}
-.loader-grid-4 {
-	@include s-loader-grid(white 6 6 -size 3px -gap 2px,-opacity 0 -spread 2px -duration 2s -delay .6s);
-}
-.loader-grid-5 {
-	@include s-loader-grid(white 2 2 -size 10px -gap 2px -rotate 45deg, -opacity 0 -duration 2s -delay .5s);
-}
-.loader-grid-7 {
-	@include s-loader-grid(white 2 2 -colors (#4285F4 #DB4437 #F4B400 #0F9D58) -size 10px -gap 2px -rotate 45deg -offset -18px, -opacity 0 -duration 2s -delay .5s);
-	@include s-animation(rotate-blur 1.4s linear infinite -p, blur 1.4s ease-in-out infinite);
-}
-@keyframes blur {
-	0%,15% {
-		@include s-filter(-blur 0);
-	}
-	30% {
-		@include s-filter(-blur 1px);
-	}
-	50% {
-		@include s-filter(-blur 0);
-	}
-}
-@keyframes rotate-blur {
-	0% {
-		@include s-transform(-rotate 0);
-	}
-	15% {
-		@include s-transform(-rotate -30deg -scale 0.8);
-	}
-	30% {
-		@include s-transform(-rotate 180deg -scale 1.5);
-	}
-	50% {
-		@include s-transform(-rotate 360deg -scale 1);
-	}
-	100% {
-		@include s-transform(-rotate 360deg);
-	}
-}
-.loader-grid-8 {
-	@include s-loader-grid(white 2 2 -colors (#4285F4 #DB4437 #F4B400 #0F9D58) -size 10px -gap 2px -offset -18px, -duration 2s -delay .5s);
-	@include s-animation(walk-box 2s ease-in-out infinite);
-	position: relative;	
-}
-.loader--shadow {
-	@include s-transform(-scaleX 1.5 scaleY 1.5);
-
-	&:after {
-		content:'';
-		display: block;
-		width:40px; height:20px;
-		position: absolute;
-		bottom:-16px; left:-10px;
-		background: black;
-		z-index:-1;
-		@include s-transform(-rotateX 85deg -translateX -25%);
-		background: radial-gradient(rgba(0,0,0,.8) 10%, transparentize(black,1) 70%);
-		@include s-animation(walk-box-shadow 2s ease-in-out infinite);
-	}
-}
-@keyframes walk-box-shadow {
-	0% {
-		opacity: 1;
-		left: -5px;
-	}
-	10% {
-		opacity: 1;
-		left: -15px;
-	}
-	20% {
-		opacity: .2;
-		left: -5px;
-	}
-	30% {
-		opacity: 1;
-		left: 5px;
-	}
-	50% {
-		opacity: 1;
-		left: -5px;
-	}
-	60% {
-		opacity: 1;
-		left: -15px;
-	}
-	70% {
-		opacity: .2;
-		left: -5px;
-	}
-	80% {
-		opacity: 1;
-		left: 5px;
-	}
-	100% {
-		opacity: 1;
-		left: -5px;
-	}
-}
-@keyframes walk-box {
-	0% {
-		@include s-transform(-rotate 0);
-		top: 0;
-		left: 0;
-	}
-	10% {
-		@include s-transform(-rotate 0);
-		top: 0;
-		left: -10px;
-	}
-	20% {
-		@include s-transform(-rotate 90deg);
-		top: -20px;
-		left: 0;
-	}
-	30% {
-		@include s-transform(-rotate 180deg);
-		top: 0;
-		left: 10px;
-	}
-	50% {
-		@include s-transform(-rotate 180deg);
-		top: 0;
-		left: 0;
-	}
-	60% {
-		@include s-transform(-rotate 180deg);
-		top: 0;
-		left: -10px;
-	}
-	70% {
-		@include s-transform(-rotate 270deg);
-		top: -20px;
-		left: 0;
-	}
-	80% {
-		@include s-transform(-rotate 360deg);
-		top: 0;
-		left: 10px;
-	}
-	100% {
-		@include s-transform(-rotate 360deg);
-		top: 0;
-		left: 0;
-	}
-}
-.loader-circle-1 {
-	@include s-loader-circle(white -count 7 -size 10px -opacity .2, -near 3 -duration 1s -opacity 1 -scale 15px);
-}
-.loader-circle-2 {
-	@include s-loader-circle(white -count 8 -size 5px -radius 5px, -near 2 -duration 2s -scale 20px -spread 40px);
-}
-.loader-circle-3 {
-	@include s-loader-circle(white -count 5 -radius 15px -size 5px -opacity 0, -near 2 -duration 1s -scale 10px -opacity 1);
-}
-.loader-circle-4 {
-	@include s-loader-circle(white -count 8 -radius 30px -size 15px -opacity .3, -near 1 -duration 1s -opacity 1);
-}
-.loader-circle-5 {
-	@include s-loader-circle(white -count 6 -radius 1px -size 5px -opacity 0, -near 3 -duration 1s -opacity 1 -spread 50px);
-	@include s-filter(-blur 5px);
-}
-.loader-blob {
-	@include s-filter(-contrast 10);
-}
-.loader-circle-6 {
-	@include s-loader-circle(white -count 12 -size 5px -radius 20px -opacity .2, -near 3 -duration 1s -scale 10px -opacity 1 -spread 20px);
-}
-.loader-circle-7 {
-	@include s-loader-circle(white -count 8 -size 5px -radius 20px -opacity .6, -near 3 -duration 1.5s -scale 10px -spread 5px -delay .5s -opacity 1);
-	@include s-animation(rotate 1.1s linear infinite);
-}
-.loader-couch-potato {
-	@include s-loader-couch-potato(white 30px, 1s ease-in-out 1s);
-}
-.loader-couch-potato-1 {
-	@include s-loader-couch-potato(30px -colors (s-color(orange) s-color(blue)), .5s ease-in-out .5s -scale .5);
-}
-.loader-flip-ball {
-	@include s-loader-flip-ball(white 30px -colors (#4285F4 #DB4437 #F4B400 #0F9D58), 2s ease-in-out 1s);
-}
-.loader-flip-ball-1 {
-	@include s-loader-flip-ball(white 30px -colors (s-color(orange) s-color(blue)), 1s ease-in-out 1s);
-}
-.loader-flip-ball-2 {
-	@include s-loader-flip-ball(rect white 30px -colors (s-color(orange) s-color(blue)), 1s ease-in-out 1s);
-}
-.loader-flip-ball-3 {
-	@include s-loader-flip-ball(rect white 30px -colors (#4285F4 #DB4437 #F4B400 #0F9D58), 2s ease-in-out 1s);
-}
-.loader--rotate {
-	@include s-animation(rotate 1s ease-in-out infinite);
-}
-@keyframes rotate {
-	from {
-		@include s-transform(-rotate 0);
-	}
-	to {
-		@include s-transform(-rotate 360deg);
 	}
 }
 

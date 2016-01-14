@@ -7,7 +7,9 @@
 
 	
 	
-	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script src="js/jquery.js"></script>
+	<script src="js/jquery.appear.js"></script>
+	<script src="js/jquery.slidizle.js"></script>
 	<script src="js/sugar-webfonts.js"></script>
 	<script>SugarWebfonts.init({
 		version : 2.1
@@ -15,6 +17,7 @@
 	<script src="js/sugar.js"></script>
 	<script src="js/demo.js"></script>
 
+	<link href="css/loaders.css" rel="stylesheet" type="text/css" />
 	<link href="css/style.css" rel="stylesheet" type="text/css" />
 	<link href="css/grid.css" rel="stylesheet" type="text/css" />
 
@@ -22,6 +25,8 @@
 
 </head>
 <body>
+
+	<script src="js/sugar-filters.js"></script>
 
 	<section id="top-bar">
 		
@@ -260,7 +265,7 @@
 
 	</section>
 
-	<section class="section bkg-grey--light" id="font-awesome">
+	<section class="section bkg-grey--light" data-bypass-appear id="font-awesome">
 
 		<div class="container typeset">
 
@@ -670,6 +675,114 @@
 							</p>
 						</div>
 					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</section>
+
+	<section class="section" id="filters">
+
+		<div class="container typeset">
+
+			<div class="row">
+
+				<div class="gr-12">
+
+					<h3>Amazing filters</h3>
+
+					<p class="heading">
+						Sugar has some very cool mixins to create fully customizable <strong>single element</strong> loaders. Here's some exemple
+					</p>
+
+				</div>
+
+				<div class="gr-12">
+
+					<h4>Motion blur</h4>
+
+					<p>Vivamus condimentum nulla magna, at semper nulla placerat et. Vivamus lorem augue, gravida non purus vitae, euismod accumsan felis. Nam hendrerit, purus id maximus interdum, sem ligula facilisis nibh, tempor.</p>
+
+					<h5>With motion blur</h5>
+					<div data-motion-blur=".5" class="motion-box"></div>
+				
+					<h5>Without</h5>
+					<div class="motion-box"></div>
+
+
+				</div>
+
+			</div>
+
+			<div class="row">
+
+				<div class="gr-12">
+
+					<h4>Slider sample</h4>
+
+					<p>Vivamus condimentum nulla magna, at semper nulla placerat et. Vivamus lorem augue, gravida non purus vitae, euismod accumsan felis. Nam hendrerit, purus id maximus interdum, sem ligula facilisis nibh, tempor.</p>
+
+					<h5>With motion blur</h5>
+					
+					<div class="slidizle-left m-b-normal clearfix" data-slidizle>
+						<ul data-slidizle-content data-mfotion-blur="1">
+							<li data-slidizle-item>
+								<img src="http://i.telegraph.co.uk/multimedia/archive/01914/enchanted-abbey_1914053i.jpg" />
+							</li>
+							<li data-slidizle-item>
+								<img src="http://m.c.lnkd.licdn.com/mpr/mpr/AAEAAQAAAAAAAAOWAAAAJDMyYzVlMDI1LTM2Y2MtNGQ3Mi1iNzBiLTE3NmYwMzZmMzNlZg.jpg" />
+							</li>
+							<li data-slidizle-item>
+								<img src="http://soocurious.com/fr/wp-content/uploads/2012/07/landscape-photography-20.jpg?7bfc0a" />
+							</li>
+							<li data-slidizle-item>
+								<img src="http://www.evasion.cc/assets/images/articles/717/53_708__cover.jpeg" />
+							</li>
+						</ul>
+					</div>
+				
+					<h5>Without</h5>
+
+					<div class="slidizle-right" data-slidizle>
+						<ul data-slidizle-content>
+							<li data-slidizle-item>
+								<img src="http://i.telegraph.co.uk/multimedia/archive/01914/enchanted-abbey_1914053i.jpg" />
+							</li>
+							<li data-slidizle-item>
+								<img src="http://m.c.lnkd.licdn.com/mpr/mpr/AAEAAQAAAAAAAAOWAAAAJDMyYzVlMDI1LTM2Y2MtNGQ3Mi1iNzBiLTE3NmYwMzZmMzNlZg.jpg" />
+							</li>
+							<li data-slidizle-item>
+								<img src="http://soocurious.com/fr/wp-content/uploads/2012/07/landscape-photography-20.jpg?7bfc0a" />
+							</li>
+							<li data-slidizle-item>
+								<img src="http://www.evasion.cc/assets/images/articles/717/53_708__cover.jpeg" />
+							</li>
+						</ul>
+					</div>
+
+
+				</div>
+
+			</div>
+
+			<div class="row m-b-medium">
+
+				<div class="gr-6 gr-centered ">
+
+					
+
+				</div>
+
+			</div>
+
+			<div class="row">
+
+				<div class="gr-6 gr-centered">
+
+					
 
 				</div>
 

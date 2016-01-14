@@ -25,7 +25,10 @@
     "test",
     "tests"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "jquery.slidizle": "~1.3.22",
+    "jquery_appear": "~0.3.6"
+  },
   "devDependencies": {
     "cssua.js": "https://github.com/mckamey/cssuseragent.git#~2.1.30",
     "animate.css": "https://github.com/daneden/animate.css.git#~3.5.1",

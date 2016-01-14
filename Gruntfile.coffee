@@ -150,6 +150,8 @@ module.exports = (grunt) ->
 					'js/gridle.min.js': 'js/gridle.js'
 					'js/gridle.eq.min.js' : 'js/gridle-eq.js'
 					'js/jquery.js' : 'bower_components/jquery/dist/jquery.min.js'
+					'js/jquery.appear.js' : 'bower_components/jquery_appear/jquery.appear.js'
+					'js/jquery.slidizle.js' : 'bower_components/jquery.slidizle/js/jquery.slidizle.js'
 			full:
 				files:
 					'js/gridle-full.min.js' : [
@@ -183,9 +185,9 @@ module.exports = (grunt) ->
 			html:
 				files: 'index.html'
 				tasks: ['notify:default']
-			sass:
-				files: paths.compass.cwd + '/' + paths.compass.src
-				tasks: ['compass', 'cssmin', 'postcss', 'notify:compass']
+			# sass:
+			# 	files: paths.compass.cwd + '/' + paths.compass.src
+			# 	tasks: ['compass', 'cssmin', 'postcss', 'notify:compass']
 			coffee:
 				files: paths.coffee.cwd+'/'+paths.coffee.src
 				tasks: ['coffee', 'concat', 'uglify', 'notify:coffee']
