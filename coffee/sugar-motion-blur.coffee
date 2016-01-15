@@ -21,19 +21,13 @@
 	return
 ) () ->
 
-	window.SugarFilters =
-
-		# variables
-		_key : 'sugar-filters'
-		_cache : null
+	window.SugarMotionBlur =
 
 		# track if already inited
 		_inited : false
 
 		# default settings that can be overrided on init
 		_settings :
-			version : '581fea09a1e08e3770d777ca504608ee'
-			json_path : '/fonts/fonts.json'
 			debug : false
 		
 		###
@@ -46,6 +40,16 @@
 
 			# update inited state
 			@_inited = true
+
+			if document.readyState == 'interactive' then @_init()
+			else document.addEventListener 'DOMContentLoaded', (e) => @_init()
+
+		###
+		Internal init
+		###
+		_init : ->
+
+
 
 			# put filters into page
 			@_injectFilters()
@@ -82,15 +86,20 @@
 		Listen for animations
 		###
 		_listenAnimation : ->
-			document.addEventListener 'animationstart', (e) =>
+			document.addEventListener 'animationiteration', (e) =>
 				elm = e.target
 				if elm.dataset.motionBlur != undefined
+					cancelAnimationFrame elm._blurAnimationFrame
 					@_handleMotionBlur elm
 			document.addEventListener 'transitionstart', (e) =>
 				elm = e.target
 				if elm.dataset.motionBlur != undefined
+					cancelAnimationFrame elm._blurAnimationFrame
 					@_handleMotionBlur elm
-			, false
+			document.addEventListener 'motionblur', (e) =>
+				elm = e.target
+				if elm.dataset.motionBlur != undefined
+					@_setMotionBlur elm
 
 
 		###
@@ -100,6 +109,26 @@
 
 			if not recursive
 				elm._step = 0
+
+			# set the blur
+			diff = @_setMotionBlur elm
+
+			# detect when need to stop animation
+			if diff.xDiff <= 0 and diff.yDiff <= 0
+				elm._step ?= 0
+				elm._step += 1
+				if elm._step >= 10
+					elm._step = 0
+					return
+
+			# request an animation frame
+			elm._blurAnimationFrame = requestAnimationFrame () =>
+				@_handleMotionBlur elm, true
+
+		###
+		# Set motion blur
+		###
+		_setMotionBlur : (elm) ->
 
 			# clone the filter if not already the case
 			if not elm._blurFilter
@@ -127,34 +156,47 @@
 			# save the last position
 			elm._lastPos = @_offset elm
 
-			console.log elm._lastPos
+			return {
+				xDiff : xDiff
+				yDiff : yDiff
+			}
 
-			# detect when need to stop animation
-			if xDiff <= 0 and yDiff <= 0
-				elm._step ?= 0
-				elm._step += 1
-				if elm._step >= 5
-					elm._step = 0
-					return
-
-			# request an animation frame
-			elm._blurAnimationFrame = requestAnimationFrame () =>
-				@_handleMotionBlur elm, true
+		###
+		Get translate values
+		###
+		_getTranslate : (elm, what) ->
+			return if !window.getComputedStyle
+			style = getComputedStyle(elm)
+			transform = style.transform or style.webkitTransform or style.mozTransform
+			mat = transform.match(/^matrix3d\((.+)\)$/)
+			if mat
+				idx =
+					x : 12
+					y : 13
+					z : 14
+				return parseFloat(mat[1].split(', ')[idx[what]])
+			mat = transform.match(/^matrix\((.+)\)$/)
+			idx =
+				x : 4,
+				y : 5,
+				z : 6
+			if mat then parseFloat(mat[1].split(', ')[idx[what]]) else 0
 
 		###
 		Get element position
 		###
 		_offset : (elm) ->
 			box = elm.getBoundingClientRect()
-			console.log box.left
 			body = document.body
 			docEl = document.documentElement
 			scrollTop = window.pageYOffset or docEl.scrollTop or body.scrollTop
 			scrollLeft = window.pageXOffset or docEl.scrollLeft or body.scrollLeft
 			clientTop = docEl.clientTop or body.clientTop or 0
 			clientLeft = docEl.clientLeft or body.clientLeft or 0
-			top = box.top + scrollTop - clientTop
-			left = box.left + scrollLeft - clientLeft
+			transX = @_getTranslate elm, 'x'
+			transY = @_getTranslate elm, 'y'
+			top = box.top + scrollTop - clientTop + transY
+			left = box.left + scrollLeft - clientLeft + transX
 			return {
 				top: Math.round(top)
 				left: Math.round(left)
@@ -171,11 +213,11 @@
 		UniqId
 		###
 		_uniqId : ->
-			# n=Math.floor(Math.random()*11);
-			# k = Math.floor(Math.random()* 1000000);
-			# m = String.fromCharCode(n)+k;
-			# return m.trim()
-			return Math.round Math.random() * 9999999
+			return new Date().getTime() + Math.round(Math.random() * 999999999);
+			n = Math.floor(Math.random()*11);
+			k = Math.floor(Math.random()* 1000000);
+			m = String.fromCharCode(n)+k;
+			return m.trim()
 
 		###
 		Extend settings
@@ -188,13 +230,13 @@
 		Debug
 		###
 		_debug : ->
-			console.log 'SUGAR-FILTERS', arguments if @_settings.debug
+			console.log 'SUGAR-MOTION-BLUR', arguments if @_settings.debug
 
-	SugarFilters.init()
+	SugarMotionBlur.init()
 
 	# support AMD
 	if typeof window.define is 'function' && window.define.amd
-		window.define [], -> window.SugarFilters
+		window.define [], -> window.SugarMotionBlur
 
 	# return the Sugar object
-	SugarFilters
+	SugarMotionBlur

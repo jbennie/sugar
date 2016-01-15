@@ -151,6 +151,7 @@ module.exports = (grunt) ->
 					'js/gridle.eq.min.js' : 'js/gridle-eq.js'
 					'js/jquery.js' : 'bower_components/jquery/dist/jquery.min.js'
 					'js/jquery.appear.js' : 'bower_components/jquery_appear/jquery.appear.js'
+					'js/interact.js' : 'bower_components/interact/interact.js'
 					'js/jquery.slidizle.js' : 'bower_components/jquery.slidizle/js/jquery.slidizle.js'
 			full:
 				files:

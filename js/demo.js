@@ -31,16 +31,40 @@ jQuery(function($) {
     };
   })(this)).appear();
   $(window).trigger('scroll');
-  return $('[data-slidizle]').slidizle({
+  $('[data-slidizle]').slidizle({
     nextOnClick: true,
     loop: true,
-    timeout: 1000,
     pauseOnHover: true,
     onChange: function(api) {
       return api.$refs.content.get(0).dispatchEvent(new CustomEvent('transitionstart', {
         bubbles: true
       }));
     }
+  });
+  return $('[data-interact]').each(function(idx, item) {
+    return interact(item).draggable({
+      autoScroll: true,
+      onmove: function(e) {
+        var target, x, y;
+        target = e.target;
+        x = (parseFloat(target.getAttribute('data-x')) || 0) + e.dx;
+        y = (parseFloat(target.getAttribute('data-y')) || 0) + e.dy;
+        target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+        target.setAttribute('data-x', x);
+        target.setAttribute('data-y', y);
+        return target.dispatchEvent(new CustomEvent('motionblur', {
+          bubbles: true
+        }));
+      },
+      onend: function(e) {
+        e.target.dispatchEvent(new CustomEvent('motionblur', {
+          bubbles: true
+        }));
+        e.target.setAttribute('data-x', 0);
+        e.target.setAttribute('data-y', 0);
+        return e.target.style.webkitTransform = e.target.style.transform = 'translate(0,0)';
+      }
+    });
   });
 });
 

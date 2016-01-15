@@ -32,9 +32,32 @@ jQuery ($) ->
 	$('[data-slidizle]').slidizle
 		nextOnClick : true
 		loop : true,
-		timeout : 1000,
 		pauseOnHover : true,
 		onChange : (api) ->
 			api.$refs.content.get(0).dispatchEvent(new CustomEvent('transitionstart', {
 				bubbles : true
 			}));
+
+	$('[data-interact]').each (idx, item) ->
+		interact(item).draggable
+			autoScroll: true
+			onmove: (e) ->
+				target = e.target
+				x = (parseFloat(target.getAttribute('data-x')) || 0) + e.dx
+				y = (parseFloat(target.getAttribute('data-y')) || 0) + e.dy
+
+				target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+
+				target.setAttribute('data-x', x);
+				target.setAttribute('data-y', y);
+
+				target.dispatchEvent(new CustomEvent('motionblur', {
+					bubbles : true
+				}));
+			onend: (e) ->
+				e.target.dispatchEvent(new CustomEvent('motionblur', {
+					bubbles : true
+				}));
+				e.target.setAttribute('data-x', 0);
+				e.target.setAttribute('data-y', 0);
+				e.target.style.webkitTransform = e.target.style.transform = 'translate(0,0)';

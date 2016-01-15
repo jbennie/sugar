@@ -18,13 +18,9 @@
     factory();
   }
 })(function() {
-  window.SugarFilters = {
-    _key: 'sugar-filters',
-    _cache: null,
+  window.SugarMotionBlur = {
     _inited: false,
     _settings: {
-      version: '581fea09a1e08e3770d777ca504608ee',
-      json_path: '/fonts/fonts.json',
       debug: false
     },
 
@@ -34,6 +30,21 @@
     init: function(settings) {
       this._settings = this._extend(this._settings, settings);
       this._inited = true;
+      if (document.readyState === 'interactive') {
+        return this._init();
+      } else {
+        return document.addEventListener('DOMContentLoaded', (function(_this) {
+          return function(e) {
+            return _this._init();
+          };
+        })(this));
+      }
+    },
+
+    /*
+    		Internal init
+     */
+    _init: function() {
       this._injectFilters();
       return this._listenAnimation();
     },
@@ -57,37 +68,71 @@
     		Listen for animations
      */
     _listenAnimation: function() {
-      document.addEventListener('animationstart', (function(_this) {
+      document.addEventListener('animationiteration', (function(_this) {
         return function(e) {
           var elm;
           elm = e.target;
           if (elm.dataset.motionBlur !== void 0) {
+            cancelAnimationFrame(elm._blurAnimationFrame);
             return _this._handleMotionBlur(elm);
           }
         };
       })(this));
-      return document.addEventListener('transitionstart', (function(_this) {
+      document.addEventListener('transitionstart', (function(_this) {
         return function(e) {
           var elm;
           elm = e.target;
           if (elm.dataset.motionBlur !== void 0) {
+            cancelAnimationFrame(elm._blurAnimationFrame);
             return _this._handleMotionBlur(elm);
           }
         };
-      })(this), false);
+      })(this));
+      return document.addEventListener('motionblur', (function(_this) {
+        return function(e) {
+          var elm;
+          elm = e.target;
+          if (elm.dataset.motionBlur !== void 0) {
+            return _this._setMotionBlur(elm);
+          }
+        };
+      })(this));
     },
 
     /*
     		Handle motion blur
      */
     _handleMotionBlur: function(elm, recursive) {
-      var amount, id, xDiff, yDiff;
+      var diff;
       if (recursive == null) {
         recursive = false;
       }
       if (!recursive) {
         elm._step = 0;
       }
+      diff = this._setMotionBlur(elm);
+      if (diff.xDiff <= 0 && diff.yDiff <= 0) {
+        if (elm._step == null) {
+          elm._step = 0;
+        }
+        elm._step += 1;
+        if (elm._step >= 10) {
+          elm._step = 0;
+          return;
+        }
+      }
+      return elm._blurAnimationFrame = requestAnimationFrame((function(_this) {
+        return function() {
+          return _this._handleMotionBlur(elm, true);
+        };
+      })(this));
+    },
+
+    /*
+    		 * Set motion blur
+     */
+    _setMotionBlur: function(elm) {
+      var amount, id, xDiff, yDiff;
       if (!elm._blurFilter) {
         elm._blurFilter = this.blur.cloneNode(true);
         id = 'blurFilter-' + this._uniqId();
@@ -102,39 +147,60 @@
       yDiff = Math.abs(elm._currentPos.top - elm._lastPos.top) * amount;
       elm._blurFilter.firstElementChild.setAttribute('stdDeviation', xDiff + ',' + yDiff);
       elm._lastPos = this._offset(elm);
-      console.log(elm._lastPos);
-      if (xDiff <= 0 && yDiff <= 0) {
-        if (elm._step == null) {
-          elm._step = 0;
-        }
-        elm._step += 1;
-        if (elm._step >= 5) {
-          elm._step = 0;
-          return;
-        }
+      return {
+        xDiff: xDiff,
+        yDiff: yDiff
+      };
+    },
+
+    /*
+    		Get translate values
+     */
+    _getTranslate: function(elm, what) {
+      var idx, mat, style, transform;
+      if (!window.getComputedStyle) {
+        return;
       }
-      return elm._blurAnimationFrame = requestAnimationFrame((function(_this) {
-        return function() {
-          return _this._handleMotionBlur(elm, true);
+      style = getComputedStyle(elm);
+      transform = style.transform || style.webkitTransform || style.mozTransform;
+      mat = transform.match(/^matrix3d\((.+)\)$/);
+      if (mat) {
+        idx = {
+          x: 12,
+          y: 13,
+          z: 14
         };
-      })(this));
+        return parseFloat(mat[1].split(', ')[idx[what]]);
+      }
+      mat = transform.match(/^matrix\((.+)\)$/);
+      idx = {
+        x: 4,
+        y: 5,
+        z: 6
+      };
+      if (mat) {
+        return parseFloat(mat[1].split(', ')[idx[what]]);
+      } else {
+        return 0;
+      }
     },
 
     /*
     		Get element position
      */
     _offset: function(elm) {
-      var body, box, clientLeft, clientTop, docEl, left, scrollLeft, scrollTop, top;
+      var body, box, clientLeft, clientTop, docEl, left, scrollLeft, scrollTop, top, transX, transY;
       box = elm.getBoundingClientRect();
-      console.log(box.left);
       body = document.body;
       docEl = document.documentElement;
       scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
       scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
       clientTop = docEl.clientTop || body.clientTop || 0;
       clientLeft = docEl.clientLeft || body.clientLeft || 0;
-      top = box.top + scrollTop - clientTop;
-      left = box.left + scrollLeft - clientLeft;
+      transX = this._getTranslate(elm, 'x');
+      transY = this._getTranslate(elm, 'y');
+      top = box.top + scrollTop - clientTop + transY;
+      left = box.left + scrollLeft - clientLeft + transX;
       return {
         top: Math.round(top),
         left: Math.round(left)
@@ -159,7 +225,12 @@
     		UniqId
      */
     _uniqId: function() {
-      return Math.round(Math.random() * 9999999);
+      var k, m, n;
+      return new Date().getTime() + Math.round(Math.random() * 999999999);
+      n = Math.floor(Math.random() * 11);
+      k = Math.floor(Math.random() * 1000000);
+      m = String.fromCharCode(n) + k;
+      return m.trim();
     },
 
     /*
@@ -179,17 +250,17 @@
      */
     _debug: function() {
       if (this._settings.debug) {
-        return console.log('SUGAR-FILTERS', arguments);
+        return console.log('SUGAR-MOTION-BLUR', arguments);
       }
     }
   };
-  SugarFilters.init();
+  SugarMotionBlur.init();
   if (typeof window.define === 'function' && window.define.amd) {
     window.define([], function() {
-      return window.SugarFilters;
+      return window.SugarMotionBlur;
     });
   }
-  return SugarFilters;
+  return SugarMotionBlur;
 });
 
-//# sourceMappingURL=sugar-filters.js.map
+//# sourceMappingURL=sugar-motion-blur.js.map

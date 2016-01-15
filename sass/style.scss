@@ -7,6 +7,9 @@
 //
 // Layout
 //
+body {
+	overflow-x: hidden;
+}
 #header {
 	background-image:url('http://sugarcss.io/assets/img/highlight-bkg.jpg');
 	background-size:cover;
@@ -63,6 +66,14 @@
 [data-motion-blur] {
 	
 }
+.drag-box {
+	width:100px; height:100px;
+	background: red;
+	background: url(http://graph.facebook.com/622487880/picture?type=large) no-repeat 50% 50%;
+	background-size: cover;
+	@include s-translate(0 0);
+	transition:none !important;
+}
 .motion-box {
 	width:100px; height:100px;
 	background: red;
@@ -71,6 +82,34 @@
 	background-size: cover;
 	position: relative;
 	@include s-animation(cross-screen 1s infinite);
+}
+.motion-box--round {
+	@include s-animation(round-screen 2s infinite);
+}
+@keyframes round-screen {
+	0% {
+		left : 0;
+		top : 0;
+	}
+	25% {
+		left : 100%;
+		top : 0;
+		@include s-translate(-100%);
+	}
+	50% {
+		left : 100%;
+		top : -200px;
+		@include s-translate(-100%);
+	}
+	75% {
+		left : 0;
+		top : 0;
+		@include s-translate(0);
+	}
+	100% {
+		left : 0;
+		top : 0;
+	}
 }
 @keyframes cross-screen {
 	0% {
@@ -90,6 +129,8 @@
 //
 [data-slidizle] {
 	position:relative;
+	cursor: pointer;
+	user-select: none;
 }
 
 	[data-slidizle-content] {
@@ -98,7 +139,9 @@
 
 		@for $i from 0 through 10 {
 			.slide-#{$i} & {
-				left : - 640 * $i + px;
+				$trans : - 640 * $i;
+				@include s-translate(s-px($trans));
+				// left : ;
 			}
 		}
 	}
@@ -329,6 +372,9 @@ a {
 }
 strong {
 	@include s-font(helvetica-bold);
+}
+small {
+	font-size: 0.5em;
 }
 blockquote {	
 	padding: s-size(2);

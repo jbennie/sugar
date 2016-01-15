@@ -6,10 +6,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
 	
-	
+	<script src="js/interact.js"></script>
 	<script src="js/jquery.js"></script>
 	<script src="js/jquery.appear.js"></script>
 	<script src="js/jquery.slidizle.js"></script>
+	<script src="js/sugar-motion-blur.js"></script>
 	<script src="js/sugar-webfonts.js"></script>
 	<script>SugarWebfonts.init({
 		version : 2.1
@@ -25,8 +26,6 @@
 
 </head>
 <body>
-
-	<script src="js/sugar-filters.js"></script>
 
 	<section id="top-bar">
 		
@@ -684,7 +683,7 @@
 
 	</section>
 
-	<section class="section" id="filters">
+	<section class="section bkg-grey--light" id="filters">
 
 		<div class="container typeset">
 
@@ -692,7 +691,7 @@
 
 				<div class="gr-12">
 
-					<h3>Amazing filters</h3>
+					<h3>Motion blur</h3>
 
 					<p class="heading">
 						Sugar has some very cool mixins to create fully customizable <strong>single element</strong> loaders. Here's some exemple
@@ -712,7 +711,8 @@
 					<h5>Without</h5>
 					<div class="motion-box"></div>
 
-
+					<h5>Drag me</h5>
+					<div class="drag-box"  data-motion-blur="0.2" data-interact></div>
 				</div>
 
 			</div>
@@ -725,10 +725,10 @@
 
 					<p>Vivamus condimentum nulla magna, at semper nulla placerat et. Vivamus lorem augue, gravida non purus vitae, euismod accumsan felis. Nam hendrerit, purus id maximus interdum, sem ligula facilisis nibh, tempor.</p>
 
-					<h5>With motion blur</h5>
+					<h5>With motion blur <small class="c-orange">click to pass through slides</small></h5>
 					
 					<div class="slidizle-left m-b-normal clearfix" data-slidizle>
-						<ul data-slidizle-content data-mfotion-blur="1">
+						<ul data-slidizle-content data-motion-blur="0.5">
 							<li data-slidizle-item>
 								<img src="http://i.telegraph.co.uk/multimedia/archive/01914/enchanted-abbey_1914053i.jpg" />
 							</li>
@@ -744,7 +744,7 @@
 						</ul>
 					</div>
 				
-					<h5>Without</h5>
+					<h5>Without <small class="c-orange">click to pass through slides</small></h5>
 
 					<div class="slidizle-right" data-slidizle>
 						<ul data-slidizle-content>
@@ -792,7 +792,7 @@
 
 	</section>
 
-	<section class="section bkg-grey--light" id="font-awesome">
+	<section class="section" id="font-awesome">
 
 		<div class="container typeset">
 
@@ -877,7 +877,7 @@
 
 	</section>
 	
-	<section class="section" id="more">
+	<section class="section bkg-grey--light" id="more">
 
 		<div class="container typeset">
 
