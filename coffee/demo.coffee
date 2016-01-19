@@ -51,11 +51,11 @@ jQuery ($) ->
 				target.setAttribute('data-x', x);
 				target.setAttribute('data-y', y);
 
-				target.dispatchEvent(new CustomEvent('motionblur', {
+				target.dispatchEvent(new CustomEvent('move', {
 					bubbles : true
 				}));
 			onend: (e) ->
-				e.target.dispatchEvent(new CustomEvent('motionblur', {
+				e.target.dispatchEvent(new CustomEvent('move', {
 					bubbles : true
 				}));
 				e.target.setAttribute('data-x', 0);

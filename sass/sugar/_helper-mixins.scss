@@ -311,9 +311,9 @@
 	}
 
 	// get values
-	$x : map-get($translate, x);
-	$y : map-get($translate, y);
-	$z : map-get($translate, z);
+	$x : map-get-or($translate, x, 0);
+	$y : map-get-or($translate, y, 0);
+	$z : map-get-or($translate, z, 0);
 
 	// build translate
 	$translates : ();

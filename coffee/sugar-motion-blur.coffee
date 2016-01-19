@@ -96,7 +96,7 @@
 				if elm.dataset.motionBlur != undefined
 					cancelAnimationFrame elm._blurAnimationFrame
 					@_handleMotionBlur elm
-			document.addEventListener 'motionblur', (e) =>
+			document.addEventListener 'move', (e) =>
 				elm = e.target
 				if elm.dataset.motionBlur != undefined
 					@_setMotionBlur elm
@@ -135,7 +135,7 @@
 				# clone the filter tag in svg
 				elm._blurFilter = @blur.cloneNode true
 				# set a new id
-				id = 'blurFilter-' + @_uniqId()
+				id = 'blurFilter' + @_uniqId()
 				elm._blurFilter.setAttribute 'id', id
 				# append new filter in defs
 				@blur_defs.appendChild elm._blurFilter
@@ -206,8 +206,8 @@
 		Apply filter
 		###
 		_applyFilter : (elm, filter) ->
-			for vendor in ["-webkit", "-moz", "-ms", "o", ""]
-				elm.style[vendor+'-filter'] = filter
+			for vendor in ["-webkit-", "-moz-", "-ms-", "o-", ""]
+				elm.style[vendor+'filter'] = filter
 
 		###
 		UniqId

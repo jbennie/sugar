@@ -52,12 +52,12 @@ jQuery(function($) {
         target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
         target.setAttribute('data-x', x);
         target.setAttribute('data-y', y);
-        return target.dispatchEvent(new CustomEvent('motionblur', {
+        return target.dispatchEvent(new CustomEvent('move', {
           bubbles: true
         }));
       },
       onend: function(e) {
-        e.target.dispatchEvent(new CustomEvent('motionblur', {
+        e.target.dispatchEvent(new CustomEvent('move', {
           bubbles: true
         }));
         e.target.setAttribute('data-x', 0);

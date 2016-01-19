@@ -88,7 +88,7 @@
           }
         };
       })(this));
-      return document.addEventListener('motionblur', (function(_this) {
+      return document.addEventListener('move', (function(_this) {
         return function(e) {
           var elm;
           elm = e.target;
@@ -135,7 +135,7 @@
       var amount, id, xDiff, yDiff;
       if (!elm._blurFilter) {
         elm._blurFilter = this.blur.cloneNode(true);
-        id = 'blurFilter-' + this._uniqId();
+        id = 'blurFilter' + this._uniqId();
         elm._blurFilter.setAttribute('id', id);
         this.blur_defs.appendChild(elm._blurFilter);
         this._applyFilter(elm, 'url("#' + id + '")');
@@ -212,11 +212,11 @@
      */
     _applyFilter: function(elm, filter) {
       var i, len, ref, results, vendor;
-      ref = ["-webkit", "-moz", "-ms", "o", ""];
+      ref = ["-webkit-", "-moz-", "-ms-", "o-", ""];
       results = [];
       for (i = 0, len = ref.length; i < len; i++) {
         vendor = ref[i];
-        results.push(elm.style[vendor + '-filter'] = filter);
+        results.push(elm.style[vendor + 'filter'] = filter);
       }
       return results;
     },

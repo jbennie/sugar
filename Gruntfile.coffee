@@ -186,12 +186,12 @@ module.exports = (grunt) ->
 			html:
 				files: 'index.html'
 				tasks: ['notify:default']
-			# sass:
-			# 	files: paths.compass.cwd + '/' + paths.compass.src
-			# 	tasks: ['compass', 'cssmin', 'postcss', 'notify:compass']
+			sass:
+				files: paths.compass.cwd + '/' + paths.compass.src
+				tasks: ['compass', 'cssmin', 'postcss', 'notify:compass']
 			coffee:
 				files: paths.coffee.cwd+'/'+paths.coffee.src
-				tasks: ['coffee', 'concat', 'uglify', 'notify:coffee']
+				tasks: ['coffee', 'concat:extras', 'uglify', 'notify:coffee']
 
 		clean: [
 			'css'
