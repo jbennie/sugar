@@ -530,7 +530,7 @@ $_sugar-inited : false;
 
 		// reset
 		@if sugar('settings.reset') == true {
-			@include sugar-reset();
+			@include s-reset();
 		}
 
 		// border box
@@ -540,6 +540,11 @@ $_sugar-inited : false;
 				-moz-box-sizing: border-box;
 				box-sizing: border-box;
 			}
+		}
+
+		// effects
+		[data-gooey] {
+			@include s-DOMNodeInserted-event();
 		}
 		
 		// font

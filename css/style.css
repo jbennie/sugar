@@ -285,6 +285,23 @@
   clear: both;
 }
 
+@-webkit-keyframes s-DOMNodeInserted {
+  from {
+    opacity: .99;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes s-DOMNodeInserted {
+  from {
+    opacity: .99;
+  }
+  to {
+    opacity: 1;
+  }
+}
 .pull-left {
   float: left;
 }
@@ -426,6 +443,11 @@ table {
 * {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+}
+
+[data-gooey] {
+  -webkit-animation: s-DOMNodeInserted 0.001s 0s ease-in-out 1 normal forwards;
+          animation: s-DOMNodeInserted 0.001s 0s ease-in-out 1 normal forwards;
 }
 
 html {
@@ -640,6 +662,73 @@ body {
   color: #f2bc2b;
 }
 
+.round-menu {
+  display: block;
+  margin: 0 auto;
+  position: relative;
+  width: 50px;
+  height: 100px;
+  margin-top: 80px;
+  -webkit-transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
+  transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
+  outline-color: black;
+}
+.round-menu:hover {
+  outline-color: white;
+}
+.round-menu:hover .round-menu__item:nth-child(1) {
+  -webkit-transform: translateX(-70px) translateY(-20px) translateZ(0);
+          transform: translateX(-70px) translateY(-20px) translateZ(0);
+  -webkit-transition-delay: 0s !important;
+          transition-delay: 0s !important;
+}
+.round-menu:hover .round-menu__item:nth-child(2) {
+  -webkit-transform: translateX(0) translateY(-70px) translateZ(0);
+          transform: translateX(0) translateY(-70px) translateZ(0);
+  -webkit-transition-delay: .1s !important;
+          transition-delay: .1s !important;
+}
+.round-menu:hover .round-menu__item:nth-child(3) {
+  -webkit-transform: translateX(70px) translateY(-20px) translateZ(0);
+          transform: translateX(70px) translateY(-20px) translateZ(0);
+  -webkit-transition-delay: .2s !important;
+          transition-delay: .2s !important;
+}
+
+.round-menu__item {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  -webkit-transition: all 0.4s cubic-bezier(0.64, 0.57, 0.67, 1.53) !important;
+  transition: all 0.4s cubic-bezier(0.64, 0.57, 0.67, 1.53) !important;
+}
+
+.round-menu__toggle-button,
+.round-menu__item-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #f2bc2b;
+  width: 50px;
+  height: 50px;
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
+  text-align: center;
+  border: none;
+}
+.round-menu__toggle-button i,
+.round-menu__item-button i {
+  color: white;
+  font-size: 1.38461538rem;
+}
+
+.round-menu__toggle-button {
+  width: 70px;
+  height: 70px;
+  -webkit-border-radius: 35px;
+          border-radius: 35px;
+}
+
 .drag-box {
   width: 100px;
   height: 100px;
@@ -649,7 +738,7 @@ body {
   -webkit-transform: translateX(0) translateY(0) translateZ(0);
           transform: translateX(0) translateY(0) translateZ(0);
   -webkit-transition: none !important;
-          transition: none !important;
+  transition: none !important;
 }
 
 .motion-box {
@@ -659,8 +748,8 @@ body {
   background: url(http://graph.facebook.com/622487880/picture?type=large) no-repeat 50% 50%;
   background-size: cover;
   position: relative;
-  -webkit-animation: cross-screen 1s 0s ease-in-out infinite normal forwards;
-          animation: cross-screen 1s 0s ease-in-out infinite normal forwards;
+  -webkit-animation: cross-screen 0.8s 0s ease-in-out infinite normal forwards;
+          animation: cross-screen 0.8s 0s ease-in-out infinite normal forwards;
 }
 
 .motion-box--round {
@@ -905,11 +994,10 @@ body {
   color: white;
   text-decoration: none;
   padding: 0 2rem;
+  -webkit-transition: all 0.1s ease-in-out 0s, outline-color 0.000001s linear 0s;
+  transition: all 0.1s ease-in-out 0s, outline-color 0.000001s linear 0s;
+  outline-color: black;
   font-size: 1.53846154rem;
-}
-.btn, .btn:before, .btn:after {
-  -webkit-transition: all 0.1s ease-in-out 0s;
-          transition: all 0.1s ease-in-out 0s;
 }
 .typeset .btn {
   padding-top: 1rem;
@@ -922,9 +1010,10 @@ body {
   background: #dca40e;
 }
 
-.typeset *, .typeset *:before, .typeset *:after {
-  -webkit-transition: all 0.2s ease-in-out 0s;
-          transition: all 0.2s ease-in-out 0s;
+.typeset * {
+  -webkit-transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
+  transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
+  outline-color: black;
 }
 
 figure {
@@ -980,10 +1069,9 @@ figure img {
 .read-more {
   overflow: hidden;
   position: relative;
-}
-.read-more, .read-more:before, .read-more:after {
-  -webkit-transition: all 1s ease-in-out 0s;
-          transition: all 1s ease-in-out 0s;
+  -webkit-transition: all 1s ease-in-out 0s, outline-color 0.000001s linear 0s;
+  transition: all 1s ease-in-out 0s, outline-color 0.000001s linear 0s;
+  outline-color: black;
 }
 .read-more:after {
   position: absolute;

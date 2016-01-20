@@ -60,7 +60,67 @@ body {
 
 }
 
-//grunt
+//
+// Round nav
+//
+.round-menu {
+	display: block;
+	margin: 0 auto;
+	position: relative;
+	width: 50px;
+	height: 100px;
+	margin-top:80px;
+
+	@include s-transition();
+
+	&:hover {
+		@include s-transitionstart-trigger();
+	}
+
+	&:hover {
+	
+		.round-menu__item {
+			&:nth-child(1) {
+				@include s-translate(-70px -20px);
+				transition-delay: 0s !important;
+			}
+			&:nth-child(2) {
+				@include s-translate(0 -70px);
+				transition-delay: .1s !important;
+			}
+			&:nth-child(3) {
+				@include s-translate(70px -20px);
+				transition-delay: .2s !important;
+			}
+		}
+	}
+}
+	.round-menu__item {
+		position: absolute;
+		top:10px; left:10px;
+		transition : all .4s cubic-bezier(0.64, 0.57, 0.67, 1.53) !important;		
+	}
+
+	.round-menu__toggle-button,
+	.round-menu__item-button {
+		position: absolute;
+		top: 0; left: 0;
+		background: s-color(orange);
+		width: 50px; height: 50px;
+		@include s-corner(50%);
+		text-align: center;
+		border:none;
+
+		i {
+			@include s-font(white 18px);
+		}
+	}
+	.round-menu__toggle-button {
+		width: 70px; height: 70px;
+		@include s-corner(35px);
+	}
+
+//
 // Motion blur
 //
 [data-motion-blur] {
@@ -80,7 +140,7 @@ body {
 	background: url(http://graph.facebook.com/622487880/picture?type=large) no-repeat 50% 50%;
 	background-size: cover;
 	position: relative;
-	@include s-animation(cross-screen 1s infinite);
+	@include s-animation(cross-screen .8s infinite);
 }
 .motion-box--round {
 	@include s-animation(round-screen 2s infinite);

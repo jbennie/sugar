@@ -79,6 +79,8 @@ $_s-font-aliases : (
 		s-font : sf
 	));
 
+	$rhythme : _sugar-handle-nested(vertical-rhythme, $rhythme);
+
 	// get values
 	$font-size : map-get($rhythme, font-size);
 	$font-family : map-get($rhythme, font-family);
@@ -186,6 +188,10 @@ $_s-font-aliases : (
 		@each $prop, $value in $rhythme-map {
 			#{$prop} : $value;
 		}	
+	}
+
+	@include _sugar-handle-nested(vertical-rhythme) {
+		@content;
 	}
 }
 

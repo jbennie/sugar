@@ -10,14 +10,16 @@
 	<script src="js/jquery.js"></script>
 	<script src="js/jquery.appear.js"></script>
 	<script src="js/jquery.slidizle.js"></script>
+	<script src="js/sugar-DOMNodeInserted.js"></script>
+	<script src="js/sugar-transitionstart.js"></script>
 	<script src="js/sugar-motion-blur.js"></script>
+	<script src="js/sugar-gooey.js"></script>
 	<script src="js/sugar-webfonts.js"></script>
 	<script>SugarWebfonts.init({
-		version : 2.1
+		json_path : '/fonts/fonts.json#2.2'
 	});</script>
 	<script src="js/sugar.js"></script>
 	<script src="js/demo.js"></script>
-
 	<link href="css/loaders.css" rel="stylesheet" type="text/css" />
 	<link href="css/style.css" rel="stylesheet" type="text/css" />
 	<link href="css/grid.css" rel="stylesheet" type="text/css" />
@@ -213,14 +215,14 @@
 						Sugar gives you a nice mixin to set your font-family, text-transform, and all the font corresponding css properties.
 					</p>
 
-	<pre><code class="language-scss">
-	h1 {
-		@include s-font(22px helvetica uppercase underline);
-	}
-	p {
-		@include s-font(14px capitalize nowrap keep-all);
-	}
-	</code></pre>
+<pre><code class="language-scss">
+h1 {
+	@include s-font(22px helvetica uppercase underline);
+}
+p {
+	@include s-font(14px capitalize nowrap keep-all);
+}
+</code></pre>
 
 				</div>
 
@@ -232,15 +234,15 @@
 						The s-media is a helpful mixin to handle media queries
 					</p>
 
-	<pre><code class="language-scss">
-	.my-cool-element {
-		background: red;
+<pre><code class="language-scss">
+.my-cool-element {
+	background: red;
 
-		@include s-media(chrome retina, webkit mobile) {
-			background: yellow;
-		}
+	@include s-media(chrome retina, webkit mobile) {
+		background: yellow;
 	}
-	</code></pre>
+}
+</code></pre>
 
 				</div>
 
@@ -330,6 +332,20 @@
 
 
 					</div>
+
+<pre><code class="language-scss">
+.bubble {
+	@include s-bubble(s-color(orange) 10px, s-color(orange, -darken 15%) 2px) {
+
+	&.bubble-top-left {
+		@include s-bubble(top left);
+	}
+	&.bubble-top-right {
+		@include s-bubble(top right);
+	}
+	// etc...
+}
+</code></pre>
 
 				</div>
 
@@ -691,7 +707,7 @@
 
 				<div class="gr-12">
 
-					<h3>Motion blur</h3>
+					<h3>Filters</h3>
 
 					<p class="heading">
 						Sugar has some very cool mixins to create fully customizable <strong>single element</strong> loaders. Here's some exemple
@@ -704,30 +720,36 @@
 					<h4>Motion blur</h4>
 
 					<p>Vivamus condimentum nulla magna, at semper nulla placerat et. Vivamus lorem augue, gravida non purus vitae, euismod accumsan felis. Nam hendrerit, purus id maximus interdum, sem ligula facilisis nibh, tempor.</p>
+					
+					<div class="row">
 
-					<h5>With motion blur</h5>
-					<div data-motion-blur="0.5" class="motion-box"></div>
+						<div class="gr-6">
+
+							<h5>With motion blur</h5>
+							<div data-motion-blur="1" class="motion-box"></div>
+
+						</div>
+
+						<div class="gr-6">
 				
-					<h5>Without</h5>
-					<div class="motion-box"></div>
+							<h5>Without</h5>
+							<div class="motion-box"></div>
 
-					<h5>Drag me</h5>
-					<div class="drag-box"  data-motion-blur="0.2" data-interact></div>
+						</div>
+
+					</div>
+
 				</div>
-
-			</div>
-
-			<div class="row">
-
+				
 				<div class="gr-12">
 
-					<h4>Slider sample</h4>
+					<h4>Slider motion blur</h4>
 
 					<p>Vivamus condimentum nulla magna, at semper nulla placerat et. Vivamus lorem augue, gravida non purus vitae, euismod accumsan felis. Nam hendrerit, purus id maximus interdum, sem ligula facilisis nibh, tempor.</p>
 
 					<h5>With motion blur <small class="c-orange">click to pass through slides</small></h5>
 					
-					<div class="slidizle-left m-b-normal clearfix" data-slidizle>
+					<div class="m-b-normal clearfix" data-slidizle>
 						<ul data-slidizle-content data-motion-blur>
 							<li data-slidizle-item>
 								<img src="http://i.telegraph.co.uk/multimedia/archive/01914/enchanted-abbey_1914053i.jpg" />
@@ -746,7 +768,7 @@
 				
 					<h5>Without <small class="c-orange">click to pass through slides</small></h5>
 
-					<div class="slidizle-right" data-slidizle>
+					<div class="m-b-normal clearfix" data-slidizle>
 						<ul data-slidizle-content>
 							<li data-slidizle-item>
 								<img src="http://i.telegraph.co.uk/multimedia/archive/01914/enchanted-abbey_1914053i.jpg" />
@@ -763,28 +785,87 @@
 						</ul>
 					</div>
 
-
 				</div>
 
-			</div>
+				<div class="gr-12">
 
-			<div class="row m-b-medium">
+					<h4>Gooey</h4>
 
-				<div class="gr-6 gr-centered ">
+					<p>Vivamus condimentum nulla magna, at semper nulla placerat et. Vivamus lorem augue, gravida non purus vitae, euismod accumsan felis. Nam hendrerit, purus id maximus interdum, sem ligula facilisis nibh, tempor.</p>
 
+					<div class="row">
+
+						<div class="gr-6">
+							<div class="round-menu" data-gooey="8">
+								<div class="round-menu__wrapper">
+									<ul class="round-menu__items">
+										<li class="round-menu__item">
+											<button class="round-menu__item-button">
+												<i class="round-menu__item-icon fa-cloud"></i>
+											</button>
+										</li>
+										<li class="round-menu__item">
+											<button class="round-menu__item-button">
+												<i class="round-menu__item-icon fa-coffee"></i>
+											</button>
+										</li>
+										<li class="round-menu__item">
+											<button class="round-menu__item-button">
+												<i class="round-menu__item-icon fa-user"></i>
+											</button>
+										</li>
+									</ul>
+									<button class="round-menu__toggle-button">
+										<i class="fa-bars round-menu__toggle-icon"></i>
+									</button>
+								</div>
+								
+							</div>
+
+							<h5>With <br /><small class="c-orange">hover mouse to see the effect</small></h5>
+
+						</div>
 					
+						<div class="gr-6">
+							
+							<div class="round-menu">
+								<div class="round-menu__wrapper">
+									<ul class="round-menu__items">
+										<li class="round-menu__item">
+											<button class="round-menu__item-button">
+												<i class="round-menu__item-icon fa-cloud"></i>
+											</button>
+										</li>
+										<li class="round-menu__item">
+											<button class="round-menu__item-button">
+												<i class="round-menu__item-icon fa-coffee"></i>
+											</button>
+										</li>
+										<li class="round-menu__item">
+											<button class="round-menu__item-button">
+												<i class="round-menu__item-icon fa-user"></i>
+											</button>
+										</li>
+									</ul>
+									<button class="round-menu__toggle-button">
+										<i class="fa-bars round-menu__toggle-icon"></i>
+									</button>
+								</div>
+							</div>
 
+							<h5>Without gooey <br /><small class="c-orange">hover the mouse to see the effect</small></h5>
+
+						</div>
+
+					</div>
+			
 				</div>
 
 			</div>
 
 			<div class="row">
 
-				<div class="gr-6 gr-centered">
-
-					
-
-				</div>
+				
 
 			</div>
 

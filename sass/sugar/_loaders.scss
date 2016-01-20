@@ -28,6 +28,9 @@
 		delay : second,
 		ease : string
 	));
+	
+	$props : _sugar-handle-nested(loader-grid, $props);
+	$animation : _sugar-handle-nested(loader-grid-animation, $animation);
 
 	$color : map-get-or($props, color, red);
 	$colors : map-get($props, colors);
@@ -105,7 +108,6 @@
 		animation : $a-name $a-duration $a-ease 0s infinite;
 		box-shadow : $shadows;
 		transform-origin: ($offset + $width / 2 + $gap + $size) ($offset + $height / 2 + $gap + $size);
-		@content;
 	}
 
 	// calculate percentage of delay
@@ -190,6 +192,10 @@
 			}
 		}
 	}
+
+	@include _sugar-handle-nested(loader-grid, loader-grid-animation) {
+		@content;
+	}
 }
 
 @mixin s-loader-spinner(
@@ -209,6 +215,8 @@
 		ease : string	
 	));
 	
+	$spinner : _sugar-handle-nested(loader-spinner, $spinner);
+	$animation : _sugar-handle-nested(loader-spinner-animation, $animation);
 
 	$type : map-get-or($spinner, type, linear);
 	$size : map-get-or($spinner, size, 1em);
@@ -416,6 +424,10 @@
 			}
 		}
 	}
+
+	@include _sugar-handle-nested(loader-spinner, loader-spinner-animation) {
+		@content;
+	}
 }
 
 @mixin s-loader-circle(
@@ -441,6 +453,10 @@
 		duration : second,
 		delay : second
 	));
+
+	$props : _sugar-handle-nested(loader-circle, $props);
+	$animation : _sugar-handle-nested(loader-circle-animation, $animation);
+
 	$color : map-get-or($props, color, red);
 	$colors : map-get($props, colors);
 	$size : map-get-or($props, size, 10px);
@@ -583,6 +599,10 @@
 	// @include s-translate(-50% -50%);
 	// transform: rotate(- 360deg / $count / 2);
 	@include s-transform(-translateX -50% -translateY -50% -rotate -90deg);
+
+	@include _sugar-handle-nested(loader-circle, loader-circle-animation) {
+		@content;
+	}
 }
 
 @mixin s-loader-radial(
@@ -604,6 +624,10 @@
 		spread : number,
 		ease : string
 	));
+
+	$props : _sugar-handle-nested(loader-radial, $props);
+	$animation : _sugar-handle-nested(loader-radial-animation, $animation);
+
 	$shape : map-get-or($props, shape, circle);
 	$size : map-get-or($props, size, 1em);
 	$width : map-get-or($props, width, 0.2em);
@@ -755,7 +779,6 @@
 		@if $shape == circle {
 			border-radius:50%;
 		}
-		@content;
 	}
 	// cubic-bezier(1,.01,0,1)
 	$c : $color;
@@ -774,6 +797,10 @@
 		border: $width $style $c;
 		// background: radial-gradient(transparentize($c, 1) 30%, $c 50%, transparentize($c, 1) 70%);
 		animation: #{$a-name}-a $a-duration $a-ease ($a-duration - $a-delay) / $a-count / 2 infinite;
+	}
+
+	@include _sugar-handle-nested(loader-radial, loader-radial-animation) {
+		@content;
 	}
 }
 
@@ -801,6 +828,9 @@
 		spread : number,
 		continuous : true
 	));
+
+	$props : _sugar-handle-nested(loader-bars, $props);
+	$animation : _sugar-handle-nested(loader-bars-animation, $animation);
 
 	$shape : map-get-or($props, shape, rect);
 	$color : map-get-or($props, color, red);
@@ -883,7 +913,6 @@
 		box-shadow : $shadows;
 		@include s-translate((-$_width / 2 - $width - $gap - $offset) (-$height / 2 - $offset));
 		transform-origin: ($offset + $_width / 2 + $gap + $width) ($offset + $height / 2);
-		@content;
 	}
 
 	// calculate percentage of delay
@@ -999,6 +1028,10 @@
 			}
 		}
 	}
+
+	@include _sugar-handle-nested(loader-bars, loader-bars-animation) {
+		@content;
+	}
 }
 
 @mixin s-loader-couch-potato(
@@ -1018,6 +1051,9 @@
 		rotate : degree,
 		scale : number
 	));
+
+	$props : _sugar-handle-nested(loader-couch-potato, $props);
+	$animation : _sugar-handle-nested(loader-couch-potato-animation, $animation);
 
 	$size : map-get-or($props, size, 1em);
 	$color : map-get-or($props, color, red);
@@ -1078,6 +1114,10 @@
 			@include s-transform(-rotate $a-rotate -scale 1);
 		}
 	}
+
+	@include _sugar-handle-nested(loader-couch-potato, loader-couch-potato-animation) {
+		@content;
+	}
 }
 
 @mixin s-loader-flip-ball(
@@ -1096,6 +1136,9 @@
 		delay : second,
 		ease : string
 	));
+
+	$props : _sugar-handle-nested(loader-flip-ball, $props);
+	$animation : _sugar-handle-nested(loader-flip-ball-animation, $animation);	
 
 	$shape : map-get-or($props, shape, circle);
 	$size : map-get-or($props, size, 1em);
@@ -1220,5 +1263,9 @@
 				background: nth($colors, $i);
 			}
 		}
+	}
+
+	@include _sugar-handle-nested(loader-flip-ball, loader-flip-ball-animation) {
+		@content;
 	}
 }

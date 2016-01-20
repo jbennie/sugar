@@ -68,7 +68,8 @@
 	@include s-animation(rotate-x 1s infinite);
 }
 .loader-bars-2 {
-	@include s-loader-bars(white -count 5, -near 2 -spread 0.8em -delay 1s) {
+	@include s-loader-bars(white -count 5, -near 2 -spread 0.8em -delay 1s);
+	&:before {
 		border-radius: 5px;
 	}
 	display: block;

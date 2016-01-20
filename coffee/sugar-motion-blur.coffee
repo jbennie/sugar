@@ -25,22 +25,19 @@
 
 		# track if already inited
 		_inited : false
-
-		# default settings that can be overrided on init
-		_settings :
-			debug : false
 		
+		# enabled
+		enabled : true
+
 		###
 		Init
 		###
-		init : (settings) ->
-
-			# extend settings
-			@_settings = @_extend @_settings, settings
+		init : () ->
 
 			# update inited state
 			@_inited = true
 
+			# wait until the dom is loaded
 			if document.readyState == 'interactive' then @_init()
 			else document.addEventListener 'DOMContentLoaded', (e) => @_init()
 
@@ -49,18 +46,19 @@
 		###
 		_init : ->
 
-
+			# do nothing if not enabled
+			return if not @enabled
 
 			# put filters into page
-			@_injectFilters()
+			@_injectFilter()
 
 			# listen for animations
 			@_listenAnimation()
 
 		###
-		Inject filters
+		Inject filter
 		###
-		_injectFilters : ->
+		_injectFilter : ->
 
 			# blur
 			blur = """
@@ -90,12 +88,12 @@
 				elm = e.target
 				if elm.dataset.motionBlur != undefined
 					cancelAnimationFrame elm._blurAnimationFrame
-					@_handleMotionBlur elm
+					@_handleFilter elm
 			document.addEventListener 'transitionstart', (e) =>
 				elm = e.target
 				if elm.dataset.motionBlur != undefined
 					cancelAnimationFrame elm._blurAnimationFrame
-					@_handleMotionBlur elm
+					@_handleFilter elm
 			document.addEventListener 'move', (e) =>
 				elm = e.target
 				if elm.dataset.motionBlur != undefined
@@ -103,10 +101,9 @@
 
 
 		###
-		Handle motion blur
+		Handle filter
 		###
-		_handleMotionBlur : (elm, recursive = false) ->
-
+		_handleFilter : (elm, recursive = false) ->
 			if not recursive
 				elm._step = 0
 
@@ -123,7 +120,7 @@
 
 			# request an animation frame
 			elm._blurAnimationFrame = requestAnimationFrame () =>
-				@_handleMotionBlur elm, true
+				@_handleFilter elm, true
 
 		###
 		# Set motion blur
@@ -219,24 +216,8 @@
 			m = String.fromCharCode(n)+k;
 			return m.trim()
 
-		###
-		Extend settings
-		###
-		_extend : (obj, mixin) ->
-			obj[name] = method for name, method of mixin
-			obj
-
-		###
-		Debug
-		###
-		_debug : ->
-			console.log 'SUGAR-MOTION-BLUR', arguments if @_settings.debug
-
+	# init the filter
 	SugarMotionBlur.init()
-
-	# support AMD
-	if typeof window.define is 'function' && window.define.amd
-		window.define [], -> window.SugarMotionBlur
 
 	# return the Sugar object
 	SugarMotionBlur

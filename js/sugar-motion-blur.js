@@ -20,15 +20,12 @@
 })(function() {
   window.SugarMotionBlur = {
     _inited: false,
-    _settings: {
-      debug: false
-    },
+    enabled: true,
 
     /*
     		Init
      */
-    init: function(settings) {
-      this._settings = this._extend(this._settings, settings);
+    init: function() {
       this._inited = true;
       if (document.readyState === 'interactive') {
         return this._init();
@@ -45,14 +42,17 @@
     		Internal init
      */
     _init: function() {
-      this._injectFilters();
+      if (!this.enabled) {
+        return;
+      }
+      this._injectFilter();
       return this._listenAnimation();
     },
 
     /*
-    		Inject filters
+    		Inject filter
      */
-    _injectFilters: function() {
+    _injectFilter: function() {
       var blur, blur_elm, body;
       blur = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" style=\"display:none;\">\n	<defs>\n		<filter id=\"blur\">\n			<feGaussianBlur in=\"SourceGraphic\" stdDeviation=\"0,0\" />\n		</filter>\n	</defs>\n</svg>";
       blur_elm = document.createElement('div');
@@ -74,7 +74,7 @@
           elm = e.target;
           if (elm.dataset.motionBlur !== void 0) {
             cancelAnimationFrame(elm._blurAnimationFrame);
-            return _this._handleMotionBlur(elm);
+            return _this._handleFilter(elm);
           }
         };
       })(this));
@@ -84,7 +84,7 @@
           elm = e.target;
           if (elm.dataset.motionBlur !== void 0) {
             cancelAnimationFrame(elm._blurAnimationFrame);
-            return _this._handleMotionBlur(elm);
+            return _this._handleFilter(elm);
           }
         };
       })(this));
@@ -100,9 +100,9 @@
     },
 
     /*
-    		Handle motion blur
+    		Handle filter
      */
-    _handleMotionBlur: function(elm, recursive) {
+    _handleFilter: function(elm, recursive) {
       var diff;
       if (recursive == null) {
         recursive = false;
@@ -123,7 +123,7 @@
       }
       return elm._blurAnimationFrame = requestAnimationFrame((function(_this) {
         return function() {
-          return _this._handleMotionBlur(elm, true);
+          return _this._handleFilter(elm, true);
         };
       })(this));
     },
@@ -231,35 +231,9 @@
       k = Math.floor(Math.random() * 1000000);
       m = String.fromCharCode(n) + k;
       return m.trim();
-    },
-
-    /*
-    		Extend settings
-     */
-    _extend: function(obj, mixin) {
-      var method, name;
-      for (name in mixin) {
-        method = mixin[name];
-        obj[name] = method;
-      }
-      return obj;
-    },
-
-    /*
-    		Debug
-     */
-    _debug: function() {
-      if (this._settings.debug) {
-        return console.log('SUGAR-MOTION-BLUR', arguments);
-      }
     }
   };
   SugarMotionBlur.init();
-  if (typeof window.define === 'function' && window.define.amd) {
-    window.define([], function() {
-      return window.SugarMotionBlur;
-    });
-  }
   return SugarMotionBlur;
 });
 
