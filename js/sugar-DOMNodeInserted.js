@@ -66,4 +66,4 @@
   return SugarDOMNodeInserted;
 });
 
-//# sourceMappingURL=sugar-domnodeinserted.js.map
+//# sourceMappingURL=sugar-DOMNodeInserted.js.map
