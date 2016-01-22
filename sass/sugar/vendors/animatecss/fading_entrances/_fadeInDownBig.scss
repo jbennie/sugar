@@ -1,0 +1,16 @@
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeInDownBig) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeInDownBig); @keyframes fadeInDownBig {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -2000px, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+%fadeInDownBig {
+  animation-name: fadeInDownBig;
+}
+}

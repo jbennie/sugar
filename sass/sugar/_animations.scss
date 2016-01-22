@@ -109,8 +109,8 @@
 //
 // Transition start trigger
 //
-@mixin s-transitionstart-trigger() {
-	outline-color : white;
+@mixin s-transitionstart() {
+	outline-color : rgba(random(255), random(255), random(255), random(1));
 }
 
 //
@@ -120,6 +120,12 @@
 	from { opacity: .99; }
 	to { opacity: 1; }
 }
-@mixin s-DOMNodeInserted-event() {
-	@include s-animation(s-DOMNodeInserted 0.001s);
+@function s-domnodeinserted() {
+	@return s-DOMNodeInserted 0.001s;
+}
+@mixin s-DOMNodeInserted() {
+	@include s-animation(s-domnodeinserted());
 }	
+@mixin s-domnodeinserted() {
+	@include s-DOMNodeInserted();
+}

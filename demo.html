@@ -10,15 +10,11 @@
 	<script src="js/jquery.js"></script>
 	<script src="js/jquery.appear.js"></script>
 	<script src="js/jquery.slidizle.js"></script>
-	<script src="js/sugar-DOMNodeInserted.js"></script>
-	<script src="js/sugar-transitionstart.js"></script>
-	<script src="js/sugar-motion-blur.js"></script>
-	<script src="js/sugar-gooey.js"></script>
-	<script src="js/sugar-webfonts.js"></script>
+	<script src="js/sugar-full.js"></script>
 	<script>SugarWebfonts.init({
-		json_path : '/fonts/fonts.json#2.2'
+		json_path : '/fonts/fonts.json#2.2',
+		debug : true
 	});</script>
-	<script src="js/sugar.js"></script>
 	<script src="js/demo.js"></script>
 	<link href="css/loaders.css" rel="stylesheet" type="text/css" />
 	<link href="css/style.css" rel="stylesheet" type="text/css" />
@@ -717,7 +713,7 @@ p {
 
 				<div class="gr-12">
 
-					<h4>Motion blur</h4>
+					<h4 id="motion-blur">Motion blur</h4>
 
 					<p>Vivamus condimentum nulla magna, at semper nulla placerat et. Vivamus lorem augue, gravida non purus vitae, euismod accumsan felis. Nam hendrerit, purus id maximus interdum, sem ligula facilisis nibh, tempor.</p>
 					
@@ -738,6 +734,11 @@ p {
 						</div>
 
 					</div>
+					
+<pre class="m-t-small"><code class="language-markup">&lt;div class="my-cool-moving-item" data-motion-blur&gt;
+	&lt;!-- anything you want here... --&gt;
+&lt;/div&gt;
+</code></pre>
 
 				</div>
 				
@@ -784,12 +785,17 @@ p {
 							</li>
 						</ul>
 					</div>
+					
+<pre class="m-t-small"><code class="language-markup">&lt;div class="my-cool-moving-item" data-motion-blur&gt;
+	&lt;!-- anything you want here... --&gt;
+&lt;/div&gt;
+</code></pre>
 
 				</div>
 
 				<div class="gr-12">
 
-					<h4>Gooey</h4>
+					<h4 id="gooey">Gooey</h4>
 
 					<p>Vivamus condimentum nulla magna, at semper nulla placerat et. Vivamus lorem augue, gravida non purus vitae, euismod accumsan felis. Nam hendrerit, purus id maximus interdum, sem ligula facilisis nibh, tempor.</p>
 
@@ -858,6 +864,11 @@ p {
 						</div>
 
 					</div>
+
+<pre><code class="language-markup">&lt;div class="my-cool-menu" data-gooey&gt;
+	&lt;!-- anything you want here... --&gt;
+&lt;/div&gt;
+</code></pre>
 			
 				</div>
 

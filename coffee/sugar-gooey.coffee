@@ -1,11 +1,11 @@
 ###
-# Sugar-webfonts.js
+# Sugar-gooey.js
 #
-# This little js file allow you to use webfonts based64 encoded and loaded from localstorage
+# This little js file allow you to use the gooey effect
 #
 # @author   Olivier Bossel <olivier.bossel@gmail.com>
-# @created  23.11.15
-# @updated  23.11.15
+# @created  22.01.16
+# @updated  20.01.16
 # @version  1.0.0
 ###
 ((factory) ->
@@ -57,8 +57,9 @@
 
 			# init element
 			for item in document.querySelectorAll('[data-gooey]')
-				item.dispatchEvent(new CustomEvent('transitionstart', {
-					bubbles : true
+				item.dispatchEvent(new CustomEvent('DOMNodeInserted', {
+					bubbles : true,
+					cancelable : true
 				}));
 
 		###
@@ -67,8 +68,11 @@
 		_injectFilter : ->
 
 			# gooey
+			style = ['position:absolute;','left:-1000px;']
+			if /Chrome/.test(navigator.userAgent) and /Google Inc/.test(navigator.vendor)
+				style.push 'display:none;'
 			gooey = """
-				<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+				<svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="#{style.join(' ')}">
 					<defs>
 						<filter id="gooey">
 							<feGaussianBlur in="SourceGraphic" stdDeviation="0" result="blur" />

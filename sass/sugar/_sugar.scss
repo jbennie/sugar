@@ -544,7 +544,7 @@ $_sugar-inited : false;
 
 		// effects
 		[data-gooey] {
-			@include s-DOMNodeInserted-event();
+			@include s-domnodeinserted();
 		}
 		
 		// font

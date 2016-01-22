@@ -34,9 +34,9 @@ jQuery ($) ->
 		loop : true,
 		pauseOnHover : true,
 		onChange : (api) ->
-			api.$refs.content.get(0).dispatchEvent(new CustomEvent('transitionstart', {
-				bubbles : true
-			}));
+			# api.$refs.content.get(0).dispatchEvent(new CustomEvent('transitionstart', {
+			# 	bubbles : true
+			# }));
 
 	$('[data-interact]').each (idx, item) ->
 		interact(item).draggable

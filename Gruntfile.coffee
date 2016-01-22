@@ -27,12 +27,22 @@ module.exports = (grunt) ->
 			animatecss:
 				src : 'sass/sugar/vendors/animatecss/*/*.scss'
 				dest : 'sass/sugar/vendors/animatecss/_animate.scss'
-			extras:
+			sugar:
 				src: [
 					'bower_components/cssua.js/cssua.min.js'
 					'js/sugar.js'
 				]
-				dest: 'js/sugar.js'
+				dest : 'js/sugar.js'
+			extras:
+				src: [
+					'js/sugar.js'
+					'js/sugar-webfonts.js'
+					'js/sugar-transitionstart.js'
+					'js/sugar-domnodeinserted.js'
+					'js/sugar-motion-blur.js'
+					'js/sugar-gooey.js'
+				]
+				dest: 'js/sugar-full.js'
 
 		sass:
 			options:

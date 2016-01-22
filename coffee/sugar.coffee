@@ -49,9 +49,5 @@
 		Sugar.init() if not Sugar._inited
 	, 500
 
-	# support AMD
-	if typeof window.define is 'function' && window.define.amd
-		window.define [], -> window.Sugar
-
 	# return the Sugar object
 	Sugar

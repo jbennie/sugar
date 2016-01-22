@@ -1,12 +1,12 @@
 
 /*
- * Sugar-webfonts.js
+ * Sugar-domnodeinserted.js
  *
- * This little js file allow you to use webfonts based64 encoded and loaded from localstorage
+ * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
  *
  * @author   Olivier Bossel <olivier.bossel@gmail.com>
- * @created  23.11.15
- * @updated  23.11.15
+ * @created  20.01.16
+ * @updated  20.01.16
  * @version  1.0.0
  */
 (function(factory) {
@@ -66,4 +66,4 @@
   return SugarDOMNodeInserted;
 });
 
-//# sourceMappingURL=sugar-DOMNodeInserted.js.map
+//# sourceMappingURL=sugar-domnodeinserted.js.map

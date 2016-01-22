@@ -35,11 +35,7 @@ jQuery(function($) {
     nextOnClick: true,
     loop: true,
     pauseOnHover: true,
-    onChange: function(api) {
-      return api.$refs.content.get(0).dispatchEvent(new CustomEvent('transitionstart', {
-        bubbles: true
-      }));
-    }
+    onChange: function(api) {}
   });
   return $('[data-interact]').each(function(idx, item) {
     return interact(item).draggable({

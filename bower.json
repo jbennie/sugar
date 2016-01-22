@@ -31,12 +31,12 @@
     "interact": "~1.2.6"
   },
   "devDependencies": {
-    "cssua.js": "https://github.com/mckamey/cssuseragent.git#~2.1.30",
-    "animate.css": "https://github.com/daneden/animate.css.git#~3.5.1",
+    "cssua.js": "https://github.com/mckamey/cssuseragent.git#~2.1.31",
+    "animate.css": "https://github.com/daneden/animate.css.git#3.4.0",
     "cssgram": "https://github.com/una/CSSgram.git#0.1.4",
     "modular-scale": "~2.1.1",
     "font-awesome": "~4.5.0",
     "sassdash": "~0.8.0",
-    "gridle": "~2.0.43"
+    "gridle": "~2.0.44"
   }
 }

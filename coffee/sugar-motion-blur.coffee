@@ -1,11 +1,11 @@
 ###
-# Sugar-webfonts.js
+# Sugar-motion-blur.js
 #
-# This little js file allow you to use webfonts based64 encoded and loaded from localstorage
+# This little js file allow you to use cool motion blur svg effect
 #
 # @author   Olivier Bossel <olivier.bossel@gmail.com>
-# @created  23.11.15
-# @updated  23.11.15
+# @created  20.01.16
+# @updated  20.01.16
 # @version  1.0.0
 ###
 ((factory) ->
@@ -61,8 +61,11 @@
 		_injectFilter : ->
 
 			# blur
+			style = ['position:absolute;','left:-1000px;']
+			if /Chrome/.test(navigator.userAgent) and /Google Inc/.test(navigator.vendor)
+				style.push 'display:none;'
 			blur = """
-				<svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display:none;">
+				<svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="#{style.join(' ')}">
 					<defs>
 						<filter id="blur">
 							<feGaussianBlur in="SourceGraphic" stdDeviation="0,0" />

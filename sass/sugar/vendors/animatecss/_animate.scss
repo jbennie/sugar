@@ -1,0 +1,1474 @@
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, bounce) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, bounce); @keyframes bounce {
+  from, 20%, 53%, 80%, 100% {
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    transform: translate3d(0,0,0);
+  }
+
+  40%, 43% {
+    animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+    transform: translate3d(0, -30px, 0);
+  }
+
+  70% {
+    animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+    transform: translate3d(0, -15px, 0);
+  }
+
+  90% {
+    transform: translate3d(0,-4px,0);
+  }
+}
+
+%bounce {
+  animation-name: bounce;
+  transform-origin: center bottom;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, flash) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, flash); @keyframes flash {
+  from, 50%, 100% {
+    opacity: 1;
+  }
+
+  25%, 75% {
+    opacity: 0;
+  }
+}
+
+%flash {
+  animation-name: flash;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, jello) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, jello); @keyframes jello {
+  from, 11.1%, 100% {
+    transform: none
+  }
+  22.2% {
+    transform: skewX(-12.5deg) skewY(-12.5deg)
+  }
+  33.3% {
+    transform: skewX(6.25deg) skewY(6.25deg)
+  }
+  44.4% {
+    transform: skewX(-3.125deg) skewY(-3.125deg)
+  }
+  55.5% {
+    transform: skewX(1.5625deg) skewY(1.5625deg)
+  }
+  66.6% {
+    transform: skewX(-0.78125deg) skewY(-0.78125deg)
+  }
+  77.7% {
+    transform: skewX(0.390625deg) skewY(0.390625deg)
+  }
+  88.8% {
+    transform: skewX(-0.1953125deg) skewY(-0.1953125deg)
+  }
+}
+
+
+
+%jello{
+    animation-name:jello;
+    transform-origin: center
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, pulse) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, pulse); /* originally authored by Nick Pettit - https://github%com/nickpettit/glide */
+
+@keyframes pulse {
+  from {
+    transform: scale3d(1, 1, 1);
+  }
+
+  50% {
+    transform: scale3d(1.05, 1.05, 1.05);
+  }
+
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+%pulse {
+  animation-name: pulse;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rubberBand) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rubberBand); @keyframes rubberBand {
+  from {
+    transform: scale3d(1, 1, 1);
+  }
+
+  30% {
+    transform: scale3d(1.25, 0.75, 1);
+  }
+
+  40% {
+    transform: scale3d(0.75, 1.25, 1);
+  }
+
+  50% {
+    transform: scale3d(1.15, 0.85, 1);
+  }
+
+  65% {
+    transform: scale3d(.95, 1.05, 1);
+  }
+
+  75% {
+    transform: scale3d(1.05, .95, 1);
+  }
+
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+%rubberBand {
+  animation-name: rubberBand;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, shake) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, shake); @keyframes shake {
+  from, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  10%, 30%, 50%, 70%, 90% {
+    transform: translate3d(-10px, 0, 0);
+  }
+
+  20%, 40%, 60%, 80% {
+    transform: translate3d(10px, 0, 0);
+  }
+}
+
+%shake {
+  animation-name: shake;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, swing) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, swing); @keyframes swing {
+  20% {
+    transform: rotate3d(0, 0, 1, 15deg);
+  }
+
+  40% {
+    transform: rotate3d(0, 0, 1, -10deg);
+  }
+
+  60% {
+    transform: rotate3d(0, 0, 1, 5deg);
+  }
+
+  80% {
+    transform: rotate3d(0, 0, 1, -5deg);
+  }
+
+  100% {
+    transform: rotate3d(0, 0, 1, 0deg);
+  }
+}
+
+%swing {
+  transform-origin: top center;
+  animation-name: swing;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, tada) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, tada); @keyframes tada {
+  from {
+    transform: scale3d(1, 1, 1);
+  }
+
+  10%, 20% {
+    transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);
+  }
+
+  30%, 50%, 70%, 90% {
+    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+  }
+
+  40%, 60%, 80% {
+    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+  }
+
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+%tada {
+  animation-name: tada;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, wobble) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, wobble); /* originally authored by Nick Pettit - https://github%com/nickpettit/glide */
+
+@keyframes wobble {
+  from {
+    transform: none;
+  }
+
+  15% {
+    transform: translate3d(-25%, 0, 0) rotate3d(0, 0, 1, -5deg);
+  }
+
+  30% {
+    transform: translate3d(20%, 0, 0) rotate3d(0, 0, 1, 3deg);
+  }
+
+  45% {
+    transform: translate3d(-15%, 0, 0) rotate3d(0, 0, 1, -3deg);
+  }
+
+  60% {
+    transform: translate3d(10%, 0, 0) rotate3d(0, 0, 1, 2deg);
+  }
+
+  75% {
+    transform: translate3d(-5%, 0, 0) rotate3d(0, 0, 1, -1deg);
+  }
+
+  100% {
+    transform: none;
+  }
+}
+
+%wobble {
+  animation-name: wobble;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, bounceIn) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, bounceIn); @keyframes bounceIn {
+  from, 20%, 40%, 60%, 80%, 100% {
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  }
+
+  0% {
+    opacity: 0;
+    transform: scale3d(.3, .3, .3);
+  }
+
+  20% {
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+
+  40% {
+    transform: scale3d(.9, .9, .9);
+  }
+
+  60% {
+    opacity: 1;
+    transform: scale3d(1.03, 1.03, 1.03);
+  }
+
+  80% {
+    transform: scale3d(.97, .97, .97);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+%bounceIn {
+  animation-name: bounceIn;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, bounceInDown) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, bounceInDown); @keyframes bounceInDown {
+  from, 60%, 75%, 90%, 100% {
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  }
+
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -3000px, 0);
+  }
+
+  60% {
+    opacity: 1;
+    transform: translate3d(0, 25px, 0);
+  }
+
+  75% {
+    transform: translate3d(0, -10px, 0);
+  }
+
+  90% {
+    transform: translate3d(0, 5px, 0);
+  }
+
+  100% {
+    transform: none;
+  }
+}
+
+%bounceInDown {
+  animation-name: bounceInDown;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, bounceInLeft) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, bounceInLeft); @keyframes bounceInLeft {
+  from, 60%, 75%, 90%, 100% {
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  }
+
+  0% {
+    opacity: 0;
+    transform: translate3d(-3000px, 0, 0);
+  }
+
+  60% {
+    opacity: 1;
+    transform: translate3d(25px, 0, 0);
+  }
+
+  75% {
+    transform: translate3d(-10px, 0, 0);
+  }
+
+  90% {
+    transform: translate3d(5px, 0, 0);
+  }
+
+  100% {
+    transform: none;
+  }
+}
+
+%bounceInLeft {
+  animation-name: bounceInLeft;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, bounceInRight) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, bounceInRight); @keyframes bounceInRight {
+  from, 60%, 75%, 90%, 100% {
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  }
+
+  from {
+    opacity: 0;
+    transform: translate3d(3000px, 0, 0);
+  }
+
+  60% {
+    opacity: 1;
+    transform: translate3d(-25px, 0, 0);
+  }
+
+  75% {
+    transform: translate3d(10px, 0, 0);
+  }
+
+  90% {
+    transform: translate3d(-5px, 0, 0);
+  }
+
+  100% {
+    transform: none;
+  }
+}
+
+%bounceInRight {
+  animation-name: bounceInRight;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, bounceInUp) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, bounceInUp); @keyframes bounceInUp {
+  from, 60%, 75%, 90%, 100% {
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  }
+
+  from {
+    opacity: 0;
+    transform: translate3d(0, 3000px, 0);
+  }
+
+  60% {
+    opacity: 1;
+    transform: translate3d(0, -20px, 0);
+  }
+
+  75% {
+    transform: translate3d(0, 10px, 0);
+  }
+
+  90% {
+    transform: translate3d(0, -5px, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+%bounceInUp {
+  animation-name: bounceInUp;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, bounceOut) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, bounceOut); @keyframes bounceOut {
+  20% {
+    transform: scale3d(.9, .9, .9);
+  }
+
+  50%, 55% {
+    opacity: 1;
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale3d(.3, .3, .3);
+  }
+}
+
+%bounceOut {
+  animation-name: bounceOut;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, bounceOutDown) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, bounceOutDown); @keyframes bounceOutDown {
+  20% {
+    transform: translate3d(0, 10px, 0);
+  }
+
+  40%, 45% {
+    opacity: 1;
+    transform: translate3d(0, -20px, 0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(0, 2000px, 0);
+  }
+}
+
+%bounceOutDown {
+  animation-name: bounceOutDown;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, bounceOutLeft) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, bounceOutLeft); @keyframes bounceOutLeft {
+  20% {
+    opacity: 1;
+    transform: translate3d(20px, 0, 0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(-2000px, 0, 0);
+  }
+}
+
+%bounceOutLeft {
+  animation-name: bounceOutLeft;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, bounceOutRight) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, bounceOutRight); @keyframes bounceOutRight {
+  20% {
+    opacity: 1;
+    transform: translate3d(-20px, 0, 0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(2000px, 0, 0);
+  }
+}
+
+%bounceOutRight {
+  animation-name: bounceOutRight;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, bounceOutUp) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, bounceOutUp); @keyframes bounceOutUp {
+  20% {
+    transform: translate3d(0, -10px, 0);
+  }
+
+  40%, 45% {
+    opacity: 1;
+    transform: translate3d(0, 20px, 0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -2000px, 0);
+  }
+}
+
+%bounceOutUp {
+  animation-name: bounceOutUp;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeIn) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeIn); @keyframes fadeIn {
+  from {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+%fadeIn {
+  animation-name: fadeIn;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeInDown) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeInDown); @keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+%fadeInDown {
+  animation-name: fadeInDown;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeInDownBig) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeInDownBig); @keyframes fadeInDownBig {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -2000px, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+%fadeInDownBig {
+  animation-name: fadeInDownBig;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeInLeft) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeInLeft); @keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+%fadeInLeft {
+  animation-name: fadeInLeft;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeInLeftBig) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeInLeftBig); @keyframes fadeInLeftBig {
+  from {
+    opacity: 0;
+    transform: translate3d(-2000px, 0, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+%fadeInLeftBig {
+  animation-name: fadeInLeftBig;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeInRight) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeInRight); @keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+%fadeInRight {
+  animation-name: fadeInRight;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeInRightBig) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeInRightBig); @keyframes fadeInRightBig {
+  from {
+    opacity: 0;
+    transform: translate3d(2000px, 0, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+%fadeInRightBig {
+  animation-name: fadeInRightBig;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeInUp) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeInUp); @keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+%fadeInUp {
+  animation-name: fadeInUp;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeInUpBig) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeInUpBig); @keyframes fadeInUpBig {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 2000px, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+%fadeInUpBig {
+  animation-name: fadeInUpBig;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeOut) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeOut); @keyframes fadeOut {
+  from {opacity: 1;}
+  100% {opacity: 0;}
+}
+
+%fadeOut {
+  animation-name: fadeOut;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeOutDown) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeOutDown); @keyframes fadeOutDown {
+  from {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+}
+
+%fadeOutDown {
+  animation-name: fadeOutDown;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeOutDownBig) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeOutDownBig); @keyframes fadeOutDownBig {
+  from {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(0, 2000px, 0);
+  }
+}
+
+%fadeOutDownBig {
+  animation-name: fadeOutDownBig;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeOutLeft) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeOutLeft); @keyframes fadeOutLeft {
+  from {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+%fadeOutLeft {
+  animation-name: fadeOutLeft;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeOutLeftBig) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeOutLeftBig); @keyframes fadeOutLeftBig {
+  from {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(-2000px, 0, 0);
+  }
+}
+
+%fadeOutLeftBig {
+  animation-name: fadeOutLeftBig;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeOutRight) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeOutRight); @keyframes fadeOutRight {
+  from {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+  }
+}
+
+%fadeOutRight {
+  animation-name: fadeOutRight;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeOutRightBig) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeOutRightBig); @keyframes fadeOutRightBig {
+  from {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(2000px, 0, 0);
+  }
+}
+
+%fadeOutRightBig {
+  animation-name: fadeOutRightBig;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeOutUp) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeOutUp); @keyframes fadeOutUp {
+  from {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+  }
+}
+
+%fadeOutUp {
+  animation-name: fadeOutUp;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeOutUpBig) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeOutUpBig); @keyframes fadeOutUpBig {
+  from {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -2000px, 0);
+  }
+}
+
+%fadeOutUpBig {
+  animation-name: fadeOutUpBig;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, flip) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, flip); @keyframes flip {
+  from {
+    transform: perspective(400px) rotate3d(0, 1, 0, -360deg);
+    animation-timing-function: ease-out;
+  }
+
+  40% {
+    transform: perspective(400px) translate3d(0, 0, 150px) rotate3d(0, 1, 0, -190deg);
+    animation-timing-function: ease-out;
+  }
+
+  50% {
+    transform: perspective(400px) translate3d(0, 0, 150px) rotate3d(0, 1, 0, -170deg);
+    animation-timing-function: ease-in;
+  }
+
+  80% {
+    transform: perspective(400px) scale3d(.95, .95, .95);
+    animation-timing-function: ease-in;
+  }
+
+  100% {
+    transform: perspective(400px);
+    animation-timing-function: ease-in;
+  }
+}
+
+%animated%flip {
+  backface-visibility: visible;
+  animation-name: flip;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, flipInX) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, flipInX); @keyframes flipInX {
+  from {
+    transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+    animation-timing-function: ease-in;
+    opacity: 0;
+  }
+
+  40% {
+    transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+    animation-timing-function: ease-in;
+  }
+
+  60% {
+    transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+    opacity: 1;
+  }
+
+  80% {
+    transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
+  }
+
+  100% {
+    transform: perspective(400px);
+  }
+}
+
+%flipInX {
+  backface-visibility: visible !important;
+  animation-name: flipInX;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, flipInY) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, flipInY); @keyframes flipInY {
+  from {
+    transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
+    animation-timing-function: ease-in;
+    opacity: 0;
+  }
+
+  40% {
+    transform: perspective(400px) rotate3d(0, 1, 0, -20deg);
+    animation-timing-function: ease-in;
+  }
+
+  60% {
+    transform: perspective(400px) rotate3d(0, 1, 0, 10deg);
+    opacity: 1;
+  }
+
+  80% {
+    transform: perspective(400px) rotate3d(0, 1, 0, -5deg);
+  }
+
+  100% {
+    transform: perspective(400px);
+  }
+}
+
+%flipInY {
+  backface-visibility: visible !important;
+  animation-name: flipInY;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, flipOutX) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, flipOutX); @keyframes flipOutX {
+  from {
+    transform: perspective(400px);
+  }
+
+  30% {
+    transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+    opacity: 0;
+  }
+}
+
+%flipOutX {
+  animation-name: flipOutX;
+  backface-visibility: visible !important;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, flipOutY) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, flipOutY); @keyframes flipOutY {
+  from {
+    transform: perspective(400px);
+  }
+
+  30% {
+    transform: perspective(400px) rotate3d(0, 1, 0, -15deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
+    opacity: 0;
+  }
+}
+
+%flipOutY {
+  backface-visibility: visible !important;
+  animation-name: flipOutY;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, lightSpeedIn) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, lightSpeedIn); @keyframes lightSpeedIn {
+  from {
+    transform: translate3d(100%, 0, 0) skewX(-30deg);
+    opacity: 0;
+  }
+
+  60% {
+    transform: skewX(20deg);
+    opacity: 1;
+  }
+
+  80% {
+    transform: skewX(-5deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+%lightSpeedIn {
+  animation-name: lightSpeedIn;
+  animation-timing-function: ease-out;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, lightSpeedOut) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, lightSpeedOut); @keyframes lightSpeedOut {
+  from {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(100%, 0, 0) skewX(30deg);
+    opacity: 0;
+  }
+}
+
+%lightSpeedOut {
+  animation-name: lightSpeedOut;
+  animation-timing-function: ease-in;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rotateIn) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rotateIn); @keyframes rotateIn {
+  from {
+    transform-origin: center;
+    transform: rotate3d(0, 0, 1, -200deg);
+    opacity: 0;
+  }
+
+  100% {
+    transform-origin: center;
+    transform: none;
+    opacity: 1;
+  }
+}
+
+%rotateIn {
+  animation-name: rotateIn;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rotateInDownLeft) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rotateInDownLeft); @keyframes rotateInDownLeft {
+  from {
+    transform-origin: left bottom;
+    transform: rotate3d(0, 0, 1, -45deg);
+    opacity: 0;
+  }
+
+  100% {
+    transform-origin: left bottom;
+    transform: none;
+    opacity: 1;
+  }
+}
+
+%rotateInDownLeft {
+  animation-name: rotateInDownLeft;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rotateInDownRight) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rotateInDownRight); @keyframes rotateInDownRight {
+  from {
+    transform-origin: right bottom;
+    transform: rotate3d(0, 0, 1, 45deg);
+    opacity: 0;
+  }
+
+  100% {
+    transform-origin: right bottom;
+    transform: none;
+    opacity: 1;
+  }
+}
+
+%rotateInDownRight {
+  animation-name: rotateInDownRight;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rotateInUpLeft) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rotateInUpLeft); @keyframes rotateInUpLeft {
+  from {
+    transform-origin: left bottom;
+    transform: rotate3d(0, 0, 1, 45deg);
+    opacity: 0;
+  }
+
+  100% {
+    transform-origin: left bottom;
+    transform: none;
+    opacity: 1;
+  }
+}
+
+%rotateInUpLeft {
+  animation-name: rotateInUpLeft;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rotateInUpRight) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rotateInUpRight); @keyframes rotateInUpRight {
+  from {
+    transform-origin: right bottom;
+    transform: rotate3d(0, 0, 1, -90deg);
+    opacity: 0;
+  }
+
+  100% {
+    transform-origin: right bottom;
+    transform: none;
+    opacity: 1;
+  }
+}
+
+%rotateInUpRight {
+  animation-name: rotateInUpRight;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rotateOut) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rotateOut); @keyframes rotateOut {
+  from {
+    transform-origin: center;
+    opacity: 1;
+  }
+
+  100% {
+    transform-origin: center;
+    transform: rotate3d(0, 0, 1, 200deg);
+    opacity: 0;
+  }
+}
+
+%rotateOut {
+  animation-name: rotateOut;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rotateOutDownLeft) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rotateOutDownLeft); @keyframes rotateOutDownLeft {
+  from {
+    transform-origin: left bottom;
+    opacity: 1;
+  }
+
+  100% {
+    transform-origin: left bottom;
+    transform: rotate3d(0, 0, 1, 45deg);
+    opacity: 0;
+  }
+}
+
+%rotateOutDownLeft {
+  animation-name: rotateOutDownLeft;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rotateOutDownRight) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rotateOutDownRight); @keyframes rotateOutDownRight {
+  from {
+    transform-origin: right bottom;
+    opacity: 1;
+  }
+
+  100% {
+    transform-origin: right bottom;
+    transform: rotate3d(0, 0, 1, -45deg);
+    opacity: 0;
+  }
+}
+
+%rotateOutDownRight {
+  animation-name: rotateOutDownRight;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rotateOutUpLeft) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rotateOutUpLeft); @keyframes rotateOutUpLeft {
+  from {
+    transform-origin: left bottom;
+    opacity: 1;
+  }
+
+  100% {
+    transform-origin: left bottom;
+    transform: rotate3d(0, 0, 1, -45deg);
+    opacity: 0;
+  }
+}
+
+%rotateOutUpLeft {
+  animation-name: rotateOutUpLeft;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rotateOutUpRight) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rotateOutUpRight); @keyframes rotateOutUpRight {
+  from {
+    transform-origin: right bottom;
+    opacity: 1;
+  }
+
+  100% {
+    transform-origin: right bottom;
+    transform: rotate3d(0, 0, 1, 90deg);
+    opacity: 0;
+  }
+}
+
+%rotateOutUpRight {
+  animation-name: rotateOutUpRight;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, slideInDown) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, slideInDown); @keyframes slideInDown {
+  from {
+    transform: translate3d(0, -100%, 0);
+    visibility: visible;
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+%slideInDown {
+  animation-name: slideInDown;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, slideInLeft) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, slideInLeft); @keyframes slideInLeft {
+  from {
+    transform: translate3d(-100%, 0, 0);
+    visibility: visible;
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+%slideInLeft {
+  animation-name: slideInLeft;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, slideInRight) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, slideInRight); @keyframes slideInRight {
+  from {
+    transform: translate3d(100%, 0, 0);
+    visibility: visible;
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+%slideInRight {
+  animation-name: slideInRight;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, slideInUp) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, slideInUp); @keyframes slideInUp {
+  from {
+    transform: translate3d(0, 100%, 0);
+    visibility: visible;
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+%slideInUp {
+  animation-name: slideInUp;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, slideOutDown) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, slideOutDown); @keyframes slideOutDown {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    visibility: hidden;
+    transform: translate3d(0, 100%, 0);
+  }
+}
+
+%slideOutDown {
+  animation-name: slideOutDown;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, slideOutLeft) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, slideOutLeft); @keyframes slideOutLeft {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    visibility: hidden;
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+%slideOutLeft {
+  animation-name: slideOutLeft;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, slideOutRight) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, slideOutRight); @keyframes slideOutRight {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    visibility: hidden;
+    transform: translate3d(100%, 0, 0);
+  }
+}
+
+%slideOutRight {
+  animation-name: slideOutRight;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, slideOutUp) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, slideOutUp); @keyframes slideOutUp {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    visibility: hidden;
+    transform: translate3d(0, -100%, 0);
+  }
+}
+
+%slideOutUp {
+  animation-name: slideOutUp;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, hinge) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, hinge); @keyframes hinge {
+  0% {
+    transform-origin: top left;
+    animation-timing-function: ease-in-out;
+  }
+
+  20%, 60% {
+    transform: rotate3d(0, 0, 1, 80deg);
+    transform-origin: top left;
+    animation-timing-function: ease-in-out;
+  }
+
+  40%, 80% {
+    transform: rotate3d(0, 0, 1, 60deg);
+    transform-origin: top left;
+    animation-timing-function: ease-in-out;
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(0, 700px, 0);
+    opacity: 0;
+  }
+}
+
+%hinge {
+  animation-name: hinge;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rollIn) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rollIn); /* originally authored by Nick Pettit - https://github%com/nickpettit/glide */
+
+@keyframes rollIn {
+  from {
+    opacity: 0;
+    transform: translate3d(-100%, 0, 0) rotate3d(0, 0, 1, -120deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+%rollIn {
+  animation-name: rollIn;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rollOut) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rollOut); /* originally authored by Nick Pettit - https://github%com/nickpettit/glide */
+
+@keyframes rollOut {
+  from {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0) rotate3d(0, 0, 1, 120deg);
+  }
+}
+
+%rollOut {
+  animation-name: rollOut;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, zoomIn) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, zoomIn); @keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale3d(.3, .3, .3);
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+%zoomIn {
+  animation-name: zoomIn;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, zoomInDown) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, zoomInDown); @keyframes zoomInDown {
+  from {
+    opacity: 0;
+    transform: scale3d(.1, .1, .1) translate3d(0, -1000px, 0);
+    animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+  }
+
+  60% {
+    opacity: 1;
+    transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);
+    animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
+  }
+}
+
+%zoomInDown {
+  animation-name: zoomInDown;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, zoomInLeft) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, zoomInLeft); @keyframes zoomInLeft {
+  from {
+    opacity: 0;
+    transform: scale3d(.1, .1, .1) translate3d(-1000px, 0, 0);
+    animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+  }
+
+  60% {
+    opacity: 1;
+    transform: scale3d(.475, .475, .475) translate3d(10px, 0, 0);
+    animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
+  }
+}
+
+%zoomInLeft {
+  animation-name: zoomInLeft;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, zoomInRight) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, zoomInRight); @keyframes zoomInRight {
+  from {
+    opacity: 0;
+    transform: scale3d(.1, .1, .1) translate3d(1000px, 0, 0);
+    animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+  }
+
+  60% {
+    opacity: 1;
+    transform: scale3d(.475, .475, .475) translate3d(-10px, 0, 0);
+    animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
+  }
+}
+
+%zoomInRight {
+  animation-name: zoomInRight;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, zoomInUp) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, zoomInUp); @keyframes zoomInUp {
+  from {
+    opacity: 0;
+    transform: scale3d(.1, .1, .1) translate3d(0, 1000px, 0);
+    animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+  }
+
+  60% {
+    opacity: 1;
+    transform: scale3d(.475, .475, .475) translate3d(0, -60px, 0);
+    animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
+  }
+}
+
+%zoomInUp {
+  animation-name: zoomInUp;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, zoomOut) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, zoomOut); @keyframes zoomOut {
+  from {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+    transform: scale3d(.3, .3, .3);
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+%zoomOut {
+  animation-name: zoomOut;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, zoomOutDown) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, zoomOutDown); @keyframes zoomOutDown {
+  40% {
+    opacity: 1;
+    transform: scale3d(.475, .475, .475) translate3d(0, -60px, 0);
+    animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale3d(.1, .1, .1) translate3d(0, 2000px, 0);
+    transform-origin: center bottom;
+    animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
+  }
+}
+
+%zoomOutDown {
+  animation-name: zoomOutDown;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, zoomOutLeft) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, zoomOutLeft); @keyframes zoomOutLeft {
+  40% {
+    opacity: 1;
+    transform: scale3d(.475, .475, .475) translate3d(42px, 0, 0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(.1) translate3d(-2000px, 0, 0);
+    transform-origin: left center;
+  }
+}
+
+%zoomOutLeft {
+  animation-name: zoomOutLeft;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, zoomOutRight) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, zoomOutRight); @keyframes zoomOutRight {
+  40% {
+    opacity: 1;
+    transform: scale3d(.475, .475, .475) translate3d(-42px, 0, 0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(.1) translate3d(2000px, 0, 0);
+    transform-origin: right center;
+  }
+}
+
+%zoomOutRight {
+  animation-name: zoomOutRight;
+}
+}
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, zoomOutUp) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, zoomOutUp); @keyframes zoomOutUp {
+  40% {
+    opacity: 1;
+    transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);
+    animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale3d(.1, .1, .1) translate3d(0, -2000px, 0);
+    transform-origin: center bottom;
+    animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
+  }
+}
+
+%zoomOutUp {
+  animation-name: zoomOutUp;
+}
+}

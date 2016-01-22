@@ -1,12 +1,12 @@
 
 /*
- * Sugar-webfonts.js
+ * Sugar-transitionstart.js
  *
- * This little js file allow you to use webfonts based64 encoded and loaded from localstorage
+ * This little js file allow you to make your element that have a transition trigger the transitionstart event
  *
  * @author   Olivier Bossel <olivier.bossel@gmail.com>
- * @created  23.11.15
- * @updated  23.11.15
+ * @created  22.01.16
+ * @updated  22.01.16
  * @version  1.0.0
  */
 (function(factory) {

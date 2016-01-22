@@ -70,12 +70,7 @@ body {
 	width: 50px;
 	height: 100px;
 	margin-top:80px;
-
 	@include s-transition();
-
-	&:hover {
-		@include s-transitionstart-trigger();
-	}
 
 	&:hover {
 	
@@ -195,11 +190,13 @@ body {
 	[data-slidizle-content] {
 		position:relative;
 		width: 99999px;
+		@include s-transition();
 
 		@for $i from 0 through 10 {
 			.slide-#{$i} & {
 				$trans : - 640 * $i;
 				@include s-translate(s-px($trans));
+				@include s-transitionstart();
 				// left : ;
 			}
 		}

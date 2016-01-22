@@ -47,14 +47,17 @@
         if (this._cache) {
           this._cache = JSON.parse(this._cache);
           if (this._cache.version === this._settings.version) {
+            this._debug('No new version of your fonts.');
             this._insertFont(this._cache.value);
           } else {
+            this._debug('new version of your fonts.');
             window.localStorage.removeItem(this._key);
             this._cache = null;
           }
         }
       } catch (_error) {
         e = _error;
+        this._debug('your browser seems to not support the localStorage api');
       }
       if (!this._cache) {
         return window.addEventListener('load', (function(_this) {
@@ -116,6 +119,7 @@
      */
     _insertFont: function(value) {
       var style;
+      this._debug('inserting fonts');
       style = document.createElement('style');
       style.innerHTML = value;
       return document.head.appendChild(style);
@@ -130,11 +134,6 @@
       }
     }
   };
-  if (typeof window.define === 'function' && window.define.amd) {
-    window.define([], function() {
-      return window.SugarWebfonts;
-    });
-  }
   return SugarWebfonts;
 });
 

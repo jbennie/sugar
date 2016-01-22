@@ -1,12 +1,12 @@
 
 /*
- * Sugar-webfonts.js
+ * Sugar-motion-blur.js
  *
- * This little js file allow you to use webfonts based64 encoded and loaded from localstorage
+ * This little js file allow you to use cool motion blur svg effect
  *
  * @author   Olivier Bossel <olivier.bossel@gmail.com>
- * @created  23.11.15
- * @updated  23.11.15
+ * @created  20.01.16
+ * @updated  20.01.16
  * @version  1.0.0
  */
 (function(factory) {
@@ -53,8 +53,12 @@
     		Inject filter
      */
     _injectFilter: function() {
-      var blur, blur_elm, body;
-      blur = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" style=\"display:none;\">\n	<defs>\n		<filter id=\"blur\">\n			<feGaussianBlur in=\"SourceGraphic\" stdDeviation=\"0,0\" />\n		</filter>\n	</defs>\n</svg>";
+      var blur, blur_elm, body, style;
+      style = ['position:absolute;', 'left:-1000px;'];
+      if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
+        style.push('display:none;');
+      }
+      blur = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" style=\"" + (style.join(' ')) + "\">\n	<defs>\n		<filter id=\"blur\">\n			<feGaussianBlur in=\"SourceGraphic\" stdDeviation=\"0,0\" />\n		</filter>\n	</defs>\n</svg>";
       blur_elm = document.createElement('div');
       blur_elm.innerHTML = blur;
       this.blur_defs = blur_elm.querySelector('defs');

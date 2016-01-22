@@ -1,12 +1,12 @@
 
 /*
- * Sugar-webfonts.js
+ * Sugar-gooey.js
  *
- * This little js file allow you to use webfonts based64 encoded and loaded from localstorage
+ * This little js file allow you to use the gooey effect
  *
  * @author   Olivier Bossel <olivier.bossel@gmail.com>
- * @created  23.11.15
- * @updated  23.11.15
+ * @created  22.01.16
+ * @updated  20.01.16
  * @version  1.0.0
  */
 (function(factory) {
@@ -52,8 +52,9 @@
       results = [];
       for (i = 0, len = ref.length; i < len; i++) {
         item = ref[i];
-        results.push(item.dispatchEvent(new CustomEvent('transitionstart', {
-          bubbles: true
+        results.push(item.dispatchEvent(new CustomEvent('DOMNodeInserted', {
+          bubbles: true,
+          cancelable: true
         })));
       }
       return results;
@@ -63,8 +64,12 @@
     		Inject filter
      */
     _injectFilter: function() {
-      var body, gooey, gooey_elm;
-      gooey = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">\n	<defs>\n		<filter id=\"gooey\">\n			<feGaussianBlur in=\"SourceGraphic\" stdDeviation=\"0\" result=\"blur\" />\n			<feColorMatrix in=\"blur\" mode=\"matrix\" values=\"1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9\" result=\"gooey\" />\n			<feComposite in=\"SourceGraphic\" in2=\"gooey\" operator=\"atop\"/>\n		</filter>\n	</defs>\n</svg>";
+      var body, gooey, gooey_elm, style;
+      style = ['position:absolute;', 'left:-1000px;'];
+      if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
+        style.push('display:none;');
+      }
+      gooey = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" style=\"" + (style.join(' ')) + "\">\n	<defs>\n		<filter id=\"gooey\">\n			<feGaussianBlur in=\"SourceGraphic\" stdDeviation=\"0\" result=\"blur\" />\n			<feColorMatrix in=\"blur\" mode=\"matrix\" values=\"1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9\" result=\"gooey\" />\n			<feComposite in=\"SourceGraphic\" in2=\"gooey\" operator=\"atop\"/>\n		</filter>\n	</defs>\n</svg>";
       gooey_elm = document.createElement('div');
       gooey_elm.innerHTML = gooey;
       this.gooey_defs = gooey_elm.querySelector('defs');

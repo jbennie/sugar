@@ -57,13 +57,16 @@
 				if @_cache
 					@_cache = JSON.parse @_cache
 					if @_cache.version == @_settings.version
+						@_debug 'No new version of your fonts.'
 						@_insertFont @_cache.value
 					else
+						@_debug 'new version of your fonts.'
 						# Busting cache when version doesn't match
 						window.localStorage.removeItem @_key
 						@_cache = null
 			catch e
 				# Most likely LocalStorage disabled
+				@_debug 'your browser seems to not support the localStorage api'
 
 			if not @_cache
 				# Fonts not in LocalStorage or version did not match
@@ -102,6 +105,7 @@
 		Insert font
 		###
 		_insertFont : (value) ->
+			@_debug 'inserting fonts'
 			style = document.createElement('style')
 			style.innerHTML = value
 			document.head.appendChild style
@@ -112,10 +116,6 @@
 		_debug : ->
 			console.log 'SUGAR-WEBFONTS', arguments if @_settings.debug
 
-
-	# support AMD
-	if typeof window.define is 'function' && window.define.amd
-		window.define [], -> window.SugarWebfonts
 
 	# return the Sugar object
 	SugarWebfonts
