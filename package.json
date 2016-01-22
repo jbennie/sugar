@@ -1,7 +1,7 @@
 {
   "name": "sugarcss",
   "description": "Writing SCSS has never tasted better!",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "sass/sugar/_sugar.scss",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
