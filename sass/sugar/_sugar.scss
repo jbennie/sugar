@@ -164,6 +164,11 @@
 @import 'reset';
 
 //
+// Components
+//
+@import 'components/all';
+
+//
 // Variables
 //
 $sugar-animatecss : () !default; 					// store all the icons wanted from animate.css package
@@ -228,7 +233,13 @@ $_sugar-settings : (								// store all the settings
 		property 					: all, 				// default property
 		transitions 				: () 				// store all registered transitions
 	), 
-	helper-classes 				: ()
+	helper-classes 				: (),
+	drawer  					: ( 				// store all the drawer settings
+		width  						: 400px, 			// drawer width
+		side 						: right,			// the side of the drawer
+		type 						: push, 			// can be reveal, push or slide				
+		transition 					: null 				// store the transition to use
+								)
 );		
 
 //

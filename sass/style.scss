@@ -4,6 +4,18 @@
 // import prism
 @import 'prism';
 
+// drawer
+@include s-drawer((
+	type : reveal,
+	side : left
+));
+[data-drawer] {
+	@include s-drawer-opened() {
+		box-shadow:rgba(0,0,0,1) 0 0 20px;
+
+	}
+}
+
 //
 // Layout
 //
@@ -35,6 +47,16 @@ body {
 }
 #top-bar {
 	background: black;
+}
+#menu-toggle {
+	background: s-color(orange);
+	position:fixed;
+	top:0; right:0;
+	font-size:20px;
+	color: white;
+	padding:10px 15px;
+	min-height:s-rem(43px);
+	z-index:1;
 }
 .section {
 	padding: s-size(bigger) 0;
@@ -324,14 +346,15 @@ figure {
 	}
 }
 .list--top-bar {
-	
+	color: s-color(orange);
+
 	@extend .list--inline;
 
 	.list__item {
 
 		a {
 			display: inline-block;
-			padding:10px;
+			padding:15px;
 
 			&:hover,
 			&.active {

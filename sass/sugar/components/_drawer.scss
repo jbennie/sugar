@@ -1,0 +1,147 @@
+//
+// Sugar drawer component
+//
+
+@mixin s-drawer-opened() {
+	[data-drawer-toggle]:checked ~ & {
+		@content;
+	}
+}
+
+@mixin s-drawer(
+	$settings : ()
+) {
+
+	// mix settings with base one
+	$settings : map-merge(sugar('settings.drawer'), $settings);
+	$side : map-get($settings, side);
+	$type : map-get($settings, type);
+	$transition : map-get($settings, transition);
+
+	html, body {
+		height: 100%;
+	}
+
+	[data-drawer-toggle] {
+		position: fixed;
+		top:0; left:0;
+		opacity: 0;
+	}
+
+	[data-drawer-toggle-label] {
+		-webkit-touch-callout: none;
+		-webkit-user-select: none;
+		-khtml-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+		// position: relative;
+		// height: 1em;
+		// width: 1.4em;
+		// display: block;
+		// background: rgba(255, 255, 255, .0);
+		// z-index: 1;
+		cursor: pointer;
+	}
+	/* adds our "hamburger" menu icon */
+	// [data-drawer-toggle-label]:after {
+	// 	content: '';
+	// 	display: block;
+	// 	height: 0.125em;
+	// 	width:1.4em;
+	// 	background: #8d8d8d;
+	// 	@include s-corner(0.075em);
+	// 	box-shadow: 0 (0.5em - 0.125em) 0 #8d8d8d;
+	// }
+	// [data-drawer-toggle-label]:before {
+	// 	content: '';
+	// 	display: block;
+	// 	height: 0.125em;
+	// 	width: 1.4em;
+	// 	@include s-corner(0.075em);
+	// 	box-shadow: 0 (1em - 0.125em) 0 #8d8d8d;
+	// }
+
+
+	[data-drawer] {
+		position: fixed;
+		top: 0;
+		@if $side == left {
+			@if $type == push or $type == slide {
+				@include s-translate(map-get($settings, width) * -1);
+			} @else if $type == reveal {
+				left: 0;
+			}
+		} @else if $side == right {
+			@if $type == push or $type == slide {
+				@include s-translate(0);
+				left: 100%;
+			} @else if $type == reveal {
+				right: 0;
+			}
+		}
+		@if $type == slide {
+			z-index: 1;
+		}
+		height: 100%;
+		width: map-get($settings, width);
+		background: #2f2f2f;
+		overflow-x: hidden;
+		overflow-y: scroll;
+		-webkit-overflow-scrolling: touch;
+		@include s-transition($transition);
+	}
+	/* actual page content pane */
+	[data-content] {
+		@include s-translate(0);
+		width: 100%;
+		@include s-transition($transition);
+		background-color: white;
+	}
+
+	[data-drawer-overlay] {
+		position: fixed;
+		z-index:10;
+		top:0;
+		left:0;
+		height: 100%;
+		width: 100%;
+		background: rgba(255, 255, 255, .8);
+		opacity: 0;
+		pointer-events: none;
+		@include s-translate(0px);
+		@include s-transition($transition);
+	}
+
+	[data-drawer-toggle]:checked ~ [data-drawer-overlay] {
+		opacity: 1;
+		pointer-events: all;
+		@if $side == left {
+			@include s-translate(map-get($settings, width));
+		} @else if $side == right {
+			@include s-translate(map-get($settings, width) * -1);
+		}
+		cursor: pointer;
+	}
+
+	[data-drawer-toggle]:checked ~ [data-drawer] {
+		@if $type == push or $type == slide {
+			@if $side == left {
+				@include s-translate(0);
+			} @else if $side == right {
+				@include s-translate(map-get($settings, width) * -1);
+			}
+		}
+	}
+
+	[data-drawer-toggle]:checked ~ [data-content] {
+		@if $type != slide {
+			@if $side == left {
+				@include s-translate(map-get($settings, width));
+			} @else if $side == right {
+				@include s-translate(map-get($settings, width) * -1);
+			}
+		}
+	}
+
+}

@@ -21,16 +21,6 @@ jQuery(function($) {
       return $(this).addClass('active');
     }
   });
-  $('section:not([data-bypass-appear])').attr('data-appear-offset-top', 200).css('visibility', 'hidden').on('appear', (function(_this) {
-    return function(e) {
-      return $(e.target).css('visibility', 'visible');
-    };
-  })(this)).on('disappear', (function(_this) {
-    return function(e) {
-      return $(e.target).css('visibility', 'hidden');
-    };
-  })(this)).appear();
-  $(window).trigger('scroll');
   $('[data-slidizle]').slidizle({
     nextOnClick: true,
     loop: true,
