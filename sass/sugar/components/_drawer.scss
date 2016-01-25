@@ -2,8 +2,14 @@
 // Sugar drawer component
 //
 
-@mixin s-drawer-opened() {
-	[data-drawer-toggle]:checked ~ & {
+@mixin s-drawer-opened(
+	$name : null
+) {
+	$drawer-toggle-sel : '[data-drawer-toggle]';
+	@if $name {
+		$drawer-toggle-sel : '[data-drawer-toggle="#{$name}"]';
+	}
+	#{$drawer-toggle-sel}:checked ~ & {
 		@content;
 	}
 }
@@ -17,6 +23,7 @@
 	$side : map-get($settings, side);
 	$type : map-get($settings, type);
 	$transition : map-get($settings, transition);
+	$name : map-get-or($settings, name);
 
 	html, body {
 		height: 100%;
@@ -35,35 +42,19 @@
 		-moz-user-select: none;
 		-ms-user-select: none;
 		user-select: none;
-		// position: relative;
-		// height: 1em;
-		// width: 1.4em;
-		// display: block;
-		// background: rgba(255, 255, 255, .0);
-		// z-index: 1;
 		cursor: pointer;
 	}
-	/* adds our "hamburger" menu icon */
-	// [data-drawer-toggle-label]:after {
-	// 	content: '';
-	// 	display: block;
-	// 	height: 0.125em;
-	// 	width:1.4em;
-	// 	background: #8d8d8d;
-	// 	@include s-corner(0.075em);
-	// 	box-shadow: 0 (0.5em - 0.125em) 0 #8d8d8d;
-	// }
-	// [data-drawer-toggle-label]:before {
-	// 	content: '';
-	// 	display: block;
-	// 	height: 0.125em;
-	// 	width: 1.4em;
-	// 	@include s-corner(0.075em);
-	// 	box-shadow: 0 (1em - 0.125em) 0 #8d8d8d;
-	// }
 
+	$drawer-sel : '[data-drawer]';
+	$drawer-overlay-sel : '[data-drawer-overlay]';
+	$drawer-toggle-sel : '[data-drawer-toggle]';
+	@if $name {
+		$drawer-sel : '[data-drawer="#{$name}"]';
+		$drawer-overlay-sel : '[data-drawer-overlay="#{$name}"]';
+		$drawer-toggle-sel : '[data-drawer-toggle="#{$name}"]';
+	}
 
-	[data-drawer] {
+	#{$drawer-sel} {
 		position: fixed;
 		top: 0;
 		@if $side == left {
@@ -85,7 +76,6 @@
 		}
 		height: 100%;
 		width: map-get($settings, width);
-		background: #2f2f2f;
 		overflow-x: hidden;
 		overflow-y: scroll;
 		-webkit-overflow-scrolling: touch;
@@ -99,21 +89,21 @@
 		background-color: white;
 	}
 
-	[data-drawer-overlay] {
+	#{$drawer-overlay-sel} {
 		position: fixed;
 		z-index:10;
 		top:0;
 		left:0;
 		height: 100%;
 		width: 100%;
-		background: rgba(255, 255, 255, .8);
+		background: rgba(255, 255, 255, 0);
 		opacity: 0;
 		pointer-events: none;
 		@include s-translate(0px);
 		@include s-transition($transition);
 	}
 
-	[data-drawer-toggle]:checked ~ [data-drawer-overlay] {
+	#{$drawer-toggle-sel}:checked ~ #{$drawer-overlay-sel} {
 		opacity: 1;
 		pointer-events: all;
 		@if $side == left {
@@ -124,7 +114,7 @@
 		cursor: pointer;
 	}
 
-	[data-drawer-toggle]:checked ~ [data-drawer] {
+	#{$drawer-toggle-sel}:checked ~ #{$drawer-sel} {
 		@if $type == push or $type == slide {
 			@if $side == left {
 				@include s-translate(0);
@@ -134,7 +124,7 @@
 		}
 	}
 
-	[data-drawer-toggle]:checked ~ [data-content] {
+	#{$drawer-toggle-sel}:checked ~ [data-content] {
 		@if $type != slide {
 			@if $side == left {
 				@include s-translate(map-get($settings, width));

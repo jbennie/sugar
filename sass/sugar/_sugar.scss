@@ -235,6 +235,7 @@ $_sugar-settings : (								// store all the settings
 	), 
 	helper-classes 				: (),
 	drawer  					: ( 				// store all the drawer settings
+		name 						: null, 			// store the drawer name
 		width  						: 400px, 			// drawer width
 		side 						: right,			// the side of the drawer
 		type 						: push, 			// can be reveal, push or slide				

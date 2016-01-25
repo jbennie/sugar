@@ -6,13 +6,42 @@
 
 // drawer
 @include s-drawer((
+	name : 'menu',
 	type : reveal,
 	side : left
 ));
-[data-drawer] {
-	@include s-drawer-opened() {
-		box-shadow:rgba(0,0,0,1) 0 0 20px;
+@include s-drawer((
+	name : 'author',
+	type : push,
+	side : right
+));
+[data-drawer="menu"],
+[data-drawer="author"]
+ {
+	background: s-color(orange);
+	color: white;
+	overflow:hidden;
+	padding:s-rem(60px);
+}
+[data-drawer="author"] {
+	padding:s-rem(60px);
+	padding-left:0;
+}
+[data-content] {
+	@include s-transition(transform);
+	height:100%;
 
+	// @include s-drawer-opened('menu') {
+	// 	overflow: hidden;
+	// 	@include s-transform(-scaleX 0.9 -scaleY 0.9 -translateX 450px);
+	// 	box-shadow:rgba(0,0,0,.3) 0 0 50px;
+		
+	// }
+	@include s-drawer-opened('author') {
+		overflow: hidden;
+		@include s-transform(-scaleX 0.9 -scaleY 0.9 -translateX -450px);
+		box-shadow:rgba(0,0,0,.3) 0 0 50px;
+		
 	}
 }
 
@@ -21,6 +50,7 @@
 //
 body {
 	overflow-x: hidden;
+	background: s-color(orange);
 }
 #header {
 	background-image:url('http://sugarcss.io/assets/img/highlight-bkg.jpg');
@@ -60,6 +90,7 @@ body {
 }
 .section {
 	padding: s-size(bigger) 0;
+	background: white;
 }
 
 //

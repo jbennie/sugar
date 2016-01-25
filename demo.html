@@ -25,29 +25,31 @@
 </head>
 <body>
 	
-	<input data-drawer-toggle type="checkbox" id="drawer" name="drawer" />
-	<label for="drawer" data-drawer-overlay></label>
+	<input data-drawer-toggle="menu" type="checkbox" id="drawer" name="drawer" />
+	<label for="drawer" data-drawer-overlay="menu"></label>
+
+	<input data-drawer-toggle="author" type="checkbox" id="author" name="author" />
+	<label for="author" data-drawer-overlay="author"></label>
 	
-	<label data-drawer-toggle-label id="menu-toggle" for="drawer">
+	<label data-drawer-toggle-label id="menu-toggle" for="author">
 		<i class="fa-bars"></i>
 	</label>
 
-	<div data-drawer>
+	<div data-drawer="menu">
 	
 		<h1 class="h1">
 			Hello world
 
 		</h1>
 		<p>Maecenas nec nunc felis. Nunc tincidunt, felis id tristique porttitor, mauris magna placerat augue, in tristique quam lacus et felis. Maecenas fringilla enim ac auctor consectetur. Ut a leo eget.</p>
-		<p>Maecenas nec nunc felis. Nunc tincidunt, felis id tristique porttitor, mauris magna placerat augue, in tristique quam lacus et felis. Maecenas fringilla enim ac auctor consectetur. Ut a leo eget.</p>
-		<p>Maecenas nec nunc felis. Nunc tincidunt, felis id tristique porttitor, mauris magna placerat augue, in tristique quam lacus et felis. Maecenas fringilla enim ac auctor consectetur. Ut a leo eget.</p>
-		<p>Maecenas nec nunc felis. Nunc tincidunt, felis id tristique porttitor, mauris magna placerat augue, in tristique quam lacus et felis. Maecenas fringilla enim ac auctor consectetur. Ut a leo eget.</p>
-		<p>Maecenas nec nunc felis. Nunc tincidunt, felis id tristique porttitor, mauris magna placerat augue, in tristique quam lacus et felis. Maecenas fringilla enim ac auctor consectetur. Ut a leo eget.</p>
-		<p>Maecenas nec nunc felis. Nunc tincidunt, felis id tristique porttitor, mauris magna placerat augue, in tristique quam lacus et felis. Maecenas fringilla enim ac auctor consectetur. Ut a leo eget.</p>
-		<p>Maecenas nec nunc felis. Nunc tincidunt, felis id tristique porttitor, mauris magna placerat augue, in tristique quam lacus et felis. Maecenas fringilla enim ac auctor consectetur. Ut a leo eget.</p>
-		<p>Maecenas nec nunc felis. Nunc tincidunt, felis id tristique porttitor, mauris magna placerat augue, in tristique quam lacus et felis. Maecenas fringilla enim ac auctor consectetur. Ut a leo eget.</p>
-		<p>Maecenas nec nunc felis. Nunc tincidunt, felis id tristique porttitor, mauris magna placerat augue, in tristique quam lacus et felis. Maecenas fringilla enim ac auctor consectetur. Ut a leo eget.</p>
-		<p>Maecenas nec nunc felis. Nunc tincidunt, felis id tristique porttitor, mauris magna placerat augue, in tristique quam lacus et felis. Maecenas fringilla enim ac auctor consectetur. Ut a leo eget.</p>
+
+	</div>
+
+	<div data-drawer="author">
+	
+		<h1 class="h1">
+			Olivier Bossel
+		</h1>
 		<p>Maecenas nec nunc felis. Nunc tincidunt, felis id tristique porttitor, mauris magna placerat augue, in tristique quam lacus et felis. Maecenas fringilla enim ac auctor consectetur. Ut a leo eget.</p>
 
 	</div>
