@@ -255,7 +255,7 @@
     		On animation start
      */
     _onTransitionEnd: function(e) {
-      if (e.elapsedTime === 0.000001) {
+      if (e.elapsedTime === 0.000001 || e.propertyName === 'outline-color') {
         return e.target.dispatchEvent(new CustomEvent('transitionstart', {
           bubbles: true,
           cancelable: true
@@ -429,7 +429,7 @@
      */
     _injectFilter: function() {
       var blur, blur_elm, body, style;
-      style = ['position:absolute;', 'left:-1000px;'];
+      style = ['position:absolute;', 'left:-1000px;', 'top:-300px;'];
       if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
         style.push('display:none;');
       }
@@ -462,6 +462,7 @@
           var elm;
           elm = e.target;
           if (elm.dataset.motionBlur !== void 0) {
+            console.log('transition start');
             cancelAnimationFrame(elm._blurAnimationFrame);
             return _this._handleFilter(elm);
           }
@@ -706,7 +707,7 @@
      */
     _injectFilter: function() {
       var body, gooey, gooey_elm, style;
-      style = ['position:absolute;', 'left:-1000px;'];
+      style = ['position:absolute;', 'left:-1000px;', 'top:-300px;'];
       if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
         style.push('display:none;');
       }

@@ -59,7 +59,7 @@
     		On animation start
      */
     _onTransitionEnd: function(e) {
-      if (e.elapsedTime === 0.000001) {
+      if (e.elapsedTime === 0.000001 || e.propertyName === 'outline-color') {
         return e.target.dispatchEvent(new CustomEvent('transitionstart', {
           bubbles: true,
           cancelable: true

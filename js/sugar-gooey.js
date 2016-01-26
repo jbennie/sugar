@@ -70,7 +70,7 @@
      */
     _injectFilter: function() {
       var body, gooey, gooey_elm, style;
-      style = ['position:absolute;', 'left:-1000px;'];
+      style = ['position:absolute;', 'left:-1000px;', 'top:-300px;'];
       if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
         style.push('display:none;');
       }

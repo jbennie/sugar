@@ -67,7 +67,7 @@
 		_injectFilter : ->
 
 			# blur
-			style = ['position:absolute;','left:-1000px;']
+			style = ['position:absolute;','left:-1000px;','top:-300px;']
 			if /Chrome/.test(navigator.userAgent) and /Google Inc/.test(navigator.vendor)
 				style.push 'display:none;'
 			blur = """
@@ -99,8 +99,10 @@
 					cancelAnimationFrame elm._blurAnimationFrame
 					@_handleFilter elm
 			document.addEventListener 'transitionstart', (e) =>
+
 				elm = e.target
 				if elm.dataset.motionBlur != undefined
+					console.log 'transition start'
 					cancelAnimationFrame elm._blurAnimationFrame
 					@_handleFilter elm
 			document.addEventListener 'move', (e) =>
