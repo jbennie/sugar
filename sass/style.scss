@@ -15,18 +15,12 @@
 	type : push,
 	side : right
 ));
-body.drawer-author {
-	@include s-background('../img/author-bkg.jpg' cover);
-}
-body.drawer-menu {
+[data-drawer-bkg="menu"] {
 	@include s-background('../img/menu-bkg.jpg' cover);
 }
-// [data-drawer-bkg="menu"] {
-// 	@include s-background('../img/menu-bkg.jpg' cover);
-// }
-// [data-drawer-bkg="author"] {
-// 	@include s-background('../img/author-bkg.jpg' cover);
-// }
+[data-drawer-bkg="author"] {
+	@include s-background('../img/author-bkg.jpg' cover);
+}
 [data-drawer="menu"],
 [data-drawer="author"]
  {
@@ -48,20 +42,28 @@ body.drawer-menu {
 [data-drawer-content] {
 	@include s-transition(transform);
 	// overflow-x: hidden;
-	height:100%;
 
 	@include s-drawer-opened('menu') {
 		// overflow: hidden;
 		// @include s-transform(-scaleX 0.9 -scaleY 0.9 -translateX 450px);
 		overflow-x: hidden;
-		box-shadow:rgba(0,0,0,.2) 0 0 4px;
-		// height: auto;
+		box-shadow:rgba(0,0,0,.2) 0 0 4px;	
 	}
 	@include s-drawer-opened('author') {
-		overflow: hidden;
+
+		
 		@include s-transform(-scaleX 0.9 -scaleY 0.9 -translateX -430px);
 		box-shadow:rgba(0,0,0,.3) 0 0 50px;
 	}
+}
+body.drawer-author {
+	[data-drawer-content] {
+		height: 100%;
+		overflow-x: hidden;
+	}
+}
+body[class*="drawer-"] {
+	overflow:hidden;
 }
 
 //
