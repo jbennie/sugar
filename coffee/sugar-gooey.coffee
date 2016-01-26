@@ -74,7 +74,7 @@
 		_injectFilter : ->
 
 			# gooey
-			style = ['position:absolute;','left:-1000px;']
+			style = ['position:absolute;','left:-1000px;','top:-300px;']
 			if /Chrome/.test(navigator.userAgent) and /Google Inc/.test(navigator.vendor)
 				style.push 'display:none;'
 			gooey = """

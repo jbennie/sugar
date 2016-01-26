@@ -41,7 +41,7 @@
 }
 [data-drawer-content] {
 	@include s-transition(transform);
-	// overflow-x: hidden;
+	overflow-x: hidden;
 
 	@include s-drawer-opened('menu') {
 		// overflow: hidden;
@@ -50,8 +50,6 @@
 		box-shadow:rgba(0,0,0,.2) 0 0 4px;	
 	}
 	@include s-drawer-opened('author') {
-
-		
 		@include s-transform(-scaleX 0.9 -scaleY 0.9 -translateX -430px);
 		box-shadow:rgba(0,0,0,.3) 0 0 50px;
 	}
@@ -59,7 +57,7 @@
 body.drawer-author {
 	[data-drawer-content] {
 		height: 100%;
-		overflow-x: hidden;
+		overflow: hidden;
 	}
 }
 body[class*="drawer-"] {

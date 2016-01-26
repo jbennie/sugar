@@ -59,7 +59,7 @@
      */
     _injectFilter: function() {
       var blur, blur_elm, body, style;
-      style = ['position:absolute;', 'left:-1000px;'];
+      style = ['position:absolute;', 'left:-1000px;', 'top:-300px;'];
       if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
         style.push('display:none;');
       }
@@ -92,6 +92,7 @@
           var elm;
           elm = e.target;
           if (elm.dataset.motionBlur !== void 0) {
+            console.log('transition start');
             cancelAnimationFrame(elm._blurAnimationFrame);
             return _this._handleFilter(elm);
           }

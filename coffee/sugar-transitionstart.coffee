@@ -65,7 +65,7 @@
 		On animation start
 		###
 		_onTransitionEnd : (e) ->
-			if e.elapsedTime == 0.000001
+			if e.elapsedTime == 0.000001 or e.propertyName == 'outline-color'
 				e.target.dispatchEvent(new CustomEvent('transitionstart', {
 					bubbles : true,
 					cancelable : true
