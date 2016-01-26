@@ -1,0 +1,9 @@
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeIn) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeIn); @keyframes fadeIn {
+  from {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+%fadeIn {
+  animation-name: fadeIn;
+}
+}

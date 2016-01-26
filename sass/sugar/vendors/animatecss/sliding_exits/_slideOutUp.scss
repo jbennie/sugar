@@ -1,0 +1,15 @@
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, slideOutUp) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, slideOutUp); @keyframes slideOutUp {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    visibility: hidden;
+    transform: translate3d(0, -100%, 0);
+  }
+}
+
+%slideOutUp {
+  animation-name: slideOutUp;
+}
+}

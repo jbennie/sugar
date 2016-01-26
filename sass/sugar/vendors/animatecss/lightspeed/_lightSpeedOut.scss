@@ -1,0 +1,16 @@
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, lightSpeedOut) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, lightSpeedOut); @keyframes lightSpeedOut {
+  from {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(100%, 0, 0) skewX(30deg);
+    opacity: 0;
+  }
+}
+
+%lightSpeedOut {
+  animation-name: lightSpeedOut;
+  animation-timing-function: ease-in;
+}
+}

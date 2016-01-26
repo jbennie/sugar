@@ -1,0 +1,14 @@
+@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, flash) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, flash); @keyframes flash {
+  from, 50%, 100% {
+    opacity: 1;
+  }
+
+  25%, 75% {
+    opacity: 0;
+  }
+}
+
+%flash {
+  animation-name: flash;
+}
+}
