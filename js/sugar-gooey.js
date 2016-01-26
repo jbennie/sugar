@@ -21,11 +21,16 @@
   window.SugarGooey = {
     _inited: false,
     enabled: true,
+    _settings: {},
 
     /*
     		Init
      */
-    init: function() {
+    init: function(settings) {
+      if (settings == null) {
+        settings = {};
+      }
+      this._settings = this._extend(this._settings, settings);
       this._inited = true;
       if (document.readyState === 'interactive') {
         return this._init();
@@ -136,9 +141,25 @@
       k = Math.floor(Math.random() * 1000000);
       m = String.fromCharCode(n) + k;
       return m.trim();
+    },
+
+    /*
+    		Extend settings
+     */
+    _extend: function(obj, mixin) {
+      var method, name;
+      for (name in mixin) {
+        method = mixin[name];
+        obj[name] = method;
+      }
+      return obj;
     }
   };
-  SugarGooey.init();
+  setTimeout(function() {
+    if (!SugarGooey._inited) {
+      return SugarGooey.init();
+    }
+  }, 500);
   return SugarGooey;
 });
 

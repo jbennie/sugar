@@ -39,7 +39,7 @@
 		###
 		Init
 		###
-		init : (settings) ->
+		init : (settings = {}) ->
 
 			# extend settings
 			@_settings = @_extend @_settings, settings
@@ -95,7 +95,7 @@
 					request.send()
 
 		###
-		Extend settingd
+		Extend settings
 		###
 		_extend : (obj, mixin) ->
 			obj[name] = method for name, method of mixin

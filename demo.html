@@ -14,7 +14,12 @@
 	<script>SugarWebfonts.init({
 		json_path : '/fonts/fonts.json#2.2',
 		debug : true
-	});</script>
+	});
+	if (/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) {
+		SugarMotionBlur.enabled = false;
+		SugarGooey.enabled = false;
+	}
+	</script>
 	<script src="js/demo.js"></script>
 	<link href="css/loaders.css" rel="stylesheet" type="text/css" />
 	<link href="css/style.css" rel="stylesheet" type="text/css" />
@@ -25,36 +30,81 @@
 </head>
 <body>
 	
-	<input data-drawer-toggle="menu" type="checkbox" id="drawer" name="drawer" />
-	<label for="drawer" data-drawer-overlay="menu"></label>
+	<label id="author-toggle" for="author">
+		<i class="fa-user"></i>
+	</label>
 
-	<input data-drawer-toggle="author" type="checkbox" id="author" name="author" />
-	<label for="author" data-drawer-overlay="author"></label>
-	
-	<label data-drawer-toggle-label id="menu-toggle" for="author">
+	<label id="menu-toggle" for="menu">
 		<i class="fa-bars"></i>
 	</label>
 
-	<div data-drawer="menu">
+	<div data-drawer="menu" class="typeset">
 	
-		<h1 class="h1">
-			Hello world
-
-		</h1>
-		<p>Maecenas nec nunc felis. Nunc tincidunt, felis id tristique porttitor, mauris magna placerat augue, in tristique quam lacus et felis. Maecenas fringilla enim ac auctor consectetur. Ut a leo eget.</p>
+		<h3>
+			<strong>SUGAR</strong><span class="c-orange--dark">{.SCSS}</span>
+		</h3>
+		<ul class="list--menu">
+			<li class="list__item">
+				<a href="#vertical-rhythme">Vertical Rhythme</a>
+			</li>
+			<li class="list__item">
+				<a href="#mixins">Mixins</a>
+			</li>
+			<li class="list__item">
+				<a href="#bubbles">Fu%&!* bubbles</a>
+			</li>
+			<li class="list__item">
+				<a href="#loaders">Loaders</a>
+			</li>
+			<li class="list__item">
+				<a href="#motion-blur">Motion blur</a>
+			</li>
+			<li class="list__item">
+				<a href="#gooey">Gooey</a>
+			</li>
+			<li class="list__item">
+				<a href="#packages">Cool packages</a>
+			</li>
+			<li class="list__item">
+				<a href="http://sugarcss.io" target="_blank">Many more!</a>
+			</li>
+		</ul>
 
 	</div>
 
-	<div data-drawer="author">
-	
-		<h1 class="h1">
+	<div data-drawer="author" class="typeset">
+		
+		<div class="avatar m-b-small" style="width:100px; height:100px"></div>
+
+		<h2 class="h2">
 			Olivier Bossel
-		</h1>
-		<p>Maecenas nec nunc felis. Nunc tincidunt, felis id tristique porttitor, mauris magna placerat augue, in tristique quam lacus et felis. Maecenas fringilla enim ac auctor consectetur. Ut a leo eget.</p>
+		</h2>
+		<p>
+			Passionate interactive web designer from Switzerland. <br />
+			To be always in research of new design trends, technologies and user interaction is my primary motivation. <br />
+			The web community is moving so fast and being up to date is a daily job. THIS is where my passion for this domain come from. I'm an eternal dissatisfied and this is what makes me push each project at the limit and never give up on challenges.
+		</p>
+
+		<a class="btn btn--block btn--orange--dark" href="http://olivierbossel.com" target="_blank">
+			<i class="fa-home"></i> &nbsp;&nbsp;Website
+		</a>
+		<a class="btn btn--block btn--orange--dark" href="https://ch.linkedin.com/in/olivierbossel" target="_blank">
+			<i class="fa-linkedin"></i> &nbsp;&nbsp;Find me on linkedIn
+		</a>
+		<a class="btn btn--block btn--orange--dark" href="https://github.com/olivierbossel/sugar" target="_blank">
+			<i class="fa-github"></i> &nbsp;&nbsp;Find me on github
+		</a>
+		<a class="btn btn--block btn--orange--dark" href="http://twitter.com/olivierbossel" target="_blank">
+			<i class="fa-twitter"></i> &nbsp;&nbsp;Follow me on twitter
+		</a>
+		<a class="btn btn--block btn--orange--dark" href="http://sugarcss.io/#help" target="_blank">
+			<i class="fa-beer"></i> &nbsp;&nbsp;Offer me a beer!
+		</a>
+
 
 	</div>
 
-	<div data-content>
+	<div data-drawer-content>
 
 		<section id="top-bar">
 			
@@ -62,7 +112,7 @@
 				
 				<div class="row">
 					<div class="gr-12">
-						<ul class="list list--top-bar pull-left">
+						<!-- <ul class="list list--top-bar pull-left">
 							<li class="list__item">
 								<a href="javascript:void();">
 									<label data-drawer-toggle-label for="drawer">
@@ -70,7 +120,7 @@
 									</label>
 								</a>
 							</li>
-						</ul>
+						</ul> -->
 						<ul class="list list--top-bar pull-right">
 							<li class="list__item">
 								<a href="http://sugarcss.io" title="Sugar - Full documentation" target="_blank">
@@ -1036,11 +1086,11 @@ p {
 
 		</section>
 
-		<a href="#" class="top">
-			<i class="fa-arrow-up"></i>
-		</a>
-
 	</div>
+
+	<a href="#" class="top">
+		<i class="fa-arrow-up"></i>
+	</a>
 
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.js"></script>
 

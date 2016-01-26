@@ -29,10 +29,16 @@
 		# enabled
 		enabled : true
 
+		# settings
+		_settings : {}
+
 		###
 		Init
 		###
-		init : () ->
+		init : (settings = {}) ->
+
+			# extend settings
+			@_settings = @_extend @_settings, settings
 
 			# update inited state
 			@_inited = true
@@ -64,6 +70,13 @@
 					bubbles : true,
 					cancelable : true
 				}));
+
+		###
+		Extend settings
+		###
+		_extend : (obj, mixin) ->
+			obj[name] = method for name, method of mixin
+			obj
 
 	# init the filter
 	SugarDOMNodeInserted.init()

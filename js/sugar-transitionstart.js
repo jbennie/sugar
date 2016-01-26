@@ -21,11 +21,16 @@
   window.SugarTransitionStart = {
     _inited: false,
     enabled: true,
+    _settings: {},
 
     /*
     		Init
      */
-    init: function() {
+    init: function(settings) {
+      if (settings == null) {
+        settings = {};
+      }
+      this._settings = this._extend(this._settings, settings);
       this._inited = true;
       if (document.readyState === 'interactive') {
         return this._init();
@@ -55,12 +60,23 @@
      */
     _onTransitionEnd: function(e) {
       if (e.elapsedTime === 0.000001) {
-        console.log('transitionstart');
         return e.target.dispatchEvent(new CustomEvent('transitionstart', {
           bubbles: true,
           cancelable: true
         }));
       }
+    },
+
+    /*
+    		Extend settings
+     */
+    _extend: function(obj, mixin) {
+      var method, name;
+      for (name in mixin) {
+        method = mixin[name];
+        obj[name] = method;
+      }
+      return obj;
     }
   };
   SugarTransitionStart.init();

@@ -21,11 +21,16 @@
   window.SugarDOMNodeInserted = {
     _inited: false,
     enabled: true,
+    _settings: {},
 
     /*
     		Init
      */
-    init: function() {
+    init: function(settings) {
+      if (settings == null) {
+        settings = {};
+      }
+      this._settings = this._extend(this._settings, settings);
       this._inited = true;
       if (document.readyState === 'interactive') {
         return this._init();
@@ -60,6 +65,18 @@
           cancelable: true
         }));
       }
+    },
+
+    /*
+    		Extend settings
+     */
+    _extend: function(obj, mixin) {
+      var method, name;
+      for (name in mixin) {
+        method = mixin[name];
+        obj[name] = method;
+      }
+      return obj;
     }
   };
   SugarDOMNodeInserted.init();

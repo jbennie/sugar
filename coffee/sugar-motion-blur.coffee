@@ -29,10 +29,16 @@
 		# enabled
 		enabled : true
 
+		# settings
+		_settings : {}
+
 		###
 		Init
 		###
-		init : () ->
+		init : (settings = {}) ->
+
+			# extend settings
+			@_settings = @_extend @_settings, settings
 
 			# update inited state
 			@_inited = true
@@ -219,8 +225,17 @@
 			m = String.fromCharCode(n)+k;
 			return m.trim()
 
+		###
+		Extend settings
+		###
+		_extend : (obj, mixin) ->
+			obj[name] = method for name, method of mixin
+			obj
+
 	# init the filter
-	SugarMotionBlur.init()
+	setTimeout ->
+		SugarMotionBlur.init() if not SugarMotionBlur._inited
+	, 500
 
 	# return the Sugar object
 	SugarMotionBlur

@@ -33,6 +33,9 @@
      */
     init: function(settings) {
       var cb_split, e;
+      if (settings == null) {
+        settings = {};
+      }
       this._settings = this._extend(this._settings, settings);
       this._inited = true;
       cb_split = this._settings.json_path.split('#');
@@ -103,7 +106,7 @@
     },
 
     /*
-    		Extend settingd
+    		Extend settings
      */
     _extend: function(obj, mixin) {
       var method, name;

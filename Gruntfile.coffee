@@ -41,6 +41,7 @@ module.exports = (grunt) ->
 					'js/sugar-domnodeinserted.js'
 					'js/sugar-motion-blur.js'
 					'js/sugar-gooey.js'
+					'js/sugar-drawer.js'
 				]
 				dest: 'js/sugar-full.js'
 
