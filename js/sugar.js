@@ -54,32 +54,91 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(1);
+	module.exports = __webpack_require__(4);
 
 
 /***/ },
 /* 1 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	
 	/*
-	 * Sugar.js
+	 * Sugar-domnodeinserted.js
 	 *
-	 * This little js file allow you to have a lot a useful features available for free
+	 * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
 	 *
-	 * @author 	Olivier Bossel <olivier.bossel@gmail.com>
-	 * @created 	03.11.15
-	 * @updated 	03.11.15
-	 * @version 	1.0.0
+	 * @author   Olivier Bossel <olivier.bossel@gmail.com>
+	 * @created  20.01.16
+	 * @updated  20.01.16
+	 * @version  1.0.0
 	 */
-	module.exports = {
-	  drawer: __webpack_require__(2),
-	  gooey: __webpack_require__(3),
-	  domnodeinserted: __webpack_require__(4),
-	  motionblur: __webpack_require__(5),
-	  transitionstart: __webpack_require__(6),
-	  webfonts: __webpack_require__(7)
+	if (window.sugar == null) {
+	  window.sugar = {};
+	}
+
+	module.exports = window.sugar.domnodeinserted = {
+	  _inited: false,
+	  enabled: true,
+	  _settings: {},
+
+	  /*
+	  	Init
+	   */
+	  init: function(settings) {
+	    if (settings == null) {
+	      settings = {};
+	    }
+	    this._settings = this._extend(this._settings, settings);
+	    this._inited = true;
+	    if (document.readyState === 'interactive') {
+	      return this._init();
+	    } else {
+	      return document.addEventListener('DOMContentLoaded', (function(_this) {
+	        return function(e) {
+	          return _this._init();
+	        };
+	      })(this));
+	    }
+	  },
+
+	  /*
+	  	Internal init
+	   */
+	  _init: function() {
+	    if (!this.enabled) {
+	      return;
+	    }
+	    document.addEventListener("animationstart", this._onAnimationStart, false);
+	    document.addEventListener("MSAnimationStart", this._onAnimationStart, false);
+	    return document.addEventListener("webkitAnimationStart", this._onAnimationStart, false);
+	  },
+
+	  /*
+	  	On animation start
+	   */
+	  _onAnimationStart: function(e) {
+	    if (e.animationName === 's-DOMNodeInserted') {
+	      return e.target.dispatchEvent(new CustomEvent('DOMNodeInserted', {
+	        bubbles: true,
+	        cancelable: true
+	      }));
+	    }
+	  },
+
+	  /*
+	  	Extend settings
+	   */
+	  _extend: function(obj, mixin) {
+	    var method, name;
+	    for (name in mixin) {
+	      method = mixin[name];
+	      obj[name] = method;
+	    }
+	    return obj;
+	  }
 	};
+
+	window.sugar.domnodeinserted.init();
 
 
 /***/ },
@@ -436,86 +495,27 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 4 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	
 	/*
-	 * Sugar-domnodeinserted.js
+	 * Sugar.js
 	 *
-	 * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
+	 * This little js file allow you to have a lot a useful features available for free
 	 *
-	 * @author   Olivier Bossel <olivier.bossel@gmail.com>
-	 * @created  20.01.16
-	 * @updated  20.01.16
-	 * @version  1.0.0
+	 * @author 	Olivier Bossel <olivier.bossel@gmail.com>
+	 * @created 	03.11.15
+	 * @updated 	03.11.15
+	 * @version 	1.0.0
 	 */
-	if (window.sugar == null) {
-	  window.sugar = {};
-	}
-
-	module.exports = window.sugar.domnodeinserted = {
-	  _inited: false,
-	  enabled: true,
-	  _settings: {},
-
-	  /*
-	  	Init
-	   */
-	  init: function(settings) {
-	    if (settings == null) {
-	      settings = {};
-	    }
-	    this._settings = this._extend(this._settings, settings);
-	    this._inited = true;
-	    if (document.readyState === 'interactive') {
-	      return this._init();
-	    } else {
-	      return document.addEventListener('DOMContentLoaded', (function(_this) {
-	        return function(e) {
-	          return _this._init();
-	        };
-	      })(this));
-	    }
-	  },
-
-	  /*
-	  	Internal init
-	   */
-	  _init: function() {
-	    if (!this.enabled) {
-	      return;
-	    }
-	    document.addEventListener("animationstart", this._onAnimationStart, false);
-	    document.addEventListener("MSAnimationStart", this._onAnimationStart, false);
-	    return document.addEventListener("webkitAnimationStart", this._onAnimationStart, false);
-	  },
-
-	  /*
-	  	On animation start
-	   */
-	  _onAnimationStart: function(e) {
-	    if (e.animationName === 's-DOMNodeInserted') {
-	      return e.target.dispatchEvent(new CustomEvent('DOMNodeInserted', {
-	        bubbles: true,
-	        cancelable: true
-	      }));
-	    }
-	  },
-
-	  /*
-	  	Extend settings
-	   */
-	  _extend: function(obj, mixin) {
-	    var method, name;
-	    for (name in mixin) {
-	      method = mixin[name];
-	      obj[name] = method;
-	    }
-	    return obj;
-	  }
+	module.exports = {
+	  drawer: __webpack_require__(2),
+	  gooey: __webpack_require__(3),
+	  domnodeinserted: __webpack_require__(1),
+	  motionblur: __webpack_require__(5),
+	  transitionstart: __webpack_require__(6),
+	  webfonts: __webpack_require__(7)
 	};
-
-	window.sugar.domnodeinserted.init();
 
 
 /***/ },

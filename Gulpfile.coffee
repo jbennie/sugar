@@ -22,12 +22,12 @@ webpackParams =
 			loader: 'coffee-loader'
 		}]
 	entry: {
-        'sugar-drawer': ["./coffee/sugar/sugar-drawer.coffee"]
-        'sugar-gooey': ["./coffee/sugar/sugar-gooey.coffee"]
-        'sugar-domnodeinserted': ["./coffee/sugar/sugar-domnodeinserted.coffee"]
-        'sugar-motionblur': ["./coffee/sugar/sugar-motionblur.coffee"]
-        'sugar-transitionstart': ["./coffee/sugar/sugar-transitionstart.coffee"]
-        'sugar-webfonts': ["./coffee/sugar/sugar-webfonts.coffee"]
+        'drawer': ["./coffee/sugar/sugar-drawer.coffee"]
+        'gooey': ["./coffee/sugar/sugar-gooey.coffee"]
+        'domnodeinserted': ["./coffee/sugar/sugar-domnodeinserted.coffee"]
+        'motionblur': ["./coffee/sugar/sugar-motionblur.coffee"]
+        'transitionstart': ["./coffee/sugar/sugar-transitionstart.coffee"]
+        'webfonts': ["./coffee/sugar/sugar-webfonts.coffee"]
         'index': ["./coffee/sugar/sugar.coffee"]
         'sugar': ['./coffee/sugar/sugar.coffee']
     },
