@@ -191,12 +191,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	  	Internal init
 	   */
 	  _init: function() {
-	    var drawer, i, len, ref;
 	    if (!this.enabled) {
 	      return;
 	    }
-	    this.drawers = document.querySelectorAll('[data-drawer]');
+	    this.update();
+	    return this._checkHash();
+	  },
+
+	  /*
+	  	Parse dom to init new drawers
+	   */
+	  update: function() {
+	    var drawer, i, len, ref, results;
+	    this.drawers = document.querySelectorAll('[data-drawer]:not([data-drawer-inited])');
 	    ref = this.drawers;
+	    results = [];
 	    for (i = 0, len = ref.length; i < len; i++) {
 	      drawer = ref[i];
 	      if (drawer.drawer == null) {
@@ -204,10 +213,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	      if ((drawer.dataset != null) && (drawer.dataset.drawer != null)) {
 	        drawer.drawer.name = drawer.dataset.drawer;
-	        this._initDrawer(drawer);
+	        results.push(this._initDrawer(drawer));
+	      } else {
+	        results.push(void 0);
 	      }
 	    }
-	    return this._checkHash();
+	    return results;
 	  },
 
 	  /*
@@ -215,6 +226,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	  _initDrawer: function(drawer_elm) {
 	    var bkg, cs, drawer_bkg, drawer_overlay, drawer_toggle, name, overlay;
+	    drawer_elm.setAttribute('data-drawer-inited', true);
 	    name = drawer_elm.drawer.name;
 	    drawer_bkg = document.querySelector('[data-drawer-bkg="' + name + '"]');
 	    if (!drawer_bkg) {

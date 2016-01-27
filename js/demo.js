@@ -25,8 +25,7 @@
     $('[data-slidizle]').slidizle({
       nextOnClick: true,
       loop: true,
-      pauseOnHover: true,
-      onChange: function(api) {}
+      pauseOnHover: true
     });
     return $('[data-interact]').each(function(idx, item) {
       return interact(item).draggable({

@@ -46,8 +46,19 @@ module.exports = window.sugar.drawer =
 		# do nothing if not enabled
 		return if not @enabled
 
+		# parse dom
+		@update()
+
+		# check hash
+		@_checkHash()
+
+	###
+	Parse dom to init new drawers
+	###
+	update : () ->
+
 		# list all the drawers
-		@drawers = document.querySelectorAll('[data-drawer]')
+		@drawers = document.querySelectorAll('[data-drawer]:not([data-drawer-inited])')
 		for drawer in @drawers
 			# set the drawer object
 			drawer.drawer ?= {}
@@ -59,13 +70,13 @@ module.exports = window.sugar.drawer =
 				# check the drawer
 				@_initDrawer drawer
 
-		# check hash
-		@_checkHash()
-
 	###
 	Init drawer
 	###
 	_initDrawer : (drawer_elm) ->
+
+		# set the data-drawer-inited attribute
+		drawer_elm.setAttribute 'data-drawer-inited', true
 
 		# get the name
 		name = drawer_elm.drawer.name
