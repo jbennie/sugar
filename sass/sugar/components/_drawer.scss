@@ -15,15 +15,33 @@
 }
 
 @mixin s-drawer(
-	$name,
-	$settings : ()
+	$props : ()
 ) {
 
+	// parse parameters
+	$props : _sugar-parse-properties($props, (
+		side : top right bottom left,
+		type : reveal slide push,
+		method : translate position,
+		name : string,
+		size : number
+	));
+
+	$props : _sugar-handle-nested(drawer, $props);
+
 	// mix settings with base one
-	$settings : map-merge(sugar('settings.drawer'), $settings);
+	$settings : map-merge(sugar('settings.drawer'), $props);
 	$side : map-get($settings, side);
 	$type : map-get($settings, type);
+	$method : map-get($settings, method);
 	$transition : map-get($settings, transition);
+	$name : map-get($settings, name);
+	$size : map-get($settings, size);
+	
+	// need a name
+	@if $name == null {
+		@error('You need to specify a name to create a drawer...');
+	}
 
 	html, body {
 		height: 100%;
@@ -51,27 +69,43 @@
 		
 		@if $side == left {
 			@if $type == push or $type == slide {
-				@include s-translate(map-get($settings, width) * -1);
+				@if $method == translate {
+					@include s-translate($size * -1);
+				} @else {
+					left : $size * -1;
+				}
 			} @else if $type == reveal {
 				left: 0;
 			}
 		} @else if $side == right {
 			@if $type == push or $type == slide {
-				@include s-translate(0);
-				left: 100%;
+				@if $method == translate {
+					@include s-translate(0);
+					left: 100%;
+				} @else {
+					right : $size * -1;
+				}
 			} @else if $type == reveal {
 				right: 0;
 			}
 		} @else if $side == top {
 			@if $type == push or $type == slide {
-				@include s-translate(0 map-get($settings, height) * -1);
+				@if $method == translate {
+					@include s-translate(0 $size * -1);
+				} @else {
+					top : $size * -1;
+				}
 			} @else if $type == reveal {
 				top: 0;
 			}
 		} @else if $side == bottom {
 			@if $type == push or $type == slide {
-				@include s-translate(0 0);
-				top: 100%;
+				@if $method == translate {
+					@include s-translate(0 0);
+					top: 100%;
+				} @else {
+					bottom: $size * -1;
+				}
 			} @else if $type == reveal {
 				bottom: 0;
 			}
@@ -79,11 +113,11 @@
 
 		@if $side == left or $side == right {
 			height: 100%;
-			width: map-get($settings, width);
+			width: $size;
 			top: 0;
 		} @else if $side == top or $side == bottom {
 			left : 0;
-			height: map-get($settings, height);
+			height: $size;
 			width: 100%;
 		}
 
@@ -101,6 +135,10 @@
 		background-color: white;
 		position: relative;
 		z-index:3;
+		@if $method == position {
+			top: 0;
+			left: 0;
+		}
 	}
 
 	#{$drawer-overlay-sel} {
@@ -113,7 +151,9 @@
 		background: rgba(255, 255, 255, 0);
 		opacity: 0;
 		pointer-events: none;
-		@include s-translate(0 0);
+		@if $method == translate {
+			@include s-translate(0 0);
+		}
 		@include s-transition($transition);
 		z-index: 4;
 	}
@@ -132,13 +172,29 @@
 		opacity: 1;
 		pointer-events: all;
 		@if $side == left {
-			@include s-translate(map-get($settings, width));
+			@if $method == translate {
+				@include s-translate($size);
+			} @else {
+				left : $size;
+			}
 		} @else if $side == right {
-			@include s-translate(map-get($settings, width) * -1);
+			@if $method == translate {
+				@include s-translate($size * -1);
+			} @else {
+				right : $size;
+			}
 		} @else if $side == top {
-			@include s-translate(0 map-get($settings, height));
+			@if $method == translate {
+				@include s-translate(0 $size);
+			} @else {
+				top : $size;
+			}
 		} @else if $side == bottom {
-			@include s-translate(0 map-get($settings, height) * -1);
+			@if $method == translate {
+				@include s-translate(0 $size * -1);
+			} @else {
+				bottom : $size;
+			}
 		}
 		cursor: pointer;
 	}
@@ -157,13 +213,29 @@
 		}
 		@if $type == push or $type == slide {
 			@if $side == left {
-				@include s-translate(0);
+				@if $method == translate {
+					@include s-translate(0);
+				} @else {
+					left : 0;
+				}
 			} @else if $side == right {
-				@include s-translate(map-get($settings, width) * -1);
+				@if $method == translate {
+					@include s-translate($size * -1);
+				} @else {
+					right : 0;
+				}
 			} @else if $side == top {
-				@include s-translate(0 0);
+				@if $method == translate {
+					@include s-translate(0 0);
+				} @else {
+					top : 0;
+				}
 			} @else if $side == bottom {
-				@include s-translate(0 map-get($settings, height) * -1);
+				@if $method == translate {
+					@include s-translate(0 $size * -1);
+				} @else {
+					bottom : 0;
+				}
 			}
 		}
 	}
@@ -171,17 +243,37 @@
 	#{$drawer-toggle-sel}:checked ~ [data-drawer-content] {
 		@if $type != slide {
 			@if $side == left {
-				@include s-translate(map-get($settings, width));
+				@if $method == translate {
+					@include s-translate($size);
+				} @else {
+					left : $size;
+				}
 			} @else if $side == right {
-				@include s-translate(map-get($settings, width) * -1);
+				@if $method == translate {
+					@include s-translate($size * -1);
+				} @else {
+					right : $size;
+				}
 			} @else if $side == top {
-				@include s-translate(0 map-get($settings, height));
+				@if $method == translate {
+					@include s-translate(0 $size);
+				} @else {
+					top : $size;
+				}
 			} @else if $side == bottom {
-				@include s-translate(0 map-get($settings, height) * -1);
+				@if $method == translate {
+					@include s-translate(0 $size * -1);
+				} @else {
+					bottom : $size;
+				}
 				height: 100%;
 			}
 		}
 		z-index:3;
+	}
+
+	@include _sugar-handle-nested(drawer) {
+		@content;
 	}
 
 }

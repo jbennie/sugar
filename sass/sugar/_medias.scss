@@ -119,20 +119,34 @@ $media-keywords : (
 		$idx : $idx + 1;
 	}
 
+	$this : "#{&}";
+
 	@if $med_length > 0 {
 		@media #{$med} {
-			@if length($refine) {
-				#{_join($refine,'')} & {
-					@content;
+			@if length($refine) >= 1 {
+				@if $this != '' {
+					#{_join($refine,'')} & {
+						@content;
+					}
+				} @else {
+					#{_join($refine,'')} {
+						@content;
+					}
 				}
 			} @else {
 				@content;
 			}
 		}
 	} @else {
-		@if length($refine) {
-			#{_join($refine,'')} & {
-				@content;
+		@if length($refine) >= 1 {
+			@if $this != '' {
+				#{_join($refine,'')} & {
+					@content;
+				}
+			} @else {
+				#{_join($refine,'')} {
+					@content;
+				}
 			}
 		} @else {
 			@content;

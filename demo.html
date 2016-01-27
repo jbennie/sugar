@@ -5,19 +5,18 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-	
-	<script src="js/interact.js"></script>
-	<script src="js/jquery.js"></script>
-	<script src="js/jquery.appear.js"></script>
-	<script src="js/jquery.slidizle.js"></script>
-	<script src="js/sugar-full.js"></script>
-	<script>SugarWebfonts.init({
+	<script src="js/vendor.js"></script>
+	<script src="js/sugar.js"></script>
+
+	<script>
+	console.log(window);
+	sugar.webfonts.init({
 		json_path : './fonts/fonts.json#2.2',
 		debug : true
 	});
 	if (/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) {
-		SugarMotionBlur.enabled = false;
-		SugarGooey.enabled = false;
+		sugar.motionblur.enabled = false;
+		sugar.gooey.enabled = false;
 	}
 	</script>
 	<script src="js/demo.js"></script>
@@ -998,7 +997,7 @@ p {
 							Sugar helps you to handle that issue. This mean that if I need only the 5 icons bellow in my website, you will have only the 5 icons in your css.
 						</p>
 
-						<p style="font-size:4rem;" class="c-orange--dark">
+						<p class="c-orange--dark icons-presenter">
 							<i class="fa-bars"></i>
 							<i class="fa-gg-circle"></i>
 							<i class="fa-coffee"></i>
