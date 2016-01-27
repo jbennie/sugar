@@ -1,8 +1,9 @@
-# Sugar (v1.0.3)
+# Sugar (v1.0.4)
 
 The goal of Sugar is certainly not to tells you how to organize your project. It's just like a **sugar in the coffee, you choose the coffee, Sugar enhance it with a nice touch!**
 
 ## [Visit Website](http://sugarcss.io) for full documentation
+### [Visit Demo](http://olivierbossel.github.io/sugar/demo.html)
 
 
 ## Write less, do more!
@@ -155,6 +156,16 @@ Sugar comes with some nice packages like font-awesome, animate.css, etc... out o
 - and many more...
 
 
+## Cool effects out of the box
+
+Sugar gives you for nearly free some very cool complexe effects like motion blur, etc..
+
+
+
+## Some cool and fully customizable components
+
+Sugar gives you some very useful fully customizable components like drawers and more to come.
+
 
 
 ## That's not finished...
@@ -162,6 +173,7 @@ Sugar comes with some nice packages like font-awesome, animate.css, etc... out o
 Sugar offer you a lot of features and advanced settings that you can discover on the full website.
 
 ## [Visit Website](http://sugarcss.io) for full documentation
+### [Visit Demo](http://olivierbossel.github.io/sugar/demo.html)
 
 
 ## Tested with
