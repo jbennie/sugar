@@ -1,0 +1,126 @@
+//
+// Typography base
+//
+@mixin s-typography(
+	$props : ()
+) {
+
+	$props : _sugar-parse-properties($props, (
+		titles : integer
+	));
+
+	$titles : map-get-or($props, titles, 6);
+
+	
+
+	small {
+		font-size: 0.8em;
+	}
+
+}
+
+@mixin s-typography-titles(
+	$props : ()
+) {
+	$props : _sugar-parse-properties($props, (
+		count : integer,
+		color : color,
+		colors : list-color,
+		sizes : list-number
+	));
+
+	@debug($props);
+
+	$count : map-get-or($props, count, 6);
+
+	@if $count >= 1 {
+		h1 {
+			@include s-vertical-rhythme((
+				s-font : ms(3) helvetica,
+				margin-bottom : 2
+			));
+		}
+	}
+	@if $count >= 2 {
+		h2 {
+			@include s-vertical-rhythme((
+				s-font : ms(2.5) helvetica,
+				margin-bottom : 2
+			));
+		}
+	}
+	@if $count >= 3 {
+		h3 {
+			@include s-vertical-rhythme((
+				s-font : ms(2) helvetica,
+				margin-bottom : 2
+			));
+		}
+	}
+	@if $count >= 4 {
+		h4 {
+			@include s-vertical-rhythme((
+				s-font : ms(1.5) helvetica,
+				margin-bottom : 2
+			));
+		}
+	}
+	@if $count >= 5 {
+		h5 {
+			@include s-vertical-rhythme((
+				s-font : ms(1) helvetica,
+				margin-bottom : 2
+			));
+		}
+	}
+	@if $count >= 6 {
+		h6 {
+			@include s-vertical-rhythme((
+				s-font : ms(0.5) helvetica,
+				margin-bottom : 2
+			));
+		}
+	}
+}
+
+@mixin s-typography-paragraphs(
+	$props : ()
+) {
+	p {
+		@include s-vertical-rhythme((
+			s-font : ms(0.5) 2 s-color(blue) justify,
+			margin-bottom : 2
+		));
+	}
+	p.lead {
+		@include s-vertical-rhythme((
+			s-font : ms(1) 2 s-color(blue),
+			margin-bottom : 2
+		));
+		// @include s-rhythme-width();
+	}
+
+}
+
+@mixin s-typography-decorators(
+	$props : ()
+) {
+	.small,	small {
+		font-size: 0.6em;
+	}
+	strong {
+		font-weight: bold;
+	}
+	mark {
+		background: s-color(yellow, -saturate 20%);
+	}
+	s, del {
+		text-decoration: line-through;
+	}
+	u, ins {
+		text-decoration: underline;
+	}
+	b, i {
+		font-style: italic;
+	}
+}

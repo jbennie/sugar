@@ -519,63 +519,15 @@ figure {
 //
 // Typography
 //
-h1 {
-	@include s-vertical-rhythme((
-		s-font : ms(3) helvetica-light uppercase,
-		margin-bottom : 2
-	));
-}
-h2 {
-	@include s-vertical-rhythme((
-		s-font : ms(2.5),
-		margin-bottom : 2
-	));
-}
-h3 {
-	@include s-vertical-rhythme((
-		s-font : ms(2),
-		margin-bottom : 2
-	));
-}
-h4 {
-	@include s-vertical-rhythme((
-		s-font : ms(1.5),
-		margin-bottom : 2
-	));
-}
-h5 {
-	@include s-vertical-rhythme((
-		s-font : ms(1),
-		margin-bottom : 2
-	));
-}
-h6 {
-	@include s-vertical-rhythme((
-		s-font : ms(0.5),
-		margin-bottom : 2
-	));
-}
-p {
-	@include s-vertical-rhythme((
-		s-font : ms(0.5) 2 s-color(blue) justify,
-		margin-bottom : 2
-	));
-}
-p.heading {
-	@include s-vertical-rhythme((
-		s-font : ms(1) 2 s-color(blue),
-		margin-bottom : 2
-	));
-	@include s-rhythme-width();
-}
+@include s-typography-titles();
+@include s-typography-paragraphs();
+@include s-typography-decorators();
+
 a {
 	@include s-font(s-color(orange) -td none);
 }
 strong {
 	@include s-font(helvetica-bold);
-}
-small {
-	font-size: 0.5em;
 }
 blockquote {	
 	padding: s-size(2);

@@ -240,6 +240,11 @@ $_sugar-settings : (								// store all the settings
 		side 						: left,			// the side of the drawer
 		type 						: push, 			// can be reveal, push or slide				
 		transition 					: null 				// store the transition to use
+								),
+	typography 					: (
+		titles 						: (
+			
+									)
 								)
 );		
 

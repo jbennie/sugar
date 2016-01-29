@@ -57,6 +57,7 @@ $_s_nested_properties_depth : ();
 	$keywords,
 	$aliases : ()
 ) {
+
 	// default aliases
 	$aliases : map-merge($aliases, (
 		width : w,
@@ -75,42 +76,26 @@ $_s_nested_properties_depth : ();
 		// loop on each properties to 
 		@each $prop, $value in $properties {
 
-			// check if exist
-			$in_keywords : map-get($keywords, $prop);
-
-			// if not in keywords, try to get the alias
-			@if $in_keywords == null {
-
-				$alias_found : false;
-				@each $alias_prop, $alias in $aliases {
-					@if $alias_found == false {
-						$al : index($alias, $prop);
-						@if $al or type-of($alias) == string and $prop == $alias {
-							$alias_found : true;
-							$prop : $alias_prop;
-						}
-					}
-				}
-				// check again if now we have a property like this
-				$in_keywords : map-get($keywords, $prop);
-			}
+			// get the type
+			$type : _s-get-property-type($prop, $keywords, $aliases);
 
 			// if we have found, check the type
-			@if $in_keywords {
+			@if $type and $value {
 
 				// check explicit values
-				@if type-of($in_keywords) == string {
+				@if type-of($type) == string {
 					// check the type
-					@if s-is($value, $in_keywords) {
-						$new-map : map-set($new-map, $prop, $value);
+					@if not s-is($value, $type) {
+						@error('The property #{$prop} need to be a #{$type} but it seems that you pass a #{type-of($value)} : #{$value}...');
 					}
-				} @else if type-of($in_keywords) == list {
+					$new-map : map-set($new-map, $prop, $value);
+				} @else if type-of($type) == list {
 					// check if the passed value exist in possible values
-					@if type-of($value) == list and index($in_keywords, length) {
+					@if type-of($value) == list and index($type, length) {
 						$new-map : map-set($new-map, $prop, $value);
-					} @else if type-of($value) == number and index($in_keywords, length) {
+					} @else if type-of($value) == number and index($type, length) {
 						$new-map : map-set($new-map, $prop, $value);
-					} @else if index($in_keywords, $value) {
+					} @else if index($type, $value) {
 						$new-map : map-set($new-map, $prop, $value);
 					}
 				} @else {
@@ -118,7 +103,7 @@ $_s_nested_properties_depth : ();
 					$new-map : map-set($new-map, $prop, $value);
 				}
 
-			} @else {
+			} @else if $value {
 				// add the value to map
 				@if not map-get($new-map, others) {
 					$new-map : map-set($new-map, others, ());
@@ -146,55 +131,38 @@ $_s_nested_properties_depth : ();
 				// remove the - at property beginning
 				$prop : str-slice($prop, 2);
 
-				// check if we have a property named like this in map
-				$in_keywords : null;
-
-				@if $keywords {
-					$in_keywords : map-get($keywords, $prop);
-
-					// if not in keywords, try to get the alias
-					@if $in_keywords == null {
-
-						$alias_found : false;
-						@each $alias_prop, $alias in $aliases {
-							@if $alias_found == false {
-								$al : index($alias, $prop);
-								@if $al or type-of($alias) == string and $prop == $alias {
-									$alias_found : true;
-									$prop : $alias_prop;
-								}
-							}
+				// we have a new property
+				// need to check if we have already one in memory
+				// to save it in the map after checking the type
+				@if $current_prop {
+					@if length($values) == 0 {
+						$values : true
+					} @else if length($values) == 1 {
+						$values : nth($values, 1);
+					}
+					@if $values {
+						$type : _s-get-property-type($current_prop, $keywords, $aliases);
+						@if s-is($values, $type) {
+							$map : map-set($map, $current_prop, $values);
+						} @else {
+							@error('The property #{$current_prop} need to be a #{$type} but it seems that you passed a #{type-of($values)} : #{$values}...');
 						}
-						// check again if now we have a property like this
-						$in_keywords : map-get($keywords, $prop);
 					}
 				}
-
-				// if we have a property in map
-				@if $in_keywords or $keywords == null {
-
-					// explicit naming
-					@if $current_prop {
-						@if length($values) == 0 {
-							$values : true
-						} @else if length($values) == 1 {
-							$values : nth($values, 1);
-						}
-						$map : map-set($map, $current_prop, $values);
-					}
-					$first : false;
-					$current_prop : $prop;
-					$values : ();
-				} @else {
-					// we do not have the property in keywords
-					// but it is still a property...
-					// we have to reset the current prop to null
-					// in order to not append values in previous
-					// founded property
-					$first : false;
-					$current_prop : null;
-					$values : ();
-				}
+				$first : false;
+				$current_prop : $prop;
+				$values : ();
+				
+				// } @else {
+				// 	// we do not have the property in keywords
+				// 	// but it is still a property...
+				// 	// we have to reset the current prop to null
+				// 	// in order to not append values in previous
+				// 	// founded property
+				// 	$first : false;
+				// 	$current_prop : null;
+				// 	$values : ();
+				// }
 			} @else {
 
 				@if $first {
@@ -237,7 +205,13 @@ $_s_nested_properties_depth : ();
 					} @else if length($values) == 1 {
 						$values : nth($values, 1);
 					}
-					$map : map-set($map, $current_prop, $values);
+					@if $values {
+						$type : _s-get-property-type($current_prop, $keywords, $aliases);
+						@if $type and type-of($type) == string and not s-is($values, $type) {
+							@error('The property #{$current_prop} need to be a #{$type} but it seems that you passed a #{type-of($values)} : #{$values}');
+						}
+						$map : map-set($map, $current_prop, $values);
+					}
 				}
 			}
 		}
@@ -247,7 +221,13 @@ $_s_nested_properties_depth : ();
 			} @else if length($values) == 1 {
 				$values : nth($values, 1);
 			}
-			$map : map-set($map, $current_prop, $values);
+			@if $values {
+				$type : _s-get-property-type($current_prop, $keywords, $aliases);
+				@if $type and type-of($type) == string and not s-is($values, $type) {
+					@error('The property #{$current_prop} need to be a #{$type} but it seems that you passed a #{type-of($values)} : #{$values}');
+				}
+				$map : map-set($map, $current_prop, $values);
+			}
 		}
 
 		// return map
@@ -256,12 +236,59 @@ $_s_nested_properties_depth : ();
 	}
 }
 
+@function _s-get-property-type(
+	$property,
+	$keywords : (),
+	$aliases : ()
+) {
+	@if not $keywords {
+		$keywords : ();
+	}
+	@if not $aliases {
+		$aliases : ();
+	}
+
+	// check if exist
+	$type : map-get($keywords, $property);
+
+	// if not in keywords, try to get the alias
+	@if not $type {
+		$alias_found : false;
+		@each $alias_prop, $alias in $aliases {
+			@if $alias_found == false {
+				$al : index($alias, $property);
+				@if $al or type-of($alias) == string and $property == $alias {
+					$alias_found : true;
+					$property : $alias_prop;
+				}
+			}
+		}
+		// check again if now we have a property like this
+		$type : map-get($keywords, $property);
+	}
+	// return the type
+	@return $type;
+}
+
 @function s-is(
 	$value,
 	$type
 ) {
+	@if type-of($type) != string {
+		@return true;
+	}
+
 	@if $type == url {
 		@return str-is-url($value);
+	} @else if str-index($type, 'list-') {
+		$idx : str-index($type, '-');
+		$type : str-slice($type, $idx + 1);
+		@each $item in $value {
+			@if not s-is($item, $type) {
+				@return false;
+			}
+		}
+		@return true;
 	} @else if $type == px {
 		@return type-of($value) == number and not unitless($value) and unit($value) == px;
 	} @else if $type == rem {
@@ -299,6 +326,9 @@ $_s_nested_properties_depth : ();
 	} @else if $type == number {
 		@return type-of($value) == number;
 	} @else if $type == integer or $type == int {
+		@if type-of($value) != number {
+			@return false;
+		}
 		@return round($value) == $value;
 	} @else if $type == string {
 		@return type-of($value) == string;
