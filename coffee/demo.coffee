@@ -20,6 +20,8 @@ jQuery ($) ->
 			$c.addClass 'show-rhythme'
 			$(this).addClass 'active'
 
+
+
 	# optimise display
 	# $('section:not([data-bypass-appear])').attr('data-appear-offset-top', 200).css('visibility', 'hidden').on 'appear', (e) =>
 	# 	$(e.target).css('visibility', 'visible')

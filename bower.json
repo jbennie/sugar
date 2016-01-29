@@ -28,7 +28,8 @@
   "dependencies": {
     "jquery.slidizle": "~1.3.22",
     "jquery_appear": "~0.3.6",
-    "interact": "~1.2.6"
+    "interact": "~1.2.6",
+    "jquery": "~2.2.0"
   },
   "devDependencies": {
     "cssua.js": "https://github.com/mckamey/cssuseragent.git#~2.1.31",
