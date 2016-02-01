@@ -1,0 +1,117 @@
+//
+// Variables
+//
+$_sugar-classes : () !default;
+$sugar-animatecss : () !default; 					// store all the icons wanted from animate.css package
+$_sugar-settings : (								// store all the settings
+	reset 						: true, 			// by default, a reset will be applied
+	border-box 					: true, 			// set if need to set all as border box model
+	typo 						: (
+		font-size 					: 16px, 			// default font-size
+		font-sizes 					: null, 			// map of font-sizes by media (size : media)
+		line-letters-count			: 55,				// optimal letters count in a line
+		vertical-rhythme 			: ( 				// Vertical rhythme options
+			scope-class 				: typeset 			// the class in which the vertical rhythme will be applied
+									),
+		font-format 				: ( 				// font format used in font-face
+			eot 						: embedded-opentype,
+			woff2 						: woff2,
+			woff 						: woff,
+			ttf 						: truetype,
+			otf 						: opentype,
+			svg 						: svg,
+			svgz 						: svgz
+
+									)
+								),
+	BEM 						: ( 				// BEM settings
+		standelone-modifier			: false, 			// set if by default need to extend base element
+		element-separator 			: '__', 			// element separator
+		modifier-separator 			: '--' 				// modifier separator
+								),
+	modular-scale 				: ( 				// Modular scale settings
+		base 						: 1rem, 			// the modular scale base
+		ratio 						: $golden, 			// the ratio to use
+		range 						: null, 			// range
+		fluid 						: false 			// is fluid modular scale
+	),
+	animate-css 				: ( 				// store the animatecss settings
+		duration 					: 1s, 				// default animatecss duration
+		ease 						: ease-in-out, 		// default animatecss ease
+		fill-mode					: both 				// defaull animatecss fill mode
+	),
+	font-awesome 				: ( 				// font awesome settings
+		font-path 					: '../fonts/font-awesome', 		// path to dont without trailing slash
+		version 					: 4.4.0, 			// font-awesome version
+		classes 					: null, 		// list of icons to generate
+								),
+	sizes 						: (), 				// store all the sizes available
+	colors 						: (					// store all the colors
+		text 						: (
+			classes 					: false,
+			color 						: #333
+		),
+		default 					: (
+			classes 					: false,
+			color 						: #fff,
+		),
+		primary 					: (
+			classes  					: false,
+			color 						: #f2bc2b
+		),
+		secondary 					: (
+			classes 					: false,
+			color 						: #777
+		),
+		success 					: (
+			classes 					: false,
+			color 						: #5cb85c
+		),
+		warning 					: (
+			classes 					: false,
+			color 						: #f0ad4e
+		),
+		danger 						: (
+			classes 					: false,
+			color 						: #d9534f
+		),
+		info 						: (
+			classes 					: false,
+			color 						: #2199e8
+		),
+		classes 					: (
+			color 						: 'c-{color}',
+			color-modifier 				: 'c-{color}--{modifier}',
+			bkg 						: 'bkg-{color}',
+			bkg-modifier 				: 'bkg-{color}--{modifier}'
+									)
+								), 				
+	fonts  						: ( 				// store all the fonts
+		default 					: (
+			font-family 				: ('Helvetica Neue',Helvetica,Verdana,Arial,sans-serif),
+			font-weight 				: normal,
+			cap-height 					: 0.65
+		)
+	), 				
+	filters 					: (), 				// store all the registered filters
+	transition 					: ( 				// store all the transition settings
+		duration 					: .2s, 				// default transition duration
+		ease 						: ease-in-out, 		// default easing function 
+		delay 						: 0s, 				// default delay
+		property 					: all, 				// default property
+		transitions 				: () 				// store all registered transitions
+	), 
+	helper-classes 				: (),
+	drawer  					: ( 				// store all the drawer settings
+		method 						: translate, 		// can be translate or position
+		size  						: 400px, 			// drawer width
+		side 						: left,			// the side of the drawer
+		type 						: push, 			// can be reveal, push or slide				
+		transition 					: null 				// store the transition to use
+								),
+	typography 					: (
+		titles 						: (
+			
+									)
+								)
+);	

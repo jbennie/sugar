@@ -6,7 +6,7 @@
 	$props : (),
 	$animation : ()
 ) {
-	$props : _sugar-parse-properties($props, (
+	$props : s-parse-properties($props, (
 		shape : circle rect,
 		color : color,
 		colors : list,
@@ -17,7 +17,7 @@
 		offset : number,
 		rotate : degree
 	));
-	$animation : _sugar-parse-properties($animation, (
+	$animation : s-parse-properties($animation, (
 		shape : circle rect,
 		steps : integer,
 		spread : number,
@@ -29,8 +29,8 @@
 		ease : string
 	));
 	
-	$props : _sugar-handle-nested(loader-grid, $props);
-	$animation : _sugar-handle-nested(loader-grid-animation, $animation);
+	$props : s-handle-nested(loader-grid, $props);
+	$animation : s-handle-nested(loader-grid-animation, $animation);
 
 	$color : map-get-or($props, color, red);
 	$colors : map-get($props, colors);
@@ -193,7 +193,7 @@
 		}
 	}
 
-	@include _sugar-handle-nested(loader-grid, loader-grid-animation) {
+	@include s-handle-nested(loader-grid, loader-grid-animation) {
 		@content;
 	}
 }
@@ -202,7 +202,7 @@
 	$spinner : (),
 	$animation : ()
 ) {	
-	$spinner : _sugar-parse-properties($spinner, (
+	$spinner : s-parse-properties($spinner, (
 		type : elastic linear fade-in fade-out fade-in-out,
 		size : number,
 		width : number,
@@ -210,13 +210,13 @@
 		bgcolor : color,
 		length : number
 	));
-	$animation : _sugar-parse-properties($animation, (
+	$animation : s-parse-properties($animation, (
 		duration : second,
 		ease : string	
 	));
 	
-	$spinner : _sugar-handle-nested(loader-spinner, $spinner);
-	$animation : _sugar-handle-nested(loader-spinner-animation, $animation);
+	$spinner : s-handle-nested(loader-spinner, $spinner);
+	$animation : s-handle-nested(loader-spinner-animation, $animation);
 
 	$type : map-get-or($spinner, type, linear);
 	$size : map-get-or($spinner, size, 1em);
@@ -425,7 +425,7 @@
 		}
 	}
 
-	@include _sugar-handle-nested(loader-spinner, loader-spinner-animation) {
+	@include s-handle-nested(loader-spinner, loader-spinner-animation) {
 		@content;
 	}
 }
@@ -434,7 +434,7 @@
 	$props : (),
 	$animation : ()
 ) {
-	$props : _sugar-parse-properties($props, (
+	$props : s-parse-properties($props, (
 		color : color,
 		colors : list,
 		size : number,
@@ -442,7 +442,7 @@
 		count : integer,
 		opacity : number
 	));
-	$animation : _sugar-parse-properties($animation, (
+	$animation : s-parse-properties($animation, (
 		shape : circle rect,
 		spread : number,
 		rotate : number,
@@ -454,8 +454,8 @@
 		delay : second
 	));
 
-	$props : _sugar-handle-nested(loader-circle, $props);
-	$animation : _sugar-handle-nested(loader-circle-animation, $animation);
+	$props : s-handle-nested(loader-circle, $props);
+	$animation : s-handle-nested(loader-circle-animation, $animation);
 
 	$color : map-get-or($props, color, red);
 	$colors : map-get($props, colors);
@@ -600,7 +600,7 @@
 	// transform: rotate(- 360deg / $count / 2);
 	@include s-transform(-translateX -50% -translateY -50% -rotate -90deg);
 
-	@include _sugar-handle-nested(loader-circle, loader-circle-animation) {
+	@include s-handle-nested(loader-circle, loader-circle-animation) {
 		@content;
 	}
 }
@@ -609,7 +609,7 @@
 	$props : (),
 	$animation : ()
 ) {
-	$props : _sugar-parse-properties($props, (
+	$props : s-parse-properties($props, (
 		shape : circle rect,
 		size : number,
 		width : number,
@@ -617,7 +617,7 @@
 		color : color,
 		colors : list
 	));
-	$animation : _sugar-parse-properties($animation, (
+	$animation : s-parse-properties($animation, (
 		duration : second,
 		delay : second,
 		count : integer,
@@ -625,8 +625,8 @@
 		ease : string
 	));
 
-	$props : _sugar-handle-nested(loader-radial, $props);
-	$animation : _sugar-handle-nested(loader-radial-animation, $animation);
+	$props : s-handle-nested(loader-radial, $props);
+	$animation : s-handle-nested(loader-radial-animation, $animation);
 
 	$shape : map-get-or($props, shape, circle);
 	$size : map-get-or($props, size, 1em);
@@ -799,7 +799,7 @@
 		animation: #{$a-name}-a $a-duration $a-ease ($a-duration - $a-delay) / $a-count / 2 infinite;
 	}
 
-	@include _sugar-handle-nested(loader-radial, loader-radial-animation) {
+	@include s-handle-nested(loader-radial, loader-radial-animation) {
 		@content;
 	}
 }
@@ -808,7 +808,7 @@
 	$props : (),
 	$animation : ()
 ) {
-	$props : _sugar-parse-properties($props, (
+	$props : s-parse-properties($props, (
 		shape : circle rect,
 		color : color,
 		colors : list,
@@ -818,7 +818,7 @@
 		gap : number,
 		opacity : number
 	));
-	$animation : _sugar-parse-properties($animation, (
+	$animation : s-parse-properties($animation, (
 		direction : up down both,
 		opacity : number,
 		duration : second,
@@ -829,8 +829,8 @@
 		continuous : true
 	));
 
-	$props : _sugar-handle-nested(loader-bars, $props);
-	$animation : _sugar-handle-nested(loader-bars-animation, $animation);
+	$props : s-handle-nested(loader-bars, $props);
+	$animation : s-handle-nested(loader-bars-animation, $animation);
 
 	$shape : map-get-or($props, shape, rect);
 	$color : map-get-or($props, color, red);
@@ -1029,7 +1029,7 @@
 		}
 	}
 
-	@include _sugar-handle-nested(loader-bars, loader-bars-animation) {
+	@include s-handle-nested(loader-bars, loader-bars-animation) {
 		@content;
 	}
 }
@@ -1038,13 +1038,13 @@
 	$props : (),
 	$animation : ()
 ) {
-	$props : _sugar-parse-properties($props, (
+	$props : s-parse-properties($props, (
 		size : number,
 		color : color,
 		colors : list
 	));
 
-	$animation : _sugar-parse-properties($animation, (
+	$animation : s-parse-properties($animation, (
 		duration : second,
 		delay : second,
 		ease : string,
@@ -1052,8 +1052,8 @@
 		scale : number
 	));
 
-	$props : _sugar-handle-nested(loader-couch-potato, $props);
-	$animation : _sugar-handle-nested(loader-couch-potato-animation, $animation);
+	$props : s-handle-nested(loader-couch-potato, $props);
+	$animation : s-handle-nested(loader-couch-potato-animation, $animation);
 
 	$size : map-get-or($props, size, 1em);
 	$color : map-get-or($props, color, red);
@@ -1115,7 +1115,7 @@
 		}
 	}
 
-	@include _sugar-handle-nested(loader-couch-potato, loader-couch-potato-animation) {
+	@include s-handle-nested(loader-couch-potato, loader-couch-potato-animation) {
 		@content;
 	}
 }
@@ -1124,21 +1124,21 @@
 	$props : (),
 	$animation : ()
 ) {
-	$props : _sugar-parse-properties($props, (
+	$props : s-parse-properties($props, (
 		shape : circle rect,
 		size : number,
 		color : color,
 		colors : list
 	));
 
-	$animation : _sugar-parse-properties($animation, (
+	$animation : s-parse-properties($animation, (
 		duration : second,
 		delay : second,
 		ease : string
 	));
 
-	$props : _sugar-handle-nested(loader-flip-ball, $props);
-	$animation : _sugar-handle-nested(loader-flip-ball-animation, $animation);	
+	$props : s-handle-nested(loader-flip-ball, $props);
+	$animation : s-handle-nested(loader-flip-ball-animation, $animation);	
 
 	$shape : map-get-or($props, shape, circle);
 	$size : map-get-or($props, size, 1em);
@@ -1265,7 +1265,7 @@
 		}
 	}
 
-	@include _sugar-handle-nested(loader-flip-ball, loader-flip-ball-animation) {
+	@include s-handle-nested(loader-flip-ball, loader-flip-ball-animation) {
 		@content;
 	}
 }

@@ -2,40 +2,13 @@
 // Helpers functions
 //
 
-
-//
-// Size
-//
-@function s-size(
-	$size
-) {
-	$sizes : sugar('settings.sizes');
-	$s : map-get($sizes, $size);
-	@if $s {
-		@if type-of($s) == map {
-			@return map-get($s, size);
-		} @else {
-			@if unitless($s) {
-				@return s-rem($s);
-			}
-			@return $s;
-		}	
-	} @else {
-		@if unitless($size) {
-			@return s-rem($size);
-		}
-		@return $size;
-	}
-}
-
-
 //
 // Ratio
 //
 @function s-ratio(
 	$ratio
 ) {
-	$ratio : _sugar-parse-properties($ratio, (
+	$ratio : s-parse-properties($ratio, (
 		width : number,
 		height : number
 	));
@@ -48,9 +21,3 @@
 }
 
 
-//
-// Strip units
-//
-@function s-strip-units($number) {
-	@return $number / ($number * 0 + 1);
-}

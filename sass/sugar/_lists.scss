@@ -23,19 +23,19 @@ $s-list-alias : (
 @mixin s-list(
 	$_list : ()
 ) {
-	$list : _sugar-parse-properties($_list, (
+	$list : s-parse-properties($_list, (
 		counter-reset : true
 	));
 
 	// handle nested
-	$list : _sugar-handle-nested(s-list, $list);
+	$list : s-handle-nested(s-list, $list);
 
 	$reset : map-get-or($list, counter-reset, s-list);
 
 	counter-reset : $reset;
 
 	// handle nested
-	@include _sugar-handle-nested(s-list) {
+	@include s-handle-nested(s-list) {
 		@content;
 	}
 }
@@ -46,11 +46,11 @@ $s-list-alias : (
 @mixin s-list-item(
 	$list
 ) {
-	$list : _sugar-parse-properties($list, $s-list-props, $s-list-alias);
+	$list : s-parse-properties($list, $s-list-props, $s-list-alias);
 
 	// handle nested
 	@if not map-get($list, hover) {
-		$list : _sugar-handle-nested(s-list-item, $list);
+		$list : s-handle-nested(s-list-item, $list);
 	}
 
 	$style-type : map-get($list, style-type);
@@ -142,7 +142,7 @@ $s-list-alias : (
 	}
 
 	// handle nested
-	@include _sugar-handle-nested(s-list-item) {
+	@include s-handle-nested(s-list-item) {
 		@content;
 	}
 }

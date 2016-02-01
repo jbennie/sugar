@@ -1,0 +1,104 @@
+//
+// Init
+//
+$_sugar-inited : false;
+@mixin s-init() {
+
+	// do that only if not already inited
+	@if not $_sugar-inited {
+
+		// update inited status
+		$_sugar-inited : true !global;
+
+		// reset
+		@if sugar('settings.reset') == true {
+			@include s-reset();
+		}
+
+		// border box
+		@if sugar('settings.border-box') == true {
+			* {
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+		}
+
+		// effects
+		[data-gooey] {
+			@include s-domnodeinserted();
+		}
+		
+		// font
+		html {
+			$base-font-size : sugar('settings.typo.font-size');
+			$base-font-sizes : sugar('settings.typo.font-sizes');
+			font-size: $base-font-size;
+			@if type-of($base-font-sizes) == map {
+				@each $size, $media in $base-font-sizes {
+					@include s-media($media) {
+						font-size: $size;
+					}
+				} 
+			}
+			// try to get the font family from fonts
+			$fonts : sugar('settings.fonts');
+			$f : sugar('settings.fonts.default');
+			@if type-of($f) == string {
+				$f : map-get($fonts, $f);
+			}
+			@if $f {
+				$ff : map-get($f, font-family);
+				font-family: $ff;
+			}	
+		}
+
+		// default color
+		body {
+			color : s-color(text);
+		}
+
+
+		// font faces
+		$fonts : sugar('settings.fonts');
+		@each $font-name, $font in $fonts {
+			@if type-of($font) == string {
+				$font : map-get($fonts, $font);
+			}
+			$font-face : map-get($font, font-face);
+			$import : map-get($font, import);
+			$font-family : map-get($font, font-family);
+			@if $font-face {
+				@if $font-family {
+					$font-face : list-prepend($font-face, $font-family);
+				} @else {
+					$font-face : list-prepend($font-face, $font-name);
+				}
+				@include s-font-face($font-face);
+			} @else if $import {
+				// @at-root {
+				// 	@import url(#{$import});
+				// }
+			}
+		}
+
+		// modular scale
+		$ms-base : sugar('settings.modular-scale.base') !global;
+		$ms-ratio : sugar('settings.modular-scale.ratio') !global;
+		$ms-range : sugar('settings.modular-scale.range') !global;
+		$ms-fluid : sugar('settings.modular-scale.fluid') !global;
+
+		// font-awesome
+		$font-awesome : sugar('settings.font-awesome');
+		@if $font-awesome {
+			$font-path : sugar('settings.font-awesome.font-path');
+			$font-version : sugar('settings.font-awesome.version');
+			@include s-font-face(
+				"FontAwesome"
+				"#{$font-path}/fontawesome-webfont.eot"
+				normal
+				normal
+				-ext eot ttf woff woff2 svg);
+		}
+	}
+}

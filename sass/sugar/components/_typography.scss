@@ -1,3 +1,40 @@
+@include sugar((
+	typography : (
+		titles : (
+			default : (
+				margin-bottom : 2
+			),
+			h1 : (
+				font-size : ms(3)
+			),
+			h2 : (
+				font-size : ms(2.5)
+			),
+			h3 : (
+				font-size : ms(2)
+			),
+			h4 : (
+				font-size : ms(1.5)
+			),
+			h5 : (
+				font-size : ms(1)
+			),
+			h6 : (
+				font-size : ms(0.5)
+			)
+		),
+		paragraphs : (
+			default : (
+				font-size : ms(0.5),
+				margin-bottom : 2
+			),
+			lead : (
+				font-size : ms(1)
+			)
+		)
+	)
+));
+
 //
 // Typography base
 //
@@ -5,7 +42,7 @@
 	$props : ()
 ) {
 
-	$props : _sugar-parse-properties($props, (
+	$props : s-parse-properties($props, (
 		titles : integer
 	));
 
@@ -22,63 +59,37 @@
 @mixin s-typography-titles(
 	$props : ()
 ) {
-	$props : _sugar-parse-properties($props, (
+	$props : s-parse-properties($props, (
 		count : integer,
 		color : color,
-		colors : list-color,
-		sizes : list-number
+		colors : list-color
 	));
 
-	@debug($props);
-
 	$count : map-get-or($props, count, 6);
+	$color : map-get($props, color);
+	$colors : map-get($props, colors);
 
-	@if $count >= 1 {
-		h1 {
+	@for $i from 1 through $count {
+		h#{$i} {
+			$s : sugar('settings.typography.titles.h#{$i}');
+			// merge with default
+			$s : map-extend(sugar('settings.typography.titles.default'), $s);
 			@include s-vertical-rhythme((
-				s-font : ms(3) helvetica,
-				margin-bottom : 2
+				s-font : map-get($s, font-size) map-get($s, font-family),
+				margin-bottom : map-get($s, margin-bottom)
 			));
-		}
-	}
-	@if $count >= 2 {
-		h2 {
-			@include s-vertical-rhythme((
-				s-font : ms(2.5) helvetica,
-				margin-bottom : 2
-			));
-		}
-	}
-	@if $count >= 3 {
-		h3 {
-			@include s-vertical-rhythme((
-				s-font : ms(2) helvetica,
-				margin-bottom : 2
-			));
-		}
-	}
-	@if $count >= 4 {
-		h4 {
-			@include s-vertical-rhythme((
-				s-font : ms(1.5) helvetica,
-				margin-bottom : 2
-			));
-		}
-	}
-	@if $count >= 5 {
-		h5 {
-			@include s-vertical-rhythme((
-				s-font : ms(1) helvetica,
-				margin-bottom : 2
-			));
-		}
-	}
-	@if $count >= 6 {
-		h6 {
-			@include s-vertical-rhythme((
-				s-font : ms(0.5) helvetica,
-				margin-bottom : 2
-			));
+			// delete used properties
+			$s : map-remove($s, font-size);
+			$s : map-remove($s, font-family);
+			$s : map-remove($s, margin-bottom);
+			@each $prop, $value in $s {
+				@include s-property-proxy($prop, $value);
+			}
+			@if $colors and nth($colors,$i) {
+				color : nth($colors,$i);
+			} @else if $color {
+				color : $color;
+			}
 		}
 	}
 }
@@ -86,20 +97,47 @@
 @mixin s-typography-paragraphs(
 	$props : ()
 ) {
-	p {
-		@include s-vertical-rhythme((
-			s-font : ms(0.5) 2 s-color(blue) justify,
-			margin-bottom : 2
-		));
-	}
-	p.lead {
-		@include s-vertical-rhythme((
-			s-font : ms(1) 2 s-color(blue),
-			margin-bottom : 2
-		));
-		// @include s-rhythme-width();
-	}
+	$props : s-parse-properties($props, (
+		color : color,
+		colors : map-color
+	));
 
+	$color : map-get($props, color);
+	$colors : map-get($props, colors);
+
+	$paragraphs : sugar('settings.typography.paragraphs');
+	@each $name, $s in $paragraphs {
+		$sel : 'p.#{$name}';
+		$sel-class : '.p-#{$name}';
+		@if $name == default {
+			$sel : 'p';
+			$sel-class : '.p';
+		}
+	
+		// extend
+		$s : map-extend(sugar('settings.typography.paragraphs.default'), $s);
+
+		#{$sel},
+		#{$sel-class} {
+			@include s-vertical-rhythme((
+				s-font : map-get($s, font-size) map-get($s, font-family),
+				margin-bottom : map-get($s, margin-bottom)
+			));
+			// delete used properties
+			$s : map-remove($s, font-size);
+			$s : map-remove($s, font-family);
+			$s : map-remove($s, margin-bottom);
+			@each $prop, $value in $s {
+				@include s-property-proxy($prop, $value);
+			}
+
+			@if $colors and map-get($colors, $name) {
+				color : map-get($colors,$name);
+			} @else if $color {
+				color : $color;
+			}
+		}
+	}
 }
 
 @mixin s-typography-decorators(
@@ -108,18 +146,21 @@
 	.small,	small {
 		font-size: 0.6em;
 	}
-	strong {
+	.strong, strong {
 		font-weight: bold;
 	}
-	mark {
+	.mark, mark {
 		background: s-color(yellow, -saturate 20%);
 	}
+	.s, .del,
 	s, del {
 		text-decoration: line-through;
 	}
+	.u, .ins,
 	u, ins {
 		text-decoration: underline;
 	}
+	.b, .i,
 	b, i {
 		font-style: italic;
 	}

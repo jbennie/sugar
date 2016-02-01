@@ -8,7 +8,7 @@
 @mixin s-Bem(
 	$bem
 ) {
-	$bem : _sugar-parse-properties($bem, (
+	$bem : s-parse-properties($bem, (
 		name : string,
 		extend : true
 	));
@@ -33,7 +33,7 @@
 @mixin s-bEm(
 	$bem
 ) {
-	$bem : _sugar-parse-properties($bem, (
+	$bem : s-parse-properties($bem, (
 		name : string,
 		extend : true,
 		root : true
@@ -70,7 +70,7 @@
 @mixin s-beM(
 	$bem
 ) {
-	$bem : _sugar-parse-properties($bem, (
+	$bem : s-parse-properties($bem, (
 		name : string,
 		extend : true,
 		standelone : true

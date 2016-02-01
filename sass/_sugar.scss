@@ -14,7 +14,6 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 // setup sugar
 @include sugar((
 	typo : (
-		font-family : helvetica,
 		font-size : 13px,
 		font-sizes : (
 			11.5px : 0 800px,
@@ -22,6 +21,7 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 		)
 	),
 	fonts : (
+		default : helvetica,
 		helvetica : (
 			font-family : 'Open Sans',
 			cap-height : 0.65
@@ -44,6 +44,10 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 		classes : user gg-circle angle-right bars check coffee camera-retro cloud arrow-up linkedin github home twitter beer
 	),
 	colors : (
+		text : (
+			color : #8195a1,
+			classes : true
+		),
 		grey : (
 			color : #c1c1c1,
 			classes : true,
@@ -123,5 +127,24 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 			slow : all .5s ease-in-out
 		)
 	),
-	classes : helper
+	classes : helper,
+	typography : (
+		titles : (
+			default : (
+				color : black
+			),
+			h1 : (
+				font-family : helvetica-light
+			),
+			h2 : (
+				font-family : helvetica-light
+			),
+			h3 : (
+				font-family : helvetica-light
+			)
+		)
+	)
 )); 
+
+// init
+@include s-init();

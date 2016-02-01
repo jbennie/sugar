@@ -14,7 +14,7 @@
 	}
 		
 	// parse properties
-	$props : _sugar-parse-properties($radius, (
+	$props : s-parse-properties($radius, (
 		top : true,
 		right : true,
 		bottom : true,
@@ -35,7 +35,7 @@
 	));
 
 	// handle nested
-	$props : _sugar-handle-nested(corner, $props);
+	$props : s-handle-nested(corner, $props);
 
 	// top
 	$top : map-get-or($props, top);
@@ -83,7 +83,7 @@
 	}
 
 	// handle nested
-	@include _sugar-handle-nested(corner) {
+	@include s-handle-nested(corner) {
 		@content;
 	}
 }
@@ -100,12 +100,12 @@
 	$border : null
 ) {
 	@if $props {
-		$props : _sugar-parse-properties($props, (
+		$props : s-parse-properties($props, (
 			width : number,
 			height : number,
 			color : color
 		));
-		$props : _sugar-handle-nested(round, $props);
+		$props : s-handle-nested(round, $props);
 	
 		// build
 		$width : map-get-or($props, width w);
@@ -118,7 +118,7 @@
 		}
 	}
 	@if $border {
-		$border : _sugar-parse-properties($border, (
+		$border : s-parse-properties($border, (
 			width : number,
 			color : color,
 			style : solid dotted dashed double groove ridge inset outset initial inherit
@@ -127,7 +127,7 @@
 		));
 
 		// handle nested
-		$border : _sugar-handle-nested(round-border, $border);
+		$border : s-handle-nested(round-border, $border);
 		$width : map-get-or($border, width w);
 		$color : map-get-or($border, color c);
 		$style : map-get-or($border, style s, solid);
@@ -143,7 +143,7 @@
 	}
 
 	// handle nested
-	@include _sugar-handle-nested(round, round-border) {
+	@include s-handle-nested(round, round-border) {
 		@content;
 	}
 }
@@ -155,11 +155,11 @@
 @mixin s-rect(
 	$size
 ) {
-	$size : _sugar-parse-properties($size, (
+	$size : s-parse-properties($size, (
 		width : number,
 		height : number
 	));
-	$size : _sugar-handle-nested(size, $size);
+	$size : s-handle-nested(size, $size);
 	$width : map-get($size, width);
 	$height : map-get($size, height);
 	@if type-of($width) != number or type-of($height) != number {
@@ -167,7 +167,7 @@
 	}
 	width : $width;
 	height : $height;
-	@include _sugar-handle-nested(size) {
+	@include s-handle-nested(size) {
 		@content;
 	}
 }
@@ -181,7 +181,7 @@
 	$border : null
 ) {
 
-	$base : _sugar-parse-properties($base, (
+	$base : s-parse-properties($base, (
 		side : top right bottom left,
 		align : left center right top middle bottom,
 		size : number,
@@ -190,12 +190,12 @@
 	), (
 		arrow-offset : ao
 	));
-	$border_map : _sugar-parse-properties($border, (
+	$border_map : s-parse-properties($border, (
 		width : number,
 		color : color
 	));
-	$base : _sugar-handle-nested(bubble, $base);
-	$border_map : _sugar-handle-nested(bubble-border, $border_map);
+	$base : s-handle-nested(bubble, $base);
+	$border_map : s-handle-nested(bubble-border, $border_map);
 	$side : map-get-or($base, side, bottom);
 	$align : map-get-or($base, align, center);
 	$color : map-get-or($base, color, red);
@@ -217,7 +217,7 @@
 		border-color : $b-color;
 	}
 
-	@include _sugar-handle-nested(bubble, bubble-border) {
+	@include s-handle-nested(bubble, bubble-border) {
 		@content;
 	}
 }
@@ -232,7 +232,7 @@
 	$border : null
 ) {
 
-	$triangle : _sugar-parse-properties($triangle, (
+	$triangle : s-parse-properties($triangle, (
 		width : number,
 		height : number,
 		color : color,
@@ -243,13 +243,13 @@
 		transform-origin : to
 	));
 	@if type-of($border) != map {
-		$border : _sugar-parse-properties($border, (
+		$border : s-parse-properties($border, (
 			width : number,
 			color : color
 		));
 	}
-	$triangle : _sugar-handle-nested(triangle, $triangle);
-	$border : _sugar-handle-nested(triangle-border, $border);
+	$triangle : s-handle-nested(triangle, $triangle);
+	$border : s-handle-nested(triangle-border, $border);
 
 	$direction : map-get-or($triangle, direction, top);
 	$width : map-get-or($triangle, width, 100px);
@@ -466,7 +466,7 @@
 		}
 	}
 
-	@include _sugar-handle-nested(triangle, triangle-border) {
+	@include s-handle-nested(triangle, triangle-border) {
 		@content;
 	}
 }

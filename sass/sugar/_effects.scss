@@ -5,11 +5,10 @@
 //
 // Hey
 //
-
 @mixin s-hey(
 	$props : ()
 ) {
-	$props : _sugar-parse-properties($props, (
+	$props : s-parse-properties($props, (
 		vertical-align : top middle bottom,
 		align : left center right,
 		size : number,
@@ -20,7 +19,7 @@
 		margin-right : number
 	));
 
-	$props : _sugar-handle-nested(hey, $props);
+	$props : s-handle-nested(hey, $props);
 
 	$vertical-align : map-get-or($props, vertical-align, top);
 	$align : map-get-or($props, align, right);
@@ -107,7 +106,7 @@
 		}
 	}
 
-	@include _sugar-handle-nested(hey) {
+	@include s-handle-nested(hey) {
 		@content;
 	}
 }
@@ -118,7 +117,7 @@
 @mixin s-long-shadow(
 	$shade
 ) {
-	$shade : _sugar-parse-properties($shade, (
+	$shade : s-parse-properties($shade, (
 		color : color,
 		type : text box,
 		angle : degree,
@@ -136,7 +135,7 @@
 		blur-ratio : br
 	));
 
-	$shade : _sugar-handle-nested(shade, $shade);
+	$shade : s-handle-nested(shade, $shade);
 
 	$color : map-get($shade, color);
 	$type : map-get-or($shade, type, text);
@@ -169,7 +168,7 @@
 	}       
 	#{$type}-shadow: $shadow;
 
-	@include _sugar-handle-nested(shade) {
+	@include s-handle-nested(shade) {
 		@content;
 	}
 }

@@ -45,7 +45,7 @@ $_s-font-aliases : (
 @mixin s-vertical-rhythme(
 	$rhythme
 ) {
-	$rhythme : _sugar-parse-properties($rhythme, (
+	$rhythme : s-parse-properties($rhythme, (
 		font-size : number,
 		font-family : string,
 		line-height : number,
@@ -79,7 +79,7 @@ $_s-font-aliases : (
 		s-font : sf
 	));
 
-	$rhythme : _sugar-handle-nested(vertical-rhythme, $rhythme);
+	$rhythme : s-handle-nested(vertical-rhythme, $rhythme);
 
 	// get values
 	$font-size : map-get($rhythme, font-size);
@@ -120,15 +120,20 @@ $_s-font-aliases : (
 	}
 
 	// get the font object
-	$default-font-family : sugar('settings.typo.font-family');
 	$fonts : sugar('settings.fonts');
-	$f : map-get($fonts, $default-font-family);
+	$f : sugar('settings.fonts.default');
+	@if type-of($f) == string {
+		$f : map-get($fonts, $f);
+	}
 	$cap-height : map-get-or($f, cap-height, 0);
 	
 	// if a font family is passed
 	@if $font-family {
 		@if map-get($fonts, $font-family) {
 			$f : map-get($fonts, $font-family);
+			@if type-of($f) == string {
+				$f : map-get($fonts, $f);
+			}
 			$cap-height : map-get-or($f, cap-height, 0);
 			$font-family : map-get-or($f, font-family, $font-family);
 		}			
@@ -190,7 +195,7 @@ $_s-font-aliases : (
 		}	
 	}
 
-	@include _sugar-handle-nested(vertical-rhythme) {
+	@include s-handle-nested(vertical-rhythme) {
 		@content;
 	}
 }
@@ -225,7 +230,7 @@ $_s-font-aliases : (
 @function s-border(
 	$border
 ) {
-	$border : _sugar-parse-properties($border, (
+	$border : s-parse-properties($border, (
 		width : number,
 		color : color,
 		style : none hidden dotted dashed solid double groove ridge inset outset initial inherit
@@ -249,7 +254,7 @@ $_s-font-aliases : (
 	}
 
 	// handle nested
-	@include _sugar-handle-nested(font) {
+	@include s-handle-nested(font) {
 		@content;
 	}
 }
@@ -261,11 +266,11 @@ $_s-font-aliases : (
 	$font,
 	$_handle-nested : false
 ) {
-	$font : _sugar-parse-properties($font, $_s-font-properties, $_s-font-aliases);
+	$font : s-parse-properties($font, $_s-font-properties, $_s-font-aliases);
     
 	// handle nested
 	@if $_handle-nested {
-		$font : _sugar-handle-nested(font, $font);
+		$font : s-handle-nested(font, $font);
 	}
 
 	// get values
@@ -288,15 +293,20 @@ $_s-font-aliases : (
 	$vertical-rhythme : map-get-or($font, vertical-rhythme, sugar('settings.typo.vertical-rhythme'));
 
 	// get the font object
-	$default-font-family : sugar('settings.typo.font-family');
 	$fonts : sugar('settings.fonts');
-	$f : map-get($fonts, $default-font-family);
+	$f : sugar('settings.fonts.default');
+	@if type-of($f) == string {
+		$f : map-get($fonts, $f);
+	}
 	$cap-height : map-get-or($f, cap-height, 0);
 	
 	// if a font family is passed
 	@if $font-family {
 		@if map-get($fonts, $font-family) {
 			$f : map-get($fonts, $font-family);
+			@if type-of($f) == string {
+				$f : map-get($fonts, $f);
+			}
 			$cap-height : map-get-or($f, cap-height, 0);
 			$font-family : map-get-or($f, font-family, $font-family);
 			@if not $font-style {
@@ -397,7 +407,7 @@ $_s-font-aliases : (
 @mixin s-font-face(
 	$font-face
 ) {
-	$font-face : _sugar-parse-properties($font-face, (
+	$font-face : s-parse-properties($font-face, (
 		ext : eot eot2 otf woff2 woff ttf svg svgz,
 		font-weight : normal bold bolder lighter number initial inherit,
 		font-style : normal italic oblique initial inherit,
@@ -522,7 +532,7 @@ $_s-font-aliases : (
 @function s-get-rhythme(
 	$rhythme
 ) {
-	$rhythme : _sugar-parse-properties($rhythme, (
+	$rhythme : s-parse-properties($rhythme, (
 		font-size : number,
 		line-height : number,
 		margin-top : number,
@@ -749,7 +759,7 @@ $_s-font-aliases : (
 	}
 
 	// handle nested
-	@include _sugar-handle-nested(columns) {
+	@include s-handle-nested(columns) {
 		@content;
 	}
 }
@@ -757,7 +767,7 @@ $_s-font-aliases : (
 	$columns, 
 	$_handle-nested : false
 ) {
-	$columns : _sugar-parse-properties($columns, (
+	$columns : s-parse-properties($columns, (
 		fill : balance auto initial inherit,
 		rule-style : none hidden dotted dashed solid double groove ridge inset outset initial inherit,
 		count : number,
@@ -780,7 +790,7 @@ $_s-font-aliases : (
 	
 	// handle nested
 	@if $_handle-nested {
-		$columns : _sugar-handle-nested(columns, $columns);
+		$columns : s-handle-nested(columns, $columns);
 	}
 
 	// get values

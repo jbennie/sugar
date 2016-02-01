@@ -26,7 +26,7 @@
 @mixin s-background(
 	$background
 ) {
-	$background : _sugar-parse-properties($background, (
+	$background : s-parse-properties($background, (
 		repeat : repeat repeat-x repeat-y no-repeat,
 		size : auto length cover contain initial inherit,
 		attachment : scroll fixed local initial inherit,
@@ -52,7 +52,7 @@
 		attachment : att,
 		clip : cl
 	));
-	$background : _sugar-handle-nested(background, $background);
+	$background : s-handle-nested(background, $background);
 
 	// get values
 	$repeat : map-get($background, repeat);
@@ -144,7 +144,7 @@
 	}
 
 	// handle nested
-	@include _sugar-handle-nested(background) {
+	@include s-handle-nested(background) {
 		@content;
 	}
 }

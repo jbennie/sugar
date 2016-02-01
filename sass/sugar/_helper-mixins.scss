@@ -8,7 +8,7 @@
 @mixin s-side-lined(
 	$props : ()
 ) {
-	$props : _sugar-parse-properties($props, (
+	$props : s-parse-properties($props, (
 		style : none hidden dotted dashed solid double groove ridge inset outset initial inherit,
 		side : left right both,
 		height : number,
@@ -23,7 +23,7 @@
 		margin-top : mt
 	));
 	
-	$s : _sugar-handle-nested(side-lined, $props);
+	$s : s-handle-nested(side-lined, $props);
 
 	$side : map-get-or($props, side, both);
 	$height : map-get-or($props, height, s-rem(1px));
@@ -93,7 +93,7 @@
 		}
 	}
 
-	@include _sugar-handle-nested(side-lined) {
+	@include s-handle-nested(side-lined) {
 		@content;
 	}
 }
@@ -113,7 +113,7 @@
 	}
 
 	// handle nested
-	@include _sugar-handle-nested(position) {
+	@include s-handle-nested(position) {
 		@content;
 	}
 }
@@ -121,7 +121,7 @@
 	$position,
 	$_handle-nested : false
 ) {
-	$position : _sugar-parse-properties($position, (
+	$position : s-parse-properties($position, (
 		position : fixed relative absolute,
 		vertical-align : top middle bottom,
 		align : left center right,
@@ -142,7 +142,7 @@
 
 	// handle nested
 	@if $_handle-nested {
-		$position : _sugar-handle-nested(position, $position);
+		$position : s-handle-nested(position, $position);
 	}
 
 	// get values
@@ -291,7 +291,7 @@
 	}
 
 	// handle nested
-	@include _sugar-handle-nested(translate) {
+	@include s-handle-nested(translate) {
 		@content;
 	}
 }
@@ -299,7 +299,7 @@
 	$translate,
 	$_handle-nested : false
 ) {
-	$translate : _sugar-parse-properties($translate, (
+	$translate : s-parse-properties($translate, (
 		x : number,
 		y : number,
 		z : number
@@ -307,7 +307,7 @@
 	
 	// handle nested
 	@if $_handle-nested {
-		$translate : _sugar-handle-nested(translate, $translate);
+		$translate : s-handle-nested(translate, $translate);
 	}
 
 	// get values
@@ -348,7 +348,7 @@
 	}
 
 	// handle nested transforms
-	@include _sugar-handle-nested(transform) {
+	@include s-handle-nested(transform) {
 		@content;
 	}
 }
@@ -357,11 +357,11 @@
 	$_handle-nested : false
 ) {
 	// parse properties
-	$transform : _sugar-parse-properties($transform, null);
+	$transform : s-parse-properties($transform, null);
 
 	// handle nested transforms
 	@if $_handle-nested {
-		$transform : _sugar-handle-nested(transform, $transform);
+		$transform : s-handle-nested(transform, $transform);
 	}
 
 	// build transform
@@ -385,7 +385,7 @@
 @mixin s-ratio(
 	$ratio
 ) {
-	$ratio : _sugar-parse-properties($ratio, (
+	$ratio : s-parse-properties($ratio, (
 		type : before after,
 		ratio : number
 	), (
@@ -421,7 +421,7 @@
 @mixin s-size(
 	$size
 ) {
-	$size : _sugar-parse-properties($size, (
+	$size : s-parse-properties($size, (
 		position : absolute relative,
 		size : cover contain,
 		width : number,
@@ -432,7 +432,7 @@
 	));
 
 	// handle nested
-	$size : _sugar-handle-nested(size, $size);
+	$size : s-handle-nested(size, $size);
 
 	// get values
 	$width : map-get($size, width);
@@ -463,7 +463,7 @@
 	}
 
 	// handle nested
-	@include _sugar-handle-nested(size) {
+	@include s-handle-nested(size) {
 		@content;
 	}
 }

@@ -31,7 +31,7 @@
 		}
 		@include s-filter($filter);
 	} @else if type-of($filter) != string {
-		$filter : _sugar-parse-properties($filter, (
+		$filter : s-parse-properties($filter, (
 			drop-shadow : true,
 			blur : true,
 			brightness : true,

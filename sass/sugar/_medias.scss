@@ -55,7 +55,7 @@ $media-keywords : (
 		}
 	}
 
-	$props : _sugar-parse-properties($props, (
+	$props : s-parse-properties($props, (
 		screen : screen handheld print aural braille embossed projection tty tv all,
 		min-width : number,
 		max-width : number,
