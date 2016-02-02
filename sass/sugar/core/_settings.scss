@@ -11,7 +11,7 @@ $_sugar-settings : (								// store all the settings
 		font-sizes 					: null, 			// map of font-sizes by media (size : media)
 		line-letters-count			: 55,				// optimal letters count in a line
 		vertical-rhythme 			: ( 				// Vertical rhythme options
-			scope-class 				: typeset 			// the class in which the vertical rhythme will be applied
+			scope-class 				: vertical-rhythme 		// the class in which the vertical rhythme will be applied
 									),
 		font-format 				: ( 				// font format used in font-face
 			eot 						: embedded-opentype,
@@ -45,7 +45,32 @@ $_sugar-settings : (								// store all the settings
 		version 					: 4.4.0, 			// font-awesome version
 		classes 					: null, 		// list of icons to generate
 								),
-	sizes 						: (), 				// store all the sizes available
+	sizes 						: (					// store all the sizes available
+		smaller 					: (
+			size 						: 0.5rem,
+			classes 					: false
+									),
+		small 						: (
+			size 						: 1rem,
+			classes 					: false
+									),
+		default 					: (
+			size 						: 2rem,
+			classes 					: false
+									),
+		medium 						: (
+			size 						: 3rem,
+			classes 					: false
+									),
+		big 						: (
+			size 						: 4rem,
+			classes 					: false
+									),
+		bigger 						: (
+			size 						: 5rem,
+			classes 					: false
+									)
+								), 				
 	colors 						: (					// store all the colors
 		text 						: (
 			classes 					: false,
@@ -91,6 +116,11 @@ $_sugar-settings : (								// store all the settings
 			font-family 				: ('Helvetica Neue',Helvetica,Verdana,Arial,sans-serif),
 			font-weight 				: normal,
 			cap-height 					: 0.65
+		),
+		code 						: (
+			font-family 				: (Menlo,Monaco,Consolas,"Courier New",monospace),
+			font-weight 				: normal,
+			cap-height 					: 0.65
 		)
 	), 				
 	filters 					: (), 				// store all the registered filters
@@ -101,17 +131,5 @@ $_sugar-settings : (								// store all the settings
 		property 					: all, 				// default property
 		transitions 				: () 				// store all registered transitions
 	), 
-	helper-classes 				: (),
-	drawer  					: ( 				// store all the drawer settings
-		method 						: translate, 		// can be translate or position
-		size  						: 400px, 			// drawer width
-		side 						: left,			// the side of the drawer
-		type 						: push, 			// can be reveal, push or slide				
-		transition 					: null 				// store the transition to use
-								),
-	typography 					: (
-		titles 						: (
-			
-									)
-								)
+	helper-classes 				: ()
 );	

@@ -35,7 +35,7 @@
 		<i class="fa-bars"></i>
 	</label>
 
-	<div data-drawer="menu" class="typeset">
+	<div data-drawer="menu" class="typeset vertical-rhythme">
 	
 		<h3>
 			<strong>SUGAR</strong><span class="c-orange--dark">{.SCSS}</span>
@@ -69,7 +69,7 @@
 
 	</div>
 
-	<div data-drawer="author" class="typeset">
+	<div data-drawer="author" class="typeset vertical-rhythme">
 		
 		<div class="avatar m-b-small" style="width:100px; height:100px"></div>
 
@@ -141,7 +141,7 @@
 
 					<div class="gr-12">
 						<h1 class="h1"><strong>Sugar</strong><span class="c-orange">{.scss}</span></h1>
-						<h2 class="subtitle">Writing SCSS has <span class="c-orange">never tasted better!</span></h2>
+						<h2 class="h2">Writing SCSS has <span class="c-orange">never tasted better!</span></h2>
 					</div>
 
 				</div>
@@ -154,7 +154,7 @@
 		
 			<div class="container">
 				
-				<div class="row typeset show-rhythme">
+				<div class="row typeset vertical-rhythme show-rhythme">
 
 					<div class="gr-12">
 						<div class="loader-1"></div>
@@ -175,10 +175,10 @@
 			
 				<div class="container">
 					
-					<div class="row typeset" data-toggle-rhythme-class>
+					<div class="row typeset vertical-rhythme" data-toggle-rhythme-class>
 
 						<div class="gr-12">
-							
+							<!-- <hr> -->
 							<a data-toggle-rhythme class="pull-right active">
 								<i class="fa-check"></i> Toggle rhythme
 							</a>
@@ -187,10 +187,12 @@
 							</a>
 
 							<h3>Vertical rhythme</h3>
-						
+						<!-- <hr> -->
 							<p class="lead">
 								We all know as front-end developers that the vertical rhythme concept is nice, but sometimes it became hard to understand and implement. Sugar is here for you guys!
 							</p>
+
+							<!-- <hr> -->
 
 						</div>
 
@@ -274,7 +276,7 @@
 
 		<section class="section" id="font-awesome">
 
-			<div class="container typeset">
+			<div class="container typeset vertical-rhythme">
 
 				<div class="row">
 
@@ -351,7 +353,7 @@ p {
 
 		<section class="section bkg-grey--light" data-bypass-appear id="font-awesome">
 
-			<div class="container typeset">
+			<div class="container typeset vertical-rhythme">
 
 				<div class="row">
 
@@ -440,7 +442,7 @@ p {
 		
 		<section class="section" id="font-awesome">
 
-			<div class="container typeset">
+			<div class="container typeset vertical-rhythme">
 
 				<div class="row">
 
@@ -768,7 +770,7 @@ p {
 
 						<div class="row">
 							<div class="gr-12">
-								<p class="text-center m-t-normal">
+								<p class="text-center m-t-default">
 									<a href="#loaders" class="btn hey">Show more samples...</a>
 								</p>
 							</div>
@@ -784,7 +786,7 @@ p {
 
 		<section class="section bkg-grey--light" id="filters">
 
-			<div class="container typeset">
+			<div class="container typeset vertical-rhythme">
 
 				<div class="row">
 
@@ -837,7 +839,7 @@ p {
 
 						<h5>With motion blur <small class="c-orange">click to pass through slides</small></h5>
 						
-						<div class="m-b-normal clearfix" data-slidizle>
+						<div class="m-b-default clearfix" data-slidizle>
 							<ul data-slidizle-content data-motion-blur>
 								<li data-slidizle-item>
 									<img src="http://i.telegraph.co.uk/multimedia/archive/01914/enchanted-abbey_1914053i.jpg" />
@@ -856,7 +858,7 @@ p {
 					
 						<h5>Without <small class="c-orange">click to pass through slides</small></h5>
 
-						<div class="m-b-normal clearfix" data-slidizle>
+						<div class="m-b-default clearfix" data-slidizle>
 							<ul data-slidizle-content>
 								<li data-slidizle-item>
 									<img src="http://i.telegraph.co.uk/multimedia/archive/01914/enchanted-abbey_1914053i.jpg" />
@@ -965,9 +967,9 @@ p {
 
 		</section>
 
-		<section class="section bkg-grey--light" id="filters">
+		<section class="section show-rhythme" id="typography">
 
-			<div class="container typeset">
+			<div class="container typeset vertical-rhythme">
 
 				<div class="row">
 
@@ -978,6 +980,8 @@ p {
 						<p class="lead">
 							Sugar has some very cool mixins to create fully customizable <strong>single element</strong> loaders. Here's some exemple
 						</p>
+
+						<!-- <hr> -->
 
 					</div>
 
@@ -995,6 +999,8 @@ p {
 						<h5>Nulla a diam id ante. <small class="c-grey">Etiam mollis tortor hendrerit.</small></h5> 
 						<h6>Nulla a diam id ante. <small class="c-grey">Etiam mollis tortor hendrerit.</small></h6> 
 
+						<!-- <hr> -->
+
 						<h4>Paragraphs</h4>
 
 <pre><code class="language-scss">@include s-typography-paragraphs();
@@ -1007,6 +1013,130 @@ p {
 							Ut sit amet nibh eget sem feugiat facilisis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris non nisl lorem. Praesent tincidunt arcu non sapien elementum tempus eget ut metus. Aenean velit quam, cursus quis posuere a, euismod sit amet lacus. Curabitur lacinia tristique enim, et commodo sapien luctus sit amet. Cras non ligula quis mauris semper ultrices. Aliquam erat volutpat. Nam at fringilla orci. Nullam mauris orci, aliquet eu nulla in, finibus ornare neque. Aliquam sit amet dictum erat, at facilisis risus.
 						</p>
 
+						<!-- <hr> -->
+
+						<h4>Decorators</h4>
+
+<pre><code class="language-scss">@include s-typography-decorators();
+</code></pre>
+
+						<p>
+							<strong>Fusce molestie ante</strong> vel eros dapibus cursus. Morbi eu purus eu nibh aliquam ultricies. Ut quis <i>tincidunt ex, eu rutrum enim</i>. Praesent vestibulum neque vitae nulla tristique pellentesque. Ut malesuada tincidunt felis. <del>Pellentesque feugiat vehicula urna</del>, non pellentesque risus sagittis non. Etiam eget velit at <mark>velit iaculis sollicitudin</mark>. Aliquam dapibus commodo elit sed consectetur. <u>Integer ut dolor non nunc</u> porttitor gravida ac in libero. Maecenas eros tellus, porta ut nibh vitae, blandit mattis <abbr title="hello world">mauris. Nunc nec maximus dolor</abbr>, tincidunt volutpat mi. Mauris auctor mollis augue, eget mollis arcu ornare vel. <kbd>Quisque consectetur mauris</kbd> erat, non pharetra est pulvinar sed. Nullam pharetra erat in eleifend sagittis. <code>Aliquam congue nisi eros</code>, vel congue lectus accumsan eu. Suspendisse hendrerit felis et mattis lacinia.
+						</p>
+
+						<blockquote>
+							Praesent fermentum a felis a venenatis. Curabitur lectus libero, cursus ac laoreet id, vestibulum vitae ipsum. Nulla bibendum, neque quis.
+							<footer>
+								Someone famous in <cite>Source Title</cite>
+							</footer>
+						</blockquote>
+
+						<h4>Lists</h4>
+
+<pre><code class="language-scss">@include s-typography-lists();
+</code></pre>
+						
+						<div class="row">
+
+							<div class="gr-4 show-rhythme">
+
+								<ul>
+									<li>List item #1</li>
+									<li>List item #2</li>
+									<li>List item #3</li>
+									<li>Nested list
+										<ul>
+											<li>List item #1</li>
+											<li>List item #2</li>
+											<li>List item #3</li>
+											<li>Nested list
+												<ol>
+													<li>List item #1</li>
+													<li>List item #2</li>
+													<li>List item #3</li>
+												</ol>
+											</li>
+										</ul>
+									</li>
+								</ul>
+
+								<ol>
+									<li>List item #1</li>
+									<li>List item #2</li>
+									<li>List item #3</li>
+								</ol>
+
+								<p>
+									Nullam fringilla lorem bibendum elementum feugiat. Sed a mauris urna. Nunc sit amet tincidunt massa. Suspendisse potenti. Fusce at tincidunt sem. Nam luctus purus eu nisl congue, a bibendum nunc.
+								</p>
+
+							</div>
+
+							<div class="gr-4 show-rhythme">
+
+								<blockquote>
+									<p>
+										Praesent fermentum a felis a venenatis. Curabitur lectus libero, cursus ac laoreet id, vestibulum vitae ipsum. Nulla bibendum, neque quis.
+									</p>
+									<p>
+										Praesent fermentum a felis a venenatis. Curabitur lectus libero, cursus ac laoreet id, vestibulum vitae ipsum. Nulla bibendum, neque quis.
+									</p>
+									<footer>
+										Someone famous in <cite>Source Title</cite>
+									</footer>
+								</blockquote>
+
+								<ol>
+									<li>List item #1</li>
+									<li>List item #2</li>
+									<li>List item #3</li>
+									<li>Nested list
+										<ol>
+											<li>List item #1</li>
+											<li>List item #2</li>
+											<li>List item #3</li>
+											<li>Nested list
+												<ul>
+													<li>List item #1</li>
+													<li>List item #2</li>
+													<li>List item #3</li>
+												</ul>
+											</li>
+										</ol>
+									</li>
+								</ol>
+
+								<ol>
+									<li>List item #1</li>
+									<li>List item #2</li>
+									<li>List item #3</li>
+								</ol>
+
+								<p>
+									Nullam fringilla lorem bibendum elementum feugiat. Sed a mauris urna. Nunc sit amet tincidunt massa. Suspendisse potenti. Fusce at tincidunt sem. Nam luctus purus eu nisl congue, a bibendum nunc.
+								</p>
+
+							</div>
+
+							<div class="gr-4 show-rhythme">
+
+								<dl>
+									<dt>List item title</dt>
+									<dd>Fusce commodo est neque, ac dapibus neque elementum sed. Ut sed justo eget lorem porttitor ullamcorper. Aliquam erat volutpat. Phasellus.</dd>
+									<dt>List item title</dt>
+									<dd>Fusce commodo est neque, ac dapibus neque elementum sed. Ut sed justo eget lorem porttitor ullamcorper. Aliquam erat volutpat. Phasellus.</dd>
+									<dt>List item title</dt>
+									<dd>Fusce commodo est neque, ac dapibus neque elementum sed. Ut sed justo eget lorem porttitor ullamcorper. Aliquam erat volutpat. Fusce commodo est neque, ac dapibus neque elementum sed. Ut sed justo eget lorem porttitor porttitor ullamcorper. Aliquam erat volutpat.</dd>
+								</dl>
+
+								<p>
+									Nullam fringilla lorem bibendum elementum feugiat. Sed a mauris urna. Nunc sit amet tincidunt massa. Suspendisse potenti. Fusce at tincidunt sem. Nam luctus purus eu nisl congue, a bibendum nunc.
+								</p>
+
+							</div>
+
+						</div>
+
 					</div>
 
 				</div>
@@ -1017,7 +1147,7 @@ p {
 
 		<section class="section" id="font-awesome">
 
-			<div class="container typeset">
+			<div class="container typeset vertical-rhythme">
 
 				<div class="row">
 
@@ -1102,7 +1232,7 @@ p {
 		
 		<section class="section bkg-grey--light" id="more">
 
-			<div class="container typeset">
+			<div class="container typeset vertical-rhythme">
 
 				<div class="row">
 

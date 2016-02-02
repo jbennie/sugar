@@ -281,7 +281,9 @@
 ) {
 	@if $property == color {
 		#{$property} : s-color($value);
+	} @else if $property == font-family {
+		#{$property} : s-font-family($value);
 	} @else {
 		#{$property} : $value;
-	}
+	} 
 }

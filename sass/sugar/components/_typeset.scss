@@ -1,0 +1,393 @@
+@include sugar((
+	typeset : (
+		scope-class : typeset,
+		titles : (
+			default : (
+				margin-bottom : 2
+			),
+			h1 : (
+				font-size : ms(3)
+			),
+			h2 : (
+				font-size : ms(2.5)
+			),
+			h3 : (
+				font-size : ms(2)
+			),
+			h4 : (
+				font-size : ms(1.5)
+			),
+			h5 : (
+				font-size : ms(1)
+			),
+			h6 : (
+				font-size : ms(0.5)
+			)
+		),
+		paragraphs : (
+			default : (
+				font-size : ms(0.5),
+				margin-bottom : 2
+			),
+			lead : (
+				font-size : ms(1)
+			)
+		),
+		lists : (
+			default : (
+				font-size : ms(0.5),
+				margin-bottom : 2
+			),
+			ul : (),
+			ol : (),
+			dl : ()
+		)
+	)
+));
+
+//
+// typeset base
+//
+@mixin s-typeset(
+	$props : ()
+) {
+
+	$props : s-parse-properties($props, (
+		titles : integer
+	));
+
+	$titles : map-get-or($props, titles, 6);
+
+	
+
+	small {
+		font-size: 0.8em;
+	}
+
+}
+
+@mixin s-typeset-titles(
+	$props : ()
+) {
+	$props : s-parse-properties($props, (
+		count : integer,
+		color : color,
+		colors : list-color
+	));
+
+	$count : map-get-or($props, count, 6);
+	$color : map-get($props, color);
+	$colors : map-get($props, colors);
+
+	$typeset : sugar('settings.typeset.scope-class');
+
+	@for $i from 1 through $count {
+		// merge with default
+		$s : sugar('settings.typeset.titles.h#{$i}');
+		$s : map-extend(sugar('settings.typeset.titles.default'), $s);
+		
+		// vertical rhythme
+		.h#{$i},
+		h#{$i} {
+			@include s-vertical-rhythme((
+				s-font : map-get($s, font-size),
+				margin-bottom : map-get($s, margin-bottom)
+			));
+		}
+
+		// delete used properties
+		$s : map-remove($s, font-size);
+		$s : map-remove($s, margin-bottom);
+
+		.#{$typeset} .h#{$i},
+		.#{$typeset} h#{$i} {
+			@each $prop, $value in $s {
+				@include s-property-proxy($prop, $value);
+			}
+			@if $colors and nth($colors,$i) {
+				color : nth($colors,$i);
+			} @else if $color {
+				color : $color;
+			}
+		}
+	}
+}
+
+@mixin s-typeset-paragraphs(
+	$props : ()
+) {
+	$props : s-parse-properties($props, (
+		color : color,
+		colors : map-color
+	));
+
+	$color : map-get($props, color);
+	$colors : map-get($props, colors);
+
+	$typeset : sugar('settings.typeset.scope-class');
+	$paragraphs : sugar('settings.typeset.paragraphs');
+	@each $name, $s in $paragraphs {
+		$sel : 'p.#{$name}';
+		$sel-class : '.p-#{$name}';
+		@if $name == default {
+			$sel : 'p';
+			$sel-class : '.p';
+		}
+	
+		// extend
+		$s : map-extend(sugar('settings.typeset.paragraphs.default'), $s);
+
+		// vertical rhythme
+		#{$sel},
+		#{$sel-class} {
+			@include s-vertical-rhythme((
+				s-font : map-get($s, font-size),
+				margin-bottom : map-get($s, margin-bottom)
+			));
+		}
+
+		// delete used properties
+		$s : map-remove($s, font-size);
+		$s : map-remove($s, margin-bottom);
+
+		.#{$typeset} #{$sel},
+		#{$sel-class} {
+			@each $prop, $value in $s {
+				@include s-property-proxy($prop, $value);
+			}
+			@if $colors and map-get($colors, $name) {
+				color : map-get($colors,$name);
+			} @else if $color {
+				color : $color;
+			}
+		}
+	}
+}
+
+@mixin s-typeset-lists(
+	$props : ()
+) {
+	$props : s-parse-properties($props, (
+		color : color,
+		colors : map-color
+	));
+
+	$typeset : sugar('settings.typeset.scope-class');
+
+	// ul
+	$s : map-extend(sugar('settings.typeset.lists.default'), sugar('settings.typeset.lists.ul'));
+	.ul,
+	.#{$typeset} ul {
+		@include s-list();
+
+		> li,
+		> .li {
+			@include s-list-item(
+				-padding-left s-size(default)
+				-style-type square
+				-bullet-color s-color(text, -opacity .5)	
+			);
+		}
+	}
+	.ul,
+	ul {
+		$args : (
+			font-size : map-get($s, font-size),
+			margin-bottom: 0,
+			cap-height : 0.65
+		);
+		$rhythme : s-vertical-rhythme($args);
+		margin-bottom: ceil(s-rem(s-px(map-get($s, margin-bottom)))) + map-get($rhythme, margin-bottom);
+		> li,
+		> .li {
+			@include s-vertical-rhythme($args);
+
+			> ul, > .ul,
+			> ol, > .ol,
+			> dl, > .dl {
+				margin-top: map-get($rhythme, margin-bottom);
+			}
+		}
+	}
+
+	// ol
+	$s : map-extend(sugar('settings.typeset.lists.default'), sugar('settings.typeset.lists.ol'));
+	.ol,
+	.#{$typeset} ol {
+		@include s-list();
+
+		> li,
+		> .li {
+			@include s-list-item(
+				-padding-left s-size(default)
+				-style-type decimal
+				-bullet-color s-color(text, -opacity .5)	
+			);
+		}
+	}
+	.ol,
+	ol {
+		$args : (
+			font-size : map-get($s, font-size),
+			margin-bottom: 0,
+			cap-height : 0.65
+		);
+		$rhythme : s-vertical-rhythme($args);
+		margin-bottom: ceil(s-rem(s-px(map-get($s, margin-bottom)))) + map-get($rhythme, margin-bottom);
+
+		> li,
+		> .li {
+			@include s-vertical-rhythme($args);
+
+			> ul, > .ul,
+			> ol, > .ol,
+			> dl, > .dl {
+				margin-top: map-get($rhythme, margin-bottom);
+			}
+		}
+	}
+
+	// dl
+	$s : map-extend(sugar('settings.typeset.lists.default'), sugar('settings.typeset.lists.dl'));
+	.dl,
+	.#{$typeset} dl {
+		@include s-list();
+
+		> dt,
+		> .dt {
+			@include s-list-item(
+				-padding-left 0
+				-style-type none
+				-bullet-color s-color(text, -opacity .5)	
+			);
+		}
+		> dd,
+		> .dd {
+			@include s-list-item(
+				-padding-left 0
+				-style-type none
+				-bullet-color s-color(text, -opacity .5)	
+			);
+		}
+	}
+	.dl,
+	dl {
+		$args-dt : (
+			font-size : map-get($s, font-size),
+			margin-bottom: 0,
+			cap-height : 0.65
+		);
+		$args-dd : (
+			font-size : map-get($s, font-size),
+			margin-bottom: 0,
+			cap-height : 0.65
+		);
+		$rhythme : s-vertical-rhythme($args-dd);
+		margin-bottom: ceil(s-rem(s-px(map-get($s, margin-bottom)))) + map-get($rhythme, margin-bottom);
+
+		> dt, > .dt {
+			@include s-vertical-rhythme($args-dt);
+			font-weight: bold;
+		}
+		> dd, > .dd {
+			@include s-vertical-rhythme($args-dd);
+		}
+	}
+}
+
+@mixin s-typeset-decorators(
+	$props : ()
+) {
+	$typeset : sugar('settings.typeset.scope-class');
+	.small,	.#{$typeset} small {
+		font-size: 0.6em;
+	}
+	.strong, .#{$typeset} strong {
+		font-weight: bold;
+	}
+	.mark, .#{$typeset} mark {
+		background: s-color(primary, -opacity .2);
+		color: s-color(text);
+	}
+	.s, .del,
+	.#{$typeset} s, .#{$typeset} del {
+		text-decoration: line-through;
+	}
+	.u, .ins,
+	.#{$typeset} u, .#{$typeset} ins {
+		text-decoration: underline;
+	}
+	.b, .i,
+	.#{$typeset} b, .#{$typeset} i {
+		font-style: italic;
+	}
+	.abbr,
+	.#{$typeset} abbr {
+		border-bottom: 1px dotted s-color(text);
+		cursor: help;
+	}
+	.kbd,
+	.#{$typeset} kbd {
+		background: s-color(text, -opacity .2);
+		color: s-color(text);
+		padding: 0 0.3em;
+	}
+
+	.code,
+	.#{$typeset} code {
+		background: s-color(text, -opacity .2);
+		color: s-color(primary);
+		@include s-font(code);
+		padding: 0 0.3em;
+	}
+
+	.blockquote,
+	.#{$typeset} blockquote {
+		border-left: s-size(smaller) solid s-color(text, -opacity .3);
+		padding-left: s-size(medium);
+
+		footer {
+			color : s-color(text, -opacity .6);
+			
+			cite {
+				font-style: italic;
+			}
+
+			&:before {
+				content : "\2014 \00A0";
+			}
+		}
+	}
+	.blockquote,
+	blockquote {
+		@include s-vertical-rhythme((
+			s-font : 20px,
+			padding-top : s-size(default),
+			padding-bottom : s-size(default),
+			margin-bottom : s-size(default)
+		));
+
+		footer {
+			@include s-vertical-rhythme((
+				s-font : 16px,
+				margin-top : s-size(small)
+			));
+		}
+	}
+
+	.hr,
+	.#{$typeset} hr {
+		border: none;
+		clear: both;
+		height:0;
+	}
+	.hr,
+	hr {
+		@include s-vertical-rhythme((
+			s-font : 0,
+			margin-top : s-size(default),
+			margin-bottom : s-size(default),
+			border-bottom: 1px solid s-color(text, -opacity .3)
+		));
+	}
+}

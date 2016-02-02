@@ -91,32 +91,6 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 			classes : true
 		)
 	),
-	sizes : (
-		smaller : (
-			size : 1rem,
-			classes : true
-		),
-		small : (
-			size : 2rem,
-			classes : true
-		),
-		normal : (
-			size : 3rem,
-			classes : true
-		),
-		medium : (
-			size : 4rem,
-			classes : true
-		),
-		big : (
-			size : 5rem,
-			classes : true
-		),
-		bigger : (
-			size : 6rem,
-			classes : true
-		)
-	),
 	transition : (
 		transitions : (
 			fast : (
@@ -127,8 +101,28 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 			slow : all .5s ease-in-out
 		)
 	),
+	sizes : (
+		smaller : (
+			classes : true
+		),
+		small : (
+			classes : true
+		),
+		default : (
+			classes : true
+		),
+		medium : (
+			classes : true
+		),
+		big : (
+			classes : true
+		),
+		bigger : (
+			classes : true
+		)
+	),
 	classes : helper,
-	typography : (
+	typeset : (
 		titles : (
 			default : (
 				color : black

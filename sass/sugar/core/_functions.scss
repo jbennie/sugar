@@ -80,7 +80,7 @@ $_s_nested_properties_depth : ();
 			$type : _s-get-property-type($prop, $keywords, $aliases);
 
 			// if we have found, check the type
-			@if $type and $value {
+			@if $type and not _is-null($value) {
 
 				// check explicit values
 				@if type-of($type) == string {
@@ -103,14 +103,14 @@ $_s_nested_properties_depth : ();
 					$new-map : map-set($new-map, $prop, $value);
 				}
 
-			} @else if $value {
-				// add the value to map
-				@if not map-get($new-map, others) {
-					$new-map : map-set($new-map, others, ());
-				}
-				$new-map : map-set($new-map, others, map-merge(map-get($new-map, others), (
-					$prop : $value
-				)));
+			} @else if not _is-null($value) {
+				// // add the value to map
+				// @if not map-get($new-map, others) {
+				// 	$new-map : map-set($new-map, others, ());
+				// }
+				// $new-map : map-set($new-map, others, map-merge(map-get($new-map, others), (
+				// 	$prop : $value
+				// )));
 			}
 
 		}
@@ -205,7 +205,7 @@ $_s_nested_properties_depth : ();
 					} @else if length($values) == 1 and type-of($values) == list {
 						$values : nth($values, 1);
 					}
-					@if $values {
+					@if not _is-null($values) {
 						$type : _s-get-property-type($current_prop, $keywords, $aliases);
 						@if $type and type-of($type) == string and not s-is($values, $type) {
 							@error('The property #{$current_prop} need to be a #{$type} but it seems that you passed a #{type-of($values)} : #{$values}');
@@ -221,7 +221,7 @@ $_s_nested_properties_depth : ();
 			} @else if length($values) == 1 and type-of($values) == list {
 				$values : nth($values, 1);
 			}
-			@if $values {
+			@if not _is-null($values) {
 				$type : _s-get-property-type($current_prop, $keywords, $aliases);
 				@if $type and type-of($type) == string and not s-is($values, $type) {
 					@error('The property #{$current_prop} need to be a #{$type} but it seems that you passed a #{type-of($values)} : #{$values}');

@@ -60,7 +60,8 @@ $_s-font-aliases : (
 		border-bottom-width : number,
 		border-top-width : number,
 		border : true,
-		s-font : true
+		s-font : true,
+		scope-class : boolean
 	), (
 		font-size: fs,
 		font-family: ff,
@@ -97,7 +98,8 @@ $_s-font-aliases : (
 	$margin : map-get($rhythme, margin);
 	$padding : map-get($rhythme, padding);
 	$border : map-get($rhythme, border);
-	
+	$scope-class : map-get-or($rhythme, scope-class, true);
+
 	// get values from s-font if passed	
 	@if $s-font {
 		$font : s-font($s-font);
@@ -106,17 +108,9 @@ $_s-font-aliases : (
 		$line-height : map-get-or($font, line-height, $line-height);
 	}
 
-	// calculate number of line height needed
-	@if not $line-height {
-		$line-height : s-strip-units(ceil(s-rem(s-px($font-size))));
-	}
-
 	// protect
 	@if not $font-size {
 		@error('s-vertical-rhythme need a font-size');
-	}
-	@if not $line-height {
-		@error('s-vertical-rhythme need a line-height');
 	}
 
 	// get the font object
@@ -160,7 +154,7 @@ $_s-font-aliases : (
 	}
 
 	// get the rhythme
-	$rhythme-map : map-merge($rhythme, s-get-rhythme(
+	$rhythme-map : map-merge($rhythme, s-vertical-rhythme(
 		-font-size $font-size
 		-line-height $line-height
 		-margin-top $margin-top
@@ -181,10 +175,12 @@ $_s-font-aliases : (
 		@include s-font($s-font);
 	}
 	$rhythme-map : map-remove($rhythme-map, s-font);
+	$rhythme-map : map-remove($rhythme-map, cap-height);
+	$rhythme-map : map-remove($rhythme-map, scope-class);
 
-	$scope-class : sugar('settings.typo.vertical-rhythme.scope-class');
-	@if $scope-class {
-		.#{$scope-class} & {
+	$sc : sugar('settings.typo.vertical-rhythme.scope-class');
+	@if $sc and $scope-class {
+		.#{$sc} & {
 			@each $prop, $value in $rhythme-map {
 				#{$prop} : $value;
 			}
@@ -256,6 +252,25 @@ $_s-font-aliases : (
 	// handle nested
 	@include s-handle-nested(font) {
 		@content;
+	}
+}
+
+@function s-font-family(
+	$name
+) {
+	$fonts : sugar('settings.fonts');
+	$f : map-get($fonts, $name);
+	@if not $f {
+		@return $name;
+	}
+	@if type-of($f) == string {
+		$f : map-get($fonts, $f);
+	}
+	$ff : map-get($f, font-family);
+	@if $ff {
+		@return $ff;
+	} @else {
+		@return $name;
 	}
 }
 
@@ -509,7 +524,7 @@ $_s-font-aliases : (
 	$scope-class : sugar('settings.typo.vertical-rhythme.scope-class');
 
 	// get the rhythme values
-	$rhythme-values : s-get-rhythme($rhythme);
+	$rhythme-values : s-vertical-rhythme($rhythme);
 
 	// set rhythme
 	@if $scope-class {
@@ -529,7 +544,7 @@ $_s-font-aliases : (
 //
 // Get rhythme
 //
-@function s-get-rhythme(
+@function s-vertical-rhythme(
 	$rhythme
 ) {
 	$rhythme : s-parse-properties($rhythme, (
@@ -555,7 +570,7 @@ $_s-font-aliases : (
 	));
 
 	$font-size : map-get($rhythme, font-size);
-	$line-height : map-get-or($rhythme, line-height, 2);
+	$line-height : map-get($rhythme, line-height);
 	$margin-top : map-get-or($rhythme, margin-top, 0);
 	$margin-bottom : map-get-or($rhythme, margin-bottom, 0);
 	$padding-top : map-get-or($rhythme, padding-top, 0);
@@ -565,6 +580,11 @@ $_s-font-aliases : (
 	$cap-height : map-get-or($rhythme, cap-height, 0);
 	$root-font-size : sugar('settings.typo.font-size');
 	
+	// calculate number of line height needed
+	@if not $line-height and $font-size {
+		$line-height : s-strip-units(ceil(s-rem(s-px($font-size))));
+	}
+
 	// process values
 	@if $margin-top > 0 {
 		@if unit($margin-top) != rem {

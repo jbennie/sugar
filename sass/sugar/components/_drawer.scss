@@ -2,6 +2,17 @@
 // Sugar drawer component
 //
 
+// settings
+@include sugar((
+	drawer  					: ( 				// store all the drawer settings
+		method 						: translate, 		// can be translate or position
+		size  						: 400px, 			// drawer width
+		side 						: left,			// the side of the drawer
+		type 						: push, 			// can be reveal, push or slide				
+		transition 					: null 				// store the transition to use
+								)
+));
+
 @mixin s-drawer-opened(
 	$name : null
 ) {

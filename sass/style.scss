@@ -136,6 +136,10 @@ body {
 	@include s-corner(50%);
 	box-shadow:rgba(0,0,0,.3) 0 0 5px;
 }
+pre > code {
+	background: none !important;
+	color: s-color(text) !important;
+}
 
 
 //
@@ -520,29 +524,18 @@ figure {
 }
 
 //
-// Typography
+// typeset
 //
-@include s-typography-titles();
-@include s-typography-paragraphs();
-@include s-typography-decorators();
+@include s-typeset-titles();
+@include s-typeset-paragraphs();
+@include s-typeset-decorators();
+@include s-typeset-lists();
 
 a {
 	@include s-font(s-color(orange) -td none);
 }
 strong {
 	@include s-font(helvetica-bold);
-}
-blockquote {	
-	padding: s-size(2);
-	border-left: 5px solid s-color(orange);
-	margin-left: s-size(-2);
-	background: s-color(#eee);
-	@include s-vertical-rhythme((
-		s-font : 20px italic,
-		padding-top : 2,
-		padding-bottom : 2,
-		margin-bottom : 2
-	));
 }
 
 .top {
