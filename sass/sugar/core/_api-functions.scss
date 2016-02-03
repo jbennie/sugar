@@ -257,14 +257,7 @@ $_sugar-settings-cache : ();
 	$sizes : sugar('settings.sizes');
 	$s : map-get($sizes, $size);
 	@if $s {
-		@if type-of($s) == map {
-			@return map-get($s, size);
-		} @else {
-			@if unitless($s) {
-				@return s-rem($s);
-			}
-			@return $s;
-		}	
+		@return $s;
 	} @else {
 		@if unitless($size) {
 			@return s-rem($size);

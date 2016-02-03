@@ -3,7 +3,7 @@
 //
 
 // settings
-@include sugar((
+@include s-setup((
 	drawer  					: ( 				// store all the drawer settings
 		method 						: translate, 		// can be translate or position
 		size  						: 400px, 			// drawer width

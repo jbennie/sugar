@@ -29,6 +29,22 @@ $_sugar-inited : false;
 			@include s-domnodeinserted();
 		}
 		
+		// check settings
+		$base-font-family : sugar('settings.typo.font-family');
+		$fonts : sugar('settings.fonts');
+		@if $base-font-family and not map-get($fonts, $base-font-family) {
+			@error("Your typo.font-family setting has to be a registered font...");
+		}
+
+		// set the base font family if not defined
+		@if not $base-font-family {
+			@include s-setup((
+				typo : (
+					font-family : default
+				)
+			));
+		}
+
 		// font
 		html {
 			$base-font-size : sugar('settings.typo.font-size');
@@ -42,15 +58,7 @@ $_sugar-inited : false;
 				} 
 			}
 			// try to get the font family from fonts
-			$fonts : sugar('settings.fonts');
-			$f : sugar('settings.fonts.default');
-			@if type-of($f) == string {
-				$f : map-get($fonts, $f);
-			}
-			@if $f {
-				$ff : map-get($f, font-family);
-				font-family: $ff;
-			}	
+			@include s-font(sugar('settings.typo.font-family'));	
 		}
 
 		// default color

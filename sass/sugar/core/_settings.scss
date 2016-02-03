@@ -1,18 +1,17 @@
 //
 // Variables
 //
-$_sugar-classes : () !default;
+$_sugar-classes : () !default; 						// store all the classes in their namespaces
 $sugar-animatecss : () !default; 					// store all the icons wanted from animate.css package
 $_sugar-settings : (								// store all the settings
 	reset 						: true, 			// by default, a reset will be applied
 	border-box 					: true, 			// set if need to set all as border box model
 	typo 						: (
+		font-family 				: default, 			// set the font to use by default
 		font-size 					: 16px, 			// default font-size
 		font-sizes 					: null, 			// map of font-sizes by media (size : media)
 		line-letters-count			: 55,				// optimal letters count in a line
-		vertical-rhythme 			: ( 				// Vertical rhythme options
-			scope-class 				: vertical-rhythme 		// the class in which the vertical rhythme will be applied
-									),
+								
 		font-format 				: ( 				// font format used in font-face
 			eot 						: embedded-opentype,
 			woff2 						: woff2,
@@ -21,8 +20,10 @@ $_sugar-settings : (								// store all the settings
 			otf 						: opentype,
 			svg 						: svg,
 			svgz 						: svgz
-
 									)
+								),				
+	vertical-rhythme 			: ( 				// Vertical rhythme options
+		scope-class 				: vertical-rhythme 		// the class in which the vertical rhythme will be applied
 								),
 	BEM 						: ( 				// BEM settings
 		standelone-modifier			: false, 			// set if by default need to extend base element
@@ -46,30 +47,12 @@ $_sugar-settings : (								// store all the settings
 		classes 					: null, 		// list of icons to generate
 								),
 	sizes 						: (					// store all the sizes available
-		smaller 					: (
-			size 						: 0.5rem,
-			classes 					: false
-									),
-		small 						: (
-			size 						: 1rem,
-			classes 					: false
-									),
-		default 					: (
-			size 						: 2rem,
-			classes 					: false
-									),
-		medium 						: (
-			size 						: 3rem,
-			classes 					: false
-									),
-		big 						: (
-			size 						: 4rem,
-			classes 					: false
-									),
-		bigger 						: (
-			size 						: 5rem,
-			classes 					: false
-									)
+		smaller 					: 0.5rem,
+		small 						: 1rem,
+		default 					: 2rem,
+		medium 						: 3rem,
+		big 						: 4rem,
+		bigger 						: 5rem
 								), 				
 	colors 						: (					// store all the colors
 		text 						: (

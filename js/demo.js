@@ -3,11 +3,11 @@
     $('[data-toggle-rhythme]').on('click', function(e) {
       var $c;
       $c = $(this).closest('[data-toggle-rhythme-class]');
-      if ($c.hasClass('typeset')) {
-        $c.removeClass('typeset');
+      if ($c.hasClass('vertical-rhythme')) {
+        $c.removeClass('vertical-rhythme');
         return $(this).removeClass('active');
       } else {
-        $c.addClass('typeset');
+        $c.addClass('vertical-rhythme');
         return $(this).addClass('active');
       }
     });

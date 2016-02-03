@@ -12,8 +12,9 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 @import 'sugar/sugar';
 
 // setup sugar
-@include sugar((
+@include s-setup((
 	typo : (
+		font-family : helvetica,
 		font-size : 13px,
 		font-sizes : (
 			11.5px : 0 800px,
@@ -21,7 +22,6 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 		)
 	),
 	fonts : (
-		default : helvetica,
 		helvetica : (
 			font-family : 'Open Sans',
 			cap-height : 0.65
@@ -37,7 +37,8 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 			cap-height : 0.65
 		),
 		cousine : (
-			font-family: 'Cousine'
+			font-family: 'Cousine',
+			cap-height : 0.61
 		)
 	),
 	font-awesome : (
@@ -74,54 +75,19 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 		)
 	),
 	filters : (
-		toaster : (
-			filter : cssgram-toaster,
-			classes : true
-		),
-		1977 : (
-			filter : cssgram-_1977,
-			classes : true
-		),
-		walden : (
-			filter : cssgram-walden,
-			classes : true
-		),
-		moon : (
-			filter : cssgram-moon,
-			classes : true
-		)
+		toaster : cssgram-toaster,
+		1977 : cssgram-_1977,
+		walden : cssgram-walden,
+		moon : cssgram-moon
 	),
 	transition : (
 		transitions : (
-			fast : (
-				transition : all .1s ease-in-out,
-				classes : true
-			),
+			fast : all .1s ease-in-out,
 			normal : all .2s ease-in-out,
 			slow : all .5s ease-in-out
 		)
 	),
-	sizes : (
-		smaller : (
-			classes : true
-		),
-		small : (
-			classes : true
-		),
-		default : (
-			classes : true
-		),
-		medium : (
-			classes : true
-		),
-		big : (
-			classes : true
-		),
-		bigger : (
-			classes : true
-		)
-	),
-	classes : helper,
+	classes : 'helper',
 	typeset : (
 		titles : (
 			default : (

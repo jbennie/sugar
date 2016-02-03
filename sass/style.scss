@@ -530,6 +530,8 @@ figure {
 @include s-typeset-paragraphs();
 @include s-typeset-decorators();
 @include s-typeset-lists();
+@include s-typeset-blocks();
+@include s-typeset-tables();
 
 a {
 	@include s-font(s-color(orange) -td none);
@@ -606,5 +608,5 @@ strong {
 	}
 }
 
-
-@include sugar(classes);
+// print out sugar classes
+@include s-classes();

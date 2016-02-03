@@ -1,21 +1,16 @@
 //
 // Sugar mixin
 //
-@mixin sugar(
-	$what...
-) {
-	@if type-of(nth($what,1)) == map {
-		// setup
-		@include s-setup(nth($what,1));
-	} @else if nth($what,1) == classes {
-		// classes
-		$packages : null;
-		@if length($what) == 2 {
-			$packages : nth($what,2);
-		}
-		@include s-classes($packages);
-	}
-}
+// @mixin sugar(
+// 	$what...
+// ) {
+// 	@if type-of(nth($what,1)) == map {
+// 		// setup
+// 		@include s-setup(nth($what,1));
+// 	} @else if nth($what,1) == classes {
+// 		@include s-classes();
+// 	}
+// }
 @mixin s(
 	$what...
 ) {
@@ -69,9 +64,7 @@
 //
 // Classes
 //
-@mixin s-classes(
-	$packages
-) {
+@mixin s-classes() {
 	// font-awesome
 	$fa-icons : sugar('settings.font-awesome.classes');
 	@if $fa-icons {
@@ -79,6 +72,146 @@
 			.fa-#{$icon} {
 				@extend %fa;
 				@extend %fa-#{$icon} !optional;
+			}
+		}
+	}
+
+	$filters : sugar('settings.filters');
+	@each $name, $filter in $filters {
+		@include s-register-class(
+			-name 'f-#{$name}'
+			-namespace 'helper.filter.#{$name}'
+		) {
+			@include s-filter($filter);
+		}
+	}
+
+	// transitions
+	$transitions : sugar('settings.transition.transitions');
+	@each $name, $transition in $transitions {
+		@include s-register-class(
+			-name 't-#{$name}'
+			-namespace 'helper.transition.#{$name}'
+		) {
+			@include s-transition($transition);
+		}
+	}
+
+	$sizes : sugar('settings.sizes');
+	@each $name, $size in $sizes {
+		@include s-register-class(
+			-name 'm-b-#{$name}'
+			-namespace 'helper.margin.bottom.#{$name}'
+		) {
+			margin-bottom : s-size($name);
+		}
+		@include s-register-class(
+			-name 'm-t-#{$name}'
+			-namespace 'helper.margin.top.#{$name}'
+		) {
+			margin-top : s-size($name);
+		}
+		@include s-register-class(
+			-name 'm-l-#{$name}'
+			-namespace 'helper.margin.left.#{$name}'
+		) {
+			margin-left : s-size($name);
+		}
+		@include s-register-class(
+			-name 'm-r-#{$name}'
+			-namespace 'helper.margin.right.#{$name}'
+		) {
+			margin-right : s-size($name);
+		}
+		@include s-register-class(
+			-name 'm-s-#{$name}'
+			-namespace 'helper.margin.side.#{$name}'
+		) {
+			margin-left : s-size($name);
+			margin-right : s-size($name);
+		}
+
+		@include s-register-class(
+			-name 'p-b-#{$name}'
+			-namespace 'helper.padding.bottom.#{$name}'
+		) {
+			padding-bottom : s-size($name);
+		}
+		@include s-register-class(
+			-name 'p-t-#{$name}'
+			-namespace 'helper.padding.top.#{$name}'
+		) {
+			padding-top : s-size($name);
+		}
+		@include s-register-class(
+			-name 'p-l-#{$name}'
+			-namespace 'helper.padding.left.#{$name}'
+		) {
+			padding-left : s-size($name);
+		}
+		@include s-register-class(
+			-name 'p-r-#{$name}'
+			-namespace 'helper.padding.right.#{$name}'
+		) {
+			padding-right : s-size($name);
+		}
+		@include s-register-class(
+			-name 'p-s-#{$name}'
+			-namespace 'helper.padding.side.#{$name}'
+		) {
+			padding-left : s-size($name);
+			padding-right : s-size($name);
+		}
+	}
+
+	// colors
+	$colors : sugar('settings.colors');
+	$classes-color : sugar('settings.colors.classes.color');
+	$classes-color-mod : sugar('settings.colors.classes.color-modifier');
+	$classes-bkg : sugar('settings.colors.classes.bkg');
+	$classes-bkg-mod : sugar('settings.colors.classes.bkg-modifier');
+	@each $name, $color in $colors {
+		@if $name != classes {
+			$modifiers : ();
+			@if type-of($color) == map {
+				$modifiers : map-get($color, modifiers);
+				$color : map-get($color, color);
+			}	
+			$cls : str-replace($classes-color, '{color}', "#{$name}");
+			@include s-register-class(
+				-name $cls
+				-namespace 'helper.color.#{$name}.color'
+			) {
+				color : $color;
+			}
+			$cls : str-replace($classes-bkg, '{color}', "#{$name}");
+			@include s-register-class(
+				-name $cls
+				-namespace 'helper.color.#{$name}.bkg'
+			) {
+				background-color : $color;
+			}
+
+			// modifiers
+			@if $modifiers {
+				@each $mod-name, $mod in $modifiers {
+					$cls : str-replace($classes-color-mod, '{color}', "#{$name}");
+					$cls : str-replace($cls, '{modifier}', $mod-name);
+					@include s-register-class(
+						-name $cls
+						-namespace 'helper.color.#{$name}.modifier.#{$mod-name}.color'
+					) {
+						color : s-color($name, $mod-name);
+					}
+					$cls : str-replace($classes-bkg-mod, '{color}', "#{$name}");
+					$cls : str-replace($cls, '{modifier}', $mod-name);
+					@include s-register-class(
+						-name $cls
+						-namespace 'helper.color.#{$name}.modifier.#{$mod-name}.bkg'
+					) {
+						background-color : s-color($name, $mod-name);
+					}
+				}
 			}
 		}
 	}
@@ -116,157 +249,6 @@
 		.#{$anim} {
 			@extend %animatecss-animated;
 			@extend %#{$anim} !optional;
-		}
-	}
-
-	// transitions
-	@if $packages == null or index($package, transitions) {
-		$transitions : sugar('settings.transitions');
-		@each $name, $transition in $transitions {
-			@if type-of($transition) == map {
-				$t : map-get($transition, transition);
-				$classes : map-get($transition, classes);
-				@if $classes {
-					.t-#{$name} {
-						@include s-transition($name);
-					}
-				}
-			}
-		}
-	}
-
-	// colors
-	@if $packages == null or index($package, colors) {
-		$colors : sugar('settings.colors');
-		$classes-color : sugar('settings.colors.classes.color');
-		$classes-color-mod : sugar('settings.colors.classes.color-modifier');
-		$classes-bkg : sugar('settings.colors.classes.bkg');
-		$classes-bkg-mod : sugar('settings.colors.classes.bkg-modifier');
-		@each $name, $color in $colors {
-			$modifiers : ();
-			@if type-of($color) == map {
-				$c : map-get($color, color);
-				$modifiers : map-get($color, modifiers);
-				$classes : map-get($color, classes);
-				@if $classes {
-					@if $classes == true or in-list($classes, color c) {
-						$cls : str-replace($classes-color, '{color}', "#{$name}");
-						#{unquote(".#{$cls}")} {
-							color : $c;
-						}
-					}
-					@if $classes == true or in-list($classes, background-color background bkg) {
-						$cls : str-replace($classes-bkg, '{color}', "#{$name}");
-						#{unquote(".#{$cls}")} {
-							background-color : $c;
-						}
-					}
-					// modifiers
-					@if $modifiers {
-						@each $mod-name, $mod in $modifiers {
-							@if $classes == true or in-list($classes, color c) {
-								$cls : str-replace($classes-color-mod, '{color}', "#{$name}");
-								$cls : str-replace($cls, '{modifier}', $mod-name);
-								#{unquote(".#{$cls}")} {
-									color : s-color($name, $mod-name);
-								}
-							}
-							@if $classes == true or in-list($classes, background-color background bkg) {
-								$cls : str-replace($classes-bkg-mod, '{color}', "#{$name}");
-								$cls : str-replace($cls, '{modifier}', $mod-name);
-								#{unquote(".#{$cls}")} {
-									background-color : s-color($name, $mod-name);
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
-	// filters
-	@if $packages == null or index($package, filters) {
-		$filters : sugar('settings.filters');
-		@each $name, $filter in $filters {
-			@if type-of($filter) == map {
-				$f : map-get($filter, filter);
-				$classes : map-get($filter, classes);
-				@if $classes {
-					.f-#{$name} {
-						@include s-filter($f);
-					}
-				}
-			}
-		}
-	}
-
-	// sizes
-	@if $packages == null or index($package, sizes) {
-		$sizes : sugar('settings.sizes');
-		@each $name, $size in $sizes {
-			@if type-of($size) == map {
-				$s : map-get($size, size);
-				$classes : map-get($size, classes);
-				@if $classes {
-
-					// margins
-					@if $classes == true or in-list($classes, margin m margin-bottom m-b) {
-						.m-b-#{$name} {
-							margin-bottom : s-size($name);
-						}
-					}
-					@if $classes == true or in-list($classes, margin m margin-top m-t) {
-						.m-t-#{$name} {
-							margin-top : s-size($name);
-						}
-					}
-					@if $classes == true or in-list($classes, margin m margin-left m-l) {
-						.m-l-#{$name} {
-							margin-left : s-size($name);
-						}
-					}
-					@if $classes == true or in-list($classes, margin m margin-right m-r) {
-						.m-r-#{$name} {
-							margin-right : s-size($name);
-						}
-					}
-					@if $classes == true or in-list($classes, margin m margin-side m-s) {
-						.m-s-#{$name} {
-							margin-left : s-size($name);
-							margin-right : s-size($name);
-						}
-					}
-
-					// paddings
-					@if $classes == true or in-list($classes, padding p padding-bottom p-b) {
-						.p-b-#{$name} {
-							padding-bottom : s-size($name);
-						}
-					}
-					@if $classes == true or in-list($classes, padding p padding-top p-t) {
-						.p-t-#{$name} {
-							padding-top : s-size($name);
-						}
-					}
-					@if $classes == true or in-list($classes, padding p padding-left p-l) {
-						.p-l-#{$name} {
-							padding-left : s-size($name);
-						}
-					}
-					@if $classes == true or in-list($classes, padding p padding-right p-r) {
-						.p-r-#{$name} {
-							padding-right : s-size($name);
-						}
-					}
-					@if $classes == true or in-list($classes, padding p padding-side p-s) {
-						.p-s-#{$name} {
-							padding-left : s-size($name);
-							padding-right : s-size($name);
-						}
-					}
-				}
-			}
 		}
 	}
 }

@@ -47,7 +47,7 @@ $_s-font-aliases : (
 ) {
 	$rhythme : s-parse-properties($rhythme, (
 		font-size : number,
-		font-family : string,
+		font-family : map-keys(sugar('settings.fonts')),
 		line-height : number,
 		margin-top : number,
 		margin-bottom : number,
@@ -133,36 +133,18 @@ $_s-font-aliases : (
 		}			
 	}
 
-	// check some values
-	@if $border-bottom {
-		$map : s-border($border-bottom);
-		$border-bottom-width : map-get-or($map, width, $border-bottom-width);
-	}
-	@if $border-top {
-		$map : s-border($border-top);
-		$border-top-width : map-get-or($map, width, $border-top-width);
-	}
-	@if $margin {
-		$map : s-margin($margin);
-		$margin-top : map-get-or($map, top, $margin-top);
-		$margin-bottom : map-get-or($map, bottom, $margin-bottom);
-	}
-	@if $padding {
-		$map : s-margin($padding);
-		$padding-top : map-get-or($map, top, $padding-top);
-		$padding-bottom : map-get-or($map, bottom, $padding-bottom);
-	}
-
 	// get the rhythme
 	$rhythme-map : map-merge($rhythme, s-vertical-rhythme(
 		-font-size $font-size
 		-line-height $line-height
+		-margin $margin
 		-margin-top $margin-top
 		-margin-bottom $margin-bottom
+		-padding $padding
 		-padding-top $padding-top
 		-padding-bottom $padding-bottom
-		-border-top $border-top-width
-		-border-bottom $border-bottom-width
+		-border-top $border-top
+		-border-bottom $border-bottom
 		-cap-height $cap-height
 	));
 	// remove margin-top cause it's done by top and margin-bottom compensation
@@ -178,7 +160,7 @@ $_s-font-aliases : (
 	$rhythme-map : map-remove($rhythme-map, cap-height);
 	$rhythme-map : map-remove($rhythme-map, scope-class);
 
-	$sc : sugar('settings.typo.vertical-rhythme.scope-class');
+	$sc : sugar('settings.vertical-rhythme.scope-class');
 	@if $sc and $scope-class {
 		.#{$sc} & {
 			@each $prop, $value in $rhythme-map {
@@ -258,20 +240,7 @@ $_s-font-aliases : (
 @function s-font-family(
 	$name
 ) {
-	$fonts : sugar('settings.fonts');
-	$f : map-get($fonts, $name);
-	@if not $f {
-		@return $name;
-	}
-	@if type-of($f) == string {
-		$f : map-get($fonts, $f);
-	}
-	$ff : map-get($f, font-family);
-	@if $ff {
-		@return $ff;
-	} @else {
-		@return $name;
-	}
+	@return map-get(s-font($name), font-family);
 }
 
 //
@@ -281,6 +250,11 @@ $_s-font-aliases : (
 	$font,
 	$_handle-nested : false
 ) {
+
+	// set the fonts as possible values for the font-family property
+	$_s-font-properties : map-set($_s-font-properties, font-family, map-keys(sugar('settings.fonts'))) !global;
+
+	// parse properties
 	$font : s-parse-properties($font, $_s-font-properties, $_s-font-aliases);
     
 	// handle nested
@@ -305,11 +279,10 @@ $_s-font-aliases : (
 	$text-indent : map-get($font, text-indent);
 	$word-break : map-get($font, word-break);
 	$word-wrap : map-get($font, word-wrap);
-	$vertical-rhythme : map-get-or($font, vertical-rhythme, sugar('settings.typo.vertical-rhythme'));
-
+	
 	// get the font object
 	$fonts : sugar('settings.fonts');
-	$f : sugar('settings.fonts.default');
+	$f : map-get($fonts, sugar('settings.typo.font-family'));
 	@if type-of($f) == string {
 		$f : map-get($fonts, $f);
 	}
@@ -521,7 +494,7 @@ $_s-font-aliases : (
 	$rhythme
 ) {
 	// scope class
-	$scope-class : sugar('settings.typo.vertical-rhythme.scope-class');
+	$scope-class : sugar('settings.vertical-rhythme.scope-class');
 
 	// get the rhythme values
 	$rhythme-values : s-vertical-rhythme($rhythme);
@@ -548,16 +521,21 @@ $_s-font-aliases : (
 	$rhythme
 ) {
 	$rhythme : s-parse-properties($rhythme, (
+		font-family : map-keys(sugar('settings.fonts')),
 		font-size : number,
 		line-height : number,
+		margin : true,
 		margin-top : number,
 		margin-bottom : number,
+		padding : true,
 		padding-top : number,
 		padding-bottom : number,
-		border-bottom : number,
-		border-top : number,
-		cap-height : number
+		border-bottom : true,
+		border-top : true,
+		cap-height : number,
+		s-font : true
 	), (
+		font-family : ff,
 		font-size : fs,
 		line-height : lh,
 		margin-top: mt,
@@ -566,20 +544,80 @@ $_s-font-aliases : (
 		padding-bottom: pb,
 		border-bottom : bb,
 		border-top : bt,
-		cap-height: ch
+		cap-height: ch,
+		s-font : sf
 	));
-
+	
+	$font-family : map-get($rhythme, font-family);
 	$font-size : map-get($rhythme, font-size);
 	$line-height : map-get($rhythme, line-height);
+	$margin : map-get($rhythme, margin);
 	$margin-top : map-get-or($rhythme, margin-top, 0);
 	$margin-bottom : map-get-or($rhythme, margin-bottom, 0);
+	$padding : map-get($rhythme, padding);
 	$padding-top : map-get-or($rhythme, padding-top, 0);
 	$padding-bottom : map-get-or($rhythme, padding-bottom, 0);
 	$border-bottom : map-get-or($rhythme, border-bottom, 0);
 	$border-top : map-get-or($rhythme, border-top, 0);
 	$cap-height : map-get-or($rhythme, cap-height, 0);
+	$s-font : map-get($rhythme, s-font);
 	$root-font-size : sugar('settings.typo.font-size');
+
+	// get values from s-font if passed	
+	@if $s-font {
+		$font : s-font($s-font);
+		$font-family : map-get-or($font, font-family, $font-family);
+		$font-size : map-get-or($font, font-size, $font-size);
+		$line-height : map-get-or($font, line-height, $line-height);
+	}
+
+	// get the font object
+	@if not $cap-height {
+		$fonts : sugar('settings.fonts');
+		$f : sugar('settings.fonts.default');
+		@if type-of($f) == string {
+			$f : map-get($fonts, $f);
+		}
+		$cap-height : map-get-or($f, cap-height, 0);
+	}
 	
+	// if a font family is passed
+	@if $font-family {
+		@if map-get($fonts, $font-family) {
+			$f : map-get($fonts, $font-family);
+			@if type-of($f) == string {
+				$f : map-get($fonts, $f);
+			}
+			$cap-height : map-get-or($f, cap-height, $cap-height);
+			$font-family : map-get-or($f, font-family, $font-family);
+		}			
+	}
+
+	// check some values
+	@if $border-bottom and type-of($border-bottom) != number {
+		$map : s-border($border-bottom);
+		$border-bottom : map-get-or($map, width, $border-bottom);
+	}
+	@if $border-top and type-of($border-top) != number {
+		$map : s-border($border-top);
+		$border-top : map-get-or($map, width, $border-top);
+	}
+	@if $margin {
+		$map : s-margin($margin);
+		$margin-top : map-get-or($map, top, $margin-top);
+		$margin-bottom : map-get-or($map, bottom, $margin-bottom);
+	}
+	@if $padding {
+		$map : s-margin($padding);
+		$padding-top : map-get-or($map, top, $padding-top);
+		$padding-bottom : map-get-or($map, bottom, $padding-bottom);
+	}
+
+	// protect
+	@if not $font-size {
+		@error("The function s-vertical-rhythme need a font-size...");
+	}
+
 	// calculate number of line height needed
 	@if not $line-height and $font-size {
 		$line-height : s-strip-units(ceil(s-rem(s-px($font-size))));

@@ -4,11 +4,11 @@ jQuery ($) ->
 	# toggle rhythme and baseline
 	$('[data-toggle-rhythme]').on 'click', (e) ->
 		$c = $(this).closest '[data-toggle-rhythme-class]'
-		if $c.hasClass 'typeset'
-			$c.removeClass 'typeset'
+		if $c.hasClass 'vertical-rhythme'
+			$c.removeClass 'vertical-rhythme'
 			$(this).removeClass 'active'
 		else
-			$c.addClass 'typeset'
+			$c.addClass 'vertical-rhythme'
 			$(this).addClass 'active'
 
 	$('[data-toggle-baseline]').on 'click', (e) ->
