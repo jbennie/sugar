@@ -712,10 +712,17 @@ $_s-font-aliases : (
 			@if $border-top > 0 {
 				$dec : $border-top % 1;
 				$margin-top : $margin-top + ( 1 - $dec );
+				@if $padding-top > 0 {
+					$padding-top : $padding-top - $border-top;
+				}
 			}
 			@if $border-bottom > 0 {
+				@debug('bb #{$border-bottom}');
 				$dec : $border-bottom % 1;
 				$margin-bottom : $margin-bottom + ( 1 - $dec );
+				@if $padding-bottom > 0 {
+					$padding-bottom : $padding-bottom - $border-bottom;
+				}
 			}
 			$ret : (
 				padding-top : $padding-top,

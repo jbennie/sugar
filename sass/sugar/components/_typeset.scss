@@ -41,6 +41,11 @@
 			ul : (),
 			ol : (),
 			dl : ()
+		),
+		tables : (
+			default : (
+				margin-bottom : 2
+			)
 		)
 	)
 ));
@@ -470,33 +475,118 @@
 ) {
 	$typeset : sugar('settings.typeset.scope-class');
 	$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
+	$s : sugar('settings.typeset.tables.default');
 
-	.#{$typeset} table:not(.no-#{$typeset}) {
+	.#{$typeset} .table-responsive:not(.no-#{$typeset}) {
+		min-height: 0.01%;
+		overflow-x: auto;
 		width: 100%;
-
-		tr {
-
-		}
-		// th {
-		// 	border-bottom: s-color(text, -opacity .3) 2px solid;
-		// }
-		// td {
-		// 	border-bottom: s-color(text, -opacity .3) 1px solid;
-		// }
+		overflow-y: hidden;
 	}
-	table:not(.no-#{$vertical-rhythme}) {
-		
+
+	.#{$typeset} table:not(.no-#{$typeset}),
+	.table {
+		width: 100%;
+		margin-bottom: s-rem(map-get($s, margin-bottom));
+
 		th,
 		td {
-			$args : (
-				s-font : sugar('settings.typo.font-size'),
-				border-bottom : solid s-color(text, -opacity .2) 1px,
-				padding-top : 1,
-				padding-bottom : 1,
-				margin-bottom: 1
-			);
-			@debug(s-vertical-rhythme($args));
+			padding-left: s-size(small);
+			padding-right: s-size(small);
+			&:last-child {
+				border-right : none;
+			}
+		}
+		th {
+			border-bottom: 2px solid s-color(text, -opacity .2);
+			@include s-font(bold left);
+		}
+		td {
+			border-bottom: 1px solid s-color(text, -opacity .2);
+		}
+		tr:last-child td,
+		tr:last-child:not(:first-child) th {
+			border-bottom: none;
+		}
+
+		// caption
+		caption {
+			@include s-font(italic left);
+			&:before {
+				content : "\2014 \00A0";
+			}
+		}
+
+		// adapt and grow
+		td.adapt,
+		th.adapt {
+			width:1px;
+		}
+		td.grow,
+		th.grow {
+			width:9999999px;
+		}
+
+		// stripped
+		&.table-striped,
+		&.table--striped {
+			> tbody > tr:nth-of-type(odd) {
+				background-color : s-color(text, -opacity .05);
+			}
+		}
+
+		// bordered
+		&.table-bordered,
+		&.table--bordered {
+			border: 1px solid s-color(text, -opacity .2);
+
+			td,
+			th {
+				border-right: 1px solid s-color(text, -opacity .2);
+			}
+		}
+
+		// shadowed
+		&.table-shadowed,
+		&.table--shadowed {
+			@include s-transition();
+			&:hover {
+				@include s-filter(shadow);
+			}
+		}
+
+		// hover
+		&.table-hover,
+		&.table--hover {
+			> tbody > tr:hover {
+				background-color: s-color(text, -opacity .1);
+			}
+		}
+	}
+	table:not(.no-#{$vertical-rhythme}),
+	.table {
+		$args : (
+			s-font : sugar('settings.typo.font-size'),
+			border-bottom : solid s-color(text, -opacity .2) 1px,
+			padding-top : 1,
+			padding-bottom : 1,
+			margin-bottom: 0
+		);
+		th,
+		td {
 			@include s-vertical-rhythme($args);
 		}
+		th {
+			$args : map-set($args, border-bottom, solid s-color(text, -opacity .2) 2px);
+			@include s-vertical-rhythme($args);
+			
+		}
+		caption {
+			@include s-vertical-rhythme((
+				s-font : sugar('settings.typo.font-size'),
+				margin-bottom: 1
+			));
+		}
+		
 	}
 }

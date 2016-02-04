@@ -33,6 +33,8 @@
 	} @else if type-of($filter) != string {
 		$filter : s-parse-properties($filter, (
 			drop-shadow : true,
+			box-shadow : true,
+			text-shadow : true,
 			blur : true,
 			brightness : true,
 			contrast : true,
@@ -44,6 +46,8 @@
 			sepia : true,
 			url : true	
 		), (
+			box-shadow : bs,
+			text-shadow : ts,
 			drop-shadow : ds,
 			blur : bl,
 			brightness : br,
@@ -60,8 +64,14 @@
 		// loop on each filters
 		$filters : ();
 		@each $name, $value in $filter {
-			$filters : append($filters, unquote("#{$name}(#{$value})"));
+			@if $name == box-shadow or $name == text-shadow {
+				#{$name} : s-replace-tokens($value);
+			} @else {
+				$filters : append($filters, unquote("#{$name}(#{s-replace-tokens($value)})"));
+			}
 		}
-		filter : $filters;
+		@if length($filters) > 0 {
+			filter : $filters;
+		}
 	}
 }

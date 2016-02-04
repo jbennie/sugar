@@ -651,16 +651,6 @@ html {
   font-size: 13px;
   font-family: "Open Sans";
 }
-@media (min-width: 0) and (max-width: 800px) {
-  html {
-    font-size: 11.5px;
-  }
-}
-@media (min-width: 0) and (max-width: 400px) {
-  html {
-    font-size: 9.5px;
-  }
-}
 
 body {
   color: #8195a1;
@@ -1569,57 +1559,57 @@ pre > code {
 .slide-0 [data-slidizle-content] {
   -webkit-transform: translateX(0px) translateY(0) translateZ(0);
           transform: translateX(0px) translateY(0) translateZ(0);
-  outline-color: #e0e8bb;
+  outline-color: #2d14ad;
 }
 .slide-1 [data-slidizle-content] {
   -webkit-transform: translateX(-640px) translateY(0) translateZ(0);
           transform: translateX(-640px) translateY(0) translateZ(0);
-  outline-color: #d24f86;
+  outline-color: #ba987f;
 }
 .slide-2 [data-slidizle-content] {
   -webkit-transform: translateX(-1280px) translateY(0) translateZ(0);
           transform: translateX(-1280px) translateY(0) translateZ(0);
-  outline-color: #fa3d6e;
+  outline-color: #a5db3b;
 }
 .slide-3 [data-slidizle-content] {
   -webkit-transform: translateX(-1920px) translateY(0) translateZ(0);
           transform: translateX(-1920px) translateY(0) translateZ(0);
-  outline-color: #701c3d;
+  outline-color: #30dc72;
 }
 .slide-4 [data-slidizle-content] {
   -webkit-transform: translateX(-2560px) translateY(0) translateZ(0);
           transform: translateX(-2560px) translateY(0) translateZ(0);
-  outline-color: #80f8be;
+  outline-color: #45c719;
 }
 .slide-5 [data-slidizle-content] {
   -webkit-transform: translateX(-3200px) translateY(0) translateZ(0);
           transform: translateX(-3200px) translateY(0) translateZ(0);
-  outline-color: #e4cd61;
+  outline-color: #4d8e3b;
 }
 .slide-6 [data-slidizle-content] {
   -webkit-transform: translateX(-3840px) translateY(0) translateZ(0);
           transform: translateX(-3840px) translateY(0) translateZ(0);
-  outline-color: #0608f6;
+  outline-color: #2835a5;
 }
 .slide-7 [data-slidizle-content] {
   -webkit-transform: translateX(-4480px) translateY(0) translateZ(0);
           transform: translateX(-4480px) translateY(0) translateZ(0);
-  outline-color: #d12a0e;
+  outline-color: #9221b5;
 }
 .slide-8 [data-slidizle-content] {
   -webkit-transform: translateX(-5120px) translateY(0) translateZ(0);
           transform: translateX(-5120px) translateY(0) translateZ(0);
-  outline-color: #e4aff2;
+  outline-color: #f38ee5;
 }
 .slide-9 [data-slidizle-content] {
   -webkit-transform: translateX(-5760px) translateY(0) translateZ(0);
           transform: translateX(-5760px) translateY(0) translateZ(0);
-  outline-color: #ebbd0e;
+  outline-color: #72dda6;
 }
 .slide-10 [data-slidizle-content] {
   -webkit-transform: translateX(-6400px) translateY(0) translateZ(0);
           transform: translateX(-6400px) translateY(0) translateZ(0);
-  outline-color: #d334e1;
+  outline-color: #dc34d9;
 }
 
 [data-slidizle-item] {
@@ -2480,20 +2470,144 @@ address:not(.no-vertical-rhythme) .i {
   color: rgba(129, 149, 161, 0.1);
 }
 
-.typeset table:not(.no-typeset) {
+.typeset .table-responsive:not(.no-typeset) {
+  min-height: 0.01%;
+  overflow-x: auto;
   width: 100%;
+  overflow-y: hidden;
+}
+
+.typeset table:not(.no-typeset),
+.table {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+.typeset table:not(.no-typeset) th,
+.typeset table:not(.no-typeset) td,
+.table th,
+.table td {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.typeset table:not(.no-typeset) th:last-child,
+.typeset table:not(.no-typeset) td:last-child,
+.table th:last-child,
+.table td:last-child {
+  border-right: none;
+}
+.typeset table:not(.no-typeset) th,
+.table th {
+  border-bottom: 2px solid rgba(129, 149, 161, 0.2);
+  font-weight: bold;
+  text-align: left;
+}
+.typeset table:not(.no-typeset) td,
+.table td {
+  border-bottom: 1px solid rgba(129, 149, 161, 0.2);
+}
+.typeset table:not(.no-typeset) tr:last-child td,
+.typeset table:not(.no-typeset) tr:last-child:not(:first-child) th,
+.table tr:last-child td,
+.table tr:last-child:not(:first-child) th {
+  border-bottom: none;
+}
+.typeset table:not(.no-typeset) caption,
+.table caption {
+  font-style: italic;
+  text-align: left;
+}
+.typeset table:not(.no-typeset) caption:before,
+.table caption:before {
+  content: "\2014 \00A0";
+}
+.typeset table:not(.no-typeset) td.adapt,
+.typeset table:not(.no-typeset) th.adapt,
+.table td.adapt,
+.table th.adapt {
+  width: 1px;
+}
+.typeset table:not(.no-typeset) td.grow,
+.typeset table:not(.no-typeset) th.grow,
+.table td.grow,
+.table th.grow {
+  width: 9999999px;
+}
+.typeset table:not(.no-typeset).table-striped > tbody > tr:nth-of-type(odd), .typeset table:not(.no-typeset).table--striped > tbody > tr:nth-of-type(odd),
+.table.table-striped > tbody > tr:nth-of-type(odd),
+.table.table--striped > tbody > tr:nth-of-type(odd) {
+  background-color: rgba(129, 149, 161, 0.05);
+}
+.typeset table:not(.no-typeset).table-bordered, .typeset table:not(.no-typeset).table--bordered,
+.table.table-bordered,
+.table.table--bordered {
+  border: 1px solid rgba(129, 149, 161, 0.2);
+}
+.typeset table:not(.no-typeset).table-bordered td,
+.typeset table:not(.no-typeset).table-bordered th, .typeset table:not(.no-typeset).table--bordered td,
+.typeset table:not(.no-typeset).table--bordered th,
+.table.table-bordered td,
+.table.table-bordered th,
+.table.table--bordered td,
+.table.table--bordered th {
+  border-right: 1px solid rgba(129, 149, 161, 0.2);
+}
+.typeset table:not(.no-typeset).table-shadowed, .typeset table:not(.no-typeset).table--shadowed,
+.table.table-shadowed,
+.table.table--shadowed {
+  -webkit-transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
+  transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
+  outline-color: black;
+}
+.typeset table:not(.no-typeset).table-shadowed:hover, .typeset table:not(.no-typeset).table--shadowed:hover,
+.table.table-shadowed:hover,
+.table.table--shadowed:hover {
+  box-shadow: #8195a1 0 0 10px;
+}
+.typeset table:not(.no-typeset).table-hover > tbody > tr:hover, .typeset table:not(.no-typeset).table--hover > tbody > tr:hover,
+.table.table-hover > tbody > tr:hover,
+.table.table--hover > tbody > tr:hover {
+  background-color: rgba(129, 149, 161, 0.1);
 }
 
 table:not(.no-vertical-rhythme) th,
-table:not(.no-vertical-rhythme) td {
+table:not(.no-vertical-rhythme) td,
+.table th,
+.table td {
   font-size: 1rem;
 }
 .vertical-rhythme table:not(.no-vertical-rhythme) th, .vertical-rhythme
-table:not(.no-vertical-rhythme) td {
+table:not(.no-vertical-rhythme) td, .vertical-rhythme
+.table th, .vertical-rhythme
+.table td {
   border-bottom: solid rgba(129, 149, 161, 0.2) 1px;
   padding-top: 1rem;
-  padding-bottom: 1rem;
-  margin-bottom: 1.92307692rem;
+  padding-bottom: 0.92307692rem;
+  margin-bottom: 0.92307692rem;
+  font-size: 1rem;
+  line-height: 1rem;
+}
+table:not(.no-vertical-rhythme) th,
+.table th {
+  font-size: 1rem;
+}
+.vertical-rhythme table:not(.no-vertical-rhythme) th, .vertical-rhythme
+.table th {
+  border-bottom: solid rgba(129, 149, 161, 0.2) 2px;
+  padding-top: 1rem;
+  padding-bottom: 0.84615385rem;
+  margin-bottom: 0.84615385rem;
+  font-size: 1rem;
+  line-height: 1rem;
+}
+table:not(.no-vertical-rhythme) caption,
+.table caption {
+  font-size: 1rem;
+}
+.vertical-rhythme table:not(.no-vertical-rhythme) caption, .vertical-rhythme
+.table caption {
+  margin-bottom: 0.82499rem;
+  padding-top: 0.17501rem;
+  padding-bottom: 0;
   font-size: 1rem;
   line-height: 1rem;
 }
@@ -2904,6 +3018,10 @@ strong {
   border-left-color: #c4920c;
   right: -12px;
   bottom: 8px;
+}
+
+.f-shadow {
+  box-shadow: #8195a1 0 0 10px;
 }
 
 .t-fast {
