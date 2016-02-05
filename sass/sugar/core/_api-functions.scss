@@ -102,6 +102,11 @@ $_sugar-settings-cache : ();
 		$color : map-get($color, color);
 	}
 	
+	// if the color is a string
+	@if s-is($color, string) and index(map-keys($colors),$color) {
+		@return s-color($color, $actions);
+	}
+
 	// check if action is a string to check if is a modifier
 	@if type-of($actions) == string and $modifiers and map-get($modifiers, $actions) {
 		$mod : map-get($modifiers, $actions);
@@ -279,21 +284,116 @@ $_sugar-settings-cache : ();
 
 
 //
+// Interpolate
+//
+@function _s-ratio-interpolate(
+	$value,
+	$size
+) {
+	$ratios : sugar('settings.ratios');
+	// protect
+	@if not s-is($value, number) {
+		@error("Your value need to be a number for the _s-ratio-interpolate function...");
+	}
+	@if not s-is($size, string) {
+		@error("Your site parameter need to be a string for the _s-ratio-interpolate function...");
+	}
+	@if not map-get($ratios, $size) {
+		@error("Your passed size #{$size} does not existin in ratios.#{$size}...");
+	}
+
+	// process calculation
+	@return $value * map-get($ratios, $size);
+}
+
+
+//
+// Ratioize
+//
+@function _s-ratioize(
+	$size,
+	$sizes : null
+) {
+
+
+	$ratios : sugar('settings.ratios');
+	$default-size : map-get($sizes, default);
+	
+	// protect
+	@if not $default-size {
+		@error("You need to specify a sizes.default setting...");
+	}
+	@if not unit($default-size) {
+		@error("Your sizes.default has to have a unit like rem, px, etc...");
+	}
+	@if $sizes {
+		$s : map-get($sizes, $size);
+		@if $s and s-is($s, number) and unit($s) {
+			@return $s;
+		}
+		@if s-is($s, number) and unitless($s) {
+			@return $default-size * $s;
+		}
+		@if not $s and type-of($size) == string {
+			// protect
+			$ratio : map-get($ratios, $size);
+			@if not $ratio or not unitless($ratio) {
+				@error("You need to specify a valid ratio for ratio.#{$size} un your settings...");
+			}
+			@return $default-size * $ratio;
+		}
+	} @else {
+		$ratio : map-get($ratios, $size);
+		@if not $ratio or not unitless($ratio) {
+			@error("You need to specify a valid ratio for ratio.#{$size} un your settings...");
+		}
+	}
+	@if s-is($size, number) and unitless($size) {
+		@return s-rem($size);
+	}
+	@return $size;
+}
+
+
+//
 // Size
 //
 @function s-size(
 	$size
 ) {
 	$sizes : sugar('settings.sizes');
-	$s : map-get($sizes, $size);
-	@if $s {
-		@return $s;
-	} @else {
-		@if unitless($size) {
-			@return s-rem($size);
-		}
-		@return $size;
+	@return _s-ratioize($size, $sizes);
+}
+
+
+//
+// Get a look and feel value
+//
+@function s-look-and-feel(
+	$name,
+	$size : null
+) {
+	// protect 
+	@if not s-is($name, string) {
+		@error("the s-look-and-feel name parameter has to be a string corresponding to a look and feel setting...");
 	}
+
+	// get values
+	$lnf : sugar('settings.look-and-feel');
+	$value : map-get($lnf, $name);
+
+	// protect
+	@if not $value {
+		@error("The wanted look and feel parameter look-and-feel.#{$name} does not exist...");
+	}
+
+	// if we have a size and the value is a number, interpolate with ratio
+	@if $size and s-is($value, number) {
+		@return _s-ratio-interpolate($value, $size);
+	}
+
+	// return the value cause it's not a number
+	@return s-replace-tokens($value);
 }
 
 

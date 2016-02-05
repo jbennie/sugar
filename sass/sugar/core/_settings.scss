@@ -6,6 +6,13 @@ $sugar-animatecss : () !default; 					// store all the icons wanted from animate
 $_sugar-settings : (								// store all the settings
 	reset 						: true, 			// by default, a reset will be applied
 	border-box 					: true, 			// set if need to set all as border box model
+	ratios 						: (					// store all the ratios between sizes
+		smaller 					: 1/4,
+		small 						: 1/2,
+		medium 						: 1.5,
+		big 						: 2,
+		bigger 						: 2.5
+	),
 	typo 						: (
 		font-family 				: default, 			// set the font to use by default
 		font-size 					: 16px, 			// default font-size
@@ -21,7 +28,12 @@ $_sugar-settings : (								// store all the settings
 			svg 						: svg,
 			svgz 						: svgz
 									)
-								),				
+								),
+	look-and-feel 				: ( 				// store some settings for the look and feel
+		border-radius 				: 3px, 				// default border-radius
+		padding-vertical 			: 0.5rem,
+		padding-horizontal 			: 0.7rem
+	),				
 	vertical-rhythme 			: ( 				// Vertical rhythme options
 		scope-class 				: vertical-rhythme 		// the class in which the vertical rhythme will be applied
 								),
@@ -47,44 +59,31 @@ $_sugar-settings : (								// store all the settings
 		classes 					: null, 		// list of icons to generate
 								),
 	sizes 						: (					// store all the sizes available
-		smaller 					: 0.5rem,
-		small 						: 1rem,
-		default 					: 2rem,
-		medium 						: 3rem,
-		big 						: 4rem,
-		bigger 						: 5rem
+		default 					: 2rem
 								), 				
 	colors 						: (					// store all the colors
-		text 						: (
-			classes 					: false,
+		default 					: (
 			color 						: #333
 		),
-		default 					: (
-			classes 					: false,
-			color 						: #fff
+		text 						: (
+			color 						: default
 		),
 		primary 					: (
-			classes  					: false,
 			color 						: #f2bc2b
 		),
 		secondary 					: (
-			classes 					: false,
 			color 						: #777
 		),
 		success 					: (
-			classes 					: false,
 			color 						: #5cb85c
 		),
 		warning 					: (
-			classes 					: false,
 			color 						: #f0ad4e
 		),
 		danger 						: (
-			classes 					: false,
 			color 						: #d9534f
 		),
 		info 						: (
-			classes 					: false,
 			color 						: #2199e8
 		),
 		classes 					: (

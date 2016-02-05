@@ -29,6 +29,27 @@
 
 
 //
+// Component setup
+//
+@mixin s-component-setup(
+	$settings
+) {
+	// check if we have already some settings for this components
+	$keys : map-keys($settings);
+	@if length($keys) != 1 {
+		@error("A components need to be setting up with a unique key map...");
+	}
+	$name : nth($keys,1);
+	@if map-get($_sugar-settings, $name) {
+		$new-settings : map-extend($settings, map-get($_sugar-settings, $name));
+		$_sugar-settings : map-set($_sugar-settings, $name, $new-settings) !global;
+	} @else {
+		$_sugar-settings : map-set($_sugar-settings, $name, $settings) !global;
+	}
+}
+
+
+//
 // Register helper class
 //
 @mixin s-register-class(

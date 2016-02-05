@@ -531,7 +531,7 @@ figure {
 @include s-typeset-decorators();
 @include s-typeset-lists();
 @include s-typeset-blocks();
-@include s-typeset-tables();
+@include s-typeset-tables(-sizes smaller small medium big bigger);
 
 a {
 	@include s-font(s-color(orange) -td none);

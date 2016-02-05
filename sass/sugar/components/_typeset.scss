@@ -473,6 +473,12 @@
 @mixin s-typeset-tables(
 	$props : ()
 ) {
+	$props : s-parse-properties($props, (
+		sizes : list-string
+	));
+
+	$sizes : map-get-or($props, sizes, ());
+
 	$typeset : sugar('settings.typeset.scope-class');
 	$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
 	$s : sugar('settings.typeset.tables.default');
@@ -491,8 +497,8 @@
 
 		th,
 		td {
-			padding-left: s-size(small);
-			padding-right: s-size(small);
+			padding-left: s-look-and-feel(padding-horizontal);
+			padding-right: s-look-and-feel(padding-horizontal);
 			&:last-child {
 				border-right : none;
 			}
@@ -563,13 +569,14 @@
 			}
 		}
 	}
+
 	table:not(.no-#{$vertical-rhythme}),
 	.table {
 		$args : (
 			s-font : sugar('settings.typo.font-size'),
 			border-bottom : solid s-color(text, -opacity .2) 1px,
-			padding-top : 1,
-			padding-bottom : 1,
+			padding-top : ceil(s-look-and-feel(padding-vertical)),
+			padding-bottom : ceil(s-look-and-feel(padding-vertical)),
 			margin-bottom: 0
 		);
 		th,
@@ -586,7 +593,42 @@
 				s-font : sugar('settings.typo.font-size'),
 				margin-bottom: 1
 			));
+		}	
+	}
+
+	@each $size in $sizes {
+
+		.#{$typeset} table:not(.no-#{$typeset}).table--#{$size},
+		.#{$typeset} table:not(.no-#{$typeset}).table-#{$size},
+		.table.table-#{$size},
+		.table.table--#{$size} {
+			th,
+			td {
+				padding-left: s-look-and-feel(padding-horizontal, $size);
+				padding-right: s-look-and-feel(padding-horizontal, $size);
+			}
 		}
-		
+
+		table:not(.no-#{$vertical-rhythme}).table--#{$size},
+		table:not(.no-#{$vertical-rhythme}).table-#{$size},
+		.table.table--#{$size},
+		.table.table-#{$size} {
+			$args : (
+				s-font : sugar('settings.typo.font-size'),
+				border-bottom : solid s-color(text, -opacity .2) 1px,
+				padding-top : ceil(s-look-and-feel(padding-vertical, $size)),
+				padding-bottom : ceil(s-look-and-feel(padding-vertical, $size)),
+				margin-bottom: 0
+			);
+			th,
+			td {
+				@include s-vertical-rhythme($args);
+			}
+			th {
+				$args : map-set($args, border-bottom, solid s-color(text, -opacity .2) 2px);
+				@include s-vertical-rhythme($args);
+				
+			}
+		}
 	}
 }

@@ -45,13 +45,11 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 		classes : user gg-circle angle-right bars check coffee camera-retro cloud arrow-up linkedin github home twitter beer
 	),
 	colors : (
-		text : (
-			color : #8195a1,
-			classes : true
+		default : (
+			color : #8195a1
 		),
 		grey : (
 			color : #c1c1c1,
-			classes : true,
 			modifiers : (
 				light : #fafafa,
 				dark : -darken 15%
@@ -62,8 +60,7 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 		),
 		green : #00ff00,
 		pink : (
-			color : #ffff00,
-			classes : true
+			color : #ffff00
 		),
 		orange : (
 			color : #f2bc2b,
