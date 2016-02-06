@@ -40,6 +40,15 @@ webpackParams =
 if process.env.NODE_ENV is 'debug'
 	webpackParams.devtool = "#inline-source-map"
 
+# topbar
+gulp.task 'topbar', ->
+	topbar_content = fs.readFileSync("parts/top-bar.html", "utf8");
+	gulp.src [
+		'parts/pages/*.html'
+	]
+	.pipe replace '{TOPBAR}', topbar_content
+	.pipe gulp.dest './'
+
 # clean
 gulp.task 'clean-js', ->
 	gulp.src [
@@ -99,3 +108,4 @@ gulp.task 'watch', ['default'], ->
 	# Recompile on change
 	gulp.watch ["coffee/**/*.coffee"], ['webpack','coffee']
 	gulp.watch ["sass/**/*.scss"], ['compass']
+	gulp.watch ['parts/**/*.html'], ['topbar']

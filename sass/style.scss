@@ -524,6 +524,11 @@ figure {
 }
 
 //
+// Dropdown
+//
+@include s-dropdown();
+
+//
 // typeset
 //
 @include s-typeset-titles();

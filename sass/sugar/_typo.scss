@@ -717,7 +717,6 @@ $_s-font-aliases : (
 				}
 			}
 			@if $border-bottom > 0 {
-				@debug('bb #{$border-bottom}');
 				$dec : $border-bottom % 1;
 				$margin-bottom : $margin-bottom + ( 1 - $dec );
 				@if $padding-bottom > 0 {
