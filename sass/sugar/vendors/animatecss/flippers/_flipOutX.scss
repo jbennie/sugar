@@ -1,4 +1,4 @@
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, flipOutX) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, flipOutX); @keyframes flipOutX {
+@if index(sugar("settings.animate-css.animations"), flipOutX) {@keyframes flipOutX {
   from {
     transform: perspective(400px);
   }

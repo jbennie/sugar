@@ -1,4 +1,4 @@
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, shake) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, shake); @keyframes shake {
+@if index(sugar("settings.animate-css.animations"), shake) {@keyframes shake {
   from, 100% {
     transform: translate3d(0, 0, 0);
   }

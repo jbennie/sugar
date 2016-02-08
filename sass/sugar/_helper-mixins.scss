@@ -382,7 +382,7 @@
 //
 // Ratio
 //
-@mixin s-ratio(
+@mixin s-size(
 	$ratio
 ) {
 	$ratio : s-parse-properties($ratio, (
@@ -418,7 +418,7 @@
 //
 // Size
 //
-@mixin s-size(
+@mixin s-space(
 	$size
 ) {
 	$size : s-parse-properties($size, (

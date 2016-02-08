@@ -1,4 +1,4 @@
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, slideInRight) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, slideInRight); @keyframes slideInRight {
+@if index(sugar("settings.animate-css.animations"), slideInRight) {@keyframes slideInRight {
   from {
     transform: translate3d(100%, 0, 0);
     visibility: visible;

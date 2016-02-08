@@ -1,4 +1,4 @@
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeOutDownBig) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeOutDownBig); @keyframes fadeOutDownBig {
+@if index(sugar("settings.animate-css.animations"), fadeOutDownBig) {@keyframes fadeOutDownBig {
   from {
     opacity: 1;
   }

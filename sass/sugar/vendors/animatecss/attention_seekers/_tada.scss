@@ -1,4 +1,4 @@
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, tada) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, tada); @keyframes tada {
+@if index(sugar("settings.animate-css.animations"), tada) {@keyframes tada {
   from {
     transform: scale3d(1, 1, 1);
   }

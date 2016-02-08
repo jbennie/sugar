@@ -23,7 +23,7 @@ $brand-primary:         s-color(primary) !default; // #337ab7
 $brand-success:         s-color(success) !default;
 $brand-info:            s-color(info) !default;
 $brand-warning:         s-color(warning) !default;
-$brand-danger:          s-color(danger) !default;
+$brand-danger:          s-color(error) !default;
 
 
 //== Scaffolding
@@ -493,7 +493,7 @@ $pager-disabled-color:                 $pagination-disabled-color !default;
 //
 //##
 
-$jumbotron-padding:              s-size(medium) !default;
+$jumbotron-padding:              s-space(medium) !default;
 $jumbotron-color:                inherit !default;
 $jumbotron-bg:                   s-color(default, -opacity .1) !default;
 $jumbotron-heading-color:        $headings-color !default;
@@ -517,9 +517,9 @@ $state-warning-text:             s-color(warning) !default;
 $state-warning-bg:               s-color(warning, -opacity .2) !default;
 $state-warning-border:           s-color(warning, -opacity .2) !default;
 
-$state-danger-text:              s-color(danger) !default;
-$state-danger-bg:                s-color(danger, -opacity .2) !default;
-$state-danger-border:            s-color(danger, -opacity .2) !default;
+$state-danger-text:              s-color(error) !default;
+$state-danger-bg:                s-color(error, -opacity .2) !default;
+$state-danger-border:            s-color(error, -opacity .2) !default;
 
 
 //== Tooltips

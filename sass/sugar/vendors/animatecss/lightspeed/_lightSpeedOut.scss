@@ -1,4 +1,4 @@
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, lightSpeedOut) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, lightSpeedOut); @keyframes lightSpeedOut {
+@if index(sugar("settings.animate-css.animations"), lightSpeedOut) {@keyframes lightSpeedOut {
   from {
     opacity: 1;
   }

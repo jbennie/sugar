@@ -1,4 +1,4 @@
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, bounce) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, bounce); @keyframes bounce {
+@mixin _s-animatecss-init() { @if index(sugar("settings.animate-css.animations"), bounce) {@keyframes bounce {
   from, 20%, 53%, 80%, 100% {
     animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
     transform: translate3d(0,0,0);
@@ -24,7 +24,7 @@
   transform-origin: center bottom;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, flash) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, flash); @keyframes flash {
+@if index(sugar("settings.animate-css.animations"), flash) {@keyframes flash {
   from, 50%, 100% {
     opacity: 1;
   }
@@ -38,7 +38,7 @@
   animation-name: flash;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, jello) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, jello); @keyframes jello {
+@if index(sugar("settings.animate-css.animations"), jello) {@keyframes jello {
   from, 11.1%, 100% {
     transform: none
   }
@@ -72,7 +72,7 @@
     transform-origin: center
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, pulse) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, pulse); /* originally authored by Nick Pettit - https://github%com/nickpettit/glide */
+@if index(sugar("settings.animate-css.animations"), pulse) {/* originally authored by Nick Pettit - https://github%com/nickpettit/glide */
 
 @keyframes pulse {
   from {
@@ -92,7 +92,7 @@
   animation-name: pulse;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rubberBand) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rubberBand); @keyframes rubberBand {
+@if index(sugar("settings.animate-css.animations"), rubberBand) {@keyframes rubberBand {
   from {
     transform: scale3d(1, 1, 1);
   }
@@ -126,7 +126,7 @@
   animation-name: rubberBand;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, shake) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, shake); @keyframes shake {
+@if index(sugar("settings.animate-css.animations"), shake) {@keyframes shake {
   from, 100% {
     transform: translate3d(0, 0, 0);
   }
@@ -144,7 +144,7 @@
   animation-name: shake;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, swing) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, swing); @keyframes swing {
+@if index(sugar("settings.animate-css.animations"), swing) {@keyframes swing {
   20% {
     transform: rotate3d(0, 0, 1, 15deg);
   }
@@ -171,7 +171,7 @@
   animation-name: swing;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, tada) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, tada); @keyframes tada {
+@if index(sugar("settings.animate-css.animations"), tada) {@keyframes tada {
   from {
     transform: scale3d(1, 1, 1);
   }
@@ -197,7 +197,7 @@
   animation-name: tada;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, wobble) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, wobble); /* originally authored by Nick Pettit - https://github%com/nickpettit/glide */
+@if index(sugar("settings.animate-css.animations"), wobble) {/* originally authored by Nick Pettit - https://github%com/nickpettit/glide */
 
 @keyframes wobble {
   from {
@@ -233,7 +233,7 @@
   animation-name: wobble;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, bounceIn) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, bounceIn); @keyframes bounceIn {
+@if index(sugar("settings.animate-css.animations"), bounceIn) {@keyframes bounceIn {
   from, 20%, 40%, 60%, 80%, 100% {
     animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
   }
@@ -270,7 +270,7 @@
   animation-name: bounceIn;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, bounceInDown) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, bounceInDown); @keyframes bounceInDown {
+@if index(sugar("settings.animate-css.animations"), bounceInDown) {@keyframes bounceInDown {
   from, 60%, 75%, 90%, 100% {
     animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
   }
@@ -302,7 +302,7 @@
   animation-name: bounceInDown;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, bounceInLeft) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, bounceInLeft); @keyframes bounceInLeft {
+@if index(sugar("settings.animate-css.animations"), bounceInLeft) {@keyframes bounceInLeft {
   from, 60%, 75%, 90%, 100% {
     animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
   }
@@ -334,7 +334,7 @@
   animation-name: bounceInLeft;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, bounceInRight) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, bounceInRight); @keyframes bounceInRight {
+@if index(sugar("settings.animate-css.animations"), bounceInRight) {@keyframes bounceInRight {
   from, 60%, 75%, 90%, 100% {
     animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
   }
@@ -366,7 +366,7 @@
   animation-name: bounceInRight;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, bounceInUp) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, bounceInUp); @keyframes bounceInUp {
+@if index(sugar("settings.animate-css.animations"), bounceInUp) {@keyframes bounceInUp {
   from, 60%, 75%, 90%, 100% {
     animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
   }
@@ -398,7 +398,7 @@
   animation-name: bounceInUp;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, bounceOut) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, bounceOut); @keyframes bounceOut {
+@if index(sugar("settings.animate-css.animations"), bounceOut) {@keyframes bounceOut {
   20% {
     transform: scale3d(.9, .9, .9);
   }
@@ -418,7 +418,7 @@
   animation-name: bounceOut;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, bounceOutDown) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, bounceOutDown); @keyframes bounceOutDown {
+@if index(sugar("settings.animate-css.animations"), bounceOutDown) {@keyframes bounceOutDown {
   20% {
     transform: translate3d(0, 10px, 0);
   }
@@ -438,7 +438,7 @@
   animation-name: bounceOutDown;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, bounceOutLeft) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, bounceOutLeft); @keyframes bounceOutLeft {
+@if index(sugar("settings.animate-css.animations"), bounceOutLeft) {@keyframes bounceOutLeft {
   20% {
     opacity: 1;
     transform: translate3d(20px, 0, 0);
@@ -454,7 +454,7 @@
   animation-name: bounceOutLeft;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, bounceOutRight) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, bounceOutRight); @keyframes bounceOutRight {
+@if index(sugar("settings.animate-css.animations"), bounceOutRight) {@keyframes bounceOutRight {
   20% {
     opacity: 1;
     transform: translate3d(-20px, 0, 0);
@@ -470,7 +470,7 @@
   animation-name: bounceOutRight;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, bounceOutUp) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, bounceOutUp); @keyframes bounceOutUp {
+@if index(sugar("settings.animate-css.animations"), bounceOutUp) {@keyframes bounceOutUp {
   20% {
     transform: translate3d(0, -10px, 0);
   }
@@ -490,7 +490,7 @@
   animation-name: bounceOutUp;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeIn) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeIn); @keyframes fadeIn {
+@if index(sugar("settings.animate-css.animations"), fadeIn) {@keyframes fadeIn {
   from {opacity: 0;}
   100% {opacity: 1;}
 }
@@ -499,7 +499,7 @@
   animation-name: fadeIn;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeInDown) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeInDown); @keyframes fadeInDown {
+@if index(sugar("settings.animate-css.animations"), fadeInDown) {@keyframes fadeInDown {
   from {
     opacity: 0;
     transform: translate3d(0, -100%, 0);
@@ -515,7 +515,7 @@
   animation-name: fadeInDown;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeInDownBig) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeInDownBig); @keyframes fadeInDownBig {
+@if index(sugar("settings.animate-css.animations"), fadeInDownBig) {@keyframes fadeInDownBig {
   from {
     opacity: 0;
     transform: translate3d(0, -2000px, 0);
@@ -531,7 +531,7 @@
   animation-name: fadeInDownBig;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeInLeft) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeInLeft); @keyframes fadeInLeft {
+@if index(sugar("settings.animate-css.animations"), fadeInLeft) {@keyframes fadeInLeft {
   from {
     opacity: 0;
     transform: translate3d(-100%, 0, 0);
@@ -547,7 +547,7 @@
   animation-name: fadeInLeft;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeInLeftBig) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeInLeftBig); @keyframes fadeInLeftBig {
+@if index(sugar("settings.animate-css.animations"), fadeInLeftBig) {@keyframes fadeInLeftBig {
   from {
     opacity: 0;
     transform: translate3d(-2000px, 0, 0);
@@ -563,7 +563,7 @@
   animation-name: fadeInLeftBig;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeInRight) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeInRight); @keyframes fadeInRight {
+@if index(sugar("settings.animate-css.animations"), fadeInRight) {@keyframes fadeInRight {
   from {
     opacity: 0;
     transform: translate3d(100%, 0, 0);
@@ -579,7 +579,7 @@
   animation-name: fadeInRight;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeInRightBig) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeInRightBig); @keyframes fadeInRightBig {
+@if index(sugar("settings.animate-css.animations"), fadeInRightBig) {@keyframes fadeInRightBig {
   from {
     opacity: 0;
     transform: translate3d(2000px, 0, 0);
@@ -595,7 +595,7 @@
   animation-name: fadeInRightBig;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeInUp) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeInUp); @keyframes fadeInUp {
+@if index(sugar("settings.animate-css.animations"), fadeInUp) {@keyframes fadeInUp {
   from {
     opacity: 0;
     transform: translate3d(0, 100%, 0);
@@ -611,7 +611,7 @@
   animation-name: fadeInUp;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeInUpBig) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeInUpBig); @keyframes fadeInUpBig {
+@if index(sugar("settings.animate-css.animations"), fadeInUpBig) {@keyframes fadeInUpBig {
   from {
     opacity: 0;
     transform: translate3d(0, 2000px, 0);
@@ -627,7 +627,7 @@
   animation-name: fadeInUpBig;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeOut) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeOut); @keyframes fadeOut {
+@if index(sugar("settings.animate-css.animations"), fadeOut) {@keyframes fadeOut {
   from {opacity: 1;}
   100% {opacity: 0;}
 }
@@ -636,7 +636,7 @@
   animation-name: fadeOut;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeOutDown) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeOutDown); @keyframes fadeOutDown {
+@if index(sugar("settings.animate-css.animations"), fadeOutDown) {@keyframes fadeOutDown {
   from {
     opacity: 1;
   }
@@ -651,7 +651,7 @@
   animation-name: fadeOutDown;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeOutDownBig) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeOutDownBig); @keyframes fadeOutDownBig {
+@if index(sugar("settings.animate-css.animations"), fadeOutDownBig) {@keyframes fadeOutDownBig {
   from {
     opacity: 1;
   }
@@ -666,7 +666,7 @@
   animation-name: fadeOutDownBig;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeOutLeft) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeOutLeft); @keyframes fadeOutLeft {
+@if index(sugar("settings.animate-css.animations"), fadeOutLeft) {@keyframes fadeOutLeft {
   from {
     opacity: 1;
   }
@@ -681,7 +681,7 @@
   animation-name: fadeOutLeft;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeOutLeftBig) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeOutLeftBig); @keyframes fadeOutLeftBig {
+@if index(sugar("settings.animate-css.animations"), fadeOutLeftBig) {@keyframes fadeOutLeftBig {
   from {
     opacity: 1;
   }
@@ -696,7 +696,7 @@
   animation-name: fadeOutLeftBig;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeOutRight) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeOutRight); @keyframes fadeOutRight {
+@if index(sugar("settings.animate-css.animations"), fadeOutRight) {@keyframes fadeOutRight {
   from {
     opacity: 1;
   }
@@ -711,7 +711,7 @@
   animation-name: fadeOutRight;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeOutRightBig) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeOutRightBig); @keyframes fadeOutRightBig {
+@if index(sugar("settings.animate-css.animations"), fadeOutRightBig) {@keyframes fadeOutRightBig {
   from {
     opacity: 1;
   }
@@ -726,7 +726,7 @@
   animation-name: fadeOutRightBig;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeOutUp) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeOutUp); @keyframes fadeOutUp {
+@if index(sugar("settings.animate-css.animations"), fadeOutUp) {@keyframes fadeOutUp {
   from {
     opacity: 1;
   }
@@ -741,7 +741,7 @@
   animation-name: fadeOutUp;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeOutUpBig) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeOutUpBig); @keyframes fadeOutUpBig {
+@if index(sugar("settings.animate-css.animations"), fadeOutUpBig) {@keyframes fadeOutUpBig {
   from {
     opacity: 1;
   }
@@ -756,7 +756,7 @@
   animation-name: fadeOutUpBig;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, flip) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, flip); @keyframes flip {
+@if index(sugar("settings.animate-css.animations"), flip) {@keyframes flip {
   from {
     transform: perspective(400px) rotate3d(0, 1, 0, -360deg);
     animation-timing-function: ease-out;
@@ -788,7 +788,7 @@
   animation-name: flip;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, flipInX) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, flipInX); @keyframes flipInX {
+@if index(sugar("settings.animate-css.animations"), flipInX) {@keyframes flipInX {
   from {
     transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
     animation-timing-function: ease-in;
@@ -819,7 +819,7 @@
   animation-name: flipInX;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, flipInY) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, flipInY); @keyframes flipInY {
+@if index(sugar("settings.animate-css.animations"), flipInY) {@keyframes flipInY {
   from {
     transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
     animation-timing-function: ease-in;
@@ -850,7 +850,7 @@
   animation-name: flipInY;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, flipOutX) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, flipOutX); @keyframes flipOutX {
+@if index(sugar("settings.animate-css.animations"), flipOutX) {@keyframes flipOutX {
   from {
     transform: perspective(400px);
   }
@@ -871,7 +871,7 @@
   backface-visibility: visible !important;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, flipOutY) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, flipOutY); @keyframes flipOutY {
+@if index(sugar("settings.animate-css.animations"), flipOutY) {@keyframes flipOutY {
   from {
     transform: perspective(400px);
   }
@@ -892,7 +892,7 @@
   animation-name: flipOutY;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, lightSpeedIn) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, lightSpeedIn); @keyframes lightSpeedIn {
+@if index(sugar("settings.animate-css.animations"), lightSpeedIn) {@keyframes lightSpeedIn {
   from {
     transform: translate3d(100%, 0, 0) skewX(-30deg);
     opacity: 0;
@@ -919,7 +919,7 @@
   animation-timing-function: ease-out;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, lightSpeedOut) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, lightSpeedOut); @keyframes lightSpeedOut {
+@if index(sugar("settings.animate-css.animations"), lightSpeedOut) {@keyframes lightSpeedOut {
   from {
     opacity: 1;
   }
@@ -935,7 +935,7 @@
   animation-timing-function: ease-in;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rotateIn) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rotateIn); @keyframes rotateIn {
+@if index(sugar("settings.animate-css.animations"), rotateIn) {@keyframes rotateIn {
   from {
     transform-origin: center;
     transform: rotate3d(0, 0, 1, -200deg);
@@ -953,7 +953,7 @@
   animation-name: rotateIn;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rotateInDownLeft) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rotateInDownLeft); @keyframes rotateInDownLeft {
+@if index(sugar("settings.animate-css.animations"), rotateInDownLeft) {@keyframes rotateInDownLeft {
   from {
     transform-origin: left bottom;
     transform: rotate3d(0, 0, 1, -45deg);
@@ -971,7 +971,7 @@
   animation-name: rotateInDownLeft;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rotateInDownRight) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rotateInDownRight); @keyframes rotateInDownRight {
+@if index(sugar("settings.animate-css.animations"), rotateInDownRight) {@keyframes rotateInDownRight {
   from {
     transform-origin: right bottom;
     transform: rotate3d(0, 0, 1, 45deg);
@@ -989,7 +989,7 @@
   animation-name: rotateInDownRight;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rotateInUpLeft) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rotateInUpLeft); @keyframes rotateInUpLeft {
+@if index(sugar("settings.animate-css.animations"), rotateInUpLeft) {@keyframes rotateInUpLeft {
   from {
     transform-origin: left bottom;
     transform: rotate3d(0, 0, 1, 45deg);
@@ -1007,7 +1007,7 @@
   animation-name: rotateInUpLeft;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rotateInUpRight) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rotateInUpRight); @keyframes rotateInUpRight {
+@if index(sugar("settings.animate-css.animations"), rotateInUpRight) {@keyframes rotateInUpRight {
   from {
     transform-origin: right bottom;
     transform: rotate3d(0, 0, 1, -90deg);
@@ -1025,7 +1025,7 @@
   animation-name: rotateInUpRight;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rotateOut) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rotateOut); @keyframes rotateOut {
+@if index(sugar("settings.animate-css.animations"), rotateOut) {@keyframes rotateOut {
   from {
     transform-origin: center;
     opacity: 1;
@@ -1042,7 +1042,7 @@
   animation-name: rotateOut;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rotateOutDownLeft) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rotateOutDownLeft); @keyframes rotateOutDownLeft {
+@if index(sugar("settings.animate-css.animations"), rotateOutDownLeft) {@keyframes rotateOutDownLeft {
   from {
     transform-origin: left bottom;
     opacity: 1;
@@ -1059,7 +1059,7 @@
   animation-name: rotateOutDownLeft;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rotateOutDownRight) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rotateOutDownRight); @keyframes rotateOutDownRight {
+@if index(sugar("settings.animate-css.animations"), rotateOutDownRight) {@keyframes rotateOutDownRight {
   from {
     transform-origin: right bottom;
     opacity: 1;
@@ -1076,7 +1076,7 @@
   animation-name: rotateOutDownRight;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rotateOutUpLeft) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rotateOutUpLeft); @keyframes rotateOutUpLeft {
+@if index(sugar("settings.animate-css.animations"), rotateOutUpLeft) {@keyframes rotateOutUpLeft {
   from {
     transform-origin: left bottom;
     opacity: 1;
@@ -1093,7 +1093,7 @@
   animation-name: rotateOutUpLeft;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rotateOutUpRight) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rotateOutUpRight); @keyframes rotateOutUpRight {
+@if index(sugar("settings.animate-css.animations"), rotateOutUpRight) {@keyframes rotateOutUpRight {
   from {
     transform-origin: right bottom;
     opacity: 1;
@@ -1110,7 +1110,7 @@
   animation-name: rotateOutUpRight;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, slideInDown) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, slideInDown); @keyframes slideInDown {
+@if index(sugar("settings.animate-css.animations"), slideInDown) {@keyframes slideInDown {
   from {
     transform: translate3d(0, -100%, 0);
     visibility: visible;
@@ -1125,7 +1125,7 @@
   animation-name: slideInDown;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, slideInLeft) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, slideInLeft); @keyframes slideInLeft {
+@if index(sugar("settings.animate-css.animations"), slideInLeft) {@keyframes slideInLeft {
   from {
     transform: translate3d(-100%, 0, 0);
     visibility: visible;
@@ -1140,7 +1140,7 @@
   animation-name: slideInLeft;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, slideInRight) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, slideInRight); @keyframes slideInRight {
+@if index(sugar("settings.animate-css.animations"), slideInRight) {@keyframes slideInRight {
   from {
     transform: translate3d(100%, 0, 0);
     visibility: visible;
@@ -1155,7 +1155,7 @@
   animation-name: slideInRight;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, slideInUp) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, slideInUp); @keyframes slideInUp {
+@if index(sugar("settings.animate-css.animations"), slideInUp) {@keyframes slideInUp {
   from {
     transform: translate3d(0, 100%, 0);
     visibility: visible;
@@ -1170,7 +1170,7 @@
   animation-name: slideInUp;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, slideOutDown) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, slideOutDown); @keyframes slideOutDown {
+@if index(sugar("settings.animate-css.animations"), slideOutDown) {@keyframes slideOutDown {
   from {
     transform: translate3d(0, 0, 0);
   }
@@ -1185,7 +1185,7 @@
   animation-name: slideOutDown;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, slideOutLeft) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, slideOutLeft); @keyframes slideOutLeft {
+@if index(sugar("settings.animate-css.animations"), slideOutLeft) {@keyframes slideOutLeft {
   from {
     transform: translate3d(0, 0, 0);
   }
@@ -1200,7 +1200,7 @@
   animation-name: slideOutLeft;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, slideOutRight) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, slideOutRight); @keyframes slideOutRight {
+@if index(sugar("settings.animate-css.animations"), slideOutRight) {@keyframes slideOutRight {
   from {
     transform: translate3d(0, 0, 0);
   }
@@ -1215,7 +1215,7 @@
   animation-name: slideOutRight;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, slideOutUp) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, slideOutUp); @keyframes slideOutUp {
+@if index(sugar("settings.animate-css.animations"), slideOutUp) {@keyframes slideOutUp {
   from {
     transform: translate3d(0, 0, 0);
   }
@@ -1230,7 +1230,7 @@
   animation-name: slideOutUp;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, hinge) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, hinge); @keyframes hinge {
+@if index(sugar("settings.animate-css.animations"), hinge) {@keyframes hinge {
   0% {
     transform-origin: top left;
     animation-timing-function: ease-in-out;
@@ -1259,7 +1259,7 @@
   animation-name: hinge;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rollIn) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rollIn); /* originally authored by Nick Pettit - https://github%com/nickpettit/glide */
+@if index(sugar("settings.animate-css.animations"), rollIn) {/* originally authored by Nick Pettit - https://github%com/nickpettit/glide */
 
 @keyframes rollIn {
   from {
@@ -1277,7 +1277,7 @@
   animation-name: rollIn;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rollOut) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rollOut); /* originally authored by Nick Pettit - https://github%com/nickpettit/glide */
+@if index(sugar("settings.animate-css.animations"), rollOut) {/* originally authored by Nick Pettit - https://github%com/nickpettit/glide */
 
 @keyframes rollOut {
   from {
@@ -1294,7 +1294,7 @@
   animation-name: rollOut;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, zoomIn) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, zoomIn); @keyframes zoomIn {
+@if index(sugar("settings.animate-css.animations"), zoomIn) {@keyframes zoomIn {
   from {
     opacity: 0;
     transform: scale3d(.3, .3, .3);
@@ -1309,7 +1309,7 @@
   animation-name: zoomIn;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, zoomInDown) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, zoomInDown); @keyframes zoomInDown {
+@if index(sugar("settings.animate-css.animations"), zoomInDown) {@keyframes zoomInDown {
   from {
     opacity: 0;
     transform: scale3d(.1, .1, .1) translate3d(0, -1000px, 0);
@@ -1327,7 +1327,7 @@
   animation-name: zoomInDown;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, zoomInLeft) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, zoomInLeft); @keyframes zoomInLeft {
+@if index(sugar("settings.animate-css.animations"), zoomInLeft) {@keyframes zoomInLeft {
   from {
     opacity: 0;
     transform: scale3d(.1, .1, .1) translate3d(-1000px, 0, 0);
@@ -1345,7 +1345,7 @@
   animation-name: zoomInLeft;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, zoomInRight) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, zoomInRight); @keyframes zoomInRight {
+@if index(sugar("settings.animate-css.animations"), zoomInRight) {@keyframes zoomInRight {
   from {
     opacity: 0;
     transform: scale3d(.1, .1, .1) translate3d(1000px, 0, 0);
@@ -1363,7 +1363,7 @@
   animation-name: zoomInRight;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, zoomInUp) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, zoomInUp); @keyframes zoomInUp {
+@if index(sugar("settings.animate-css.animations"), zoomInUp) {@keyframes zoomInUp {
   from {
     opacity: 0;
     transform: scale3d(.1, .1, .1) translate3d(0, 1000px, 0);
@@ -1381,7 +1381,7 @@
   animation-name: zoomInUp;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, zoomOut) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, zoomOut); @keyframes zoomOut {
+@if index(sugar("settings.animate-css.animations"), zoomOut) {@keyframes zoomOut {
   from {
     opacity: 1;
   }
@@ -1400,7 +1400,7 @@
   animation-name: zoomOut;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, zoomOutDown) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, zoomOutDown); @keyframes zoomOutDown {
+@if index(sugar("settings.animate-css.animations"), zoomOutDown) {@keyframes zoomOutDown {
   40% {
     opacity: 1;
     transform: scale3d(.475, .475, .475) translate3d(0, -60px, 0);
@@ -1419,7 +1419,7 @@
   animation-name: zoomOutDown;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, zoomOutLeft) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, zoomOutLeft); @keyframes zoomOutLeft {
+@if index(sugar("settings.animate-css.animations"), zoomOutLeft) {@keyframes zoomOutLeft {
   40% {
     opacity: 1;
     transform: scale3d(.475, .475, .475) translate3d(42px, 0, 0);
@@ -1436,7 +1436,7 @@
   animation-name: zoomOutLeft;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, zoomOutRight) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, zoomOutRight); @keyframes zoomOutRight {
+@if index(sugar("settings.animate-css.animations"), zoomOutRight) {@keyframes zoomOutRight {
   40% {
     opacity: 1;
     transform: scale3d(.475, .475, .475) translate3d(-42px, 0, 0);
@@ -1453,7 +1453,7 @@
   animation-name: zoomOutRight;
 }
 }
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, zoomOutUp) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, zoomOutUp); @keyframes zoomOutUp {
+@if index(sugar("settings.animate-css.animations"), zoomOutUp) {@keyframes zoomOutUp {
   40% {
     opacity: 1;
     transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);
@@ -1471,4 +1471,4 @@
 %zoomOutUp {
   animation-name: zoomOutUp;
 }
-}
+} }

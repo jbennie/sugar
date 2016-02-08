@@ -55,7 +55,18 @@ module.exports = (grunt) ->
 						name = filename.replace '.scss',''
 						name = filename.replace '.css',''
 						content = content.replace /(\.)([a-zA-Z_-]{3,60})/gi, "%$2"
-						content = '@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, ' + name + ') { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, ' + name + '); ' + content + '}'
+						#content = '@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, ' + name + ') { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, ' + name + '); ' + content + '}'
+						content = '@if index(sugar("settings.animate-css.animations"), '+name+') {' + content + '}'
+						content
+			animatecss_mixin:
+				expand: true,
+				cwd: 'sass/sugar/vendors/animatecss/',
+				src: '_animate.scss',
+				dest: 'sass/sugar/vendors/animatecss/',
+				filter: 'isFile'
+				options:
+					process: (content, srcpath) ->
+						content = '@mixin _s-animatecss-init() { ' + content + ' }'
 						content
 			sassdash:
 				expand: true,
@@ -121,7 +132,12 @@ module.exports = (grunt) ->
 
 	grunt.registerTask 'default', [
 		'clean'
-		'copy'
-		'concat'
+		'copy:fontawesome'
+		'copy:modularscale'
+		'copy:sassdash'
+		'copy:cssgram'
+		'copy:animatecss'
+		'concat:animatecss'
+		'copy:animatecss_mixin'
 		'notify:default'
 	]

@@ -1,4 +1,4 @@
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, bounceOutUp) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, bounceOutUp); @keyframes bounceOutUp {
+@if index(sugar("settings.animate-css.animations"), bounceOutUp) {@keyframes bounceOutUp {
   20% {
     transform: translate3d(0, -10px, 0);
   }

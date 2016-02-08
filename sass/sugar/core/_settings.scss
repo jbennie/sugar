@@ -9,6 +9,7 @@ $_sugar-settings : (								// store all the settings
 	ratios 						: (					// store all the ratios between sizes
 		smaller 					: 1/4,
 		small 						: 1/2,
+		default 					: 1,
 		medium 						: 1.5,
 		big 						: 2,
 		bigger 						: 2.5
@@ -30,37 +31,15 @@ $_sugar-settings : (								// store all the settings
 									)
 								),
 	look-and-feel 				: ( 				// store some settings for the look and feel
-		border-radius 				: 3px, 				// default border-radius
-		padding-vertical 			: 0.5rem,
-		padding-horizontal 			: 0.7rem
-	),				
-	vertical-rhythme 			: ( 				// Vertical rhythme options
-		scope-class 				: vertical-rhythme 		// the class in which the vertical rhythme will be applied
-								),
-	BEM 						: ( 				// BEM settings
-		standelone-modifier			: false, 			// set if by default need to extend base element
-		element-separator 			: '__', 			// element separator
-		modifier-separator 			: '--' 				// modifier separator
-								),
-	modular-scale 				: ( 				// Modular scale settings
-		base 						: 1rem, 			// the modular scale base
-		ratio 						: $golden, 			// the ratio to use
-		range 						: null, 			// range
-		fluid 						: false 			// is fluid modular scale
+		default 					: ( 				// the default look and feel
+			border-radius 				: 3px, 				// default border-radius
+			padding-vertical 			: 0.5rem,
+			padding-horizontal 			: 0.7rem
+		)
 	),
-	animate-css 				: ( 				// store the animatecss settings
-		duration 					: 1s, 				// default animatecss duration
-		ease 						: ease-in-out, 		// default animatecss ease
-		fill-mode					: both 				// defaull animatecss fill mode
-	),
-	font-awesome 				: ( 				// font awesome settings
-		font-path 					: '../fonts/font-awesome', 		// path to dont without trailing slash
-		version 					: 4.4.0, 			// font-awesome version
-		classes 					: null, 		// list of icons to generate
-								),
-	sizes 						: (					// store all the sizes available
+	spaces 						: (					// store all the spaces available
 		default 					: 2rem
-								), 				
+								), 
 	colors 						: (					// store all the colors
 		default 					: (
 			color 						: #333
@@ -83,7 +62,7 @@ $_sugar-settings : (								// store all the settings
 		warning 					: (
 			color 						: #f0ad4e
 		),
-		danger 						: (
+		error 						: (
 			color 						: #d9534f
 		),
 		info 						: (
@@ -95,7 +74,32 @@ $_sugar-settings : (								// store all the settings
 			bkg 						: 'bkg-{color}',
 			bkg-modifier 				: 'bkg-{color}--{modifier}'
 									)
-								), 				
+								), 							
+	vertical-rhythme 			: ( 				// Vertical rhythme options
+		scope-class 				: vertical-rhythme 		// the class in which the vertical rhythme will be applied
+								),
+	BEM 						: ( 				// BEM settings
+		standelone-modifier			: false, 			// set if by default need to extend base element
+		element-separator 			: '__', 			// element separator
+		modifier-separator 			: '--' 				// modifier separator
+								),
+	modular-scale 				: ( 				// Modular scale settings
+		base 						: 1rem, 			// the modular scale base
+		ratio 						: $golden, 			// the ratio to use
+		range 						: null, 			// range
+		fluid 						: false 			// is fluid modular scale
+	),
+	animate-css 				: ( 				// store the animatecss settings
+		duration 					: 1s, 				// default animatecss duration
+		ease 						: ease-in-out, 		// default animatecss ease
+		fill-mode					: both, 			// defaull animatecss fill mode
+		animations 					: ()
+	),
+	font-awesome 				: ( 				// font awesome settings
+		font-path 					: '../fonts/font-awesome', 		// path to dont without trailing slash
+		version 					: 4.4.0, 			// font-awesome version
+		icons 						: null, 				// list of icons to generate
+								),				
 	fonts  						: ( 				// store all the fonts
 		default 					: (
 			font-family 				: ('Helvetica Neue',Helvetica,Verdana,Arial,sans-serif),
@@ -118,5 +122,5 @@ $_sugar-settings : (								// store all the settings
 		property 					: all, 				// default property
 		transitions 				: () 				// store all registered transitions
 	), 
-	helper-classes 				: ()
+	classes 					: ()
 );	

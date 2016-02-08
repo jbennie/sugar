@@ -1,4 +1,4 @@
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, hinge) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, hinge); @keyframes hinge {
+@if index(sugar("settings.animate-css.animations"), hinge) {@keyframes hinge {
   0% {
     transform-origin: top left;
     animation-timing-function: ease-in-out;

@@ -1,4 +1,4 @@
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rotateOutDownLeft) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rotateOutDownLeft); @keyframes rotateOutDownLeft {
+@if index(sugar("settings.animate-css.animations"), rotateOutDownLeft) {@keyframes rotateOutDownLeft {
   from {
     transform-origin: left bottom;
     opacity: 1;

@@ -66,7 +66,6 @@ $_sugar-inited : false;
 			color : s-color(text);
 		}
 
-
 		// font faces
 		$fonts : sugar('settings.fonts');
 		@each $font-name, $font in $fonts {
@@ -92,7 +91,7 @@ $_sugar-inited : false;
 
 		// modular scale
 		$ms-base : sugar('settings.modular-scale.base') !global;
-		$ms-ratio : sugar('settings.modular-scale.ratio') !global;
+		$ms-size : sugar('settings.modular-scale.ratio') !global;
 		$ms-range : sugar('settings.modular-scale.range') !global;
 		$ms-fluid : sugar('settings.modular-scale.fluid') !global;
 
@@ -100,7 +99,6 @@ $_sugar-inited : false;
 		$font-awesome : sugar('settings.font-awesome');
 		@if $font-awesome {
 			$font-path : sugar('settings.font-awesome.font-path');
-			$font-version : sugar('settings.font-awesome.version');
 			@include s-font-face(
 				"FontAwesome"
 				"#{$font-path}/fontawesome-webfont.eot"
@@ -108,5 +106,8 @@ $_sugar-inited : false;
 				normal
 				-ext eot ttf woff woff2 svg);
 		}
+
+		// animate css
+		@include _s-animatecss-init();
 	}
 }

@@ -53,22 +53,13 @@
 //
 // typeset base
 //
-@mixin s-typeset(
-	$props : ()
-) {
-
-	$props : s-parse-properties($props, (
-		titles : integer
-	));
-
-	$titles : map-get-or($props, titles, 6);
-
-	
-
-	small {
-		font-size: 0.8em;
-	}
-
+@mixin s-typeset() {
+	@include s-typeset-titles();
+	@include s-typeset-paragraphs();
+	@include s-typeset-lists();
+	@include s-typeset-decorators();
+	@include s-typeset-blocks();
+	@include s-typeset-tables();
 }
 
 @mixin s-typeset-titles(
@@ -191,7 +182,7 @@
 		> li,
 		> .li {
 			@include s-list-item(
-				-padding-left s-size(default)
+				-padding-left s-space(default)
 				-style-type square
 				-bullet-color s-color(text, -opacity .5)	
 			);
@@ -231,7 +222,7 @@
 		> li,
 		> .li {
 			@include s-list-item(
-				-padding-left s-size(default)
+				-padding-left s-space(default)
 				-style-type decimal
 				-bullet-color s-color(text, -opacity .5)	
 			);
@@ -316,8 +307,8 @@
 	// blockquote
 	.blockquote,
 	.#{$typeset} blockquote:not(.no-#{$typeset}) {
-		border-left: s-size(smaller) solid s-color(text, -opacity .3);
-		padding-left: s-size(default);
+		border-left: s-space(smaller) solid s-color(text, -opacity .3);
+		padding-left: s-space(default);
 
 		footer {
 			color : s-color(text, -opacity .6);
@@ -335,14 +326,14 @@
 	blockquote:not(.no-#{$vertical-rhythme}) {
 		@include s-vertical-rhythme((
 			s-font : 20px,
-			padding-top : s-size(default),
-			padding-bottom : s-size(default),
-			margin-bottom : s-size(default)
+			padding-top : s-space(default),
+			padding-bottom : s-space(default),
+			margin-bottom : s-space(default)
 		));
 		.p, p {
 			@include s-vertical-rhythme((
 				s-font : 20px,
-				margin-bottom : s-size(default)
+				margin-bottom : s-space(default)
 			));
 		}
 		footer {
@@ -353,32 +344,32 @@
 	// pre
 	.pre,
 	.#{$typeset} pre:not(.no-#{$typeset}) {
-		border-left: s-size(smaller) solid s-color(primary, -opacity .3);
-		padding: s-size(default);
+		border-left: s-space(smaller) solid s-color(primary, -opacity .3);
+		padding: s-space(default);
 	}
 	.pre,
 	pre:not(.no-#{$vertical-rhythme}) {
 		@include s-vertical-rhythme((
 			s-font : 16px code,
-			padding-top : s-size(default),
-			padding-bottom : s-size(default),
-			margin-bottom : s-size(default)
+			padding-top : s-space(default),
+			padding-bottom : s-space(default),
+			margin-bottom : s-space(default)
 		));
 	}
 
 	// address
 	.address,
 	.#{$typeset} address:not(.no-#{$typeset}) {
-		padding: s-size(default);
+		padding: s-space(default);
 		background-color : s-color(text, -opacity .05);
 	}
 	.address,
 	address:not(.no-#{$vertical-rhythme}) {
 		@include s-vertical-rhythme((
 			s-font : sugar('settings.typo.font-size') 2,
-			padding-top : s-size(default),
-			padding-bottom : s-size(default),
-			margin-bottom : s-size(default)
+			padding-top : s-space(default),
+			padding-bottom : s-space(default),
+			margin-bottom : s-space(default)
 		));
 		overflow: hidden;
 		position: relative;
@@ -463,8 +454,8 @@
 	hr:not(.no-#{$vertical-rhythme}) {
 		@include s-vertical-rhythme((
 			s-font : 0 -line-height 0,
-			margin-top : s-size(default),
-			margin-bottom : s-rem(s-size(default)) - s-rem(1px),
+			margin-top : s-space(default),
+			margin-bottom : s-rem(s-space(default)) - s-rem(1px),
 			border-bottom: 1px solid s-color(text, -opacity .3)
 		));
 	}

@@ -87,7 +87,7 @@
 //
 @mixin s-classes() {
 	// font-awesome
-	$fa-icons : sugar('settings.font-awesome.classes');
+	$fa-icons : sugar('settings.font-awesome.icons');
 	@if $fa-icons {
 		@each $icon in $fa-icons {
 			.fa-#{$icon} {
@@ -118,70 +118,70 @@
 		}
 	}
 
-	$sizes : sugar('settings.sizes');
-	@each $name, $size in $sizes {
+	$spaces : sugar('settings.spaces');
+	@each $name, $space in $spaces {
 		@include s-register-class(
 			-name 'm-b-#{$name}'
 			-namespace 'helper.margin.bottom.#{$name}'
 		) {
-			margin-bottom : s-size($name);
+			margin-bottom : s-space($name);
 		}
 		@include s-register-class(
 			-name 'm-t-#{$name}'
 			-namespace 'helper.margin.top.#{$name}'
 		) {
-			margin-top : s-size($name);
+			margin-top : s-space($name);
 		}
 		@include s-register-class(
 			-name 'm-l-#{$name}'
 			-namespace 'helper.margin.left.#{$name}'
 		) {
-			margin-left : s-size($name);
+			margin-left : s-space($name);
 		}
 		@include s-register-class(
 			-name 'm-r-#{$name}'
 			-namespace 'helper.margin.right.#{$name}'
 		) {
-			margin-right : s-size($name);
+			margin-right : s-space($name);
 		}
 		@include s-register-class(
 			-name 'm-s-#{$name}'
 			-namespace 'helper.margin.side.#{$name}'
 		) {
-			margin-left : s-size($name);
-			margin-right : s-size($name);
+			margin-left : s-space($name);
+			margin-right : s-space($name);
 		}
 
 		@include s-register-class(
 			-name 'p-b-#{$name}'
 			-namespace 'helper.padding.bottom.#{$name}'
 		) {
-			padding-bottom : s-size($name);
+			padding-bottom : s-space($name);
 		}
 		@include s-register-class(
 			-name 'p-t-#{$name}'
 			-namespace 'helper.padding.top.#{$name}'
 		) {
-			padding-top : s-size($name);
+			padding-top : s-space($name);
 		}
 		@include s-register-class(
 			-name 'p-l-#{$name}'
 			-namespace 'helper.padding.left.#{$name}'
 		) {
-			padding-left : s-size($name);
+			padding-left : s-space($name);
 		}
 		@include s-register-class(
 			-name 'p-r-#{$name}'
 			-namespace 'helper.padding.right.#{$name}'
 		) {
-			padding-right : s-size($name);
+			padding-right : s-space($name);
 		}
 		@include s-register-class(
 			-name 'p-s-#{$name}'
 			-namespace 'helper.padding.side.#{$name}'
 		) {
-			padding-left : s-size($name);
-			padding-right : s-size($name);
+			padding-left : s-space($name);
+			padding-right : s-space($name);
 		}
 	}
 
@@ -266,7 +266,7 @@
 		animation-fill-mode : sugar('settings.animate-css.fill-mode');
 		animation-timing-function : sugar('settings.animate-css.ease');
 	}
-	@each $anim in $sugar-animatecss {
+	@each $anim in sugar('settings.animate-css.animations') {
 		.#{$anim} {
 			@extend %animatecss-animated;
 			@extend %#{$anim} !optional;

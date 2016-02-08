@@ -1,4 +1,4 @@
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rollIn) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rollIn); /* originally authored by Nick Pettit - https://github%com/nickpettit/glide */
+@if index(sugar("settings.animate-css.animations"), rollIn) {/* originally authored by Nick Pettit - https://github%com/nickpettit/glide */
 
 @keyframes rollIn {
   from {

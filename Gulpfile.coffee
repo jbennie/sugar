@@ -41,12 +41,18 @@ if process.env.NODE_ENV is 'debug'
 	webpackParams.devtool = "#inline-source-map"
 
 # topbar
-gulp.task 'topbar', ->
-	topbar_content = fs.readFileSync("parts/top-bar.html", "utf8");
+gulp.task 'tokens', ->
+	topbar_content = fs.readFileSync("pages/parts/top-bar.html", "utf8");
+	drawers_content = fs.readFileSync("pages/parts/drawers.html", "utf8");
+	head_content = fs.readFileSync("pages/parts/head.html", "utf8");
+	footer_content = fs.readFileSync("pages/parts/footer.html", "utf8");
 	gulp.src [
-		'parts/pages/*.html'
+		'pages/*.html'
 	]
+	.pipe replace '{HEAD}', head_content
+	.pipe replace '{FOOTER}', footer_content
 	.pipe replace '{TOPBAR}', topbar_content
+	.pipe replace '{DRAWERS}', drawers_content
 	.pipe gulp.dest './'
 
 # clean
@@ -108,4 +114,4 @@ gulp.task 'watch', ['default'], ->
 	# Recompile on change
 	gulp.watch ["coffee/**/*.coffee"], ['webpack','coffee']
 	gulp.watch ["sass/**/*.scss"], ['compass']
-	gulp.watch ['parts/**/*.html'], ['topbar']
+	gulp.watch ['pages/**/*.html'], ['tokens']

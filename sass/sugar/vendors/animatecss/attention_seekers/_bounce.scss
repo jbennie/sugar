@@ -1,4 +1,4 @@
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, bounce) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, bounce); @keyframes bounce {
+@if index(sugar("settings.animate-css.animations"), bounce) {@keyframes bounce {
   from, 20%, 53%, 80%, 100% {
     animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
     transform: translate3d(0,0,0);

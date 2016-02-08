@@ -1,4 +1,4 @@
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, fadeInDown) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, fadeInDown); @keyframes fadeInDown {
+@if index(sugar("settings.animate-css.animations"), fadeInDown) {@keyframes fadeInDown {
   from {
     opacity: 0;
     transform: translate3d(0, -100%, 0);

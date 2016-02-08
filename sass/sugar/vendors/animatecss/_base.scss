@@ -1,4 +1,4 @@
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, _base) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, _base); @charset "UTF-8";
+@if index(sugar("settings.animate-css.animations"), _base) {@charset "UTF-8";
 /*!
 Animate%css - http://daneden.me/animate
 Licensed under the MIT license - http://opensource%org/licenses/MIT

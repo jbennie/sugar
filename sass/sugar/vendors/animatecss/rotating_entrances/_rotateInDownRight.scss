@@ -1,4 +1,4 @@
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, rotateInDownRight) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, rotateInDownRight); @keyframes rotateInDownRight {
+@if index(sugar("settings.animate-css.animations"), rotateInDownRight) {@keyframes rotateInDownRight {
   from {
     transform-origin: right bottom;
     transform: rotate3d(0, 0, 1, 45deg);

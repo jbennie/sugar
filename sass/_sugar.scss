@@ -2,9 +2,6 @@
  * Sugar
  */
 
-// animation to generate
-$sugar-animatecss : rubberBand tada flipOutX fadeIn;
-
 // import cousine font
 // @import url(https://fonts.googleapis.com/css?family=Cousine);
 
@@ -16,10 +13,10 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 	typo : (
 		font-family : helvetica,
 		font-size : 13px,
-		// font-sizes : (
-		// 	11.5px : 0 800px,
-		// 	9.5px : 0 400px
-		// )
+		font-sizes : (
+			11.5px : 0 800px,
+			9.5px : 0 400px
+		)
 	),
 	fonts : (
 		helvetica : (
@@ -42,12 +39,16 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 		)
 	),
 	font-awesome : (
-		classes : user gg-circle angle-right bars check coffee camera-retro cloud arrow-up linkedin github home twitter beer
+		icons : user gg-circle angle-right bars check coffee camera-retro cloud arrow-up linkedin github home twitter beer
+	),
+	animate-css : (
+		animations : rubberBand tada flipOutX fadeIn
 	),
 	colors : (
 		default : (
 			color : #8195a1
 		),
+		primary : orange,
 		grey : (
 			color : #c1c1c1,
 			modifiers : (
@@ -59,9 +60,6 @@ $sugar-animatecss : rubberBand tada flipOutX fadeIn;
 			color : #8195a1
 		),
 		green : #00ff00,
-		pink : (
-			color : #ffff00
-		),
 		orange : (
 			color : #f2bc2b,
 			classes : color bkg,

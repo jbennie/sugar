@@ -6,7 +6,7 @@
 //
 .loader-container {
 	background: s-color(orange);
-	@include s-ratio(16/9);
+	@include s-size(16/9);
 	@include s-corner(s-rem(5px));
 	margin-bottom:s-rem(20px);
 	border: s-color(orange, -darken 15%) 2px solid;

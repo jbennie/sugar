@@ -103,8 +103,10 @@ $_sugar-settings-cache : ();
 	}
 	
 	// if the color is a string
-	@if s-is($color, string) and index(map-keys($colors),$color) {
-		@return s-color($color, $actions);
+	@if s-is($color, string) or s-is($color, color) {
+		@if  index(map-keys($colors),$color) {
+			@return s-color($color, $actions);
+		}
 	}
 
 	// check if action is a string to check if is a modifier
@@ -286,36 +288,34 @@ $_sugar-settings-cache : ();
 //
 // Interpolate
 //
-@function _s-ratio-interpolate(
+@function s-size(
 	$value,
-	$size
+	$ratio
 ) {
 	$ratios : sugar('settings.ratios');
 	// protect
 	@if not s-is($value, number) {
-		@error("Your value need to be a number for the _s-ratio-interpolate function...");
+		@error("Your value need to be a number for the s-size function...");
 	}
-	@if not s-is($size, string) {
-		@error("Your site parameter need to be a string for the _s-ratio-interpolate function...");
+	@if not s-is($ratio, string) {
+		@error("Your ratio parameter need to be a string for the s-size function... You just passed #{$ratio}");
 	}
-	@if not map-get($ratios, $size) {
-		@error("Your passed size #{$size} does not existin in ratios.#{$size}...");
+	@if not map-get($ratios, $ratio) {
+		@error("Your passed ratio #{$ratio} does not existin in ratios.#{$ratio}...");
 	}
 
 	// process calculation
-	@return $value * map-get($ratios, $size);
+	@return $value * map-get($ratios, $ratio);
 }
 
 
 //
 // Ratioize
 //
-@function _s-ratioize(
+@function _s-sizeize(
 	$size,
 	$sizes : null
 ) {
-
-
 	$ratios : sugar('settings.ratios');
 	$default-size : map-get($sizes, default);
 	
@@ -358,11 +358,11 @@ $_sugar-settings-cache : ();
 //
 // Size
 //
-@function s-size(
+@function s-space(
 	$size
 ) {
-	$sizes : sugar('settings.sizes');
-	@return _s-ratioize($size, $sizes);
+	$sizes : sugar('settings.spaces');
+	@return _s-sizeize($size, $sizes);
 }
 
 
@@ -371,29 +371,49 @@ $_sugar-settings-cache : ();
 //
 @function s-look-and-feel(
 	$name,
-	$size : null
+	$ratio : default
 ) {
 	// protect 
 	@if not s-is($name, string) {
 		@error("the s-look-and-feel name parameter has to be a string corresponding to a look and feel setting...");
 	}
 
+	// initial value
+	$value : null;
+
 	// get values
-	$lnf : sugar('settings.look-and-feel');
-	$value : map-get($lnf, $name);
-
-	// protect
-	@if not $value {
-		@error("The wanted look and feel parameter look-and-feel.#{$name} does not exist...");
+	$lnf : sugar('settings.look-and-feel.#{$ratio}');
+	
+	// get the actual value
+	@if $lnf {
+		$value : map-get($lnf, $name);
 	}
 
-	// if we have a size and the value is a number, interpolate with ratio
-	@if $size and s-is($value, number) {
-		@return _s-ratio-interpolate($value, $size);
+	// if we have a value, return it
+	@if $value {
+		@return s-replace-tokens($value);
 	}
 
-	// return the value cause it's not a number
-	@return s-replace-tokens($value);
+	// if we don't have any value and the size is default
+	@if $ratio == default {
+		@error("The look and feel value #{$name} does not exist...");
+	}
+
+	// check if we can interpolate the value
+	$default : sugar('settings.look-and-feel.default.#{$name}');
+	$_ratio : sugar('settings.ratios.#{$ratio}');
+	@if not $default or not $_ratio {
+		@error("It's not possible to interpolate your look and feel #{$name} value cause you miss either the look-and-feel.default.#{$name} setting, or the ratios.#{$ratio} one...");
+	}
+
+	// protect against string interpolation etc...
+	@if type-of($default) != number {
+		@error("You try to interpolate the look-and-feel.default.#{$name} : #{$default} value that is not a number...");
+	}
+
+	// interpolate
+	@return s-size($default, $ratio);
+
 }
 
 

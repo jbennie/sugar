@@ -1,4 +1,4 @@
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, wobble) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, wobble); /* originally authored by Nick Pettit - https://github%com/nickpettit/glide */
+@if index(sugar("settings.animate-css.animations"), wobble) {/* originally authored by Nick Pettit - https://github%com/nickpettit/glide */
 
 @keyframes wobble {
   from {

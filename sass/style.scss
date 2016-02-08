@@ -82,7 +82,7 @@ body {
 	background-position:50% 50%;
 	min-height:150px;
 	color: white;
-	padding:s-size(big) 0;
+	padding:s-space(big) 0;
 	line-height:1;
 	
 	h1, h2 {
@@ -93,7 +93,7 @@ body {
 	}
 }
 #head {
-	padding: s-size(bigger) 0;
+	padding: s-space(bigger) 0;
 }
 .separator {
 	width:100%;
@@ -128,7 +128,7 @@ body {
 	cursor: pointer;
 }
 .section {
-	padding: s-size(bigger) 0;
+	padding: s-space(bigger) 0;
 	background: white;
 }
 .avatar {
@@ -327,10 +327,10 @@ pre > code {
 			position:relative;
 			
 			width: 600px;
-			@include s-ratio(16/9);
+			@include s-size(16/9);
 
 			img {
-				@include s-size(cover);
+				@include s-space(cover);
 			}
 
 			// .slidizle-left & {
@@ -390,7 +390,7 @@ pre > code {
 	background: s-color(orange);
 	color: white;
 	text-decoration: none;
-	padding: 0 s-size(2);
+	padding: 0 s-space(2);
 	@include s-transition(.1s);
 	@include s-vertical-rhythme((
 		s-font : 20px,
@@ -429,7 +429,7 @@ figure {
 	margin-bottom: 1rem;
 
 	img {
-		@include s-size(cover);
+		@include s-space(cover);
 		width:100%;
 	}
 }
@@ -455,7 +455,7 @@ figure {
 
 	.list__item {
 
-		a {
+		> a {
 			display: inline-block;
 			padding:15px;
 
@@ -526,7 +526,8 @@ figure {
 //
 // Dropdown
 //
-@include s-dropdown();
+@include s-dropdown(-sizes smaller default bigger);
+@include s-dropup();
 
 //
 // typeset
@@ -550,7 +551,7 @@ strong {
 	background: s-color(orange);
 	color: white;
 	@include s-position(bottom right fixed);
-	padding:s-size(smaller);
+	padding:s-space(smaller);
 	z-index:5;
 }
 
@@ -560,11 +561,11 @@ strong {
 //
 .bubble {
 	position:relative;
-	padding:s-size(medium);
+	padding:s-space(medium);
 	color:white;
 	width:100%;
 	@include s-font(22px center);
-	margin-bottom: s-size(small);
+	margin-bottom: s-space(small);
 	@include s-corner(s-rem(5px));
 
 	&:hover {

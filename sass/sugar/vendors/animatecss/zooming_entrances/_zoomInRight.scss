@@ -1,4 +1,4 @@
-@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, zoomInRight) { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, zoomInRight); @keyframes zoomInRight {
+@if index(sugar("settings.animate-css.animations"), zoomInRight) {@keyframes zoomInRight {
   from {
     opacity: 0;
     transform: scale3d(.1, .1, .1) translate3d(1000px, 0, 0);
