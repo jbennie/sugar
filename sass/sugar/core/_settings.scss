@@ -6,7 +6,7 @@ $sugar-animatecss : () !default; 					// store all the icons wanted from animate
 $_sugar-settings : (								// store all the settings
 	reset 						: true, 			// by default, a reset will be applied
 	border-box 					: true, 			// set if need to set all as border box model
-	sizes 						: (					// store all the ratios between sizes
+	ratios 						: (					// store all the ratios between sizes
 		smaller 					: 1/4,
 		small 						: 1/2,
 		default 					: 1,

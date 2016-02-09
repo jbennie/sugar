@@ -187,10 +187,6 @@
 
 	// colors
 	$colors : sugar('settings.colors');
-	$classes-color : sugar('settings.colors.classes.color');
-	$classes-color-mod : sugar('settings.colors.classes.color-modifier');
-	$classes-bkg : sugar('settings.colors.classes.bkg');
-	$classes-bkg-mod : sugar('settings.colors.classes.bkg-modifier');
 	@each $name, $color in $colors {
 		@if $name != classes {
 			$modifiers : ();
