@@ -198,14 +198,14 @@
 				$modifiers : map-get($color, modifiers);
 				$color : map-get($color, color);
 			}	
-			$cls : str-replace($classes-color, '{color}', "#{$name}");
+			$cls : str-replace($classes-color, '{color}', $name);
 			@include s-register-class(
 				-name $cls
 				-namespace 'helper.color.#{$name}.color'
 			) {
 				color : $color;
 			}
-			$cls : str-replace($classes-bkg, '{color}', "#{$name}");
+			$cls : str-replace($classes-bkg, '{color}', $name);
 			@include s-register-class(
 				-name $cls
 				-namespace 'helper.color.#{$name}.bkg'
@@ -216,7 +216,7 @@
 			// modifiers
 			@if $modifiers {
 				@each $mod-name, $mod in $modifiers {
-					$cls : str-replace($classes-color-mod, '{color}', "#{$name}");
+					$cls : str-replace($classes-color-mod, '{color}', $name);
 					$cls : str-replace($cls, '{modifier}', $mod-name);
 					@include s-register-class(
 						-name $cls
@@ -224,7 +224,7 @@
 					) {
 						color : s-color($name, $mod-name);
 					}
-					$cls : str-replace($classes-bkg-mod, '{color}', "#{$name}");
+					$cls : str-replace($classes-bkg-mod, '{color}', $name);
 					$cls : str-replace($cls, '{modifier}', $mod-name);
 					@include s-register-class(
 						-name $cls
