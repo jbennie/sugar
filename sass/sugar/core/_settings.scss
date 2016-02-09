@@ -43,36 +43,30 @@ $_sugar-settings : (								// store all the settings
 	colors 						: (					// store all the colors
 		default 					: (
 			color 						: #333
-		),
+									),
 		text 						: (
 			color 						: default
-		),
+									),
 		link 						: (
 			color 						: primary
-		),
+									),
 		primary 					: (
 			color 						: #f2bc2b
-		),
+									),
 		secondary 					: (
 			color 						: #777
-		),
+									),
 		success 					: (
 			color 						: #5cb85c
-		),
+									),
 		warning 					: (
 			color 						: #f0ad4e
-		),
+									),
 		error 						: (
 			color 						: #d9534f
-		),
+									),
 		info 						: (
 			color 						: #2199e8
-		),
-		classes 					: (
-			color 						: 'c-{color}',
-			color-modifier 				: 'c-{color}--{modifier}',
-			bkg 						: 'bkg-{color}',
-			bkg-modifier 				: 'bkg-{color}--{modifier}'
 									)
 								), 							
 	vertical-rhythme 			: ( 				// Vertical rhythme options
