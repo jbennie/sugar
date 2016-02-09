@@ -5812,9 +5812,9 @@ a.badge:hover, a.badge:focus {
 }
 
 .jumbotron {
-  padding-top: 1.5;
-  padding-bottom: 1.5;
-  margin-bottom: 1.5;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  margin-bottom: 3rem;
   color: inherit;
   background-color: rgba(129, 149, 161, 0.1);
 }
@@ -5823,7 +5823,7 @@ a.badge:hover, a.badge:focus {
   color: #5b6f7a;
 }
 .jumbotron p {
-  margin-bottom: 0.75;
+  margin-bottom: 1.5rem;
   font-size: 20px;
   font-weight: 200;
 }
@@ -5840,12 +5840,12 @@ a.badge:hover, a.badge:focus {
 }
 @media screen and (min-width: 768px) {
   .jumbotron {
-    padding-top: 2.4;
-    padding-bottom: 2.4;
+    padding-top: 4.8rem;
+    padding-bottom: 4.8rem;
   }
   .container .jumbotron, .container-fluid .jumbotron {
-    padding-left: 3;
-    padding-right: 3;
+    padding-left: 6rem;
+    padding-right: 6rem;
   }
   .jumbotron h1,
   .jumbotron .h1 {

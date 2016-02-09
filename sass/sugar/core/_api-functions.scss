@@ -316,7 +316,7 @@ $_sugar-settings-cache : ();
 	$size,
 	$sizes : null
 ) {
-	$sizes : sugar('settings.sizes');
+	$_sizes : sugar('settings.sizes');
 	$default-size : map-get($sizes, default);
 	
 	// protect
@@ -328,7 +328,7 @@ $_sugar-settings-cache : ();
 	}
 	@if $sizes {
 		$s : map-get($sizes, $size);
-		@if $s and s-is($s, number) and unit($s) {
+		@if $s and s-is($s, number) and not unitless($s) {
 			@return $s;
 		}
 		@if s-is($s, number) and unitless($s) {
@@ -336,9 +336,9 @@ $_sugar-settings-cache : ();
 		}
 		@if not $s and type-of($size) == string {
 			// protect
-			$size : map-get($sizes, $size);
+			$size : map-get($_sizes, $size);
 			@if not $size or not unitless($size) {
-				@error("You need to specify a valid ratio for ratio.#{$size} un your settings...");
+				@error("You need to specify a valid ratio for sizes.#{$size} un your settings...");
 			}
 			@return $default-size * $size;
 		}

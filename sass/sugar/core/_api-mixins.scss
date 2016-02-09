@@ -118,7 +118,7 @@
 		}
 	}
 
-	$spaces : sugar('settings.spaces');
+	$spaces : sugar('settings.sizes');
 	@each $name, $space in $spaces {
 		@include s-register-class(
 			-name 'm-b-#{$name}'

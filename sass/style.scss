@@ -390,7 +390,7 @@ pre > code {
 	background: s-color(orange);
 	color: white;
 	text-decoration: none;
-	padding: 0 s-space(2);
+	padding: 0 s-space(smaller);
 	@include s-transition(.1s);
 	@include s-vertical-rhythme((
 		s-font : 20px,
