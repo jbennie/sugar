@@ -290,22 +290,22 @@ $_sugar-settings-cache : ();
 //
 @function s-size(
 	$value,
-	$ratio
+	$size
 ) {
-	$ratios : sugar('settings.ratios');
+	$sizes : sugar('settings.sizes');
 	// protect
 	@if not s-is($value, number) {
 		@error("Your value need to be a number for the s-size function...");
 	}
-	@if not s-is($ratio, string) {
-		@error("Your ratio parameter need to be a string for the s-size function... You just passed #{$ratio}");
+	@if not s-is($size, string) {
+		@error("Your ratio parameter need to be a string for the s-size function... You just passed #{$size}");
 	}
-	@if not map-get($ratios, $ratio) {
-		@error("Your passed ratio #{$ratio} does not existin in ratios.#{$ratio}...");
+	@if not map-get($sizes, $size) {
+		@error("Your passed size #{$size} does not existin in sizes.#{$size}...");
 	}
 
 	// process calculation
-	@return $value * map-get($ratios, $ratio);
+	@return $value * map-get($sizes, $size);
 }
 
 
@@ -316,7 +316,7 @@ $_sugar-settings-cache : ();
 	$size,
 	$sizes : null
 ) {
-	$ratios : sugar('settings.ratios');
+	$sizes : sugar('settings.sizes');
 	$default-size : map-get($sizes, default);
 	
 	// protect
@@ -336,15 +336,15 @@ $_sugar-settings-cache : ();
 		}
 		@if not $s and type-of($size) == string {
 			// protect
-			$ratio : map-get($ratios, $size);
-			@if not $ratio or not unitless($ratio) {
+			$size : map-get($sizes, $size);
+			@if not $size or not unitless($size) {
 				@error("You need to specify a valid ratio for ratio.#{$size} un your settings...");
 			}
-			@return $default-size * $ratio;
+			@return $default-size * $size;
 		}
 	} @else {
-		$ratio : map-get($ratios, $size);
-		@if not $ratio or not unitless($ratio) {
+		$size : map-get($sizes, $size);
+		@if not $size or not unitless($size) {
 			@error("You need to specify a valid ratio for ratio.#{$size} un your settings...");
 		}
 	}
@@ -371,7 +371,7 @@ $_sugar-settings-cache : ();
 //
 @function s-look-and-feel(
 	$name,
-	$ratio : default
+	$size : default
 ) {
 	// protect 
 	@if not s-is($name, string) {
@@ -382,7 +382,7 @@ $_sugar-settings-cache : ();
 	$value : null;
 
 	// get values
-	$lnf : sugar('settings.look-and-feel.#{$ratio}');
+	$lnf : sugar('settings.look-and-feel.#{$size}');
 	
 	// get the actual value
 	@if $lnf {
@@ -395,15 +395,15 @@ $_sugar-settings-cache : ();
 	}
 
 	// if we don't have any value and the size is default
-	@if $ratio == default {
+	@if $size == default {
 		@error("The look and feel value #{$name} does not exist...");
 	}
 
 	// check if we can interpolate the value
 	$default : sugar('settings.look-and-feel.default.#{$name}');
-	$_ratio : sugar('settings.ratios.#{$ratio}');
+	$_ratio : sugar('settings.sizes.#{$size}');
 	@if not $default or not $_ratio {
-		@error("It's not possible to interpolate your look and feel #{$name} value cause you miss either the look-and-feel.default.#{$name} setting, or the ratios.#{$ratio} one...");
+		@error("It's not possible to interpolate your look and feel #{$name} value cause you miss either the look-and-feel.default.#{$name} setting, or the ratios.#{$size} one...");
 	}
 
 	// protect against string interpolation etc...
@@ -412,7 +412,7 @@ $_sugar-settings-cache : ();
 	}
 
 	// interpolate
-	@return s-size($default, $ratio);
+	@return s-size($default, $size);
 
 }
 

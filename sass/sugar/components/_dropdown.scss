@@ -82,7 +82,7 @@ $_s-dropdown-inited : false;
 	
 	// parse properties
 	$props : s-parse-properties($props, (
-		sizes : map-keys(sugar('settings.ratios'))
+		sizes : map-keys(sugar('settings.sizes'))
 	));
 
 	// get variables
@@ -130,7 +130,7 @@ $_s-dropdown-inited : false;
 	
 	// parse properties
 	$props : s-parse-properties($props, (
-		sizes : map-keys(sugar('settings.ratios'))
+		sizes : map-keys(sugar('settings.sizes'))
 	));
 
 	// get variables
