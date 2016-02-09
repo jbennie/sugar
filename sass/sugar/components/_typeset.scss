@@ -414,9 +414,8 @@
 	.#{$typeset} ins:not(.no-#{$typeset}) {
 		text-decoration: underline;
 	}
-	.b, .i,
-	.#{$typeset} b:not(.no-#{$typeset}),
-	.#{$typeset} i:not(.no-#{$typeset}) {
+	.b,
+	.#{$typeset} b:not(.no-#{$typeset}) {
 		font-style: italic;
 	}
 	.abbr,

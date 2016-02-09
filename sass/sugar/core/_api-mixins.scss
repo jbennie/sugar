@@ -44,7 +44,7 @@
 		$new-settings : map-extend($settings, map-get($_sugar-settings, $name));
 		$_sugar-settings : map-set($_sugar-settings, $name, $new-settings) !global;
 	} @else {
-		$_sugar-settings : map-set($_sugar-settings, $name, $settings) !global;
+		$_sugar-settings : map-set($_sugar-settings, $name, map-get($settings, $name)) !global;
 	}
 }
 
@@ -118,6 +118,7 @@
 		}
 	}
 
+	$vertical-rhythme-scope : sugar('settings.vertical-rhythme.scope-class');
 	$spaces : sugar('settings.sizes');
 	@each $name, $space in $spaces {
 		@include s-register-class(
@@ -125,12 +126,20 @@
 			-namespace 'helper.margin.bottom.#{$name}'
 		) {
 			margin-bottom : s-space($name);
+			.#{$vertical-rhythme-scope} &:not(.not-#{$vertical-rhythme-scope}),
+			&.#{$vertical-rhythme-scope}:not(.not-#{$vertical-rhythme-scope}) {
+				margin-bottom : round(s-space($name));
+			}
 		}
 		@include s-register-class(
 			-name 'm-t-#{$name}'
 			-namespace 'helper.margin.top.#{$name}'
 		) {
 			margin-top : s-space($name);
+			.#{$vertical-rhythme-scope} &:not(.not-#{$vertical-rhythme-scope}),
+			&.#{$vertical-rhythme-scope}:not(.not-#{$vertical-rhythme-scope}) {
+				margin-top : round(s-space($name));
+			}
 		}
 		@include s-register-class(
 			-name 'm-l-#{$name}'
@@ -157,12 +166,20 @@
 			-namespace 'helper.padding.bottom.#{$name}'
 		) {
 			padding-bottom : s-space($name);
+			.#{$vertical-rhythme-scope} &:not(.not-#{$vertical-rhythme-scope}),
+			&.#{$vertical-rhythme-scope}:not(.not-#{$vertical-rhythme-scope}) {
+				padding-bottom : round(s-space($name));
+			}
 		}
 		@include s-register-class(
 			-name 'p-t-#{$name}'
 			-namespace 'helper.padding.top.#{$name}'
 		) {
 			padding-top : s-space($name);
+			.#{$vertical-rhythme-scope} &:not(.not-#{$vertical-rhythme-scope}),
+			&.#{$vertical-rhythme-scope}:not(.not-#{$vertical-rhythme-scope}) {
+				padding-top : round(s-space($name));
+			}
 		}
 		@include s-register-class(
 			-name 'p-l-#{$name}'

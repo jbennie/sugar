@@ -1,0 +1,159 @@
+@include s-component-setup((
+	button : (
+		colors : default primary secondary success warning error info,
+		sizes : default
+	)
+));
+
+$_s-button-inited : false;
+@mixin s-button-init() {
+	@if not $_s-button-inited {
+		$_s-button-inited : true !global;
+		%s-button-bare {
+			display: inline-block;
+			border: none;
+			cursor: pointer;
+			outline-width:0;
+			@include s-font(sugar('settings.typo.font-family') center);
+			-webkit-appearance: none;
+			line-height: 1;
+			text-decoration: none;
+		}
+	}
+}
+
+@mixin s-button(
+	$props : ()
+) {
+	// init dropdown
+	@include s-button-init();
+	
+	// parse properties
+	$props : s-parse-properties($props, (
+		sizes : map-keys(sugar('settings.sizes')),
+		colors : list-color
+	));
+
+	// get variables
+	$sizes : map-get-or($props, sizes, sugar('settings.button.sizes'));
+	$colors : map-get-or($props, colors, sugar('settings.button.colors'));
+
+	$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
+	
+	// base
+	.btn {
+		@extend %s-button-bare;
+	}
+
+	// generate each sizes
+	@each $size in $sizes {
+		// extend dropdown
+		$sel : '.btn';
+		@if $size != default {
+			$sel : '.btn.btn--#{$size}';
+		}
+		#{$sel} {
+			font-size : s-look-and-feel(font-size, $size);
+			border-radius: s-look-and-feel(border-radius, $size);
+			padding : s-look-and-feel(padding-vertical, $size) s-look-and-feel(padding-horizontal, $size);
+		
+			@include s-vertical-rhythme((
+				s-font : s-look-and-feel(font-size, $size),
+				padding-top : s-look-and-feel(padding-vertical, $size),
+				padding-bottom : s-look-and-feel(padding-vertical, $size),
+				margin-bottom : 0,
+				border-bottom-width: s-rem(1px),
+				border-top-width : s-rem(1px)
+			));
+		}
+	}
+	// generate each colors
+	@each $color in $colors {
+		// extend dropdown
+		$sel : '.btn';
+		@if $color != default {
+			$sel : '.btn.btn--#{$color}';
+		}
+		#{$sel} {
+			background-color: s-color($color);
+			border: s-rem(1px) solid s-color($color);
+			@if lightness(s-color($color)) > 70 {
+				color : s-color($color, -darken 30%);
+			} @else {
+				color : white;
+			}
+			&:hover,
+			&.active {
+				background-color : s-color($color, -darken 15%);
+				border-color: s-color($color, -darken 15%);
+			}
+			:checked + & {
+				background-color : s-color($color, -darken 25%);
+				border-color: s-color($color, -darken 25%);
+			}
+
+			// outline
+			&.btn--outline {
+				color: s-color($color);
+
+				&:hover {
+					background-color: s-color($color);
+					border-color: s-color($color);
+					@if lightness(s-color($color)) > 70 {
+						color : s-color($color, -darken 30%);
+					} @else {
+						color : white;
+					}
+				}
+			}
+		}
+	}
+	// link button
+	.btn.btn--link {
+		background: transparent !important;
+		color: s-color(link) !important;
+		border: none !important;
+	}
+	// outline
+	.btn.btn--outline {
+		background-color: transparent;
+	}
+	// disabled
+	.btn[disabled],
+	.btn.btn--disabled {
+		pointer-events: none;
+		opacity: 0.65;
+		cursor: not-allowed !important;
+	}
+	// block
+	.btn.btn--block {
+		display: block;
+		width: 100%;
+	}
+
+	// button group
+	.btn-group {
+		@include s-clearfix();
+
+		> input[type="checkbox"],
+		> input[type="radio"] {
+			display: none;
+		}		
+
+		.btn {
+			float: left;
+
+			&:not(:first-of-type):not(:last-of-type) {
+				border-radius: 0;
+			}
+			&:first-of-type {
+				border-top-right-radius:0;
+				border-bottom-right-radius:0;
+			}
+			&:last-of-type {
+				border-top-left-radius:0;
+				border-bottom-left-radius:0;
+			}
+		}
+	}
+}

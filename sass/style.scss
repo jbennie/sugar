@@ -128,7 +128,7 @@ body {
 	cursor: pointer;
 }
 .section {
-	padding: s-space(bigger) 0;
+	padding: round(s-space(bigger)) 0;
 	background: white;
 }
 .avatar {
@@ -382,33 +382,6 @@ pre > code {
 	}
 }
 
-//
-// Buttons
-//
-.btn {
-	display: inline-block;
-	background: s-color(orange);
-	color: white;
-	text-decoration: none;
-	padding: 0 s-space(smaller);
-	@include s-transition(.1s);
-	@include s-vertical-rhythme((
-		s-font : 20px,
-		padding-top : 1,
-		padding-bottom : 1,
-		margin-bottom : 2
-	));
-	&:hover {
-		background: s-color(orange, -darken 10%);
-	}
-}
-.btn--block {
-	display: block;
-}
-.btn--orange--dark {
-	background-color: s-color(orange, dark);
-}
-
 // .hey {
 // 	@include s-hey(top right 20px s-color(orange, dark) -margin-top -7px -margin-left 7px);
 // }
@@ -538,6 +511,13 @@ figure {
 @include s-typeset-lists();
 @include s-typeset-blocks();
 @include s-typeset-tables(-sizes smaller small medium big bigger);
+
+//
+// Button
+//
+@include s-button(
+	-sizes smaller small default medium big bigger
+);
 
 a {
 	@include s-font(s-color(orange) -td none);

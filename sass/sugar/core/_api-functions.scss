@@ -66,6 +66,10 @@ $_sugar-settings-cache : ();
 	$value : $_sugar-settings;
 	@each $part in $parts {
 		$idx : $idx + 1;
+		// protect
+		@if not s-is($value, map) {
+			@error("Something went wrong when retreiving the '#{$path}' setting...");
+		}
 		$value : map-get($value, $part);
 		@if $idx == $length {
 			$_sugar-settings-cache : map-set($_sugar-settings-cache, $path, $value) !global;
