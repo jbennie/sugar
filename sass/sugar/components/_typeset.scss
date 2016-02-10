@@ -567,7 +567,8 @@
 			border-bottom : solid s-color(text, -opacity .2) 1px,
 			padding-top : ceil(s-look-and-feel(padding-vertical)),
 			padding-bottom : ceil(s-look-and-feel(padding-vertical)),
-			margin-bottom: 0
+			margin-bottom : 0,
+			margin-top : 0
 		);
 		th,
 		td {
@@ -605,17 +606,18 @@
 		.table.table-#{$size} {
 			$args : (
 				s-font : sugar('settings.typo.font-size'),
-				border-bottom : solid s-color(text, -opacity .2) 1px,
+				border-bottom : solid s-color(text, -opacity .2) s-rem(1px),
 				padding-top : ceil(s-look-and-feel(padding-vertical, $size)),
 				padding-bottom : ceil(s-look-and-feel(padding-vertical, $size)),
-				margin-bottom: 0
+				margin-bottom : 0,
+				margin-top : 0
 			);
 			th,
 			td {
 				@include s-vertical-rhythme($args);
 			}
 			th {
-				$args : map-set($args, border-bottom, solid s-color(text, -opacity .2) 2px);
+				$args : map-set($args, border-bottom, solid s-color(text, -opacity .2) s-rem(2px));
 				@include s-vertical-rhythme($args);
 				
 			}

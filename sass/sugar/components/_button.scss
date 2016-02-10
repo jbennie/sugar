@@ -39,7 +39,8 @@ $_s-button-inited : false;
 	$colors : map-get-or($props, colors, sugar('settings.button.colors'));
 
 	$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
-	
+	$typeset : sugar('settings.typeset.scope-class');
+
 	// base
 	.btn {
 		@extend %s-button-bare;
@@ -59,9 +60,11 @@ $_s-button-inited : false;
 		
 			@include s-vertical-rhythme((
 				s-font : s-look-and-feel(font-size, $size),
+				line-height: s-look-and-feel(font-size, $size),
 				padding-top : s-look-and-feel(padding-vertical, $size),
 				padding-bottom : s-look-and-feel(padding-vertical, $size),
-				margin-bottom : 0,
+				margin-bottom : 1,
+				margin-top : 0,
 				border-bottom-width: s-rem(1px),
 				border-top-width : s-rem(1px)
 			));

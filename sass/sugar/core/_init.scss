@@ -17,10 +17,11 @@ $_sugar-inited : false;
 
 		// border box
 		@if sugar('settings.border-box') == true {
-			* {
-				-webkit-box-sizing: border-box;
-				-moz-box-sizing: border-box;
+			html {
 				box-sizing: border-box;
+			}
+			*, *:before, *:after {
+				box-sizing: inherit;
 			}
 		}
 

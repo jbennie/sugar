@@ -461,8 +461,12 @@ table {
   border-spacing: 0;
 }
 
-* {
+html {
   box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
 }
 
 [data-gooey] {
@@ -734,7 +738,7 @@ pre[class*="language-"] {
 pre[class*="language-"] {
   padding-top: 2rem;
   padding-bottom: 2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   font-size: 1.07692308rem;
   line-height: 2rem;
 }
@@ -1365,11 +1369,11 @@ pre > code {
 }
 .vertical-rhythme [data-toggle-rhythme], .vertical-rhythme
 [data-toggle-baseline] {
-  padding-top: 0;
-  margin-bottom: 0;
-  padding-bottom: 0;
   font-size: 1.07692308rem;
   line-height: 2rem;
+  padding-top: 0.65001rem;
+  padding-bottom: 0rem;
+  margin-bottom: 0.34999rem;
 }
 [data-toggle-rhythme]:hover i, [data-toggle-rhythme].active i,
 [data-toggle-baseline]:hover i,
@@ -1569,57 +1573,57 @@ pre > code {
 .slide-0 [data-slidizle-content] {
   -webkit-transform: translateX(0px) translateY(0) translateZ(0);
           transform: translateX(0px) translateY(0) translateZ(0);
-  outline-color: #6e94c5;
+  outline-color: #034333;
 }
 .slide-1 [data-slidizle-content] {
   -webkit-transform: translateX(-640px) translateY(0) translateZ(0);
           transform: translateX(-640px) translateY(0) translateZ(0);
-  outline-color: #ba5d6c;
+  outline-color: #6102c5;
 }
 .slide-2 [data-slidizle-content] {
   -webkit-transform: translateX(-1280px) translateY(0) translateZ(0);
           transform: translateX(-1280px) translateY(0) translateZ(0);
-  outline-color: #34819e;
+  outline-color: #e21468;
 }
 .slide-3 [data-slidizle-content] {
   -webkit-transform: translateX(-1920px) translateY(0) translateZ(0);
           transform: translateX(-1920px) translateY(0) translateZ(0);
-  outline-color: #06bb5e;
+  outline-color: #70720e;
 }
 .slide-4 [data-slidizle-content] {
   -webkit-transform: translateX(-2560px) translateY(0) translateZ(0);
           transform: translateX(-2560px) translateY(0) translateZ(0);
-  outline-color: #abe503;
+  outline-color: #b5cf71;
 }
 .slide-5 [data-slidizle-content] {
   -webkit-transform: translateX(-3200px) translateY(0) translateZ(0);
           transform: translateX(-3200px) translateY(0) translateZ(0);
-  outline-color: #44130b;
+  outline-color: #42fb2d;
 }
 .slide-6 [data-slidizle-content] {
   -webkit-transform: translateX(-3840px) translateY(0) translateZ(0);
           transform: translateX(-3840px) translateY(0) translateZ(0);
-  outline-color: #0689a6;
+  outline-color: #fcf7b1;
 }
 .slide-7 [data-slidizle-content] {
   -webkit-transform: translateX(-4480px) translateY(0) translateZ(0);
           transform: translateX(-4480px) translateY(0) translateZ(0);
-  outline-color: #e46638;
+  outline-color: #fe7672;
 }
 .slide-8 [data-slidizle-content] {
   -webkit-transform: translateX(-5120px) translateY(0) translateZ(0);
           transform: translateX(-5120px) translateY(0) translateZ(0);
-  outline-color: #2b079e;
+  outline-color: #12d4f4;
 }
 .slide-9 [data-slidizle-content] {
   -webkit-transform: translateX(-5760px) translateY(0) translateZ(0);
           transform: translateX(-5760px) translateY(0) translateZ(0);
-  outline-color: #d287d9;
+  outline-color: #8a0e2d;
 }
 .slide-10 [data-slidizle-content] {
   -webkit-transform: translateX(-6400px) translateY(0) translateZ(0);
           transform: translateX(-6400px) translateY(0) translateZ(0);
-  outline-color: #b60113;
+  outline-color: #aa3a1d;
 }
 
 [data-slidizle-item] {
@@ -1932,11 +1936,11 @@ h1 {
 }
 .vertical-rhythme .h1, .vertical-rhythme
 h1 {
-  margin-bottom: 2rem;
-  padding-top: 0;
-  padding-bottom: 0;
+  margin-bottom: 1.87671212rem;
   font-size: 4.23606807rem;
   line-height: 5rem;
+  padding-top: 0.12328788rem;
+  padding-bottom: 0rem;
 }
 
 .typeset .h1,
@@ -1951,11 +1955,11 @@ h2 {
 }
 .vertical-rhythme .h2, .vertical-rhythme
 h2 {
-  margin-bottom: 2rem;
-  padding-top: 0;
-  padding-bottom: 0;
+  margin-bottom: 2.08230199rem;
   font-size: 3.33019073rem;
   line-height: 4rem;
+  padding-top: 0.91769801rem;
+  padding-bottom: 0rem;
 }
 
 .typeset .h2,
@@ -1970,11 +1974,11 @@ h3 {
 }
 .vertical-rhythme .h3, .vertical-rhythme
 h3 {
-  margin-bottom: 2rem;
-  padding-top: 0;
-  padding-bottom: 0;
+  margin-bottom: 2.35085106rem;
   font-size: 2.61803403rem;
   line-height: 3rem;
+  padding-top: 0.64914894rem;
+  padding-bottom: 0rem;
 }
 
 .typeset .h3,
@@ -1989,11 +1993,11 @@ h4 {
 }
 .vertical-rhythme .h4, .vertical-rhythme
 h4 {
-  margin-bottom: 2rem;
-  padding-top: 0;
-  padding-bottom: 0;
+  margin-bottom: 2.16889559rem;
   font-size: 2.05817105rem;
   line-height: 3rem;
+  padding-top: 0.83110441rem;
+  padding-bottom: 0rem;
 }
 
 .typeset .h4,
@@ -2007,11 +2011,11 @@ h5 {
 }
 .vertical-rhythme .h5, .vertical-rhythme
 h5 {
-  margin-bottom: 2rem;
-  padding-top: 0;
-  padding-bottom: 0;
+  margin-bottom: 1.52585105rem;
   font-size: 1.618034rem;
   line-height: 2rem;
+  padding-top: 0.47414895rem;
+  padding-bottom: 0rem;
 }
 
 .typeset .h5,
@@ -2025,11 +2029,11 @@ h6 {
 }
 .vertical-rhythme .h6, .vertical-rhythme
 h6 {
-  margin-bottom: 2rem;
-  padding-top: 0;
-  padding-bottom: 0;
+  margin-bottom: 2.41339639rem;
   font-size: 1.27201965rem;
   line-height: 2rem;
+  padding-top: 0.58660361rem;
+  padding-bottom: 0rem;
 }
 
 .typeset .h6,
@@ -2043,11 +2047,11 @@ p:not(.no-vertical-rhythme),
 }
 .vertical-rhythme p:not(.no-vertical-rhythme), .vertical-rhythme
 .p {
-  margin-bottom: 2rem;
-  padding-top: 0;
-  padding-bottom: 0;
+  margin-bottom: 2.41339639rem;
   font-size: 1.27201965rem;
   line-height: 2rem;
+  padding-top: 0.58660361rem;
+  padding-bottom: 0rem;
 }
 
 p.lead:not(.no-vertical-rhythme),
@@ -2056,11 +2060,11 @@ p.lead:not(.no-vertical-rhythme),
 }
 .vertical-rhythme p.lead:not(.no-vertical-rhythme), .vertical-rhythme
 .p-lead {
-  margin-bottom: 2rem;
-  padding-top: 0;
-  padding-bottom: 0;
+  margin-bottom: 1.52585105rem;
   font-size: 1.618034rem;
   line-height: 2rem;
+  padding-top: 0.47414895rem;
+  padding-bottom: 0rem;
 }
 
 .small,
@@ -2139,12 +2143,12 @@ hr:not(.no-vertical-rhythme) {
 }
 .vertical-rhythme .hr, .vertical-rhythme
 hr:not(.no-vertical-rhythme) {
-  margin-bottom: 4.84615385rem;
+  margin-bottom: NaNrem;
   border-bottom: 1px solid rgba(129, 149, 161, 0.3);
-  padding-top: 0;
-  padding-bottom: 0;
   font-size: 0rem;
   line-height: 0rem;
+  padding-top: NaNrem;
+  padding-bottom: 0.92307692rem;
   position: relative;
   top: 2rem;
 }
@@ -2199,17 +2203,17 @@ hr:not(.no-vertical-rhythme) {
 
 .vertical-rhythme .ul, .vertical-rhythme
 ul:not(.no-vertical-rhythme) {
-  margin-bottom: 1rem;
+  margin-bottom: 1.41339639rem;
 }
 .vertical-rhythme .ul > li, .vertical-rhythme
 .ul > .li, .vertical-rhythme
 ul:not(.no-vertical-rhythme) > li, .vertical-rhythme
 ul:not(.no-vertical-rhythme) > .li {
   font-size: 1.27201965rem;
-  margin-bottom: 0;
-  padding-top: 0;
-  padding-bottom: 0;
+  margin-bottom: 0.41339639rem;
   line-height: 2rem;
+  padding-top: 0.58660361rem;
+  padding-bottom: 0rem;
 }
 .ul > li > ul, .ul > li > .ul,
 .ul > li > ol, .ul > li > .ol,
@@ -2232,7 +2236,7 @@ ul:not(.no-vertical-rhythme) > .li > ol,
 ul:not(.no-vertical-rhythme) > .li > .ol,
 ul:not(.no-vertical-rhythme) > .li > dl,
 ul:not(.no-vertical-rhythme) > .li > .dl {
-  margin-top: 0;
+  margin-top: 0.41339639rem;
 }
 
 .ol,
@@ -2285,17 +2289,17 @@ ul:not(.no-vertical-rhythme) > .li > .dl {
 
 .ol,
 ol:not(.no-vertical-rhythme) {
-  margin-bottom: 1rem;
+  margin-bottom: 1.41339639rem;
 }
 .vertical-rhythme .ol > li, .vertical-rhythme
 .ol > .li, .vertical-rhythme
 ol:not(.no-vertical-rhythme) > li, .vertical-rhythme
 ol:not(.no-vertical-rhythme) > .li {
   font-size: 1.27201965rem;
-  margin-bottom: 0;
-  padding-top: 0;
-  padding-bottom: 0;
+  margin-bottom: 0.41339639rem;
   line-height: 2rem;
+  padding-top: 0.58660361rem;
+  padding-bottom: 0rem;
 }
 .ol > li > ul, .ol > li > .ul,
 .ol > li > ol, .ol > li > .ol,
@@ -2318,7 +2322,7 @@ ol:not(.no-vertical-rhythme) > .li > ol,
 ol:not(.no-vertical-rhythme) > .li > .ol,
 ol:not(.no-vertical-rhythme) > .li > dl,
 ol:not(.no-vertical-rhythme) > .li > .dl {
-  margin-top: 0;
+  margin-top: 0.41339639rem;
 }
 
 .dl,
@@ -2414,7 +2418,7 @@ ol:not(.no-vertical-rhythme) > .li > .dl {
 
 .dl,
 dl:not(.no-vertical-rhythme) {
-  margin-bottom: 2rem;
+  margin-bottom: 2.41339639rem;
 }
 .dl > dt, .dl > .dt,
 dl:not(.no-vertical-rhythme) > dt,
@@ -2425,19 +2429,19 @@ dl:not(.no-vertical-rhythme) > .dt {
 dl:not(.no-vertical-rhythme) > dt, .vertical-rhythme
 dl:not(.no-vertical-rhythme) > .dt {
   font-size: 1.27201965rem;
-  margin-bottom: 0;
-  padding-top: 0;
-  padding-bottom: 0;
+  margin-bottom: 0.41339639rem;
   line-height: 2rem;
+  padding-top: 0.58660361rem;
+  padding-bottom: 0rem;
 }
 .vertical-rhythme .dl > dd, .vertical-rhythme .dl > .dd, .vertical-rhythme
 dl:not(.no-vertical-rhythme) > dd, .vertical-rhythme
 dl:not(.no-vertical-rhythme) > .dd {
   font-size: 1.27201965rem;
-  margin-bottom: 1rem;
-  padding-top: 0;
-  padding-bottom: 0;
+  margin-bottom: 1.41339639rem;
   line-height: 2rem;
+  padding-top: 0.58660361rem;
+  padding-bottom: 0rem;
 }
 
 .blockquote,
@@ -2466,7 +2470,7 @@ blockquote:not(.no-vertical-rhythme) {
 blockquote:not(.no-vertical-rhythme) {
   padding-top: 2rem;
   padding-bottom: 2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   font-size: 1.53846154rem;
   line-height: 2rem;
 }
@@ -2478,11 +2482,11 @@ blockquote:not(.no-vertical-rhythme) p {
 .vertical-rhythme .blockquote .p, .vertical-rhythme .blockquote p, .vertical-rhythme
 blockquote:not(.no-vertical-rhythme) .p, .vertical-rhythme
 blockquote:not(.no-vertical-rhythme) p {
-  margin-bottom: 2rem;
-  padding-top: 0;
-  padding-bottom: 0;
+  margin-bottom: 2.49999rem;
   font-size: 1.53846154rem;
   line-height: 2rem;
+  padding-top: 0.50001rem;
+  padding-bottom: 0rem;
 }
 .blockquote footer,
 blockquote:not(.no-vertical-rhythme) footer {
@@ -2505,7 +2509,7 @@ pre:not(.no-vertical-rhythme) {
 pre:not(.no-vertical-rhythme) {
   padding-top: 2rem;
   padding-bottom: 2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   font-size: 1.23076923rem;
   line-height: 2rem;
 }
@@ -2527,7 +2531,7 @@ address:not(.no-vertical-rhythme) {
 address:not(.no-vertical-rhythme) {
   padding-top: 2rem;
   padding-bottom: 2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   font-size: 1rem;
   line-height: 2rem;
 }
@@ -2655,7 +2659,8 @@ table:not(.no-vertical-rhythme) td, .vertical-rhythme
   border-bottom: solid rgba(129, 149, 161, 0.2) 1px;
   padding-top: 1rem;
   padding-bottom: 0.92307692rem;
-  margin-bottom: 0;
+  margin-bottom: 1rem;
+  margin-top: 0;
   font-size: 1rem;
   line-height: 1rem;
 }
@@ -2668,7 +2673,8 @@ table:not(.no-vertical-rhythme) th,
   border-bottom: solid rgba(129, 149, 161, 0.2) 2px;
   padding-top: 1rem;
   padding-bottom: 0.84615385rem;
-  margin-bottom: 0;
+  margin-bottom: 1rem;
+  margin-top: 0;
   font-size: 1rem;
   line-height: 1rem;
 }
@@ -2678,11 +2684,11 @@ table:not(.no-vertical-rhythme) caption,
 }
 .vertical-rhythme table:not(.no-vertical-rhythme) caption, .vertical-rhythme
 .table caption {
-  margin-bottom: 1rem;
-  padding-top: 0;
-  padding-bottom: 0;
+  margin-bottom: 0.82499rem;
   font-size: 1rem;
   line-height: 1rem;
+  padding-top: 0.17501rem;
+  padding-bottom: 0rem;
 }
 
 .typeset table:not(.no-typeset).table--smaller th,
@@ -2715,10 +2721,11 @@ table:not(.no-vertical-rhythme).table-smaller td, .vertical-rhythme
 .table.table--smaller td, .vertical-rhythme
 .table.table-smaller th, .vertical-rhythme
 .table.table-smaller td {
-  border-bottom: solid rgba(129, 149, 161, 0.2) 1px;
+  border-bottom: solid rgba(129, 149, 161, 0.2) 0.07692308rem;
   padding-top: 1rem;
   padding-bottom: 0.92307692rem;
-  margin-bottom: 0;
+  margin-bottom: 1rem;
+  margin-top: 0;
   font-size: 1rem;
   line-height: 1rem;
 }
@@ -2732,10 +2739,11 @@ table:not(.no-vertical-rhythme).table-smaller th,
 table:not(.no-vertical-rhythme).table-smaller th, .vertical-rhythme
 .table.table--smaller th, .vertical-rhythme
 .table.table-smaller th {
-  border-bottom: solid rgba(129, 149, 161, 0.2) 2px;
+  border-bottom: solid rgba(129, 149, 161, 0.2) 0.15384615rem;
   padding-top: 1rem;
   padding-bottom: 0.84615385rem;
-  margin-bottom: 0;
+  margin-bottom: 1rem;
+  margin-top: 0;
   font-size: 1rem;
   line-height: 1rem;
 }
@@ -2770,10 +2778,11 @@ table:not(.no-vertical-rhythme).table-small td, .vertical-rhythme
 .table.table--small td, .vertical-rhythme
 .table.table-small th, .vertical-rhythme
 .table.table-small td {
-  border-bottom: solid rgba(129, 149, 161, 0.2) 1px;
+  border-bottom: solid rgba(129, 149, 161, 0.2) 0.07692308rem;
   padding-top: 1rem;
   padding-bottom: 0.92307692rem;
-  margin-bottom: 0;
+  margin-bottom: 1rem;
+  margin-top: 0;
   font-size: 1rem;
   line-height: 1rem;
 }
@@ -2787,10 +2796,11 @@ table:not(.no-vertical-rhythme).table-small th,
 table:not(.no-vertical-rhythme).table-small th, .vertical-rhythme
 .table.table--small th, .vertical-rhythme
 .table.table-small th {
-  border-bottom: solid rgba(129, 149, 161, 0.2) 2px;
+  border-bottom: solid rgba(129, 149, 161, 0.2) 0.15384615rem;
   padding-top: 1rem;
   padding-bottom: 0.84615385rem;
-  margin-bottom: 0;
+  margin-bottom: 1rem;
+  margin-top: 0;
   font-size: 1rem;
   line-height: 1rem;
 }
@@ -2825,10 +2835,11 @@ table:not(.no-vertical-rhythme).table-medium td, .vertical-rhythme
 .table.table--medium td, .vertical-rhythme
 .table.table-medium th, .vertical-rhythme
 .table.table-medium td {
-  border-bottom: solid rgba(129, 149, 161, 0.2) 1px;
+  border-bottom: solid rgba(129, 149, 161, 0.2) 0.07692308rem;
   padding-top: 2rem;
   padding-bottom: 1.92307692rem;
-  margin-bottom: 0;
+  margin-bottom: 1rem;
+  margin-top: 0;
   font-size: 1rem;
   line-height: 1rem;
 }
@@ -2842,10 +2853,11 @@ table:not(.no-vertical-rhythme).table-medium th,
 table:not(.no-vertical-rhythme).table-medium th, .vertical-rhythme
 .table.table--medium th, .vertical-rhythme
 .table.table-medium th {
-  border-bottom: solid rgba(129, 149, 161, 0.2) 2px;
+  border-bottom: solid rgba(129, 149, 161, 0.2) 0.15384615rem;
   padding-top: 2rem;
   padding-bottom: 1.84615385rem;
-  margin-bottom: 0;
+  margin-bottom: 1rem;
+  margin-top: 0;
   font-size: 1rem;
   line-height: 1rem;
 }
@@ -2880,10 +2892,11 @@ table:not(.no-vertical-rhythme).table-big td, .vertical-rhythme
 .table.table--big td, .vertical-rhythme
 .table.table-big th, .vertical-rhythme
 .table.table-big td {
-  border-bottom: solid rgba(129, 149, 161, 0.2) 1px;
+  border-bottom: solid rgba(129, 149, 161, 0.2) 0.07692308rem;
   padding-top: 2rem;
   padding-bottom: 1.92307692rem;
-  margin-bottom: 0;
+  margin-bottom: 1rem;
+  margin-top: 0;
   font-size: 1rem;
   line-height: 1rem;
 }
@@ -2897,10 +2910,11 @@ table:not(.no-vertical-rhythme).table-big th,
 table:not(.no-vertical-rhythme).table-big th, .vertical-rhythme
 .table.table--big th, .vertical-rhythme
 .table.table-big th {
-  border-bottom: solid rgba(129, 149, 161, 0.2) 2px;
+  border-bottom: solid rgba(129, 149, 161, 0.2) 0.15384615rem;
   padding-top: 2rem;
   padding-bottom: 1.84615385rem;
-  margin-bottom: 0;
+  margin-bottom: 1rem;
+  margin-top: 0;
   font-size: 1rem;
   line-height: 1rem;
 }
@@ -2935,10 +2949,11 @@ table:not(.no-vertical-rhythme).table-bigger td, .vertical-rhythme
 .table.table--bigger td, .vertical-rhythme
 .table.table-bigger th, .vertical-rhythme
 .table.table-bigger td {
-  border-bottom: solid rgba(129, 149, 161, 0.2) 1px;
+  border-bottom: solid rgba(129, 149, 161, 0.2) 0.07692308rem;
   padding-top: 2rem;
   padding-bottom: 1.92307692rem;
-  margin-bottom: 0;
+  margin-bottom: 1rem;
+  margin-top: 0;
   font-size: 1rem;
   line-height: 1rem;
 }
@@ -2952,10 +2967,11 @@ table:not(.no-vertical-rhythme).table-bigger th,
 table:not(.no-vertical-rhythme).table-bigger th, .vertical-rhythme
 .table.table--bigger th, .vertical-rhythme
 .table.table-bigger th {
-  border-bottom: solid rgba(129, 149, 161, 0.2) 2px;
+  border-bottom: solid rgba(129, 149, 161, 0.2) 0.15384615rem;
   padding-top: 2rem;
   padding-bottom: 1.84615385rem;
-  margin-bottom: 0;
+  margin-bottom: 1rem;
+  margin-top: 0;
   font-size: 1rem;
   line-height: 1rem;
 }
@@ -2979,13 +2995,14 @@ table:not(.no-vertical-rhythme).table-bigger th, .vertical-rhythme
   font-size: 0.4rem;
 }
 .vertical-rhythme .btn.btn--smaller {
+  line-height: 0rem;
   padding-top: 0.24307692rem;
-  padding-bottom: 0.24307692rem;
-  margin-bottom: 0;
+  padding-bottom: 0.32rem;
+  margin-bottom: 1.92307692rem;
+  margin-top: 0;
   border-bottom-width: 0.07692308rem;
   border-top-width: 0.07692308rem;
   font-size: 0.4rem;
-  line-height: 1rem;
 }
 
 .btn.btn--small {
@@ -2995,13 +3012,14 @@ table:not(.no-vertical-rhythme).table-bigger th, .vertical-rhythme
   font-size: 0.7rem;
 }
 .vertical-rhythme .btn.btn--small {
+  line-height: 1rem;
   padding-top: 0.48307692rem;
-  padding-bottom: 0.48307692rem;
-  margin-bottom: 0;
+  padding-bottom: 0.56rem;
+  margin-bottom: 1.92307692rem;
+  margin-top: 0;
   border-bottom-width: 0.07692308rem;
   border-top-width: 0.07692308rem;
   font-size: 0.7rem;
-  line-height: 1rem;
 }
 
 .btn {
@@ -3011,13 +3029,14 @@ table:not(.no-vertical-rhythme).table-bigger th, .vertical-rhythme
   font-size: 1rem;
 }
 .vertical-rhythme .btn {
+  line-height: 1rem;
   padding-top: 0.72307692rem;
-  padding-bottom: 0.72307692rem;
-  margin-bottom: 0;
+  padding-bottom: 0.8rem;
+  margin-bottom: 1.92307692rem;
+  margin-top: 0;
   border-bottom-width: 0.07692308rem;
   border-top-width: 0.07692308rem;
   font-size: 1rem;
-  line-height: 1rem;
 }
 
 .btn.btn--medium {
@@ -3027,13 +3046,14 @@ table:not(.no-vertical-rhythme).table-bigger th, .vertical-rhythme
   font-size: 1.3rem;
 }
 .vertical-rhythme .btn.btn--medium {
+  line-height: 1rem;
   padding-top: 0.96307692rem;
-  padding-bottom: 0.96307692rem;
-  margin-bottom: 0;
+  padding-bottom: 1.04rem;
+  margin-bottom: 1.92307692rem;
+  margin-top: 0;
   border-bottom-width: 0.07692308rem;
   border-top-width: 0.07692308rem;
   font-size: 1.3rem;
-  line-height: 2rem;
 }
 
 .btn.btn--big {
@@ -3043,13 +3063,14 @@ table:not(.no-vertical-rhythme).table-bigger th, .vertical-rhythme
   font-size: 1.6rem;
 }
 .vertical-rhythme .btn.btn--big {
+  line-height: 2rem;
   padding-top: 1.20307692rem;
-  padding-bottom: 1.20307692rem;
-  margin-bottom: 0;
+  padding-bottom: 1.28rem;
+  margin-bottom: 1.92307692rem;
+  margin-top: 0;
   border-bottom-width: 0.07692308rem;
   border-top-width: 0.07692308rem;
   font-size: 1.6rem;
-  line-height: 2rem;
 }
 
 .btn.btn--bigger {
@@ -3059,13 +3080,14 @@ table:not(.no-vertical-rhythme).table-bigger th, .vertical-rhythme
   font-size: 1.9rem;
 }
 .vertical-rhythme .btn.btn--bigger {
+  line-height: 2rem;
   padding-top: 1.44307692rem;
-  padding-bottom: 1.44307692rem;
-  margin-bottom: 0;
+  padding-bottom: 1.52rem;
+  margin-bottom: 1.92307692rem;
+  margin-top: 0;
   border-bottom-width: 0.07692308rem;
   border-top-width: 0.07692308rem;
   font-size: 1.9rem;
-  line-height: 2rem;
 }
 
 .btn {
