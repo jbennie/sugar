@@ -143,9 +143,7 @@ $_s-font-aliases : (
 		-padding $padding
 		-padding-top $padding-top
 		-padding-bottom $padding-bottom
-		-border-top-width $border-top-width
 		-border-top $border-top
-		-border-bottom-width $border-bottom-width
 		-border-bottom $border-bottom
 		-cap-height $cap-height
 	));
@@ -532,9 +530,7 @@ $_s-font-aliases : (
 		padding : true,
 		padding-top : number,
 		padding-bottom : number,
-		border-bottom-width : number,
 		border-bottom : true,
-		border-top-width : number,
 		border-top : true,
 		cap-height : number,
 		s-font : true
@@ -561,10 +557,8 @@ $_s-font-aliases : (
 	$padding : map-get($rhythme, padding);
 	$padding-top : map-get-or($rhythme, padding-top, 0);
 	$padding-bottom : map-get-or($rhythme, padding-bottom, 0);
-	$border-bottom : map-get-or($rhythme, border-bottom-width, 0);
-	$border-bottom : map-get-or($rhythme, border-bottom, $border-bottom);
-	$border-top : map-get-or($rhythme, border-top-width, 0);
-	$border-top : map-get-or($rhythme, border-top, $border-top);
+	$border-bottom : map-get-or($rhythme, border-bottom, 0);
+	$border-top : map-get-or($rhythme, border-top, 0);
 	$cap-height : map-get-or($rhythme, cap-height, 0);
 	$s-font : map-get($rhythme, s-font);
 	$root-font-size : sugar('settings.typo.font-size');
@@ -712,36 +706,23 @@ $_s-font-aliases : (
 		// if we have a padding top, respect it and
 		// push a little bit the content lower to respect
 		// vertical rhythme
-		@if $padding-top and $padding-bottom {
+		@if $padding-top and $padding-top >= 1 {
 
 			// if we have some borders
-			@if $padding-top and $padding-top - $border-top >= 0 {
-				$padding-top : $padding-top - $border-top;
-			} @else {
+			@if $border-top > 0 {
 				$dec : $border-top % 1;
 				$margin-top : $margin-top + ( 1 - $dec );
+				@if $padding-top > 0 {
+					$padding-top : $padding-top - $border-top;
+				}
 			}
-
-			@if $padding-bottom and $padding-bottom - $border-bottom >= 0 {
-				$padding-bottom : $padding-bottom - $border-bottom;
-			} @else {
+			@if $border-bottom > 0 {
 				$dec : $border-bottom % 1;
 				$margin-bottom : $margin-bottom + ( 1 - $dec );
+				@if $padding-bottom > 0 {
+					$padding-bottom : $padding-bottom - $border-bottom;
+				}
 			}
-
-			// @if $border-top > 0 {
-				
-			// 	@if $padding-top > 0 {
-			// 		$padding-top : $padding-top - $border-top;
-			// 	}
-			// }
-			// @if $border-bottom > 0 {
-			// 	$dec : $border-bottom % 1;
-			// 	$margin-bottom : $margin-bottom + ( 1 - $dec );
-			// 	@if $padding-bottom > 0 {
-			// 		$padding-bottom : $padding-bottom - $border-bottom;
-			// 	}
-			// }
 			$ret : (
 				padding-top : $padding-top,
 				margin-bottom : $margin-bottom,
