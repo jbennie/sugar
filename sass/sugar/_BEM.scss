@@ -10,15 +10,20 @@
 ) {
 	$bem : s-parse-properties($bem, (
 		name : string,
-		extend : true
+		ext : string
+	), (
+		name : n,
+		ext : e
 	));
 	$name : map-get($bem, name);
-	$extend : map-get($bem, extend);
+	$extend : map-get($bem, ext);
 
+	@debug($bem);
 	@at-root {
 		.#{$name} {
 			@if $extend {
 				@each $ext in $extend {
+					@debug('ecxtend #{$ext}');
 					@extend .#{$ext} !optional;
 				}
 			}

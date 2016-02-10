@@ -357,7 +357,28 @@
 	$_handle-nested : false
 ) {
 	// parse properties
-	$transform : s-parse-properties($transform, null);
+	$transform : s-parse-properties($transform, (
+		matrix : true,
+		matrix3d : true,
+		translate : true,
+		translate3d : true,
+		translateX : number,
+		translateY : number,
+		translateZ : number,
+		scale : true,
+		scaleX : number,
+		scaleY : number,
+		scaleZ : number,
+		rotate : degree,
+		rotate3d : true,
+		rotateX : degree,
+		rotateY : degree,
+		rotateZ : degree,
+		skew : true,
+		skewX : degree,
+		skewY : degree,
+		perspective : number
+	));
 
 	// handle nested transforms
 	@if $_handle-nested {

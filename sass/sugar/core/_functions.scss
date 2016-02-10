@@ -76,43 +76,49 @@ $_s_nested_properties_depth : ();
 		// loop on each properties to 
 		@each $prop, $value in $properties {
 
-			// get the type
-			$type : _s-get-property-type($prop, $keywords, $aliases);
+			// get the real name
+			$prop : _s-get-property-name($prop, $keywords, $aliases);
 
-			// if we have found, check the type
-			@if $type and not _is-null($value) {
+			// if we have a property
+			@if $prop {
 
-				// check explicit values
-				@if type-of($type) == string {
-					// check the type
-					@if not s-is($value, $type) {
-						@error('The property #{$prop} need to be a #{$type} but it seems that you pass a #{type-of($value)} : #{$value}...');
+				// get the type
+				$type : _s-get-property-type($prop, $keywords, $aliases);
+
+				// if we have found, check the type
+				@if $type and not _is-null($value) {
+
+					// check explicit values
+					@if type-of($type) == string {
+						// check the type
+						@if not s-is($value, $type) {
+							@error('The property #{$prop} need to be a #{$type} but it seems that you pass a #{type-of($value)} : #{$value}...');
+						}
+						$new-map : map-set($new-map, $prop, $value);
+					} @else if type-of($type) == list {
+						// check if the passed value exist in possible values
+						@if type-of($value) == list and index($type, length) {
+							$new-map : map-set($new-map, $prop, $value);
+						} @else if type-of($value) == number and index($type, length) {
+							$new-map : map-set($new-map, $prop, $value);
+						} @else if index($type, $value) {
+							$new-map : map-set($new-map, $prop, $value);
+						}
+					} @else {
+						// we do nothing but adding the value like this
+						$new-map : map-set($new-map, $prop, $value);
 					}
-					$new-map : map-set($new-map, $prop, $value);
-				} @else if type-of($type) == list {
-					// check if the passed value exist in possible values
-					@if type-of($value) == list and index($type, length) {
-						$new-map : map-set($new-map, $prop, $value);
-					} @else if type-of($value) == number and index($type, length) {
-						$new-map : map-set($new-map, $prop, $value);
-					} @else if index($type, $value) {
-						$new-map : map-set($new-map, $prop, $value);
-					}
-				} @else {
-					// we do nothing but adding the value like this
-					$new-map : map-set($new-map, $prop, $value);
+
+				} @else if not _is-null($value) {
+					// // add the value to map
+					// @if not map-get($new-map, others) {
+					// 	$new-map : map-set($new-map, others, ());
+					// }
+					// $new-map : map-set($new-map, others, map-merge(map-get($new-map, others), (
+					// 	$prop : $value
+					// )));
 				}
-
-			} @else if not _is-null($value) {
-				// // add the value to map
-				// @if not map-get($new-map, others) {
-				// 	$new-map : map-set($new-map, others, ());
-				// }
-				// $new-map : map-set($new-map, others, map-merge(map-get($new-map, others), (
-				// 	$prop : $value
-				// )));
 			}
-
 		}
 
 		// return new map
@@ -130,6 +136,9 @@ $_s_nested_properties_depth : ();
 				
 				// remove the - at property beginning
 				$prop : str-slice($prop, 2);
+
+				// get the real name
+				$prop : _s-get-property-name($prop, $keywords, $aliases);
 
 				// we have a new property
 				// need to check if we have already one in memory
@@ -150,8 +159,10 @@ $_s_nested_properties_depth : ();
 					}
 				}
 				$first : false;
-				$current_prop : $prop;
-				$values : ();
+				@if $prop {
+					$current_prop : $prop;
+					$values : ();
+				}
 				
 				// } @else {
 				// 	// we do not have the property in keywords
@@ -234,6 +245,41 @@ $_s_nested_properties_depth : ();
 		@return $map;
 
 	}
+}
+
+@function _s-get-property-name(
+	$property,
+	$keywords : (),
+	$aliases : ()
+) {
+	@if not $keywords {
+		$keywords : ();
+	}
+	@if not $aliases {
+		$aliases : ();
+	}
+
+	// check if exist
+	$type : map-get($keywords, $property);
+	// if we have a type, mean a property names like this
+	// exist, return it
+	@if $type {
+		@return $property;
+	}
+
+	// if not in keywords, try to get the alias
+	@if not $type {
+		$alias_found : false;
+		@each $alias_prop, $alias in $aliases {
+			$al : index($alias, $property);
+			@if $al {
+				@return $alias_prop;
+			}
+		}
+	}
+
+	// nothing found
+	@return null;
 }
 
 @function _s-get-property-type(

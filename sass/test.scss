@@ -1,3 +1,8 @@
 @import 'sugar';
 
-@include s-typeset-tables();
+@include s-Bem(coco) {
+	content: 'coco';
+}
+@include s-Bem(caca -e coco) {
+	content:'caca';
+}
