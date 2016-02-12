@@ -47,6 +47,142 @@
 
 
 //
+// BEMize selector
+//
+@function s-parse-BEM-selector(
+	$selector
+) {
+	$bem_element_separator : '__';
+	$bem_modifier_separator : '--';
+	$bem_state_separator : '---';
+
+	$block : null;
+	$element : null;
+	$modifier : null;
+	$state : null;
+
+	// remove the .
+	$selector : str-replace($selector,'.','');
+
+	// replace items in selector
+
+	@if str-index($selector, $bem_state_separator) {
+		$split : _split($selector, $bem_state_separator);
+		$selector : nth($split,1);
+		// set the modifier
+		$state : nth($split,2);
+	}
+
+	@if str-index($selector, $bem_modifier_separator) {
+		$split : _split($selector, $bem_modifier_separator);
+		$selector : nth($split,1);
+		// set the modifier
+		$modifier : nth($split,2);
+	}
+
+	// split block
+	@if str-index($selector, $bem_element_separator) {
+		$split : _split($selector, $bem_element_separator);
+		$element : nth($split,2);
+		$block : nth($split,1);
+	} @else {
+		$block : $selector
+	}	
+
+	@if $block == '' {
+		$block : null;
+	}
+
+	// return the parsed selector map
+	@return (
+		block : $block,
+		element : $element,
+		modifier : $modifier,
+		state : $state
+	);	
+}
+
+@function s-selector(
+	$map
+) {
+	$method : sugar('settings.selector.method');
+	$sel : map-get($map,$method);
+	@if not $sel {
+		$sel : map-get($map,BEM);
+	}
+	@if not $sel {
+		@error("The method #{$method} is not available in the passed selector map : #{inspect($map)}");
+	}
+	// replace the --default in selector
+	@if $method == BEM {
+		$sel : str-replace($sel,'--default','');
+	} @else if $method == SMACCS {
+		$sel : str-replace($sel,'-default','');
+	}
+	// return the selector
+	@return $sel;
+}
+
+// @function s-selector(
+// 	$selector
+// ) {
+// 	$map : s-parse-BEM-selector($selector);
+// 	@debug($map);
+// 	$method : sugar('settings.selector.method');
+// 	$modifier_separator : sugar('settings.#{$method}.modifier-separator');
+// 	$element_separator : sugar('settings.#{$method}.element-separator');
+// 	$sel : '';
+
+// 	// if bem
+// 	@if $method == BEM {
+// 		@if map-get($map, block) {
+// 			$sel : map-get($map,block);
+// 		}
+// 		@if map-get($map,element) {
+// 			$sel : "#{$sel}#{$element_separator}#{map-get($map,element)}";
+// 		}
+// 		@if map-get($map,modifier) {
+// 			$sel : "#{$sel}#{$modifier_separator}#{map-get($map,modifier)}";
+// 		}
+// 		@if map-get($map,state) {
+// 			@if $sel != '' {
+// 				$sel : "#{$sel}#{$modifier_separator}#{map-get($map,state)}";
+// 			} @else {
+// 				$sel : "#{$modifier_separator}#{map-get($map,state)}";
+// 			}
+// 		}
+// 		// return the selector
+// 		@return ".#{$sel}";
+// 	} @else if $method == SMACCS {
+// 		$state_separator : sugar('settings.SMACCS.state-separator');
+// 		@if map-get($map, block) {
+// 			$sel : map-get($map, block);
+// 		}
+// 		@if map-get($map,element) {
+// 			$sel : "#{$sel}#{$element_separator}#{map-get($map,element)}";
+// 		}
+// 		@if map-get($map, modifier) {
+// 			$sel : "#{$sel}#{$modifier_separator}#{map-get($map,modifier)}";
+// 		}
+// 		@if map-get($map, state) {
+// 			@if $sel != '' {
+// 				$sel : "#{$sel}.#{$state_separator}#{map-get($map,state)}";
+// 			} @else {
+// 				$sel : "#{$state_separator}#{map-get($map,state)}";
+// 			}
+// 		}
+// 		@return ".#{$sel}";
+// 	}
+// }
+
+@function s-parse-SMACCS-selector(
+	$selector
+) {
+
+}
+
+
+//
 // Get a configuration
 //
 $_sugar-settings-cache : ();

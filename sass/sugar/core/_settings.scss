@@ -73,6 +73,9 @@ $_sugar-settings : (								// store all the settings
 	vertical-rhythme 			: ( 				// Vertical rhythme options
 		scope-class 				: vertical-rhythme 		// the class in which the vertical rhythme will be applied
 								),
+	selector 					: (
+		method 						: BEM,
+								),
 	BEM 						: ( 				// BEM settings
 		standelone-modifier			: false, 			// set if by default need to extend base element
 		element-separator 			: '__', 			// element separator

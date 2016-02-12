@@ -38,20 +38,37 @@ $_s-nav-inited : false;
 	$typeset : sugar('settings.typeset.scope-class');
 
 	// base
-	.nav {
+	.nav.nav--tabs {
 		@extend %s-nav-bare;
+		
+		> li,
+		> #{s-selector((
+			BEM : '.nav__item',
+			SMACCS : '.nav-item'
+		))} {
+			&#{s-selector((
+				BEM : '.disabled',
+				SMACCS : '.is-disabled'
+			))} {
+				pointer-events: none;
+				opacity: .5;
+				cursor: not-allowed;
+			}
+		}
 	}
-
+	
 	// generate each sizes
 	@each $size in $sizes {
 		// extend dropdown
-		$sel : '.nav';
-		@if $size != default {
-			$sel : '.nav.nav--#{$size}';
-		}
-		#{$sel} {
+		#{s-selector((
+			BEM : '.nav--tabs.nav--#{$size}',
+			SMACCS : '.nav-tabs.nav-#{$size}'
+		))} {
 			> li,
-			> .nav__item {
+			> #{s-selector((
+				BEM : '.nav__item',
+				SMACCS : '.nav-item'
+			))} {
 				font-size : s-look-and-feel(font-size, $size);
 				@include s-corner(
 					-tl s-look-and-feel(border-radius, $size)
@@ -62,33 +79,39 @@ $_s-nav-inited : false;
 				float: left;
 				margin-bottom: s-rem(-1px);
 				cursor: pointer;
-
-				&.disabled {
-					opacity: .5;
-					cursor: not-allowed;
-				}
 			}
 		}
 	}
 	// generate each colors
 	@each $color in $colors {
 		// extend dropdown
-		$sel : '.nav';
-		@if $color != default {
-			$sel : '.nav.nav--#{$color}';
-		}
-		#{$sel} {
+	
+		#{s-selector((
+			BEM : '.nav--tabs.nav--#{$color}',
+			SMACCS : '.nav--tabs.nav-#{$color}'
+		))} {
 			border-bottom: s-rem(1px) solid s-color($color, -opacity .2);
 			@include s-clearfix;
 
 			> li,
-			> .nav__item {
+			> #{s-selector((
+				BEM : '.nav__item',
+				SMACCS : '.nav-item'
+			))} {
 				border: s-rem(1px) solid s-color($color, -opacity .1);
 				color : s-color($color);
-				&:hover:not(.disabled) {
+
+				&#{s-selector((
+					BEM : '.hover',
+					SMACCS : '.is-hover'
+				))},
+				&:hover {
 					background-color : s-color($color, -opacity .1);
 				}
-				&.active:not(.disabled) {
+				&#{s-selector((
+					BEM : '.active',
+					SMACCS : '.is-active'
+				))} {
 					background-color : s-color($color);	
 					border-color: s-color($color);
 					@if lightness(s-color($color)) > 70 {
@@ -97,27 +120,7 @@ $_s-nav-inited : false;
 						color : white;
 					}
 				}
-
-				// outline
-				.nav--outline > & {
-					color: s-color($color);
-
-					&:hover {
-						background-color: s-color($color);
-						border-color: s-color($color);
-						@if lightness(s-color($color)) > 70 {
-							color : s-color($color, -darken 30%);
-						} @else {
-							color : white;
-						}
-					}
-				}
 			}
 		}
-	}
-
-	// outline
-	.nav.nav--outline {
-		background-color: transparent;
 	}
 }
