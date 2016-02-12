@@ -1,0 +1,123 @@
+@include s-component-setup((
+	nav : (
+		colors : default primary secondary success warning error info,
+		sizes : default
+	)
+));
+
+
+$_s-nav-inited : false;
+@mixin s-nav-init() {
+	@if not $_s-nav-inited {
+		$_s-nav-inited : true !global;
+		%s-nav-bare {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+		}
+	}
+}
+
+@mixin s-nav-tabs(
+	$props : ()
+) {
+	// init dropdown
+	@include s-nav-init();
+	
+	// parse properties
+	$props : s-parse-properties($props, (
+		sizes : map-keys(sugar('settings.sizes')),
+		colors : list-color
+	));
+
+	// get variables
+	$sizes : map-get-or($props, sizes, sugar('settings.nav.sizes'));
+	$colors : map-get-or($props, colors, sugar('settings.nav.colors'));
+
+	$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
+	$typeset : sugar('settings.typeset.scope-class');
+
+	// base
+	.nav {
+		@extend %s-nav-bare;
+	}
+
+	// generate each sizes
+	@each $size in $sizes {
+		// extend dropdown
+		$sel : '.nav';
+		@if $size != default {
+			$sel : '.nav.nav--#{$size}';
+		}
+		#{$sel} {
+			> li,
+			> .nav__item {
+				font-size : s-look-and-feel(font-size, $size);
+				@include s-corner(
+					-tl s-look-and-feel(border-radius, $size)
+					-tr s-look-and-feel(border-radius, $size)
+				);
+				margin-right: s-space(smaller);
+				padding : s-look-and-feel(padding-vertical, $size) s-look-and-feel(padding-horizontal, $size);
+				float: left;
+				margin-bottom: s-rem(-1px);
+				cursor: pointer;
+
+				&.disabled {
+					opacity: .5;
+					cursor: not-allowed;
+				}
+			}
+		}
+	}
+	// generate each colors
+	@each $color in $colors {
+		// extend dropdown
+		$sel : '.nav';
+		@if $color != default {
+			$sel : '.nav.nav--#{$color}';
+		}
+		#{$sel} {
+			border-bottom: s-rem(1px) solid s-color($color, -opacity .2);
+			@include s-clearfix;
+
+			> li,
+			> .nav__item {
+				border: s-rem(1px) solid s-color($color, -opacity .1);
+				color : s-color($color);
+				&:hover:not(.disabled) {
+					background-color : s-color($color, -opacity .1);
+				}
+				&.active:not(.disabled) {
+					background-color : s-color($color);	
+					border-color: s-color($color);
+					@if lightness(s-color($color)) > 70 {
+						color : s-color($color, -darken 30%);
+					} @else {
+						color : white;
+					}
+				}
+
+				// outline
+				.nav--outline > & {
+					color: s-color($color);
+
+					&:hover {
+						background-color: s-color($color);
+						border-color: s-color($color);
+						@if lightness(s-color($color)) > 70 {
+							color : s-color($color, -darken 30%);
+						} @else {
+							color : white;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// outline
+	.nav.nav--outline {
+		background-color: transparent;
+	}
+}

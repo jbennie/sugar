@@ -503,6 +503,11 @@ figure {
 @include s-dropup();
 
 //
+// Nav
+//
+@include s-nav-tabs(-sizes small default medium big bigger);
+
+//
 // typeset
 //
 @include s-typeset-titles();
