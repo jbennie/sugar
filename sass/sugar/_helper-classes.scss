@@ -103,19 +103,19 @@
 //
 // Margins
 //
-@include s-register-class(no-p-t 'helper.margin.no.top') {
+@include s-register-class(no-m-t 'helper.margin.no.top') {
 	margin-top: 0;
 }
-@include s-register-class(no-p-r 'helper.margin.no.right') {
+@include s-register-class(no-m-r 'helper.margin.no.right') {
 	margin-right: 0;
 }
-@include s-register-class(no-p-b 'helper.margin.no.bottom') {
+@include s-register-class(no-m-b 'helper.margin.no.bottom') {
 	margin-bottom: 0;
 }
-@include s-register-class(no-p-l 'helper.margin.no.left') {
+@include s-register-class(no-m-l 'helper.margin.no.left') {
 	margin-left: 0;
 }
-@include s-register-class(no-p-s 'helper.margin.no.side') {
+@include s-register-class(no-m-s 'helper.margin.no.side') {
 	margin-left: 0;
 	margin-right: 0;
 }
