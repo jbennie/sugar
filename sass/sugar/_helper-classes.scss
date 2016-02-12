@@ -86,16 +86,16 @@
 @include s-register-class(no-p-t 'helper.padding.no.top') {
 	padding-top: 0;
 }
-@include s-register-class(no-p-t 'helper.padding.no.right') {
+@include s-register-class(no-p-r 'helper.padding.no.right') {
 	padding-right: 0;
 }
-@include s-register-class(no-p-t 'helper.padding.no.bottom') {
+@include s-register-class(no-p-b 'helper.padding.no.bottom') {
 	padding-bottom: 0;
 }
-@include s-register-class(no-p-t 'helper.padding.no.left') {
+@include s-register-class(no-p-l 'helper.padding.no.left') {
 	padding-left: 0;
 }
-@include s-register-class(no-p-t 'helper.padding.no.side') {
+@include s-register-class(no-p-s 'helper.padding.no.side') {
 	padding-left: 0;
 	padding-right: 0;
 }
@@ -106,16 +106,16 @@
 @include s-register-class(no-p-t 'helper.margin.no.top') {
 	margin-top: 0;
 }
-@include s-register-class(no-p-t 'helper.margin.no.right') {
+@include s-register-class(no-p-r 'helper.margin.no.right') {
 	margin-right: 0;
 }
-@include s-register-class(no-p-t 'helper.margin.no.bottom') {
+@include s-register-class(no-p-b 'helper.margin.no.bottom') {
 	margin-bottom: 0;
 }
-@include s-register-class(no-p-t 'helper.margin.no.left') {
+@include s-register-class(no-p-l 'helper.margin.no.left') {
 	margin-left: 0;
 }
-@include s-register-class(no-p-t 'helper.margin.no.side') {
+@include s-register-class(no-p-s 'helper.margin.no.side') {
 	margin-left: 0;
 	margin-right: 0;
 }
