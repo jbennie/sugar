@@ -81,46 +81,6 @@
 }
 
 //
-// Paddings
-//
-@include s-register-class(no-p-t 'helper.padding.no.top') {
-	padding-top: 0;
-}
-@include s-register-class(no-p-r 'helper.padding.no.right') {
-	padding-right: 0;
-}
-@include s-register-class(no-p-b 'helper.padding.no.bottom') {
-	padding-bottom: 0;
-}
-@include s-register-class(no-p-l 'helper.padding.no.left') {
-	padding-left: 0;
-}
-@include s-register-class(no-p-s 'helper.padding.no.side') {
-	padding-left: 0;
-	padding-right: 0;
-}
-
-//
-// Margins
-//
-@include s-register-class(no-m-t 'helper.margin.no.top') {
-	margin-top: 0;
-}
-@include s-register-class(no-m-r 'helper.margin.no.right') {
-	margin-right: 0;
-}
-@include s-register-class(no-m-b 'helper.margin.no.bottom') {
-	margin-bottom: 0;
-}
-@include s-register-class(no-m-l 'helper.margin.no.left') {
-	margin-left: 0;
-}
-@include s-register-class(no-m-s 'helper.margin.no.side') {
-	margin-left: 0;
-	margin-right: 0;
-}
-
-//
 // Blocks
 //
 @include s-register-class(block-center 'helper.block.center') {
