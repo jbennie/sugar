@@ -14,10 +14,26 @@ module.exports = window.sugar.activate =
 	# inited
 	_inited : false
 
+	# tabs stack
+	_tabs : {}
+
+	# settings
+	_settings :
+		
+		# the activate class setted on the content and trigger
+		active_class : 'active'
+
+		# set if need to handle history
+		history : true
+
+		# set if need to handle anchor
+		anchor : true
+
+
 	###
 	Init
 	###
-	init : () ->
+	init : (settings) ->
 
 		# update inited status
 		return if @_inited
@@ -38,20 +54,41 @@ module.exports = window.sugar.activate =
 		# listen for mutations
 		@_listenMutations()
 
+		# init history if needed
+		@_handleHistory() if @_settings.history
+
+
+	###
+	History
+	###
+	_handleHistory : ->
+		window.addEventListener 'hashchange', (e) =>
+			if not @_internalHashChange
+				elm = document.querySelector '[data-s-activate="'+document.location.hash.substr(1)+'"]'
+				# activate the new element
+				@_activate elm if elm
+
+
 	###
 	Listen for nodes
 	###
 	_listenMutations : () ->
 
-		if window.MutationObserver?
-			observer = new MutationObserver (mutations) ->
-				# check if is an activate that has been added
-				for mutation in mutations
-					if mutation.addedNodes?[0]? and mutation.addedNodes[0].dataset? and mutation.addedNodes[0].dataset.sActivate
-						@_initElement mutation.addedNodes[0]
+		# if window.MutationObserver?
+		# 	observer = new MutationObserver (mutations) ->
+		# 		# check if is an activate that has been added
+		# 		for mutation in mutations
+		# 			if mutation.addedNodes?[0]? and mutation.addedNodes[0].dataset? and mutation.addedNodes[0].dataset.sActivate
+		# 				@_initElement mutation.addedNodes[0]
 
-			observer.observe document.body,
-				childList: true
+		# 	observer.observe document.body,
+		# 		childList: true
+
+		# listen for node inserted
+		document.addEventListener 'DOMNodeInserted', (e) =>
+			elm = e.target
+			if elm.dataset and elm.dataset.sActivate != undefined and not elm.sActivateInited
+				@_initElement elm
 
 	###
 	Init element
@@ -81,16 +118,40 @@ module.exports = window.sugar.activate =
 		# save a reference to the targets
 		elm.sActivateTargets = document.body.querySelectorAll '#' + elm.dataset.sActivate
 
+		# check if we are in another s-activate
+		closest = @getClosestActivate elm.parentNode
+		if closest
+			# save the closest content reference
+			elm.sActivateParent = document.body.querySelector '[data-s-activate="'+closest.id+'"]'
+
+		# add the tab in stack
+		@_tabs[elm.dataset.sActivate] = elm
+
 		# listen for click
 		elm.addEventListener 'click', (e) =>
-			# activate element
-			@_activate e.target
+			if elm.dataset.sActivateHistory is true or (@_settings.history and not elm.dataset.sActivateHistory)
+				if document.location.hash and document.location.hash.substr(1) is elm.dataset.sActivate
+					@_activate e.target
+				else
+					document.location.hash = elm.dataset.sActivate
+			else
+				# activate element
+				@_activate e.target
 
 		# if the element has the active class,
 		# active it
-		if @_hasClass elm, 'active'
+		if @_hasClass elm, @_settings.active_class
 			# activate the element
 			@_activate elm
+
+		# check hash
+		if @_settings.anchor
+			hash = document.location.hash
+			if hash
+				hash = hash.substr 1
+				# check if inited element is same as the hash
+				if hash is elm.dataset.sActivate
+					@_activate elm
 
 	###
 	Activate element
@@ -99,17 +160,34 @@ module.exports = window.sugar.activate =
 		# unactive all group elements
 		grp = elm.dataset.sActivateGroup
 		for group_elm in document.body.querySelectorAll('[data-s-activate-group="'+grp+'"]')
-			@_removeClass group_elm, 'active'
+			@_removeClass group_elm, @_settings.active_class
+			
 			# unactive all the targets
 			if group_elm.sActivateTargets?
 				for target_elm in group_elm.sActivateTargets
-					@_removeClass target_elm, 'active'
+					@_removeClass target_elm, @_settings.active_class
+		
 		# active the element
-		@_addClass elm, 'active'
+		@_addClass elm, @_settings.active_class
 		target_elms = document.body.querySelectorAll '#'+ elm.dataset.sActivate
 		for target_elm in target_elms 
-			@_addClass target_elm, 'active'
+			@_addClass target_elm, @_settings.active_class
+		
+		# if has a parent actiave, activate it
+		@_activate elm.sActivateParent if elm.sActivateParent
 
+	###
+	Activate
+	###
+	activate : (id) ->
+
+		# handle history if needed
+		if @_settings.history
+			document.location.hash = elm.dataset.sActivate
+		else
+			elm = document.body.querySelector '[data-s-activate="'+id+'"]'
+			if elm.dataset?.sActivateGroup?
+				@_activate elm
 
 	###
 	Refresh
@@ -132,5 +210,18 @@ module.exports = window.sugar.activate =
 		if @_hasClass(ele, cls)
 			reg = new RegExp('(\\s|^)' + cls + '(\\s|$)')
 			ele.className = ele.className.replace(reg, ' ')
+
+	###
+	Dom helpers
+	###
+	getClosestActivate : (elm) ->
+		# Get closest match
+		while elm and elm != document
+			# if has an id,
+			# check if is in tab stack
+			if elm.id and @_tabs[elm.id]?
+				return elm
+			elm = elm.parentNode
+		false
 
 window.sugar.activate.init();

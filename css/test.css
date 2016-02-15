@@ -203,7 +203,8 @@ html {
   box-sizing: inherit;
 }
 
-[data-gooey] {
+[data-gooey],
+[data-s-activate] {
   -webkit-animation: s-DOMNodeInserted 0.001s 0s ease-in-out 1 normal forwards;
           animation: s-DOMNodeInserted 0.001s 0s ease-in-out 1 normal forwards;
 }

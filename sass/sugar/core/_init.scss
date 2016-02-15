@@ -26,7 +26,8 @@ $_sugar-inited : false;
 		}
 
 		// effects
-		[data-gooey] {
+		[data-gooey],
+		[data-s-activate] {
 			@include s-domnodeinserted();
 		}
 		

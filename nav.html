@@ -404,7 +404,7 @@
 				</style>
 				<ul class="nav nav--tabs nav--primary no-typeset no-vertical-rhythme">
 					<li data-s-activate="nav-1">Nav item #1</li>
-					<li data-s-activate="nav-2" class="active">Nav item #2</li>
+					<li data-s-activate="nav-2">Nav item #2</li>
 					<li data-s-activate="nav-3">Nav item #3</li>
 					<li data-s-activate="nav-4">Nav item #4</li>
 					<li class="disabled">Disabled item</li>
@@ -420,11 +420,43 @@
 				<div class="nav-content" id="nav-3">
 					<h4>Tab content #3</h4>
 					<p>In eu neque nec nunc laoreet mattis. Donec ex nisi, laoreet in augue at, malesuada feugiat purus. Praesent sit amet odio bibendum, sagittis turpis ut, condimentum nunc. Phasellus quis aliquam.</p>
+
+					<ul class="nav nav--tabs nav--secondary no-typeset no-vertical-rhythme">
+						<li data-s-activate="nested-nav-1">Nested nav item #1</li>
+						<li data-s-activate="nested-nav-2">Nested nav item #2</li>
+						<li data-s-activate="nested-nav-3">Nested nav item #3</li>
+						<li data-s-activate="nested-nav-4" data-s-activate-history="false">Nested nav item #4</li>
+						<li class="disabled">Disabled item</li>
+					</ul>
+
+					<div class="nav-content" id="nested-nav-1">
+						<h4>Nested tab content #1</h4>
+						<p>In eu neque nec nunc laoreet mattis. Donec ex nisi, laoreet in augue at, malesuada feugiat purus. Praesent sit amet odio bibendum, sagittis turpis ut, condimentum nunc. Phasellus quis aliquam.</p>
+					</div>
+					<div class="nav-content" id="nested-nav-2">
+						<h4>Nested tab content #2</h4>
+						<p>In eu neque nec nunc laoreet mattis. Donec ex nisi, laoreet in augue at, malesuada feugiat purus. Praesent sit amet odio bibendum, sagittis turpis ut, condimentum nunc. Phasellus quis aliquam.</p>
+					</div>
+					<div class="nav-content" id="nested-nav-3">
+						<h4>Nested tab content #3</h4>
+						<p>In eu neque nec nunc laoreet mattis. Donec ex nisi, laoreet in augue at, malesuada feugiat purus. Praesent sit amet odio bibendum, sagittis turpis ut, condimentum nunc. Phasellus quis aliquam.</p>
+					</div>
+					<div class="nav-content" id="nested-nav-4">
+						<h4>Nested tab content #4</h4>
+						<p>In eu neque nec nunc laoreet mattis. Donec ex nisi, laoreet in augue at, malesuada feugiat purus. Praesent sit amet odio bibendum, sagittis turpis ut, condimentum nunc. Phasellus quis aliquam.</p>
+					</div>
+
 				</div>
 				<div class="nav-content" id="nav-4">
 					<h4>Tab content #4</h4>
 					<p>In eu neque nec nunc laoreet mattis. Donec ex nisi, laoreet in augue at, malesuada feugiat purus. Praesent sit amet odio bibendum, sagittis turpis ut, condimentum nunc. Phasellus quis aliquam.</p>
 				</div>
+				
+				<script>
+					setTimeout(function() {
+						// sugar.activate.activate('nested-nav-1');
+					},2000);
+				</script>
 
 			</div>
 

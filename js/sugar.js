@@ -76,11 +76,17 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 			module.exports = window.sugar.activate = {
 				_inited: false,
+				_tabs: {},
+				_settings: {
+					active_class: 'active',
+					history: true,
+					anchor: true
+				},
 
 				/*
     	Init
      */
-				init: function init() {
+				init: function init(settings) {
 					if (this._inited) {
 						return;
 					}
@@ -101,39 +107,49 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      */
 				_init: function _init() {
 					this.update();
-					return this._listenMutations();
+					this._listenMutations();
+					if (this._settings.history) {
+						return this._handleHistory();
+					}
+				},
+
+				/*
+    	History
+     */
+				_handleHistory: function _handleHistory() {
+					return window.addEventListener('hashchange', function (_this) {
+						return function (e) {
+							var elm;
+							if (!_this._internalHashChange) {
+								elm = document.querySelector('[data-s-activate="' + document.location.hash.substr(1) + '"]');
+								if (elm) {
+									return _this._activate(elm);
+								}
+							}
+						};
+					}(this));
 				},
 
 				/*
     	Listen for nodes
      */
 				_listenMutations: function _listenMutations() {
-					var observer;
-					if (window.MutationObserver != null) {
-						observer = new MutationObserver(function (mutations) {
-							var i, len, mutation, ref, results;
-							results = [];
-							for (i = 0, len = mutations.length; i < len; i++) {
-								mutation = mutations[i];
-								if (((ref = mutation.addedNodes) != null ? ref[0] : void 0) != null && mutation.addedNodes[0].dataset != null && mutation.addedNodes[0].dataset.sActivate) {
-									results.push(this._initElement(mutation.addedNodes[0]));
-								} else {
-									results.push(void 0);
-								}
+					return document.addEventListener('DOMNodeInserted', function (_this) {
+						return function (e) {
+							var elm;
+							elm = e.target;
+							if (elm.dataset && elm.dataset.sActivate !== void 0 && !elm.sActivateInited) {
+								return _this._initElement(elm);
 							}
-							return results;
-						});
-						return observer.observe(document.body, {
-							childList: true
-						});
-					}
+						};
+					}(this));
 				},
 
 				/*
     	Init element
      */
 				_initElement: function _initElement(elm) {
-					var grp, i, len, ref, ref1, ref2, ref3, sibling;
+					var closest, grp, hash, i, len, ref, ref1, ref2, ref3, sibling;
 					if (elm.sActivateInited) {
 						return;
 					}
@@ -156,13 +172,35 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 						}
 					}
 					elm.sActivateTargets = document.body.querySelectorAll('#' + elm.dataset.sActivate);
+					closest = this.getClosestActivate(elm.parentNode);
+					if (closest) {
+						elm.sActivateParent = document.body.querySelector('[data-s-activate="' + closest.id + '"]');
+					}
+					this._tabs[elm.dataset.sActivate] = elm;
 					elm.addEventListener('click', function (_this) {
 						return function (e) {
-							return _this._activate(e.target);
+							if (elm.dataset.sActivateHistory === true || _this._settings.history && !elm.dataset.sActivateHistory) {
+								if (document.location.hash && document.location.hash.substr(1) === elm.dataset.sActivate) {
+									return _this._activate(e.target);
+								} else {
+									return document.location.hash = elm.dataset.sActivate;
+								}
+							} else {
+								return _this._activate(e.target);
+							}
 						};
 					}(this));
-					if (this._hasClass(elm, 'active')) {
-						return this._activate(elm);
+					if (this._hasClass(elm, this._settings.active_class)) {
+						this._activate(elm);
+					}
+					if (this._settings.anchor) {
+						hash = document.location.hash;
+						if (hash) {
+							hash = hash.substr(1);
+							if (hash === elm.dataset.sActivate) {
+								return this._activate(elm);
+							}
+						}
 					}
 				},
 
@@ -170,28 +208,44 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     	Activate element
      */
 				_activate: function _activate(elm) {
-					var group_elm, grp, i, j, k, len, len1, len2, ref, ref1, results, target_elm, target_elms;
+					var group_elm, grp, i, j, k, len, len1, len2, ref, ref1, target_elm, target_elms;
 					grp = elm.dataset.sActivateGroup;
 					ref = document.body.querySelectorAll('[data-s-activate-group="' + grp + '"]');
 					for (i = 0, len = ref.length; i < len; i++) {
 						group_elm = ref[i];
-						this._removeClass(group_elm, 'active');
+						this._removeClass(group_elm, this._settings.active_class);
 						if (group_elm.sActivateTargets != null) {
 							ref1 = group_elm.sActivateTargets;
 							for (j = 0, len1 = ref1.length; j < len1; j++) {
 								target_elm = ref1[j];
-								this._removeClass(target_elm, 'active');
+								this._removeClass(target_elm, this._settings.active_class);
 							}
 						}
 					}
-					this._addClass(elm, 'active');
+					this._addClass(elm, this._settings.active_class);
 					target_elms = document.body.querySelectorAll('#' + elm.dataset.sActivate);
-					results = [];
 					for (k = 0, len2 = target_elms.length; k < len2; k++) {
 						target_elm = target_elms[k];
-						results.push(this._addClass(target_elm, 'active'));
+						this._addClass(target_elm, this._settings.active_class);
 					}
-					return results;
+					if (elm.sActivateParent) {
+						return this._activate(elm.sActivateParent);
+					}
+				},
+
+				/*
+    	Activate
+     */
+				activate: function activate(id) {
+					var elm, ref;
+					if (this._settings.history) {
+						return document.location.hash = elm.dataset.sActivate;
+					} else {
+						elm = document.body.querySelector('[data-s-activate="' + id + '"]');
+						if (((ref = elm.dataset) != null ? ref.sActivateGroup : void 0) != null) {
+							return this._activate(elm);
+						}
+					}
 				},
 
 				/*
@@ -228,6 +282,19 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 						reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
 						return ele.className = ele.className.replace(reg, ' ');
 					}
+				},
+
+				/*
+    	Dom helpers
+     */
+				getClosestActivate: function getClosestActivate(elm) {
+					while (elm && elm !== document) {
+						if (elm.id && this._tabs[elm.id] != null) {
+							return elm;
+						}
+						elm = elm.parentNode;
+					}
+					return false;
 				}
 			};
 
