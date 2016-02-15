@@ -13,6 +13,7 @@ compass 	 = require 'gulp-compass'
 concat 		 = require 'gulp-concat'
 coffee 		 = require 'gulp-coffee'
 clean 		 = require 'gulp-clean'
+babel 		 = require 'gulp-babel'
 
 # configure webpack
 webpackParams =
@@ -20,6 +21,13 @@ webpackParams =
 		loaders: [{
 			test: /\.coffee$/,
 			loader: 'coffee-loader'
+		}, {
+			test: /\.jsx?$/,
+			exclude: /(node_modules|bower_components)/,
+			loader: 'babel-loader',
+			query: {
+				presets: ['es2015']
+			}
 		}]
 	entry: {
         'drawer': ["./coffee/sugar/sugar-drawer.coffee"]
@@ -29,6 +37,7 @@ webpackParams =
         'transitionstart': ["./coffee/sugar/sugar-transitionstart.coffee"]
         'webfonts': ["./coffee/sugar/sugar-webfonts.coffee"]
         'index': ["./coffee/sugar/sugar.coffee"]
+        'activate' : ['./coffee/sugar/sugar-activate.coffee']
         'sugar': ['./coffee/sugar/sugar.coffee']
     },
 	output:
@@ -105,6 +114,9 @@ gulp.task 'sass', ->
 gulp.task 'webpack', ->
 	gulp.src './coffee/**/*.coffee'
 	.pipe gulpWebpack webpackParams
+	.pipe babel
+		presets: ['es2015']
+		#plugins: ['dataset']
 	# .pipe uglify()
 	.pipe gulp.dest 'js'
 

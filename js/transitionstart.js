@@ -1,150 +1,149 @@
+'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
 (function webpackUniversalModuleDefinition(root, factory) {
-	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory();
-	else if(typeof define === 'function' && define.amd)
-		define([], factory);
-	else if(typeof exports === 'object')
-		exports["transitionstart"] = factory();
-	else
-		root["transitionstart"] = factory();
-})(this, function() {
-return /******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
+	if ((typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) === 'object' && (typeof module === 'undefined' ? 'undefined' : _typeof(module)) === 'object') module.exports = factory();else if (typeof define === 'function' && define.amd) define([], factory);else if ((typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) === 'object') exports["transitionstart"] = factory();else root["transitionstart"] = factory();
+})(undefined, function () {
+	return (/******/function (modules) {
+			// webpackBootstrap
+			/******/ // The module cache
+			/******/var installedModules = {};
 
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
+			/******/ // The require function
+			/******/function __webpack_require__(moduleId) {
 
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
-/******/ 			return installedModules[moduleId].exports;
+				/******/ // Check if module is in cache
+				/******/if (installedModules[moduleId])
+					/******/return installedModules[moduleId].exports;
 
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			exports: {},
-/******/ 			id: moduleId,
-/******/ 			loaded: false
-/******/ 		};
+				/******/ // Create a new module (and put it into the cache)
+				/******/var module = installedModules[moduleId] = {
+					/******/exports: {},
+					/******/id: moduleId,
+					/******/loaded: false
+					/******/ };
 
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+				/******/ // Execute the module function
+				/******/modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 
-/******/ 		// Flag the module as loaded
-/******/ 		module.loaded = true;
+				/******/ // Flag the module as loaded
+				/******/module.loaded = true;
 
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
+				/******/ // Return the exports of the module
+				/******/return module.exports;
+				/******/
+			}
 
+			/******/ // expose the modules object (__webpack_modules__)
+			/******/__webpack_require__.m = modules;
 
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
+			/******/ // expose the module cache
+			/******/__webpack_require__.c = installedModules;
 
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
+			/******/ // __webpack_public_path__
+			/******/__webpack_require__.p = "";
 
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
+			/******/ // Load entry module and return exports
+			/******/return __webpack_require__(0);
+			/******/
+		}(
+		/************************************************************************/
+		/******/{
 
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(0);
-/******/ })
-/************************************************************************/
-/******/ ({
+			/***/0:
+			/***/function _(module, exports, __webpack_require__) {
 
-/***/ 0:
-/***/ function(module, exports, __webpack_require__) {
+				module.exports = __webpack_require__(7);
 
-	module.exports = __webpack_require__(6);
+				/***/
+			},
 
+			/***/7:
+			/***/function _(module, exports) {
 
-/***/ },
+				/*
+     * Sugar-transitionstart.js
+     *
+     * This little js file allow you to make your element that have a transition trigger the transitionstart event
+     *
+     * @author   Olivier Bossel <olivier.bossel@gmail.com>
+     * @created  22.01.16
+     * @updated  22.01.16
+     * @version  1.0.0
+     */
+				if (window.sugar == null) {
+					window.sugar = {};
+				}
 
-/***/ 6:
-/***/ function(module, exports) {
+				module.exports = window.sugar.transitionstart = {
+					_inited: false,
+					enabled: true,
+					_settings: {},
 
-	
-	/*
-	 * Sugar-transitionstart.js
-	 *
-	 * This little js file allow you to make your element that have a transition trigger the transitionstart event
-	 *
-	 * @author   Olivier Bossel <olivier.bossel@gmail.com>
-	 * @created  22.01.16
-	 * @updated  22.01.16
-	 * @version  1.0.0
-	 */
-	if (window.sugar == null) {
-	  window.sugar = {};
-	}
+					/*
+     	Init
+      */
+					init: function init(settings) {
+						if (settings == null) {
+							settings = {};
+						}
+						this._settings = this._extend(this._settings, settings);
+						this._inited = true;
+						if (document.readyState === 'interactive') {
+							return this._init();
+						} else {
+							return document.addEventListener('DOMContentLoaded', function (_this) {
+								return function (e) {
+									return _this._init();
+								};
+							}(this));
+						}
+					},
 
-	module.exports = window.sugar.transitionstart = {
-	  _inited: false,
-	  enabled: true,
-	  _settings: {},
+					/*
+     	Internal init
+      */
+					_init: function _init() {
+						if (!this.enabled) {
+							return;
+						}
+						document.addEventListener("transitionend", this._onTransitionEnd, false);
+						document.addEventListener("oTransitionEnd", this._onTransitionEnd, false);
+						return document.addEventListener("webkitTransitionEnd", this._onTransitionEnd, false);
+					},
 
-	  /*
-	  	Init
-	   */
-	  init: function(settings) {
-	    if (settings == null) {
-	      settings = {};
-	    }
-	    this._settings = this._extend(this._settings, settings);
-	    this._inited = true;
-	    if (document.readyState === 'interactive') {
-	      return this._init();
-	    } else {
-	      return document.addEventListener('DOMContentLoaded', (function(_this) {
-	        return function(e) {
-	          return _this._init();
-	        };
-	      })(this));
-	    }
-	  },
+					/*
+     	On animation start
+      */
+					_onTransitionEnd: function _onTransitionEnd(e) {
+						if (e.elapsedTime === 0.000001 || e.propertyName === 'outline-color') {
+							return e.target.dispatchEvent(new CustomEvent('transitionstart', {
+								bubbles: true,
+								cancelable: true
+							}));
+						}
+					},
 
-	  /*
-	  	Internal init
-	   */
-	  _init: function() {
-	    if (!this.enabled) {
-	      return;
-	    }
-	    document.addEventListener("transitionend", this._onTransitionEnd, false);
-	    document.addEventListener("oTransitionEnd", this._onTransitionEnd, false);
-	    return document.addEventListener("webkitTransitionEnd", this._onTransitionEnd, false);
-	  },
+					/*
+     	Extend settings
+      */
+					_extend: function _extend(obj, mixin) {
+						var method, name;
+						for (name in mixin) {
+							method = mixin[name];
+							obj[name] = method;
+						}
+						return obj;
+					}
+				};
 
-	  /*
-	  	On animation start
-	   */
-	  _onTransitionEnd: function(e) {
-	    if (e.elapsedTime === 0.000001 || e.propertyName === 'outline-color') {
-	      return e.target.dispatchEvent(new CustomEvent('transitionstart', {
-	        bubbles: true,
-	        cancelable: true
-	      }));
-	    }
-	  },
+				window.sugar.transitionstart.init();
 
-	  /*
-	  	Extend settings
-	   */
-	  _extend: function(obj, mixin) {
-	    var method, name;
-	    for (name in mixin) {
-	      method = mixin[name];
-	      obj[name] = method;
-	    }
-	    return obj;
-	  }
-	};
+				/***/
+			}
 
-	window.sugar.transitionstart.init();
-
-
-/***/ }
-
-/******/ })
+			/******/ })
+	);
 });
 ;
