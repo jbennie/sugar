@@ -9,6 +9,7 @@
 # @version  1.0.0
 ###
 window.sugar ?= {}
+
 module.exports = window.sugar.activate =
 
 	# inited

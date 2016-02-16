@@ -5,10 +5,13 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-	<script src="js/vendor.js"></script>
-	<script src="js/sugar.js"></script>
+	<script src="dist/js/sugar.js"></script>
 
 	<script>
+	sugar.ActivateElement.setup('nested', {
+		history : false
+	});
+
 	sugar.webfonts.init({
 		json_path : './fonts/fonts.json#2.2',
 		debug : true
@@ -18,9 +21,9 @@
 		sugar.gooey.enabled = false;
 	}
 	</script>
-	<link href="css/loaders.css" rel="stylesheet" type="text/css" />
-	<link href="css/style.css" rel="stylesheet" type="text/css" />
-	<link href="css/grid.css" rel="stylesheet" type="text/css" />
+	<link href="assets/css/loaders.css" rel="stylesheet" type="text/css" />
+	<link href="assets/css/style.css" rel="stylesheet" type="text/css" />
+	<link href="assets/css/grid.css" rel="stylesheet" type="text/css" />
 
 	<title>Sugar - Demo</title>
 

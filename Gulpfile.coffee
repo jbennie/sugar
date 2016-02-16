@@ -26,22 +26,29 @@ webpackParams =
 			exclude: /(node_modules|bower_components)/,
 			loader: 'babel-loader',
 			query: {
-				presets: ['es2015']
+				presets: ['es2015'],
+				compact: false
 			}
 		}]
-	entry: {
-        'drawer': ["./coffee/sugar/sugar-drawer.coffee"]
-        'gooey': ["./coffee/sugar/sugar-gooey.coffee"]
-        'domnodeinserted': ["./coffee/sugar/sugar-domnodeinserted.coffee"]
-        'motionblur': ["./coffee/sugar/sugar-motionblur.coffee"]
-        'transitionstart': ["./coffee/sugar/sugar-transitionstart.coffee"]
-        'webfonts': ["./coffee/sugar/sugar-webfonts.coffee"]
-        'index': ["./coffee/sugar/sugar.coffee"]
-        'activate' : ['./coffee/sugar/sugar-activate.coffee']
-        'sugar': ['./coffee/sugar/sugar.coffee']
-    },
+webpackAppParams = _.extend {}, webpackParams,
 	output:
-		path: require("path").resolve("./js"),
+		path: require("path").resolve("./assets/js"),
+		filename: 'app.js',
+		libraryTarget: 'umd'
+webpackDistParams = _.extend {}, webpackParams,
+	entry: {
+		'drawer': ["./src/coffee/sugar/sugar-drawer.coffee"]
+		'gooey': ["./src/coffee/sugar/sugar-gooey.coffee"]
+		'domnodeinserted': ["./src/coffee/sugar/sugar-domnodeinserted.coffee"]
+		'motionblur': ["./src/coffee/sugar/sugar-motionblur.coffee"]
+		'transitionstart': ["./src/coffee/sugar/sugar-transitionstart.coffee"]
+		'webfonts': ["./src/coffee/sugar/sugar-webfonts.coffee"]
+		'index': ["./src/coffee/sugar/sugar.coffee"]
+		'activate' : ['./src/js/sugar/sugar-activate.js']
+		'sugar': ['./src/coffee/sugar/sugar.coffee']
+	},
+	output:
+		path: require("path").resolve("./dist/js"),
 		filename: '[name].js'
 		library: '[name]'
 		libraryTarget: 'umd'
@@ -67,63 +74,69 @@ gulp.task 'tokens', ->
 # clean
 gulp.task 'clean-js', ->
 	gulp.src [
-		'js/'
+		'dist/js/',
+		'assets/js'
 	]
 	.pipe clean()
 gulp.task 'clean-css', ->
 	gulp.src [
-		'css/'
+		'assets/css/'
 	]
 	.pipe clean()
 
-# vendors
-gulp.task 'vendor', ['coffee'], ->
-	gulp.src [
-		'bower_components/jquery/dist/jquery.js'
-		'bower_components/jquery.slidizle/js/jquery.slidizle.js'
-		'js/demo.js'
-	]
-	.pipe concat 'vendor.js'
-	.pipe uglify()
-	.pipe gulp.dest 'js'
-
 # coffee
-gulp.task 'coffee', ->
-	gulp.src './coffee/*.coffee'
+gulp.task 'coffee', ['clean-js'], ->
+	gulp.src './src/coffee/*.coffee'
 	.pipe coffee()
-	.pipe gulp.dest 'js'
+	.pipe gulp.dest 'assets/js'
 
 # compass
 gulp.task 'compass', ->
-	gulp.src './sass/**/*.scss'
+	gulp.src './src/sass/**/*.scss'
 	.pipe compass
 		config_file: './config.rb'
-		css: 'css'
-		sass: 'sass'
+		css: 'assets/css'
+		sass: 'src/sass'
 	.pipe autoprefixer()
-	.pipe gulp.dest 'css'
+	.pipe gulp.dest 'assets/css'
 
 # sass
 gulp.task 'sass', ->
-	gulp.src './sass/**/*.scss'
+	gulp.src './src/sass/**/*.scss'
 	.pipe sass(outputStyle: 'compressed').on 'error', sass.logError
 	.pipe autoprefixer()
-	.pipe gulp.dest 'css'
+	.pipe gulp.dest 'assets/css'
 
 # build the package
-gulp.task 'webpack', ->
-	gulp.src './coffee/**/*.coffee'
-	.pipe gulpWebpack webpackParams
-	.pipe babel
-		presets: ['es2015']
-		#plugins: ['dataset']
+gulp.task 'webpack-dist', ['clean-js'], ->
+	gulp.src [
+		'./src/js/sugar/**/*.js'
+		'./src/coffee/sugar/**/*.coffee'
+	]
+	.pipe gulpWebpack webpackDistParams
+	# .pipe babel
+	# 	presets: ['es2015','stage-0']
+	# 	compact: false
 	# .pipe uglify()
-	.pipe gulp.dest 'js'
+	.pipe gulp.dest 'dist/js'
+
+gulp.task 'webpack-app', ['clean-js'], ->
+	gulp.src [
+		'./src/js/*.js'
+		'./src/coffee/*.coffee'
+	]
+	.pipe gulpWebpack webpackAppParams
+	# .pipe babel
+	# 	presets: ['es2015','stage-0']
+	# 	#plugins: ['dataset']
+	# .pipe uglify()
+	.pipe gulp.dest 'assets/js'
 
 # register tasks
-gulp.task 'default', ['webpack','compass','vendor']
+gulp.task 'default', ['webpack-dist','webpack-app','compass']
 gulp.task 'watch', ['default'], ->
 	# Recompile on change
-	gulp.watch ["coffee/**/*.coffee"], ['webpack','coffee']
-	gulp.watch ["sass/**/*.scss"], ['compass']
+	gulp.watch ["src/coffee/**/*.coffee"], ['webpack-dist','webpack-app']
+	gulp.watch ['src/js/**/*.js'], ['webpack-dist','webpack-app']
+	gulp.watch ["src/sass/**/*.scss"], ['compass']
 	gulp.watch ['pages/**/*.html'], ['tokens']

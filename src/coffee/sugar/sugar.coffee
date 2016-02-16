@@ -15,4 +15,4 @@ module.exports =
 	motionblur : require './sugar-motionblur.coffee'
 	transitionstart : require './sugar-transitionstart.coffee'
 	webfonts : require './sugar-webfonts.coffee'
-	activate : require './sugar-activate.coffee'
+	activate : require './../../js/sugar/sugar-activate.js'
