@@ -1,5 +1,5 @@
 import { uncamelize } from './sugar-tools'
-import 'mutation-summary'
+let MutationSummary = require('mutation-summary');
 
 let _get = require('lodash/get');
 let _capizalize = require('lodash/capitalize');
@@ -14,6 +14,14 @@ class SugarDom {
 	 */
 	constructor() {
 
+	}
+
+	uniqid() {
+		let ts=String(new Date().getTime()), i = 0, out = '';
+		for(i=0;i<ts.length;i+=2) {        
+			out+=Number(ts.substr(i, 2)).toString(36);    
+		}
+		return ('d'+out);
 	}
 
 	/**
@@ -32,13 +40,9 @@ class SugarDom {
 	 */
 	onInserted(selector, cb) {
 
-		// if we have access to mutation observers,
-		// use them
-		// create only 1 listener
-
 		// use the animation hack to detect
 		// new items in the page
-		let detection_id = 's-insert-detection-'+Math.round(Math.random()*99999999999);
+		let detection_id = 's-insert-detection-'+this.uniqid();
 
 		// add the callback in stack
 		_insertDomElementsCallbacks[detection_id] = {
@@ -47,11 +51,15 @@ class SugarDom {
 		};
 		
 		// check how we can detect new elements
-		if (window.MutationObserver && ! _insertMutationObserver) {
-			
+		if (false && window.MutationObserver && ! _insertMutationObserver) {
+			// make use of great mutation summary library
 			var observer = new MutationSummary({
 				callback: (summaries) => {
-					console.log('summaries', summaries);
+					summaries.forEach((summary) => {
+						summary.added.forEach((elm) => {
+							cb(elm);
+						});
+					});
 				},
 				queries: [{ element: selector }]
 			});
@@ -97,6 +105,7 @@ class SugarDom {
 			if (! _insertAnimationListener) {
 				_insertAnimationListener = true;
 				document.addEventListener('animationend', (e) => {
+					console.log('end');
 					if (_insertDomElementsCallbacks[e.animationName]) {
 						_insertDomElementsCallbacks[e.animationName].callback(e.target);
 					}
@@ -167,6 +176,8 @@ class SugarDom {
 
 }
 
+// store the settings for the different
+// components types
 let _sugarTypesSettings = {};
 
 class SugarElement extends SugarDom {
@@ -196,15 +207,6 @@ class SugarElement extends SugarDom {
 		let type = this.setting('settings');
 		if (type && _sugarTypesSettings[name][type]) {
 			this.settings = {...this.settings, ..._sugarTypesSettings[name][type]};
-		}
-
-		// add dataset support
-		if (! this.elm.dataset) {
-			Object.defineProperty(this.elm, 'dataset', {
-				enumarable : true,
-				configurable : false,
-				writable : true
-			});
 		}
 	}
 

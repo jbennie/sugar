@@ -417,6 +417,12 @@ return /******/ (function(modules) { // webpackBootstrap
 						new SugarActivateElement(element);
 					}
 				});
+				// listen for new element
+				this.onInserted('[data-s-activateeeeee]', function (element) {
+					if (!element.sActivate) {
+						new SugarActivateElement(element);
+					}
+				});
 			}
 
 			/**
@@ -502,13 +508,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _sugarTools = __webpack_require__(3);
 
-	__webpack_require__(4);
-
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var MutationSummary = __webpack_require__(4);
 
 	var _get = __webpack_require__(5);
 	var _capizalize = __webpack_require__(18);
@@ -526,12 +532,23 @@ return /******/ (function(modules) { // webpackBootstrap
 			_classCallCheck(this, SugarDom);
 		}
 
-		/**
-	  * Polyfill for the matches js method
-	  */
-
-
 		_createClass(SugarDom, [{
+			key: 'uniqid',
+			value: function uniqid() {
+				var ts = String(new Date().getTime()),
+				    i = 0,
+				    out = '';
+				for (i = 0; i < ts.length; i += 2) {
+					out += Number(ts.substr(i, 2)).toString(36);
+				}
+				return 'd' + out;
+			}
+
+			/**
+	   * Polyfill for the matches js method
+	   */
+
+		}, {
 			key: 'selectorMatches',
 			value: function selectorMatches(el, selector) {
 				var p = Element.prototype;
@@ -549,13 +566,9 @@ return /******/ (function(modules) { // webpackBootstrap
 			key: 'onInserted',
 			value: function onInserted(selector, cb) {
 
-				// if we have access to mutation observers,
-				// use them
-				// create only 1 listener
-
 				// use the animation hack to detect
 				// new items in the page
-				var detection_id = 's-insert-detection-' + Math.round(Math.random() * 99999999999);
+				var detection_id = 's-insert-detection-' + this.uniqid();
 
 				// add the callback in stack
 				_insertDomElementsCallbacks[detection_id] = {
@@ -564,11 +577,15 @@ return /******/ (function(modules) { // webpackBootstrap
 				};
 
 				// check how we can detect new elements
-				if (window.MutationObserver && !_insertMutationObserver) {
-
+				if (false) {
+					// make use of great mutation summary library
 					var observer = new MutationSummary({
 						callback: function callback(summaries) {
-							console.log('summaries', summaries);
+							summaries.forEach(function (summary) {
+								summary.added.forEach(function (elm) {
+									cb(elm);
+								});
+							});
 						},
 						queries: [{ element: selector }]
 					});
@@ -605,6 +622,7 @@ return /******/ (function(modules) { // webpackBootstrap
 						if (!_insertAnimationListener) {
 							_insertAnimationListener = true;
 							document.addEventListener('animationend', function (e) {
+								console.log('end');
 								if (_insertDomElementsCallbacks[e.animationName]) {
 									_insertDomElementsCallbacks[e.animationName].callback(e.target);
 								}
@@ -690,6 +708,10 @@ return /******/ (function(modules) { // webpackBootstrap
 		return SugarDom;
 	}();
 
+	// store the settings for the different
+	// components types
+
+
 	var _sugarTypesSettings = {};
 
 	var SugarElement = function (_SugarDom) {
@@ -735,15 +757,6 @@ return /******/ (function(modules) { // webpackBootstrap
 			var type = _this.setting('settings');
 			if (type && _sugarTypesSettings[name][type]) {
 				_this.settings = _extends({}, _this.settings, _sugarTypesSettings[name][type]);
-			}
-
-			// add dataset support
-			if (!_this.elm.dataset) {
-				Object.defineProperty(_this.elm, 'dataset', {
-					enumarable: true,
-					configurable: false,
-					writable: true
-				});
 			}
 			return _this;
 		}

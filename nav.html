@@ -475,6 +475,8 @@ setTimeout(function() {
 	el.setAttribute('data-s-activate','nested-nav-3');
 	el.innerHTML = 'coco';
 	document.body.appendChild(el);
+	document.body.appendChild(el.cloneNode());
+	document.body.appendChild(el.cloneNode());
 }, 2000);
 </script>
 

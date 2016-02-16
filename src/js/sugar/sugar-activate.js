@@ -278,6 +278,12 @@ class SugarActivateManager extends SugarDom {
 				new SugarActivateElement(element);
 			}
 		});
+		// listen for new element
+		this.onInserted('[data-s-activateeeeee]', (element) => {
+			if (!element.sActivate) {
+				new SugarActivateElement(element);
+			}
+		});
 	}
 
 	/**
