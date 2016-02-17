@@ -8,7 +8,8 @@
  * @updated  20.01.16
  * @version  1.0.0
  */
-import { SugarElement, SugarDom } from './sugar-core'
+import SugarElement from './sugar-element'
+import sDom from './sugar-dom'
 var _get = require('lodash/get');
 
 // make sure we have a sugar property on window
@@ -32,16 +33,17 @@ class SugarActivateElement extends SugarElement {
 	 */
 	constructor(elm, settings = {}) {
 		super('sActivate', elm, {
-			active_class: 'active',
-			history: true,
-			anchor: true,
-			toggle : false
+			activeClass : 'active',
+			history : true,
+			anchor : true,
+			toggle : false,
+			trigger : 'click',
+			unactivateTrigger : null,
+			unactivateTimeout : 200
 		}, settings);
 
 		this._inited = true;
 		this._tabs = {};
-
-		this.elm.sActivate = this;
 
 		// init
 		this.init();
@@ -97,8 +99,9 @@ class SugarActivateElement extends SugarElement {
 		}
 
 		// listen for click
-		this.elm.addEventListener('click', (e) => {
-
+		this.elm.addEventListener(this.setting('trigger'), (e) => {
+			// clear unactivate timeout
+			clearTimeout(this._unactivateSetTimeout);
 			// if toggle
 			if (this.setting('toggle') && this.isActive()) {
 				// unactivate
@@ -125,6 +128,28 @@ class SugarActivateElement extends SugarElement {
 				}
 			}	
 		});
+		// check if has an unactivate trigger
+		let unactivate_trigger = this.setting('unactivateTrigger');
+		if (unactivate_trigger) {
+			this.elm.addEventListener(unactivate_trigger, (e) => {
+				this._unactivateSetTimeout = setTimeout(() => {
+					this.unactivate();
+				}, this.setting('unactivateTimeout'));		
+			});
+			if (unactivate_trigger == 'mouseleave' || unactivate_trigger == 'mouseout') {
+				[].forEach.call(this.targets, (target) => {
+					target.addEventListener('mouseenter', (e) => {
+						// clear the unactivate timeout
+						clearTimeout(this._unactivateSetTimeout);
+					});
+					target.addEventListener(unactivate_trigger, (e) => {
+						this._unactivateSetTimeout = setTimeout(() => {
+							this.unactivate();
+						}, this.setting('unactivateTimeout'));	
+					});
+				});
+			}
+		}
 
 		// if the element has the active class
 		if (this.hasClass('active')) {
@@ -246,17 +271,15 @@ class SugarActivateElement extends SugarElement {
 	}
 }
 
-class SugarActivateManager extends SugarDom {
+class SugarActivateManager {
 	
 	/**
 	 * Constructor
 	 */
 	constructor() {
-		// init parent
-		super();
 
 		// what that the dom is ready
-		this.domReady(() => {
+		sDom.domReady(() => {
 			this._init();
 		});
 	}
@@ -265,21 +288,14 @@ class SugarActivateManager extends SugarDom {
 	 * Init
 	 */
 	_init() {
+
 		// init all elements in the page
 		[].forEach.call(document.body.querySelectorAll('[data-s-activate]'), (elm) => {
 			new SugarActivateElement(elm);
 		});
-		// listen for new elements
-		this._listenMutations();
 
 		// listen for new element
-		this.onInserted('[data-s-activate]', (element) => {
-			if (!element.sActivate) {
-				new SugarActivateElement(element);
-			}
-		});
-		// listen for new element
-		this.onInserted('[data-s-activateeeeee]', (element) => {
+		sDom.onInserted('[data-s-activate]', (element) => {
 			if (!element.sActivate) {
 				new SugarActivateElement(element);
 			}
@@ -309,29 +325,13 @@ class SugarActivateManager extends SugarDom {
 		let item = this.find(id);
 		if (item) item.unactivate();
 	}
-
-	/**
-	 * Listen for nodes
-	 */
-	_listenMutations() {
-		document.addEventListener('DOMNodeInserted', (e) => {
-			let elm = e.target;
-			if (this.dataset(elm, 'sActivate') && ! _sActivateStack[this.dataset(elm, 'sActivate')]) {
-				// new activate element
-				new SugarActivateElement(elm);
-			}
-		});
-	}
 };
 
-// expose in window
 window.sugar.activateManager = new SugarActivateManager();
 window.sugar.ActivateElement = SugarActivateElement;
-window.sugar.ActivateManager = SugarActivateManager;
 
 // export modules
 module.exports = {
 	activateManager : window.sugar.activateManager,
-	ActivateManager : SugarActivateManager,
 	ActivateElement : SugarActivateElement
 };

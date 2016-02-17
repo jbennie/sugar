@@ -1,48 +1,31 @@
-import { uncamelize } from './sugar-tools'
+import * as sugarTools from './sugar-tools'
 let MutationSummary = require('mutation-summary');
-
 let _get = require('lodash/get');
-let _capizalize = require('lodash/capitalize');
 let _insertAnimationListener = false;
 let _insertMutationObserver = null;
 let _insertDomElementsCallbacks = {};
 
-class SugarDom {
-
-	/**
-	 * Constructor
-	 */
-	constructor() {
-
-	}
-
-	uniqid() {
-		let ts=String(new Date().getTime()), i = 0, out = '';
-		for(i=0;i<ts.length;i+=2) {        
-			out+=Number(ts.substr(i, 2)).toString(36);    
-		}
-		return ('d'+out);
-	}
+let sugarDom = {
 
 	/**
 	 * Polyfill for the matches js method
 	 */
-	selectorMatches(el, selector) {
+	matches : (el, selector) => {
 		var p = Element.prototype;
 		var f = p.matches || p.webkitMatchesSelector || p.mozMatchesSelector || p.msMatchesSelector || function(s) {
 			return [].indexOf.call(document.querySelectorAll(s), this) !== -1;
 		};
 		return f.call(el, selector);
-	}
+	},
 
 	/**
 	 * Make a selector detectable when new element are pushed in the page
 	 */
-	onInserted(selector, cb) {
+	onInserted : (selector, cb) => {
 
 		// use the animation hack to detect
 		// new items in the page
-		let detection_id = 's-insert-detection-'+this.uniqid();
+		let detection_id = 's-insert-detection-'+sugarTools.uniqid();
 
 		// add the callback in stack
 		_insertDomElementsCallbacks[detection_id] = {
@@ -51,7 +34,7 @@ class SugarDom {
 		};
 		
 		// check how we can detect new elements
-		if (false && window.MutationObserver && ! _insertMutationObserver) {
+		if (window.MutationObserver != null && ! _insertMutationObserver) {
 			// make use of great mutation summary library
 			var observer = new MutationSummary({
 				callback: (summaries) => {
@@ -70,7 +53,7 @@ class SugarDom {
 			// 		if (mutation.addedNodes && mutation.addedNodes[0]) {
 			// 			// loop on each callbacks to find a match
 			// 			for(let insert_id in _insertDomElementsCallbacks) {
-			// 				if (this.selectorMatches(mutation.addedNodes[0], _insertDomElementsCallbacks[insert_id].selector)) {
+			// 				if (this.matches(mutation.addedNodes[0], _insertDomElementsCallbacks[insert_id].selector)) {
 			// 					_insertDomElementsCallbacks[insert_id].callback(mutation.addedNodes[0]);
 			// 				}
 			// 			}
@@ -105,37 +88,39 @@ class SugarDom {
 			if (! _insertAnimationListener) {
 				_insertAnimationListener = true;
 				document.addEventListener('animationend', (e) => {
-					console.log('end');
 					if (_insertDomElementsCallbacks[e.animationName]) {
 						_insertDomElementsCallbacks[e.animationName].callback(e.target);
 					}
 				});
 			}
 		}
-	}
+	},
 
 	/**
 	 * Dom ready
 	 */
-	domReady(cb) {
-		if (document.readyState == 'interactive') cb();
-		else {
-			document.addEventListener('DOMContentLoaded', (e) => {
-				cb();
-			});
-		}	
-	}
+	domReady : (cb) => {
+		// if (document.readyState == 'complete') {
+		// 	console.log('ready!!!');
+		// 	console.log(document.body);
+		// 	cb();
+		// } else {
+		document.addEventListener('DOMContentLoaded', (e) => {
+			cb();
+		});
+		// }	
+	},
 
 	/**
 	 * Access dataset
 	 */
-	dataset(elm, key, value = null) {
+	dataset : (elm, key, value = null) => {
 		if ( ! elm.getAttribute) return;
 		if ( ! value) {
 			// try to get
 			let v = _get(elm, 'dataset.'+key);
 			if (v) return v;
-			v = elm.getAttribute('data-'+uncamelize(key));
+			v = elm.getAttribute('data-'+sugarTools.uncamelize(key));
 			return v;
 		} else {
 			// try to set the value
@@ -144,106 +129,35 @@ class SugarDom {
 					elm.dataset[key] = value;
 				} else {
 					// set the data through setAttribute
-					elm.setAttribute('data-'+uncamelize(key), value);
+					elm.setAttribute('data-'+sugarTools.uncamelize(key), value);
 				}
 			} else {
 				// set the data through setAttribute
 				// cause no support for dataset
-				elm.setAttribute('data-'+uncamelize(key), value);
+				elm.setAttribute('data-'+sugarTools.uncamelize(key), value);
 			}
 
 		}
-	}
+	},
 
 	/**
 	 * Classes helpers
 	 */
-	hasClass(elm, cls) {
+	hasClass : (elm, cls) => {
 		return elm.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
-	}
-	addClass(elm, cls) {
-		if (!this.hasClass(cls, elm)) {
+	},
+	addClass : (elm, cls) => {
+		if (!sugarDom.hasClass(elm, cls)) {
 			return elm.className += ' ' + cls;
 		}
-	}
-	removeClass(elm, cls) {
+	},
+	removeClass : (elm, cls) => {
 		let reg;
-		if (this.hasClass(cls, elm)) {
+		if (sugarDom.hasClass(elm, cls)) {
 			reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
 			return elm.className = elm.className.replace(reg, ' ');
 		}
 	}
-
 }
 
-// store the settings for the different
-// components types
-let _sugarTypesSettings = {};
-
-class SugarElement extends SugarDom {
-
-	/**
-	 * Setup
-	 */
-	static setup(name, type, settings) {
-		if (! _sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
-		_sugarTypesSettings[name][type] = settings;
-	}
-
-	/**
-	 * Constructor
-	 */
-	constructor(name, elm, default_settings = {}, settings = {}) {
-		// init parent
-		super();
-		// save element reference
-		this.elm = elm;
-		this.name = name;
-		// extend settings
-		this.settings = {...default_settings, ...settings};
-
-		// check if a type is defined then extend the settings
-		if (! _sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
-		let type = this.setting('settings');
-		if (type && _sugarTypesSettings[name][type]) {
-			this.settings = {...this.settings, ..._sugarTypesSettings[name][type]};
-		}
-	}
-
-	/**
-	 * Setting
-	 */
-	setting(key) {
-		// check in the dataset
-		let s = this.dataset(this.name+_capizalize(key));
-		if (s == 'false') s = false;
-		if (s != undefined) return s;
-		// return the settings
-		return this.settings[key];
-	}
-
-	/**
-	 * Access dataset
-	 */
-	dataset(key, value = null, elm = this.elm) {
-		return super.dataset(elm, key, value);
-	}
-
-	/**
-	 * Classes helpers
-	 */
-	hasClass(cls, elm = this.elm) {
-		return super.hasClass(elm, cls);
-	}
-	addClass(cls, elm = this.elm) {
-		return super.addClass(elm, cls);
-	}
-	removeClass(cls, elm = this.elm) {
-		return super.removeClass(elm, cls);
-	}
-}
-
-module.exports = {
-	SugarElement : SugarElement,
-	SugarDom : SugarDom
-}
+export default sugarDom;

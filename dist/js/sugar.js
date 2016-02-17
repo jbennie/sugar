@@ -54,7 +54,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(25);
+	module.exports = __webpack_require__(28);
 
 
 /***/ },
@@ -63,15 +63,23 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	var _sugarElement = __webpack_require__(2);
 
-	var _sugarCore = __webpack_require__(2);
+	var _sugarElement2 = _interopRequireDefault(_sugarElement);
+
+	var _sugarDom = __webpack_require__(4);
+
+	var _sugarDom2 = _interopRequireDefault(_sugarDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); } /*
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Sugar-activate.js
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
@@ -83,7 +91,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
 
-	var _get = __webpack_require__(5);
+	var _get = __webpack_require__(6);
 
 	// make sure we have a sugar property on window
 	if (window.sugar == null) {
@@ -98,39 +106,36 @@ return /******/ (function(modules) { // webpackBootstrap
 	var SugarActivateElement = function (_SugarElement) {
 		_inherits(SugarActivateElement, _SugarElement);
 
-		_createClass(SugarActivateElement, null, [{
-			key: 'setup',
+		/**
+	  * Setup
+	  */
 
+		SugarActivateElement.setup = function setup(type, settings) {
+			_sugarElement2.default.setup('sActivate', type, settings);
+		};
 
-			/**
-	   * Setup
-	   */
-			value: function setup(type, settings) {
-				_sugarCore.SugarElement.setup('sActivate', type, settings);
-			}
+		/**
+	  * Constructor
+	  */
 
-			/**
-	   * Constructor
-	   */
-
-		}]);
 
 		function SugarActivateElement(elm) {
 			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
 			_classCallCheck(this, SugarActivateElement);
 
-			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SugarActivateElement).call(this, 'sActivate', elm, {
-				active_class: 'active',
+			var _this = _possibleConstructorReturn(this, _SugarElement.call(this, 'sActivate', elm, {
+				activeClass: 'active',
 				history: true,
 				anchor: true,
-				toggle: false
+				toggle: false,
+				trigger: 'click',
+				unactivateTrigger: null,
+				unactivateTimeout: 200
 			}, settings));
 
 			_this._inited = true;
 			_this._tabs = {};
-
-			_this.elm.sActivate = _this;
 
 			// init
 			_this.init();
@@ -142,258 +147,266 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-		_createClass(SugarActivateElement, [{
-			key: 'init',
-			value: function init() {
-				var _this2 = this;
+		SugarActivateElement.prototype.init = function init() {
+			var _this2 = this;
 
-				if (this.inited) {
-					return;
-				}
-				this.inited = true;
-				var group = this.dataset('sActivateGroup');
+			if (this.inited) {
+				return;
+			}
+			this.inited = true;
+			var group = this.dataset('sActivateGroup');
 
-				// save in stack
-				_sActivateStack[this.dataset('sActivate')] = this;
+			// save in stack
+			_sActivateStack[this.dataset('sActivate')] = this;
 
-				// update references
-				this.update();
+			// update references
+			this.update();
 
-				// handle history if needed
-				if (this.setting('history')) {
-					this._handleHistory();
-				}
+			// handle history if needed
+			if (this.setting('history')) {
+				this._handleHistory();
+			}
 
-				// managing group
-				if (!group) {
-					[].forEach.call(this.elm.parentNode.childNodes, function (sibling) {
-						if (!_this2.dataset('sActivateGroup')) {
-							var sActivate = _this2.dataset('sActivate', null, sibling);
-							if (sActivate) {
-								var sibling_grp = _this2.dataset('sActivateGroup', null, sibling);
-								if (sibling_grp && sibling.sActivateGeneratedGroup) {
-									_this2.dataset('sActivateGroup', sibling_grp);
-								}
+			// managing group
+			if (!group) {
+				[].forEach.call(this.elm.parentNode.childNodes, function (sibling) {
+					if (!_this2.dataset('sActivateGroup')) {
+						var sActivate = _this2.dataset('sActivate', null, sibling);
+						if (sActivate) {
+							var sibling_grp = _this2.dataset('sActivateGroup', null, sibling);
+							if (sibling_grp && sibling.sActivateGeneratedGroup) {
+								_this2.dataset('sActivateGroup', sibling_grp);
 							}
 						}
-					});
-
-					// if we don't have any group yet
-					if (!this.dataset('sActivateGroup')) {
-						this.dataset('sActivateGroup', 'group-' + Math.round(Math.random() * 99999999));
-						this.elm.sActivateGeneratedGroup = true;
 					}
+				});
+
+				// if we don't have any group yet
+				if (!this.dataset('sActivateGroup')) {
+					this.dataset('sActivateGroup', 'group-' + Math.round(Math.random() * 99999999));
+					this.elm.sActivateGeneratedGroup = true;
 				}
+			}
 
-				// check if we are in another s-activate element
-				var closest = this._getClosestActivate();
-				if (closest) {
-					// save the closest content reference
-					this.parentActivate = document.body.querySelector('[data-s-activate="' + closest.id + '"]');
-				}
+			// check if we are in another s-activate element
+			var closest = this._getClosestActivate();
+			if (closest) {
+				// save the closest content reference
+				this.parentActivate = document.body.querySelector('[data-s-activate="' + closest.id + '"]');
+			}
 
-				// listen for click
-				this.elm.addEventListener('click', function (e) {
-
-					// if toggle
-					if (_this2.setting('toggle') && _this2.isActive()) {
-						// unactivate
-						_this2.unactivate();
-						// check if has a hash
-						if (_this2.setting('history')) {
-							window.history.back();
+			// listen for click
+			this.elm.addEventListener(this.setting('trigger'), function (e) {
+				// clear unactivate timeout
+				clearTimeout(_this2._unactivateSetTimeout);
+				// if toggle
+				if (_this2.setting('toggle') && _this2.isActive()) {
+					// unactivate
+					_this2.unactivate();
+					// check if has a hash
+					if (_this2.setting('history')) {
+						window.history.back();
+					}
+				} else {
+					if (_this2.setting('history')) {
+						// simply activate again if the same id that anchor
+						// this can happened when an element has history to false
+						if (document.location.hash && document.location.hash.substr(1) == _this2.dataset('sActivate')) {
+							_this2._activate();
+						} else {
+							// simply change the hash
+							// the event listener will take care of activate the
+							// good element
+							document.location.hash = _this2.dataset('sActivate');
 						}
 					} else {
-						if (_this2.setting('history')) {
-							// simply activate again if the same id that anchor
-							// this can happened when an element has history to false
-							if (document.location.hash && document.location.hash.substr(1) == _this2.dataset('sActivate')) {
-								_this2._activate();
-							} else {
-								// simply change the hash
-								// the event listener will take care of activate the
-								// good element
-								document.location.hash = _this2.dataset('sActivate');
-							}
-						} else {
-							// activate the element
-							_this2._activate();
-						}
+						// activate the element
+						_this2._activate();
 					}
-				});
-
-				// if the element has the active class
-				if (this.hasClass('active')) {
-					this._activate();
 				}
-
-				// if need to handle anchor
-				if (this.setting('anchor')) {
-					var hash = document.location.hash;
-					if (hash) {
-						hash = hash.substr(1);
-						if (hash == this.dataset('sActivate')) {
-							this._activate();
-						}
-					}
+			});
+			// check if has an unactivate trigger
+			var unactivate_trigger = this.setting('unactivateTrigger');
+			if (unactivate_trigger) {
+				this.elm.addEventListener(unactivate_trigger, function (e) {
+					_this2._unactivateSetTimeout = setTimeout(function () {
+						_this2.unactivate();
+					}, _this2.setting('unactivateTimeout'));
+				});
+				if (unactivate_trigger == 'mouseleave' || unactivate_trigger == 'mouseout') {
+					[].forEach.call(this.targets, function (target) {
+						target.addEventListener('mouseenter', function (e) {
+							// clear the unactivate timeout
+							clearTimeout(_this2._unactivateSetTimeout);
+						});
+						target.addEventListener(unactivate_trigger, function (e) {
+							_this2._unactivateSetTimeout = setTimeout(function () {
+								_this2.unactivate();
+							}, _this2.setting('unactivateTimeout'));
+						});
+					});
 				}
 			}
 
-			/**
-	   * Check if is active
-	   */
-
-		}, {
-			key: 'isActive',
-			value: function isActive() {
-				return this.hasClass('active');
+			// if the element has the active class
+			if (this.hasClass('active')) {
+				this._activate();
 			}
 
-			/**
-	   * Activate the element
-	   */
-
-		}, {
-			key: '_activate',
-			value: function _activate() {
-				var _this3 = this;
-
-				// unactive all group elements
-				var grp = this.dataset('sActivateGroup');
-				[].forEach.call(document.body.querySelectorAll('[data-s-activate-group="' + grp + '"]'), function (group_elm) {
-					// get the api
-					var api = group_elm.sActivate;
-					// unactive element
-					if (api) {
-						api.unactivate();
-					}
-				});
-
-				// activate the element
-				this.addClass('active');
-
-				// activate all the targets
-				[].forEach.call(this.targets, function (target_elm) {
-					// remove the active class on target
-					_this3.addClass('active', target_elm);
-				});
-
-				// if has a perent, activate it
-				if (this.parentActivate) {
-					var parent_api = this.parentActivate.sActivate;
-					if (parent_api) {
-						parent_api._activate();
+			// if need to handle anchor
+			if (this.setting('anchor')) {
+				var hash = document.location.hash;
+				if (hash) {
+					hash = hash.substr(1);
+					if (hash == this.dataset('sActivate')) {
+						this._activate();
 					}
 				}
 			}
+		};
 
-			/**
-	   * Handle history
-	   */
+		/**
+	  * Check if is active
+	  */
 
-		}, {
-			key: '_handleHistory',
-			value: function _handleHistory() {
-				var _this4 = this;
 
-				window.addEventListener('hashchange', function (e) {
-					var hash = document.location.hash;
-					if (hash) {
-						hash = hash.substr(1);
-						if (hash == _this4.dataset('sActivate')) {
-							_this4._activate();
-						}
-					}
-				});
-			}
+		SugarActivateElement.prototype.isActive = function isActive() {
+			return this.hasClass('active');
+		};
 
-			/**
-	   * Activate the element
-	   */
+		/**
+	  * Activate the element
+	  */
 
-		}, {
-			key: 'activate',
-			value: function activate() {
-				if (this.setting('history')) {
-					// change hash
-					document.location.hash = this.dataset('sActivate');
-				} else {
-					// activate simply
-					this._activate();
+
+		SugarActivateElement.prototype._activate = function _activate() {
+			var _this3 = this;
+
+			// unactive all group elements
+			var grp = this.dataset('sActivateGroup');
+			[].forEach.call(document.body.querySelectorAll('[data-s-activate-group="' + grp + '"]'), function (group_elm) {
+				// get the api
+				var api = group_elm.sActivate;
+				// unactive element
+				if (api) {
+					api.unactivate();
+				}
+			});
+
+			// activate the element
+			this.addClass('active');
+
+			// activate all the targets
+			[].forEach.call(this.targets, function (target_elm) {
+				// remove the active class on target
+				_this3.addClass('active', target_elm);
+			});
+
+			// if has a perent, activate it
+			if (this.parentActivate) {
+				var parent_api = this.parentActivate.sActivate;
+				if (parent_api) {
+					parent_api._activate();
 				}
 			}
+		};
 
-			/**
-	   * Unactive
-	   */
+		/**
+	  * Handle history
+	  */
 
-		}, {
-			key: 'unactivate',
-			value: function unactivate() {
-				var _this5 = this;
 
-				// unactive the item itself
-				this.removeClass('active');
+		SugarActivateElement.prototype._handleHistory = function _handleHistory() {
+			var _this4 = this;
 
-				// unactive targets
-				[].forEach.call(this.targets, function (target) {
-					_this5.removeClass('active', target);
-				});
-			}
-
-			/**
-	   * Update targets, etc...
-	   */
-
-		}, {
-			key: 'update',
-			value: function update() {
-				var scope = arguments.length <= 0 || arguments[0] === undefined ? document.body : arguments[0];
-
-				this.targets = scope.querySelectorAll('#' + this.dataset('sActivate'));
-			}
-
-			/**
-	   * Get closest 
-	   */
-
-		}, {
-			key: '_getClosestActivate',
-			value: function _getClosestActivate() {
-				var elm = this.elm.parentNode;
-				while (elm && elm != document) {
-					if (elm.id && _sActivateStack[elm.id]) {
-						return elm;
+			window.addEventListener('hashchange', function (e) {
+				var hash = document.location.hash;
+				if (hash) {
+					hash = hash.substr(1);
+					if (hash == _this4.dataset('sActivate')) {
+						_this4._activate();
 					}
-					elm = elm.parentNode;
 				}
-				return false;
+			});
+		};
+
+		/**
+	  * Activate the element
+	  */
+
+
+		SugarActivateElement.prototype.activate = function activate() {
+			if (this.setting('history')) {
+				// change hash
+				document.location.hash = this.dataset('sActivate');
+			} else {
+				// activate simply
+				this._activate();
 			}
-		}]);
+		};
+
+		/**
+	  * Unactive
+	  */
+
+
+		SugarActivateElement.prototype.unactivate = function unactivate() {
+			var _this5 = this;
+
+			// unactive the item itself
+			this.removeClass('active');
+
+			// unactive targets
+			[].forEach.call(this.targets, function (target) {
+				_this5.removeClass('active', target);
+			});
+		};
+
+		/**
+	  * Update targets, etc...
+	  */
+
+
+		SugarActivateElement.prototype.update = function update() {
+			var scope = arguments.length <= 0 || arguments[0] === undefined ? document.body : arguments[0];
+
+			this.targets = scope.querySelectorAll('#' + this.dataset('sActivate'));
+		};
+
+		/**
+	  * Get closest 
+	  */
+
+
+		SugarActivateElement.prototype._getClosestActivate = function _getClosestActivate() {
+			var elm = this.elm.parentNode;
+			while (elm && elm != document) {
+				if (elm.id && _sActivateStack[elm.id]) {
+					return elm;
+				}
+				elm = elm.parentNode;
+			}
+			return false;
+		};
 
 		return SugarActivateElement;
-	}(_sugarCore.SugarElement);
+	}(_sugarElement2.default);
 
-	var SugarActivateManager = function (_SugarDom) {
-		_inherits(SugarActivateManager, _SugarDom);
+	var SugarActivateManager = function () {
 
 		/**
 	  * Constructor
 	  */
 
 		function SugarActivateManager() {
+			var _this6 = this;
+
 			_classCallCheck(this, SugarActivateManager);
 
 			// what that the dom is ready
-
-			var _this6 = _possibleConstructorReturn(this, Object.getPrototypeOf(SugarActivateManager).call(this));
-			// init parent
-
-
-			_this6.domReady(function () {
+			_sugarDom2.default.domReady(function () {
 				_this6._init();
 			});
-			return _this6;
 		}
 
 		/**
@@ -401,96 +414,62 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-		_createClass(SugarActivateManager, [{
-			key: '_init',
-			value: function _init() {
-				// init all elements in the page
-				[].forEach.call(document.body.querySelectorAll('[data-s-activate]'), function (elm) {
-					new SugarActivateElement(elm);
-				});
-				// listen for new elements
-				this._listenMutations();
+		SugarActivateManager.prototype._init = function _init() {
 
-				// listen for new element
-				this.onInserted('[data-s-activate]', function (element) {
-					if (!element.sActivate) {
-						new SugarActivateElement(element);
-					}
-				});
-				// listen for new element
-				this.onInserted('[data-s-activateeeeee]', function (element) {
-					if (!element.sActivate) {
-						new SugarActivateElement(element);
-					}
-				});
-			}
+			// init all elements in the page
+			[].forEach.call(document.body.querySelectorAll('[data-s-activate]'), function (elm) {
+				new SugarActivateElement(elm);
+			});
 
-			/**
-	   * Find a special activate element
-	   */
+			// listen for new element
+			_sugarDom2.default.onInserted('[data-s-activate]', function (element) {
+				if (!element.sActivate) {
+					new SugarActivateElement(element);
+				}
+			});
+		};
 
-		}, {
-			key: 'find',
-			value: function find(id) {
-				if (!_sActivateStack[id]) return false;
-				return _sActivateStack[id];
-			}
+		/**
+	  * Find a special activate element
+	  */
 
-			/**
-	   * Activate a special id
-	   */
 
-		}, {
-			key: 'activate',
-			value: function activate(id) {
-				var item = this.find(id);
-				if (item) item.activate();
-			}
+		SugarActivateManager.prototype.find = function find(id) {
+			if (!_sActivateStack[id]) return false;
+			return _sActivateStack[id];
+		};
 
-			/**
-	   * Unactivate
-	   */
+		/**
+	  * Activate a special id
+	  */
 
-		}, {
-			key: 'unactivate',
-			value: function unactivate(id) {
-				var item = this.find(id);
-				if (item) item.unactivate();
-			}
 
-			/**
-	   * Listen for nodes
-	   */
+		SugarActivateManager.prototype.activate = function activate(id) {
+			var item = this.find(id);
+			if (item) item.activate();
+		};
 
-		}, {
-			key: '_listenMutations',
-			value: function _listenMutations() {
-				var _this7 = this;
+		/**
+	  * Unactivate
+	  */
 
-				document.addEventListener('DOMNodeInserted', function (e) {
-					var elm = e.target;
-					if (_this7.dataset(elm, 'sActivate') && !_sActivateStack[_this7.dataset(elm, 'sActivate')]) {
-						// new activate element
-						new SugarActivateElement(elm);
-					}
-				});
-			}
-		}]);
+
+		SugarActivateManager.prototype.unactivate = function unactivate(id) {
+			var item = this.find(id);
+			if (item) item.unactivate();
+		};
 
 		return SugarActivateManager;
-	}(_sugarCore.SugarDom);
+	}();
 
 	;
 
-	// expose in window
 	window.sugar.activateManager = new SugarActivateManager();
 	window.sugar.ActivateElement = SugarActivateElement;
-	window.sugar.ActivateManager = SugarActivateManager;
 
 	// export modules
 	module.exports = {
 		activateManager: window.sugar.activateManager,
-		ActivateManager: SugarActivateManager,
 		ActivateElement: SugarActivateElement
 	};
 
@@ -500,240 +479,41 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
+	exports.__esModule = true;
+
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var _get2 = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _sugarTools = __webpack_require__(3);
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	var _sugarDom = __webpack_require__(4);
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	var _sugarDom2 = _interopRequireDefault(_sugarDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var MutationSummary = __webpack_require__(4);
+	var _upperfirst = __webpack_require__(19);
 
-	var _get = __webpack_require__(5);
-	var _capizalize = __webpack_require__(18);
-	var _insertAnimationListener = false;
-	var _insertMutationObserver = null;
-	var _insertDomElementsCallbacks = {};
+	// store the settings for the different
+	// components types
+	var _sugarTypesSettings = {};
 
-	var SugarDom = function () {
+	var SugarElement = function () {
+
+		/**
+	  * Setup
+	  */
+
+		SugarElement.setup = function setup(name, type, settings) {
+			if (!_sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
+			_sugarTypesSettings[name][type] = settings;
+		};
 
 		/**
 	  * Constructor
 	  */
 
-		function SugarDom() {
-			_classCallCheck(this, SugarDom);
-		}
-
-		_createClass(SugarDom, [{
-			key: 'uniqid',
-			value: function uniqid() {
-				var ts = String(new Date().getTime()),
-				    i = 0,
-				    out = '';
-				for (i = 0; i < ts.length; i += 2) {
-					out += Number(ts.substr(i, 2)).toString(36);
-				}
-				return 'd' + out;
-			}
-
-			/**
-	   * Polyfill for the matches js method
-	   */
-
-		}, {
-			key: 'selectorMatches',
-			value: function selectorMatches(el, selector) {
-				var p = Element.prototype;
-				var f = p.matches || p.webkitMatchesSelector || p.mozMatchesSelector || p.msMatchesSelector || function (s) {
-					return [].indexOf.call(document.querySelectorAll(s), this) !== -1;
-				};
-				return f.call(el, selector);
-			}
-
-			/**
-	   * Make a selector detectable when new element are pushed in the page
-	   */
-
-		}, {
-			key: 'onInserted',
-			value: function onInserted(selector, cb) {
-
-				// use the animation hack to detect
-				// new items in the page
-				var detection_id = 's-insert-detection-' + this.uniqid();
-
-				// add the callback in stack
-				_insertDomElementsCallbacks[detection_id] = {
-					callback: cb,
-					selector: selector
-				};
-
-				// check how we can detect new elements
-				if (false) {
-					// make use of great mutation summary library
-					var observer = new MutationSummary({
-						callback: function callback(summaries) {
-							summaries.forEach(function (summary) {
-								summary.added.forEach(function (elm) {
-									cb(elm);
-								});
-							});
-						},
-						queries: [{ element: selector }]
-					});
-
-					// _insertMutationObserver = new MutationObserver((mutations) => {
-					// 	// check if what we need has been added
-					// 	mutations.forEach((mutation) => {
-					// 		if (mutation.addedNodes && mutation.addedNodes[0]) {
-					// 			// loop on each callbacks to find a match
-					// 			for(let insert_id in _insertDomElementsCallbacks) {
-					// 				if (this.selectorMatches(mutation.addedNodes[0], _insertDomElementsCallbacks[insert_id].selector)) {
-					// 					_insertDomElementsCallbacks[insert_id].callback(mutation.addedNodes[0]);
-					// 				}
-					// 			}
-					// 		}
-					// 	});
-					// });
-					// _insertMutationObserver.observe(document.body, {
-					// 	childList: true
-					// });
-				} else {
-						// add the animation style in DOM
-						var css = selector + (' { \n\t\t\t\t-webkit-animation:' + detection_id + ' 0.001s;\n\t\t\t\t-moz-animation:' + detection_id + ' 0.001s;\n\t\t\t\t-ms-animation:' + detection_id + ' 0.001s;\n\t\t\t\tanimation:' + detection_id + ' 0.001s;\n\t\t\t}\n\t\t\t@keyframes ' + detection_id + ' {\n\t\t\t\tfrom { opacity: .99; }\n\t\t\t\tto { opacity: 1; }\n\t\t\t}');
-						var style = document.createElement('style');
-						style.type = 'text/css';
-						if (style.styleSheet) {
-							style.styleSheet.cssText = css;
-						} else {
-							style.appendChild(document.createTextNode(css));
-						}
-						document.head.appendChild(style);
-						// now we listen for animation end
-						// but only once
-						if (!_insertAnimationListener) {
-							_insertAnimationListener = true;
-							document.addEventListener('animationend', function (e) {
-								console.log('end');
-								if (_insertDomElementsCallbacks[e.animationName]) {
-									_insertDomElementsCallbacks[e.animationName].callback(e.target);
-								}
-							});
-						}
-					}
-			}
-
-			/**
-	   * Dom ready
-	   */
-
-		}, {
-			key: 'domReady',
-			value: function domReady(cb) {
-				if (document.readyState == 'interactive') cb();else {
-					document.addEventListener('DOMContentLoaded', function (e) {
-						cb();
-					});
-				}
-			}
-
-			/**
-	   * Access dataset
-	   */
-
-		}, {
-			key: 'dataset',
-			value: function dataset(elm, key) {
-				var value = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
-
-				if (!elm.getAttribute) return;
-				if (!value) {
-					// try to get
-					var v = _get(elm, 'dataset.' + key);
-					if (v) return v;
-					v = elm.getAttribute('data-' + (0, _sugarTools.uncamelize)(key));
-					return v;
-				} else {
-					// try to set the value
-					if (_get(elm, 'dataset')) {
-						if (_get(elm, 'dataset.' + key)) {
-							elm.dataset[key] = value;
-						} else {
-							// set the data through setAttribute
-							elm.setAttribute('data-' + (0, _sugarTools.uncamelize)(key), value);
-						}
-					} else {
-						// set the data through setAttribute
-						// cause no support for dataset
-						elm.setAttribute('data-' + (0, _sugarTools.uncamelize)(key), value);
-					}
-				}
-			}
-
-			/**
-	   * Classes helpers
-	   */
-
-		}, {
-			key: 'hasClass',
-			value: function hasClass(elm, cls) {
-				return elm.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
-			}
-		}, {
-			key: 'addClass',
-			value: function addClass(elm, cls) {
-				if (!this.hasClass(cls, elm)) {
-					return elm.className += ' ' + cls;
-				}
-			}
-		}, {
-			key: 'removeClass',
-			value: function removeClass(elm, cls) {
-				var reg = undefined;
-				if (this.hasClass(cls, elm)) {
-					reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
-					return elm.className = elm.className.replace(reg, ' ');
-				}
-			}
-		}]);
-
-		return SugarDom;
-	}();
-
-	// store the settings for the different
-	// components types
-
-
-	var _sugarTypesSettings = {};
-
-	var SugarElement = function (_SugarDom) {
-		_inherits(SugarElement, _SugarDom);
-
-		_createClass(SugarElement, null, [{
-			key: 'setup',
-
-
-			/**
-	   * Setup
-	   */
-			value: function setup(name, type, settings) {
-				if (!_sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
-				_sugarTypesSettings[name][type] = settings;
-			}
-
-			/**
-	   * Constructor
-	   */
-
-		}]);
 
 		function SugarElement(name, elm) {
 			var default_settings = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
@@ -742,23 +522,20 @@ return /******/ (function(modules) { // webpackBootstrap
 			_classCallCheck(this, SugarElement);
 
 			// save element reference
-
-			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SugarElement).call(this));
-			// init parent
-
-
-			_this.elm = elm;
-			_this.name = name;
+			this.elm = elm;
+			this.name = name;
 			// extend settings
-			_this.settings = _extends({}, default_settings, settings);
+			this.settings = _extends({}, default_settings, settings);
+
+			// set the api in the dom element
+			this.elm[this.name] = this;
 
 			// check if a type is defined then extend the settings
 			if (!_sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
-			var type = _this.setting('settings');
+			var type = this.setting('settings');
 			if (type && _sugarTypesSettings[name][type]) {
-				_this.settings = _extends({}, _this.settings, _sugarTypesSettings[name][type]);
+				this.settings = _extends({}, this.settings, _sugarTypesSettings[name][type]);
 			}
-			return _this;
 		}
 
 		/**
@@ -766,64 +543,54 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-		_createClass(SugarElement, [{
-			key: 'setting',
-			value: function setting(key) {
-				// check in the dataset
-				var s = this.dataset(this.name + _capizalize(key));
-				if (s == 'false') s = false;
-				if (s != undefined) return s;
-				// return the settings
-				return this.settings[key];
-			}
+		SugarElement.prototype.setting = function setting(key) {
+			// check in the dataset
+			var s = this.dataset(this.name + _upperfirst(key));
+			if (s == 'false') s = false;
+			if (s != undefined) return s;
+			// return the settings
+			return this.settings[key];
+		};
 
-			/**
-	   * Access dataset
-	   */
+		/**
+	  * Access dataset
+	  */
 
-		}, {
-			key: 'dataset',
-			value: function dataset(key) {
-				var value = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
-				var elm = arguments.length <= 2 || arguments[2] === undefined ? this.elm : arguments[2];
 
-				return _get2(Object.getPrototypeOf(SugarElement.prototype), 'dataset', this).call(this, elm, key, value);
-			}
+		SugarElement.prototype.dataset = function dataset(key) {
+			var value = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+			var elm = arguments.length <= 2 || arguments[2] === undefined ? this.elm : arguments[2];
 
-			/**
-	   * Classes helpers
-	   */
+			return _sugarDom2.default.dataset(elm, key, value);
+		};
 
-		}, {
-			key: 'hasClass',
-			value: function hasClass(cls) {
-				var elm = arguments.length <= 1 || arguments[1] === undefined ? this.elm : arguments[1];
+		/**
+	  * Classes helpers
+	  */
 
-				return _get2(Object.getPrototypeOf(SugarElement.prototype), 'hasClass', this).call(this, elm, cls);
-			}
-		}, {
-			key: 'addClass',
-			value: function addClass(cls) {
-				var elm = arguments.length <= 1 || arguments[1] === undefined ? this.elm : arguments[1];
 
-				return _get2(Object.getPrototypeOf(SugarElement.prototype), 'addClass', this).call(this, elm, cls);
-			}
-		}, {
-			key: 'removeClass',
-			value: function removeClass(cls) {
-				var elm = arguments.length <= 1 || arguments[1] === undefined ? this.elm : arguments[1];
+		SugarElement.prototype.hasClass = function hasClass(cls) {
+			var elm = arguments.length <= 1 || arguments[1] === undefined ? this.elm : arguments[1];
 
-				return _get2(Object.getPrototypeOf(SugarElement.prototype), 'removeClass', this).call(this, elm, cls);
-			}
-		}]);
+			return _sugarDom2.default.hasClass(elm, cls);
+		};
+
+		SugarElement.prototype.addClass = function addClass(cls) {
+			var elm = arguments.length <= 1 || arguments[1] === undefined ? this.elm : arguments[1];
+
+			return _sugarDom2.default.addClass(elm, cls);
+		};
+
+		SugarElement.prototype.removeClass = function removeClass(cls) {
+			var elm = arguments.length <= 1 || arguments[1] === undefined ? this.elm : arguments[1];
+
+			return _sugarDom2.default.removeClass(elm, cls);
+		};
 
 		return SugarElement;
-	}(SugarDom);
+	}();
 
-	module.exports = {
-		SugarElement: SugarElement,
-		SugarDom: SugarDom
-	};
+	exports.default = SugarElement;
 
 /***/ },
 /* 3 */
@@ -832,6 +599,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 
 	module.exports = {
+
+		/**
+	  * Uncamelize a string
+	  */
 		uncamelize: function uncamelize(text) {
 			var separator = arguments.length <= 1 || arguments[1] === undefined ? '-' : arguments[1];
 
@@ -842,14 +613,196 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// Remove first separator (to avoid _hello_world name)
 			return text.replace("/^" + separator + "/", '');
+		},
+
+		/**
+	  * Get a uniq id
+	  */
+		uniqid: function uniqid() {
+			var ts = String(new Date().getTime()),
+			    i = 0,
+			    out = '';
+			for (i = 0; i < ts.length; i += 2) {
+				out += Number(ts.substr(i, 2)).toString(36);
+			}
+			return 'd' + out;
 		}
 	};
 
 /***/ },
 /* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _sugarTools = __webpack_require__(3);
+
+	var sugarTools = _interopRequireWildcard(_sugarTools);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	var MutationSummary = __webpack_require__(5);
+	var _get = __webpack_require__(6);
+	var _insertAnimationListener = false;
+	var _insertMutationObserver = null;
+	var _insertDomElementsCallbacks = {};
+
+	var sugarDom = {
+
+		/**
+	  * Polyfill for the matches js method
+	  */
+		matches: function matches(el, selector) {
+			var p = Element.prototype;
+			var f = p.matches || p.webkitMatchesSelector || p.mozMatchesSelector || p.msMatchesSelector || function (s) {
+				return [].indexOf.call(document.querySelectorAll(s), this) !== -1;
+			};
+			return f.call(el, selector);
+		},
+
+		/**
+	  * Make a selector detectable when new element are pushed in the page
+	  */
+		onInserted: function onInserted(selector, cb) {
+
+			// use the animation hack to detect
+			// new items in the page
+			var detection_id = 's-insert-detection-' + sugarTools.uniqid();
+
+			// add the callback in stack
+			_insertDomElementsCallbacks[detection_id] = {
+				callback: cb,
+				selector: selector
+			};
+
+			// check how we can detect new elements
+			if (window.MutationObserver != null && !_insertMutationObserver) {
+				// make use of great mutation summary library
+				var observer = new MutationSummary({
+					callback: function callback(summaries) {
+						summaries.forEach(function (summary) {
+							summary.added.forEach(function (elm) {
+								cb(elm);
+							});
+						});
+					},
+					queries: [{ element: selector }]
+				});
+
+				// _insertMutationObserver = new MutationObserver((mutations) => {
+				// 	// check if what we need has been added
+				// 	mutations.forEach((mutation) => {
+				// 		if (mutation.addedNodes && mutation.addedNodes[0]) {
+				// 			// loop on each callbacks to find a match
+				// 			for(let insert_id in _insertDomElementsCallbacks) {
+				// 				if (this.matches(mutation.addedNodes[0], _insertDomElementsCallbacks[insert_id].selector)) {
+				// 					_insertDomElementsCallbacks[insert_id].callback(mutation.addedNodes[0]);
+				// 				}
+				// 			}
+				// 		}
+				// 	});
+				// });
+				// _insertMutationObserver.observe(document.body, {
+				// 	childList: true
+				// });
+			} else {
+					// add the animation style in DOM
+					var css = selector + (' { \n\t\t\t\t-webkit-animation:' + detection_id + ' 0.001s;\n\t\t\t\t-moz-animation:' + detection_id + ' 0.001s;\n\t\t\t\t-ms-animation:' + detection_id + ' 0.001s;\n\t\t\t\tanimation:' + detection_id + ' 0.001s;\n\t\t\t}\n\t\t\t@keyframes ' + detection_id + ' {\n\t\t\t\tfrom { opacity: .99; }\n\t\t\t\tto { opacity: 1; }\n\t\t\t}');
+					var style = document.createElement('style');
+					style.type = 'text/css';
+					if (style.styleSheet) {
+						style.styleSheet.cssText = css;
+					} else {
+						style.appendChild(document.createTextNode(css));
+					}
+					document.head.appendChild(style);
+					// now we listen for animation end
+					// but only once
+					if (!_insertAnimationListener) {
+						_insertAnimationListener = true;
+						document.addEventListener('animationend', function (e) {
+							if (_insertDomElementsCallbacks[e.animationName]) {
+								_insertDomElementsCallbacks[e.animationName].callback(e.target);
+							}
+						});
+					}
+				}
+		},
+
+		/**
+	  * Dom ready
+	  */
+		domReady: function domReady(cb) {
+			// if (document.readyState == 'complete') {
+			// 	console.log('ready!!!');
+			// 	console.log(document.body);
+			// 	cb();
+			// } else {
+			document.addEventListener('DOMContentLoaded', function (e) {
+				cb();
+			});
+			// }	
+		},
+
+		/**
+	  * Access dataset
+	  */
+		dataset: function dataset(elm, key) {
+			var value = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+
+			if (!elm.getAttribute) return;
+			if (!value) {
+				// try to get
+				var v = _get(elm, 'dataset.' + key);
+				if (v) return v;
+				v = elm.getAttribute('data-' + sugarTools.uncamelize(key));
+				return v;
+			} else {
+				// try to set the value
+				if (_get(elm, 'dataset')) {
+					if (_get(elm, 'dataset.' + key)) {
+						elm.dataset[key] = value;
+					} else {
+						// set the data through setAttribute
+						elm.setAttribute('data-' + sugarTools.uncamelize(key), value);
+					}
+				} else {
+					// set the data through setAttribute
+					// cause no support for dataset
+					elm.setAttribute('data-' + sugarTools.uncamelize(key), value);
+				}
+			}
+		},
+
+		/**
+	  * Classes helpers
+	  */
+		hasClass: function hasClass(elm, cls) {
+			return elm.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
+		},
+		addClass: function addClass(elm, cls) {
+			if (!sugarDom.hasClass(elm, cls)) {
+				return elm.className += ' ' + cls;
+			}
+		},
+		removeClass: function removeClass(elm, cls) {
+			var reg = undefined;
+			if (sugarDom.hasClass(elm, cls)) {
+				reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
+				return elm.className = elm.className.replace(reg, ' ');
+			}
+		}
+	};
+
+	exports.default = sugarDom;
+
+/***/ },
+/* 5 */
 /***/ function(module, exports) {
 
-	// Copyright 2011 Google Inc.
+	if (window.MutationObserver) { // Copyright 2011 Google Inc.
 	//
 	// Licensed under the Apache License, Version 2.0 (the "License");
 	// you may not use this file except in compliance with the License.
@@ -2515,13 +2468,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return MutationSummary;
 	})();
 
-	module.exports = MutationSummary
+	module.exports = MutationSummary }
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseGet = __webpack_require__(6);
+	var baseGet = __webpack_require__(7);
 
 	/**
 	 * Gets the value at `path` of `object`. If the resolved value is
@@ -2556,11 +2509,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseCastPath = __webpack_require__(7),
-	    isKey = __webpack_require__(17);
+	var baseCastPath = __webpack_require__(8),
+	    isKey = __webpack_require__(18);
 
 	/**
 	 * The base implementation of `_.get` without support for default values.
@@ -2586,11 +2539,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isArray = __webpack_require__(8),
-	    stringToPath = __webpack_require__(9);
+	var isArray = __webpack_require__(9),
+	    stringToPath = __webpack_require__(10);
 
 	/**
 	 * Casts `value` to a path array if it's not one.
@@ -2607,7 +2560,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
 	/**
@@ -2639,10 +2592,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var toString = __webpack_require__(10);
+	var toString = __webpack_require__(11);
 
 	/** Used to match property names within property paths. */
 	var rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]/g;
@@ -2669,11 +2622,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Symbol = __webpack_require__(11),
-	    isSymbol = __webpack_require__(15);
+	var Symbol = __webpack_require__(12),
+	    isSymbol = __webpack_require__(16);
 
 	/** Used as references for various `Number` constants. */
 	var INFINITY = 1 / 0;
@@ -2721,10 +2674,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var root = __webpack_require__(12);
+	var root = __webpack_require__(13);
 
 	/** Built-in value references. */
 	var Symbol = root.Symbol;
@@ -2733,10 +2686,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module, global) {var checkGlobal = __webpack_require__(14);
+	/* WEBPACK VAR INJECTION */(function(module, global) {var checkGlobal = __webpack_require__(15);
 
 	/** Used to determine if values are of the language type `Object`. */
 	var objectTypes = {
@@ -2778,10 +2731,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = root;
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(13)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14)(module), (function() { return this; }())))
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -2797,7 +2750,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports) {
 
 	/**
@@ -2815,10 +2768,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObjectLike = __webpack_require__(16);
+	var isObjectLike = __webpack_require__(17);
 
 	/** `Object#toString` result references. */
 	var symbolTag = '[object Symbol]';
@@ -2857,7 +2810,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports) {
 
 	/**
@@ -2891,10 +2844,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isArray = __webpack_require__(8);
+	var isArray = __webpack_require__(9);
 
 	/** Used to match property names within property paths. */
 	var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
@@ -2918,34 +2871,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	module.exports = isKey;
-
-
-/***/ },
-/* 18 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var toString = __webpack_require__(10),
-	    upperFirst = __webpack_require__(19);
-
-	/**
-	 * Converts the first character of `string` to upper case and the remaining
-	 * to lower case.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category String
-	 * @param {string} [string=''] The string to capitalize.
-	 * @returns {string} Returns the capitalized string.
-	 * @example
-	 *
-	 * _.capitalize('FRED');
-	 * // => 'Fred'
-	 */
-	function capitalize(string) {
-	  return upperFirst(toString(string).toLowerCase());
-	}
-
-	module.exports = capitalize;
 
 
 /***/ },
@@ -2980,7 +2905,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var stringToArray = __webpack_require__(21),
-	    toString = __webpack_require__(10);
+	    toString = __webpack_require__(11);
 
 	/** Used to compose unicode character classes. */
 	var rsAstralRange = '\\ud800-\\udfff',
@@ -3064,90 +2989,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 22 */
-/***/ function(module, exports) {
-
-	
-	/*
-	 * Sugar-domnodeinserted.js
-	 *
-	 * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
-	 *
-	 * @author   Olivier Bossel <olivier.bossel@gmail.com>
-	 * @created  20.01.16
-	 * @updated  20.01.16
-	 * @version  1.0.0
-	 */
-	if (window.sugar == null) {
-	  window.sugar = {};
-	}
-
-	module.exports = window.sugar.domnodeinserted = {
-	  _inited: false,
-	  enabled: true,
-	  _settings: {},
-
-	  /*
-	  	Init
-	   */
-	  init: function(settings) {
-	    if (settings == null) {
-	      settings = {};
-	    }
-	    this._settings = this._extend(this._settings, settings);
-	    this._inited = true;
-	    if (document.readyState === 'interactive') {
-	      return this._init();
-	    } else {
-	      return document.addEventListener('DOMContentLoaded', (function(_this) {
-	        return function(e) {
-	          return _this._init();
-	        };
-	      })(this));
-	    }
-	  },
-
-	  /*
-	  	Internal init
-	   */
-	  _init: function() {
-	    if (!this.enabled) {
-	      return;
-	    }
-	    document.addEventListener("animationstart", this._onAnimationStart, false);
-	    document.addEventListener("MSAnimationStart", this._onAnimationStart, false);
-	    return document.addEventListener("webkitAnimationStart", this._onAnimationStart, false);
-	  },
-
-	  /*
-	  	On animation start
-	   */
-	  _onAnimationStart: function(e) {
-	    if (e.animationName === 's-DOMNodeInserted') {
-	      return e.target.dispatchEvent(new CustomEvent('DOMNodeInserted', {
-	        bubbles: true,
-	        cancelable: true
-	      }));
-	    }
-	  },
-
-	  /*
-	  	Extend settings
-	   */
-	  _extend: function(obj, mixin) {
-	    var method, name;
-	    for (name in mixin) {
-	      method = mixin[name];
-	      obj[name] = method;
-	    }
-	    return obj;
-	  }
-	};
-
-	window.sugar.domnodeinserted.init();
-
-
-/***/ },
+/* 22 */,
 /* 23 */
 /***/ function(module, exports) {
 
@@ -3349,196 +3191,278 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 24 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	
-	/*
-	 * Sugar-gooey.js
-	 *
-	 * This little js file allow you to use the gooey effect
-	 *
-	 * @author   Olivier Bossel <olivier.bossel@gmail.com>
-	 * @created  22.01.16
-	 * @updated  20.01.16
-	 * @version  1.0.0
-	 */
+	'use strict';
+
+	var _sugarElement = __webpack_require__(2);
+
+	var _sugarElement2 = _interopRequireDefault(_sugarElement);
+
+	var _sugarDom = __webpack_require__(4);
+
+	var _sugarDom2 = _interopRequireDefault(_sugarDom);
+
+	var _sugarGooeyFilter = __webpack_require__(25);
+
+	var _sugarGooeyFilter2 = _interopRequireDefault(_sugarGooeyFilter);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); } /*
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Sugar-activate.js
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author   Olivier Bossel <olivier.bossel@gmail.com>
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @created  20.01.16
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @updated  20.01.16
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @version  1.0.0
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+
+	var _get = __webpack_require__(6);
+
+	// make sure we have a sugar property on window
 	if (window.sugar == null) {
-	  window.sugar = {};
+		window.sugar = {};
 	}
 
-	module.exports = window.sugar.gooey = {
-	  _inited: false,
-	  enabled: true,
-	  _settings: {},
+	// save all the activate elements
+	var _sActivateStack = {};
 
-	  /*
-	  	Init
-	   */
-	  init: function(settings) {
-	    if (settings == null) {
-	      settings = {};
-	    }
-	    this._settings = this._extend(this._settings, settings);
-	    this._inited = true;
-	    if (document.readyState === 'interactive') {
-	      return this._init();
-	    } else {
-	      return document.addEventListener('DOMContentLoaded', (function(_this) {
-	        return function(e) {
-	          return _this._init();
-	        };
-	      })(this));
-	    }
-	  },
+	// Actual activate element class
 
-	  /*
-	  	Internal init
-	   */
-	  _init: function() {
-	    var i, item, len, ref, results;
-	    if (!this.enabled) {
-	      return;
-	    }
-	    this._injectFilter();
-	    this._listenAnimation();
-	    ref = document.querySelectorAll('[data-gooey]');
-	    results = [];
-	    for (i = 0, len = ref.length; i < len; i++) {
-	      item = ref[i];
-	      results.push(item.dispatchEvent(new CustomEvent('DOMNodeInserted', {
-	        bubbles: true,
-	        cancelable: true
-	      })));
-	    }
-	    return results;
-	  },
+	var SugarGooeyElement = function (_SugarElement) {
+		_inherits(SugarGooeyElement, _SugarElement);
 
-	  /*
-	  	Inject filter
-	   */
-	  _injectFilter: function() {
-	    var body, gooey, gooey_elm, style;
-	    style = ['position:absolute;', 'left:-1000px;', 'top:-300px;'];
-	    if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
-	      style.push('display:none;');
-	    }
-	    gooey = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" style=\"" + (style.join(' ')) + "\">\n	<defs>\n		<filter id=\"gooey\">\n			<feGaussianBlur in=\"SourceGraphic\" stdDeviation=\"0\" result=\"blur\" />\n			<feColorMatrix in=\"blur\" mode=\"matrix\" values=\"1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9\" result=\"gooey\" />\n			<feComposite in=\"SourceGraphic\" in2=\"gooey\" operator=\"atop\"/>\n		</filter>\n	</defs>\n</svg>";
-	    gooey_elm = document.createElement('div');
-	    gooey_elm.innerHTML = gooey;
-	    this.gooey_defs = gooey_elm.querySelector('defs');
-	    this.gooey_svg = gooey_elm.firstChild;
-	    this.gooey = gooey_elm.querySelector('#gooey');
-	    body = document.querySelector('body');
-	    return body.appendChild(this.gooey_svg);
-	  },
+		/**
+	  * Setup
+	  */
+		// static setup(type, settings) {
+		// 	SugarElement.setup('sActivate', type, settings);
+		// }
 
-	  /*
-	  	Listen for animations
-	   */
-	  _listenAnimation: function() {
-	    return document.addEventListener('DOMNodeInserted', (function(_this) {
-	      return function(e) {
-	        var elm;
-	        elm = e.target;
-	        if (elm.dataset && elm.dataset.gooey !== void 0 && !elm._gooeyFilter) {
-	          return _this._handleFilter(elm);
-	        }
-	      };
-	    })(this));
-	  },
+		/**
+	  * Constructor
+	  */
 
-	  /*
-	  	Handle filter
-	   */
-	  _handleFilter: function(elm, recursive) {
-	    var amount, id;
-	    if (recursive == null) {
-	      recursive = false;
-	    }
-	    elm._gooeyFilter = this.gooey.cloneNode(true);
-	    id = 'gooeyFilter-' + this._uniqId();
-	    elm._gooeyFilter.setAttribute('id', id);
-	    this.gooey_defs.appendChild(elm._gooeyFilter);
-	    this._applyFilter(elm, 'url("#' + id + '")');
-	    amount = parseInt(elm.dataset.gooey || 10);
-	    elm._gooeyFilter.firstElementChild.setAttribute('stdDeviation', amount);
-	    return elm._gooeyFilter.children[1].setAttribute('values', '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + (9 + amount) + ' -9');
-	  },
+		function SugarGooeyElement(elm) {
+			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
-	  /*
-	  	Apply filter
-	   */
-	  _applyFilter: function(elm, filter) {
-	    var i, len, ref, results, vendor;
-	    ref = ["-webkit-", "-moz-", "-ms-", "o-", ""];
-	    results = [];
-	    for (i = 0, len = ref.length; i < len; i++) {
-	      vendor = ref[i];
-	      results.push(elm.style[vendor + 'filter'] = filter);
-	    }
-	    return results;
-	  },
+			_classCallCheck(this, SugarGooeyElement);
 
-	  /*
-	  	UniqId
-	   */
-	  _uniqId: function() {
-	    var k, m, n;
-	    return new Date().getTime() + Math.round(Math.random() * 999999999);
-	    n = Math.floor(Math.random() * 11);
-	    k = Math.floor(Math.random() * 1000000);
-	    m = String.fromCharCode(n) + k;
-	    return m.trim();
-	  },
+			var _this = _possibleConstructorReturn(this, _SugarElement.call(this, 'sGooey', elm, {}, settings));
 
-	  /*
-	  	Extend settings
-	   */
-	  _extend: function(obj, mixin) {
-	    var method, name;
-	    for (name in mixin) {
-	      method = mixin[name];
-	      obj[name] = method;
-	    }
-	    return obj;
-	  }
+			if (_this._inited) return _possibleConstructorReturn(_this);
+			_this._inited = true;
+
+			// init the filter
+			_this._initFilter();
+			return _this;
+		}
+
+		/**
+	  * Init the filter
+	  */
+
+
+		SugarGooeyElement.prototype._initFilter = function _initFilter() {
+			// create a new svg filter
+			this.filter = new _sugarGooeyFilter2.default();
+			// apply the filter
+			this.filter.applyTo(this.elm);
+		};
+
+		return SugarGooeyElement;
+	}(_sugarElement2.default);
+
+	_sugarDom2.default.domReady(function () {
+		[].forEach.call(document.body.querySelectorAll('[data-s-gooey]'), function (item) {
+			// init gooey element
+			new SugarGooeyElement(item);
+		});
+	});
+
+	window.sugar.GooeyElement = SugarGooeyElement;
+
+	// export modules
+	module.exports = {
+		GooeyElement: SugarGooeyElement
 	};
-
-	setTimeout(function() {
-	  if (!window.sugar.gooey._inited) {
-	    return window.sugar.gooey.init();
-	  }
-	}, 500);
-
 
 /***/ },
 /* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
-	
-	/*
-	 * Sugar.js
-	 *
-	 * This little js file allow you to have a lot a useful features available for free
-	 *
-	 * @author 	Olivier Bossel <olivier.bossel@gmail.com>
-	 * @created 	03.11.15
-	 * @updated 	03.11.15
-	 * @version 	1.0.0
-	 */
-	module.exports = {
-	  drawer: __webpack_require__(23),
-	  gooey: __webpack_require__(24),
-	  domnodeinserted: __webpack_require__(22),
-	  motionblur: __webpack_require__(26),
-	  transitionstart: __webpack_require__(27),
-	  webfonts: __webpack_require__(28),
-	  activate: __webpack_require__(1)
-	};
+	'use strict';
 
+	exports.__esModule = true;
+
+	var _sugarSvgfilter = __webpack_require__(26);
+
+	var _sugarSvgfilter2 = _interopRequireDefault(_sugarSvgfilter);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
+
+	var SugarGooeyFilter = function (_SugarSvgFilter) {
+		_inherits(SugarGooeyFilter, _SugarSvgFilter);
+
+		/**
+	  * Constructor
+	  */
+
+		function SugarGooeyFilter() {
+			var amount = arguments.length <= 0 || arguments[0] === undefined ? 8 : arguments[0];
+
+			_classCallCheck(this, SugarGooeyFilter);
+
+			var filter = document.createElement('filter');
+
+			// blur
+			var blur = document.createElement('feGaussianBlur');
+			blur.setAttribute('in', 'SourceGraphic');
+			blur.setAttribute('stdDeviation', amount);
+			blur.setAttribute('result', 'blur');
+
+			// color matrix
+			// let color_matrix = document.createElement('feColorMatrix');
+			// color_matrix.setAttribute('in','blur');
+			// color_matrix.setAttribute('mode','matrix');
+			// color_matrix.setAttribute('values','1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + (amount + 9) + ' -9');
+			// color_matrix.setAttribute('result','gooey');
+
+			// // composite
+			// let composite = document.createElement('feComposite');
+			// composite.setAttribute('in','SourceGraphic');
+			// composite.setAttribute('in2','gooey');
+			// composite.setAttribute('operator','atop');
+
+			// append in filter
+			filter.appendChild(blur);
+			// filter.appendChild(color_matrix);
+			// filter.appendChild(composite);
+
+			return _possibleConstructorReturn(this, _SugarSvgFilter.call(this, filter));
+		}
+
+		return SugarGooeyFilter;
+	}(_sugarSvgfilter2.default);
+
+	exports.default = SugarGooeyFilter;
 
 /***/ },
 /* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _sugarTools = __webpack_require__(3);
+
+	var sugarTools = _interopRequireWildcard(_sugarTools);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var _sSvgFilters = [];
+	var _sIsSvgInjected = false;
+
+	var SugarSvgFilter = function () {
+
+		/**
+	  * Constructor
+	  */
+
+		function SugarSvgFilter(filter) {
+			_classCallCheck(this, SugarSvgFilter);
+
+			// save parameters
+			this.filter = filter;
+
+			// generate a uniqid
+			this.id = 'svgfilter' + sugarTools.uniqid();
+
+			// set the id in the filter
+			this.filter.id = this.id;
+
+			// if need to inject svg
+			if (!document.body.querySelector('#s-svg-filters')) SugarSvgFilter._injectSvg();
+
+			// insert the filter
+			this._insertFilter();
+		}
+
+		/**
+	  * Apply the filter to an element
+	  */
+
+
+		SugarSvgFilter.prototype.applyTo = function applyTo(elm) {
+			var _this = this;
+
+			console.log('apply to', elm);
+			['-webkit-', '-moz-', '-ms-', '-o-', ''].forEach(function (vendor) {
+				elm.style[vendor + 'filter'] = 'url("#' + _this.id + '")';
+			});
+		};
+
+		/**
+	  * Insert the filter
+	  */
+
+
+		SugarSvgFilter.prototype._insertFilter = function _insertFilter() {
+
+			// add the filter to the svg
+			SugarSvgFilter.defs.appendChild(this.filter);
+		};
+
+		/**
+	  * Inject svg
+	  */
+
+
+		SugarSvgFilter._injectSvg = function _injectSvg() {
+			var style = ['position:absolute;', 'left:-1000px;', 'top:-300px;'];
+			if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
+				style.push('display:none;');
+			}
+			var svg = '\n\t\t\t<defs>\n\t\t\t</defs>\n\t\t';
+			var svg_elm = document.createElement('svg');
+			svg_elm.setAttribute('xmlns', "http://www.w3.org/2000/svg");
+			svg_elm.setAttribute('version', "1.1");
+			svg_elm.setAttribute('style', style.join(' '));
+			svg_elm.innerHTML = svg;
+			SugarSvgFilter.defs = svg_elm.querySelector('defs');
+
+			// append the filter to the page
+			document.body.appendChild(svg_elm);
+		};
+
+		return SugarSvgFilter;
+	}();
+
+	exports.default = SugarSvgFilter;
+
+/***/ },
+/* 27 */
 /***/ function(module, exports) {
 
 	
@@ -3802,91 +3726,27 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 27 */
-/***/ function(module, exports) {
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
 
-	
-	/*
-	 * Sugar-transitionstart.js
-	 *
-	 * This little js file allow you to make your element that have a transition trigger the transitionstart event
-	 *
-	 * @author   Olivier Bossel <olivier.bossel@gmail.com>
-	 * @created  22.01.16
-	 * @updated  22.01.16
-	 * @version  1.0.0
-	 */
-	if (window.sugar == null) {
-	  window.sugar = {};
-	}
+	'use strict';
 
-	module.exports = window.sugar.transitionstart = {
-	  _inited: false,
-	  enabled: true,
-	  _settings: {},
+	var _sugarActivate = __webpack_require__(1);
 
-	  /*
-	  	Init
-	   */
-	  init: function(settings) {
-	    if (settings == null) {
-	      settings = {};
-	    }
-	    this._settings = this._extend(this._settings, settings);
-	    this._inited = true;
-	    if (document.readyState === 'interactive') {
-	      return this._init();
-	    } else {
-	      return document.addEventListener('DOMContentLoaded', (function(_this) {
-	        return function(e) {
-	          return _this._init();
-	        };
-	      })(this));
-	    }
-	  },
+	var _sugarGooey = __webpack_require__(24);
 
-	  /*
-	  	Internal init
-	   */
-	  _init: function() {
-	    if (!this.enabled) {
-	      return;
-	    }
-	    document.addEventListener("transitionend", this._onTransitionEnd, false);
-	    document.addEventListener("oTransitionEnd", this._onTransitionEnd, false);
-	    return document.addEventListener("webkitTransitionEnd", this._onTransitionEnd, false);
-	  },
-
-	  /*
-	  	On animation start
-	   */
-	  _onTransitionEnd: function(e) {
-	    if (e.elapsedTime === 0.000001 || e.propertyName === 'outline-color') {
-	      return e.target.dispatchEvent(new CustomEvent('transitionstart', {
-	        bubbles: true,
-	        cancelable: true
-	      }));
-	    }
-	  },
-
-	  /*
-	  	Extend settings
-	   */
-	  _extend: function(obj, mixin) {
-	    var method, name;
-	    for (name in mixin) {
-	      method = mixin[name];
-	      obj[name] = method;
-	    }
-	    return obj;
-	  }
+	module.exports = {
+		activateManager: _sugarActivate.activateManager,
+		ActivateElement: _sugarActivate.ActivateElement,
+		gooey: _sugarGooey.GooeyElement,
+		motionblur: __webpack_require__(27),
+		drawer: __webpack_require__(23),
+		webfonts: __webpack_require__(29),
+		transitionstart: __webpack_require__(30)
 	};
 
-	window.sugar.transitionstart.init();
-
-
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports) {
 
 	
@@ -4023,6 +3883,90 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  }
 	};
+
+
+/***/ },
+/* 30 */
+/***/ function(module, exports) {
+
+	
+	/*
+	 * Sugar-transitionstart.js
+	 *
+	 * This little js file allow you to make your element that have a transition trigger the transitionstart event
+	 *
+	 * @author   Olivier Bossel <olivier.bossel@gmail.com>
+	 * @created  22.01.16
+	 * @updated  22.01.16
+	 * @version  1.0.0
+	 */
+	if (window.sugar == null) {
+	  window.sugar = {};
+	}
+
+	module.exports = window.sugar.transitionstart = {
+	  _inited: false,
+	  enabled: true,
+	  _settings: {},
+
+	  /*
+	  	Init
+	   */
+	  init: function(settings) {
+	    if (settings == null) {
+	      settings = {};
+	    }
+	    this._settings = this._extend(this._settings, settings);
+	    this._inited = true;
+	    if (document.readyState === 'interactive') {
+	      return this._init();
+	    } else {
+	      return document.addEventListener('DOMContentLoaded', (function(_this) {
+	        return function(e) {
+	          return _this._init();
+	        };
+	      })(this));
+	    }
+	  },
+
+	  /*
+	  	Internal init
+	   */
+	  _init: function() {
+	    if (!this.enabled) {
+	      return;
+	    }
+	    document.addEventListener("transitionend", this._onTransitionEnd, false);
+	    document.addEventListener("oTransitionEnd", this._onTransitionEnd, false);
+	    return document.addEventListener("webkitTransitionEnd", this._onTransitionEnd, false);
+	  },
+
+	  /*
+	  	On animation start
+	   */
+	  _onTransitionEnd: function(e) {
+	    if (e.elapsedTime === 0.000001 || e.propertyName === 'outline-color') {
+	      return e.target.dispatchEvent(new CustomEvent('transitionstart', {
+	        bubbles: true,
+	        cancelable: true
+	      }));
+	    }
+	  },
+
+	  /*
+	  	Extend settings
+	   */
+	  _extend: function(obj, mixin) {
+	    var method, name;
+	    for (name in mixin) {
+	      method = mixin[name];
+	      obj[name] = method;
+	    }
+	    return obj;
+	  }
+	};
+
+	window.sugar.transitionstart.init();
 
 
 /***/ }

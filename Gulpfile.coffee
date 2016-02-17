@@ -14,11 +14,15 @@ concat 		 = require 'gulp-concat'
 coffee 		 = require 'gulp-coffee'
 clean 		 = require 'gulp-clean'
 babel 		 = require 'gulp-babel'
+filter 		 = require 'gulp-filter'
 
 # configure webpack
 webpackParams =
 	module :
 		loaders: [{
+			test : /mutation-summary\.js/,
+			loader : require("path").join(__dirname, "loader-ie.js")
+		}, {
 			test: /\.coffee$/,
 			loader: 'coffee-loader'
 		}, {
@@ -26,7 +30,8 @@ webpackParams =
 			exclude: /(node_modules|bower_components)/,
 			loader: 'babel-loader',
 			query: {
-				presets: ['es2015'],
+				presets: ['es2015-loose'],
+				plugins: ['transform-proto-to-assign'],
 				compact: false
 			}
 		}]
@@ -38,14 +43,13 @@ webpackAppParams = _.extend {}, webpackParams,
 webpackDistParams = _.extend {}, webpackParams,
 	entry: {
 		'drawer': ["./src/coffee/sugar/sugar-drawer.coffee"]
-		'gooey': ["./src/coffee/sugar/sugar-gooey.coffee"]
+		'gooey': ["./src/js/sugar/sugar-gooey.js"]
 		'domnodeinserted': ["./src/coffee/sugar/sugar-domnodeinserted.coffee"]
 		'motionblur': ["./src/coffee/sugar/sugar-motionblur.coffee"]
 		'transitionstart': ["./src/coffee/sugar/sugar-transitionstart.coffee"]
 		'webfonts': ["./src/coffee/sugar/sugar-webfonts.coffee"]
-		'index': ["./src/coffee/sugar/sugar.coffee"]
 		'activate' : ['./src/js/sugar/sugar-activate.js']
-		'sugar': ['./src/coffee/sugar/sugar.coffee']
+		'sugar' : ['./src/js/sugar/sugar.js']
 	},
 	output:
 		path: require("path").resolve("./dist/js"),
