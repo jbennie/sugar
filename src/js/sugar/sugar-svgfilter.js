@@ -8,16 +8,13 @@ export default class SugarSvgFilter {
 	/**
 	 * Constructor
 	 */
-	constructor(filter) {
+	constructor(filter_content) {
 
 		// save parameters
-		this.filter = filter;
+		this.filter_content = filter_content;
 
 		// generate a uniqid
-		this.id = 'svgfilter' + sugarTools.uniqid();
-
-		// set the id in the filter
-		this.filter.id = this.id;
+		this.id = 'svg-filter-' + sugarTools.uniqid();
 
 		// if need to inject svg
 		if ( ! document.body.querySelector('#s-svg-filters')) SugarSvgFilter._injectSvg();
@@ -30,7 +27,6 @@ export default class SugarSvgFilter {
 	 * Apply the filter to an element
 	 */
 	applyTo(elm) {
-		console.log('apply to', elm);
 		['-webkit-','-moz-','-ms-','-o-',''].forEach((vendor) => {
 			elm.style[vendor+'filter'] = 'url("#'+this.id+'")';
 		});
@@ -40,9 +36,10 @@ export default class SugarSvgFilter {
 	 * Insert the filter
 	 */
 	_insertFilter() {
-
 		// add the filter to the svg
-		SugarSvgFilter.defs.appendChild(this.filter);
+		SugarSvgFilter.defs.innerHTML += this.filter_content;
+		this.filter = SugarSvgFilter.defs.querySelector('filter:last-child');
+		this.filter.id = this.id;
 	}
 
 	/**
@@ -54,18 +51,15 @@ export default class SugarSvgFilter {
 			style.push('display:none;');
 		}
 		let svg = `
-			<defs>
-			</defs>
+			<svg id="s-svg-filters" xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" style="${style.join(' ')}">
+				<defs>
+				</defs>
+			</svg>
 		`;
-		let svg_elm = document.createElement('svg');
-		svg_elm.setAttribute('xmlns', "http://www.w3.org/2000/svg");
-		svg_elm.setAttribute('version', "1.1");
-		svg_elm.setAttribute('style', style.join(' '));
-		svg_elm.innerHTML = svg;
-		SugarSvgFilter.defs = svg_elm.querySelector('defs');
-
-		// append the filter to the page
-		document.body.appendChild(svg_elm);
+		let div = document.createElement('div');
+		div.innerHTML = svg;
+		SugarSvgFilter.defs = div.querySelector('defs');
+		document.body.appendChild(div.querySelector('svg'));
 	}
 
 }

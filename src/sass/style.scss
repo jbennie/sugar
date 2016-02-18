@@ -389,11 +389,11 @@ pre > code {
 //
 // Typeset
 //
-.typeset {
-	* {
-		@include s-transition();
-	}
-}
+// .typeset {
+// 	* {
+// 		@include s-transition();
+// 	}
+// }
 
 figure {
 	height: 10rem;

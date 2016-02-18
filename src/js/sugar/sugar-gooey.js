@@ -50,6 +50,12 @@ class SugarGooeyElement extends SugarElement {
 		this.filter = new SugarGooeyFilter();
 		// apply the filter
 		this.filter.applyTo(this.elm);
+
+		setTimeout(() => {
+			console.log(this.filter.id);
+			this.filter.amount = 20;
+		},2000);
+
 	}
 }
 
