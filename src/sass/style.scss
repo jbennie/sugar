@@ -517,6 +517,11 @@ figure {
 @include s-typeset-blocks();
 @include s-typeset-tables(-sizes smaller small medium big bigger);
 
+// form
+@include s-form(
+	-sizes smaller small default medium big bigger
+);
+
 //
 // Button
 //

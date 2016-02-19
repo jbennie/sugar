@@ -61,7 +61,8 @@ $_s-font-aliases : (
 		border-top-width : number,
 		border : true,
 		s-font : true,
-		scope-class : boolean
+		scope-class : boolean,
+		calculate-height : boolean
 	), (
 		font-size: fs,
 		font-family: ff,
@@ -99,6 +100,7 @@ $_s-font-aliases : (
 	$padding : map-get($rhythme, padding);
 	$border : map-get($rhythme, border);
 	$scope-class : map-get-or($rhythme, scope-class, true);
+	$calculate-height : map-get-or($rhythme, calculate-height, false);
 
 	// get values from s-font if passed	
 	@if $s-font {
@@ -148,6 +150,7 @@ $_s-font-aliases : (
 		-border-bottom-width $border-bottom-width
 		-border-bottom $border-bottom
 		-cap-height $cap-height
+		-calculate-height $calculate-height
 	));
 	// remove margin-top cause it's done by top and margin-bottom compensation
 	@if map-get($rhythme-map, top) {
@@ -161,6 +164,7 @@ $_s-font-aliases : (
 	$rhythme-map : map-remove($rhythme-map, s-font);
 	$rhythme-map : map-remove($rhythme-map, cap-height);
 	$rhythme-map : map-remove($rhythme-map, scope-class);
+	$rhythme-map : map-remove($rhythme-map, calculate-height);
 
 	$sc : sugar('settings.vertical-rhythme.scope-class');
 	@if $sc and $scope-class {
@@ -537,7 +541,8 @@ $_s-font-aliases : (
 		border-top : true,
 		border-top-width : number,
 		cap-height : number,
-		s-font : true
+		s-font : true,
+		calculate-height : boolean,
 	), (
 		font-family : ff,
 		font-size : fs,
@@ -549,7 +554,8 @@ $_s-font-aliases : (
 		border-bottom : bb,
 		border-top : bt,
 		cap-height: ch,
-		s-font : sf
+		s-font : sf,
+		calculate-height: ch
 	));
 	
 	$font-family : map-get($rhythme, font-family);
@@ -567,6 +573,7 @@ $_s-font-aliases : (
 	$border-top : map-get-or($rhythme, border-top, $border-top);
 	$cap-height : map-get-or($rhythme, cap-height, 0);
 	$s-font : map-get($rhythme, s-font);
+	$calculate-height : map-get-or($rhythme, calculate-height, false);
 	$root-font-size : sugar('settings.typo.font-size');
 
 	// $skip-margin-bottom : false;
@@ -719,7 +726,10 @@ $_s-font-aliases : (
 					$margin-top : $margin-top + (1 - $dec);
 				}
 			} @else {
-				@if $padding-top - $border-top >= 0 {
+				@if $padding-top - ($border-top / 2) >= 0 and $padding-bottom - ($border-top / 2) >= 0 {
+					$padding-top : $padding-top - $border-top / 2;
+					$padding-bottom : $padding-bottom - $border-top / 2;
+				} @else if $padding-top - $border-top >= 0 {
 					$padding-top : $padding-top - $border-top;
 				} @else {
 					$padding-top : $padding-top + (1 - $dec);
@@ -736,10 +746,12 @@ $_s-font-aliases : (
 					$margin-bottom : $margin-bottom - $border-bottom;
 				} @else {
 					$margin-bottom : $margin-bottom + (1 - $dec);
-					
 				}
 			} @else {
-				@if $padding-bottom - $border-bottom >= 0 {
+				@if $padding-top - ($border-bottom / 2) >= 0 and $padding-bottom - ($border-bottom / 2) >= 0 {
+					$padding-top : $padding-top - $border-bottom / 2;
+					$padding-bottom : $padding-bottom - $border-bottom / 2;
+				} @else if $padding-bottom - $border-bottom >= 0 {
 					$padding-bottom : $padding-bottom - $border-bottom;
 				} @else {
 					$padding-bottom : $padding-bottom + (1 - $dec);
@@ -751,6 +763,11 @@ $_s-font-aliases : (
 			font-size : s-rem($font-size),
 			line-height : s-rem($line-height)
 		);
+
+		@if $calculate-height {
+			$ret : map-set($ret, height, $padding-top + $padding-bottom + $line-height);
+		}
+
 		$ret : map-set($ret, padding-top, $padding-top);
 		$ret : map-set($ret, padding-bottom, $padding-bottom);
 		$ret : map-set($ret, margin-bottom, $margin-bottom);

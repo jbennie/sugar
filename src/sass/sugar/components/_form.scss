@@ -1,0 +1,117 @@
+@include s-component-setup((
+	form : (
+		colors : default primary secondary success warning error info,
+		sizes : default
+	)
+));
+
+$_s-form-inited : false;
+@mixin s-form-init() {
+	@if not $_s-form-inited {
+		$_s-form-inited : true !global;
+		%s-form-input-bare {
+			display: inline-block;
+			border: s-color(default, -opacity .3) 1px solid;
+			@include s-font(sugar('settings.typo.font-family'));
+			-webkit-appearance: none;
+			line-height: 1;
+			outline : none;
+			width:100%;
+		}
+	}
+}
+
+@mixin s-form(
+	$props : ()
+) {
+	// init form
+	@include s-form-init();
+	
+	
+	// parse properties
+	$props : s-parse-properties($props, (
+		sizes : map-keys(sugar('settings.sizes')),
+		colors : list-color
+	));
+
+	// get variables
+	$sizes : map-get-or($props, sizes, sugar('settings.form.sizes'));
+	$colors : map-get-or($props, colors, sugar('settings.form.colors'));
+
+	$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
+	$typeset : sugar('settings.typeset.scope-class');
+
+	// base
+	input:not([type="checkbox"]):not([type="radio"]),
+	textarea,
+	[class*="postfix"] {
+		@extend %s-form-input-bare;
+	}
+
+	// generate each sizes
+	@each $size in $sizes {
+		// input styling
+		#{s-selector((
+			BEM : 'textarea.#{$size}, .textarea--#{$size}, input:not([type="checkbox"]):not([type="radio"]).#{$size}, .input--#{$size}, .input-postfix--#{$size}',
+			SMACCS : 'textarea.#{$size}, .textarea--#{$size}, input:not([type="checkbox"]):not([type="radio"]).#{$size}, .input-#{$size}, .input-postfix-#{$size}'
+		))} {
+			font-size : s-look-and-feel(font-size, $size);
+			border-radius: s-look-and-feel(border-radius, $size);
+			padding : s-look-and-feel(padding-vertical, $size) s-look-and-feel(padding-horizontal, $size);
+			display: inline-block;
+
+			@include s-vertical-rhythme((
+				s-font : s-look-and-feel(font-size, $size),
+				line-height: s-look-and-feel(font-size, $size),
+				padding-top : s-look-and-feel(padding-vertical, $size),
+				padding-bottom : s-look-and-feel(padding-vertical, $size),
+				margin-bottom : 1,
+				margin-top : 0,
+				border-bottom-width: s-rem(1px),
+				border-top-width : s-rem(1px),
+				calculate-height : true
+			));
+		}
+		// label styling
+		#{s-selector((
+			BEM : 'label.#{$size}, .label--#{$size}',
+			SMACCS : 'label.#{$size}, .label-#{$size}'
+		))} {
+			font-size: s-look-and-feel(font-size, $size);
+			display: inline-block;
+
+			@include s-vertical-rhythme((
+				s-font : s-look-and-feel(font-size, $size),
+				line-height: s-look-and-feel(font-size, $size),
+				margin-bottom : 1,
+				margin-top : 0
+			));
+		}
+	}
+
+	// generate each colors
+	@each $color in $colors {
+		
+		#{s-selector((
+			BEM : 'textarea.#{$color}, .textarea--#{$color}, input:not([type="checkbox"]):not([type="radio"]).#{$color}, .input--#{$color}, .input-postfix--#{$color}',
+			SMACCS : 'textarea.#{$color}, .textarea--#{$color}, input:not([type="checkbox"]):not([type="radio"]).#{$color}, .input-#{$color}, .input-postfix-#{$color}'
+		))} {
+			border-color: s-color($color, -opacity .3);
+		}
+		#{s-selector((
+			BEM : '.input-postfix--#{$color}',
+			SMACCS : '.input-postfix-#{$color}'
+		))} {
+			background: s-color($color, -opacity .2);
+			color : s-color($color, -darken 30%);
+		}
+	}
+
+	// postfix
+	[class*="input-postfix"] {
+		border-left: none;
+	}
+	[class*="input-prefix"] {
+		border-right: none;
+	}
+}
