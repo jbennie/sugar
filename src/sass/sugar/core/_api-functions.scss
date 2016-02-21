@@ -119,6 +119,7 @@
 	} @else if $method == SMACCS {
 		$sel : str-replace($sel,'-default','');
 	}
+	$sel : str-replace($sel,'.default','');
 	// return the selector
 	@return $sel;
 }
