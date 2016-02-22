@@ -2700,6 +2700,9 @@ return /******/ (function(modules) { // webpackBootstrap
 		function SugarSvgFilter(filter_content) {
 			_classCallCheck(this, SugarSvgFilter);
 
+			// save the reference of each elements
+			this.elms = [];
+
 			// save parameters
 			this.filter_content = filter_content;
 
@@ -2724,7 +2727,21 @@ return /******/ (function(modules) { // webpackBootstrap
 			['-webkit-', '-moz-', '-ms-', '-o-', ''].forEach(function (vendor) {
 				elm.style[vendor + 'filter'] = 'url("#' + _this.id + '")';
 			});
-			this.elm = elm;
+			this.elms.push(elm);
+		};
+
+		/**
+	  * Unapply from
+	  */
+
+
+		SugarSvgFilter.prototype.unapplyFrom = function unapplyFrom(elm) {
+			['-webkit-', '-moz-', '-ms-', '-o-', ''].forEach(function (vendor) {
+				delete elm.style[vendor + 'filter'];
+			});
+			// remove from stack
+			var idx = this.elms.indexOf(elm);
+			if (idx) this.elms.splice(idx, 1);
 		};
 
 		/**
@@ -2733,7 +2750,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		SugarSvgFilter.prototype._insertFilter = function _insertFilter() {
-
 			var svg = '\n\t\t\t<svg xmlns="http://www.w3.org/2000/svg" version="1.1">\n\t\t\t\t<defs>\n\t\t\t\t</defs>\n\t\t\t</svg>\n\t\t';
 			var div = document.createElement('div');
 			div.innerHTML = svg;
@@ -2745,6 +2761,22 @@ return /******/ (function(modules) { // webpackBootstrap
 			this.filter = defs.querySelector('#' + this.id);
 			this.svg = div.querySelector('svg');
 			SugarSvgFilter.filtersContainer.appendChild(this.svg);
+		};
+
+		/**
+	  * Destroy
+	  */
+
+
+		SugarSvgFilter.prototype.destroy = function destroy() {
+			var _this2 = this;
+
+			// loop on each element savec in stack to remove the filter
+			this.elms.forEach(function (elm) {
+				_this2.unapplyFrom(elm);
+			});
+			// remove the filter from the html
+			this.filter.parent.removeChild(this.filter);
 		};
 
 		/**
@@ -2959,7 +2991,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			elm.addEventListener('move', function (e) {
 				_this2._handleFilter();
 			});
-			this._lastPos = _sugarDom2.default.offset(this.elm);
+			this._lastPos = _sugarDom2.default.offset(this.elms[0]);
 		};
 
 		/**
@@ -2998,7 +3030,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		SugarMotionBlur.prototype._setMotionBlur = function _setMotionBlur() {
-			this._currentPos = _sugarDom2.default.offset(this.elm);
+			this._currentPos = _sugarDom2.default.offset(this.elms[0]);
 			var xDiff = Math.abs(this._currentPos.left - this._lastPos.left) * this._amount;
 			var yDiff = Math.abs(this._currentPos.top - this._lastPos.top) * this._amount;
 
@@ -3006,7 +3038,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			this._blur.setAttribute('stdDeviation', xDiff + ',' + yDiff);
 
 			// update lastPos
-			this._lastPos = _sugarDom2.default.offset(this.elm);
+			this._lastPos = _sugarDom2.default.offset(this.elms[0]);
 
 			// return the diff
 			return {

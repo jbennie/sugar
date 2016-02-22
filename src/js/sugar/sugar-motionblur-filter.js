@@ -39,7 +39,7 @@ export default class SugarMotionBlur extends SugarSvgFilter {
 		elm.addEventListener('animationiteration', (e) => { this._handleFilter(); });
 		elm.addEventListener('transitionstart', (e) => { this._handleFilter(); });
 		elm.addEventListener('move', (e) => { this._handleFilter(); });
-		this._lastPos = sDom.offset(this.elm);
+		this._lastPos = sDom.offset(this.elms[0]);
 	}
 
 	/**
@@ -72,7 +72,7 @@ export default class SugarMotionBlur extends SugarSvgFilter {
 	 * Set motion blur
 	 */
 	_setMotionBlur() {
-		this._currentPos = sDom.offset(this.elm);
+		this._currentPos = sDom.offset(this.elms[0]);
 		let xDiff = Math.abs(this._currentPos.left - this._lastPos.left) * this._amount;
 		let yDiff = Math.abs(this._currentPos.top - this._lastPos.top) * this._amount;
 
@@ -81,7 +81,7 @@ export default class SugarMotionBlur extends SugarSvgFilter {
 		this._blur.setAttribute('stdDeviation', xDiff+','+yDiff);
 
 		// update lastPos
-		this._lastPos = sDom.offset(this.elm);
+		this._lastPos = sDom.offset(this.elms[0]);
 
 		// return the diff
 		return {

@@ -3531,6 +3531,9 @@ return /******/ (function(modules) { // webpackBootstrap
 		function SugarSvgFilter(filter_content) {
 			_classCallCheck(this, SugarSvgFilter);
 
+			// save the reference of each elements
+			this.elms = [];
+
 			// save parameters
 			this.filter_content = filter_content;
 
@@ -3555,7 +3558,21 @@ return /******/ (function(modules) { // webpackBootstrap
 			['-webkit-', '-moz-', '-ms-', '-o-', ''].forEach(function (vendor) {
 				elm.style[vendor + 'filter'] = 'url("#' + _this.id + '")';
 			});
-			this.elm = elm;
+			this.elms.push(elm);
+		};
+
+		/**
+	  * Unapply from
+	  */
+
+
+		SugarSvgFilter.prototype.unapplyFrom = function unapplyFrom(elm) {
+			['-webkit-', '-moz-', '-ms-', '-o-', ''].forEach(function (vendor) {
+				delete elm.style[vendor + 'filter'];
+			});
+			// remove from stack
+			var idx = this.elms.indexOf(elm);
+			if (idx) this.elms.splice(idx, 1);
 		};
 
 		/**
@@ -3564,7 +3581,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		SugarSvgFilter.prototype._insertFilter = function _insertFilter() {
-
 			var svg = '\n\t\t\t<svg xmlns="http://www.w3.org/2000/svg" version="1.1">\n\t\t\t\t<defs>\n\t\t\t\t</defs>\n\t\t\t</svg>\n\t\t';
 			var div = document.createElement('div');
 			div.innerHTML = svg;
@@ -3576,6 +3592,22 @@ return /******/ (function(modules) { // webpackBootstrap
 			this.filter = defs.querySelector('#' + this.id);
 			this.svg = div.querySelector('svg');
 			SugarSvgFilter.filtersContainer.appendChild(this.svg);
+		};
+
+		/**
+	  * Destroy
+	  */
+
+
+		SugarSvgFilter.prototype.destroy = function destroy() {
+			var _this2 = this;
+
+			// loop on each element savec in stack to remove the filter
+			this.elms.forEach(function (elm) {
+				_this2.unapplyFrom(elm);
+			});
+			// remove the filter from the html
+			this.filter.parent.removeChild(this.filter);
 		};
 
 		/**
@@ -3732,9 +3764,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  * Constructor
 	  */
 
-		function SugarLinearGradientFilter(colors) {
-			var type = arguments.length <= 1 || arguments[1] === undefined ? 'linear' : arguments[1];
-
+		function SugarLinearGradientFilter() {
 			_classCallCheck(this, SugarLinearGradientFilter);
 
 			var _this = _possibleConstructorReturn(this, _SugarSvgFilter.call(this, '\t\t\t\t\n\t\t\t<feImage xlink:href="" x="0" y="0" result="IMAGEFILL" preserveAspectRatio="none" />\n\t\t\t<feComposite operator="in" in="IMAGEFILL" in2="SourceAlpha" />\n\t\t'));
@@ -3752,21 +3782,25 @@ return /******/ (function(modules) { // webpackBootstrap
 		SugarLinearGradientFilter.prototype.linear = function linear(colors) {
 			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
-			var x0 = settings.x0 || 0,
-			    x1 = settings.x1 || 512,
+			var width = settings.width || 512,
+			    height = settings.height || 512,
+			    x0 = settings.x0 || 0,
+			    x1 = settings.x1 || width,
 			    y0 = settings.y0 || 0,
-			    y1 = settings.y1 || 0,
-			    can = document.createElement('canvas'),
-			    ctx = can.getContext('2d'),
+			    y1 = settings.y1 || 0;
+			var can = document.createElement('canvas');
+			can.setAttribute('width', width);
+			can.setAttribute('height', height);
+			var ctx = can.getContext('2d'),
 			    grad = ctx.createLinearGradient(x0, y0, x1, y1);
 			// loop on each colors
 			var i = 0;
 			colors.forEach(function (color) {
-				grad.addColorStop(1 / colors.length * i, color);
+				grad.addColorStop(1 / (colors.length - 1) * i, color);
 				i++;
 			});
 			ctx.fillStyle = grad;
-			ctx.fillRect(0, 0, 512, 512);
+			ctx.fillRect(0, 0, width, height);
 			this.grad64 = can.toDataURL();
 			this._image.setAttribute('xlink:href', this.grad64);
 		};
@@ -3778,6 +3812,31 @@ return /******/ (function(modules) { // webpackBootstrap
 
 		SugarLinearGradientFilter.prototype.radial = function radial(colors) {
 			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+
+			var width = settings.width || 512,
+			    height = settings.height || 512,
+			    x0 = settings.x0 || width / 2,
+			    x1 = settings.x1 || width / 2,
+			    r0 = settings.r0 || 0,
+			    y0 = settings.y0 || height / 2,
+			    y1 = settings.y1 || height / 2,
+			    r1 = settings.r1 || width;
+			var can = document.createElement('canvas');
+			can.setAttribute('width', width);
+			can.setAttribute('height', height);
+			var ctx = can.getContext('2d'),
+			    grad = ctx.createRadialGradient(x0, y0, r0, x1, y1, r1);
+			// loop on each colors
+			var i = 0;
+			colors.forEach(function (color) {
+				grad.addColorStop(1 / (colors.length - 1) * i, color);
+				i++;
+			});
+			ctx.fillStyle = grad;
+			ctx.fillRect(0, 0, width, height);
+			this.grad64 = can.toDataURL();
+			this._image.setAttribute('xlink:href', this.grad64);
 		};
 
 		/**
@@ -3801,8 +3860,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		SugarLinearGradientFilter.prototype._setImageSize = function _setImageSize() {
-			var width = this.elm.offsetWidth,
-			    height = this.elm.offsetHeight;
+			var width = this.elms[0].offsetWidth,
+			    height = this.elms[0].offsetHeight;
 			if (width >= height) {
 				this._image.setAttribute('width', width);
 				this._image.removeAttribute('height');
@@ -4008,7 +4067,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			elm.addEventListener('move', function (e) {
 				_this2._handleFilter();
 			});
-			this._lastPos = _sugarDom2.default.offset(this.elm);
+			this._lastPos = _sugarDom2.default.offset(this.elms[0]);
 		};
 
 		/**
@@ -4047,7 +4106,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		SugarMotionBlur.prototype._setMotionBlur = function _setMotionBlur() {
-			this._currentPos = _sugarDom2.default.offset(this.elm);
+			this._currentPos = _sugarDom2.default.offset(this.elms[0]);
 			var xDiff = Math.abs(this._currentPos.left - this._lastPos.left) * this._amount;
 			var yDiff = Math.abs(this._currentPos.top - this._lastPos.top) * this._amount;
 
@@ -4055,7 +4114,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			this._blur.setAttribute('stdDeviation', xDiff + ',' + yDiff);
 
 			// update lastPos
-			this._lastPos = _sugarDom2.default.offset(this.elm);
+			this._lastPos = _sugarDom2.default.offset(this.elms[0]);
 
 			// return the diff
 			return {
@@ -4079,15 +4138,50 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _sugarGooey = __webpack_require__(25);
 
+	var _sugarGooeyFilter = __webpack_require__(26);
+
+	var _sugarGooeyFilter2 = _interopRequireDefault(_sugarGooeyFilter);
+
 	var _sugarMotionblur = __webpack_require__(30);
 
+	var _sugarMotionblurFilter = __webpack_require__(31);
+
+	var _sugarMotionblurFilter2 = _interopRequireDefault(_sugarMotionblurFilter);
+
 	var _sugarLineargradient = __webpack_require__(28);
+
+	var _sugarLineargradientFilter = __webpack_require__(29);
+
+	var _sugarLineargradientFilter2 = _interopRequireDefault(_sugarLineargradientFilter);
+
+	var _sugarSvgfilter = __webpack_require__(27);
+
+	var _sugarSvgfilter2 = _interopRequireDefault(_sugarSvgfilter);
+
+	var _sugarTools = __webpack_require__(3);
+
+	var _sugarTools2 = _interopRequireDefault(_sugarTools);
+
+	var _sugarDom = __webpack_require__(4);
+
+	var _sugarDom2 = _interopRequireDefault(_sugarDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	module.exports = {
 		activateManager: _sugarActivate.activateManager,
 		ActivateElement: _sugarActivate.ActivateElement,
+
 		GooeyElement: _sugarGooey.GooeyElement,
+		GooeyFilter: _sugarGooeyFilter2.default,
+
 		MotionblurElement: _sugarMotionblur.MotionblurElement,
+		MotionBlurFilter: _sugarMotionblurFilter2.default,
+		LinearGradientElement: _sugarLineargradient.LinearGradientElement,
+		LinearGradientFilter: _sugarLineargradientFilter2.default,
+		SvgFilter: _sugarSvgfilter2.default,
+		tools: _sugarTools2.default,
+		dom: _sugarDom2.default,
 		drawer: __webpack_require__(24),
 		webfonts: __webpack_require__(33),
 		transitionstart: __webpack_require__(34)
