@@ -14,10 +14,10 @@ export default class SugarSvgFilter {
 		this.filter_content = filter_content;
 
 		// generate a uniqid
-		this.id = 'svg-filter-' + sugarTools.uniqid();
+		this.id = 's-svg-filter-' + sugarTools.uniqid();
 
 		// if need to inject svg
-		if ( ! document.body.querySelector('#s-svg-filters')) SugarSvgFilter._injectSvg();
+		if ( ! document.body.querySelector('#s-svg-filters')) SugarSvgFilter._injectFiltersContainer();
 
 		// insert the filter
 		this._insertFilter();
@@ -30,36 +30,44 @@ export default class SugarSvgFilter {
 		['-webkit-','-moz-','-ms-','-o-',''].forEach((vendor) => {
 			elm.style[vendor+'filter'] = 'url("#'+this.id+'")';
 		});
+		this.elm = elm;
 	}
 
 	/**
 	 * Insert the filter
 	 */
 	_insertFilter() {
-		// add the filter to the svg
-		SugarSvgFilter.defs.innerHTML += this.filter_content;
-		this.filter = SugarSvgFilter.defs.querySelector('filter:last-child');
-		this.filter.id = this.id;
-	}
 
-	/**
-	 * Inject svg
-	 */
-	static _injectSvg() {
-		let style = ['position:absolute;','left:-1000px;','top:-300px;'];
-		if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
-			style.push('display:none;');
-		}
 		let svg = `
-			<svg id="s-svg-filters" xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" style="${style.join(' ')}">
+			<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
 				<defs>
 				</defs>
 			</svg>
 		`;
 		let div = document.createElement('div');
 		div.innerHTML = svg;
-		SugarSvgFilter.defs = div.querySelector('defs');
-		document.body.appendChild(div.querySelector('svg'));
+		let defs = div.querySelector('defs');
+
+		// add the filter to the svg
+		this.filter_content = '<filter id="'+this.id+'">'+this.filter_content+'</filter>';
+		defs.innerHTML = this.filter_content;
+		this.filter = defs.querySelector('#'+this.id);
+		this.svg = div.querySelector('svg');
+		SugarSvgFilter.filtersContainer.appendChild(this.svg);
+	}
+
+	/**
+	 * Inject svg
+	 */
+	static _injectFiltersContainer() {
+		let style = ['position:absolute;','left:-1000px;','top:-300px;'];
+		if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
+			style.push('display:none;');
+		}
+		SugarSvgFilter.filtersContainer = document.createElement('div');
+		SugarSvgFilter.filtersContainer.id = 's-svg-filters';
+		SugarSvgFilter.filtersContainer.style = style.join(' ');
+		document.body.appendChild(SugarSvgFilter.filtersContainer);
 	}
 
 }

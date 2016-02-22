@@ -10,8 +10,7 @@
  */
 import SugarElement from './sugar-element'
 import sDom from './sugar-dom'
-import SugarGooeyFilter from './sugar-gooey-filter'
-var _get = require('lodash/get');
+import SugarMotionblurFilter from './sugar-motionblur-filter'
 
 // make sure we have a sugar property on window
 if (window.sugar == null) { window.sugar = {}; }
@@ -20,7 +19,7 @@ if (window.sugar == null) { window.sugar = {}; }
 let _sActivateStack = {};
 
 // Actual activate element class
-class SugarGooeyElement extends SugarElement {
+class SugarMotionblurElement extends SugarElement {
 
 	/**
 	 * Setup
@@ -33,7 +32,8 @@ class SugarGooeyElement extends SugarElement {
 	 * Constructor
 	 */
 	constructor(elm, settings = {}) {
-		super('sGooey', elm, {
+		super('sMotionblur', elm, {
+			motionblur : 0.5
 		}, settings);
 		if (this._inited) return;
 		this._inited = true;
@@ -47,30 +47,24 @@ class SugarGooeyElement extends SugarElement {
 	 */
 	_initFilter() {
 		// get amount
-		let amount = this.dataset('sGooey') || 10;
-		let blur = this.dataset('sGooeyBlur');
-		let contrast = this.dataset('sGooeyContrast');
-		let shrink = this.dataset('sGooeyShrink');
+		let amount = this.setting('motionblur');
 		// create a new svg filter
-		this.filter = new SugarGooeyFilter(amount);
+		this.filter = new SugarMotionblurFilter(amount);
 		// apply the filter
 		this.filter.applyTo(this.elm);
-		if (blur) this.filter.blur = blur;
-		if (contrast) this.filter.contrast = contrast;
-		if (shrink) this.filter.shrink = shrink;
 	}
 }
 
 sDom.domReady(() => {
-	[].forEach.call(document.body.querySelectorAll('[data-s-gooey]'), (item) => {
+	[].forEach.call(document.body.querySelectorAll('[data-s-motionblur]'), (item) => {
 		// init gooey element
-		new SugarGooeyElement(item);
+		new SugarMotionblurElement(item);
 	});
 });
 
-window.sugar.GooeyElement = SugarGooeyElement;
+window.sugar.MotionblurElement = SugarMotionblurElement;
 
 // export modules
 module.exports = {
-	GooeyElement : SugarGooeyElement
+	MotionblurElement : SugarMotionblurElement
 };

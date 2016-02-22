@@ -10,17 +10,13 @@
  */
 import SugarElement from './sugar-element'
 import sDom from './sugar-dom'
-import SugarGooeyFilter from './sugar-gooey-filter'
-var _get = require('lodash/get');
+import SugarLinearGradientFilter from './sugar-lineargradient-filter'
 
 // make sure we have a sugar property on window
 if (window.sugar == null) { window.sugar = {}; }
 
-// save all the activate elements
-let _sActivateStack = {};
-
 // Actual activate element class
-class SugarGooeyElement extends SugarElement {
+class SugarLinearGradientElement extends SugarElement {
 
 	/**
 	 * Setup
@@ -33,7 +29,7 @@ class SugarGooeyElement extends SugarElement {
 	 * Constructor
 	 */
 	constructor(elm, settings = {}) {
-		super('sGooey', elm, {
+		super('sLinearGradient', elm, {
 		}, settings);
 		if (this._inited) return;
 		this._inited = true;
@@ -46,31 +42,27 @@ class SugarGooeyElement extends SugarElement {
 	 * Init the filter
 	 */
 	_initFilter() {
-		// get amount
-		let amount = this.dataset('sGooey') || 10;
-		let blur = this.dataset('sGooeyBlur');
-		let contrast = this.dataset('sGooeyContrast');
-		let shrink = this.dataset('sGooeyShrink');
 		// create a new svg filter
-		this.filter = new SugarGooeyFilter(amount);
+		this.filter = new SugarLinearGradientFilter();
+		this.filter.linear([
+			'#a3385e',
+			'#f2bc2b'
+		]);
 		// apply the filter
 		this.filter.applyTo(this.elm);
-		if (blur) this.filter.blur = blur;
-		if (contrast) this.filter.contrast = contrast;
-		if (shrink) this.filter.shrink = shrink;
 	}
 }
 
 sDom.domReady(() => {
-	[].forEach.call(document.body.querySelectorAll('[data-s-gooey]'), (item) => {
+	[].forEach.call(document.body.querySelectorAll('[data-s-linear-gradient]'), (item) => {
 		// init gooey element
-		new SugarGooeyElement(item);
+		new SugarLinearGradientElement(item);
 	});
 });
 
-window.sugar.GooeyElement = SugarGooeyElement;
+window.sugar.LinearGradientElement = SugarLinearGradientElement;
 
 // export modules
 module.exports = {
-	GooeyElement : SugarGooeyElement
+	LinearGradientElement : SugarLinearGradientElement
 };

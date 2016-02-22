@@ -141,6 +141,58 @@ let sugarDom = {
 	},
 
 	/**
+	 * Get offset of an element
+	 */
+	offset : (elm) => {
+		let body, box, clientLeft, clientTop, docEl, left, scrollLeft, scrollTop, top, transX, transY;
+		box = elm.getBoundingClientRect();
+		body = document.body;
+		docEl = document.documentElement;
+		scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+		scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+		clientTop = docEl.clientTop || body.clientTop || 0;
+		clientLeft = docEl.clientLeft || body.clientLeft || 0;
+		transX = sugarDom.getTranslate(elm, 'x');
+		transY = sugarDom.getTranslate(elm, 'y');
+		top = box.top + scrollTop - clientTop + transY;
+		left = box.left + scrollLeft - clientLeft + transX;
+		return {
+			top: Math.round(top),
+			left: Math.round(left)
+		};
+	},
+
+	/**
+	 * Get element translate values
+	 */
+	getTranslate : (elm, what) => {
+		if ( ! window.getComputedStyle) return;
+		let idx, mat, style, transform;
+		style = getComputedStyle(elm);
+		transform = style.transform || style.webkitTransform || style.mozTransform;
+		mat = transform.match(/^matrix3d\((.+)\)$/);
+		if (mat) {
+			idx = {
+				x: 12,
+				y: 13,
+				z: 14
+			};
+			return parseFloat(mat[1].split(', ')[idx[what]]);
+		}
+		mat = transform.match(/^matrix\((.+)\)$/);
+		idx = {
+			x: 4,
+			y: 5,
+			z: 6
+		};
+		if (mat) {
+			return parseFloat(mat[1].split(', ')[idx[what]]);
+		} else {
+			return 0;
+		}
+	},
+
+	/**
 	 * Classes helpers
 	 */
 	hasClass : (elm, cls) => {

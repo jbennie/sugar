@@ -54,7 +54,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(28);
+	module.exports = __webpack_require__(32);
 
 
 /***/ },
@@ -494,6 +494,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var _upperfirst = __webpack_require__(19);
+	var _lowerfirst = __webpack_require__(22);
 
 	// store the settings for the different
 	// components types
@@ -545,7 +546,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 		SugarElement.prototype.setting = function setting(key) {
 			// check in the dataset
-			var s = this.dataset(this.name + _upperfirst(key));
+			var key_string = this.name + _upperfirst(key);
+			key_string = key_string.replace(this.name, 's');
+			var s = this.dataset(_lowerfirst(key_string));
 			if (s == 'false') s = false;
 			if (s != undefined) return s;
 			// return the settings
@@ -773,6 +776,71 @@ return /******/ (function(modules) { // webpackBootstrap
 					// cause no support for dataset
 					elm.setAttribute('data-' + sugarTools.uncamelize(key), value);
 				}
+			}
+		},
+
+		/**
+	  * Get offset of an element
+	  */
+		offset: function offset(elm) {
+			var body = undefined,
+			    box = undefined,
+			    clientLeft = undefined,
+			    clientTop = undefined,
+			    docEl = undefined,
+			    left = undefined,
+			    scrollLeft = undefined,
+			    scrollTop = undefined,
+			    top = undefined,
+			    transX = undefined,
+			    transY = undefined;
+			box = elm.getBoundingClientRect();
+			body = document.body;
+			docEl = document.documentElement;
+			scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+			scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+			clientTop = docEl.clientTop || body.clientTop || 0;
+			clientLeft = docEl.clientLeft || body.clientLeft || 0;
+			transX = sugarDom.getTranslate(elm, 'x');
+			transY = sugarDom.getTranslate(elm, 'y');
+			top = box.top + scrollTop - clientTop + transY;
+			left = box.left + scrollLeft - clientLeft + transX;
+			return {
+				top: Math.round(top),
+				left: Math.round(left)
+			};
+		},
+
+		/**
+	  * Get element translate values
+	  */
+		getTranslate: function getTranslate(elm, what) {
+			if (!window.getComputedStyle) return;
+			var idx = undefined,
+			    mat = undefined,
+			    style = undefined,
+			    transform = undefined;
+			style = getComputedStyle(elm);
+			transform = style.transform || style.webkitTransform || style.mozTransform;
+			mat = transform.match(/^matrix3d\((.+)\)$/);
+			if (mat) {
+				idx = {
+					x: 12,
+					y: 13,
+					z: 14
+				};
+				return parseFloat(mat[1].split(', ')[idx[what]]);
+			}
+			mat = transform.match(/^matrix\((.+)\)$/);
+			idx = {
+				x: 4,
+				y: 5,
+				z: 6
+			};
+			if (mat) {
+				return parseFloat(mat[1].split(', ')[idx[what]]);
+			} else {
+				return 0;
 			}
 		},
 
@@ -2989,8 +3057,35 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 22 */,
-/* 23 */
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var createCaseFirst = __webpack_require__(20);
+
+	/**
+	 * Converts the first character of `string` to lower case.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category String
+	 * @param {string} [string=''] The string to convert.
+	 * @returns {string} Returns the converted string.
+	 * @example
+	 *
+	 * _.lowerFirst('Fred');
+	 * // => 'fred'
+	 *
+	 * _.lowerFirst('FRED');
+	 * // => 'fRED'
+	 */
+	var lowerFirst = createCaseFirst('toLowerCase');
+
+	module.exports = lowerFirst;
+
+
+/***/ },
+/* 23 */,
+/* 24 */
 /***/ function(module, exports) {
 
 	
@@ -3190,7 +3285,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3203,7 +3298,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _sugarDom2 = _interopRequireDefault(_sugarDom);
 
-	var _sugarGooeyFilter = __webpack_require__(25);
+	var _sugarGooeyFilter = __webpack_require__(26);
 
 	var _sugarGooeyFilter2 = _interopRequireDefault(_sugarGooeyFilter);
 
@@ -3274,17 +3369,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		SugarGooeyElement.prototype._initFilter = function _initFilter() {
-			var _this2 = this;
-
+			// get amount
+			var amount = this.dataset('sGooey') || 10;
+			var blur = this.dataset('sGooeyBlur');
+			var contrast = this.dataset('sGooeyContrast');
+			var shrink = this.dataset('sGooeyShrink');
 			// create a new svg filter
-			this.filter = new _sugarGooeyFilter2.default();
+			this.filter = new _sugarGooeyFilter2.default(amount);
 			// apply the filter
 			this.filter.applyTo(this.elm);
-
-			setTimeout(function () {
-				console.log(_this2.filter.id);
-				_this2.filter.amount = 20;
-			}, 2000);
+			if (blur) this.filter.blur = blur;
+			if (contrast) this.filter.contrast = contrast;
+			if (shrink) this.filter.shrink = shrink;
 		};
 
 		return SugarGooeyElement;
@@ -3305,7 +3401,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3314,7 +3410,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _sugarSvgfilter = __webpack_require__(26);
+	var _sugarSvgfilter = __webpack_require__(27);
 
 	var _sugarSvgfilter2 = _interopRequireDefault(_sugarSvgfilter);
 
@@ -3340,22 +3436,65 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			_classCallCheck(this, SugarGooeyFilter);
 
-			return _possibleConstructorReturn(this, _SugarSvgFilter.call(this, '\n\t\t\t<filter>\n\t\t\t\t<feGaussianBlur in="SourceGraphic" stdDeviation="' + amount + '" result="blur" />\n\t\t\t\t<feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + (amount + 9) + ' -9" result="gooey" />\n\t\t\t\t<feComposite in="SourceGraphic" in2="gooey" operator="atop"/>\n\t\t\t</filter>\n\t\t'));
+			var _this = _possibleConstructorReturn(this, _SugarSvgFilter.call(this, '\n\t\t\t<feGaussianBlur in="SourceGraphic" stdDeviation="' + amount + '" result="blur" />\n\t\t\t<feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + (parseInt(amount) + 9) + ' -9" result="gooey" />\n\t\t\t<feComposite in="SourceGraphic" in2="gooey" operator="atop"/>\n\t\t'));
+
+			_this._blur = _this.filter.querySelector('feGaussianBlur');
+			_this._color_matrix = _this.filter.querySelector('feColorMatrix');
+			return _this;
 		}
 
 		/**
-	  * Set amount
+	  * Set blur
 	  */
 
 
 		_createClass(SugarGooeyFilter, [{
+			key: 'blur',
+			set: function set(value) {
+				this._blur.setAttribute('stdDeviation', value);
+			}
+
+			/**
+	   * Set contrast
+	   */
+
+		}, {
+			key: 'contrast',
+			set: function set(value) {
+				// get value
+				var v = this._color_matrix.getAttribute('values');
+				// process
+				v = v.split(' ');
+				v[v.length - 2] = value;
+				// apply the new filter
+				this._color_matrix.setAttribute('values', v.join(' '));
+			}
+
+			/**
+	   * Set shrink
+	   */
+
+		}, {
+			key: 'shrink',
+			set: function set(value) {
+				// get value
+				var v = this._color_matrix.getAttribute('values');
+				// process
+				v = v.split(' ');
+				v[v.length - 1] = value;
+				// apply the new filter
+				this._color_matrix.setAttribute('values', v.join(' '));
+			}
+
+			/**
+	   * Set amount
+	   */
+
+		}, {
 			key: 'amount',
 			set: function set(value) {
-				this._blur = this.filter.querySelector('feGaussianBlur');
-				this._color_matrix = this.filter.querySelector('feColorMatrix');
-				console.log(this._blur);
 				this._blur.setAttribute('stdDeviation', value);
-				this._color_matrix.setAttribute('values', '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + (value + 9) + ' -9');
+				this._color_matrix.setAttribute('values', '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + (parseInt(value) + 9) + ' -9');
 			}
 		}]);
 
@@ -3365,7 +3504,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = SugarGooeyFilter;
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3396,10 +3535,10 @@ return /******/ (function(modules) { // webpackBootstrap
 			this.filter_content = filter_content;
 
 			// generate a uniqid
-			this.id = 'svg-filter-' + sugarTools.uniqid();
+			this.id = 's-svg-filter-' + sugarTools.uniqid();
 
 			// if need to inject svg
-			if (!document.body.querySelector('#s-svg-filters')) SugarSvgFilter._injectSvg();
+			if (!document.body.querySelector('#s-svg-filters')) SugarSvgFilter._injectFiltersContainer();
 
 			// insert the filter
 			this._insertFilter();
@@ -3416,6 +3555,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			['-webkit-', '-moz-', '-ms-', '-o-', ''].forEach(function (vendor) {
 				elm.style[vendor + 'filter'] = 'url("#' + _this.id + '")';
 			});
+			this.elm = elm;
 		};
 
 		/**
@@ -3424,10 +3564,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		SugarSvgFilter.prototype._insertFilter = function _insertFilter() {
+
+			var svg = '\n\t\t\t<svg xmlns="http://www.w3.org/2000/svg" version="1.1">\n\t\t\t\t<defs>\n\t\t\t\t</defs>\n\t\t\t</svg>\n\t\t';
+			var div = document.createElement('div');
+			div.innerHTML = svg;
+			var defs = div.querySelector('defs');
+
 			// add the filter to the svg
-			SugarSvgFilter.defs.innerHTML += this.filter_content;
-			this.filter = SugarSvgFilter.defs.querySelector('filter:last-child');
-			this.filter.id = this.id;
+			this.filter_content = '<filter id="' + this.id + '">' + this.filter_content + '</filter>';
+			defs.innerHTML = this.filter_content;
+			this.filter = defs.querySelector('#' + this.id);
+			this.svg = div.querySelector('svg');
+			SugarSvgFilter.filtersContainer.appendChild(this.svg);
 		};
 
 		/**
@@ -3435,16 +3583,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-		SugarSvgFilter._injectSvg = function _injectSvg() {
+		SugarSvgFilter._injectFiltersContainer = function _injectFiltersContainer() {
 			var style = ['position:absolute;', 'left:-1000px;', 'top:-300px;'];
 			if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
 				style.push('display:none;');
 			}
-			var svg = '\n\t\t\t<svg id="s-svg-filters" xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" style="' + style.join(' ') + '">\n\t\t\t\t<defs>\n\t\t\t\t</defs>\n\t\t\t</svg>\n\t\t';
-			var div = document.createElement('div');
-			div.innerHTML = svg;
-			SugarSvgFilter.defs = div.querySelector('defs');
-			document.body.appendChild(div.querySelector('svg'));
+			SugarSvgFilter.filtersContainer = document.createElement('div');
+			SugarSvgFilter.filtersContainer.id = 's-svg-filters';
+			SugarSvgFilter.filtersContainer.style = style.join(' ');
+			document.body.appendChild(SugarSvgFilter.filtersContainer);
 		};
 
 		return SugarSvgFilter;
@@ -3453,291 +3600,501 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = SugarSvgFilter;
 
 /***/ },
-/* 27 */
-/***/ function(module, exports) {
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
 
-	
-	/*
-	 * Sugar-motion-blur.js
-	 *
-	 * This little js file allow you to use cool motion blur svg effect
-	 *
-	 * @author   Olivier Bossel <olivier.bossel@gmail.com>
-	 * @created  20.01.16
-	 * @updated  20.01.16
-	 * @version  1.0.0
-	 */
+	'use strict';
+
+	var _sugarElement = __webpack_require__(2);
+
+	var _sugarElement2 = _interopRequireDefault(_sugarElement);
+
+	var _sugarDom = __webpack_require__(4);
+
+	var _sugarDom2 = _interopRequireDefault(_sugarDom);
+
+	var _sugarLineargradientFilter = __webpack_require__(29);
+
+	var _sugarLineargradientFilter2 = _interopRequireDefault(_sugarLineargradientFilter);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); } /*
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Sugar-activate.js
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author   Olivier Bossel <olivier.bossel@gmail.com>
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @created  20.01.16
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @updated  20.01.16
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @version  1.0.0
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+
+	// make sure we have a sugar property on window
 	if (window.sugar == null) {
-	  window.sugar = {};
+		window.sugar = {};
 	}
 
-	module.exports = window.sugar.motionblur = {
-	  _inited: false,
-	  enabled: true,
-	  _settings: {},
+	// Actual activate element class
 
-	  /*
-	  	Init
-	   */
-	  init: function(settings) {
-	    if (settings == null) {
-	      settings = {};
-	    }
-	    this._settings = this._extend(this._settings, settings);
-	    this._inited = true;
-	    if (document.readyState === 'interactive') {
-	      return this._init();
-	    } else {
-	      return document.addEventListener('DOMContentLoaded', (function(_this) {
-	        return function(e) {
-	          return _this._init();
-	        };
-	      })(this));
-	    }
-	  },
+	var SugarLinearGradientElement = function (_SugarElement) {
+		_inherits(SugarLinearGradientElement, _SugarElement);
 
-	  /*
-	  	Internal init
-	   */
-	  _init: function() {
-	    if (!this.enabled) {
-	      return;
-	    }
-	    this._injectFilter();
-	    return this._listenAnimation();
-	  },
+		/**
+	  * Setup
+	  */
+		// static setup(type, settings) {
+		// 	SugarElement.setup('sActivate', type, settings);
+		// }
 
-	  /*
-	  	Inject filter
-	   */
-	  _injectFilter: function() {
-	    var blur, blur_elm, body, style;
-	    style = ['position:absolute;', 'left:-1000px;', 'top:-300px;'];
-	    if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
-	      style.push('display:none;');
-	    }
-	    blur = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" style=\"" + (style.join(' ')) + "\">\n	<defs>\n		<filter id=\"blur\">\n			<feGaussianBlur in=\"SourceGraphic\" stdDeviation=\"0,0\" />\n		</filter>\n	</defs>\n</svg>";
-	    blur_elm = document.createElement('div');
-	    blur_elm.innerHTML = blur;
-	    this.blur_defs = blur_elm.querySelector('defs');
-	    this.blur_svg = blur_elm.firstChild;
-	    this.blur = blur_elm.querySelector('#blur');
-	    body = document.querySelector('body');
-	    return body.appendChild(this.blur_svg);
-	  },
+		/**
+	  * Constructor
+	  */
 
-	  /*
-	  	Listen for animations
-	   */
-	  _listenAnimation: function() {
-	    document.addEventListener('animationiteration', (function(_this) {
-	      return function(e) {
-	        var elm;
-	        elm = e.target;
-	        if (elm.dataset.motionBlur !== void 0) {
-	          cancelAnimationFrame(elm._blurAnimationFrame);
-	          return _this._handleFilter(elm);
-	        }
-	      };
-	    })(this));
-	    document.addEventListener('transitionstart', (function(_this) {
-	      return function(e) {
-	        var elm;
-	        elm = e.target;
-	        if (elm.dataset.motionBlur !== void 0) {
-	          console.log('transition start');
-	          cancelAnimationFrame(elm._blurAnimationFrame);
-	          return _this._handleFilter(elm);
-	        }
-	      };
-	    })(this));
-	    return document.addEventListener('move', (function(_this) {
-	      return function(e) {
-	        var elm;
-	        elm = e.target;
-	        if (elm.dataset.motionBlur !== void 0) {
-	          return _this._setMotionBlur(elm);
-	        }
-	      };
-	    })(this));
-	  },
+		function SugarLinearGradientElement(elm) {
+			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
-	  /*
-	  	Handle filter
-	   */
-	  _handleFilter: function(elm, recursive) {
-	    var diff;
-	    if (recursive == null) {
-	      recursive = false;
-	    }
-	    if (!recursive) {
-	      elm._step = 0;
-	    }
-	    diff = this._setMotionBlur(elm);
-	    if (diff.xDiff <= 0 && diff.yDiff <= 0) {
-	      if (elm._step == null) {
-	        elm._step = 0;
-	      }
-	      elm._step += 1;
-	      if (elm._step >= 10) {
-	        elm._step = 0;
-	        return;
-	      }
-	    }
-	    return elm._blurAnimationFrame = requestAnimationFrame((function(_this) {
-	      return function() {
-	        return _this._handleFilter(elm, true);
-	      };
-	    })(this));
-	  },
+			_classCallCheck(this, SugarLinearGradientElement);
 
-	  /*
-	  	 * Set motion blur
-	   */
-	  _setMotionBlur: function(elm) {
-	    var amount, id, xDiff, yDiff;
-	    if (!elm._blurFilter) {
-	      elm._blurFilter = this.blur.cloneNode(true);
-	      id = 'blurFilter' + this._uniqId();
-	      elm._blurFilter.setAttribute('id', id);
-	      this.blur_defs.appendChild(elm._blurFilter);
-	      this._applyFilter(elm, 'url("#' + id + '")');
-	      elm._lastPos = this._offset(elm);
-	    }
-	    amount = elm.dataset.motionBlur || 0.5;
-	    elm._currentPos = this._offset(elm);
-	    xDiff = Math.abs(elm._currentPos.left - elm._lastPos.left) * amount;
-	    yDiff = Math.abs(elm._currentPos.top - elm._lastPos.top) * amount;
-	    elm._blurFilter.firstElementChild.setAttribute('stdDeviation', xDiff + ',' + yDiff);
-	    elm._lastPos = this._offset(elm);
-	    return {
-	      xDiff: xDiff,
-	      yDiff: yDiff
-	    };
-	  },
+			var _this = _possibleConstructorReturn(this, _SugarElement.call(this, 'sLinearGradient', elm, {}, settings));
 
-	  /*
-	  	Get translate values
-	   */
-	  _getTranslate: function(elm, what) {
-	    var idx, mat, style, transform;
-	    if (!window.getComputedStyle) {
-	      return;
-	    }
-	    style = getComputedStyle(elm);
-	    transform = style.transform || style.webkitTransform || style.mozTransform;
-	    mat = transform.match(/^matrix3d\((.+)\)$/);
-	    if (mat) {
-	      idx = {
-	        x: 12,
-	        y: 13,
-	        z: 14
-	      };
-	      return parseFloat(mat[1].split(', ')[idx[what]]);
-	    }
-	    mat = transform.match(/^matrix\((.+)\)$/);
-	    idx = {
-	      x: 4,
-	      y: 5,
-	      z: 6
-	    };
-	    if (mat) {
-	      return parseFloat(mat[1].split(', ')[idx[what]]);
-	    } else {
-	      return 0;
-	    }
-	  },
+			if (_this._inited) return _possibleConstructorReturn(_this);
+			_this._inited = true;
 
-	  /*
-	  	Get element position
-	   */
-	  _offset: function(elm) {
-	    var body, box, clientLeft, clientTop, docEl, left, scrollLeft, scrollTop, top, transX, transY;
-	    box = elm.getBoundingClientRect();
-	    body = document.body;
-	    docEl = document.documentElement;
-	    scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
-	    scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
-	    clientTop = docEl.clientTop || body.clientTop || 0;
-	    clientLeft = docEl.clientLeft || body.clientLeft || 0;
-	    transX = this._getTranslate(elm, 'x');
-	    transY = this._getTranslate(elm, 'y');
-	    top = box.top + scrollTop - clientTop + transY;
-	    left = box.left + scrollLeft - clientLeft + transX;
-	    return {
-	      top: Math.round(top),
-	      left: Math.round(left)
-	    };
-	  },
+			// init the filter
+			_this._initFilter();
+			return _this;
+		}
 
-	  /*
-	  	Apply filter
-	   */
-	  _applyFilter: function(elm, filter) {
-	    var i, len, ref, results, vendor;
-	    ref = ["-webkit-", "-moz-", "-ms-", "o-", ""];
-	    results = [];
-	    for (i = 0, len = ref.length; i < len; i++) {
-	      vendor = ref[i];
-	      results.push(elm.style[vendor + 'filter'] = filter);
-	    }
-	    return results;
-	  },
+		/**
+	  * Init the filter
+	  */
 
-	  /*
-	  	UniqId
-	   */
-	  _uniqId: function() {
-	    var k, m, n;
-	    return new Date().getTime() + Math.round(Math.random() * 999999999);
-	    n = Math.floor(Math.random() * 11);
-	    k = Math.floor(Math.random() * 1000000);
-	    m = String.fromCharCode(n) + k;
-	    return m.trim();
-	  },
 
-	  /*
-	  	Extend settings
-	   */
-	  _extend: function(obj, mixin) {
-	    var method, name;
-	    for (name in mixin) {
-	      method = mixin[name];
-	      obj[name] = method;
-	    }
-	    return obj;
-	  }
+		SugarLinearGradientElement.prototype._initFilter = function _initFilter() {
+			// create a new svg filter
+			this.filter = new _sugarLineargradientFilter2.default();
+			this.filter.linear(['#a3385e', '#f2bc2b']);
+			// apply the filter
+			this.filter.applyTo(this.elm);
+		};
+
+		return SugarLinearGradientElement;
+	}(_sugarElement2.default);
+
+	_sugarDom2.default.domReady(function () {
+		[].forEach.call(document.body.querySelectorAll('[data-s-linear-gradient]'), function (item) {
+			// init gooey element
+			new SugarLinearGradientElement(item);
+		});
+	});
+
+	window.sugar.LinearGradientElement = SugarLinearGradientElement;
+
+	// export modules
+	module.exports = {
+		LinearGradientElement: SugarLinearGradientElement
 	};
 
-	setTimeout(function() {
-	  if (!window.sugar.motionblur._inited) {
-	    return window.sugar.motionblur.init();
-	  }
-	}, 500);
+/***/ },
+/* 29 */
+/***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _sugarSvgfilter = __webpack_require__(27);
+
+	var _sugarSvgfilter2 = _interopRequireDefault(_sugarSvgfilter);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
+
+	var SugarLinearGradientFilter = function (_SugarSvgFilter) {
+		_inherits(SugarLinearGradientFilter, _SugarSvgFilter);
+
+		/**
+	  * Constructor
+	  */
+
+		function SugarLinearGradientFilter(colors) {
+			var type = arguments.length <= 1 || arguments[1] === undefined ? 'linear' : arguments[1];
+
+			_classCallCheck(this, SugarLinearGradientFilter);
+
+			var _this = _possibleConstructorReturn(this, _SugarSvgFilter.call(this, '\t\t\t\t\n\t\t\t<feImage xlink:href="" x="0" y="0" result="IMAGEFILL" preserveAspectRatio="none" />\n\t\t\t<feComposite operator="in" in="IMAGEFILL" in2="SourceAlpha" />\n\t\t'));
+
+			_this._image = _this.filter.querySelector('feImage');
+			_this._tile = _this.filter.querySelector('feTile');
+			return _this;
+		}
+
+		/**
+	  * Linear gradient
+	  */
+
+
+		SugarLinearGradientFilter.prototype.linear = function linear(colors) {
+			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+			var x0 = settings.x0 || 0,
+			    x1 = settings.x1 || 512,
+			    y0 = settings.y0 || 0,
+			    y1 = settings.y1 || 0,
+			    can = document.createElement('canvas'),
+			    ctx = can.getContext('2d'),
+			    grad = ctx.createLinearGradient(x0, y0, x1, y1);
+			// loop on each colors
+			var i = 0;
+			colors.forEach(function (color) {
+				grad.addColorStop(1 / colors.length * i, color);
+				i++;
+			});
+			ctx.fillStyle = grad;
+			ctx.fillRect(0, 0, 512, 512);
+			this.grad64 = can.toDataURL();
+			this._image.setAttribute('xlink:href', this.grad64);
+		};
+
+		/**
+	  * Radial
+	  */
+
+
+		SugarLinearGradientFilter.prototype.radial = function radial(colors) {
+			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+		};
+
+		/**
+	  * Apply to override
+	  */
+
+
+		SugarLinearGradientFilter.prototype.applyTo = function applyTo(elm) {
+			var _this2 = this;
+
+			_SugarSvgFilter.prototype.applyTo.call(this, elm);
+			this._setImageSize();
+			window.addEventListener('resize', function (e) {
+				_this2._setImageSize();
+			});
+		};
+
+		/**
+	  * Set image width
+	  */
+
+
+		SugarLinearGradientFilter.prototype._setImageSize = function _setImageSize() {
+			var width = this.elm.offsetWidth,
+			    height = this.elm.offsetHeight;
+			if (width >= height) {
+				this._image.setAttribute('width', width);
+				this._image.removeAttribute('height');
+			} else {
+				this._image.setAttribute('height', height);
+				this._image.removeAttribute('width');
+			}
+			// this._image.setAttribute('width', width);
+			// this._image.setAttribute('height', height);
+		};
+
+		return SugarLinearGradientFilter;
+	}(_sugarSvgfilter2.default);
+
+	exports.default = SugarLinearGradientFilter;
 
 /***/ },
-/* 28 */
+/* 30 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _sugarElement = __webpack_require__(2);
+
+	var _sugarElement2 = _interopRequireDefault(_sugarElement);
+
+	var _sugarDom = __webpack_require__(4);
+
+	var _sugarDom2 = _interopRequireDefault(_sugarDom);
+
+	var _sugarMotionblurFilter = __webpack_require__(31);
+
+	var _sugarMotionblurFilter2 = _interopRequireDefault(_sugarMotionblurFilter);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); } /*
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Sugar-activate.js
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author   Olivier Bossel <olivier.bossel@gmail.com>
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @created  20.01.16
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @updated  20.01.16
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @version  1.0.0
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+
+	// make sure we have a sugar property on window
+	if (window.sugar == null) {
+		window.sugar = {};
+	}
+
+	// save all the activate elements
+	var _sActivateStack = {};
+
+	// Actual activate element class
+
+	var SugarMotionblurElement = function (_SugarElement) {
+		_inherits(SugarMotionblurElement, _SugarElement);
+
+		/**
+	  * Setup
+	  */
+		// static setup(type, settings) {
+		// 	SugarElement.setup('sActivate', type, settings);
+		// }
+
+		/**
+	  * Constructor
+	  */
+
+		function SugarMotionblurElement(elm) {
+			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+			_classCallCheck(this, SugarMotionblurElement);
+
+			var _this = _possibleConstructorReturn(this, _SugarElement.call(this, 'sMotionblur', elm, {
+				motionblur: 0.5
+			}, settings));
+
+			if (_this._inited) return _possibleConstructorReturn(_this);
+			_this._inited = true;
+
+			// init the filter
+			_this._initFilter();
+			return _this;
+		}
+
+		/**
+	  * Init the filter
+	  */
+
+
+		SugarMotionblurElement.prototype._initFilter = function _initFilter() {
+			// get amount
+			var amount = this.setting('motionblur');
+			// create a new svg filter
+			this.filter = new _sugarMotionblurFilter2.default(amount);
+			// apply the filter
+			this.filter.applyTo(this.elm);
+		};
+
+		return SugarMotionblurElement;
+	}(_sugarElement2.default);
+
+	_sugarDom2.default.domReady(function () {
+		[].forEach.call(document.body.querySelectorAll('[data-s-motionblur]'), function (item) {
+			// init gooey element
+			new SugarMotionblurElement(item);
+		});
+	});
+
+	window.sugar.MotionblurElement = SugarMotionblurElement;
+
+	// export modules
+	module.exports = {
+		MotionblurElement: SugarMotionblurElement
+	};
+
+/***/ },
+/* 31 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _sugarSvgfilter = __webpack_require__(27);
+
+	var _sugarSvgfilter2 = _interopRequireDefault(_sugarSvgfilter);
+
+	var _sugarDom = __webpack_require__(4);
+
+	var _sugarDom2 = _interopRequireDefault(_sugarDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
+
+	var SugarMotionBlur = function (_SugarSvgFilter) {
+		_inherits(SugarMotionBlur, _SugarSvgFilter);
+
+		/**
+	  * Steps are used to handle when to stop the requestAnimationFrame when the
+	  * element is not moving anymore
+	  */
+
+		/**
+	  * Constructor
+	  */
+
+		function SugarMotionBlur() {
+			var amount = arguments.length <= 0 || arguments[0] === undefined ? 0.5 : arguments[0];
+
+			_classCallCheck(this, SugarMotionBlur);
+
+			// settings
+
+			var _this = _possibleConstructorReturn(this, _SugarSvgFilter.call(this, '\n\t\t\t<feGaussianBlur in="SourceGraphic" stdDeviation="0,0" />\n\t\t'));
+
+			_this._notMovingStepsBeforeStop = 10;
+			_this._currentStep = 0;
+			_this._amount = parseInt(amount);
+
+			// variables
+			_this._animationFrame = null;
+
+			// filter elements
+			_this._blur = _this.filter.querySelector('feGaussianBlur');
+			return _this;
+		}
+
+		/**
+	  * Apply to element (override)
+	  */
+
+
+		SugarMotionBlur.prototype.applyTo = function applyTo(elm) {
+			var _this2 = this;
+
+			// call parent method
+			_SugarSvgFilter.prototype.applyTo.call(this, elm);
+			// listen to animation, transitionstart and move event
+			elm.addEventListener('animationiteration', function (e) {
+				_this2._handleFilter();
+			});
+			elm.addEventListener('transitionstart', function (e) {
+				_this2._handleFilter();
+			});
+			elm.addEventListener('move', function (e) {
+				_this2._handleFilter();
+			});
+			this._lastPos = _sugarDom2.default.offset(this.elm);
+		};
+
+		/**
+	  * Handle filter
+	  */
+
+
+		SugarMotionBlur.prototype._handleFilter = function _handleFilter(recusrive) {
+			var _this3 = this;
+
+			if (!recusrive) {
+				this._currentStep = 0;
+			}
+
+			// set the motion blur and get the moving difference
+			var diff = this._setMotionBlur();
+
+			// check if the element is moving or not anymore
+			if (diff.x <= 0 && diff.y <= 0) {
+				this._currentStep += 1;
+				if (this._currentStep >= this._notMovingStepsBeforeStop) {
+					this._currentStep = 0;
+					return;
+				}
+			}
+
+			// recusrive call to apply the blur with requestAnimationFrame for performances
+			this._animationFrame = requestAnimationFrame(function () {
+				_this3._handleFilter(true);
+			});
+		};
+
+		/**
+	  * Set motion blur
+	  */
+
+
+		SugarMotionBlur.prototype._setMotionBlur = function _setMotionBlur() {
+			this._currentPos = _sugarDom2.default.offset(this.elm);
+			var xDiff = Math.abs(this._currentPos.left - this._lastPos.left) * this._amount;
+			var yDiff = Math.abs(this._currentPos.top - this._lastPos.top) * this._amount;
+
+			// set the blur
+			this._blur.setAttribute('stdDeviation', xDiff + ',' + yDiff);
+
+			// update lastPos
+			this._lastPos = _sugarDom2.default.offset(this.elm);
+
+			// return the diff
+			return {
+				x: xDiff,
+				y: yDiff
+			};
+		};
+
+		return SugarMotionBlur;
+	}(_sugarSvgfilter2.default);
+
+	exports.default = SugarMotionBlur;
+
+/***/ },
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var _sugarActivate = __webpack_require__(1);
 
-	var _sugarGooey = __webpack_require__(24);
+	var _sugarGooey = __webpack_require__(25);
+
+	var _sugarMotionblur = __webpack_require__(30);
+
+	var _sugarLineargradient = __webpack_require__(28);
 
 	module.exports = {
 		activateManager: _sugarActivate.activateManager,
 		ActivateElement: _sugarActivate.ActivateElement,
-		gooey: _sugarGooey.GooeyElement,
-		motionblur: __webpack_require__(27),
-		drawer: __webpack_require__(23),
-		webfonts: __webpack_require__(29),
-		transitionstart: __webpack_require__(30)
+		GooeyElement: _sugarGooey.GooeyElement,
+		MotionblurElement: _sugarMotionblur.MotionblurElement,
+		drawer: __webpack_require__(24),
+		webfonts: __webpack_require__(33),
+		transitionstart: __webpack_require__(34)
 	};
 
 /***/ },
-/* 29 */
+/* 33 */
 /***/ function(module, exports) {
 
 	
@@ -3877,7 +4234,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 30 */
+/* 34 */
 /***/ function(module, exports) {
 
 	

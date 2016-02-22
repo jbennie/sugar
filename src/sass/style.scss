@@ -186,8 +186,8 @@ pre > code {
 	display: block;
 	margin: 0 auto;
 	position: relative;
-	width: 50px;
-	height: 100px;
+	width: 100%;
+	height: 200px;
 	margin-top:80px;
 	@include s-transition();
 
@@ -233,6 +233,52 @@ pre > code {
 		width: 70px; height: 70px;
 		@include s-corner(35px);
 	}
+
+.gooey-demo {
+	position: relative;
+	width:calc(100% - 70px);
+	height:70px;
+}
+	.gooey-round {
+		width:50px; height:50px;
+		background:s-color(orange);
+		border-radius:50%;
+		position: absolute;
+		top:10px; left:0;
+
+		&:nth-child(2) {
+			left: 25%;
+		}
+		&:nth-child(3) {
+			left: 50%;
+		}
+		&:nth-child(4) {
+			left: 75%;
+		}
+		&:nth-child(5) {
+			left: 100%;
+		}
+	}
+	.gooey-animated-round {
+		width:70px; height:70px;
+		background:s-color(orange);
+		border-radius:50%;
+		position: absolute;
+		transform: translateX(-10px);
+		top:0; left:0;
+		animation: gooey-cross-screen 10s ease-in-out infinite;
+	}
+@keyframes gooey-cross-screen {
+	0% {
+		left:0;
+	}
+	50% {
+		left:100%;
+	}
+	100% {
+		left:0;
+	}
+}
 
 //
 // Motion blur

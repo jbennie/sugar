@@ -1,6 +1,7 @@
 import { uncamelize } from './sugar-tools'
 import sDom from './sugar-dom'
 let _upperfirst = require('lodash/upperfirst');
+let _lowerfirst = require('lodash/lowerfirst');
 
 // store the settings for the different
 // components types
@@ -42,7 +43,9 @@ export default class SugarElement {
 	 */
 	setting(key) {
 		// check in the dataset
-		let s = this.dataset(this.name+_upperfirst(key));
+		let key_string = this.name + _upperfirst(key);
+		key_string = key_string.replace(this.name, 's');
+		let s = this.dataset(_lowerfirst(key_string));
 		if (s == 'false') s = false;
 		if (s != undefined) return s;
 		// return the settings

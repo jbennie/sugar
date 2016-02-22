@@ -494,6 +494,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var _upperfirst = __webpack_require__(19);
+	var _lowerfirst = __webpack_require__(22);
 
 	// store the settings for the different
 	// components types
@@ -545,7 +546,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 		SugarElement.prototype.setting = function setting(key) {
 			// check in the dataset
-			var s = this.dataset(this.name + _upperfirst(key));
+			var key_string = this.name + _upperfirst(key);
+			key_string = key_string.replace(this.name, 's');
+			var s = this.dataset(_lowerfirst(key_string));
 			if (s == 'false') s = false;
 			if (s != undefined) return s;
 			// return the settings
@@ -773,6 +776,71 @@ return /******/ (function(modules) { // webpackBootstrap
 					// cause no support for dataset
 					elm.setAttribute('data-' + sugarTools.uncamelize(key), value);
 				}
+			}
+		},
+
+		/**
+	  * Get offset of an element
+	  */
+		offset: function offset(elm) {
+			var body = undefined,
+			    box = undefined,
+			    clientLeft = undefined,
+			    clientTop = undefined,
+			    docEl = undefined,
+			    left = undefined,
+			    scrollLeft = undefined,
+			    scrollTop = undefined,
+			    top = undefined,
+			    transX = undefined,
+			    transY = undefined;
+			box = elm.getBoundingClientRect();
+			body = document.body;
+			docEl = document.documentElement;
+			scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+			scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+			clientTop = docEl.clientTop || body.clientTop || 0;
+			clientLeft = docEl.clientLeft || body.clientLeft || 0;
+			transX = sugarDom.getTranslate(elm, 'x');
+			transY = sugarDom.getTranslate(elm, 'y');
+			top = box.top + scrollTop - clientTop + transY;
+			left = box.left + scrollLeft - clientLeft + transX;
+			return {
+				top: Math.round(top),
+				left: Math.round(left)
+			};
+		},
+
+		/**
+	  * Get element translate values
+	  */
+		getTranslate: function getTranslate(elm, what) {
+			if (!window.getComputedStyle) return;
+			var idx = undefined,
+			    mat = undefined,
+			    style = undefined,
+			    transform = undefined;
+			style = getComputedStyle(elm);
+			transform = style.transform || style.webkitTransform || style.mozTransform;
+			mat = transform.match(/^matrix3d\((.+)\)$/);
+			if (mat) {
+				idx = {
+					x: 12,
+					y: 13,
+					z: 14
+				};
+				return parseFloat(mat[1].split(', ')[idx[what]]);
+			}
+			mat = transform.match(/^matrix\((.+)\)$/);
+			idx = {
+				x: 4,
+				y: 5,
+				z: 6
+			};
+			if (mat) {
+				return parseFloat(mat[1].split(', ')[idx[what]]);
+			} else {
+				return 0;
 			}
 		},
 
@@ -2986,6 +3054,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	module.exports = stringToArray;
+
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var createCaseFirst = __webpack_require__(20);
+
+	/**
+	 * Converts the first character of `string` to lower case.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category String
+	 * @param {string} [string=''] The string to convert.
+	 * @returns {string} Returns the converted string.
+	 * @example
+	 *
+	 * _.lowerFirst('Fred');
+	 * // => 'fred'
+	 *
+	 * _.lowerFirst('FRED');
+	 * // => 'fRED'
+	 */
+	var lowerFirst = createCaseFirst('toLowerCase');
+
+	module.exports = lowerFirst;
 
 
 /***/ }

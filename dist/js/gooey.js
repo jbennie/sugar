@@ -54,7 +54,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(24);
+	module.exports = __webpack_require__(25);
 
 
 /***/ },
@@ -79,6 +79,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var _upperfirst = __webpack_require__(19);
+	var _lowerfirst = __webpack_require__(22);
 
 	// store the settings for the different
 	// components types
@@ -130,7 +131,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 		SugarElement.prototype.setting = function setting(key) {
 			// check in the dataset
-			var s = this.dataset(this.name + _upperfirst(key));
+			var key_string = this.name + _upperfirst(key);
+			key_string = key_string.replace(this.name, 's');
+			var s = this.dataset(_lowerfirst(key_string));
 			if (s == 'false') s = false;
 			if (s != undefined) return s;
 			// return the settings
@@ -358,6 +361,71 @@ return /******/ (function(modules) { // webpackBootstrap
 					// cause no support for dataset
 					elm.setAttribute('data-' + sugarTools.uncamelize(key), value);
 				}
+			}
+		},
+
+		/**
+	  * Get offset of an element
+	  */
+		offset: function offset(elm) {
+			var body = undefined,
+			    box = undefined,
+			    clientLeft = undefined,
+			    clientTop = undefined,
+			    docEl = undefined,
+			    left = undefined,
+			    scrollLeft = undefined,
+			    scrollTop = undefined,
+			    top = undefined,
+			    transX = undefined,
+			    transY = undefined;
+			box = elm.getBoundingClientRect();
+			body = document.body;
+			docEl = document.documentElement;
+			scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+			scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+			clientTop = docEl.clientTop || body.clientTop || 0;
+			clientLeft = docEl.clientLeft || body.clientLeft || 0;
+			transX = sugarDom.getTranslate(elm, 'x');
+			transY = sugarDom.getTranslate(elm, 'y');
+			top = box.top + scrollTop - clientTop + transY;
+			left = box.left + scrollLeft - clientLeft + transX;
+			return {
+				top: Math.round(top),
+				left: Math.round(left)
+			};
+		},
+
+		/**
+	  * Get element translate values
+	  */
+		getTranslate: function getTranslate(elm, what) {
+			if (!window.getComputedStyle) return;
+			var idx = undefined,
+			    mat = undefined,
+			    style = undefined,
+			    transform = undefined;
+			style = getComputedStyle(elm);
+			transform = style.transform || style.webkitTransform || style.mozTransform;
+			mat = transform.match(/^matrix3d\((.+)\)$/);
+			if (mat) {
+				idx = {
+					x: 12,
+					y: 13,
+					z: 14
+				};
+				return parseFloat(mat[1].split(', ')[idx[what]]);
+			}
+			mat = transform.match(/^matrix\((.+)\)$/);
+			idx = {
+				x: 4,
+				y: 5,
+				z: 6
+			};
+			if (mat) {
+				return parseFloat(mat[1].split(', ')[idx[what]]);
+			} else {
+				return 0;
 			}
 		},
 
@@ -2574,9 +2642,36 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 22 */,
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var createCaseFirst = __webpack_require__(20);
+
+	/**
+	 * Converts the first character of `string` to lower case.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category String
+	 * @param {string} [string=''] The string to convert.
+	 * @returns {string} Returns the converted string.
+	 * @example
+	 *
+	 * _.lowerFirst('Fred');
+	 * // => 'fred'
+	 *
+	 * _.lowerFirst('FRED');
+	 * // => 'fRED'
+	 */
+	var lowerFirst = createCaseFirst('toLowerCase');
+
+	module.exports = lowerFirst;
+
+
+/***/ },
 /* 23 */,
-/* 24 */
+/* 24 */,
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2589,7 +2684,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _sugarDom2 = _interopRequireDefault(_sugarDom);
 
-	var _sugarGooeyFilter = __webpack_require__(25);
+	var _sugarGooeyFilter = __webpack_require__(26);
 
 	var _sugarGooeyFilter2 = _interopRequireDefault(_sugarGooeyFilter);
 
@@ -2660,17 +2755,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		SugarGooeyElement.prototype._initFilter = function _initFilter() {
-			var _this2 = this;
-
+			// get amount
+			var amount = this.dataset('sGooey') || 10;
+			var blur = this.dataset('sGooeyBlur');
+			var contrast = this.dataset('sGooeyContrast');
+			var shrink = this.dataset('sGooeyShrink');
 			// create a new svg filter
-			this.filter = new _sugarGooeyFilter2.default();
+			this.filter = new _sugarGooeyFilter2.default(amount);
 			// apply the filter
 			this.filter.applyTo(this.elm);
-
-			setTimeout(function () {
-				console.log(_this2.filter.id);
-				_this2.filter.amount = 20;
-			}, 2000);
+			if (blur) this.filter.blur = blur;
+			if (contrast) this.filter.contrast = contrast;
+			if (shrink) this.filter.shrink = shrink;
 		};
 
 		return SugarGooeyElement;
@@ -2691,7 +2787,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2700,7 +2796,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _sugarSvgfilter = __webpack_require__(26);
+	var _sugarSvgfilter = __webpack_require__(27);
 
 	var _sugarSvgfilter2 = _interopRequireDefault(_sugarSvgfilter);
 
@@ -2726,22 +2822,65 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			_classCallCheck(this, SugarGooeyFilter);
 
-			return _possibleConstructorReturn(this, _SugarSvgFilter.call(this, '\n\t\t\t<filter>\n\t\t\t\t<feGaussianBlur in="SourceGraphic" stdDeviation="' + amount + '" result="blur" />\n\t\t\t\t<feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + (amount + 9) + ' -9" result="gooey" />\n\t\t\t\t<feComposite in="SourceGraphic" in2="gooey" operator="atop"/>\n\t\t\t</filter>\n\t\t'));
+			var _this = _possibleConstructorReturn(this, _SugarSvgFilter.call(this, '\n\t\t\t<feGaussianBlur in="SourceGraphic" stdDeviation="' + amount + '" result="blur" />\n\t\t\t<feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + (parseInt(amount) + 9) + ' -9" result="gooey" />\n\t\t\t<feComposite in="SourceGraphic" in2="gooey" operator="atop"/>\n\t\t'));
+
+			_this._blur = _this.filter.querySelector('feGaussianBlur');
+			_this._color_matrix = _this.filter.querySelector('feColorMatrix');
+			return _this;
 		}
 
 		/**
-	  * Set amount
+	  * Set blur
 	  */
 
 
 		_createClass(SugarGooeyFilter, [{
+			key: 'blur',
+			set: function set(value) {
+				this._blur.setAttribute('stdDeviation', value);
+			}
+
+			/**
+	   * Set contrast
+	   */
+
+		}, {
+			key: 'contrast',
+			set: function set(value) {
+				// get value
+				var v = this._color_matrix.getAttribute('values');
+				// process
+				v = v.split(' ');
+				v[v.length - 2] = value;
+				// apply the new filter
+				this._color_matrix.setAttribute('values', v.join(' '));
+			}
+
+			/**
+	   * Set shrink
+	   */
+
+		}, {
+			key: 'shrink',
+			set: function set(value) {
+				// get value
+				var v = this._color_matrix.getAttribute('values');
+				// process
+				v = v.split(' ');
+				v[v.length - 1] = value;
+				// apply the new filter
+				this._color_matrix.setAttribute('values', v.join(' '));
+			}
+
+			/**
+	   * Set amount
+	   */
+
+		}, {
 			key: 'amount',
 			set: function set(value) {
-				this._blur = this.filter.querySelector('feGaussianBlur');
-				this._color_matrix = this.filter.querySelector('feColorMatrix');
-				console.log(this._blur);
 				this._blur.setAttribute('stdDeviation', value);
-				this._color_matrix.setAttribute('values', '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + (value + 9) + ' -9');
+				this._color_matrix.setAttribute('values', '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + (parseInt(value) + 9) + ' -9');
 			}
 		}]);
 
@@ -2751,7 +2890,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = SugarGooeyFilter;
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2782,10 +2921,10 @@ return /******/ (function(modules) { // webpackBootstrap
 			this.filter_content = filter_content;
 
 			// generate a uniqid
-			this.id = 'svg-filter-' + sugarTools.uniqid();
+			this.id = 's-svg-filter-' + sugarTools.uniqid();
 
 			// if need to inject svg
-			if (!document.body.querySelector('#s-svg-filters')) SugarSvgFilter._injectSvg();
+			if (!document.body.querySelector('#s-svg-filters')) SugarSvgFilter._injectFiltersContainer();
 
 			// insert the filter
 			this._insertFilter();
@@ -2802,6 +2941,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			['-webkit-', '-moz-', '-ms-', '-o-', ''].forEach(function (vendor) {
 				elm.style[vendor + 'filter'] = 'url("#' + _this.id + '")';
 			});
+			this.elm = elm;
 		};
 
 		/**
@@ -2810,10 +2950,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		SugarSvgFilter.prototype._insertFilter = function _insertFilter() {
+
+			var svg = '\n\t\t\t<svg xmlns="http://www.w3.org/2000/svg" version="1.1">\n\t\t\t\t<defs>\n\t\t\t\t</defs>\n\t\t\t</svg>\n\t\t';
+			var div = document.createElement('div');
+			div.innerHTML = svg;
+			var defs = div.querySelector('defs');
+
 			// add the filter to the svg
-			SugarSvgFilter.defs.innerHTML += this.filter_content;
-			this.filter = SugarSvgFilter.defs.querySelector('filter:last-child');
-			this.filter.id = this.id;
+			this.filter_content = '<filter id="' + this.id + '">' + this.filter_content + '</filter>';
+			defs.innerHTML = this.filter_content;
+			this.filter = defs.querySelector('#' + this.id);
+			this.svg = div.querySelector('svg');
+			SugarSvgFilter.filtersContainer.appendChild(this.svg);
 		};
 
 		/**
@@ -2821,16 +2969,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-		SugarSvgFilter._injectSvg = function _injectSvg() {
+		SugarSvgFilter._injectFiltersContainer = function _injectFiltersContainer() {
 			var style = ['position:absolute;', 'left:-1000px;', 'top:-300px;'];
 			if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
 				style.push('display:none;');
 			}
-			var svg = '\n\t\t\t<svg id="s-svg-filters" xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" style="' + style.join(' ') + '">\n\t\t\t\t<defs>\n\t\t\t\t</defs>\n\t\t\t</svg>\n\t\t';
-			var div = document.createElement('div');
-			div.innerHTML = svg;
-			SugarSvgFilter.defs = div.querySelector('defs');
-			document.body.appendChild(div.querySelector('svg'));
+			SugarSvgFilter.filtersContainer = document.createElement('div');
+			SugarSvgFilter.filtersContainer.id = 's-svg-filters';
+			SugarSvgFilter.filtersContainer.style = style.join(' ');
+			document.body.appendChild(SugarSvgFilter.filtersContainer);
 		};
 
 		return SugarSvgFilter;

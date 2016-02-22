@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["motionblur"] = factory();
+		exports["lineargradient"] = factory();
 	else
-		root["motionblur"] = factory();
+		root["lineargradient"] = factory();
 })(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -54,7 +54,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(30);
+	module.exports = __webpack_require__(28);
 
 
 /***/ },
@@ -2769,9 +2769,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = SugarSvgFilter;
 
 /***/ },
-/* 28 */,
-/* 29 */,
-/* 30 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2784,9 +2782,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _sugarDom2 = _interopRequireDefault(_sugarDom);
 
-	var _sugarMotionblurFilter = __webpack_require__(31);
+	var _sugarLineargradientFilter = __webpack_require__(29);
 
-	var _sugarMotionblurFilter2 = _interopRequireDefault(_sugarMotionblurFilter);
+	var _sugarLineargradientFilter2 = _interopRequireDefault(_sugarLineargradientFilter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2813,13 +2811,10 @@ return /******/ (function(modules) { // webpackBootstrap
 		window.sugar = {};
 	}
 
-	// save all the activate elements
-	var _sActivateStack = {};
-
 	// Actual activate element class
 
-	var SugarMotionblurElement = function (_SugarElement) {
-		_inherits(SugarMotionblurElement, _SugarElement);
+	var SugarLinearGradientElement = function (_SugarElement) {
+		_inherits(SugarLinearGradientElement, _SugarElement);
 
 		/**
 	  * Setup
@@ -2832,14 +2827,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  * Constructor
 	  */
 
-		function SugarMotionblurElement(elm) {
+		function SugarLinearGradientElement(elm) {
 			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
-			_classCallCheck(this, SugarMotionblurElement);
+			_classCallCheck(this, SugarLinearGradientElement);
 
-			var _this = _possibleConstructorReturn(this, _SugarElement.call(this, 'sMotionblur', elm, {
-				motionblur: 0.5
-			}, settings));
+			var _this = _possibleConstructorReturn(this, _SugarElement.call(this, 'sLinearGradient', elm, {}, settings));
 
 			if (_this._inited) return _possibleConstructorReturn(_this);
 			_this._inited = true;
@@ -2854,34 +2847,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-		SugarMotionblurElement.prototype._initFilter = function _initFilter() {
-			// get amount
-			var amount = this.setting('motionblur');
+		SugarLinearGradientElement.prototype._initFilter = function _initFilter() {
 			// create a new svg filter
-			this.filter = new _sugarMotionblurFilter2.default(amount);
+			this.filter = new _sugarLineargradientFilter2.default();
+			this.filter.linear(['#a3385e', '#f2bc2b']);
 			// apply the filter
 			this.filter.applyTo(this.elm);
 		};
 
-		return SugarMotionblurElement;
+		return SugarLinearGradientElement;
 	}(_sugarElement2.default);
 
 	_sugarDom2.default.domReady(function () {
-		[].forEach.call(document.body.querySelectorAll('[data-s-motionblur]'), function (item) {
+		[].forEach.call(document.body.querySelectorAll('[data-s-linear-gradient]'), function (item) {
 			// init gooey element
-			new SugarMotionblurElement(item);
+			new SugarLinearGradientElement(item);
 		});
 	});
 
-	window.sugar.MotionblurElement = SugarMotionblurElement;
+	window.sugar.LinearGradientElement = SugarLinearGradientElement;
 
 	// export modules
 	module.exports = {
-		MotionblurElement: SugarMotionblurElement
+		LinearGradientElement: SugarLinearGradientElement
 	};
 
 /***/ },
-/* 31 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2891,10 +2883,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _sugarSvgfilter = __webpack_require__(27);
 
 	var _sugarSvgfilter2 = _interopRequireDefault(_sugarSvgfilter);
-
-	var _sugarDom = __webpack_require__(4);
-
-	var _sugarDom2 = _interopRequireDefault(_sugarDom);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2906,119 +2894,99 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
 
-	var SugarMotionBlur = function (_SugarSvgFilter) {
-		_inherits(SugarMotionBlur, _SugarSvgFilter);
-
-		/**
-	  * Steps are used to handle when to stop the requestAnimationFrame when the
-	  * element is not moving anymore
-	  */
+	var SugarLinearGradientFilter = function (_SugarSvgFilter) {
+		_inherits(SugarLinearGradientFilter, _SugarSvgFilter);
 
 		/**
 	  * Constructor
 	  */
 
-		function SugarMotionBlur() {
-			var amount = arguments.length <= 0 || arguments[0] === undefined ? 0.5 : arguments[0];
+		function SugarLinearGradientFilter(colors) {
+			var type = arguments.length <= 1 || arguments[1] === undefined ? 'linear' : arguments[1];
 
-			_classCallCheck(this, SugarMotionBlur);
+			_classCallCheck(this, SugarLinearGradientFilter);
 
-			// settings
+			var _this = _possibleConstructorReturn(this, _SugarSvgFilter.call(this, '\t\t\t\t\n\t\t\t<feImage xlink:href="" x="0" y="0" result="IMAGEFILL" preserveAspectRatio="none" />\n\t\t\t<feComposite operator="in" in="IMAGEFILL" in2="SourceAlpha" />\n\t\t'));
 
-			var _this = _possibleConstructorReturn(this, _SugarSvgFilter.call(this, '\n\t\t\t<feGaussianBlur in="SourceGraphic" stdDeviation="0,0" />\n\t\t'));
-
-			_this._notMovingStepsBeforeStop = 10;
-			_this._currentStep = 0;
-			_this._amount = parseInt(amount);
-
-			// variables
-			_this._animationFrame = null;
-
-			// filter elements
-			_this._blur = _this.filter.querySelector('feGaussianBlur');
+			_this._image = _this.filter.querySelector('feImage');
+			_this._tile = _this.filter.querySelector('feTile');
 			return _this;
 		}
 
 		/**
-	  * Apply to element (override)
+	  * Linear gradient
 	  */
 
 
-		SugarMotionBlur.prototype.applyTo = function applyTo(elm) {
+		SugarLinearGradientFilter.prototype.linear = function linear(colors) {
+			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+			var x0 = settings.x0 || 0,
+			    x1 = settings.x1 || 512,
+			    y0 = settings.y0 || 0,
+			    y1 = settings.y1 || 0,
+			    can = document.createElement('canvas'),
+			    ctx = can.getContext('2d'),
+			    grad = ctx.createLinearGradient(x0, y0, x1, y1);
+			// loop on each colors
+			var i = 0;
+			colors.forEach(function (color) {
+				grad.addColorStop(1 / colors.length * i, color);
+				i++;
+			});
+			ctx.fillStyle = grad;
+			ctx.fillRect(0, 0, 512, 512);
+			this.grad64 = can.toDataURL();
+			this._image.setAttribute('xlink:href', this.grad64);
+		};
+
+		/**
+	  * Radial
+	  */
+
+
+		SugarLinearGradientFilter.prototype.radial = function radial(colors) {
+			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+		};
+
+		/**
+	  * Apply to override
+	  */
+
+
+		SugarLinearGradientFilter.prototype.applyTo = function applyTo(elm) {
 			var _this2 = this;
 
-			// call parent method
 			_SugarSvgFilter.prototype.applyTo.call(this, elm);
-			// listen to animation, transitionstart and move event
-			elm.addEventListener('animationiteration', function (e) {
-				_this2._handleFilter();
-			});
-			elm.addEventListener('transitionstart', function (e) {
-				_this2._handleFilter();
-			});
-			elm.addEventListener('move', function (e) {
-				_this2._handleFilter();
-			});
-			this._lastPos = _sugarDom2.default.offset(this.elm);
-		};
-
-		/**
-	  * Handle filter
-	  */
-
-
-		SugarMotionBlur.prototype._handleFilter = function _handleFilter(recusrive) {
-			var _this3 = this;
-
-			if (!recusrive) {
-				this._currentStep = 0;
-			}
-
-			// set the motion blur and get the moving difference
-			var diff = this._setMotionBlur();
-
-			// check if the element is moving or not anymore
-			if (diff.x <= 0 && diff.y <= 0) {
-				this._currentStep += 1;
-				if (this._currentStep >= this._notMovingStepsBeforeStop) {
-					this._currentStep = 0;
-					return;
-				}
-			}
-
-			// recusrive call to apply the blur with requestAnimationFrame for performances
-			this._animationFrame = requestAnimationFrame(function () {
-				_this3._handleFilter(true);
+			this._setImageSize();
+			window.addEventListener('resize', function (e) {
+				_this2._setImageSize();
 			});
 		};
 
 		/**
-	  * Set motion blur
+	  * Set image width
 	  */
 
 
-		SugarMotionBlur.prototype._setMotionBlur = function _setMotionBlur() {
-			this._currentPos = _sugarDom2.default.offset(this.elm);
-			var xDiff = Math.abs(this._currentPos.left - this._lastPos.left) * this._amount;
-			var yDiff = Math.abs(this._currentPos.top - this._lastPos.top) * this._amount;
-
-			// set the blur
-			this._blur.setAttribute('stdDeviation', xDiff + ',' + yDiff);
-
-			// update lastPos
-			this._lastPos = _sugarDom2.default.offset(this.elm);
-
-			// return the diff
-			return {
-				x: xDiff,
-				y: yDiff
-			};
+		SugarLinearGradientFilter.prototype._setImageSize = function _setImageSize() {
+			var width = this.elm.offsetWidth,
+			    height = this.elm.offsetHeight;
+			if (width >= height) {
+				this._image.setAttribute('width', width);
+				this._image.removeAttribute('height');
+			} else {
+				this._image.setAttribute('height', height);
+				this._image.removeAttribute('width');
+			}
+			// this._image.setAttribute('width', width);
+			// this._image.setAttribute('height', height);
 		};
 
-		return SugarMotionBlur;
+		return SugarLinearGradientFilter;
 	}(_sugarSvgfilter2.default);
 
-	exports.default = SugarMotionBlur;
+	exports.default = SugarLinearGradientFilter;
 
 /***/ }
 /******/ ])
