@@ -1,30 +1,20 @@
-import { activateManager, ActivateElement } from './sugar-activate'
-
-import { GooeyElement } from './sugar-gooey'
-import GooeyFilter from './sugar-gooey-filter'
-
-import { MotionblurElement } from './sugar-motionblur'
-import MotionBlurFilter from './sugar-motionblur-filter'
-
-import { LinearGradientElement } from './sugar-lineargradient'
-import LinearGradientFilter from './sugar-lineargradient-filter'
-
-import SvgFilter from './sugar-svgfilter'
-
-import tools from './sugar-tools'
-import sDom from './sugar-dom'
+import { activateManager, ActivateElement } from './components/sugar-activate'
+import { GooeyElement, GooeyFilter } from './filters/sugar-gooey'
+import { MotionblurElement, MotionBlurFilter } from './filters/sugar-motionblur'
+import { GradientElement, GradientFilter } from './filters/sugar-gradient'
+import SvgFilter from './filters/sugar-svgfilter'
+import tools from './core/sugar-tools'
+import sDom from './core/sugar-dom'
 
 module.exports = {
 	activateManager : activateManager,
 	ActivateElement : ActivateElement,
-
 	GooeyElement : GooeyElement,
 	GooeyFilter : GooeyFilter,
-
 	MotionblurElement : MotionblurElement,
 	MotionBlurFilter : MotionBlurFilter,
-	LinearGradientElement : LinearGradientElement,
-	LinearGradientFilter : LinearGradientFilter,
+	GradientElement : GradientElement,
+	GradientFilter : GradientFilter,
 	SvgFilter : SvgFilter,
 	tools : tools,
 	dom : sDom,

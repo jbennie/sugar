@@ -1,4 +1,4 @@
-import * as sugarTools from './sugar-tools'
+import * as sugarTools from '../core/sugar-tools'
 
 let _sSvgFilters = [];
 let _sIsSvgInjected = false;

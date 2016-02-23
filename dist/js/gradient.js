@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["lineargradient"] = factory();
+		exports["gradient"] = factory();
 	else
-		root["lineargradient"] = factory();
+		root["gradient"] = factory();
 })(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -54,7 +54,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(28);
+	module.exports = __webpack_require__(27);
 
 
 /***/ },
@@ -65,6 +65,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	exports.__esModule = true;
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -113,6 +115,13 @@ return /******/ (function(modules) { // webpackBootstrap
 			// extend settings
 			this.settings = _extends({}, default_settings, settings);
 
+			// check if the main data attribute is an object to extend the settings
+			var set = this.setting('');
+			console.log('set', set);
+			if (set && (typeof set === 'undefined' ? 'undefined' : _typeof(set)) == 'object') {
+				this.settings = _extends({}, this.settings, set);
+			}
+
 			// set the api in the dom element
 			this.elm[this.name] = this;
 
@@ -132,9 +141,16 @@ return /******/ (function(modules) { // webpackBootstrap
 		SugarElement.prototype.setting = function setting(key) {
 			// check in the dataset
 			var key_string = this.name + _upperfirst(key);
-			key_string = key_string.replace(this.name, 's');
+			key_string = key_string.replace(_upperfirst(key) + _upperfirst(key), _upperfirst(key));
 			var s = this.dataset(_lowerfirst(key_string));
-			if (s == 'false') s = false;
+
+			// if (s == 'false') s = false;
+			if (s == 'false' || s == 'true' || typeof s == 'string' && s.substr(0, 1) == '[' || !isNaN(s)) {
+				s = eval(s);
+			} else if (typeof s == 'string' && s.substr(0, 1) == '{') {
+				s = eval('(' + s + ')');
+				// s = JSON.parse(s);
+			}
 			if (s != undefined) return s;
 			// return the settings
 			return this.settings[key];
@@ -2672,8 +2688,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 23 */,
 /* 24 */,
 /* 25 */,
-/* 26 */,
-/* 27 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2801,10 +2816,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = SugarSvgFilter;
 
 /***/ },
-/* 28 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	var _sugarSvgfilter = __webpack_require__(26);
+
+	var _sugarSvgfilter2 = _interopRequireDefault(_sugarSvgfilter);
 
 	var _sugarElement = __webpack_require__(2);
 
@@ -2813,10 +2832,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _sugarDom = __webpack_require__(4);
 
 	var _sugarDom2 = _interopRequireDefault(_sugarDom);
-
-	var _sugarLineargradientFilter = __webpack_require__(29);
-
-	var _sugarLineargradientFilter2 = _interopRequireDefault(_sugarLineargradientFilter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2838,103 +2853,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
 
-	// make sure we have a sugar property on window
-	if (window.sugar == null) {
-		window.sugar = {};
-	}
+	// Gradient filter
 
-	// Actual activate element class
-
-	var SugarLinearGradientElement = function (_SugarElement) {
-		_inherits(SugarLinearGradientElement, _SugarElement);
-
-		/**
-	  * Setup
-	  */
-		// static setup(type, settings) {
-		// 	SugarElement.setup('sActivate', type, settings);
-		// }
+	var SugarGradientFilter = function (_SugarSvgFilter) {
+		_inherits(SugarGradientFilter, _SugarSvgFilter);
 
 		/**
 	  * Constructor
 	  */
 
-		function SugarLinearGradientElement(elm) {
-			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-			_classCallCheck(this, SugarLinearGradientElement);
-
-			var _this = _possibleConstructorReturn(this, _SugarElement.call(this, 'sLinearGradient', elm, {}, settings));
-
-			if (_this._inited) return _possibleConstructorReturn(_this);
-			_this._inited = true;
-
-			// init the filter
-			_this._initFilter();
-			return _this;
-		}
-
-		/**
-	  * Init the filter
-	  */
-
-
-		SugarLinearGradientElement.prototype._initFilter = function _initFilter() {
-			// create a new svg filter
-			this.filter = new _sugarLineargradientFilter2.default();
-			this.filter.linear(['#a3385e', '#f2bc2b']);
-			// apply the filter
-			this.filter.applyTo(this.elm);
-		};
-
-		return SugarLinearGradientElement;
-	}(_sugarElement2.default);
-
-	_sugarDom2.default.domReady(function () {
-		[].forEach.call(document.body.querySelectorAll('[data-s-linear-gradient]'), function (item) {
-			// init gooey element
-			new SugarLinearGradientElement(item);
-		});
-	});
-
-	window.sugar.LinearGradientElement = SugarLinearGradientElement;
-
-	// export modules
-	module.exports = {
-		LinearGradientElement: SugarLinearGradientElement
-	};
-
-/***/ },
-/* 29 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _sugarSvgfilter = __webpack_require__(27);
-
-	var _sugarSvgfilter2 = _interopRequireDefault(_sugarSvgfilter);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
-
-	var SugarLinearGradientFilter = function (_SugarSvgFilter) {
-		_inherits(SugarLinearGradientFilter, _SugarSvgFilter);
-
-		/**
-	  * Constructor
-	  */
-
-		function SugarLinearGradientFilter() {
-			_classCallCheck(this, SugarLinearGradientFilter);
+		function SugarGradientFilter() {
+			_classCallCheck(this, SugarGradientFilter);
 
 			var _this = _possibleConstructorReturn(this, _SugarSvgFilter.call(this, '\t\t\t\t\n\t\t\t<feImage xlink:href="" x="0" y="0" result="IMAGEFILL" preserveAspectRatio="none" />\n\t\t\t<feComposite operator="in" in="IMAGEFILL" in2="SourceAlpha" />\n\t\t'));
 
@@ -2948,7 +2877,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-		SugarLinearGradientFilter.prototype.linear = function linear(colors) {
+		SugarGradientFilter.prototype.linear = function linear(colors) {
 			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
 			var width = settings.width || 512,
@@ -2979,7 +2908,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-		SugarLinearGradientFilter.prototype.radial = function radial(colors) {
+		SugarGradientFilter.prototype.radial = function radial(colors) {
 			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
 
@@ -3013,7 +2942,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-		SugarLinearGradientFilter.prototype.applyTo = function applyTo(elm) {
+		SugarGradientFilter.prototype.applyTo = function applyTo(elm) {
 			var _this2 = this;
 
 			_SugarSvgFilter.prototype.applyTo.call(this, elm);
@@ -3028,7 +2957,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-		SugarLinearGradientFilter.prototype._setImageSize = function _setImageSize() {
+		SugarGradientFilter.prototype._setImageSize = function _setImageSize() {
 			var width = this.elms[0].offsetWidth,
 			    height = this.elms[0].offsetHeight;
 			if (width >= height) {
@@ -3042,10 +2971,87 @@ return /******/ (function(modules) { // webpackBootstrap
 			// this._image.setAttribute('height', height);
 		};
 
-		return SugarLinearGradientFilter;
+		return SugarGradientFilter;
 	}(_sugarSvgfilter2.default);
 
-	exports.default = SugarLinearGradientFilter;
+	// Gradient element class
+
+
+	var SugarGradientElement = function (_SugarElement) {
+		_inherits(SugarGradientElement, _SugarElement);
+
+		/**
+	  * Setup
+	  */
+		// static setup(type, settings) {
+		// 	SugarElement.setup('sActivate', type, settings);
+		// }
+
+		/**
+	  * Constructor
+	  */
+
+		function SugarGradientElement(elm) {
+			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+			_classCallCheck(this, SugarGradientElement);
+
+			var _this3 = _possibleConstructorReturn(this, _SugarElement.call(this, 'sGradient', elm, {
+				colors: ['#a3385e', '#f2bc2b'],
+				type: 'linear'
+			}, settings));
+
+			if (_this3._inited) return _possibleConstructorReturn(_this3);
+			_this3._inited = true;
+
+			// init the filter
+			_this3._initFilter();
+			return _this3;
+		}
+
+		/**
+	  * Init the filter
+	  */
+
+
+		SugarGradientElement.prototype._initFilter = function _initFilter() {
+			var type = this.setting('type');
+			// create a new svg filter
+			this.filter = new SugarGradientFilter();
+			if (type == 'radial') {
+				this.filter.radial(this.setting('colors'));
+			} else {
+				this.filter.linear(this.setting('colors'));
+			}
+			// apply the filter
+			this.filter.applyTo(this.elm);
+		};
+
+		return SugarGradientElement;
+	}(_sugarElement2.default);
+
+	// automatic init of dom elements
+
+
+	_sugarDom2.default.domReady(function () {
+		[].forEach.call(document.body.querySelectorAll('[data-s-gradient]'), function (item) {
+			// init element
+			new SugarGradientElement(item);
+		});
+	});
+
+	// expose in window.sugar
+	if (window.sugar == null) {
+		window.sugar = {};
+	}
+	window.sugar.GradientFilter = SugarGradientFilter;
+	window.sugar.GradientElement = SugarGradientElement;
+
+	// export modules
+	module.exports = {
+		GradientFilter: SugarGradientFilter,
+		GradientElement: SugarGradientElement
+	};
 
 /***/ }
 /******/ ])

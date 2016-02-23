@@ -1,13 +1,19 @@
+/*
+ * Sugar-activate.js
+#
+ * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
+#
+ * @author   Olivier Bossel <olivier.bossel@gmail.com>
+ * @created  20.01.16
+ * @updated  20.01.16
+ * @version  1.0.0
+ */
 import SugarSvgFilter from './sugar-svgfilter'
-import sDom from './sugar-dom'
+import SugarElement from '../core/sugar-element'
+import sDom from '../core/sugar-dom'
 
-export default class SugarMotionBlur extends SugarSvgFilter {
-
-	/**
-	 * Steps are used to handle when to stop the requestAnimationFrame when the
-	 * element is not moving anymore
-	 */
-
+// motionblur filter
+class SugarMotionblurFilter extends SugarSvgFilter {
 
 	/**
 	 * Constructor
@@ -76,7 +82,6 @@ export default class SugarMotionBlur extends SugarSvgFilter {
 		let xDiff = Math.abs(this._currentPos.left - this._lastPos.left) * this._amount;
 		let yDiff = Math.abs(this._currentPos.top - this._lastPos.top) * this._amount;
 
-
 		// set the blur
 		this._blur.setAttribute('stdDeviation', xDiff+','+yDiff);
 
@@ -90,3 +95,59 @@ export default class SugarMotionBlur extends SugarSvgFilter {
 		};
 	}
 }
+
+// Actual activate element class
+class SugarMotionblurElement extends SugarElement {
+
+	/**
+	 * Setup
+	 */
+	// static setup(type, settings) {
+	// 	SugarElement.setup('sActivate', type, settings);
+	// }
+
+	/**
+	 * Constructor
+	 */
+	constructor(elm, settings = {}) {
+		super('sMotionblur', elm, {
+			motionblur : 0.5
+		}, settings);
+		if (this._inited) return;
+		this._inited = true;
+
+		// init the filter
+		this._initFilter();
+	}
+
+	/**
+	 * Init the filter
+	 */
+	_initFilter() {
+		// get amount
+		let amount = this.setting('motionblur');
+		// create a new svg filter
+		this.filter = new SugarMotionblurFilter(amount);
+		// apply the filter
+		this.filter.applyTo(this.elm);
+	}
+}
+
+// automatic init of dom elements
+sDom.domReady(() => {
+	[].forEach.call(document.body.querySelectorAll('[data-s-motionblur]'), (item) => {
+		// init gooey element
+		new SugarMotionblurElement(item);
+	});
+});
+
+// expose in window.sugar
+if (window.sugar == null) { window.sugar = {}; }
+window.sugar.MotionblurFilter = SugarMotionblurFilter;
+window.sugar.MotionblurElement = SugarMotionblurElement;
+
+// export modules
+module.exports = {
+	MotionblurFilter : SugarMotionblurFilter,
+	MotionblurElement : SugarMotionblurElement
+};

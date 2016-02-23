@@ -93,11 +93,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _get = __webpack_require__(6);
 
-	// make sure we have a sugar property on window
-	if (window.sugar == null) {
-		window.sugar = {};
-	}
-
 	// save all the activate elements
 	var _sActivateStack = {};
 
@@ -464,6 +459,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	;
 
+	// expose in window.sugar
+	if (window.sugar == null) {
+		window.sugar = {};
+	}
 	window.sugar.activateManager = new SugarActivateManager();
 	window.sugar.ActivateElement = SugarActivateElement;
 
@@ -480,6 +479,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	exports.__esModule = true;
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -528,6 +529,13 @@ return /******/ (function(modules) { // webpackBootstrap
 			// extend settings
 			this.settings = _extends({}, default_settings, settings);
 
+			// check if the main data attribute is an object to extend the settings
+			var set = this.setting('');
+			console.log('set', set);
+			if (set && (typeof set === 'undefined' ? 'undefined' : _typeof(set)) == 'object') {
+				this.settings = _extends({}, this.settings, set);
+			}
+
 			// set the api in the dom element
 			this.elm[this.name] = this;
 
@@ -547,9 +555,16 @@ return /******/ (function(modules) { // webpackBootstrap
 		SugarElement.prototype.setting = function setting(key) {
 			// check in the dataset
 			var key_string = this.name + _upperfirst(key);
-			key_string = key_string.replace(this.name, 's');
+			key_string = key_string.replace(_upperfirst(key) + _upperfirst(key), _upperfirst(key));
 			var s = this.dataset(_lowerfirst(key_string));
-			if (s == 'false') s = false;
+
+			// if (s == 'false') s = false;
+			if (s == 'false' || s == 'true' || typeof s == 'string' && s.substr(0, 1) == '[' || !isNaN(s)) {
+				s = eval(s);
+			} else if (typeof s == 'string' && s.substr(0, 1) == '{') {
+				s = eval('(' + s + ')');
+				// s = JSON.parse(s);
+			}
 			if (s != undefined) return s;
 			// return the settings
 			return this.settings[key];

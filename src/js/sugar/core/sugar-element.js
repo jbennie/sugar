@@ -27,6 +27,13 @@ export default class SugarElement {
 		// extend settings
 		this.settings = {...default_settings, ...settings};
 
+		// check if the main data attribute is an object to extend the settings
+		let set = this.setting('');
+		console.log('set', set);
+		if (set && typeof(set) == 'object') {
+			this.settings = {...this.settings, ...set};
+		} 
+
 		// set the api in the dom element
 		this.elm[this.name] = this;
 
@@ -44,9 +51,19 @@ export default class SugarElement {
 	setting(key) {
 		// check in the dataset
 		let key_string = this.name + _upperfirst(key);
-		key_string = key_string.replace(this.name, 's');
+		key_string = key_string.replace(_upperfirst(key)+_upperfirst(key),_upperfirst(key));
 		let s = this.dataset(_lowerfirst(key_string));
-		if (s == 'false') s = false;
+
+		// if (s == 'false') s = false;
+		if (s == 'false'
+			|| s == 'true'
+			|| (typeof(s) == 'string' && s.substr(0,1) == '[')
+			|| ! isNaN(s)) {
+			s = eval(s);
+		} else if (typeof(s) == 'string' && s.substr(0,1) == '{') {
+			s = eval('('+s+')');
+			// s = JSON.parse(s);
+		}
 		if (s != undefined) return s;
 		// return the settings
 		return this.settings[key];

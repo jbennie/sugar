@@ -66,6 +66,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.__esModule = true;
 
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	var _sugarTools = __webpack_require__(3);
@@ -113,6 +115,13 @@ return /******/ (function(modules) { // webpackBootstrap
 			// extend settings
 			this.settings = _extends({}, default_settings, settings);
 
+			// check if the main data attribute is an object to extend the settings
+			var set = this.setting('');
+			console.log('set', set);
+			if (set && (typeof set === 'undefined' ? 'undefined' : _typeof(set)) == 'object') {
+				this.settings = _extends({}, this.settings, set);
+			}
+
 			// set the api in the dom element
 			this.elm[this.name] = this;
 
@@ -132,9 +141,16 @@ return /******/ (function(modules) { // webpackBootstrap
 		SugarElement.prototype.setting = function setting(key) {
 			// check in the dataset
 			var key_string = this.name + _upperfirst(key);
-			key_string = key_string.replace(this.name, 's');
+			key_string = key_string.replace(_upperfirst(key) + _upperfirst(key), _upperfirst(key));
 			var s = this.dataset(_lowerfirst(key_string));
-			if (s == 'false') s = false;
+
+			// if (s == 'false') s = false;
+			if (s == 'false' || s == 'true' || typeof s == 'string' && s.substr(0, 1) == '[' || !isNaN(s)) {
+				s = eval(s);
+			} else if (typeof s == 'string' && s.substr(0, 1) == '{') {
+				s = eval('(' + s + ')');
+				// s = JSON.parse(s);
+			}
 			if (s != undefined) return s;
 			// return the settings
 			return this.settings[key];
@@ -2676,6 +2692,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _sugarSvgfilter = __webpack_require__(26);
+
+	var _sugarSvgfilter2 = _interopRequireDefault(_sugarSvgfilter);
+
 	var _sugarElement = __webpack_require__(2);
 
 	var _sugarElement2 = _interopRequireDefault(_sugarElement);
@@ -2683,10 +2705,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _sugarDom = __webpack_require__(4);
 
 	var _sugarDom2 = _interopRequireDefault(_sugarDom);
-
-	var _sugarGooeyFilter = __webpack_require__(26);
-
-	var _sugarGooeyFilter2 = _interopRequireDefault(_sugarGooeyFilter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2710,105 +2728,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _get = __webpack_require__(6);
 
-	// make sure we have a sugar property on window
-	if (window.sugar == null) {
-		window.sugar = {};
-	}
-
-	// save all the activate elements
-	var _sActivateStack = {};
-
-	// Actual activate element class
-
-	var SugarGooeyElement = function (_SugarElement) {
-		_inherits(SugarGooeyElement, _SugarElement);
-
-		/**
-	  * Setup
-	  */
-		// static setup(type, settings) {
-		// 	SugarElement.setup('sActivate', type, settings);
-		// }
-
-		/**
-	  * Constructor
-	  */
-
-		function SugarGooeyElement(elm) {
-			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-			_classCallCheck(this, SugarGooeyElement);
-
-			var _this = _possibleConstructorReturn(this, _SugarElement.call(this, 'sGooey', elm, {}, settings));
-
-			if (_this._inited) return _possibleConstructorReturn(_this);
-			_this._inited = true;
-
-			// init the filter
-			_this._initFilter();
-			return _this;
-		}
-
-		/**
-	  * Init the filter
-	  */
-
-
-		SugarGooeyElement.prototype._initFilter = function _initFilter() {
-			// get amount
-			var amount = this.dataset('sGooey') || 10;
-			var blur = this.dataset('sGooeyBlur');
-			var contrast = this.dataset('sGooeyContrast');
-			var shrink = this.dataset('sGooeyShrink');
-			// create a new svg filter
-			this.filter = new _sugarGooeyFilter2.default(amount);
-			// apply the filter
-			this.filter.applyTo(this.elm);
-			if (blur) this.filter.blur = blur;
-			if (contrast) this.filter.contrast = contrast;
-			if (shrink) this.filter.shrink = shrink;
-		};
-
-		return SugarGooeyElement;
-	}(_sugarElement2.default);
-
-	_sugarDom2.default.domReady(function () {
-		[].forEach.call(document.body.querySelectorAll('[data-s-gooey]'), function (item) {
-			// init gooey element
-			new SugarGooeyElement(item);
-		});
-	});
-
-	window.sugar.GooeyElement = SugarGooeyElement;
-
-	// export modules
-	module.exports = {
-		GooeyElement: SugarGooeyElement
-	};
-
-/***/ },
-/* 26 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _sugarSvgfilter = __webpack_require__(27);
-
-	var _sugarSvgfilter2 = _interopRequireDefault(_sugarSvgfilter);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
+	/**
+	 * Svg filter
+	 */
 
 	var SugarGooeyFilter = function (_SugarSvgFilter) {
 		_inherits(SugarGooeyFilter, _SugarSvgFilter);
@@ -2887,10 +2809,86 @@ return /******/ (function(modules) { // webpackBootstrap
 		return SugarGooeyFilter;
 	}(_sugarSvgfilter2.default);
 
-	exports.default = SugarGooeyFilter;
+	// Actual activate element class
+
+
+	var SugarGooeyElement = function (_SugarElement) {
+		_inherits(SugarGooeyElement, _SugarElement);
+
+		/**
+	  * Setup
+	  */
+		// static setup(type, settings) {
+		// 	SugarElement.setup('sActivate', type, settings);
+		// }
+
+		/**
+	  * Constructor
+	  */
+
+		function SugarGooeyElement(elm) {
+			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+			_classCallCheck(this, SugarGooeyElement);
+
+			var _this2 = _possibleConstructorReturn(this, _SugarElement.call(this, 'sGooey', elm, {}, settings));
+
+			if (_this2._inited) return _possibleConstructorReturn(_this2);
+			_this2._inited = true;
+
+			// init the filter
+			_this2._initFilter();
+			return _this2;
+		}
+
+		/**
+	  * Init the filter
+	  */
+
+
+		SugarGooeyElement.prototype._initFilter = function _initFilter() {
+			// get amount
+			var amount = this.dataset('sGooey') || 10;
+			var blur = this.dataset('sGooeyBlur');
+			var contrast = this.dataset('sGooeyContrast');
+			var shrink = this.dataset('sGooeyShrink');
+			// create a new svg filter
+			this.filter = new SugarGooeyFilter(amount);
+			// apply the filter
+			this.filter.applyTo(this.elm);
+			if (blur) this.filter.blur = blur;
+			if (contrast) this.filter.contrast = contrast;
+			if (shrink) this.filter.shrink = shrink;
+		};
+
+		return SugarGooeyElement;
+	}(_sugarElement2.default);
+
+	// Automatic init of dom elements
+
+
+	_sugarDom2.default.domReady(function () {
+		[].forEach.call(document.body.querySelectorAll('[data-s-gooey]'), function (item) {
+			// init gooey element
+			new SugarGooeyElement(item);
+		});
+	});
+
+	// expose in window.sugar
+	if (window.sugar == null) {
+		window.sugar = {};
+	}
+	window.sugar.GooeyElement = SugarGooeyElement;
+	window.sugar.GooeyFilter = SugarGooeyFilter;
+
+	// export modules
+	module.exports = {
+		GooeyFilter: SugarGooeyFilter,
+		GooeyElement: SugarGooeyElement
+	};
 
 /***/ },
-/* 27 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

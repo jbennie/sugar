@@ -8,12 +8,9 @@
  * @updated  20.01.16
  * @version  1.0.0
  */
-import SugarElement from './sugar-element'
-import sDom from './sugar-dom'
+import SugarElement from '../core/sugar-element'
+import sDom from '../core/sugar-dom'
 var _get = require('lodash/get');
-
-// make sure we have a sugar property on window
-if (window.sugar == null) { window.sugar = {}; }
 
 // save all the activate elements
 let _sActivateStack = {};
@@ -327,6 +324,8 @@ class SugarActivateManager {
 	}
 };
 
+// expose in window.sugar
+if (window.sugar == null) { window.sugar = {}; }
 window.sugar.activateManager = new SugarActivateManager();
 window.sugar.ActivateElement = SugarActivateElement;
 

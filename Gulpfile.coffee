@@ -43,13 +43,13 @@ webpackAppParams = _.extend {}, webpackParams,
 webpackDistParams = _.extend {}, webpackParams,
 	entry: {
 		'drawer': ["./src/coffee/sugar/sugar-drawer.coffee"]
-		'gooey': ["./src/js/sugar/sugar-gooey.js"]
+		'gooey': ["./src/js/sugar/filters/sugar-gooey.js"]
 		'domnodeinserted': ["./src/coffee/sugar/sugar-domnodeinserted.coffee"]
-		'motionblur': ["./src/js/sugar/sugar-motionblur.js"]
-		'lineargradient': ["./src/js/sugar/sugar-lineargradient.js"]
+		'motionblur': ["./src/js/sugar/filters/sugar-motionblur.js"]
+		'gradient': ["./src/js/sugar/filters/sugar-gradient.js"]
 		'transitionstart': ["./src/coffee/sugar/sugar-transitionstart.coffee"]
 		'webfonts': ["./src/coffee/sugar/sugar-webfonts.coffee"]
-		'activate' : ['./src/js/sugar/sugar-activate.js']
+		'activate' : ['./src/js/sugar/components/sugar-activate.js']
 		'sugar' : ['./src/js/sugar/sugar.js']
 	},
 	output:
