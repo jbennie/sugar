@@ -567,6 +567,9 @@ figure {
 @include s-form(
 	-sizes smaller small default medium big bigger
 );
+@include s-form-fieldset(
+	-sizes smaller small default medium big bigger
+);
 
 //
 // Button

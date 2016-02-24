@@ -49,56 +49,91 @@
 					</div>
 					<div class="row">
 						<div class="gr-4">
-							<label>Input Label</label>
-							<input type="text" placeholder="gr-4" />
+							<label>Text</label>
+							<input type="text" placeholder="gr-4" class="error" />
 						</div>
 						<div class="gr-4">
-							<label>Input Label</label>
-							<input type="text" placeholder="gr-4" />
+							<label>Password</label>
+							<input type="password" placeholder="gr-4" class="success" />
 						</div>
 						<div class="gr-4">
-							<div class="row collapse">
-								<label>Input Label</label>
-								<div class="row">
-									<div class="gr-9 no-gutter-right">
-										<input class="input input--primary" type="text" placeholder="gr-9" />
-									</div>
-									<div class="gr-3 no-gutter-left">
-										<div class="input-postfix input-postfix--primary">.com</div>
-									</div>
+							<label>Postfix</label>
+							<div class="row">
+								<div class="gr-9 no-gutter-right">
+									<input class="input primary" type="text" placeholder="gr-9" />
+								</div>
+								<div class="gr-3 no-gutter-left">
+									<div class="input-postfix input-postfix--primary">.com</div>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="gr-12">
-							<label>Select Box
-								<select>
-									<option value="husker">Husker</option>
-									<option value="starbuck">Starbuck</option>
-									<option value="hotdog">Hot Dog</option>
-									<option value="apollo">Apollo</option>
-								</select>
-							</label>
+							<label>Select Box</label>
+							<select>
+								<option value="husker">Husker</option>
+								<option value="starbuck">Starbuck</option>
+								<option value="hotdog">Hot Dog</option>
+								<option value="apollo">Apollo</option>
+							</select>
 						</div>
 					</div>
 					<div class="row">
 						<div class="gr-6">
-							<label>Choose Your Favorite</label>
+							<label><strong>Choose Your Favorite</strong></label>
 							<input type="radio" name="pokemon" value="Red" id="pokemonRed"><label for="pokemonRed">Red</label>
 							<input type="radio" name="pokemon" value="Blue" id="pokemonBlue"><label for="pokemonBlue">Blue</label>
 						</div>
 						<div class="gr-6">
-							<label>Check these out</label>
+							<label><strong>Check these out</strong></label>
 							<input id="checkbox1" type="checkbox"><label for="checkbox1">Checkbox 1</label>
 							<input id="checkbox2" type="checkbox"><label for="checkbox2">Checkbox 2</label>
 						</div>
 					</div>
 					<div class="row">
 						<div class="gr-12">
-							<label>Textarea Label
-								<textarea placeholder="small-12"></textarea>
-							</label>
+							<label>Textarea Label</label>
+							<textarea placeholder="small-12" rows="5"></textarea>
+						</div>
+					</div>
+					<div class="row">
+						<div class="gr-12">
+							<fieldset class="big">
+								<legend>Check these out</legend>
+
+								<div class="row">
+									<div class="gr-12">
+										<input id="checkbox12" type="checkbox" class="big info">
+										<label for="checkbox12" class="big">Checkbox 1</label>
+										<input id="checkbox22" type="checkbox" class="big error"><label for="checkbox22" class="big">Checkbox 2</label>
+										<input id="checkbox32" type="checkbox" class="big warning"><label for="checkbox32" class="big">Checkbox 3</label>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="gr-4">
+										<label>Text</label>
+										<input type="text" placeholder="gr-4" />
+									</div>
+									<div class="gr-4">
+										<label>Password</label>
+										<input type="password" placeholder="gr-4" />
+									</div>
+									<div class="gr-4">
+										<label>Postfix</label>
+										<div class="row">
+											<div class="gr-9 no-gutter-right">
+												<input class="input input--primary" type="text" placeholder="gr-9" />
+											</div>
+											<div class="gr-3 no-gutter-left">
+												<div class="input-postfix input-postfix--primary">.com</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</fieldset>
 						</div>
 					</div>
 				</form>
