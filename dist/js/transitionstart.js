@@ -55,93 +55,74 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(31);
+	module.exports = __webpack_require__(30);
 
 
 /***/ },
 
-/***/ 31:
+/***/ 30:
 /***/ function(module, exports) {
 
-	
+	'use strict';
+
+	exports.__esModule = true;
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 	/*
-	 * Sugar-transitionstart.js
-	 *
-	 * This little js file allow you to make your element that have a transition trigger the transitionstart event
-	 *
+	 * Sugar-activate.js
+	#
+	 * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
+	#
 	 * @author   Olivier Bossel <olivier.bossel@gmail.com>
-	 * @created  22.01.16
-	 * @updated  22.01.16
+	 * @created  20.01.16
+	 * @updated  20.01.16
 	 * @version  1.0.0
 	 */
-	if (window.sugar == null) {
-	  window.sugar = {};
-	}
 
-	module.exports = window.sugar.transitionstart = {
-	  _inited: false,
-	  enabled: true,
-	  _settings: {},
+	// Actual activate element class
 
-	  /*
-	  	Init
-	   */
-	  init: function(settings) {
-	    if (settings == null) {
-	      settings = {};
-	    }
-	    this._settings = this._extend(this._settings, settings);
-	    this._inited = true;
-	    if (document.readyState === 'interactive') {
-	      return this._init();
-	    } else {
-	      return document.addEventListener('DOMContentLoaded', (function(_this) {
-	        return function(e) {
-	          return _this._init();
-	        };
-	      })(this));
-	    }
-	  },
+	var SugarTransitionstartEventDispatcher = function () {
 
-	  /*
-	  	Internal init
-	   */
-	  _init: function() {
-	    if (!this.enabled) {
-	      return;
-	    }
-	    document.addEventListener("transitionend", this._onTransitionEnd, false);
-	    document.addEventListener("oTransitionEnd", this._onTransitionEnd, false);
-	    return document.addEventListener("webkitTransitionEnd", this._onTransitionEnd, false);
-	  },
+		/**
+	  * Constructor
+	  */
 
-	  /*
-	  	On animation start
-	   */
-	  _onTransitionEnd: function(e) {
-	    if (e.elapsedTime === 0.000001 || e.propertyName === 'outline-color') {
-	      return e.target.dispatchEvent(new CustomEvent('transitionstart', {
-	        bubbles: true,
-	        cancelable: true
-	      }));
-	    }
-	  },
+		function SugarTransitionstartEventDispatcher() {
+			_classCallCheck(this, SugarTransitionstartEventDispatcher);
 
-	  /*
-	  	Extend settings
-	   */
-	  _extend: function(obj, mixin) {
-	    var method, name;
-	    for (name in mixin) {
-	      method = mixin[name];
-	      obj[name] = method;
-	    }
-	    return obj;
-	  }
-	};
+			// listen for transitionend
+			document.addEventListener('transitionend', this._onTransitionEnd, false);
+			document.addEventListener('oTransitionEnd', this._onTransitionEnd, false);
+			document.addEventListener('webkitTransitionEnd', this._onTransitionEnd, false);
+			document.addEventListener('mozTransitionEnd', this._onTransitionEnd, false);
+			document.addEventListener('msTransitionEnd', this._onTransitionEnd, false);
+		}
 
-	window.sugar.transitionstart.init();
+		/**
+	  * On transition end
+	  */
 
+
+		SugarTransitionstartEventDispatcher.prototype._onTransitionEnd = function _onTransitionEnd(e) {
+			if (e.elapsedTime == 0.000001 || e.propertyName == 'outline-color') {
+				e.target.dispatchEvent(new CustomEvent('transitionstart', {
+					bubbles: true,
+					cancelable: true
+				}));
+			}
+		};
+
+		return SugarTransitionstartEventDispatcher;
+	}();
+
+	// create the new dispatcher instance
+
+
+	var dispatcher = new SugarTransitionstartEventDispatcher();
+
+	// export the dispatcher
+	exports.default = dispatcher;
 
 /***/ }
 

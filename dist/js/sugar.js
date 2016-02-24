@@ -531,7 +531,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// check if the main data attribute is an object to extend the settings
 			var set = this.setting('');
-			console.log('set', set);
 			if (set && (typeof set === 'undefined' ? 'undefined' : _typeof(set)) == 'object') {
 				this.settings = _extends({}, this.settings, set);
 			}
@@ -558,16 +557,29 @@ return /******/ (function(modules) { // webpackBootstrap
 			key_string = key_string.replace(_upperfirst(key) + _upperfirst(key), _upperfirst(key));
 			var s = this.dataset(_lowerfirst(key_string));
 
-			// if (s == 'false') s = false;
+			// process the value
 			if (s == 'false' || s == 'true' || typeof s == 'string' && s.substr(0, 1) == '[' || !isNaN(s)) {
 				s = eval(s);
 			} else if (typeof s == 'string' && s.substr(0, 1) == '{') {
 				s = eval('(' + s + ')');
-				// s = JSON.parse(s);
 			}
-			if (s != undefined) return s;
+
+			// if we didn't find any setting in dataset,
+			// get the one from the actual settings property
+			if (!s) {
+				s = this.settings[key];
+			}
+
+			// check if the setting begin by @
+			// mean that it's an alias of another setting
+			if (typeof s == 'string' && s.substr(0, 1) == '@') {
+				var _key = s.substr(1);
+				// return the alias property
+				return this.setting(_key);
+			}
+
 			// return the settings
-			return this.settings[key];
+			return s;
 		};
 
 		/**
@@ -3099,215 +3111,308 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 23 */,
-/* 24 */
-/***/ function(module, exports) {
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
 
-	
-	/*
-	 * Sugar-drawer.js
-	 *
-	 * This little js file allow you to make the use of drawers more easier
-	 *
-	 * @author   Olivier Bossel <olivier.bossel@gmail.com>
-	 * @created  22.01.16
-	 * @updated  20.01.16
-	 * @version  1.0.0
-	 */
+	'use strict';
+
+	var _sugarElement = __webpack_require__(2);
+
+	var _sugarElement2 = _interopRequireDefault(_sugarElement);
+
+	var _sugarDom = __webpack_require__(4);
+
+	var _sugarDom2 = _interopRequireDefault(_sugarDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); } /*
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Sugar-activate.js
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author   Olivier Bossel <olivier.bossel@gmail.com>
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @created  20.01.16
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @updated  20.01.16
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @version  1.0.0
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+
+	// save all the activate elements
+	var _sDrawerStack = {};
+
+	// Actual activate element class
+
+	var SugarDrawerElement = function (_SugarElement) {
+		_inherits(SugarDrawerElement, _SugarElement);
+
+		/**
+	  * Setup
+	  */
+
+		SugarDrawerElement.setup = function setup(type, settings) {
+			_sugarElement2.default.setup('sDrawer', type, settings);
+		};
+
+		/**
+	  * Constructor
+	  */
+
+
+		function SugarDrawerElement(elm) {
+			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+			_classCallCheck(this, SugarDrawerElement);
+
+			// get the name
+
+			var _this = _possibleConstructorReturn(this, _SugarElement.call(this, 'sDrawer', elm, {
+				name: '@',
+				closeOnClick: true,
+				handleHash: true
+			}, settings));
+
+			_this.name = _this.setting('name');
+
+			// add the class into the stack
+			_sDrawerStack[_this.name] = _this;
+
+			// init
+			_this.init();
+			return _this;
+		}
+
+		/**
+	  * Init
+	  */
+
+
+		SugarDrawerElement.prototype.init = function init() {
+			var _this2 = this;
+
+			// try to find the drawer background
+			this.bkg = document.querySelector('[data-s-drawer-bkg="' + this.name + '"]');
+			if (!this.bkg) {
+				this.bkg = document.createElement('div');
+				this.bkg.setAttribute('data-s-drawer-bkg', this.name);
+				// insert in the page
+				this.elm.parentElement.insertBefore(this.bkg, this.elm.parentElement.firstChild);
+			}
+
+			// determine if has a transition
+			var cs = window.getComputedStyle(this.elm);
+			if (cs.transitionProperty != undefined && cs.transitionProperty != '') {
+				this._transitionned = true;
+			}
+
+			// try to find the drawer overlay
+			this.overlay = document.querySelector('[data-s-drawer-overlay="' + this.name + '"]');
+			if (!this.overlay) {
+				this.overlay = document.createElement('label');
+				this.overlay.setAttribute('for', this.name);
+				this.overlay.setAttribute('data-s-drawer-overlay', this.name);
+				// insert in the page
+				this.elm.parentElement.insertBefore(this.overlay, this.elm.parentElement.firstChild);
+			}
+
+			// try to find the toggle
+			this.toggle = document.querySelector('[data-s-drawer-toggle="' + this.name + '"]');
+			if (!this.toggle) {
+				this.toggle = document.createElement('input');
+				this.toggle.setAttribute('name', this.name);
+				this.toggle.setAttribute('id', this.name);
+				this.toggle.setAttribute('type', 'checkbox');
+				this.toggle.setAttribute('data-s-drawer-toggle', this.name);
+				// insert into page
+				this.elm.parentElement.insertBefore(this.toggle, this.elm.parentElement.firstChild);
+			}
+
+			// listen for change on the toggle
+			this.toggle.addEventListener('change', function (e) {
+				var name = e.target.name;
+				if (e.target.checked) {
+					_sugarDom2.default.addClass(document.body, 's-drawer-' + _this2.name);
+				} else {
+					_sugarDom2.default.removeClass(document.body, 's-drawer-' + _this2.name);
+				}
+			});
+
+			// listen for transitionend
+			if (this._transitionned) {
+				this.elm.addEventListener('transitionend', function (e) {
+					if (_this2.toggle.checked == false) {
+						_sugarDom2.default.removeClass(document.body, 's-drawer-' + _this2.name);
+					}
+				});
+			}
+
+			// listen for click on links into the drawer to close it
+			if (this.setting('closeOnClick')) {
+				this.elm.addEventListener('click', function (e) {
+					if (e.target.nodeName.toLowerCase() == 'a') {
+						// close the drawer
+						_this2.close();
+					}
+				});
+			}
+
+			// if handle hach
+			if (this.setting('handleHash')) {
+				if (document.location.hash) {
+					var hash = document.location.hash.substr(1);
+					if (hash == this.name) {
+						this.open();
+					}
+				}
+			}
+		};
+
+		/**
+	  * Open
+	  */
+
+
+		SugarDrawerElement.prototype.open = function open() {
+			// check the toggle
+			this.toggle.setAttribute('checked', true);
+			_sugarDom2.default.addClass(document.body, 's-drawer-' + this.name);
+			return this;
+		};
+
+		/**
+	  * Close
+	  */
+
+
+		SugarDrawerElement.prototype.close = function close() {
+			// uncheck the toggle
+			this.toggle.removeAttribute('checked');
+			if (!this._transitionned) {
+				_sugarDom2.default.removeClass(document.body, 's-drawer-' + this.name);
+			}
+			return this;
+		};
+
+		/**
+	  * Check if is opened
+	  */
+
+
+		SugarDrawerElement.prototype.isOpen = function isOpen() {
+			return this.toggle.checked;
+		};
+
+		return SugarDrawerElement;
+	}(_sugarElement2.default);
+
+	var SugarDrawerManager = function () {
+
+		/**
+	  * Constructor
+	  */
+
+		function SugarDrawerManager() {
+			var _this3 = this;
+
+			_classCallCheck(this, SugarDrawerManager);
+
+			// what that the dom is ready
+			_sugarDom2.default.domReady(function () {
+				_this3._init();
+			});
+		}
+
+		/**
+	  * Init
+	  */
+
+
+		SugarDrawerManager.prototype._init = function _init() {
+
+			// init all elements in the page
+			[].forEach.call(document.body.querySelectorAll('[data-s-drawer]'), function (elm) {
+				new SugarDrawerElement(elm);
+			});
+
+			// listen for new element
+			_sugarDom2.default.onInserted('[data-s-drawer]', function (element) {
+				new SugarDrawerElement(element);
+			});
+		};
+
+		/**
+	  * Find a special activate element
+	  */
+
+
+		SugarDrawerManager.prototype.find = function find(id) {
+			if (!_sDrawerStack[id]) return false;
+			return _sDrawerStack[id];
+		};
+
+		/**
+	  * Open a special id
+	  */
+
+
+		SugarDrawerManager.prototype.open = function open(id) {
+			var item = this.find(id);
+			if (item) return item.open();
+		};
+
+		/**
+	  * Close
+	  */
+
+
+		SugarDrawerManager.prototype.close = function close(id) {
+			var item = this.find(id);
+			if (item) return item.close();
+		};
+
+		/**
+	  * Is open
+	  */
+
+
+		SugarDrawerManager.prototype.isOpen = function isOpen(id) {
+			var item = this.find(id);
+			if (item) return item.isOpen();
+		};
+
+		return SugarDrawerManager;
+	}();
+
+	;
+
+	// expose in window.sugar
 	if (window.sugar == null) {
-	  window.sugar = {};
+		window.sugar = {};
 	}
+	window.sugar.drawerManager = new SugarDrawerManager();
+	window.sugar.DrawerElement = SugarDrawerElement;
 
-	module.exports = window.sugar.drawer = {
-	  _inited: false,
-	  enabled: true,
-	  _settings: {
-	    close_on_click: true
-	  },
-
-	  /*
-	  	Init
-	   */
-	  init: function(settings) {
-	    if (settings == null) {
-	      settings = {};
-	    }
-	    this._settings = this._extend(this._settings, settings);
-	    this._inited = true;
-	    if (document.readyState === 'interactive') {
-	      return this._init();
-	    } else {
-	      return document.addEventListener('DOMContentLoaded', (function(_this) {
-	        return function(e) {
-	          return _this._init();
-	        };
-	      })(this));
-	    }
-	  },
-
-	  /*
-	  	Internal init
-	   */
-	  _init: function() {
-	    if (!this.enabled) {
-	      return;
-	    }
-	    this.update();
-	    return this._checkHash();
-	  },
-
-	  /*
-	  	Parse dom to init new drawers
-	   */
-	  update: function() {
-	    var drawer, i, len, ref, results;
-	    this.drawers = document.querySelectorAll('[data-drawer]:not([data-drawer-inited])');
-	    ref = this.drawers;
-	    results = [];
-	    for (i = 0, len = ref.length; i < len; i++) {
-	      drawer = ref[i];
-	      if (drawer.drawer == null) {
-	        drawer.drawer = {};
-	      }
-	      if ((drawer.dataset != null) && (drawer.dataset.drawer != null)) {
-	        drawer.drawer.name = drawer.dataset.drawer;
-	        results.push(this._initDrawer(drawer));
-	      } else {
-	        results.push(void 0);
-	      }
-	    }
-	    return results;
-	  },
-
-	  /*
-	  	Init drawer
-	   */
-	  _initDrawer: function(drawer_elm) {
-	    var bkg, cs, drawer_bkg, drawer_overlay, drawer_toggle, name, overlay;
-	    drawer_elm.setAttribute('data-drawer-inited', true);
-	    name = drawer_elm.drawer.name;
-	    drawer_bkg = document.querySelector('[data-drawer-bkg="' + name + '"]');
-	    if (!drawer_bkg) {
-	      bkg = document.createElement('div');
-	      bkg.setAttribute('data-drawer-bkg', name);
-	      drawer_elm.drawer.bkg = bkg;
-	      drawer_elm.parentElement.insertBefore(bkg, drawer_elm.parentElement.firstChild);
-	    }
-	    cs = getComputedStyle(drawer_elm);
-	    if ((cs.transitionProperty != null) && cs.transitionProperty !== '') {
-	      drawer_elm.drawer.transition = true;
-	    }
-	    drawer_overlay = document.querySelector('[data-drawer-overlay="' + name + '"]');
-	    if (!drawer_overlay) {
-	      overlay = document.createElement('label');
-	      overlay.setAttribute('for', name);
-	      overlay.setAttribute('data-drawer-overlay', name);
-	      drawer_elm.drawer.overlay = overlay;
-	      drawer_elm.parentElement.insertBefore(overlay, drawer_elm.parentElement.firstChild);
-	    }
-	    drawer_toggle = document.querySelector('[data-drawer-toggle="' + name + '"]');
-	    if (!drawer_toggle) {
-	      drawer_toggle = document.createElement('input');
-	      drawer_toggle.setAttribute('name', name);
-	      drawer_toggle.setAttribute('id', name);
-	      drawer_toggle.setAttribute('type', 'checkbox');
-	      drawer_toggle.setAttribute('data-drawer-toggle', name);
-	      drawer_elm.drawer.toggle = drawer_toggle;
-	      drawer_elm.parentElement.insertBefore(drawer_toggle, drawer_elm.parentElement.firstChild);
-	    }
-	    drawer_toggle.addEventListener('change', (function(_this) {
-	      return function(e) {
-	        name = e.target.name;
-	        if (e.target.checked) {
-	          return _this.addClass(document.body, 'drawer-' + name);
-	        } else if (drawer_elm.drawer.transition == null) {
-	          return _this.removeClass(document.body, 'drawer-' + name);
-	        }
-	      };
-	    })(this));
-	    if (drawer_elm.drawer.transition != null) {
-	      drawer_elm.addEventListener('transitionend', (function(_this) {
-	        return function(e) {
-	          if ((e.target.drawer != null) && e.target.drawer.toggle.checked === false) {
-	            name = e.target.drawer.name;
-	            return _this.removeClass(document.body, 'drawer-' + name);
-	          }
-	        };
-	      })(this));
-	    }
-	    return drawer_elm.addEventListener('click', (function(_this) {
-	      return function(e) {
-	        if (_this._settings.close_on_click) {
-	          if (e.target.nodeName.toLowerCase() === 'a') {
-	            return drawer_elm.drawer.toggle.checked = false;
-	          }
-	        }
-	      };
-	    })(this));
-	  },
-
-	  /*
-	  	Check hash
-	   */
-	  _checkHash: function() {
-	    var hash, toggle;
-	    if (document.location.hash) {
-	      hash = document.location.hash.substring(1);
-	      toggle = document.querySelector('[data-drawer-toggle="' + hash + '"]');
-	      if (toggle) {
-	        return toggle.checked = true;
-	      }
-	    }
-	  },
-
-	  /*
-	  	Class helpers
-	   */
-	  hasClass: function(ele, cls) {
-	    return ele.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
-	  },
-	  addClass: function(ele, cls) {
-	    if (!this.hasClass(ele, cls)) {
-	      return ele.className += ' ' + cls;
-	    }
-	  },
-	  removeClass: function(ele, cls) {
-	    var reg;
-	    if (this.hasClass(ele, cls)) {
-	      reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
-	      return ele.className = ele.className.replace(reg, ' ');
-	    }
-	  },
-
-	  /*
-	  	Extend settings
-	   */
-	  _extend: function(obj, mixin) {
-	    var method, name;
-	    for (name in mixin) {
-	      method = mixin[name];
-	      obj[name] = method;
-	    }
-	    return obj;
-	  }
+	// export modules
+	module.exports = {
+		drawerManager: window.sugar.drawerManager,
+		DrawerElement: SugarDrawerElement
 	};
 
-	setTimeout(function() {
-	  if (!window.sugar.drawer._inited) {
-	    return window.sugar.drawer.init();
-	  }
-	}, 500);
-
-
 /***/ },
-/* 25 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _sugarSvgfilter = __webpack_require__(26);
+	var _sugarSvgfilter = __webpack_require__(25);
 
 	var _sugarSvgfilter2 = _interopRequireDefault(_sugarSvgfilter);
 
@@ -3501,7 +3606,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 26 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3629,12 +3734,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = SugarSvgFilter;
 
 /***/ },
-/* 27 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _sugarSvgfilter = __webpack_require__(26);
+	var _sugarSvgfilter = __webpack_require__(25);
 
 	var _sugarSvgfilter2 = _interopRequireDefault(_sugarSvgfilter);
 
@@ -3867,12 +3972,166 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
+/* 27 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	/*
+	 * Sugar-activate.js
+	#
+	 * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
+	#
+	 * @author   Olivier Bossel <olivier.bossel@gmail.com>
+	 * @created  20.01.16
+	 * @updated  20.01.16
+	 * @version  1.0.0
+	 */
+
+	// Localstorage fonts
+
+	var SugarLocalStorageFonts = function () {
+
+		/**
+	  * Constructor
+	  */
+
+		function SugarLocalStorageFonts() {
+			_classCallCheck(this, SugarLocalStorageFonts);
+
+			this.settings = {
+				version: 1.0,
+				json_path: '/fonts/fonts.json',
+				debug: false
+			};
+		}
+
+		/**
+	  * Init
+	  */
+
+
+		SugarLocalStorageFonts.prototype.init = function init() {
+			var _this = this;
+
+			var settings = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+			this.settings = _extends({}, this.settings, settings);
+
+			// check cachebuster
+			var cb = this.settings.json_path.split('#');
+			if (cb.length == 2) {
+				this.settings.version = cb[1];
+				this.settings.json_path = cb[0];
+			}
+
+			try {
+				this._cache = window.localStorage.getItem('sugar-fonts');
+				if (this._cache) {
+					this._cache = JSON.parse(this._cache);
+					if (this._cache.version == this.settings.version) {
+						this._debug('No new version of you fonts');
+						this._insertFonts(this._cache.value);
+					} else {
+						this._debug('New version of your fonts');
+						// busting the cache
+						window.localStorage.removeItem('sugar-fonts');
+						this._cache = null;
+					}
+				}
+			} catch (e) {
+				// localstorage not available
+				this._debug('Your browser seems to not support the localStorage api');
+			}
+
+			// if no cache, load the fonts file
+			if (!this._cache) {
+				window.addEventListener('load', function (e) {
+					var request = new XMLHttpRequest(),
+					    response = undefined;
+					console.log(_this);
+					request.open('GET', _this.settings.json_path, true);
+					request.onload = function () {
+						if (request.status == 200) {
+							try {
+								response = JSON.parse(request.responseText);
+								var fontface = '';
+								response.fonts.forEach(function (font) {
+									fontface += '@font-face{';
+									for (var prop in font) {
+										var value = font[prop];
+										if (prop == 'font-family') {
+											value = '"' + value + '"';
+										}
+										fontface += prop + ':' + value + ';';
+									}
+									fontface += '}';
+								});
+								// insert fonts
+								_this._insertFonts(fontface);
+								// save fonts in localstorage
+								window.localStorage.setItem('sugar-fonts', JSON.stringify({
+									version: _this.settings.version,
+									value: fontface
+								}));
+							} catch (e) {}
+						}
+					};
+					request.send();
+				});
+			}
+		};
+
+		/**
+	  * Insert font
+	  */
+
+
+		SugarLocalStorageFonts.prototype._insertFonts = function _insertFonts(value) {
+			this._debug('inserting fonts');
+			var style = document.createElement('style');
+			style.innerHTML = value;
+			document.head.appendChild(style);
+		};
+
+		/**
+	  * Debug
+	  */
+
+
+		SugarLocalStorageFonts.prototype._debug = function _debug() {
+			if (this.settings.debug) {
+				console.log('SUGAR-LOCALSTORAGEFONTS', arguments);
+			}
+		};
+
+		return SugarLocalStorageFonts;
+	}();
+
+	;
+
+	// expose in window.sugar
+	if (window.sugar == null) {
+		window.sugar = {};
+	}
+	window.sugar.localStorageFonts = new SugarLocalStorageFonts();
+
+	// export modules
+	exports.default = window.sugar.localStorageFonts;
+
+/***/ },
 /* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _sugarSvgfilter = __webpack_require__(26);
+	var _sugarSvgfilter = __webpack_require__(25);
 
 	var _sugarSvgfilter2 = _interopRequireDefault(_sugarSvgfilter);
 
@@ -4095,13 +4354,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _sugarActivate = __webpack_require__(1);
 
-	var _sugarGooey = __webpack_require__(25);
+	var _sugarGooey = __webpack_require__(24);
 
 	var _sugarMotionblur = __webpack_require__(28);
 
-	var _sugarGradient = __webpack_require__(27);
+	var _sugarGradient = __webpack_require__(26);
 
-	var _sugarSvgfilter = __webpack_require__(26);
+	var _sugarSvgfilter = __webpack_require__(25);
 
 	var _sugarSvgfilter2 = _interopRequireDefault(_sugarSvgfilter);
 
@@ -4112,6 +4371,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _sugarDom = __webpack_require__(4);
 
 	var _sugarDom2 = _interopRequireDefault(_sugarDom);
+
+	var _sugarDrawer = __webpack_require__(23);
+
+	var _sugarTransitionstart = __webpack_require__(30);
+
+	var _sugarTransitionstart2 = _interopRequireDefault(_sugarTransitionstart);
+
+	var _sugarLocalstoragefonts = __webpack_require__(27);
+
+	var _sugarLocalstoragefonts2 = _interopRequireDefault(_sugarLocalstoragefonts);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4127,234 +4396,76 @@ return /******/ (function(modules) { // webpackBootstrap
 		SvgFilter: _sugarSvgfilter2.default,
 		tools: _sugarTools2.default,
 		dom: _sugarDom2.default,
-		drawer: __webpack_require__(24),
-		webfonts: __webpack_require__(30),
-		transitionstart: __webpack_require__(31)
+		transitionstartEventDispatcher: _sugarTransitionstart2.default,
+		drawerManager: _sugarDrawer.drawerManager,
+		DrawerElement: _sugarDrawer.DrawerElement,
+		localStorageFonts: _sugarLocalstoragefonts2.default
 	};
 
 /***/ },
 /* 30 */
 /***/ function(module, exports) {
 
-	
+	'use strict';
+
+	exports.__esModule = true;
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 	/*
-	 * Sugar-webfonts.js
-	 *
-	 * This little js file allow you to use webfonts based64 encoded and loaded from localstorage
-	 *
+	 * Sugar-activate.js
+	#
+	 * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
+	#
 	 * @author   Olivier Bossel <olivier.bossel@gmail.com>
-	 * @created  23.11.15
-	 * @updated  23.11.15
+	 * @created  20.01.16
+	 * @updated  20.01.16
 	 * @version  1.0.0
 	 */
-	if (window.sugar == null) {
-	  window.sugar = {};
-	}
 
-	module.exports = window.sugar.webfonts = {
-	  _key: 'sugar-webfonts',
-	  _cache: null,
-	  _inited: false,
-	  _settings: {
-	    version: '581fea09a1e08e3770d777ca504608ee',
-	    json_path: '/fonts/fonts.json',
-	    debug: false
-	  },
+	// Actual activate element class
 
-	  /*
-	  	Init
-	   */
-	  init: function(settings) {
-	    var cb_split, e, error;
-	    if (settings == null) {
-	      settings = {};
-	    }
-	    this._settings = this._extend(this._settings, settings);
-	    this._inited = true;
-	    cb_split = this._settings.json_path.split('#');
-	    if (cb_split.length === 2) {
-	      this._settings.version = cb_split[1];
-	    }
-	    if (cb_split.length === 2) {
-	      this._settings.json_path = cb_split[0];
-	    }
-	    try {
-	      this._cache = window.localStorage.getItem(this._key);
-	      if (this._cache) {
-	        this._cache = JSON.parse(this._cache);
-	        if (this._cache.version === this._settings.version) {
-	          this._debug('No new version of your fonts.');
-	          this._insertFont(this._cache.value);
-	        } else {
-	          this._debug('new version of your fonts.');
-	          window.localStorage.removeItem(this._key);
-	          this._cache = null;
-	        }
-	      }
-	    } catch (error) {
-	      e = error;
-	      this._debug('your browser seems to not support the localStorage api');
-	    }
-	    if (!this._cache) {
-	      return window.addEventListener('load', (function(_this) {
-	        return function() {
-	          var request, response;
-	          request = new XMLHttpRequest;
-	          response = void 0;
-	          request.open('GET', _this._settings.json_path, true);
-	          _this = _this;
-	          request.onload = function() {
-	            var error1, font, fontface, index, prop, ref, value;
-	            if (this.status === 200) {
-	              try {
-	                response = JSON.parse(this.responseText);
-	                fontface = '';
-	                ref = response.fonts;
-	                for (index in ref) {
-	                  font = ref[index];
-	                  fontface += '@font-face{';
-	                  for (prop in font) {
-	                    value = font[prop];
-	                    if (prop === 'font-family') {
-	                      value = '"' + value + '"';
-	                    }
-	                    fontface += prop + ':' + value + ';';
-	                  }
-	                  fontface += '}';
-	                }
-	                _this._insertFont(fontface);
-	                return window.localStorage.setItem(_this._key, JSON.stringify({
-	                  version: _this._settings.version,
-	                  value: fontface
-	                }));
-	              } catch (error1) {
-	                e = error1;
-	              }
-	            }
-	          };
-	          return request.send();
-	        };
-	      })(this));
-	    }
-	  },
+	var SugarTransitionstartEventDispatcher = function () {
 
-	  /*
-	  	Extend settings
-	   */
-	  _extend: function(obj, mixin) {
-	    var method, name;
-	    for (name in mixin) {
-	      method = mixin[name];
-	      obj[name] = method;
-	    }
-	    return obj;
-	  },
+		/**
+	  * Constructor
+	  */
 
-	  /*
-	  	Insert font
-	   */
-	  _insertFont: function(value) {
-	    var style;
-	    this._debug('inserting fonts');
-	    style = document.createElement('style');
-	    style.innerHTML = value;
-	    return document.head.appendChild(style);
-	  },
+		function SugarTransitionstartEventDispatcher() {
+			_classCallCheck(this, SugarTransitionstartEventDispatcher);
 
-	  /*
-	  	Debug
-	   */
-	  _debug: function() {
-	    if (this._settings.debug) {
-	      return console.log('SUGAR-WEBFONTS', arguments);
-	    }
-	  }
-	};
+			// listen for transitionend
+			document.addEventListener('transitionend', this._onTransitionEnd, false);
+			document.addEventListener('oTransitionEnd', this._onTransitionEnd, false);
+			document.addEventListener('webkitTransitionEnd', this._onTransitionEnd, false);
+			document.addEventListener('mozTransitionEnd', this._onTransitionEnd, false);
+			document.addEventListener('msTransitionEnd', this._onTransitionEnd, false);
+		}
+
+		/**
+	  * On transition end
+	  */
 
 
-/***/ },
-/* 31 */
-/***/ function(module, exports) {
+		SugarTransitionstartEventDispatcher.prototype._onTransitionEnd = function _onTransitionEnd(e) {
+			if (e.elapsedTime == 0.000001 || e.propertyName == 'outline-color') {
+				e.target.dispatchEvent(new CustomEvent('transitionstart', {
+					bubbles: true,
+					cancelable: true
+				}));
+			}
+		};
 
-	
-	/*
-	 * Sugar-transitionstart.js
-	 *
-	 * This little js file allow you to make your element that have a transition trigger the transitionstart event
-	 *
-	 * @author   Olivier Bossel <olivier.bossel@gmail.com>
-	 * @created  22.01.16
-	 * @updated  22.01.16
-	 * @version  1.0.0
-	 */
-	if (window.sugar == null) {
-	  window.sugar = {};
-	}
+		return SugarTransitionstartEventDispatcher;
+	}();
 
-	module.exports = window.sugar.transitionstart = {
-	  _inited: false,
-	  enabled: true,
-	  _settings: {},
+	// create the new dispatcher instance
 
-	  /*
-	  	Init
-	   */
-	  init: function(settings) {
-	    if (settings == null) {
-	      settings = {};
-	    }
-	    this._settings = this._extend(this._settings, settings);
-	    this._inited = true;
-	    if (document.readyState === 'interactive') {
-	      return this._init();
-	    } else {
-	      return document.addEventListener('DOMContentLoaded', (function(_this) {
-	        return function(e) {
-	          return _this._init();
-	        };
-	      })(this));
-	    }
-	  },
 
-	  /*
-	  	Internal init
-	   */
-	  _init: function() {
-	    if (!this.enabled) {
-	      return;
-	    }
-	    document.addEventListener("transitionend", this._onTransitionEnd, false);
-	    document.addEventListener("oTransitionEnd", this._onTransitionEnd, false);
-	    return document.addEventListener("webkitTransitionEnd", this._onTransitionEnd, false);
-	  },
+	var dispatcher = new SugarTransitionstartEventDispatcher();
 
-	  /*
-	  	On animation start
-	   */
-	  _onTransitionEnd: function(e) {
-	    if (e.elapsedTime === 0.000001 || e.propertyName === 'outline-color') {
-	      return e.target.dispatchEvent(new CustomEvent('transitionstart', {
-	        bubbles: true,
-	        cancelable: true
-	      }));
-	    }
-	  },
-
-	  /*
-	  	Extend settings
-	   */
-	  _extend: function(obj, mixin) {
-	    var method, name;
-	    for (name in mixin) {
-	      method = mixin[name];
-	      obj[name] = method;
-	    }
-	    return obj;
-	  }
-	};
-
-	window.sugar.transitionstart.init();
-
+	// export the dispatcher
+	exports.default = dispatcher;
 
 /***/ }
 /******/ ])

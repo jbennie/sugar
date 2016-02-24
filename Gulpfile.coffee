@@ -42,13 +42,12 @@ webpackAppParams = _.extend {}, webpackParams,
 		libraryTarget: 'umd'
 webpackDistParams = _.extend {}, webpackParams,
 	entry: {
-		'drawer': ["./src/coffee/sugar/sugar-drawer.coffee"]
+		'drawer': ["./src/js/sugar/components/sugar-drawer.js"]
 		'gooey': ["./src/js/sugar/filters/sugar-gooey.js"]
-		'domnodeinserted': ["./src/coffee/sugar/sugar-domnodeinserted.coffee"]
 		'motionblur': ["./src/js/sugar/filters/sugar-motionblur.js"]
 		'gradient': ["./src/js/sugar/filters/sugar-gradient.js"]
-		'transitionstart': ["./src/coffee/sugar/sugar-transitionstart.coffee"]
-		'webfonts': ["./src/coffee/sugar/sugar-webfonts.coffee"]
+		'transitionstart': ["./src/js/sugar/events/sugar-transitionstart.js"]
+		'localStorageFonts': ["./src/js/sugar/fonts/sugar-localstoragefonts.js"]
 		'activate' : ['./src/js/sugar/components/sugar-activate.js']
 		'sugar' : ['./src/js/sugar/sugar.js']
 	},

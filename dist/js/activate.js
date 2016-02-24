@@ -531,7 +531,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// check if the main data attribute is an object to extend the settings
 			var set = this.setting('');
-			console.log('set', set);
 			if (set && (typeof set === 'undefined' ? 'undefined' : _typeof(set)) == 'object') {
 				this.settings = _extends({}, this.settings, set);
 			}
@@ -558,16 +557,29 @@ return /******/ (function(modules) { // webpackBootstrap
 			key_string = key_string.replace(_upperfirst(key) + _upperfirst(key), _upperfirst(key));
 			var s = this.dataset(_lowerfirst(key_string));
 
-			// if (s == 'false') s = false;
+			// process the value
 			if (s == 'false' || s == 'true' || typeof s == 'string' && s.substr(0, 1) == '[' || !isNaN(s)) {
 				s = eval(s);
 			} else if (typeof s == 'string' && s.substr(0, 1) == '{') {
 				s = eval('(' + s + ')');
-				// s = JSON.parse(s);
 			}
-			if (s != undefined) return s;
+
+			// if we didn't find any setting in dataset,
+			// get the one from the actual settings property
+			if (!s) {
+				s = this.settings[key];
+			}
+
+			// check if the setting begin by @
+			// mean that it's an alias of another setting
+			if (typeof s == 'string' && s.substr(0, 1) == '@') {
+				var _key = s.substr(1);
+				// return the alias property
+				return this.setting(_key);
+			}
+
 			// return the settings
-			return this.settings[key];
+			return s;
 		};
 
 		/**
