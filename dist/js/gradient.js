@@ -54,7 +54,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(26);
+	module.exports = __webpack_require__(27);
 
 
 /***/ },
@@ -2699,7 +2699,8 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ },
 /* 23 */,
 /* 24 */,
-/* 25 */
+/* 25 */,
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2827,12 +2828,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = SugarSvgFilter;
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _sugarSvgfilter = __webpack_require__(25);
+	var _sugarSvgfilter = __webpack_require__(26);
 
 	var _sugarSvgfilter2 = _interopRequireDefault(_sugarSvgfilter);
 

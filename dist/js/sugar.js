@@ -54,7 +54,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(29);
+	module.exports = __webpack_require__(30);
 
 
 /***/ },
@@ -3410,9 +3410,118 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
+	var _sugarElement = __webpack_require__(2);
+
+	var _sugarElement2 = _interopRequireDefault(_sugarElement);
+
+	var _sugarDom = __webpack_require__(4);
+
+	var _sugarDom2 = _interopRequireDefault(_sugarDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); } /*
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Sugar-activate.js
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author   Olivier Bossel <olivier.bossel@gmail.com>
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @created  20.01.16
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @updated  20.01.16
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @version  1.0.0
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+
+	var _get = __webpack_require__(6);
+
+	// Actual activate element class
+
+	var SugarRadioboxElement = function (_SugarElement) {
+		_inherits(SugarRadioboxElement, _SugarElement);
+
+		/**
+	  * Setup
+	  */
+
+		SugarRadioboxElement.setup = function setup(type, settings) {
+			_sugarElement2.default.setup('sActivate', type, settings);
+		};
+
+		/**
+	  * Constructor
+	  */
+
+
+		function SugarRadioboxElement(elm) {
+			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+			_classCallCheck(this, SugarRadioboxElement);
+
+			// init
+
+			var _this = _possibleConstructorReturn(this, _SugarElement.call(this, 'sRadiobox', elm, {}, settings));
+
+			_this.init();
+			return _this;
+		}
+
+		/**
+	  * Init
+	  */
+
+
+		SugarRadioboxElement.prototype.init = function init() {
+
+			// try to get the id or name of the input
+			var input_for = this.elm.id || this.elm.name;
+
+			// append an empty element after the input to style it
+			var styleNode = document.createElement('div');
+			styleNode.className = 's-radiobox';
+			// if (input_for) {
+			// 	styleNode.setAttribute('for', input_for);
+			// }
+			this.elm.parentNode.insertBefore(styleNode, this.elm.nextSibling);
+		};
+
+		return SugarRadioboxElement;
+	}(_sugarElement2.default);
+
+	_sugarDom2.default.onInserted('input[type="checkbox"],input[type="radio"]', function (elm) {
+		new SugarRadioboxElement(elm);
+	});
+	// sDom.domReady(() => {
+	// 	[].forEach.call(document.body.querySelectorAll('input[type="checkbox"],input[type="radio"]'), (elm) => {
+	// 		new SugarRadioboxElement(elm);
+	// 	});
+	// });
+
+	// expose in window.sugar
+	if (window.sugar == null) {
+		window.sugar = {};
+	}
+	window.sugar.RadioboxElement = SugarRadioboxElement;
+
+	// export modules
+	module.exports = {
+		RadioboxElement: SugarRadioboxElement
+	};
+
+/***/ },
+/* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _sugarSvgfilter = __webpack_require__(25);
+	var _sugarSvgfilter = __webpack_require__(26);
 
 	var _sugarSvgfilter2 = _interopRequireDefault(_sugarSvgfilter);
 
@@ -3606,7 +3715,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3734,12 +3843,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = SugarSvgFilter;
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _sugarSvgfilter = __webpack_require__(25);
+	var _sugarSvgfilter = __webpack_require__(26);
 
 	var _sugarSvgfilter2 = _interopRequireDefault(_sugarSvgfilter);
 
@@ -3972,7 +4081,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -4126,12 +4235,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = window.sugar.localStorageFonts;
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _sugarSvgfilter = __webpack_require__(25);
+	var _sugarSvgfilter = __webpack_require__(26);
 
 	var _sugarSvgfilter2 = _interopRequireDefault(_sugarSvgfilter);
 
@@ -4347,20 +4456,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 29 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var _sugarActivate = __webpack_require__(1);
 
-	var _sugarGooey = __webpack_require__(24);
+	var _sugarGooey = __webpack_require__(25);
 
-	var _sugarMotionblur = __webpack_require__(28);
+	var _sugarMotionblur = __webpack_require__(29);
 
-	var _sugarGradient = __webpack_require__(26);
+	var _sugarGradient = __webpack_require__(27);
 
-	var _sugarSvgfilter = __webpack_require__(25);
+	var _sugarSvgfilter = __webpack_require__(26);
 
 	var _sugarSvgfilter2 = _interopRequireDefault(_sugarSvgfilter);
 
@@ -4374,13 +4483,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _sugarDrawer = __webpack_require__(23);
 
-	var _sugarTransitionstart = __webpack_require__(30);
+	var _sugarTransitionstart = __webpack_require__(31);
 
 	var _sugarTransitionstart2 = _interopRequireDefault(_sugarTransitionstart);
 
-	var _sugarLocalstoragefonts = __webpack_require__(27);
+	var _sugarLocalstoragefonts = __webpack_require__(28);
 
 	var _sugarLocalstoragefonts2 = _interopRequireDefault(_sugarLocalstoragefonts);
+
+	var _sugarForm = __webpack_require__(24);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4394,6 +4505,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		GradientElement: _sugarGradient.GradientElement,
 		GradientFilter: _sugarGradient.GradientFilter,
 		SvgFilter: _sugarSvgfilter2.default,
+		RadioboxElement: _sugarForm.RadioboxElement,
 		tools: _sugarTools2.default,
 		dom: _sugarDom2.default,
 		transitionstartEventDispatcher: _sugarTransitionstart2.default,
@@ -4403,7 +4515,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 30 */
+/* 31 */
 /***/ function(module, exports) {
 
 	'use strict';

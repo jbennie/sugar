@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["gooey"] = factory();
+		exports["form"] = factory();
 	else
-		root["gooey"] = factory();
+		root["form"] = factory();
 })(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -54,7 +54,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(25);
+	module.exports = __webpack_require__(24);
 
 
 /***/ },
@@ -2698,17 +2698,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 23 */,
-/* 24 */,
-/* 25 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _sugarSvgfilter = __webpack_require__(26);
-
-	var _sugarSvgfilter2 = _interopRequireDefault(_sugarSvgfilter);
 
 	var _sugarElement = __webpack_require__(2);
 
@@ -2740,292 +2733,78 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _get = __webpack_require__(6);
 
-	/**
-	 * Svg filter
-	 */
-
-	var SugarGooeyFilter = function (_SugarSvgFilter) {
-		_inherits(SugarGooeyFilter, _SugarSvgFilter);
-
-		/**
-	  * Constructor
-	  */
-
-		function SugarGooeyFilter() {
-			var amount = arguments.length <= 0 || arguments[0] === undefined ? 8 : arguments[0];
-
-			_classCallCheck(this, SugarGooeyFilter);
-
-			var _this = _possibleConstructorReturn(this, _SugarSvgFilter.call(this, '\n\t\t\t<feGaussianBlur in="SourceGraphic" stdDeviation="' + amount + '" result="blur" />\n\t\t\t<feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + (parseInt(amount) + 9) + ' -9" result="gooey" />\n\t\t\t<feComposite in="SourceGraphic" in2="gooey" operator="atop"/>\n\t\t'));
-
-			_this._blur = _this.filter.querySelector('feGaussianBlur');
-			_this._color_matrix = _this.filter.querySelector('feColorMatrix');
-			return _this;
-		}
-
-		/**
-	  * Set blur
-	  */
-
-
-		_createClass(SugarGooeyFilter, [{
-			key: 'blur',
-			set: function set(value) {
-				this._blur.setAttribute('stdDeviation', value);
-			}
-
-			/**
-	   * Set contrast
-	   */
-
-		}, {
-			key: 'contrast',
-			set: function set(value) {
-				// get value
-				var v = this._color_matrix.getAttribute('values');
-				// process
-				v = v.split(' ');
-				v[v.length - 2] = value;
-				// apply the new filter
-				this._color_matrix.setAttribute('values', v.join(' '));
-			}
-
-			/**
-	   * Set shrink
-	   */
-
-		}, {
-			key: 'shrink',
-			set: function set(value) {
-				// get value
-				var v = this._color_matrix.getAttribute('values');
-				// process
-				v = v.split(' ');
-				v[v.length - 1] = value;
-				// apply the new filter
-				this._color_matrix.setAttribute('values', v.join(' '));
-			}
-
-			/**
-	   * Set amount
-	   */
-
-		}, {
-			key: 'amount',
-			set: function set(value) {
-				this._blur.setAttribute('stdDeviation', value);
-				this._color_matrix.setAttribute('values', '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + (parseInt(value) + 9) + ' -9');
-			}
-		}]);
-
-		return SugarGooeyFilter;
-	}(_sugarSvgfilter2.default);
-
 	// Actual activate element class
 
-
-	var SugarGooeyElement = function (_SugarElement) {
-		_inherits(SugarGooeyElement, _SugarElement);
+	var SugarRadioboxElement = function (_SugarElement) {
+		_inherits(SugarRadioboxElement, _SugarElement);
 
 		/**
 	  * Setup
 	  */
-		// static setup(type, settings) {
-		// 	SugarElement.setup('sActivate', type, settings);
-		// }
+
+		SugarRadioboxElement.setup = function setup(type, settings) {
+			_sugarElement2.default.setup('sActivate', type, settings);
+		};
 
 		/**
 	  * Constructor
 	  */
 
-		function SugarGooeyElement(elm) {
+
+		function SugarRadioboxElement(elm) {
 			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
-			_classCallCheck(this, SugarGooeyElement);
+			_classCallCheck(this, SugarRadioboxElement);
 
-			var _this2 = _possibleConstructorReturn(this, _SugarElement.call(this, 'sGooey', elm, {}, settings));
+			// init
 
-			if (_this2._inited) return _possibleConstructorReturn(_this2);
-			_this2._inited = true;
+			var _this = _possibleConstructorReturn(this, _SugarElement.call(this, 'sRadiobox', elm, {}, settings));
 
-			// init the filter
-			_this2._initFilter();
-			return _this2;
+			_this.init();
+			return _this;
 		}
 
 		/**
-	  * Init the filter
+	  * Init
 	  */
 
 
-		SugarGooeyElement.prototype._initFilter = function _initFilter() {
-			// get amount
-			var amount = this.dataset('sGooey') || 10;
-			var blur = this.dataset('sGooeyBlur');
-			var contrast = this.dataset('sGooeyContrast');
-			var shrink = this.dataset('sGooeyShrink');
-			// create a new svg filter
-			this.filter = new SugarGooeyFilter(amount);
-			// apply the filter
-			this.filter.applyTo(this.elm);
-			if (blur) this.filter.blur = blur;
-			if (contrast) this.filter.contrast = contrast;
-			if (shrink) this.filter.shrink = shrink;
+		SugarRadioboxElement.prototype.init = function init() {
+
+			// try to get the id or name of the input
+			var input_for = this.elm.id || this.elm.name;
+
+			// append an empty element after the input to style it
+			var styleNode = document.createElement('div');
+			styleNode.className = 's-radiobox';
+			// if (input_for) {
+			// 	styleNode.setAttribute('for', input_for);
+			// }
+			this.elm.parentNode.insertBefore(styleNode, this.elm.nextSibling);
 		};
 
-		return SugarGooeyElement;
+		return SugarRadioboxElement;
 	}(_sugarElement2.default);
 
-	// Automatic init of dom elements
-
-
-	_sugarDom2.default.domReady(function () {
-		[].forEach.call(document.body.querySelectorAll('[data-s-gooey]'), function (item) {
-			// init gooey element
-			new SugarGooeyElement(item);
-		});
+	_sugarDom2.default.onInserted('input[type="checkbox"],input[type="radio"]', function (elm) {
+		new SugarRadioboxElement(elm);
 	});
+	// sDom.domReady(() => {
+	// 	[].forEach.call(document.body.querySelectorAll('input[type="checkbox"],input[type="radio"]'), (elm) => {
+	// 		new SugarRadioboxElement(elm);
+	// 	});
+	// });
 
 	// expose in window.sugar
 	if (window.sugar == null) {
 		window.sugar = {};
 	}
-	window.sugar.GooeyElement = SugarGooeyElement;
-	window.sugar.GooeyFilter = SugarGooeyFilter;
+	window.sugar.RadioboxElement = SugarRadioboxElement;
 
 	// export modules
 	module.exports = {
-		GooeyFilter: SugarGooeyFilter,
-		GooeyElement: SugarGooeyElement
+		RadioboxElement: SugarRadioboxElement
 	};
-
-/***/ },
-/* 26 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _sugarTools = __webpack_require__(3);
-
-	var sugarTools = _interopRequireWildcard(_sugarTools);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var _sSvgFilters = [];
-	var _sIsSvgInjected = false;
-
-	var SugarSvgFilter = function () {
-
-		/**
-	  * Constructor
-	  */
-
-		function SugarSvgFilter(filter_content) {
-			_classCallCheck(this, SugarSvgFilter);
-
-			// save the reference of each elements
-			this.elms = [];
-
-			// save parameters
-			this.filter_content = filter_content;
-
-			// generate a uniqid
-			this.id = 's-svg-filter-' + sugarTools.uniqid();
-
-			// if need to inject svg
-			if (!document.body.querySelector('#s-svg-filters')) SugarSvgFilter._injectFiltersContainer();
-
-			// insert the filter
-			this._insertFilter();
-		}
-
-		/**
-	  * Apply the filter to an element
-	  */
-
-
-		SugarSvgFilter.prototype.applyTo = function applyTo(elm) {
-			var _this = this;
-
-			['-webkit-', '-moz-', '-ms-', '-o-', ''].forEach(function (vendor) {
-				elm.style[vendor + 'filter'] = 'url("#' + _this.id + '")';
-			});
-			this.elms.push(elm);
-		};
-
-		/**
-	  * Unapply from
-	  */
-
-
-		SugarSvgFilter.prototype.unapplyFrom = function unapplyFrom(elm) {
-			['-webkit-', '-moz-', '-ms-', '-o-', ''].forEach(function (vendor) {
-				delete elm.style[vendor + 'filter'];
-			});
-			// remove from stack
-			var idx = this.elms.indexOf(elm);
-			if (idx) this.elms.splice(idx, 1);
-		};
-
-		/**
-	  * Insert the filter
-	  */
-
-
-		SugarSvgFilter.prototype._insertFilter = function _insertFilter() {
-			var svg = '\n\t\t\t<svg xmlns="http://www.w3.org/2000/svg" version="1.1">\n\t\t\t\t<defs>\n\t\t\t\t</defs>\n\t\t\t</svg>\n\t\t';
-			var div = document.createElement('div');
-			div.innerHTML = svg;
-			var defs = div.querySelector('defs');
-
-			// add the filter to the svg
-			this.filter_content = '<filter id="' + this.id + '">' + this.filter_content + '</filter>';
-			defs.innerHTML = this.filter_content;
-			this.filter = defs.querySelector('#' + this.id);
-			this.svg = div.querySelector('svg');
-			SugarSvgFilter.filtersContainer.appendChild(this.svg);
-		};
-
-		/**
-	  * Destroy
-	  */
-
-
-		SugarSvgFilter.prototype.destroy = function destroy() {
-			var _this2 = this;
-
-			// loop on each element savec in stack to remove the filter
-			this.elms.forEach(function (elm) {
-				_this2.unapplyFrom(elm);
-			});
-			// remove the filter from the html
-			this.filter.parent.removeChild(this.filter);
-		};
-
-		/**
-	  * Inject svg
-	  */
-
-
-		SugarSvgFilter._injectFiltersContainer = function _injectFiltersContainer() {
-			var style = ['position:absolute;', 'left:-1000px;', 'top:-300px;'];
-			if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
-				style.push('display:none;');
-			}
-			SugarSvgFilter.filtersContainer = document.createElement('div');
-			SugarSvgFilter.filtersContainer.id = 's-svg-filters';
-			SugarSvgFilter.filtersContainer.style = style.join(' ');
-			document.body.appendChild(SugarSvgFilter.filtersContainer);
-		};
-
-		return SugarSvgFilter;
-	}();
-
-	exports.default = SugarSvgFilter;
 
 /***/ }
 /******/ ])

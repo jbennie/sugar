@@ -49,6 +49,7 @@ webpackDistParams = _.extend {}, webpackParams,
 		'transitionstart': ["./src/js/sugar/events/sugar-transitionstart.js"]
 		'localStorageFonts': ["./src/js/sugar/fonts/sugar-localstoragefonts.js"]
 		'activate' : ['./src/js/sugar/components/sugar-activate.js']
+		'form' : ['./src/js/sugar/components/sugar-form.js']
 		'sugar' : ['./src/js/sugar/sugar.js']
 	},
 	output:

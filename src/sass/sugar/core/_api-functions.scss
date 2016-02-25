@@ -446,7 +446,7 @@ $_sugar-settings-cache : ();
 	}
 
 	// process calculation
-	@return $value * map-get($sizes, $size);
+	@return s-round-px-value($value * map-get($sizes, $size));
 }
 
 
@@ -503,7 +503,7 @@ $_sugar-settings-cache : ();
 	$size
 ) {
 	$sizes : sugar('settings.spaces');
-	@return _s-sizeize($size, $sizes);
+	@return s-round-px-value(_s-sizeize($size, $sizes));
 }
 
 
@@ -532,7 +532,7 @@ $_sugar-settings-cache : ();
 
 	// if we have a value, return it
 	@if $value {
-		@return s-replace-tokens($value);
+		@return s-replace-tokens(s-round-px-value($value));
 	}
 
 	// if we don't have any value and the size is default
@@ -555,6 +555,66 @@ $_sugar-settings-cache : ();
 	// interpolate
 	@return s-size($default, $size);
 
+}
+
+//
+// Round a value to match a round px render
+//
+@function s-round-px-value($value) {
+	$value : call('s-#{unit($value)}',round(s-px($value)));
+	@return $value;
+}
+
+
+//
+// Round a value to match a round px render => even
+//
+@function s-round-px-value-even($value) {
+	$value : call('s-#{unit($value)}',s-even(s-px($value)));
+	@return $value;
+}
+
+
+//
+// Round a value to match a round px render => odd
+//
+@function s-round-px-value-odd($value) {
+	$value : call('s-#{unit($value)}',s-odd(s-px($value)));
+	@return $value;
+}
+
+
+//
+// Make a number even
+//
+@function s-even($value) {
+	$value : round($value);
+	$dec : $value % 1;
+	@if s-strip-units($value) % 2 != 0 {
+		@if $dec >= .5 {
+			$value : $value + 1;
+		} @else {
+			$value : $value - 1;
+		}
+	}
+	@return $value;
+}
+
+
+//
+// Make a number odd
+//
+@function s-odd($value) {
+	$value : round($value);
+	$dec : $value % 1;
+	@if s-strip-units($value) % 2 == 0 {
+		@if $dec >= .5 {
+			$value : $value + 1;
+		} @else {
+			$value : $value - 1;
+		}
+	}
+	@return $value;
 }
 
 
