@@ -3481,12 +3481,19 @@ return /******/ (function(modules) { // webpackBootstrap
 			// try to get the id or name of the input
 			var input_for = this.elm.id || this.elm.name;
 
+			// stop if already the s-radiobox div
+			if (this.elm.nextSibling && this.elm.nextSibling.nodeName != '#text' && _sugarDom2.default.hasClass(this.elm.nextSibling, 's-radiobox')) return;
+
 			// append an empty element after the input to style it
-			var styleNode = document.createElement('div');
+			var nodeType = 'div';
+			if (this.elm.parentNode.nodeName.toLowerCase() != 'label') {
+				nodeType = 'label';
+			}
+			var styleNode = document.createElement(nodeType);
 			styleNode.className = 's-radiobox';
-			// if (input_for) {
-			// 	styleNode.setAttribute('for', input_for);
-			// }
+			if (nodeType == 'label' && input_for) {
+				styleNode.setAttribute('for', input_for);
+			}
 			this.elm.parentNode.insertBefore(styleNode, this.elm.nextSibling);
 		};
 
