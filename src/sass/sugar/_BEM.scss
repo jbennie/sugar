@@ -17,8 +17,6 @@
 	));
 	$name : map-get($bem, name);
 	$extend : map-get($bem, ext);
-
-	@debug($bem);
 	@at-root {
 		.#{$name} {
 			@if $extend {

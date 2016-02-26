@@ -36,62 +36,66 @@
 
 	<div class="container">
 
-		<div class="row">
+		<div class="row form">
 
 			<div class="gr-12">
 				
 				<form>
 				 	<div class="row">
 						<div class="gr-12">
-							<label>Input label</label>
-							<input type="text" placeholder="gr-12" />
+							<label class="block">Input label
+								<input type="text" placeholder="gr-12" />
+							</label>
 						</div>
 					</div>
 					<div class="row">
 						<div class="gr-4">
-							<label>Text</label>
-							<input type="text" placeholder="gr-4" class="error" />
+							<label class="block">Text
+								<input type="text" placeholder="gr-4" class="error" />
+							</label>
 						</div>
 						<div class="gr-4">
-							<label>Password</label>
-							<input type="password" placeholder="gr-4" class="success" />
+							<label class="block">Password
+								<input type="password" placeholder="gr-4" class="success" />
+							</label>
 						</div>
 						<div class="gr-4">
-							<label>Postfix</label>
-							<div class="row">
-								<div class="gr-9 no-gutter-right">
-									<input class="input primary" type="text" placeholder="gr-9" />
+							<label class="block">Postfix
+								<div class="row row-align-top">
+									<div class="gr-grow no-gutter-right">
+										<input class="input primary" type="text" placeholder="gr-9" />
+									</div>
+									<div class="gr-adapt no-gutter-left">
+										<div class="input-postfix input-postfix--primary">.com</div>
+									</div>
 								</div>
-								<div class="gr-3 no-gutter-left">
-									<div class="input-postfix input-postfix--primary">.com</div>
-								</div>
-							</div>
+							</label>
 						</div>
 					</div>
 					<div class="row">
 						<div class="gr-12">
-							<label>Select Box</label>
+							<label class="block">Select Box</label>
 							<select>
 								<option value="husker">Husker</option>
 								<option value="starbuck">Starbuck</option>
 								<option value="hotdog">Hot Dog</option>
 								<option value="apollo">Apollo</option>
 							</select>
-							<label>Select Box</label>
+							<label class="block">Select Box</label>
 							<select class="medium">
 								<option value="husker">Husker</option>
 								<option value="starbuck">Starbuck</option>
 								<option value="hotdog">Hot Dog</option>
 								<option value="apollo">Apollo</option>
 							</select>
-							<label>Select Box</label>
+							<label class="block">Select Box</label>
 							<select class="big">
 								<option value="husker">Husker</option>
 								<option value="starbuck">Starbuck</option>
 								<option value="hotdog">Hot Dog</option>
 								<option value="apollo">Apollo</option>
 							</select>
-							<label>Select Box</label>
+							<label class="block">Select Box</label>
 							<select class="bigger">
 								<option value="husker">Husker</option>
 								<option value="starbuck">Starbuck</option>
@@ -198,7 +202,6 @@
 
 								<div class="row">
 									<div class="gr-12">
-										<label class="big"><strong>Check these out</strong></label>
 										<label class="big">
 											<input type="checkbox" class="big"> Checkbox 1
 										</label>
@@ -228,12 +231,15 @@
 									</div>
 									<div class="gr-4">
 										<label>Postfix</label>
-										<div class="row">
-											<div class="gr-9 no-gutter-right">
+										<div class="row row-align-top">
+											<div class="gr-adapt no-gutter-right">
+												<div class="input-prefix input-prefix--primary">$</div>
+											</div>
+											<div class="gr-grow no-gutter-left no-gutter-right">
 												<input class="input input--primary" type="text" placeholder="gr-9" />
 											</div>
-											<div class="gr-3 no-gutter-left">
-												<div class="input-postfix input-postfix--primary">.com</div>
+											<div class="gr-adapt no-gutter-left">
+												<div class="input-postfix input-postfix--primary">.00</div>
 											</div>
 										</div>
 									</div>
@@ -241,8 +247,17 @@
 
 								<div class="row">
 									<div class="gr-4">
-										<label>Text</label>
-										<input type="text" placeholder="gr-4" class="medium" />
+										<label>Text
+											<div class="row row-align-top">
+												<div class="gr-8">
+													
+													<input type="text" placeholder="gr-4" class="medium" />
+												</div>
+												<div class="gr-4">
+													<button class="btn btn--medium">Send</button>
+												</div>
+											</div>
+										</label>
 									</div>
 									<div class="gr-4">
 										<label>Password</label>

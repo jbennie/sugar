@@ -576,23 +576,6 @@ $_s-font-aliases : (
 	$calculate-height : map-get-or($rhythme, calculate-height, false);
 	$root-font-size : sugar('settings.typo.font-size');
 
-	// $skip-margin-bottom : false;
-	// @if $margin-bottom == none {
-	// 	$skip-margin-bottom : true;
-	// }
-	// $skip-margin-top : false;
-	// @if $margin-top == none {
-	// 	$skip-margin-top : true;
-	// }
-
-	// protect
-	// @if not s-is($margin-bottom, number) and $margin-bottom != none {
-	// 	@error("The 'margin-bottom' parameter of the s-vertical-rhythme function has to be a number or 'none'");
-	// }
-	// @if not s-is($margin-top, number) and $margin-top != none {
-	// 	@error("The 'margin-top' parameter of the s-vertical-rhythme function has to be a number or 'none'");
-	// }
-
 	// get values from s-font if passed	
 	@if $s-font {
 		$font : s-font($s-font);
@@ -661,7 +644,7 @@ $_s-font-aliases : (
 	$border-bottom : s-rem($border-bottom);
 	$border-top : s-rem($border-top);
 	$line-height : round(s-rem($line-height));
-	
+
 	// save targeted margin bottom
 	$targeted-margin-bottom : $margin-bottom;
 	$targeted-margin-top : $margin-top;

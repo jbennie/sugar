@@ -113,6 +113,10 @@
 	@if not $sel {
 		@error("The method #{$method} is not available in the passed selector map : #{inspect($map)}");
 	}
+	// join the map if needed
+	@if type-of($sel) == list {
+		$sel : _join($sel, ',');
+	}
 	// replace the --default in selector
 	@if $method == BEM {
 		$sel : str-replace($sel,'--default','');

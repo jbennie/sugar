@@ -1,5 +1,6 @@
 @include s-component-setup((
 	form : (
+		scope-class : 'form',
 		colors : default primary secondary success warning error info,
 		sizes : default
 	)
@@ -28,30 +29,19 @@ $_s-form-inited : false;
 			background-repeat: no-repeat;
 		}
 		%s-form-fieldset-bare {
-			border-width: s-rem(1px);
-			border-style: solid;
+			border-left-width: s-rem(5px);
+			border-left-style: solid;
 			display:block;
 			width: 100%;
+			@include s-transition();
+
+			> legend {
+				padding-left:0 !important;
+			}
 		}
 		%s-form-checkbox-bare {
 			position: absolute;
 			left : -999999px;
-
-			// &:after,
-			// &:before {
-			// 	// content:'';
-			// 	// display: inline-block;
-			// 	// position: absolute;
-			// 	// // left: 999999px;
-			// 	// // left: 20px;
-			// 	// bottom:0;
-			// 	// border-width: s-rem(2px);
-			// 	// border-style : solid;
-			// 	// cursor: pointer;
-			// }
-			// &:after {
-			// 	border: none !important;
-			// }
 
 			& + .s-radiobox {
 				display: inline-block;
@@ -66,8 +56,6 @@ $_s-form-inited : false;
 					content:'';
 					display: block;
 					position: absolute;
-					// top:50%; left:50%;
-					// @include s-transform(-translateX -50% -translateY -50% -scaleX 1 -scaleY 1 -rotate 90deg);
 					@include s-transform(-scaleX 1 -scaleY 1 -rotate 90deg);
 					width: 100%; height: 100%;
 					@include s-transition(.1s);
@@ -76,20 +64,18 @@ $_s-form-inited : false;
 					content:'';
 					display: block;
 					position: absolute;
-					// top:50%; left:50%;
-					// @include s-transform(-translateX -50% -translateY -50% -scaleX 0 -scaleY 0 -rotate -90deg);
 					@include s-transform(-scaleX 0 -scaleY 0 -rotate -90deg);
 					width: 100%; height: 100%;
 					@include s-transition(.1s);
+					background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><style>path{fill%3A#{str-replace("#{s-color(success)}","#","%23")};}</style><path d="M432 48L192 288 80 176 0 256l192 192 320-320"/></svg>');
+					background-size: 100% 100%;
 				}
 			}
 			&:checked + .s-radiobox:before {
 				@include s-transform(-scaleX 0 -scaleY 0 -rotate 0deg);
-				// @include s-transform(-translateX -50% -translateY -50% -scaleX 0 -scaleY 0 -rotate 0deg);
 			}
 			&:checked + .s-radiobox:after {
 				@include s-transform(-scaleX 1 -scaleY 1 -rotate 0deg);
-				// @include s-transform(-translateX -50% -translateY -50% -scaleX 1 -scaleY 1 -rotate 0deg);
 			}
 		}
 		%s-form-radio-bare {
@@ -128,15 +114,14 @@ $_s-form-inited : false;
 		#{s-selector((
 			BEM : 'fieldset.#{$size}, .fieldset--#{$size}'
 		))} {
-			border-radius: s-look-and-feel(border-radius, $size);
-			padding : s-look-and-feel(padding-vertical, $size) s-look-and-feel(padding-horizontal, $size);
+			padding : s-space($size) 0 0 s-space($size);
+			padding-right: 0;
 			display: inline-block;
 
 			> legend {
-				margin-left: s-look-and-feel(padding-vertical, $size) / 1.5 * -1;
+				position: relative;
+				top: s-look-and-feel(font-size, $size) / 2;
 				font-size : s-look-and-feel(font-size, $size);
-				padding : s-look-and-feel(padding-horizontal, $size) / 1.5 s-look-and-feel(padding-horizontal, $size) / 1.5;
-				border-radius: s-look-and-feel(border-radius, $size);
 			}
 		}
 	}
@@ -148,18 +133,15 @@ $_s-form-inited : false;
 			BEM : 'fieldset.#{$color}, .fieldset--#{$color}',
 			SMACCS : 'fieldset.#{$color}, .fieldset-#{$color}'
 		))} {
-			border-color: s-color($color, -opacity .3);
-			background: s-color($color, -opacity .05);
-
+			border-color: s-color($color, -opacity .1);
+			
 			&:hover,
 			&.active {
-				border-color: s-color($color, -opacity .6);
+				border-color: s-color($color, -opacity .3);
 			}
 
 			> legend {
 				color: s-color($color);
-				border:s-rem(1px) solid s-color($color, -opacity .3);
-				background: white;
 			}
 		}
 	}
@@ -183,23 +165,30 @@ $_s-form-inited : false;
 
 	$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
 	$typeset : sugar('settings.typeset.scope-class');
+	$form-scope-class : sugar('settings.form.scope-class');
 
 	// base
-	input:not([type="checkbox"]):not([type="radio"]),
+	.#{$form-scope-class} input:not([type="checkbox"]):not([type="radio"]),
 	.input:not([type="checkbox"]):not([type="radio"]),
-	textarea, .textarea,
-	select, .select,
-	[class*="postfix"] {
+	.#{$form-scope-class} textarea,
+	.textarea,
+	.#{$form-scope-class} select,
+	.select,
+	#{s-selector((
+		BEM : '[class*="input-prefix"], [class*="input-postfix"]',
+		SMACCS : '[class*="input-prefix"], [class*="input-postfix"]'
+	))} {
 		@extend %s-form-input-bare;
 	}
-	textarea, .textarea {
+	.#{$form-scope-class} textarea,
+	.textarea {
 		height: auto !important;
 	}
-	input[type="checkbox"],
+	.#{$form-scope-class} input[type="checkbox"],
 	.input[type="checkbox"] {
 		@extend %s-form-checkbox-bare;
 	}
-	input[type="radio"],
+	.#{$form-scope-class} input[type="radio"],
 	.input[type="radio"] {
 		@extend %s-form-radio-bare;
 	}
@@ -209,8 +198,26 @@ $_s-form-inited : false;
 	@each $size in $sizes {
 		// input styling
 		#{s-selector((
-			BEM : 'select.#{$size}, .select--#{$size}, textarea.#{$size}, .textarea--#{$size}, input:not([type="checkbox"]):not([type="radio"]).#{$size}, .input--#{$size}, .input-postfix--#{$size}',
-			SMACCS : 'select.#{$size}, .select-#{$size}, textarea.#{$size}, .textarea-#{$size}, input:not([type="checkbox"]):not([type="radio"]).#{$size}, .input-#{$size}, .input-postfix-#{$size}'
+			BEM : (
+				'.#{$form-scope-class} select.#{$size}',
+				'.select--#{$size}',
+				'.#{$form-scope-class} textarea.#{$size}',
+				'.textarea--#{$size}',
+				'.#{$form-scope-class} input:not([type="checkbox"]):not([type="radio"]).#{$size}',
+				'.input--#{$size}',
+				'.input-postfix--#{$size}',
+				'.input-prefix--#{$size}'
+			),
+			SMACCS : (
+				'.#{$form-scope-class} select.#{$size}',
+				'.select-#{$size}',
+				'.#{$form-scope-class} textarea.#{$size}',
+				'.textarea-#{$size}',
+				'.#{$form-scope-class} input:not([type="checkbox"]):not([type="radio"]).#{$size}',
+				'.input-#{$size}',
+				'.input-postfix-#{$size}',
+				'.input-prefix-#{$size}'
+			)
 		))} {
 			font-size : s-look-and-feel(font-size, $size);
 			border-radius: s-look-and-feel(border-radius, $size);
@@ -218,7 +225,7 @@ $_s-form-inited : false;
 			display: inline-block;
 			height: s-look-and-feel(font-size, $size) + s-look-and-feel(padding-vertical, $size) * 2;
 
-			@include s-vertical-rhythme((
+			$args : (
 				s-font : s-look-and-feel(font-size, $size),
 				line-height: s-look-and-feel(font-size, $size),
 				padding-top : s-look-and-feel(padding-vertical, $size),
@@ -228,33 +235,110 @@ $_s-form-inited : false;
 				border-bottom-width: s-rem(1px),
 				border-top-width : s-rem(1px),
 				calculate-height : true
-			));
+			);
+			$rhythme : s-vertical-rhythme($args);
+			@include s-vertical-rhythme($args);
+			line-height: map-get($rhythme, line-height) + s-look-and-feel(font-size, $size) / 10 * 3 !important;
 
 		}
 
-		// #{s-selector((
-		// 	BEM : 'select.#{$size}, .select--#{$size}, textarea.#{$size}, .textarea--#{$size}, input.#{$size}, .input--#{$size}, .input-postfix--#{$size}',
-		// 	SMACCS : 'select.#{$size}, .select-#{$size}, textarea.#{$size}, .textarea-#{$size}, input.#{$size}, .input-#{$size}, .input-postfix-#{$size}'
-		// ))} {
-			
-		// }
+		// input in label
+		label {
+			// #{s-selector((
+			// 	BEM : (
+			// 		'.#{$form-scope-class} & select.#{$size}',
+			// 		'.select--#{$size}',
+			// 		'.#{$form-scope-class} & textarea.#{$size}',
+			// 		'.textarea--#{$size}',
+			// 		'.#{$form-scope-class} & input:not([type="checkbox"]):not([type="radio"]).#{$size}',
+			// 		'.input--#{$size}',
+			// 		'.input-postfix--#{$size}',
+			// 		'.input-prefix--#{$size}'
+			// 	),
+			// 	SMACCS : (
+			// 		'.#{$form-scope-class} & select.#{$size}',
+			// 		'.select-#{$size}',
+			// 		'.#{$form-scope-class} & textarea.#{$size}',
+			// 		'.textarea-#{$size}',
+			// 		'.#{$form-scope-class} & input:not([type="checkbox"]):not([type="radio"]).#{$size}',
+			// 		'.input-#{$size}',
+			// 		'.input-postfix-#{$size}',
+			// 		'.input-prefix-#{$size}'
+			// 	)
+			// ))} {
+			> *:first-child {
+				$mt : s-look-and-feel(font-size, $size);
+				@if $mt <= 0 { $mt : 1; }
+				$rhythme : s-vertical-rhythme((
+					s-font : s-look-and-feel(font-size, $size),
+					line-height: s-look-and-feel(font-size, $size),
+					margin-top : $mt,
+					margin-bottom : 0
+				));
+				position: relative;
+				top: map-get($rhythme, top);
+			}
+		}
+
+		#{s-selector((
+			BEM : (
+				'.#{$form-scope-class} select.#{$size}',
+				'.select--#{$size}',
+				'.input-postfix--#{$size}',
+				'.input-prefix--#{$size}',
+				'.btn--#{$size}'
+			),
+			SMACCS : (
+				'.#{$form-scope-class} select.#{$size}',
+				'.select-#{$size}',
+				'.input-postfix-#{$size}',
+				'.input-prefix-#{$size}'
+			)
+		))} {
+			$args : (
+				s-font : s-look-and-feel(font-size, $size),
+				line-height: s-look-and-feel(font-size, $size),
+				padding-top : s-look-and-feel(padding-vertical, $size),
+				padding-bottom : s-look-and-feel(padding-vertical, $size),
+				margin-bottom : 1,
+				margin-top : 0,
+				border-bottom-width: s-rem(1px),
+				border-top-width : s-rem(1px),
+				calculate-height : true
+			);
+			$rhythme : s-vertical-rhythme($args);
+			@include s-vertical-rhythme($args);
+			line-height: map-get($rhythme, line-height) !important;
+		}
 
 		// label styling
 		#{s-selector((
-			BEM : 'label.#{$size}, .label--#{$size}',
-			SMACCS : 'label.#{$size}, .label-#{$size}'
+			BEM : (
+				'label.#{$size}',
+				'.label--#{$size}'
+			),
+			SMACCS : (
+				'label.#{$size}',
+				'.label-#{$size}'
+			)
 		))} {
 			font-size: s-look-and-feel(font-size, $size);
 			display: inline-block;
 			vertical-align: middle;
 
 			&:not(.s-radiobox) {
+				$mb : s-look-and-feel(font-size, $size);
+				@if $mb <= 0 { $mb : 1; }
 				@include s-vertical-rhythme((
 					s-font : s-look-and-feel(font-size, $size),
 					line-height: s-look-and-feel(font-size, $size),
-					margin-bottom : 1,
+					margin-bottom : $mb,
 					margin-top : 0
 				));
+				
+				&:first-child:last-child {
+					width: 100%;
+				}
 			}
 
 			& + label,
@@ -272,8 +356,18 @@ $_s-form-inited : false;
 	// generate each sizes
 	@each $size in $sizes {
 		#{s-selector((
-			BEM : 'input[type="checkbox"].#{$size}, .input--#{$size}[type="checkbox"], input[type="radio"].#{$size}, .input--#{$size}[type="radio"]',
-			SMACCS : 'input[type="checkbox"].#{$size}, .input-#{$size}[type="checkbox"], input[type="radio"].#{$size}, .input-#{$size}[type="radio"]'
+			BEM : (
+				'.#{$form-scope-class} input[type="checkbox"].#{$size}',
+				'.input--#{$size}[type="checkbox"]',
+				'.#{$form-scope-class} input[type="radio"].#{$size}',
+				'.input--#{$size}[type="radio"]'
+			),
+			SMACCS : (
+				'.#{$form-scope-class} input[type="checkbox"].#{$size}',
+				'.input-#{$size}[type="checkbox"]',
+				'.#{$form-scope-class} input[type="radio"].#{$size}',
+				'.input-#{$size}[type="radio"]'
+			)
 		))} {
 			height: s-look-and-feel(font-size, $size);
 
@@ -285,10 +379,6 @@ $_s-form-inited : false;
 
 				&:before {
 					border-radius: $br;
-					// top: calc(#{unquote("50% + #{($fs - ($fs / 2)) / 2}")});
-				}
-				&:after {
-					// top: calc(#{unquote("50% + #{($fs - ($fs / 2)) / 2}")});
 				}
 			}
 
@@ -308,25 +398,31 @@ $_s-form-inited : false;
 	}
 	@each $color in $colors {
 		#{s-selector((
-			BEM : 'input[type="checkbox"].#{$color}, .input--#{$color}[type="checkbox"], input[type="radio"].#{$color}, .input--#{$color}[type="radio"]',
-			SMACCS : 'input[type="checkbox"].#{$color}, .input-#{$color}[type="checkbox"], input[type="radio"].#{$color}, .input-#{$color}[type="radio"]'
+			BEM : (
+				'.#{$form-scope-class} input[type="checkbox"].#{$color}',
+				'.input--#{$color}[type="checkbox"]',
+				'.#{$form-scope-class} input[type="radio"].#{$color}',
+				'.input--#{$color}[type="radio"]'
+			),
+			SMACCS : (
+				'.#{$form-scope-class} input[type="checkbox"].#{$color}',
+				'.input-#{$color}[type="checkbox"]',
+				'.#{$form-scope-class} input[type="radio"].#{$color}',
+				'.input-#{$color}[type="radio"]'
+			)
 		))} {
-			// &:after {
-			// 	background-color: s-color($color);
-			// }
 			& + .s-radiobox {
 				&:before {
 					border-color: s-color($color, -opacity .3);
 				}
+				
+			}
+			&.checkmark--#{$color} + .s-radiobox {
 				&:after {
-					background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><style>path{fill%3A#{str-replace("#{s-color(success)}","#","%23")};}</style><path d="M432 48L192 288 80 176 0 256l192 192 320-320"/></svg>');
-					background-size: 100% 100%;
+					background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><style>path{fill%3A#{str-replace("#{s-color($color)}","#","%23")};}</style><path d="M432 48L192 288 80 176 0 256l192 192 320-320"/></svg>') !important;
 				}
 			}
 			&:hover {
-				// &:after {
-				// 	background-color: s-color($color, -opacity .6);
-				// }
 				& + .s-radiobox {
 					&:before {
 						border-color: s-color($color, -opacity .6);
@@ -347,8 +443,26 @@ $_s-form-inited : false;
 	@each $color in $colors {
 		
 		#{s-selector((
-			BEM : 'select.#{$color}, .select--#{$color}, textarea.#{$color}, .textarea--#{$color}, input:not([type="checkbox"]):not([type="radio"]).#{$color}, .input--#{$color}, .input-postfix--#{$color}',
-			SMACCS : 'select.#{$color}, .select-#{$color}, textarea.#{$color}, .textarea--#{$color}, input:not([type="checkbox"]):not([type="radio"]).#{$color}, .input-#{$color}, .input-postfix-#{$color}'
+			BEM : (
+				'.#{$form-scope-class} select.#{$color}',
+				'.select--#{$color}',
+				'.#{$form-scope-class} textarea.#{$color}',
+				'.textarea--#{$color}',
+				'.#{$form-scope-class} input:not([type="checkbox"]):not([type="radio"]).#{$color}',
+				'.input--#{$color}',
+				'.input-postfix--#{$color}',
+				'.input-prefix--#{$color}'
+			),
+			SMACCS : (
+				'.#{$form-scope-class} select.#{$color}',
+				'.select-#{$color}',
+				'.#{$form-scope-class} textarea.#{$color}',
+				'.textarea--#{$color}',
+				'.#{$form-scope-class} input:not([type="checkbox"]):not([type="radio"]).#{$color}',
+				'.input-#{$color}',
+				'.input-postfix-#{$color}',
+				'.input-prefix-#{$color}'
+			)
 		))} {
 			border-color: s-color($color, -opacity .3);
 
@@ -360,15 +474,21 @@ $_s-form-inited : false;
 			}
 		}
 		#{s-selector((
-			BEM : '.input-postfix--#{$color}',
-			SMACCS : '.input-postfix-#{$color}'
+			BEM : '.input-postfix--#{$color}, .input-prefix--#{$color}',
+			SMACCS : '.input-postfix-#{$color}, .input-prefix-#{$color}'
 		))} {
 			background: s-color($color, -opacity .2);
 			color : s-color($color, -darken 30%);
 		}
 		#{s-selector((
-			BEM : 'select.#{$color}, .select--#{$color}',
-			SMACCS : 'select.#{$color}, .select-#{$color}'
+			BEM : (
+				'.#{$form-scope-class} select.#{$color}',
+				'.select--#{$color}'
+			),
+			SMACCS : (
+				'.#{$form-scope-class} select.#{$color}',
+				'.select-#{$color}'
+			)
 		))} {
 			@extend %s-form-select-bare;
 			background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A#{str-replace("#{s-color($color)}","#","%23")}"></polygon></svg>');
@@ -381,5 +501,10 @@ $_s-form-inited : false;
 	}
 	[class*="input-prefix"] {
 		border-right: none;
+		text-align: right;
+	}
+	[class*="input-postfix"],
+	[class*="input-prefix"] {
+		pointer-events: none;
 	}
 }

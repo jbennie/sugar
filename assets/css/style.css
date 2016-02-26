@@ -1640,57 +1640,57 @@ pre > code {
 .slide-0 [data-slidizle-content] {
   -webkit-transform: translateX(0px) translateY(0) translateZ(0);
           transform: translateX(0px) translateY(0) translateZ(0);
-  outline-color: #343c83;
+  outline-color: #7730f1;
 }
 .slide-1 [data-slidizle-content] {
   -webkit-transform: translateX(-640px) translateY(0) translateZ(0);
           transform: translateX(-640px) translateY(0) translateZ(0);
-  outline-color: #c15008;
+  outline-color: #e8af99;
 }
 .slide-2 [data-slidizle-content] {
   -webkit-transform: translateX(-1280px) translateY(0) translateZ(0);
           transform: translateX(-1280px) translateY(0) translateZ(0);
-  outline-color: #85629e;
+  outline-color: #331adc;
 }
 .slide-3 [data-slidizle-content] {
   -webkit-transform: translateX(-1920px) translateY(0) translateZ(0);
           transform: translateX(-1920px) translateY(0) translateZ(0);
-  outline-color: #1b1340;
+  outline-color: #ed0c4c;
 }
 .slide-4 [data-slidizle-content] {
   -webkit-transform: translateX(-2560px) translateY(0) translateZ(0);
           transform: translateX(-2560px) translateY(0) translateZ(0);
-  outline-color: #be9402;
+  outline-color: #2055bb;
 }
 .slide-5 [data-slidizle-content] {
   -webkit-transform: translateX(-3200px) translateY(0) translateZ(0);
           transform: translateX(-3200px) translateY(0) translateZ(0);
-  outline-color: #fe84d1;
+  outline-color: #88204f;
 }
 .slide-6 [data-slidizle-content] {
   -webkit-transform: translateX(-3840px) translateY(0) translateZ(0);
           transform: translateX(-3840px) translateY(0) translateZ(0);
-  outline-color: #e8e476;
+  outline-color: #237230;
 }
 .slide-7 [data-slidizle-content] {
   -webkit-transform: translateX(-4480px) translateY(0) translateZ(0);
           transform: translateX(-4480px) translateY(0) translateZ(0);
-  outline-color: #41abdf;
+  outline-color: #b94fc5;
 }
 .slide-8 [data-slidizle-content] {
   -webkit-transform: translateX(-5120px) translateY(0) translateZ(0);
           transform: translateX(-5120px) translateY(0) translateZ(0);
-  outline-color: #5d5bc2;
+  outline-color: #d1f712;
 }
 .slide-9 [data-slidizle-content] {
   -webkit-transform: translateX(-5760px) translateY(0) translateZ(0);
           transform: translateX(-5760px) translateY(0) translateZ(0);
-  outline-color: #9bd195;
+  outline-color: #ad15b7;
 }
 .slide-10 [data-slidizle-content] {
   -webkit-transform: translateX(-6400px) translateY(0) translateZ(0);
           transform: translateX(-6400px) translateY(0) translateZ(0);
-  outline-color: #b95941;
+  outline-color: #1382e9;
 }
 
 [data-slidizle-item] {
@@ -3250,11 +3250,13 @@ table:not(.no-vertical-rhythme).table-bigger th, .vertical-rhythme
   line-height: 1rem;
 }
 
-input:not([type="checkbox"]):not([type="radio"]),
+.form input:not([type="checkbox"]):not([type="radio"]),
 .input:not([type="checkbox"]):not([type="radio"]),
-textarea, .textarea,
-select, .select,
-[class*="postfix"] {
+.form textarea,
+.textarea,
+.form select,
+.select,
+[class*="input-prefix"], [class*="input-postfix"] {
   display: inline-block;
   border: rgba(129, 149, 161, 0.3) 1px solid;
   background: white;
@@ -3269,7 +3271,7 @@ select, .select,
   outline-color: black;
 }
 
-select, .select, select.primary, .select--primary, select.secondary, .select--secondary, select.success, .select--success, select.warning, .select--warning, select.error, .select--error, select.info, .select--info {
+.form select, .select, .form select.primary, .select--primary, .form select.secondary, .select--secondary, .form select.success, .select--success, .form select.warning, .select--warning, .form select.error, .select--error, .form select.info, .select--info {
   background-size: 9px 6px;
   background-position: right center;
   background-origin: content-box;
@@ -3277,20 +3279,26 @@ select, .select, select.primary, .select--primary, select.secondary, .select--se
 }
 
 fieldset {
-  border-width: 0.07692308rem;
-  border-style: solid;
+  border-left-width: 0.38461538rem;
+  border-left-style: solid;
   display: block;
   width: 100%;
+  -webkit-transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
+  transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
+  outline-color: black;
+}
+fieldset > legend {
+  padding-left: 0 !important;
 }
 
-input[type="radio"],
-.input[type="radio"], input[type="checkbox"],
+.form input[type="radio"],
+.input[type="radio"], .form input[type="checkbox"],
 .input[type="checkbox"] {
   position: absolute;
   left: -999999px;
 }
-input[type="radio"] + .s-radiobox,
-.input[type="radio"] + .s-radiobox, input[type="checkbox"] + .s-radiobox,
+.form input[type="radio"] + .s-radiobox,
+.input[type="radio"] + .s-radiobox, .form input[type="checkbox"] + .s-radiobox,
 .input[type="checkbox"] + .s-radiobox {
   display: inline-block;
   position: relative;
@@ -3300,8 +3308,8 @@ input[type="radio"] + .s-radiobox,
   outline-color: black;
   vertical-align: sub;
 }
-input[type="radio"] + .s-radiobox:before,
-.input[type="radio"] + .s-radiobox:before, input[type="checkbox"] + .s-radiobox:before,
+.form input[type="radio"] + .s-radiobox:before,
+.input[type="radio"] + .s-radiobox:before, .form input[type="checkbox"] + .s-radiobox:before,
 .input[type="checkbox"] + .s-radiobox:before {
   border-width: 0.15384615rem;
   border-style: solid;
@@ -3316,8 +3324,8 @@ input[type="radio"] + .s-radiobox:before,
   transition: all 0.1s ease-in-out 0s, outline-color 0.000001s linear 0s;
   outline-color: black;
 }
-input[type="radio"] + .s-radiobox:after,
-.input[type="radio"] + .s-radiobox:after, input[type="checkbox"] + .s-radiobox:after,
+.form input[type="radio"] + .s-radiobox:after,
+.input[type="radio"] + .s-radiobox:after, .form input[type="checkbox"] + .s-radiobox:after,
 .input[type="checkbox"] + .s-radiobox:after {
   content: '';
   display: block;
@@ -3329,38 +3337,62 @@ input[type="radio"] + .s-radiobox:after,
   -webkit-transition: all 0.1s ease-in-out 0s, outline-color 0.000001s linear 0s;
   transition: all 0.1s ease-in-out 0s, outline-color 0.000001s linear 0s;
   outline-color: black;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><style>path{fill%3A%235cb85c;}</style><path d="M432 48L192 288 80 176 0 256l192 192 320-320"/></svg>');
+  background-size: 100% 100%;
 }
-input[type="radio"]:checked + .s-radiobox:before,
-.input[type="radio"]:checked + .s-radiobox:before, input[type="checkbox"]:checked + .s-radiobox:before,
+.form input[type="radio"]:checked + .s-radiobox:before,
+.input[type="radio"]:checked + .s-radiobox:before, .form input[type="checkbox"]:checked + .s-radiobox:before,
 .input[type="checkbox"]:checked + .s-radiobox:before {
   -webkit-transform: scaleX(0) scaleY(0) rotate(0deg);
           transform: scaleX(0) scaleY(0) rotate(0deg);
 }
-input[type="radio"]:checked + .s-radiobox:after,
-.input[type="radio"]:checked + .s-radiobox:after, input[type="checkbox"]:checked + .s-radiobox:after,
+.form input[type="radio"]:checked + .s-radiobox:after,
+.input[type="radio"]:checked + .s-radiobox:after, .form input[type="checkbox"]:checked + .s-radiobox:after,
 .input[type="checkbox"]:checked + .s-radiobox:after {
   -webkit-transform: scaleX(1) scaleY(1) rotate(0deg);
           transform: scaleX(1) scaleY(1) rotate(0deg);
 }
 
-input[type="radio"] + .s-radiobox:before,
+.form input[type="radio"] + .s-radiobox:before,
 .input[type="radio"] + .s-radiobox:before {
   border-radius: 50% !important;
 }
 
-textarea, .textarea  {
+.form textarea,
+.textarea  {
   height: auto !important;
 }
 
-select.smaller, .select--smaller, textarea.smaller, .textarea--smaller, input:not([type="checkbox"]):not([type="radio"]).smaller, .input--smaller, .input-postfix--smaller {
+.form select.smaller, .select--smaller, .form textarea.smaller, .textarea--smaller, .form input:not([type="checkbox"]):not([type="radio"]).smaller, .input--smaller, .input-postfix--smaller, .input-prefix--smaller {
   font-size: 0.38461538rem;
   border-radius: 1px;
   padding: 0.30769231rem 0.38461538rem;
   display: inline-block;
   height: 1rem;
   font-size: 0.38461538rem;
+  line-height: 0.11538462rem !important;
 }
-.vertical-rhythme select.smaller, .vertical-rhythme .select--smaller, .vertical-rhythme textarea.smaller, .vertical-rhythme .textarea--smaller, .vertical-rhythme input:not([type="checkbox"]):not([type="radio"]).smaller, .vertical-rhythme .input--smaller, .vertical-rhythme .input-postfix--smaller {
+.vertical-rhythme .form select.smaller, .vertical-rhythme .select--smaller, .vertical-rhythme .form textarea.smaller, .vertical-rhythme .textarea--smaller, .vertical-rhythme .form input:not([type="checkbox"]):not([type="radio"]).smaller, .vertical-rhythme .input--smaller, .vertical-rhythme .input-postfix--smaller, .vertical-rhythme .input-prefix--smaller {
+  line-height: 0rem;
+  padding-top: 0.26923077rem;
+  padding-bottom: 0.26923077rem;
+  margin-bottom: 1.92307692rem;
+  margin-top: 0;
+  border-bottom-width: 0.07692308rem;
+  border-top-width: 0.07692308rem;
+  font-size: 0.38461538rem;
+  height: 0.53846154rem;
+}
+
+label > *:first-child {
+  position: relative;
+}
+
+.form select.smaller, .select--smaller, .input-postfix--smaller, .input-prefix--smaller, .btn--smaller {
+  font-size: 0.38461538rem;
+  line-height: 0rem !important;
+}
+.vertical-rhythme .form select.smaller, .vertical-rhythme .select--smaller, .vertical-rhythme .input-postfix--smaller, .vertical-rhythme .input-prefix--smaller, .vertical-rhythme .btn--smaller {
   line-height: 0rem;
   padding-top: 0.26923077rem;
   padding-bottom: 0.26923077rem;
@@ -3382,11 +3414,14 @@ label.smaller:not(.s-radiobox), .label--smaller :not(.s-radiobox) {
 }
 .vertical-rhythme label.smaller:not(.s-radiobox), .vertical-rhythme .label--smaller :not(.s-radiobox) {
   line-height: 0rem;
-  margin-bottom: 1.12499rem;
+  margin-bottom: 0.12499rem;
   margin-top: 0;
   font-size: 0.38461538rem;
   padding-top: 0.87501rem;
   padding-bottom: 0rem;
+}
+label.smaller:not(.s-radiobox):first-child:last-child, .label--smaller :not(.s-radiobox):first-child:last-child {
+  width: 100%;
 }
 label.smaller + label, label.smaller + [class*="label"], .label--smaller  + label, .label--smaller  + [class*="label"] {
   margin-left: 0.30769231rem;
@@ -3396,15 +3431,37 @@ label.smaller + label, label.smaller + [class*="label"], .label--smaller  + lab
   padding-right: 0.30769231rem;
 }
 
-select.small, .select--small, textarea.small, .textarea--small, input:not([type="checkbox"]):not([type="radio"]).small, .input--small, .input-postfix--small {
+.form select.small, .select--small, .form textarea.small, .textarea--small, .form input:not([type="checkbox"]):not([type="radio"]).small, .input--small, .input-postfix--small, .input-prefix--small {
   font-size: 0.69230769rem;
   border-radius: 2px;
   padding: 0.53846154rem 0.69230769rem;
   display: inline-block;
   height: 1.76923077rem;
   font-size: 0.69230769rem;
+  line-height: 1.20769231rem !important;
 }
-.vertical-rhythme select.small, .vertical-rhythme .select--small, .vertical-rhythme textarea.small, .vertical-rhythme .textarea--small, .vertical-rhythme input:not([type="checkbox"]):not([type="radio"]).small, .vertical-rhythme .input--small, .vertical-rhythme .input-postfix--small {
+.vertical-rhythme .form select.small, .vertical-rhythme .select--small, .vertical-rhythme .form textarea.small, .vertical-rhythme .textarea--small, .vertical-rhythme .form input:not([type="checkbox"]):not([type="radio"]).small, .vertical-rhythme .input--small, .vertical-rhythme .input-postfix--small, .vertical-rhythme .input-prefix--small {
+  line-height: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.92307692rem;
+  margin-top: 0;
+  border-bottom-width: 0.07692308rem;
+  border-top-width: 0.07692308rem;
+  font-size: 0.69230769rem;
+  height: 2rem;
+}
+
+label > *:first-child {
+  position: relative;
+  top: 1rem;
+}
+
+.form select.small, .select--small, .input-postfix--small, .input-prefix--small, .btn--small {
+  font-size: 0.69230769rem;
+  line-height: 1rem !important;
+}
+.vertical-rhythme .form select.small, .vertical-rhythme .select--small, .vertical-rhythme .input-postfix--small, .vertical-rhythme .input-prefix--small, .vertical-rhythme .btn--small {
   line-height: 1rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
@@ -3432,6 +3489,9 @@ label.small:not(.s-radiobox), .label--small :not(.s-radiobox) {
   padding-top: 0.27501rem;
   padding-bottom: 0rem;
 }
+label.small:not(.s-radiobox):first-child:last-child, .label--small :not(.s-radiobox):first-child:last-child {
+  width: 100%;
+}
 label.small + label, label.small + [class*="label"], .label--small  + label, .label--small  + [class*="label"] {
   margin-left: 0.53846154rem;
 }
@@ -3440,15 +3500,37 @@ label.small + label, label.small + [class*="label"], .label--small  + label, .l
   padding-right: 0.53846154rem;
 }
 
-select, .select, textarea, .textarea, input:not([type="checkbox"]):not([type="radio"]), .input, .input-postfix {
+.form select, .select, .form textarea, .textarea, .form input:not([type="checkbox"]):not([type="radio"]), .input, .input-postfix, .input-prefix {
   font-size: 1rem;
   border-radius: 3px;
   padding: 0.76923077rem 1rem;
   display: inline-block;
   height: 2.53846154rem;
   font-size: 1rem;
+  line-height: 1.3rem !important;
 }
-.vertical-rhythme select, .vertical-rhythme .select, .vertical-rhythme textarea, .vertical-rhythme .textarea, .vertical-rhythme input:not([type="checkbox"]):not([type="radio"]), .vertical-rhythme .input, .vertical-rhythme .input-postfix {
+.vertical-rhythme .form select, .vertical-rhythme .select, .vertical-rhythme .form textarea, .vertical-rhythme .textarea, .vertical-rhythme .form input:not([type="checkbox"]):not([type="radio"]), .vertical-rhythme .input, .vertical-rhythme .input-postfix, .vertical-rhythme .input-prefix {
+  line-height: 1rem;
+  padding-top: 0.73076923rem;
+  padding-bottom: 0.73076923rem;
+  margin-bottom: 1.92307692rem;
+  margin-top: 0;
+  border-bottom-width: 0.07692308rem;
+  border-top-width: 0.07692308rem;
+  font-size: 1rem;
+  height: 2.46153846rem;
+}
+
+label > *:first-child {
+  position: relative;
+  top: 1rem;
+}
+
+.form select, .select, .input-postfix, .input-prefix, .btn {
+  font-size: 1rem;
+  line-height: 1rem !important;
+}
+.vertical-rhythme .form select, .vertical-rhythme .select, .vertical-rhythme .input-postfix, .vertical-rhythme .input-prefix, .vertical-rhythme .btn {
   line-height: 1rem;
   padding-top: 0.73076923rem;
   padding-bottom: 0.73076923rem;
@@ -3476,6 +3558,9 @@ label:not(.s-radiobox), .label :not(.s-radiobox) {
   padding-top: 0.17501rem;
   padding-bottom: 0rem;
 }
+label:not(.s-radiobox):first-child:last-child, .label :not(.s-radiobox):first-child:last-child {
+  width: 100%;
+}
 label + label, label + [class*="label"], .label  + label, .label  + [class*="label"] {
   margin-left: 0.76923077rem;
 }
@@ -3484,15 +3569,37 @@ label + label, label + [class*="label"], .label  + label, .label  + [class*="l
   padding-right: 0.76923077rem;
 }
 
-select.medium, .select--medium, textarea.medium, .textarea--medium, input:not([type="checkbox"]):not([type="radio"]).medium, .input--medium, .input-postfix--medium {
+.form select.medium, .select--medium, .form textarea.medium, .textarea--medium, .form input:not([type="checkbox"]):not([type="radio"]).medium, .input--medium, .input-postfix--medium, .input-prefix--medium {
   font-size: 1.30769231rem;
   border-radius: 4px;
   padding: 1.07692308rem 1.30769231rem;
   display: inline-block;
   height: 3.46153846rem;
   font-size: 1.30769231rem;
+  line-height: 1.39230769rem !important;
 }
-.vertical-rhythme select.medium, .vertical-rhythme .select--medium, .vertical-rhythme textarea.medium, .vertical-rhythme .textarea--medium, .vertical-rhythme input:not([type="checkbox"]):not([type="radio"]).medium, .vertical-rhythme .input--medium, .vertical-rhythme .input-postfix--medium {
+.vertical-rhythme .form select.medium, .vertical-rhythme .select--medium, .vertical-rhythme .form textarea.medium, .vertical-rhythme .textarea--medium, .vertical-rhythme .form input:not([type="checkbox"]):not([type="radio"]).medium, .vertical-rhythme .input--medium, .vertical-rhythme .input-postfix--medium, .vertical-rhythme .input-prefix--medium {
+  line-height: 1rem;
+  padding-top: 1.03846154rem;
+  padding-bottom: 1.03846154rem;
+  margin-bottom: 1.92307692rem;
+  margin-top: 0;
+  border-bottom-width: 0.07692308rem;
+  border-top-width: 0.07692308rem;
+  font-size: 1.30769231rem;
+  height: 3.07692308rem;
+}
+
+label > *:first-child {
+  position: relative;
+  top: 1rem;
+}
+
+.form select.medium, .select--medium, .input-postfix--medium, .input-prefix--medium, .btn--medium {
+  font-size: 1.30769231rem;
+  line-height: 1rem !important;
+}
+.vertical-rhythme .form select.medium, .vertical-rhythme .select--medium, .vertical-rhythme .input-postfix--medium, .vertical-rhythme .input-prefix--medium, .vertical-rhythme .btn--medium {
   line-height: 1rem;
   padding-top: 1.03846154rem;
   padding-bottom: 1.03846154rem;
@@ -3520,6 +3627,9 @@ label.medium:not(.s-radiobox), .label--medium :not(.s-radiobox) {
   padding-top: 0.07501rem;
   padding-bottom: 0rem;
 }
+label.medium:not(.s-radiobox):first-child:last-child, .label--medium :not(.s-radiobox):first-child:last-child {
+  width: 100%;
+}
 label.medium + label, label.medium + [class*="label"], .label--medium  + label, .label--medium  + [class*="label"] {
   margin-left: 1.07692308rem;
 }
@@ -3528,15 +3638,37 @@ label.medium + label, label.medium + [class*="label"], .label--medium  + label,
   padding-right: 1.07692308rem;
 }
 
-select.big, .select--big, textarea.big, .textarea--big, input:not([type="checkbox"]):not([type="radio"]).big, .input--big, .input-postfix--big {
+.form select.big, .select--big, .form textarea.big, .textarea--big, .form input:not([type="checkbox"]):not([type="radio"]).big, .input--big, .input-postfix--big, .input-prefix--big {
   font-size: 1.61538462rem;
   border-radius: 5px;
   padding: 1.30769231rem 1.61538462rem;
   display: inline-block;
   height: 4.23076923rem;
   font-size: 1.61538462rem;
+  line-height: 2.48461538rem !important;
 }
-.vertical-rhythme select.big, .vertical-rhythme .select--big, .vertical-rhythme textarea.big, .vertical-rhythme .textarea--big, .vertical-rhythme input:not([type="checkbox"]):not([type="radio"]).big, .vertical-rhythme .input--big, .vertical-rhythme .input-postfix--big {
+.vertical-rhythme .form select.big, .vertical-rhythme .select--big, .vertical-rhythme .form textarea.big, .vertical-rhythme .textarea--big, .vertical-rhythme .form input:not([type="checkbox"]):not([type="radio"]).big, .vertical-rhythme .input--big, .vertical-rhythme .input-postfix--big, .vertical-rhythme .input-prefix--big {
+  line-height: 2rem;
+  padding-top: 1.26923077rem;
+  padding-bottom: 1.26923077rem;
+  margin-bottom: 1.92307692rem;
+  margin-top: 0;
+  border-bottom-width: 0.07692308rem;
+  border-top-width: 0.07692308rem;
+  font-size: 1.61538462rem;
+  height: 4.53846154rem;
+}
+
+label > *:first-child {
+  position: relative;
+  top: 2rem;
+}
+
+.form select.big, .select--big, .input-postfix--big, .input-prefix--big, .btn--big {
+  font-size: 1.61538462rem;
+  line-height: 2rem !important;
+}
+.vertical-rhythme .form select.big, .vertical-rhythme .select--big, .vertical-rhythme .input-postfix--big, .vertical-rhythme .input-prefix--big, .vertical-rhythme .btn--big {
   line-height: 2rem;
   padding-top: 1.26923077rem;
   padding-bottom: 1.26923077rem;
@@ -3558,11 +3690,14 @@ label.big:not(.s-radiobox), .label--big :not(.s-radiobox) {
 }
 .vertical-rhythme label.big:not(.s-radiobox), .vertical-rhythme .label--big :not(.s-radiobox) {
   line-height: 2rem;
-  margin-bottom: 0.52499rem;
+  margin-bottom: 1.52499rem;
   margin-top: 0;
   font-size: 1.61538462rem;
   padding-top: 0.47501rem;
   padding-bottom: 0rem;
+}
+label.big:not(.s-radiobox):first-child:last-child, .label--big :not(.s-radiobox):first-child:last-child {
+  width: 100%;
 }
 label.big + label, label.big + [class*="label"], .label--big  + label, .label--big  + [class*="label"] {
   margin-left: 1.30769231rem;
@@ -3572,15 +3707,37 @@ label.big + label, label.big + [class*="label"], .label--big  + label, .label--
   padding-right: 1.30769231rem;
 }
 
-select.bigger, .select--bigger, textarea.bigger, .textarea--bigger, input:not([type="checkbox"]):not([type="radio"]).bigger, .input--bigger, .input-postfix--bigger {
+.form select.bigger, .select--bigger, .form textarea.bigger, .textarea--bigger, .form input:not([type="checkbox"]):not([type="radio"]).bigger, .input--bigger, .input-postfix--bigger, .input-prefix--bigger {
   font-size: 1.92307692rem;
   border-radius: 6px;
   padding: 1.53846154rem 1.92307692rem;
   display: inline-block;
   height: 5rem;
   font-size: 1.92307692rem;
+  line-height: 2.57692308rem !important;
 }
-.vertical-rhythme select.bigger, .vertical-rhythme .select--bigger, .vertical-rhythme textarea.bigger, .vertical-rhythme .textarea--bigger, .vertical-rhythme input:not([type="checkbox"]):not([type="radio"]).bigger, .vertical-rhythme .input--bigger, .vertical-rhythme .input-postfix--bigger {
+.vertical-rhythme .form select.bigger, .vertical-rhythme .select--bigger, .vertical-rhythme .form textarea.bigger, .vertical-rhythme .textarea--bigger, .vertical-rhythme .form input:not([type="checkbox"]):not([type="radio"]).bigger, .vertical-rhythme .input--bigger, .vertical-rhythme .input-postfix--bigger, .vertical-rhythme .input-prefix--bigger {
+  line-height: 2rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.92307692rem;
+  margin-top: 0;
+  border-bottom-width: 0.07692308rem;
+  border-top-width: 0.07692308rem;
+  font-size: 1.92307692rem;
+  height: 5rem;
+}
+
+label > *:first-child {
+  position: relative;
+  top: 2rem;
+}
+
+.form select.bigger, .select--bigger, .input-postfix--bigger, .input-prefix--bigger, .btn--bigger {
+  font-size: 1.92307692rem;
+  line-height: 2rem !important;
+}
+.vertical-rhythme .form select.bigger, .vertical-rhythme .select--bigger, .vertical-rhythme .input-postfix--bigger, .vertical-rhythme .input-prefix--bigger, .vertical-rhythme .btn--bigger {
   line-height: 2rem;
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
@@ -3602,11 +3759,14 @@ label.bigger:not(.s-radiobox), .label--bigger :not(.s-radiobox) {
 }
 .vertical-rhythme label.bigger:not(.s-radiobox), .vertical-rhythme .label--bigger :not(.s-radiobox) {
   line-height: 2rem;
-  margin-bottom: 0.62499rem;
+  margin-bottom: 1.62499rem;
   margin-top: 0;
   font-size: 1.92307692rem;
   padding-top: 0.37501rem;
   padding-bottom: 0rem;
+}
+label.bigger:not(.s-radiobox):first-child:last-child, .label--bigger :not(.s-radiobox):first-child:last-child {
+  width: 100%;
 }
 label.bigger + label, label.bigger + [class*="label"], .label--bigger  + label, .label--bigger  + [class*="label"] {
   margin-left: 1.53846154rem;
@@ -3616,18 +3776,18 @@ label.bigger + label, label.bigger + [class*="label"], .label--bigger  + label,
   padding-right: 1.53846154rem;
 }
 
-input[type="checkbox"].smaller, .input--smaller[type="checkbox"], input[type="radio"].smaller, .input--smaller[type="radio"] {
+.form input[type="checkbox"].smaller, .input--smaller[type="checkbox"], .form input[type="radio"].smaller, .input--smaller[type="radio"] {
   height: 0.38461538rem;
   font-size: 0.46153846rem;
 }
-input[type="checkbox"].smaller + .s-radiobox, .input--smaller[type="checkbox"] + .s-radiobox, input[type="radio"].smaller + .s-radiobox, .input--smaller[type="radio"] + .s-radiobox {
+.form input[type="checkbox"].smaller + .s-radiobox, .input--smaller[type="checkbox"] + .s-radiobox, .form input[type="radio"].smaller + .s-radiobox, .input--smaller[type="radio"] + .s-radiobox {
   width: 0.46153846rem;
   height: 0.46153846rem;
 }
-input[type="checkbox"].smaller + .s-radiobox:before, .input--smaller[type="checkbox"] + .s-radiobox:before, input[type="radio"].smaller + .s-radiobox:before, .input--smaller[type="radio"] + .s-radiobox:before {
+.form input[type="checkbox"].smaller + .s-radiobox:before, .input--smaller[type="checkbox"] + .s-radiobox:before, .form input[type="radio"].smaller + .s-radiobox:before, .input--smaller[type="radio"] + .s-radiobox:before {
   border-radius: 1px;
 }
-.vertical-rhythme input[type="checkbox"].smaller, .vertical-rhythme .input--smaller[type="checkbox"], .vertical-rhythme input[type="radio"].smaller, .vertical-rhythme .input--smaller[type="radio"] {
+.vertical-rhythme .form input[type="checkbox"].smaller, .vertical-rhythme .input--smaller[type="checkbox"], .vertical-rhythme .form input[type="radio"].smaller, .vertical-rhythme .input--smaller[type="radio"] {
   line-height: 0rem;
   margin-bottom: 1.99614385rem;
   margin-top: 0;
@@ -3637,22 +3797,22 @@ input[type="checkbox"].smaller + .s-radiobox:before, .input--smaller[type="check
   padding-top: 0.69616385rem;
   padding-bottom: 0rem;
 }
-label + input[type="checkbox"].smaller + .s-radiobox, [class*="label"] + input[type="checkbox"].smaller + .s-radiobox, label + .input--smaller[type="checkbox"] + .s-radiobox, [class*="label"] + .input--smaller[type="checkbox"] + .s-radiobox, label + input[type="radio"].smaller + .s-radiobox, [class*="label"] + input[type="radio"].smaller + .s-radiobox, label + .input--smaller[type="radio"] + .s-radiobox, [class*="label"] + .input--smaller[type="radio"] + .s-radiobox {
+label + .form input[type="checkbox"].smaller + .s-radiobox, [class*="label"] + .form input[type="checkbox"].smaller + .s-radiobox, label + .input--smaller[type="checkbox"] + .s-radiobox, [class*="label"] + .input--smaller[type="checkbox"] + .s-radiobox, label + .form input[type="radio"].smaller + .s-radiobox, [class*="label"] + .form input[type="radio"].smaller + .s-radiobox, label + .input--smaller[type="radio"] + .s-radiobox, [class*="label"] + .input--smaller[type="radio"] + .s-radiobox {
   margin-left: 0.30769231rem;
 }
 
-input[type="checkbox"].small, .input--small[type="checkbox"], input[type="radio"].small, .input--small[type="radio"] {
+.form input[type="checkbox"].small, .input--small[type="checkbox"], .form input[type="radio"].small, .input--small[type="radio"] {
   height: 0.69230769rem;
   font-size: 0.92307692rem;
 }
-input[type="checkbox"].small + .s-radiobox, .input--small[type="checkbox"] + .s-radiobox, input[type="radio"].small + .s-radiobox, .input--small[type="radio"] + .s-radiobox {
+.form input[type="checkbox"].small + .s-radiobox, .input--small[type="checkbox"] + .s-radiobox, .form input[type="radio"].small + .s-radiobox, .input--small[type="radio"] + .s-radiobox {
   width: 0.92307692rem;
   height: 0.92307692rem;
 }
-input[type="checkbox"].small + .s-radiobox:before, .input--small[type="checkbox"] + .s-radiobox:before, input[type="radio"].small + .s-radiobox:before, .input--small[type="radio"] + .s-radiobox:before {
+.form input[type="checkbox"].small + .s-radiobox:before, .input--small[type="checkbox"] + .s-radiobox:before, .form input[type="radio"].small + .s-radiobox:before, .input--small[type="radio"] + .s-radiobox:before {
   border-radius: 2px;
 }
-.vertical-rhythme input[type="checkbox"].small, .vertical-rhythme .input--small[type="checkbox"], .vertical-rhythme input[type="radio"].small, .vertical-rhythme .input--small[type="radio"] {
+.vertical-rhythme .form input[type="checkbox"].small, .vertical-rhythme .input--small[type="checkbox"], .vertical-rhythme .form input[type="radio"].small, .vertical-rhythme .input--small[type="radio"] {
   line-height: 1rem;
   margin-bottom: 1.64614385rem;
   margin-top: 0;
@@ -3662,22 +3822,22 @@ input[type="checkbox"].small + .s-radiobox:before, .input--small[type="checkbox"
   padding-top: 0.04616385rem;
   padding-bottom: 0rem;
 }
-label + input[type="checkbox"].small + .s-radiobox, [class*="label"] + input[type="checkbox"].small + .s-radiobox, label + .input--small[type="checkbox"] + .s-radiobox, [class*="label"] + .input--small[type="checkbox"] + .s-radiobox, label + input[type="radio"].small + .s-radiobox, [class*="label"] + input[type="radio"].small + .s-radiobox, label + .input--small[type="radio"] + .s-radiobox, [class*="label"] + .input--small[type="radio"] + .s-radiobox {
+label + .form input[type="checkbox"].small + .s-radiobox, [class*="label"] + .form input[type="checkbox"].small + .s-radiobox, label + .input--small[type="checkbox"] + .s-radiobox, [class*="label"] + .input--small[type="checkbox"] + .s-radiobox, label + .form input[type="radio"].small + .s-radiobox, [class*="label"] + .form input[type="radio"].small + .s-radiobox, label + .input--small[type="radio"] + .s-radiobox, [class*="label"] + .input--small[type="radio"] + .s-radiobox {
   margin-left: 0.53846154rem;
 }
 
-input[type="checkbox"], .input[type="checkbox"], input[type="radio"], .input[type="radio"] {
+.form input[type="checkbox"], .input[type="checkbox"], .form input[type="radio"], .input[type="radio"] {
   height: 1rem;
   font-size: 1.23076923rem;
 }
-input[type="checkbox"] + .s-radiobox, .input[type="checkbox"] + .s-radiobox, input[type="radio"] + .s-radiobox, .input[type="radio"] + .s-radiobox {
+.form input[type="checkbox"] + .s-radiobox, .input[type="checkbox"] + .s-radiobox, .form input[type="radio"] + .s-radiobox, .input[type="radio"] + .s-radiobox {
   width: 1.23076923rem;
   height: 1.23076923rem;
 }
-input[type="checkbox"] + .s-radiobox:before, .input[type="checkbox"] + .s-radiobox:before, input[type="radio"] + .s-radiobox:before, .input[type="radio"] + .s-radiobox:before {
+.form input[type="checkbox"] + .s-radiobox:before, .input[type="checkbox"] + .s-radiobox:before, .form input[type="radio"] + .s-radiobox:before, .input[type="radio"] + .s-radiobox:before {
   border-radius: 3px;
 }
-.vertical-rhythme input[type="checkbox"], .vertical-rhythme .input[type="checkbox"], .vertical-rhythme input[type="radio"], .vertical-rhythme .input[type="radio"] {
+.vertical-rhythme .form input[type="checkbox"], .vertical-rhythme .input[type="checkbox"], .vertical-rhythme .form input[type="radio"], .vertical-rhythme .input[type="radio"] {
   line-height: 1rem;
   margin-bottom: 1.74614385rem;
   margin-top: 0;
@@ -3687,22 +3847,22 @@ input[type="checkbox"] + .s-radiobox:before, .input[type="checkbox"] + .s-radiob
   padding-top: 0.94616385rem;
   padding-bottom: 0rem;
 }
-label + input[type="checkbox"] + .s-radiobox, [class*="label"] + input[type="checkbox"] + .s-radiobox, label + .input[type="checkbox"] + .s-radiobox, [class*="label"] + .input[type="checkbox"] + .s-radiobox, label + input[type="radio"] + .s-radiobox, [class*="label"] + input[type="radio"] + .s-radiobox, label + .input[type="radio"] + .s-radiobox, [class*="label"] + .input[type="radio"] + .s-radiobox {
+label + .form input[type="checkbox"] + .s-radiobox, [class*="label"] + .form input[type="checkbox"] + .s-radiobox, label + .input[type="checkbox"] + .s-radiobox, [class*="label"] + .input[type="checkbox"] + .s-radiobox, label + .form input[type="radio"] + .s-radiobox, [class*="label"] + .form input[type="radio"] + .s-radiobox, label + .input[type="radio"] + .s-radiobox, [class*="label"] + .input[type="radio"] + .s-radiobox {
   margin-left: 0.76923077rem;
 }
 
-input[type="checkbox"].medium, .input--medium[type="checkbox"], input[type="radio"].medium, .input--medium[type="radio"] {
+.form input[type="checkbox"].medium, .input--medium[type="checkbox"], .form input[type="radio"].medium, .input--medium[type="radio"] {
   height: 1.30769231rem;
   font-size: 1.69230769rem;
 }
-input[type="checkbox"].medium + .s-radiobox, .input--medium[type="checkbox"] + .s-radiobox, input[type="radio"].medium + .s-radiobox, .input--medium[type="radio"] + .s-radiobox {
+.form input[type="checkbox"].medium + .s-radiobox, .input--medium[type="checkbox"] + .s-radiobox, .form input[type="radio"].medium + .s-radiobox, .input--medium[type="radio"] + .s-radiobox {
   width: 1.69230769rem;
   height: 1.69230769rem;
 }
-input[type="checkbox"].medium + .s-radiobox:before, .input--medium[type="checkbox"] + .s-radiobox:before, input[type="radio"].medium + .s-radiobox:before, .input--medium[type="radio"] + .s-radiobox:before {
+.form input[type="checkbox"].medium + .s-radiobox:before, .input--medium[type="checkbox"] + .s-radiobox:before, .form input[type="radio"].medium + .s-radiobox:before, .input--medium[type="radio"] + .s-radiobox:before {
   border-radius: 4px;
 }
-.vertical-rhythme input[type="checkbox"].medium, .vertical-rhythme .input--medium[type="checkbox"], .vertical-rhythme input[type="radio"].medium, .vertical-rhythme .input--medium[type="radio"] {
+.vertical-rhythme .form input[type="checkbox"].medium, .vertical-rhythme .input--medium[type="checkbox"], .vertical-rhythme .form input[type="radio"].medium, .vertical-rhythme .input--medium[type="radio"] {
   line-height: 2rem;
   margin-bottom: 1.39614385rem;
   margin-top: 0;
@@ -3712,22 +3872,22 @@ input[type="checkbox"].medium + .s-radiobox:before, .input--medium[type="checkbo
   padding-top: 0.29616385rem;
   padding-bottom: 0rem;
 }
-label + input[type="checkbox"].medium + .s-radiobox, [class*="label"] + input[type="checkbox"].medium + .s-radiobox, label + .input--medium[type="checkbox"] + .s-radiobox, [class*="label"] + .input--medium[type="checkbox"] + .s-radiobox, label + input[type="radio"].medium + .s-radiobox, [class*="label"] + input[type="radio"].medium + .s-radiobox, label + .input--medium[type="radio"] + .s-radiobox, [class*="label"] + .input--medium[type="radio"] + .s-radiobox {
+label + .form input[type="checkbox"].medium + .s-radiobox, [class*="label"] + .form input[type="checkbox"].medium + .s-radiobox, label + .input--medium[type="checkbox"] + .s-radiobox, [class*="label"] + .input--medium[type="checkbox"] + .s-radiobox, label + .form input[type="radio"].medium + .s-radiobox, [class*="label"] + .form input[type="radio"].medium + .s-radiobox, label + .input--medium[type="radio"] + .s-radiobox, [class*="label"] + .input--medium[type="radio"] + .s-radiobox {
   margin-left: 1.07692308rem;
 }
 
-input[type="checkbox"].big, .input--big[type="checkbox"], input[type="radio"].big, .input--big[type="radio"] {
+.form input[type="checkbox"].big, .input--big[type="checkbox"], .form input[type="radio"].big, .input--big[type="radio"] {
   height: 1.61538462rem;
   font-size: 2rem;
 }
-input[type="checkbox"].big + .s-radiobox, .input--big[type="checkbox"] + .s-radiobox, input[type="radio"].big + .s-radiobox, .input--big[type="radio"] + .s-radiobox {
+.form input[type="checkbox"].big + .s-radiobox, .input--big[type="checkbox"] + .s-radiobox, .form input[type="radio"].big + .s-radiobox, .input--big[type="radio"] + .s-radiobox {
   width: 2rem;
   height: 2rem;
 }
-input[type="checkbox"].big + .s-radiobox:before, .input--big[type="checkbox"] + .s-radiobox:before, input[type="radio"].big + .s-radiobox:before, .input--big[type="radio"] + .s-radiobox:before {
+.form input[type="checkbox"].big + .s-radiobox:before, .input--big[type="checkbox"] + .s-radiobox:before, .form input[type="radio"].big + .s-radiobox:before, .input--big[type="radio"] + .s-radiobox:before {
   border-radius: 5px;
 }
-.vertical-rhythme input[type="checkbox"].big, .vertical-rhythme .input--big[type="checkbox"], .vertical-rhythme input[type="radio"].big, .vertical-rhythme .input--big[type="radio"] {
+.vertical-rhythme .form input[type="checkbox"].big, .vertical-rhythme .input--big[type="checkbox"], .vertical-rhythme .form input[type="radio"].big, .vertical-rhythme .input--big[type="radio"] {
   line-height: 2rem;
   margin-bottom: 1.49614385rem;
   margin-top: 0;
@@ -3737,22 +3897,22 @@ input[type="checkbox"].big + .s-radiobox:before, .input--big[type="checkbox"] + 
   padding-top: 0.19616385rem;
   padding-bottom: 0rem;
 }
-label + input[type="checkbox"].big + .s-radiobox, [class*="label"] + input[type="checkbox"].big + .s-radiobox, label + .input--big[type="checkbox"] + .s-radiobox, [class*="label"] + .input--big[type="checkbox"] + .s-radiobox, label + input[type="radio"].big + .s-radiobox, [class*="label"] + input[type="radio"].big + .s-radiobox, label + .input--big[type="radio"] + .s-radiobox, [class*="label"] + .input--big[type="radio"] + .s-radiobox {
+label + .form input[type="checkbox"].big + .s-radiobox, [class*="label"] + .form input[type="checkbox"].big + .s-radiobox, label + .input--big[type="checkbox"] + .s-radiobox, [class*="label"] + .input--big[type="checkbox"] + .s-radiobox, label + .form input[type="radio"].big + .s-radiobox, [class*="label"] + .form input[type="radio"].big + .s-radiobox, label + .input--big[type="radio"] + .s-radiobox, [class*="label"] + .input--big[type="radio"] + .s-radiobox {
   margin-left: 1.30769231rem;
 }
 
-input[type="checkbox"].bigger, .input--bigger[type="checkbox"], input[type="radio"].bigger, .input--bigger[type="radio"] {
+.form input[type="checkbox"].bigger, .input--bigger[type="checkbox"], .form input[type="radio"].bigger, .input--bigger[type="radio"] {
   height: 1.92307692rem;
   font-size: 2.46153846rem;
 }
-input[type="checkbox"].bigger + .s-radiobox, .input--bigger[type="checkbox"] + .s-radiobox, input[type="radio"].bigger + .s-radiobox, .input--bigger[type="radio"] + .s-radiobox {
+.form input[type="checkbox"].bigger + .s-radiobox, .input--bigger[type="checkbox"] + .s-radiobox, .form input[type="radio"].bigger + .s-radiobox, .input--bigger[type="radio"] + .s-radiobox {
   width: 2.46153846rem;
   height: 2.46153846rem;
 }
-input[type="checkbox"].bigger + .s-radiobox:before, .input--bigger[type="checkbox"] + .s-radiobox:before, input[type="radio"].bigger + .s-radiobox:before, .input--bigger[type="radio"] + .s-radiobox:before {
+.form input[type="checkbox"].bigger + .s-radiobox:before, .input--bigger[type="checkbox"] + .s-radiobox:before, .form input[type="radio"].bigger + .s-radiobox:before, .input--bigger[type="radio"] + .s-radiobox:before {
   border-radius: 6px;
 }
-.vertical-rhythme input[type="checkbox"].bigger, .vertical-rhythme .input--bigger[type="checkbox"], .vertical-rhythme input[type="radio"].bigger, .vertical-rhythme .input--bigger[type="radio"] {
+.vertical-rhythme .form input[type="checkbox"].bigger, .vertical-rhythme .input--bigger[type="checkbox"], .vertical-rhythme .form input[type="radio"].bigger, .vertical-rhythme .input--bigger[type="radio"] {
   line-height: 2rem;
   margin-bottom: 1.64614385rem;
   margin-top: 0;
@@ -3762,224 +3922,217 @@ input[type="checkbox"].bigger + .s-radiobox:before, .input--bigger[type="checkbo
   padding-top: 0.04616385rem;
   padding-bottom: 0rem;
 }
-label + input[type="checkbox"].bigger + .s-radiobox, [class*="label"] + input[type="checkbox"].bigger + .s-radiobox, label + .input--bigger[type="checkbox"] + .s-radiobox, [class*="label"] + .input--bigger[type="checkbox"] + .s-radiobox, label + input[type="radio"].bigger + .s-radiobox, [class*="label"] + input[type="radio"].bigger + .s-radiobox, label + .input--bigger[type="radio"] + .s-radiobox, [class*="label"] + .input--bigger[type="radio"] + .s-radiobox {
+label + .form input[type="checkbox"].bigger + .s-radiobox, [class*="label"] + .form input[type="checkbox"].bigger + .s-radiobox, label + .input--bigger[type="checkbox"] + .s-radiobox, [class*="label"] + .input--bigger[type="checkbox"] + .s-radiobox, label + .form input[type="radio"].bigger + .s-radiobox, [class*="label"] + .form input[type="radio"].bigger + .s-radiobox, label + .input--bigger[type="radio"] + .s-radiobox, [class*="label"] + .input--bigger[type="radio"] + .s-radiobox {
   margin-left: 1.53846154rem;
 }
 
-input[type="checkbox"] + .s-radiobox:before, .input[type="checkbox"] + .s-radiobox:before, input[type="radio"] + .s-radiobox:before, .input[type="radio"] + .s-radiobox:before {
+.form input[type="checkbox"] + .s-radiobox:before, .input[type="checkbox"] + .s-radiobox:before, .form input[type="radio"] + .s-radiobox:before, .input[type="radio"] + .s-radiobox:before {
   border-color: rgba(129, 149, 161, 0.3);
 }
-input[type="checkbox"] + .s-radiobox:after, .input[type="checkbox"] + .s-radiobox:after, input[type="radio"] + .s-radiobox:after, .input[type="radio"] + .s-radiobox:after {
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><style>path{fill%3A%235cb85c;}</style><path d="M432 48L192 288 80 176 0 256l192 192 320-320"/></svg>');
-  background-size: 100% 100%;
+.form input[type="checkbox"].checkmark--default + .s-radiobox :after, .input[type="checkbox"].checkmark--default + .s-radiobox :after, .form input[type="radio"].checkmark--default + .s-radiobox :after, .input[type="radio"].checkmark--default + .s-radiobox :after {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><style>path{fill%3A%238195a1;}</style><path d="M432 48L192 288 80 176 0 256l192 192 320-320"/></svg>') !important;
 }
-input[type="checkbox"]:hover + .s-radiobox:before, .input[type="checkbox"]:hover + .s-radiobox:before, input[type="radio"]:hover + .s-radiobox:before, .input[type="radio"]:hover + .s-radiobox:before {
+.form input[type="checkbox"]:hover + .s-radiobox:before, .input[type="checkbox"]:hover + .s-radiobox:before, .form input[type="radio"]:hover + .s-radiobox:before, .input[type="radio"]:hover + .s-radiobox:before {
   border-color: rgba(129, 149, 161, 0.6);
 }
-input[type="checkbox"]:checked + .s-radiobox:before, .input[type="checkbox"]:checked + .s-radiobox:before, input[type="radio"]:checked + .s-radiobox:before, .input[type="radio"]:checked + .s-radiobox:before {
+.form input[type="checkbox"]:checked + .s-radiobox:before, .input[type="checkbox"]:checked + .s-radiobox:before, .form input[type="radio"]:checked + .s-radiobox:before, .input[type="radio"]:checked + .s-radiobox:before {
   border-color: #8195a1;
 }
 
-input[type="checkbox"].primary + .s-radiobox:before, .input--primary[type="checkbox"] + .s-radiobox:before, input[type="radio"].primary + .s-radiobox:before, .input--primary[type="radio"] + .s-radiobox:before {
+.form input[type="checkbox"].primary + .s-radiobox:before, .input--primary[type="checkbox"] + .s-radiobox:before, .form input[type="radio"].primary + .s-radiobox:before, .input--primary[type="radio"] + .s-radiobox:before {
   border-color: rgba(242, 188, 43, 0.3);
 }
-input[type="checkbox"].primary + .s-radiobox:after, .input--primary[type="checkbox"] + .s-radiobox:after, input[type="radio"].primary + .s-radiobox:after, .input--primary[type="radio"] + .s-radiobox:after {
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><style>path{fill%3A%235cb85c;}</style><path d="M432 48L192 288 80 176 0 256l192 192 320-320"/></svg>');
-  background-size: 100% 100%;
+.form input[type="checkbox"].primary.checkmark--primary + .s-radiobox :after, .input--primary[type="checkbox"].checkmark--primary + .s-radiobox :after, .form input[type="radio"].primary.checkmark--primary + .s-radiobox :after, .input--primary[type="radio"].checkmark--primary + .s-radiobox :after {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><style>path{fill%3A%23f2bc2b;}</style><path d="M432 48L192 288 80 176 0 256l192 192 320-320"/></svg>') !important;
 }
-input[type="checkbox"].primary:hover + .s-radiobox:before, .input--primary[type="checkbox"]:hover + .s-radiobox:before, input[type="radio"].primary:hover + .s-radiobox:before, .input--primary[type="radio"]:hover + .s-radiobox:before {
+.form input[type="checkbox"].primary:hover + .s-radiobox:before, .input--primary[type="checkbox"]:hover + .s-radiobox:before, .form input[type="radio"].primary:hover + .s-radiobox:before, .input--primary[type="radio"]:hover + .s-radiobox:before {
   border-color: rgba(242, 188, 43, 0.6);
 }
-input[type="checkbox"].primary:checked + .s-radiobox:before, .input--primary[type="checkbox"]:checked + .s-radiobox:before, input[type="radio"].primary:checked + .s-radiobox:before, .input--primary[type="radio"]:checked + .s-radiobox:before {
+.form input[type="checkbox"].primary:checked + .s-radiobox:before, .input--primary[type="checkbox"]:checked + .s-radiobox:before, .form input[type="radio"].primary:checked + .s-radiobox:before, .input--primary[type="radio"]:checked + .s-radiobox:before {
   border-color: #f2bc2b;
 }
 
-input[type="checkbox"].secondary + .s-radiobox:before, .input--secondary[type="checkbox"] + .s-radiobox:before, input[type="radio"].secondary + .s-radiobox:before, .input--secondary[type="radio"] + .s-radiobox:before {
+.form input[type="checkbox"].secondary + .s-radiobox:before, .input--secondary[type="checkbox"] + .s-radiobox:before, .form input[type="radio"].secondary + .s-radiobox:before, .input--secondary[type="radio"] + .s-radiobox:before {
   border-color: rgba(119, 119, 119, 0.3);
 }
-input[type="checkbox"].secondary + .s-radiobox:after, .input--secondary[type="checkbox"] + .s-radiobox:after, input[type="radio"].secondary + .s-radiobox:after, .input--secondary[type="radio"] + .s-radiobox:after {
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><style>path{fill%3A%235cb85c;}</style><path d="M432 48L192 288 80 176 0 256l192 192 320-320"/></svg>');
-  background-size: 100% 100%;
+.form input[type="checkbox"].secondary.checkmark--secondary + .s-radiobox :after, .input--secondary[type="checkbox"].checkmark--secondary + .s-radiobox :after, .form input[type="radio"].secondary.checkmark--secondary + .s-radiobox :after, .input--secondary[type="radio"].checkmark--secondary + .s-radiobox :after {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><style>path{fill%3A%23777;}</style><path d="M432 48L192 288 80 176 0 256l192 192 320-320"/></svg>') !important;
 }
-input[type="checkbox"].secondary:hover + .s-radiobox:before, .input--secondary[type="checkbox"]:hover + .s-radiobox:before, input[type="radio"].secondary:hover + .s-radiobox:before, .input--secondary[type="radio"]:hover + .s-radiobox:before {
+.form input[type="checkbox"].secondary:hover + .s-radiobox:before, .input--secondary[type="checkbox"]:hover + .s-radiobox:before, .form input[type="radio"].secondary:hover + .s-radiobox:before, .input--secondary[type="radio"]:hover + .s-radiobox:before {
   border-color: rgba(119, 119, 119, 0.6);
 }
-input[type="checkbox"].secondary:checked + .s-radiobox:before, .input--secondary[type="checkbox"]:checked + .s-radiobox:before, input[type="radio"].secondary:checked + .s-radiobox:before, .input--secondary[type="radio"]:checked + .s-radiobox:before {
+.form input[type="checkbox"].secondary:checked + .s-radiobox:before, .input--secondary[type="checkbox"]:checked + .s-radiobox:before, .form input[type="radio"].secondary:checked + .s-radiobox:before, .input--secondary[type="radio"]:checked + .s-radiobox:before {
   border-color: #777;
 }
 
-input[type="checkbox"].success + .s-radiobox:before, .input--success[type="checkbox"] + .s-radiobox:before, input[type="radio"].success + .s-radiobox:before, .input--success[type="radio"] + .s-radiobox:before {
+.form input[type="checkbox"].success + .s-radiobox:before, .input--success[type="checkbox"] + .s-radiobox:before, .form input[type="radio"].success + .s-radiobox:before, .input--success[type="radio"] + .s-radiobox:before {
   border-color: rgba(92, 184, 92, 0.3);
 }
-input[type="checkbox"].success + .s-radiobox:after, .input--success[type="checkbox"] + .s-radiobox:after, input[type="radio"].success + .s-radiobox:after, .input--success[type="radio"] + .s-radiobox:after {
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><style>path{fill%3A%235cb85c;}</style><path d="M432 48L192 288 80 176 0 256l192 192 320-320"/></svg>');
-  background-size: 100% 100%;
+.form input[type="checkbox"].success.checkmark--success + .s-radiobox :after, .input--success[type="checkbox"].checkmark--success + .s-radiobox :after, .form input[type="radio"].success.checkmark--success + .s-radiobox :after, .input--success[type="radio"].checkmark--success + .s-radiobox :after {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><style>path{fill%3A%235cb85c;}</style><path d="M432 48L192 288 80 176 0 256l192 192 320-320"/></svg>') !important;
 }
-input[type="checkbox"].success:hover + .s-radiobox:before, .input--success[type="checkbox"]:hover + .s-radiobox:before, input[type="radio"].success:hover + .s-radiobox:before, .input--success[type="radio"]:hover + .s-radiobox:before {
+.form input[type="checkbox"].success:hover + .s-radiobox:before, .input--success[type="checkbox"]:hover + .s-radiobox:before, .form input[type="radio"].success:hover + .s-radiobox:before, .input--success[type="radio"]:hover + .s-radiobox:before {
   border-color: rgba(92, 184, 92, 0.6);
 }
-input[type="checkbox"].success:checked + .s-radiobox:before, .input--success[type="checkbox"]:checked + .s-radiobox:before, input[type="radio"].success:checked + .s-radiobox:before, .input--success[type="radio"]:checked + .s-radiobox:before {
+.form input[type="checkbox"].success:checked + .s-radiobox:before, .input--success[type="checkbox"]:checked + .s-radiobox:before, .form input[type="radio"].success:checked + .s-radiobox:before, .input--success[type="radio"]:checked + .s-radiobox:before {
   border-color: #5cb85c;
 }
 
-input[type="checkbox"].warning + .s-radiobox:before, .input--warning[type="checkbox"] + .s-radiobox:before, input[type="radio"].warning + .s-radiobox:before, .input--warning[type="radio"] + .s-radiobox:before {
+.form input[type="checkbox"].warning + .s-radiobox:before, .input--warning[type="checkbox"] + .s-radiobox:before, .form input[type="radio"].warning + .s-radiobox:before, .input--warning[type="radio"] + .s-radiobox:before {
   border-color: rgba(240, 173, 78, 0.3);
 }
-input[type="checkbox"].warning + .s-radiobox:after, .input--warning[type="checkbox"] + .s-radiobox:after, input[type="radio"].warning + .s-radiobox:after, .input--warning[type="radio"] + .s-radiobox:after {
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><style>path{fill%3A%235cb85c;}</style><path d="M432 48L192 288 80 176 0 256l192 192 320-320"/></svg>');
-  background-size: 100% 100%;
+.form input[type="checkbox"].warning.checkmark--warning + .s-radiobox :after, .input--warning[type="checkbox"].checkmark--warning + .s-radiobox :after, .form input[type="radio"].warning.checkmark--warning + .s-radiobox :after, .input--warning[type="radio"].checkmark--warning + .s-radiobox :after {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><style>path{fill%3A%23f0ad4e;}</style><path d="M432 48L192 288 80 176 0 256l192 192 320-320"/></svg>') !important;
 }
-input[type="checkbox"].warning:hover + .s-radiobox:before, .input--warning[type="checkbox"]:hover + .s-radiobox:before, input[type="radio"].warning:hover + .s-radiobox:before, .input--warning[type="radio"]:hover + .s-radiobox:before {
+.form input[type="checkbox"].warning:hover + .s-radiobox:before, .input--warning[type="checkbox"]:hover + .s-radiobox:before, .form input[type="radio"].warning:hover + .s-radiobox:before, .input--warning[type="radio"]:hover + .s-radiobox:before {
   border-color: rgba(240, 173, 78, 0.6);
 }
-input[type="checkbox"].warning:checked + .s-radiobox:before, .input--warning[type="checkbox"]:checked + .s-radiobox:before, input[type="radio"].warning:checked + .s-radiobox:before, .input--warning[type="radio"]:checked + .s-radiobox:before {
+.form input[type="checkbox"].warning:checked + .s-radiobox:before, .input--warning[type="checkbox"]:checked + .s-radiobox:before, .form input[type="radio"].warning:checked + .s-radiobox:before, .input--warning[type="radio"]:checked + .s-radiobox:before {
   border-color: #f0ad4e;
 }
 
-input[type="checkbox"].error + .s-radiobox:before, .input--error[type="checkbox"] + .s-radiobox:before, input[type="radio"].error + .s-radiobox:before, .input--error[type="radio"] + .s-radiobox:before {
+.form input[type="checkbox"].error + .s-radiobox:before, .input--error[type="checkbox"] + .s-radiobox:before, .form input[type="radio"].error + .s-radiobox:before, .input--error[type="radio"] + .s-radiobox:before {
   border-color: rgba(217, 83, 79, 0.3);
 }
-input[type="checkbox"].error + .s-radiobox:after, .input--error[type="checkbox"] + .s-radiobox:after, input[type="radio"].error + .s-radiobox:after, .input--error[type="radio"] + .s-radiobox:after {
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><style>path{fill%3A%235cb85c;}</style><path d="M432 48L192 288 80 176 0 256l192 192 320-320"/></svg>');
-  background-size: 100% 100%;
+.form input[type="checkbox"].error.checkmark--error + .s-radiobox :after, .input--error[type="checkbox"].checkmark--error + .s-radiobox :after, .form input[type="radio"].error.checkmark--error + .s-radiobox :after, .input--error[type="radio"].checkmark--error + .s-radiobox :after {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><style>path{fill%3A%23d9534f;}</style><path d="M432 48L192 288 80 176 0 256l192 192 320-320"/></svg>') !important;
 }
-input[type="checkbox"].error:hover + .s-radiobox:before, .input--error[type="checkbox"]:hover + .s-radiobox:before, input[type="radio"].error:hover + .s-radiobox:before, .input--error[type="radio"]:hover + .s-radiobox:before {
+.form input[type="checkbox"].error:hover + .s-radiobox:before, .input--error[type="checkbox"]:hover + .s-radiobox:before, .form input[type="radio"].error:hover + .s-radiobox:before, .input--error[type="radio"]:hover + .s-radiobox:before {
   border-color: rgba(217, 83, 79, 0.6);
 }
-input[type="checkbox"].error:checked + .s-radiobox:before, .input--error[type="checkbox"]:checked + .s-radiobox:before, input[type="radio"].error:checked + .s-radiobox:before, .input--error[type="radio"]:checked + .s-radiobox:before {
+.form input[type="checkbox"].error:checked + .s-radiobox:before, .input--error[type="checkbox"]:checked + .s-radiobox:before, .form input[type="radio"].error:checked + .s-radiobox:before, .input--error[type="radio"]:checked + .s-radiobox:before {
   border-color: #d9534f;
 }
 
-input[type="checkbox"].info + .s-radiobox:before, .input--info[type="checkbox"] + .s-radiobox:before, input[type="radio"].info + .s-radiobox:before, .input--info[type="radio"] + .s-radiobox:before {
+.form input[type="checkbox"].info + .s-radiobox:before, .input--info[type="checkbox"] + .s-radiobox:before, .form input[type="radio"].info + .s-radiobox:before, .input--info[type="radio"] + .s-radiobox:before {
   border-color: rgba(33, 153, 232, 0.3);
 }
-input[type="checkbox"].info + .s-radiobox:after, .input--info[type="checkbox"] + .s-radiobox:after, input[type="radio"].info + .s-radiobox:after, .input--info[type="radio"] + .s-radiobox:after {
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><style>path{fill%3A%235cb85c;}</style><path d="M432 48L192 288 80 176 0 256l192 192 320-320"/></svg>');
-  background-size: 100% 100%;
+.form input[type="checkbox"].info.checkmark--info + .s-radiobox :after, .input--info[type="checkbox"].checkmark--info + .s-radiobox :after, .form input[type="radio"].info.checkmark--info + .s-radiobox :after, .input--info[type="radio"].checkmark--info + .s-radiobox :after {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><style>path{fill%3A%232199e8;}</style><path d="M432 48L192 288 80 176 0 256l192 192 320-320"/></svg>') !important;
 }
-input[type="checkbox"].info:hover + .s-radiobox:before, .input--info[type="checkbox"]:hover + .s-radiobox:before, input[type="radio"].info:hover + .s-radiobox:before, .input--info[type="radio"]:hover + .s-radiobox:before {
+.form input[type="checkbox"].info:hover + .s-radiobox:before, .input--info[type="checkbox"]:hover + .s-radiobox:before, .form input[type="radio"].info:hover + .s-radiobox:before, .input--info[type="radio"]:hover + .s-radiobox:before {
   border-color: rgba(33, 153, 232, 0.6);
 }
-input[type="checkbox"].info:checked + .s-radiobox:before, .input--info[type="checkbox"]:checked + .s-radiobox:before, input[type="radio"].info:checked + .s-radiobox:before, .input--info[type="radio"]:checked + .s-radiobox:before {
+.form input[type="checkbox"].info:checked + .s-radiobox:before, .input--info[type="checkbox"]:checked + .s-radiobox:before, .form input[type="radio"].info:checked + .s-radiobox:before, .input--info[type="radio"]:checked + .s-radiobox:before {
   border-color: #2199e8;
 }
 
-select, .select, textarea, .textarea, input:not([type="checkbox"]):not([type="radio"]), .input, .input-postfix {
+.form select, .select, .form textarea, .textarea, .form input:not([type="checkbox"]):not([type="radio"]), .input, .input-postfix, .input-prefix {
   border-color: rgba(129, 149, 161, 0.3);
 }
-select:hover, select:focus, select.active, .select:hover, .select:focus, .select.active, textarea:hover, textarea:focus, textarea.active, .textarea:hover, .textarea:focus, .textarea.active, input:not([type="checkbox"]):not([type="radio"]):hover, input:not([type="checkbox"]):not([type="radio"]):focus, input:not([type="checkbox"]):not([type="radio"]).active, .input:hover, .input:focus, .input.active, .input-postfix:hover, .input-postfix:focus, .input-postfix.active {
+.form select:hover, .form select:focus, .form select.active, .select:hover, .select:focus, .select.active, .form textarea:hover, .form textarea:focus, .form textarea.active, .textarea:hover, .textarea:focus, .textarea.active, .form input:not([type="checkbox"]):not([type="radio"]):hover, .form input:not([type="checkbox"]):not([type="radio"]):focus, .form input:not([type="checkbox"]):not([type="radio"]).active, .input:hover, .input:focus, .input.active, .input-postfix:hover, .input-postfix:focus, .input-postfix.active, .input-prefix:hover, .input-prefix:focus, .input-prefix.active {
   border-color: rgba(129, 149, 161, 0.6);
   box-shadow: rgba(129, 149, 161, 0.3) 0 0 0.76923077rem;
 }
 
-.input-postfix {
+.input-postfix, .input-prefix {
   background: rgba(129, 149, 161, 0.2);
   color: #3b474e;
 }
 
-select, .select {
+.form select, .select {
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A%238195a1"></polygon></svg>');
 }
 
-select.primary, .select--primary, textarea.primary, .textarea--primary, input:not([type="checkbox"]):not([type="radio"]).primary, .input--primary, .input-postfix--primary {
+.form select.primary, .select--primary, .form textarea.primary, .textarea--primary, .form input:not([type="checkbox"]):not([type="radio"]).primary, .input--primary, .input-postfix--primary, .input-prefix--primary {
   border-color: rgba(242, 188, 43, 0.3);
 }
-select.primary:hover, select.primary:focus, select.primary.active, .select--primary:hover, .select--primary:focus, .select--primary.active, textarea.primary:hover, textarea.primary:focus, textarea.primary.active, .textarea--primary:hover, .textarea--primary:focus, .textarea--primary.active, input:not([type="checkbox"]):not([type="radio"]).primary:hover, input:not([type="checkbox"]):not([type="radio"]).primary:focus, input:not([type="checkbox"]):not([type="radio"]).primary.active, .input--primary:hover, .input--primary:focus, .input--primary.active, .input-postfix--primary:hover, .input-postfix--primary:focus, .input-postfix--primary.active {
+.form select.primary:hover, .form select.primary:focus, .form select.primary.active, .select--primary:hover, .select--primary:focus, .select--primary.active, .form textarea.primary:hover, .form textarea.primary:focus, .form textarea.primary.active, .textarea--primary:hover, .textarea--primary:focus, .textarea--primary.active, .form input:not([type="checkbox"]):not([type="radio"]).primary:hover, .form input:not([type="checkbox"]):not([type="radio"]).primary:focus, .form input:not([type="checkbox"]):not([type="radio"]).primary.active, .input--primary:hover, .input--primary:focus, .input--primary.active, .input-postfix--primary:hover, .input-postfix--primary:focus, .input-postfix--primary.active, .input-prefix--primary:hover, .input-prefix--primary:focus, .input-prefix--primary.active {
   border-color: rgba(242, 188, 43, 0.6);
   box-shadow: rgba(242, 188, 43, 0.3) 0 0 0.76923077rem;
 }
 
-.input-postfix--primary {
+.input-postfix--primary, .input-prefix--primary {
   background: rgba(242, 188, 43, 0.2);
   color: #7c5d08;
 }
 
-select.primary, .select--primary {
+.form select.primary, .select--primary {
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A%23f2bc2b"></polygon></svg>');
 }
 
-select.secondary, .select--secondary, textarea.secondary, .textarea--secondary, input:not([type="checkbox"]):not([type="radio"]).secondary, .input--secondary, .input-postfix--secondary {
+.form select.secondary, .select--secondary, .form textarea.secondary, .textarea--secondary, .form input:not([type="checkbox"]):not([type="radio"]).secondary, .input--secondary, .input-postfix--secondary, .input-prefix--secondary {
   border-color: rgba(119, 119, 119, 0.3);
 }
-select.secondary:hover, select.secondary:focus, select.secondary.active, .select--secondary:hover, .select--secondary:focus, .select--secondary.active, textarea.secondary:hover, textarea.secondary:focus, textarea.secondary.active, .textarea--secondary:hover, .textarea--secondary:focus, .textarea--secondary.active, input:not([type="checkbox"]):not([type="radio"]).secondary:hover, input:not([type="checkbox"]):not([type="radio"]).secondary:focus, input:not([type="checkbox"]):not([type="radio"]).secondary.active, .input--secondary:hover, .input--secondary:focus, .input--secondary.active, .input-postfix--secondary:hover, .input-postfix--secondary:focus, .input-postfix--secondary.active {
+.form select.secondary:hover, .form select.secondary:focus, .form select.secondary.active, .select--secondary:hover, .select--secondary:focus, .select--secondary.active, .form textarea.secondary:hover, .form textarea.secondary:focus, .form textarea.secondary.active, .textarea--secondary:hover, .textarea--secondary:focus, .textarea--secondary.active, .form input:not([type="checkbox"]):not([type="radio"]).secondary:hover, .form input:not([type="checkbox"]):not([type="radio"]).secondary:focus, .form input:not([type="checkbox"]):not([type="radio"]).secondary.active, .input--secondary:hover, .input--secondary:focus, .input--secondary.active, .input-postfix--secondary:hover, .input-postfix--secondary:focus, .input-postfix--secondary.active, .input-prefix--secondary:hover, .input-prefix--secondary:focus, .input-prefix--secondary.active {
   border-color: rgba(119, 119, 119, 0.6);
   box-shadow: rgba(119, 119, 119, 0.3) 0 0 0.76923077rem;
 }
 
-.input-postfix--secondary {
+.input-postfix--secondary, .input-prefix--secondary {
   background: rgba(119, 119, 119, 0.2);
   color: #2b2b2b;
 }
 
-select.secondary, .select--secondary {
+.form select.secondary, .select--secondary {
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A%23777"></polygon></svg>');
 }
 
-select.success, .select--success, textarea.success, .textarea--success, input:not([type="checkbox"]):not([type="radio"]).success, .input--success, .input-postfix--success {
+.form select.success, .select--success, .form textarea.success, .textarea--success, .form input:not([type="checkbox"]):not([type="radio"]).success, .input--success, .input-postfix--success, .input-prefix--success {
   border-color: rgba(92, 184, 92, 0.3);
 }
-select.success:hover, select.success:focus, select.success.active, .select--success:hover, .select--success:focus, .select--success.active, textarea.success:hover, textarea.success:focus, textarea.success.active, .textarea--success:hover, .textarea--success:focus, .textarea--success.active, input:not([type="checkbox"]):not([type="radio"]).success:hover, input:not([type="checkbox"]):not([type="radio"]).success:focus, input:not([type="checkbox"]):not([type="radio"]).success.active, .input--success:hover, .input--success:focus, .input--success.active, .input-postfix--success:hover, .input-postfix--success:focus, .input-postfix--success.active {
+.form select.success:hover, .form select.success:focus, .form select.success.active, .select--success:hover, .select--success:focus, .select--success.active, .form textarea.success:hover, .form textarea.success:focus, .form textarea.success.active, .textarea--success:hover, .textarea--success:focus, .textarea--success.active, .form input:not([type="checkbox"]):not([type="radio"]).success:hover, .form input:not([type="checkbox"]):not([type="radio"]).success:focus, .form input:not([type="checkbox"]):not([type="radio"]).success.active, .input--success:hover, .input--success:focus, .input--success.active, .input-postfix--success:hover, .input-postfix--success:focus, .input-postfix--success.active, .input-prefix--success:hover, .input-prefix--success:focus, .input-prefix--success.active {
   border-color: rgba(92, 184, 92, 0.6);
   box-shadow: rgba(92, 184, 92, 0.3) 0 0 0.76923077rem;
 }
 
-.input-postfix--success {
+.input-postfix--success, .input-prefix--success {
   background: rgba(92, 184, 92, 0.2);
   color: #255625;
 }
 
-select.success, .select--success {
+.form select.success, .select--success {
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A%235cb85c"></polygon></svg>');
 }
 
-select.warning, .select--warning, textarea.warning, .textarea--warning, input:not([type="checkbox"]):not([type="radio"]).warning, .input--warning, .input-postfix--warning {
+.form select.warning, .select--warning, .form textarea.warning, .textarea--warning, .form input:not([type="checkbox"]):not([type="radio"]).warning, .input--warning, .input-postfix--warning, .input-prefix--warning {
   border-color: rgba(240, 173, 78, 0.3);
 }
-select.warning:hover, select.warning:focus, select.warning.active, .select--warning:hover, .select--warning:focus, .select--warning.active, textarea.warning:hover, textarea.warning:focus, textarea.warning.active, .textarea--warning:hover, .textarea--warning:focus, .textarea--warning.active, input:not([type="checkbox"]):not([type="radio"]).warning:hover, input:not([type="checkbox"]):not([type="radio"]).warning:focus, input:not([type="checkbox"]):not([type="radio"]).warning.active, .input--warning:hover, .input--warning:focus, .input--warning.active, .input-postfix--warning:hover, .input-postfix--warning:focus, .input-postfix--warning.active {
+.form select.warning:hover, .form select.warning:focus, .form select.warning.active, .select--warning:hover, .select--warning:focus, .select--warning.active, .form textarea.warning:hover, .form textarea.warning:focus, .form textarea.warning.active, .textarea--warning:hover, .textarea--warning:focus, .textarea--warning.active, .form input:not([type="checkbox"]):not([type="radio"]).warning:hover, .form input:not([type="checkbox"]):not([type="radio"]).warning:focus, .form input:not([type="checkbox"]):not([type="radio"]).warning.active, .input--warning:hover, .input--warning:focus, .input--warning.active, .input-postfix--warning:hover, .input-postfix--warning:focus, .input-postfix--warning.active, .input-prefix--warning:hover, .input-prefix--warning:focus, .input-prefix--warning.active {
   border-color: rgba(240, 173, 78, 0.6);
   box-shadow: rgba(240, 173, 78, 0.3) 0 0 0.76923077rem;
 }
 
-.input-postfix--warning {
+.input-postfix--warning, .input-prefix--warning {
   background: rgba(240, 173, 78, 0.2);
   color: #985f0d;
 }
 
-select.warning, .select--warning {
+.form select.warning, .select--warning {
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A%23f0ad4e"></polygon></svg>');
 }
 
-select.error, .select--error, textarea.error, .textarea--error, input:not([type="checkbox"]):not([type="radio"]).error, .input--error, .input-postfix--error {
+.form select.error, .select--error, .form textarea.error, .textarea--error, .form input:not([type="checkbox"]):not([type="radio"]).error, .input--error, .input-postfix--error, .input-prefix--error {
   border-color: rgba(217, 83, 79, 0.3);
 }
-select.error:hover, select.error:focus, select.error.active, .select--error:hover, .select--error:focus, .select--error.active, textarea.error:hover, textarea.error:focus, textarea.error.active, .textarea--error:hover, .textarea--error:focus, .textarea--error.active, input:not([type="checkbox"]):not([type="radio"]).error:hover, input:not([type="checkbox"]):not([type="radio"]).error:focus, input:not([type="checkbox"]):not([type="radio"]).error.active, .input--error:hover, .input--error:focus, .input--error.active, .input-postfix--error:hover, .input-postfix--error:focus, .input-postfix--error.active {
+.form select.error:hover, .form select.error:focus, .form select.error.active, .select--error:hover, .select--error:focus, .select--error.active, .form textarea.error:hover, .form textarea.error:focus, .form textarea.error.active, .textarea--error:hover, .textarea--error:focus, .textarea--error.active, .form input:not([type="checkbox"]):not([type="radio"]).error:hover, .form input:not([type="checkbox"]):not([type="radio"]).error:focus, .form input:not([type="checkbox"]):not([type="radio"]).error.active, .input--error:hover, .input--error:focus, .input--error.active, .input-postfix--error:hover, .input-postfix--error:focus, .input-postfix--error.active, .input-prefix--error:hover, .input-prefix--error:focus, .input-prefix--error.active {
   border-color: rgba(217, 83, 79, 0.6);
   box-shadow: rgba(217, 83, 79, 0.3) 0 0 0.76923077rem;
 }
 
-.input-postfix--error {
+.input-postfix--error, .input-prefix--error {
   background: rgba(217, 83, 79, 0.2);
   color: #761c19;
 }
 
-select.error, .select--error {
+.form select.error, .select--error {
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A%23d9534f"></polygon></svg>');
 }
 
-select.info, .select--info, textarea.info, .textarea--info, input:not([type="checkbox"]):not([type="radio"]).info, .input--info, .input-postfix--info {
+.form select.info, .select--info, .form textarea.info, .textarea--info, .form input:not([type="checkbox"]):not([type="radio"]).info, .input--info, .input-postfix--info, .input-prefix--info {
   border-color: rgba(33, 153, 232, 0.3);
 }
-select.info:hover, select.info:focus, select.info.active, .select--info:hover, .select--info:focus, .select--info.active, textarea.info:hover, textarea.info:focus, textarea.info.active, .textarea--info:hover, .textarea--info:focus, .textarea--info.active, input:not([type="checkbox"]):not([type="radio"]).info:hover, input:not([type="checkbox"]):not([type="radio"]).info:focus, input:not([type="checkbox"]):not([type="radio"]).info.active, .input--info:hover, .input--info:focus, .input--info.active, .input-postfix--info:hover, .input-postfix--info:focus, .input-postfix--info.active {
+.form select.info:hover, .form select.info:focus, .form select.info.active, .select--info:hover, .select--info:focus, .select--info.active, .form textarea.info:hover, .form textarea.info:focus, .form textarea.info.active, .textarea--info:hover, .textarea--info:focus, .textarea--info.active, .form input:not([type="checkbox"]):not([type="radio"]).info:hover, .form input:not([type="checkbox"]):not([type="radio"]).info:focus, .form input:not([type="checkbox"]):not([type="radio"]).info.active, .input--info:hover, .input--info:focus, .input--info.active, .input-postfix--info:hover, .input-postfix--info:focus, .input-postfix--info.active, .input-prefix--info:hover, .input-prefix--info:focus, .input-prefix--info.active {
   border-color: rgba(33, 153, 232, 0.6);
   box-shadow: rgba(33, 153, 232, 0.3) 0 0 0.76923077rem;
 }
 
-.input-postfix--info {
+.input-postfix--info, .input-prefix--info {
   background: rgba(33, 153, 232, 0.2);
   color: #0b4165;
 }
 
-select.info, .select--info {
+.form select.info, .select--info {
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A%232199e8"></polygon></svg>');
 }
 
@@ -3989,169 +4142,148 @@ select.info, .select--info {
 
 [class*="input-prefix"] {
   border-right: none;
+  text-align: right;
+}
+
+[class*="input-postfix"],
+[class*="input-prefix"] {
+  pointer-events: none;
 }
 
 fieldset.smaller, .fieldset--smaller {
-  border-radius: 1px;
-  padding: 0.30769231rem 0.38461538rem;
+  padding: 0.76923077rem 0 0 0.76923077rem;
+  padding-right: 0;
   display: inline-block;
 }
 fieldset.smaller > legend, .fieldset--smaller > legend {
-  margin-left: -0.20512821rem;
+  position: relative;
+  top: 0.19230769rem;
   font-size: 0.38461538rem;
-  padding: 0.25641026rem 0.25641026rem;
-  border-radius: 1px;
 }
 
 fieldset.small, .fieldset--small {
-  border-radius: 2px;
-  padding: 0.53846154rem 0.69230769rem;
+  padding: 1.38461538rem 0 0 1.38461538rem;
+  padding-right: 0;
   display: inline-block;
 }
 fieldset.small > legend, .fieldset--small > legend {
-  margin-left: -0.35897436rem;
+  position: relative;
+  top: 0.34615385rem;
   font-size: 0.69230769rem;
-  padding: 0.46153846rem 0.46153846rem;
-  border-radius: 2px;
 }
 
 fieldset, .fieldset {
-  border-radius: 3px;
-  padding: 0.76923077rem 1rem;
+  padding: 2rem 0 0 2rem;
+  padding-right: 0;
   display: inline-block;
 }
 fieldset > legend, .fieldset > legend {
-  margin-left: -0.51282051rem;
+  position: relative;
+  top: 0.5rem;
   font-size: 1rem;
-  padding: 0.66666667rem 0.66666667rem;
-  border-radius: 3px;
 }
 
 fieldset.medium, .fieldset--medium {
-  border-radius: 4px;
-  padding: 1.07692308rem 1.30769231rem;
+  padding: 2.61538462rem 0 0 2.61538462rem;
+  padding-right: 0;
   display: inline-block;
 }
 fieldset.medium > legend, .fieldset--medium > legend {
-  margin-left: -0.71794872rem;
+  position: relative;
+  top: 0.65384615rem;
   font-size: 1.30769231rem;
-  padding: 0.87179487rem 0.87179487rem;
-  border-radius: 4px;
 }
 
 fieldset.big, .fieldset--big {
-  border-radius: 5px;
-  padding: 1.30769231rem 1.61538462rem;
+  padding: 3.23076923rem 0 0 3.23076923rem;
+  padding-right: 0;
   display: inline-block;
 }
 fieldset.big > legend, .fieldset--big > legend {
-  margin-left: -0.87179487rem;
+  position: relative;
+  top: 0.80769231rem;
   font-size: 1.61538462rem;
-  padding: 1.07692308rem 1.07692308rem;
-  border-radius: 5px;
 }
 
 fieldset.bigger, .fieldset--bigger {
-  border-radius: 6px;
-  padding: 1.53846154rem 1.92307692rem;
+  padding: 3.76923077rem 0 0 3.76923077rem;
+  padding-right: 0;
   display: inline-block;
 }
 fieldset.bigger > legend, .fieldset--bigger > legend {
-  margin-left: -1.02564103rem;
+  position: relative;
+  top: 0.96153846rem;
   font-size: 1.92307692rem;
-  padding: 1.28205128rem 1.28205128rem;
-  border-radius: 6px;
 }
 
 fieldset, .fieldset {
-  border-color: rgba(129, 149, 161, 0.3);
-  background: rgba(129, 149, 161, 0.05);
+  border-color: rgba(129, 149, 161, 0.1);
 }
 fieldset:hover, fieldset.active, .fieldset:hover, .fieldset.active {
-  border-color: rgba(129, 149, 161, 0.6);
+  border-color: rgba(129, 149, 161, 0.3);
 }
 fieldset > legend, .fieldset > legend {
   color: #8195a1;
-  border: 0.07692308rem solid rgba(129, 149, 161, 0.3);
-  background: white;
 }
 
 fieldset.primary, .fieldset--primary {
-  border-color: rgba(242, 188, 43, 0.3);
-  background: rgba(242, 188, 43, 0.05);
+  border-color: rgba(242, 188, 43, 0.1);
 }
 fieldset.primary:hover, fieldset.primary.active, .fieldset--primary:hover, .fieldset--primary.active {
-  border-color: rgba(242, 188, 43, 0.6);
+  border-color: rgba(242, 188, 43, 0.3);
 }
 fieldset.primary > legend, .fieldset--primary > legend {
   color: #f2bc2b;
-  border: 0.07692308rem solid rgba(242, 188, 43, 0.3);
-  background: white;
 }
 
 fieldset.secondary, .fieldset--secondary {
-  border-color: rgba(119, 119, 119, 0.3);
-  background: rgba(119, 119, 119, 0.05);
+  border-color: rgba(119, 119, 119, 0.1);
 }
 fieldset.secondary:hover, fieldset.secondary.active, .fieldset--secondary:hover, .fieldset--secondary.active {
-  border-color: rgba(119, 119, 119, 0.6);
+  border-color: rgba(119, 119, 119, 0.3);
 }
 fieldset.secondary > legend, .fieldset--secondary > legend {
   color: #777;
-  border: 0.07692308rem solid rgba(119, 119, 119, 0.3);
-  background: white;
 }
 
 fieldset.success, .fieldset--success {
-  border-color: rgba(92, 184, 92, 0.3);
-  background: rgba(92, 184, 92, 0.05);
+  border-color: rgba(92, 184, 92, 0.1);
 }
 fieldset.success:hover, fieldset.success.active, .fieldset--success:hover, .fieldset--success.active {
-  border-color: rgba(92, 184, 92, 0.6);
+  border-color: rgba(92, 184, 92, 0.3);
 }
 fieldset.success > legend, .fieldset--success > legend {
   color: #5cb85c;
-  border: 0.07692308rem solid rgba(92, 184, 92, 0.3);
-  background: white;
 }
 
 fieldset.warning, .fieldset--warning {
-  border-color: rgba(240, 173, 78, 0.3);
-  background: rgba(240, 173, 78, 0.05);
+  border-color: rgba(240, 173, 78, 0.1);
 }
 fieldset.warning:hover, fieldset.warning.active, .fieldset--warning:hover, .fieldset--warning.active {
-  border-color: rgba(240, 173, 78, 0.6);
+  border-color: rgba(240, 173, 78, 0.3);
 }
 fieldset.warning > legend, .fieldset--warning > legend {
   color: #f0ad4e;
-  border: 0.07692308rem solid rgba(240, 173, 78, 0.3);
-  background: white;
 }
 
 fieldset.error, .fieldset--error {
-  border-color: rgba(217, 83, 79, 0.3);
-  background: rgba(217, 83, 79, 0.05);
+  border-color: rgba(217, 83, 79, 0.1);
 }
 fieldset.error:hover, fieldset.error.active, .fieldset--error:hover, .fieldset--error.active {
-  border-color: rgba(217, 83, 79, 0.6);
+  border-color: rgba(217, 83, 79, 0.3);
 }
 fieldset.error > legend, .fieldset--error > legend {
   color: #d9534f;
-  border: 0.07692308rem solid rgba(217, 83, 79, 0.3);
-  background: white;
 }
 
 fieldset.info, .fieldset--info {
-  border-color: rgba(33, 153, 232, 0.3);
-  background: rgba(33, 153, 232, 0.05);
+  border-color: rgba(33, 153, 232, 0.1);
 }
 fieldset.info:hover, fieldset.info.active, .fieldset--info:hover, .fieldset--info.active {
-  border-color: rgba(33, 153, 232, 0.6);
+  border-color: rgba(33, 153, 232, 0.3);
 }
 fieldset.info > legend, .fieldset--info > legend {
   color: #2199e8;
-  border: 0.07692308rem solid rgba(33, 153, 232, 0.3);
-  background: white;
 }
 
 .btn {
