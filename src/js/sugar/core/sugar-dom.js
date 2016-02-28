@@ -193,6 +193,20 @@ let sugarDom = {
 	},
 
 	/**
+	 * Get closest 
+	 */
+	closest : (elm, selector) => {
+		elm = elm.parentNode;
+		while(elm && elm != document) {
+			if (sugarDom.matches(elm, selector)) {
+				return elm;
+			}
+			elm = elm.parentNode;
+		}
+		return false;
+	},
+
+	/**
 	 * Classes helpers
 	 */
 	hasClass : (elm, cls) => {

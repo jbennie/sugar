@@ -564,10 +564,13 @@ figure {
 @include s-typeset-tables(-sizes smaller small medium big bigger);
 
 // form
-@include s-form(
+@include s-formset(
 	-sizes smaller small default medium big bigger
 );
-@include s-form-fieldset(
+@include s-formset-radiobox(
+	-sizes smaller small default medium big bigger
+);
+@include s-formset-fieldset(
 	-sizes smaller small default medium big bigger
 );
 

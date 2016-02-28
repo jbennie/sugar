@@ -45,6 +45,9 @@ $_s-button-inited : false;
 	.btn {
 		@extend %s-button-bare;
 	}
+	button {
+		line-height: 1 !important;
+	}
 
 	// generate each sizes
 	@each $size in $sizes {
@@ -66,7 +69,8 @@ $_s-button-inited : false;
 				margin-bottom : 1,
 				margin-top : 0,
 				border-bottom-width: s-rem(1px),
-				border-top-width : s-rem(1px)
+				border-top-width : s-rem(1px),
+				calculate-height : true
 			));
 		}
 	}

@@ -458,6 +458,20 @@ return /******/ (function(modules) { // webpackBootstrap
 		},
 
 		/**
+	  * Get closest 
+	  */
+		closest: function closest(elm, selector) {
+			elm = elm.parentNode;
+			while (elm && elm != document) {
+				if (sugarDom.matches(elm, selector)) {
+					return elm;
+				}
+				elm = elm.parentNode;
+			}
+			return false;
+		},
+
+		/**
 	  * Classes helpers
 	  */
 		hasClass: function hasClass(elm, cls) {

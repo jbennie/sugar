@@ -872,6 +872,20 @@ return /******/ (function(modules) { // webpackBootstrap
 		},
 
 		/**
+	  * Get closest 
+	  */
+		closest: function closest(elm, selector) {
+			elm = elm.parentNode;
+			while (elm && elm != document) {
+				if (sugarDom.matches(elm, selector)) {
+					return elm;
+				}
+				elm = elm.parentNode;
+			}
+			return false;
+		},
+
+		/**
 	  * Classes helpers
 	  */
 		hasClass: function hasClass(elm, cls) {
@@ -3500,8 +3514,10 @@ return /******/ (function(modules) { // webpackBootstrap
 		return SugarRadioboxElement;
 	}(_sugarElement2.default);
 
-	_sugarDom2.default.onInserted('input[type="checkbox"],input[type="radio"]', function (elm) {
+	_sugarDom2.default.onInserted('[data-s-radiobox][type="checkbox"],[data-s-radiobox][type="radio"]', function (elm) {
+		// if (sDom.hasClass(elm,'input') || sDom.closest(elm, '.form')) {
 		new SugarRadioboxElement(elm);
+		// }
 	});
 	// sDom.domReady(() => {
 	// 	[].forEach.call(document.body.querySelectorAll('input[type="checkbox"],input[type="radio"]'), (elm) => {

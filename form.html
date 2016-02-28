@@ -341,7 +341,7 @@
 
 	<div class="container">
 
-		<div class="row form">
+		<div class="row formset">
 
 			<div class="gr-12">
 				
@@ -366,9 +366,36 @@
 						</div>
 						<div class="gr-4">
 							<label class="block">Postfix
-								<div class="row row-align-top">
+								<div class="form-group row row-align-top">
 									<div class="gr-grow no-gutter-right">
-										<input class="input primary" type="text" placeholder="gr-9" />
+										<input class="primary" type="text" placeholder="gr-9" />
+									</div>
+									<div class="gr-adapt no-gutter-left">
+										<div class="input-postfix input-postfix--primary">.com</div>
+									</div>
+								</div>
+							</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="gr-4">
+							<label>Text
+								<input type="text" placeholder="gr-4" class="error" />
+								<div class="form-error">
+									This is an error on the field...
+								</div>
+							</label>
+						</div>
+						<div class="gr-4">
+							<label>Password
+								<input type="password" placeholder="gr-4" class="success" />
+							</label>
+						</div>
+						<div class="gr-4">
+							<label>Postfix
+								<div class="form-group row row-align-top">
+									<div class="gr-grow no-gutter-right">
+										<input class="primary" type="text" placeholder="gr-9" />
 									</div>
 									<div class="gr-adapt no-gutter-left">
 										<div class="input-postfix input-postfix--primary">.com</div>
@@ -379,53 +406,63 @@
 					</div>
 					<div class="row">
 						<div class="gr-12">
-							<label class="block">Select Box</label>
-							<select>
-								<option value="husker">Husker</option>
-								<option value="starbuck">Starbuck</option>
-								<option value="hotdog">Hot Dog</option>
-								<option value="apollo">Apollo</option>
-							</select>
-							<label class="block">Select Box</label>
-							<select class="medium">
-								<option value="husker">Husker</option>
-								<option value="starbuck">Starbuck</option>
-								<option value="hotdog">Hot Dog</option>
-								<option value="apollo">Apollo</option>
-							</select>
-							<label class="block">Select Box</label>
-							<select class="big">
-								<option value="husker">Husker</option>
-								<option value="starbuck">Starbuck</option>
-								<option value="hotdog">Hot Dog</option>
-								<option value="apollo">Apollo</option>
-							</select>
-							<label class="block">Select Box</label>
-							<select class="bigger">
-								<option value="husker">Husker</option>
-								<option value="starbuck">Starbuck</option>
-								<option value="hotdog">Hot Dog</option>
-								<option value="apollo">Apollo</option>
-							</select>
+							<label>Select Box
+								<select>
+									<option value="husker">Husker</option>
+									<option value="starbuck">Starbuck</option>
+									<option value="hotdog">Hot Dog</option>
+									<option value="apollo">Apollo</option>
+								</select>
+							</label>
+						</div>
+						<div class="gr-12">
+							<label>Select Box
+								<select class="medium">
+									<option value="husker">Husker</option>
+									<option value="starbuck">Starbuck</option>
+									<option value="hotdog">Hot Dog</option>
+									<option value="apollo">Apollo</option>
+								</select>
+							</label>
+						</div>
+						<div class="gr-12">
+							<label>Select Box
+								<select class="big">
+									<option value="husker">Husker</option>
+									<option value="starbuck">Starbuck</option>
+									<option value="hotdog">Hot Dog</option>
+									<option value="apollo">Apollo</option>
+								</select>
+							</label>
+						</div>
+						<div class="gr-12">
+							<label>Select Box
+								<select class="bigger">
+									<option value="husker">Husker</option>
+									<option value="starbuck">Starbuck</option>
+									<option value="hotdog">Hot Dog</option>
+									<option value="apollo">Apollo</option>
+								</select>
+							</label>
 						</div>
 					</div>
 					<div class="row">
 						<div class="gr-6">
 							<label class="default"><strong>Choose Your Favorite</strong></label>
 							<label class="default">
-								<input type="radio" name="rad1" value="Red" class="default"> Red
+								<input type="radio" data-s-radiobox name="rad1" value="Red" class="default"> Red
 							</label>
 							<label class="default">
-								<input type="radio" name="rad1" value="Blue" class="default"> Blue
+								<input type="radio" data-s-radiobox name="rad1" value="Blue" class="default"> Blue
 							</label>
 						</div>
 						<div class="gr-6">
 							<label class="default"><strong>Check these out</strong></label>
 							<label class="default">
-								<input type="checkbox" class="default"> Checkbox 1
+								<input type="checkbox" data-s-radiobox class="default"> Checkbox 1
 							</label>
 							<label class="default">
-								<input type="checkbox" class="default"> Checkbox 2
+								<input type="checkbox" data-s-radiobox class="default"> Checkbox 2
 							</label>
 						</div>
 					</div>
@@ -434,19 +471,19 @@
 						<div class="gr-6">
 							<label class="medium"><strong>Choose Your Favorite</strong></label>
 							<label class="medium">
-								<input type="radio" name="rad1" value="Red" class="medium"> Red
+								<input type="radio" data-s-radiobox name="rad1" value="Red" class="medium"> Red
 							</label>
 							<label class="medium">
-								<input type="radio" name="rad1" value="Blue" class="medium"> Blue
+								<input type="radio" data-s-radiobox name="rad1" value="Blue" class="medium"> Blue
 							</label>
 						</div>
 						<div class="gr-6">
 							<label class="medium"><strong>Check these out</strong></label>
 							<label class="medium">
-								<input type="checkbox" class="medium"> Checkbox 1
+								<input type="checkbox" data-s-radiobox class="medium"> Checkbox 1
 							</label>
 							<label class="medium">
-								<input type="checkbox" class="medium"> Checkbox 2
+								<input type="checkbox" data-s-radiobox class="medium"> Checkbox 2
 							</label>
 						</div>
 					</div>
@@ -455,19 +492,19 @@
 						<div class="gr-6">
 							<label class="big"><strong>Choose Your Favorite</strong></label>
 							<label class="big">
-								<input type="radio" name="rad1" value="Red" class="big"> Red
+								<input type="radio" data-s-radiobox name="rad1" value="Red" class="big checkmark--inside" checked> Red
 							</label>
 							<label class="big">
-								<input type="radio" name="rad1" value="Blue" class="big"> Blue
+								<input type="radio" data-s-radiobox name="rad1" value="Blue" class="big checkmark--inside checkmark--error"> Blue
 							</label>
 						</div>
 						<div class="gr-6">
 							<label class="big"><strong>Check these out</strong></label>
 							<label class="big">
-								<input type="checkbox" class="big"> Checkbox 1
+								<input type="checkbox" data-s-radiobox class="big"> Checkbox 1
 							</label>
 							<label class="big">
-								<input type="checkbox" class="big"> Checkbox 2
+								<input type="checkbox" data-s-radiobox class="big"> Checkbox 2
 							</label>
 						</div>
 					</div>
@@ -476,19 +513,19 @@
 						<div class="gr-6">
 							<label class="bigger"><strong>Choose Your Favorite</strong></label>
 							<label class="bigger">
-								<input type="radio" name="rad1" value="Red" class="bigger"> Red
+								<input type="radio" data-s-radiobox name="rad1" value="Red" class="bigger"> Red
 							</label>
 							<label class="bigger">
-								<input type="radio" name="rad1" value="Blue" class="bigger"> Blue
+								<input type="radio" data-s-radiobox name="rad1" value="Blue" class="bigger"> Blue
 							</label>
 						</div>
 						<div class="gr-6">
 							<label class="bigger"><strong>Check these out</strong></label>
 							<label class="bigger">
-								<input type="checkbox" class="bigger"> Checkbox 1
+								<input type="checkbox" data-s-radiobox checked class="bigger checkmark--inside"> Checkbox 1
 							</label>
 							<label class="bigger">
-								<input type="checkbox" class="bigger"> Checkbox 2
+								<input type="checkbox" data-s-radiobox class="bigger checkmark--inside checkmark--warning"> Checkbox 2
 							</label>
 						</div>
 					</div>
@@ -503,24 +540,24 @@
 					<div class="row">
 						<div class="gr-12">
 							<fieldset class="big">
-								<legend>Check these out</legend>
+								<legend class="big">Check these out</legend>
 
 								<div class="row">
 									<div class="gr-12">
 										<label class="big">
-											<input type="checkbox" class="big"> Checkbox 1
+											<input type="checkbox" data-s-radiobox checked class="big"> Checkbox 1
 										</label>
 										<label class="big">
-											<input type="checkbox" class="big primary"> Checkbox 2
+											<input type="checkbox" data-s-radiobox class="big primary"> Checkbox 2
 										</label>
 										<label class="big">
-											<input type="checkbox" class="big secondary"> Checkbox 2
+											<input type="checkbox" data-s-radiobox class="big secondary"> Checkbox 2
 										</label>
 										<label class="big">
-											<input type="checkbox" class="big warning"> Checkbox 2
+											<input type="checkbox" data-s-radiobox class="big warning"> Checkbox 2
 										</label>
 										<label class="big">
-											<input type="checkbox" class="big error"> Checkbox 2
+											<input type="checkbox" data-s-radiobox class="big error"> Checkbox 2
 										</label>
 									</div>
 								</div>
@@ -541,7 +578,7 @@
 												<div class="input-prefix input-prefix--primary">$</div>
 											</div>
 											<div class="gr-grow no-gutter-left no-gutter-right">
-												<input class="input input--primary" type="text" placeholder="gr-9" />
+												<input class="primary" type="text" placeholder="gr-9" />
 											</div>
 											<div class="gr-adapt no-gutter-left">
 												<div class="input-postfix input-postfix--primary">.00</div>
@@ -553,7 +590,7 @@
 								<div class="row">
 									<div class="gr-4">
 										<label>Text
-											<div class="row row-align-top">
+											<div class="form-group row row-align-top">
 												<div class="gr-8">
 													
 													<input type="text" placeholder="gr-4" class="medium" />
@@ -570,7 +607,81 @@
 									</div>
 									<div class="gr-4">
 										<label>Postfix</label>
-										<input class="input input--primary medium" type="text" placeholder="gr-9" />
+										<input class="primary medium" type="text" placeholder="gr-9" />
+									</div>
+								</div>
+
+							</fieldset>
+
+							<fieldset class="big">
+								<legend class="big">Check these out</legend>
+
+								<div class="row">
+									<div class="gr-12">
+										<label class="big">
+											<input type="checkbox" data-s-radiobox checked class="big"> Checkbox 1
+										</label>
+										<label class="big">
+											<input type="checkbox" data-s-radiobox class="big primary"> Checkbox 2
+										</label>
+										<label class="big">
+											<input type="checkbox" data-s-radiobox class="big secondary"> Checkbox 2
+										</label>
+										<label class="big">
+											<input type="checkbox" data-s-radiobox class="big warning"> Checkbox 2
+										</label>
+										<label class="big">
+											<input type="checkbox" data-s-radiobox class="big error"> Checkbox 2
+										</label>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="gr-4">
+										<label>Text</label>
+										<input type="text" placeholder="gr-4" />
+									</div>
+									<div class="gr-4">
+										<label>Password</label>
+										<input type="password" placeholder="gr-4" />
+									</div>
+									<div class="gr-4">
+										<label>Postfix</label>
+										<div class="row row-align-top">
+											<div class="gr-adapt no-gutter-right">
+												<div class="input-prefix input-prefix--primary">$</div>
+											</div>
+											<div class="gr-grow no-gutter-left no-gutter-right">
+												<input class="primary" type="text" placeholder="gr-9" />
+											</div>
+											<div class="gr-adapt no-gutter-left">
+												<div class="input-postfix input-postfix--primary">.00</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="gr-4">
+										<label>Text
+											<div class="form-group row row-align-top">
+												<div class="gr-8">
+													
+													<input type="text" placeholder="gr-4" class="medium" />
+												</div>
+												<div class="gr-4">
+													<button class="btn btn--medium">Send</button>
+												</div>
+											</div>
+										</label>
+									</div>
+									<div class="gr-4">
+										<label>Password</label>
+										<input type="password" placeholder="gr-4" class="medium" />
+									</div>
+									<div class="gr-4">
+										<label>Postfix</label>
+										<input class="primary medium" type="text" placeholder="gr-9" />
 									</div>
 								</div>
 
