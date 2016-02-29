@@ -748,10 +748,14 @@ $_s-font-aliases : (
 		);
 
 		@if $calculate-height {
-			$ret : map-set($ret, height, $padding-top + $padding-bottom + $line-height);
-			$ret : map-set($ret, line-height, $padding-top + $padding-bottom + $line-height);
+			$height : $padding-top + $padding-bottom + $line-height;
+			$ret : map-set($ret, height, $height);
+			$ret : map-set($ret, line-height, $height);
+			$dec : $height % 1;
+			$rest : 1 - $dec;
 			$padding-top : 0;
 			$padding-bottom : 0;
+			$margin-bottom : $margin-bottom - $dec;
 		}
 
 		$ret : map-set($ret, padding-top, $padding-top);
