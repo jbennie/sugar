@@ -29,6 +29,23 @@
 
 
 //
+// Component definition
+//
+$_sugar-current-component : null;
+@mixin s-component-context(
+	$name
+) {
+	// check if the component exist
+	@if not sugar('settings.#{$name}') {
+		@error("You cannot wrap the component #{$name} cause it does not exist in settings...");
+	}
+	$_sugar-current-component : $name !global;
+	@content;
+	$_sugar-current-component : null !global;
+}
+
+
+//
 // Component setup
 //
 @mixin s-component-setup(
@@ -40,6 +57,16 @@
 		@error("A components need to be setting up with a unique key map...");
 	}
 	$name : nth($keys,1);
+
+	// loop on each settings to extend them with aliases onces
+	// @each $prop, $value in map-get($settings, $name) {
+	// 	@if type-of($value) == string and str-slice($value,1,1) == '@' {
+	// 		$new-settings : map-get($settings, $name);
+	// 		$new-settings : map-set($new-settings, $prop, sugar('settings.#{str-slice($value,2)}'));
+	// 		$settings : map-set($settings, $name, $new-settings);
+	// 	}
+	// }
+
 	@if map-get($_sugar-settings, $name) {
 		$new-settings : map-extend($settings, map-get($_sugar-settings, $name));
 		$_sugar-settings : map-set($_sugar-settings, $name, $new-settings) !global;

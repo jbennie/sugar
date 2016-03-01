@@ -43,144 +43,156 @@ $_s-font-aliases : (
 );
 
 @mixin s-vertical-rhythme(
-	$rhythme
+	$rhythme : null
 ) {
-	$rhythme : s-parse-properties($rhythme, (
-		font-size : number,
-		font-family : map-keys(sugar('settings.fonts')),
-		line-height : number,
-		margin-top : true,
-		margin-bottom : true,
-		padding-top : number,
-		padding-bottom : number,
-		margin : true,
-		padding : true,
-		border-bottom : true,
-		border-top : true,
-		border-bottom-width : number,
-		border-top-width : number,
-		border : true,
-		s-font : true,
-		scope-class : boolean,
-		calculate-height : boolean
-	), (
-		font-size: fs,
-		font-family: ff,
-		line-height: lh,
-		margin-top: mt,
-		margin-bottom: mb,
-		padding-top : pt,
-		padding-bottom : pb,
-		margin : m,
-		padding : p,
-		border-bottom : bb,
-		border-top : bt,
-		border-bottom-width : bbw,
-		border-top-width : btw,
-		border : b,
-		s-font : sf
-	));
 
-	$rhythme : s-handle-nested(vertical-rhythme, $rhythme);
+	@if sugar('settings.vertical-rhythme.enabled') {
+		@if $rhythme {
 
-	// get values
-	$font-size : map-get($rhythme, font-size);
-	$font-family : map-get($rhythme, font-family);
-	$line-height : map-get($rhythme, line-height);
-	$s-font : map-get($rhythme, s-font);
-	$margin-bottom : map-get($rhythme, margin-bottom);
-	$margin-top : map-get($rhythme, margin-top);
-	$padding-bottom : map-get($rhythme, padding-bottom);
-	$padding-top : map-get($rhythme, padding-top);
-	$border-bottom-width : map-get($rhythme, border-bottom-width);
-	$border-top-width : map-get($rhythme, border-top-width);
-	$border-top : map-get($rhythme, border-top);
-	$border-bottom : map-get($rhythme, border-bottom);
-	$margin : map-get($rhythme, margin);
-	$padding : map-get($rhythme, padding);
-	$border : map-get($rhythme, border);
-	$scope-class : map-get-or($rhythme, scope-class, true);
-	$calculate-height : map-get-or($rhythme, calculate-height, false);
+			$rhythme : s-parse-properties($rhythme, (
+				font-size : number,
+				font-family : map-keys(sugar('settings.fonts')),
+				line-height : number,
+				margin-top : true,
+				margin-bottom : true,
+				padding-top : number,
+				padding-bottom : number,
+				margin : true,
+				padding : true,
+				border-bottom : true,
+				border-top : true,
+				border-bottom-width : number,
+				border-top-width : number,
+				border : true,
+				s-font : true,
+				scope-class : boolean,
+				calculate-height : boolean
+			), (
+				font-size: fs,
+				font-family: ff,
+				line-height: lh,
+				margin-top: mt,
+				margin-bottom: mb,
+				padding-top : pt,
+				padding-bottom : pb,
+				margin : m,
+				padding : p,
+				border-bottom : bb,
+				border-top : bt,
+				border-bottom-width : bbw,
+				border-top-width : btw,
+				border : b,
+				s-font : sf
+			));
 
-	// get values from s-font if passed	
-	@if $s-font {
-		$font : s-font($s-font);
-		$font-family : map-get-or($font, font-family, $font-family);
-		$font-size : map-get-or($font, font-size, $font-size);
-		$line-height : map-get-or($font, line-height, $line-height);
-	}
+			$rhythme : s-handle-nested(vertical-rhythme, $rhythme);
 
-	// protect
-	@if not $font-size {
-		@error('s-vertical-rhythme need a font-size');
-	}
+			// get values
+			$font-size : map-get($rhythme, font-size);
+			$font-family : map-get($rhythme, font-family);
+			$line-height : map-get($rhythme, line-height);
+			$s-font : map-get($rhythme, s-font);
+			$margin-bottom : map-get($rhythme, margin-bottom);
+			$margin-top : map-get($rhythme, margin-top);
+			$padding-bottom : map-get($rhythme, padding-bottom);
+			$padding-top : map-get($rhythme, padding-top);
+			$border-bottom-width : map-get($rhythme, border-bottom-width);
+			$border-top-width : map-get($rhythme, border-top-width);
+			$border-top : map-get($rhythme, border-top);
+			$border-bottom : map-get($rhythme, border-bottom);
+			$margin : map-get($rhythme, margin);
+			$padding : map-get($rhythme, padding);
+			$border : map-get($rhythme, border);
+			$scope-class : map-get-or($rhythme, scope-class, true);
+			$calculate-height : map-get-or($rhythme, calculate-height, false);
 
-	// get the font object
-	$fonts : sugar('settings.fonts');
-	$f : sugar('settings.fonts.default');
-	@if type-of($f) == string {
-		$f : map-get($fonts, $f);
-	}
-	$cap-height : map-get-or($f, cap-height, 0);
-	
-	// if a font family is passed
-	@if $font-family {
-		@if map-get($fonts, $font-family) {
-			$f : map-get($fonts, $font-family);
+			// get values from s-font if passed	
+			@if $s-font {
+				$font : s-font($s-font);
+				$font-family : map-get-or($font, font-family, $font-family);
+				$font-size : map-get-or($font, font-size, $font-size);
+				$line-height : map-get-or($font, line-height, $line-height);
+			}
+
+			// protect
+			@if not $font-size {
+				@error('s-vertical-rhythme need a font-size');
+			}
+
+			// get the font object
+			$fonts : sugar('settings.fonts');
+			$f : sugar('settings.fonts.default');
 			@if type-of($f) == string {
 				$f : map-get($fonts, $f);
 			}
 			$cap-height : map-get-or($f, cap-height, 0);
-			$font-family : map-get-or($f, font-family, $font-family);
-		}			
-	}
+			
+			// if a font family is passed
+			@if $font-family {
+				@if map-get($fonts, $font-family) {
+					$f : map-get($fonts, $font-family);
+					@if type-of($f) == string {
+						$f : map-get($fonts, $f);
+					}
+					$cap-height : map-get-or($f, cap-height, 0);
+					$font-family : map-get-or($f, font-family, $font-family);
+				}			
+			}
 
-	// get the rhythme
-	$rhythme-map : map-merge($rhythme, s-vertical-rhythme(
-		-font-size $font-size
-		-line-height $line-height
-		-margin $margin
-		-margin-top $margin-top
-		-margin-bottom $margin-bottom
-		-padding $padding
-		-padding-top $padding-top
-		-padding-bottom $padding-bottom
-		-border-top-width $border-top-width
-		-border-top $border-top
-		-border-bottom-width $border-bottom-width
-		-border-bottom $border-bottom
-		-cap-height $cap-height
-		-calculate-height $calculate-height
-	));
-	// remove margin-top cause it's done by top and margin-bottom compensation
-	@if map-get($rhythme-map, top) {
-		$rhythme-map : map-remove($rhythme-map, margin-top);
-	}
+			// get the rhythme
+			$rhythme-map : map-merge($rhythme, s-vertical-rhythme(
+				-font-size $font-size
+				-line-height $line-height
+				-margin $margin
+				-margin-top $margin-top
+				-margin-bottom $margin-bottom
+				-padding $padding
+				-padding-top $padding-top
+				-padding-bottom $padding-bottom
+				-border-top-width $border-top-width
+				-border-top $border-top
+				-border-bottom-width $border-bottom-width
+				-border-bottom $border-bottom
+				-cap-height $cap-height
+				-calculate-height $calculate-height
+			));
+			// remove margin-top cause it's done by top and margin-bottom compensation
+			@if map-get($rhythme-map, top) {
+				$rhythme-map : map-remove($rhythme-map, margin-top);
+			}
 
-	// set values
-	@if $s-font {
-		@include s-font($s-font);
-	}
-	$rhythme-map : map-remove($rhythme-map, s-font);
-	$rhythme-map : map-remove($rhythme-map, cap-height);
-	$rhythme-map : map-remove($rhythme-map, scope-class);
-	$rhythme-map : map-remove($rhythme-map, calculate-height);
+			// set values
+			@if $s-font {
+				@include s-font($s-font);
+			}
+			$rhythme-map : map-remove($rhythme-map, s-font);
+			$rhythme-map : map-remove($rhythme-map, cap-height);
+			$rhythme-map : map-remove($rhythme-map, scope-class);
+			$rhythme-map : map-remove($rhythme-map, calculate-height);
 
-	$sc : sugar('settings.vertical-rhythme.scope-class');
-	@if $sc and $scope-class {
-		.#{$sc} & {
-			@each $prop, $value in $rhythme-map {
-				#{$prop} : $value;
+			$sc : sugar('settings.vertical-rhythme.scope-class');
+			@if $sc and $scope-class {
+				.#{$sc} & {
+					@each $prop, $value in $rhythme-map {
+						#{$prop} : $value;
+					}
+				}
+			} @else {
+				@each $prop, $value in $rhythme-map {
+					#{$prop} : $value;
+				}	
+			}
+
+			@include s-handle-nested(vertical-rhythme) {
+				.#{sugar('settings.vertical-rhythme.scope-class')} & {
+					@content;
+				}
+			}
+		} @else {
+			.#{sugar('settings.vertical-rhythme.scope-class')} & {
+				@content;
 			}
 		}
-	} @else {
-		@each $prop, $value in $rhythme-map {
-			#{$prop} : $value;
-		}	
-	}
-
-	@include s-handle-nested(vertical-rhythme) {
-		@content;
 	}
 }
 

@@ -128,65 +128,6 @@
 	@return $sel;
 }
 
-// @function s-selector(
-// 	$selector
-// ) {
-// 	$map : s-parse-BEM-selector($selector);
-// 	@debug($map);
-// 	$method : sugar('settings.selector.method');
-// 	$modifier_separator : sugar('settings.#{$method}.modifier-separator');
-// 	$element_separator : sugar('settings.#{$method}.element-separator');
-// 	$sel : '';
-
-// 	// if bem
-// 	@if $method == BEM {
-// 		@if map-get($map, block) {
-// 			$sel : map-get($map,block);
-// 		}
-// 		@if map-get($map,element) {
-// 			$sel : "#{$sel}#{$element_separator}#{map-get($map,element)}";
-// 		}
-// 		@if map-get($map,modifier) {
-// 			$sel : "#{$sel}#{$modifier_separator}#{map-get($map,modifier)}";
-// 		}
-// 		@if map-get($map,state) {
-// 			@if $sel != '' {
-// 				$sel : "#{$sel}#{$modifier_separator}#{map-get($map,state)}";
-// 			} @else {
-// 				$sel : "#{$modifier_separator}#{map-get($map,state)}";
-// 			}
-// 		}
-// 		// return the selector
-// 		@return ".#{$sel}";
-// 	} @else if $method == SMACCS {
-// 		$state_separator : sugar('settings.SMACCS.state-separator');
-// 		@if map-get($map, block) {
-// 			$sel : map-get($map, block);
-// 		}
-// 		@if map-get($map,element) {
-// 			$sel : "#{$sel}#{$element_separator}#{map-get($map,element)}";
-// 		}
-// 		@if map-get($map, modifier) {
-// 			$sel : "#{$sel}#{$modifier_separator}#{map-get($map,modifier)}";
-// 		}
-// 		@if map-get($map, state) {
-// 			@if $sel != '' {
-// 				$sel : "#{$sel}.#{$state_separator}#{map-get($map,state)}";
-// 			} @else {
-// 				$sel : "#{$state_separator}#{map-get($map,state)}";
-// 			}
-// 		}
-// 		@return ".#{$sel}";
-// 	}
-// }
-
-@function s-parse-SMACCS-selector(
-	$selector
-) {
-
-}
-
-
 //
 // Get a configuration
 //
@@ -209,7 +150,8 @@ $_sugar-settings-cache : ();
 		$idx : $idx + 1;
 		// protect
 		@if not s-is($value, map) {
-			@error("Something went wrong when retreiving the '#{$path}' setting...");
+			@return null;
+			// @error("Something went wrong when retreiving the '#{$path}' setting...");
 		}
 		$value : map-get($value, $part);
 		@if $idx == $length {
@@ -516,7 +458,8 @@ $_sugar-settings-cache : ();
 //
 @function s-look-and-feel(
 	$name,
-	$size : default
+	$size : default,
+	$component : $_sugar-current-component
 ) {
 	// protect 
 	@if not s-is($name, string) {
@@ -526,13 +469,30 @@ $_sugar-settings-cache : ();
 	// initial value
 	$value : null;
 
-	// get values
-	$lnf : sugar('settings.look-and-feel.#{$size}');
-	
-	// get the actual value
-	@if $lnf {
-		$value : map-get($lnf, $name);
+	// check if is a component
+	$component_path : '';
+	@if $component {
+		$component_path : '#{$component}.';
 	}
+
+	$value : sugar('settings.#{$component_path}look-and-feel.#{$size}.#{$name}');
+	@if not $value and $component {
+		$value : sugar('settings.look-and-feel.#{$size}.#{$name}');
+	}
+
+
+
+	// get values
+	// $lnf : sugar('settings.#{$component_path}look-and-feel.#{$size}');
+	// // if is a component and no look and feel
+	// @if $component and not $lnf {
+	// 	$lnf : sugar('settings.look-and-feel.#{$size}');
+	// }
+
+	// // get the actual value
+	// @if $lnf {
+	// 	$value : map-get($lnf, $name);
+	// }
 
 	// if we have a value, return it
 	@if $value {
@@ -545,15 +505,19 @@ $_sugar-settings-cache : ();
 	}
 
 	// check if we can interpolate the value
-	$default : sugar('settings.look-and-feel.default.#{$name}');
+	$default : sugar('settings.#{$component_path}look-and-feel.default.#{$name}');
+	// if we have a component and not any default, get the default from default look and feel
+	@if $component and not $default {
+		$default : sugar('settings.look-and-feel.default.#{$name}');
+	}
 	$_ratio : sugar('settings.sizes.#{$size}');
 	@if not $default or not $_ratio {
-		@error("It's not possible to interpolate your look and feel #{$name} value cause you miss either the look-and-feel.default.#{$name} setting, or the ratios.#{$size} one...");
+		@error("It's not possible to interpolate your look and feel #{$name} value cause you miss either the #{$component_path}look-and-feel.default.#{$name} setting, or the ratios.#{$size} one...");
 	}
 
 	// protect against string interpolation etc...
 	@if type-of($default) != number {
-		@error("You try to interpolate the look-and-feel.default.#{$name} : #{$default} value that is not a number...");
+		@error("You try to interpolate the #{$component_path}look-and-feel.default.#{$name} : #{$default} value that is not a number...");
 	}
 
 	// interpolate
