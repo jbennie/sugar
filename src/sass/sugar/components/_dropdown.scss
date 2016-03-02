@@ -80,13 +80,13 @@ $_s-dropdown-inited : false;
 	// init dropdown
 	@include s-dropdown-init();
 	
+	// parse properties
+	$props : s-parse-properties($props, (
+		sizes : map-keys(sugar('settings.sizes'))
+	));
+
 	// pass in component context
 	@include s-component-context('dropdown') {
-
-		// parse properties
-		$props : s-parse-properties($props, (
-			sizes : map-keys(sugar('settings.sizes'))
-		));
 
 		// get variables
 		$sizes : map-get-or($props, sizes, default);

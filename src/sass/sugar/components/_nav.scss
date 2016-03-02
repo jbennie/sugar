@@ -24,21 +24,21 @@ $_s-nav-inited : false;
 	// init dropdown
 	@include s-nav-init();
 	
+	// parse properties
+	$props : s-parse-properties($props, (
+		sizes : map-keys(sugar('settings.sizes')),
+		colors : list-color
+	));
+
+	// get variables
+	$sizes : map-get-or($props, sizes, sugar('settings.components.nav.sizes'));
+	$colors : map-get-or($props, colors, sugar('settings.components.nav.colors'));
+
 	// pass in component context
-	@include s-component-context('nav') {
-
-		// parse properties
-		$props : s-parse-properties($props, (
-			sizes : map-keys(sugar('settings.sizes')),
-			colors : list-color
-		));
-
-		// get variables
-		$sizes : map-get-or($props, sizes, sugar('settings.nav.sizes'));
-		$colors : map-get-or($props, colors, sugar('settings.nav.colors'));
+	@include s-component-context('nav') {		
 
 		$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
-		$typeset : sugar('settings.typeset.scope-class');
+		$typeset : sugar('settings.components.typeset.scope-class');
 
 		// base
 		.nav.nav--tabs {
@@ -77,7 +77,7 @@ $_s-nav-inited : false;
 						-tl s-look-and-feel(border-radius, $size)
 						-tr s-look-and-feel(border-radius, $size)
 					);
-					margin-right: s-space(smaller);
+					// margin-right: s-space(smaller);
 					padding : s-look-and-feel(padding-vertical, $size) s-look-and-feel(padding-horizontal, $size);
 					float: left;
 					margin-bottom: s-rem(-1px);

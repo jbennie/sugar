@@ -37,13 +37,15 @@ $_sugar-current-component : null;
 	$name
 ) {
 	// check if the component exist
-	@if not sugar('settings.components.#{$name}') {
+	$comp : map-get($_sugar-settings, components);
+	$comp : map-get($comp, $name);
+	@if not $comp {
 		@error("You cannot wrap the component #{$name} cause it does not exist in settings...");
 	}
-	$_sugar-previous-component : $_sugar-current-component !global;
+	// $_sugar-previous-component : $_sugar-current-component !global;
 	$_sugar-current-component : $name !global;
 	@content;
-	$_sugar-current-component : $_sugar-previous-component !global;
+	$_sugar-current-component : null !global;
 }
 
 
@@ -59,6 +61,7 @@ $_sugar-current-component : null;
 		@error("A components need to be setting up with a unique key map...");
 	}
 	$name : nth($keys,1);
+	$settings : map-get($settings, $name);
 	
 	// get component
 	$components : map-get($_sugar-settings, components);

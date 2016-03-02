@@ -31,11 +31,17 @@ $_sugar-settings : (								// store all the settings
 									)
 								),
 	look-and-feel 				: ( 				// store some settings for the look and feel
-		default 					: ( 				// the default look and feel
-			border-radius 				: 3px, 				// default border-radius
-			padding-vertical 			: 0.8rem,
-			padding-horizontal 			: 1rem,
-			font-size 					: 1rem
+		border-radius 				: (
+			default 					: 3px
+		),
+		padding-vertical 			: (
+			default 					: 0.8rem
+		),
+		padding-horizontal 			: (
+			default 					: 1rem
+		),
+		font-size 					: (
+			default 					: 1rem
 		)
 	),
 	spaces 						: (					// store all the spaces available

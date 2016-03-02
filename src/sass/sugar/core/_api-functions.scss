@@ -151,6 +151,8 @@ $_sugar-settings-cache : ();
 		$path : 'components.#{$component}.#{$path}';
 	}
 	
+	@debug($path);
+
 	// check in cache
 	$cache : map-get($_sugar-settings-cache, $path);
 	@if $cache {
@@ -164,14 +166,13 @@ $_sugar-settings-cache : ();
 	$value : $_sugar-settings;
 	@each $part in $parts {
 		$idx : $idx + 1;
-		
 		$value : map-get($value, $part);
-
 		// protect
 		@if not $value {
 			// check if a component is specified
 			@if $component {
 				// try to get the non component version of the setting
+				// @debug('not found #{$path}, trying #{$base_path}');
 				@return s-setting($base_path -component default);
 			} @else {
 				@return null;
@@ -421,81 +422,65 @@ $_sugar-settings-cache : ();
 //
 // Interpolate
 //
-@function s-size(
-	$value,
+@function s-interpolate(
+	$stack,
 	$size
 ) {
-	$sizes : sugar('settings.sizes');
-	// protect
-	@if not s-is($value, number) {
-		@error("Your value need to be a number for the s-size function...");
+	@if not $stack or type-of($stack) != string {
+		@error('The value "#{$stack}" is not a settings path');
 	}
-	@if not s-is($size, string) {
-		@error("Your ratio parameter need to be a string for the s-size function... You just passed #{$size}");
-	}
-	@if not map-get($sizes, $size) {
-		@error("Your passed size #{$size} does not existin in sizes.#{$size}...");
-	}
-
-	// process calculation
-	@return s-round-px-value($value * map-get($sizes, $size));
-}
-
-
-//
-// Ratioize
-//
-@function _s-sizeize(
-	$size,
-	$sizes : null
-) {
-	$_sizes : sugar('settings.sizes');
-	$default-size : map-get($sizes, default);
 	
+	// get the value	
+	$value : sugar('#{$stack}.#{$size}');
+
+	// if we have a value with units, return
+	@if $value and not unitless($value) {
+		@return $value;
+	}
+	
+	// get what we need to interpolate the value
+	$ratio : sugar('settings.sizes.#{$size}');
+	$default-size : sugar('#{$stack}.default');
+
+	// if the getted value is a unitless one, mean that it's the ratio to use
+	// to interpolate the default stack value
+	@if $value and unitless($value) {
+		$ratio : $value;
+	}
+
 	// protect
 	@if not $default-size {
-		@error("You need to specify a sizes.default setting...");
+		@error("You need to specify a #{$stack}.default setting...");
 	}
 	@if not unit($default-size) {
-		@error("Your sizes.default has to have a unit like rem, px, etc...");
+		@error("Your #{$stack}.default has to have a unit like rem, px, etc...");
 	}
-	@if $sizes {
-		$s : map-get($sizes, $size);
-		@if $s and s-is($s, number) and not unitless($s) {
-			@return $s;
-		}
-		@if s-is($s, number) and unitless($s) {
-			@return $default-size * $s;
-		}
-		@if not $s and type-of($size) == string {
-			// protect
-			$size : map-get($_sizes, $size);
-			@if not $size or not unitless($size) {
-				@error("You need to specify a valid ratio for sizes.#{$size} un your settings...");
-			}
-			@return $default-size * $size;
-		}
-	} @else {
-		$size : map-get($sizes, $size);
-		@if not $size or not unitless($size) {
-			@error("You need to specify a valid ratio for ratio.#{$size} un your settings...");
-		}
+	@if not $ratio {
+		@error("You need to have the sizes.#{$size} specified in order to interpolate the value to this size...");
 	}
-	@if s-is($size, number) and unitless($size) {
-		@return s-rem($size);
+
+	// if no value, interpolate the default one with the size ratio
+	@if not $value or unitless($value) {
+		@return $default-size * $ratio;
 	}
-	@return $size;
+
+	// if not number
+	@if type-of($value) != number {
+		@error('You cannot interpolate the value "#{$value}" cause it is not a number...');
+	}
+
+	// default return the value
+	@return $value;
 }
 
 
 //
-// Size
+// Space
 //
 @function s-space(
 	$size
 ) {
-	$sizes : sugar('settings.spaces');
-	@return s-round-px-value(_s-sizeize($size, $sizes));
+	@return s-round-px-value(s-interpolate('settings.spaces', $size));
 }
 
 
@@ -504,8 +489,7 @@ $_sugar-settings-cache : ();
 //
 @function s-look-and-feel(
 	$name,
-	$size : default,
-	$component : $_sugar-current-component
+	$size : default
 ) {
 	// protect 
 	@if not s-is($name, string) {
@@ -513,62 +497,18 @@ $_sugar-settings-cache : ();
 	}
 
 	// initial value
-	$value : null;
+	$value : sugar('settings.look-and-feel.#{$name}.#{$size}');
 
-	// check if is a component
-	$component_path : '';
-	@if $component {
-		$component_path : '#{$component}.';
-	}
-
-	$value : sugar('settings.#{$component_path}look-and-feel.#{$size}.#{$name}');
-	@if not $value and $component {
-		$value : sugar('settings.look-and-feel.#{$size}.#{$name}');
-	}
-
-
-
-	// get values
-	// $lnf : sugar('settings.#{$component_path}look-and-feel.#{$size}');
-	// // if is a component and no look and feel
-	// @if $component and not $lnf {
-	// 	$lnf : sugar('settings.look-and-feel.#{$size}');
-	// }
-
-	// // get the actual value
-	// @if $lnf {
-	// 	$value : map-get($lnf, $name);
-	// }
-
-	// if we have a value, return it
-	@if $value {
+	// if we have a non number value, return it
+	@if $value and type-of($value) != number {
 		@return s-replace-tokens(s-round-px-value($value));
 	}
 
-	// if we don't have any value and the size is default
-	@if $size == default {
-		@error("The look and feel value #{$name} does not exist...");
-	}
+	// if we have a number value, return the interpolated version
+	@return s-round-px-value(s-interpolate('settings.look-and-feel.#{$name}', $size));
 
-	// check if we can interpolate the value
-	$default : sugar('settings.#{$component_path}look-and-feel.default.#{$name}');
-	// if we have a component and not any default, get the default from default look and feel
-	@if $component and not $default {
-		$default : sugar('settings.look-and-feel.default.#{$name}');
-	}
-	$_ratio : sugar('settings.sizes.#{$size}');
-	@if not $default or not $_ratio {
-		@error("It's not possible to interpolate your look and feel #{$name} value cause you miss either the #{$component_path}look-and-feel.default.#{$name} setting, or the ratios.#{$size} one...");
-	}
-
-	// protect against string interpolation etc...
-	@if type-of($default) != number {
-		@error("You try to interpolate the #{$component_path}look-and-feel.default.#{$name} : #{$default} value that is not a number...");
-	}
-
-	// interpolate
-	@return s-size($default, $size);
-
+	// we don't have anything...
+	@return null;
 }
 
 //

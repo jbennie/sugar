@@ -44,7 +44,7 @@
 		$props : s-handle-nested(drawer, $props);
 
 		// mix settings with base one
-		$settings : map-merge(sugar('settings.drawer'), $props);
+		$settings : map-merge(sugar('settings.components.drawer'), $props);
 		$side : map-get($settings, side);
 		$type : map-get($settings, type);
 		$method : map-get($settings, method);

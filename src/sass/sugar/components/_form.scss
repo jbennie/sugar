@@ -5,7 +5,7 @@
 		sizes : default
 	)
 ));
-
+	
 $_s-formset-inited : false;
 @mixin s-formset-init() {
 	@if not $_s-formset-inited {
@@ -119,20 +119,20 @@ $_s-formset-inited : false;
 	// init form
 	@include s-formset-init();
 
+	// parse properties
+	$props : s-parse-properties($props, (
+		sizes : map-keys(sugar('settings.sizes')),
+		colors : list-color
+	));
+
+	// get variables
+	$sizes : map-get-or($props, sizes, sugar('settings.components.formset.sizes'));
+	$colors : map-get-or($props, colors, sugar('settings.components.formset.colors'));
+
 	// pass in the component context
-	@include s-component-context('formset') {
+	@include s-component-context('formset') {		
 
-		// parse properties
-		$props : s-parse-properties($props, (
-			sizes : map-keys(sugar('settings.sizes')),
-			colors : list-color
-		));
-
-		// get variables
-		$sizes : map-get-or($props, sizes, sugar('settings.formset.sizes'));
-		$colors : map-get-or($props, colors, sugar('settings.formset.colors'));
-
-		$form-scope-class : sugar('settings.formset.scope-class');
+		$form-scope-class : sugar('settings.scope-class');
 
 		.#{$form-scope-class} fieldset,
 		.fieldset {
@@ -225,20 +225,19 @@ $_s-formset-inited : false;
 	// init form
 	@include s-formset-init();
 	
+	// parse properties
+	$props : s-parse-properties($props, (
+		sizes : map-keys(sugar('settings.sizes')),
+		colors : list-color
+	));
+// get variables
+	$sizes : map-get-or($props, sizes, sugar('settings.components.formset.sizes'));
+	$colors : map-get-or($props, colors, sugar('settings.components.formset.colors'));
 	// pass in the component context
 	@include s-component-context('formset') {
 
-		// parse properties
-		$props : s-parse-properties($props, (
-			sizes : map-keys(sugar('settings.sizes')),
-			colors : list-color
-		));
 
-		// get variables
-		$sizes : map-get-or($props, sizes, sugar('settings.formset.sizes'));
-		$colors : map-get-or($props, colors, sugar('settings.formset.colors'));
-
-		$form-scope-class : sugar('settings.formset.scope-class');
+		$form-scope-class : sugar('settings.scope-class');
 
 		// base
 		input[data-s-radiobox] + .s-radiobox:after {
@@ -380,20 +379,20 @@ $_s-formset-inited : false;
 	// init form
 	@include s-formset-init();
 	
+	// parse properties
+	$props : s-parse-properties($props, (
+		sizes : map-keys(sugar('settings.sizes')),
+		colors : list-color
+	));
+
+	// get variables
+	$sizes : map-get-or($props, sizes, sugar('settings.components.formset.sizes'));
+	$colors : map-get-or($props, colors, sugar('settings.components.formset.colors'));
+
 	// pass in the component context
 	@include s-component-context('formset') {
 
-		// parse properties
-		$props : s-parse-properties($props, (
-			sizes : map-keys(sugar('settings.sizes')),
-			colors : list-color
-		));
-
-		// get variables
-		$sizes : map-get-or($props, sizes, sugar('settings.formset.sizes'));
-		$colors : map-get-or($props, colors, sugar('settings.formset.colors'));
-
-		$form-scope-class : sugar('settings.formset.scope-class');
+		$form-scope-class : sugar('settings.scope-class');
 
 		// base
 		.#{$form-scope-class} input:not([type="checkbox"]):not([type="radio"]),

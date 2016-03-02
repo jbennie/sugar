@@ -28,21 +28,19 @@ $_s-button-inited : false;
 	// init dropdown
 	@include s-button-init();
 	
+	// parse properties
+	$props : s-parse-properties($props, (
+		sizes : map-keys(sugar('settings.sizes')),
+		colors : list-color
+	));
+
+	$sizes : map-get-or($props, sizes, sugar('settings.components.button.sizes'));
+	$colors : map-get-or($props, colors, sugar('settings.components.button.colors'));
+	$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
+	$typeset : sugar('settings.components.typeset.scope-class');
+
 	// pass in component context
 	@include s-component-context('button') {
-	
-		// parse properties
-		$props : s-parse-properties($props, (
-			sizes : map-keys(sugar('settings.sizes')),
-			colors : list-color
-		));
-
-		// get variables
-		$sizes : map-get-or($props, sizes, sugar('settings.button.sizes'));
-		$colors : map-get-or($props, colors, sugar('settings.button.colors'));
-
-		$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
-		$typeset : sugar('settings.typeset.scope-class');
 
 		// base
 		.btn {

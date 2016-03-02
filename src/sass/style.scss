@@ -545,8 +545,8 @@ figure {
 //
 // Dropdown
 //
-@include s-dropdown(-sizes smaller default bigger);
-@include s-dropup();
+// @include s-dropdown(-sizes smaller default bigger);
+// @include s-dropup();
 
 //
 // Nav
@@ -556,30 +556,30 @@ figure {
 //
 // typeset
 //
-@include s-typeset-titles();
-@include s-typeset-paragraphs();
-@include s-typeset-decorators();
-@include s-typeset-lists();
-@include s-typeset-blocks();
-@include s-typeset-tables(-sizes smaller small medium big bigger);
+// @include s-typeset-titles();
+// @include s-typeset-paragraphs();
+// @include s-typeset-decorators();
+// @include s-typeset-lists();
+// @include s-typeset-blocks();
+// @include s-typeset-tables(-sizes smaller small medium big bigger);
 
-// form
-@include s-formset(
-	-sizes smaller small default medium big bigger
-);
-@include s-formset-radiobox(
-	-sizes smaller small default medium big bigger
-);
-@include s-formset-fieldset(
-	-sizes smaller small default medium big bigger
-);
+// // form
+// @include s-formset(
+// 	-sizes smaller small default medium big bigger
+// );
+// @include s-formset-radiobox(
+// 	-sizes smaller small default medium big bigger
+// );
+// @include s-formset-fieldset(
+// 	-sizes smaller small default medium big bigger
+// );
 
-//
-// Button
-//
-@include s-button(
-	-sizes smaller small default medium big bigger
-);
+// //
+// // Button
+// //
+// @include s-button(
+// 	-sizes smaller small default medium big bigger
+// );
 
 a {
 	@include s-font(s-color(orange) -td none);

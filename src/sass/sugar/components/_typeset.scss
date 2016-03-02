@@ -78,12 +78,12 @@
 		$color : map-get($props, color);
 		$colors : map-get($props, colors);
 
-		$typeset : sugar('settings.typeset.scope-class');
+		$typeset : sugar('settings.scope-class');
 
 		@for $i from 1 through $count {
 			// merge with default
-			$s : sugar('settings.typeset.titles.h#{$i}');
-			$s : map-extend(sugar('settings.typeset.titles.default'), $s);
+			$s : sugar('settings.titles.h#{$i}');
+			$s : map-extend(sugar('settings.titles.default'), $s);
 			
 			// vertical rhythme
 			.h#{$i},
@@ -116,6 +116,8 @@
 @mixin s-typeset-paragraphs(
 	$props : ()
 ) {
+	$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
+
 	// pass in component context
 	@include s-component-context('typeset') {
 
@@ -127,10 +129,9 @@
 		$color : map-get($props, color);
 		$colors : map-get($props, colors);
 
-		$typeset : sugar('settings.typeset.scope-class');
-		$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
+		$typeset : sugar('settings.scope-class');
 
-		$paragraphs : sugar('settings.typeset.paragraphs');
+		$paragraphs : sugar('settings.paragraphs');
 		@each $name, $s in $paragraphs {
 			$sel : 'p.#{$name}';
 			$sel-class : '.p-#{$name}';
@@ -140,7 +141,7 @@
 			}
 		
 			// extend
-			$s : map-extend(sugar('settings.typeset.paragraphs.default'), $s);
+			$s : map-extend(sugar('settings.paragraphs.default'), $s);
 
 			// vertical rhythme
 			#{$sel}:not(.no-#{$vertical-rhythme}),
@@ -173,6 +174,8 @@
 @mixin s-typeset-lists(
 	$props : ()
 ) {
+	$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
+
 	// pass in component context
 	@include s-component-context('typeset') {
 
@@ -181,11 +184,10 @@
 			colors : map-color
 		));
 
-		$typeset : sugar('settings.typeset.scope-class');
-		$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
+		$typeset : sugar('settings.scope-class');
 
 		// ul
-		$s : map-extend(sugar('settings.typeset.lists.default'), sugar('settings.typeset.lists.ul'));
+		$s : map-extend(sugar('settings.lists.default'), sugar('settings.lists.ul'));
 		.ul,
 		.#{$typeset} ul:not(.no-#{$typeset}) {
 			@include s-list();
@@ -225,7 +227,7 @@
 		}
 
 		// ol
-		$s : map-extend(sugar('settings.typeset.lists.default'), sugar('settings.typeset.lists.ol'));
+		$s : map-extend(sugar('settings.lists.default'), sugar('settings.lists.ol'));
 		.ol,
 		.#{$typeset} ol:not(.no-#{$typeset}) {
 			@include s-list();
@@ -262,7 +264,7 @@
 		}
 
 		// dl
-		$s : map-extend(sugar('settings.typeset.lists.default'), sugar('settings.typeset.lists.dl'));
+		$s : map-extend(sugar('settings.lists.default'), sugar('settings.lists.dl'));
 		.dl,
 		.#{$typeset} dl:not(.no-#{$typeset}) {
 			@include s-list();
@@ -313,11 +315,12 @@
 @mixin s-typeset-blocks(
 	$props : ()
 ) {
+	$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
+
 	// pass in component context
 	@include s-component-context('typeset') {
 
-		$typeset : sugar('settings.typeset.scope-class');
-		$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
+		$typeset : sugar('settings.scope-class');
 
 		// blockquote
 		.blockquote,
@@ -403,10 +406,12 @@
 @mixin s-typeset-decorators(
 	$props : ()
 ) {
+	$typeset : sugar('settings.scope-class');
+
 	// pass in component context
 	@include s-component-context('typeset') {
 
-		$typeset : sugar('settings.typeset.scope-class');
+		
 		$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
 
 		.small,
@@ -483,6 +488,8 @@
 @mixin s-typeset-tables(
 	$props : ()
 ) {
+	$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
+
 	// pass in component context
 	@include s-component-context('typeset') {
 
@@ -492,9 +499,8 @@
 
 		$sizes : map-get-or($props, sizes, ());
 
-		$typeset : sugar('settings.typeset.scope-class');
-		$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
-		$s : sugar('settings.typeset.tables.default');
+		$typeset : sugar('settings.scope-class');
+		$s : sugar('settings.tables.default');
 
 		.#{$typeset} .table-responsive:not(.no-#{$typeset}) {
 			min-height: 0.01%;
