@@ -86,26 +86,10 @@ $_s_nested_properties_depth : ();
 				$type : _s-get-property-type($prop, $keywords, $aliases);
 
 				// if we have found, check the type
-				@if $type and not _is-null($value) {
-
-					// check explicit values
-					@if type-of($type) == string {
-						// check the type
-						@if not s-is($value, $type) {
-							@error('The property #{$prop} need to be a #{$type} but it seems that you pass a #{type-of($value)} : #{$value}...');
-						}
-						$new-map : map-set($new-map, $prop, $value);
-					} @else if type-of($type) == list {
-						// check if the passed value exist in possible values
-						@if type-of($value) == list and index($type, length) {
-							$new-map : map-set($new-map, $prop, $value);
-						} @else if type-of($value) == number and index($type, length) {
-							$new-map : map-set($new-map, $prop, $value);
-						} @else if index($type, $value) {
-							$new-map : map-set($new-map, $prop, $value);
-						}
-					} @else {
-						// we do nothing but adding the value like this
+				@if $type {
+					
+					// check the property type with the value
+					@if _s-check-property($prop, $type, $value) {
 						$new-map : map-set($new-map, $prop, $value);
 					}
 
@@ -149,13 +133,11 @@ $_s_nested_properties_depth : ();
 					} @else if length($values) == 1 and type-of($values) == list {
 						$values : nth($values, 1);
 					}
-					@if $values {
-						$type : _s-get-property-type($current_prop, $keywords, $aliases);
-						@if s-is($values, $type) {
-							$map : map-set($map, $current_prop, $values);
-						} @else {
-							@error('The property #{$current_prop} need to be a #{$type} but it seems that you passed a #{type-of($values)} : #{$values}...');
-						}
+					$type : _s-get-property-type($current_prop, $keywords, $aliases);
+					
+					// check the property type with the value
+					@if _s-check-property($prop, $type, $values) {
+						$map : map-set($map, $current_prop, $values);
 					}
 				}
 				$first : false;
@@ -180,28 +162,12 @@ $_s_nested_properties_depth : ();
 					// check if the type is ok
 					$found : false;
 					@each $name, $type in $keywords {
+						
 						@if $found == false {
-							@if s-is($type, list) and index($type, $prop) {
-								$keywords-v : nth($type, index($type, $prop));
-								$ok : true;
-								@if s-is($prop, number) and index($type, length) {
-									$ok : true;
-								} @else if s-is($prop, number) and unit($prop) != unit($keywords-v) {
-									$ok : false;
-								}
-
-								@if $ok {
-									$map : map-set($map, $name, $prop);
-									// remove the item from keywords
-									$keywords : map-remove($keywords, $name);
-									// stop searching
-									$found : true;
-								}
-							} @else if s-is($type, string) and s-is($prop, $type) {
+							
+							@if _s-check-property($name, $type, $prop, true) {
 								$map : map-set($map, $name, $prop);
-								// remove the item from keywords
 								$keywords : map-remove($keywords, $name);
-								// stop searching
 								$found : true;
 							}
 						}
@@ -215,12 +181,11 @@ $_s_nested_properties_depth : ();
 						$values : true
 					} @else if length($values) == 1 and type-of($values) == list {
 						$values : nth($values, 1);
-					}
-					@if not _is-null($values) {
-						$type : _s-get-property-type($current_prop, $keywords, $aliases);
-						@if $type and type-of($type) == string and not s-is($values, $type) {
-							@error('The property #{$current_prop} need to be a #{$type} but it seems that you passed a #{type-of($values)} : #{$values}');
-						}
+					}	
+					$type : _s-get-property-type($current_prop, $keywords, $aliases);
+
+					// check the property type with the value
+					@if _s-check-property($current_prop, $type, $values) {
 						$map : map-set($map, $current_prop, $values);
 					}
 				}
@@ -231,12 +196,11 @@ $_s_nested_properties_depth : ();
 				$values : true
 			} @else if length($values) == 1 and type-of($values) == list {
 				$values : nth($values, 1);
-			}
-			@if not _is-null($values) {
-				$type : _s-get-property-type($current_prop, $keywords, $aliases);
-				@if $type and type-of($type) == string and not s-is($values, $type) {
-					@error('The property #{$current_prop} need to be a #{$type} but it seems that you passed a #{type-of($values)} : #{$values}');
-				}
+			}	
+			$type : _s-get-property-type($current_prop, $keywords, $aliases);
+			
+			// check the property type with the value
+			@if _s-check-property($current_prop, $type, $values) {
 				$map : map-set($map, $current_prop, $values);
 			}
 		}
@@ -245,6 +209,72 @@ $_s_nested_properties_depth : ();
 		@return $map;
 
 	}
+}
+
+@function _s-check-property(
+	$property,
+	$type,
+	$value,
+	$check-only : false
+) {
+	$required : false;
+	// check if is a map
+	@if type-of($type) == map {
+		$type : map-get($type, type);
+		$required : map-get-or($type, required, $required);
+	}
+
+	// check required
+	@if $required and not $value {
+		@error('The property #{$property} is required...');
+	}
+
+	// if not value, return false
+	@if not $value {
+		@return false;
+	}
+
+	// check explicit values
+	@if type-of($type) == string {
+		// check the type
+		@if not s-is($value, $type) {
+			@if $check-only {
+				@return false;
+			}
+			@error('The property "#{$property}" need to be a "#{$type}" but it seems that you pass a "#{type-of($value)}" : #{$value}...');
+		}
+		@return true;
+	} @else if type-of($type) == list {
+		// check if the passed value exist in possible values
+		@if type-of($value) == list and index($type, length) {
+			@return true;
+		} @else if type-of($value) == number and index($type, length) {
+			@return true;
+		} @else {
+			$idx : index($type, $value);
+			@if not $idx {
+				@return false;
+			}
+			$v : nth($type, $idx);
+			@if type-of($v) == type-of($value) {
+				@if type-of($v) == number {
+					@if unit($v) == unit($value) {
+						@return true;
+					} @else {
+						@return false;
+					}
+				} @else {
+					@return true;
+				}
+			} @else {
+				@return false;
+			}
+			@return true;
+		}
+	} @else {
+		@return true;
+	}
+	@return false;
 }
 
 @function _s-get-property-name(

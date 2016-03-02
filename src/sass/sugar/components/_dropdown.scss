@@ -80,46 +80,50 @@ $_s-dropdown-inited : false;
 	// init dropdown
 	@include s-dropdown-init();
 	
-	// parse properties
-	$props : s-parse-properties($props, (
-		sizes : map-keys(sugar('settings.sizes'))
-	));
+	// pass in component context
+	@include s-component-context('dropdown') {
 
-	// get variables
-	$sizes : map-get-or($props, sizes, default);
-	
-	// base
-	.dropdown {
-		@extend %s-dropdown-bare;
-		@extend %s-dropdown-style;
+		// parse properties
+		$props : s-parse-properties($props, (
+			sizes : map-keys(sugar('settings.sizes'))
+		));
 
-		&:hover,
-		&.active {
-			.dropdown__menu {
-				top: 100%;
+		// get variables
+		$sizes : map-get-or($props, sizes, default);
+		
+		// base
+		.dropdown {
+			@extend %s-dropdown-bare;
+			@extend %s-dropdown-style;
+
+			&:hover,
+			&.active {
+				.dropdown__menu {
+					top: 100%;
+				}
 			}
 		}
+
+		// generate each sizes
+		@each $size in $sizes {
+			// extend dropdown
+			$sel : '.dropdown';
+			@if $size != default {
+				$sel : '.dropdown.dropdown--#{$size}';
+			}
+			#{$sel} {
+				.dropdown__menu {
+					border-radius: s-look-and-feel(border-radius, $size);
+				}
+				.dropdown__label {
+					padding: s-look-and-feel(padding-vertical, $size) s-look-and-feel(padding-horizontal, $size);
+				}
+				.dropdown__item > a {
+					padding: s-look-and-feel(padding-vertical, $size) s-look-and-feel(padding-horizontal, $size);
+				}
+			}
+		}	
 	}
-
-	// generate each sizes
-	@each $size in $sizes {
-		// extend dropdown
-		$sel : '.dropdown';
-		@if $size != default {
-			$sel : '.dropdown.dropdown--#{$size}';
-		}
-		#{$sel} {
-			.dropdown__menu {
-				border-radius: s-look-and-feel(border-radius, $size);
-			}
-			.dropdown__label {
-				padding: s-look-and-feel(padding-vertical, $size) s-look-and-feel(padding-horizontal, $size);
-			}
-			.dropdown__item > a {
-				padding: s-look-and-feel(padding-vertical, $size) s-look-and-feel(padding-horizontal, $size);
-			}
-		}
-	}	
 }
 
 @mixin s-dropup(
@@ -128,45 +132,49 @@ $_s-dropdown-inited : false;
 	// init dropdown
 	@include s-dropdown-init();
 	
-	// parse properties
-	$props : s-parse-properties($props, (
-		sizes : map-keys(sugar('settings.sizes'))
-	));
+	// pass in component context
+	@include s-component-context('dropdown') {
 
-	// get variables
-	$sizes : map-get-or($props, sizes, default);
-	
-	// base
-	.dropup {
-		@extend %s-dropdown-bare;
-		@extend %s-dropdown-style;
+		// parse properties
+		$props : s-parse-properties($props, (
+			sizes : map-keys(sugar('settings.sizes'))
+		));
 
-		&:hover,
-		&.active {
-			.dropdown__menu {
-				top: auto;
-				bottom: 100%;
+		// get variables
+		$sizes : map-get-or($props, sizes, default);
+		
+		// base
+		.dropup {
+			@extend %s-dropdown-bare;
+			@extend %s-dropdown-style;
+
+			&:hover,
+			&.active {
+				.dropdown__menu {
+					top: auto;
+					bottom: 100%;
+				}
 			}
 		}
-	}
 
-	// generate each sizes
-	@each $size in $sizes {
-		// extend dropdown
-		$sel : '.dropup';
-		@if $size != default {
-			$sel : '.dropup.dropdown--#{$size}';
-		}
-		#{$sel} {
-			.dropdown__menu {
-				border-radius: s-look-and-feel(border-radius, $size);
+		// generate each sizes
+		@each $size in $sizes {
+			// extend dropdown
+			$sel : '.dropup';
+			@if $size != default {
+				$sel : '.dropup.dropdown--#{$size}';
 			}
-			.dropdown__label {
-				padding: s-look-and-feel(padding-vertical, $size) s-look-and-feel(padding-horizontal, $size);
+			#{$sel} {
+				.dropdown__menu {
+					border-radius: s-look-and-feel(border-radius, $size);
+				}
+				.dropdown__label {
+					padding: s-look-and-feel(padding-vertical, $size) s-look-and-feel(padding-horizontal, $size);
+				}
+				.dropdown__item > a {
+					padding: s-look-and-feel(padding-vertical, $size) s-look-and-feel(padding-horizontal, $size);
+				}
 			}
-			.dropdown__item > a {
-				padding: s-look-and-feel(padding-vertical, $size) s-look-and-feel(padding-horizontal, $size);
-			}
-		}
-	}		
+		}	
+	}	
 }

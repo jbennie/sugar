@@ -24,100 +24,104 @@ $_s-nav-inited : false;
 	// init dropdown
 	@include s-nav-init();
 	
-	// parse properties
-	$props : s-parse-properties($props, (
-		sizes : map-keys(sugar('settings.sizes')),
-		colors : list-color
-	));
+	// pass in component context
+	@include s-component-context('nav') {
 
-	// get variables
-	$sizes : map-get-or($props, sizes, sugar('settings.nav.sizes'));
-	$colors : map-get-or($props, colors, sugar('settings.nav.colors'));
+		// parse properties
+		$props : s-parse-properties($props, (
+			sizes : map-keys(sugar('settings.sizes')),
+			colors : list-color
+		));
 
-	$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
-	$typeset : sugar('settings.typeset.scope-class');
+		// get variables
+		$sizes : map-get-or($props, sizes, sugar('settings.nav.sizes'));
+		$colors : map-get-or($props, colors, sugar('settings.nav.colors'));
 
-	// base
-	.nav.nav--tabs {
-		@extend %s-nav-bare;
-		
-		> li,
-		> #{s-selector((
-			BEM : '.nav__item',
-			SMACCS : '.nav-item'
-		))} {
-			&#{s-selector((
-				BEM : '.disabled',
-				SMACCS : '.is-disabled'
-			))} {
-				pointer-events: none;
-				opacity: .5;
-				cursor: not-allowed;
-			}
-		}
-	}
-	
-	// generate each sizes
-	@each $size in $sizes {
-		// extend dropdown
-		#{s-selector((
-			BEM : '.nav--tabs.nav--#{$size}',
-			SMACCS : '.nav-tabs.nav-#{$size}'
-		))} {
+		$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
+		$typeset : sugar('settings.typeset.scope-class');
+
+		// base
+		.nav.nav--tabs {
+			@extend %s-nav-bare;
+			
 			> li,
 			> #{s-selector((
 				BEM : '.nav__item',
 				SMACCS : '.nav-item'
 			))} {
-				font-size : s-look-and-feel(font-size, $size);
-				@include s-corner(
-					-tl s-look-and-feel(border-radius, $size)
-					-tr s-look-and-feel(border-radius, $size)
-				);
-				margin-right: s-space(smaller);
-				padding : s-look-and-feel(padding-vertical, $size) s-look-and-feel(padding-horizontal, $size);
-				float: left;
-				margin-bottom: s-rem(-1px);
-				cursor: pointer;
-			}
-		}
-	}
-	// generate each colors
-	@each $color in $colors {
-		// extend dropdown
-	
-		#{s-selector((
-			BEM : '.nav--tabs.nav--#{$color}',
-			SMACCS : '.nav--tabs.nav-#{$color}'
-		))} {
-			border-bottom: s-rem(1px) solid s-color($color, -opacity .2);
-			@include s-clearfix;
-
-			> li,
-			> #{s-selector((
-				BEM : '.nav__item',
-				SMACCS : '.nav-item'
-			))} {
-				border: s-rem(1px) solid s-color($color, -opacity .1);
-				color : s-color($color);
-
 				&#{s-selector((
-					BEM : '.hover',
-					SMACCS : '.is-hover'
-				))},
-				&:hover {
-					background-color : s-color($color, -opacity .1);
-				}
-				&#{s-selector((
-					BEM : '.active',
-					SMACCS : '.is-active'
+					BEM : '.disabled',
+					SMACCS : '.is-disabled'
 				))} {
-					background-color : s-color($color);	
-					border-color: s-color($color);
-					@if lightness(s-color($color)) > 70 {
-						color : s-color($color, -darken 30%);
-					} @else {
-						color : white;
+					pointer-events: none;
+					opacity: .5;
+					cursor: not-allowed;
+				}
+			}
+		}
+		
+		// generate each sizes
+		@each $size in $sizes {
+			// extend dropdown
+			#{s-selector((
+				BEM : '.nav--tabs.nav--#{$size}',
+				SMACCS : '.nav-tabs.nav-#{$size}'
+			))} {
+				> li,
+				> #{s-selector((
+					BEM : '.nav__item',
+					SMACCS : '.nav-item'
+				))} {
+					font-size : s-look-and-feel(font-size, $size);
+					@include s-corner(
+						-tl s-look-and-feel(border-radius, $size)
+						-tr s-look-and-feel(border-radius, $size)
+					);
+					margin-right: s-space(smaller);
+					padding : s-look-and-feel(padding-vertical, $size) s-look-and-feel(padding-horizontal, $size);
+					float: left;
+					margin-bottom: s-rem(-1px);
+					cursor: pointer;
+				}
+			}
+		}
+		// generate each colors
+		@each $color in $colors {
+			// extend dropdown
+		
+			#{s-selector((
+				BEM : '.nav--tabs.nav--#{$color}',
+				SMACCS : '.nav--tabs.nav-#{$color}'
+			))} {
+				border-bottom: s-rem(1px) solid s-color($color, -opacity .2);
+				@include s-clearfix;
+
+				> li,
+				> #{s-selector((
+					BEM : '.nav__item',
+					SMACCS : '.nav-item'
+				))} {
+					border: s-rem(1px) solid s-color($color, -opacity .1);
+					color : s-color($color);
+
+					&#{s-selector((
+						BEM : '.hover',
+						SMACCS : '.is-hover'
+					))},
+					&:hover {
+						background-color : s-color($color, -opacity .1);
+					}
+					&#{s-selector((
+						BEM : '.active',
+						SMACCS : '.is-active'
+					))} {
+						background-color : s-color($color);	
+						border-color: s-color($color);
+						@if lightness(s-color($color)) > 70 {
+							color : s-color($color, -darken 30%);
+						} @else {
+							color : white;
+						}
 					}
 				}
 			}

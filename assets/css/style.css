@@ -497,7 +497,7 @@ body {
 
 @font-face {
   font-family: "FontAwesome";
-  src: url("../fonts/font-awesome/fontawesome-webfont.eot") format("embedded-opentype"), url("../fonts/font-awesome/fontawesome-webfont.ttf") format("truetype"), url("../fonts/font-awesome/fontawesome-webfont.woff") format("woff"), url("../fonts/font-awesome/fontawesome-webfont.woff2") format("woff2"), url("../fonts/font-awesome/fontawesome-webfont.svg") format("svg");
+  src: url("../fonts/font-awesome/fontawesome-webfont.eot") format("embedded-opentype");
   font-style: normal;
   font-weight: normal;
 }
@@ -1640,57 +1640,57 @@ pre > code {
 .slide-0 [data-slidizle-content] {
   -webkit-transform: translateX(0px) translateY(0) translateZ(0);
           transform: translateX(0px) translateY(0) translateZ(0);
-  outline-color: #ab469f;
+  outline-color: #fd1e15;
 }
 .slide-1 [data-slidizle-content] {
   -webkit-transform: translateX(-640px) translateY(0) translateZ(0);
           transform: translateX(-640px) translateY(0) translateZ(0);
-  outline-color: #a8bf2a;
+  outline-color: #5ff44c;
 }
 .slide-2 [data-slidizle-content] {
   -webkit-transform: translateX(-1280px) translateY(0) translateZ(0);
           transform: translateX(-1280px) translateY(0) translateZ(0);
-  outline-color: #90937b;
+  outline-color: #73c5da;
 }
 .slide-3 [data-slidizle-content] {
   -webkit-transform: translateX(-1920px) translateY(0) translateZ(0);
           transform: translateX(-1920px) translateY(0) translateZ(0);
-  outline-color: #db8bf3;
+  outline-color: #822fd7;
 }
 .slide-4 [data-slidizle-content] {
   -webkit-transform: translateX(-2560px) translateY(0) translateZ(0);
           transform: translateX(-2560px) translateY(0) translateZ(0);
-  outline-color: #7131d3;
+  outline-color: #bfb71b;
 }
 .slide-5 [data-slidizle-content] {
   -webkit-transform: translateX(-3200px) translateY(0) translateZ(0);
           transform: translateX(-3200px) translateY(0) translateZ(0);
-  outline-color: #6cb938;
+  outline-color: #70ae4d;
 }
 .slide-6 [data-slidizle-content] {
   -webkit-transform: translateX(-3840px) translateY(0) translateZ(0);
           transform: translateX(-3840px) translateY(0) translateZ(0);
-  outline-color: #8b86c3;
+  outline-color: #930697;
 }
 .slide-7 [data-slidizle-content] {
   -webkit-transform: translateX(-4480px) translateY(0) translateZ(0);
           transform: translateX(-4480px) translateY(0) translateZ(0);
-  outline-color: #181d3f;
+  outline-color: #99118e;
 }
 .slide-8 [data-slidizle-content] {
   -webkit-transform: translateX(-5120px) translateY(0) translateZ(0);
           transform: translateX(-5120px) translateY(0) translateZ(0);
-  outline-color: #ee1fc5;
+  outline-color: #fa32ac;
 }
 .slide-9 [data-slidizle-content] {
   -webkit-transform: translateX(-5760px) translateY(0) translateZ(0);
           transform: translateX(-5760px) translateY(0) translateZ(0);
-  outline-color: #120c62;
+  outline-color: #ba6a8b;
 }
 .slide-10 [data-slidizle-content] {
   -webkit-transform: translateX(-6400px) translateY(0) translateZ(0);
           transform: translateX(-6400px) translateY(0) translateZ(0);
-  outline-color: #7051d4;
+  outline-color: #5b1f53;
 }
 
 [data-slidizle-item] {
@@ -1956,26 +1956,6 @@ figure img {
   padding: 0.30769231rem 0.38461538rem;
 }
 
-.dropdown .dropdown__menu {
-  border-radius: 3px;
-}
-.dropdown .dropdown__label {
-  padding: 0.76923077rem 1rem;
-}
-.dropdown .dropdown__item > a {
-  padding: 0.76923077rem 1rem;
-}
-
-.dropdown.dropdown--bigger .dropdown__menu {
-  border-radius: 6px;
-}
-.dropdown.dropdown--bigger .dropdown__label {
-  padding: 1.53846154rem 1.92307692rem;
-}
-.dropdown.dropdown--bigger .dropdown__item > a {
-  padding: 1.53846154rem 1.92307692rem;
-}
-
 .dropup:hover .dropdown__menu, .dropup.active .dropdown__menu {
   top: auto;
   bottom: 100%;
@@ -2011,54 +1991,6 @@ figure img {
   border-top-right-radius: 2px;
   margin-right: 0.76923077rem;
   padding: 0.53846154rem 0.69230769rem;
-  float: left;
-  margin-bottom: -0.07692308rem;
-  cursor: pointer;
-}
-
-.nav--tabs.nav > li,
-.nav--tabs.nav > .nav__item {
-  font-size: 1rem;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-  margin-right: 0.76923077rem;
-  padding: 0.76923077rem 1rem;
-  float: left;
-  margin-bottom: -0.07692308rem;
-  cursor: pointer;
-}
-
-.nav--tabs.nav--medium > li,
-.nav--tabs.nav--medium > .nav__item {
-  font-size: 1.30769231rem;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  margin-right: 0.76923077rem;
-  padding: 1.07692308rem 1.30769231rem;
-  float: left;
-  margin-bottom: -0.07692308rem;
-  cursor: pointer;
-}
-
-.nav--tabs.nav--big > li,
-.nav--tabs.nav--big > .nav__item {
-  font-size: 1.61538462rem;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  margin-right: 0.76923077rem;
-  padding: 1.30769231rem 1.61538462rem;
-  float: left;
-  margin-bottom: -0.07692308rem;
-  cursor: pointer;
-}
-
-.nav--tabs.nav--bigger > li,
-.nav--tabs.nav--bigger > .nav__item {
-  font-size: 1.92307692rem;
-  border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
-  margin-right: 0.76923077rem;
-  padding: 1.53846154rem 1.92307692rem;
   float: left;
   margin-bottom: -0.07692308rem;
   cursor: pointer;
@@ -2217,12 +2149,6 @@ h1 {
   padding-bottom: 0rem;
 }
 
-.typeset .h1,
-.typeset h1 {
-  color: black;
-  font-family: "Open Sans";
-}
-
 .h2,
 h2 {
   font-size: 3.33019073em;
@@ -2234,12 +2160,6 @@ h2 {
   line-height: 4rem;
   padding-top: 0.91769801rem;
   padding-bottom: 0rem;
-}
-
-.typeset .h2,
-.typeset h2 {
-  color: black;
-  font-family: "Open Sans";
 }
 
 .h3,
@@ -2255,12 +2175,6 @@ h3 {
   padding-bottom: 0rem;
 }
 
-.typeset .h3,
-.typeset h3 {
-  color: black;
-  font-family: "Open Sans";
-}
-
 .h4,
 h4 {
   font-size: 2.05817105em;
@@ -2272,11 +2186,6 @@ h4 {
   line-height: 3rem;
   padding-top: 0.83110441rem;
   padding-bottom: 0rem;
-}
-
-.typeset .h4,
-.typeset h4 {
-  color: black;
 }
 
 .h5,
@@ -2292,11 +2201,6 @@ h5 {
   padding-bottom: 0rem;
 }
 
-.typeset .h5,
-.typeset h5 {
-  color: black;
-}
-
 .h6,
 h6 {
   font-size: 1.27201965em;
@@ -2308,11 +2212,6 @@ h6 {
   line-height: 2rem;
   padding-top: 0.58660361rem;
   padding-bottom: 0rem;
-}
-
-.typeset .h6,
-.typeset h6 {
-  color: black;
 }
 
 p:not(.no-vertical-rhythme),
@@ -3493,476 +3392,6 @@ select:-ms-input-placeholder, textarea:-ms-input-placeholder, input:not([type="c
   margin-left: 0.30769231rem;
 }
 
-.formset select.small, .formset textarea.small, .formset input:not([type="checkbox"]):not([type="radio"]).small, .input--small, .input-postfix--small, .input-prefix--small {
-  font-size: 0.69230769rem;
-  border-radius: 2px;
-  padding: 0.69230769rem 0.53846154rem;
-  display: inline-block;
-  height: 1.76923077rem;
-  font-size: 0.69230769rem;
-}
-.vertical-rhythme .formset select.small, .vertical-rhythme .formset textarea.small, .vertical-rhythme .formset input:not([type="checkbox"]):not([type="radio"]).small, .vertical-rhythme .input--small, .vertical-rhythme .input-postfix--small, .vertical-rhythme .input-prefix--small {
-  line-height: 2.30769231rem;
-  padding-top: 0;
-  padding-bottom: 0;
-  margin-bottom: 1.61538462rem;
-  margin-top: 0;
-  border-bottom-width: 0.07692308rem;
-  border-top-width: 0.07692308rem;
-  font-size: 0.69230769rem;
-  height: 2.30769231rem;
-}
-
-.input-reply--small {
-  padding: 0.69230769rem 0.53846154rem;
-  font-size: 0.69230769rem;
-  border-bottom-left-radius: 2px;
-  border-bottom-right-radius: 2px;
-}
-
-.formset label,
-.label {
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-}
-.vertical-rhythme .formset label select.small, .vertical-rhythme .formset label textarea.small, .vertical-rhythme .formset label input:not([type="checkbox"]):not([type="radio"]).small, .vertical-rhythme .formset label .input--small, .vertical-rhythme .formset label .input-postfix--small, .vertical-rhythme .formset label .input-prefix--small, .vertical-rhythme .formset label .form-group, .vertical-rhythme
-.label select.small, .vertical-rhythme
-.label textarea.small, .vertical-rhythme
-.label input:not([type="checkbox"]):not([type="radio"]).small, .vertical-rhythme
-.label .input--small, .vertical-rhythme
-.label .input-postfix--small, .vertical-rhythme
-.label .input-prefix--small, .vertical-rhythme
-.label .form-group {
-  margin-top: 1rem;
-  margin-bottom: 0;
-}
-.form-group .vertical-rhythme .formset label select.small, .form-group .vertical-rhythme .formset label textarea.small, .form-group .vertical-rhythme .formset label input:not([type="checkbox"]):not([type="radio"]).small, .form-group .vertical-rhythme .formset label .input--small, .form-group .vertical-rhythme .formset label .input-postfix--small, .form-group .vertical-rhythme .formset label .input-prefix--small, .form-group .vertical-rhythme .formset label .form-group, .form-group .vertical-rhythme
-.label select.small, .form-group .vertical-rhythme
-.label textarea.small, .form-group .vertical-rhythme
-.label input:not([type="checkbox"]):not([type="radio"]).small, .form-group .vertical-rhythme
-.label .input--small, .form-group .vertical-rhythme
-.label .input-postfix--small, .form-group .vertical-rhythme
-.label .input-prefix--small, .form-group .vertical-rhythme
-.label .form-group {
-  margin-top: 0;
-}
-
-.formset select.small, select.input--small, .input-postfix--small, .input-prefix--small {
-  font-size: 0.69230769rem;
-}
-.vertical-rhythme .formset select.small, .vertical-rhythme select.input--small, .vertical-rhythme .input-postfix--small, .vertical-rhythme .input-prefix--small {
-  line-height: 2.30769231rem;
-  padding-top: 0;
-  padding-bottom: 0;
-  margin-bottom: 1.61538462rem;
-  margin-top: 0;
-  border-bottom-width: 0.07692308rem;
-  border-top-width: 0.07692308rem;
-  font-size: 0.69230769rem;
-  height: 2.30769231rem;
-}
-
-.formset label.small, .label--small  {
-  font-size: 0.69230769rem;
-  display: inline-block;
-  vertical-align: middle;
-}
-.formset label.small:not(.s-radiobox), .label--small :not(.s-radiobox) {
-  font-size: 0.69230769rem;
-}
-.vertical-rhythme .formset label.small:not(.s-radiobox), .vertical-rhythme .label--small :not(.s-radiobox) {
-  line-height: 1rem;
-  margin-bottom: 1.72499rem;
-  margin-top: 0;
-  font-size: 0.69230769rem;
-  padding-top: 0.27501rem;
-  padding-bottom: 0rem;
-}
-.formset label.small:not(.s-radiobox):first-child:last-child, .label--small :not(.s-radiobox):first-child:last-child {
-  width: 100%;
-}
-.formset label.small + label, .formset label.small + [class*="label"], .label--small  + label, .label--small  + [class*="label"] {
-  margin-left: 0.53846154rem;
-}
-
-.formset select, .formset textarea, .formset input:not([type="checkbox"]):not([type="radio"]), .input, .input-postfix, .input-prefix {
-  font-size: 1rem;
-  border-radius: 3px;
-  padding: 1rem 0.76923077rem;
-  display: inline-block;
-  height: 2.53846154rem;
-  font-size: 1rem;
-}
-.vertical-rhythme .formset select, .vertical-rhythme .formset textarea, .vertical-rhythme .formset input:not([type="checkbox"]):not([type="radio"]), .vertical-rhythme .input, .vertical-rhythme .input-postfix, .vertical-rhythme .input-prefix {
-  line-height: 2.92307692rem;
-  padding-top: 0;
-  padding-bottom: 0;
-  margin-bottom: 1rem;
-  margin-top: 0;
-  border-bottom-width: 0.07692308rem;
-  border-top-width: 0.07692308rem;
-  font-size: 1rem;
-  height: 2.92307692rem;
-}
-
-.input-reply {
-  padding: 1rem 0.76923077rem;
-  font-size: 1rem;
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
-}
-
-.formset label,
-.label {
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-}
-.vertical-rhythme .formset label select, .vertical-rhythme .formset label textarea, .vertical-rhythme .formset label input:not([type="checkbox"]):not([type="radio"]), .vertical-rhythme .formset label .input, .vertical-rhythme .formset label .input-postfix, .vertical-rhythme .formset label .input-prefix, .vertical-rhythme .formset label .form-group, .vertical-rhythme
-.label select, .vertical-rhythme
-.label textarea, .vertical-rhythme
-.label input:not([type="checkbox"]):not([type="radio"]), .vertical-rhythme
-.label .input, .vertical-rhythme
-.label .input-postfix, .vertical-rhythme
-.label .input-prefix, .vertical-rhythme
-.label .form-group {
-  margin-top: 1rem;
-  margin-bottom: 0;
-}
-.form-group .vertical-rhythme .formset label select, .form-group .vertical-rhythme .formset label textarea, .form-group .vertical-rhythme .formset label input:not([type="checkbox"]):not([type="radio"]), .form-group .vertical-rhythme .formset label .input, .form-group .vertical-rhythme .formset label .input-postfix, .form-group .vertical-rhythme .formset label .input-prefix, .form-group .vertical-rhythme .formset label .form-group, .form-group .vertical-rhythme
-.label select, .form-group .vertical-rhythme
-.label textarea, .form-group .vertical-rhythme
-.label input:not([type="checkbox"]):not([type="radio"]), .form-group .vertical-rhythme
-.label .input, .form-group .vertical-rhythme
-.label .input-postfix, .form-group .vertical-rhythme
-.label .input-prefix, .form-group .vertical-rhythme
-.label .form-group {
-  margin-top: 0;
-}
-
-.formset select, select.input, .input-postfix, .input-prefix {
-  font-size: 1rem;
-}
-.vertical-rhythme .formset select, .vertical-rhythme select.input, .vertical-rhythme .input-postfix, .vertical-rhythme .input-prefix {
-  line-height: 2.92307692rem;
-  padding-top: 0;
-  padding-bottom: 0;
-  margin-bottom: 1rem;
-  margin-top: 0;
-  border-bottom-width: 0.07692308rem;
-  border-top-width: 0.07692308rem;
-  font-size: 1rem;
-  height: 2.92307692rem;
-}
-
-.formset label, .label  {
-  font-size: 1rem;
-  display: inline-block;
-  vertical-align: middle;
-}
-.formset label:not(.s-radiobox), .label :not(.s-radiobox) {
-  font-size: 1rem;
-}
-.vertical-rhythme .formset label:not(.s-radiobox), .vertical-rhythme .label :not(.s-radiobox) {
-  line-height: 1rem;
-  margin-bottom: 1.82499rem;
-  margin-top: 0;
-  font-size: 1rem;
-  padding-top: 0.17501rem;
-  padding-bottom: 0rem;
-}
-.formset label:not(.s-radiobox):first-child:last-child, .label :not(.s-radiobox):first-child:last-child {
-  width: 100%;
-}
-.formset label + label, .formset label + [class*="label"], .label  + label, .label  + [class*="label"] {
-  margin-left: 0.76923077rem;
-}
-
-.formset select.medium, .formset textarea.medium, .formset input:not([type="checkbox"]):not([type="radio"]).medium, .input--medium, .input-postfix--medium, .input-prefix--medium {
-  font-size: 1.30769231rem;
-  border-radius: 4px;
-  padding: 1.30769231rem 1.07692308rem;
-  display: inline-block;
-  height: 3.46153846rem;
-  font-size: 1.30769231rem;
-}
-.vertical-rhythme .formset select.medium, .vertical-rhythme .formset textarea.medium, .vertical-rhythme .formset input:not([type="checkbox"]):not([type="radio"]).medium, .vertical-rhythme .input--medium, .vertical-rhythme .input-postfix--medium, .vertical-rhythme .input-prefix--medium {
-  line-height: 3.53846154rem;
-  padding-top: 0;
-  padding-bottom: 0;
-  margin-bottom: 1.38461538rem;
-  margin-top: 0;
-  border-bottom-width: 0.07692308rem;
-  border-top-width: 0.07692308rem;
-  font-size: 1.30769231rem;
-  height: 3.53846154rem;
-}
-
-.input-reply--medium {
-  padding: 1.30769231rem 1.07692308rem;
-  font-size: 1.30769231rem;
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
-}
-
-.formset label,
-.label {
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-}
-.vertical-rhythme .formset label select.medium, .vertical-rhythme .formset label textarea.medium, .vertical-rhythme .formset label input:not([type="checkbox"]):not([type="radio"]).medium, .vertical-rhythme .formset label .input--medium, .vertical-rhythme .formset label .input-postfix--medium, .vertical-rhythme .formset label .input-prefix--medium, .vertical-rhythme .formset label .form-group, .vertical-rhythme
-.label select.medium, .vertical-rhythme
-.label textarea.medium, .vertical-rhythme
-.label input:not([type="checkbox"]):not([type="radio"]).medium, .vertical-rhythme
-.label .input--medium, .vertical-rhythme
-.label .input-postfix--medium, .vertical-rhythme
-.label .input-prefix--medium, .vertical-rhythme
-.label .form-group {
-  margin-top: 1rem;
-  margin-bottom: 0;
-}
-.form-group .vertical-rhythme .formset label select.medium, .form-group .vertical-rhythme .formset label textarea.medium, .form-group .vertical-rhythme .formset label input:not([type="checkbox"]):not([type="radio"]).medium, .form-group .vertical-rhythme .formset label .input--medium, .form-group .vertical-rhythme .formset label .input-postfix--medium, .form-group .vertical-rhythme .formset label .input-prefix--medium, .form-group .vertical-rhythme .formset label .form-group, .form-group .vertical-rhythme
-.label select.medium, .form-group .vertical-rhythme
-.label textarea.medium, .form-group .vertical-rhythme
-.label input:not([type="checkbox"]):not([type="radio"]).medium, .form-group .vertical-rhythme
-.label .input--medium, .form-group .vertical-rhythme
-.label .input-postfix--medium, .form-group .vertical-rhythme
-.label .input-prefix--medium, .form-group .vertical-rhythme
-.label .form-group {
-  margin-top: 0;
-}
-
-.formset select.medium, select.input--medium, .input-postfix--medium, .input-prefix--medium {
-  font-size: 1.30769231rem;
-}
-.vertical-rhythme .formset select.medium, .vertical-rhythme select.input--medium, .vertical-rhythme .input-postfix--medium, .vertical-rhythme .input-prefix--medium {
-  line-height: 3.53846154rem;
-  padding-top: 0;
-  padding-bottom: 0;
-  margin-bottom: 1.38461538rem;
-  margin-top: 0;
-  border-bottom-width: 0.07692308rem;
-  border-top-width: 0.07692308rem;
-  font-size: 1.30769231rem;
-  height: 3.53846154rem;
-}
-
-.formset label.medium, .label--medium  {
-  font-size: 1.30769231rem;
-  display: inline-block;
-  vertical-align: middle;
-}
-.formset label.medium:not(.s-radiobox), .label--medium :not(.s-radiobox) {
-  font-size: 1.30769231rem;
-}
-.vertical-rhythme .formset label.medium:not(.s-radiobox), .vertical-rhythme .label--medium :not(.s-radiobox) {
-  line-height: 1rem;
-  margin-bottom: 1.92499rem;
-  margin-top: 0;
-  font-size: 1.30769231rem;
-  padding-top: 0.07501rem;
-  padding-bottom: 0rem;
-}
-.formset label.medium:not(.s-radiobox):first-child:last-child, .label--medium :not(.s-radiobox):first-child:last-child {
-  width: 100%;
-}
-.formset label.medium + label, .formset label.medium + [class*="label"], .label--medium  + label, .label--medium  + [class*="label"] {
-  margin-left: 1.07692308rem;
-}
-
-.formset select.big, .formset textarea.big, .formset input:not([type="checkbox"]):not([type="radio"]).big, .input--big, .input-postfix--big, .input-prefix--big {
-  font-size: 1.61538462rem;
-  border-radius: 5px;
-  padding: 1.61538462rem 1.30769231rem;
-  display: inline-block;
-  height: 4.23076923rem;
-  font-size: 1.61538462rem;
-}
-.vertical-rhythme .formset select.big, .vertical-rhythme .formset textarea.big, .vertical-rhythme .formset input:not([type="checkbox"]):not([type="radio"]).big, .vertical-rhythme .input--big, .vertical-rhythme .input-postfix--big, .vertical-rhythme .input-prefix--big {
-  line-height: 5.15384615rem;
-  padding-top: 0;
-  padding-bottom: 0;
-  margin-bottom: 1.76923077rem;
-  margin-top: 0;
-  border-bottom-width: 0.07692308rem;
-  border-top-width: 0.07692308rem;
-  font-size: 1.61538462rem;
-  height: 5.15384615rem;
-}
-
-.input-reply--big {
-  padding: 1.61538462rem 1.30769231rem;
-  font-size: 1.61538462rem;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-}
-
-.formset label,
-.label {
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-}
-.vertical-rhythme .formset label select.big, .vertical-rhythme .formset label textarea.big, .vertical-rhythme .formset label input:not([type="checkbox"]):not([type="radio"]).big, .vertical-rhythme .formset label .input--big, .vertical-rhythme .formset label .input-postfix--big, .vertical-rhythme .formset label .input-prefix--big, .vertical-rhythme .formset label .form-group, .vertical-rhythme
-.label select.big, .vertical-rhythme
-.label textarea.big, .vertical-rhythme
-.label input:not([type="checkbox"]):not([type="radio"]).big, .vertical-rhythme
-.label .input--big, .vertical-rhythme
-.label .input-postfix--big, .vertical-rhythme
-.label .input-prefix--big, .vertical-rhythme
-.label .form-group {
-  margin-top: 1rem;
-  margin-bottom: 0;
-}
-.form-group .vertical-rhythme .formset label select.big, .form-group .vertical-rhythme .formset label textarea.big, .form-group .vertical-rhythme .formset label input:not([type="checkbox"]):not([type="radio"]).big, .form-group .vertical-rhythme .formset label .input--big, .form-group .vertical-rhythme .formset label .input-postfix--big, .form-group .vertical-rhythme .formset label .input-prefix--big, .form-group .vertical-rhythme .formset label .form-group, .form-group .vertical-rhythme
-.label select.big, .form-group .vertical-rhythme
-.label textarea.big, .form-group .vertical-rhythme
-.label input:not([type="checkbox"]):not([type="radio"]).big, .form-group .vertical-rhythme
-.label .input--big, .form-group .vertical-rhythme
-.label .input-postfix--big, .form-group .vertical-rhythme
-.label .input-prefix--big, .form-group .vertical-rhythme
-.label .form-group {
-  margin-top: 0;
-}
-
-.formset select.big, select.input--big, .input-postfix--big, .input-prefix--big {
-  font-size: 1.61538462rem;
-}
-.vertical-rhythme .formset select.big, .vertical-rhythme select.input--big, .vertical-rhythme .input-postfix--big, .vertical-rhythme .input-prefix--big {
-  line-height: 5.15384615rem;
-  padding-top: 0;
-  padding-bottom: 0;
-  margin-bottom: 1.76923077rem;
-  margin-top: 0;
-  border-bottom-width: 0.07692308rem;
-  border-top-width: 0.07692308rem;
-  font-size: 1.61538462rem;
-  height: 5.15384615rem;
-}
-
-.formset label.big, .label--big  {
-  font-size: 1.61538462rem;
-  display: inline-block;
-  vertical-align: middle;
-}
-.formset label.big:not(.s-radiobox), .label--big :not(.s-radiobox) {
-  font-size: 1.61538462rem;
-}
-.vertical-rhythme .formset label.big:not(.s-radiobox), .vertical-rhythme .label--big :not(.s-radiobox) {
-  line-height: 2rem;
-  margin-bottom: 1.52499rem;
-  margin-top: 0;
-  font-size: 1.61538462rem;
-  padding-top: 0.47501rem;
-  padding-bottom: 0rem;
-}
-.formset label.big:not(.s-radiobox):first-child:last-child, .label--big :not(.s-radiobox):first-child:last-child {
-  width: 100%;
-}
-.formset label.big + label, .formset label.big + [class*="label"], .label--big  + label, .label--big  + [class*="label"] {
-  margin-left: 1.30769231rem;
-}
-
-.formset select.bigger, .formset textarea.bigger, .formset input:not([type="checkbox"]):not([type="radio"]).bigger, .input--bigger, .input-postfix--bigger, .input-prefix--bigger {
-  font-size: 1.92307692rem;
-  border-radius: 6px;
-  padding: 1.92307692rem 1.53846154rem;
-  display: inline-block;
-  height: 5rem;
-  font-size: 1.92307692rem;
-}
-.vertical-rhythme .formset select.bigger, .vertical-rhythme .formset textarea.bigger, .vertical-rhythme .formset input:not([type="checkbox"]):not([type="radio"]).bigger, .vertical-rhythme .input--bigger, .vertical-rhythme .input-postfix--bigger, .vertical-rhythme .input-prefix--bigger {
-  line-height: 5.76923077rem;
-  padding-top: 0;
-  padding-bottom: 0;
-  margin-bottom: 1.15384615rem;
-  margin-top: 0;
-  border-bottom-width: 0.07692308rem;
-  border-top-width: 0.07692308rem;
-  font-size: 1.92307692rem;
-  height: 5.76923077rem;
-}
-
-.input-reply--bigger {
-  padding: 1.92307692rem 1.53846154rem;
-  font-size: 1.92307692rem;
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
-}
-
-.formset label,
-.label {
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-}
-.vertical-rhythme .formset label select.bigger, .vertical-rhythme .formset label textarea.bigger, .vertical-rhythme .formset label input:not([type="checkbox"]):not([type="radio"]).bigger, .vertical-rhythme .formset label .input--bigger, .vertical-rhythme .formset label .input-postfix--bigger, .vertical-rhythme .formset label .input-prefix--bigger, .vertical-rhythme .formset label .form-group, .vertical-rhythme
-.label select.bigger, .vertical-rhythme
-.label textarea.bigger, .vertical-rhythme
-.label input:not([type="checkbox"]):not([type="radio"]).bigger, .vertical-rhythme
-.label .input--bigger, .vertical-rhythme
-.label .input-postfix--bigger, .vertical-rhythme
-.label .input-prefix--bigger, .vertical-rhythme
-.label .form-group {
-  margin-top: 1rem;
-  margin-bottom: 0;
-}
-.form-group .vertical-rhythme .formset label select.bigger, .form-group .vertical-rhythme .formset label textarea.bigger, .form-group .vertical-rhythme .formset label input:not([type="checkbox"]):not([type="radio"]).bigger, .form-group .vertical-rhythme .formset label .input--bigger, .form-group .vertical-rhythme .formset label .input-postfix--bigger, .form-group .vertical-rhythme .formset label .input-prefix--bigger, .form-group .vertical-rhythme .formset label .form-group, .form-group .vertical-rhythme
-.label select.bigger, .form-group .vertical-rhythme
-.label textarea.bigger, .form-group .vertical-rhythme
-.label input:not([type="checkbox"]):not([type="radio"]).bigger, .form-group .vertical-rhythme
-.label .input--bigger, .form-group .vertical-rhythme
-.label .input-postfix--bigger, .form-group .vertical-rhythme
-.label .input-prefix--bigger, .form-group .vertical-rhythme
-.label .form-group {
-  margin-top: 0;
-}
-
-.formset select.bigger, select.input--bigger, .input-postfix--bigger, .input-prefix--bigger {
-  font-size: 1.92307692rem;
-}
-.vertical-rhythme .formset select.bigger, .vertical-rhythme select.input--bigger, .vertical-rhythme .input-postfix--bigger, .vertical-rhythme .input-prefix--bigger {
-  line-height: 5.76923077rem;
-  padding-top: 0;
-  padding-bottom: 0;
-  margin-bottom: 1.15384615rem;
-  margin-top: 0;
-  border-bottom-width: 0.07692308rem;
-  border-top-width: 0.07692308rem;
-  font-size: 1.92307692rem;
-  height: 5.76923077rem;
-}
-
-.formset label.bigger, .label--bigger  {
-  font-size: 1.92307692rem;
-  display: inline-block;
-  vertical-align: middle;
-}
-.formset label.bigger:not(.s-radiobox), .label--bigger :not(.s-radiobox) {
-  font-size: 1.92307692rem;
-}
-.vertical-rhythme .formset label.bigger:not(.s-radiobox), .vertical-rhythme .label--bigger :not(.s-radiobox) {
-  line-height: 2rem;
-  margin-bottom: 1.62499rem;
-  margin-top: 0;
-  font-size: 1.92307692rem;
-  padding-top: 0.37501rem;
-  padding-bottom: 0rem;
-}
-.formset label.bigger:not(.s-radiobox):first-child:last-child, .label--bigger :not(.s-radiobox):first-child:last-child {
-  width: 100%;
-}
-.formset label.bigger + label, .formset label.bigger + [class*="label"], .label--bigger  + label, .label--bigger  + [class*="label"] {
-  margin-left: 1.53846154rem;
-}
-
 > .input-reply {
   display: block;
 }
@@ -4223,156 +3652,6 @@ label + input[data-s-radiobox].smaller + .s-radiobox, [class*="label"] + input[d
   padding-right: 0.30769231rem;
 }
 
-input[data-s-radiobox].small {
-  height: 0.69230769rem;
-  font-size: 0.92307692rem;
-}
-input[data-s-radiobox].small + .s-radiobox {
-  width: 0.92307692rem;
-  height: 0.92307692rem;
-}
-input[data-s-radiobox].small + .s-radiobox:before, input[data-s-radiobox].small + .s-radiobox:after {
-  border-radius: 2px;
-}
-.vertical-rhythme input[data-s-radiobox].small {
-  line-height: 1rem;
-  margin-bottom: 1.64614385rem;
-  margin-top: 0;
-  border-bottom-width: 0.15384615rem;
-  border-top-width: 0.15384615rem;
-  font-size: 0.92307692rem;
-  padding-top: 0.04616385rem;
-  padding-bottom: 0rem;
-}
-label + input[data-s-radiobox].small + .s-radiobox, [class*="label"] + input[data-s-radiobox].small + .s-radiobox {
-  margin-left: 0.53846154rem;
-}
-
-.s-radiobox + .formset label.small, .s-radiobox + .label--small  {
-  padding-left: 0.26923077rem;
-  padding-right: 0.53846154rem;
-}
-
-input[data-s-radiobox] {
-  height: 1rem;
-  font-size: 1.23076923rem;
-}
-input[data-s-radiobox] + .s-radiobox {
-  width: 1.23076923rem;
-  height: 1.23076923rem;
-}
-input[data-s-radiobox] + .s-radiobox:before, input[data-s-radiobox] + .s-radiobox:after {
-  border-radius: 3px;
-}
-.vertical-rhythme input[data-s-radiobox] {
-  line-height: 1rem;
-  margin-bottom: 1.74614385rem;
-  margin-top: 0;
-  border-bottom-width: 0.15384615rem;
-  border-top-width: 0.15384615rem;
-  font-size: 1.23076923rem;
-  padding-top: 0.94616385rem;
-  padding-bottom: 0rem;
-}
-label + input[data-s-radiobox] + .s-radiobox, [class*="label"] + input[data-s-radiobox] + .s-radiobox {
-  margin-left: 0.76923077rem;
-}
-
-.s-radiobox + .formset label, .s-radiobox + .label  {
-  padding-left: 0.38461538rem;
-  padding-right: 0.76923077rem;
-}
-
-input[data-s-radiobox].medium {
-  height: 1.30769231rem;
-  font-size: 1.69230769rem;
-}
-input[data-s-radiobox].medium + .s-radiobox {
-  width: 1.69230769rem;
-  height: 1.69230769rem;
-}
-input[data-s-radiobox].medium + .s-radiobox:before, input[data-s-radiobox].medium + .s-radiobox:after {
-  border-radius: 4px;
-}
-.vertical-rhythme input[data-s-radiobox].medium {
-  line-height: 2rem;
-  margin-bottom: 1.39614385rem;
-  margin-top: 0;
-  border-bottom-width: 0.15384615rem;
-  border-top-width: 0.15384615rem;
-  font-size: 1.69230769rem;
-  padding-top: 0.29616385rem;
-  padding-bottom: 0rem;
-}
-label + input[data-s-radiobox].medium + .s-radiobox, [class*="label"] + input[data-s-radiobox].medium + .s-radiobox {
-  margin-left: 1.07692308rem;
-}
-
-.s-radiobox + .formset label.medium, .s-radiobox + .label--medium  {
-  padding-left: 0.53846154rem;
-  padding-right: 1.07692308rem;
-}
-
-input[data-s-radiobox].big {
-  height: 1.61538462rem;
-  font-size: 2rem;
-}
-input[data-s-radiobox].big + .s-radiobox {
-  width: 2rem;
-  height: 2rem;
-}
-input[data-s-radiobox].big + .s-radiobox:before, input[data-s-radiobox].big + .s-radiobox:after {
-  border-radius: 5px;
-}
-.vertical-rhythme input[data-s-radiobox].big {
-  line-height: 2rem;
-  margin-bottom: 1.49614385rem;
-  margin-top: 0;
-  border-bottom-width: 0.15384615rem;
-  border-top-width: 0.15384615rem;
-  font-size: 2rem;
-  padding-top: 0.19616385rem;
-  padding-bottom: 0rem;
-}
-label + input[data-s-radiobox].big + .s-radiobox, [class*="label"] + input[data-s-radiobox].big + .s-radiobox {
-  margin-left: 1.30769231rem;
-}
-
-.s-radiobox + .formset label.big, .s-radiobox + .label--big  {
-  padding-left: 0.65384615rem;
-  padding-right: 1.30769231rem;
-}
-
-input[data-s-radiobox].bigger {
-  height: 1.92307692rem;
-  font-size: 2.46153846rem;
-}
-input[data-s-radiobox].bigger + .s-radiobox {
-  width: 2.46153846rem;
-  height: 2.46153846rem;
-}
-input[data-s-radiobox].bigger + .s-radiobox:before, input[data-s-radiobox].bigger + .s-radiobox:after {
-  border-radius: 6px;
-}
-.vertical-rhythme input[data-s-radiobox].bigger {
-  line-height: 2rem;
-  margin-bottom: 1.64614385rem;
-  margin-top: 0;
-  border-bottom-width: 0.15384615rem;
-  border-top-width: 0.15384615rem;
-  font-size: 2.46153846rem;
-  padding-top: 0.04616385rem;
-  padding-bottom: 0rem;
-}
-label + input[data-s-radiobox].bigger + .s-radiobox, [class*="label"] + input[data-s-radiobox].bigger + .s-radiobox {
-  margin-left: 1.53846154rem;
-}
-
-.s-radiobox + .formset label.bigger, .s-radiobox + .label--bigger  {
-  padding-left: 0.76923077rem;
-  padding-right: 1.53846154rem;
-}
-
 input[data-s-radiobox].checkmark--default:not(.checkmark--fill) + .s-radiobox:after {
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><style>path{fill%3A%238195a1;}</style><path d="M432 48L192 288 80 176 0 256l192 192 320-320"/></svg>');
 }
@@ -4513,96 +3792,6 @@ input[data-s-radiobox].info:checked + .s-radiobox:before {
 .formset legend.smaller, .legend--smaller {
   font-size: 0.38461538rem;
   padding: 0.38461538rem 0.30769231rem;
-}
-
-.formset fieldset.small, .fieldset--small {
-  padding: 0 0 0 1.38461538rem;
-  padding-right: 0;
-  display: inline-block;
-}
-.formset fieldset.small > [class*="legend"],
-.formset fieldset.small > legend, .fieldset--small > [class*="legend"],
-.fieldset--small > legend {
-  margin-left: -1.76923077rem;
-  width: calc(100% + 1.38461538rem);
-  margin-bottom: 1.38461538rem;
-}
-
-.formset legend.small, .legend--small {
-  font-size: 0.69230769rem;
-  padding: 0.69230769rem 0.53846154rem;
-}
-
-.formset fieldset, .fieldset {
-  padding: 0 0 0 2rem;
-  padding-right: 0;
-  display: inline-block;
-}
-.formset fieldset > [class*="legend"],
-.formset fieldset > legend, .fieldset > [class*="legend"],
-.fieldset > legend {
-  margin-left: -2.38461538rem;
-  width: calc(100% + 2rem);
-  margin-bottom: 2rem;
-}
-
-.formset legend, .legend {
-  font-size: 1rem;
-  padding: 1rem 0.76923077rem;
-}
-
-.formset fieldset.medium, .fieldset--medium {
-  padding: 0 0 0 2.61538462rem;
-  padding-right: 0;
-  display: inline-block;
-}
-.formset fieldset.medium > [class*="legend"],
-.formset fieldset.medium > legend, .fieldset--medium > [class*="legend"],
-.fieldset--medium > legend {
-  margin-left: -3rem;
-  width: calc(100% + 2.61538462rem);
-  margin-bottom: 2.61538462rem;
-}
-
-.formset legend.medium, .legend--medium {
-  font-size: 1.30769231rem;
-  padding: 1.30769231rem 1.07692308rem;
-}
-
-.formset fieldset.big, .fieldset--big {
-  padding: 0 0 0 3.23076923rem;
-  padding-right: 0;
-  display: inline-block;
-}
-.formset fieldset.big > [class*="legend"],
-.formset fieldset.big > legend, .fieldset--big > [class*="legend"],
-.fieldset--big > legend {
-  margin-left: -3.61538462rem;
-  width: calc(100% + 3.23076923rem);
-  margin-bottom: 3.23076923rem;
-}
-
-.formset legend.big, .legend--big {
-  font-size: 1.61538462rem;
-  padding: 1.61538462rem 1.30769231rem;
-}
-
-.formset fieldset.bigger, .fieldset--bigger {
-  padding: 0 0 0 3.76923077rem;
-  padding-right: 0;
-  display: inline-block;
-}
-.formset fieldset.bigger > [class*="legend"],
-.formset fieldset.bigger > legend, .fieldset--bigger > [class*="legend"],
-.fieldset--bigger > legend {
-  margin-left: -4.15384615rem;
-  width: calc(100% + 3.76923077rem);
-  margin-bottom: 3.76923077rem;
-}
-
-.formset legend.bigger, .legend--bigger {
-  font-size: 1.92307692rem;
-  padding: 1.92307692rem 1.53846154rem;
 }
 
 .formset fieldset, .fieldset {
@@ -4777,96 +3966,6 @@ button {
   border-top-width: 0.07692308rem;
   font-size: 0.38461538rem;
   height: 0.53846154rem;
-}
-
-.btn.btn--small {
-  font-size: 0.69230769rem;
-  border-radius: 2px;
-  padding: 0.53846154rem 0.69230769rem;
-  font-size: 0.69230769rem;
-}
-.vertical-rhythme .btn.btn--small {
-  line-height: 2rem;
-  padding-top: 0;
-  padding-bottom: 0;
-  margin-bottom: 1.92307692rem;
-  margin-top: 0;
-  border-bottom-width: 0.07692308rem;
-  border-top-width: 0.07692308rem;
-  font-size: 0.69230769rem;
-  height: 2rem;
-}
-
-.btn {
-  font-size: 1rem;
-  border-radius: 3px;
-  padding: 0.76923077rem 1rem;
-  font-size: 1rem;
-}
-.vertical-rhythme .btn {
-  line-height: 2.46153846rem;
-  padding-top: 0;
-  padding-bottom: 0;
-  margin-bottom: 1.46153846rem;
-  margin-top: 0;
-  border-bottom-width: 0.07692308rem;
-  border-top-width: 0.07692308rem;
-  font-size: 1rem;
-  height: 2.46153846rem;
-}
-
-.btn.btn--medium {
-  font-size: 1.30769231rem;
-  border-radius: 4px;
-  padding: 1.07692308rem 1.30769231rem;
-  font-size: 1.30769231rem;
-}
-.vertical-rhythme .btn.btn--medium {
-  line-height: 3.07692308rem;
-  padding-top: 0;
-  padding-bottom: 0;
-  margin-bottom: 1.84615385rem;
-  margin-top: 0;
-  border-bottom-width: 0.07692308rem;
-  border-top-width: 0.07692308rem;
-  font-size: 1.30769231rem;
-  height: 3.07692308rem;
-}
-
-.btn.btn--big {
-  font-size: 1.61538462rem;
-  border-radius: 5px;
-  padding: 1.30769231rem 1.61538462rem;
-  font-size: 1.61538462rem;
-}
-.vertical-rhythme .btn.btn--big {
-  line-height: 4.53846154rem;
-  padding-top: 0;
-  padding-bottom: 0;
-  margin-bottom: 1.38461538rem;
-  margin-top: 0;
-  border-bottom-width: 0.07692308rem;
-  border-top-width: 0.07692308rem;
-  font-size: 1.61538462rem;
-  height: 4.53846154rem;
-}
-
-.btn.btn--bigger {
-  font-size: 1.92307692rem;
-  border-radius: 6px;
-  padding: 1.53846154rem 1.92307692rem;
-  font-size: 1.92307692rem;
-}
-.vertical-rhythme .btn.btn--bigger {
-  line-height: 5rem;
-  padding-top: 0;
-  padding-bottom: 0;
-  margin-bottom: 1.92307692rem;
-  margin-top: 0;
-  border-bottom-width: 0.07692308rem;
-  border-top-width: 0.07692308rem;
-  font-size: 1.92307692rem;
-  height: 5rem;
 }
 
 .btn {
