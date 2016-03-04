@@ -764,7 +764,6 @@ $_s-font-aliases : (
 			$ret : map-set($ret, height, $height);
 			$ret : map-set($ret, line-height, $height);
 			$dec : $height % 1;
-			$rest : 1 - $dec;
 			$padding-top : 0;
 			$padding-bottom : 0;
 			$margin-bottom : $margin-bottom - $dec;

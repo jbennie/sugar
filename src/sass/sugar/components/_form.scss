@@ -1,13 +1,16 @@
 @include s-component-setup((
 	formset : (
 		scope-class : 'formset',
-		colors : default primary secondary success warning error info,
-		sizes : default
+		generate : (
+			colors : default primary secondary success warning error info,
+			sizes : default
+		)
 	)
 ));
 	
 $_s-formset-inited : false;
 @mixin s-formset-init() {
+	
 	@if not $_s-formset-inited {
 		$_s-formset-inited : true !global;
 		%s-formset-input-bare {
@@ -119,21 +122,18 @@ $_s-formset-inited : false;
 	// init form
 	@include s-formset-init();
 
-	@debug(map-keys(sugar('settings.sizes')));
-
 	// parse properties
 	$props : s-parse-properties($props, (
 		sizes : map-keys(sugar('settings.sizes')),
 		colors : list-color
 	));
 
-	// get variables
-	$sizes : map-get-or($props, sizes, sugar('settings.components.formset.sizes'));
-	$colors : map-get-or($props, colors, sugar('settings.components.formset.colors'));
-
 	// pass in the component context
 	@include s-component-context('formset') {		
-
+		
+		// get variables
+		$sizes : map-get-or($props, sizes, sugar('settings.generate.sizes'));
+		$colors : map-get-or($props, colors, sugar('settings.generate.colors'));
 		$form-scope-class : sugar('settings.scope-class');
 
 		.#{$form-scope-class} fieldset,
@@ -232,13 +232,13 @@ $_s-formset-inited : false;
 		sizes : map-keys(sugar('settings.sizes')),
 		colors : list-color
 	));
-// get variables
-	$sizes : map-get-or($props, sizes, sugar('settings.components.formset.sizes'));
-	$colors : map-get-or($props, colors, sugar('settings.components.formset.colors'));
+
 	// pass in the component context
 	@include s-component-context('formset') {
 
-
+		// get variables
+	    $sizes : map-get-or($props, sizes, sugar('settings.generate.sizes'));
+	    $colors : map-get-or($props, colors, sugar('settings.generate.colors'));
 		$form-scope-class : sugar('settings.scope-class');
 
 		// base
@@ -387,15 +387,12 @@ $_s-formset-inited : false;
 		colors : list-color
 	));
 
-	// get variables
-	$sizes : map-get-or($props, sizes, sugar('settings.components.formset.sizes'));
-	$colors : map-get-or($props, colors, sugar('settings.components.formset.colors'));
-
-	@debug($sizes);
-
 	// pass in the component context
 	@include s-component-context('formset') {
-
+		
+		// get variables
+		$sizes : map-get-or($props, sizes, sugar('settings.generate.sizes'));
+		$colors : map-get-or($props, colors, sugar('settings.generate.colors'));
 		$form-scope-class : sugar('settings.scope-class');
 
 		// base
@@ -424,20 +421,51 @@ $_s-formset-inited : false;
 			}
 		}
 
+		// disabled
+		
+
+		#{s-selector((
+			BEM : (
+				'.input--disabled'
+			),
+			SMACCS : (
+				'input.is-disabled'
+			)
+		))},
+		#{s-selector((
+			BEM : (
+				'.#{$form-scope-class} select:disabled',
+				'.#{$form-scope-class} textarea:disabled',
+				'.#{$form-scope-class} input:disabled',
+				'.input:disabled'
+			),
+			SMACCS : (
+				'.#{$form-scope-class} select:disabled',
+				'.#{$form-scope-class} textarea:disabled',
+				'.#{$form-scope-class} input:disabled',
+				'.input:disabled'
+			)
+		))} {
+			opacity : .65;
+			pointer-events: none;
+		}
+	
 		// placeholder color
 		#{s-selector((
 			BEM : (
-				'select',
-				'textarea',
-				'input:not([type="checkbox"]):not([type="radio"])',
+				'.#{$form-scope-class} select',
+				'.#{$form-scope-class} textarea',
+				'.#{$form-scope-class} input:not([type="checkbox"]):not([type="radio"])',
+				'.input',
 				'[class*="input-postfix"]',
 				'[class*="input-prefix"]',
 				'.form-group'
 			),
 			SMACCS : (
-				'select',
-				'textarea',
-				'input:not([type="checkbox"]):not([type="radio"])',
+				'.#{$form-scope-class} select',
+				'.#{$form-scope-class} textarea',
+				'.#{$form-scope-class} input:not([type="checkbox"]):not([type="radio"])',
+				'.input',
 				'[class*="input-postfix"]',
 				'[class*="input-prefix"]',
 				'.form-group'
@@ -661,9 +689,9 @@ $_s-formset-inited : false;
 			))} {
 				border-color: s-color($color, -opacity .3);
 
-				&:hover,
-				&:focus,
-				&.active {
+				&:hover:not(:disabled):not(.input--disabled):not(.is-disabled),
+				&:focus:not(:disabled):not(.input--disabled):not(.is-disabled),
+				&.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
 					border-color: s-color($color, -opacity .6);
 					@include s-filter(-box-shadow s-color($color, -opacity .3) 0 0 s-rem(10px));
 				}

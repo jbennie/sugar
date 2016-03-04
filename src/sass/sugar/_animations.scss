@@ -72,9 +72,9 @@
 ) {
 	$trans : ();
 	@if length($transitions) == 0 {
-		$trans : append($trans, sugar('settings.transition.property') sugar('settings.transition.duration') sugar('settings.transition.ease') sugar('settings.transition.deéay'), comma);
+		$trans : append($trans, sugar('settings.transitions.property') sugar('settings.transitions.duration') sugar('settings.transitions.ease') sugar('settings.transitions.deéay'), comma);
 	} @else {
-		$transitions-settings : sugar('settings.transition.transitions');
+		$transitions-settings : sugar('settings.transitions.transitions');
 		@each $transition in $transitions {
 			// check if a transition exist in settings
 			@if type-of($transition) == string and map-get($transitions-settings, $transition) {
@@ -91,10 +91,10 @@
 					ease : string,
 					delay : number
 				));
-				$property : map-get-or($tran, property, sugar('settings.transition.property'));
-				$duration : map-get-or($tran, duration, sugar('settings.transition.duration'));
-				$delay : map-get-or($tran, delay, sugar('settings.transition.delay'));
-				$ease : map-get-or($tran, ease, sugar('settings.transition.ease'));
+				$property : map-get-or($tran, property, sugar('settings.transitions.property'));
+				$duration : map-get-or($tran, duration, sugar('settings.transitions.duration'));
+				$delay : map-get-or($tran, delay, sugar('settings.transitions.delay'));
+				$ease : map-get-or($tran, ease, sugar('settings.transitions.ease'));
 				$trans : append($trans, $property $duration $ease $delay, comma);
 			}
 		}

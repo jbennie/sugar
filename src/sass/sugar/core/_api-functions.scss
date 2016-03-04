@@ -147,11 +147,9 @@ $_sugar-settings-cache : ();
 	}
 	
 	// check if has a component
-	@if $component and not str-index($path, 'colors') and not str-index($path, 'sizes') {
+	@if $component {
 		$path : 'components.#{$component}.#{$path}';
 	}
-	
-	//@debug($path);
 
 	// check in cache
 	$cache : map-get($_sugar-settings-cache, $path);
@@ -173,7 +171,11 @@ $_sugar-settings-cache : ();
 			@if $component {
 				// try to get the non component version of the setting
 				// @debug('not found #{$path}, trying #{$base_path}');
-				@return s-setting($base_path -component default);
+				$val : s-setting($base_path -component default);
+				@if $val {
+					$_sugar-settings-cache : map-set($_sugar-settings-cache, $path, $val) !global;
+				}
+				@return $val;
 			} @else {
 				@return null;
 			}

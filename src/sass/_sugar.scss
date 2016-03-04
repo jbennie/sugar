@@ -75,7 +75,7 @@
 		walden : cssgram-walden,
 		moon : cssgram-moon
 	),
-	transition : (
+	transitions : (
 		transitions : (
 			fast : all .1s ease-in-out,
 			normal : all .2s ease-in-out,
@@ -83,19 +83,21 @@
 		)
 	),
 	classes : 'helper',
-	typeset : (
-		titles : (
-			default : (
-				color : black
-			),
-			h1 : (
-				font-family : helvetica-light
-			),
-			h2 : (
-				font-family : helvetica-light
-			),
-			h3 : (
-				font-family : helvetica-light
+	components : (
+		typeset : (
+			titles : (
+				default : (
+					color : black
+				),
+				h1 : (
+					font-family : helvetica-light
+				),
+				h2 : (
+					font-family : helvetica-light
+				),
+				h3 : (
+					font-family : helvetica-light
+				)
 			)
 		)
 	)

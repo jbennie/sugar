@@ -93,14 +93,6 @@ $_s_nested_properties_depth : ();
 						$new-map : map-set($new-map, $prop, $value);
 					}
 
-				} @else if not _is-null($value) {
-					// // add the value to map
-					// @if not map-get($new-map, others) {
-					// 	$new-map : map-set($new-map, others, ());
-					// }
-					// $new-map : map-set($new-map, others, map-merge(map-get($new-map, others), (
-					// 	$prop : $value
-					// )));
 				}
 			}
 		}
@@ -146,16 +138,6 @@ $_s_nested_properties_depth : ();
 					$values : ();
 				}
 				
-				// } @else {
-				// 	// we do not have the property in keywords
-				// 	// but it is still a property...
-				// 	// we have to reset the current prop to null
-				// 	// in order to not append values in previous
-				// 	// founded property
-				// 	$first : false;
-				// 	$current_prop : null;
-				// 	$values : ();
-				// }
 			} @else {
 
 				@if $first {

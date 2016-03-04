@@ -1,7 +1,9 @@
 @include s-component-setup((
 	nav : (
-		colors : default primary secondary success warning error info,
-		sizes : default
+		generate : (
+			colors : default primary secondary success warning error info,
+			sizes : default
+		)
 	)
 ));
 
@@ -29,16 +31,17 @@ $_s-nav-inited : false;
 		sizes : map-keys(sugar('settings.sizes')),
 		colors : list-color
 	));
-
+	
 	// get variables
-	$sizes : map-get-or($props, sizes, sugar('settings.components.nav.sizes'));
-	$colors : map-get-or($props, colors, sugar('settings.components.nav.colors'));
+	$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
+	$typeset : sugar('settings.components.typeset.scope-class');
 
 	// pass in component context
 	@include s-component-context('nav') {		
-
-		$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
-		$typeset : sugar('settings.components.typeset.scope-class');
+		
+		// get variables
+		$sizes : map-get-or($props, sizes, sugar('settings.generate.sizes'));
+		$colors : map-get-or($props, colors, sugar('settings.generate.colors'));
 
 		// base
 		.nav.nav--tabs {

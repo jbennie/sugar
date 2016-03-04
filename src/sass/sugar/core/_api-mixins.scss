@@ -138,7 +138,7 @@ $_sugar-current-component : null;
 	}
 
 	// transitions
-	$transitions : sugar('settings.transition.transitions');
+	$transitions : sugar('settings.transitions.transitions');
 	@each $name, $transition in $transitions {
 		@include s-register-class(
 			-name 't-#{$name}'

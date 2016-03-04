@@ -319,7 +319,8 @@
 
 	// pass in component context
 	@include s-component-context('typeset') {
-
+		
+		$font-size : sugar('settings.typo.font-size');
 		$typeset : sugar('settings.scope-class');
 
 		// blockquote
@@ -384,7 +385,7 @@
 		.address,
 		address:not(.no-#{$vertical-rhythme}) {
 			@include s-vertical-rhythme((
-				s-font : sugar('settings.typo.font-size') 2,
+				s-font : $font-size 2,
 				padding-top : s-space(default),
 				padding-bottom : s-space(default),
 				margin-bottom : s-space(default)
@@ -491,6 +492,8 @@
 
 	// pass in component context
 	@include s-component-context('typeset') {
+	
+		$font-size : sugar('settings.typo.font-size');
 
 		$props : s-parse-properties($props, (
 			sizes : list-string
@@ -591,7 +594,7 @@
 		table:not(.no-#{$vertical-rhythme}),
 		.table {
 			$args : (
-				s-font : sugar('settings.typo.font-size'),
+				s-font : $font-size,
 				border-bottom : solid s-color(text, -opacity .2) 1px,
 				padding-top : ceil(s-look-and-feel(padding-vertical)),
 				padding-bottom : ceil(s-look-and-feel(padding-vertical)),
@@ -609,7 +612,7 @@
 			}
 			caption {
 				@include s-vertical-rhythme((
-					s-font : sugar('settings.typo.font-size'),
+					s-font : $font-size,
 					margin-bottom: 1
 				));
 			}	
@@ -633,7 +636,7 @@
 			.table.table--#{$size},
 			.table.table-#{$size} {
 				$args : (
-					s-font : sugar('settings.typo.font-size'),
+					s-font : $font-size,
 					border-bottom : solid s-color(text, -opacity .2) s-rem(1px),
 					padding-top : ceil(s-look-and-feel(padding-vertical, $size)),
 					padding-bottom : ceil(s-look-and-feel(padding-vertical, $size)),
