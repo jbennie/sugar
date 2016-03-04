@@ -251,25 +251,36 @@ $_s_nested_properties_depth : ();
 		} @else if type-of($value) == number and index($type, length) {
 			@return true;
 		} @else {
-			$idx : index($type, $value);
-			@if not $idx {
-				@return false;
-			}
-			$v : nth($type, $idx);
-			@if type-of($v) == type-of($value) {
-				@if type-of($v) == number {
-					@if unit($v) == unit($value) {
-						@return true;
-					} @else {
+
+			// if its a list of values, check each values
+			@if type-of($value) == list {
+				@each $v in $value {
+					@if not _s-check-property($property, $type, $v, true) {
 						@return false;
 					}
-				} @else {
-					@return true;
 				}
+				@return true;
 			} @else {
-				@return false;
+				$idx : index($type, $value);
+				@if not $idx {
+					@return false;
+				}
+				$v : nth($type, $idx);
+				@if type-of($v) == type-of($value) {
+					@if type-of($v) == number {
+						@if unit($v) == unit($value) {
+							@return true;
+						} @else {
+							@return false;
+						}
+					} @else {
+						@return true;
+					}
+				} @else {
+					@return false;
+				}
+				@return true;
 			}
-			@return true;
 		}
 	} @else {
 		@return true;

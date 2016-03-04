@@ -119,6 +119,8 @@ $_s-formset-inited : false;
 	// init form
 	@include s-formset-init();
 
+	@debug(map-keys(sugar('settings.sizes')));
+
 	// parse properties
 	$props : s-parse-properties($props, (
 		sizes : map-keys(sugar('settings.sizes')),
@@ -388,6 +390,8 @@ $_s-formset-inited : false;
 	// get variables
 	$sizes : map-get-or($props, sizes, sugar('settings.components.formset.sizes'));
 	$colors : map-get-or($props, colors, sugar('settings.components.formset.colors'));
+
+	@debug($sizes);
 
 	// pass in the component context
 	@include s-component-context('formset') {

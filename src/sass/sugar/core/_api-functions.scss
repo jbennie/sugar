@@ -147,11 +147,11 @@ $_sugar-settings-cache : ();
 	}
 	
 	// check if has a component
-	@if $component {
+	@if $component and not str-index($path, 'colors') and not str-index($path, 'sizes') {
 		$path : 'components.#{$component}.#{$path}';
 	}
 	
-	@debug($path);
+	//@debug($path);
 
 	// check in cache
 	$cache : map-get($_sugar-settings-cache, $path);

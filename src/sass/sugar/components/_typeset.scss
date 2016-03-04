@@ -406,13 +406,12 @@
 @mixin s-typeset-decorators(
 	$props : ()
 ) {
-	$typeset : sugar('settings.scope-class');
-
+	$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
+	
 	// pass in component context
 	@include s-component-context('typeset') {
 
-		
-		$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
+		$typeset : sugar('settings.scope-class');
 
 		.small,
 		.#{$typeset} small:not(.no-#{$typeset}) {
