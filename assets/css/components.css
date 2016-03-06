@@ -696,14 +696,14 @@ body {
 
 .h1,
 h1 {
-  font-size: 4.23606807em;
+  font-size: 4.61538462rem;
 }
 .vertical-rhythme .h1, .vertical-rhythme
 h1 {
-  margin-bottom: 1.87671212rem;
-  font-size: 4.23606807rem;
+  margin-bottom: 1.99999rem;
+  font-size: 4.61538462rem;
   line-height: 5rem;
-  padding-top: 0.12328788rem;
+  padding-top: 0.00001rem;
   padding-bottom: 0rem;
 }
 
@@ -715,14 +715,14 @@ h1 {
 
 .h2,
 h2 {
-  font-size: 3.33019073em;
+  font-size: 3.84615385rem;
 }
 .vertical-rhythme .h2, .vertical-rhythme
 h2 {
-  margin-bottom: 2.08230199rem;
-  font-size: 3.33019073rem;
+  margin-bottom: 2.24999rem;
+  font-size: 3.84615385rem;
   line-height: 4rem;
-  padding-top: 0.91769801rem;
+  padding-top: 0.75001rem;
   padding-bottom: 0rem;
 }
 
@@ -734,14 +734,14 @@ h2 {
 
 .h3,
 h3 {
-  font-size: 2.61803403em;
+  font-size: 2.76923077rem;
 }
 .vertical-rhythme .h3, .vertical-rhythme
 h3 {
-  margin-bottom: 2.35085106rem;
-  font-size: 2.61803403rem;
+  margin-bottom: 2.39999rem;
+  font-size: 2.76923077rem;
   line-height: 3rem;
-  padding-top: 0.64914894rem;
+  padding-top: 0.60001rem;
   padding-bottom: 0rem;
 }
 
@@ -753,14 +753,14 @@ h3 {
 
 .h4,
 h4 {
-  font-size: 2.05817105em;
+  font-size: 2rem;
 }
 .vertical-rhythme .h4, .vertical-rhythme
 h4 {
-  margin-bottom: 2.16889559rem;
-  font-size: 2.05817105rem;
-  line-height: 3rem;
-  padding-top: 0.83110441rem;
+  margin-bottom: 1.64999rem;
+  font-size: 2rem;
+  line-height: 2rem;
+  padding-top: 0.35001rem;
   padding-bottom: 0rem;
 }
 
@@ -771,14 +771,14 @@ h4 {
 
 .h5,
 h5 {
-  font-size: 1.618034em;
+  font-size: 1.53846154rem;
 }
 .vertical-rhythme .h5, .vertical-rhythme
 h5 {
-  margin-bottom: 1.52585105rem;
-  font-size: 1.618034rem;
+  margin-bottom: 2.49999rem;
+  font-size: 1.53846154rem;
   line-height: 2rem;
-  padding-top: 0.47414895rem;
+  padding-top: 0.50001rem;
   padding-bottom: 0rem;
 }
 
@@ -789,14 +789,14 @@ h5 {
 
 .h6,
 h6 {
-  font-size: 1.27201965em;
+  font-size: 1rem;
 }
 .vertical-rhythme .h6, .vertical-rhythme
 h6 {
-  margin-bottom: 2.41339639rem;
-  font-size: 1.27201965rem;
-  line-height: 2rem;
-  padding-top: 0.58660361rem;
+  margin-bottom: 1.82499rem;
+  font-size: 1rem;
+  line-height: 1rem;
+  padding-top: 0.17501rem;
   padding-bottom: 0rem;
 }
 
@@ -807,27 +807,27 @@ h6 {
 
 p:not(.no-vertical-rhythme),
 .p {
-  font-size: 1.27201965em;
+  font-size: 1.23076923rem;
 }
 .vertical-rhythme p:not(.no-vertical-rhythme), .vertical-rhythme
 .p {
-  margin-bottom: 2.41339639rem;
-  font-size: 1.27201965rem;
+  margin-bottom: 2.39999rem;
+  font-size: 1.23076923rem;
   line-height: 2rem;
-  padding-top: 0.58660361rem;
+  padding-top: 0.60001rem;
   padding-bottom: 0rem;
 }
 
 p.lead:not(.no-vertical-rhythme),
 .p-lead {
-  font-size: 1.618034em;
+  font-size: 1.69230769rem;
 }
 .vertical-rhythme p.lead:not(.no-vertical-rhythme), .vertical-rhythme
 .p-lead {
-  margin-bottom: 1.52585105rem;
-  font-size: 1.618034rem;
+  margin-bottom: 1.54999rem;
+  font-size: 1.69230769rem;
   line-height: 2rem;
-  padding-top: 0.47414895rem;
+  padding-top: 0.45001rem;
   padding-bottom: 0rem;
 }
 
@@ -907,12 +907,12 @@ hr:not(.no-vertical-rhythme) {
 }
 .vertical-rhythme .hr, .vertical-rhythme
 hr:not(.no-vertical-rhythme) {
-  margin-bottom: NaNrem;
+  margin-bottom: 3.94806692rem;
   border-bottom: 1px solid rgba(129, 149, 161, 0.3);
-  font-size: 0rem;
+  font-size: 0.07692308rem;
   line-height: 0rem;
-  padding-top: NaNrem;
-  padding-bottom: 0.92307692rem;
+  padding-top: 0.97501rem;
+  padding-bottom: 0rem;
   position: relative;
   top: 2rem;
 }
@@ -967,16 +967,16 @@ hr:not(.no-vertical-rhythme) {
 
 .vertical-rhythme .ul, .vertical-rhythme
 ul:not(.no-vertical-rhythme) {
-  margin-bottom: 1.41339639rem;
+  margin-bottom: 1.39999rem;
 }
 .vertical-rhythme .ul > li, .vertical-rhythme
 .ul > .li, .vertical-rhythme
 ul:not(.no-vertical-rhythme) > li, .vertical-rhythme
 ul:not(.no-vertical-rhythme) > .li {
-  font-size: 1.27201965rem;
-  margin-bottom: 0.41339639rem;
+  font-size: 1.23076923rem;
+  margin-bottom: 0.39999rem;
   line-height: 2rem;
-  padding-top: 0.58660361rem;
+  padding-top: 0.60001rem;
   padding-bottom: 0rem;
 }
 .ul > li > ul, .ul > li > .ul,
@@ -1000,7 +1000,7 @@ ul:not(.no-vertical-rhythme) > .li > ol,
 ul:not(.no-vertical-rhythme) > .li > .ol,
 ul:not(.no-vertical-rhythme) > .li > dl,
 ul:not(.no-vertical-rhythme) > .li > .dl {
-  margin-top: 0.41339639rem;
+  margin-top: 0.39999rem;
 }
 
 .ol,
@@ -1053,16 +1053,16 @@ ul:not(.no-vertical-rhythme) > .li > .dl {
 
 .ol,
 ol:not(.no-vertical-rhythme) {
-  margin-bottom: 1.41339639rem;
+  margin-bottom: 1.39999rem;
 }
 .vertical-rhythme .ol > li, .vertical-rhythme
 .ol > .li, .vertical-rhythme
 ol:not(.no-vertical-rhythme) > li, .vertical-rhythme
 ol:not(.no-vertical-rhythme) > .li {
-  font-size: 1.27201965rem;
-  margin-bottom: 0.41339639rem;
+  font-size: 1.23076923rem;
+  margin-bottom: 0.39999rem;
   line-height: 2rem;
-  padding-top: 0.58660361rem;
+  padding-top: 0.60001rem;
   padding-bottom: 0rem;
 }
 .ol > li > ul, .ol > li > .ul,
@@ -1086,7 +1086,7 @@ ol:not(.no-vertical-rhythme) > .li > ol,
 ol:not(.no-vertical-rhythme) > .li > .ol,
 ol:not(.no-vertical-rhythme) > .li > dl,
 ol:not(.no-vertical-rhythme) > .li > .dl {
-  margin-top: 0.41339639rem;
+  margin-top: 0.39999rem;
 }
 
 .dl,
@@ -1182,7 +1182,7 @@ ol:not(.no-vertical-rhythme) > .li > .dl {
 
 .dl,
 dl:not(.no-vertical-rhythme) {
-  margin-bottom: 2.41339639rem;
+  margin-bottom: 2.39999rem;
 }
 .dl > dt, .dl > .dt,
 dl:not(.no-vertical-rhythme) > dt,
@@ -1192,19 +1192,19 @@ dl:not(.no-vertical-rhythme) > .dt {
 .vertical-rhythme .dl > dt, .vertical-rhythme .dl > .dt, .vertical-rhythme
 dl:not(.no-vertical-rhythme) > dt, .vertical-rhythme
 dl:not(.no-vertical-rhythme) > .dt {
-  font-size: 1.27201965rem;
-  margin-bottom: 0.41339639rem;
+  font-size: 1.23076923rem;
+  margin-bottom: 0.39999rem;
   line-height: 2rem;
-  padding-top: 0.58660361rem;
+  padding-top: 0.60001rem;
   padding-bottom: 0rem;
 }
 .vertical-rhythme .dl > dd, .vertical-rhythme .dl > .dd, .vertical-rhythme
 dl:not(.no-vertical-rhythme) > dd, .vertical-rhythme
 dl:not(.no-vertical-rhythme) > .dd {
-  font-size: 1.27201965rem;
-  margin-bottom: 1.41339639rem;
+  font-size: 1.23076923rem;
+  margin-bottom: 1.39999rem;
   line-height: 2rem;
-  padding-top: 0.58660361rem;
+  padding-top: 0.60001rem;
   padding-bottom: 0rem;
 }
 
@@ -1904,7 +1904,7 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
   font-size: 0.38461538rem;
 }
 .vertical-rhythme .formset select.smaller, .vertical-rhythme .formset textarea.smaller, .vertical-rhythme .formset input:not([type="checkbox"]):not([type="radio"]).smaller, .vertical-rhythme .input--smaller, .vertical-rhythme .input-postfix--smaller, .vertical-rhythme .input-prefix--smaller {
-  line-height: 0.69230769rem;
+  line-height: 1.69230769rem;
   padding-top: 0;
   padding-bottom: 0;
   margin-bottom: 1.23076923rem;
@@ -1912,7 +1912,7 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
   border-bottom-width: 0.07692308rem;
   border-top-width: 0.07692308rem;
   font-size: 0.38461538rem;
-  height: 0.69230769rem;
+  height: 1.69230769rem;
 }
 
 .input-reply--smaller {
@@ -1955,7 +1955,7 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
   font-size: 0.38461538rem;
 }
 .vertical-rhythme .formset select.smaller, .vertical-rhythme select.input--smaller, .vertical-rhythme .input-postfix--smaller, .vertical-rhythme .input-prefix--smaller {
-  line-height: 0.69230769rem;
+  line-height: 1.69230769rem;
   padding-top: 0;
   padding-bottom: 0;
   margin-bottom: 1.23076923rem;
@@ -1963,7 +1963,7 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
   border-bottom-width: 0.07692308rem;
   border-top-width: 0.07692308rem;
   font-size: 0.38461538rem;
-  height: 0.69230769rem;
+  height: 1.69230769rem;
 }
 
 .formset label.smaller, .label--smaller  {
@@ -1975,11 +1975,11 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
   font-size: 0.38461538rem;
 }
 .vertical-rhythme .formset label.smaller:not(.s-radiobox), .vertical-rhythme .label--smaller :not(.s-radiobox) {
-  line-height: 0rem;
-  margin-bottom: 2.12499rem;
+  line-height: 1rem;
+  margin-bottom: 1.62499rem;
   margin-top: 0;
   font-size: 0.38461538rem;
-  padding-top: 0.87501rem;
+  padding-top: 0.37501rem;
   padding-bottom: 0rem;
 }
 .formset label.smaller:not(.s-radiobox):first-child:last-child, .label--smaller :not(.s-radiobox):first-child:last-child {
@@ -2186,7 +2186,7 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
   font-size: 1.30769231rem;
 }
 .vertical-rhythme .formset select.medium, .vertical-rhythme .formset textarea.medium, .vertical-rhythme .formset input:not([type="checkbox"]):not([type="radio"]).medium, .vertical-rhythme .input--medium, .vertical-rhythme .input-postfix--medium, .vertical-rhythme .input-prefix--medium {
-  line-height: 3.53846154rem;
+  line-height: 4.53846154rem;
   padding-top: 0;
   padding-bottom: 0;
   margin-bottom: 1.38461538rem;
@@ -2194,7 +2194,7 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
   border-bottom-width: 0.07692308rem;
   border-top-width: 0.07692308rem;
   font-size: 1.30769231rem;
-  height: 3.53846154rem;
+  height: 4.53846154rem;
 }
 
 .input-reply--medium {
@@ -2237,7 +2237,7 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
   font-size: 1.30769231rem;
 }
 .vertical-rhythme .formset select.medium, .vertical-rhythme select.input--medium, .vertical-rhythme .input-postfix--medium, .vertical-rhythme .input-prefix--medium {
-  line-height: 3.53846154rem;
+  line-height: 4.53846154rem;
   padding-top: 0;
   padding-bottom: 0;
   margin-bottom: 1.38461538rem;
@@ -2245,7 +2245,7 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
   border-bottom-width: 0.07692308rem;
   border-top-width: 0.07692308rem;
   font-size: 1.30769231rem;
-  height: 3.53846154rem;
+  height: 4.53846154rem;
 }
 
 .formset label.medium, .label--medium  {
@@ -2257,11 +2257,11 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
   font-size: 1.30769231rem;
 }
 .vertical-rhythme .formset label.medium:not(.s-radiobox), .vertical-rhythme .label--medium :not(.s-radiobox) {
-  line-height: 1rem;
-  margin-bottom: 1.92499rem;
+  line-height: 2rem;
+  margin-bottom: 2.42499rem;
   margin-top: 0;
   font-size: 1.30769231rem;
-  padding-top: 0.07501rem;
+  padding-top: 0.57501rem;
   padding-bottom: 0rem;
 }
 .formset label.medium:not(.s-radiobox):first-child:last-child, .label--medium :not(.s-radiobox):first-child:last-child {
@@ -2701,13 +2701,13 @@ input[data-s-radiobox].smaller + .s-radiobox:before, input[data-s-radiobox].smal
   border-radius: 1px;
 }
 .vertical-rhythme input[data-s-radiobox].smaller {
-  line-height: 0rem;
-  margin-bottom: 1.99614385rem;
+  line-height: 1rem;
+  margin-bottom: 1.49614385rem;
   margin-top: 0;
   border-bottom-width: 0.15384615rem;
   border-top-width: 0.15384615rem;
   font-size: 0.46153846rem;
-  padding-top: 0.69616385rem;
+  padding-top: 0.19616385rem;
   padding-bottom: 0rem;
 }
 label + input[data-s-radiobox].smaller + .s-radiobox, [class*="label"] + input[data-s-radiobox].smaller + .s-radiobox {
@@ -2761,13 +2761,13 @@ input[data-s-radiobox] + .s-radiobox:before, input[data-s-radiobox] + .s-radiobo
   border-radius: 3px;
 }
 .vertical-rhythme input[data-s-radiobox] {
-  line-height: 1rem;
-  margin-bottom: 1.74614385rem;
+  line-height: 2rem;
+  margin-bottom: 2.24614385rem;
   margin-top: 0;
   border-bottom-width: 0.15384615rem;
   border-top-width: 0.15384615rem;
   font-size: 1.23076923rem;
-  padding-top: 0.94616385rem;
+  padding-top: 0.44616385rem;
   padding-bottom: 0rem;
 }
 label + input[data-s-radiobox] + .s-radiobox, [class*="label"] + input[data-s-radiobox] + .s-radiobox {
@@ -2851,13 +2851,13 @@ input[data-s-radiobox].bigger + .s-radiobox:before, input[data-s-radiobox].bigge
   border-radius: 6px;
 }
 .vertical-rhythme input[data-s-radiobox].bigger {
-  line-height: 2rem;
-  margin-bottom: 1.64614385rem;
+  line-height: 3rem;
+  margin-bottom: 2.14614385rem;
   margin-top: 0;
   border-bottom-width: 0.15384615rem;
   border-top-width: 0.15384615rem;
   font-size: 2.46153846rem;
-  padding-top: 0.04616385rem;
+  padding-top: 0.54616385rem;
   padding-bottom: 0rem;
 }
 label + input[data-s-radiobox].bigger + .s-radiobox, [class*="label"] + input[data-s-radiobox].bigger + .s-radiobox {
@@ -3264,7 +3264,7 @@ button {
   font-size: 0.38461538rem;
 }
 .vertical-rhythme .btn.btn--smaller {
-  line-height: 0.69230769rem;
+  line-height: 1.69230769rem;
   padding-top: 0;
   padding-bottom: 0;
   margin-bottom: 1.23076923rem;
@@ -3272,7 +3272,7 @@ button {
   border-bottom-width: 0.07692308rem;
   border-top-width: 0.07692308rem;
   font-size: 0.38461538rem;
-  height: 0.69230769rem;
+  height: 1.69230769rem;
 }
 
 .btn.btn--small {
@@ -3318,7 +3318,7 @@ button {
   font-size: 1.30769231rem;
 }
 .vertical-rhythme .btn.btn--medium {
-  line-height: 3.53846154rem;
+  line-height: 4.53846154rem;
   padding-top: 0;
   padding-bottom: 0;
   margin-bottom: 1.38461538rem;
@@ -3326,7 +3326,7 @@ button {
   border-bottom-width: 0.07692308rem;
   border-top-width: 0.07692308rem;
   font-size: 1.30769231rem;
-  height: 3.53846154rem;
+  height: 4.53846154rem;
 }
 
 .btn.btn--big {

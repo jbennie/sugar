@@ -6,14 +6,14 @@
 
 // drawer
 @include s-drawer('menu' reveal left 450px) {
-	@include s-media(-max-width 500px) {
-		@include s-drawer(300px);
-	}
+	// @include s-media(-max-width 500px) {
+	// 	@include s-drawer(300px);
+	// }
 }
 @include s-drawer('author' push right 500px) {
-	@include s-media(-max-width 500px) {
-		@include s-drawer(300px);
-	}
+	// @include s-media(-max-width 500px) {
+	// 	@include s-drawer(300px);
+	// }
 }
 
 [data-s-drawer-bkg="menu"] {
@@ -54,9 +54,9 @@
 		@include s-transform(-scaleX 0.9 -scaleY 0.9 -translateX -430px);
 		box-shadow:rgba(0,0,0,.3) 0 0 50px;
 
-		@include s-media(-max-width 500px) {
-			@include s-transform(-scaleX 0.9 -scaleY 0.9 -translateX -300px);
-		}
+		// @include s-media(-max-width 500px) {
+		// 	@include s-transform(-scaleX 0.9 -scaleY 0.9 -translateX -300px);
+		// }
 	}
 }
 body.s-drawer-author {

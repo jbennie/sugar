@@ -67,22 +67,6 @@ $_s-font-aliases : (
 				s-font : mixed,
 				scope-class : boolean,
 				calculate-height : boolean
-			), (
-				font-size: fs,
-				font-family: ff,
-				line-height: lh,
-				margin-top: mt,
-				margin-bottom: mb,
-				padding-top : pt,
-				padding-bottom : pb,
-				margin : m,
-				padding : p,
-				border-bottom : bb,
-				border-top : bt,
-				border-bottom-width : bbw,
-				border-top-width : btw,
-				border : b,
-				s-font : sf
 			));
 
 			$rhythme : s-handle-nested(vertical-rhythme, $rhythme);
@@ -655,7 +639,7 @@ $_s-font-aliases : (
 	$padding-bottom : s-rem($padding-bottom);
 	$border-bottom : s-rem($border-bottom);
 	$border-top : s-rem($border-top);
-	$line-height : round(s-rem($line-height));
+	$line-height : ceil(s-rem($line-height));
 
 	// save targeted margin bottom
 	$targeted-margin-bottom : $margin-bottom;
@@ -669,6 +653,10 @@ $_s-font-aliases : (
 	// manage cap height
 	@if $cap-height == null {
 		$cap-height : 0;
+	}
+	// manage font-size
+	@if s-strip-units($font-size) <= 0 {
+		$font-size : ceil($font-size + 0.1);
 	}
 
 	// protect

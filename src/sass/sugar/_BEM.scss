@@ -21,7 +21,6 @@
 		.#{$name} {
 			@if $extend {
 				@each $ext in $extend {
-					@debug('ecxtend #{$ext}');
 					@extend .#{$ext} !optional;
 				}
 			}
