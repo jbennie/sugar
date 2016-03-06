@@ -144,15 +144,6 @@
   overflow: hidden;
 }
 
-@-webkit-keyframes s-DOMNodeInserted {
-  from {
-    opacity: .99;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
 @keyframes s-DOMNodeInserted {
   from {
     opacity: .99;
@@ -211,8 +202,7 @@ html {
 
 [data-gooey],
 [data-s-activate] {
-  -webkit-animation: s-DOMNodeInserted 0.001s 0s ease-in-out 1 normal forwards;
-          animation: s-DOMNodeInserted 0.001s 0s ease-in-out 1 normal forwards;
+  animation: s-DOMNodeInserted 0.001s 0s ease-in-out 1 normal forwards;
 }
 
 html {
@@ -240,116 +230,44 @@ body {
   font-style: normal;
   font-weight: normal;
 }
-@-webkit-keyframes rubberBand {
-  from {
-    -webkit-transform: scale3d(1, 1, 1);
-            transform: scale3d(1, 1, 1);
-  }
-  30% {
-    -webkit-transform: scale3d(1.25, 0.75, 1);
-            transform: scale3d(1.25, 0.75, 1);
-  }
-  40% {
-    -webkit-transform: scale3d(0.75, 1.25, 1);
-            transform: scale3d(0.75, 1.25, 1);
-  }
-  50% {
-    -webkit-transform: scale3d(1.15, 0.85, 1);
-            transform: scale3d(1.15, 0.85, 1);
-  }
-  65% {
-    -webkit-transform: scale3d(0.95, 1.05, 1);
-            transform: scale3d(0.95, 1.05, 1);
-  }
-  75% {
-    -webkit-transform: scale3d(1.05, 0.95, 1);
-            transform: scale3d(1.05, 0.95, 1);
-  }
-  100% {
-    -webkit-transform: scale3d(1, 1, 1);
-            transform: scale3d(1, 1, 1);
-  }
-}
 @keyframes rubberBand {
   from {
-    -webkit-transform: scale3d(1, 1, 1);
-            transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
   }
   30% {
-    -webkit-transform: scale3d(1.25, 0.75, 1);
-            transform: scale3d(1.25, 0.75, 1);
+    transform: scale3d(1.25, 0.75, 1);
   }
   40% {
-    -webkit-transform: scale3d(0.75, 1.25, 1);
-            transform: scale3d(0.75, 1.25, 1);
+    transform: scale3d(0.75, 1.25, 1);
   }
   50% {
-    -webkit-transform: scale3d(1.15, 0.85, 1);
-            transform: scale3d(1.15, 0.85, 1);
+    transform: scale3d(1.15, 0.85, 1);
   }
   65% {
-    -webkit-transform: scale3d(0.95, 1.05, 1);
-            transform: scale3d(0.95, 1.05, 1);
+    transform: scale3d(0.95, 1.05, 1);
   }
   75% {
-    -webkit-transform: scale3d(1.05, 0.95, 1);
-            transform: scale3d(1.05, 0.95, 1);
+    transform: scale3d(1.05, 0.95, 1);
   }
   100% {
-    -webkit-transform: scale3d(1, 1, 1);
-            transform: scale3d(1, 1, 1);
-  }
-}
-@-webkit-keyframes tada {
-  from {
-    -webkit-transform: scale3d(1, 1, 1);
-            transform: scale3d(1, 1, 1);
-  }
-  10%, 20% {
-    -webkit-transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
-            transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
-  }
-  30%, 50%, 70%, 90% {
-    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
-            transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
-  }
-  40%, 60%, 80% {
-    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
-            transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
-  }
-  100% {
-    -webkit-transform: scale3d(1, 1, 1);
-            transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
   }
 }
 @keyframes tada {
   from {
-    -webkit-transform: scale3d(1, 1, 1);
-            transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
   }
   10%, 20% {
-    -webkit-transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
-            transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
+    transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
   }
   30%, 50%, 70%, 90% {
-    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
-            transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
   }
   40%, 60%, 80% {
-    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
-            transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
   }
   100% {
-    -webkit-transform: scale3d(1, 1, 1);
-            transform: scale3d(1, 1, 1);
-  }
-}
-@-webkit-keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
+    transform: scale3d(1, 1, 1);
   }
 }
 @keyframes fadeIn {
@@ -360,35 +278,16 @@ body {
     opacity: 1;
   }
 }
-@-webkit-keyframes flipOutX {
-  from {
-    -webkit-transform: perspective(400px);
-            transform: perspective(400px);
-  }
-  30% {
-    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
-            transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
-    opacity: 1;
-  }
-  100% {
-    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
-            transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
-    opacity: 0;
-  }
-}
 @keyframes flipOutX {
   from {
-    -webkit-transform: perspective(400px);
-            transform: perspective(400px);
+    transform: perspective(400px);
   }
   30% {
-    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
-            transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
     opacity: 1;
   }
   100% {
-    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
-            transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
     opacity: 0;
   }
 }
@@ -409,7 +308,6 @@ body {
   position: absolute;
   top: 100%;
   pointer-events: none;
-  -webkit-transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
   transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
   outline-color: black;
 }
@@ -421,7 +319,6 @@ body {
   background: white;
   border: 1px solid rgba(129, 149, 161, 0.2);
   box-shadow: rgba(129, 149, 161, 0.3) 0 10px 10px;
-  -webkit-transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
   transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
   outline-color: black;
 }
@@ -1306,8 +1203,7 @@ address:not(.no-vertical-rhythme) .i {
   right: 10%;
   top: 50%;
   font-size: 25rem !important;
-  -webkit-transform: translateX(0) translateY(-40%) translateZ(0);
-          transform: translateX(0) translateY(-40%) translateZ(0);
+  transform: translateX(0) translateY(-40%) translateZ(0);
   color: rgba(129, 149, 161, 0.1);
 }
 
@@ -1395,7 +1291,6 @@ address:not(.no-vertical-rhythme) .i {
 .typeset table:not(.no-typeset).table-shadowed, .typeset table:not(.no-typeset).table--shadowed,
 .table.table-shadowed,
 .table.table--shadowed {
-  -webkit-transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
   transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
   outline-color: black;
 }
@@ -1754,7 +1649,6 @@ table:not(.no-vertical-rhythme).table-bigger th, .vertical-rhythme
   line-height: 1;
   outline: none;
   width: 100%;
-  -webkit-transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
   transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
   outline-color: black;
 }
@@ -1772,7 +1666,6 @@ table:not(.no-vertical-rhythme).table-bigger th, .vertical-rhythme
   border-left-style: solid;
   display: block;
   width: 100%;
-  -webkit-transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
   transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
   outline-color: black;
 }
@@ -1780,7 +1673,6 @@ table:not(.no-vertical-rhythme).table-bigger th, .vertical-rhythme
 .fieldset > legend,
 .formset fieldset > .legend,
 .fieldset > .legend {
-  -webkit-transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
   transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
   outline-color: black;
   border-left-style: solid;
@@ -1797,7 +1689,6 @@ input[data-s-radiobox][type="radio"] + .s-radiobox, input[data-s-radiobox][type=
   display: inline-block;
   position: relative;
   cursor: pointer;
-  -webkit-transition: all 0.1s ease-in-out 0s, outline-color 0.000001s linear 0s;
   transition: all 0.1s ease-in-out 0s, outline-color 0.000001s linear 0s;
   outline-color: black;
   vertical-align: sub;
@@ -1808,11 +1699,9 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
   content: '';
   display: block;
   position: absolute;
-  -webkit-transform: scaleX(1) scaleY(1) rotate(90deg);
-          transform: scaleX(1) scaleY(1) rotate(90deg);
+  transform: scaleX(1) scaleY(1) rotate(90deg);
   width: 100%;
   height: 100%;
-  -webkit-transition: all 0.1s ease-in-out 0s, outline-color 0.000001s linear 0s;
   transition: all 0.1s ease-in-out 0s, outline-color 0.000001s linear 0s;
   outline-color: black;
 }
@@ -1820,11 +1709,9 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:after, input[data-s-radiobox]
   content: '';
   display: block;
   position: absolute;
-  -webkit-transform: scaleX(0) scaleY(0) rotate(-90deg);
-          transform: scaleX(0) scaleY(0) rotate(-90deg);
+  transform: scaleX(0) scaleY(0) rotate(-90deg);
   width: 100%;
   height: 100%;
-  -webkit-transition: all 0.1s ease-in-out 0s, outline-color 0.000001s linear 0s;
   transition: all 0.1s ease-in-out 0s, outline-color 0.000001s linear 0s;
   outline-color: black;
   background-size: 100% 100%;
@@ -1832,20 +1719,17 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:after, input[data-s-radiobox]
   background-repeat: no-repeat;
 }
 input[data-s-radiobox][type="radio"]:checked + .s-radiobox:before, input[data-s-radiobox][type="checkbox"]:checked + .s-radiobox:before {
-  -webkit-transform: scaleX(0) scaleY(0) rotate(0deg);
-          transform: scaleX(0) scaleY(0) rotate(0deg);
+  transform: scaleX(0) scaleY(0) rotate(0deg);
 }
 input[data-s-radiobox][type="radio"]:checked + .s-radiobox:after, input[data-s-radiobox][type="checkbox"]:checked + .s-radiobox:after {
-  -webkit-transform: scaleX(1) scaleY(1) rotate(0deg);
-          transform: scaleX(1) scaleY(1) rotate(0deg);
+  transform: scaleX(1) scaleY(1) rotate(0deg);
 }
 input.checkmark--inside[data-s-radiobox][type="radio"] + .s-radiobox:after, input.checkmark--inside[data-s-radiobox][type="checkbox"] + .s-radiobox:after, input.checkmark--fill[data-s-radiobox][type="radio"] + .s-radiobox:after, input.checkmark--fill[data-s-radiobox][type="checkbox"] + .s-radiobox:after {
   background-size: 60% 60%;
   background-position: 49% 57% !important;
 }
 input.checkmark--inside[data-s-radiobox][type="radio"] + .s-radiobox:before, input.checkmark--inside[data-s-radiobox][type="checkbox"] + .s-radiobox:before {
-  -webkit-transform: scaleX(1) scaleY(1) rotate(0) !important;
-          transform: scaleX(1) scaleY(1) rotate(0) !important;
+  transform: scaleX(1) scaleY(1) rotate(0) !important;
 }
 
 input.checkmark--inside[data-s-radiobox][type="radio"] + .s-radiobox:after, input.checkmark--fill[data-s-radiobox][type="radio"] + .s-radiobox:after {
@@ -1924,10 +1808,7 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 
 .formset label,
 .label {
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  user-select: none;
 }
 .vertical-rhythme .formset label select.smaller, .vertical-rhythme .formset label textarea.smaller, .vertical-rhythme .formset label input:not([type="checkbox"]):not([type="radio"]).smaller, .vertical-rhythme .formset label .input--smaller, .vertical-rhythme .formset label .input-postfix--smaller, .vertical-rhythme .formset label .input-prefix--smaller, .vertical-rhythme .formset label .form-group, .vertical-rhythme
 .label select.smaller, .vertical-rhythme
@@ -2018,10 +1899,7 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 
 .formset label,
 .label {
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  user-select: none;
 }
 .vertical-rhythme .formset label select.small, .vertical-rhythme .formset label textarea.small, .vertical-rhythme .formset label input:not([type="checkbox"]):not([type="radio"]).small, .vertical-rhythme .formset label .input--small, .vertical-rhythme .formset label .input-postfix--small, .vertical-rhythme .formset label .input-prefix--small, .vertical-rhythme .formset label .form-group, .vertical-rhythme
 .label select.small, .vertical-rhythme
@@ -2112,10 +1990,7 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 
 .formset label,
 .label {
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  user-select: none;
 }
 .vertical-rhythme .formset label select, .vertical-rhythme .formset label textarea, .vertical-rhythme .formset label input:not([type="checkbox"]):not([type="radio"]), .vertical-rhythme .formset label .input, .vertical-rhythme .formset label .input-postfix, .vertical-rhythme .formset label .input-prefix, .vertical-rhythme .formset label .form-group, .vertical-rhythme
 .label select, .vertical-rhythme
@@ -2206,10 +2081,7 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 
 .formset label,
 .label {
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  user-select: none;
 }
 .vertical-rhythme .formset label select.medium, .vertical-rhythme .formset label textarea.medium, .vertical-rhythme .formset label input:not([type="checkbox"]):not([type="radio"]).medium, .vertical-rhythme .formset label .input--medium, .vertical-rhythme .formset label .input-postfix--medium, .vertical-rhythme .formset label .input-prefix--medium, .vertical-rhythme .formset label .form-group, .vertical-rhythme
 .label select.medium, .vertical-rhythme
@@ -2300,10 +2172,7 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 
 .formset label,
 .label {
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  user-select: none;
 }
 .vertical-rhythme .formset label select.big, .vertical-rhythme .formset label textarea.big, .vertical-rhythme .formset label input:not([type="checkbox"]):not([type="radio"]).big, .vertical-rhythme .formset label .input--big, .vertical-rhythme .formset label .input-postfix--big, .vertical-rhythme .formset label .input-prefix--big, .vertical-rhythme .formset label .form-group, .vertical-rhythme
 .label select.big, .vertical-rhythme
@@ -2394,10 +2263,7 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 
 .formset label,
 .label {
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  user-select: none;
 }
 .vertical-rhythme .formset label select.bigger, .vertical-rhythme .formset label textarea.bigger, .vertical-rhythme .formset label input:not([type="checkbox"]):not([type="radio"]).bigger, .vertical-rhythme .formset label .input--bigger, .vertical-rhythme .formset label .input-postfix--bigger, .vertical-rhythme .formset label .input-prefix--bigger, .vertical-rhythme .formset label .form-group, .vertical-rhythme
 .label select.bigger, .vertical-rhythme

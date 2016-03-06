@@ -6,3 +6,15 @@
 @include s-Bem(caca -e coco) {
 	content:'caca';
 }
+
+.hey {
+	@include s-hey($vertical-align : top);
+	@include s-filter(blur(20px) box-shadow(black 0 0 20px));
+	@include s-background(
+		$repeat : no-repeat,
+		$width : 200px,
+		$height : 400px,
+		$url : 'coco.jpg',
+		$x2 : true
+	);
+}

@@ -6,32 +6,23 @@
 // Side lined
 //
 @mixin s-side-lined(
-	$props : ()
+	$style : solid,
+	$side : both,
+	$height : s-rem(1px),
+	$width : 50%,
+	$color : black,
+	$padding : 0,
+	$margin-top : null
 ) {
-	$props : s-parse-properties($props, (
-		style : none hidden dotted dashed solid double groove ridge inset outset initial inherit,
-		side : left right both,
-		height : number,
-		width : number,
-		color : color,
-		padding : number,
-		margin-top : number
-	), (
-		style : stl,
-		side : si,
-		padding : p,
-		margin-top : mt
-	));
-	
-	$s : s-handle-nested(side-lined, $props);
-
-	$side : map-get-or($props, side, both);
-	$height : map-get-or($props, height, s-rem(1px));
-	$width : map-get-or($props, width, 50%);
-	$color : map-get-or($props, color, black);
-	$style : map-get-or($props, style, solid);
-	$margin-top : map-get($props, margin-top);
-	$padding : map-get-or($props, padding, 0);
+	@if $_sugar-test-arguments {
+		$style : s-test-argument('s-side-lined','style',none hidden dotted dashed solid double groove ridge inset outset initial inherit,$style);
+		$side : s-test-argument('s-side-lined','side',left right both,$side);
+		$height : s-test-argument('s-side-lined','height',number,$height);
+		$width : s-test-argument('s-side-lined','width',number,$width);
+		$color : s-test-argument('s-side-lined','color',color,$color);
+		$padding : s-test-argument('s-side-lined','padding',number,$padding);
+		$margin-top : s-test-argument('s-side-lined','margin-top',number,$margin-top);
+	}
 
 	display: block;
 	overflow: hidden;
@@ -92,71 +83,63 @@
 			margin-right: -50%;
 		}
 	}
-
-	@include s-handle-nested(side-lined) {
-		@content;
-	}
 }
 
 //
 // Position
 //
 @mixin s-position(
-	$position
+	$position,
+	$vertical-align : top,
+	$align : left,
+	$top : null,
+	$right : null,
+	$bottom : null,
+	$left : null,
+	$z : null
 ) {
 	// get map
-	$map : s-position($position, $_handle-nested : true);
+	$map : s-position(
+		$position : $position,
+		$vertical-align : $vertical-align,
+		$align : $align,
+		$top : $top,
+		$right : $right,
+		$bottom : $bottom,
+		$left : $left,
+		$z : $z
+	);
 
 	// get map
 	@each $prop, $value in $map {
 		#{$prop} : $value;
 	}
-
-	// handle nested
-	@include s-handle-nested(position) {
-		@content;
-	}
 }
 @function s-position(
-	$position,
-	$_handle-nested : false
+	$position : absolute,
+	$vertical-align : top,
+	$align : left,
+	$top : null,
+	$right : null,
+	$bottom : null,
+	$left : null,
+	$z : null
 ) {
-	$position : s-parse-properties($position, (
-		position : fixed relative absolute,
-		vertical-align : top middle bottom,
-		align : left center right,
-		top : number,
-		right : number,
-		bottom : number,
-		left : number,
-		z : number
-	), (
-		position : p,
-		top : t y,
-		right : r,
-		bottom : b,
-		left : l x
-	));
+	@if $_sugar-test-arguments {
+		$t : s-test-argument('s-position','position',(fixed,relative,absolute),$position);
+		$t : s-test-argument('s-position','vertical-align',(top,middle,bottom),$vertical-align);
+		$t : s-test-argument('s-position','align',(left,center,right),$align);
+		$t : s-test-argument('s-position','top','number|null',$top);
+		$t : s-test-argument('s-position','right','number|null',$right);
+		$t : s-test-argument('s-position','bottom','number|null',$bottom);
+		$t : s-test-argument('s-position','left','number|null',$left);
+		$t : s-test-argument('s-position','z','number|null',$z);
+	}
 
 	$return : ();
 
-	// handle nested
-	@if $_handle-nested {
-		$position : s-handle-nested(position, $position);
-	}
-
-	// get values
-	$pos : map-get-or($position, position, absolute);
-	$top : map-get($position, top);
-	$right : map-get($position, right);
-	$bottom : map-get($position, bottom);
-	$left : map-get($position, left);
-	$z : map-get($position, z);
-	$vertical-align : map-get($position, vertical-align);
-	$align : map-get($position, align);
-
-	@if $pos {
-		$return : map-set($return, position, $pos);
+	@if $position {
+		$return : map-set($return, position, $position);
 	}
 	@if $z {
 		$return : map-set($return, transform, translateZ($z));
@@ -280,40 +263,32 @@
 // Translate
 //
 @mixin s-translate(
-	$translate
+	$x : 0,
+	$y : 0,
+	$z : 0
 ) {
 	// get the translate props
-	$translate : s-translate($translate, $_handle-nested : true);
+	$translate : s-translate(
+		$x : $x,
+		$y : $y,
+		$z : $z
+	);
 
 	// get map
 	@each $prop, $value in $translate {
 		#{$prop} : $value;
 	}
-
-	// handle nested
-	@include s-handle-nested(translate) {
-		@content;
-	}
 }
 @function s-translate(
-	$translate,
-	$_handle-nested : false
+	$x : 0,
+	$y : 0,
+	$z : 0
 ) {
-	$translate : s-parse-properties($translate, (
-		x : number,
-		y : number,
-		z : number
-	));
-	
-	// handle nested
-	@if $_handle-nested {
-		$translate : s-handle-nested(translate, $translate);
+	@if $_sugar-test-arguments {
+		$x : s-test-argument('s-translate','x',number,$x);
+		$y : s-test-argument('s-translate','y',number,$y);
+		$z : s-test-argument('s-translate','z',number,$z);
 	}
-
-	// get values
-	$x : map-get-or($translate, x, 0);
-	$y : map-get-or($translate, y, 0);
-	$z : map-get-or($translate, z, 0);
 
 	// build translate
 	$translates : ();
@@ -334,94 +309,24 @@
 }
 
 //
-// Transform
-//
-@mixin s-transform(
-	$transform
-) {
-	// get the translate props
-	$transform : s-transform($transform, $_handle-nested : true);
-
-	// get map
-	@each $prop, $value in $transform {
-		#{$prop} : $value;
-	}
-
-	// handle nested transforms
-	@include s-handle-nested(transform) {
-		@content;
-	}
-}
-@function s-transform(
-	$transform,
-	$_handle-nested : false
-) {
-	// parse properties
-	$transform : s-parse-properties($transform, (
-		matrix : true,
-		matrix3d : true,
-		translate : true,
-		translate3d : true,
-		translateX : number,
-		translateY : number,
-		translateZ : number,
-		scale : true,
-		scaleX : number,
-		scaleY : number,
-		scaleZ : number,
-		rotate : degree,
-		rotate3d : true,
-		rotateX : degree,
-		rotateY : degree,
-		rotateZ : degree,
-		skew : true,
-		skewX : degree,
-		skewY : degree,
-		perspective : number
-	));
-
-	// handle nested transforms
-	@if $_handle-nested {
-		$transform : s-handle-nested(transform, $transform);
-	}
-
-	// build transform
-	$transforms : ();
-	@each $name, $value in $transform {
-		$values : ();
-		@each $val in $value {
-			$values : append($values, $val, comma);
-		}
-		$transforms : append($transforms, unquote("#{$name}(#{$values})"));
-	}
-	// return
-	@return (
-		transform : $transforms
-	);
-}
-
-//
 // Ratio
 //
-@mixin s-size(
-	$ratio
+@mixin s-ratio(
+	$ratio : null,
+	$type : before
 ) {
-	$ratio : s-parse-properties($ratio, (
-		type : before after,
-		ratio : number
-	), (
-		type : t,
-		ratio : r
-	));
-	$rat : map-get($ratio, ratio);
-	$type : map-get-or($ratio, type, before);
+	@if $_sugar-test-arguments {
+		$type : s-test-argument('s-size','type',(before,after),$type);
+		$ratio : s-test-argument('s-size','ratio',number,$ratio);
+	}
+
 	position: relative;
 	overflow: hidden;
 	&:#{$type} {
 		content:'';
 		display: block;
 		height: 0;
-		padding-top: percentage(1 / $rat);
+		padding-top: percentage(1 / $ratio);
 	}
 }
 
@@ -439,53 +344,41 @@
 //
 // Size
 //
-@mixin s-space(
-	$size
+@mixin s-size(
+	$size-width,
+	$height : null,
+	$position : relative
 ) {
-	$size : s-parse-properties($size, (
-		position : absolute relative,
-		size : cover contain,
-		width : number,
-		height : number
-	), (
-		position : p,
-		size : s
-	));
-
-	// handle nested
-	$size : s-handle-nested(size, $size);
-
-	// get values
-	$width : map-get($size, width);
-	$height : map-get($size, height);
-	$s : map-get($size, size);
-	$p : map-get-or($size, position, absolute);
+	@if $_sugar-test-arguments {
+		@if type-of($size-width) != number {
+			$size-width : s-test-argument('s-size','size-width',(cover,contain),$size-width);
+		} @else {
+			$size-width : s-test-argument('s-size','size-width',number,$size-width);
+		}
+		$height : s-test-argument('s-size','height','number|null',$height);
+		$position : s-test-argument('s-size','position',(relative,absolute),$position);
+	}
 
 	// apply values
-	@if $s {
+	@if type-of($size-width) == string {
 		position: $p;
 		top: 50%;
 		left: 50%;
 		transform: translateX(-50%) translateY(-50%);
-		@if $s == cover {
+		@if $size-width == cover {
 			min-width: 100%;
 			min-height: 100%;
-		} @else if $s == contain {
+		} @else if $size-width == contain {
 			max-width:100%;
 			max-height:100%;
 		}
 	} @else {
-		@if $width {
-			width : $width;
+		@if $size-width {
+			width : $size-width;
 		}
 		@if $height {
 			height : $height;
 		}
-	}
-
-	// handle nested
-	@include s-handle-nested(size) {
-		@content;
 	}
 }
 

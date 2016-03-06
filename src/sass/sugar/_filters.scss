@@ -6,7 +6,7 @@
 // filter universal mixin
 //
 @mixin s-filter(
-	$filters...
+	$filters
 ) {
 	@each $filter in $filters {
 		@include _s-filter($filter);
@@ -15,7 +15,6 @@
 @mixin _s-filter(
 	$filter
 ) {
-
 	$filters : sugar('settings.filters');
 	// cssgram
 	@if type-of($filter) == string and str-slice($filter,1,8) == 'cssgram-' {
@@ -30,45 +29,27 @@
 			$filter : map-get($filter, filter);
 		}
 		@include s-filter($filter);
-	} @else if type-of($filter) != string {
-		$filter : s-parse-properties($filter, (
-			drop-shadow : true,
-			box-shadow : true,
-			text-shadow : true,
-			blur : true,
-			brightness : true,
-			contrast : true,
-			grayscale : true,
-			hue-rotate : true,
-			invert : true,
-			opacity : true,
-			saturate : true,
-			sepia : true,
-			url : true	
-		), (
-			box-shadow : bs,
-			text-shadow : ts,
-			drop-shadow : ds,
-			blur : bl,
-			brightness : br,
-			contrast : con,
-			grayscale : gr,
-			hue-rotate : hue,
-			invert : i,
-			opacity : o,
-			saturate : sat,
-			sepia : sep,
-			url : u
-		));
-		
+	} @else {
 		// loop on each filters
 		$filters : ();
-		@each $name, $value in $filter {
-			@if $name == box-shadow or $name == text-shadow {
-				#{$name} : s-replace-tokens($value);
+		$i : 1;
+		@each $f in $filter {
+			@if str-index($f,'box-shadow(') {
+				$f : str-replace($f,'box-shadow(','');
+				$f : str-replace($f,')','');
+				box-shadow: $f;
+				$filter : remove-nth($filter,$i);
+				$i : $i - 1;
+			} @else if str-index($f,'text-shadow(') {
+				$f : str-replace($f,'text-shadow(','');
+				$f : str-replace($f,')','');
+				text-shadow: $f;
+				$filter : remove-nth($filter,$i);
+				$i : $i - 1;
 			} @else {
-				$filters : append($filters, unquote("#{$name}(#{s-replace-tokens($value)})"));
+				$filters : append($filters, $f);
 			}
+			$i : $i + 1;
 		}
 		@if length($filters) > 0 {
 			filter : $filters;

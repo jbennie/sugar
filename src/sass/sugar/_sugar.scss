@@ -35,6 +35,11 @@
 // |------------------------------------------------------
 
 //
+// Variables
+//
+$_sugar-test-arguments 					: true; 			// define if need to check the arguments of mixins and functions
+
+//
 // Vendors
 //
 @import 'vendors/sassdash/sassdash';
@@ -117,11 +122,6 @@
 // Typo
 //
 @import 'typo';
-
-//
-// Color
-//
-@import 'colors';
 
 //
 // Shapes

@@ -6,7 +6,7 @@
 // Image rendering
 //
 @mixin s-image-rendering (
-	$mode:auto
+	$mode : auto
 ) {
 	@if ($mode == crisp-edges) {
 		-ms-interpolation-mode: nearest-neighbor; // IE8+
@@ -24,56 +24,47 @@
 // Background
 //
 @mixin s-background(
-	$background
+	$repeat : null,
+	$size : null,
+	$attachment : null,
+	$blend-mode : null,
+	$clip : null,
+	$origin : null,
+	$url : null,
+	$width : null,
+	$height : null,
+	$top : null,
+	$left : null,
+	$x2 : null,
+	$x3 : null,
+	$x4 : null,
+	$position : null
 ) {
-	$background : s-parse-properties($background, (
-		repeat : repeat repeat-x repeat-y no-repeat,
-		size : auto length cover contain initial inherit,
-		attachment : scroll fixed local initial inherit,
-		blend-mode : normal multiply screen overlay darken lighten color-dodge saturation color luminosity,
-		clip : border-box padding-box content-box initial inherit,
-		origin : padding-box border-box content-box initial inherit,
-		url : string,
-		width : number,
-		height : number,
-		top : number,
-		left : number,
-		x2 : string,
-		x3 : string,
-		x4 : string,
-		position : true
-	), (
-		repeat : r,
-		size : s,
-		blend-mode : bm,
-		origin : o,
-		url : u,
-		position : p,
-		attachment : att,
-		clip : cl
-	));
-	$background : s-handle-nested(background, $background);
+	@if $_sugar-test-arguments {
+		$repeat : s-test-argument('s-background','repeat',(repeat,repeat-x,repeat-y,no-repeat),$repeat);
+		$size : s-test-argument('s-background','size',(auto,length,cover,contain,initial,inherit),$size);
+		$attachment : s-test-argument('s-background','attachment',(scroll,fixed,local,initial,inherit),$attachment);
+		$blend-mode : s-test-argument('s-background','blend-mode',(normal,multiply,screen,overlay,darken,lighten,color-dodge,saturation,color,luminosity),$blend-mode);
+		$clip : s-test-argument('s-background','clip',(border-box,padding-box,content-box,initial,inherit),$clip);
+		$origin : s-test-argument('s-background','origin',(padding-box,border-box,content-box,initial,inherit),$origin);
+		$url : s-test-argument('s-background','url',string,$url);
+		$width : s-test-argument('s-background','width',number,$width);
+		$height : s-test-argument('s-background','height',number,$height);
+		$x2 : s-test-argument('s-background','x2','string|boolean',$x2);
+		$x3 : s-test-argument('s-background','x3','string|boolean',$x3);
+		$x4 : s-test-argument('s-background','x4','string|boolean',$x4);
+		$position : s-test-argument('s-background','position',mixed,$position);
+	}
 
-	// get values
-	$repeat : map-get($background, repeat);
-	$size : map-get($background, size);
-	$attachment : map-get($background, attachment);
-	$blend-mode : map-get($background, blend-mode);
-	$clip : map-get($background, clip);
-	$origin : map-get($background, origin);
-	$url : map-get($background, url);
-	$top : map-get($background, top);
-	$left : map-get($background, left);
-	$width : map-get($background, width);
-	$height : map-get($background, height);
-	$_2x : map-get-or($background, x2);
-	@if $_2x == true { $_2x : '@2x'; }
-	$_3x : map-get-or($background, x3);
-	@if $_3x == true { $_3x : '@3x'; }
-	$_4x : map-get-or($background, x4);
-	@if $_4x == true { $_4x : '@4x'; }
-
-	$position : map-get($background, position);
+	@if $x2 == true {
+		$x2 : '@2x';
+	}
+	@if $x3 == true {
+		$x3 : '@3x';
+	}
+	@if $x4 == true {
+		$x4 : '@4x';
+	}
 
 	// build background
 	$back : ();
@@ -109,22 +100,22 @@
 	// resolutions
 	$split : _split($url,'.');
 	$name : nth($split, length($split)-1);
-	@if $_2x and $url {
-		$split : set-nth($split, length($split)-1, #{$name}#{$_2x});
+	@if $x2 and $url {
+		$split : set-nth($split, length($split)-1, #{$name}#{$x2});
 		$url : _join($split, '.');
 		@include s-media(2x) {
 			background-image: url("#{$url}");
 		}
 	}
-	@if $_3x and $url {
-		$split : set-nth($split, length($split)-1, #{$name}#{$_3x});
+	@if $x3 and $url {
+		$split : set-nth($split, length($split)-1, #{$name}#{$x3});
 		$url : _join($split, '.');
 		@include s-media(3x) {
 			background-image: url("#{$url}");
 		}
 	}
-	@if $_4x and $url {
-		$split : set-nth($split, length($split)-1, #{$name}#{$_4x});
+	@if $x4 and $url {
+		$split : set-nth($split, length($split)-1, #{$name}#{$x4});
 		$url : _join($split, '.');
 		@include s-media(4x) {
 			background-image: url("#{$url}");

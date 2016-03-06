@@ -6,17 +6,9 @@
 // Block
 //
 @mixin s-Bem(
-	$bem
+	$name,
+	$extend : false
 ) {
-	$bem : s-parse-properties($bem, (
-		name : string,
-		ext : string
-	), (
-		name : n,
-		ext : e
-	));
-	$name : map-get($bem, name);
-	$extend : map-get($bem, ext);
 	@at-root {
 		.#{$name} {
 			@if $extend {
@@ -33,24 +25,12 @@
 // Block element
 //
 @mixin s-bEm(
-	$bem
+	$name,
+	$extend : false
 ) {
-	$bem : s-parse-properties($bem, (
-		name : string,
-		extend : true,
-		root : true
-	), (
-		name : n,
-		extend : e,
-		root : r
-	));
-	$name : map-get($bem, name);
-	$extend : map-get($bem, extend);
-	$root : map-get-or($bem, root, false);
-
 	$separator : sugar('settings.BEM.element-separator');
 	$this : #{&};
-	@if $root {
+	@if $this == '' or not $this {
 		$this : '.';
 		$separator : '';
 	}
@@ -70,21 +50,10 @@
 // Block modifier
 //
 @mixin s-beM(
-	$bem
+	$name,
+	$extend : false,
+	$standelone : sugar('settings.BEM.standelone')
 ) {
-	$bem : s-parse-properties($bem, (
-		name : string,
-		extend : true,
-		standelone : true
-	), (
-		name : n,
-		extend : e,
-		standelone : s
-	));
-	$name : map-get($bem, name);
-	$extend : map-get($bem, extend);
-	$standelone : map-get-or($bem, standelone, sugar('settings.BEM.standelone'));
-
 	$separator : sugar('settings.BEM.modifier-separator');
 	$this : #{&};
 	@at-root {

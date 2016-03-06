@@ -6,31 +6,30 @@
 // Hey
 //
 @mixin s-hey(
-	$props : ()
+	$vertical-align : top,
+	$align : left,
+	$size : 20px,
+	$color : gold,
+	$margin-left : 0,
+	$margin-right : 0,
+	$margin-top : 0,
+	$margin-bottom : 0
 ) {
-	$props : s-parse-properties($props, (
-		vertical-align : top middle bottom,
-		align : left center right,
-		size : number,
-		color : color,
-		margin-left : number,
-		margin-top : number,
-		margin-bottom : number,
-		margin-right : number
-	));
+	@if $_sugar-test-arguments {
+		$t : s-test-argument('s-hey','vertical-align',(top,middle,bottom),$vertical-align);
+		$t : s-test-argument('s-hey','align',(left,center,right),$align);
+		$t : s-test-argument('s-hey','size',number,$size);
+		$t : s-test-argument('s-hey','color',color,$color);
+		$t : s-test-argument('s-hey','margin-left',number,$margin-left);
+		$t : s-test-argument('s-hey','margin-top',number,$margin-top);
+		$t : s-test-argument('s-hey','margin-bottom',number,$margin-bottom);
+		$t : s-test-argument('s-hey','margin-right',number,$margin-right);
+	}
 
-	$props : s-handle-nested(hey, $props);
-
-	$vertical-align : map-get-or($props, vertical-align, top);
-	$align : map-get-or($props, align, right);
-	$size : map-get-or($props, size, 20px);
-	$color : map-get-or($props, color, gold);
-	$margin-left : map-get-or($props, margin-left, 0px);
-	$margin-right : map-get-or($props, margin-right, 0px);
-	$margin-top : map-get-or($props, margin-top, 0px);
-	$margin-bottom : map-get-or($props, margin-bottom, 0px);
-
-	$position : s-position($vertical-align $align);
+	$position : s-position(
+		$vertical-align : $vertical-align,
+		$align : $align
+	);
 	
 	@keyframes s-hey {
 		from {
@@ -115,37 +114,25 @@
 // Shade
 //
 @mixin s-long-shadow(
-	$shade
+	$color : rgba(0,0,0,.3),
+	$type : text,
+	$angle : 135deg,
+	$depth : 20,
+	$fade : false,
+	$blur : 0,
+	$blur-ratio : 0
 ) {
-	$shade : s-parse-properties($shade, (
-		color : color,
-		type : text box,
-		angle : degree,
-		depth : number,
-		fade : true,
-		blur : number,
-		blur-ratio : number
-	), (
-		color : c,
-		type : t,
-		angle : a,
-		depth : d,
-		fade : f,
-		blur : b,
-		blur-ratio : br
-	));
+	@if $_sugar-test-arguments {
+		$color : s-test-argument('s-long-shadow','color',color,$color);
+		$type : s-test-argument('s-long-shadow','type',(text,box),$type);
+		$angle : s-test-argument('s-long-shadow','angle',degree,$angle);
+		$depth : s-test-argument('s-long-shadow','depth',number,$depth);
+		$fade : s-test-argument('s-long-shadow','fade',boolean,$fade);
+		$blur : s-test-argument('s-long-shadow','blur',number,$blur);
+		$blur-ratio : s-test-argument('s-long-shadow','blur-ratio',number,$blur-ratio);
+	}
 
-	$shade : s-handle-nested(shade, $shade);
-
-	$color : map-get($shade, color);
-	$type : map-get-or($shade, type, text);
-	$angle : map-get-or($shade, angle, 135);
-	$depth : map-get-or($shade, depth, 20);
-	$fade : map-get-or($shade, fade, false);
-	$blur : map-get-or($shade, blur, 0);
-	$blur-ratio : map-get-or($shade, blur-ratio, 0);
-
-	$angle: ($angle - 90);             
+	$angle: (s-strip-units($angle) - 90);             
 	$x: 1.5 * cos($angle) + 0px;  
 	$y: 1.5 * sin($angle) + 0px;  
 	$darken: (lightness($color)/$depth)/2;
@@ -167,8 +154,4 @@
 		$shadow: $shadow, $i*$x $i*$y s-rem($b) hsla(hue($color) , saturation($color), (lightness($color) - ($i * $darken)), 1 - ($i * $opacify));     
 	}       
 	#{$type}-shadow: $shadow;
-
-	@include s-handle-nested(shade) {
-		@content;
-	}
 }

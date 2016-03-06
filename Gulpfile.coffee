@@ -108,7 +108,7 @@ gulp.task 'compass', ->
 # sass
 gulp.task 'sass', ->
 	gulp.src './src/sass/**/*.scss'
-	.pipe sass(outputStyle: 'compressed').on 'error', sass.logError
+	.pipe sass(outputStyle: 'expanded').on 'error', sass.logError
 	.pipe autoprefixer()
 	.pipe gulp.dest 'assets/css'
 
@@ -138,10 +138,10 @@ gulp.task 'webpack-app', ['clean-js'], ->
 	.pipe gulp.dest 'assets/js'
 
 # register tasks
-gulp.task 'default', ['webpack-dist','webpack-app','compass']
+gulp.task 'default', ['webpack-dist','webpack-app','sass']
 gulp.task 'watch', ['default'], ->
 	# Recompile on change
 	gulp.watch ["src/coffee/**/*.coffee"], ['webpack-dist','webpack-app']
 	gulp.watch ['src/js/**/*.js'], ['webpack-dist','webpack-app']
-	gulp.watch ["src/sass/**/*.scss"], ['compass']
+	gulp.watch ["src/sass/**/*.scss"], ['sass']
 	gulp.watch ['pages/**/*.html'], ['tokens']
