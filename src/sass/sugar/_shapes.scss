@@ -6,89 +6,92 @@
 // Corner
 //
 @mixin s-corner(
-	$radius
+	$radius : null,
+	$top : null,
+	$right : null,
+	$bottom : null,
+	$left : null,
+	$top-left : null,
+	$top-right : null,
+	$bottom-left : null,
+	$bottom-right : null
 ) {
+	@if $_sugar-test-arguments {
+		$radius : s-test-argument('s-corner','radius','number|list-number',$radius);
+		$top : s-test-argument('s-corner','top','number|list-number',$top);
+		$right : s-test-argument('s-corner','right','number|list-number',$right);
+		$bottom : s-test-argument('s-corner','bottom','number|list-number',$bottom);
+		$left : s-test-argument('s-corner','left','number|list-number',$left);
+		$top-left : s-test-argument('s-corner','top-left','number|list-number',$top-left);
+		$top-right : s-test-argument('s-corner','top-right','number|list-number',$top-right);
+		$bottom-left : s-test-argument('s-corner','bottom-left','number|list-number',$bottom-left);
+		$bottom-right : s-test-argument('s-corner','bottom-right','number|list-number',$bottom-right);
+	}
+
 	@if length($radius) == 1 and type-of($radius) == number {
 		border-radius: $radius;
 		$radius : remove-nth($radius, 1);
 	}
-		
-	// parse properties
-	$props : s-parse-properties($radius, (
-		top : true,
-		right : true,
-		bottom : true,
-		left : true,
-		top-left : true,
-		top-right : true,
-		bottom-left : true,
-		bottom-right : true
-	), (
-		top : t,
-		right : r,
-		bottom : b,
-		left : l,
-		top-left : tl,
-		top-right : tr,
-		bottom-left : bl,
-		bottom-right : br
-	));
-
-	// handle nested
-	$props : s-handle-nested(corner, $props);
 
 	// top
-	$top : map-get-or($props, top);
-	@if $top and type-of($top) == number or type-of($top) == list {
+	@if $top {
 		border-top-left-radius: $top;
 		border-top-right-radius: $top;
 	}
 	// right
-	$right : map-get-or($props, right);
-	@if $right and type-of($right) == number or type-of($right) == list {
+	@if $right {
 		border-top-right-radius: $right;
 		border-bottom-right-radius: $right;
 	}
 	// bottom
-	$bottom : map-get-or($props, bottom);
-	@if $bottom and type-of($bottom) == number or type-of($bottom) == list {
+	@if $bottom {
 		border-bottom-left-radius: $bottom;
 		border-bottom-right-radius: $bottom;
 	}
 	// left
-	$left : map-get-or($props, left);
-	@if $left and type-of($left) == number or type-of($left) == list {
+	@if $left {
 		border-top-left-radius: $left;
 		border-bottom-left-radius: $left;
 	}
 	// top left
-	$top-left : map-get-or($props, top-left);
-	@if $top-left and type-of($top-left) == number or type-of($top-left) == list {
+	@if $top-left {
 		border-top-left-radius: $top-left;
 	}
 	// top-right
-	$top-right : map-get-or($props, top-right);
-	@if $top-right and type-of($top-right) == number or type-of($top-right) == list {
+	@if $top-right {
 		border-top-right-radius: $top-right;
 	}
 	// bottom-left
-	$bottom-left : map-get-or($props, bottom-left);
-	@if $bottom-left and type-of($bottom-left) == number or type-of($bottom-left) == list {
+	@if $bottom-left {
 		border-bottom-left-radius: $bottom-left;
 	}
 	// bottom-right
-	$bottom-right : map-get-or($props, bottom-right);
-	@if $bottom-right and type-of($bottom-right) == number or type-of($bottom-right) == list {
+	@if $bottom-right {
 		border-bottom-right-radius: $bottom-right;
 	}
-
-	// handle nested
-	@include s-handle-nested(corner) {
-		@content;
-	}
 }
-@mixin s-border-radius($radius) {
-	@include s-corner($radius);
+@mixin s-border-radius(
+	$radius : null,
+	$top : null,
+	$right : null,
+	$bottom : null,
+	$left : null,
+	$top-left : null,
+	$top-right : null,
+	$bottom-left : null,
+	$bottom-right : null
+) {
+	@include s-corner(
+		$radius : $radius,
+		$top : $top,
+		$right : $right,
+		$bottom : $bottom,
+		$left : $left,
+		$top-left : $top-left,
+		$top-right : $top-right,
+		$bottom-left : $bottom-left,
+		$bottom-right : $bottom-right
+	);
 }
 
 
@@ -96,55 +99,29 @@
 // Round
 //
 @mixin s-round(
-	$props : null,
-	$border : null
+	$width : null,
+	$height : null,
+	$color : null
 ) {
-	@if $props {
-		$props : s-parse-properties($props, (
-			width : number,
-			height : number,
-			color : color
-		));
-		$props : s-handle-nested(round, $props);
-	
-		// build
-		$width : map-get-or($props, width w);
-		$height : map-get-or($props, height h, $width);
-		$color : map-get-or($props, color c);
-		width: $width;
-		height: $height;
-		@if $color {
-			background-color: $color;
-		}
+	@if $_sugar-test-arguments {
+		$width : s-test-argument('s-round','width',number,$width);
+		$height : s-test-argument('s-round','height',number,$height);
+		$color : s-test-argument('s-round','color',color,$color);
 	}
-	@if $border {
-		$border : s-parse-properties($border, (
-			width : number,
-			color : color,
-			style : solid dotted dashed double groove ridge inset outset initial inherit
-		), (
-			style : s
-		));
-
-		// handle nested
-		$border : s-handle-nested(round-border, $border);
-		$width : map-get-or($border, width w);
-		$color : map-get-or($border, color c);
-		$style : map-get-or($border, style s, solid);
-		@if $width and $color {
-			border: $style $width $color;
-		}
+	@if $width {
+		width : $width;
+	}
+	@if $height {
+		height : $height;
+	}
+	@if $color {
+		background-color : $color;
 	}
 	border-radius:50%;
 	overflow: hidden;
 	> img {
 		border-radius:50%;
 		overflow: hidden;
-	}
-
-	// handle nested
-	@include s-handle-nested(round, round-border) {
-		@content;
 	}
 }
 
@@ -153,23 +130,15 @@
 // Restangle
 //
 @mixin s-rect(
-	$size
+	$width,
+	$height
 ) {
-	$size : s-parse-properties($size, (
-		width : number,
-		height : number
-	));
-	$size : s-handle-nested(size, $size);
-	$width : map-get($size, width);
-	$height : map-get($size, height);
-	@if type-of($width) != number or type-of($height) != number {
-		@error "To create a rectangle, you need to specify a width and an height";
+	@if $_sugar-test-arguments {
+		$width : s-test-argument('s-rect','width',number,$width);
+		$height : s-test-argument('s-rect','height',number,$height);
 	}
 	width : $width;
 	height : $height;
-	@include s-handle-nested(size) {
-		@content;
-	}
 }
 
 
@@ -177,48 +146,35 @@
 // Bubble
 //
 @mixin s-bubble(
-	$base : null,
-	$border : null
-) {
-
-	$base : s-parse-properties($base, (
-		side : top right bottom left,
-		align : left center right top middle bottom,
-		size : number,
-		color : color,
-		arrow-offset : number
-	), (
-		arrow-offset : ao
-	));
-	$border_map : s-parse-properties($border, (
-		width : number,
-		color : color
-	));
-	$base : s-handle-nested(bubble, $base);
-	$border_map : s-handle-nested(bubble-border, $border_map);
-	$side : map-get-or($base, side, bottom);
-	$align : map-get-or($base, align, center);
-	$color : map-get-or($base, color, red);
-	$size : map-get-or($base, size, 10px);
-	$b-width : map-get-or($border_map, width, 0);
-	$b-color : map-get-or($border_map, color, 'none');
-	$offset : map-get-or($base, arrow-offset, 0);
+	$side : bottom,
+	$align : center,
+	$size : 10px,
+	$color : s-color(primary),
+	$arrow-offset : 0,
+	$border-width : 0,
+	$border-color : none
+) {	
+	@if $_sugar-test-arguments {
+		$side : s-test-argument('s-bubble','side',(top,right,bottom,left),$side);
+		$align : s-test-argument('s-bubble','align',(left,center,right,top,middle,bottom),$align);
+		$size : s-test-argument('s-bubble','size',number,$size);
+		$color : s-test-argument('s-bubble','color',color,$color);
+		$arrow-offset : s-test-argument('s-bubble','arrow-offset',number,$arrow-offset);
+		$border-width : s-test-argument('s-bubble','border-width',number,$border-width);
+		$border-color : s-test-argument('s-bubble','border-color',color,$border-color);
+	}
 
 	// create the bubble
-	@include _arrow($side, $align, $size, $color, $b-color, $b-width);
+	@include _arrow($side, $align, $size, $color, $border-color, $border-width);
 
 	position: relative;
 	background: $color;
 	border-style : solid;
-	@if $b-width {
-		border-width : $b-width;
+	@if $border-width {
+		border-width : $border-width;
 	}
-	@if $b-color {
-		border-color : $b-color;
-	}
-
-	@include s-handle-nested(bubble, bubble-border) {
-		@content;
+	@if $border-color {
+		border-color : $border-color;
 	}
 }
 
@@ -227,246 +183,246 @@
 //
 // Triangle
 //
-@mixin s-triangle(
-	$triangle,
-	$border : null
-) {
+// @mixin s-triangle(
+// 	$triangle,
+// 	$border : null
+// ) {
 
-	$triangle : s-parse-properties($triangle, (
-		width : number,
-		height : number,
-		color : color,
-		direction : top t right r bottom b left l top-left tl top-right tr bottom-left bl bottom-right br,
-		transform-origin : base center top
-	), (
-		direction : d,
-		transform-origin : to
-	));
-	@if type-of($border) != map {
-		$border : s-parse-properties($border, (
-			width : number,
-			color : color
-		));
-	}
-	$triangle : s-handle-nested(triangle, $triangle);
-	$border : s-handle-nested(triangle-border, $border);
+// 	$triangle : s-parse-properties($triangle, (
+// 		width : number,
+// 		height : number,
+// 		color : color,
+// 		direction : top t right r bottom b left l top-left tl top-right tr bottom-left bl bottom-right br,
+// 		transform-origin : base center top
+// 	), (
+// 		direction : d,
+// 		transform-origin : to
+// 	));
+// 	@if type-of($border) != map {
+// 		$border : s-parse-properties($border, (
+// 			width : number,
+// 			color : color
+// 		));
+// 	}
+// 	$triangle : s-handle-nested(triangle, $triangle);
+// 	$border : s-handle-nested(triangle-border, $border);
 
-	$direction : map-get-or($triangle, direction, top);
-	$width : map-get-or($triangle, width, 100px);
-	$height : map-get-or($triangle, height, 100px);
-	$color : map-get-or($triangle, color, red);
-	$b-width : map-get-or($border, width);
-	$b-color : map-get-or($border, color, darken(red,20%));
-	$transform-origin : map-get-or($triangle, transform-origin, center);
+// 	$direction : map-get-or($triangle, direction, top);
+// 	$width : map-get-or($triangle, width, 100px);
+// 	$height : map-get-or($triangle, height, 100px);
+// 	$color : map-get-or($triangle, color, red);
+// 	$b-width : map-get-or($border, width);
+// 	$b-color : map-get-or($border, color, darken(red,20%));
+// 	$transform-origin : map-get-or($triangle, transform-origin, center);
 
-	// swap width and height of arrow
-	@if $direction == right or $direction == left {
-		$_width : $width;
-		$width : $height;
-		$height : $_width;
-	}
+// 	// swap width and height of arrow
+// 	@if $direction == right or $direction == left {
+// 		$_width : $width;
+// 		$width : $height;
+// 		$height : $_width;
+// 	}
 
-	display: inline-block;
-	border-style: solid;
-	-webkit-transform:rotate(360deg);
-	&:before,
-	&:after {
-		color: transparent;
-		content:'';
-		display: block;
-		position: absolute;
-		width:$width; height:$height;
-		border-style: solid;
-		top:0; left:0;
-	}
-	// top
-	@if $direction == top or $direction == t {
-		&:after {
-			border-width: 0 $width*.5 $height $width*.5;
-			border-color: transparent transparent $color transparent;
-		}
-		@if $b-width {
-			$angle : s-atan($height / ($width*.5));
-			$hyp : $height / s-sin($angle);
-			$centerX : (0 + $width + $width*.5) / 3;
-			$centerY : (0 + 0 + $height) / 3;
-			$ratio-width : $b-width * 2;
-			// @if $transform-origin == base {
-			// 	$ratio-width : $b-width;
-			// }
-			$ratio : 1 / $height * ($height + $ratio-width);
-			&:before {
-				@if $transform-origin == base {
-					transform-origin: $centerX $height;
-				} @else {
-					transform-origin: $centerX ($height - $centerY);
-				}
-				transform:scale($ratio);
-				border-width: 0 $width*.5 $height $width*.5;
-				border-color: transparent transparent $b-color transparent;	
-			}
-		}
-	} @else if $direction == right or $direction == r {
-		&:after {
-			border-width: $height*.5 0 $height*.5 $width;
-			border-color: transparent transparent transparent $color;
-		}
-		@if $b-width {
-			$angle : s-atan($width / ($height*.5));
-			$hyp : $width / s-sin($angle);
-			$centerX : (0 + 0 + $width) / 3;
-			$centerY : (0 + $height + $height*.5) / 3;
-			$ratio-width : $b-width * 2;
-			// @if $transform-origin == base {
-			// 	$ratio-width : $b-width;
-			// }
-			$ratio : 1 / $height * ($height + $ratio-width);
-			&:before {
-				@if $transform-origin == base {
-					transform-origin: 0 $centerY;
-				} @else {
-					transform-origin: ($width - $centerX) $centerY;
-				}
-				transform:scale($ratio);
-				border-width: $height*.5 0 $height*.5 $width;
-				border-color: transparent transparent transparent $b-color;
-			}
-		}
-	} @else if $direction == bottom or $direction == b {
-		&:after {
-			border-width: $height $width*.5 0 $width*.5;
-			border-color: $color transparent transparent transparent;
-		}
-		@if $b-width {
-			$angle : s-atan($height / ($width*.5));
-			$hyp : $height / s-sin($angle);
-			$centerX : (0 + $width + $width*.5) / 3;
-			$centerY : (0 + 0 + $height) / 3;
-			$ratio-width : $b-width * 2;
-			// @if $transform-origin == base {
-			// 	$ratio-width : $b-width;
-			// }
-			$ratio : 1 / $height * ($height + $ratio-width);
-			&:before {
-				@if $transform-origin == base {
-					transform-origin: $centerX 0;
-				} @else {
-					transform-origin: $centerX $centerY;
-				}
-				transform:scale($ratio);
-				border-width: $height $width*.5 0 $width*.5;
-				border-color: $b-color transparent transparent transparent;	
-			}
-		}
-	} @else if $direction == left or $direction == l {
-		&:after {
-			border-width: $height*.5 $width $height*.5 0;
-			border-color: transparent $color transparent transparent;
-		}
-		@if $b-width {
-			$angle : s-atan($width / ($height*.5));
-			$hyp : $width / s-sin($angle);
-			$centerX : (0 + 0 + $width) / 3;
-			$centerY : (0 + $height + $height*.5) / 3;
-			$ratio-width : $b-width * 2;
-			// @if $transform-origin == base {
-			// 	$ratio-width : $b-width;
-			// }
-			$ratio : 1 / $height * ($height + $ratio-width);
-			&:before {
-				@if $transform-origin == base {
-					transform-origin: $width $centerY;
-				} @else {
-					transform-origin: ($width - $centerX) $centerY;
-				}
-				transform:scale($ratio);
-				border-width: $height*.5 $width $height*.5 0;
-				border-color: transparent $b-color transparent transparent;
-			}
-		}
-	} @else if $direction == top-left or $direction == tl {
-		&:after {
-			border-width: $height $width 0 0;
-			border-color: $color transparent transparent transparent;
-		}
-		@if $b-width {
-			$centerX : (0 + $width + $width) / 3;
-			$centerY : (0 + 0 + $height) / 3;
-			$ratio-width : $b-width * 2;
-			// @if $transform-origin == base {
-			// 	$ratio-width : $b-width;
-			// }
-			$ratio : 1 / $height * ($height + $ratio-width);
-			&:before {
-				transform-origin: ($width - $centerX) $centerY;
-				transform:scale($ratio);
-				border-width: $height $width 0 0;
-				border-color: $b-color transparent transparent transparent;
-			}
-		}
-	} @else if $direction == top-right or $direction == tr {
-		&:after {
-			border-width: 0 $width $height 0;
-			border-color: transparent $color transparent transparent;
-		}
-		@if $b-width {
-			$centerX : (0 + $width + $width) / 3;
-			$centerY : (0 + 0 + $height) / 3;
-			$ratio-width : $b-width * 2;
-			// @if $transform-origin == base {
-			// 	$ratio-width : $b-width;
-			// }
-			$ratio : 1 / $height * ($height + $ratio-width);
-			&:before {
-				transform-origin: $centerX $centerY;
-				transform:scale($ratio);
-				border-width: 0 $width $height 0;
-				border-color: transparent $b-color transparent transparent;
-			}
-		}
-	} @else if $direction == bottom-left or $direction == bl {
-		&:after {
-			border-width: $height 0 0 $width;
-			border-color: transparent transparent transparent $color;
-		}
-		@if $b-width {
-			$centerX : (0 + 0 + $width) / 3;
-			$centerY : (0 + $height + $height) / 3;
-			$ratio-width : $b-width * 2;
-			// @if $transform-origin == base {
-			// 	$ratio-width : $b-width;
-			// }
-			$ratio : 1 / $height * ($height + $ratio-width);
-			&:before {
-				transform-origin: $centerX $centerY;
-				transform:scale($ratio);
-				border-width: $height 0 0 $width;
-				border-color: transparent transparent transparent $b-color;
-			}
-		}
-	} @else if $direction == bottom-right or $direction == br {
-		&:after {
-			border-width: 0 0 $height $width;
-			border-color: transparent transparent $color transparent;
-		}
-		@if $b-width {
-			$centerX : (0 + $width + $width) / 3;
-			$centerY : (0 + $height + $height) / 3;
-			$ratio-width : $b-width * 2;
-			// @if $transform-origin == base {
-			// 	$ratio-width : $b-width;
-			// }
-			$ratio : 1 / $height * ($height + $ratio-width);
-			&:before {
-				transform-origin: $centerX $centerY;
-				transform:scale($ratio);
-				border-width: 0 0 $height $width;
-				border-color: transparent transparent $b-color transparent;
-			}
-		}
-	}
+// 	display: inline-block;
+// 	border-style: solid;
+// 	-webkit-transform:rotate(360deg);
+// 	&:before,
+// 	&:after {
+// 		color: transparent;
+// 		content:'';
+// 		display: block;
+// 		position: absolute;
+// 		width:$width; height:$height;
+// 		border-style: solid;
+// 		top:0; left:0;
+// 	}
+// 	// top
+// 	@if $direction == top or $direction == t {
+// 		&:after {
+// 			border-width: 0 $width*.5 $height $width*.5;
+// 			border-color: transparent transparent $color transparent;
+// 		}
+// 		@if $b-width {
+// 			$angle : s-atan($height / ($width*.5));
+// 			$hyp : $height / s-sin($angle);
+// 			$centerX : (0 + $width + $width*.5) / 3;
+// 			$centerY : (0 + 0 + $height) / 3;
+// 			$ratio-width : $b-width * 2;
+// 			// @if $transform-origin == base {
+// 			// 	$ratio-width : $b-width;
+// 			// }
+// 			$ratio : 1 / $height * ($height + $ratio-width);
+// 			&:before {
+// 				@if $transform-origin == base {
+// 					transform-origin: $centerX $height;
+// 				} @else {
+// 					transform-origin: $centerX ($height - $centerY);
+// 				}
+// 				transform:scale($ratio);
+// 				border-width: 0 $width*.5 $height $width*.5;
+// 				border-color: transparent transparent $b-color transparent;	
+// 			}
+// 		}
+// 	} @else if $direction == right or $direction == r {
+// 		&:after {
+// 			border-width: $height*.5 0 $height*.5 $width;
+// 			border-color: transparent transparent transparent $color;
+// 		}
+// 		@if $b-width {
+// 			$angle : s-atan($width / ($height*.5));
+// 			$hyp : $width / s-sin($angle);
+// 			$centerX : (0 + 0 + $width) / 3;
+// 			$centerY : (0 + $height + $height*.5) / 3;
+// 			$ratio-width : $b-width * 2;
+// 			// @if $transform-origin == base {
+// 			// 	$ratio-width : $b-width;
+// 			// }
+// 			$ratio : 1 / $height * ($height + $ratio-width);
+// 			&:before {
+// 				@if $transform-origin == base {
+// 					transform-origin: 0 $centerY;
+// 				} @else {
+// 					transform-origin: ($width - $centerX) $centerY;
+// 				}
+// 				transform:scale($ratio);
+// 				border-width: $height*.5 0 $height*.5 $width;
+// 				border-color: transparent transparent transparent $b-color;
+// 			}
+// 		}
+// 	} @else if $direction == bottom or $direction == b {
+// 		&:after {
+// 			border-width: $height $width*.5 0 $width*.5;
+// 			border-color: $color transparent transparent transparent;
+// 		}
+// 		@if $b-width {
+// 			$angle : s-atan($height / ($width*.5));
+// 			$hyp : $height / s-sin($angle);
+// 			$centerX : (0 + $width + $width*.5) / 3;
+// 			$centerY : (0 + 0 + $height) / 3;
+// 			$ratio-width : $b-width * 2;
+// 			// @if $transform-origin == base {
+// 			// 	$ratio-width : $b-width;
+// 			// }
+// 			$ratio : 1 / $height * ($height + $ratio-width);
+// 			&:before {
+// 				@if $transform-origin == base {
+// 					transform-origin: $centerX 0;
+// 				} @else {
+// 					transform-origin: $centerX $centerY;
+// 				}
+// 				transform:scale($ratio);
+// 				border-width: $height $width*.5 0 $width*.5;
+// 				border-color: $b-color transparent transparent transparent;	
+// 			}
+// 		}
+// 	} @else if $direction == left or $direction == l {
+// 		&:after {
+// 			border-width: $height*.5 $width $height*.5 0;
+// 			border-color: transparent $color transparent transparent;
+// 		}
+// 		@if $b-width {
+// 			$angle : s-atan($width / ($height*.5));
+// 			$hyp : $width / s-sin($angle);
+// 			$centerX : (0 + 0 + $width) / 3;
+// 			$centerY : (0 + $height + $height*.5) / 3;
+// 			$ratio-width : $b-width * 2;
+// 			// @if $transform-origin == base {
+// 			// 	$ratio-width : $b-width;
+// 			// }
+// 			$ratio : 1 / $height * ($height + $ratio-width);
+// 			&:before {
+// 				@if $transform-origin == base {
+// 					transform-origin: $width $centerY;
+// 				} @else {
+// 					transform-origin: ($width - $centerX) $centerY;
+// 				}
+// 				transform:scale($ratio);
+// 				border-width: $height*.5 $width $height*.5 0;
+// 				border-color: transparent $b-color transparent transparent;
+// 			}
+// 		}
+// 	} @else if $direction == top-left or $direction == tl {
+// 		&:after {
+// 			border-width: $height $width 0 0;
+// 			border-color: $color transparent transparent transparent;
+// 		}
+// 		@if $b-width {
+// 			$centerX : (0 + $width + $width) / 3;
+// 			$centerY : (0 + 0 + $height) / 3;
+// 			$ratio-width : $b-width * 2;
+// 			// @if $transform-origin == base {
+// 			// 	$ratio-width : $b-width;
+// 			// }
+// 			$ratio : 1 / $height * ($height + $ratio-width);
+// 			&:before {
+// 				transform-origin: ($width - $centerX) $centerY;
+// 				transform:scale($ratio);
+// 				border-width: $height $width 0 0;
+// 				border-color: $b-color transparent transparent transparent;
+// 			}
+// 		}
+// 	} @else if $direction == top-right or $direction == tr {
+// 		&:after {
+// 			border-width: 0 $width $height 0;
+// 			border-color: transparent $color transparent transparent;
+// 		}
+// 		@if $b-width {
+// 			$centerX : (0 + $width + $width) / 3;
+// 			$centerY : (0 + 0 + $height) / 3;
+// 			$ratio-width : $b-width * 2;
+// 			// @if $transform-origin == base {
+// 			// 	$ratio-width : $b-width;
+// 			// }
+// 			$ratio : 1 / $height * ($height + $ratio-width);
+// 			&:before {
+// 				transform-origin: $centerX $centerY;
+// 				transform:scale($ratio);
+// 				border-width: 0 $width $height 0;
+// 				border-color: transparent $b-color transparent transparent;
+// 			}
+// 		}
+// 	} @else if $direction == bottom-left or $direction == bl {
+// 		&:after {
+// 			border-width: $height 0 0 $width;
+// 			border-color: transparent transparent transparent $color;
+// 		}
+// 		@if $b-width {
+// 			$centerX : (0 + 0 + $width) / 3;
+// 			$centerY : (0 + $height + $height) / 3;
+// 			$ratio-width : $b-width * 2;
+// 			// @if $transform-origin == base {
+// 			// 	$ratio-width : $b-width;
+// 			// }
+// 			$ratio : 1 / $height * ($height + $ratio-width);
+// 			&:before {
+// 				transform-origin: $centerX $centerY;
+// 				transform:scale($ratio);
+// 				border-width: $height 0 0 $width;
+// 				border-color: transparent transparent transparent $b-color;
+// 			}
+// 		}
+// 	} @else if $direction == bottom-right or $direction == br {
+// 		&:after {
+// 			border-width: 0 0 $height $width;
+// 			border-color: transparent transparent $color transparent;
+// 		}
+// 		@if $b-width {
+// 			$centerX : (0 + $width + $width) / 3;
+// 			$centerY : (0 + $height + $height) / 3;
+// 			$ratio-width : $b-width * 2;
+// 			// @if $transform-origin == base {
+// 			// 	$ratio-width : $b-width;
+// 			// }
+// 			$ratio : 1 / $height * ($height + $ratio-width);
+// 			&:before {
+// 				transform-origin: $centerX $centerY;
+// 				transform:scale($ratio);
+// 				border-width: 0 0 $height $width;
+// 				border-color: transparent transparent $b-color transparent;
+// 			}
+// 		}
+// 	}
 
-	@include s-handle-nested(triangle, triangle-border) {
-		@content;
-	}
-}
+// 	@include s-handle-nested(triangle, triangle-border) {
+// 		@content;
+// 	}
+// }

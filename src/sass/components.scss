@@ -4,14 +4,16 @@
 //
 // Dropdown
 //
-@include s-dropdown(-sizes smaller default bigger);
+@include s-dropdown(
+	$sizes : smaller default bigger
+);
 @include s-dropup();
 
 //
 // Nav
 //
 @include s-nav-tabs(
-	-sizes small default medium big bigger
+	$sizes : small default medium big bigger
 );
 
 //
@@ -23,23 +25,23 @@
 @include s-typeset-lists();
 @include s-typeset-blocks();
 @include s-typeset-tables(
-	-sizes smaller small medium big bigger
+	$sizes : smaller small medium big bigger
 );
 
 // form
 @include s-formset(
-	-sizes smaller small default medium big bigger
+	$sizes : smaller small default medium big bigger
 );
 @include s-formset-radiobox(
-	-sizes smaller small default medium big bigger
+	$sizes : smaller small default medium big bigger
 );
 @include s-formset-fieldset(
-	-sizes smaller small default medium big bigger
+	$sizes : smaller small default medium big bigger
 );
 
-//
-// Button
-//
-@include s-button(
-	-sizes smaller small default medium big bigger
-);
+// //
+// // Button
+// //
+// @include s-button(
+// 	-sizes smaller small default medium big bigger
+// );

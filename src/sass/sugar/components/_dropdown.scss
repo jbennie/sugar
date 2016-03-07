@@ -75,21 +75,19 @@ $_s-dropdown-inited : false;
 }
 
 @mixin s-dropdown(
-	$props : ()
+	$sizes : sugar('settings.components.dropdown.generate.sizes'),
+	$colors : sugar('settings.components.dropdown.generate.colors')
 ) {
 	// init dropdown
 	@include s-dropdown-init();
 	
-	// parse properties
-	$props : s-parse-properties($props, (
-		sizes : map-keys(sugar('settings.sizes'))
-	));
+	@if $_sugar-test-arguments {
+		$sizes : s-test-argument('s-nav-tabs','sizes',map-keys(sugar('settings.sizes')),$sizes);
+		$colors : s-test-argument('s-nav-tabs','colors',map-keys(sugar('settings.colors')),$colors);
+	}
 
 	// pass in component context
 	@include s-component-context('dropdown') {
-
-		// get variables
-		$sizes : map-get-or($props, sizes, default);
 		
 		// base
 		.dropdown {

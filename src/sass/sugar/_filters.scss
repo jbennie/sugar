@@ -36,13 +36,14 @@
 		@each $f in $filter {
 			@if str-index($f,'box-shadow(') {
 				$f : str-replace($f,'box-shadow(','');
-				$f : str-replace($f,')','');
+				$f : str-slice($f,1,-2);
+				// $f : str-replace($f,')','');
 				box-shadow: $f;
 				$filter : remove-nth($filter,$i);
 				$i : $i - 1;
 			} @else if str-index($f,'text-shadow(') {
 				$f : str-replace($f,'text-shadow(','');
-				$f : str-replace($f,')','');
+				$f : str-slice($f,1,-2);
 				text-shadow: $f;
 				$filter : remove-nth($filter,$i);
 				$i : $i - 1;

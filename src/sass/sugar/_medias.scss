@@ -19,6 +19,9 @@ $media-keywords : (
 	iphone : '.ua-mobile-iphone',
 	ipad : '.ua-mobile-ipad',
 	ios : '.ua-ios',
+	osx : '.ua-mac_os_x',
+	windows : '.ua-windows',
+	linux : '.ua-linux',
 	android : '.ua-android',
 	webos : '.ua-webos',
 	blackberry : '.ua-blackberry',
@@ -31,52 +34,31 @@ $media-keywords : (
 	$media-keywords : map-set($media-keywords, 'ie#{$idx}', '.ua-ie-#{$idx}');
 }
 @mixin s-media(
-	$queries...
+	$screen : null,
+	$min-width : null,
+	$max-width : null,
+	$min-height : null,
+	$max-height : null,
+	$orientation : null,
+	$resolution : null,
+	$engine : null,
+	$device : null,
+	$browser : null,
+	$system : null
 ) {
-	@each $querie in $queries {
-		@include _s-media($querie) {
-			@content;
-		}
+	@if $_sugar-test-arguments {
+		$screen : s-test-argument('s-media','screen',(screen,handheld,print,aural,braille,embossed,projection,tty,tv,all),$screen);
+		$min-width : s-test-argument('s-media','min-width',number,$min-width);
+		$max-width : s-test-argument('s-media','max-width',number,$max-width);
+		$min-height : s-test-argument('s-media','min-height',number,$min-height);
+		$max-height : s-test-argument('s-media','max-height',number,$max-height);
+		$orientation : s-test-argument('s-media','orientation',(landscape,portrait),$orientation);
+		$resolution : s-test-argument('s-media','resolution','string|list-string',$resolution);
+		$engine : s-test-argument('s-media','engine','string|list-string',$engine);
+		$device : s-test-argument('s-media','device','string|list-string',$device);
+		$browser : s-test-argument('s-media','browser','string|list-string',$browser);	
+		$system : s-test-argument('s-media','system','string|list-string',$system);
 	}
-}
-@mixin _s-media(
-	$props
-) {
-	// loop through all keywords
-	$refine : ();
-	@each $prop in $props {
-		@if type-of($prop) == string and str-slice($prop,1,1) == '-' {
-			$prop : str-slice($prop,2);
-		}
-		$sel : map-get($media-keywords, $prop);
-		@if $sel {
-			$refine : append($refine, $sel);
-			$props : remove-nth($props, index($props, $prop));
-		}
-	}
-
-	$props : s-parse-properties($props, (
-		screen : screen handheld print aural braille embossed projection tty tv all,
-		min-width : number,
-		max-width : number,
-		min-height : number,
-		max-height : number,
-		orientation : landscape portrait
-	), (
-		screen : d,
-		min-width: min-w minw,
-		max-width: max-w maxw,
-		min-height: min-h minh,
-		max-height: max-h maxh,
-		orientation : o
-	));
-
-	$screen : map-get-or($props, screen);
-	$min-width : map-get-or($props, min-width);
-	$max-width : map-get-or($props, max-width);
-	$min-height : map-get-or($props, min-height);
-	$max-height : map-get-or($props, max-height);
-	$orientation : map-get-or($props, orientation);
 
 	$media : ();
 	@if $screen {
@@ -98,53 +80,68 @@ $media-keywords : (
 		$media : append($media, '(max-height : #{$max-height})');
 	}
 
-	// append media from refine
-	@each $ref in $refine {
-		@if str-slice($ref,1,1) != '.' {
-			$media : append($media, $ref);
-			$refine : remove-nth($refine, index($refine, $ref));
+	// resolution
+	@if $resolution {
+		$res : ();
+		$resolutions : (x2,x3,x4);
+		@each $m in $resolution {
+			@if index($resolutions,$m) {
+				$res : append($res, map-get($media-keywords,$m));
+			}
 		}
+		$media : append($media, _join($res,','));
 	}
 
 	// construct media querie
-	$med : '';
-	$idx : 1;
-	$med_length : length($media);
-	@each $m in $media {
-		@if $idx < $med_length {
-			$med : '#{$med} #{$m} and';
-		} @else {
-			$med : '#{$med} #{$m}';
-		}
-		$idx : $idx + 1;
-	}
-
+	$med : _join($media,' and ');
 	$this : "#{&}";
-
-	@if $med_length > 0 {
-		@media #{$med} {
-			@if length($refine) >= 1 {
-				@if $this != '' {
-					#{_join($refine,'')} & {
-						@content;
-					}
-				} @else {
-					#{_join($refine,'')} {
-						@content;
-					}
-				}
-			} @else {
-				@content;
+	
+	// construct refine
+	$refine : ();
+	@if $engine {
+		$engines : (blink,gecko,trident,webkit,presto);
+		@each $e in $engine {
+			@if index($engines,$e) {
+				$refine : append($refine, map-get($media-keywords,$e));
 			}
 		}
-	} @else {
+	}
+	@if $browser {
+		$browsers : (chrome,safari,opera,firefox,ie);
+		@for $idx from 6 through 20 {
+			$browsers : append($browsers, 'ie#{$idx}');
+		}
+		@each $b in $browser {
+			@if index($browsers,$b) {
+				$refine : append($refine, map-get($media-keywords,$b));
+			}
+		}
+	}
+	@if $device {
+		$devices : (mobile,tablet,desktop,iphone,ipad);
+		@each $d in $device {
+			@if index($devices,$d) {
+				$refine : append($refine, map-get($media-keywords,$d));
+			}
+		}
+	}
+	@if $system {
+		$systems : (ios,android,blackberry,windows,osx,linux,webos);
+		@each $s in $system {
+			@if index($systems,$s) {
+				$refine : append($refine, map-get($media-keywords,$s));
+			}
+		}
+	}
+
+	@media #{$med} {
 		@if length($refine) >= 1 {
 			@if $this != '' {
-				#{_join($refine,'')} & {
+				#{unquote(_join($refine,''))} & {
 					@content;
 				}
 			} @else {
-				#{_join($refine,'')} {
+				#{unquote(_join($refine,''))} {
 					@content;
 				}
 			}

@@ -21,46 +21,37 @@ $s-list-alias : (
 	padding-left : pl
 );
 @mixin s-list(
-	$_list : ()
+	$counter-reset : s-list
 ) {
-	$list : s-parse-properties($_list, (
-		counter-reset : true
-	));
-
-	// handle nested
-	$list : s-handle-nested(s-list, $list);
-
-	$reset : map-get-or($list, counter-reset, s-list);
-
-	counter-reset : $reset;
-
-	// handle nested
-	@include s-handle-nested(s-list) {
-		@content;
+	@if $_sugar-test-arguments {
+		$counter-reset : s-test-argument('s-list','counter-reset',string,$counter-reset);
 	}
+	counter-reset : $counter-reset;
 }
 
 //
 // List item
 //
 @mixin s-list-item(
-	$list
+	$style-type : null,
+	$style-image : null,
+	$style-icon : null,
+	$bullet-color : s-color(default),
+	$bullet-size : null,
+	$bullet-offset : null,
+	$bullet-font : null,
+	$padding-left : null
 ) {
-	$list : s-parse-properties($list, $s-list-props, $s-list-alias);
-
-	// handle nested
-	@if not map-get($list, hover) {
-		$list : s-handle-nested(s-list-item, $list);
+	@if $_sugar-test-arguments {
+		$style-type : s-test-argument('s-list-item','style-type',(disc,circle,square,decimal,decimal-leading-zero,lower-roman,upper-roman,lower-greek,lower-latin,upper-latin,armenian,georgian,lower-alpha,upper-alpha,none),$style-type);
+		$style-image : s-test-argument('s-list-item','style-image',url,$style-image);
+		$style-icon : s-test-argument('s-list-item','style-icon',string,$style-icon);
+		$bullet-color : s-test-argument('s-list-item','bullet-color',color,$bullet-color);
+		$bullet-size : s-test-argument('s-list-item','bullet-size','list-number|number',$bullet-size);
+		$bullet-offset : s-test-argument('s-list-item','bullet-offset','list-number|number',$bullet-offset);
+		$bullet-font : s-test-argument('s-list-item','bullet-font',map,$bullet-font);
+		$padding-left : s-test-argument('s-list-item','padding-left',number,$padding-left);
 	}
-
-	$style-type : map-get($list, style-type);
-	$style-image : map-get($list, style-image);
-	$style-icon : map-get($list, style-icon);
-	$bullet-color : map-get($list, bullet-color);
-	$bullet-size : map-get($list, bullet-size);
-	$bullet-offset : map-get($list, bullet-offset);
-	$bullet-font : map-get($list, bullet-font);
-	$padding-left : map-get-or($list, padding-left, null);
 
 	// padding
 	@if $padding-left {
@@ -101,7 +92,7 @@ $s-list-alias : (
 			}
 		}
 		@if $bullet-font {
-			@include s-font($bullet-font);
+			@include s-font($bullet-font...);
 		}
 	}
 
@@ -139,10 +130,5 @@ $s-list-alias : (
 	> dl, {
 		margin-left: 0;
 		margin-bottom: 0;
-	}
-
-	// handle nested
-	@include s-handle-nested(s-list-item) {
-		@content;
 	}
 }

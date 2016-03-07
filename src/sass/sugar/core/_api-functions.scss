@@ -133,15 +133,10 @@
 //
 $_sugar-settings-cache : ();
 @function s-setting(
-	$props : ()
+	$path,
+	$component : $_sugar-current-component
 ) {
-	$props : s-parse-properties($props, (
-		path : string,
-		component : append(map-keys(map-get($_sugar-settings, components)),default)
-	));
-	$path : map-get($props, path);
 	$base_path : $path;
-	$component : map-get-or($props, component, $_sugar-current-component);
 	@if $component == default {
 		$component : null;
 	}
@@ -171,7 +166,7 @@ $_sugar-settings-cache : ();
 			@if $component {
 				// try to get the non component version of the setting
 				// @debug('not found #{$path}, trying #{$base_path}');
-				$val : s-setting($base_path -component default);
+				$val : s-setting($base_path, default);
 				@if $val {
 					$_sugar-settings-cache : map-set($_sugar-settings-cache, $path, $val) !global;
 				}

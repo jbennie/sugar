@@ -1,181 +1,122 @@
 //
 // Helpers with typography
 //
-
-//
-// Font mixin
-//
-$_s-font-properties : (
-	font-weight : normal bold bolder lighter number initial inherit,
-	font-style : normal italic oblique initial inherit,
-	font-variant : normal small-caps initial inherit,
-	font-stretch : ultra-condensed extra-condensed condensed semi-condensed normal semi-expanded expanded extra-expanded ultra-expanded initial inherit,
-	text-decoration :  none underline overline line-through initial inherit,
-	text-transform : none capitalize uppercase lowercase initial inherit,
-	text-align : left right center justify initial inherit,
-	word-wrap : normal break-word initial inherit,
-	word-break : normal break-all keep-all initial inherit,
-	white-space : normal nowrap pre pre-line pre-wrap initial inherit,
-	color : color,
-	font-family : string,
-	font-size : number,
-	line-height : number,
-	letter-spacing : number,
-	text-indent : number
-);
-$_s-font-aliases : (
-	font-family : ff,
-	color : c,
-	font-size : fs,
-	font-style : fstl,
-	font-variant : fv,
-	font-weight : fw,
-	text-decoration : td,
-	text-align : ta,
-	text-transform : tt,
-	font-stretch : fstr,
-	white-space : ws,
-	line-height : lh,
-	letter-spacing : ls,
-	text-indent : ti,
-	word-break : wb,
-	word-wrap : ww
-);
-
 @mixin s-vertical-rhythme(
-	$rhythme : null
+	$font-size : sugar('settings.typo.font-size'),
+	$font-family : sugar('settings.typo.font-family'),
+	$line-height : null,
+	$margin-top : 0,
+	$margin-bottom : 0,
+	$padding-top : 0,
+	$padding-bottom : 0,
+	$margin : null,
+	$padding : null,
+	$border-bottom : null,
+	$border-top : null,
+	$border-bottom-width : 0,
+	$border-top-width : 0,
+	$border : null,
+	$s-font : null,
+	$cap-height : null,
+	$scope-class : true,
+	$calculate-height : false
 ) {
 
 	@if sugar('settings.vertical-rhythme.enabled') {
-		@if $rhythme {
 
-			$rhythme : s-parse-properties($rhythme, (
-				font-size : number,
-				font-family : map-keys(sugar('settings.fonts')),
-				line-height : number,
-				margin-top : number,
-				margin-bottom : number,
-				padding-top : number,
-				padding-bottom : number,
-				margin : 'number|list',
-				padding : 'number|list',
-				border-bottom : 'number|list',
-				border-top : 'number|list',
-				border-bottom-width : number,
-				border-top-width : number,
-				border : 'number|list',
-				s-font : mixed,
-				scope-class : boolean,
-				calculate-height : boolean
-			));
+		@if $_sugar-test-arguments {
+			$font-size : s-test-argument('s-vertical-rhythme','font-size',number,$font-size);
+			$font-family : s-test-argument('s-vertical-rhythme','font-family',map-keys(sugar('settings.fonts')),$font-family);
+			$line-height : s-test-argument('s-vertical-rhythme','line-height',number,$line-height);
+			$margin-top : s-test-argument('s-vertical-rhythme','margin-top',number,$margin-top);
+			$margin-bottom : s-test-argument('s-vertical-rhythme','margin-bottom',number,$margin-bottom);
+			$padding-top : s-test-argument('s-vertical-rhythme','padding-top',number,$padding-top);
+			$padding-bottom : s-test-argument('s-vertical-rhythme','padding-bottom',number,$padding-bottom);
+			$margin : s-test-argument('s-vertical-rhythme','margin','number|list',$margin);
+			$padding : s-test-argument('s-vertical-rhythme','padding','number|list',$padding);
+			$border-bottom : s-test-argument('s-vertical-rhythme','border-bottom','number|list',$border-bottom);
+			$border-top : s-test-argument('s-vertical-rhythme','border-top','number|list',$border-top);
+			$border-bottom-width : s-test-argument('s-vertical-rhythme','border-bottom-width',number,$border-bottom-width);
+			$border-top-width : s-test-argument('s-vertical-rhythme','border-top-width',number,$border-top-width);
+			$border : s-test-argument('s-vertical-rhythme','border','number|list',$border);
+			$s-font : s-test-argument('s-vertical-rhythme','s-font',map,$s-font);
+			$cap-height : s-test-argument('s-vertical-rhythme','cap-height',number,$cap-height);
+			$scope-class : s-test-argument('s-vertical-rhythme','scope-class',boolean,$scope-class);
+			$calculate-height : s-test-argument('s-vertical-rhythme','calculate-height',boolean,$calculate-height);		
+		}
 
-			$rhythme : s-handle-nested(vertical-rhythme, $rhythme);
+		// get values from s-font if passed	
+		@if $s-font {
+			$font : s-font($s-font...);
+			$font-family : map-get-or($font, font-family, $font-family);
+			$font-size : map-get-or($font, font-size, $font-size);
+			$line-height : map-get-or($font, line-height, $line-height);
+		}
 
-			// get values
-			$font-size : map-get($rhythme, font-size);
-			$font-family : map-get($rhythme, font-family);
-			$line-height : map-get($rhythme, line-height);
-			$s-font : map-get($rhythme, s-font);
-			$margin-bottom : map-get($rhythme, margin-bottom);
-			$margin-top : map-get($rhythme, margin-top);
-			$padding-bottom : map-get($rhythme, padding-bottom);
-			$padding-top : map-get($rhythme, padding-top);
-			$border-bottom-width : map-get($rhythme, border-bottom-width);
-			$border-top-width : map-get($rhythme, border-top-width);
-			$border-top : map-get($rhythme, border-top);
-			$border-bottom : map-get($rhythme, border-bottom);
-			$margin : map-get($rhythme, margin);
-			$padding : map-get($rhythme, padding);
-			$border : map-get($rhythme, border);
-			$scope-class : map-get-or($rhythme, scope-class, true);
-			$calculate-height : map-get-or($rhythme, calculate-height, false);
-
-			// get values from s-font if passed	
-			@if $s-font {
-				$font : s-font($s-font);
-				$font-family : map-get-or($font, font-family, $font-family);
-				$font-size : map-get-or($font, font-size, $font-size);
-				$line-height : map-get-or($font, line-height, $line-height);
-			}
-
-			// protect
-			@if not $font-size {
-				@error('s-vertical-rhythme need a font-size');
-			}
-
-			// get the font object
-			$fonts : sugar('settings.fonts');
-			$f : sugar('settings.fonts.default');
-			@if type-of($f) == string {
-				$f : map-get($fonts, $f);
-			}
-			$cap-height : map-get-or($f, cap-height, 0);
+		// get the font object
+		$fonts : sugar('settings.fonts');
+		$f : sugar('settings.fonts.default');
+		@if type-of($f) == string {
+			$f : map-get($fonts, $f);
+		}
+		$cap-height : map-get-or($f, cap-height, $cap-height);
 			
-			// if a font family is passed
-			@if $font-family {
-				@if map-get($fonts, $font-family) {
-					$f : map-get($fonts, $font-family);
-					@if type-of($f) == string {
-						$f : map-get($fonts, $f);
-					}
-					$cap-height : map-get-or($f, cap-height, 0);
-					$font-family : map-get-or($f, font-family, $font-family);
-				}			
-			}
-
-			// get the rhythme
-			$rhythme-map : map-merge($rhythme, s-vertical-rhythme(
-				-font-size $font-size
-				-line-height $line-height
-				-margin $margin
-				-margin-top $margin-top
-				-margin-bottom $margin-bottom
-				-padding $padding
-				-padding-top $padding-top
-				-padding-bottom $padding-bottom
-				-border-top-width $border-top-width
-				-border-top $border-top
-				-border-bottom-width $border-bottom-width
-				-border-bottom $border-bottom
-				-cap-height $cap-height
-				-calculate-height $calculate-height
-			));
-			// remove margin-top cause it's done by top and margin-bottom compensation
-			@if map-get($rhythme-map, top) {
-				$rhythme-map : map-remove($rhythme-map, margin-top);
-			}
-
-			// set values
-			@if $s-font {
-				@include s-font($s-font);
-			}
-			$rhythme-map : map-remove($rhythme-map, s-font);
-			$rhythme-map : map-remove($rhythme-map, cap-height);
-			$rhythme-map : map-remove($rhythme-map, scope-class);
-			$rhythme-map : map-remove($rhythme-map, calculate-height);
-
-			$sc : sugar('settings.vertical-rhythme.scope-class');
-			@if $sc and $scope-class {
-				.#{$sc} & {
-					@each $prop, $value in $rhythme-map {
-						#{$prop} : $value;
-					}
+		// if a font family is passed
+		@if $font-family {
+			@if map-get($fonts, $font-family) {
+				$f : map-get($fonts, $font-family);
+				@if type-of($f) == string {
+					$f : map-get($fonts, $f);
 				}
-			} @else {
+				$cap-height : map-get-or($f, cap-height, $cap-height);
+				$font-family : map-get-or($f, font-family, $font-family);
+			}			
+		}
+
+		// get the rhythme
+		$rhythme-map : s-vertical-rhythme(
+			$font-size : $font-size,
+			$line-height : $line-height,
+			$margin : $margin,
+			$margin-top : $margin-top,
+			$margin-bottom : $margin-bottom,
+			$padding : $padding,
+			$padding-top : $padding-top,
+			$padding-bottom : $padding-bottom,
+			$border-top-width : $border-top-width,
+			$border-top : $border-top,
+			$border-bottom-width : $border-bottom-width,
+			$border-bottom : $border-bottom,
+			$cap-height : $cap-height,
+			$calculate-height : $calculate-height
+		);
+		// remove margin-top cause it's done by top and margin-bottom compensation
+		@if map-get($rhythme-map, top) {
+			$rhythme-map : map-remove($rhythme-map, margin-top);
+		}
+
+		// set values
+		@if $s-font {
+			@include s-font($s-font...);
+		}
+		$rhythme-map : map-remove($rhythme-map, s-font);
+		$rhythme-map : map-remove($rhythme-map, cap-height);
+		$rhythme-map : map-remove($rhythme-map, scope-class);
+		$rhythme-map : map-remove($rhythme-map, calculate-height);
+
+		$sc : sugar('settings.vertical-rhythme.scope-class');
+		@if $sc and $scope-class {
+			.#{$sc} & {
 				@each $prop, $value in $rhythme-map {
 					#{$prop} : $value;
-				}	
-			}
-
-			@include s-handle-nested(vertical-rhythme) {
-				.#{sugar('settings.vertical-rhythme.scope-class')} & {
-					@content;
 				}
-			}
-		} @else {
-			.#{sugar('settings.vertical-rhythme.scope-class')} & {
 				@content;
 			}
+		} @else {
+			@each $prop, $value in $rhythme-map {
+				#{$prop} : $value;
+			}
+			@content;
 		}
 	}
 }
@@ -214,28 +155,52 @@ $_s-font-aliases : (
 		width : number,
 		color : color,
 		style : none hidden dotted dashed solid double groove ridge inset outset initial inherit
-	), (
-		style : stl
 	));
 	@return $border;
 }
 
 @mixin s-font(
-	$font
+	$family : null,
+	$color : null,
+	$size : null,
+	$style : null,
+	$variant : null,
+	$weight : null,
+	$decoration : null,
+	$align : null,
+	$transform : null,
+	$stretch : null,
+	$white-space : null,
+	$line-height : null,
+	$spacing : null,
+	$indent : null,
+	$break : null,
+	$wrap : null
 ) {
-	// get the map
-	$font-map : s-font($font, $_handle-nested : true);
+	$font-map : s-font(
+		$family : $family,
+		$color : $color,
+		$size : $size,
+		$style : $style,
+		$variant : $variant,
+		$weight : $weight,
+		$decoration : $decoration,
+		$align : $align,
+		$transform : $transform,
+		$stretch : $stretch,
+		$white-space : $white-space,
+		$line-height : $line-height,
+		$spacing : $spacing,
+		$indent : $indent,
+		$break : $break,
+		$wrap : $wrap
+	);
 
 	// set values
 	@each $prop, $value in $font-map {
 		@if $prop != cap-height {
 			#{$prop} : $value;
 		}
-	}
-
-	// handle nested
-	@include s-handle-nested(font) {
-		@content;
 	}
 }
 
@@ -249,38 +214,41 @@ $_s-font-aliases : (
 // s-font
 //
 @function s-font(
-	$font,
-	$_handle-nested : false
+	$family : null,
+	$color : null,
+	$size : null,
+	$style : null,
+	$variant : null,
+	$weight : null,
+	$decoration : null,
+	$align : null,
+	$transform : null,
+	$stretch : null,
+	$white-space : null,
+	$line-height : null,
+	$spacing : null,
+	$indent : null,
+	$break : null,
+	$wrap : null
 ) {
-
-	// set the fonts as possible values for the font-family property
-	$_s-font-properties : map-set($_s-font-properties, font-family, map-keys(sugar('settings.fonts'))) !global;
-
-	// parse properties
-	$font : s-parse-properties($font, $_s-font-properties, $_s-font-aliases);
-    
-	// handle nested
-	@if $_handle-nested {
-		$font : s-handle-nested(font, $font);
+	@if $_sugar-test-arguments {
+		$family : s-test-argument('s-font','family',map-keys(sugar('settings.fonts')),$family);
+		$color : s-test-truncate('s-font','color',color,$color);
+		$size : s-test-argument('s-font','size',number,$size);
+		$style : s-test-argument('s-font','style',(normal,italic,oblique,initial,inherit),$style);
+		$variant : s-test-argument('s-font','variant',(normal,small-caps,initial,inherit),$variant);
+		$weight : s-test-argument('s-font','weight','string|number',$weight);
+		$decoration : s-test-argument('s-font','decoration',(none,underline,overline,line-through,initial,inherit),$decoration);
+		$align : s-test-argument('s-font','align',(left,right,center,justify,initial,inherit),$align);
+		$transform : s-test-argument('s-font','transform',(none,capitalize,uppercase,lowercase,initial,inherit),$transform);
+		$stretch : s-test-argument('s-font','stretch',(ultra-condensed,extra-condensed,condensed,semi-condensed,normal,semi-expanded,expanded,extra-expanded,ultra-expanded,initial,inherit),$stretch);
+		$white-space : s-test-argument('s-font','white-space',(normal,nowrap,pre,pre-line,pre-wrap,initial,inherit),$white-space);
+		$line-height : s-test-argument('s-font','line-height',number,$line-height);
+		$spacing : s-test-argument('s-font','spacing',number,$spacing);
+		$indent : s-test-argument('s-font','indent',number,$indent);
+		$break : s-test-argument('s-font','break',(normal,break-all,keep-all,initial,inherit),$break);
+		$wrap : s-test-argument('s-font','wrap',(normal,break-word,initial,inherit),$wrap);
 	}
-
-	// get values
-	$font-family : map-get-or($font, font-family, null);
-	$color : map-get($font, color);
-	$size : map-get($font, font-size);
-	$font-style : map-get($font, font-style);
-	$font-variant : map-get($font, font-variant);
-	$font-weight : map-get($font, font-weight);
-	$text-decoration : map-get($font, text-decoration);
-	$text-align : map-get($font, text-align);
-	$text-transform : map-get($font, text-transform);
-	$font-stretch : map-get($font, font-stretch);
-	$white-space : map-get($font, white-space);
-	$line-height : map-get-or($font, line-height, null);
-	$letter-spacing : map-get($font, letter-spacing);
-	$text-indent : map-get($font, text-indent);
-	$word-break : map-get($font, word-break);
-	$word-wrap : map-get($font, word-wrap);
 	
 	// get the font object
 	$fonts : sugar('settings.fonts');
@@ -291,19 +259,19 @@ $_s-font-aliases : (
 	$cap-height : map-get-or($f, cap-height, 0);
 	
 	// if a font family is passed
-	@if $font-family {
-		@if map-get($fonts, $font-family) {
-			$f : map-get($fonts, $font-family);
+	@if $family {
+		@if map-get($fonts, $family) {
+			$f : map-get($fonts, $family);
 			@if type-of($f) == string {
 				$f : map-get($fonts, $f);
 			}
 			$cap-height : map-get-or($f, cap-height, 0);
-			$font-family : map-get-or($f, font-family, $font-family);
-			@if not $font-style {
-				$font-style : map-get($f, font-style);
+			$family : map-get-or($f, font-family, $family);
+			@if not $style {
+				$style : map-get($f, font-style);
 			}
-			@if not $font-weight {
-				$font-weight : map-get($f, font-weight);
+			@if not $weight {
+				$weight : map-get($f, font-weight);
 			}
 		}			
 	}
@@ -314,8 +282,8 @@ $_s-font-aliases : (
 	);
 
 	// set the font
-	@if $font-family {
-		$return : map-set($return, font-family, $font-family);
+	@if $family {
+		$return : map-set($return, font-family, $family);
 	}
 
 	// color
@@ -336,56 +304,53 @@ $_s-font-aliases : (
 	}
 
 	// font-style
-	@if $font-style {
-		$return : map-set($return, font-style, $font-style);
+	@if $style {
+		$return : map-set($return, font-style, $style);
 	}
 	// font-variant
-	@if $font-variant {
-		$return : map-set($return, font-variant, $font-variant);
+	@if $variant {
+		$return : map-set($return, font-variant, $variant);
 	}
 	// font-weight
-	@if $font-weight {
-		$return : map-set($return, font-weight, $font-weight);
+	@if $weight {
+		$return : map-set($return, font-weight, $weight);
 	}
 	// text-decoration
-	@if $text-decoration {
-		$return : map-set($return, text-decoration, $text-decoration);
+	@if $decoration {
+		$return : map-set($return, text-decoration, $decoration);
 	}
 	// text-align
-	@if $text-align {
-		$return : map-set($return, text-align, $text-align);
+	@if $align {
+		$return : map-set($return, text-align, $align);
 	}
 	// text-transform
-	@if $text-transform {
-		$return : map-set($return, text-transform, $text-transform);
+	@if $transform {
+		$return : map-set($return, text-transform, $transform);
 	}
 	// font-stretch
-	@if $font-stretch {
-		$return : map-set($return, font-stretch, $font-stretch);
+	@if $stretch {
+		$return : map-set($return, font-stretch, $stretch);
 	}
 	// white-space
 	@if $white-space {
 		$return : map-set($return, white-space, $white-space);
 	}
 	// letter spacing
-	@if $letter-spacing {
-		$return : map-set($return, letter-spacing, $letter-spacing);
+	@if $spacing {
+		$return : map-set($return, letter-spacing, $spacing);
 	}
 	// text-indent
-	@if $text-indent {
-		$return : map-set($return, text-indent, $text-indent);
+	@if $indent {
+		$return : map-set($return, text-indent, $indent);
 	}
 	// word break
-	@if $word-break {
-		$return : map-set($return, word-break, $word-break);
+	@if $break {
+		$return : map-set($return, word-break, $break);
 	}
 	// word wrap
-	@if $word-wrap {
-		$return : map-set($return, word-wrap, $word-wrap);
+	@if $wrap {
+		$return : map-set($return, word-wrap, $wrap);
 	}
-
-	// add all the others properties
-	$return : map-merge($return, map-get-or($font, others, ()));
 
 	// return the map
 	@return $return;
@@ -395,33 +360,18 @@ $_s-font-aliases : (
 // Font face
 //
 @mixin s-font-face(
-	$font-face
+	$font-family,
+	$src,
+	$extension : woff2,
+	$font-weight : normal,
+	$font-style : normal
 ) {
-	$font-face : s-parse-properties($font-face, (
-		ext : eot eot2 otf woff2 woff ttf svg svgz,
-		font-weight : normal bold bolder lighter number initial inherit,
-		font-style : normal italic oblique initial inherit,
-		font-family : string,
-		src : string
-	), (
-		ext : e,
-		font-weight : fw,
-		font-style : fs,
-		font-family : ff,
-		src : s
-	));
-	$font-family : map-get($font-face, font-family);
-	$src : map-get($font-face, src);
-	$ext : map-get-or($font-face, ext, ());
-	$font-weight : map-get($font-face, font-weight);
-	$font-style : map-get($font-face, font-style);
-
-	// protect
-	@if $font-family == null {
-		@error("You need to specify a font-family for your s-font-face statement...");
-	}
-	@if $src == null {
-		@error("You need to specify an src for your s-font-face statement...");
+	@if $_sugar-test-arguments {
+		$font-family : s-test-argument('s-font-face','font-family',string,$font-family);
+		$src : s-test-argument('s-font-face','src',url,$src);
+		$extension : s-test-argument('s-font-face','extension','string|list',$extension);
+		$font-weight : s-test-argument('s-font-face','font-weight',(normal,bold,bolder,lighter,number,initial,inherit),$font-weight);
+		$font-style : s-test-argument('s-font-face','font-style',(normal,italic,oblique,initial,inherit),$font-style);
 	}
 
 	// get font format from settings
@@ -434,13 +384,13 @@ $_s-font-aliases : (
 	$path : list-implode($split, '.');
 
 	// add extention in list
-	@if index($ext, $e) == null {
-		$ext : append($ext, $e);
+	@if index($extension, $e) == null {
+		$extension : append($extension, $e);
 	}
 
 	// loop on each extensions
 	$srcs : ();
-	@each $e in $ext {
+	@each $e in $extension {
 		// get the format
 		$format : map-get($font-format, $e);
 		$srcs : append($srcs, url('#{$path}.#{$e}') format('#{$format}'), comma);
@@ -490,99 +440,62 @@ $_s-font-aliases : (
 }
 
 //
-// Set rhythme
-//
-@mixin s-set-rhythme(
-	$rhythme
-) {
-	// scope class
-	$scope-class : sugar('settings.vertical-rhythme.scope-class');
-
-	// get the rhythme values
-	$rhythme-values : s-vertical-rhythme($rhythme);
-
-	// set rhythme
-	@if $scope-class {
-		.#{$scope-class} & {
-			@each $prop, $value in $rhythme-values {
-				#{$prop} : $value;
-			}
-		}
-	} @else {
-		@each $prop, $value in $rhythme-values {
-			#{$prop} : $value;
-		}
-	}
-	
-}
-
-//
 // Get rhythme
 //
 @function s-vertical-rhythme(
-	$rhythme
+	$font-size : sugar('settings.typo.font-size'),
+	$font-family : sugar('settings.typo.font-family'),
+	$line-height : null,
+	$margin-top : 0,
+	$margin-bottom : 0,
+	$padding-top : 0,
+	$padding-bottom : 0,
+	$margin : null,
+	$padding : null,
+	$border-bottom : null,
+	$border-top : null,
+	$border-bottom-width : 0,
+	$border-top-width : 0,
+	$border : null,
+	$s-font : null,
+	$cap-height : null,
+	$scope-class : true,
+	$calculate-height : false
 ) {
-	$rhythme : s-parse-properties($rhythme, (
-		font-family : map-keys(sugar('settings.fonts')),
-		font-size : number,
-		line-height : number,
-		margin : 'number|list',
-		margin-top : number,
-		margin-bottom : number,
-		padding : 'number|list',
-		padding-top : number,
-		padding-bottom : number,
-		border-bottom : 'number|list',
-		border-bottom-width : number,
-		border-top : 'number|list',
-		border-top-width : number,
-		cap-height : number,
-		s-font : mixed,
-		calculate-height : boolean,
-	), (
-		font-family : ff,
-		font-size : fs,
-		line-height : lh,
-		margin-top: mt,
-		margin-bottom: mb,
-		padding-top: pt,
-		padding-bottom: pb,
-		border-bottom : bb,
-		border-top : bt,
-		cap-height: ch,
-		s-font : sf,
-		calculate-height: ch
-	));
-	
-	$font-family : map-get($rhythme, font-family);
-	$font-size : map-get($rhythme, font-size);
-	$line-height : map-get($rhythme, line-height);
-	$margin : map-get($rhythme, margin);
-	$margin-top : map-get-or($rhythme, margin-top, 0);
-	$margin-bottom : map-get-or($rhythme, margin-bottom, 0);
-	$padding : map-get($rhythme, padding);
-	$padding-top : map-get-or($rhythme, padding-top, 0);
-	$padding-bottom : map-get-or($rhythme, padding-bottom, 0);
-	$border-bottom : map-get-or($rhythme, border-bottom-width, 0);
-	$border-bottom : map-get-or($rhythme, border-bottom, $border-bottom);
-	$border-top : map-get-or($rhythme, border-top-width, 0);
-	$border-top : map-get-or($rhythme, border-top, $border-top);
-	$cap-height : map-get-or($rhythme, cap-height, 0);
-	$s-font : map-get($rhythme, s-font);
-	$calculate-height : map-get-or($rhythme, calculate-height, false);
+	@if $_sugar-test-arguments {
+		$font-size : s-test-argument('s-vertical-rhythme','font-size',number,$font-size);
+		$font-family : s-test-argument('s-vertical-rhythme','font-family',map-keys(sugar('settings.fonts')),$font-family);
+		$line-height : s-test-argument('s-vertical-rhythme','line-height',number,$line-height);
+		$margin-top : s-test-argument('s-vertical-rhythme','margin-top',number,$margin-top);
+		$margin-bottom : s-test-argument('s-vertical-rhythme','margin-bottom',number,$margin-bottom);
+		$padding-top : s-test-argument('s-vertical-rhythme','padding-top',number,$padding-top);
+		$padding-bottom : s-test-argument('s-vertical-rhythme','padding-bottom',number,$padding-bottom);
+		$margin : s-test-argument('s-vertical-rhythme','margin','number|list',$margin);
+		$padding : s-test-argument('s-vertical-rhythme','padding','number|list',$padding);
+		$border-bottom : s-test-argument('s-vertical-rhythme','border-bottom','number|list',$border-bottom);
+		$border-top : s-test-argument('s-vertical-rhythme','border-top','number|list',$border-top);
+		$border-bottom-width : s-test-argument('s-vertical-rhythme','border-bottom-width',number,$border-bottom-width);
+		$border-top-width : s-test-argument('s-vertical-rhythme','border-top-width',number,$border-top-width);
+		$border : s-test-argument('s-vertical-rhythme','border','number|list',$border);
+		$s-font : s-test-argument('s-vertical-rhythme','s-font',map,$s-font);
+		$cap-height : s-test-argument('s-vertical-rhythme','cap-height',number,$cap-height);
+		$scope-class : s-test-argument('s-vertical-rhythme','scope-class',boolean,$scope-class);
+		$calculate-height : s-test-argument('s-vertical-rhythme','calculate-height',boolean,$calculate-height);		
+	}
+
 	$root-font-size : sugar('settings.typo.font-size');
 
 	// get values from s-font if passed	
 	@if $s-font {
-		$font : s-font($s-font);
+		$font : s-font($s-font...);
 		$font-family : map-get-or($font, font-family, $font-family);
 		$font-size : map-get-or($font, font-size, $font-size);
 		$line-height : map-get-or($font, line-height, $line-height);
 	}
 
 	// get the font object
+	$fonts : sugar('settings.fonts');
 	@if not $cap-height {
-		$fonts : sugar('settings.fonts');
 		$f : sugar('settings.fonts.default');
 		@if type-of($f) == string {
 			$f : map-get($fonts, $f);
@@ -603,14 +516,34 @@ $_s-font-aliases : (
 	}
 
 	// check some values
-	@if $border-bottom and type-of($border-bottom) != number {
-		$map : s-border($border-bottom);
-		$border-bottom : map-get-or($map, width, $border-bottom);
-	}
-	@if $border-top and type-of($border-top) != number {
-		$map : s-border($border-top);
-		$border-top : map-get-or($map, width, $border-top);
-	}
+	// @if $border-bottom-width {
+	// 	$border-bottom : $border-bottom-width;
+	// } @else if $border-bottom and type-of($border-bottom) != number {
+	// 	// $map : s-border($border-bottom);
+	// 	// $border-bottom : map-get-or($map, width, $border-bottom);
+	// 	$border-bottom : 0;
+	// } @else if $border and type-of($border) != number {
+	// 	// $map : s-border($border);
+	// 	// $border-bottom : map-get-or($map, width, $border);
+	// 	$border-bottom : 0;
+	// } @else if $border and type-of($border) == number {
+	// 	$border-bottom : $border;
+	// }
+	// @if $border-top-width {
+	// 	$border-top : $border-top-width;
+	// } @else if $border-top and type-of($border-top) != number {
+	// 	// $map : s-border($border-top);
+	// 	// $border-top : map-get-or($map, width, $border-top);
+	// 	$border-top : 0;
+	// } @else if $border and type-of($border) != number {
+	// 	// $map : s-border($border);
+	// 	// $border-top : map-get-or($map, width, $border);
+	// 	$border-top : 0;
+	// } @else if $border and type-of($border) == number {
+	// 	$border-top : $border;
+	// }
+	$border-top : 0;
+	$border-bottom : 0;
 	@if $margin {
 		$map : s-margin($margin);
 		$margin-top : map-get-or($map, top, $margin-top);
@@ -820,45 +753,27 @@ $_s-font-aliases : (
 	}
 }
 @function s-columns(
-	$columns, 
-	$_handle-nested : false
+	$fill : null,
+	$rule-style : null,
+	$count : null,
+	$gap : null,
+	$width : null,
+	$span : null,
+	$rule-color : null,
+	$rule-width : null,
+	$rule : null
 ) {
-	$columns : s-parse-properties($columns, (
-		fill : balance auto initial inherit,
-		rule-style : none hidden dotted dashed solid double groove ridge inset outset initial inherit,
-		count : number,
-		gap : number,
-		width : number,
-		span : number,
-		rule-color : color,
-		rule-width : number,
-		rule : true,
-	), (
-		fill : f,
-		rule-style : rstl,
-		count : c,
-		gap : g,
-		span : s,
-		rule-color : rc,
-		rule-width : rw,
-		rule : r
-	));
-	
-	// handle nested
-	@if $_handle-nested {
-		$columns : s-handle-nested(columns, $columns);
+	@if $_sugar-test-arguments {
+		$fill : s-test-argument('s-columns','fill',(balance,auto,initial,inherit),$fill);
+		$rule-style : s-test-argument('s-columns','rule-style',(none,hidden,dotted,dashed,solid,double,groove,ridge,inset,outset,initial,inherit),$rule-style);
+		$count : s-test-argument('s-columns','count',integer,$count);
+		$gap : s-test-argument('s-columns','gap',number,$gap);
+		$width : s-test-argument('s-columns','width',number,$width);
+		$span : s-test-argument('s-columns','span',number,$span);
+		$rule-color : s-test-argument('s-columns','rule-color',color,$rule-color);
+		$rule-width : s-test-argument('s-columns','rule-width',number,$rule-width);
+		$rule : s-test-argument('s-columns','rule',mixed,$rule);
 	}
-
-	// get values
-	$fill : map-get($columns, fill);
-	$rule-style : map-get($columns, rule-style);
-	$count : map-get-or($columns, count, 2);
-	$gap : map-get($columns, gap);
-	$width : map-get($columns, width);
-	$span : map-get($columns, span);
-	$rule-color : map-get($columns, rule-color);
-	$rule-width : map-get($columns, rule-width);
-	$rule : map-get($columns, rule);
 
 	$return : ();
 

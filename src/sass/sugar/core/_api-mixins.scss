@@ -83,30 +83,18 @@ $_sugar-current-component : null;
 // Register helper class
 //
 @mixin s-register-class(
-	$class
+	$classname,
+	$namespace
 ) {
-	$class : s-parse-properties($class, (
-		name : string,
-		namespace : string
-	), (
-		name : n,
-		namespace : ns
-	));
-	$name : map-get($class, name);
-	$namespace : map-get($class, namespace);
-
-	// protect
-	@if not $name {
-		@error('s-register-class need a name');
-	}
-	@if not $namespace {
-		@error('s-register-class need a namespace');
+	@if $_sugar-test-arguments {
+		$classname : s-test-argument('s-register-class','classname',string,$classname);
+		$namespace : s-test-argument('s-register-class','namespace',string,$namespace);
 	}
 
 	// register the class
 	$split : _split($namespace, '.');
-	$_sugar-classes : _set($_sugar-classes, $split, $name) !global;
-	%#{$name} {
+	$_sugar-classes : _set($_sugar-classes, $split, $classname) !global;
+	%#{$classname} {
 		@content;
 	}
 }
@@ -130,8 +118,8 @@ $_sugar-current-component : null;
 	$filters : sugar('settings.filters');
 	@each $name, $filter in $filters {
 		@include s-register-class(
-			-name 'f-#{$name}'
-			-namespace 'helper.filter.#{$name}'
+			$classname : 'f-#{$name}',
+			$namespace : 'helper.filter.#{$name}'
 		) {
 			@include s-filter($filter);
 		}
@@ -141,8 +129,8 @@ $_sugar-current-component : null;
 	$transitions : sugar('settings.transitions.transitions');
 	@each $name, $transition in $transitions {
 		@include s-register-class(
-			-name 't-#{$name}'
-			-namespace 'helper.transition.#{$name}'
+			$classname : 't-#{$name}',
+			$namespace : 'helper.transition.#{$name}'
 		) {
 			@include s-transition($transition);
 		}
@@ -152,8 +140,8 @@ $_sugar-current-component : null;
 	$spaces : sugar('settings.sizes');
 	@each $name, $space in $spaces {
 		@include s-register-class(
-			-name 'm-b-#{$name}'
-			-namespace 'helper.margin.bottom.#{$name}'
+			$classname : 'm-b-#{$name}',
+			$namespace : 'helper.margin.bottom.#{$name}'
 		) {
 			margin-bottom : s-space($name);
 			.#{$vertical-rhythme-scope} &:not(.not-#{$vertical-rhythme-scope}),
@@ -162,8 +150,8 @@ $_sugar-current-component : null;
 			}
 		}
 		@include s-register-class(
-			-name 'm-t-#{$name}'
-			-namespace 'helper.margin.top.#{$name}'
+			$classname : 'm-t-#{$name}',
+			$namespace : 'helper.margin.top.#{$name}'
 		) {
 			margin-top : s-space($name);
 			.#{$vertical-rhythme-scope} &:not(.not-#{$vertical-rhythme-scope}),
@@ -172,28 +160,28 @@ $_sugar-current-component : null;
 			}
 		}
 		@include s-register-class(
-			-name 'm-l-#{$name}'
-			-namespace 'helper.margin.left.#{$name}'
+			$classname : 'm-l-#{$name}',
+			$namespace : 'helper.margin.left.#{$name}'
 		) {
 			margin-left : s-space($name);
 		}
 		@include s-register-class(
-			-name 'm-r-#{$name}'
-			-namespace 'helper.margin.right.#{$name}'
+			$classname : 'm-r-#{$name}',
+			$namespace : 'helper.margin.right.#{$name}'
 		) {
 			margin-right : s-space($name);
 		}
 		@include s-register-class(
-			-name 'm-s-#{$name}'
-			-namespace 'helper.margin.side.#{$name}'
+			$classname : 'm-s-#{$name}',
+			$namespace : 'helper.margin.side.#{$name}'
 		) {
 			margin-left : s-space($name);
 			margin-right : s-space($name);
 		}
 
 		@include s-register-class(
-			-name 'p-b-#{$name}'
-			-namespace 'helper.padding.bottom.#{$name}'
+			$classname : 'p-b-#{$name}',
+			$namespace : 'helper.padding.bottom.#{$name}'
 		) {
 			padding-bottom : s-space($name);
 			.#{$vertical-rhythme-scope} &:not(.not-#{$vertical-rhythme-scope}),
@@ -202,8 +190,8 @@ $_sugar-current-component : null;
 			}
 		}
 		@include s-register-class(
-			-name 'p-t-#{$name}'
-			-namespace 'helper.padding.top.#{$name}'
+			$classname : 'p-t-#{$name}',
+			$namespace : 'helper.padding.top.#{$name}'
 		) {
 			padding-top : s-space($name);
 			.#{$vertical-rhythme-scope} &:not(.not-#{$vertical-rhythme-scope}),
@@ -212,20 +200,20 @@ $_sugar-current-component : null;
 			}
 		}
 		@include s-register-class(
-			-name 'p-l-#{$name}'
-			-namespace 'helper.padding.left.#{$name}'
+			$classname : 'p-l-#{$name}',
+			$namespace : 'helper.padding.left.#{$name}'
 		) {
 			padding-left : s-space($name);
 		}
 		@include s-register-class(
-			-name 'p-r-#{$name}'
-			-namespace 'helper.padding.right.#{$name}'
+			$classname : 'p-r-#{$name}',
+			$namespace : 'helper.padding.right.#{$name}'
 		) {
 			padding-right : s-space($name);
 		}
 		@include s-register-class(
-			-name 'p-s-#{$name}'
-			-namespace 'helper.padding.side.#{$name}'
+			$classname : 'p-s-#{$name}',
+			$namespace : 'helper.padding.side.#{$name}'
 		) {
 			padding-left : s-space($name);
 			padding-right : s-space($name);
@@ -235,19 +223,19 @@ $_sugar-current-component : null;
 	//
 	// Paddings
 	//
-	@include s-register-class(no-p-t 'helper.padding.no.top') {
+	@include s-register-class(no-p-t,'helper.padding.no.top') {
 		padding-top: 0;
 	}
-	@include s-register-class(no-p-r 'helper.padding.no.right') {
+	@include s-register-class(no-p-r,'helper.padding.no.right') {
 		padding-right: 0;
 	}
-	@include s-register-class(no-p-b 'helper.padding.no.bottom') {
+	@include s-register-class(no-p-b,'helper.padding.no.bottom') {
 		padding-bottom: 0;
 	}
-	@include s-register-class(no-p-l 'helper.padding.no.left') {
+	@include s-register-class(no-p-l,'helper.padding.no.left') {
 		padding-left: 0;
 	}
-	@include s-register-class(no-p-s 'helper.padding.no.side') {
+	@include s-register-class(no-p-s,'helper.padding.no.side') {
 		padding-left: 0;
 		padding-right: 0;
 	}
@@ -255,19 +243,19 @@ $_sugar-current-component : null;
 	//
 	// Margins
 	//
-	@include s-register-class(no-m-t 'helper.margin.no.top') {
+	@include s-register-class(no-m-t,'helper.margin.no.top') {
 		margin-top: 0;
 	}
-	@include s-register-class(no-m-r 'helper.margin.no.right') {
+	@include s-register-class(no-m-r,'helper.margin.no.right') {
 		margin-right: 0;
 	}
-	@include s-register-class(no-m-b 'helper.margin.no.bottom') {
+	@include s-register-class(no-m-b,'helper.margin.no.bottom') {
 		margin-bottom: 0;
 	}
-	@include s-register-class(no-m-l 'helper.margin.no.left') {
+	@include s-register-class(no-m-l,'helper.margin.no.left') {
 		margin-left: 0;
 	}
-	@include s-register-class(no-m-s 'helper.margin.no.side') {
+	@include s-register-class(no-m-s,'helper.margin.no.side') {
 		margin-left: 0;
 		margin-right: 0;
 	}
@@ -283,15 +271,15 @@ $_sugar-current-component : null;
 			}	
 			$cls : unquote("c-#{$name}");
 			@include s-register-class(
-				-name $cls
-				-namespace 'helper.color.#{$name}.color'
+				$classname : $cls,
+				$namespace : 'helper.color.#{$name}.color'
 			) {
 				color : $color;
 			}
 			$cls : unquote("bkg-#{$name}");
 			@include s-register-class(
-				-name $cls
-				-namespace 'helper.color.#{$name}.bkg'
+				$classname : $cls,
+				$namespace : 'helper.color.#{$name}.bkg'
 			) {
 				background-color : $color;
 			}
@@ -301,15 +289,15 @@ $_sugar-current-component : null;
 				@each $mod-name, $mod in $modifiers {
 					$cls : unquote("c-#{$name}--#{$mod-name}");
 					@include s-register-class(
-						-name $cls
-						-namespace 'helper.color.#{$name}.modifier.#{$mod-name}.color'
+						$classname : $cls,
+						$namespace : 'helper.color.#{$name}.modifier.#{$mod-name}.color'
 					) {
 						color : s-color($name, $mod-name);
 					}
 					$cls : unquote("bkg-#{$name}--#{$mod-name}");
 					@include s-register-class(
-						-name $cls
-						-namespace 'helper.color.#{$name}.modifier.#{$mod-name}.bkg'
+						$classname : $cls,
+						$namespace : 'helper.color.#{$name}.modifier.#{$mod-name}.bkg'
 					) {
 						background-color : s-color($name, $mod-name);
 					}
@@ -360,15 +348,9 @@ $_sugar-current-component : null;
 // Property proxy
 //
 @mixin s-property-proxy(
-	$props : ()
+	$property,
+	$value
 ) {
-	$props : s-parse-properties($props, (
-		property : string,
-		value : mixed
-	));
-	$property : map-get($props, property);
-	$value : map-get($props, value);
-	
 	@if $property == color {
 		#{$property} : s-color($value);
 	} @else if $property == font-family {

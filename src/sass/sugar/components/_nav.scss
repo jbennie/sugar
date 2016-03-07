@@ -21,16 +21,16 @@ $_s-nav-inited : false;
 }
 
 @mixin s-nav-tabs(
-	$props : ()
+	$sizes : sugar('settings.components.nav.generate.sizes'),
+	$colors : sugar('settings.components.nav.generate.colors')
 ) {
 	// init dropdown
 	@include s-nav-init();
 	
-	// parse properties
-	$props : s-parse-properties($props, (
-		sizes : map-keys(sugar('settings.sizes')),
-		colors : list-color
-	));
+	@if $_sugar-test-arguments {
+		$sizes : s-test-argument('s-nav-tabs','sizes',map-keys(sugar('settings.sizes')),$sizes);
+		$colors : s-test-argument('s-nav-tabs','colors',map-keys(sugar('settings.colors')),$colors);
+	}
 	
 	// get variables
 	$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
@@ -38,11 +38,7 @@ $_s-nav-inited : false;
 
 	// pass in component context
 	@include s-component-context('nav') {		
-		
-		// get variables
-		$sizes : map-get-or($props, sizes, sugar('settings.generate.sizes'));
-		$colors : map-get-or($props, colors, sugar('settings.generate.colors'));
-
+	
 		// base
 		.nav.nav--tabs {
 			@extend %s-nav-bare;
@@ -77,8 +73,8 @@ $_s-nav-inited : false;
 				))} {
 					font-size : s-look-and-feel(font-size, $size);
 					@include s-corner(
-						-tl s-look-and-feel(border-radius, $size)
-						-tr s-look-and-feel(border-radius, $size)
+						$top-left : s-look-and-feel(border-radius, $size),
+						$top-right : s-look-and-feel(border-radius, $size)
 					);
 					// margin-right: s-space(smaller);
 					padding : s-look-and-feel(padding-vertical, $size) s-look-and-feel(padding-horizontal, $size);

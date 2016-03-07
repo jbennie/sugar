@@ -103,21 +103,21 @@
 	@if $x2 and $url {
 		$split : set-nth($split, length($split)-1, #{$name}#{$x2});
 		$url : _join($split, '.');
-		@include s-media(2x) {
+		@include s-media($resolution : x2) {
 			background-image: url("#{$url}");
 		}
 	}
 	@if $x3 and $url {
 		$split : set-nth($split, length($split)-1, #{$name}#{$x3});
 		$url : _join($split, '.');
-		@include s-media(3x) {
+		@include s-media($resolution : x3) {
 			background-image: url("#{$url}");
 		}
 	}
 	@if $x4 and $url {
 		$split : set-nth($split, length($split)-1, #{$name}#{$x4});
 		$url : _join($split, '.');
-		@include s-media(4x) {
+		@include s-media($resolution : x4) {
 			background-image: url("#{$url}");
 		}
 	}

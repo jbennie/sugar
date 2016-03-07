@@ -25,37 +25,23 @@
 }
 
 @mixin s-drawer(
-	$props : ()
+	$name,
+	$size : sugar('settings.components.drawer.size'),
+	$side : sugar('settings.components.drawer.side'),
+	$type : sugar('settings.components.drawer.type'),
+	$method : sugar('settings.components.drawer.method')
 ) {
 
 	// pass in component context
 	@include s-component-context('drawer') {
-
-		// parse parameters
-		$props : s-parse-properties($props, (
-			side : top right bottom left,
-			type : reveal slide push,
-			method : translate position,
-			name : string,
-			size : number
-		));
-
-		$props : s-handle-nested(drawer, $props);
-
-		// mix settings with base one
-		$settings : map-merge(sugar('settings.components.drawer'), $props);
-		$side : map-get($settings, side);
-		$type : map-get($settings, type);
-		$method : map-get($settings, method);
-		$transition : map-get($settings, transition);
-		$name : map-get($settings, name);
-		$size : map-get($settings, size);
-		
-		// need a name
-		@if $name == null {
-			@error('You need to specify a name to create a drawer...');
+	
+		@if $_sugar-test-arguments {
+			$name : s-test-argument('s-drawer','name',string,$name);
+			$size : s-test-argument('s-drawer','size',number,$size);
+			$side : s-test-argument('s-drawer','side',(top,right,bottom,left),$side);
+			$type : s-test-argument('s-drawer','type',(reveal,slide,push),$type);
+			$method : s-test-argument('s-drawer','method',(position,translate),$method);
 		}
-
 		html, body {
 			height: 100%;
 		}
@@ -104,7 +90,7 @@
 			} @else if $side == top {
 				@if $type == push or $type == slide {
 					@if $method == translate {
-						@include s-translate(0 $size * -1);
+						@include s-translate(0, $size * -1);
 					} @else {
 						top : $size * -1;
 					}
@@ -114,7 +100,7 @@
 			} @else if $side == bottom {
 				@if $type == push or $type == slide {
 					@if $method == translate {
-						@include s-translate(0 0);
+						@include s-translate(0,0);
 						top: 100%;
 					} @else {
 						bottom: $size * -1;
@@ -138,13 +124,13 @@
 			overflow-x: hidden;
 			overflow-y: auto;
 			-webkit-overflow-scrolling: touch;
-			@include s-transition($transition);
+			@include s-transition();
 		}
 		/* actual page content pane */
 		[data-s-drawer-content] {
-			@include s-translate(0 0);
+			@include s-translate(0,0);
 			width: 100%;
-			@include s-transition($transition);
+			@include s-transition();
 			background-color: white;
 			position: relative;
 			z-index:3;
@@ -165,9 +151,9 @@
 			opacity: 0;
 			pointer-events: none;
 			@if $method == translate {
-				@include s-translate(0 0);
+				@include s-translate(0,0);
 			}
-			@include s-transition($transition);
+			@include s-transition();
 			z-index: 4;
 		}
 
@@ -178,7 +164,7 @@
 			height:100%;
 			z-index:1;
 			visibility:hidden;
-			@include s-transition($transition);
+			@include s-transition();
 		}
 
 		#{$drawer-toggle-sel}:checked ~ #{$drawer-overlay-sel} {
@@ -198,13 +184,13 @@
 				}
 			} @else if $side == top {
 				@if $method == translate {
-					@include s-translate(0 $size);
+					@include s-translate(0, $size);
 				} @else {
 					top : $size;
 				}
 			} @else if $side == bottom {
 				@if $method == translate {
-					@include s-translate(0 $size * -1);
+					@include s-translate(0, $size * -1);
 				} @else {
 					bottom : $size;
 				}
@@ -239,13 +225,13 @@
 					}
 				} @else if $side == top {
 					@if $method == translate {
-						@include s-translate(0 0);
+						@include s-translate(0,0);
 					} @else {
 						top : 0;
 					}
 				} @else if $side == bottom {
 					@if $method == translate {
-						@include s-translate(0 $size * -1);
+						@include s-translate(0, $size * -1);
 					} @else {
 						bottom : 0;
 					}
@@ -269,13 +255,13 @@
 					}
 				} @else if $side == top {
 					@if $method == translate {
-						@include s-translate(0 $size);
+						@include s-translate(0, $size);
 					} @else {
 						top : $size;
 					}
 				} @else if $side == bottom {
 					@if $method == translate {
-						@include s-translate(0 $size * -1);
+						@include s-translate(0, $size * -1);
 					} @else {
 						bottom : $size;
 					}
@@ -285,9 +271,7 @@
 			z-index:3;
 		}
 
-		@include s-handle-nested(drawer) {
-			@content;
-		}
+		@content;
 	}
 
 }

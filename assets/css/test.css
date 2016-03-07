@@ -215,15 +215,16 @@ html {
 html {
   font-size: 13px;
   font-family: "Open Sans";
+  color: s-test-truncate("s-font", "color", color, );
 }
 
-@media (min-width: 0) {
+@media (min-width: 0) and (max-width: 800px) {
   html {
     font-size: 11.5px;
   }
 }
 
-@media (min-width: 0) {
+@media (min-width: 0) and (max-width: 400px) {
   html {
     font-size: 9.5px;
   }
@@ -416,6 +417,9 @@ body {
   background-repeat: no-repeat;
   background-size: 200px 400px;
   background-image: url("coco.jpg");
+  border-radius: 20px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 @-webkit-keyframes s-hey {
@@ -464,8 +468,52 @@ body {
   left: calc(0% + 0 - 0);
 }
 
-@media (min-width: 2x) {
+@media (-webkit-min-device-pixel-ratio: 2), (-webkit-min-device-pixel-ratio: 3.3333333333333335), (min-resolution: 320dpi) {
   .hey {
     background-image: url("coco@2x.jpg");
   }
+}
+
+@media (-webkit-min-device-pixel-ratio: 3), (-webkit-min-device-pixel-ratio: 5), (min-resolution: 480dpi) {
+  .hey {
+    background-image: url("coco@3x.jpg");
+  }
+}
+
+@media (orientation: landscape) and (min-width: 300px) and (max-width: 500px) and (-webkit-min-device-pixel-ratio: 2), (-webkit-min-device-pixel-ratio: 3.3333333333333335), (min-resolution: 320dpi), (-webkit-min-device-pixel-ratio: 3), (-webkit-min-device-pixel-ratio: 5), (min-resolution: 480dpi) {
+  .ua-gecko.ua-mobile.ua-tablet .hey {
+    content: 'coco';
+  }
+}
+
+.bubble {
+  position: relative;
+  background: #f2bc2b;
+  border-style: solid;
+  border-width: 5px;
+  border-color: red;
+}
+
+.bubble:after, .bubble:before {
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  visibility: visible;
+}
+
+.bubble:after {
+  border-width: 10px;
+  border-left-color: #f2bc2b;
+  right: -10px;
+  top: 10px;
+}
+
+.bubble:before {
+  border-width: 15px;
+  border-left-color: red;
+  right: -15px;
+  top: 5px;
 }

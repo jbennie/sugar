@@ -57,12 +57,16 @@ pre[class*="language-"] {
 pre[class*="language-"] {
 	background: s-color(grey, light);
 	color:#b1b1b1;
-	@include s-vertical-rhythme((
-		s-font : cousine 14px 2,
-		padding-top : 2,
-		padding-bottom : 2,
-		margin-bottom : 2
-	));
+	@include s-vertical-rhythme(
+		$s-font : (
+			family : cousine,
+			size : 14px,
+			line-height : 2
+		),
+		$padding-top : 2,
+		$padding-bottom : 2,
+		$margin-bottom : 2
+	);
 
 	.bkg-grey--light & {
 		background: s-color(white);

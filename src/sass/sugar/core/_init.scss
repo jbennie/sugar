@@ -54,7 +54,7 @@ $_sugar-inited : false;
 			font-size: $base-font-size;
 			@if type-of($base-font-sizes) == map {
 				@each $size, $media in $base-font-sizes {
-					@include s-media($media) {
+					@include s-media($media...) {
 						font-size: $size;
 					}
 				} 
@@ -74,20 +74,12 @@ $_sugar-inited : false;
 			@if type-of($font) == string {
 				$font : map-get($fonts, $font);
 			}
-			$font-face : map-get($font, font-face);
-			$import : map-get($font, import);
-			$font-family : map-get($font, font-family);
-			@if $font-face {
-				@if $font-family {
-					$font-face : list-prepend($font-face, $font-family);
-				} @else {
-					$font-face : list-prepend($font-face, $font-name);
-				}
-				@include s-font-face($font-face);
-			} @else if $import {
-				// @at-root {
-				// 	@import url(#{$import});
-				// }
+			@if not map-get($font, font-family) {
+				$font : map-set($font,font-family,$font-name);
+			}
+			$font : map-remove($font,cap-height);
+			@if map-get($font, src) {
+				@include s-font-face($font...);
 			}
 		}
 
@@ -102,11 +94,12 @@ $_sugar-inited : false;
 		@if $font-awesome {
 			$font-path : sugar('settings.font-awesome.font-path');
 			@include s-font-face(
-				"FontAwesome"
-				"#{$font-path}/fontawesome-webfont.eot"
-				normal
-				normal
-				-ext eot ttf woff woff2 svg);
+				$font-family : "FontAwesome",
+				$src : "#{$font-path}/fontawesome-webfont.eot",
+				$font-weight : normal,
+				$font-style : normal,
+				$extension : eot ttf woff woff2 svg
+			);
 		}
 
 		// animate css

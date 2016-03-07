@@ -27,7 +27,7 @@
 		// check if the passed value exist in possible values
 		@if type-of($value) == list and index($type, length) {
 			@return $value;
-		} @else if type-of($value) == number and index($type, length) {
+		} @else if type-of($value) == number and index($type, number) {
 			@return $value;
 		} @else {
 			// if its a list of values, check each values
