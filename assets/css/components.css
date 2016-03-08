@@ -411,11 +411,11 @@ body {
   position: relative;
 }
 
-.dropdown:hover, .dropup:hover, .active.dropdown, .active.dropup {
+.dropdown:hover, .dropup:hover, .active.dropdown, .active.dropup, .dropdown--active.dropdown, .dropdown--active.dropup {
   z-index: 1;
 }
 
-.dropdown:hover .dropdown__menu, .dropup:hover .dropdown__menu, .active.dropdown .dropdown__menu, .active.dropup .dropdown__menu {
+.dropdown:hover .dropdown__menu, .dropup:hover .dropdown__menu, .active.dropdown .dropdown__menu, .active.dropup .dropdown__menu, .dropdown--active.dropdown .dropdown__menu, .dropdown--active.dropup .dropdown__menu {
   visibility: visible;
   opacity: 1;
   pointer-events: all;
@@ -449,7 +449,7 @@ body {
   border-top: solid 0.07692308rem rgba(129, 149, 161, 0.2);
 }
 
-.dropdown .dropdown__item:hover, .dropup .dropdown__item:hover, .dropdown .dropdown__item.active, .dropup .dropdown__item.active {
+.dropdown .dropdown__item:hover, .dropup .dropdown__item:hover, .dropdown .dropdown__item.active, .dropup .dropdown__item.active, .dropdown .dropdown__item.dropdown__item--active, .dropup .dropdown__item.dropdown__item--active {
   background-color: rgba(129, 149, 161, 0.1);
 }
 
@@ -459,19 +459,19 @@ body {
   width: 100%;
 }
 
-.dropdown:hover .dropdown__menu, .dropdown.active .dropdown__menu {
+.dropdown:hover .dropdown__menu, .dropdown.active .dropdown__menu, .dropdown.dropdown--active .dropdown__menu {
   top: 100%;
 }
 
-.dropdown.dropdown--smaller .dropdown__menu {
+.dropdown--smaller .dropdown__menu {
   border-radius: 1px;
 }
 
-.dropdown.dropdown--smaller .dropdown__label {
+.dropdown--smaller .dropdown__label {
   padding: 0.30769231rem 0.38461538rem;
 }
 
-.dropdown.dropdown--smaller .dropdown__item > a {
+.dropdown--smaller .dropdown__item > a {
   padding: 0.30769231rem 0.38461538rem;
 }
 
@@ -487,32 +487,32 @@ body {
   padding: 0.76923077rem 1rem;
 }
 
-.dropdown.dropdown--bigger .dropdown__menu {
+.dropdown--bigger .dropdown__menu {
   border-radius: 6px;
 }
 
-.dropdown.dropdown--bigger .dropdown__label {
+.dropdown--bigger .dropdown__label {
   padding: 1.53846154rem 1.92307692rem;
 }
 
-.dropdown.dropdown--bigger .dropdown__item > a {
+.dropdown--bigger .dropdown__item > a {
   padding: 1.53846154rem 1.92307692rem;
 }
 
-.dropup:hover .dropdown__menu, .dropup.active .dropdown__menu {
+.dropup:hover .dropdown__menu, .dropup.active .dropdown__menu, .dropup.dropdown--active .dropdown__menu {
   top: auto;
   bottom: 100%;
 }
 
-.dropup .dropdown__menu {
+.dropup.dropdown .dropdown__menu {
   border-radius: 3px;
 }
 
-.dropup .dropdown__label {
+.dropup.dropdown .dropdown__label {
   padding: 0.76923077rem 1rem;
 }
 
-.dropup .dropdown__item > a {
+.dropup.dropdown .dropdown__item > a {
   padding: 0.76923077rem 1rem;
 }
 
@@ -522,8 +522,8 @@ body {
   margin: 0;
 }
 
-.nav.nav--tabs > li.disabled,
-.nav.nav--tabs > .nav__item.disabled {
+.nav.nav--tabs > li.nav__item--disabled,
+.nav.nav--tabs > .nav__item.nav__item--disabled {
   pointer-events: none;
   opacity: .5;
   cursor: not-allowed;
@@ -1651,8 +1651,10 @@ table:not(.no-vertical-rhythme).table-bigger th, .vertical-rhythme
 .formset select,
 [class*="input-prefix"], [class*="input-postfix"] {
   display: inline-block;
-  border: rgba(129, 149, 161, 0.3) 1px solid;
-  background: white;
+  border-color: rgba(129, 149, 161, 0.3);
+  border-width: 1px;
+  border-style: solid;
+  background-color: white;
   font-family: "Open Sans";
   color: s-test-truncate("s-font", "color", color, );
   -webkit-appearance: none;
@@ -1665,7 +1667,8 @@ table:not(.no-vertical-rhythme).table-bigger th, .vertical-rhythme
   outline-color: black;
 }
 
-.formset select, select.input, .formset select.primary, select.input--primary, .formset select.secondary, select.input--secondary, .formset select.success, select.input--success, .formset select.warning, select.input--warning, .formset select.error, select.input--error, .formset select.info, select.input--info {
+.formset select,
+select[class*="input"] {
   background-size: 9px 6px;
   background-position: right center;
   background-origin: content-box;
@@ -1786,7 +1789,7 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 .input--disabled,
 .formset select:disabled, .formset textarea:disabled, .formset input:disabled, .input:disabled {
   opacity: .65;
-  pointer-events: none;
+  cursor: not-allowed;
 }
 
 .formset select, .formset textarea, .formset input:not([type="checkbox"]):not([type="radio"]), .input, [class*="input-postfix"], [class*="input-prefix"], .form-group {
@@ -1854,7 +1857,7 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 .label .input-prefix--smaller,
 .label .form-group {
   margin-top: 1rem;
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
 }
 
 .form-group .formset label select.smaller, .form-group .formset label textarea.smaller, .form-group .formset label input:not([type="checkbox"]):not([type="radio"]).smaller, .form-group .formset label .input--smaller, .form-group .formset label .input-postfix--smaller, .form-group .formset label .input-prefix--smaller, .form-group .formset label .form-group, .form-group
@@ -1942,7 +1945,7 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 .label .input-prefix--small,
 .label .form-group {
   margin-top: 1rem;
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
 }
 
 .form-group .formset label select.small, .form-group .formset label textarea.small, .form-group .formset label input:not([type="checkbox"]):not([type="radio"]).small, .form-group .formset label .input--small, .form-group .formset label .input-postfix--small, .form-group .formset label .input-prefix--small, .form-group .formset label .form-group, .form-group
@@ -2030,7 +2033,7 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 .label .input-prefix,
 .label .form-group {
   margin-top: 1rem;
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
 }
 
 .form-group .formset label select, .form-group .formset label textarea, .form-group .formset label input:not([type="checkbox"]):not([type="radio"]), .form-group .formset label .input, .form-group .formset label .input-postfix, .form-group .formset label .input-prefix, .form-group .formset label .form-group, .form-group
@@ -2118,7 +2121,7 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 .label .input-prefix--medium,
 .label .form-group {
   margin-top: 1rem;
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
 }
 
 .form-group .formset label select.medium, .form-group .formset label textarea.medium, .form-group .formset label input:not([type="checkbox"]):not([type="radio"]).medium, .form-group .formset label .input--medium, .form-group .formset label .input-postfix--medium, .form-group .formset label .input-prefix--medium, .form-group .formset label .form-group, .form-group
@@ -2206,7 +2209,7 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 .label .input-prefix--big,
 .label .form-group {
   margin-top: 1rem;
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
 }
 
 .form-group .formset label select.big, .form-group .formset label textarea.big, .form-group .formset label input:not([type="checkbox"]):not([type="radio"]).big, .form-group .formset label .input--big, .form-group .formset label .input-postfix--big, .form-group .formset label .input-prefix--big, .form-group .formset label .form-group, .form-group
@@ -2294,7 +2297,7 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 .label .input-prefix--bigger,
 .label .form-group {
   margin-top: 1rem;
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
 }
 
 .form-group .formset label select.bigger, .form-group .formset label textarea.bigger, .form-group .formset label input:not([type="checkbox"]):not([type="radio"]).bigger, .form-group .formset label .input--bigger, .form-group .formset label .input-postfix--bigger, .form-group .formset label .input-prefix--bigger, .form-group .formset label .form-group, .form-group
@@ -2364,7 +2367,7 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 }
 
 .input-postfix, .input-prefix {
-  background: rgba(129, 149, 161, 0.2);
+  background-color: rgba(129, 149, 161, 0.2);
   color: #3b474e;
 }
 
@@ -2395,7 +2398,7 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 }
 
 .input-postfix--primary, .input-prefix--primary {
-  background: rgba(242, 188, 43, 0.2);
+  background-color: rgba(242, 188, 43, 0.2);
   color: #7c5d08;
 }
 
@@ -2426,7 +2429,7 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 }
 
 .input-postfix--secondary, .input-prefix--secondary {
-  background: rgba(119, 119, 119, 0.2);
+  background-color: rgba(119, 119, 119, 0.2);
   color: #2b2b2b;
 }
 
@@ -2457,7 +2460,7 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 }
 
 .input-postfix--success, .input-prefix--success {
-  background: rgba(92, 184, 92, 0.2);
+  background-color: rgba(92, 184, 92, 0.2);
   color: #255625;
 }
 
@@ -2488,7 +2491,7 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 }
 
 .input-postfix--warning, .input-prefix--warning {
-  background: rgba(240, 173, 78, 0.2);
+  background-color: rgba(240, 173, 78, 0.2);
   color: #985f0d;
 }
 
@@ -2519,7 +2522,7 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 }
 
 .input-postfix--error, .input-prefix--error {
-  background: rgba(217, 83, 79, 0.2);
+  background-color: rgba(217, 83, 79, 0.2);
   color: #761c19;
 }
 
@@ -2550,7 +2553,7 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 }
 
 .input-postfix--info, .input-prefix--info {
-  background: rgba(33, 153, 232, 0.2);
+  background-color: rgba(33, 153, 232, 0.2);
   color: #0b4165;
 }
 
@@ -2777,7 +2780,7 @@ input[data-s-radiobox] + .s-radiobox:before {
   border-color: rgba(129, 149, 161, 0.3);
 }
 
-input[data-s-radiobox]:hover + .s-radiobox:before {
+input[data-s-radiobox].input--hover + .s-radiobox:before, input[data-s-radiobox]:hover + .s-radiobox:before {
   border-color: rgba(129, 149, 161, 0.6);
 }
 
@@ -2797,7 +2800,7 @@ input[data-s-radiobox].primary + .s-radiobox:before {
   border-color: rgba(242, 188, 43, 0.3);
 }
 
-input[data-s-radiobox].primary:hover + .s-radiobox:before {
+input[data-s-radiobox].primary.input--hover + .s-radiobox:before, input[data-s-radiobox].primary:hover + .s-radiobox:before {
   border-color: rgba(242, 188, 43, 0.6);
 }
 
@@ -2817,7 +2820,7 @@ input[data-s-radiobox].secondary + .s-radiobox:before {
   border-color: rgba(119, 119, 119, 0.3);
 }
 
-input[data-s-radiobox].secondary:hover + .s-radiobox:before {
+input[data-s-radiobox].secondary.input--hover + .s-radiobox:before, input[data-s-radiobox].secondary:hover + .s-radiobox:before {
   border-color: rgba(119, 119, 119, 0.6);
 }
 
@@ -2837,7 +2840,7 @@ input[data-s-radiobox].success + .s-radiobox:before {
   border-color: rgba(92, 184, 92, 0.3);
 }
 
-input[data-s-radiobox].success:hover + .s-radiobox:before {
+input[data-s-radiobox].success.input--hover + .s-radiobox:before, input[data-s-radiobox].success:hover + .s-radiobox:before {
   border-color: rgba(92, 184, 92, 0.6);
 }
 
@@ -2857,7 +2860,7 @@ input[data-s-radiobox].warning + .s-radiobox:before {
   border-color: rgba(240, 173, 78, 0.3);
 }
 
-input[data-s-radiobox].warning:hover + .s-radiobox:before {
+input[data-s-radiobox].warning.input--hover + .s-radiobox:before, input[data-s-radiobox].warning:hover + .s-radiobox:before {
   border-color: rgba(240, 173, 78, 0.6);
 }
 
@@ -2877,7 +2880,7 @@ input[data-s-radiobox].error + .s-radiobox:before {
   border-color: rgba(217, 83, 79, 0.3);
 }
 
-input[data-s-radiobox].error:hover + .s-radiobox:before {
+input[data-s-radiobox].error.input--hover + .s-radiobox:before, input[data-s-radiobox].error:hover + .s-radiobox:before {
   border-color: rgba(217, 83, 79, 0.6);
 }
 
@@ -2897,7 +2900,7 @@ input[data-s-radiobox].info + .s-radiobox:before {
   border-color: rgba(33, 153, 232, 0.3);
 }
 
-input[data-s-radiobox].info:hover + .s-radiobox:before {
+input[data-s-radiobox].info.input--hover + .s-radiobox:before, input[data-s-radiobox].info:hover + .s-radiobox:before {
   border-color: rgba(33, 153, 232, 0.6);
 }
 
@@ -3028,13 +3031,15 @@ input[data-s-radiobox].info:checked + .s-radiobox:before {
   border-color: rgba(129, 149, 161, 0.1);
 }
 
-.formset fieldset:hover, .formset fieldset.active, .fieldset:hover, .fieldset.active {
+.formset fieldset.fieldset--hover, .formset fieldset:hover, .formset fieldset.active, .fieldset.fieldset--hover, .fieldset:hover, .fieldset.active {
   border-color: rgba(129, 149, 161, 0.2);
 }
 
-.formset fieldset:hover > legend,
+.formset fieldset.fieldset--hover > legend,
+.formset fieldset.fieldset--hover > .legend, .formset fieldset:hover > legend,
 .formset fieldset:hover > .legend, .formset fieldset.active > legend,
-.formset fieldset.active > .legend, .fieldset:hover > legend,
+.formset fieldset.active > .legend, .fieldset.fieldset--hover > legend,
+.fieldset.fieldset--hover > .legend, .fieldset:hover > legend,
 .fieldset:hover > .legend, .fieldset.active > legend,
 .fieldset.active > .legend {
   border-color: rgba(129, 149, 161, 0.2);
@@ -3051,13 +3056,15 @@ input[data-s-radiobox].info:checked + .s-radiobox:before {
   border-color: rgba(242, 188, 43, 0.1);
 }
 
-.formset fieldset.primary:hover, .formset fieldset.primary.active, .fieldset--primary:hover, .fieldset--primary.active {
+.formset fieldset.primary.fieldset--hover, .formset fieldset.primary:hover, .formset fieldset.primary.active, .fieldset--primary.fieldset--hover, .fieldset--primary:hover, .fieldset--primary.active {
   border-color: rgba(242, 188, 43, 0.2);
 }
 
-.formset fieldset.primary:hover > legend,
+.formset fieldset.primary.fieldset--hover > legend,
+.formset fieldset.primary.fieldset--hover > .legend, .formset fieldset.primary:hover > legend,
 .formset fieldset.primary:hover > .legend, .formset fieldset.primary.active > legend,
-.formset fieldset.primary.active > .legend, .fieldset--primary:hover > legend,
+.formset fieldset.primary.active > .legend, .fieldset--primary.fieldset--hover > legend,
+.fieldset--primary.fieldset--hover > .legend, .fieldset--primary:hover > legend,
 .fieldset--primary:hover > .legend, .fieldset--primary.active > legend,
 .fieldset--primary.active > .legend {
   border-color: rgba(242, 188, 43, 0.2);
@@ -3074,13 +3081,15 @@ input[data-s-radiobox].info:checked + .s-radiobox:before {
   border-color: rgba(119, 119, 119, 0.1);
 }
 
-.formset fieldset.secondary:hover, .formset fieldset.secondary.active, .fieldset--secondary:hover, .fieldset--secondary.active {
+.formset fieldset.secondary.fieldset--hover, .formset fieldset.secondary:hover, .formset fieldset.secondary.active, .fieldset--secondary.fieldset--hover, .fieldset--secondary:hover, .fieldset--secondary.active {
   border-color: rgba(119, 119, 119, 0.2);
 }
 
-.formset fieldset.secondary:hover > legend,
+.formset fieldset.secondary.fieldset--hover > legend,
+.formset fieldset.secondary.fieldset--hover > .legend, .formset fieldset.secondary:hover > legend,
 .formset fieldset.secondary:hover > .legend, .formset fieldset.secondary.active > legend,
-.formset fieldset.secondary.active > .legend, .fieldset--secondary:hover > legend,
+.formset fieldset.secondary.active > .legend, .fieldset--secondary.fieldset--hover > legend,
+.fieldset--secondary.fieldset--hover > .legend, .fieldset--secondary:hover > legend,
 .fieldset--secondary:hover > .legend, .fieldset--secondary.active > legend,
 .fieldset--secondary.active > .legend {
   border-color: rgba(119, 119, 119, 0.2);
@@ -3097,13 +3106,15 @@ input[data-s-radiobox].info:checked + .s-radiobox:before {
   border-color: rgba(92, 184, 92, 0.1);
 }
 
-.formset fieldset.success:hover, .formset fieldset.success.active, .fieldset--success:hover, .fieldset--success.active {
+.formset fieldset.success.fieldset--hover, .formset fieldset.success:hover, .formset fieldset.success.active, .fieldset--success.fieldset--hover, .fieldset--success:hover, .fieldset--success.active {
   border-color: rgba(92, 184, 92, 0.2);
 }
 
-.formset fieldset.success:hover > legend,
+.formset fieldset.success.fieldset--hover > legend,
+.formset fieldset.success.fieldset--hover > .legend, .formset fieldset.success:hover > legend,
 .formset fieldset.success:hover > .legend, .formset fieldset.success.active > legend,
-.formset fieldset.success.active > .legend, .fieldset--success:hover > legend,
+.formset fieldset.success.active > .legend, .fieldset--success.fieldset--hover > legend,
+.fieldset--success.fieldset--hover > .legend, .fieldset--success:hover > legend,
 .fieldset--success:hover > .legend, .fieldset--success.active > legend,
 .fieldset--success.active > .legend {
   border-color: rgba(92, 184, 92, 0.2);
@@ -3120,13 +3131,15 @@ input[data-s-radiobox].info:checked + .s-radiobox:before {
   border-color: rgba(240, 173, 78, 0.1);
 }
 
-.formset fieldset.warning:hover, .formset fieldset.warning.active, .fieldset--warning:hover, .fieldset--warning.active {
+.formset fieldset.warning.fieldset--hover, .formset fieldset.warning:hover, .formset fieldset.warning.active, .fieldset--warning.fieldset--hover, .fieldset--warning:hover, .fieldset--warning.active {
   border-color: rgba(240, 173, 78, 0.2);
 }
 
-.formset fieldset.warning:hover > legend,
+.formset fieldset.warning.fieldset--hover > legend,
+.formset fieldset.warning.fieldset--hover > .legend, .formset fieldset.warning:hover > legend,
 .formset fieldset.warning:hover > .legend, .formset fieldset.warning.active > legend,
-.formset fieldset.warning.active > .legend, .fieldset--warning:hover > legend,
+.formset fieldset.warning.active > .legend, .fieldset--warning.fieldset--hover > legend,
+.fieldset--warning.fieldset--hover > .legend, .fieldset--warning:hover > legend,
 .fieldset--warning:hover > .legend, .fieldset--warning.active > legend,
 .fieldset--warning.active > .legend {
   border-color: rgba(240, 173, 78, 0.2);
@@ -3143,13 +3156,15 @@ input[data-s-radiobox].info:checked + .s-radiobox:before {
   border-color: rgba(217, 83, 79, 0.1);
 }
 
-.formset fieldset.error:hover, .formset fieldset.error.active, .fieldset--error:hover, .fieldset--error.active {
+.formset fieldset.error.fieldset--hover, .formset fieldset.error:hover, .formset fieldset.error.active, .fieldset--error.fieldset--hover, .fieldset--error:hover, .fieldset--error.active {
   border-color: rgba(217, 83, 79, 0.2);
 }
 
-.formset fieldset.error:hover > legend,
+.formset fieldset.error.fieldset--hover > legend,
+.formset fieldset.error.fieldset--hover > .legend, .formset fieldset.error:hover > legend,
 .formset fieldset.error:hover > .legend, .formset fieldset.error.active > legend,
-.formset fieldset.error.active > .legend, .fieldset--error:hover > legend,
+.formset fieldset.error.active > .legend, .fieldset--error.fieldset--hover > legend,
+.fieldset--error.fieldset--hover > .legend, .fieldset--error:hover > legend,
 .fieldset--error:hover > .legend, .fieldset--error.active > legend,
 .fieldset--error.active > .legend {
   border-color: rgba(217, 83, 79, 0.2);
@@ -3166,13 +3181,15 @@ input[data-s-radiobox].info:checked + .s-radiobox:before {
   border-color: rgba(33, 153, 232, 0.1);
 }
 
-.formset fieldset.info:hover, .formset fieldset.info.active, .fieldset--info:hover, .fieldset--info.active {
+.formset fieldset.info.fieldset--hover, .formset fieldset.info:hover, .formset fieldset.info.active, .fieldset--info.fieldset--hover, .fieldset--info:hover, .fieldset--info.active {
   border-color: rgba(33, 153, 232, 0.2);
 }
 
-.formset fieldset.info:hover > legend,
+.formset fieldset.info.fieldset--hover > legend,
+.formset fieldset.info.fieldset--hover > .legend, .formset fieldset.info:hover > legend,
 .formset fieldset.info:hover > .legend, .formset fieldset.info.active > legend,
-.formset fieldset.info.active > .legend, .fieldset--info:hover > legend,
+.formset fieldset.info.active > .legend, .fieldset--info.fieldset--hover > legend,
+.fieldset--info.fieldset--hover > .legend, .fieldset--info:hover > legend,
 .fieldset--info:hover > .legend, .fieldset--info.active > legend,
 .fieldset--info.active > .legend {
   border-color: rgba(33, 153, 232, 0.2);
@@ -3200,13 +3217,13 @@ button {
   line-height: 1 !important;
 }
 
-.btn.btn--smaller {
+.btn--smaller {
   font-size: 0.38461538rem;
   border-radius: 1px;
   padding: 0.38461538rem 0.30769231rem;
 }
 
-.vertical-rhythme .btn.btn--smaller {
+.vertical-rhythme .btn--smaller {
   font-size: 0.38461538rem;
   line-height: 1.69230769rem;
   height: 1.69230769rem;
@@ -3215,13 +3232,13 @@ button {
   margin-bottom: 1.23076923rem;
 }
 
-.btn.btn--small {
+.btn--small {
   font-size: 0.69230769rem;
   border-radius: 2px;
   padding: 0.69230769rem 0.53846154rem;
 }
 
-.vertical-rhythme .btn.btn--small {
+.vertical-rhythme .btn--small {
   font-size: 0.69230769rem;
   line-height: 2.30769231rem;
   height: 2.30769231rem;
@@ -3245,13 +3262,13 @@ button {
   margin-bottom: 1rem;
 }
 
-.btn.btn--medium {
+.btn--medium {
   font-size: 1.30769231rem;
   border-radius: 4px;
   padding: 1.30769231rem 1.07692308rem;
 }
 
-.vertical-rhythme .btn.btn--medium {
+.vertical-rhythme .btn--medium {
   font-size: 1.30769231rem;
   line-height: 4.53846154rem;
   height: 4.53846154rem;
@@ -3260,13 +3277,13 @@ button {
   margin-bottom: 1.38461538rem;
 }
 
-.btn.btn--big {
+.btn--big {
   font-size: 1.61538462rem;
   border-radius: 5px;
   padding: 1.61538462rem 1.30769231rem;
 }
 
-.vertical-rhythme .btn.btn--big {
+.vertical-rhythme .btn--big {
   font-size: 1.61538462rem;
   line-height: 5.15384615rem;
   height: 5.15384615rem;
@@ -3275,13 +3292,13 @@ button {
   margin-bottom: 1.76923077rem;
 }
 
-.btn.btn--bigger {
+.btn--bigger {
   font-size: 1.92307692rem;
   border-radius: 6px;
   padding: 1.92307692rem 1.53846154rem;
 }
 
-.vertical-rhythme .btn.btn--bigger {
+.vertical-rhythme .btn--bigger {
   font-size: 1.92307692rem;
   line-height: 5.76923077rem;
   height: 5.76923077rem;
@@ -3296,7 +3313,7 @@ button {
   color: white;
 }
 
-.btn:hover, .btn.active {
+.btn:hover, .btn.active, .btn.btn--active {
   background-color: #5b6f7a;
   border-color: #5b6f7a;
 }
@@ -3310,186 +3327,192 @@ button {
   color: #8195a1;
 }
 
-.btn.btn--outline:hover {
+.btn.btn--outline:hover, .btn.btn--outline.active,
+:checked + .btn.btn--outline, .btn.btn--outline.btn--active {
   background-color: #8195a1;
   border-color: #8195a1;
   color: white;
 }
 
-.btn.btn--primary {
+.btn--primary {
   background-color: #f2bc2b;
   border: 0.07692308rem solid #f2bc2b;
   color: white;
 }
 
-.btn.btn--primary:hover, .btn.btn--primary.active {
+.btn--primary:hover, .btn--primary.active, .btn--primary.btn--active {
   background-color: #c4920c;
   border-color: #c4920c;
 }
 
-:checked + .btn.btn--primary {
+:checked + .btn--primary {
   background-color: #946f09;
   border-color: #946f09;
 }
 
-.btn.btn--primary.btn--outline {
+.btn--primary.btn--outline {
   color: #f2bc2b;
 }
 
-.btn.btn--primary.btn--outline:hover {
+.btn--primary.btn--outline:hover, .btn--primary.btn--outline.active,
+:checked + .btn--primary.btn--outline, .btn--primary.btn--outline.btn--active {
   background-color: #f2bc2b;
   border-color: #f2bc2b;
   color: white;
 }
 
-.btn.btn--secondary {
+.btn--secondary {
   background-color: #777;
   border: 0.07692308rem solid #777;
   color: white;
 }
 
-.btn.btn--secondary:hover, .btn.btn--secondary.active {
+.btn--secondary:hover, .btn--secondary.active, .btn--secondary.btn--active {
   background-color: #515151;
   border-color: #515151;
 }
 
-:checked + .btn.btn--secondary {
+:checked + .btn--secondary {
   background-color: #373737;
   border-color: #373737;
 }
 
-.btn.btn--secondary.btn--outline {
+.btn--secondary.btn--outline {
   color: #777;
 }
 
-.btn.btn--secondary.btn--outline:hover {
+.btn--secondary.btn--outline:hover, .btn--secondary.btn--outline.active,
+:checked + .btn--secondary.btn--outline, .btn--secondary.btn--outline.btn--active {
   background-color: #777;
   border-color: #777;
   color: white;
 }
 
-.btn.btn--success {
+.btn--success {
   background-color: #5cb85c;
   border: 0.07692308rem solid #5cb85c;
   color: white;
 }
 
-.btn.btn--success:hover, .btn.btn--success.active {
+.btn--success:hover, .btn--success.active, .btn--success.btn--active {
   background-color: #3d8b3d;
   border-color: #3d8b3d;
 }
 
-:checked + .btn.btn--success {
+:checked + .btn--success {
   background-color: #2d672d;
   border-color: #2d672d;
 }
 
-.btn.btn--success.btn--outline {
+.btn--success.btn--outline {
   color: #5cb85c;
 }
 
-.btn.btn--success.btn--outline:hover {
+.btn--success.btn--outline:hover, .btn--success.btn--outline.active,
+:checked + .btn--success.btn--outline, .btn--success.btn--outline.btn--active {
   background-color: #5cb85c;
   border-color: #5cb85c;
   color: white;
 }
 
-.btn.btn--warning {
+.btn--warning {
   background-color: #f0ad4e;
   border: 0.07692308rem solid #f0ad4e;
   color: white;
 }
 
-.btn.btn--warning:hover, .btn.btn--warning.active {
+.btn--warning:hover, .btn--warning.active, .btn--warning.btn--active {
   background-color: #df8a13;
   border-color: #df8a13;
 }
 
-:checked + .btn.btn--warning {
+:checked + .btn--warning {
   background-color: #b06d0f;
   border-color: #b06d0f;
 }
 
-.btn.btn--warning.btn--outline {
+.btn--warning.btn--outline {
   color: #f0ad4e;
 }
 
-.btn.btn--warning.btn--outline:hover {
+.btn--warning.btn--outline:hover, .btn--warning.btn--outline.active,
+:checked + .btn--warning.btn--outline, .btn--warning.btn--outline.btn--active {
   background-color: #f0ad4e;
   border-color: #f0ad4e;
   color: white;
 }
 
-.btn.btn--error {
+.btn--error {
   background-color: #d9534f;
   border: 0.07692308rem solid #d9534f;
   color: white;
 }
 
-.btn.btn--error:hover, .btn.btn--error.active {
+.btn--error:hover, .btn--error.active, .btn--error.btn--active {
   background-color: #b52b27;
   border-color: #b52b27;
 }
 
-:checked + .btn.btn--error {
+:checked + .btn--error {
   background-color: #8b211e;
   border-color: #8b211e;
 }
 
-.btn.btn--error.btn--outline {
+.btn--error.btn--outline {
   color: #d9534f;
 }
 
-.btn.btn--error.btn--outline:hover {
+.btn--error.btn--outline:hover, .btn--error.btn--outline.active,
+:checked + .btn--error.btn--outline, .btn--error.btn--outline.btn--active {
   background-color: #d9534f;
   border-color: #d9534f;
   color: white;
 }
 
-.btn.btn--info {
+.btn--info {
   background-color: #2199e8;
   border: 0.07692308rem solid #2199e8;
   color: white;
 }
 
-.btn.btn--info:hover, .btn.btn--info.active {
+.btn--info:hover, .btn--info.active, .btn--info.btn--active {
   background-color: #126eab;
   border-color: #126eab;
 }
 
-:checked + .btn.btn--info {
+:checked + .btn--info {
   background-color: #0d507d;
   border-color: #0d507d;
 }
 
-.btn.btn--info.btn--outline {
+.btn--info.btn--outline {
   color: #2199e8;
 }
 
-.btn.btn--info.btn--outline:hover {
+.btn--info.btn--outline:hover, .btn--info.btn--outline.active,
+:checked + .btn--info.btn--outline, .btn--info.btn--outline.btn--active {
   background-color: #2199e8;
   border-color: #2199e8;
   color: white;
 }
 
-.btn.btn--link {
+.btn--link {
   background: transparent !important;
   color: #f2bc2b !important;
   border: none !important;
 }
 
-.btn.btn--outline {
+.btn--outline {
   background-color: transparent;
 }
 
 .btn[disabled],
-.btn.btn--disabled {
-  pointer-events: none;
+.btn--disabled {
   opacity: 0.65;
   cursor: not-allowed !important;
 }
 
-.btn.btn--block {
+.btn--block {
   display: block;
   width: 100%;
 }

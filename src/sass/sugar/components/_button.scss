@@ -50,12 +50,10 @@ $_s-button-inited : false;
 
 		// generate each sizes
 		@each $size in $sizes {
-			// extend dropdown
-			$sel : '.btn';
-			@if $size != default {
-				$sel : '.btn.btn--#{$size}';
-			}
-			#{$sel} {
+			#{s-selector((
+				BEM : '.btn--#{$size}',
+				SMACCS : '.btn-#{$size}'
+			))} {
 				font-size : s-look-and-feel(font-size, $size);
 				border-radius: s-look-and-feel(border-radius, $size);
 				padding : s-look-and-feel(padding-horizontal, $size) s-look-and-feel(padding-vertical, $size);
@@ -75,12 +73,10 @@ $_s-button-inited : false;
 		}
 		// generate each colors
 		@each $color in $colors {
-			// extend dropdown
-			$sel : '.btn';
-			@if $color != default {
-				$sel : '.btn.btn--#{$color}';
-			}
-			#{$sel} {
+			#{s-selector((
+				BEM : '.btn--#{$color}',
+				SMACCS : '.btn-#{$color}'
+			))} {
 				background-color: s-color($color);
 				border: s-rem(1px) solid s-color($color);
 				@if lightness(s-color($color)) > 70 {
@@ -88,8 +84,13 @@ $_s-button-inited : false;
 				} @else {
 					color : white;
 				}
+
 				&:hover,
-				&.active {
+				&.active,
+				#{s-selector((
+					BEM : '&.btn--active',
+					SMACCS : '&.is-active'
+				))} {
 					background-color : s-color($color, -darken 15%);
 					border-color: s-color($color, -darken 15%);
 				}
@@ -99,10 +100,19 @@ $_s-button-inited : false;
 				}
 
 				// outline
-				&.btn--outline {
+				#{s-selector((
+					BEM : '&.btn--outline',
+					SMACCS : '&.btn-outline'
+				))} {
 					color: s-color($color);
 
-					&:hover {
+					&:hover,
+					&.active,
+					:checked + &,
+					#{s-selector((
+						BEM : '&.btn--active',
+						SMACCS : '&.is-active'
+					))} {
 						background-color: s-color($color);
 						border-color: s-color($color);
 						@if lightness(s-color($color)) > 70 {
@@ -115,24 +125,35 @@ $_s-button-inited : false;
 			}
 		}
 		// link button
-		.btn.btn--link {
+		#{s-selector((
+			BEM : '.btn--link',
+			SMACCS : '.btn-link'
+		))} {
 			background: transparent !important;
 			color: s-color(link) !important;
 			border: none !important;
 		}
 		// outline
-		.btn.btn--outline {
+		#{s-selector((
+			BEM : '.btn--outline',
+			SMACCS : '.btn-outline'
+		))} {
 			background-color: transparent;
 		}
 		// disabled
 		.btn[disabled],
-		.btn.btn--disabled {
-			pointer-events: none;
+		#{s-selector((
+			BEM : '.btn--disabled',
+			SMACCS : '.btn-disabled'
+		))} {
 			opacity: 0.65;
 			cursor: not-allowed !important;
 		}
 		// block
-		.btn.btn--block {
+		#{s-selector((
+			BEM : '.btn--block',
+			SMACCS : '.btn-block'
+		))} {
 			display: block;
 			width: 100%;
 		}

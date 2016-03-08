@@ -12,17 +12,27 @@ $_s-dropdown-inited : false;
 			position: relative;
 
 			&:hover,
-			&.active {
+			&.active,
+			#{s-selector((
+				BEM : '&.dropdown--active',
+				SMACCS : '&.is-active'
+			))} {
 				z-index:1;
 
-				.dropdown__menu {
+				#{s-selector((
+					BEM : '.dropdown__menu',
+					SMACCS : '.dropdown-menu'
+				))} {
 					visibility: visible;
 					opacity: 1;
 					pointer-events: all;
 				}
 			}
 
-			.dropdown__menu {
+			#{s-selector((
+				BEM : '.dropdown__menu',
+				SMACCS : '.dropdown-menu'
+			))} {
 				visibility: hidden;
 				opacity: 0;
 				position: absolute;
@@ -30,7 +40,10 @@ $_s-dropdown-inited : false;
 				pointer-events: none;
 				@include s-transition();
 			}
-			.dropdown__item {
+			#{s-selector((
+				BEM : '.dropdown__item',
+				SMACCS : '.dropdown-item'
+			))} {
 				white-space: nowrap;
 			}
 		}
@@ -38,29 +51,39 @@ $_s-dropdown-inited : false;
 		%s-dropup-bare {
 			@extend %s-dropdown-bare;
 
-			.dropdown__menu {
+			#{s-selector((
+				BEM : '.dropdown__menu',
+				SMACCS : '.dropdown-menu'
+			))} {
 				top: auto;
 				bottom: 100%;
 			}
 		}
 
 		%s-dropdown-style {
-			.dropdown__label {
-				// padding : s-look-and-feel(padding-vertical, medium) s-look-and-feel(padding-horizontal, medium);
-			}
-
-			.dropdown__menu {
+			
+			#{s-selector((
+				BEM : '.dropdown__menu',
+				SMACCS : '.dropdown-menu'
+			))} {
 				background: white;
 				border: 1px solid s-color(default, -opacity .2);
 				box-shadow: s-color(default, -opacity .3) 0 10px 10px;
 				@include s-transition();
 			}
 
-			.dropdown__item {
+			#{s-selector((
+				BEM : '.dropdown__item',
+				SMACCS : '.dropdown-item'
+			))} {
 				border-top: solid s-rem(1px) s-color(default, -opacity .2);
 
 				&:hover,
-				&.active {
+				&.active,
+				#{s-selector((
+					BEM : '&.dropdown__item--active',
+					SMACCS : '&.is-active'
+				))} {
 					background-color : s-color(default, -opacity .1);
 				}
 
@@ -95,8 +118,15 @@ $_s-dropdown-inited : false;
 			@extend %s-dropdown-style;
 
 			&:hover,
-			&.active {
-				.dropdown__menu {
+			&.active,
+			#{s-selector((
+				BEM : '&.dropdown--active',
+				SMACCS : '&.is-active'
+			))} {
+				#{s-selector((
+					BEM : '.dropdown__menu',
+					SMACCS : '.dropdown-menu'
+				))} {
 					top: 100%;
 				}
 			}
@@ -105,18 +135,27 @@ $_s-dropdown-inited : false;
 		// generate each sizes
 		@each $size in $sizes {
 			// extend dropdown
-			$sel : '.dropdown';
-			@if $size != default {
-				$sel : '.dropdown.dropdown--#{$size}';
-			}
-			#{$sel} {
-				.dropdown__menu {
+			#{s-selector((
+				BEM : '.dropdown--#{$size}',
+				SMACCS : '.dropdown-#{$size}'
+			))}
+			 {
+				#{s-selector((
+					BEM : '.dropdown__menu',
+					SMACCS : '.dropdown-menu'
+				))} {
 					border-radius: s-look-and-feel(border-radius, $size);
 				}
-				.dropdown__label {
+				#{s-selector((
+					BEM : '.dropdown__label',
+					SMACCS : '.dropdown-label'
+				))} {
 					padding: s-look-and-feel(padding-vertical, $size) s-look-and-feel(padding-horizontal, $size);
 				}
-				.dropdown__item > a {
+				#{s-selector((
+					BEM : '.dropdown__item',
+					SMACCS : '.dropdown-item'
+				))} > a {
 					padding: s-look-and-feel(padding-vertical, $size) s-look-and-feel(padding-horizontal, $size);
 				}
 			}
@@ -147,8 +186,15 @@ $_s-dropdown-inited : false;
 			@extend %s-dropdown-style;
 
 			&:hover,
-			&.active {
-				.dropdown__menu {
+			&.active,
+			#{s-selector((
+				BEM : '&.dropdown--active',
+				SMACCS : '&.is-active'
+			))} {
+				#{s-selector((
+					BEM : '.dropdown__menu',
+					SMACCS : '.dropdown-menu'
+				))} {
 					top: auto;
 					bottom: 100%;
 				}
@@ -158,18 +204,26 @@ $_s-dropdown-inited : false;
 		// generate each sizes
 		@each $size in $sizes {
 			// extend dropdown
-			$sel : '.dropup';
-			@if $size != default {
-				$sel : '.dropup.dropdown--#{$size}';
-			}
-			#{$sel} {
-				.dropdown__menu {
+			#{s-selector((
+				BEM : '.dropup.dropdown--#{$size}',
+				SMACCS : 'dropup.dropdown-#{$size}'
+			))} {
+				#{s-selector((
+					BEM : '.dropdown__menu',
+					SMACCS : '.dropdown-menu'
+				))} {
 					border-radius: s-look-and-feel(border-radius, $size);
 				}
-				.dropdown__label {
+				#{s-selector((
+					BEM : '.dropdown__label',
+					SMACCS : '.dropdown-label'
+				))} {
 					padding: s-look-and-feel(padding-vertical, $size) s-look-and-feel(padding-horizontal, $size);
 				}
-				.dropdown__item > a {
+				#{s-selector((
+					BEM : '.dropdown__item',
+					SMACCS : '.dropdown-item'
+				))} > a {
 					padding: s-look-and-feel(padding-vertical, $size) s-look-and-feel(padding-horizontal, $size);
 				}
 			}

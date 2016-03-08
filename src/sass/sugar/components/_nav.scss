@@ -40,7 +40,10 @@ $_s-nav-inited : false;
 	@include s-component-context('nav') {		
 	
 		// base
-		.nav.nav--tabs {
+		#{s-selector((
+			BEM : '.nav.nav--tabs',
+			SMACCS : '.nav.nav-tabs'
+		))} {
 			@extend %s-nav-bare;
 			
 			> li,
@@ -48,9 +51,9 @@ $_s-nav-inited : false;
 				BEM : '.nav__item',
 				SMACCS : '.nav-item'
 			))} {
-				&#{s-selector((
-					BEM : '.disabled',
-					SMACCS : '.is-disabled'
+				#{s-selector((
+					BEM : '&.nav__item--disabled',
+					SMACCS : '&.is-disabled'
 				))} {
 					pointer-events: none;
 					opacity: .5;
@@ -103,16 +106,16 @@ $_s-nav-inited : false;
 					border: s-rem(1px) solid s-color($color, -opacity .1);
 					color : s-color($color);
 
-					&#{s-selector((
-						BEM : '.hover',
-						SMACCS : '.is-hover'
+					#{s-selector((
+						BEM : '&.hover',
+						SMACCS : '&.is-hover'
 					))},
 					&:hover {
 						background-color : s-color($color, -opacity .1);
 					}
-					&#{s-selector((
-						BEM : '.active',
-						SMACCS : '.is-active'
+					#{s-selector((
+						BEM : '&.active',
+						SMACCS : '&.is-active'
 					))} {
 						background-color : s-color($color);	
 						border-color: s-color($color);
