@@ -39,9 +39,9 @@
 	$sizes : smaller small default medium big bigger
 );
 
-// //
-// // Button
-// //
-// @include s-button(
-// 	-sizes smaller small default medium big bigger
-// );
+//
+// Button
+//
+@include s-button(
+	$sizes : smaller small default medium big bigger
+);

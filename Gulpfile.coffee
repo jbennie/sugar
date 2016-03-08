@@ -108,7 +108,10 @@ gulp.task 'compass', ->
 # sass
 gulp.task 'sass', ->
 	gulp.src './src/sass/**/*.scss'
-	.pipe sass(outputStyle: 'expanded').on 'error', sass.logError
+	.pipe sass(
+		outputStyle: 'expanded'
+		precision : 8
+	).on 'error', sass.logError
 	.pipe autoprefixer()
 	.pipe gulp.dest 'assets/css'
 

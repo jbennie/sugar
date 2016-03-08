@@ -2,7 +2,7 @@
 // Helpers with typography
 //
 @mixin s-vertical-rhythme(
-	$font-size : sugar('settings.typo.font-size'),
+	$font-size : null,
 	$font-family : sugar('settings.typo.font-family'),
 	$line-height : null,
 	$margin-top : 0,
@@ -24,98 +24,58 @@
 
 	@if sugar('settings.vertical-rhythme.enabled') {
 
-		@if $_sugar-test-arguments {
-			$font-size : s-test-argument('s-vertical-rhythme','font-size',number,$font-size);
-			$font-family : s-test-argument('s-vertical-rhythme','font-family',map-keys(sugar('settings.fonts')),$font-family);
-			$line-height : s-test-argument('s-vertical-rhythme','line-height',number,$line-height);
-			$margin-top : s-test-argument('s-vertical-rhythme','margin-top',number,$margin-top);
-			$margin-bottom : s-test-argument('s-vertical-rhythme','margin-bottom',number,$margin-bottom);
-			$padding-top : s-test-argument('s-vertical-rhythme','padding-top',number,$padding-top);
-			$padding-bottom : s-test-argument('s-vertical-rhythme','padding-bottom',number,$padding-bottom);
-			$margin : s-test-argument('s-vertical-rhythme','margin','number|list',$margin);
-			$padding : s-test-argument('s-vertical-rhythme','padding','number|list',$padding);
-			$border-bottom : s-test-argument('s-vertical-rhythme','border-bottom','number|list',$border-bottom);
-			$border-top : s-test-argument('s-vertical-rhythme','border-top','number|list',$border-top);
-			$border-bottom-width : s-test-argument('s-vertical-rhythme','border-bottom-width',number,$border-bottom-width);
-			$border-top-width : s-test-argument('s-vertical-rhythme','border-top-width',number,$border-top-width);
-			$border : s-test-argument('s-vertical-rhythme','border','number|list',$border);
-			$s-font : s-test-argument('s-vertical-rhythme','s-font',map,$s-font);
-			$cap-height : s-test-argument('s-vertical-rhythme','cap-height',number,$cap-height);
-			$scope-class : s-test-argument('s-vertical-rhythme','scope-class',boolean,$scope-class);
-			$calculate-height : s-test-argument('s-vertical-rhythme','calculate-height',boolean,$calculate-height);		
-		}
+		// check if we have some arguments
+		// mean that we want the vertical rhythme css properties
+		// otherwise we just need to wrap content in vertical-align scope
+		@if $font-size {
 
-		// get values from s-font if passed	
-		@if $s-font {
-			$font : s-font($s-font...);
-			$font-family : map-get-or($font, font-family, $font-family);
-			$font-size : map-get-or($font, font-size, $font-size);
-			$line-height : map-get-or($font, line-height, $line-height);
-		}
+			// get the rhythme
+			$rhythme-map : s-vertical-rhythme(
+				$font-size : $font-size,
+				$line-height : $line-height,
+				$margin : $margin,
+				$margin-top : $margin-top,
+				$margin-bottom : $margin-bottom,
+				$padding : $padding,
+				$padding-top : $padding-top,
+				$padding-bottom : $padding-bottom,
+				$border-top-width : $border-top-width,
+				$border-top : $border-top,
+				$border-bottom-width : $border-bottom-width,
+				$border-bottom : $border-bottom,
+				$s-font : $s-font,
+				$cap-height : $cap-height,
+				$calculate-height : $calculate-height
+			);
+			// remove margin-top cause it's done by top and margin-bottom compensation
+			@if map-get($rhythme-map, top) {
+				$rhythme-map : map-remove($rhythme-map, margin-top);
+			}
 
-		// get the font object
-		$fonts : sugar('settings.fonts');
-		$f : sugar('settings.fonts.default');
-		@if type-of($f) == string {
-			$f : map-get($fonts, $f);
-		}
-		$cap-height : map-get-or($f, cap-height, $cap-height);
-			
-		// if a font family is passed
-		@if $font-family {
-			@if map-get($fonts, $font-family) {
-				$f : map-get($fonts, $font-family);
-				@if type-of($f) == string {
-					$f : map-get($fonts, $f);
+			// set values
+			@if $s-font {
+				@include s-font($s-font...);
+			}
+			$rhythme-map : map-remove($rhythme-map, s-font);
+			$rhythme-map : map-remove($rhythme-map, cap-height);
+			$rhythme-map : map-remove($rhythme-map, scope-class);
+			$rhythme-map : map-remove($rhythme-map, calculate-height);
+
+			$sc : sugar('settings.vertical-rhythme.scope-class');
+			@if $sc and $scope-class {
+				.#{$sc} & {
+					@each $prop, $value in $rhythme-map {
+						#{$prop} : $value;
+					}
+					@content;
 				}
-				$cap-height : map-get-or($f, cap-height, $cap-height);
-				$font-family : map-get-or($f, font-family, $font-family);
-			}			
-		}
-
-		// get the rhythme
-		$rhythme-map : s-vertical-rhythme(
-			$font-size : $font-size,
-			$line-height : $line-height,
-			$margin : $margin,
-			$margin-top : $margin-top,
-			$margin-bottom : $margin-bottom,
-			$padding : $padding,
-			$padding-top : $padding-top,
-			$padding-bottom : $padding-bottom,
-			$border-top-width : $border-top-width,
-			$border-top : $border-top,
-			$border-bottom-width : $border-bottom-width,
-			$border-bottom : $border-bottom,
-			$cap-height : $cap-height,
-			$calculate-height : $calculate-height
-		);
-		// remove margin-top cause it's done by top and margin-bottom compensation
-		@if map-get($rhythme-map, top) {
-			$rhythme-map : map-remove($rhythme-map, margin-top);
-		}
-
-		// set values
-		@if $s-font {
-			@include s-font($s-font...);
-		}
-		$rhythme-map : map-remove($rhythme-map, s-font);
-		$rhythme-map : map-remove($rhythme-map, cap-height);
-		$rhythme-map : map-remove($rhythme-map, scope-class);
-		$rhythme-map : map-remove($rhythme-map, calculate-height);
-
-		$sc : sugar('settings.vertical-rhythme.scope-class');
-		@if $sc and $scope-class {
-			.#{$sc} & {
+			} @else {
 				@each $prop, $value in $rhythme-map {
 					#{$prop} : $value;
 				}
 				@content;
 			}
 		} @else {
-			@each $prop, $value in $rhythme-map {
-				#{$prop} : $value;
-			}
 			@content;
 		}
 	}
@@ -516,34 +476,28 @@
 	}
 
 	// check some values
-	// @if $border-bottom-width {
-	// 	$border-bottom : $border-bottom-width;
-	// } @else if $border-bottom and type-of($border-bottom) != number {
-	// 	// $map : s-border($border-bottom);
-	// 	// $border-bottom : map-get-or($map, width, $border-bottom);
-	// 	$border-bottom : 0;
-	// } @else if $border and type-of($border) != number {
-	// 	// $map : s-border($border);
-	// 	// $border-bottom : map-get-or($map, width, $border);
-	// 	$border-bottom : 0;
-	// } @else if $border and type-of($border) == number {
-	// 	$border-bottom : $border;
-	// }
-	// @if $border-top-width {
-	// 	$border-top : $border-top-width;
-	// } @else if $border-top and type-of($border-top) != number {
-	// 	// $map : s-border($border-top);
-	// 	// $border-top : map-get-or($map, width, $border-top);
-	// 	$border-top : 0;
-	// } @else if $border and type-of($border) != number {
-	// 	// $map : s-border($border);
-	// 	// $border-top : map-get-or($map, width, $border);
-	// 	$border-top : 0;
-	// } @else if $border and type-of($border) == number {
-	// 	$border-top : $border;
-	// }
-	$border-top : 0;
-	$border-bottom : 0;
+	@if $border-bottom-width {
+		$border-bottom : $border-bottom-width;
+	} @else if $border-bottom and type-of($border-bottom) != number {
+		$map : s-border($border-bottom);
+		$border-bottom : map-get-or($map, width, $border-bottom);
+	} @else if $border and type-of($border) != number {
+		$map : s-border($border);
+		$border-bottom : map-get-or($map, width, $border);
+	} @else if $border and type-of($border) == number {
+		$border-bottom : $border;
+	}
+	@if $border-top-width {
+		$border-top : $border-top-width;
+	} @else if $border-top and type-of($border-top) != number {
+		$map : s-border($border-top);
+		$border-top : map-get-or($map, width, $border-top);
+	} @else if $border and type-of($border) != number {
+		$map : s-border($border);
+		$border-top : map-get-or($map, width, $border);
+	} @else if $border and type-of($border) == number {
+		$border-top : $border;
+	}
 	@if $margin {
 		$map : s-margin($margin);
 		$margin-top : map-get-or($map, top, $margin-top);
@@ -597,7 +551,7 @@
 		$rootsize: $root-font-size;
 		$baseline-shift: ($font-size / 2 * (($line-height * $rootsize / $font-size) - $cap-height)) / $rootsize + 0.00001;
 		$baseline-push: $margin-bottom - (($font-size / 2 * (($line-height * $rootsize / $font-size) - $cap-height)) / $rootsize + 0.00001);
-		
+	
 		$baseline-push : $baseline-push % 1;
 		$baseline-shift : $baseline-shift % 1;
 		$decimal : $baseline-push % 1;
@@ -606,7 +560,7 @@
 		// we add the shift to the margin bottom
 		// to respect the vertical rhythme
 		$respect-padding-top : false;
-		@if $padding-top > 0 {
+		@if $padding-top > 0rem {
 			$margin-bottom : $margin-bottom + $baseline-shift;
 			$respect-padding-top : true;
 		} @else {
@@ -614,60 +568,64 @@
 		}
 		$margin-bottom : $margin-bottom + $baseline-push;
 
+
+
 		$dec : $margin-bottom % 1;
 		$diff : $margin-bottom - $targeted-margin-bottom;
-		@if $diff > 1 {
+		@if $diff > 1rem {
 			$margin-bottom : $margin-bottom - 1;
 		}
 		@if $margin-bottom > $targeted-margin-bottom {
-			@if $dec > 0.5 {
+			@if $dec > 0.5rem {
 				$margin-bottom : $margin-bottom - 1;
 			}
 		} @else if $margin-bottom < $targeted-margin-bottom {
-			@if $dec < 0.5 {
+			@if $dec < 0.5rem {
 				$margin-bottom : $margin-bottom + 1;
 			}
 		}
 
+
+
 		// handle borders
-		@if $border-top > 0 {
+		@if $border-top > 0rem {
 		 	$dec : $border-top % 1;
 
 			// check where to cut the border
 			// to have the best result
 			@if $margin-top > $padding-top {
-				@if $margin-top - $border-top >= 0 {
+				@if $margin-top - $border-top >= 0rem {
 					$margin-top : $margin-top - $border-top;
 				} @else {
 					$margin-top : $margin-top + (1 - $dec);
 				}
 			} @else {
-				@if $padding-top - ($border-top / 2) >= 0 and $padding-bottom - ($border-top / 2) >= 0 {
+				@if $padding-top - ($border-top / 2) >= 0rem and $padding-bottom - ($border-top / 2) >= 0rem {
 					$padding-top : $padding-top - $border-top / 2;
 					$padding-bottom : $padding-bottom - $border-top / 2;
-				} @else if $padding-top - $border-top >= 0 {
+				} @else if $padding-top - $border-top >= 0rem {
 					$padding-top : $padding-top - $border-top;
 				} @else {
 					$padding-top : $padding-top + (1 - $dec);
 				}
 			}
 		}
-		@if $border-bottom > 0 {
+		@if $border-bottom > 0rem {
 		 	$dec : $border-bottom % 1;
 
 			// check where to cut the border
 			// to have the best result
 			@if $margin-bottom > $padding-bottom {
-				@if $margin-bottom - $border-bottom >= 0 {
+				@if $margin-bottom - $border-bottom >= 0rem {
 					$margin-bottom : $margin-bottom - $border-bottom;
 				} @else {
 					$margin-bottom : $margin-bottom + (1 - $dec);
 				}
 			} @else {
-				@if $padding-top - ($border-bottom / 2) >= 0 and $padding-bottom - ($border-bottom / 2) >= 0 {
+				@if $padding-top - ($border-bottom / 2) >= 0rem and $padding-bottom - ($border-bottom / 2) >= 0rem {
 					$padding-top : $padding-top - $border-bottom / 2;
 					$padding-bottom : $padding-bottom - $border-bottom / 2;
-				} @else if $padding-bottom - $border-bottom >= 0 {
+				} @else if $padding-bottom - $border-bottom >= 0rem {
 					$padding-bottom : $padding-bottom - $border-bottom;
 				} @else {
 					$padding-bottom : $padding-bottom + (1 - $dec);
@@ -693,7 +651,7 @@
 		$ret : map-set($ret, padding-top, $padding-top);
 		$ret : map-set($ret, padding-bottom, $padding-bottom);
 		$ret : map-set($ret, margin-bottom, $margin-bottom);
-		@if $margin-top > 0 {
+		@if $margin-top > 0rem {
 			$ret : map-merge($ret, (
 				position : relative,
 				top : $margin-top,

@@ -125,7 +125,7 @@
 	}
 	$sel : str-replace($sel,'.default','');
 	// return the selector
-	@return $sel;
+	@return unquote($sel);
 }
 
 //

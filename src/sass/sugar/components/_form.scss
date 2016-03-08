@@ -633,13 +633,14 @@ $_s-formset-inited : false;
 
 				&:not(.s-radiobox) {
 					$mb : s-look-and-feel(font-size, $size);
-					@if $mb <= 2 { $mb : 2; }
+					@if s-strip-units($mb) <= 2 { $mb : 2; }
 					@include s-vertical-rhythme(
 						$font-size : s-look-and-feel(font-size, $size),
 						$line-height: s-look-and-feel(font-size, $size),
 						$margin-bottom : $mb,
 						$margin-top : 0
 					);
+					// @error('');
 
 					&:first-child:last-child {
 						width: 100%;

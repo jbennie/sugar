@@ -7,7 +7,7 @@
 			),
 			h1 : (
 				// font-size : ms(3)
-				font-size : 60px
+				font-size : 57px
 			),
 			h2 : (
 				// font-size : ms(2.5)
@@ -96,11 +96,10 @@
 			.h#{$i},
 			h#{$i} {
 				@include s-vertical-rhythme(
-					$s-font : (
-						size : map-get($s, font-size)
-					),
+					$font-size : map-get($s, font-size),
 					$margin-bottom : map-get($s, margin-bottom)
 				);
+				// @error('');
 			}
 
 			// delete used properties
