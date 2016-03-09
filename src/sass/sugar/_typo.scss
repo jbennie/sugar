@@ -16,7 +16,6 @@
 	$border-bottom-width : 0,
 	$border-top-width : 0,
 	$border : null,
-	$s-font : null,
 	$cap-height : null,
 	$scope-class : true,
 	$calculate-height : false
@@ -43,7 +42,6 @@
 				$border-top : $border-top,
 				$border-bottom-width : $border-bottom-width,
 				$border-bottom : $border-bottom,
-				$s-font : $s-font,
 				$cap-height : $cap-height,
 				$calculate-height : $calculate-height
 			);
@@ -53,10 +51,6 @@
 			}
 
 			// set values
-			@if $s-font {
-				@include s-font($s-font...);
-			}
-			$rhythme-map : map-remove($rhythme-map, s-font);
 			$rhythme-map : map-remove($rhythme-map, cap-height);
 			$rhythme-map : map-remove($rhythme-map, scope-class);
 			$rhythme-map : map-remove($rhythme-map, calculate-height);

@@ -99,14 +99,9 @@
 					$font-size : map-get($s, font-size),
 					$margin-bottom : map-get($s, margin-bottom)
 				);
-				// @error('');
 			}
 
-			// delete used properties
-			$s : map-remove($s, font-size);
-			$s : map-remove($s, margin-bottom);
-
-			.#{$typeset} .h#{$i},
+			.h#{$i},
 			.#{$typeset} h#{$i} {
 				@each $prop, $value in $s {
 					@include s-property-proxy($prop, $value);
@@ -375,10 +370,8 @@
 		.pre,
 		pre:not(.no-#{$vertical-rhythme}) {
 			@include s-vertical-rhythme(
-				$s-font : (
-					size : 16px,
-					family : code
-				),
+				$font-size : 16px,
+				$font-family : code,
 				$padding-top : s-space(default),
 				$padding-bottom : s-space(default),
 				$margin-bottom : s-space(default)
@@ -394,10 +387,8 @@
 		.address,
 		address:not(.no-#{$vertical-rhythme}) {
 			@include s-vertical-rhythme(
-				$s-font : (
-					size : $font-size,
-					line-height : 2
-				),
+				$font-size : $font-size,
+				$line-height : 2,
 				$padding-top : s-space(default),
 				$padding-bottom : s-space(default),
 				$margin-bottom : s-space(default)
@@ -487,10 +478,8 @@
 		.hr,
 		hr:not(.no-#{$vertical-rhythme}) {
 			@include s-vertical-rhythme(
-				$s-font : (
-					size : 0,
-					line-height : 0
-				),
+				$font-size : 0,
+				$line-height : 0,
 				$margin-top : s-space(default),
 				$margin-bottom : s-rem(s-space(default)) - s-rem(1px),
 				$border-bottom: 1px solid s-color(text, -opacity .3)

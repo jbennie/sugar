@@ -150,7 +150,7 @@
 	$align : center,
 	$size : 10px,
 	$color : s-color(primary),
-	$arrow-offset : 0,
+	$arrow-offset : 10px,
 	$border-width : 0,
 	$border-color : none
 ) {	
@@ -165,7 +165,7 @@
 	}
 
 	// create the bubble
-	@include _arrow($side, $align, $size, $color, $border-color, $border-width);
+	@include _arrow($side, $align, $size, $color, $arrow-offset, $border-color, $border-width);
 
 	position: relative;
 	background: $color;

@@ -130,6 +130,9 @@
 
 /* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen
    readers do not read off random characters that represent icons */
+/**
+ * Transform -var value -var value value to map
+ */
 /* # CLEARFIX
 	More infos to come..
 	
@@ -507,13 +510,13 @@ body {
 .bubble:after {
   border-width: 10px;
   border-left-color: #f2bc2b;
-  right: -10px;
-  top: 10px;
+  right: -20px;
+  top: 15px;
 }
 
 .bubble:before {
   border-width: 15px;
   border-left-color: red;
-  right: -15px;
-  top: 5px;
+  right: -30px;
+  top: 10px;
 }

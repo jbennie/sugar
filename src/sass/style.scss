@@ -172,12 +172,12 @@ pre > code {
 [data-toggle-baseline] {
 	cursor: pointer;
 	@include s-vertical-rhythme(
-		$s-font : (
-			size : 14px,
-			transform : uppercase,
-			color : s-color(grey)
-		)
+		$font-size : 14px
 	);
+	@include s-font((
+		transform : uppercase,
+		color : s-color(grey)
+	)...);
 	&:hover,
 	&.active {
 		i {
@@ -510,8 +510,13 @@ figure {
             $bullet-color : s-color(orange, dark),
             $bullet-size : 22px
 		);
-		border-bottom:1px solid s-color(orange, -darken 30% -opacity .2);
-		border-top:1px solid s-color(white, -opacity .2);
+		border-bottom:1px solid s-color(orange, (
+			darken : 30%,
+			opacity : .2
+		));
+		border-top:1px solid s-color(white, (
+			opacity : .2
+		));
 		padding-top:s-rem(10px);
 		padding-bottom:s-rem(10px);
 
@@ -605,7 +610,9 @@ strong {
 	$bubble : (
 		color : s-color(orange),
 		size : 10px,
-		border-color : s-color(orange, -darken 15%),
+		border-color : s-color(orange, (
+			darken : 15%
+		)),
 		border-width : 2px
 	);
 

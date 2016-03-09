@@ -1,6 +1,9 @@
 @include s-component-setup((
 	dropdown : (
-
+		generate : (
+			sizes : default,
+			bare : false
+		)
 	)
 ));
 
@@ -10,24 +13,31 @@ $_s-dropdown-inited : false;
 		$_s-dropdown-inited : true !global;
 		%s-dropdown-bare {
 			position: relative;
-
-			&:hover,
-			&.active,
-			#{s-selector((
-				BEM : '&.dropdown--active',
-				SMACCS : '&.is-active'
-			))} {
-				z-index:1;
-
-				#{s-selector((
-					BEM : '.dropdown__menu',
-					SMACCS : '.dropdown-menu'
-				))} {
-					visibility: visible;
-					opacity: 1;
-					pointer-events: all;
-				}
+			
+			button:active ~ .dropdown__menu,
+			button:focus ~ .dropdown__menu {
+				visibility: visible;
+				opacity: 1;
+				pointer-events: all;	
 			}
+
+			// &:hover,
+			// &.active,
+			// #{s-selector((
+			// 	BEM : '&.dropdown--active',
+			// 	SMACCS : '&.is-active'
+			// ))} {
+			// 	z-index:1;
+
+			// 	#{s-selector((
+			// 		BEM : '.dropdown__menu',
+			// 		SMACCS : '.dropdown-menu'
+			// 	))} {
+			// 		visibility: visible;
+			// 		opacity: 1;
+			// 		pointer-events: all;
+			// 	}
+			// }
 
 			#{s-selector((
 				BEM : '.dropdown__menu',
@@ -99,19 +109,19 @@ $_s-dropdown-inited : false;
 
 @mixin s-dropdown(
 	$sizes : sugar('settings.components.dropdown.generate.sizes'),
-	$colors : sugar('settings.components.dropdown.generate.colors')
+	$bare : sugar('settings.components.dropdown.generate.bare')
 ) {
 	// init dropdown
 	@include s-dropdown-init();
 	
 	@if $_sugar-test-arguments {
 		$sizes : s-test-argument('s-nav-tabs','sizes',map-keys(sugar('settings.sizes')),$sizes);
-		$colors : s-test-argument('s-nav-tabs','colors',map-keys(sugar('settings.colors')),$colors);
+		$bare : s-test-argument('s-nav-tabs','bare',boolean,$bare);
 	}
 
 	// pass in component context
 	@include s-component-context('dropdown') {
-		
+
 		// base
 		.dropdown {
 			@extend %s-dropdown-bare;
@@ -131,7 +141,7 @@ $_s-dropdown-inited : false;
 				}
 			}
 		}
-
+		
 		// generate each sizes
 		@each $size in $sizes {
 			// extend dropdown
@@ -164,22 +174,18 @@ $_s-dropdown-inited : false;
 }
 
 @mixin s-dropup(
-	$props : ()
+	$sizes : sugar('settings.components.dropdown.generate.sizes')
 ) {
 	// init dropdown
 	@include s-dropdown-init();
-	
+		
+	@if $_sugar-test-arguments {
+		$sizes : s-test-argument('s-nav-tabs','sizes',map-keys(sugar('settings.sizes')),$sizes);
+	}
+
 	// pass in component context
 	@include s-component-context('dropdown') {
-
-		// parse properties
-		$props : s-parse-properties($props, (
-			sizes : map-keys(sugar('settings.sizes'))
-		));
-
-		// get variables
-		$sizes : map-get-or($props, sizes, default);
-		
+	
 		// base
 		.dropup {
 			@extend %s-dropdown-bare;

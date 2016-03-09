@@ -84,7 +84,8 @@ $_s-button-inited : false;
 				} @else {
 					color : white;
 				}
-
+				
+				&:active,
 				&:hover,
 				&.active,
 				#{s-selector((
@@ -105,7 +106,8 @@ $_s-button-inited : false;
 					SMACCS : '&.btn-outline'
 				))} {
 					color: s-color($color);
-
+					
+					&:active,
 					&:hover,
 					&.active,
 					:checked + &,

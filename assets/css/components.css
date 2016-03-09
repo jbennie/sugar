@@ -131,6 +131,9 @@
 
 /* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen
    readers do not read off random characters that represent icons */
+/**
+ * Transform -var value -var value value to map
+ */
 /* # CLEARFIX
 	More infos to come..
 	
@@ -411,11 +414,7 @@ body {
   position: relative;
 }
 
-.dropdown:hover, .dropup:hover, .active.dropdown, .active.dropup, .dropdown--active.dropdown, .dropdown--active.dropup {
-  z-index: 1;
-}
-
-.dropdown:hover .dropdown__menu, .dropup:hover .dropdown__menu, .active.dropdown .dropdown__menu, .active.dropup .dropdown__menu, .dropdown--active.dropdown .dropdown__menu, .dropdown--active.dropup .dropdown__menu {
+.dropdown button:active ~ .dropdown__menu, .dropup button:active ~ .dropdown__menu, .dropdown button:focus ~ .dropdown__menu, .dropup button:focus ~ .dropdown__menu {
   visibility: visible;
   opacity: 1;
   pointer-events: all;
@@ -754,9 +753,11 @@ h1 {
   margin-bottom: 1.92499rem;
 }
 
-.typeset .h1,
+.h1,
 .typeset h1 {
+  margin-bottom: 2;
   color: black;
+  font-size: 57px;
   font-family: "Open Sans";
 }
 
@@ -769,9 +770,11 @@ h2 {
   margin-bottom: 2.24999rem;
 }
 
-.typeset .h2,
+.h2,
 .typeset h2 {
+  margin-bottom: 2;
   color: black;
+  font-size: 50px;
   font-family: "Open Sans";
 }
 
@@ -784,9 +787,11 @@ h3 {
   margin-bottom: 2.39999rem;
 }
 
-.typeset .h3,
+.h3,
 .typeset h3 {
+  margin-bottom: 2;
   color: black;
+  font-size: 36px;
   font-family: "Open Sans";
 }
 
@@ -799,9 +804,11 @@ h4 {
   margin-bottom: 1.64999rem;
 }
 
-.typeset .h4,
+.h4,
 .typeset h4 {
+  margin-bottom: 2;
   color: black;
+  font-size: 26px;
 }
 
 .vertical-rhythme .h5, .vertical-rhythme
@@ -813,9 +820,11 @@ h5 {
   margin-bottom: 2.49999rem;
 }
 
-.typeset .h5,
+.h5,
 .typeset h5 {
+  margin-bottom: 2;
   color: black;
+  font-size: 20px;
 }
 
 .vertical-rhythme .h6, .vertical-rhythme
@@ -827,9 +836,11 @@ h6 {
   margin-bottom: 1.82499rem;
 }
 
-.typeset .h6,
+.h6,
 .typeset h6 {
+  margin-bottom: 2;
   color: black;
+  font-size: 1rem;
 }
 
 .vertical-rhythme p:not(.no-vertical-rhythme), .vertical-rhythme
@@ -919,6 +930,17 @@ h6 {
   border: none;
   clear: both;
   height: 0;
+}
+
+.vertical-rhythme .hr, .vertical-rhythme
+hr:not(.no-vertical-rhythme) {
+  font-size: 0.07692308rem;
+  line-height: 0rem;
+  padding-top: 0.02499rem;
+  padding-bottom: 0rem;
+  margin-bottom: 4.02499rem;
+  position: relative;
+  top: 2rem;
 }
 
 .ul,
@@ -1290,6 +1312,15 @@ blockquote:not(.no-vertical-rhythme) footer {
   padding: 2rem;
 }
 
+.vertical-rhythme .pre, .vertical-rhythme
+pre:not(.no-vertical-rhythme) {
+  font-size: 1.23076923rem;
+  line-height: 2rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  margin-bottom: 3rem;
+}
+
 .address,
 .typeset address:not(.no-typeset) {
   padding: 2rem;
@@ -1300,6 +1331,15 @@ blockquote:not(.no-vertical-rhythme) footer {
 address:not(.no-vertical-rhythme) {
   overflow: hidden;
   position: relative;
+}
+
+.vertical-rhythme .address, .vertical-rhythme
+address:not(.no-vertical-rhythme) {
+  font-size: 1rem;
+  line-height: 2rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  margin-bottom: 3rem;
 }
 
 .address i, .address .i,
@@ -3313,7 +3353,7 @@ button {
   color: white;
 }
 
-.btn:hover, .btn.active, .btn.btn--active {
+.btn:active, .btn:hover, .btn.active, .btn.btn--active {
   background-color: #5b6f7a;
   border-color: #5b6f7a;
 }
@@ -3327,7 +3367,7 @@ button {
   color: #8195a1;
 }
 
-.btn.btn--outline:hover, .btn.btn--outline.active,
+.btn.btn--outline:active, .btn.btn--outline:hover, .btn.btn--outline.active,
 :checked + .btn.btn--outline, .btn.btn--outline.btn--active {
   background-color: #8195a1;
   border-color: #8195a1;
@@ -3340,7 +3380,7 @@ button {
   color: white;
 }
 
-.btn--primary:hover, .btn--primary.active, .btn--primary.btn--active {
+.btn--primary:active, .btn--primary:hover, .btn--primary.active, .btn--primary.btn--active {
   background-color: #c4920c;
   border-color: #c4920c;
 }
@@ -3354,7 +3394,7 @@ button {
   color: #f2bc2b;
 }
 
-.btn--primary.btn--outline:hover, .btn--primary.btn--outline.active,
+.btn--primary.btn--outline:active, .btn--primary.btn--outline:hover, .btn--primary.btn--outline.active,
 :checked + .btn--primary.btn--outline, .btn--primary.btn--outline.btn--active {
   background-color: #f2bc2b;
   border-color: #f2bc2b;
@@ -3367,7 +3407,7 @@ button {
   color: white;
 }
 
-.btn--secondary:hover, .btn--secondary.active, .btn--secondary.btn--active {
+.btn--secondary:active, .btn--secondary:hover, .btn--secondary.active, .btn--secondary.btn--active {
   background-color: #515151;
   border-color: #515151;
 }
@@ -3381,7 +3421,7 @@ button {
   color: #777;
 }
 
-.btn--secondary.btn--outline:hover, .btn--secondary.btn--outline.active,
+.btn--secondary.btn--outline:active, .btn--secondary.btn--outline:hover, .btn--secondary.btn--outline.active,
 :checked + .btn--secondary.btn--outline, .btn--secondary.btn--outline.btn--active {
   background-color: #777;
   border-color: #777;
@@ -3394,7 +3434,7 @@ button {
   color: white;
 }
 
-.btn--success:hover, .btn--success.active, .btn--success.btn--active {
+.btn--success:active, .btn--success:hover, .btn--success.active, .btn--success.btn--active {
   background-color: #3d8b3d;
   border-color: #3d8b3d;
 }
@@ -3408,7 +3448,7 @@ button {
   color: #5cb85c;
 }
 
-.btn--success.btn--outline:hover, .btn--success.btn--outline.active,
+.btn--success.btn--outline:active, .btn--success.btn--outline:hover, .btn--success.btn--outline.active,
 :checked + .btn--success.btn--outline, .btn--success.btn--outline.btn--active {
   background-color: #5cb85c;
   border-color: #5cb85c;
@@ -3421,7 +3461,7 @@ button {
   color: white;
 }
 
-.btn--warning:hover, .btn--warning.active, .btn--warning.btn--active {
+.btn--warning:active, .btn--warning:hover, .btn--warning.active, .btn--warning.btn--active {
   background-color: #df8a13;
   border-color: #df8a13;
 }
@@ -3435,7 +3475,7 @@ button {
   color: #f0ad4e;
 }
 
-.btn--warning.btn--outline:hover, .btn--warning.btn--outline.active,
+.btn--warning.btn--outline:active, .btn--warning.btn--outline:hover, .btn--warning.btn--outline.active,
 :checked + .btn--warning.btn--outline, .btn--warning.btn--outline.btn--active {
   background-color: #f0ad4e;
   border-color: #f0ad4e;
@@ -3448,7 +3488,7 @@ button {
   color: white;
 }
 
-.btn--error:hover, .btn--error.active, .btn--error.btn--active {
+.btn--error:active, .btn--error:hover, .btn--error.active, .btn--error.btn--active {
   background-color: #b52b27;
   border-color: #b52b27;
 }
@@ -3462,7 +3502,7 @@ button {
   color: #d9534f;
 }
 
-.btn--error.btn--outline:hover, .btn--error.btn--outline.active,
+.btn--error.btn--outline:active, .btn--error.btn--outline:hover, .btn--error.btn--outline.active,
 :checked + .btn--error.btn--outline, .btn--error.btn--outline.btn--active {
   background-color: #d9534f;
   border-color: #d9534f;
@@ -3475,7 +3515,7 @@ button {
   color: white;
 }
 
-.btn--info:hover, .btn--info.active, .btn--info.btn--active {
+.btn--info:active, .btn--info:hover, .btn--info.active, .btn--info.btn--active {
   background-color: #126eab;
   border-color: #126eab;
 }
@@ -3489,7 +3529,7 @@ button {
   color: #2199e8;
 }
 
-.btn--info.btn--outline:hover, .btn--info.btn--outline.active,
+.btn--info.btn--outline:active, .btn--info.btn--outline:hover, .btn--info.btn--outline.active,
 :checked + .btn--info.btn--outline, .btn--info.btn--outline.btn--active {
   background-color: #2199e8;
   border-color: #2199e8;

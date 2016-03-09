@@ -16,6 +16,50 @@
 }
 
 
+/**
+ * Transform -var value -var value value to map
+ */
+@function s-dash-to-map(
+	$dash
+) {
+	$prop : null;
+	$values : ();
+	$map : ();
+	// protect
+	@if type-of($dash) != list or str-slice(nth($dash,1),1,1) != '-' {
+		@return $dash;
+	}
+	// loop on each properties
+	@each $d in $dash {
+		@if type-of($d) == string and str-slice($d,1,1) == '-' {
+			// check if a prop exist and if values exists
+			@if $prop and length($values) > 0 {
+				@if length($values) == 1 {
+					$values : nth($values,1);
+				}
+				$map : map-set($map, $prop, $values);
+				$values : ();
+			}
+			// set new prop
+			$prop : str-slice($d,2);
+			// check if 
+		} @else {
+			// append values
+			$values : append($values,$d);
+		}
+	}
+	// check if a prop exist and if values exists
+	@if $prop and length($values) > 0 {
+		@if length($values) == 1 {
+			$values : nth($values,1);
+		}
+		$map : map-set($map, $prop, $values);
+	}
+	// return the map
+	@return $map;
+}
+
+
 //
 // Replace tokens
 //
@@ -191,8 +235,20 @@ $_sugar-settings-cache : ();
 	$name,
 	$actions : null
 ) {
+	// dash syntax
+	@if $actions and type-of($actions) == list {
+		@return s-color($name, s-dash-to-map($actions));
+	}
+
 	// grab the colors
 	$colors : sugar('settings.colors');
+
+	// test parameters
+	@if $_sugar-test-arguments {
+		$name : s-test-argument('s-color','name','color|string',$name);
+		$actions : s-test-argument('s-color','actions','map|string',$actions);
+	}
+
 	$color : map-get($colors, $name);
 	$modifiers : null;
 
@@ -224,57 +280,51 @@ $_sugar-settings-cache : ();
 		@if type-of($mod) == color {
 			$color : $mod;
 			$actions : null;
-		} @else {
+		} @else if type-of($mod) == list {
+			$actions : s-dash-to-map($mod);
+		} @else if type-of($mod) == map {
 			$actions : $mod;
+		} @else {
+			@error('The color "#{$name}" "actions" parameter set as "#{$actions}" for the "s-color" function is not valid');
 		}
 	}
 
 	// check action to do
 	@if $actions {
-		// parse action
-		$actions-map : s-parse-properties($actions, (
-			hue : number,
-			lighten : number,
-			darken : number,
-			grayscale : true,
-			complement : true,
-			invert : true,
-			saturate : number,
-			desaturate : number,
-			opacity : number,
-			mix : color
-		), (
-			hue : h,
-			lighten : li,
-			darken : da,
-			grayscale : gr,
-			complement : comp,
-			invert : i,
-			saturate : sa,
-			desaturate : desa,
-			opacity : o,
-			mix : m
-		));
+		// check arguments
+		@if $_sugar-test-arguments {
+			$hue : s-test-argument('s-color','actions.hue',number,map-get($actions,hue));
+			$lighten : s-test-argument('s-color','actions.lighten',number,map-get($actions,lighten));
+			$darken : s-test-argument('s-color','actions.darken',number,map-get($actions,darken));
+			$saturate : s-test-argument('s-color','actions.saturate',number,map-get($actions,saturate));
+			$desaturate : s-test-argument('s-color','actions.desaturate',number,map-get($actions,desaturate));
+			$grayscale : s-test-argument('s-color','actions.grayscale',boolean,map-get($actions,grayscale));
+			$complement : s-test-argument('s-color','actions.complement',boolean,map-get($actions,complement));
+			$invert : s-test-argument('s-color','actions.invert',boolean,map-get($actions,invert));
+			$opacity : s-test-argument('s-color','actions.opacity',number,map-get($actions,opacity));
+			$mix : s-test-argument('s-color','actions.mix',color,map-get($actions,mix));
+		}
+
 		// loop on each action to process to keep order
-		@each $action, $value in $actions-map {
+		@each $action, $value in $actions {
 			// hue
-			@if $action == hue and type-of($value) == number {
+			@if $action == hue {
 				$color : adjust-hue($color, $value);
 			}
 			// lighten
-			@if $action == lighten and type-of($value) == number {
+			@if $action == lighten {
 				$color : lighten($color, $value);
 			}
 			// darken
-			@if $action == darken and type-of($value) == number {
+			@if $action == darken {
 				$color : darken($color, $value);
 			}
 			// saturate
-			@if $action == saturate and type-of($value) == number {
+			@if $action == saturate {
 				$color : saturate($color, $value);
 			}
 			// desaturate
-			@if $action == desaturate and type-of($value) == number {
+			@if $action == desaturate {
 				$color : desaturate($color, $value);
 			}
 			// grayscale

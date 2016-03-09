@@ -9,7 +9,9 @@
 	@include s-size(16/9);
 	@include s-corner(s-rem(5px));
 	margin-bottom:s-rem(20px);
-	border: s-color(orange, -darken 15%) 2px solid;
+	border: s-color(orange, (
+		darken : 15%
+	)) 2px solid;
 
 	&:hover {
 		@include s-animation(tada);
@@ -18,7 +20,9 @@
 
 	&.loader-container--white {
 		background: s-color(white);
-		border : s-color(white, -darken 15%) 2px solid;
+		border : s-color(white, (
+			darken : 15%
+		)) 2px solid;
 	}
 }
 .loader {
@@ -99,20 +103,26 @@
 	display: block;
 }
 .loader-radial-1 {
-	@include s-loader-radial(30px (white s-color(orange, -darken 20%)), 3s -count 10 -spread 20px);
+	@include s-loader-radial(30px (white s-color(orange, (
+		darken : 20%
+	))), 3s -count 10 -spread 20px);
 }
 .loader-radial-2 {
-	@include s-loader-radial(50px (white s-color(orange, -darken 20%)), 10s -count 30 -spread 20px);
+	@include s-loader-radial(50px (white s-color(orange, (
+		darken : 20%
+	))), 10s -count 30 -spread 20px);
 }
 .loader-radial-3 {
-	@include s-loader-radial(50px (white s-color(orange, -darken 20%)), 1s -count 2 -delay 1s);
+	@include s-loader-radial(50px (white s-color(orange, (
+		darken : 20%
+	))), 1s -count 2 -delay 1s);
 }
 .loader-radial-4 {
 	@include s-loader-radial(30px dotted -width 5px -colors (#4285F4 #DB4437 #F4B400 #0F9D58), 1s -count 2 -delay 0.5s);
 	@include s-animation(rotate 1s infinite linear);
 }
 .loader-radial-5 {
-	@include s-loader-radial(rect 30px (white s-color(orange, -darken 20%)), 1s -count 2 -delay 1s);
+	@include s-loader-radial(rect 30px (white s-color(orange, (darken : 20%))), 1s -count 2 -delay 1s);
 	@include s-animation(rotate 1s infinite linear);
 }
 .loader-grid-1 {

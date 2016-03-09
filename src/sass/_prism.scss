@@ -58,11 +58,9 @@ pre[class*="language-"] {
 	background: s-color(grey, light);
 	color:#b1b1b1;
 	@include s-vertical-rhythme(
-		$s-font : (
-			family : cousine,
-			size : 14px,
-			line-height : 2
-		),
+		$font-family : cousine,
+		$font-size : 14px,
+		$line-height : 2,
 		$padding-top : 2,
 		$padding-bottom : 2,
 		$margin-bottom : 2
