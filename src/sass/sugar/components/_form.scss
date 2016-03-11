@@ -15,8 +15,9 @@ $_s-formset-inited : false;
 		$_s-formset-inited : true !global;
 		%s-formset-input-bare {
 			display: inline-block;
-			border-color: s-color(default, -opacity .3);
-			border-width : 1px;
+			border-width:0;
+			border-bottom-width : s-rem(3px);
+			border-left-width : s-rem(0px);
 			border-style : solid;
 			background-color: white;
 			@include s-font(sugar('settings.typo.font-family'));
@@ -26,6 +27,10 @@ $_s-formset-inited : false;
 			outline : none;
 			width:100%;
 			@include s-transition();
+
+			&:focus {
+				border-left-width : s-rem(5px);
+			}
 		}
 		%s-formset-select-bare {
 			background-size: 9px 6px;
@@ -444,6 +449,8 @@ $_s-formset-inited : false;
 		}
 		[class*="input-reply"] {
 			display: none;
+			border-style: solid;
+			border-left-width: s-rem(5px);
 
 			@include s-vertical-rhythme() {
 				margin-bottom: s-rem(2);
@@ -540,7 +547,6 @@ $_s-formset-inited : false;
 			#{s-selector((
 				BEM : (
 					'.#{$form-scope-class} select.#{$size}',
-					'.#{$form-scope-class} textarea.#{$size}',
 					'.#{$form-scope-class} input:not([type="checkbox"]):not([type="radio"]).#{$size}',
 					'.input--#{$size}',
 					'.input-postfix--#{$size}',
@@ -548,7 +554,6 @@ $_s-formset-inited : false;
 				),
 				SMACCS : (
 					'.#{$form-scope-class} select.#{$size}',
-					'.#{$form-scope-class} textarea.#{$size}',
 					'.#{$form-scope-class} input:not([type="checkbox"]):not([type="radio"]).#{$size}',
 					'.input-#{$size}',
 					'.input-postfix-#{$size}',
@@ -556,7 +561,7 @@ $_s-formset-inited : false;
 				)
 			))} {
 				font-size : s-look-and-feel(font-size, $size);
-				border-radius: s-look-and-feel(border-radius, $size);
+				// border-radius: s-look-and-feel(border-radius, $size);
 				padding : s-look-and-feel(padding-horizontal, $size) s-look-and-feel(padding-vertical, $size);
 				display: inline-block;
 				height: s-look-and-feel(font-size, $size) + s-look-and-feel(padding-vertical, $size) * 2;
@@ -574,6 +579,34 @@ $_s-formset-inited : false;
 				);
 			}
 
+			// textarea styling
+			#{s-selector((
+				BEM : (
+					'.#{$form-scope-class} textarea.#{$size}'
+				),
+				SMACCS : (
+					'.#{$form-scope-class} textarea.#{$size}'
+				)
+			))} {
+				font-size : s-look-and-feel(font-size, $size);
+				// border-radius: s-look-and-feel(border-radius, $size);
+				padding : s-look-and-feel(padding-horizontal, $size) s-look-and-feel(padding-vertical, $size);
+				display: inline-block;
+				height: s-look-and-feel(font-size, $size) + s-look-and-feel(padding-vertical, $size) * 2;
+				
+				$vr : s-vertical-rhythme(
+					$font-size : s-look-and-feel(font-size, $size),
+					$line-height: s-look-and-feel(font-size, $size) * 2,
+					$padding-top : s-look-and-feel(padding-horizontal, $size),
+					$padding-bottom : s-look-and-feel(padding-horizontal, $size),
+					$margin-bottom : 1,
+					$margin-top : 0,
+					$border-bottom-width: s-rem(1px),
+					$border-top-width : s-rem(1px)
+				);
+				@include s-vertical-rhythme($vr...);
+			}
+
 			#{s-selector((
 				BEM : (
 					'.input-reply--#{$size}'
@@ -584,10 +617,6 @@ $_s-formset-inited : false;
 			))} {
 				padding: s-look-and-feel(padding-horizontal, $size) s-look-and-feel(padding-vertical, $size);
 				font-size: s-look-and-feel(font-size, $size);
-				@include s-corner(
-					$bottom-left : s-look-and-feel(border-radius, $size),
-					$bottom-right : s-look-and-feel(border-radius, $size)
-				);
 			}
 
 			// input in label
@@ -730,7 +759,7 @@ $_s-formset-inited : false;
 				&:focus:not(:disabled):not(.input--disabled):not(.is-disabled),
 				&.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
 					border-color: s-color($color, -opacity .6);
-					@include s-filter(box-shadow(s-color($color, -opacity .3) 0 0 s-rem(10px)));
+					@include s-filter(box-shadow(s-color($color, -opacity .3) 0 5px s-rem(10px)));
 				}
 				& ~ .input-reply--#{$color} {
 					display: block;
@@ -744,8 +773,8 @@ $_s-formset-inited : false;
 					'.input-reply-#{$color}'
 				)
 			))} {
-				background-color: s-color($color);
-				color: white;
+				border-color: s-color($color, -opacity .3);
+				color: $color;
 			}
 
 			#{s-selector((
