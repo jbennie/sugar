@@ -38,6 +38,7 @@
 	$x2 : null,
 	$x3 : null,
 	$x4 : null,
+	$resolution : null,
 	$position : null
 ) {
 	@if $_sugar-test-arguments {
@@ -50,10 +51,19 @@
 		$url : s-test-argument('s-background','url',string,$url);
 		$width : s-test-argument('s-background','width',number,$width);
 		$height : s-test-argument('s-background','height',number,$height);
-		$x2 : s-test-argument('s-background','x2','string|boolean',$x2);
-		$x3 : s-test-argument('s-background','x3','string|boolean',$x3);
-		$x4 : s-test-argument('s-background','x4','string|boolean',$x4);
+		$resolution : s-test-argument('s-background','resolution','string|list-string',$resolution);
 		$position : s-test-argument('s-background','position',mixed,$position);
+	}
+	
+	// manage resolutions
+	@if index($resolution,'x2') {
+		$x2 : true;
+	}
+	@if index($resolution,'x3') {
+		$x3 : true;
+	}
+	@if index($resolution,'x4') {
+		$x4 : true;
 	}
 
 	@if $x2 == true {

@@ -211,8 +211,8 @@ html {
 
 [data-gooey],
 [data-s-activate] {
-  -webkit-animation: s-DOMNodeInserted 1s 0s ease-in-out 1 normal forwards;
-          animation: s-DOMNodeInserted 1s 0s ease-in-out 1 normal forwards;
+  -webkit-animation: s-DOMNodeInserted 0.001s 0s ease-in-out 1 normal forwards;
+          animation: s-DOMNodeInserted 0.001s 0s ease-in-out 1 normal forwards;
 }
 
 html {
@@ -464,8 +464,8 @@ body {
   border: solid gold;
   border-width: 2px;
   boz-sizing: border-box;
-  -webkit-animation: s-hey 1s 0s ease-in-out 1 normal forwards;
-          animation: s-hey 1s 0s ease-in-out 1 normal forwards;
+  -webkit-animation: s-hey 1s 0s ease-in-out infinite normal forwards;
+          animation: s-hey 1s 0s ease-in-out infinite normal forwards;
   position: calc(absolute);
   top: calc(0% + 0 - 0);
   left: calc(0% + 0 - 0);

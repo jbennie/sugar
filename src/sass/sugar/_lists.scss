@@ -1,25 +1,6 @@
 //
 // Lists specific
 //
-$s-list-props : (
-	style-type : circle disc square armenian cjk-ideographic decimal decimal-leading-zero georgian hebrew hiragana hiragana-iroha katakana katakana-iroha lower-alpha lower-greek lower-latin lower-roman upper-alpha upper-latin upper-roman none inherit,
-	style-image : url,
-	style-icon : string,
-	bullet-color : color,
-	bullet-size : true,
-	bullet-offset : true,
-	bullet-font : true,
-	padding-left : number
-);
-$s-list-alias : (
-	style-type : type t,
-	style-image : image img,
-	style-icon : icon i,
-	bullet-color : bc,
-	bullet-size : bs,
-	bullet-offset : bo,
-	padding-left : pl
-);
 @mixin s-list(
 	$counter-reset : s-list
 ) {

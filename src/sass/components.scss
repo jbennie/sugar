@@ -5,7 +5,8 @@
 // Dropdown
 //
 @include s-dropdown(
-	$sizes : smaller default bigger
+	$sizes : smaller default medium big bigger,
+	$colors : default primary secondary success warning error info
 );
 @include s-dropup();
 

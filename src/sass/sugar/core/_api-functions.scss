@@ -379,10 +379,6 @@ $_sugar-settings-cache : ();
 		}
 		@return $ok;
 	} @else {
-
-		// @if type-of($type) != string {
-		// 	@return true;
-		// }
 		
 		@if $type == mixed {
 			@return true;
@@ -527,7 +523,7 @@ $_sugar-settings-cache : ();
 @function s-space(
 	$size
 ) {
-	@return s-round-px-value(s-interpolate('settings.spaces', $size));
+	@return s-round-for-render(s-interpolate('settings.spaces', $size));
 }
 
 
@@ -548,11 +544,11 @@ $_sugar-settings-cache : ();
 
 	// if we have a non number value, return it
 	@if $value and type-of($value) != number {
-		@return s-replace-tokens(s-round-px-value($value));
+		@return s-replace-tokens(s-round-for-render($value));
 	}
 
 	// if we have a number value, return the interpolated version
-	@return s-round-px-value(s-interpolate('settings.look-and-feel.#{$name}', $size));
+	@return s-round-for-render(s-interpolate('settings.look-and-feel.#{$name}', $size));
 
 	// we don't have anything...
 	@return null;
@@ -561,7 +557,7 @@ $_sugar-settings-cache : ();
 //
 // Round a value to match a round px render
 //
-@function s-round-px-value($value) {
+@function s-round-for-render($value) {
 	$value : call('s-#{unit($value)}',round(s-px($value)));
 	@return $value;
 }
@@ -570,7 +566,7 @@ $_sugar-settings-cache : ();
 //
 // Round a value to match a round px render => even
 //
-@function s-round-px-value-even($value) {
+@function s-round-for-render-even($value) {
 	$value : call('s-#{unit($value)}',s-even(s-px($value)));
 	@return $value;
 }
@@ -579,7 +575,7 @@ $_sugar-settings-cache : ();
 //
 // Round a value to match a round px render => odd
 //
-@function s-round-px-value-odd($value) {
+@function s-round-for-render-odd($value) {
 	$value : call('s-#{unit($value)}',s-odd(s-px($value)));
 	@return $value;
 }

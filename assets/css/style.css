@@ -492,8 +492,8 @@ html {
 
 [data-gooey],
 [data-s-activate] {
-  -webkit-animation: s-DOMNodeInserted 1s 0s ease-in-out 1 normal forwards;
-          animation: s-DOMNodeInserted 1s 0s ease-in-out 1 normal forwards;
+  -webkit-animation: s-DOMNodeInserted 0.001s 0s ease-in-out 1 normal forwards;
+          animation: s-DOMNodeInserted 0.001s 0s ease-in-out 1 normal forwards;
 }
 
 html {
@@ -1372,13 +1372,13 @@ pre > code {
   background: url(http://graph.facebook.com/622487880/picture?type=large) no-repeat 50% 50%;
   background-size: cover;
   position: relative;
-  -webkit-animation: cross-screen 1s 0s ease-in-out 1 normal forwards;
-          animation: cross-screen 1s 0s ease-in-out 1 normal forwards;
+  -webkit-animation: cross-screen 0.8s 0s ease-in-out infinite normal forwards;
+          animation: cross-screen 0.8s 0s ease-in-out infinite normal forwards;
 }
 
 .motion-box--round {
-  -webkit-animation: round-screen 1s 0s ease-in-out 1 normal forwards;
-          animation: round-screen 1s 0s ease-in-out 1 normal forwards;
+  -webkit-animation: round-screen 2s 0s ease-in-out infinite normal forwards;
+          animation: round-screen 2s 0s ease-in-out infinite normal forwards;
 }
 
 @-webkit-keyframes round-screen {
@@ -1487,67 +1487,67 @@ pre > code {
 .slide-0 [data-slidizle-content] {
   -webkit-transform: translateX(0px) translateY(0) translateZ(0);
           transform: translateX(0px) translateY(0) translateZ(0);
-  outline-color: #096e42;
+  outline-color: #27fccb;
 }
 
 .slide-1 [data-slidizle-content] {
   -webkit-transform: translateX(-640px) translateY(0) translateZ(0);
           transform: translateX(-640px) translateY(0) translateZ(0);
-  outline-color: #d3cb80;
+  outline-color: #83af49;
 }
 
 .slide-2 [data-slidizle-content] {
   -webkit-transform: translateX(-1280px) translateY(0) translateZ(0);
           transform: translateX(-1280px) translateY(0) translateZ(0);
-  outline-color: #3e0747;
+  outline-color: #e5bc38;
 }
 
 .slide-3 [data-slidizle-content] {
   -webkit-transform: translateX(-1920px) translateY(0) translateZ(0);
           transform: translateX(-1920px) translateY(0) translateZ(0);
-  outline-color: #d51494;
+  outline-color: #1c860f;
 }
 
 .slide-4 [data-slidizle-content] {
   -webkit-transform: translateX(-2560px) translateY(0) translateZ(0);
           transform: translateX(-2560px) translateY(0) translateZ(0);
-  outline-color: #528611;
+  outline-color: #8a768e;
 }
 
 .slide-5 [data-slidizle-content] {
   -webkit-transform: translateX(-3200px) translateY(0) translateZ(0);
           transform: translateX(-3200px) translateY(0) translateZ(0);
-  outline-color: #1af108;
+  outline-color: #8cb19a;
 }
 
 .slide-6 [data-slidizle-content] {
   -webkit-transform: translateX(-3840px) translateY(0) translateZ(0);
           transform: translateX(-3840px) translateY(0) translateZ(0);
-  outline-color: #04a704;
+  outline-color: #c1c987;
 }
 
 .slide-7 [data-slidizle-content] {
   -webkit-transform: translateX(-4480px) translateY(0) translateZ(0);
           transform: translateX(-4480px) translateY(0) translateZ(0);
-  outline-color: #3a1f50;
+  outline-color: #1ab231;
 }
 
 .slide-8 [data-slidizle-content] {
   -webkit-transform: translateX(-5120px) translateY(0) translateZ(0);
           transform: translateX(-5120px) translateY(0) translateZ(0);
-  outline-color: #df69c6;
+  outline-color: #27eaf0;
 }
 
 .slide-9 [data-slidizle-content] {
   -webkit-transform: translateX(-5760px) translateY(0) translateZ(0);
           transform: translateX(-5760px) translateY(0) translateZ(0);
-  outline-color: #fcd27b;
+  outline-color: #5e5a79;
 }
 
 .slide-10 [data-slidizle-content] {
   -webkit-transform: translateX(-6400px) translateY(0) translateZ(0);
           transform: translateX(-6400px) translateY(0) translateZ(0);
-  outline-color: #ce1d62;
+  outline-color: #505ad5;
 }
 
 [data-slidizle-item] {
@@ -1646,12 +1646,6 @@ pre > code {
   to {
     left: 1000px;
   }
-}
-
-.typeset * {
-  -webkit-transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
-  transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
-  outline-color: black;
 }
 
 figure {

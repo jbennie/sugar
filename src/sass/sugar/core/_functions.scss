@@ -132,21 +132,8 @@ $_s_nested_properties_depth : ();
 //
 @function s-parse-properties(
 	$properties,
-	$keywords,
-	$aliases : ()
+	$keywords
 ) {
-
-	// default aliases
-	$aliases : map-merge($aliases, (
-		width : w,
-		height : h,
-		color : c,
-		top : t,
-		right : r,
-		bottom : b,
-		left : l
-	));
-
 	// check if is a map or a list
 	@if type-of($properties) == map {
 		$new-map : ();
@@ -155,13 +142,13 @@ $_s_nested_properties_depth : ();
 		@each $prop, $value in $properties {
 
 			// get the real name
-			$prop : _s-get-property-name($prop, $keywords, $aliases);
+			$prop : _s-get-property-name($prop, $keywords);
 
 			// if we have a property
 			@if $prop {
 
 				// get the type
-				$type : _s-get-property-type($prop, $keywords, $aliases);
+				$type : _s-get-property-type($prop, $keywords);
 
 				// if we have found, check the type
 				@if $type {
@@ -192,7 +179,7 @@ $_s_nested_properties_depth : ();
 				$prop : str-slice($prop, 2);
 
 				// get the real name
-				$prop : _s-get-property-name($prop, $keywords, $aliases);
+				$prop : _s-get-property-name($prop, $keywords);
 
 				// we have a new property
 				// need to check if we have already one in memory
@@ -203,7 +190,7 @@ $_s_nested_properties_depth : ();
 					} @else if length($values) == 1 and type-of($values) == list {
 						$values : nth($values, 1);
 					}
-					$type : _s-get-property-type($current_prop, $keywords, $aliases);
+					$type : _s-get-property-type($current_prop, $keywords);
 					
 					// check the property type with the value
 					@if _s-check-property($prop, $type, $values) {
@@ -242,7 +229,7 @@ $_s_nested_properties_depth : ();
 					} @else if length($values) == 1 and type-of($values) == list {
 						$values : nth($values, 1);
 					}	
-					$type : _s-get-property-type($current_prop, $keywords, $aliases);
+					$type : _s-get-property-type($current_prop, $keywords);
 
 					// check the property type with the value
 					@if _s-check-property($current_prop, $type, $values) {
@@ -257,7 +244,7 @@ $_s_nested_properties_depth : ();
 			} @else if length($values) == 1 and type-of($values) == list {
 				$values : nth($values, 1);
 			}	
-			$type : _s-get-property-type($current_prop, $keywords, $aliases);
+			$type : _s-get-property-type($current_prop, $keywords);
 			
 			// check the property type with the value
 			@if _s-check-property($current_prop, $type, $values) {
@@ -350,14 +337,10 @@ $_s_nested_properties_depth : ();
 
 @function _s-get-property-name(
 	$property,
-	$keywords : (),
-	$aliases : ()
+	$keywords : ()
 ) {
 	@if not $keywords {
 		$keywords : ();
-	}
-	@if not $aliases {
-		$aliases : ();
 	}
 
 	// check if exist
@@ -368,51 +351,21 @@ $_s_nested_properties_depth : ();
 		@return $property;
 	}
 
-	// if not in keywords, try to get the alias
-	@if not $type {
-		$alias_found : false;
-		@each $alias_prop, $alias in $aliases {
-			$al : index($alias, $property);
-			@if $al {
-				@return $alias_prop;
-			}
-		}
-	}
-
 	// nothing found
 	@return null;
 }
 
 @function _s-get-property-type(
 	$property,
-	$keywords : (),
-	$aliases : ()
+	$keywords : ()
 ) {
 	@if not $keywords {
 		$keywords : ();
-	}
-	@if not $aliases {
-		$aliases : ();
 	}
 
 	// check if exist
 	$type : map-get($keywords, $property);
 
-	// if not in keywords, try to get the alias
-	@if not $type {
-		$alias_found : false;
-		@each $alias_prop, $alias in $aliases {
-			@if $alias_found == false {
-				$al : index($alias, $property);
-				@if $al or type-of($alias) == string and $property == $alias {
-					$alias_found : true;
-					$property : $alias_prop;
-				}
-			}
-		}
-		// check again if now we have a property like this
-		$type : map-get($keywords, $property);
-	}
 	// return the type
 	@return $type;
 }

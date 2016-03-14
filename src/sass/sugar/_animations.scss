@@ -13,7 +13,8 @@
 	$current_delay : 0s;
 	$current_duration : 0s;
 	$previous_duration : 0s;
-	@each $animation in $animations {
+	@for $i from 1 through length($animations) {
+		$animation : nth($animations,$i);
 		$animation : s-parse-properties($animation, (
 			iteration : 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 infinite initial inherit,
 			direction : normal reverse alternate alternate-reverse initial inherit,
@@ -23,17 +24,8 @@
 			delay : second,
 			ease : string,
 			parallel : true
-		), (
-			name : n,
-			duration : du,
-			delay : de,
-			ease : e,
-			iteration : i iteration-count,
-			direction : di,
-			fill-mode : fm,
-			parallel : p
 		));
-
+	
 		$name : map-get-or($animation, name);
 		$duration : map-get-or($animation, duration, 1s);
 		$delay : map-get-or($animation, delay, 0s);

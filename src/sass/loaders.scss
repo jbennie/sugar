@@ -1,0 +1,653 @@
+// import sugar settings
+@import 'sugar';
+
+//
+// Loaders
+//
+.loader-container {
+	background: s-color(orange);
+	@include s-ratio(16/9);
+	@include s-corner(s-rem(5px));
+	margin-bottom:s-rem(20px);
+	border: s-color(orange, (
+		darken : 15%
+	)) 2px solid;
+
+	&:hover {
+		@include s-animation(tada);
+		z-index:1;
+	}
+
+	&.loader-container--white {
+		background: s-color(white);
+		border : s-color(white, (
+			darken : 15%
+		)) 2px solid;
+	}
+}
+.loader {
+	@include s-position(absolute, middle, center);
+}
+.loader-spinner-1 {
+	@include s-loader-spinner(
+		$type : linear,
+		$size : 50px,
+		$width : 10px,
+		$color : white
+	);
+	transform:rotate(90deg);
+	display: block;
+}
+.loader-spinner-2 {
+	@include s-loader-spinner(
+		$type : elastic,
+		$size : 50px,
+		$width : 10px,
+		$color : white,
+		$length : 1/2,
+		$a-ease : ease-in-out
+	);
+	background: s-color(orange);
+	display: block;
+}
+.loader-spinner-3 {
+	@include s-loader-spinner(
+		$type : elastic,
+		$size : 50px,
+		$width : 10px,
+		$color : white
+	);
+	background: s-color(orange);
+	display: block;
+	@include s-animation(rotate 4s infinite);
+}
+.loader-spinner-4 {
+	@include s-loader-spinner(
+		$type : fade-out,
+		$size : 50px,
+		$width : 10px,
+		$color : white,
+		$bgcolor : s-color(orange)
+	);
+	display: block;
+}
+.loader-spinner-5 {
+	@include s-loader-spinner(
+		$type : fade-in,
+		$size : 50px,
+		$width : 10px,
+		$color : white,
+		$bgcolor : s-color(orange)
+	);
+	display: block;
+}
+.loader-spinner-6 {
+	@include s-loader-spinner(
+		$type : fade-in-out,
+		$size : 50px,
+		$width : 5px,
+		$color : white,
+		$bgcolor : s-color(orange)
+	);
+	display: block;
+}
+.loader-bars-1 {
+	@include s-loader-bars(
+		$color : white,
+		$count : 5,
+		$opacity : .3,
+		$a-near : 2,
+		$a-opacity : 1,
+		$a-continuous : false,
+		$a-delay : 1s
+	);
+	display: block;
+}
+@keyframes rotate-x {
+	from {
+		transform: rotateX(0);
+	}
+	to {
+		transform: rotateX(360deg);
+	}
+}
+.loader-bars--rotate-x {
+	@include s-animation(rotate-x 1s infinite);
+}
+.loader-bars-2 {
+	@include s-loader-bars(
+		$color : white,
+		$count : 5,
+		$a-near : 2,
+		$a-spread : 0.8em,
+		$a-delay : 1s
+	);
+	&:before {
+		border-radius: 5px;
+	}
+	display: block;
+}
+.loader-bars-3 {
+	@include s-loader-bars(
+		$color : white,
+		$width : 2px,
+		$height : 20px,
+		$count : 20,
+		$gap : 2px,
+		$a-near : 4,
+		$a-spread : 10px
+	);
+	display: block;
+}
+.loader-bars-4 {
+	@include s-loader-bars(
+		$color : white,
+		$width : 5px,
+		$height : 20px,
+		$count : 10,
+		$gap : 5px, 
+		$a-near : 1,
+		$a-spread : 10px, 
+		$a-duration : .8s, 
+		$a-delay : .5s
+	);
+	display: block;
+}
+.loader-bars-5 {
+	@include s-loader-bars(
+		$color : white,
+		$width : 10px,
+		$height : 10px,
+		$count : 3,
+		$gap : 5px, 
+		$opacity : .2, 
+		$a-near : 1, 
+		$a-opacity : 1
+	);
+	display: block;
+}
+.loader-bars-6 {
+	@include s-loader-bars(
+		$shape : circle,
+		$color : white,
+		$width : 10px,
+		$height : 10px,
+		$count : 3,
+		$gap : 5px, 
+		$opacity : .2, 
+		$a-near : 1,
+		$a-opacity : 1
+	);
+	display: block;
+}
+.loader-bars-7 {
+	@include s-loader-bars(
+		$shape : circle,
+		$color : white,
+		$width : 10px,
+		$height : 10px,
+		$count : 3,
+		$gap : 5px,
+		$opacity : .2, 
+		$a-near : 1,
+		$a-opacity : 1, 
+		$a-duration : .8s, 
+		$a-spread : 15px
+	);
+	display: block;
+}
+.loader-bars-8 {
+	@include s-loader-bars(
+		$shape : circle,
+		$width : 10px,
+		$height : 10px,
+		$count : 4,
+		$gap : 5px,
+		$color : (#4285F4 #DB4437 #F4B400 #0F9D58), 
+		$a-near : 1, 
+		$a-duration : 1s, 
+		$a-delay : .2s, 
+		$a-spread : 10px, 
+		$a-direction : up,
+		$a-ease : linear
+	);
+	display: block;
+}
+.loader-radial-1 {
+	@include s-loader-radial(
+		$size : 30px,
+		$color : (white s-color(orange, -darken 20%)),
+		$a-duration : 3s,
+		$a-count : 10, 
+		$a-spread : 20px
+	);
+}
+.loader-radial-2 {
+	@include s-loader-radial(
+		$size : 50px,
+		$color : (white s-color(orange, -darken 20%)),
+		$a-duration : 10s,
+		$a-count : 30,
+		$a-spread : 20px
+	);
+}
+.loader-radial-3 {
+	@include s-loader-radial(
+		$size : 50px,
+		$color : (white s-color(orange, -darken 20%)),
+		$a-duration : 1s, 
+		$a-count : 2,
+		$a-delay : 1s);
+}
+.loader-radial-4 {
+	@include s-loader-radial(
+		$size : 30px,
+		$style : dotted,
+		$width : 5px,
+		$color : (#4285F4 #DB4437 #F4B400 #0F9D58), 
+		$a-duration : 1s, 
+		$a-count : 2,
+		$a-delay : 0.5s
+	);
+	@include s-animation(rotate 1s infinite linear);
+}
+.loader-radial-5 {
+	@include s-loader-radial(
+		$shape : rect,
+		$size : 30px,
+		$color : (white s-color(orange, (darken : 20%))),
+		$a-duration : 1s,
+		$a-count : 2,
+		$a-delay : 1s
+	);
+	@include s-animation(rotate 1s infinite linear);
+}
+.loader-grid-1 {
+	@include s-loader-grid(
+		$shape : circle,
+		$color : white,
+		$cols : 3,
+		$rows : 3,
+		$size : 10px,
+		$a-scale : 15px, 
+		$a-opacity : 0, 
+		$a-spread : 20px, 
+		$a-duration : 1.5s, 
+		$a-delay : 1s, 
+		$a-steps : 3
+	);
+}
+.loader-grid-2 {
+	@include s-loader-grid(
+		$shape : circle,
+		$color : white,
+		$cols : 6,
+		$rows : 6,
+		$size : 5px,
+		$a-scale : 7px, 
+		$a-opacity : 0, 
+		$a-spread : 20px, 
+		$a-duration : 3s, 
+		$a-delay : 1s
+	);
+}
+.loader-grid-3 {
+	@include s-loader-grid(
+		$color : white,
+		$cols : 2,
+		$rows : 2,
+		$size : 10px,
+		$gap : 2px,
+		$a-opacity :  0, 
+		$a-duration :  2s, 
+		$a-delay :  .5s
+	);
+}
+.loader-grid-4 {
+	@include s-loader-grid(
+		$color : white,
+		$cols : 6,
+		$rows : 6,
+		$size : 3px,
+		$gap : 2px,
+		$a-opacity : 0, 
+		$a-spread : 2px, 
+		$a-duration : 2s, 
+		$a-delay : .6s
+	);
+}
+.loader-grid-5 {
+	@include s-loader-grid(
+		$color : white,
+		$cols : 2,
+		$rows : 2,
+		$size : 10px,
+		$gap : 2px,
+		$rotate : 45deg, 
+		$a-opacity : 0, 
+		$a-duration : 2s, 
+		$a-delay : .5s
+	);
+}
+.loader-grid-7 {
+	@include s-loader-grid(
+		$cols : 2,
+		$rows : 2,
+		$color : (#4285F4 #DB4437 #F4B400 #0F9D58),
+		$size : 10px,
+		$gap : 2px,
+		$rotate : 45deg,
+		$offset : -18px, 
+		$a-opacity : 0, 
+		$a-duration : 2s, 
+		$a-delay : .5s
+	);
+	@include s-animation(rotate-blur 1.4s linear infinite -p, blur 1.4s ease-in-out infinite);
+}
+@keyframes blur {
+	0%,15% {
+		@include s-filter(blur(0));
+	}
+	30% {
+		@include s-filter(blur(1px));
+	}
+	50% {
+		@include s-filter(blur(0));
+	}
+}
+@keyframes rotate-blur {
+	0% {
+		transform:rotate(0);
+	}
+	15% {
+		transform:rotate(-30deg) scale(0.8);
+	}
+	30% {
+		transform:rotate(180deg) scale(1.5);
+	}
+	50% {
+		transform:rotate(360deg) scale(1);
+	}
+	100% {
+		transform:rotate(360deg);
+	}
+}
+.loader-grid-8 {
+	@include s-loader-grid(
+		$cols : 2,
+		$rows : 2,
+		$color : (#4285F4 #DB4437 #F4B400 #0F9D58),
+		$size : 10px,
+		$gap : 2px,
+		$offset : -18px, 
+		$a-duration : 2s, 
+		$a-delay : .5s
+	);
+	@include s-animation(walk-box 2s ease-in-out infinite);
+	position: relative;	
+}
+.loader--shadow {
+	transform : scaleX(1.5) scaleY(1.5);
+
+	&:after {
+		content:'';
+		display: block;
+		width:40px; height:20px;
+		position: absolute;
+		bottom:-16px; left:-10px;
+		background: black;
+		z-index:-1;
+		transform : rotateX(85deg) translateX(-25%);
+		background: radial-gradient(rgba(0,0,0,.8) 10%, transparentize(black,1) 70%);
+		@include s-animation(walk-box-shadow 2s ease-in-out infinite);
+	}
+}
+@keyframes walk-box-shadow {
+	0% {
+		opacity: 1;
+		left: -5px;
+	}
+	10% {
+		opacity: 1;
+		left: -15px;
+	}
+	20% {
+		opacity: .2;
+		left: -5px;
+	}
+	30% {
+		opacity: 1;
+		left: 5px;
+	}
+	50% {
+		opacity: 1;
+		left: -5px;
+	}
+	60% {
+		opacity: 1;
+		left: -15px;
+	}
+	70% {
+		opacity: .2;
+		left: -5px;
+	}
+	80% {
+		opacity: 1;
+		left: 5px;
+	}
+	100% {
+		opacity: 1;
+		left: -5px;
+	}
+}
+@keyframes walk-box {
+	0% {
+		transform : rotate(0);
+		top: 0;
+		left: 0;
+	}
+	10% {
+		transform : rotate(0);
+		top: 0;
+		left: -10px;
+	}
+	20% {
+		transform : rotate(90deg);
+		top: -20px;
+		left: 0;
+	}
+	30% {
+		transform : rotate(180deg);
+		top: 0;
+		left: 10px;
+	}
+	50% {
+		transform : rotate(180deg);
+		top: 0;
+		left: 0;
+	}
+	60% {
+		transform : rotate(180deg);
+		top: 0;
+		left: -10px;
+	}
+	70% {
+		transform : rotate(270deg);
+		top: -20px;
+		left: 0;
+	}
+	80% {
+		transform : rotate(360deg);
+		top: 0;
+		left: 10px;
+	}
+	100% {
+		transform : rotate(360deg);
+		top: 0;
+		left: 0;
+	}
+}
+.loader-circle-1 {
+	@include s-loader-circle(
+		$color : white,
+		$count : 7,
+		$size : 10px,
+		$opacity : .2, 
+		$a-near : 3, 
+		$a-duration : 1s, 
+		$a-opacity : 1, 
+		$a-scale : 15px
+	);
+}
+.loader-circle-2 {
+	@include s-loader-circle(
+		$color : white,
+		$count : 8,
+		$size : 5px,
+		$radius : 5px, 
+		$a-near : 2, 
+		$a-duration : 2s, 
+		$a-scale : 20px, 
+		$a-spread : 40px
+	);
+}
+.loader-circle-3 {
+	@include s-loader-circle(
+		$color : white,
+		$count : 5,
+		$radius : 15px,
+		$size : 5px,
+		$opacity : 0, 
+		$a-near : 2, 
+		$a-duration : 1s, 
+		$a-scale : 10px, 
+		$a-opacity : 1
+	);
+}
+.loader-circle-4 {
+	@include s-loader-circle(
+		$color : white,
+		$count : 8,
+		$radius : 30px,
+		$size : 15px,
+		$opacity : .3, 
+		$a-near : 1, 
+		$a-duration : 1s, 
+		$a-opacity : 1
+	);
+}
+.loader-circle-5 {
+	@include s-loader-circle(
+		$color : white,
+		$count : 6,
+		$radius : 1px,
+		$size : 5px,
+		$opacity : 0, 
+		$a-near : 3, 
+		$a-duration : 1s, 
+		$a-opacity : 1, 
+		$a-spread : 50px
+	);
+	@include s-filter(blur(5px));
+}
+.loader-blob {
+	@include s-filter(contrast(10));
+}
+.loader-circle-6 {
+	@include s-loader-circle(
+		$color : white,
+		$count : 12,
+		$size : 5px,
+		$radius : 20px,
+		$opacity : .2, 
+		$a-near : 3, 
+		$a-duration : 1s, 
+		$a-scale : 10px, 
+		$a-opacity : 1, 
+		$a-spread : 20px
+	);
+}
+.loader-circle-7 {
+	@include s-loader-circle(
+		$color : white,
+		$count : 8,
+		$size : 5px,
+		$radius : 20px,
+		$opacity : .6, 
+		$a-near : 3, 
+		$a-duration : 1.5s, 
+		$a-scale : 10px, 
+		$a-spread : 5px, 
+		$a-delay : .5s, 
+		$a-opacity : 1
+	);
+	@include s-animation(rotate 1.1s linear infinite);
+}
+.loader-couch-potato {
+	@include s-loader-couch-potato(
+		$color : white,
+		$size : 30px, 
+		$a-duration : 1s,
+		$a-ease : ease-in-out,
+		$a-delay : 1s
+	);
+}
+.loader-couch-potato-1 {
+	@include s-loader-couch-potato(
+		$size : 30px,
+		$color : (s-color(orange) s-color(blue)),
+		$a-duration : .5s,
+		$a-ease : ease-in-out,
+		$a-delay : .5s,
+		$a-scale : .5
+	);
+}
+.loader-flip-ball {
+	@include s-loader-flip-ball(
+		$size : 30px,
+		$color : (#4285F4 #DB4437 #F4B400 #0F9D58),
+		$a-duration : 2s,
+		$a-ease : ease-in-out,
+		$a-delay : 1s
+	);
+}
+.loader-flip-ball-1 {
+	@include s-loader-flip-ball(
+		$size : 30px,
+		$color : (s-color(orange) s-color(blue)),
+		$a-duration : 1s,
+		$a-ease : ease-in-out,
+		$a-delay : 1s
+	);
+}
+.loader-flip-ball-2 {
+	@include s-loader-flip-ball(
+		$shape : rect,
+		$size : 30px,
+		$color : (s-color(orange) s-color(blue)),
+		$a-duration : 1s,
+		$a-ease : ease-in-out,
+		$a-delay : 1s
+	);
+}
+.loader-flip-ball-3 {
+	@include s-loader-flip-ball(
+		$shape : rect,
+		$size : 30px,
+		$color : (#4285F4 #DB4437 #F4B400 #0F9D58),
+		$a-duration : 2s,
+		$a-ease : ease-in-out,
+		$a-delay : 1s
+	);
+}
+.loader--rotate {
+	@include s-animation(rotate 1s ease-in-out infinite);
+}
+@keyframes rotate {
+	from {
+		transform: rotate(0);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}

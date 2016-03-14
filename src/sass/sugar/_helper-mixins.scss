@@ -152,7 +152,7 @@
 				$return : map-set($return, left, 0%);
 			} @else if $align == center {
 				$return : map-set($return, left, 50%);
-				$return : map-merge($return, s-translate(-50% 0%));
+				$return : map-merge($return, s-translate(-50%, 0%));
 			} @else if $align == right {
 				$return : map-set($return, right, 0%);
 			} @else {
@@ -162,15 +162,15 @@
 			$return : map-set($return, top, 50%);
 			@if $align == left {
 				$return : map-set($return, left, 0%);
-				$return : map-merge($return, s-translate(0 -50%));
+				$return : map-merge($return, s-translate(0, -50%));
 			} @else if $align == center {
 				$return : map-set($return, left, 50%);
-				$return : map-merge($return, s-translate(-50% -50%));
+				$return : map-merge($return, s-translate(-50%, -50%));
 			} @else if $align == right {
 				$return : map-set($return, right, 0%);
-				$return : map-merge($return, s-translate(0 -50%));
+				$return : map-merge($return, s-translate(0, -50%));
 			} @else {
-				$return : map-merge($return, s-translate(-50% 0%));
+				$return : map-merge($return, s-translate(-50%, 0%));
 			}
 		} @else if $vertical-align == bottom {
 			$return : map-set($return, bottom, 0%);
@@ -178,7 +178,7 @@
 				$return : map-set($return, left, 0%);
 			} @else if $align == center {
 				$return : map-set($return, left, 50%);
-				$return : map-merge($return, s-translate(-50% 0%));
+				$return : map-merge($return, s-translate(-50%, 0%));
 			} @else if $align == right {
 				$return : map-set($return, right, 0%);
 			} @else {
@@ -190,7 +190,7 @@
 				$return : map-set($return, top, 0%);
 			} @else if $vertical-align == middle {
 				$return : map-set($return, top, 50%);
-				$return : map-merge($return, s-translate(0 -50%));
+				$return : map-merge($return, s-translate(0, -50%));
 			} @else if $vertical-align == bottom {
 				$return : map-set($return, bottom, 0%);
 			} @else {
@@ -200,13 +200,13 @@
 			$return : map-set($return, left, 50%);
 			@if $vertical-align == top {
 				$return : map-set($return, top, 0%);
-				$return : map-merge($return, s-translate(-50% 0%));
+				$return : map-merge($return, s-translate(-50%, 0%));
 			} @else if $vertical-align == middle {
 				$return : map-set($return, top, 50%);
-				$return : map-merge($return, s-translate(-50% -50%));
+				$return : map-merge($return, s-translate(-50%, -50%));
 			} @else if $vertical-align == bottom {
 				$return : map-set($return, bottom, 0%);
-				$return : map-merge($return, s-translate(-50% 0%));
+				$return : map-merge($return, s-translate(-50%, 0%));
 			} @else {
 				$return : map-set($return, top, 0%);
 			}
@@ -216,7 +216,7 @@
 				$return : map-set($return, top, 0%);
 			} @else if $vertical-align == middle {
 				$return : map-set($return, top, 50%);
-				$return : map-merge($return, s-translate(0 -50%));
+				$return : map-merge($return, s-translate(0, -50%));
 			} @else if $vertical-align == bottom {
 				$return : map-set($return, bottom, 0%);
 			} @else {

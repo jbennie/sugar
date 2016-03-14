@@ -448,9 +448,9 @@ pre > code {
 // Typeset
 //
 .typeset {
-	* {
-		@include s-transition();
-	}
+	// * {
+	// 	@include s-transition();
+	// }
 }
 
 figure {

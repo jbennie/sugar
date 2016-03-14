@@ -217,8 +217,8 @@ html {
 
 [data-gooey],
 [data-s-activate] {
-  -webkit-animation: s-DOMNodeInserted 1s 0s ease-in-out 1 normal forwards;
-          animation: s-DOMNodeInserted 1s 0s ease-in-out 1 normal forwards;
+  -webkit-animation: s-DOMNodeInserted 0.001s 0s ease-in-out 1 normal forwards;
+          animation: s-DOMNodeInserted 0.001s 0s ease-in-out 1 normal forwards;
 }
 
 html {
@@ -414,7 +414,11 @@ body {
   position: relative;
 }
 
-.dropdown button:active ~ .dropdown__menu, .dropup button:active ~ .dropdown__menu, .dropdown button:focus ~ .dropdown__menu, .dropup button:focus ~ .dropdown__menu {
+.dropdown:hover, .dropup:hover, .active.dropdown, .active.dropup, .dropdown--active.dropdown, .dropdown--active.dropup {
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown__menu, .dropup:hover .dropdown__menu, .active.dropdown .dropdown__menu, .active.dropup .dropdown__menu, .dropdown--active.dropdown .dropdown__menu, .dropdown--active.dropup .dropdown__menu {
   visibility: visible;
   opacity: 1;
   pointer-events: all;
@@ -437,7 +441,6 @@ body {
 
 .dropdown .dropdown__menu, .dropup .dropdown__menu {
   background: white;
-  border: 1px solid rgba(129, 149, 161, 0.2);
   box-shadow: rgba(129, 149, 161, 0.3) 0 10px 10px;
   -webkit-transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
   transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
@@ -456,6 +459,15 @@ body {
   color: #f2bc2b;
   display: block;
   width: 100%;
+  border-left-style: solid;
+  border-left-width: 0rem;
+  -webkit-transition: all 0.2s ease-in-out 0s, outline-color 0.000001s linear 0s;
+  transition: all 0.2s ease-in-out 0s, outline-color 0.000001s linear 0s;
+  outline-color: black;
+}
+
+.dropdown .dropdown__item > a:hover, .dropup .dropdown__item > a:hover {
+  border-left-width: 0.38461538rem;
 }
 
 .dropdown:hover .dropdown__menu, .dropdown.active .dropdown__menu, .dropdown.dropdown--active .dropdown__menu {
@@ -486,6 +498,30 @@ body {
   padding: 0.76923077rem 1rem;
 }
 
+.dropdown--medium .dropdown__menu {
+  border-radius: 4px;
+}
+
+.dropdown--medium .dropdown__label {
+  padding: 1.07692308rem 1.30769231rem;
+}
+
+.dropdown--medium .dropdown__item > a {
+  padding: 1.07692308rem 1.30769231rem;
+}
+
+.dropdown--big .dropdown__menu {
+  border-radius: 5px;
+}
+
+.dropdown--big .dropdown__label {
+  padding: 1.30769231rem 1.61538462rem;
+}
+
+.dropdown--big .dropdown__item > a {
+  padding: 1.30769231rem 1.61538462rem;
+}
+
 .dropdown--bigger .dropdown__menu {
   border-radius: 6px;
 }
@@ -496,6 +532,34 @@ body {
 
 .dropdown--bigger .dropdown__item > a {
   padding: 1.53846154rem 1.92307692rem;
+}
+
+.dropdown .dropdown__item > a {
+  border-left-color: rgba(129, 149, 161, 0.6);
+}
+
+.dropdown--primary .dropdown__item > a {
+  border-left-color: rgba(242, 188, 43, 0.6);
+}
+
+.dropdown--secondary .dropdown__item > a {
+  border-left-color: rgba(119, 119, 119, 0.6);
+}
+
+.dropdown--success .dropdown__item > a {
+  border-left-color: rgba(92, 184, 92, 0.6);
+}
+
+.dropdown--warning .dropdown__item > a {
+  border-left-color: rgba(240, 173, 78, 0.6);
+}
+
+.dropdown--error .dropdown__item > a {
+  border-left-color: rgba(217, 83, 79, 0.6);
+}
+
+.dropdown--info .dropdown__item > a {
+  border-left-color: rgba(33, 153, 232, 0.6);
 }
 
 .dropup:hover .dropdown__menu, .dropup.active .dropdown__menu, .dropup.dropdown--active .dropdown__menu {

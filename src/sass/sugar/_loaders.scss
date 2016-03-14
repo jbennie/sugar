@@ -3,54 +3,50 @@
 //
 
 @mixin s-loader-grid(
-	$props : (),
-	$animation : ()
+	$shape : rect,
+	$color : s-color(primary),
+	$cols : 5,
+	$rows : 5,
+	$size : 10px,
+	$gap : 5px,
+	$offset : 200px,
+	$rotate : 0deg,
+	$a-shape : null,
+	$a-steps : 5,
+	$a-spread : null,
+	$a-rotate : null,
+	$a-scale : null,
+	$a-opacity : null,
+	$a-duration : 1s,
+	$a-delay : 0s,
+	$a-ease : ease-in-out
 ) {
-	$props : s-parse-properties($props, (
-		shape : circle rect,
-		color : color,
-		colors : list,
-		cols : integer,
-		rows : integer,
-		size : number,
-		gap : number,
-		offset : number,
-		rotate : degree
-	));
-	$animation : s-parse-properties($animation, (
-		shape : circle rect,
-		steps : integer,
-		spread : number,
-		rotate : number,
-		scale : number,
-		opacity : number,
-		duration : second,
-		delay : second,
-		ease : string
-	));
-	
-	$props : s-handle-nested(loader-grid, $props);
-	$animation : s-handle-nested(loader-grid-animation, $animation);
 
-	$color : map-get-or($props, color, red);
-	$colors : map-get($props, colors);
-	$cols : map-get-or($props, cols, 5);
-	$rows : map-get-or($props, rows, 5);
-	$size : map-get-or($props, size, 10px);
-	$gap : map-get-or($props, gap, 5px);
-	$shape : map-get-or($props, shape, rect);
-	$offset : map-get-or($props, offset, 200px);
-	$rotate : map-get-or($props, rotate, 0);
+	@if $_sugar-test-arguments {
+		$shape : s-test-argument('s-loader-grid','shape',(rect,circle),$shape);
+		$color : s-test-argument('s-loader-grid','color','color|list-color',$color);
+		$cols : s-test-argument('s-loader-grid','cols',integer,$cols);
+		$rows : s-test-argument('s-loader-grid','rows',integer,$rows);
+		$size : s-test-argument('s-loader-grid','size',number,$size);
+		$gap : s-test-argument('s-loader-grid','gap',number,$gap);
+		$offset : s-test-argument('s-loader-grid','offset',number,$offset);
+		$rotate : s-test-argument('s-loader-grid','rotate',degree,$rotate);
+		$a-shape : s-test-argument('s-loader-grid','a-shape',(rect,circle),$a-shape);
+		$a-steps : s-test-argument('s-loader-grid','a-steps',integer,$a-steps);
+		$a-spread : s-test-argument('s-loader-grid','a-spread',number,$a-spread);
+		$a-rotate : s-test-argument('s-loader-grid','a-rotate',degree,$a-rotate);
+		$a-scale : s-test-argument('s-loader-grid','a-scale',number,$a-scale);
+		$a-opacity : s-test-argument('s-loader-grid','a-opacity',number,$a-opacity);
+		$a-duration : s-test-argument('s-loader-grid','a-duration',second,$a-duration);
+		$a-delay : s-test-argument('s-loader-grid','a-delay',second,$a-delay);
+		$a-ease : s-test-argument('s-loader-grid','a-ease',string,$a-ease);
+	}
 
-	$a-steps : map-get-or($animation, steps, 5);
-	$a-spread : map-get($animation, spread);
-	$a-rotate : map-get($animation, rotate);
-	$a-scale : map-get($animation, scale);
-	$a-opacity : map-get($animation, opacity);
-	$a-duration : map-get-or($animation, duration, 1s);
-	$a-delay : map-get-or($animation, delay, 0s);
-	$a-shape : map-get($animation, shape);
-	$a-ease : map-get-or($animation, ease, ease-in-out);
+	// handle colors
+	$colors : null;
+	@if s-is($color,list-color) and length($color) > 1 {
+		$colors : $color;
+	}
 	
 	// manage duration :
 	$a-duration : $a-duration + $a-delay;
@@ -66,10 +62,10 @@
 	$height : $size * $rows + $gap * ($rows - 1);
 
 	// @include s-translate((-$width / 2 - $size - $gap - $offset) (-$height / 2 - $size - $gap - $offset));
-	@include s-transform(
-		-translateX (-$width / 2 - $size - $gap - $offset)
-		-translateY (-$height / 2 - $size - $gap - $offset)
-		-rotate $rotate);
+	transform:
+		translateX(-$width / 2 - $size - $gap - $offset)
+		translateY(-$height / 2 - $size - $gap - $offset)
+		rotate($rotate);
 	transform-origin: ($offset + $width / 2 + $gap + $size) ($offset + $height / 2 + $gap + $size);
 
 	$a-name : unquote("grid-#{unique-id()}");
@@ -192,47 +188,36 @@
 			}
 		}
 	}
-
-	@include s-handle-nested(loader-grid, loader-grid-animation) {
-		@content;
-	}
 }
 
 @mixin s-loader-spinner(
-	$spinner : (),
-	$animation : ()
+	$type : linear,
+	$size : 1em,
+	$width : 0.3em,
+	$color : s-color(primary),
+	$bgcolor : inherit,
+	$length : 3/4,
+	$a-duration : 1s,
+	$a-ease : null
 ) {	
-	$spinner : s-parse-properties($spinner, (
-		type : elastic linear fade-in fade-out fade-in-out,
-		size : number,
-		width : number,
-		color : color,
-		bgcolor : color,
-		length : number
-	));
-	$animation : s-parse-properties($animation, (
-		duration : second,
-		ease : string	
-	));
-	
-	$spinner : s-handle-nested(loader-spinner, $spinner);
-	$animation : s-handle-nested(loader-spinner-animation, $animation);
-
-	$type : map-get-or($spinner, type, linear);
-	$size : map-get-or($spinner, size, 1em);
-	$width : map-get-or($spinner, width, 0.3em);
-	$color : map-get-or($spinner, color, red);
-	$bgcolor : map-get-or($spinner, bgcolor, inherit);
-	$length : map-get-or($animation, length, 3/4);
-
-	$a-duration : map-get-or($animation, duration, 1s);
-	$a-ease : ease;
-	@if $type == elastic {
-		$a-ease : map-get-or($animation, ease, ease);
-	} @else {
-		$a-ease : map-get-or($animation, ease, linear);
+	@if $_sugar-test-arguments {
+		$type : s-test-argument('s-loader-spinner','type',(elastic,linear,fade-in,fade-out,fade-in-out),$type);
+		$size : s-test-argument('s-loader-spinner','size',number,$size);
+		$width : s-test-argument('s-loader-spinner','width',number,$width);
+		$color : s-test-argument('s-loader-spinner','color',color,$color);
+		@if $bgcolor != inherit {
+			$bgcolor : s-test-argument('s-loader-spinner','bgcolor',color,$bgcolor);
+		}
+		$length : s-test-argument('s-loader-spinner','length',number,$length);
+		$a-duration : s-test-argument('s-loader-spinner','a-duration',second,$a-duration);
+		$a-ease : s-test-argument('s-loader-spinner','a-ease',string,$a-ease);
 	}
-	
+
+	@if $type == elastic and not $a-ease {
+		$a-ease : ease;
+	} @else if not $a-ease {
+		$a-ease : linear;
+	}
 
 	$a-name : unquote("spinner-#{unique-id()}");
 	$p-step : 1 / $a-duration;
@@ -424,56 +409,51 @@
 			}
 		}
 	}
-
-	@include s-handle-nested(loader-spinner, loader-spinner-animation) {
-		@content;
-	}
 }
 
 @mixin s-loader-circle(
-	$props : (),
-	$animation : ()
+	$color : s-color(primary),
+	$size : 10px,
+	$radius : 30px,
+	$count : 8,
+	$opacity : 1,
+	$a-spread : null,
+	$a-rotate : null,
+	$a-scale : null,
+	$a-opacity : null,
+	$a-near : null,
+	$a-ease : ease-in-out,
+	$a-duration : 1s,
+	$a-delay : 0s
 ) {
-	$props : s-parse-properties($props, (
-		color : color,
-		colors : list,
-		size : number,
-		radius : number,
-		count : integer,
-		opacity : number
-	));
-	$animation : s-parse-properties($animation, (
-		shape : circle rect,
-		spread : number,
-		rotate : number,
-		scale : number,
-		opacity : number,
-		near : integer,
-		ease : string,
-		duration : second,
-		delay : second
-	));
+	@if $_sugar-test-arguments {
+		$color : s-test-argument('s-loader-circle','color','color|list-color',$color);
+		$size : s-test-argument('s-loader-circle','size',number,$size);
+		$radius : s-test-argument('s-loader-circle','radius',number,$radius);
+		$count : s-test-argument('s-loader-circle','count',integer,$count);
+		$opacity : s-test-argument('s-loader-circle','opacity',number,$opacity);
+		$a-spread : s-test-argument('s-loader-circle','a-spread',number,$a-spread);
+		$a-rotate : s-test-argument('s-loader-circle','a-rotate',degree,$a-rotate);
+		$a-scale : s-test-argument('s-loader-circle','a-scale',number,$a-scale);
+		$a-opacity : s-test-argument('s-loader-circle','a-opacity',number,$a-opacity);
+		$a-near : s-test-argument('s-loader-circle','a-near',number,$a-near);
+		$a-ease : s-test-argument('s-loader-circle','a-ease',string,$a-ease);
+		$a-duration : s-test-argument('s-loader-circle','a-duration',second,$a-duration);
+		$a-delay : s-test-argument('s-loader-circle','a-delay',second,$a-delay);
+	}
+	
+	// handle colors
+	$colors : null;
+	@if s-is($color,list-color) and length($color) > 1 {
+		$colors : $color;
+	}
 
-	$props : s-handle-nested(loader-circle, $props);
-	$animation : s-handle-nested(loader-circle-animation, $animation);
-
-	$color : map-get-or($props, color, red);
-	$colors : map-get($props, colors);
-	$size : map-get-or($props, size, 10px);
-	$radius : map-get-or($props, radius, 30px);
-	$count : map-get-or($props, count, 8);
-	$opacity : map-get-or($props, opacity, 1);
-
+	// manage near
+	@if not $a-near {
+		$a-near : $count / 2;
+	}
+	
 	$a-name : unquote("circle-#{unique-id()}");
-	$a-spread : map-get-or($animation, spread, null);
-	$a-rotate : map-get-or($animation, rotate, null);
-	$a-scale : map-get-or($animation, scale, null);
-	$a-opacity : map-get-or($animation, opacity, null);
-	$a-near : map-get-or($animation, near, round($count / 2));
-	$a-ease : map-get-or($animation, ease, ease-in-out);
-	$a-duration : map-get-or($animation, duration, 1s);
-	$a-delay : map-get-or($animation, delay, 0s);
-
 	// manage duration
 	$a-duration : $a-duration + $a-delay;
 
@@ -598,48 +578,39 @@
 	}
 	// @include s-translate(-50% -50%);
 	// transform: rotate(- 360deg / $count / 2);
-	@include s-transform(-translateX -50% -translateY -50% -rotate -90deg);
-
-	@include s-handle-nested(loader-circle, loader-circle-animation) {
-		@content;
-	}
+	transform : translateX(-50%) translateY(-50%) rotate(-90deg);
 }
 
 @mixin s-loader-radial(
-	$props : (),
-	$animation : ()
+	$shape : circle,
+	$size : 1em,
+	$width : 0.2em,
+	$style : solid,
+	$color : s-color(primary),
+	$a-duration : 2s,
+	$a-delay : 0s,
+	$a-count : 2,
+	$a-spread : 0,
+	$a-ease : linear
 ) {
-	$props : s-parse-properties($props, (
-		shape : circle rect,
-		size : number,
-		width : number,
-		style : dotted dashed solid double groove ridge inset outset initial inherit,
-		color : color,
-		colors : list
-	));
-	$animation : s-parse-properties($animation, (
-		duration : second,
-		delay : second,
-		count : integer,
-		spread : number,
-		ease : string
-	));
+	@if $_sugar-test-arguments {
+		$shape : s-test-argument('s-loader-radial','shape',(circle,rect),$shape);
+		$size : s-test-argument('s-loader-radial','size',number,$size);
+		$width : s-test-argument('s-loader-radial','width',number,$width);
+		$style : s-test-argument('s-loader-radial','style',(none,hidden,dotted,dashed,solid,double,groove,ridge,inset,outset,initial,inherit),$style);
+		$color : s-test-argument('s-loader-radial','color','color|list-color',$color);
+		$a-duration : s-test-argument('s-loader-radial','a-duration',second,$a-duration);
+		$a-delay : s-test-argument('s-loader-radial','a-delay',second,$a-delay);
+		$a-count : s-test-argument('s-loader-radial','a-count',integer,$a-count);
+		$a-spread : s-test-argument('s-loader-radial','a-spread',number,$a-spread);
+		$a-ease : s-test-argument('s-loader-radial','a-ease',string,$a-ease);
+	}
 
-	$props : s-handle-nested(loader-radial, $props);
-	$animation : s-handle-nested(loader-radial-animation, $animation);
-
-	$shape : map-get-or($props, shape, circle);
-	$size : map-get-or($props, size, 1em);
-	$width : map-get-or($props, width, 0.2em);
-	$style : map-get-or($props, style, solid);
-	$color : map-get-or($props, color, red);
-	$colors : map-get($props, colors);
-	
-	$a-ease : map-get-or($animation, ease, linear);
-	$a-count : map-get-or($animation, count, 2);
-	$a-duration : map-get-or($animation, duration, 2s);
-	$a-delay : map-get-or($animation, delay, 0s);
-	$a-spread : map-get-or($animation, spread, 0);
+	// handle colors
+	$colors : null;
+	@if s-is($color,list-color) and length($color) > 1 {
+		$colors : $color;
+	}
 
 	// manage duration
 	$a-duration : $a-duration + $a-delay;
@@ -658,7 +629,7 @@
 		@for $i from 0 through $a-count - 1 {
 			@if $current < 100 {
 				#{$current} {
-					@include s-transform(-translateX -50% -translateY -50% -scaleX 0 -scaleY 0);
+					transform:translateX(-50%) translateY(-50%) scaleX(0) scaleY(0);
 					opacity:0;
 					top : 0;
 					left : 0;
@@ -669,7 +640,7 @@
 					}
 				}
 				#{$current + $step / 2 - 0.0001%} {
-					@include s-transform(-translateX -50% -translateY -50% -scaleX 0.5 -scaleY 0.5);
+					transform: translateX(-50%) translateY(-50%) scaleX(0.5) scaleY(0.5);
 					opacity:1;
 					@if $colors and length($colors) == $a-count * 2 {
 						$c : nth($colors, $current-idx);
@@ -678,7 +649,7 @@
 					}
 				}
 				#{$current + $step - 0.0001%} {
-					@include s-transform(-translateX -50% -translateY -50% -scaleX 1 -scaleY 1);
+					transform: translateX(-50%) translateY(-50%) scaleX(1) scaleY(1);
 					opacity:0;
 					@if $a-spread > 0 {
 						$randX : random(round($a-spread));
@@ -699,7 +670,7 @@
 					}
 				}
 				#{$current + $step} {
-					@include s-transform(-translateX -50% -translateY -50% -scaleX 0 -scaleY 0);
+					transform : translateX(-50%) translateY(-50%) scaleX(0) scaleY(0);
 					top: 0;
 					left: 0;
 				}
@@ -714,7 +685,7 @@
 		@for $i from 0 through $a-count - 1 {
 			@if $current < 100 {
 				#{$current} {
-					@include s-transform(-translateX -50% -translateY -50% -scaleX 0 -scaleY 0);
+					transform : translateX(-50%) translateY(-50%) scaleX(0) scaleY(0);
 					opacity:0;
 					top : 0;
 					left : 0;
@@ -725,7 +696,7 @@
 					}
 				}
 				#{$current + $step / 2 - 0.0001%} {
-					@include s-transform(-translateX -50% -translateY -50% -scaleX 0.5 -scaleY 0.5);
+					transform : translateX(-50%) translateY(-50%) scaleX(0.5) scaleY(0.5);
 					opacity:1;
 					@if $colors and length($colors) == $a-count * 2 {
 						$c : nth($colors, $current-idx);
@@ -734,7 +705,7 @@
 					}
 				}
 				#{$current + $step - 0.0001%} {
-					@include s-transform(-translateX -50% -translateY -50% -scaleX 1 -scaleY 1);
+					transform : translateX(-50%) translateY(-50%) scaleX(1) scaleY(1);
 					opacity:0;
 					@if $a-spread > 0 {
 						$randX : random(round($a-spread));
@@ -755,7 +726,7 @@
 					}
 				}
 				#{$current + $step} {
-					@include s-transform(-translateX -50% -translateY -50% -scaleX 0 -scaleY 0);
+					transform : translateX(-50%) translateY(-50%) scaleX(0) scaleY(0);
 					top: 0;
 					left: 0;
 				}
@@ -774,7 +745,7 @@
 		height:$size;
 		position: absolute;
 		top:0; left:0;
-		@include s-translate(-50% -50%);
+		@include s-translate(-50%, -50%);
 		opacity:0;
 		@if $shape == circle {
 			border-radius:50%;
@@ -782,7 +753,7 @@
 	}
 	// cubic-bezier(1,.01,0,1)
 	$c : $color;
-	@if $colors and length($colors) == 2 {
+	@if $colors and length($colors) >= 2 {
 		$c : nth($colors, 1);
 	}
 	&:before {
@@ -790,7 +761,7 @@
 		// background: radial-gradient(transparentize($c, 1) 30%, $c 50%, transparentize($c, 1) 70%);
 		animation: #{$a-name}-b $a-duration $a-ease 0s infinite;
 	}
-	@if $colors and length($colors) == 2 {
+	@if $colors and length($colors) >= 2 {
 		$c : nth($colors, 2);
 	}
 	&:after {
@@ -798,57 +769,47 @@
 		// background: radial-gradient(transparentize($c, 1) 30%, $c 50%, transparentize($c, 1) 70%);
 		animation: #{$a-name}-a $a-duration $a-ease ($a-duration - $a-delay) / $a-count / 2 infinite;
 	}
-
-	@include s-handle-nested(loader-radial, loader-radial-animation) {
-		@content;
-	}
 }
 
 @mixin s-loader-bars(
-	$props : (),
-	$animation : ()
+	$shape : rect,
+	$color : s-color(primary),
+	$width : 0.5em,
+	$height : 2em,
+	$count : 5,
+	$gap : 0.5em,
+	$opacity : 1,
+	$a-opacity : null,
+	$a-duration : 1s,
+	$a-delay : 0s,
+	$a-near : 1,
+	$a-ease : ease-in-out,
+	$a-spread : null,
+	$a-direction : both,
+	$a-continuous : true
 ) {
-	$props : s-parse-properties($props, (
-		shape : circle rect,
-		color : color,
-		colors : list,
-		width : number,
-		height : number,
-		count : integer,
-		gap : number,
-		opacity : number
-	));
-	$animation : s-parse-properties($animation, (
-		direction : up down both,
-		opacity : number,
-		duration : second,
-		delay : second,
-		near : integer,
-		ease : string,
-		spread : number,
-		continuous : true
-	));
-
-	$props : s-handle-nested(loader-bars, $props);
-	$animation : s-handle-nested(loader-bars-animation, $animation);
-
-	$shape : map-get-or($props, shape, rect);
-	$color : map-get-or($props, color, red);
-	$colors : map-get($props, colors);
-	$count : map-get-or($props, count, 5);
-	$width : map-get-or($props, width, 0.5em);
-	$height : map-get-or($props, height, 2em);
-	$gap : map-get-or($props, gap, 0.5em);
-	$opacity : map-get-or($props, opacity, 1);
-
-	$a-opacity : map-get($animation, opacity);
-	$a-duration : map-get-or($animation, duration, 1s);
-	$a-delay : map-get-or($animation, delay, 0s);
-	$a-near : map-get-or($animation, near, 1);
-	$a-ease : map-get-or($animation, ease, ease-in-out);
-	$a-spread : map-get-or($animation, spread, null);
-	$a-direction : map-get-or($animation, direction, both);
-	$a-continuous : map-get-or($animation, continuous, true);
+	@if $_sugar-test-arguments {
+		$shape : s-test-argument('s-loader-bars','shape',(circle,rect),$shape);
+		$color : s-test-argument('s-loader-bars','color','color|list-color',$color);
+		$width : s-test-argument('s-loader-bars','width',number,$width);
+		$height : s-test-argument('s-loader-bars','height',number,$height);
+		$count : s-test-argument('s-loader-bars','count',integer,$count);
+		$gap : s-test-argument('s-loader-bars','gap',number,$gap);
+		$opacity : s-test-argument('s-loader-bars','opacity',number,$opacity);
+		$a-opacity : s-test-argument('s-loader-bars','a-opacity',number,$a-opacity);
+		$a-duration : s-test-argument('s-loader-bars','a-duration',second,$a-duration);
+		$a-delay : s-test-argument('s-loader-bars','a-delay',second,$a-delay);
+		$a-near : s-test-argument('s-loader-bars','a-near',integer,$a-near);
+		$a-ease : s-test-argument('s-loader-bars','a-ease',string,$a-ease);
+		$a-direction : s-test-argument('s-loader-bars','a-direction',(up,down,both),$a-direction);
+		$a-continuous : s-test-argument('s-loader-bars','a-continuous',boolean,$a-continuous);
+	}
+	
+	// handle colors
+	$colors : null;
+	@if s-is($color,list-color) and length($color) > 1 {
+		$colors : $color;
+	}
 
 	// manage duration
 	$a-duration : $a-duration + $a-delay;
@@ -911,7 +872,7 @@
 		display: block;
 		animation : $a-name $a-duration $a-ease 0s infinite;
 		box-shadow : $shadows;
-		@include s-translate((-$_width / 2 - $width - $gap - $offset) (-$height / 2 - $offset));
+		@include s-translate((-$_width / 2 - $width - $gap - $offset), (-$height / 2 - $offset));
 		transform-origin: ($offset + $_width / 2 + $gap + $width) ($offset + $height / 2);
 	}
 
@@ -1028,42 +989,32 @@
 			}
 		}
 	}
-
-	@include s-handle-nested(loader-bars, loader-bars-animation) {
-		@content;
-	}
 }
 
 @mixin s-loader-couch-potato(
-	$props : (),
-	$animation : ()
+	$size : 1em,
+	$color : s-color(primary),
+	$a-duration : 1s,
+	$a-delay : 0s,
+	$a-ease : ease-in-out,
+	$a-rotate : 360deg,
+	$a-scale : 0.7
 ) {
-	$props : s-parse-properties($props, (
-		size : number,
-		color : color,
-		colors : list
-	));
-
-	$animation : s-parse-properties($animation, (
-		duration : second,
-		delay : second,
-		ease : string,
-		rotate : degree,
-		scale : number
-	));
-
-	$props : s-handle-nested(loader-couch-potato, $props);
-	$animation : s-handle-nested(loader-couch-potato-animation, $animation);
-
-	$size : map-get-or($props, size, 1em);
-	$color : map-get-or($props, color, red);
-	$colors : map-get($props, colors);
-
-	$a-duration : map-get-or($animation, duration, 1s);
-	$a-delay : map-get-or($animation, delay, 0s);
-	$a-ease : map-get-or($animation, ease, ease-in-out);
-	$a-rotate : map-get-or($animation, rotate, 360deg);
-	$a-scale : map-get-or($animation, scale, 0.7);
+	@if $_sugar-test-arguments {
+		$size : s-test-argument('s-loader-couch-potato','size',number,$size);
+		$color : s-test-argument('s-loader-couch-potato','color','color|list-color',$color);
+		$a-duration : s-test-argument('s-loader-couch-potato','a-duration',second,$a-duration);
+		$a-delay : s-test-argument('s-loader-couch-potato','a-delay',second,$a-delay);
+		$a-ease : s-test-argument('s-loader-couch-potato','a-ease',string,$a-ease);
+		$a-rotate : s-test-argument('s-loader-couch-potato','a-rotate',degree,$a-rotate);
+		$a-scale : s-test-argument('s-loader-couch-potato','a-scale',number,$a-scale);
+	}
+	
+	// handle colors
+	$colors : null;
+	@if s-is($color,list-color) and length($color) > 1 {
+		$colors : $color;
+	}
 
 	$a-duration : $a-duration + $a-delay;
 
@@ -1078,7 +1029,7 @@
 		width : $size;
 		height: $size;
 		content:'';
-		@include s-translate(-50% -50%);
+		@include s-translate(-50%, -50%);
 		background: $c;
 		transform-origin: $size/2 $size/2;
 		animation: $a-name $a-duration $a-ease 0s infinite;
@@ -1091,11 +1042,11 @@
 	@keyframes #{$a-name} {
 		0% {
 			border-radius:0;
-			@include s-transform(-rotate 0deg -scale 1);
+			transform : rotate(0deg) scale(1);
 		}
 		#{(100% - percentage($p-delay)) / 2} {
 			border-radius:50%;
-			@include s-transform(-rotate $a-rotate / 2 -scale $a-scale);
+			transform : rotate($a-rotate / 2) scale($a-scale);
 			@if $colors and length($colors) == 2 {
 				$c : nth($colors, 2);
 			}
@@ -1103,7 +1054,7 @@
 		}
 		#{100% - percentage($p-delay)} {
 			border-radius:0;
-			@include s-transform(-rotate $a-rotate -scale 1);
+			transform : rotate($a-rotate) scale(1);
 			@if $colors and length($colors) == 2 {
 				$c : nth($colors, 1);
 			}
@@ -1111,43 +1062,33 @@
 		}
 		100% {
 			border-radius:0;
-			@include s-transform(-rotate $a-rotate -scale 1);
+			transform : rotate($a-rotate) scale(1);
 		}
-	}
-
-	@include s-handle-nested(loader-couch-potato, loader-couch-potato-animation) {
-		@content;
 	}
 }
 
 @mixin s-loader-flip-ball(
-	$props : (),
-	$animation : ()
+	$shape : circle,
+	$size : 1em,
+	$color : s-color(primary),
+	$a-duration : 1s,
+	$a-delay : 0s,
+	$a-ease : ease-in-out
 ) {
-	$props : s-parse-properties($props, (
-		shape : circle rect,
-		size : number,
-		color : color,
-		colors : list
-	));
+	@if $_sugar-test-arguments {
+		$shape : s-test-argument('s-loader-flip-ball','shape',(circle,rect),$shape);
+		$size : s-test-argument('s-loader-flip-ball','size',number,$size);
+		$color : s-test-argument('s-loader-flip-ball','color','color|list-color',$color);
+		$a-duration : s-test-argument('s-loader-flip-ball','a-duration',second,$a-duration);
+		$a-delay : s-test-argument('s-loader-flip-ball','a-delay',second,$a-delay);
+		$a-ease : s-test-argument('s-loader-flip-ball','a-ease',string,$a-ease);
+	}
 
-	$animation : s-parse-properties($animation, (
-		duration : second,
-		delay : second,
-		ease : string
-	));
-
-	$props : s-handle-nested(loader-flip-ball, $props);
-	$animation : s-handle-nested(loader-flip-ball-animation, $animation);	
-
-	$shape : map-get-or($props, shape, circle);
-	$size : map-get-or($props, size, 1em);
-	$color : map-get-or($props, color, red);
-	$colors : map-get($props, colors);
-
-	$a-duration : map-get-or($animation, duration, 1s);
-	$a-delay : map-get-or($animation, delay, 0s);
-	$a-ease : map-get-or($animation, ease, ease-in-out);
+	// handle colors
+	$colors : null;
+	@if s-is($color,list-color) and length($color) > 1 {
+		$colors : $color;
+	}
 
 	$a-duration : $a-duration + $a-delay;
 
@@ -1203,11 +1144,11 @@
 	@keyframes #{$a-name}-after {
 		@for $i from 1 through $steps {
 			#{percentage(1 / $steps * $i) - 0.0001%} {
-				@include s-transform(-rotateX 180deg);
+				transform : rotateX(180deg);
 			}
 			#{percentage(1 / $steps * $i)} {
 				background: nth($colors, $i);
-				@include s-transform(-rotateX 0deg);
+				transform : rotateX(0deg);
 			}
 			#{percentage(1 / $steps * $i) - percentage(1 / $steps) / 2} {
 				$c : null;
@@ -1248,7 +1189,7 @@
 	@keyframes #{$a-name}-rotate {
 		@for $i from 1 through $steps {
 			#{percentage(1 / $steps * $i) - 0.0001%} {
-				@include s-transform(-rotate ($i - 1) * 90deg);
+				transform: rotate( ($i - 1) * 90deg);
 				$c : null;
 				@if $i - 1 <= 0 {
 					$c : nth($colors, length($colors));
@@ -1259,13 +1200,9 @@
 				}	
 			}
 			#{percentage(1 / $steps * $i)} {
-				@include s-transform(-rotate $i * 90deg);
+				transform: rotate($i * 90deg);
 				background: nth($colors, $i);
 			}
 		}
-	}
-
-	@include s-handle-nested(loader-flip-ball, loader-flip-ball-animation) {
-		@content;
 	}
 }
