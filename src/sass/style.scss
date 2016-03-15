@@ -4,6 +4,10 @@
 // import prism
 @import 'prism';
 
+.coco {
+	@include s-filter(box-shadow(black 0 0 10px) blur);
+}
+
 // drawer
 @include s-drawer(
 	$name : 'menu',

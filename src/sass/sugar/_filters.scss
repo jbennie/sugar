@@ -5,55 +5,41 @@
 //
 // filter universal mixin
 //
-@mixin s-filter(
-	$filters
-) {
-	@each $filter in $filters {
-		@include _s-filter($filter);
-	}
-}
-@mixin _s-filter(
+@function s-filter-map(
 	$filter
 ) {
-	$filters : sugar('settings.filters');
-	// cssgram
-	@if type-of($filter) == string and str-slice($filter,1,8) == 'cssgram-' {
-		$name : str-slice($filter,9);
-		@if $cssgram and type-of($cssgram) == list and index($cssgram, $name) {
-			@extend %cssgram-#{$name} !optional;
-		}
-	} @else if type-of($filter) == string and map-get($filters, $filter) {
-		// apply the registered filter
-		$filter : map-get($filters, $filter);
-		@if type-of($filter) == map {
-			$filter : map-get($filter, filter);
-		}
-		@include s-filter($filter);
-	} @else {
-		// loop on each filters
-		$filters : ();
-		$i : 1;
-		@each $f in $filter {
-			@if str-index($f,'box-shadow(') {
-				$f : str-replace($f,'box-shadow(','');
-				$f : str-slice($f,1,-2);
-				// $f : str-replace($f,')','');
-				box-shadow: $f;
-				$filter : remove-nth($filter,$i);
-				$i : $i - 1;
-			} @else if str-index($f,'text-shadow(') {
-				$f : str-replace($f,'text-shadow(','');
-				$f : str-slice($f,1,-2);
-				text-shadow: $f;
-				$filter : remove-nth($filter,$i);
-				$i : $i - 1;
-			} @else {
-				$filters : append($filters, $f);
-			}
-			$i : $i + 1;
-		}
-		@if length($filters) > 0 {
-			filter : $filters;
+	$filters : map-keys(sugar('settings.filters'));
+	$map : ();
+	@each $f in $filter {
+		// check if the filter exist in registered ones
+		@if type-of($f) == string and index($filters,$f) {
+			// we have a filter
+			$map : map-merge($map, s-filter-map(sugar('settings.filters.#{$f}')));
+		} @else {
+			// split the filter
+			$open_idx : str-index($f,'(');
+			$f_name : str-slice($f,1,$open_idx - 1);
+			$f_value : str-slice($f,$open_idx+1,-2);
+			$f_value : _split($f_value,' ');
+			$map : map-set($map,$f_name,s-replace-tokens($f_value));
 		}
 	}
+	@return $map;
+}
+@function s-filter(
+	$filter
+) {
+	$filter-map : s-filter-map($filter);
+	$res : ();
+	@each $name, $value in $filter-map {
+		$res : append($res, unquote("#{$name}(#{$value})"));
+	}
+	@return $res;
+
+}
+@mixin s-filter(
+	$filter
+) {
+	$f : s-filter($filter);
+	filter : $f;
 }

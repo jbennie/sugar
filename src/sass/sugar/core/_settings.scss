@@ -118,7 +118,7 @@ $_sugar-settings : (								// store all the settings
 		)
 	), 				
 	filters 					: ( 				// store all the registered filters
-		shadow 						: box-shadow(#text 0 0 10px)
+		shadow 						: box-shadow(#text 0 0 32px)
 	), 				
 	transitions 					: ( 				// store all the transition settings
 		duration 					: .2s, 				// default transition duration

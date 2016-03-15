@@ -316,14 +316,14 @@
 @mixin s-font-face(
 	$font-family,
 	$src,
-	$extension : woff2,
+	$extensions : woff2,
 	$font-weight : normal,
 	$font-style : normal
 ) {
 	@if $_sugar-test-arguments {
 		$font-family : s-test-argument('s-font-face','font-family',string,$font-family);
 		$src : s-test-argument('s-font-face','src',url,$src);
-		$extension : s-test-argument('s-font-face','extension','string|list',$extension);
+		$extensions : s-test-argument('s-font-face','extensions','string|list',$extensions);
 		$font-weight : s-test-argument('s-font-face','font-weight',(normal,bold,bolder,lighter,number,initial,inherit),$font-weight);
 		$font-style : s-test-argument('s-font-face','font-style',(normal,italic,oblique,initial,inherit),$font-style);
 	}
@@ -338,13 +338,13 @@
 	$path : list-implode($split, '.');
 
 	// add extention in list
-	@if index($extension, $e) == null {
-		$extension : append($extension, $e);
+	@if index($extensions, $e) == null {
+		$extensions : append($extensions, $e);
 	}
 
 	// loop on each extensions
 	$srcs : ();
-	@each $e in $extension {
+	@each $e in $extensions {
 		// get the format
 		$format : map-get($font-format, $e);
 		$srcs : append($srcs, url('#{$path}.#{$e}') format('#{$format}'), comma);

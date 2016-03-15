@@ -59,38 +59,69 @@
 //
 // Transition
 //
-@mixin s-transition(
+@function s-transition-map(
+	$transition
+) {
+	$tran : s-parse-properties($transition, (
+		name : map-keys(sugar('settings.transitions.transitions')),
+		property : string,
+		duration : number,
+		ease : string,
+		delay : number
+	));
+
+	// if we have a name, mean that we want to merge transitions
+	$name : map-get($tran, name);
+	@if $name {
+		// get the transition
+		$named_transition : sugar('settings.transitions.transitions.#{$name}');
+		// merge the maps
+		$tran : map-merge(s-transition-map($named_transition),$tran);
+	}
+
+	// set default values
+	@if not map-get($tran, property) {
+		$tran : map-set($tran,property,sugar('settings.transitions.property'));
+	}
+	@if not map-get($tran, duration) {
+		$tran : map-set($tran,duration,sugar('settings.transitions.duration'));
+	}
+	@if not map-get($tran, delay) {
+		$tran : map-set($tran,delay,sugar('settings.transitions.delay'));
+	}
+	@if not map-get($tran, ease) {
+		$tran : map-set($tran,ease,sugar('settings.transitions.ease'));
+	}
+
+	// return the transition map
+	@return $tran;
+}
+@function s-transition(
 	$transitions...
 ) {
 	$trans : ();
+	$available-transitions : map-keys(sugar('settings.transitions.transitions'));
 	@if length($transitions) == 0 {
 		$trans : append($trans, sugar('settings.transitions.property') sugar('settings.transitions.duration') sugar('settings.transitions.ease') sugar('settings.transitions.deéay'), comma);
 	} @else {
 		$transitions-settings : sugar('settings.transitions.transitions');
 		@each $transition in $transitions {
-			// check if a transition exist in settings
-			@if type-of($transition) == string and map-get($transitions-settings, $transition) {
-				$t : map-get($transitions-settings, $transition);
-				@if type-of($t) == map {
-					$trans : append($trans, map-get($t, transition), comma);
-				} @else {
-					$trans : append($trans, $transition, comma);
-				}
-			} @else {
-				$tran : s-parse-properties($transition, (
-					property : string,
-					duration : number,
-					ease : string,
-					delay : number
-				));
-				$property : map-get-or($tran, property, sugar('settings.transitions.property'));
-				$duration : map-get-or($tran, duration, sugar('settings.transitions.duration'));
-				$delay : map-get-or($tran, delay, sugar('settings.transitions.delay'));
-				$ease : map-get-or($tran, ease, sugar('settings.transitions.ease'));
-				$trans : append($trans, $property $duration $ease $delay, comma);
-			}
+			// get the transition map
+			$t-map : s-transition-map($transition);
+			// add the transition into list
+			$trans : append($trans, map-get($t-map,property) map-get($t-map,duration) map-get($t-map,ease) map-get($t-map,delay), comma);
 		}
 	}
+	// return the transitions
+	@return $trans;
+}
+@mixin s-transition(
+	$transitions...
+) {
+	// get the transitions
+	$trans : s-transition($transitions...);
+
+	// add the outline-color transition to detect the transitionstart in js
 	$trans : append($trans, outline-color 0.000001s linear 0s, comma);
 
 	// set transition
