@@ -1,4 +1,4 @@
-@if index(sugar("settings.animate-css.animations"), fadeInRight) {@keyframes fadeInRight {
+@if index(sugar("settings.components.animate-css.animations"), fadeInRight) {@keyframes fadeInRight {
   from {
     opacity: 0;
     transform: translate3d(100%, 0, 0);

@@ -313,7 +313,7 @@ $_s-formset-inited : false;
 				height: s-look-and-feel(font-size, $size);
 
 				$br : s-look-and-feel(border-radius, $size);
-				$fs : s-round-for-render-even(s-look-and-feel(font-size, $size) * 1.3);
+				$fs : s-render-round-even(s-look-and-feel(font-size, $size) * 1.3);
 				& + .s-radiobox {
 					width: $fs;
 					height: $fs;

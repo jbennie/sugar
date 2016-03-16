@@ -1,4 +1,4 @@
-@if index(sugar("settings.animate-css.animations"), zoomOutUp) {@keyframes zoomOutUp {
+@if index(sugar("settings.components.animate-css.animations"), zoomOutUp) {@keyframes zoomOutUp {
   40% {
     opacity: 1;
     transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);

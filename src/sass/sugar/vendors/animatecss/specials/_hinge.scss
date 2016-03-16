@@ -1,4 +1,4 @@
-@if index(sugar("settings.animate-css.animations"), hinge) {@keyframes hinge {
+@if index(sugar("settings.components.animate-css.animations"), hinge) {@keyframes hinge {
   0% {
     transform-origin: top left;
     animation-timing-function: ease-in-out;

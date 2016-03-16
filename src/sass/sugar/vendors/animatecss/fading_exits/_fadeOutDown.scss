@@ -1,4 +1,4 @@
-@if index(sugar("settings.animate-css.animations"), fadeOutDown) {@keyframes fadeOutDown {
+@if index(sugar("settings.components.animate-css.animations"), fadeOutDown) {@keyframes fadeOutDown {
   from {
     opacity: 1;
   }

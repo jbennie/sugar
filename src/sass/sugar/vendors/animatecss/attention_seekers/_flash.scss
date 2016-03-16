@@ -1,4 +1,4 @@
-@if index(sugar("settings.animate-css.animations"), flash) {@keyframes flash {
+@if index(sugar("settings.components.animate-css.animations"), flash) {@keyframes flash {
   from, 50%, 100% {
     opacity: 1;
   }

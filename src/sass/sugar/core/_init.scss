@@ -88,21 +88,5 @@ $_sugar-inited : false;
 		$ms-size : sugar('settings.modular-scale.ratio') !global;
 		$ms-range : sugar('settings.modular-scale.range') !global;
 		$ms-fluid : sugar('settings.modular-scale.fluid') !global;
-
-		// font-awesome
-		$font-awesome : sugar('settings.font-awesome');
-		@if $font-awesome {
-			$font-path : sugar('settings.font-awesome.font-path');
-			@include s-font-face(
-				$font-family : "FontAwesome",
-				$src : "#{$font-path}/fontawesome-webfont.eot",
-				$font-weight : normal,
-				$font-style : normal,
-				$extensions : eot ttf woff woff2 svg
-			);
-		}
-
-		// animate css
-		@include _s-animatecss-init();
 	}
 }

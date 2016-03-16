@@ -44,12 +44,6 @@
 			cap-height : 0.61
 		)
 	),
-	font-awesome : (
-		icons : user gg-circle angle-right bars check coffee camera-retro cloud arrow-up linkedin github home twitter beer caret-down
-	),
-	animate-css : (
-		animations : rubberBand tada flipOutX fadeIn
-	),
 	colors : (
 		default : (
 			color : #8195a1
@@ -85,7 +79,6 @@
 			slow : all .5s ease-in-out
 		)
 	),
-	classes : 'helper',
 	components : (
 		typeset : (
 			titles : (
@@ -102,6 +95,12 @@
 					font-family : helvetica-light
 				)
 			)
+		),
+		animate-css : (
+			animations : rubberBand tada flipOutX fadeIn
+		),
+		font-awesome : (
+			icons : user gg-circle angle-right bars check coffee camera-retro cloud arrow-up linkedin github home twitter beer caret-down
 		)
 	)
 )); 

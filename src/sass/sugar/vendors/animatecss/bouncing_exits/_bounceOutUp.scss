@@ -1,4 +1,4 @@
-@if index(sugar("settings.animate-css.animations"), bounceOutUp) {@keyframes bounceOutUp {
+@if index(sugar("settings.components.animate-css.animations"), bounceOutUp) {@keyframes bounceOutUp {
   20% {
     transform: translate3d(0, -10px, 0);
   }

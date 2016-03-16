@@ -1,4 +1,4 @@
-@if index(sugar("settings.animate-css.animations"), rotateInUpLeft) {@keyframes rotateInUpLeft {
+@if index(sugar("settings.components.animate-css.animations"), rotateInUpLeft) {@keyframes rotateInUpLeft {
   from {
     transform-origin: left bottom;
     transform: rotate3d(0, 0, 1, 45deg);

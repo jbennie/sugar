@@ -15,6 +15,7 @@ coffee 		 = require 'gulp-coffee'
 clean 		 = require 'gulp-clean'
 babel 		 = require 'gulp-babel'
 filter 		 = require 'gulp-filter'
+cached 		 = require 'gulp-cached'
 
 # configure webpack
 webpackParams =
@@ -92,12 +93,14 @@ gulp.task 'clean-css', ->
 # coffee
 gulp.task 'coffee', ['clean-js'], ->
 	gulp.src './src/coffee/*.coffee'
+	.pipr cached('coffee')
 	.pipe coffee()
 	.pipe gulp.dest 'assets/js'
 
 # compass
 gulp.task 'compass', ->
 	gulp.src './src/sass/**/*.scss'
+	.pipe cached('compass')
 	.pipe compass
 		config_file: './config.rb'
 		css: 'assets/css'
@@ -108,6 +111,7 @@ gulp.task 'compass', ->
 # sass
 gulp.task 'sass', ->
 	gulp.src './src/sass/**/*.scss'
+	# .pipe cached('sass')
 	.pipe sass(
 		outputStyle: 'expanded'
 		precision : 8

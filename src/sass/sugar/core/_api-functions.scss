@@ -523,7 +523,7 @@ $_sugar-settings-cache : ();
 @function s-space(
 	$size
 ) {
-	@return s-round-for-render(s-interpolate('settings.spaces', $size));
+	@return s-render-round(s-interpolate('settings.spaces', $size));
 }
 
 
@@ -544,20 +544,26 @@ $_sugar-settings-cache : ();
 
 	// if we have a non number value, return it
 	@if $value and type-of($value) != number {
-		@return s-replace-tokens(s-round-for-render($value));
+		@return s-replace-tokens(s-render-round($value));
 	}
 
 	// if we have a number value, return the interpolated version
-	@return s-round-for-render(s-interpolate('settings.look-and-feel.#{$name}', $size));
+	@return s-render-round(s-interpolate('settings.look-and-feel.#{$name}', $size));
 
 	// we don't have anything...
 	@return null;
+}
+@function s-lnf(
+	$name,
+	$size : default
+) {
+	@return s-look-and-feel($name, $size);
 }
 
 //
 // Round a value to match a round px render
 //
-@function s-round-for-render($value) {
+@function s-render-round($value) {
 	$value : call('s-#{unit($value)}',round(s-px($value)));
 	@return $value;
 }
@@ -566,7 +572,7 @@ $_sugar-settings-cache : ();
 //
 // Round a value to match a round px render => even
 //
-@function s-round-for-render-even($value) {
+@function s-render-round-even($value) {
 	$value : call('s-#{unit($value)}',s-even(s-px($value)));
 	@return $value;
 }
@@ -575,7 +581,7 @@ $_sugar-settings-cache : ();
 //
 // Round a value to match a round px render => odd
 //
-@function s-round-for-render-odd($value) {
+@function s-render-round-odd($value) {
 	$value : call('s-#{unit($value)}',s-odd(s-px($value)));
 	@return $value;
 }
@@ -585,10 +591,10 @@ $_sugar-settings-cache : ();
 // Make a number even
 //
 @function s-even($value) {
+	$d : s-strip-units($value % 2);
 	$value : round($value);
-	$dec : $value % 1;
 	@if s-strip-units($value) % 2 != 0 {
-		@if $dec >= .5 {
+		@if $d >= 1 {
 			$value : $value + 1;
 		} @else {
 			$value : $value - 1;
@@ -602,10 +608,10 @@ $_sugar-settings-cache : ();
 // Make a number odd
 //
 @function s-odd($value) {
+	$dec : s-strip-units($value % 2);
 	$value : round($value);
-	$dec : $value % 1;
 	@if s-strip-units($value) % 2 == 0 {
-		@if $dec >= .5 {
+		@if $dec >= 1 {
 			$value : $value + 1;
 		} @else {
 			$value : $value - 1;

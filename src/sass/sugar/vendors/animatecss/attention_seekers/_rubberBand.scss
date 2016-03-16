@@ -1,4 +1,4 @@
-@if index(sugar("settings.animate-css.animations"), rubberBand) {@keyframes rubberBand {
+@if index(sugar("settings.components.animate-css.animations"), rubberBand) {@keyframes rubberBand {
   from {
     transform: scale3d(1, 1, 1);
   }

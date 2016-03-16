@@ -1,4 +1,4 @@
-@if index(sugar("settings.animate-css.animations"), bounceOutRight) {@keyframes bounceOutRight {
+@if index(sugar("settings.components.animate-css.animations"), bounceOutRight) {@keyframes bounceOutRight {
   20% {
     opacity: 1;
     transform: translate3d(-20px, 0, 0);

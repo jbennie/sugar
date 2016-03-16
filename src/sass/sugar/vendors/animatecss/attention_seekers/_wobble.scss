@@ -1,4 +1,4 @@
-@if index(sugar("settings.animate-css.animations"), wobble) {/* originally authored by Nick Pettit - https://github%com/nickpettit/glide */
+@if index(sugar("settings.components.animate-css.animations"), wobble) {/* originally authored by Nick Pettit - https://github%com/nickpettit/glide */
 
 @keyframes wobble {
   from {

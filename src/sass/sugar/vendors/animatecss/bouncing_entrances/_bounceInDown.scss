@@ -1,4 +1,4 @@
-@if index(sugar("settings.animate-css.animations"), bounceInDown) {@keyframes bounceInDown {
+@if index(sugar("settings.components.animate-css.animations"), bounceInDown) {@keyframes bounceInDown {
   from, 60%, 75%, 90%, 100% {
     animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
   }

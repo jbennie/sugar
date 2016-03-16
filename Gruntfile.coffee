@@ -8,15 +8,15 @@ module.exports = (grunt) ->
 
 		concat:
 			animatecss:
-				src : 'sass/sugar/vendors/animatecss/*/*.scss'
-				dest : 'sass/sugar/vendors/animatecss/_animate.scss'
+				src : 'src/sass/sugar/vendors/animatecss/*/*.scss'
+				dest : 'src/sass/sugar/vendors/animatecss/_animate.scss'
 		
 		copy:
 			fontawesome:
 				expand: true,
 				cwd: 'bower_components/font-awesome/css/',
 				src: 'font-awesome.css',
-				dest: 'sass/sugar/vendors/fontawesome/',
+				dest: 'src/sass/sugar/vendors/fontawesome/',
 				filter: 'isFile'
 				rename: (dest, src) ->
 					dest + '_' + src.replace '.css', '.scss'
@@ -29,13 +29,13 @@ module.exports = (grunt) ->
 				expand: true,
 				cwd: 'bower_components/modular-scale/stylesheets/',
 				src: '**',
-				dest: 'sass/sugar/vendors/modularscale/',
+				dest: 'src/sass/sugar/vendors/modularscale/',
 				filter: 'isFile'
 			animatecss:
 				expand: true,
 				cwd: 'bower_components/animate.css/source',
 				src: '**',
-				dest: 'sass/sugar/vendors/animatecss/',
+				dest: 'src/sass/sugar/vendors/animatecss/',
 				filter: 'isFile'
 				rename: (dest, src) ->
 					src = src.replace 'css', 'scss'
@@ -56,13 +56,13 @@ module.exports = (grunt) ->
 						name = filename.replace '.css',''
 						content = content.replace /(\.)([a-zA-Z_-]{3,60})/gi, "%$2"
 						#content = '@if global-variable-exists(sugar-animatecss) == false or index($sugar-animatecss, ' + name + ') { $_sugar-animatecss : () !default; $_sugar-animatecss : append($_sugar-animatecss, ' + name + '); ' + content + '}'
-						content = '@if index(sugar("settings.animate-css.animations"), '+name+') {' + content + '}'
+						content = '@if index(sugar("settings.components.animate-css.animations"), '+name+') {' + content + '}'
 						content
 			animatecss_mixin:
 				expand: true,
-				cwd: 'sass/sugar/vendors/animatecss/',
+				cwd: 'src/sass/sugar/vendors/animatecss/',
 				src: '_animate.scss',
-				dest: 'sass/sugar/vendors/animatecss/',
+				dest: 'src/sass/sugar/vendors/animatecss/',
 				filter: 'isFile'
 				options:
 					process: (content, srcpath) ->
@@ -72,13 +72,13 @@ module.exports = (grunt) ->
 				expand: true,
 				cwd: 'bower_components/sassdash/scss/',
 				src: '**',
-				dest: 'sass/sugar/vendors/sassdash/',
+				dest: 'src/sass/sugar/vendors/sassdash/',
 				filter: 'isFile'
 			cssgram:
 				expand: true,
 				cwd: 'bower_components/cssgram/source/scss/',
 				src: '**',
-				dest: 'sass/sugar/vendors/cssgram/',
+				dest: 'src/sass/sugar/vendors/cssgram/',
 				filter: 'isFile'
 				rename: (dest, src) ->
 					return dest + '_' + src if src.substring(0,1) != '_'
@@ -101,12 +101,12 @@ module.exports = (grunt) ->
 				files: [{
 					expand: true
 					flatten: true
-					src: ['sass/sugar/vendors/animatecss/animate.scss'],
-					dest: 'sass/sugar/vendors/animatecss/'
+					src: ['src/sass/sugar/vendors/animatecss/animate.scss'],
+					dest: 'src/sass/sugar/vendors/animatecss/'
 				}]
 
 		clean: [
-			'sass/sugar/vendors'
+			'src/sass/sugar/vendors'
 		]
 
 		notify:

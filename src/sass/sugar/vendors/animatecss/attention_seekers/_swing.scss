@@ -1,4 +1,4 @@
-@if index(sugar("settings.animate-css.animations"), swing) {@keyframes swing {
+@if index(sugar("settings.components.animate-css.animations"), swing) {@keyframes swing {
   20% {
     transform: rotate3d(0, 0, 1, 15deg);
   }

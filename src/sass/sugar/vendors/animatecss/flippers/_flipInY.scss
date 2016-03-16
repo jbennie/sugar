@@ -1,4 +1,4 @@
-@if index(sugar("settings.animate-css.animations"), flipInY) {@keyframes flipInY {
+@if index(sugar("settings.components.animate-css.animations"), flipInY) {@keyframes flipInY {
   from {
     transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
     animation-timing-function: ease-in;

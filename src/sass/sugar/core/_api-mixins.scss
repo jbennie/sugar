@@ -103,211 +103,210 @@ $_sugar-current-component : null;
 //
 // Classes
 //
-@mixin s-classes() {
-	// font-awesome
-	$fa-icons : sugar('settings.font-awesome.icons');
-	@if $fa-icons {
-		@each $icon in $fa-icons {
-			.fa-#{$icon} {
-				@extend %fa;
-				@extend %fa-#{$icon} !optional;
-			}
-		}
-	}
+$_sugar-classes-inited : false;
+@mixin s-classes-init() {
+	@if not $_sugar-classes-inited {
+		$_sugar-classes-inited : true !global;
 
-	$filters : sugar('settings.filters');
-	@each $name, $filter in $filters {
-		@include s-register-class(
-			$classname : 'f-#{$name}',
-			$namespace : 'helper.filter.#{$name}'
-		) {
-			@include s-filter($filter);
-		}
-	}
-
-	// transitions
-	$transitions : sugar('settings.transitions.transitions');
-	@each $name, $transition in $transitions {
-		@include s-register-class(
-			$classname : 't-#{$name}',
-			$namespace : 'helper.transition.#{$name}'
-		) {
-			@include s-transition($transition);
-		}
-	}
-
-	$vertical-rhythme-scope : sugar('settings.vertical-rhythme.scope-class');
-	$spaces : sugar('settings.sizes');
-	@each $name, $space in $spaces {
-		@include s-register-class(
-			$classname : 'm-b-#{$name}',
-			$namespace : 'helper.margin.bottom.#{$name}'
-		) {
-			margin-bottom : s-space($name);
-			.#{$vertical-rhythme-scope} &:not(.not-#{$vertical-rhythme-scope}),
-			&.#{$vertical-rhythme-scope}:not(.not-#{$vertical-rhythme-scope}) {
-				margin-bottom : round(s-space($name));
-			}
-		}
-		@include s-register-class(
-			$classname : 'm-t-#{$name}',
-			$namespace : 'helper.margin.top.#{$name}'
-		) {
-			margin-top : s-space($name);
-			.#{$vertical-rhythme-scope} &:not(.not-#{$vertical-rhythme-scope}),
-			&.#{$vertical-rhythme-scope}:not(.not-#{$vertical-rhythme-scope}) {
-				margin-top : round(s-space($name));
-			}
-		}
-		@include s-register-class(
-			$classname : 'm-l-#{$name}',
-			$namespace : 'helper.margin.left.#{$name}'
-		) {
-			margin-left : s-space($name);
-		}
-		@include s-register-class(
-			$classname : 'm-r-#{$name}',
-			$namespace : 'helper.margin.right.#{$name}'
-		) {
-			margin-right : s-space($name);
-		}
-		@include s-register-class(
-			$classname : 'm-s-#{$name}',
-			$namespace : 'helper.margin.side.#{$name}'
-		) {
-			margin-left : s-space($name);
-			margin-right : s-space($name);
-		}
-
-		@include s-register-class(
-			$classname : 'p-b-#{$name}',
-			$namespace : 'helper.padding.bottom.#{$name}'
-		) {
-			padding-bottom : s-space($name);
-			.#{$vertical-rhythme-scope} &:not(.not-#{$vertical-rhythme-scope}),
-			&.#{$vertical-rhythme-scope}:not(.not-#{$vertical-rhythme-scope}) {
-				padding-bottom : round(s-space($name));
-			}
-		}
-		@include s-register-class(
-			$classname : 'p-t-#{$name}',
-			$namespace : 'helper.padding.top.#{$name}'
-		) {
-			padding-top : s-space($name);
-			.#{$vertical-rhythme-scope} &:not(.not-#{$vertical-rhythme-scope}),
-			&.#{$vertical-rhythme-scope}:not(.not-#{$vertical-rhythme-scope}) {
-				padding-top : round(s-space($name));
-			}
-		}
-		@include s-register-class(
-			$classname : 'p-l-#{$name}',
-			$namespace : 'helper.padding.left.#{$name}'
-		) {
-			padding-left : s-space($name);
-		}
-		@include s-register-class(
-			$classname : 'p-r-#{$name}',
-			$namespace : 'helper.padding.right.#{$name}'
-		) {
-			padding-right : s-space($name);
-		}
-		@include s-register-class(
-			$classname : 'p-s-#{$name}',
-			$namespace : 'helper.padding.side.#{$name}'
-		) {
-			padding-left : s-space($name);
-			padding-right : s-space($name);
-		}
-	}
-
-	//
-	// Paddings
-	//
-	@include s-register-class(no-p-t,'helper.padding.no.top') {
-		padding-top: 0;
-	}
-	@include s-register-class(no-p-r,'helper.padding.no.right') {
-		padding-right: 0;
-	}
-	@include s-register-class(no-p-b,'helper.padding.no.bottom') {
-		padding-bottom: 0;
-	}
-	@include s-register-class(no-p-l,'helper.padding.no.left') {
-		padding-left: 0;
-	}
-	@include s-register-class(no-p-s,'helper.padding.no.side') {
-		padding-left: 0;
-		padding-right: 0;
-	}
-
-	//
-	// Margins
-	//
-	@include s-register-class(no-m-t,'helper.margin.no.top') {
-		margin-top: 0;
-	}
-	@include s-register-class(no-m-r,'helper.margin.no.right') {
-		margin-right: 0;
-	}
-	@include s-register-class(no-m-b,'helper.margin.no.bottom') {
-		margin-bottom: 0;
-	}
-	@include s-register-class(no-m-l,'helper.margin.no.left') {
-		margin-left: 0;
-	}
-	@include s-register-class(no-m-s,'helper.margin.no.side') {
-		margin-left: 0;
-		margin-right: 0;
-	}
-
-	// colors
-	$colors : sugar('settings.colors');
-	@each $name, $color in $colors {
-		@if $name != classes {
-			$modifiers : ();
-			@if type-of($color) == map {
-				$modifiers : map-get($color, modifiers);
-				$color : map-get($color, color);
-			}	
-			$cls : unquote("c-#{$name}");
+		$filters : sugar('settings.filters');
+		@each $name, $filter in $filters {
 			@include s-register-class(
-				$classname : $cls,
-				$namespace : 'helper.color.#{$name}.color'
+				$classname : 'f-#{$name}',
+				$namespace : 'sugar.filter.#{$name}'
 			) {
-				color : $color;
+				@include s-filter($filter);
 			}
-			$cls : unquote("bkg-#{$name}");
+		}
+
+		// transitions
+		$transitions : sugar('settings.transitions.transitions');
+		@each $name, $transition in $transitions {
 			@include s-register-class(
-				$classname : $cls,
-				$namespace : 'helper.color.#{$name}.bkg'
+				$classname : 't-#{$name}',
+				$namespace : 'sugar.transition.#{$name}'
 			) {
-				background-color : $color;
+				@include s-transition($transition);
+			}
+		}
+
+		$vertical-rhythme-scope : sugar('settings.vertical-rhythme.scope-class');
+		$spaces : sugar('settings.sizes');
+		@each $name, $space in $spaces {
+			@include s-register-class(
+				$classname : 'm-b-#{$name}',
+				$namespace : 'sugar.margin.bottom.#{$name}'
+			) {
+				margin-bottom : s-space($name);
+				.#{$vertical-rhythme-scope} &:not(.not-#{$vertical-rhythme-scope}),
+				&.#{$vertical-rhythme-scope}:not(.not-#{$vertical-rhythme-scope}) {
+					margin-bottom : round(s-space($name));
+				}
+			}
+			@include s-register-class(
+				$classname : 'm-t-#{$name}',
+				$namespace : 'sugar.margin.top.#{$name}'
+			) {
+				margin-top : s-space($name);
+				.#{$vertical-rhythme-scope} &:not(.not-#{$vertical-rhythme-scope}),
+				&.#{$vertical-rhythme-scope}:not(.not-#{$vertical-rhythme-scope}) {
+					margin-top : round(s-space($name));
+				}
+			}
+			@include s-register-class(
+				$classname : 'm-l-#{$name}',
+				$namespace : 'sugar.margin.left.#{$name}'
+			) {
+				margin-left : s-space($name);
+			}
+			@include s-register-class(
+				$classname : 'm-r-#{$name}',
+				$namespace : 'sugar.margin.right.#{$name}'
+			) {
+				margin-right : s-space($name);
+			}
+			@include s-register-class(
+				$classname : 'm-s-#{$name}',
+				$namespace : 'sugar.margin.side.#{$name}'
+			) {
+				margin-left : s-space($name);
+				margin-right : s-space($name);
 			}
 
-			// modifiers
-			@if $modifiers {
-				@each $mod-name, $mod in $modifiers {
-					$cls : unquote("c-#{$name}--#{$mod-name}");
-					@include s-register-class(
-						$classname : $cls,
-						$namespace : 'helper.color.#{$name}.modifier.#{$mod-name}.color'
-					) {
-						color : s-color($name, $mod-name);
-					}
-					$cls : unquote("bkg-#{$name}--#{$mod-name}");
-					@include s-register-class(
-						$classname : $cls,
-						$namespace : 'helper.color.#{$name}.modifier.#{$mod-name}.bkg'
-					) {
-						background-color : s-color($name, $mod-name);
+			@include s-register-class(
+				$classname : 'p-b-#{$name}',
+				$namespace : 'sugar.padding.bottom.#{$name}'
+			) {
+				padding-bottom : s-space($name);
+				.#{$vertical-rhythme-scope} &:not(.not-#{$vertical-rhythme-scope}),
+				&.#{$vertical-rhythme-scope}:not(.not-#{$vertical-rhythme-scope}) {
+					padding-bottom : round(s-space($name));
+				}
+			}
+			@include s-register-class(
+				$classname : 'p-t-#{$name}',
+				$namespace : 'sugar.padding.top.#{$name}'
+			) {
+				padding-top : s-space($name);
+				.#{$vertical-rhythme-scope} &:not(.not-#{$vertical-rhythme-scope}),
+				&.#{$vertical-rhythme-scope}:not(.not-#{$vertical-rhythme-scope}) {
+					padding-top : round(s-space($name));
+				}
+			}
+			@include s-register-class(
+				$classname : 'p-l-#{$name}',
+				$namespace : 'sugar.padding.left.#{$name}'
+			) {
+				padding-left : s-space($name);
+			}
+			@include s-register-class(
+				$classname : 'p-r-#{$name}',
+				$namespace : 'sugar.padding.right.#{$name}'
+			) {
+				padding-right : s-space($name);
+			}
+			@include s-register-class(
+				$classname : 'p-s-#{$name}',
+				$namespace : 'sugar.padding.side.#{$name}'
+			) {
+				padding-left : s-space($name);
+				padding-right : s-space($name);
+			}
+		}
+
+		//
+		// Paddings
+		//
+		@include s-register-class(no-p-t,'sugar.padding.no.top') {
+			padding-top: 0;
+		}
+		@include s-register-class(no-p-r,'sugar.padding.no.right') {
+			padding-right: 0;
+		}
+		@include s-register-class(no-p-b,'sugar.padding.no.bottom') {
+			padding-bottom: 0;
+		}
+		@include s-register-class(no-p-l,'sugar.padding.no.left') {
+			padding-left: 0;
+		}
+		@include s-register-class(no-p-s,'sugar.padding.no.side') {
+			padding-left: 0;
+			padding-right: 0;
+		}
+
+		//
+		// Margins
+		//
+		@include s-register-class(no-m-t,'sugar.margin.no.top') {
+			margin-top: 0;
+		}
+		@include s-register-class(no-m-r,'sugar.margin.no.right') {
+			margin-right: 0;
+		}
+		@include s-register-class(no-m-b,'sugar.margin.no.bottom') {
+			margin-bottom: 0;
+		}
+		@include s-register-class(no-m-l,'sugar.margin.no.left') {
+			margin-left: 0;
+		}
+		@include s-register-class(no-m-s,'sugar.margin.no.side') {
+			margin-left: 0;
+			margin-right: 0;
+		}
+
+		// colors
+		$colors : sugar('settings.colors');
+		@each $name, $color in $colors {
+			@if $name != classes {
+				$modifiers : ();
+				@if type-of($color) == map {
+					$modifiers : map-get($color, modifiers);
+					$color : map-get($color, color);
+				}	
+				$cls : unquote("c-#{$name}");
+				@include s-register-class(
+					$classname : $cls,
+					$namespace : 'sugar.color.#{$name}.color'
+				) {
+					color : s-color($color);
+				}
+				$cls : unquote("bkg-#{$name}");
+				@include s-register-class(
+					$classname : $cls,
+					$namespace : 'sugar.color.#{$name}.bkg'
+				) {
+					background-color : s-color($color);
+				}
+
+				// modifiers
+				@if $modifiers {
+					@each $mod-name, $mod in $modifiers {
+						$cls : unquote("c-#{$name}--#{$mod-name}");
+						@include s-register-class(
+							$classname : $cls,
+							$namespace : 'sugar.color.#{$name}.modifier.#{$mod-name}.color'
+						) {
+							color : s-color($name, $mod-name);
+						}
+						$cls : unquote("bkg-#{$name}--#{$mod-name}");
+						@include s-register-class(
+							$classname : $cls,
+							$namespace : 'sugar.color.#{$name}.modifier.#{$mod-name}.bkg'
+						) {
+							background-color : s-color($name, $mod-name);
+						}
 					}
 				}
 			}
 		}
 	}
+}
+@mixin s-classes(
+	$classes : 'sugar'
+) {
+	// init classes
+	@include s-classes-init();
 
 	// classes
-	$classes : sugar('settings.classes');
 	@if $classes {
 		@each $namespace in $classes {
 			// get values
@@ -329,18 +328,7 @@ $_sugar-current-component : null;
 		}
 	}
 
-	// animatecss
-	%animatecss-animated {
-		animation-duration : sugar('settings.animate-css.duration');
-		animation-fill-mode : sugar('settings.animate-css.fill-mode');
-		animation-timing-function : sugar('settings.animate-css.ease');
-	}
-	@each $anim in sugar('settings.animate-css.animations') {
-		.#{$anim} {
-			@extend %animatecss-animated;
-			@extend %#{$anim} !optional;
-		}
-	}
+	
 }
 
 

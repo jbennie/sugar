@@ -1,4 +1,4 @@
-@if index(sugar("settings.animate-css.animations"), shake) {@keyframes shake {
+@if index(sugar("settings.components.animate-css.animations"), shake) {@keyframes shake {
   from, 100% {
     transform: translate3d(0, 0, 0);
   }

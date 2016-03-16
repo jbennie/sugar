@@ -1,4 +1,4 @@
-@if index(sugar("settings.animate-css.animations"), jello) {@keyframes jello {
+@if index(sugar("settings.components.animate-css.animations"), jello) {@keyframes jello {
   from, 11.1%, 100% {
     transform: none
   }

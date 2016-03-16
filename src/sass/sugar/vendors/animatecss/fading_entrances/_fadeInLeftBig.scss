@@ -1,4 +1,4 @@
-@if index(sugar("settings.animate-css.animations"), fadeInLeftBig) {@keyframes fadeInLeftBig {
+@if index(sugar("settings.components.animate-css.animations"), fadeInLeftBig) {@keyframes fadeInLeftBig {
   from {
     opacity: 0;
     transform: translate3d(-2000px, 0, 0);

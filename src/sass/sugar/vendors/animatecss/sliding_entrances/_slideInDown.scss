@@ -1,4 +1,4 @@
-@if index(sugar("settings.animate-css.animations"), slideInDown) {@keyframes slideInDown {
+@if index(sugar("settings.components.animate-css.animations"), slideInDown) {@keyframes slideInDown {
   from {
     transform: translate3d(0, -100%, 0);
     visibility: visible;

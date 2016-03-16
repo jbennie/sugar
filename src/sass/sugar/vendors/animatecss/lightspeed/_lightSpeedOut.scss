@@ -1,4 +1,4 @@
-@if index(sugar("settings.animate-css.animations"), lightSpeedOut) {@keyframes lightSpeedOut {
+@if index(sugar("settings.components.animate-css.animations"), lightSpeedOut) {@keyframes lightSpeedOut {
   from {
     opacity: 1;
   }

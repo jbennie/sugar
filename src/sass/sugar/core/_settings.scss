@@ -93,39 +93,27 @@ $_sugar-settings : (								// store all the settings
 		ratio 						: $golden, 			// the ratio to use
 		range 						: null, 			// range
 		fluid 						: false 			// is fluid modular scale
-	),
-	animate-css 				: ( 				// store the animatecss settings
-		duration 					: 1s, 				// default animatecss duration
-		ease 						: ease-in-out, 		// default animatecss ease
-		fill-mode					: both, 			// defaull animatecss fill mode
-		animations 					: ()
-	),
-	font-awesome 				: ( 				// font awesome settings
-		font-path 					: '../fonts/font-awesome', 		// path to dont without trailing slash
-		version 					: 4.4.0, 			// font-awesome version
-		icons 						: null, 				// list of icons to generate
-								),				
+								),
 	fonts  						: ( 				// store all the fonts
 		default 					: (
 			font-family 				: ('Helvetica Neue',Helvetica,Verdana,Arial,sans-serif),
 			font-weight 				: normal,
 			cap-height 					: 0.65
-		),
+									),
 		code 						: (
 			font-family 				: (Menlo,Monaco,Consolas,"Courier New",monospace),
 			font-weight 				: normal,
 			cap-height 					: 0.65
-		)
-	), 				
+									)
+								), 				
 	filters 					: ( 				// store all the registered filters
 		shadow 						: box-shadow(#text 0 0 32px)
-	), 				
-	transitions 					: ( 				// store all the transition settings
+								), 				
+	transitions 				: ( 				// store all the transition settings
 		duration 					: .2s, 				// default transition duration
 		ease 						: ease-in-out, 		// default easing function 
 		delay 						: 0s, 				// default delay
 		property 					: all, 				// default property
 		transitions 				: () 				// store all registered transitions
-	), 
-	classes 					: ()
+	)
 );	

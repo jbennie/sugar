@@ -1,4 +1,4 @@
-@if index(sugar("settings.animate-css.animations"), zoomInDown) {@keyframes zoomInDown {
+@if index(sugar("settings.components.animate-css.animations"), zoomInDown) {@keyframes zoomInDown {
   from {
     opacity: 0;
     transform: scale3d(.1, .1, .1) translate3d(0, -1000px, 0);

@@ -1,4 +1,4 @@
-@if index(sugar("settings.animate-css.animations"), rotateIn) {@keyframes rotateIn {
+@if index(sugar("settings.components.animate-css.animations"), rotateIn) {@keyframes rotateIn {
   from {
     transform-origin: center;
     transform: rotate3d(0, 0, 1, -200deg);

@@ -1,4 +1,4 @@
-@if index(sugar("settings.animate-css.animations"), rotateOutUpLeft) {@keyframes rotateOutUpLeft {
+@if index(sugar("settings.components.animate-css.animations"), rotateOutUpLeft) {@keyframes rotateOutUpLeft {
   from {
     transform-origin: left bottom;
     opacity: 1;

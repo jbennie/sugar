@@ -1,4 +1,4 @@
-@if index(sugar("settings.animate-css.animations"), rotateOut) {@keyframes rotateOut {
+@if index(sugar("settings.components.animate-css.animations"), rotateOut) {@keyframes rotateOut {
   from {
     transform-origin: center;
     opacity: 1;

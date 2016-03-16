@@ -1,4 +1,4 @@
-@if index(sugar("settings.animate-css.animations"), zoomOut) {@keyframes zoomOut {
+@if index(sugar("settings.components.animate-css.animations"), zoomOut) {@keyframes zoomOut {
   from {
     opacity: 1;
   }

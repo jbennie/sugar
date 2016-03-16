@@ -4,6 +4,15 @@
 // import prism
 @import 'prism';
 
+// print out sugar classes
+@include s-classes();
+
+// font awesome
+@include s-font-awesome();
+
+// animate css
+@include s-animate-css();
+
 .coco {
 	@include s-filter(box-shadow(black 0 0 10px) blur);
 }
@@ -695,6 +704,3 @@ strong {
 		))...);
 	}
 }
-
-// print out sugar classes
-@include s-classes();

@@ -1,4 +1,4 @@
-@if index(sugar("settings.animate-css.animations"), flipOutY) {@keyframes flipOutY {
+@if index(sugar("settings.components.animate-css.animations"), flipOutY) {@keyframes flipOutY {
   from {
     transform: perspective(400px);
   }

@@ -411,7 +411,6 @@
 	$border-bottom-width : 0,
 	$border-top-width : 0,
 	$border : null,
-	$s-font : null,
 	$cap-height : null,
 	$scope-class : true,
 	$calculate-height : false
@@ -431,21 +430,12 @@
 		$border-bottom-width : s-test-argument('s-vertical-rhythme','border-bottom-width',number,$border-bottom-width);
 		$border-top-width : s-test-argument('s-vertical-rhythme','border-top-width',number,$border-top-width);
 		$border : s-test-argument('s-vertical-rhythme','border','number|list',$border);
-		$s-font : s-test-argument('s-vertical-rhythme','s-font',map,$s-font);
 		$cap-height : s-test-argument('s-vertical-rhythme','cap-height',number,$cap-height);
 		$scope-class : s-test-argument('s-vertical-rhythme','scope-class',boolean,$scope-class);
 		$calculate-height : s-test-argument('s-vertical-rhythme','calculate-height',boolean,$calculate-height);		
 	}
 
 	$root-font-size : sugar('settings.typo.font-size');
-
-	// get values from s-font if passed	
-	@if $s-font {
-		$font : s-font($s-font...);
-		$font-family : map-get-or($font, font-family, $font-family);
-		$font-size : map-get-or($font, font-size, $font-size);
-		$line-height : map-get-or($font, line-height, $line-height);
-	}
 
 	// get the font object
 	$fonts : sugar('settings.fonts');
