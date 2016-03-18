@@ -146,6 +146,10 @@
 	);	
 }
 
+//
+// Declare multiple selectors for BEM, SMACCS, and maybe others
+// syntax in the futur
+//
 @function s-selector(
 	$map
 ) {
@@ -618,12 +622,4 @@ $_sugar-settings-cache : ();
 		}
 	}
 	@return $value;
-}
-
-
-//
-// Strip units
-//
-@function s-strip-units($number) {
-	@return $number / ($number * 0 + 1);
 }

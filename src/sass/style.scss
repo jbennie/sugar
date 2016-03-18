@@ -8,10 +8,10 @@
 @include s-classes();
 
 // font awesome
-@include s-font-awesome();
+@include s-font-awesome-classes();
 
 // animate css
-@include s-animate-css();
+@include s-animate-css-classes();
 
 .coco {
 	@include s-filter(box-shadow(black 0 0 10px) blur);
@@ -517,11 +517,11 @@ figure {
 	@include s-list();
 
 	.list__item {
-		@include s-list-item(
-			$padding-left : 30px,
-            $style-icon : fa-bars,
-            $bullet-color : s-color(orange, dark),
-            $bullet-size : 22px
+		@include s-list-bullet(
+			$space : 30px,
+            $icon : fa-bars,
+            $color : s-color(orange, dark),
+            $size : 22px
 		);
 		border-bottom:1px solid s-color(orange, (
 			darken : 30%,
@@ -616,7 +616,7 @@ strong {
 	@include s-corner(s-rem(5px));
 
 	&:hover {
-		@include s-animation(tada);
+		@include s-animate-css(tada);
 		z-index:1;
 	}
 

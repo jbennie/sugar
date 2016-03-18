@@ -125,7 +125,7 @@
 	$transform : null,
 	$stretch : null,
 	$white-space : null,
-	$line-height : null,
+	$height : null,
 	$spacing : null,
 	$indent : null,
 	$break : null,
@@ -143,7 +143,7 @@
 		$transform : $transform,
 		$stretch : $stretch,
 		$white-space : $white-space,
-		$line-height : $line-height,
+		$height : $height,
 		$spacing : $spacing,
 		$indent : $indent,
 		$break : $break,
@@ -179,7 +179,7 @@
 	$transform : null,
 	$stretch : null,
 	$white-space : null,
-	$line-height : null,
+	$height : null,
 	$spacing : null,
 	$indent : null,
 	$break : null,
@@ -197,7 +197,7 @@
 		$transform : s-test-argument('s-font','transform',(none,capitalize,uppercase,lowercase,initial,inherit),$transform);
 		$stretch : s-test-argument('s-font','stretch',(ultra-condensed,extra-condensed,condensed,semi-condensed,normal,semi-expanded,expanded,extra-expanded,ultra-expanded,initial,inherit),$stretch);
 		$white-space : s-test-argument('s-font','white-space',(normal,nowrap,pre,pre-line,pre-wrap,initial,inherit),$white-space);
-		$line-height : s-test-argument('s-font','line-height',number,$line-height);
+		$height : s-test-argument('s-font','height',number,$height);
 		$spacing : s-test-argument('s-font','spacing',number,$spacing);
 		$indent : s-test-argument('s-font','indent',number,$indent);
 		$break : s-test-argument('s-font','break',(normal,break-all,keep-all,initial,inherit),$break);
@@ -253,8 +253,8 @@
 		$return : map-set($return, font-size, $size);
 	}
 
-	@if $line-height {
-		$return : map-set($return, line-height, s-rem($line-height));
+	@if $height {
+		$return : map-set($return, line-height, s-rem($height));
 	}
 
 	// font-style
@@ -679,10 +679,29 @@
 // Columns
 //
 @mixin s-columns(
-	$columns
+	$count : null,
+	$gap : null,
+	$fill : null,
+	$width : null,
+	$span : null,
+	$rule : null,
+	$rule-style : null,
+	$rule-color : null,
+	$rule-width : null
+	
 ) {
 	// get columns props
-	$columns : s-columns($columns, $_handle-nested : true);
+	$columns : s-columns(
+		$count : $count,
+		$gap : $gap,
+		$fill : $fill,
+		$width : $width,
+		$span : $span,
+		$rule : $rule,
+		$rule-style : $rule-style,
+		$rule-color : $rule-color,
+		$rule-width : $rule-width
+	);
 
 	// set props
 	@each $prop, $value in $columns {
@@ -695,15 +714,15 @@
 	}
 }
 @function s-columns(
-	$fill : null,
-	$rule-style : null,
 	$count : null,
 	$gap : null,
+	$fill : null,
 	$width : null,
 	$span : null,
+	$rule : null,
+	$rule-style : null,
 	$rule-color : null,
-	$rule-width : null,
-	$rule : null
+	$rule-width : null
 ) {
 	@if $_sugar-test-arguments {
 		$fill : s-test-argument('s-columns','fill',(balance,auto,initial,inherit),$fill);

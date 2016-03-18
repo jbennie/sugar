@@ -13,67 +13,67 @@
 //
 // List item
 //
-@mixin s-list-item(
-	$style-type : null,
-	$style-image : null,
-	$style-icon : null,
-	$bullet-color : s-color(default),
-	$bullet-size : null,
-	$bullet-offset : null,
-	$bullet-font : null,
-	$padding-left : null
+@mixin s-list-bullet(
+	$type : null,
+	$image : null,
+	$icon : null,
+	$color : s-color(default),
+	$size : null,
+	$offset : null,
+	$font : null,
+	$space  : null
 ) {
 	@if $_sugar-test-arguments {
-		$style-type : s-test-argument('s-list-item','style-type',(disc,circle,square,decimal,decimal-leading-zero,lower-roman,upper-roman,lower-greek,lower-latin,upper-latin,armenian,georgian,lower-alpha,upper-alpha,none),$style-type);
-		$style-image : s-test-argument('s-list-item','style-image',url,$style-image);
-		$style-icon : s-test-argument('s-list-item','style-icon',string,$style-icon);
-		$bullet-color : s-test-argument('s-list-item','bullet-color',color,$bullet-color);
-		$bullet-size : s-test-argument('s-list-item','bullet-size','list-number|number',$bullet-size);
-		$bullet-offset : s-test-argument('s-list-item','bullet-offset','list-number|number',$bullet-offset);
-		$bullet-font : s-test-argument('s-list-item','bullet-font',map,$bullet-font);
-		$padding-left : s-test-argument('s-list-item','padding-left',number,$padding-left);
+		$type : s-test-argument('s-list-bullet','type',(disc,circle,square,decimal,decimal-leading-zero,lower-roman,upper-roman,lower-greek,lower-latin,upper-latin,armenian,georgian,lower-alpha,upper-alpha,none),$type);
+		$image : s-test-argument('s-list-bullet','image',url,$image);
+		$icon : s-test-argument('s-list-bullet','icon',string,$icon);
+		$color : s-test-argument('s-list-bullet','color',color,$color);
+		$size : s-test-argument('s-list-bullet','size','list-number|number',$size);
+		$offset : s-test-argument('s-list-bullet','offset','list-number|number',$offset);
+		$font : s-test-argument('s-list-bullet','font',map,$font);
+		$space  : s-test-argument('s-list-bullet','space ',number,$space );
 	}
 
 	// padding
-	@if $padding-left {
-		padding-left: s-rem($padding-left);
+	@if $space  {
+		padding-left : s-rem($space);
 	}
 
 	// style type
-	@if $style-type {
+	@if $type {
 		&:before {
-			content: counter(s-list, $style-type);
+			content: counter(s-list, $type);
 			counter-increment: s-list;
 		}
 	}
 
 	&:before {
-		@if $bullet-offset {
+		@if $offset {
 			$left : 0;
 			$top : 0;
-			@if length($bullet-offset) == 2 {
-				$left : nth($bullet-offset,2);
-				$top : nth($bullet-offset,1);
-			} @else if type-of($bullet-offset) == number {
-				$top : $bullet-offset;
+			@if length($offset) == 2 {
+				$left : nth($offset,2);
+				$top : nth($offset,1);
+			} @else if type-of($offset) == number {
+				$top : $offset;
 			}
 			left : s-rem($left);
 			top : s-rem($top);
 		} @else {
 			left : 0;
 		}
-		@if $bullet-color {
-			color : $bullet-color;
+		@if $color {
+			color : $color;
 		}
-		@if $bullet-size {
-			@if type-of($bullet-size) == list and length($bullet-size) == 2 {
-				width : nth($bullet-size,1) nth($bullet-size,2);
-			} @else if type-of($bullet-size) == number {
-				font-size: s-rem($bullet-size);
+		@if $size {
+			@if type-of($size) == list and length($size) == 2 {
+				width : nth($size,1) nth($size,2);
+			} @else if type-of($size) == number {
+				font-size: s-rem($size);
 			}
 		}
-		@if $bullet-font {
-			@include s-font($bullet-font...);
+		@if $font {
+			@include s-font($font...);
 		}
 	}
 
@@ -85,22 +85,22 @@
 	}
 
 	// style image
-	@if $style-image {
+	@if $image {
 		position: relative;
 		&:before {
 			content:'';
 			display: block;
 			width: 1ex; height:1em;
-			background-image: url($style-image);
+			background-image: url($image);
 			background-repeat: no-repeat;
 			background-size: 100% 100%;
 			background-position: 50% 50%;
 		}
 	
-	} @else if $style-icon {
+	} @else if $icon {
 		position: relative;
 		&:before {
-			@include s-icon($style-icon);
+			@include s-icon($icon);
 		}
 		
 	}

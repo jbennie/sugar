@@ -3,6 +3,13 @@
 //
 
 //
+// Strip units
+//
+@function s-strip-units($number) {
+	@return $number / ($number * 0 + 1);
+}
+
+//
 // Convert helpers
 //
 @function s-percent($value) {

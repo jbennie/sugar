@@ -196,10 +196,10 @@
 
 			> li,
 			> .li {
-				@include s-list-item(
-					$padding-left : s-space(default),
-					$style-type : square,
-					$bullet-color : s-color(text, -opacity .5)	
+				@include s-list-bullet(
+					$space : s-space(default),
+					$type : square,
+					$color : s-color(text, -opacity .5)	
 				);
 			}
 		}
@@ -236,10 +236,10 @@
 
 			> li,
 			> .li {
-				@include s-list-item(
-					$padding-left : s-space(default),
-					$style-type : decimal,
-					$bullet-color : s-color(text, -opacity .5)	
+				@include s-list-bullet(
+					$space : s-space(default),
+					$type : decimal,
+					$color : s-color(text, -opacity .5)	
 				);
 			}
 		}
@@ -273,18 +273,18 @@
 
 			> dt,
 			> .dt {
-				@include s-list-item(
-					$padding-left : 0,
-					$style-type : none,
-					$bullet-color : s-color(text, -opacity .5)	
+				@include s-list-bullet(
+					$space : 0,
+					$type : none,
+					$color : s-color(text, -opacity .5)	
 				);
 			}
 			> dd,
 			> .dd {
-				@include s-list-item(
-					$padding-left :0,
-					$style-type : none,
-					$bullet-color : s-color(text, -opacity .5)	
+				@include s-list-bullet(
+					$space :0,
+					$type : none,
+					$color : s-color(text, -opacity .5)	
 				);
 			}
 		}

@@ -23,8 +23,20 @@ $_sugar-font-awesome-inited : false;
 	}
 }
 
-// init the font awesome component
+// apply an icon
 @mixin s-font-awesome(
+	$icon
+) {
+	// init
+	@include s-font-awesome-init();
+
+	// apply the icon
+	@extend %fa;
+	@extend %fa-#{$icon};
+}
+
+// init the font awesome component
+@mixin s-font-awesome-classes(
 	$icons : sugar('settings.components.font-awesome.icons')
 ) {
 	// init

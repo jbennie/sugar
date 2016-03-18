@@ -24,6 +24,17 @@ $_sugar-animate-css-inited : false;
 }
 
 @mixin s-animate-css(
+	$animation
+) {
+	// init
+	@include s-animate-css-init();
+
+	// apply the animation
+	@extend %animatecss-animated;
+	@extend %#{$animation};
+}
+
+@mixin s-animate-css-classes(
 	$animations : sugar('settings.components.animate-css.animations')
 ) {
 	// init
