@@ -3,7 +3,7 @@
 		scope-class : 'typeset',
 		titles : (
 			default : (
-				margin-bottom : 2
+				margin-bottom : 2rem
 			),
 			h1 : (
 				font-size : 57px
@@ -27,7 +27,7 @@
 		paragraphs : (
 			default : (
 				font-size : 16px,
-				margin-bottom : 2
+				margin-bottom : 2rem
 			),
 			lead : (
 				font-size : 22px
@@ -36,7 +36,7 @@
 		lists : (
 			default : (
 				font-size : 16px,
-				margin-bottom : 2
+				margin-bottom : 2rem
 			),
 			ul : (),
 			ol : (),
@@ -44,7 +44,7 @@
 		),
 		tables : (
 			default : (
-				margin-bottom : 2
+				margin-bottom : 2rem
 			)
 		)
 	)
@@ -78,7 +78,7 @@
 			$color : s-test-argument('s-typeset-titles','color|list-color',color,$color);
 		}
 
-		$scope-class : sugar('settings.scope-class');
+		$typeset : sugar('settings.scope-class');
 
 		@for $i from 1 through $count {
 			// merge with default
@@ -86,8 +86,8 @@
 			$s : map-extend(sugar('settings.titles.default'), $s);
 			
 			// vertical rhythme
-			.h#{$i},
-			.#{$scope-class} h#{$i}#{s-no-typeset()} {
+			#{s-vertical-rhythme-scope-class()} .h#{$i},
+			#{s-vertical-rhythme-scope-class()}.#{$typeset} h#{$i}#{s-no-typeset()} {
 				@include s-vertical-rhythme(
 					$font-size : map-get($s, font-size),
 					$margin-bottom : map-get($s, margin-bottom)
@@ -95,7 +95,7 @@
 			}
 
 			.h#{$i},
-			.#{$scope-class} h#{$i}#{s-no-typeset()} {
+			.#{$typeset} h#{$i}#{s-no-typeset()} {
 				@each $prop, $value in $s {
 					@include s-property-proxy($prop, $value);
 				}
@@ -139,10 +139,11 @@
 			#{s-selector((
 				BEM : '.#{$typeset} p.#{$name}#{s-no-typeset()}, .p--#{$name}',
 				SMACCS : '.#{$typeset} p.#{$name}#{s-no-typeset()}, .p-#{$name}'
-			))} {
+			), $vertical-rhythme-scope : true)} {
 				@include s-vertical-rhythme(
 					$font-size : map-get($s, font-size),
-					$margin-bottom : map-get($s, margin-bottom)
+					$margin-bottom : map-get($s, margin-bottom),
+					$scope-class-base : ".#{$typeset}"
 				);
 			}
 
@@ -191,8 +192,8 @@
 				);
 			}
 		}
-		.ul,
-		.#{$typeset} ul#{s-no-typeset()} {
+		#{s-vertical-rhythme-scope-class()} .ul,
+		#{s-vertical-rhythme-scope-class()}.#{$typeset} ul#{s-no-typeset()} {
 			$args : (
 				font-size : map-get($s, font-size),
 				margin-bottom: 0,
@@ -200,7 +201,9 @@
 			);
 			$rhythme : s-vertical-rhythme($args...);
 			
-			@include s-vertical-rhythme {
+			@include s-vertical-rhythme(
+				$scope-class-base : ".#{$typeset}"
+			) {
 				margin-bottom: ceil(s-rem(s-px(map-get($s, margin-bottom)))) + map-get($rhythme, margin-bottom);
 			}
 
@@ -231,8 +234,8 @@
 				);
 			}
 		}
-		.ol,
-		.#{$typeset} ol#{s-no-typeset()} {
+		#{s-vertical-rhythme-scope-class()} .ol,
+		#{s-vertical-rhythme-scope-class()}.#{$typeset} ol#{s-no-typeset()} {
 			$args : (
 				font-size : map-get($s, font-size),
 				margin-bottom: 0,
@@ -279,8 +282,8 @@
 				);
 			}
 		}
-		.dl,
-		.#{$typeset} dl#{s-no-typeset()} {
+		#{s-vertical-rhythme-scope-class()} .dl,
+		#{s-vertical-rhythme-scope-class()}.#{$typeset} dl#{s-no-typeset()} {
 			$args-dt : (
 				font-size : map-get($s, font-size),
 				margin-bottom: 0,
@@ -335,8 +338,8 @@
 				}
 			}
 		}
-		.blockquote,
-		.#{$typeset} blockquote#{s-no-typeset()} {
+		#{s-vertical-rhythme-scope-class()} .blockquote,
+		#{s-vertical-rhythme-scope-class()}.#{$typeset} blockquote#{s-no-typeset()} {
 			@include s-vertical-rhythme(
 				$font-size : 20px,
 				$padding-top : s-space(default),
@@ -360,8 +363,8 @@
 			border-left: s-space(smaller) solid s-color(primary, -opacity .3);
 			padding: s-space(default);
 		}
-		.pre,
-		.#{$typeset} pre#{s-no-typeset()} {
+		#{s-vertical-rhythme-scope-class()} .pre,
+		#{s-vertical-rhythme-scope-class()}.#{$typeset} pre#{s-no-typeset()} {
 			@include s-vertical-rhythme(
 				$font-size : 16px,
 				$font-family : code,
@@ -377,8 +380,8 @@
 			padding: s-space(default);
 			background-color : s-color(text, -opacity .05);
 		}
-		.address,
-		.#{$typeset} address#{s-no-typeset()} {
+		#{s-vertical-rhythme-scope-class()} .address,
+		#{s-vertical-rhythme-scope-class()}.#{$typeset} address#{s-no-typeset()} {
 			@include s-vertical-rhythme(
 				$font-size : $font-size,
 				$line-height : 2,
@@ -466,8 +469,8 @@
 			clear: both;
 			height:0;
 		}
-		.hr,
-		hr {
+		#{s-vertical-rhythme-scope-class()} .hr,
+		#{s-vertical-rhythme-scope-class()} hr {
 			@include s-vertical-rhythme(
 				$font-size : 0,
 				$line-height : 0,
@@ -581,8 +584,8 @@
 			}
 		}
 
-		table,
-		.table {
+		#{s-vertical-rhythme-scope-class()} table,
+		#{s-vertical-rhythme-scope-class()} .table {
 			$args : (
 				font-size : $font-size,
 				border-bottom : solid s-color(text, -opacity .2) 1px,
@@ -603,7 +606,8 @@
 			caption {
 				@include s-vertical-rhythme(
 					$font-size : $font-size,
-					$margin-bottom : 1
+					$margin-bottom : 1,
+					$scope-class-base : ".#{$typeset}"
 				);
 			}	
 		}
@@ -621,10 +625,10 @@
 				}
 			}
 
-			table.table--#{$size},
-			table.table-#{$size},
-			.table.table--#{$size},
-			.table.table-#{$size} {
+			#{s-vertical-rhythme-scope-class()} table.table--#{$size},
+			#{s-vertical-rhythme-scope-class()} table.table-#{$size},
+			#{s-vertical-rhythme-scope-class()} .table.table--#{$size},
+			#{s-vertical-rhythme-scope-class()} .table.table-#{$size} {
 				$args : (
 					font-size : $font-size,
 					border-bottom : solid s-color(text, -opacity .2) s-rem(1px),

@@ -151,7 +151,8 @@
 // syntax in the futur
 //
 @function s-selector(
-	$map
+	$map,
+	$vertical-rhythme-scope : false
 ) {
 	$method : sugar('settings.selector.method');
 	$sel : map-get($map,$method);
@@ -164,6 +165,17 @@
 	// join the map if needed
 	@if type-of($sel) == list {
 		$sel : _join($sel, ',');
+	}
+	// check if need to scope vertical rhythme
+	@if $vertical-rhythme-scope {
+		// split
+		$sels : _split($sel,',');
+		$new_sels : ();
+		@each $s in $sels {
+			$s : #{s-vertical-rhythme-scope-class()}#{$s};
+			$new_sels : append($new_sels, $s);
+		}
+		$sel : _join($new_sels,',');
 	}
 	// replace the --default in selector
 	@if $method == BEM {

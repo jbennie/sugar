@@ -18,10 +18,13 @@
 	$border : null,
 	$cap-height : null,
 	$scope-class : true,
+	$scope-class-base : null,
 	$calculate-height : false
 ) {
 
 	@if sugar('settings.vertical-rhythme.enabled') {
+		
+		$sc : sugar('settings.vertical-rhythme.scope-class');
 
 		// check if we have some arguments
 		// mean that we want the vertical rhythme css properties
@@ -54,25 +57,22 @@
 			$rhythme-map : map-remove($rhythme-map, cap-height);
 			$rhythme-map : map-remove($rhythme-map, scope-class);
 			$rhythme-map : map-remove($rhythme-map, calculate-height);
-
-			$sc : sugar('settings.vertical-rhythme.scope-class');
-			@if $sc and $scope-class {
-				.#{$sc} &:not(.no-#{$sc}) {
-					@each $prop, $value in $rhythme-map {
-						#{$prop} : $value;
-					}
-					@content;
-				}
-			} @else {
+			&:not(.no-#{$sc}) {
 				@each $prop, $value in $rhythme-map {
 					#{$prop} : $value;
 				}
 				@content;
 			}
 		} @else {
-			@content;
+			&:not(.no-#{$sc}) {
+				@content;
+			}
 		}
 	}
+}
+
+@function s-vertical-rhythme-scope-class() {
+	@return unquote(".#{sugar('settings.vertical-rhythme.scope-class')}");
 }
 
 @function s-margin(
