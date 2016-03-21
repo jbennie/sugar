@@ -309,6 +309,10 @@ $_sugar-settings-cache : ();
 				$opacity : s-test-argument('s-color','actions.opacity',number,map-get($actions,opacity));
 				$mix : s-test-argument('s-color','actions.mix',color,map-get($actions,mix));
 			} @else if type-of($actions) == string {
+				$modifiers : sugar('settings.colors.#{$name}.modifiers');
+				@if not $modifiers {
+					@error('The color "#{$name} does not have any "#{$actions}" modifier...');
+				}
 				$actions : s-test-argument('s-color','actions',map-keys(sugar('settings.colors.#{$name}.modifiers')),$actions);
 			}
 		}
