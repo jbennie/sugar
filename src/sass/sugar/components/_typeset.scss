@@ -6,44 +6,35 @@
 				margin-bottom : 2
 			),
 			h1 : (
-				// font-size : ms(3)
 				font-size : 57px
 			),
 			h2 : (
-				// font-size : ms(2.5)
 				font-size : 50px
 			),
 			h3 : (
-				// font-size : ms(2)
 				font-size : 36px
 			),
 			h4 : (
-				// font-size : ms(1.5)
 				font-size : 26px
 			),
 			h5 : (
-				// font-size : ms(1)
 				font-size : 20px
 			),
 			h6 : (
-				// font-size : ms(0.5)
 				font-size : 1rem
 			)
 		),
 		paragraphs : (
 			default : (
-				// font-size : ms(0.5),
 				font-size : 16px,
 				margin-bottom : 2
 			),
 			lead : (
-				// font-size : ms(1)
 				font-size : 22px
 			)
 		),
 		lists : (
 			default : (
-				// font-size : ms(0.5),
 				font-size : 16px,
 				margin-bottom : 2
 			),
@@ -62,30 +53,32 @@
 //
 // typeset base
 //
-@mixin s-typeset() {
-	@include s-typeset-titles();
-	@include s-typeset-paragraphs();
-	@include s-typeset-lists();
-	@include s-typeset-decorators();
-	@include s-typeset-blocks();
-	@include s-typeset-tables();
+@mixin s-no-typeset() {
+	$typeset : sugar('settings.components.typeset.scope-class');
+	&:not(.no-#{$typeset}) {
+		@content;
+	}
 }
+@function s-no-typeset {
+	$typeset : sugar('settings.components.typeset.scope-class');
+	@return unquote(':not(.no-#{$typeset})');
+}
+
+
 
 @mixin s-typeset-titles(
 	$count : 6,
-	$color : null,
-	$colors : null
+	$color : null
 ) {
 	// pass in component context
 	@include s-component-context('typeset') {
 		
 		@if $_sugar-test-arguments {
 			$count : s-test-argument('s-typeset-titles','count',integer,$count);
-			$color : s-test-argument('s-typeset-titles','color',color,$color);
-			$colors : s-test-argument('s-typeset-titles','colors',list-color,$colors);
+			$color : s-test-argument('s-typeset-titles','color|list-color',color,$color);
 		}
 
-		$typeset : sugar('settings.scope-class');
+		$scope-class : sugar('settings.scope-class');
 
 		@for $i from 1 through $count {
 			// merge with default
@@ -94,7 +87,7 @@
 			
 			// vertical rhythme
 			.h#{$i},
-			h#{$i} {
+			.#{$scope-class} h#{$i}#{s-no-typeset()} {
 				@include s-vertical-rhythme(
 					$font-size : map-get($s, font-size),
 					$margin-bottom : map-get($s, margin-bottom)
@@ -102,12 +95,12 @@
 			}
 
 			.h#{$i},
-			.#{$typeset} h#{$i} {
+			.#{$scope-class} h#{$i}#{s-no-typeset()} {
 				@each $prop, $value in $s {
 					@include s-property-proxy($prop, $value);
 				}
-				@if $colors and nth($colors,$i) {
-					color : nth($colors,$i);
+				@if type-of($color) == list and nth($color,$i) {
+					color : nth($color,$i);
 				} @else if $color {
 					color : $color;
 				}
@@ -117,23 +110,21 @@
 }
 
 @mixin s-typeset-paragraphs(
-	$color : null,
-	$colors : null
+	$color : null
 ) {
-	$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
-
 	// pass in component context
 	@include s-component-context('typeset') {
 	
 		@if $_sugar-test-arguments {
-			$color : s-test-argument('s-typeset-paragraphs','color',color,$color);
-			$colors : s-test-argument('s-typeset-paragraphs','colors',list-color,$colors);
+			$color : s-test-argument('s-typeset-paragraphs','color|map-color',color,$color);
 		}
 
 		$typeset : sugar('settings.scope-class');
 
 		$paragraphs : sugar('settings.paragraphs');
 		@each $name, $s in $paragraphs {
+
+
 			$sel : 'p.#{$name}';
 			$sel-class : '.p-#{$name}';
 			@if $name == default {
@@ -145,8 +136,10 @@
 			$s : map-extend(sugar('settings.paragraphs.default'), $s);
 
 			// vertical rhythme
-			#{$sel}:not(.no-#{$vertical-rhythme}),
-			#{$sel-class} {
+			#{s-selector((
+				BEM : '.#{$typeset} p.#{$name}#{s-no-typeset()}, .p--#{$name}',
+				SMACCS : '.#{$typeset} p.#{$name}#{s-no-typeset()}, .p-#{$name}'
+			))} {
 				@include s-vertical-rhythme(
 					$font-size : map-get($s, font-size),
 					$margin-bottom : map-get($s, margin-bottom)
@@ -157,13 +150,16 @@
 			$s : map-remove($s, font-size);
 			$s : map-remove($s, margin-bottom);
 
-			.#{$typeset} #{$sel}:not(.no-#{$typeset}),
-			#{$sel-class} {
+			// vertical rhythme
+			#{s-selector((
+				BEM : '.#{$typeset} p.#{$name}#{s-no-typeset()}, .p--#{$name}',
+				SMACCS : '.#{$typeset} p.#{$name}#{s-no-typeset()}, .p-#{$name}'
+			))} {	
 				@each $prop, $value in $s {
 					@include s-property-proxy($prop, $value);
 				}
-				@if $colors and map-get($colors, $name) {
-					color : map-get($colors,$name);
+				@if type-of($color) == map and map-get($color, $name) {
+					color : map-get($color,$name);
 				} @else if $color {
 					color : $color;
 				}
@@ -173,25 +169,17 @@
 }
 
 @mixin s-typeset-lists(
-	$color : null,
-	$colors : null
 ) {
-	$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
-
 	// pass in component context
 	@include s-component-context('typeset') {
-
-		@if $_sugar-test-arguments {
-			$color : s-test-argument('s-typeset-lists','color',color,$color);
-			$colors : s-test-argument('s-typeset-lists','colors',list-color,$colors);
-		}
 
 		$typeset : sugar('settings.scope-class');
 
 		// ul
 		$s : map-extend(sugar('settings.lists.default'), sugar('settings.lists.ul'));
+	
 		.ul,
-		.#{$typeset} ul:not(.no-#{$typeset}) {
+		.#{$typeset} ul#{s-no-typeset()} {
 			@include s-list();
 
 			> li,
@@ -204,7 +192,7 @@
 			}
 		}
 		.ul,
-		ul:not(.no-#{$vertical-rhythme}) {
+		.#{$typeset} ul#{s-no-typeset()} {
 			$args : (
 				font-size : map-get($s, font-size),
 				margin-bottom: 0,
@@ -212,7 +200,7 @@
 			);
 			$rhythme : s-vertical-rhythme($args...);
 			
-			.#{$vertical-rhythme} & {
+			@include s-vertical-rhythme {
 				margin-bottom: ceil(s-rem(s-px(map-get($s, margin-bottom)))) + map-get($rhythme, margin-bottom);
 			}
 
@@ -231,7 +219,7 @@
 		// ol
 		$s : map-extend(sugar('settings.lists.default'), sugar('settings.lists.ol'));
 		.ol,
-		.#{$typeset} ol:not(.no-#{$typeset}) {
+		.#{$typeset} ol#{s-no-typeset()} {	
 			@include s-list();
 
 			> li,
@@ -244,14 +232,17 @@
 			}
 		}
 		.ol,
-		ol:not(.no-#{$vertical-rhythme}) {
+		.#{$typeset} ol#{s-no-typeset()} {
 			$args : (
 				font-size : map-get($s, font-size),
 				margin-bottom: 0,
 				cap-height : 0.65
 			);
 			$rhythme : s-vertical-rhythme($args...);
-			margin-bottom: ceil(s-rem(s-px(map-get($s, margin-bottom)))) + map-get($rhythme, margin-bottom);
+			
+			@include s-vertical-rhythme {
+				margin-bottom: ceil(s-rem(s-px(map-get($s, margin-bottom)))) + map-get($rhythme, margin-bottom);
+			}
 
 			> li,
 			> .li {
@@ -268,7 +259,7 @@
 		// dl
 		$s : map-extend(sugar('settings.lists.default'), sugar('settings.lists.dl'));
 		.dl,
-		.#{$typeset} dl:not(.no-#{$typeset}) {
+		.#{$typeset} dl#{s-no-typeset()} {
 			@include s-list();
 
 			> dt,
@@ -289,7 +280,7 @@
 			}
 		}
 		.dl,
-		dl:not(.no-#{$vertical-rhythme}) {
+		.#{$typeset} dl#{s-no-typeset()} {
 			$args-dt : (
 				font-size : map-get($s, font-size),
 				margin-bottom: 0,
@@ -301,7 +292,9 @@
 				cap-height : 0.65
 			);
 			$rhythme : s-vertical-rhythme($args-dd...);
-			margin-bottom: ceil(s-rem(s-px(map-get($s, margin-bottom)))) + map-get($rhythme, margin-bottom);
+			@include s-vertical-rhythme {
+				margin-bottom: ceil(s-rem(s-px(map-get($s, margin-bottom)))) + map-get($rhythme, margin-bottom);
+			}
 
 			> dt, > .dt {
 				@include s-vertical-rhythme($args-dt...);
@@ -326,7 +319,7 @@
 
 		// blockquote
 		.blockquote,
-		.#{$typeset} blockquote:not(.no-#{$typeset}) {
+		.#{$typeset} blockquote#{s-no-typeset()} {	
 			border-left: s-space(smaller) solid s-color(text, -opacity .3);
 			padding-left: s-space(default);
 
@@ -343,7 +336,7 @@
 			}
 		}
 		.blockquote,
-		blockquote:not(.no-#{$vertical-rhythme}) {
+		.#{$typeset} blockquote#{s-no-typeset()} {
 			@include s-vertical-rhythme(
 				$font-size : 20px,
 				$padding-top : s-space(default),
@@ -363,12 +356,12 @@
 
 		// pre
 		.pre,
-		.#{$typeset} pre:not(.no-#{$typeset}) {
+		.#{$typeset} pre#{s-no-typeset()} {
 			border-left: s-space(smaller) solid s-color(primary, -opacity .3);
 			padding: s-space(default);
 		}
 		.pre,
-		pre:not(.no-#{$vertical-rhythme}) {
+		.#{$typeset} pre#{s-no-typeset()} {
 			@include s-vertical-rhythme(
 				$font-size : 16px,
 				$font-family : code,
@@ -380,12 +373,12 @@
 
 		// address
 		.address,
-		.#{$typeset} address:not(.no-#{$typeset}) {
+		.#{$typeset} address#{s-no-typeset()} {
 			padding: s-space(default);
 			background-color : s-color(text, -opacity .05);
 		}
 		.address,
-		address:not(.no-#{$vertical-rhythme}) {
+		.#{$typeset} address#{s-no-typeset()} {
 			@include s-vertical-rhythme(
 				$font-size : $font-size,
 				$line-height : 2,
@@ -408,54 +401,52 @@
 }
 
 @mixin s-typeset-decorators(
-) {
-	$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
-	
+) {	
 	// pass in component context
 	@include s-component-context('typeset') {
 
 		$typeset : sugar('settings.scope-class');
 		.small,
-		.#{$typeset} small:not(.no-#{$typeset}) {
+		.#{$typeset} small#{s-no-typeset()} {
 			font-size: 0.6em;
 			line-height: 0.6em;
 		}
 		.strong,
-		.#{$typeset} strong:not(.no-#{$typeset}) {
+		.#{$typeset} strong#{s-no-typeset()} {
 			font-weight: bold;
 		}
 		.mark,
-		.#{$typeset} mark:not(.no-#{$typeset}) {
+		.#{$typeset} mark#{s-no-typeset()} {
 			background: s-color(primary, -opacity .2);
 			color: s-color(text);
 		}
 		.s, .del,
-		.#{$typeset} s:not(.no-#{$typeset}),
-		.#{$typeset} del:not(.no-#{$typeset}) {
+		.#{$typeset} s#{s-no-typeset()},
+		.#{$typeset} del#{s-no-typeset()} {
 			text-decoration: line-through;
 		}
 		.u, .ins,
-		.#{$typeset} u:not(.no-#{$typeset}),
-		.#{$typeset} ins:not(.no-#{$typeset}) {
+		.#{$typeset} u#{s-no-typeset()},
+		.#{$typeset} ins#{s-no-typeset()} {
 			text-decoration: underline;
 		}
 		.b,
-		.#{$typeset} b:not(.no-#{$typeset}) {
+		.#{$typeset} b#{s-no-typeset()} {
 			font-style: italic;
 		}
 		.abbr,
-		.#{$typeset} abbr:not(.no-#{$typeset}) {
+		.#{$typeset} abbr#{s-no-typeset()} {
 			border-bottom: 1px dotted s-color(text);
 			cursor: help;
 		}
 		.kbd,
-		.#{$typeset} kbd:not(.no-#{$typeset}) {
+		.#{$typeset} kbd#{s-no-typeset()} {
 			background: s-color(text, -opacity .2);
 			color: s-color(text);
 			padding: 0 0.3em;
 		}
 		.code,
-		.#{$typeset} code:not(.no-#{$typeset}) {
+		.#{$typeset} code#{s-no-typeset()} {
 			background: s-color(text, -opacity .2);
 			color: s-color(primary);
 			@include s-font(
@@ -465,18 +456,18 @@
 		}
 
 		.samp,
-		.#{$typeset} samp:not(.no-#{$typeset}) {
+		.#{$typeset} samp#{s-no-typeset()} {
 			@include s-font(code);
 		}
 
 		.hr,
-		.#{$typeset} hr:not(.no-#{$typeset}) {
+		.#{$typeset} hr#{s-no-typeset()} {
 			border: none;
 			clear: both;
 			height:0;
 		}
 		.hr,
-		hr:not(.no-#{$vertical-rhythme}) {
+		hr {
 			@include s-vertical-rhythme(
 				$font-size : 0,
 				$line-height : 0,
@@ -491,28 +482,26 @@
 @mixin s-typeset-tables(
 	$sizes : null
 ) {
-	$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
-
 	// pass in component context
 	@include s-component-context('typeset') {
 	
 		$font-size : sugar('settings.typo.font-size');
 
 		@if $_sugar-test-arguments {
-			$sizes : s-test-argument('s-typeset-tables','sizes','string|list',$sizes);
+			$sizes : s-test-argument('s-typeset-tables','sizes','string|list-string',$sizes);
 		}
 
 		$typeset : sugar('settings.scope-class');
 		$s : sugar('settings.tables.default');
 
-		.#{$typeset} .table-responsive:not(.no-#{$typeset}) {
+		.#{$typeset} .table-responsive#{s-no-typeset()} {
 			min-height: 0.01%;
 			overflow-x: auto;
 			width: 100%;
 			overflow-y: hidden;
 		}
 
-		.#{$typeset} table:not(.no-#{$typeset}),
+		.#{$typeset} table#{s-no-typeset()},
 		.table {
 			width: 100%;
 			margin-bottom: s-rem(map-get($s, margin-bottom));
@@ -592,7 +581,7 @@
 			}
 		}
 
-		table:not(.no-#{$vertical-rhythme}),
+		table,
 		.table {
 			$args : (
 				font-size : $font-size,
@@ -621,8 +610,8 @@
 
 		@each $size in $sizes {
 
-			.#{$typeset} table:not(.no-#{$typeset}).table--#{$size},
-			.#{$typeset} table:not(.no-#{$typeset}).table-#{$size},
+			.#{$typeset} table#{s-no-typeset()}.table--#{$size},
+			.#{$typeset} table#{s-no-typeset()}.table-#{$size},
 			.table.table-#{$size},
 			.table.table--#{$size} {
 				th,
@@ -632,8 +621,8 @@
 				}
 			}
 
-			table:not(.no-#{$vertical-rhythme}).table--#{$size},
-			table:not(.no-#{$vertical-rhythme}).table-#{$size},
+			table.table--#{$size},
+			table.table-#{$size},
 			.table.table--#{$size},
 			.table.table-#{$size} {
 				$args : (

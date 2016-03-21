@@ -57,7 +57,7 @@
 
 			$sc : sugar('settings.vertical-rhythme.scope-class');
 			@if $sc and $scope-class {
-				.#{$sc} & {
+				.#{$sc} &:not(.no-#{$sc}) {
 					@each $prop, $value in $rhythme-map {
 						#{$prop} : $value;
 					}

@@ -13,7 +13,7 @@
 ));
 
 @mixin s-drawer-opened(
-	$name : null
+	$name
 ) {
 	$drawer-toggle-sel : '[data-s-drawer-toggle]';
 	@if $name {
