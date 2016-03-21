@@ -152,7 +152,7 @@
 	$color : s-color(primary),
 	$arrow-offset : 10px,
 	$border-width : 0,
-	$border-color : none
+	$border-color : null
 ) {	
 	@if $_sugar-test-arguments {
 		$side : s-test-argument('s-bubble','side',(top,right,bottom,left),$side);

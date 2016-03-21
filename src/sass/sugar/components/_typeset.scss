@@ -59,7 +59,7 @@
 		@content;
 	}
 }
-@function s-no-typeset {
+@function s-no-typeset() {
 	$typeset : sugar('settings.components.typeset.scope-class');
 	@return unquote(':not(.no-#{$typeset})');
 }
