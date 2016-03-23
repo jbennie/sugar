@@ -273,19 +273,26 @@ body {
 }
 
 .dropdown .dropdown__menu, .dropup .dropdown__menu {
-  background: white;
+  background: #8195a1;
   box-shadow: rgba(129, 149, 161, 0.3) 0 10px 10px;
-  -webkit-transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
-  transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
+  -webkit-transition: all 0.1s ease-in-out 0s, outline-color 0.000001s linear 0s;
+  transition: all 0.1s ease-in-out 0s, outline-color 0.000001s linear 0s;
   outline-color: black;
+  overflow: hidden;
 }
 
 .dropdown .dropdown__item, .dropup .dropdown__item {
   border-top: solid 0.07692308rem rgba(129, 149, 161, 0.2);
+  background-color: white;
+  left: 0;
+  position: relative;
+  -webkit-transition: left 0.1s ease-in-out 0s, outline-color 0.000001s linear 0s;
+  transition: left 0.1s ease-in-out 0s, outline-color 0.000001s linear 0s;
+  outline-color: black;
 }
 
 .dropdown .dropdown__item:hover, .dropup .dropdown__item:hover, .dropdown .dropdown__item.active, .dropup .dropdown__item.active, .dropdown .dropdown__item.dropdown__item--active, .dropup .dropdown__item.dropdown__item--active {
-  background-color: rgba(129, 149, 161, 0.1);
+  left: 0.38461538rem;
 }
 
 .dropdown .dropdown__item > a, .dropup .dropdown__item > a {
@@ -297,10 +304,6 @@ body {
   -webkit-transition: all 0.1s ease-in-out 0s, outline-color 0.000001s linear 0s;
   transition: all 0.1s ease-in-out 0s, outline-color 0.000001s linear 0s;
   outline-color: black;
-}
-
-.dropdown .dropdown__item > a:hover, .dropup .dropdown__item > a:hover {
-  border-left-width: 0.38461538rem;
 }
 
 .dropdown:hover .dropdown__menu, .dropdown.active .dropdown__menu, .dropdown.dropdown--active .dropdown__menu {
