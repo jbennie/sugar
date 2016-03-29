@@ -247,8 +247,9 @@ body {
 
 .hey {
   position: relative;
-  -webkit-filter: blur(20px) box-shadow(black 0 0 20px);
-          filter: blur(20px) box-shadow(black 0 0 20px);
+  box-shadow: black 0 0 20px;
+  -webkit-filter: blur(20px);
+          filter: blur(20px);
   background-repeat: no-repeat;
   background-size: 200px 400px;
   background-image: url("coco.jpg");

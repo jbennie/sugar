@@ -59,16 +59,10 @@ class SugarRadioboxElement extends SugarElement {
 	}
 }
 
-sDom.onInserted('[data-s-radiobox][type="checkbox"],[data-s-radiobox][type="radio"]', (elm) => {
-	// if (sDom.hasClass(elm,'input') || sDom.closest(elm, '.form')) {
+// init the radiobox
+sDom.querySelectorLive('[data-s-radiobox][type="checkbox"],[data-s-radiobox][type="radio"]', (elm) => {
 	new SugarRadioboxElement(elm);
-	// }
 });
-// sDom.domReady(() => {
-// 	[].forEach.call(document.body.querySelectorAll('input[type="checkbox"],input[type="radio"]'), (elm) => {
-// 		new SugarRadioboxElement(elm);
-// 	});
-// });
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }

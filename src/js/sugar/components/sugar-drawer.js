@@ -41,13 +41,13 @@ class SugarDrawerElement extends SugarElement {
 		_sDrawerStack[this.name] = this;
 
 		// init
-		this.init();
+		this._init();
 	}
 
 	/**
 	 * Init
 	 */
-	init() {
+	_init() {
 		
 		// try to find the drawer background
 		this.bkg = document.querySelector('[data-s-drawer-bkg="'+this.name+'"]');
@@ -180,7 +180,7 @@ class SugarDrawerManager {
 		});
 
 		// listen for new element
-		sDom.onInserted('[data-s-drawer]', (element) => {
+		sDom.querySelectorLive('[data-s-drawer]', (element) => {
 			new SugarDrawerElement(element);
 		});
 	}

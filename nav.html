@@ -411,8 +411,16 @@
 				<h4>Working tabs</h4>
 	
 				<style>
-					.nav-content { display: none; }
-					.nav-content.active { display: block; }
+					.nav-content {
+						position: absolute;
+						left:-3000px;
+						visibility: hidden;
+					}
+					.nav-content.active {
+						visibility: visible;
+						position: static;
+						left: 0;
+					}
 				</style>
 				<ul class="nav nav--tabs nav--primary no-typeset no-vertical-rhythme">
 					<li data-s-activate="nav-1" data-s-activate-trigger="mouseenter" data-s-activate-unactivate-trigger="mouseleave">Nav item #1</li>

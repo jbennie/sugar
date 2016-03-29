@@ -281,85 +281,94 @@ return /******/ (function(modules) { // webpackBootstrap
 		/**
 	  * Make a selector detectable when new element are pushed in the page
 	  */
-		onInserted: function onInserted(selector, cb) {
+		querySelectorLive: function querySelectorLive(selector, cb) {
 
-			// use the animation hack to detect
-			// new items in the page
-			var detection_id = 's-insert-detection-' + sugarTools.uniqid();
+			// make a query on existing elements
+			sugarDom.domReady(function () {
 
-			// add the callback in stack
-			_insertDomElementsCallbacks[detection_id] = {
-				callback: cb,
-				selector: selector
-			};
+				// use the animation hack to detect
+				// new items in the page
+				var detection_id = 's-insert-detection-' + sugarTools.uniqid();
 
-			// check how we can detect new elements
-			if (window.MutationObserver != null && !_insertMutationObserver) {
-				// make use of great mutation summary library
-				var observer = new MutationSummary({
-					callback: function callback(summaries) {
-						summaries.forEach(function (summary) {
-							summary.added.forEach(function (elm) {
-								cb(elm);
+				// add the callback in stack
+				_insertDomElementsCallbacks[detection_id] = {
+					callback: cb,
+					selector: selector
+				};
+
+				// check how we can detect new elements
+				if (window.MutationObserver != null && !_insertMutationObserver) {
+					// make use of great mutation summary library
+					var observer = new MutationSummary({
+						callback: function callback(summaries) {
+							summaries.forEach(function (summary) {
+								summary.added.forEach(function (elm) {
+									cb(elm);
+								});
 							});
-						});
-					},
-					queries: [{ element: selector }]
-				});
+						},
+						queries: [{ element: selector }]
+					});
 
-				// _insertMutationObserver = new MutationObserver((mutations) => {
-				// 	// check if what we need has been added
-				// 	mutations.forEach((mutation) => {
-				// 		if (mutation.addedNodes && mutation.addedNodes[0]) {
-				// 			// loop on each callbacks to find a match
-				// 			for(let insert_id in _insertDomElementsCallbacks) {
-				// 				if (this.matches(mutation.addedNodes[0], _insertDomElementsCallbacks[insert_id].selector)) {
-				// 					_insertDomElementsCallbacks[insert_id].callback(mutation.addedNodes[0]);
-				// 				}
-				// 			}
-				// 		}
-				// 	});
-				// });
-				// _insertMutationObserver.observe(document.body, {
-				// 	childList: true
-				// });
-			} else {
-					// add the animation style in DOM
-					var css = selector + (' { \n\t\t\t\t-webkit-animation:' + detection_id + ' 0.001s;\n\t\t\t\t-moz-animation:' + detection_id + ' 0.001s;\n\t\t\t\t-ms-animation:' + detection_id + ' 0.001s;\n\t\t\t\tanimation:' + detection_id + ' 0.001s;\n\t\t\t}\n\t\t\t@keyframes ' + detection_id + ' {\n\t\t\t\tfrom { opacity: .99; }\n\t\t\t\tto { opacity: 1; }\n\t\t\t}');
-					var style = document.createElement('style');
-					style.type = 'text/css';
-					if (style.styleSheet) {
-						style.styleSheet.cssText = css;
-					} else {
-						style.appendChild(document.createTextNode(css));
+					[].forEach.call(document.body.querySelectorAll(selector), function (elm) {
+						cb(elm);
+					});
+
+					// _insertMutationObserver = new MutationObserver((mutations) => {
+					// 	// check if what we need has been added
+					// 	mutations.forEach((mutation) => {
+					// 		if (mutation.addedNodes && mutation.addedNodes[0]) {
+					// 			// loop on each callbacks to find a match
+					// 			for(let insert_id in _insertDomElementsCallbacks) {
+					// 				if (this.matches(mutation.addedNodes[0], _insertDomElementsCallbacks[insert_id].selector)) {
+					// 					_insertDomElementsCallbacks[insert_id].callback(mutation.addedNodes[0]);
+					// 				}
+					// 			}
+					// 		}
+					// 	});
+					// });
+					// _insertMutationObserver.observe(document.body, {
+					// 	childList: true
+					// });
+				} else {
+						// add the animation style in DOM
+						var css = selector + (' { \n\t\t\t\t\t-webkit-animation:' + detection_id + ' 0.001s;\n\t\t\t\t\t-moz-animation:' + detection_id + ' 0.001s;\n\t\t\t\t\t-ms-animation:' + detection_id + ' 0.001s;\n\t\t\t\t\tanimation:' + detection_id + ' 0.001s;\n\t\t\t\t}\n\t\t\t\t@keyframes ' + detection_id + ' {\n\t\t\t\t\tfrom { opacity: .99; }\n\t\t\t\t\tto { opacity: 1; }\n\t\t\t\t}');
+						var style = document.createElement('style');
+						style.type = 'text/css';
+						if (style.styleSheet) {
+							style.styleSheet.cssText = css;
+						} else {
+							style.appendChild(document.createTextNode(css));
+						}
+						// now we listen for animation end
+						// but only once
+						if (!_insertAnimationListener) {
+							_insertAnimationListener = true;
+							document.addEventListener('animationend', function (e) {
+								if (_insertDomElementsCallbacks[e.animationName]) {
+									_insertDomElementsCallbacks[e.animationName].callback(e.target);
+								}
+							});
+						}
+						// append the animation in head
+						document.head.appendChild(style);
 					}
-					document.head.appendChild(style);
-					// now we listen for animation end
-					// but only once
-					if (!_insertAnimationListener) {
-						_insertAnimationListener = true;
-						document.addEventListener('animationend', function (e) {
-							if (_insertDomElementsCallbacks[e.animationName]) {
-								_insertDomElementsCallbacks[e.animationName].callback(e.target);
-							}
-						});
-					}
-				}
+			});
 		},
 
 		/**
 	  * Dom ready
 	  */
 		domReady: function domReady(cb) {
-			// if (document.readyState == 'complete') {
-			// 	console.log('ready!!!');
-			// 	console.log(document.body);
-			// 	cb();
-			// } else {
-			document.addEventListener('DOMContentLoaded', function (e) {
+			if (document.readyState == 'interactive') {
+				// 	console.log('ready!!!');
+				// 	console.log(document.body);
 				cb();
-			});
-			// }	
+			} else {
+				document.addEventListener('DOMContentLoaded', function (e) {
+					cb();
+				});
+			}
 		},
 
 		/**

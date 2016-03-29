@@ -40,6 +40,19 @@
 @mixin s-filter(
 	$filter
 ) {
-	$f : s-filter($filter);
-	filter : $f;
+	$filter-map : s-filter-map($filter);
+	$res : ();
+	@each $name, $value in $filter-map {
+		@if $name == 'text-shadow' {
+			text-shadow : #{$value};
+		} @else if $name == 'box-shadow' {
+			box-shadow : #{$value};
+		} @else {
+			$res : append($res, unquote("#{$name}(#{$value})"));
+		}
+	}
+	// apply filter if needed
+	@if length($res) > 0 {
+		filter : #{$res};
+	}
 }

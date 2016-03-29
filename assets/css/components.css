@@ -421,7 +421,8 @@ body {
   margin: 0;
 }
 
-.nav.nav--tabs > li.nav__item--disabled,
+.nav.nav--tabs > li.disabled, .nav.nav--tabs > li.nav__item--disabled,
+.nav.nav--tabs > .nav__item.disabled,
 .nav.nav--tabs > .nav__item.nav__item--disabled {
   pointer-events: none;
   opacity: .5;
@@ -1355,8 +1356,7 @@ body {
 .typeset table:not(.no-typeset).table-shadowed:hover, .typeset table:not(.no-typeset).table--shadowed:hover,
 .table.table-shadowed:hover,
 .table.table--shadowed:hover {
-  -webkit-filter: box-shadow(#8195a1 0 0 32px);
-          filter: box-shadow(#8195a1 0 0 32px);
+  box-shadow: #8195a1 0 0 32px;
 }
 
 .typeset table:not(.no-typeset).table-hover > tbody > tr:hover, .typeset table:not(.no-typeset).table--hover > tbody > tr:hover,
@@ -1590,9 +1590,8 @@ body {
 .formset select,
 [class*="input-prefix"], [class*="input-postfix"] {
   display: inline-block;
-  border-width: 0;
+  border-width: 0.07692308rem;
   border-bottom-width: 0.23076923rem;
-  border-left-width: 0rem;
   border-style: solid;
   background-color: white;
   font-family: "Open Sans";
@@ -1602,8 +1601,8 @@ body {
   line-height: 1;
   outline: none;
   width: 100%;
-  -webkit-transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
-  transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
+  -webkit-transition: all 0.1s ease-in-out 0s, outline-color 0.000001s linear 0s;
+  transition: all 0.1s ease-in-out 0s, outline-color 0.000001s linear 0s;
   outline-color: black;
 }
 
@@ -1621,6 +1620,7 @@ select[class*="input"] {
   background-position: right center;
   background-origin: content-box;
   background-repeat: no-repeat;
+  border-radius: 0;
 }
 
 .formset fieldset,
@@ -1629,16 +1629,16 @@ select[class*="input"] {
   border-left-style: solid;
   display: block;
   width: 100%;
-  -webkit-transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
-  transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
+  -webkit-transition: all 0.1s ease-in-out 0s, outline-color 0.000001s linear 0s;
+  transition: all 0.1s ease-in-out 0s, outline-color 0.000001s linear 0s;
   outline-color: black;
 }
 
 .formset fieldset > legend,
 .fieldset > legend, .formset fieldset > .legend,
 .fieldset > .legend {
-  -webkit-transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
-  transition: all 0.2s ease-in-out, outline-color 0.000001s linear 0s;
+  -webkit-transition: all 0.1s ease-in-out 0s, outline-color 0.000001s linear 0s;
+  transition: all 0.1s ease-in-out 0s, outline-color 0.000001s linear 0s;
   outline-color: black;
   border-left-style: solid;
   border-left-width: 0.38461538rem;
@@ -1667,8 +1667,8 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
   content: '';
   display: block;
   position: absolute;
-  -webkit-transform: scaleX(1) scaleY(1) rotate(90deg);
-          transform: scaleX(1) scaleY(1) rotate(90deg);
+  -webkit-transform: scaleX(1) scaleY(1) rotate(360deg);
+          transform: scaleX(1) scaleY(1) rotate(360deg);
   width: 100%;
   height: 100%;
   -webkit-transition: all 0.1s ease-in-out 0s, outline-color 0.000001s linear 0s;
@@ -1680,8 +1680,8 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:after, input[data-s-radiobox]
   content: '';
   display: block;
   position: absolute;
-  -webkit-transform: scaleX(0) scaleY(0) rotate(-90deg);
-          transform: scaleX(0) scaleY(0) rotate(-90deg);
+  -webkit-transform: scaleX(0) scaleY(0) rotate(-360deg);
+          transform: scaleX(0) scaleY(0) rotate(-360deg);
   width: 100%;
   height: 100%;
   -webkit-transition: all 0.1s ease-in-out 0s, outline-color 0.000001s linear 0s;
@@ -1728,15 +1728,20 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
   display: none;
   border-style: solid;
   border-left-width: 0.38461538rem;
+  border-top-width: 0.23076923rem;
 }
 
 [class*="input-reply"]:not(.no-vertical-rhythme) {
-  margin-bottom: 2rem;
+  margin-bottom: 2;
 }
 
 .formset label [class*="input-reply"],
 .label [class*="input-reply"] {
   margin-bottom: 0;
+}
+
+textarea + [class*="input-reply"] {
+  margin-top: -0.23076923rem;
 }
 
 .input--disabled,
@@ -1765,14 +1770,34 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
   color: rgba(129, 149, 161, 0.4);
 }
 
+.form-group {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.form-group [class*="input-postfix"], .form-group [class*="input-prefix"] {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0;
+      -ms-flex: 0;
+          flex: 0;
+}
+
 .form-group select, .form-group textarea, .form-group input:not([type="checkbox"]):not([type="radio"]), .form-group [class*="input-postfix"], .form-group [class*="input-prefix"], .form-group .form-group {
   margin-top: 0 !important;
+}
+
+.form-group select, .form-group textarea, .form-group input:not([type="checkbox"]):not([type="radio"]) {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
 }
 
 .formset select.smaller, .formset input:not([type="checkbox"]):not([type="radio"]).smaller, .input--smaller, .input-postfix--smaller, .input-prefix--smaller {
   font-size: 0.38461538rem;
   padding: 0.38461538rem 0.30769231rem;
-  display: inline-block;
   height: 1rem;
 }
 
@@ -1805,12 +1830,35 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
   font-size: 0.38461538rem;
 }
 
+.label .label + .input-reply--smaller:not(.no-vertical-rhythme),
+label label + .input-reply--smaller:not(.no-vertical-rhythme) {
+  margin-top: 0rem;
+}
+
 .formset label,
 .label {
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+  font-weight: bold;
+}
+
+.s-radiobox ~ .formset label,
+.formset label .label, .formset label label,
+.formset label > *, .s-radiobox ~
+.label,
+.label .label,
+.label label,
+.label > * {
+  font-weight: normal;
+}
+
+.formset label .label,
+.formset label label,
+.label .label,
+.label label {
+  margin-bottom: 0 !important;
 }
 
 .formset label:not(.no-vertical-rhythme) select.smaller, .formset label:not(.no-vertical-rhythme) textarea.smaller, .formset label:not(.no-vertical-rhythme) input:not([type="checkbox"]):not([type="radio"]).smaller, .formset label:not(.no-vertical-rhythme) .input--smaller, .formset label:not(.no-vertical-rhythme) .input-postfix--smaller, .formset label:not(.no-vertical-rhythme) .input-prefix--smaller, .formset label:not(.no-vertical-rhythme) .form-group,
@@ -1872,7 +1920,6 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 .formset select.small, .formset input:not([type="checkbox"]):not([type="radio"]).small, .input--small, .input-postfix--small, .input-prefix--small {
   font-size: 0.69230769rem;
   padding: 0.69230769rem 0.53846154rem;
-  display: inline-block;
   height: 1.76923077rem;
 }
 
@@ -1905,12 +1952,35 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
   font-size: 0.69230769rem;
 }
 
+.label .label + .input-reply--small:not(.no-vertical-rhythme),
+label label + .input-reply--small:not(.no-vertical-rhythme) {
+  margin-top: 1rem;
+}
+
 .formset label,
 .label {
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+  font-weight: bold;
+}
+
+.s-radiobox ~ .formset label,
+.formset label .label, .formset label label,
+.formset label > *, .s-radiobox ~
+.label,
+.label .label,
+.label label,
+.label > * {
+  font-weight: normal;
+}
+
+.formset label .label,
+.formset label label,
+.label .label,
+.label label {
+  margin-bottom: 0 !important;
 }
 
 .formset label:not(.no-vertical-rhythme) select.small, .formset label:not(.no-vertical-rhythme) textarea.small, .formset label:not(.no-vertical-rhythme) input:not([type="checkbox"]):not([type="radio"]).small, .formset label:not(.no-vertical-rhythme) .input--small, .formset label:not(.no-vertical-rhythme) .input-postfix--small, .formset label:not(.no-vertical-rhythme) .input-prefix--small, .formset label:not(.no-vertical-rhythme) .form-group,
@@ -1972,7 +2042,6 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 .formset select, .formset input:not([type="checkbox"]):not([type="radio"]), .input, .input-postfix, .input-prefix {
   font-size: 1rem;
   padding: 1rem 0.76923077rem;
-  display: inline-block;
   height: 2.53846154rem;
 }
 
@@ -2005,12 +2074,35 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
   font-size: 1rem;
 }
 
+.label .label + .input-reply:not(.no-vertical-rhythme),
+label label + .input-reply:not(.no-vertical-rhythme) {
+  margin-top: 1rem;
+}
+
 .formset label,
 .label {
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+  font-weight: bold;
+}
+
+.s-radiobox ~ .formset label,
+.formset label .label, .formset label label,
+.formset label > *, .s-radiobox ~
+.label,
+.label .label,
+.label label,
+.label > * {
+  font-weight: normal;
+}
+
+.formset label .label,
+.formset label label,
+.label .label,
+.label label {
+  margin-bottom: 0 !important;
 }
 
 .formset label:not(.no-vertical-rhythme) select, .formset label:not(.no-vertical-rhythme) textarea, .formset label:not(.no-vertical-rhythme) input:not([type="checkbox"]):not([type="radio"]), .formset label:not(.no-vertical-rhythme) .input, .formset label:not(.no-vertical-rhythme) .input-postfix, .formset label:not(.no-vertical-rhythme) .input-prefix, .formset label:not(.no-vertical-rhythme) .form-group,
@@ -2072,7 +2164,6 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 .formset select.medium, .formset input:not([type="checkbox"]):not([type="radio"]).medium, .input--medium, .input-postfix--medium, .input-prefix--medium {
   font-size: 1.30769231rem;
   padding: 1.30769231rem 1.07692308rem;
-  display: inline-block;
   height: 3.46153846rem;
 }
 
@@ -2105,12 +2196,35 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
   font-size: 1.30769231rem;
 }
 
+.label .label + .input-reply--medium:not(.no-vertical-rhythme),
+label label + .input-reply--medium:not(.no-vertical-rhythme) {
+  margin-top: 1rem;
+}
+
 .formset label,
 .label {
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+  font-weight: bold;
+}
+
+.s-radiobox ~ .formset label,
+.formset label .label, .formset label label,
+.formset label > *, .s-radiobox ~
+.label,
+.label .label,
+.label label,
+.label > * {
+  font-weight: normal;
+}
+
+.formset label .label,
+.formset label label,
+.label .label,
+.label label {
+  margin-bottom: 0 !important;
 }
 
 .formset label:not(.no-vertical-rhythme) select.medium, .formset label:not(.no-vertical-rhythme) textarea.medium, .formset label:not(.no-vertical-rhythme) input:not([type="checkbox"]):not([type="radio"]).medium, .formset label:not(.no-vertical-rhythme) .input--medium, .formset label:not(.no-vertical-rhythme) .input-postfix--medium, .formset label:not(.no-vertical-rhythme) .input-prefix--medium, .formset label:not(.no-vertical-rhythme) .form-group,
@@ -2172,7 +2286,6 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 .formset select.big, .formset input:not([type="checkbox"]):not([type="radio"]).big, .input--big, .input-postfix--big, .input-prefix--big {
   font-size: 1.61538462rem;
   padding: 1.61538462rem 1.30769231rem;
-  display: inline-block;
   height: 4.23076923rem;
 }
 
@@ -2205,12 +2318,35 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
   font-size: 1.61538462rem;
 }
 
+.label .label + .input-reply--big:not(.no-vertical-rhythme),
+label label + .input-reply--big:not(.no-vertical-rhythme) {
+  margin-top: 2rem;
+}
+
 .formset label,
 .label {
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+  font-weight: bold;
+}
+
+.s-radiobox ~ .formset label,
+.formset label .label, .formset label label,
+.formset label > *, .s-radiobox ~
+.label,
+.label .label,
+.label label,
+.label > * {
+  font-weight: normal;
+}
+
+.formset label .label,
+.formset label label,
+.label .label,
+.label label {
+  margin-bottom: 0 !important;
 }
 
 .formset label:not(.no-vertical-rhythme) select.big, .formset label:not(.no-vertical-rhythme) textarea.big, .formset label:not(.no-vertical-rhythme) input:not([type="checkbox"]):not([type="radio"]).big, .formset label:not(.no-vertical-rhythme) .input--big, .formset label:not(.no-vertical-rhythme) .input-postfix--big, .formset label:not(.no-vertical-rhythme) .input-prefix--big, .formset label:not(.no-vertical-rhythme) .form-group,
@@ -2272,7 +2408,6 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 .formset select.bigger, .formset input:not([type="checkbox"]):not([type="radio"]).bigger, .input--bigger, .input-postfix--bigger, .input-prefix--bigger {
   font-size: 1.92307692rem;
   padding: 1.92307692rem 1.53846154rem;
-  display: inline-block;
   height: 5rem;
 }
 
@@ -2305,12 +2440,35 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
   font-size: 1.92307692rem;
 }
 
+.label .label + .input-reply--bigger:not(.no-vertical-rhythme),
+label label + .input-reply--bigger:not(.no-vertical-rhythme) {
+  margin-top: 2rem;
+}
+
 .formset label,
 .label {
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+  font-weight: bold;
+}
+
+.s-radiobox ~ .formset label,
+.formset label .label, .formset label label,
+.formset label > *, .s-radiobox ~
+.label,
+.label .label,
+.label label,
+.label > * {
+  font-weight: normal;
+}
+
+.formset label .label,
+.formset label label,
+.label .label,
+.label label {
+  margin-bottom: 0 !important;
 }
 
 .formset label:not(.no-vertical-rhythme) select.bigger, .formset label:not(.no-vertical-rhythme) textarea.bigger, .formset label:not(.no-vertical-rhythme) input:not([type="checkbox"]):not([type="radio"]).bigger, .formset label:not(.no-vertical-rhythme) .input--bigger, .formset label:not(.no-vertical-rhythme) .input-postfix--bigger, .formset label:not(.no-vertical-rhythme) .input-prefix--bigger, .formset label:not(.no-vertical-rhythme) .form-group,
@@ -2374,13 +2532,17 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 }
 
 .formset select, .formset textarea, .formset input:not([type="checkbox"]):not([type="radio"]), .input, .input-postfix, .input-prefix {
-  border-color: rgba(129, 149, 161, 0.3);
+  border-color: rgba(129, 149, 161, 0.1);
+  border-bottom-color: rgba(129, 149, 161, 0.3);
 }
 
 .formset select:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .formset select:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset select.active:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.active:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), .input:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
-  border-color: rgba(129, 149, 161, 0.6);
-  -webkit-filter: box-shadow(rgba(129, 149, 161, 0.3) 0 5px 0.76923077rem);
-          filter: box-shadow(rgba(129, 149, 161, 0.3) 0 5px 0.76923077rem);
+  border-bottom-color: rgba(129, 149, 161, 0.6);
+  box-shadow: rgba(129, 149, 161, 0.3) 0 5px 0.76923077rem;
+}
+
+.formset select:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset select.active:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.active:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), .input:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+  border-left-color: rgba(129, 149, 161, 0.6);
 }
 
 .formset select ~ .input-reply--default, .formset textarea ~ .input-reply--default, .formset input:not([type="checkbox"]):not([type="radio"]) ~ .input-reply--default, .input ~ .input-reply--default, .input-postfix ~ .input-reply--default, .input-prefix ~ .input-reply--default {
@@ -2393,8 +2555,8 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 }
 
 .input-postfix, .input-prefix {
-  background-color: rgba(129, 149, 161, 0.2);
-  color: #3b474e;
+  background-color: rgba(129, 149, 161, 0.08);
+  color: #50616c;
 }
 
 .formset select, select.input {
@@ -2406,13 +2568,17 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 }
 
 .formset select.primary, .formset textarea.primary, .formset input:not([type="checkbox"]):not([type="radio"]).primary, .input--primary, .input-postfix--primary, .input-prefix--primary {
-  border-color: rgba(242, 188, 43, 0.3);
+  border-color: rgba(242, 188, 43, 0.1);
+  border-bottom-color: rgba(242, 188, 43, 0.3);
 }
 
 .formset select.primary:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .formset select.primary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset select.primary.active:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.primary:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.primary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.primary.active:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).primary:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).primary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).primary.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input--primary:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input--primary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--primary.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--primary:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--primary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--primary.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--primary:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--primary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--primary.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
-  border-color: rgba(242, 188, 43, 0.6);
-  -webkit-filter: box-shadow(rgba(242, 188, 43, 0.3) 0 5px 0.76923077rem);
-          filter: box-shadow(rgba(242, 188, 43, 0.3) 0 5px 0.76923077rem);
+  border-bottom-color: rgba(242, 188, 43, 0.6);
+  box-shadow: rgba(242, 188, 43, 0.3) 0 5px 0.76923077rem;
+}
+
+.formset select.primary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset select.primary.active:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.primary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.primary.active:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).primary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).primary.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input--primary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--primary.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--primary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--primary.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--primary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--primary.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+  border-left-color: rgba(242, 188, 43, 0.6);
 }
 
 .formset select.primary ~ .input-reply--primary, .formset textarea.primary ~ .input-reply--primary, .formset input:not([type="checkbox"]):not([type="radio"]).primary ~ .input-reply--primary, .input--primary ~ .input-reply--primary, .input-postfix--primary ~ .input-reply--primary, .input-prefix--primary ~ .input-reply--primary {
@@ -2425,8 +2591,8 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 }
 
 .input-postfix--primary, .input-prefix--primary {
-  background-color: rgba(242, 188, 43, 0.2);
-  color: #7c5d08;
+  background-color: rgba(242, 188, 43, 0.08);
+  color: #ac810b;
 }
 
 .formset select.primary, select.input--primary {
@@ -2438,13 +2604,17 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 }
 
 .formset select.secondary, .formset textarea.secondary, .formset input:not([type="checkbox"]):not([type="radio"]).secondary, .input--secondary, .input-postfix--secondary, .input-prefix--secondary {
-  border-color: rgba(119, 119, 119, 0.3);
+  border-color: rgba(119, 119, 119, 0.1);
+  border-bottom-color: rgba(119, 119, 119, 0.3);
 }
 
 .formset select.secondary:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .formset select.secondary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset select.secondary.active:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.secondary:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.secondary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.secondary.active:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).secondary:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).secondary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).secondary.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input--secondary:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input--secondary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--secondary.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--secondary:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--secondary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--secondary.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--secondary:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--secondary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--secondary.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
-  border-color: rgba(119, 119, 119, 0.6);
-  -webkit-filter: box-shadow(rgba(119, 119, 119, 0.3) 0 5px 0.76923077rem);
-          filter: box-shadow(rgba(119, 119, 119, 0.3) 0 5px 0.76923077rem);
+  border-bottom-color: rgba(119, 119, 119, 0.6);
+  box-shadow: rgba(119, 119, 119, 0.3) 0 5px 0.76923077rem;
+}
+
+.formset select.secondary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset select.secondary.active:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.secondary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.secondary.active:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).secondary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).secondary.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input--secondary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--secondary.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--secondary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--secondary.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--secondary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--secondary.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+  border-left-color: rgba(119, 119, 119, 0.6);
 }
 
 .formset select.secondary ~ .input-reply--secondary, .formset textarea.secondary ~ .input-reply--secondary, .formset input:not([type="checkbox"]):not([type="radio"]).secondary ~ .input-reply--secondary, .input--secondary ~ .input-reply--secondary, .input-postfix--secondary ~ .input-reply--secondary, .input-prefix--secondary ~ .input-reply--secondary {
@@ -2457,8 +2627,8 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 }
 
 .input-postfix--secondary, .input-prefix--secondary {
-  background-color: rgba(119, 119, 119, 0.2);
-  color: #2b2b2b;
+  background-color: rgba(119, 119, 119, 0.08);
+  color: #444444;
 }
 
 .formset select.secondary, select.input--secondary {
@@ -2470,13 +2640,17 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 }
 
 .formset select.success, .formset textarea.success, .formset input:not([type="checkbox"]):not([type="radio"]).success, .input--success, .input-postfix--success, .input-prefix--success {
-  border-color: rgba(92, 184, 92, 0.3);
+  border-color: rgba(92, 184, 92, 0.1);
+  border-bottom-color: rgba(92, 184, 92, 0.3);
 }
 
 .formset select.success:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .formset select.success:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset select.success.active:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.success:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.success:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.success.active:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).success:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).success:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).success.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input--success:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input--success:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--success.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--success:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--success:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--success.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--success:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--success:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--success.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
-  border-color: rgba(92, 184, 92, 0.6);
-  -webkit-filter: box-shadow(rgba(92, 184, 92, 0.3) 0 5px 0.76923077rem);
-          filter: box-shadow(rgba(92, 184, 92, 0.3) 0 5px 0.76923077rem);
+  border-bottom-color: rgba(92, 184, 92, 0.6);
+  box-shadow: rgba(92, 184, 92, 0.3) 0 5px 0.76923077rem;
+}
+
+.formset select.success:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset select.success.active:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.success:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.success.active:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).success:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).success.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input--success:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--success.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--success:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--success.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--success:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--success.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+  border-left-color: rgba(92, 184, 92, 0.6);
 }
 
 .formset select.success ~ .input-reply--success, .formset textarea.success ~ .input-reply--success, .formset input:not([type="checkbox"]):not([type="radio"]).success ~ .input-reply--success, .input--success ~ .input-reply--success, .input-postfix--success ~ .input-reply--success, .input-prefix--success ~ .input-reply--success {
@@ -2489,8 +2663,8 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 }
 
 .input-postfix--success, .input-prefix--success {
-  background-color: rgba(92, 184, 92, 0.2);
-  color: #255625;
+  background-color: rgba(92, 184, 92, 0.08);
+  color: #357935;
 }
 
 .formset select.success, select.input--success {
@@ -2502,13 +2676,17 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 }
 
 .formset select.warning, .formset textarea.warning, .formset input:not([type="checkbox"]):not([type="radio"]).warning, .input--warning, .input-postfix--warning, .input-prefix--warning {
-  border-color: rgba(240, 173, 78, 0.3);
+  border-color: rgba(240, 173, 78, 0.1);
+  border-bottom-color: rgba(240, 173, 78, 0.3);
 }
 
 .formset select.warning:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .formset select.warning:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset select.warning.active:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.warning:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.warning:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.warning.active:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).warning:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).warning:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).warning.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input--warning:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input--warning:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--warning.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--warning:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--warning:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--warning.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--warning:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--warning:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--warning.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
-  border-color: rgba(240, 173, 78, 0.6);
-  -webkit-filter: box-shadow(rgba(240, 173, 78, 0.3) 0 5px 0.76923077rem);
-          filter: box-shadow(rgba(240, 173, 78, 0.3) 0 5px 0.76923077rem);
+  border-bottom-color: rgba(240, 173, 78, 0.6);
+  box-shadow: rgba(240, 173, 78, 0.3) 0 5px 0.76923077rem;
+}
+
+.formset select.warning:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset select.warning.active:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.warning:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.warning.active:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).warning:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).warning.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input--warning:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--warning.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--warning:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--warning.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--warning:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--warning.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+  border-left-color: rgba(240, 173, 78, 0.6);
 }
 
 .formset select.warning ~ .input-reply--warning, .formset textarea.warning ~ .input-reply--warning, .formset input:not([type="checkbox"]):not([type="radio"]).warning ~ .input-reply--warning, .input--warning ~ .input-reply--warning, .input-postfix--warning ~ .input-reply--warning, .input-prefix--warning ~ .input-reply--warning {
@@ -2521,8 +2699,8 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 }
 
 .input-postfix--warning, .input-prefix--warning {
-  background-color: rgba(240, 173, 78, 0.2);
-  color: #985f0d;
+  background-color: rgba(240, 173, 78, 0.08);
+  color: #c77c11;
 }
 
 .formset select.warning, select.input--warning {
@@ -2534,13 +2712,17 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 }
 
 .formset select.error, .formset textarea.error, .formset input:not([type="checkbox"]):not([type="radio"]).error, .input--error, .input-postfix--error, .input-prefix--error {
-  border-color: rgba(217, 83, 79, 0.3);
+  border-color: rgba(217, 83, 79, 0.1);
+  border-bottom-color: rgba(217, 83, 79, 0.3);
 }
 
 .formset select.error:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .formset select.error:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset select.error.active:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.error:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.error:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.error.active:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).error:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).error:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).error.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input--error:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input--error:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--error.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--error:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--error:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--error.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--error:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--error:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--error.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
-  border-color: rgba(217, 83, 79, 0.6);
-  -webkit-filter: box-shadow(rgba(217, 83, 79, 0.3) 0 5px 0.76923077rem);
-          filter: box-shadow(rgba(217, 83, 79, 0.3) 0 5px 0.76923077rem);
+  border-bottom-color: rgba(217, 83, 79, 0.6);
+  box-shadow: rgba(217, 83, 79, 0.3) 0 5px 0.76923077rem;
+}
+
+.formset select.error:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset select.error.active:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.error:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.error.active:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).error:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).error.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input--error:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--error.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--error:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--error.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--error:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--error.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+  border-left-color: rgba(217, 83, 79, 0.6);
 }
 
 .formset select.error ~ .input-reply--error, .formset textarea.error ~ .input-reply--error, .formset input:not([type="checkbox"]):not([type="radio"]).error ~ .input-reply--error, .input--error ~ .input-reply--error, .input-postfix--error ~ .input-reply--error, .input-prefix--error ~ .input-reply--error {
@@ -2553,8 +2735,8 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 }
 
 .input-postfix--error, .input-prefix--error {
-  background-color: rgba(217, 83, 79, 0.2);
-  color: #761c19;
+  background-color: rgba(217, 83, 79, 0.08);
+  color: #a02622;
 }
 
 .formset select.error, select.input--error {
@@ -2566,13 +2748,17 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 }
 
 .formset select.info, .formset textarea.info, .formset input:not([type="checkbox"]):not([type="radio"]).info, .input--info, .input-postfix--info, .input-prefix--info {
-  border-color: rgba(33, 153, 232, 0.3);
+  border-color: rgba(33, 153, 232, 0.1);
+  border-bottom-color: rgba(33, 153, 232, 0.3);
 }
 
 .formset select.info:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .formset select.info:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset select.info.active:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.info:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.info:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.info.active:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).info:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).info:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).info.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input--info:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input--info:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--info.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--info:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--info:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--info.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--info:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--info:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--info.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
-  border-color: rgba(33, 153, 232, 0.6);
-  -webkit-filter: box-shadow(rgba(33, 153, 232, 0.3) 0 5px 0.76923077rem);
-          filter: box-shadow(rgba(33, 153, 232, 0.3) 0 5px 0.76923077rem);
+  border-bottom-color: rgba(33, 153, 232, 0.6);
+  box-shadow: rgba(33, 153, 232, 0.3) 0 5px 0.76923077rem;
+}
+
+.formset select.info:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset select.info.active:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.info:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset textarea.info.active:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).info:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .formset input:not([type="checkbox"]):not([type="radio"]).info.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input--info:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--info.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--info:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-postfix--info.active:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--info:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-prefix--info.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+  border-left-color: rgba(33, 153, 232, 0.6);
 }
 
 .formset select.info ~ .input-reply--info, .formset textarea.info ~ .input-reply--info, .formset input:not([type="checkbox"]):not([type="radio"]).info ~ .input-reply--info, .input--info ~ .input-reply--info, .input-postfix--info ~ .input-reply--info, .input-prefix--info ~ .input-reply--info {
@@ -2585,8 +2771,8 @@ input[data-s-radiobox][type="radio"] + .s-radiobox:before, input[data-s-radiobox
 }
 
 .input-postfix--info, .input-prefix--info {
-  background-color: rgba(33, 153, 232, 0.2);
-  color: #0b4165;
+  background-color: rgba(33, 153, 232, 0.08);
+  color: #0f5f94;
 }
 
 .formset select.info, select.input--info {
@@ -2812,8 +2998,12 @@ input[data-s-radiobox] + .s-radiobox:before {
   border-color: rgba(129, 149, 161, 0.3);
 }
 
-input[data-s-radiobox].input--hover + .s-radiobox:before, input[data-s-radiobox]:hover + .s-radiobox:before {
+input[data-s-radiobox].input--hover + .s-radiobox:before, input[data-s-radiobox].input--active + .s-radiobox:before, input[data-s-radiobox]:hover + .s-radiobox:before {
   border-color: rgba(129, 149, 161, 0.6);
+}
+
+input[data-s-radiobox]:focus + .s-radiobox:before {
+  box-shadow: rgba(129, 149, 161, 0.3) 0 5px 0.38461538rem;
 }
 
 input[data-s-radiobox]:checked + .s-radiobox:before {
@@ -2832,8 +3022,12 @@ input[data-s-radiobox].primary + .s-radiobox:before {
   border-color: rgba(242, 188, 43, 0.3);
 }
 
-input[data-s-radiobox].primary.input--hover + .s-radiobox:before, input[data-s-radiobox].primary:hover + .s-radiobox:before {
+input[data-s-radiobox].primary.input--hover + .s-radiobox:before, input[data-s-radiobox].primary.input--active + .s-radiobox:before, input[data-s-radiobox].primary:hover + .s-radiobox:before {
   border-color: rgba(242, 188, 43, 0.6);
+}
+
+input[data-s-radiobox].primary:focus + .s-radiobox:before {
+  box-shadow: rgba(242, 188, 43, 0.3) 0 5px 0.38461538rem;
 }
 
 input[data-s-radiobox].primary:checked + .s-radiobox:before {
@@ -2852,8 +3046,12 @@ input[data-s-radiobox].secondary + .s-radiobox:before {
   border-color: rgba(119, 119, 119, 0.3);
 }
 
-input[data-s-radiobox].secondary.input--hover + .s-radiobox:before, input[data-s-radiobox].secondary:hover + .s-radiobox:before {
+input[data-s-radiobox].secondary.input--hover + .s-radiobox:before, input[data-s-radiobox].secondary.input--active + .s-radiobox:before, input[data-s-radiobox].secondary:hover + .s-radiobox:before {
   border-color: rgba(119, 119, 119, 0.6);
+}
+
+input[data-s-radiobox].secondary:focus + .s-radiobox:before {
+  box-shadow: rgba(119, 119, 119, 0.3) 0 5px 0.38461538rem;
 }
 
 input[data-s-radiobox].secondary:checked + .s-radiobox:before {
@@ -2872,8 +3070,12 @@ input[data-s-radiobox].success + .s-radiobox:before {
   border-color: rgba(92, 184, 92, 0.3);
 }
 
-input[data-s-radiobox].success.input--hover + .s-radiobox:before, input[data-s-radiobox].success:hover + .s-radiobox:before {
+input[data-s-radiobox].success.input--hover + .s-radiobox:before, input[data-s-radiobox].success.input--active + .s-radiobox:before, input[data-s-radiobox].success:hover + .s-radiobox:before {
   border-color: rgba(92, 184, 92, 0.6);
+}
+
+input[data-s-radiobox].success:focus + .s-radiobox:before {
+  box-shadow: rgba(92, 184, 92, 0.3) 0 5px 0.38461538rem;
 }
 
 input[data-s-radiobox].success:checked + .s-radiobox:before {
@@ -2892,8 +3094,12 @@ input[data-s-radiobox].warning + .s-radiobox:before {
   border-color: rgba(240, 173, 78, 0.3);
 }
 
-input[data-s-radiobox].warning.input--hover + .s-radiobox:before, input[data-s-radiobox].warning:hover + .s-radiobox:before {
+input[data-s-radiobox].warning.input--hover + .s-radiobox:before, input[data-s-radiobox].warning.input--active + .s-radiobox:before, input[data-s-radiobox].warning:hover + .s-radiobox:before {
   border-color: rgba(240, 173, 78, 0.6);
+}
+
+input[data-s-radiobox].warning:focus + .s-radiobox:before {
+  box-shadow: rgba(240, 173, 78, 0.3) 0 5px 0.38461538rem;
 }
 
 input[data-s-radiobox].warning:checked + .s-radiobox:before {
@@ -2912,8 +3118,12 @@ input[data-s-radiobox].error + .s-radiobox:before {
   border-color: rgba(217, 83, 79, 0.3);
 }
 
-input[data-s-radiobox].error.input--hover + .s-radiobox:before, input[data-s-radiobox].error:hover + .s-radiobox:before {
+input[data-s-radiobox].error.input--hover + .s-radiobox:before, input[data-s-radiobox].error.input--active + .s-radiobox:before, input[data-s-radiobox].error:hover + .s-radiobox:before {
   border-color: rgba(217, 83, 79, 0.6);
+}
+
+input[data-s-radiobox].error:focus + .s-radiobox:before {
+  box-shadow: rgba(217, 83, 79, 0.3) 0 5px 0.38461538rem;
 }
 
 input[data-s-radiobox].error:checked + .s-radiobox:before {
@@ -2932,12 +3142,20 @@ input[data-s-radiobox].info + .s-radiobox:before {
   border-color: rgba(33, 153, 232, 0.3);
 }
 
-input[data-s-radiobox].info.input--hover + .s-radiobox:before, input[data-s-radiobox].info:hover + .s-radiobox:before {
+input[data-s-radiobox].info.input--hover + .s-radiobox:before, input[data-s-radiobox].info.input--active + .s-radiobox:before, input[data-s-radiobox].info:hover + .s-radiobox:before {
   border-color: rgba(33, 153, 232, 0.6);
+}
+
+input[data-s-radiobox].info:focus + .s-radiobox:before {
+  box-shadow: rgba(33, 153, 232, 0.3) 0 5px 0.38461538rem;
 }
 
 input[data-s-radiobox].info:checked + .s-radiobox:before {
   border-color: rgba(33, 153, 232, 0.3);
+}
+
+.error input[data-s-radiobox] + .s-radiobox:before {
+  border-color: rgba(217, 83, 79, 0.3);
 }
 
 .formset fieldset:not(.no-vertical-rhythme),

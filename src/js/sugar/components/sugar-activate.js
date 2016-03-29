@@ -274,25 +274,7 @@ class SugarActivateManager {
 	 * Constructor
 	 */
 	constructor() {
-
-		// what that the dom is ready
-		sDom.domReady(() => {
-			this._init();
-		});
-	}
-
-	/**
-	 * Init
-	 */
-	_init() {
-
-		// init all elements in the page
-		[].forEach.call(document.body.querySelectorAll('[data-s-activate]'), (elm) => {
-			new SugarActivateElement(elm);
-		});
-
-		// listen for new element
-		sDom.onInserted('[data-s-activate]', (element) => {
+		sDom.querySelectorLive('[data-s-activate]', (element) => {
 			if (!element.sActivate) {
 				new SugarActivateElement(element);
 			}

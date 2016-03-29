@@ -51,6 +51,7 @@ $_s-nav-inited : false;
 				BEM : '.nav__item',
 				SMACCS : '.nav-item'
 			))} {
+				&.disabled,
 				#{s-selector((
 					BEM : '&.nav__item--disabled',
 					SMACCS : '&.is-disabled'

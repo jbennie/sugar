@@ -15,9 +15,8 @@ $_s-formset-inited : false;
 		$_s-formset-inited : true !global;
 		%s-formset-input-bare {
 			display: inline-block;
-			border-width:0;
+			border-width:s-rem(1px);
 			border-bottom-width : s-rem(3px);
-			border-left-width : s-rem(0px);
 			border-style : solid;
 			background-color: white;
 			@include s-font(sugar('settings.typo.font-family'));
@@ -26,7 +25,7 @@ $_s-formset-inited : false;
 			line-height: 1;
 			outline : none;
 			width:100%;
-			@include s-transition();
+			@include s-transition(fast);
 
 			&:focus {
 				border-left-width : s-rem(5px);
@@ -37,17 +36,18 @@ $_s-formset-inited : false;
 			background-position: right center;
 			background-origin: content-box;
 			background-repeat: no-repeat;
+			border-radius: 0;
 		}
 		%s-formset-fieldset-bare {
 			border-left-width: s-rem(5px);
 			border-left-style: solid;
 			display:block;
 			width: 100%;
-			@include s-transition();
+			@include s-transition(fast);
 
 			> legend,
 			> .legend {
-				@include s-transition();
+				@include s-transition(fast);
 				border-left-style: solid;
 				border-left-width: s-rem(5px);
 				border-bottom-style: solid;
@@ -62,7 +62,7 @@ $_s-formset-inited : false;
 				display: inline-block;
 				position: relative;
 				cursor: pointer;
-				@include s-transition(.1s);
+				@include s-transition(fast);
 				vertical-align: sub;
 
 				&:before {
@@ -71,17 +71,17 @@ $_s-formset-inited : false;
 					content:'';
 					display: block;
 					position: absolute;
-					transform:scaleX(1) scaleY(1) rotate(90deg);
+					transform:scaleX(1) scaleY(1) rotate(360deg);
 					width: 100%; height: 100%;
-					@include s-transition(.1s);
+					@include s-transition(fast);
 				}
 				&:after {
 					content:'';
 					display: block;
 					position: absolute;
-					transform : scaleX(0) scaleY(0) rotate(-90deg);
+					transform : scaleX(0) scaleY(0) rotate(-360deg);
 					width: 100%; height: 100%;
-					@include s-transition(.1s);
+					@include s-transition(fast);
 					background-size: 100% 100%;
 					background-position: 50% 50%;
 					background-repeat: no-repeat;
@@ -388,8 +388,14 @@ $_s-formset-inited : false;
 					
 				}
 				#{s-selector((
-					BEM : '&.input--hover',
-					SMACCS : '&.is-hover'
+					BEM : (
+						'&.input--hover',
+						'&.input--active'
+					),
+					SMACCS : (
+						'&.is-hover',
+						'&.is-active'
+					)
 				))},
 				&:hover {
 					& + .s-radiobox {
@@ -398,6 +404,13 @@ $_s-formset-inited : false;
 						}
 					}
 				}
+				&:focus {
+					& + .s-radiobox {
+						&:before {
+							@include s-filter(box-shadow(s-color($color, -opacity .3) 0 5px s-rem(5px)));
+						}
+					}	
+				}
 				&:checked {
 					& + .s-radiobox {
 						&:before {
@@ -405,6 +418,23 @@ $_s-formset-inited : false;
 						}
 					}
 				}
+			}
+		}
+
+		// error fields
+		#{s-selector((
+			BEM : (
+				'.error input[data-s-radiobox]'
+			),
+			SMACCS : (
+				'.error input[data-s-radiobox]'
+			)
+		))} {
+			& + .s-radiobox {
+				&:before {
+					border-color: s-color(error, -opacity .3);
+				}
+				
 			}
 		}
 	}
@@ -451,13 +481,18 @@ $_s-formset-inited : false;
 			display: none;
 			border-style: solid;
 			border-left-width: s-rem(5px);
+			border-top-width: s-rem(3px);
 
 			@include s-vertical-rhythme() {
-				margin-bottom: s-rem(2);
+				margin-bottom: 2;
 			}
 			.#{$form-scope-class} label &,
 			.label & {
 				margin-bottom: 0;
+			}
+
+			textarea + & {
+				margin-top: s-rem(-3px);
 			}
 		}
 
@@ -517,8 +552,25 @@ $_s-formset-inited : false;
 			}
 		}
 
-		// remove margin-top from input that are in a form-group
+		// form group		
 		.form-group {
+			// make form group flex
+			display: flex;
+
+			#{s-selector((
+				BEM : (
+					'[class*="input-postfix"]',
+					'[class*="input-prefix"]'
+				),
+				SMACCS : (
+					'[class*="input-postfix"]',
+					'[class*="input-prefix"]'
+				)
+			))} {
+				flex:0;
+			}
+
+			// remove margin-top from input that are in a form-group
 			#{s-selector((
 				BEM : (
 					'select',
@@ -538,6 +590,22 @@ $_s-formset-inited : false;
 				)
 			))} {
 				margin-top: 0 !important;
+			}
+
+			// make input flex
+			#{s-selector((
+				BEM : (
+					'select',
+					'textarea',
+					'input:not([type="checkbox"]):not([type="radio"])'
+				),
+				SMACCS : (
+					'select',
+					'textarea',
+					'input:not([type="checkbox"]):not([type="radio"])'
+				)
+			))} {
+				flex: 1;
 			}
 		}
 
@@ -563,7 +631,6 @@ $_s-formset-inited : false;
 				font-size : s-look-and-feel(font-size, $size);
 				// border-radius: s-look-and-feel(border-radius, $size);
 				padding : s-look-and-feel(padding-horizontal, $size) s-look-and-feel(padding-vertical, $size);
-				display: inline-block;
 				height: s-look-and-feel(font-size, $size) + s-look-and-feel(padding-vertical, $size) * 2;
 
 				@include s-vertical-rhythme(
@@ -617,14 +684,35 @@ $_s-formset-inited : false;
 			))} {
 				padding: s-look-and-feel(padding-horizontal, $size) s-look-and-feel(padding-vertical, $size);
 				font-size: s-look-and-feel(font-size, $size);
+
+				@include s-vertical-rhythme {
+					.label .label + &,
+					label label + & {
+						margin-top: round(s-rem(s-look-and-feel(font-size, $size)));
+					}
+				}
 			}
 
 			// input in label
 			.#{$form-scope-class} label,
 			.label {
 				user-select: none;
-				
-				@include s-vertical-rhythme() {
+				font-weight: bold;
+
+				// restore font-weight
+				.s-radiobox ~ &,
+				.label, label,
+				> * {
+					font-weight: normal;
+				}
+
+				// no margin-bottom on nested labels
+				.label,
+				label {
+					margin-bottom: 0 !important;
+				}
+
+				@include s-vertical-rhythme {
 					#{s-selector((
 						BEM : (
 							'select.#{$size}',
@@ -753,13 +841,18 @@ $_s-formset-inited : false;
 					'.input-prefix-#{$color}'
 				)
 			))} {
-				border-color: s-color($color, -opacity .3);
-
+				border-color: s-color($color, -opacity .1);
+				border-bottom-color: s-color($color, -opacity .3);
+				
 				&:hover:not(:disabled):not(.input--disabled):not(.is-disabled),
 				&:focus:not(:disabled):not(.input--disabled):not(.is-disabled),
 				&.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
-					border-color: s-color($color, -opacity .6);
+					border-bottom-color: s-color($color, -opacity .6);
 					@include s-filter(box-shadow(s-color($color, -opacity .3) 0 5px s-rem(10px)));
+				}
+				&:focus:not(:disabled):not(.input--disabled):not(.is-disabled),
+				&.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+					border-left-color: s-color($color, -opacity .6);
 				}
 				& ~ .input-reply--#{$color} {
 					display: block;
@@ -781,8 +874,8 @@ $_s-formset-inited : false;
 				BEM : '.input-postfix--#{$color}, .input-prefix--#{$color}',
 				SMACCS : '.input-postfix-#{$color}, .input-prefix-#{$color}'
 			))} {
-				background-color: s-color($color, -opacity .2);
-				color : s-color($color, -darken 30%);
+				background-color: s-color($color, -opacity .08);
+				color : s-color($color, -darken 20%);
 			}
 			#{s-selector((
 				BEM : (
