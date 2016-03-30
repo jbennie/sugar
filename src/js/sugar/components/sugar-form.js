@@ -10,6 +10,7 @@
  */
 import SugarElement from '../core/sugar-element'
 import sDom from '../core/sugar-dom'
+import Pikaday from 'pikaday-time'
 var _get = require('lodash/get');
 
 // Actual activate element class
@@ -19,7 +20,7 @@ class SugarRadioboxElement extends SugarElement {
 	 * Setup
 	 */
 	static setup(type, settings) {
-		SugarElement.setup('sActivate', type, settings);
+		SugarElement.setup('sRadiobox', type, settings);
 	}
 
 	/**
@@ -64,11 +65,89 @@ sDom.querySelectorLive('[data-s-radiobox][type="checkbox"],[data-s-radiobox][typ
 	new SugarRadioboxElement(elm);
 });
 
+// Date picker
+class SugarDatepickerElement extends SugarElement {
+
+	/**
+	 * Setup
+	 */
+	static setup(type, settings) {
+		SugarElement.setup('sDatepicker', type, settings);
+	}
+
+	/**
+	 * Constructor
+	 */
+	constructor(elm, settings = {}) {
+		super('sDatepicker', elm, {
+		}, settings);
+
+		// init
+		this._init();
+	}
+
+	/**
+	 * Init
+	 */
+	_init() {
+		this.picker = new Pikaday({...{
+			field : this.elm,
+			showTime : false
+		}, ...this.settings()});
+	}
+}
+
+// Datetime picker
+class SugarDatetimepickerElement extends SugarElement {
+
+	/**
+	 * Setup
+	 */
+	static setup(type, settings) {
+		SugarElement.setup('sDatetimepicker', type, settings);
+	}
+
+	/**
+	 * Constructor
+	 */
+	constructor(elm, settings = {}) {
+		super('sDatetimepicker', elm, {
+		}, settings);
+
+		// init
+		this._init();
+	}
+
+	/**
+	 * Init
+	 */
+	_init() {
+		this.picker = new Pikaday({...{
+			field : this.elm,
+			showTime : true,
+			autoClose : false
+		}, ...this.settings()});
+	}
+}
+
+// init the datepicker
+sDom.querySelectorLive('[data-s-datepicker]', (elm) => {
+	new SugarDatepickerElement(elm);
+});
+// init the datetimepicker
+sDom.querySelectorLive('[data-s-datetimepicker]', (elm) => {
+	new SugarDatetimepickerElement(elm);
+});
+
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }
 window.sugar.RadioboxElement = SugarRadioboxElement;
+window.sugar.DatepickerElement = SugarDatepickerElement;
+window.sugar.DatetimepickerElement = SugarDatetimepickerElement;
 
 // export modules
 module.exports = {
-	RadioboxElement : SugarRadioboxElement
+	RadioboxElement : SugarRadioboxElement,
+	DatepickerElement : SugarDatepickerElement,
+	DatetimepickerElement : SugarDatetimepickerElement
 };

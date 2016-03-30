@@ -15,7 +15,9 @@
   "dependencies": {
     "bootstrap-sass": "^3.3.6",
     "lodash": "^4.4.0",
-    "mutation-summary": "0.0.0"
+    "mutation-summary": "0.0.0",
+    "pikaday": "^1.4.0",
+    "pikaday-time": "^1.4.0"
   },
   "devDependencies": {
     "babel-core": "^6.5.2",

@@ -505,13 +505,15 @@ return /******/ (function(modules) { // webpackBootstrap
 			// save element reference
 			this.elm = elm;
 			this.name = name;
+			this.name_dash = (0, _sugarTools.uncamelize)(this.name);
+			console.log(this.name_dash);
 			// extend settings
-			this.settings = _extends({}, default_settings, settings);
+			this._settings = _extends({}, default_settings, settings);
 
 			// check if the main data attribute is an object to extend the settings
 			var set = this.setting('');
 			if (set && (typeof set === 'undefined' ? 'undefined' : _typeof(set)) == 'object') {
-				this.settings = _extends({}, this.settings, set);
+				this._settings = _extends({}, this._settings, set);
 			}
 
 			// set the api in the dom element
@@ -521,7 +523,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			if (!_sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
 			var type = this.setting('settings');
 			if (type && _sugarTypesSettings[name][type]) {
-				this.settings = _extends({}, this.settings, _sugarTypesSettings[name][type]);
+				this._settings = _extends({}, this._settings, _sugarTypesSettings[name][type]);
 			}
 		}
 
@@ -546,7 +548,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			// if we didn't find any setting in dataset,
 			// get the one from the actual settings property
 			if (!s) {
-				s = this.settings[key];
+				s = this._settings[key];
 			}
 
 			// check if the setting begin by @
@@ -559,6 +561,32 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// return the settings
 			return s;
+		};
+
+		/**
+	  * Get all settings
+	  */
+
+
+		SugarElement.prototype.settings = function settings() {
+			var _this = this;
+
+			var settings = this._settings;
+			// loop on all attributes
+			[].forEach.call(this.elm.attributes, function (attr) {
+				var data_name = 'data-' + _this.name_dash;
+				if (attr.name.indexOf(data_name) != -1) {
+					var n = attr.name.substr(data_name.length);
+					// if (n.substr(0,1) == '-') {
+					// 	n = n.substr(1);
+					// }
+					if (n) {
+						n = (0, _sugarTools.camelize)(n);
+						settings[n] = _this.setting(n);
+					}
+				}
+			});
+			return settings;
 		};
 
 		/**
@@ -622,6 +650,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// Remove first separator (to avoid _hello_world name)
 			return text.replace("/^" + separator + "/", '');
+		},
+
+		/**
+	  * Camelize a string
+	  */
+		camelize: function camelize(text) {
+			text = text.replace(/(?:^|[-_])(\w)/g, function (_, c) {
+				return c ? c.toUpperCase() : '';
+			});
+			return text.substr(0, 1).toLowerCase() + text.slice(1);
 		},
 
 		/**

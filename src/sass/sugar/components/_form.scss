@@ -27,8 +27,22 @@ $_s-formset-inited : false;
 			width:100%;
 			@include s-transition(fast);
 
+			color: s-color(text);
+			@include s-placeholder() {
+				color: s-color(text, -opacity .4);
+			}
+
 			&:focus {
 				border-left-width : s-rem(5px);
+			}
+			
+			&:disabled,
+			#{s-selector((
+				BEM : '&.input--disabled',
+				SMACCS : '&.is-disabled'
+			))} {
+				opacity : .65;
+				cursor: not-allowed;			
 			}
 		}
 		%s-formset-select-bare {
@@ -64,6 +78,7 @@ $_s-formset-inited : false;
 				cursor: pointer;
 				@include s-transition(fast);
 				vertical-align: sub;
+				@include s-translate(0,0,0);
 
 				&:before {
 					border-width: s-rem(2px);
@@ -440,6 +455,68 @@ $_s-formset-inited : false;
 	}
 }
 
+@mixin s-formset-input(
+	$color,
+	$size
+) {
+	@include s-formset-init();
+	@extend %s-formset-input-bare;
+	@include s-formset-input-size($size);
+	@include s-formset-input-color($color);	
+}
+@mixin s-formset-select(
+	$color,
+	$size
+) {
+	@include s-formset-init();
+	@extend %s-formset-input-bare;
+	@extend %s-formset-select-bare;
+	@include s-formset-input-size($size);
+	@include s-formset-input-color($color);
+	@include s-formset-select-color($color);
+}
+@mixin s-formset-textarea(
+	$color,
+	$size
+) {
+	@include s-formset-init();
+	@extend %s-formset-input-bare;
+	@include s-formset-textarea-size($size);
+	@include s-formset-input-color($color);
+}
+@mixin s-formset-input-size($size) {
+	font-size : s-look-and-feel(font-size, $size);
+	// border-radius: s-look-and-feel(border-radius, $size);
+	padding : s-look-and-feel(padding-horizontal, $size) s-look-and-feel(padding-vertical, $size);
+	height: s-look-and-feel(font-size, $size) + s-look-and-feel(padding-vertical, $size) * 2;
+}
+@mixin s-formset-input-color($color) {
+	border-color: s-color($color, -opacity .1);
+	border-bottom-color: s-color($color, -opacity .3);
+	
+	&:hover:not(:disabled):not(.input--disabled):not(.is-disabled),
+	&:focus:not(:disabled):not(.input--disabled):not(.is-disabled),
+	&.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+		border-bottom-color: s-color($color, -opacity .6);
+		// @include s-filter(box-shadow(s-color($color, -opacity .3) 0 5px s-rem(10px)));
+		@include s-depth(3, s-color($color, -opacity .3));
+	}
+	&:focus:not(:disabled):not(.input--disabled):not(.is-disabled),
+	&.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+		border-left-color: s-color($color, -opacity .6);
+	}
+}
+@mixin s-formset-select-color($color) {
+	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A#{str-replace("#{s-color($color)}","#","%23")}"></polygon></svg>');
+}
+@mixin s-formset-textarea-size($size) {
+	font-size : s-look-and-feel(font-size, $size);
+	// border-radius: s-look-and-feel(border-radius, $size);
+	padding : s-look-and-feel(padding-horizontal, $size) s-look-and-feel(padding-vertical, $size);
+	display: inline-block;
+	height: s-look-and-feel(font-size, $size) + s-look-and-feel(padding-vertical, $size) * 2;
+}
+
 @mixin s-formset(
 	$sizes : sugar('settings.components.formset.generate.sizes'),
 	$colors : sugar('settings.components.formset.generate.colors')
@@ -479,10 +556,7 @@ $_s-formset-inited : false;
 		}
 		[class*="input-reply"] {
 			display: none;
-			border-style: solid;
-			border-left-width: s-rem(5px);
-			border-top-width: s-rem(3px);
-
+		
 			@include s-vertical-rhythme() {
 				margin-bottom: 2;
 			}
@@ -493,62 +567,6 @@ $_s-formset-inited : false;
 
 			textarea + & {
 				margin-top: s-rem(-3px);
-			}
-		}
-
-		// disabled
-		
-
-		#{s-selector((
-			BEM : (
-				'.input--disabled'
-			),
-			SMACCS : (
-				'input.is-disabled'
-			)
-		))},
-		#{s-selector((
-			BEM : (
-				'.#{$form-scope-class} select:disabled',
-				'.#{$form-scope-class} textarea:disabled',
-				'.#{$form-scope-class} input:disabled',
-				'.input:disabled'
-			),
-			SMACCS : (
-				'.#{$form-scope-class} select:disabled',
-				'.#{$form-scope-class} textarea:disabled',
-				'.#{$form-scope-class} input:disabled',
-				'.input:disabled'
-			)
-		))} {
-			opacity : .65;
-			cursor: not-allowed;
-		}
-	
-		// placeholder color
-		#{s-selector((
-			BEM : (
-				'.#{$form-scope-class} select',
-				'.#{$form-scope-class} textarea',
-				'.#{$form-scope-class} input:not([type="checkbox"]):not([type="radio"])',
-				'.input',
-				'[class*="input-postfix"]',
-				'[class*="input-prefix"]',
-				'.form-group'
-			),
-			SMACCS : (
-				'.#{$form-scope-class} select',
-				'.#{$form-scope-class} textarea',
-				'.#{$form-scope-class} input:not([type="checkbox"]):not([type="radio"])',
-				'.input',
-				'[class*="input-postfix"]',
-				'[class*="input-prefix"]',
-				'.form-group'
-			)
-		))} {
-			color: s-color(text);
-			@include s-placeholder() {
-				color: s-color(text, -opacity .4);
 			}
 		}
 
@@ -616,23 +634,24 @@ $_s-formset-inited : false;
 				BEM : (
 					'.#{$form-scope-class} select.#{$size}',
 					'.#{$form-scope-class} input:not([type="checkbox"]):not([type="radio"]).#{$size}',
-					'.input--#{$size}',
+					'select.input--#{$size}',
+					'input.input--#{$size}',
 					'.input-postfix--#{$size}',
 					'.input-prefix--#{$size}'
 				),
 				SMACCS : (
 					'.#{$form-scope-class} select.#{$size}',
 					'.#{$form-scope-class} input:not([type="checkbox"]):not([type="radio"]).#{$size}',
-					'.input-#{$size}',
+					'select.input-#{$size}',
+					'input.input-#{$size}',
 					'.input-postfix-#{$size}',
 					'.input-prefix-#{$size}'
 				)
 			))} {
-				font-size : s-look-and-feel(font-size, $size);
-				// border-radius: s-look-and-feel(border-radius, $size);
-				padding : s-look-and-feel(padding-horizontal, $size) s-look-and-feel(padding-vertical, $size);
-				height: s-look-and-feel(font-size, $size) + s-look-and-feel(padding-vertical, $size) * 2;
+				// set input styling
+				@include s-formset-input-size($size);
 
+				// vertical rhythme
 				@include s-vertical-rhythme(
 					$font-size : s-look-and-feel(font-size, $size),
 					$line-height: s-look-and-feel(font-size, $size),
@@ -655,12 +674,8 @@ $_s-formset-inited : false;
 					'.#{$form-scope-class} textarea.#{$size}'
 				)
 			))} {
-				font-size : s-look-and-feel(font-size, $size);
-				// border-radius: s-look-and-feel(border-radius, $size);
-				padding : s-look-and-feel(padding-horizontal, $size) s-look-and-feel(padding-vertical, $size);
-				display: inline-block;
-				height: s-look-and-feel(font-size, $size) + s-look-and-feel(padding-vertical, $size) * 2;
-				
+				@include s-formset-textarea-size($size);
+
 				$vr : s-vertical-rhythme(
 					$font-size : s-look-and-feel(font-size, $size),
 					$line-height: s-look-and-feel(font-size, $size) * 2,
@@ -718,7 +733,9 @@ $_s-formset-inited : false;
 							'select.#{$size}',
 							'textarea.#{$size}',
 							'input:not([type="checkbox"]):not([type="radio"]).#{$size}',
-							'.input--#{$size}',
+							'select.input--#{$size}',
+							'textarea.input--#{$size}',
+							'input.input--#{$size}',
 							'.input-postfix--#{$size}',
 							'.input-prefix--#{$size}',
 							'.form-group'
@@ -727,7 +744,9 @@ $_s-formset-inited : false;
 							'select.#{$size}',
 							'textarea.#{$size}',
 							'input:not([type="checkbox"]):not([type="radio"]).#{$size}',
-							'.input-#{$size}',
+							'select.input-#{$size}',
+							'textarea.input-#{$size}',
+							'input.input-#{$size}',
 							'.input-postfix-#{$size}',
 							'.input-prefix-#{$size}'
 							'.form-group'
@@ -828,7 +847,9 @@ $_s-formset-inited : false;
 					'.#{$form-scope-class} select.#{$color}',
 					'.#{$form-scope-class} textarea.#{$color}',
 					'.#{$form-scope-class} input:not([type="checkbox"]):not([type="radio"]).#{$color}',
-					'.input--#{$color}',
+					'select.input--#{$color}',
+					'textarea.input--#{$color}',
+					'input.input--#{$color}',
 					'.input-postfix--#{$color}',
 					'.input-prefix--#{$color}'
 				),
@@ -836,24 +857,15 @@ $_s-formset-inited : false;
 					'.#{$form-scope-class} select.#{$color}',
 					'.#{$form-scope-class} textarea.#{$color}',
 					'.#{$form-scope-class} input:not([type="checkbox"]):not([type="radio"]).#{$color}',
-					'.input-#{$color}',
+					'select.input-#{$color}',
+					'textarea.input-#{$color}',
+					'input.input-#{$color}',
 					'.input-postfix-#{$color}',
 					'.input-prefix-#{$color}'
 				)
 			))} {
-				border-color: s-color($color, -opacity .1);
-				border-bottom-color: s-color($color, -opacity .3);
-				
-				&:hover:not(:disabled):not(.input--disabled):not(.is-disabled),
-				&:focus:not(:disabled):not(.input--disabled):not(.is-disabled),
-				&.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
-					border-bottom-color: s-color($color, -opacity .6);
-					@include s-filter(box-shadow(s-color($color, -opacity .3) 0 5px s-rem(10px)));
-				}
-				&:focus:not(:disabled):not(.input--disabled):not(.is-disabled),
-				&.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
-					border-left-color: s-color($color, -opacity .6);
-				}
+				@include s-formset-input-color($color);
+
 				& ~ .input-reply--#{$color} {
 					display: block;
 				}
@@ -866,8 +878,8 @@ $_s-formset-inited : false;
 					'.input-reply-#{$color}'
 				)
 			))} {
-				border-color: s-color($color, -opacity .3);
-				color: $color;
+				color: s-color($color, -darken 20%);
+				background-color: s-color($color, -opacity .3);
 			}
 
 			#{s-selector((
@@ -887,7 +899,7 @@ $_s-formset-inited : false;
 					'select.input-#{$color}'
 				)
 			))} {
-				background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A#{str-replace("#{s-color($color)}","#","%23")}"></polygon></svg>');
+				@include s-formset-select-color($color);
 			}
 		}
 
@@ -902,6 +914,321 @@ $_s-formset-inited : false;
 		[class*="input-postfix"],
 		[class*="input-prefix"] {
 			pointer-events: none;
+		}
+	}
+}
+
+
+$_s-formset-datepicker-inited : false;
+@mixin s-formset-datepicker-init() {
+	@if not $_s-formset-datepicker-inited {
+		$_s-formset-datepicker-inited : true ! global;
+
+		%pika-single {
+			z-index: 9999;
+			position: relative;
+			color: s-color(text);
+			background: white;
+			font-family: s-font-family(default);
+			border-radius: s-look-and-feel(border-radius);
+			@include s-transition(fast margin-top,fast opacity);
+			margin-top:0;
+			padding:s-look-and-feel(padding-vertical);
+
+			&.is-hidden {
+				opacity:0;
+				@include s-visually-hidden();
+				margin-top:s-rem(-20px);
+			}
+
+			&.is-bound {
+				position: absolute;
+				@include s-depth(6);
+			}
+
+			// clearfix
+			*zoom: 1;
+			&:before,
+			&:after {
+				content: " ";
+				display: table;
+			}
+			&:after { clear: both }
+
+			.pika-lendar {
+				float: left;
+				// width: 240px;
+				margin-left: s-look-and-feel(padding-vertical);
+				margin-right: s-look-and-feel(padding-vertical);
+				&:first-of-type {
+					margin-left:0;
+				}
+				&:last-of-type {
+					margin-right:0 !important;
+				}
+			}
+
+			.pika-title {
+				position: relative;
+				text-align: center;
+
+				select {
+					cursor: pointer;
+					position: absolute;
+					z-index: 9998;
+					margin: 0;
+					left: 0;
+					top: 5px;
+					filter: alpha(opacity=0);
+					opacity: 0;
+				}
+			}
+
+			.pika-label {
+				display: inline-block;
+				*display: inline;
+				position: relative;
+				z-index: 9999;
+				overflow: hidden;
+				margin: 0;
+				padding : s-look-and-feel(padding-horizontal) s-look-and-feel(padding-vertical);
+				//padding: 5px 3px;
+				font-size: s-look-and-feel(font-size);
+				line-height: s-look-and-feel(font-size);
+				// line-height: 20px;
+				font-weight: bold;
+				color: s-color(text);
+				background-color: white;
+			}
+
+			.pika-prev,
+			.pika-next {
+				display: block;
+				cursor: pointer;
+				position: relative;
+				outline: none;
+				border: 0;
+				// padding: 0;
+				padding : s-look-and-feel(padding-horizontal) 0;
+				width: 20px;
+				height: 30px;
+				text-indent: 20px; // hide text using text-indent trick, using width value (it's enough)
+				white-space: nowrap;
+				overflow: hidden;
+				background-color: transparent;
+				background-position: center center;
+				background-repeat: no-repeat;
+				background-size: 75% 75%;
+				opacity: .5;
+				*position: absolute;
+				*top: 0;
+
+				&:hover {
+					opacity: 1;
+				}
+
+				&.is-disabled {
+					cursor: default;
+					opacity: .2;
+				}
+			}
+
+			.pika-prev,
+			.is-rtl .pika-next {
+				float: left;
+				background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAAUklEQVR42u3VMQoAIBADQf8Pgj+OD9hG2CtONJB2ymQkKe0HbwAP0xucDiQWARITIDEBEnMgMQ8S8+AqBIl6kKgHiXqQqAeJepBo/z38J/U0uAHlaBkBl9I4GwAAAABJRU5ErkJggg==');
+				*left: 0;
+			}
+
+			.pika-next,
+			.is-rtl .pika-prev {
+				float: right;
+				background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAAU0lEQVR42u3VOwoAMAgE0dwfAnNjU26bYkBCFGwfiL9VVWoO+BJ4Gf3gtsEKKoFBNTCoCAYVwaAiGNQGMUHMkjGbgjk2mIONuXo0nC8XnCf1JXgArVIZAQh5TKYAAAAASUVORK5CYII=');
+				*right: 0;
+			}
+
+			.pika-select {
+				display: inline-block;
+				*display: inline;
+			}
+
+			.pika-table {
+				width: 100%;
+				border-collapse: collapse;
+				border-spacing: 0;
+				border: 0;
+
+				th,
+				td {
+					width: 14.285714285714286%;
+					padding: 0;
+				}
+
+				th {
+					color: s-color(text);
+					font-size: s-look-and-feel(font-size);
+					line-height: s-look-and-feel(font-size) * 2;
+					// line-height: 25px;
+					font-weight: bold;
+					text-align: center;
+				}
+
+				abbr {
+					border-bottom: none;
+					cursor: help;
+				}
+			}
+
+			.pika-button {
+				cursor: pointer;
+				display: block;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				outline: none;
+				border: 0;
+				margin: 0;
+				width: 100%;
+				padding: s-look-and-feel(padding-horizontal) s-look-and-feel(padding-vertical);
+				font-size: s-look-and-feel(font-size);
+				line-height: s-look-and-feel(font-size);
+				// line-height: 15px;
+				text-align: right;
+				
+				.is-today & {
+					font-weight: bold;
+				}
+
+				.is-selected & {
+					font-weight: bold;
+					border-radius: s-look-and-feel(border-radius);
+				}
+
+				.is-disabled &,
+				.is-outside-current-month & {
+					pointer-events: none;
+					cursor: default;
+					opacity: .3;
+				}
+
+				&:hover {
+					box-shadow: none;
+					border-radius: s-look-and-feel(border-radius);
+				}
+			}
+
+			.pika-week {
+				font-size: s-look-and-feel(font-size);
+				line-height: s-look-and-feel(font-size);
+			}
+
+			.is-inrange .pika-button {
+				background: #D5E9F7;
+			}
+
+			.is-startrange .pika-button {
+				color: #fff;
+				background: #6CB31D;
+				box-shadow: none;
+				border-radius: s-look-and-feel(border-radius);
+			}
+
+			.is-endrange .pika-button {
+				color: #fff;
+				background: #33aaff;
+				box-shadow: none;
+				border-radius: s-look-and-feel(border-radius);
+			}
+		}
+	}
+}
+@mixin s-formset-datepicker(
+	$colors : s-setting('components.formset.generate.colors')
+) {
+	@include s-formset-datepicker-init();
+
+	// clear child float (pika-lendar), using the famous micro clearfix hack
+	// http://nicolasgallagher.com/micro-clearfix-hack/
+	.pika-single {
+		@extend %pika-single;	
+	}
+
+	@each $color in $colors {
+
+		#{s-selector((
+			BEM : '.pika-single.#{$color}',
+			SMACCS : '.pika-single.#{$color}'
+		))} {
+			.pika-time {
+				width:100%;
+
+				td {
+					text-align: center;
+					padding-top:s-lnf(padding-vertical);
+					
+					&:first-child {
+						width:63%;
+					}
+					&:last-child {
+						width:33%;
+					}
+				}
+				select {
+					@include s-formset-select($color, medium);
+					width:100%;
+				}
+			}
+
+			.pika-prev,
+			.is-rtl .pika-next {
+				
+			}
+
+			.pika-next,
+			.is-rtl .pika-prev {
+				
+			}
+
+			.pika-button {
+				color: s-color(text);
+				background: s-color(default, -opacity .05);		
+
+				&:hover {
+					color: s-color($color, -darken 20%);
+					background: s-color($color, -opacity .3);
+				}
+			}
+
+			.is-today .pika-button {
+				color: s-color(text, -darken 10%);
+			}
+
+			.is-selected .pika-button {
+				color: white;
+				background: s-color($color);
+			}
+
+			.is-disabled .pika-button,
+			.is-outside-current-month .pika-button {
+				color: s-color(text, -opacity .65);
+			}
+
+			.pika-week {
+				color: red;
+			}
+
+			.is-inrange .pika-button {
+				background: #D5E9F7;
+			}
+
+			.is-startrange .pika-button {
+				color: #fff;
+				background: #6CB31D;
+			}
+
+			.is-endrange .pika-button {
+				color: #fff;
+				background: #33aaff;
+			}
 		}
 	}
 }

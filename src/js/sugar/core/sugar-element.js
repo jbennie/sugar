@@ -1,4 +1,4 @@
-import { uncamelize } from './sugar-tools'
+import { uncamelize, camelize } from './sugar-tools'
 import sDom from './sugar-dom'
 let _upperfirst = require('lodash/upperfirst');
 let _lowerfirst = require('lodash/lowerfirst');
@@ -24,13 +24,15 @@ export default class SugarElement {
 		// save element reference
 		this.elm = elm;
 		this.name = name;
+		this.name_dash = uncamelize(this.name);
+		console.log(this.name_dash);
 		// extend settings
-		this.settings = {...default_settings, ...settings};
+		this._settings = {...default_settings, ...settings};
 
 		// check if the main data attribute is an object to extend the settings
 		let set = this.setting('');
 		if (set && typeof(set) == 'object') {
-			this.settings = {...this.settings, ...set};
+			this._settings = {...this._settings, ...set};
 		} 
 
 		// set the api in the dom element
@@ -40,7 +42,7 @@ export default class SugarElement {
 		if (! _sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
 		let type = this.setting('settings');
 		if (type && _sugarTypesSettings[name][type]) {
-			this.settings = {...this.settings, ..._sugarTypesSettings[name][type]};
+			this._settings = {...this._settings, ..._sugarTypesSettings[name][type]};
 		}
 	}
 
@@ -66,7 +68,7 @@ export default class SugarElement {
 		// if we didn't find any setting in dataset,
 		// get the one from the actual settings property
 		if ( ! s) {
-			s = this.settings[key];
+			s = this._settings[key];
 		}
 
 		// check if the setting begin by @
@@ -79,6 +81,28 @@ export default class SugarElement {
 
 		// return the settings
 		return s;
+	}
+
+	/**
+	 * Get all settings
+	 */
+	settings() {
+		let settings = this._settings;
+		// loop on all attributes
+		[].forEach.call(this.elm.attributes, (attr) => {
+			let data_name = 'data-'+this.name_dash;
+			if (attr.name.indexOf(data_name) != -1) {
+				let n = attr.name.substr(data_name.length);
+				// if (n.substr(0,1) == '-') {
+				// 	n = n.substr(1);
+				// }
+				if (n) {
+					n = camelize(n);
+					settings[n] = this.setting(n);
+				}
+			}
+		});	
+		return settings;
 	}
 
 	/**

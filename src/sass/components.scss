@@ -39,6 +39,7 @@
 @include s-formset-fieldset(
 	$sizes : smaller small default medium big bigger
 );
+@include s-formset-datepicker();
 
 //
 // Button

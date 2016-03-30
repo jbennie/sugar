@@ -50,16 +50,17 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(25);
+	module.exports = __webpack_require__(125);
 
 
 /***/ },
-/* 1 */,
-/* 2 */
+
+/***/ 2:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -112,13 +113,15 @@ return /******/ (function(modules) { // webpackBootstrap
 			// save element reference
 			this.elm = elm;
 			this.name = name;
+			this.name_dash = (0, _sugarTools.uncamelize)(this.name);
+			console.log(this.name_dash);
 			// extend settings
-			this.settings = _extends({}, default_settings, settings);
+			this._settings = _extends({}, default_settings, settings);
 
 			// check if the main data attribute is an object to extend the settings
 			var set = this.setting('');
 			if (set && (typeof set === 'undefined' ? 'undefined' : _typeof(set)) == 'object') {
-				this.settings = _extends({}, this.settings, set);
+				this._settings = _extends({}, this._settings, set);
 			}
 
 			// set the api in the dom element
@@ -128,7 +131,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			if (!_sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
 			var type = this.setting('settings');
 			if (type && _sugarTypesSettings[name][type]) {
-				this.settings = _extends({}, this.settings, _sugarTypesSettings[name][type]);
+				this._settings = _extends({}, this._settings, _sugarTypesSettings[name][type]);
 			}
 		}
 
@@ -153,7 +156,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			// if we didn't find any setting in dataset,
 			// get the one from the actual settings property
 			if (!s) {
-				s = this.settings[key];
+				s = this._settings[key];
 			}
 
 			// check if the setting begin by @
@@ -166,6 +169,32 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// return the settings
 			return s;
+		};
+
+		/**
+	  * Get all settings
+	  */
+
+
+		SugarElement.prototype.settings = function settings() {
+			var _this = this;
+
+			var settings = this._settings;
+			// loop on all attributes
+			[].forEach.call(this.elm.attributes, function (attr) {
+				var data_name = 'data-' + _this.name_dash;
+				if (attr.name.indexOf(data_name) != -1) {
+					var n = attr.name.substr(data_name.length);
+					// if (n.substr(0,1) == '-') {
+					// 	n = n.substr(1);
+					// }
+					if (n) {
+						n = (0, _sugarTools.camelize)(n);
+						settings[n] = _this.setting(n);
+					}
+				}
+			});
+			return settings;
 		};
 
 		/**
@@ -209,7 +238,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = SugarElement;
 
 /***/ },
-/* 3 */
+
+/***/ 3:
 /***/ function(module, exports) {
 
 	"use strict";
@@ -232,6 +262,16 @@ return /******/ (function(modules) { // webpackBootstrap
 		},
 
 		/**
+	  * Camelize a string
+	  */
+		camelize: function camelize(text) {
+			text = text.replace(/(?:^|[-_])(\w)/g, function (_, c) {
+				return c ? c.toUpperCase() : '';
+			});
+			return text.substr(0, 1).toLowerCase() + text.slice(1);
+		},
+
+		/**
 	  * Get a uniq id
 	  */
 		uniqid: function uniqid() {
@@ -246,7 +286,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 4 */
+
+/***/ 4:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -503,7 +544,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = sugarDom;
 
 /***/ },
-/* 5 */
+
+/***/ 5:
 /***/ function(module, exports) {
 
 	if (window.MutationObserver) { // Copyright 2011 Google Inc.
@@ -2175,7 +2217,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = MutationSummary }
 
 /***/ },
-/* 6 */
+
+/***/ 6:
 /***/ function(module, exports, __webpack_require__) {
 
 	var baseGet = __webpack_require__(7);
@@ -2213,7 +2256,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 7 */
+
+/***/ 7:
 /***/ function(module, exports, __webpack_require__) {
 
 	var baseCastPath = __webpack_require__(8),
@@ -2243,7 +2287,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 8 */
+
+/***/ 8:
 /***/ function(module, exports, __webpack_require__) {
 
 	var isArray = __webpack_require__(9),
@@ -2264,7 +2309,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 9 */
+
+/***/ 9:
 /***/ function(module, exports) {
 
 	/**
@@ -2296,7 +2342,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 10 */
+
+/***/ 10:
 /***/ function(module, exports, __webpack_require__) {
 
 	var toString = __webpack_require__(11);
@@ -2326,7 +2373,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 11 */
+
+/***/ 11:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Symbol = __webpack_require__(12),
@@ -2378,7 +2426,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 12 */
+
+/***/ 12:
 /***/ function(module, exports, __webpack_require__) {
 
 	var root = __webpack_require__(13);
@@ -2390,7 +2439,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 13 */
+
+/***/ 13:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module, global) {var checkGlobal = __webpack_require__(15);
@@ -2438,7 +2488,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14)(module), (function() { return this; }())))
 
 /***/ },
-/* 14 */
+
+/***/ 14:
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -2454,7 +2505,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 15 */
+
+/***/ 15:
 /***/ function(module, exports) {
 
 	/**
@@ -2472,7 +2524,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 16 */
+
+/***/ 16:
 /***/ function(module, exports, __webpack_require__) {
 
 	var isObjectLike = __webpack_require__(17);
@@ -2514,7 +2567,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 17 */
+
+/***/ 17:
 /***/ function(module, exports) {
 
 	/**
@@ -2548,7 +2602,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 18 */
+
+/***/ 18:
 /***/ function(module, exports, __webpack_require__) {
 
 	var isArray = __webpack_require__(9);
@@ -2578,7 +2633,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 19 */
+
+/***/ 19:
 /***/ function(module, exports, __webpack_require__) {
 
 	var createCaseFirst = __webpack_require__(20);
@@ -2605,7 +2661,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 20 */
+
+/***/ 20:
 /***/ function(module, exports, __webpack_require__) {
 
 	var stringToArray = __webpack_require__(21),
@@ -2649,7 +2706,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 21 */
+
+/***/ 21:
 /***/ function(module, exports) {
 
 	/** Used to compose unicode character classes. */
@@ -2693,7 +2751,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 22 */
+
+/***/ 22:
 /***/ function(module, exports, __webpack_require__) {
 
 	var createCaseFirst = __webpack_require__(20);
@@ -2720,16 +2779,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 23 */,
-/* 24 */,
-/* 25 */
+
+/***/ 125:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _sugarSvgfilter = __webpack_require__(26);
+	var _sugarSvgfilter = __webpack_require__(126);
 
 	var _sugarSvgfilter2 = _interopRequireDefault(_sugarSvgfilter);
 
@@ -2923,7 +2981,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 26 */
+
+/***/ 126:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3051,6 +3110,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = SugarSvgFilter;
 
 /***/ }
-/******/ ])
+
+/******/ })
 });
 ;
