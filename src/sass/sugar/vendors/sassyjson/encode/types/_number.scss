@@ -1,0 +1,9 @@
+// Encode a number to JSON
+// --------------------------------------------------------------------------------
+// @param $number: number to be encoded
+// --------------------------------------------------------------------------------
+// @return [string] encoded number
+
+@function _json-encode--number($number) {
+  @return if(unitless($number), $number, _proof-quote($number));
+}

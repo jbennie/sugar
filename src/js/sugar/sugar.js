@@ -9,6 +9,7 @@ import { drawerManager, DrawerElement } from './components/sugar-drawer'
 import transitionstartEventDispatcher from './events/sugar-transitionstart'
 import localStorageFonts from './fonts/sugar-localstoragefonts'
 import { RadioboxElement, DatepickerElement, DatetimepickerElement } from './components/sugar-form'
+import settings from './core/sugar-settings'
 
 module.exports = {
 	activateManager : activateManager,
@@ -25,6 +26,7 @@ module.exports = {
 	DatetimepickerElement : DatetimepickerElement,
 	tools : tools,
 	dom : sDom,
+	settings : settings,
 	transitionstartEventDispatcher : transitionstartEventDispatcher,
 	drawerManager : drawerManager,
 	DrawerElement : DrawerElement,

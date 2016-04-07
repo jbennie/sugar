@@ -1,0 +1,11 @@
+// Logs an error at `$pointer` with `$string` message
+// --------------------------------------------------------------------------------
+// @param [string] $string: error message
+// @param [number] $pointer: pointer position
+// --------------------------------------------------------------------------------
+// @return [list] (pointer, false)
+
+@function _throw($string, $pointer) {
+  @warn "ERROR::#{$pointer}::#{$string}";
+  @return $pointer, false;
+}

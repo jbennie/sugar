@@ -1,0 +1,17 @@
+// Delay the encoding of ta literal to JSON
+// to a type-specific method
+// --------------------------------------------------------------------------------
+// @param $value: value to be stringified
+// --------------------------------------------------------------------------------
+// @throw "Unknown type for $value ( {x} )."
+// --------------------------------------------------------------------------------
+// @return [string|false] JSON encoded string
+
+@function json-encode($value) {
+  $type: type-of($value);
+  @if function_exists('_json-encode--#{$type}') {
+    @return call('_json-encode--#{$type}', $value);
+  }
+  @warn "Unknown type for #{$value} (#{$type}).";
+  @return false;
+}

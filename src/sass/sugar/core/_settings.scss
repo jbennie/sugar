@@ -7,12 +7,12 @@ $_sugar-settings : (								// store all the settings
 	reset 						: true, 			// by default, a reset will be applied
 	border-box 					: true, 			// set if need to set all as border box model
 	sizes 						: (					// store all the ratios between sizes
-		smaller 					: 0.4,
-		small 						: 0.7,
+		smaller 					: 0.6,
+		small 						: 0.8,
 		default 					: 1,
-		medium 						: 1.3,
-		big 						: 1.6,
-		bigger 						: 1.9
+		medium 						: 1.4,
+		big 						: 1.8,
+		bigger 						: 2.4
 	),
 	typo 						: (
 		font-family 				: default, 			// set the font to use by default

@@ -25,6 +25,12 @@ module.exports = (grunt) ->
 						content = content.replace /@font-face\s\{[\s\S]*\}[\s\S]\.fa\s\{/g, '.fa {'
 						content = content.replace /\.(fa[a-zA-Z_-]{0,60})/gi, "%$1"
 						content
+			sassyjson:
+				expand: true,
+				cwd: 'node_modules/sassyjson/stylesheets/',
+				src: '**',
+				dest: 'src/sass/sugar/vendors/sassyjson/',
+				filter: 'isFile'
 			modularscale:
 				expand: true,
 				cwd: 'bower_components/modular-scale/stylesheets/',
@@ -135,6 +141,7 @@ module.exports = (grunt) ->
 		'copy:fontawesome'
 		'copy:modularscale'
 		'copy:sassdash'
+		'copy:sassyjson'
 		'copy:cssgram'
 		'copy:animatecss'
 		'concat:animatecss'

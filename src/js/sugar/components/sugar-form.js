@@ -11,6 +11,7 @@
 import SugarElement from '../core/sugar-element'
 import sDom from '../core/sugar-dom'
 import Pikaday from 'pikaday-time'
+import sSettings from '../core/sugar-settings'
 var _get = require('lodash/get');
 
 // Actual activate element class
@@ -90,64 +91,111 @@ class SugarDatepickerElement extends SugarElement {
 	 * Init
 	 */
 	_init() {
+		// try to get the theme automatically
+		let theme = null;
+		if (sSettings.colors) {
+			for (let prop in sSettings.colors) {
+				if (this.elm.classList.contains(prop)
+					|| this.elm.classList.contains('input--'+prop)) {
+					theme = prop;
+					break;
+				}
+			}
+		}
+
+		// check if a "from" is specified
+		let from = this.setting('from');
+		if (from) {
+			// listen for change on the input
+			document.querySelector(from).addEventListener('change', (e) => {
+				// check if we have the pikaday instance
+				if (e.target.sDatepicker && e.target.sDatepicker.picker) {
+					// get the picker date
+					let date = e.target.sDatepicker.picker.getDate();
+					this.picker.setStartRange(date);
+					this.picker.setMinDate(date);
+					e.target.sDatepicker.picker.setStartRange(date);
+					e.target.sDatepicker.picker.hide();
+					e.target.sDatepicker.picker.show();
+				}
+			});
+		}
+
+		// check if a "to" is specified
+		let to = this.setting('to');
+		if (to) {
+			// listen for change on the input
+			document.querySelector(to).addEventListener('change', (e) => {
+				// check if we have the pikaday instance
+				if (e.target.sDatepicker && e.target.sDatepicker.picker) {
+					// get the picker date
+					let date = e.target.sDatepicker.picker.getDate();
+					this.picker.setEndRange(date);
+					this.picker.setMaxDate(date);
+					e.target.sDatepicker.picker.setEndRange(date);
+					e.target.sDatepicker.picker.hide();
+					e.target.sDatepicker.picker.show();
+				}
+			});
+		}
+
+		// init the picker
 		this.picker = new Pikaday({...{
 			field : this.elm,
-			showTime : false
+			showTime : false,
+			theme : theme
 		}, ...this.settings()});
 	}
 }
 
-// Datetime picker
-class SugarDatetimepickerElement extends SugarElement {
+sDom.querySelectorLive('input, textarea', (elm) => {
+	elm.addEventListener('keyup', (e) => {
+		e.target.setAttribute('value',e.target.value);
+	});
+	elm.setAttribute('value',elm.value);
+});
+sDom.querySelectorLive('label[s-material]', (elm) => {
+	if (elm.innerText || elm.textContent) {
+		let text = elm.innerText || elm.textContent;
+		// get all childs
+		let childs = elm.querySelectorAll('*');
+		// remove all childs to add them after
+		[].forEach.call(childs, (child) => {
+			child.parentNode.removeChild(child);
+		});
+		// empty the label
+		elm.innerHTML = '';
 
-	/**
-	 * Setup
-	 */
-	static setup(type, settings) {
-		SugarElement.setup('sDatetimepicker', type, settings);
+		// add the children again
+		[].forEach.call(childs, (child) => {
+			elm.appendChild(child);
+		});
+
+		// create and add the span
+		let span = document.createElement('span');
+		span.innerHTML = textswd	;
+		elm.appendChild(span);
 	}
-
-	/**
-	 * Constructor
-	 */
-	constructor(elm, settings = {}) {
-		super('sDatetimepicker', elm, {
-		}, settings);
-
-		// init
-		this._init();
-	}
-
-	/**
-	 * Init
-	 */
-	_init() {
-		this.picker = new Pikaday({...{
-			field : this.elm,
-			showTime : true,
-			autoClose : false
-		}, ...this.settings()});
-	}
-}
+});
 
 // init the datepicker
 sDom.querySelectorLive('[data-s-datepicker]', (elm) => {
 	new SugarDatepickerElement(elm);
 });
-// init the datetimepicker
 sDom.querySelectorLive('[data-s-datetimepicker]', (elm) => {
-	new SugarDatetimepickerElement(elm);
+	new SugarDatepickerElement(elm, {
+		autoClose : false,
+		showTime : true
+	});
 });
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }
 window.sugar.RadioboxElement = SugarRadioboxElement;
 window.sugar.DatepickerElement = SugarDatepickerElement;
-window.sugar.DatetimepickerElement = SugarDatetimepickerElement;
 
 // export modules
 module.exports = {
 	RadioboxElement : SugarRadioboxElement,
-	DatepickerElement : SugarDatepickerElement,
-	DatetimepickerElement : SugarDatetimepickerElement
+	DatepickerElement : SugarDatepickerElement
 };

@@ -3,7 +3,8 @@
 		scope-class : 'formset',
 		generate : (
 			colors : default primary secondary success warning error info,
-			sizes : default
+			sizes : default,
+			style : material
 		)
 	)
 ));
@@ -519,7 +520,8 @@ $_s-formset-inited : false;
 
 @mixin s-formset(
 	$sizes : sugar('settings.components.formset.generate.sizes'),
-	$colors : sugar('settings.components.formset.generate.colors')
+	$colors : sugar('settings.components.formset.generate.colors'),
+	$style : sugar('settings.components.formset.generate.style')
 ) {
 	// init form
 	@include s-formset-init();
@@ -553,6 +555,57 @@ $_s-formset-inited : false;
 		.#{$form-scope-class} select,
 		select[class*="input"] {
 			@extend %s-formset-select-bare;
+		}
+		.#{$form-scope-class} label,
+		.label {
+			user-select: none;
+			font-weight: bold;
+
+			// restore font-weight
+			.s-radiobox ~ &,
+			.label, label,
+			> * {
+				font-weight: normal;
+			}
+
+			// no margin-bottom on nested labels
+			.label,
+			label {
+				margin-bottom: 0 !important;
+			}
+
+			@include s-vertical-rhythme {
+				#{s-selector((
+					BEM : (
+						'select',
+						'textarea',
+						'input:not([type="checkbox"]):not([type="radio"])',
+						'select.input',
+						'textarea.input',
+						'input.input',
+						'.input-postfix',
+						'.input-prefix',
+						'.form-group'
+					),
+					SMACCS : (
+						'select',
+						'textarea',
+						'input:not([type="checkbox"]):not([type="radio"])',
+						'select.input',
+						'textarea.input',
+						'input.input',
+						'.input-postfix',
+						'.input-prefix'
+						'.form-group'
+					)
+				))} {
+					margin-top: s-rem(1);
+					margin-bottom: 0 !important;
+					.form-group & {
+						margin-top: 0;
+					}
+				}
+			}
 		}
 		[class*="input-reply"] {
 			display: none;
@@ -708,59 +761,6 @@ $_s-formset-inited : false;
 				}
 			}
 
-			// input in label
-			.#{$form-scope-class} label,
-			.label {
-				user-select: none;
-				font-weight: bold;
-
-				// restore font-weight
-				.s-radiobox ~ &,
-				.label, label,
-				> * {
-					font-weight: normal;
-				}
-
-				// no margin-bottom on nested labels
-				.label,
-				label {
-					margin-bottom: 0 !important;
-				}
-
-				@include s-vertical-rhythme {
-					#{s-selector((
-						BEM : (
-							'select.#{$size}',
-							'textarea.#{$size}',
-							'input:not([type="checkbox"]):not([type="radio"]).#{$size}',
-							'select.input--#{$size}',
-							'textarea.input--#{$size}',
-							'input.input--#{$size}',
-							'.input-postfix--#{$size}',
-							'.input-prefix--#{$size}',
-							'.form-group'
-						),
-						SMACCS : (
-							'select.#{$size}',
-							'textarea.#{$size}',
-							'input:not([type="checkbox"]):not([type="radio"]).#{$size}',
-							'select.input-#{$size}',
-							'textarea.input-#{$size}',
-							'input.input-#{$size}',
-							'.input-postfix-#{$size}',
-							'.input-prefix-#{$size}'
-							'.form-group'
-						)
-					))} {
-						margin-top: s-rem(1);
-						margin-bottom: 0 !important;
-						.form-group & {
-							margin-top: 0;
-						}
-					}
-				}
-			}
-
 			#{s-selector((
 				BEM : (
 					'.#{$form-scope-class} select.#{$size}',
@@ -803,6 +803,29 @@ $_s-formset-inited : false;
 				font-size: s-look-and-feel(font-size, $size);
 				display: inline-block;
 				vertical-align: middle;
+				position: relative;
+
+				&[s-material] {
+					input,
+					textarea,
+					select {
+						// margin-top:- s-lnf(font-size, $size) !important;
+						margin-top:0 !important;
+
+						&:not([value=""]) + span,
+						&:focus + span {
+							font-size:s-lnf(font-size, $size) * 0.5 !important;
+							padding-top : 0 !important;
+						}
+					}
+					> span {
+						@include s-transition(fast);
+						position:absolute;
+						top:0; left:0;
+						z-index:1;
+						padding:s-lnf(padding-horizontal, $size) s-lnf(padding-vertical, $size);
+					}
+				}
 
 				&:not(.s-radiobox) {
 					$mb : s-look-and-feel(font-size, $size);
@@ -813,7 +836,6 @@ $_s-formset-inited : false;
 						$margin-bottom : $mb,
 						$margin-top : 0
 					);
-					// @error('');
 
 					&:first-child:last-child {
 						width: 100%;
@@ -1188,23 +1210,13 @@ $_s-formset-datepicker-inited : false;
 				
 			}
 
-			.pika-button {
-				color: s-color(text);
-				background: s-color(default, -opacity .05);		
-
-				&:hover {
-					color: s-color($color, -darken 20%);
-					background: s-color($color, -opacity .3);
-				}
-			}
-
 			.is-today .pika-button {
 				color: s-color(text, -darken 10%);
 			}
 
 			.is-selected .pika-button {
-				color: white;
-				background: s-color($color);
+				color: white !important;
+				background: s-color($color) !important;
 			}
 
 			.is-disabled .pika-button,
@@ -1217,17 +1229,27 @@ $_s-formset-datepicker-inited : false;
 			}
 
 			.is-inrange .pika-button {
-				background: #D5E9F7;
+				background: s-color($color, -opacity .2);
 			}
 
 			.is-startrange .pika-button {
 				color: #fff;
-				background: #6CB31D;
+				background: s-color($color, -opacity .8);
 			}
 
 			.is-endrange .pika-button {
 				color: #fff;
-				background: #33aaff;
+				background: s-color($color, -opacity .8);
+			}
+
+			.pika-button {
+				color: s-color(text);
+				background: s-color(default, -opacity .05);		
+
+				&:hover {
+					color: s-color($color, -darken 20%);
+					background: s-color($color, -opacity .4);
+				}
 			}
 		}
 	}

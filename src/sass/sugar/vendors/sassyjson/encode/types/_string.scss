@@ -1,0 +1,9 @@
+// Encode a string to JSON
+// --------------------------------------------------------------------------------
+// @param $string: string to be encoded
+// --------------------------------------------------------------------------------
+// @return [string] encoded string
+
+@function _json-encode--string($string) {
+  @return _proof-quote($string);
+}

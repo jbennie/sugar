@@ -1,0 +1,13 @@
+// Encode a list to JSON
+// --------------------------------------------------------------------------------
+// @param $list: list to be encoded
+// --------------------------------------------------------------------------------
+// @return [string] encoded list
+
+@function _json-encode--list($list) {
+  $str: "";
+  @each $item in $list {
+    $str: $str + ', ' + json-encode($item);
+  }
+  @return '[' + str-slice($str, 3) + ']';
+}

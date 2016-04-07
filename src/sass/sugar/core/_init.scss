@@ -15,6 +15,12 @@ $_sugar-inited : false;
 			@include s-reset();
 		}
 
+		// settings
+		head:before {
+			content : json-encode($_sugar-settings);
+			display:none;
+		}
+
 		// border box
 		@if sugar('settings.border-box') == true {
 			html {
@@ -90,3 +96,13 @@ $_sugar-inited : false;
 		$ms-fluid : sugar('settings.modular-scale.fluid') !global;
 	}
 }
+
+// @mixin s-settings-json() {
+
+// 	// copy the settings
+// 	$settings = $_sugar-settings;
+
+// 	// loop on each colors
+	
+
+// }

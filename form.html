@@ -349,7 +349,7 @@
 				<form>
 				 	<div class="row">
 						<div class="gr-12">
-							<label>Input label
+							<label s-material>Input label
 								<input type="text" placeholder="gr-12" />
 							</label>
 						</div>
@@ -369,9 +369,9 @@
 							<label>Date
 								<div class="form-group">
 									<div class="input-prefix input-prefix--primary">from</div>
-									<input class="primary" type="text" data-s-datepicker data-s-datepicker-theme="success" placeholder="gr-9" />
+									<input id="s-datepicker-from" class="primary" type="text" data-s-datepicker data-s-datepicker-to="#s-datepicker-to" placeholder="gr-9" />
 									<div class="input-prefix input-prefix--primary">to</div>
-									<input class="primary" type="text" data-s-datetimepicker data-s-datetimepicker-number-of-months="3" placeholder="gr-9" />
+									<input id="s-datepicker-to" class="primary" type="text" data-s-datetimepicker data-s-datepicker-from="#s-datepicker-from" data-s-datetimepicker-number-of-months="3" placeholder="gr-9" />
 								</div>
 							</label>
 						</div>
