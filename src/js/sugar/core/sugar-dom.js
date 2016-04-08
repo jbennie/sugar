@@ -21,7 +21,9 @@ let sugarDom = {
 	/**
 	 * Make a selector detectable when new element are pushed in the page
 	 */
-	querySelectorLive : (selector, cb) => {
+	querySelectorLive : (selector, cb, element) => {
+
+		let _this = this;
 
 		// make a query on existing elements
 		sugarDom.domReady(() => {
@@ -33,44 +35,50 @@ let sugarDom = {
 			// add the callback in stack
 			_insertDomElementsCallbacks[detection_id] = {
 				callback : cb,
-				selector : selector
+				selector : selector,
+				element : element
 			};
-			
-			// check how we can detect new elements
-			if (window.MutationObserver != null && ! _insertMutationObserver) {
-				// make use of great mutation summary library
-				var observer = new MutationSummary({
-					callback: (summaries) => {
-						summaries.forEach((summary) => {
-							summary.added.forEach((elm) => {
-								cb(elm);
-							});
-						});
-					},
-					queries: [{ element: selector }]
-				});
 
-				
+			// check how we can detect new elements
+			if (window.MutationObserver != null) {
+				// // make use of great mutation summary library
+				// var observer = new MutationSummary({
+				// 	callback: (summaries) => {
+				// 		summaries.forEach((summary) => {
+				// 			summary.added.forEach((elm) => {
+				// 				cb(elm);
+				// 			});
+				// 		});
+				// 	},
+				// 	rootNode : element,
+				// 	queries: [{ element: selector }]
+				// });
+
+				if ( ! _insertMutationObserver) {
+					_insertMutationObserver = new MutationObserver((mutations) => {
+						// check if what we need has been added
+						mutations.forEach((mutation) => {
+
+							if (mutation.addedNodes && mutation.addedNodes[0]) {
+								// console.log(_this);
+								// loop on each callbacks to find a match
+								for(let insert_id in _insertDomElementsCallbacks) {
+									if (sugarDom.matches(mutation.addedNodes[0], _insertDomElementsCallbacks[insert_id].selector)) {
+										_insertDomElementsCallbacks[insert_id].callback(mutation.addedNodes[0]);
+									}
+								}
+							}
+						});
+					});
+					_insertMutationObserver.observe(document.body, {
+						childList: true
+					});
+				}
+
 				[].forEach.call(document.body.querySelectorAll(selector), (elm) => {
 					cb(elm);
 				});
 
-				// _insertMutationObserver = new MutationObserver((mutations) => {
-				// 	// check if what we need has been added
-				// 	mutations.forEach((mutation) => {
-				// 		if (mutation.addedNodes && mutation.addedNodes[0]) {
-				// 			// loop on each callbacks to find a match
-				// 			for(let insert_id in _insertDomElementsCallbacks) {
-				// 				if (this.matches(mutation.addedNodes[0], _insertDomElementsCallbacks[insert_id].selector)) {
-				// 					_insertDomElementsCallbacks[insert_id].callback(mutation.addedNodes[0]);
-				// 				}
-				// 			}
-				// 		}
-				// 	});
-				// });
-				// _insertMutationObserver.observe(document.body, {
-				// 	childList: true
-				// });
 			} else {
 				// add the animation style in DOM
 				let css = selector + ` { 

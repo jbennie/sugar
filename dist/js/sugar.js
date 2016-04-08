@@ -712,7 +712,9 @@ return /******/ (function(modules) { // webpackBootstrap
 		/**
 	  * Make a selector detectable when new element are pushed in the page
 	  */
-		querySelectorLive: function querySelectorLive(selector, cb) {
+		querySelectorLive: function querySelectorLive(selector, cb, element) {
+
+			var _this = undefined;
 
 			// make a query on existing elements
 			sugarDom.domReady(function () {
@@ -724,66 +726,72 @@ return /******/ (function(modules) { // webpackBootstrap
 				// add the callback in stack
 				_insertDomElementsCallbacks[detection_id] = {
 					callback: cb,
-					selector: selector
+					selector: selector,
+					element: element
 				};
 
 				// check how we can detect new elements
-				if (window.MutationObserver != null && !_insertMutationObserver) {
-					// make use of great mutation summary library
-					var observer = new MutationSummary({
-						callback: function callback(summaries) {
-							summaries.forEach(function (summary) {
-								summary.added.forEach(function (elm) {
-									cb(elm);
-								});
+				if (window.MutationObserver != null) {
+					// // make use of great mutation summary library
+					// var observer = new MutationSummary({
+					// 	callback: (summaries) => {
+					// 		summaries.forEach((summary) => {
+					// 			summary.added.forEach((elm) => {
+					// 				cb(elm);
+					// 			});
+					// 		});
+					// 	},
+					// 	rootNode : element,
+					// 	queries: [{ element: selector }]
+					// });
+
+					if (!_insertMutationObserver) {
+						_insertMutationObserver = new MutationObserver(function (mutations) {
+							// check if what we need has been added
+							mutations.forEach(function (mutation) {
+
+								if (mutation.addedNodes && mutation.addedNodes[0]) {
+									// console.log(_this);
+									// loop on each callbacks to find a match
+									for (var insert_id in _insertDomElementsCallbacks) {
+										if (sugarDom.matches(mutation.addedNodes[0], _insertDomElementsCallbacks[insert_id].selector)) {
+											_insertDomElementsCallbacks[insert_id].callback(mutation.addedNodes[0]);
+										}
+									}
+								}
 							});
-						},
-						queries: [{ element: selector }]
-					});
+						});
+						_insertMutationObserver.observe(document.body, {
+							childList: true
+						});
+					}
 
 					[].forEach.call(document.body.querySelectorAll(selector), function (elm) {
 						cb(elm);
 					});
-
-					// _insertMutationObserver = new MutationObserver((mutations) => {
-					// 	// check if what we need has been added
-					// 	mutations.forEach((mutation) => {
-					// 		if (mutation.addedNodes && mutation.addedNodes[0]) {
-					// 			// loop on each callbacks to find a match
-					// 			for(let insert_id in _insertDomElementsCallbacks) {
-					// 				if (this.matches(mutation.addedNodes[0], _insertDomElementsCallbacks[insert_id].selector)) {
-					// 					_insertDomElementsCallbacks[insert_id].callback(mutation.addedNodes[0]);
-					// 				}
-					// 			}
-					// 		}
-					// 	});
-					// });
-					// _insertMutationObserver.observe(document.body, {
-					// 	childList: true
-					// });
 				} else {
-						// add the animation style in DOM
-						var css = selector + (' { \n\t\t\t\t\t-webkit-animation:' + detection_id + ' 0.001s;\n\t\t\t\t\t-moz-animation:' + detection_id + ' 0.001s;\n\t\t\t\t\t-ms-animation:' + detection_id + ' 0.001s;\n\t\t\t\t\tanimation:' + detection_id + ' 0.001s;\n\t\t\t\t}\n\t\t\t\t@keyframes ' + detection_id + ' {\n\t\t\t\t\tfrom { opacity: .99; }\n\t\t\t\t\tto { opacity: 1; }\n\t\t\t\t}');
-						var style = document.createElement('style');
-						style.type = 'text/css';
-						if (style.styleSheet) {
-							style.styleSheet.cssText = css;
-						} else {
-							style.appendChild(document.createTextNode(css));
-						}
-						// now we listen for animation end
-						// but only once
-						if (!_insertAnimationListener) {
-							_insertAnimationListener = true;
-							document.addEventListener('animationend', function (e) {
-								if (_insertDomElementsCallbacks[e.animationName]) {
-									_insertDomElementsCallbacks[e.animationName].callback(e.target);
-								}
-							});
-						}
-						// append the animation in head
-						document.head.appendChild(style);
+					// add the animation style in DOM
+					var css = selector + (' { \n\t\t\t\t\t-webkit-animation:' + detection_id + ' 0.001s;\n\t\t\t\t\t-moz-animation:' + detection_id + ' 0.001s;\n\t\t\t\t\t-ms-animation:' + detection_id + ' 0.001s;\n\t\t\t\t\tanimation:' + detection_id + ' 0.001s;\n\t\t\t\t}\n\t\t\t\t@keyframes ' + detection_id + ' {\n\t\t\t\t\tfrom { opacity: .99; }\n\t\t\t\t\tto { opacity: 1; }\n\t\t\t\t}');
+					var style = document.createElement('style');
+					style.type = 'text/css';
+					if (style.styleSheet) {
+						style.styleSheet.cssText = css;
+					} else {
+						style.appendChild(document.createTextNode(css));
 					}
+					// now we listen for animation end
+					// but only once
+					if (!_insertAnimationListener) {
+						_insertAnimationListener = true;
+						document.addEventListener('animationend', function (e) {
+							if (_insertDomElementsCallbacks[e.animationName]) {
+								_insertDomElementsCallbacks[e.animationName].callback(e.target);
+							}
+						});
+					}
+					// append the animation in head
+					document.head.appendChild(style);
+				}
 			});
 		},
 
@@ -3460,6 +3468,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _sugarDom2 = _interopRequireDefault(_sugarDom);
 
+	var _sugarTools = __webpack_require__(3);
+
+	var _sugarTools2 = _interopRequireDefault(_sugarTools);
+
 	var _pikadayTime = __webpack_require__(25);
 
 	var _pikadayTime2 = _interopRequireDefault(_pikadayTime);
@@ -3557,10 +3569,213 @@ return /******/ (function(modules) { // webpackBootstrap
 		new SugarRadioboxElement(elm);
 	});
 
+	// Select
+
+	var SugarSelectElement = function (_SugarElement2) {
+		_inherits(SugarSelectElement, _SugarElement2);
+
+		/**
+	  * Setup
+	  */
+
+		SugarSelectElement.setup = function setup(type, settings) {
+			_sugarElement2.default.setup('sSelect', type, settings);
+		};
+
+		/**
+	  * Constructor
+	  */
+
+
+		function SugarSelectElement(elm) {
+			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+			_classCallCheck(this, SugarSelectElement);
+
+			// init
+
+			var _this2 = _possibleConstructorReturn(this, _SugarElement2.call(this, 'sSelect', elm, {}, settings));
+
+			_this2._init();
+			return _this2;
+		}
+
+		/**
+	  * Init
+	  */
+
+
+		SugarSelectElement.prototype._init = function _init() {
+			var _this3 = this;
+
+			// generate a custom id
+			this.id = _sugarTools2.default.uniqid();
+
+			// set the id to the element to
+			// be able to reach it and listen for
+			// new items in it
+			this.elm.setAttribute('data-s-select', this.id);
+
+			// build html structure
+			this._buildHTML();
+
+			// listen for click outside of the dropdown
+			document.addEventListener('click', function (e) {
+				if (!_this3.container.contains(e.target)) {
+					_this3.open_checkbox.checked = false;
+				}
+			});
+
+			// listen when opened to focus in searchfield
+			this.open_checkbox.addEventListener('change', function (e) {
+				if (e.target.checked) {
+					// focus on search if exist
+					_this3.search_field.focus();
+				}
+			});
+
+			// handle close
+			document.addEventListener('keyup', function (e) {
+				if ((e.keyCode == 9 // tab
+				 || e.keyCode == 27 // escape
+				) && _this3.isOpen()) {
+					_this3.close();
+				}
+			});
+
+			// this.open_checkbox.addEventListener('focus', (e) => {
+			// 	this.open();
+			// });
+
+			// set position
+			// this._setPosition();
+
+			// listen for new elements in the select
+			_sugarDom2.default.querySelectorLive('[data-s-select="' + this.id + '"] option', function (elm) {
+				// handle option
+				_this3._handleOption(elm);
+			}, this.elm);
+		};
+
+		/**
+	  * Create html structure
+	  */
+
+
+		SugarSelectElement.prototype._buildHTML = function _buildHTML() {
+			var container = document.createElement('div');
+			container.setAttribute('class', this.elm.getAttribute('class') + ' s-select');
+
+			var open_checkbox = document.createElement('input');
+			open_checkbox.type = 'checkbox';
+			open_checkbox.setAttribute('class', 's-select__open-checkbox');
+			open_checkbox.setAttribute('data-input-activator', true);
+			open_checkbox.style.position = 'absolute';
+			open_checkbox.style.left = '-3000px';
+
+			var selection_container = document.createElement('div');
+			selection_container.setAttribute('class', 's-select__selection');
+
+			var dropdown = document.createElement('div');
+			dropdown.setAttribute('class', 's-select__dropdown');
+
+			// search
+			var search_container = document.createElement('div');
+			search_container.setAttribute('class', 's-select__search-container');
+			var search_field = document.createElement('input');
+			search_field.type = "text";
+			search_field.setAttribute('class', 'input');
+			search_field.setAttribute('tabindex', -1);
+
+			// choices
+			var choices_container = document.createElement('ul');
+			choices_container.setAttribute('class', 's-select__choices');
+
+			// append to document
+			search_container.appendChild(search_field);
+
+			dropdown.appendChild(search_container);
+			dropdown.appendChild(choices_container);
+
+			container.appendChild(open_checkbox);
+			container.appendChild(selection_container);
+			container.appendChild(dropdown);
+
+			this.elm.parentNode.insertBefore(container, this.elm);
+			// document.body.appendChild(container);
+
+			// hide element
+			this.elm.style.display = 'none';
+
+			// save into object
+			this.container = container;
+			this.search_field = search_field;
+			this.choices_container = choices_container;
+			this.open_checkbox = open_checkbox;
+		};
+
+		/**
+	  * Handle option
+	  */
+
+
+		SugarSelectElement.prototype._handleOption = function _handleOption(option) {
+
+			// create the choice
+			var choice = document.createElement('li');
+
+			var childs = option.children;
+			if (!childs.length) {
+				choice.innerHTML = option.innerHTML;
+			} else {
+				choice.appendChild(childs);
+			}
+
+			// append new choice
+			this.choices_container.appendChild(choice);
+		};
+
+		/**
+	  * Is opened
+	  */
+
+
+		SugarSelectElement.prototype.isOpen = function isOpen() {
+			return this.open_checkbox.checked;
+		};
+
+		/**
+	  * Close
+	  */
+
+
+		SugarSelectElement.prototype.close = function close() {
+			this.open_checkbox.checked = false;
+		};
+
+		/**
+	  * Close
+	  */
+
+
+		SugarSelectElement.prototype.open = function open() {
+			this.open_checkbox.checked = true;
+		};
+
+		return SugarSelectElement;
+	}(_sugarElement2.default);
+
+	// init the radiobox
+
+
+	_sugarDom2.default.querySelectorLive('select[data-s-select]', function (elm) {
+		new SugarSelectElement(elm);
+	});
+
 	// Date picker
 
-	var SugarDatepickerElement = function (_SugarElement2) {
-		_inherits(SugarDatepickerElement, _SugarElement2);
+	var SugarDatepickerElement = function (_SugarElement3) {
+		_inherits(SugarDatepickerElement, _SugarElement3);
 
 		/**
 	  * Setup
@@ -3582,10 +3797,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// init
 
-			var _this2 = _possibleConstructorReturn(this, _SugarElement2.call(this, 'sDatepicker', elm, {}, settings));
+			var _this4 = _possibleConstructorReturn(this, _SugarElement3.call(this, 'sDatepicker', elm, {}, settings));
 
-			_this2._init();
-			return _this2;
+			_this4._init();
+			return _this4;
 		}
 
 		/**
@@ -3594,7 +3809,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		SugarDatepickerElement.prototype._init = function _init() {
-			var _this3 = this;
+			var _this5 = this;
 
 			// try to get the theme automatically
 			var theme = null;
@@ -3616,8 +3831,8 @@ return /******/ (function(modules) { // webpackBootstrap
 					if (e.target.sDatepicker && e.target.sDatepicker.picker) {
 						// get the picker date
 						var date = e.target.sDatepicker.picker.getDate();
-						_this3.picker.setStartRange(date);
-						_this3.picker.setMinDate(date);
+						_this5.picker.setStartRange(date);
+						_this5.picker.setMinDate(date);
 						e.target.sDatepicker.picker.setStartRange(date);
 						e.target.sDatepicker.picker.hide();
 						e.target.sDatepicker.picker.show();
@@ -3634,8 +3849,8 @@ return /******/ (function(modules) { // webpackBootstrap
 					if (e.target.sDatepicker && e.target.sDatepicker.picker) {
 						// get the picker date
 						var date = e.target.sDatepicker.picker.getDate();
-						_this3.picker.setEndRange(date);
-						_this3.picker.setMaxDate(date);
+						_this5.picker.setEndRange(date);
+						_this5.picker.setMaxDate(date);
 						e.target.sDatepicker.picker.setEndRange(date);
 						e.target.sDatepicker.picker.hide();
 						e.target.sDatepicker.picker.show();
@@ -3654,21 +3869,25 @@ return /******/ (function(modules) { // webpackBootstrap
 		return SugarDatepickerElement;
 	}(_sugarElement2.default);
 
-	_sugarDom2.default.querySelectorLive('input, textarea', function (elm) {
-		elm.addEventListener('keyup', function (e) {
-			e.target.setAttribute('value', e.target.value);
+	_sugarDom2.default.querySelectorLive('.label--inside, .label-inside', function (elm) {
+
+		var span = elm.querySelector(':scope > span');
+		if (span) {
+			span.parentNode.removeChild(span);
+		}
+
+		// get all childs
+		var childs = elm.querySelectorAll(':scope > *');
+		// remove all childs to add them after
+		[].forEach.call(childs, function (child) {
+			child.parentNode.removeChild(child);
 		});
-		elm.setAttribute('value', elm.value);
-	});
-	_sugarDom2.default.querySelectorLive('label[s-material]', function (elm) {
-		if (elm.innerText || elm.textContent) {
+
+		// build correct html structure
+		var innerText = elm.innerText || elm.textContent;
+		if (innerText.trim()) {
 			var text = elm.innerText || elm.textContent;
-			// get all childs
-			var childs = elm.querySelectorAll('*');
-			// remove all childs to add them after
-			[].forEach.call(childs, function (child) {
-				child.parentNode.removeChild(child);
-			});
+
 			// empty the label
 			elm.innerHTML = '';
 
@@ -3678,10 +3897,37 @@ return /******/ (function(modules) { // webpackBootstrap
 			});
 
 			// create and add the span
-			var span = document.createElement('span');
-			span.innerHTML = textswd;
-			elm.appendChild(span);
+			if (!span) {
+				span = document.createElement('span');
+			}
+			span.innerHTML = text;
+		} else {
+			// add the children again
+			[].forEach.call(childs, function (child) {
+				elm.appendChild(child);
+			});
 		}
+
+		// add span at end
+		elm.appendChild(span);
+
+		// find the input inside to set the value on it
+		var input = elm.querySelector('input, textarea');
+		if (input) {
+			input.addEventListener('keyup', function (e) {
+				input.setAttribute('value', input.value);
+			});
+			input.addEventListener('change', function (e) {
+				input.setAttribute('value', input.value);
+			});
+			input.setAttribute('value', input.value);
+		}
+
+		// set the input width - the span one
+		setTimeout(function () {
+			var pl = window.getComputedStyle(input).getPropertyValue('padding-left');
+			input.style.paddingLeft = parseInt(pl) + span.offsetWidth + 'px';
+		});
 	});
 
 	// init the datepicker
@@ -18087,6 +18333,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	_sugarDom2.default.domReady(function () {
 		var _settings = window.getComputedStyle(document.querySelector('head'), ':before').getPropertyValue('content');
 		if (_settings) {
+			_settings = _settings.replace(/\\\'\\"/g, '"').replace(/\\"\\\'/g, '"');
 			_settings = _settings.replace(/\'\\"/g, '"').replace(/\\"\'/g, '"');
 			_settings = _settings.slice(1, _settings.length - 1);
 			_settings = JSON.parse(_settings);

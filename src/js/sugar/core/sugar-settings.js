@@ -12,6 +12,7 @@ sDom.domReady(() => {
 		document.querySelector('head'), ':before'
 	).getPropertyValue('content');
 	if (_settings) {
+		_settings = _settings.replace(/\\\'\\"/g,'"').replace(/\\"\\\'/g,'"');
 		_settings = _settings.replace(/\'\\"/g,'"').replace(/\\"\'/g,'"');
 		_settings = _settings.slice(1,_settings.length - 1);
 		_settings = JSON.parse(_settings);

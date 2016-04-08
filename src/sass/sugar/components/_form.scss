@@ -4,7 +4,7 @@
 		generate : (
 			colors : default primary secondary success warning error info,
 			sizes : default,
-			style : material
+			styles : inline inside
 		)
 	)
 ));
@@ -32,7 +32,8 @@ $_s-formset-inited : false;
 			@include s-placeholder() {
 				color: s-color(text, -opacity .4);
 			}
-
+			
+			[data-input-activator]:focus ~ &,
 			&:focus {
 				border-left-width : s-rem(5px);
 			}
@@ -494,7 +495,9 @@ $_s-formset-inited : false;
 @mixin s-formset-input-color($color) {
 	border-color: s-color($color, -opacity .1);
 	border-bottom-color: s-color($color, -opacity .3);
-	
+		
+	[data-input-activator]:focus ~ &,
+	[data-input-activator]:checked ~ &,
 	&:hover:not(:disabled):not(.input--disabled):not(.is-disabled),
 	&:focus:not(:disabled):not(.input--disabled):not(.is-disabled),
 	&.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
@@ -502,6 +505,8 @@ $_s-formset-inited : false;
 		// @include s-filter(box-shadow(s-color($color, -opacity .3) 0 5px s-rem(10px)));
 		@include s-depth(3, s-color($color, -opacity .3));
 	}
+	[data-input-activator]:focus ~ &,
+	[data-input-activator]:checked ~ &,
 	&:focus:not(:disabled):not(.input--disabled):not(.is-disabled),
 	&.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
 		border-left-color: s-color($color, -opacity .6);
@@ -521,7 +526,8 @@ $_s-formset-inited : false;
 @mixin s-formset(
 	$sizes : sugar('settings.components.formset.generate.sizes'),
 	$colors : sugar('settings.components.formset.generate.colors'),
-	$style : sugar('settings.components.formset.generate.style')
+	$styles : sugar('settings.components.formset.generate.styles'),
+	$scope-class : sugar('settings.components.formset.scope-class')
 ) {
 	// init form
 	@include s-formset-init();
@@ -536,30 +542,32 @@ $_s-formset-inited : false;
 	@include s-component-context('formset') {
 		
 		// get variables
-		$form-scope-class : sugar('settings.scope-class');
+		$scope-class : sugar('settings.scope-class');
 
 		// base
-		.#{$form-scope-class} input:not([type="checkbox"]):not([type="radio"]),
+		.#{$scope-class} input:not([type="checkbox"]):not([type="radio"]),
 		.input:not([type="checkbox"]):not([type="radio"]),
-		.#{$form-scope-class} textarea,
-		.#{$form-scope-class} select,
+		.#{$scope-class} textarea,
+		.#{$scope-class} select,
 		#{s-selector((
 			BEM : '[class*="input-prefix"], [class*="input-postfix"]',
 			SMACCS : '[class*="input-prefix"], [class*="input-postfix"]'
 		))} {
 			@extend %s-formset-input-bare;
 		}
-		.#{$form-scope-class} textarea {
+		.#{$scope-class} textarea {
 			height: auto !important;
 		}
-		.#{$form-scope-class} select,
+		.#{$scope-class} select,
 		select[class*="input"] {
 			@extend %s-formset-select-bare;
 		}
-		.#{$form-scope-class} label,
+		.#{$scope-class} label,
 		.label {
-			user-select: none;
-			font-weight: bold;
+			&, > span {
+				user-select: none;
+				font-weight: bold;
+			}
 
 			// restore font-weight
 			.s-radiobox ~ &,
@@ -613,7 +621,7 @@ $_s-formset-inited : false;
 			@include s-vertical-rhythme() {
 				margin-bottom: 2;
 			}
-			.#{$form-scope-class} label &,
+			.#{$scope-class} label &,
 			.label & {
 				margin-bottom: 0;
 			}
@@ -685,16 +693,16 @@ $_s-formset-inited : false;
 			// input styling
 			#{s-selector((
 				BEM : (
-					'.#{$form-scope-class} select.#{$size}',
-					'.#{$form-scope-class} input:not([type="checkbox"]):not([type="radio"]).#{$size}',
+					'.#{$scope-class} select.#{$size}',
+					'.#{$scope-class} input:not([type="checkbox"]):not([type="radio"]).#{$size}',
 					'select.input--#{$size}',
 					'input.input--#{$size}',
 					'.input-postfix--#{$size}',
 					'.input-prefix--#{$size}'
 				),
 				SMACCS : (
-					'.#{$form-scope-class} select.#{$size}',
-					'.#{$form-scope-class} input:not([type="checkbox"]):not([type="radio"]).#{$size}',
+					'.#{$scope-class} select.#{$size}',
+					'.#{$scope-class} input:not([type="checkbox"]):not([type="radio"]).#{$size}',
 					'select.input-#{$size}',
 					'input.input-#{$size}',
 					'.input-postfix-#{$size}',
@@ -705,26 +713,28 @@ $_s-formset-inited : false;
 				@include s-formset-input-size($size);
 
 				// vertical rhythme
-				@include s-vertical-rhythme(
-					$font-size : s-look-and-feel(font-size, $size),
-					$line-height: s-look-and-feel(font-size, $size),
-					$padding-top : s-look-and-feel(padding-horizontal, $size),
-					$padding-bottom : s-look-and-feel(padding-horizontal, $size),
-					$margin-bottom : 1,
-					$margin-top : 0,
-					$border-bottom-width: s-rem(1px),
-					$border-top-width : s-rem(1px),
-					$calculate-height : true
-				);
+				&, & ~ span {
+					@include s-vertical-rhythme(
+						$font-size : s-look-and-feel(font-size, $size),
+						$line-height: s-look-and-feel(font-size, $size),
+						$padding-top : s-look-and-feel(padding-horizontal, $size),
+						$padding-bottom : s-look-and-feel(padding-horizontal, $size),
+						$margin-bottom : 1,
+						$margin-top : 0,
+						$border-bottom-width: s-rem(1px),
+						$border-top-width : s-rem(1px),
+						$calculate-height : true
+					);
+				}
 			}
 
 			// textarea styling
 			#{s-selector((
 				BEM : (
-					'.#{$form-scope-class} textarea.#{$size}'
+					'.#{$scope-class} textarea.#{$size}'
 				),
 				SMACCS : (
-					'.#{$form-scope-class} textarea.#{$size}'
+					'.#{$scope-class} textarea.#{$size}'
 				)
 			))} {
 				@include s-formset-textarea-size($size);
@@ -763,13 +773,13 @@ $_s-formset-inited : false;
 
 			#{s-selector((
 				BEM : (
-					'.#{$form-scope-class} select.#{$size}',
+					'.#{$scope-class} select.#{$size}',
 					'select.input--#{$size}',
 					'.input-postfix--#{$size}',
 					'.input-prefix--#{$size}'
 				),
 				SMACCS : (
-					'.#{$form-scope-class} select.#{$size}',
+					'.#{$scope-class} select.#{$size}',
 					'select.input-#{$size}',
 					'.input-postfix-#{$size}',
 					'.input-prefix-#{$size}'
@@ -792,11 +802,11 @@ $_s-formset-inited : false;
 			// label styling
 			#{s-selector((
 				BEM : (
-					'.#{$form-scope-class} label.#{$size}',
+					'.#{$scope-class} label.#{$size}',
 					'.label--#{$size}'
 				),
 				SMACCS : (
-					'.#{$form-scope-class} label.#{$size}',
+					'.#{$scope-class} label.#{$size}',
 					'.label-#{$size}'
 				)
 			))} {
@@ -804,26 +814,75 @@ $_s-formset-inited : false;
 				display: inline-block;
 				vertical-align: middle;
 				position: relative;
-
-				&[s-material] {
-					input,
-					textarea,
-					select {
-						// margin-top:- s-lnf(font-size, $size) !important;
-						margin-top:0 !important;
-
-						&:not([value=""]) + span,
-						&:focus + span {
-							font-size:s-lnf(font-size, $size) * 0.5 !important;
-							padding-top : 0 !important;
+				
+				// if want the inline style
+				@if index($styles, inline) {
+					#{s-selector((
+						BEM : '&.label--inline',
+						SMACCS : '&.label-inline'
+					))} {
+						display: flex;
+						
+						> * {
+							flex:0;
+							margin-top:0 !important;
+						}
+						> input,
+						> textarea,
+						> select {
+							flex:1;
+						}
+						> span {
+							flex : 0;
+							white-space: nowrap;
+							display:inline-block;
+							padding:s-lnf(padding-horizontal, $size) s-lnf(padding-vertical, $size);
+							
+							&:first-child {
+								padding-left: 0 !important;
+							}
+							&:last-child {
+								padding-right: 0 !important;
+							}
 						}
 					}
-					> span {
-						@include s-transition(fast);
-						position:absolute;
-						top:0; left:0;
-						z-index:1;
-						padding:s-lnf(padding-horizontal, $size) s-lnf(padding-vertical, $size);
+				}
+
+				// if want the inside style
+				@if index($styles, inside) {
+					#{s-selector((
+						BEM : '&.label--inside',
+						SMACCS : '&.label-inside'
+					))} {
+						display: flex;
+
+						> * {
+							flex:0;
+							margin-top:0 !important;
+						}
+						> input,
+						> textarea,
+						> select {
+							flex:1;
+
+							&:focus ~ span {
+								// font-size:s-lnf(font-size, $size) * 0.5 !important;
+								// padding-top : 0 !important;
+								left: s-rem(5px);
+								// @include s-translate(-100%);
+							}
+						}
+						
+						> span {
+							@include s-transition(fast);
+							white-space: nowrap;
+							display:inline-block;
+							text-align: right;
+							position:absolute;
+							top:s-rem(2px); left:0;
+							z-index:1;
+							padding:s-lnf(padding-horizontal, $size) s-lnf(padding-vertical, $size);
+						}
 					}
 				}
 
@@ -852,6 +911,34 @@ $_s-formset-inited : false;
 		// generate each colors
 		@each $color in $colors {
 			
+			// label styling
+			@if index($styles, inside) {
+				#{s-selector((
+					BEM : (
+						'.#{$scope-class} .label--inside > input.#{$color}',
+						'.#{$scope-class} .label--inside > textarea.#{$color}',
+						'.label--inside > input.input--#{$color}',
+						'.label--inside > textarea.input--#{$color}'
+					),
+					SMACCS : (
+						'.#{$scope-class} .label-inside > input.#{$color}',
+						'.#{$scope-class} .label-inside > textarea.#{$color}',
+						'.label-inside > input.input-#{$color}',
+						'.label-inside > textarea.input-#{$color}'
+					)
+				))} {
+					& ~ span {
+						background-color: s-color($color, -opacity .05);
+					}
+
+					&:not([value=""]) ~ span,
+					&:focus ~ span {
+						background-color: s-color($color, -opacity .2);
+						color : s-color($color, -darken 20%);
+					}			
+				}
+			}
+
 			// display input-reply when parent has the good class
 			#{s-selector((
 				BEM : (
@@ -866,9 +953,9 @@ $_s-formset-inited : false;
 
 			#{s-selector((
 				BEM : (
-					'.#{$form-scope-class} select.#{$color}',
-					'.#{$form-scope-class} textarea.#{$color}',
-					'.#{$form-scope-class} input:not([type="checkbox"]):not([type="radio"]).#{$color}',
+					'.#{$scope-class} select.#{$color}',
+					'.#{$scope-class} textarea.#{$color}',
+					'.#{$scope-class} input:not([type="checkbox"]):not([type="radio"]).#{$color}',
 					'select.input--#{$color}',
 					'textarea.input--#{$color}',
 					'input.input--#{$color}',
@@ -876,9 +963,9 @@ $_s-formset-inited : false;
 					'.input-prefix--#{$color}'
 				),
 				SMACCS : (
-					'.#{$form-scope-class} select.#{$color}',
-					'.#{$form-scope-class} textarea.#{$color}',
-					'.#{$form-scope-class} input:not([type="checkbox"]):not([type="radio"]).#{$color}',
+					'.#{$scope-class} select.#{$color}',
+					'.#{$scope-class} textarea.#{$color}',
+					'.#{$scope-class} input:not([type="checkbox"]):not([type="radio"]).#{$color}',
 					'select.input-#{$color}',
 					'textarea.input-#{$color}',
 					'input.input-#{$color}',
@@ -913,11 +1000,11 @@ $_s-formset-inited : false;
 			}
 			#{s-selector((
 				BEM : (
-					'.#{$form-scope-class} select.#{$color}',
+					'.#{$scope-class} select.#{$color}',
 					'select.input--#{$color}'
 				),
 				SMACCS : (
-					'.#{$form-scope-class} select.#{$color}',
+					'.#{$scope-class} select.#{$color}',
 					'select.input-#{$color}'
 				)
 			))} {
@@ -1254,3 +1341,58 @@ $_s-formset-datepicker-inited : false;
 		}
 	}
 }
+
+
+$_s-formset-select-inited : false;
+@mixin s-formset-select-init() {
+	@if not $_s-formset-select-inited {
+		$_s-formset-select-inited : true ! global;
+	
+		.s-select {
+			position:relative;
+		}
+		.s-select__dropdown {
+			display:none;
+			position:absolute;
+			top:100%; left:0;
+			z-index: 1;
+			width:100%;
+			background:white;
+			@include s-depth(5);
+		}
+		.s-select__open-checkbox:checked ~ .s-select__dropdown {
+			display:block;
+		}
+		.s-select__selection {
+			@include s-formset-select(default, default);
+		}
+	}
+}
+
+@mixin s-formset-select-component(
+	$colors : s-setting('components.formset.generate.colors'),
+	$sizes : s-setting('components.formset.generate.sizes')
+) {
+	@include s-formset-select-init();
+
+	@each $size in $sizes {
+
+		#{s-selector((
+			BEM : '.s-select.#{$size}',
+			SMACCS : 's-select.#{$size}'
+		))} {
+			.s-select__dropdown {
+				border-radius: s-lnf(border-radius, $size);
+				padding:s-lnf(padding-horizontal, $size) s-lnf(padding-vertical, $size);
+			}
+		}
+
+	}
+}
+
+
+
+
+
+
+

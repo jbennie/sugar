@@ -322,7 +322,9 @@ return /******/ (function(modules) { // webpackBootstrap
 		/**
 	  * Make a selector detectable when new element are pushed in the page
 	  */
-		querySelectorLive: function querySelectorLive(selector, cb) {
+		querySelectorLive: function querySelectorLive(selector, cb, element) {
+
+			var _this = undefined;
 
 			// make a query on existing elements
 			sugarDom.domReady(function () {
@@ -334,66 +336,72 @@ return /******/ (function(modules) { // webpackBootstrap
 				// add the callback in stack
 				_insertDomElementsCallbacks[detection_id] = {
 					callback: cb,
-					selector: selector
+					selector: selector,
+					element: element
 				};
 
 				// check how we can detect new elements
-				if (window.MutationObserver != null && !_insertMutationObserver) {
-					// make use of great mutation summary library
-					var observer = new MutationSummary({
-						callback: function callback(summaries) {
-							summaries.forEach(function (summary) {
-								summary.added.forEach(function (elm) {
-									cb(elm);
-								});
+				if (window.MutationObserver != null) {
+					// // make use of great mutation summary library
+					// var observer = new MutationSummary({
+					// 	callback: (summaries) => {
+					// 		summaries.forEach((summary) => {
+					// 			summary.added.forEach((elm) => {
+					// 				cb(elm);
+					// 			});
+					// 		});
+					// 	},
+					// 	rootNode : element,
+					// 	queries: [{ element: selector }]
+					// });
+
+					if (!_insertMutationObserver) {
+						_insertMutationObserver = new MutationObserver(function (mutations) {
+							// check if what we need has been added
+							mutations.forEach(function (mutation) {
+
+								if (mutation.addedNodes && mutation.addedNodes[0]) {
+									// console.log(_this);
+									// loop on each callbacks to find a match
+									for (var insert_id in _insertDomElementsCallbacks) {
+										if (sugarDom.matches(mutation.addedNodes[0], _insertDomElementsCallbacks[insert_id].selector)) {
+											_insertDomElementsCallbacks[insert_id].callback(mutation.addedNodes[0]);
+										}
+									}
+								}
 							});
-						},
-						queries: [{ element: selector }]
-					});
+						});
+						_insertMutationObserver.observe(document.body, {
+							childList: true
+						});
+					}
 
 					[].forEach.call(document.body.querySelectorAll(selector), function (elm) {
 						cb(elm);
 					});
-
-					// _insertMutationObserver = new MutationObserver((mutations) => {
-					// 	// check if what we need has been added
-					// 	mutations.forEach((mutation) => {
-					// 		if (mutation.addedNodes && mutation.addedNodes[0]) {
-					// 			// loop on each callbacks to find a match
-					// 			for(let insert_id in _insertDomElementsCallbacks) {
-					// 				if (this.matches(mutation.addedNodes[0], _insertDomElementsCallbacks[insert_id].selector)) {
-					// 					_insertDomElementsCallbacks[insert_id].callback(mutation.addedNodes[0]);
-					// 				}
-					// 			}
-					// 		}
-					// 	});
-					// });
-					// _insertMutationObserver.observe(document.body, {
-					// 	childList: true
-					// });
 				} else {
-						// add the animation style in DOM
-						var css = selector + (' { \n\t\t\t\t\t-webkit-animation:' + detection_id + ' 0.001s;\n\t\t\t\t\t-moz-animation:' + detection_id + ' 0.001s;\n\t\t\t\t\t-ms-animation:' + detection_id + ' 0.001s;\n\t\t\t\t\tanimation:' + detection_id + ' 0.001s;\n\t\t\t\t}\n\t\t\t\t@keyframes ' + detection_id + ' {\n\t\t\t\t\tfrom { opacity: .99; }\n\t\t\t\t\tto { opacity: 1; }\n\t\t\t\t}');
-						var style = document.createElement('style');
-						style.type = 'text/css';
-						if (style.styleSheet) {
-							style.styleSheet.cssText = css;
-						} else {
-							style.appendChild(document.createTextNode(css));
-						}
-						// now we listen for animation end
-						// but only once
-						if (!_insertAnimationListener) {
-							_insertAnimationListener = true;
-							document.addEventListener('animationend', function (e) {
-								if (_insertDomElementsCallbacks[e.animationName]) {
-									_insertDomElementsCallbacks[e.animationName].callback(e.target);
-								}
-							});
-						}
-						// append the animation in head
-						document.head.appendChild(style);
+					// add the animation style in DOM
+					var css = selector + (' { \n\t\t\t\t\t-webkit-animation:' + detection_id + ' 0.001s;\n\t\t\t\t\t-moz-animation:' + detection_id + ' 0.001s;\n\t\t\t\t\t-ms-animation:' + detection_id + ' 0.001s;\n\t\t\t\t\tanimation:' + detection_id + ' 0.001s;\n\t\t\t\t}\n\t\t\t\t@keyframes ' + detection_id + ' {\n\t\t\t\t\tfrom { opacity: .99; }\n\t\t\t\t\tto { opacity: 1; }\n\t\t\t\t}');
+					var style = document.createElement('style');
+					style.type = 'text/css';
+					if (style.styleSheet) {
+						style.styleSheet.cssText = css;
+					} else {
+						style.appendChild(document.createTextNode(css));
 					}
+					// now we listen for animation end
+					// but only once
+					if (!_insertAnimationListener) {
+						_insertAnimationListener = true;
+						document.addEventListener('animationend', function (e) {
+							if (_insertDomElementsCallbacks[e.animationName]) {
+								_insertDomElementsCallbacks[e.animationName].callback(e.target);
+							}
+						});
+					}
+					// append the animation in head
+					document.head.appendChild(style);
+				}
 			});
 		},
 
