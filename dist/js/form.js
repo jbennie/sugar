@@ -2961,9 +2961,6 @@ return /******/ (function(modules) { // webpackBootstrap
 			// 	this.open();
 			// });
 
-			// set position
-			// this._setPosition();
-
 			// listen for new elements in the select
 			_sugarDom2.default.querySelectorLive('[data-s-select="' + this.id + '"] option', function (elm) {
 				// handle option
@@ -2989,6 +2986,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			var selection_container = document.createElement('div');
 			selection_container.setAttribute('class', 's-select__selection');
+			var selection_aligner = document.createElement('div');
+			selection_aligner.setAttribute('class', 's-select__selection-aligner');
 
 			var dropdown = document.createElement('div');
 			dropdown.setAttribute('class', 's-select__dropdown');
@@ -2998,7 +2997,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			search_container.setAttribute('class', 's-select__search-container');
 			var search_field = document.createElement('input');
 			search_field.type = "text";
-			search_field.setAttribute('class', 'input');
+			search_field.setAttribute('class', 's-select__search-field');
 			search_field.setAttribute('tabindex', -1);
 
 			// choices
@@ -3006,7 +3005,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			choices_container.setAttribute('class', 's-select__choices');
 
 			// append to document
-			search_container.appendChild(search_field);
+			selection_container.appendChild(selection_aligner);
+			selection_container.appendChild(search_field);
 
 			dropdown.appendChild(search_container);
 			dropdown.appendChild(choices_container);

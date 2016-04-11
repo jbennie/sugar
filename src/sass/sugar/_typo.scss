@@ -18,13 +18,27 @@
 	$border : null,
 	$cap-height : null,
 	$scope-class : true,
-	$scope-class-base : null,
 	$calculate-height : false
 ) {
 
 	@if sugar('settings.vertical-rhythme.enabled') {
 		
+		// get if need the no-vertical-rhythme or not
+		$no-vertical-rhythme-class : sugar('settings.vertical-rhythme.no-vertical-rhythme-class');
+		$no-vertical-rhythme-selector : ':not(.#{$no-vertical-rhythme-class})';
+		@if not $no-vertical-rhythme-class {
+			$no-vertical-rhythme-selector : '';
+		}
+
+		// prevent from adding 2 times the scope class
+		@if str-index("#{&}", s-vertical-rhythme-scope-class()) {
+			$scope-class : false;
+		}
+
 		$sc : sugar('settings.vertical-rhythme.scope-class');
+		@if type-of($scope-class) == string {
+			$sc : $scope-class;
+		}
 
 		// check if we have some arguments
 		// mean that we want the vertical rhythme css properties
@@ -57,15 +71,30 @@
 			$rhythme-map : map-remove($rhythme-map, cap-height);
 			$rhythme-map : map-remove($rhythme-map, scope-class);
 			$rhythme-map : map-remove($rhythme-map, calculate-height);
-			&:not(.no-#{$sc}) {
-				@each $prop, $value in $rhythme-map {
-					#{$prop} : $value;
+			@if $scope-class {
+				.#{$sc} &#{$no-vertical-rhythme-selector} {
+					@each $prop, $value in $rhythme-map {
+						#{$prop} : $value;
+					}
+					@content;
 				}
-				@content;
+			} @else {
+				&#{$no-vertical-rhythme-selector} {
+					@each $prop, $value in $rhythme-map {
+						#{$prop} : $value;
+					}
+					@content;
+				}
 			}
 		} @else {
-			&:not(.no-#{$sc}) {
-				@content;
+			@if $scope-class {
+				.#{$sc} &#{$no-vertical-rhythme-selector} {
+					@content;
+				}
+			} @else {
+				&#{$no-vertical-rhythme-selector} {
+					@content;
+				}
 			}
 		}
 	}

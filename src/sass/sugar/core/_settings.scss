@@ -77,8 +77,9 @@ $_sugar-settings : (								// store all the settings
 									)
 								), 							
 	vertical-rhythme 			: ( 				// Vertical rhythme options
-		enabled 					: true,				// set if need the vertical rhythme options or not
-		scope-class 				: vertical-rhythme 	// the class in which the vertical rhythme will be applied
+		enabled 					: true,					// set if need the vertical rhythme options or not
+		scope-class 				: vertical-rhythme, 	// the class in which the vertical rhythme will be applied
+		no-vertical-rhythme-class 	: false 	// the class that disable the vertical rhythme on a particular element
 								),
 	selector 					: (
 		method 						: BEM,

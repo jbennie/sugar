@@ -142,8 +142,7 @@
 			), $vertical-rhythme-scope : true)} {
 				@include s-vertical-rhythme(
 					$font-size : map-get($s, font-size),
-					$margin-bottom : map-get($s, margin-bottom),
-					$scope-class-base : ".#{$typeset}"
+					$margin-bottom : map-get($s, margin-bottom)
 				);
 			}
 
@@ -201,9 +200,7 @@
 			);
 			$rhythme : s-vertical-rhythme($args...);
 			
-			@include s-vertical-rhythme(
-				$scope-class-base : ".#{$typeset}"
-			) {
+			@include s-vertical-rhythme {
 				margin-bottom: ceil(s-rem(s-px(map-get($s, margin-bottom)))) + map-get($rhythme, margin-bottom);
 			}
 
@@ -606,8 +603,7 @@
 			caption {
 				@include s-vertical-rhythme(
 					$font-size : $font-size,
-					$margin-bottom : 1,
-					$scope-class-base : ".#{$typeset}"
+					$margin-bottom : 1
 				);
 			}	
 		}

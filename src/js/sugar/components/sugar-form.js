@@ -132,9 +132,6 @@ class SugarSelectElement extends SugarElement {
 		// 	this.open();
 		// });
 
-		// set position
-		// this._setPosition();
-
 		// listen for new elements in the select
 		sDom.querySelectorLive('[data-s-select="'+this.id+'"] option', (elm) => {
 			// handle option
@@ -158,6 +155,8 @@ class SugarSelectElement extends SugarElement {
 
 		let selection_container = document.createElement('div');
 		selection_container.setAttribute('class', 's-select__selection');
+		let selection_aligner = document.createElement('div');
+		selection_aligner.setAttribute('class', 's-select__selection-aligner');
 
 		let dropdown = document.createElement('div');
 		dropdown.setAttribute('class', 's-select__dropdown');
@@ -167,7 +166,7 @@ class SugarSelectElement extends SugarElement {
 		search_container.setAttribute('class','s-select__search-container');
 		let search_field = document.createElement('input');
 		search_field.type = "text";
-		search_field.setAttribute('class', 'input');
+		search_field.setAttribute('class', 's-select__search-field');
 		search_field.setAttribute('tabindex', -1);
 
 		// choices
@@ -175,7 +174,8 @@ class SugarSelectElement extends SugarElement {
 		choices_container.setAttribute('class', 's-select__choices');
 
 		// append to document
-		search_container.appendChild(search_field);
+		selection_container.appendChild(selection_aligner);
+		selection_container.appendChild(search_field);
 
 		dropdown.appendChild(search_container);
 		dropdown.appendChild(choices_container);
