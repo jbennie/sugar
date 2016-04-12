@@ -319,12 +319,17 @@ return /******/ (function(modules) { // webpackBootstrap
 		/**
 	  * Make a selector detectable when new element are pushed in the page
 	  */
-		querySelectorLive: function querySelectorLive(selector, cb, element) {
+		querySelectorLive: function querySelectorLive(selector, cb, rootNode) {
 
 			var _this = undefined;
 
 			// make a query on existing elements
 			sugarDom.domReady(function () {
+
+				// rootNode
+				if (!rootNode) {
+					rootNode = document.body;
+				}
 
 				// use the animation hack to detect
 				// new items in the page
@@ -334,12 +339,12 @@ return /******/ (function(modules) { // webpackBootstrap
 				_insertDomElementsCallbacks[detection_id] = {
 					callback: cb,
 					selector: selector,
-					element: element
+					rootNode: rootNode
 				};
 
 				// check how we can detect new elements
 				if (window.MutationObserver != null) {
-					// // make use of great mutation summary library
+					// make use of great mutation summary library
 					// var observer = new MutationSummary({
 					// 	callback: (summaries) => {
 					// 		summaries.forEach((summary) => {
@@ -348,15 +353,14 @@ return /******/ (function(modules) { // webpackBootstrap
 					// 			});
 					// 		});
 					// 	},
-					// 	rootNode : element,
+					// 	rootNode : rootNode,
 					// 	queries: [{ element: selector }]
 					// });
-
-					if (!_insertMutationObserver) {
-						_insertMutationObserver = new MutationObserver(function (mutations) {
+					if (!rootNode._s_insert_mutation_observer) {
+						rootNode._s_insert_mutation_observer = new MutationObserver(function (mutations) {
 							// check if what we need has been added
 							mutations.forEach(function (mutation) {
-
+								console.log('mutation', mutation);
 								if (mutation.addedNodes && mutation.addedNodes[0]) {
 									// console.log(_this);
 									// loop on each callbacks to find a match
@@ -368,12 +372,11 @@ return /******/ (function(modules) { // webpackBootstrap
 								}
 							});
 						});
-						_insertMutationObserver.observe(document.body, {
+						rootNode._s_insert_mutation_observer.observe(rootNode, {
 							childList: true
 						});
 					}
-
-					[].forEach.call(document.body.querySelectorAll(selector), function (elm) {
+					[].forEach.call(rootNode.querySelectorAll(selector), function (elm) {
 						cb(elm);
 					});
 				} else {
@@ -2933,11 +2936,23 @@ return /******/ (function(modules) { // webpackBootstrap
 			// build html structure
 			this._buildHTML();
 
+			// prevent default behavior on click in options container
+			this.options_container.addEventListener('click', function (e) {
+				e.preventDefault();
+			});
+
 			// listen for click outside of the dropdown
 			document.addEventListener('click', function (e) {
+				console.log('cliock');
 				if (!_this3.container.contains(e.target)) {
+					console.log('need to close');
 					_this3.open_checkbox.checked = false;
 				}
+			});
+
+			this.elm.addEventListener('change', function (e) {
+				console.log('update base select!!!', e);
+				_this3._setSelected();
 			});
 
 			// listen when opened to focus in searchfield
@@ -2962,10 +2977,24 @@ return /******/ (function(modules) { // webpackBootstrap
 			// });
 
 			// listen for new elements in the select
-			_sugarDom2.default.querySelectorLive('[data-s-select="' + this.id + '"] option', function (elm) {
+			_sugarDom2.default.querySelectorLive('[data-s-select="' + this.id + '"] > option, [data-s-select="' + this.id + '"] > optgroup', function (elm) {
 				// handle option
+				console.log('new element');
 				_this3._handleOption(elm);
 			}, this.elm);
+
+			// this._appendNew();
+		};
+
+		SugarSelectElement.prototype._appendNew = function _appendNew() {
+			var _this4 = this;
+
+			var opt = document.createElement('option');
+			opt.innerHTML = 'Coco';
+			this.elm.appendChild(opt);
+			setTimeout(function () {
+				_this4._appendNew();
+			}, 2000 + Math.random() * 5000);
 		};
 
 		/**
@@ -2986,6 +3015,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			var selection_container = document.createElement('div');
 			selection_container.setAttribute('class', 's-select__selection');
+
 			var selection_aligner = document.createElement('div');
 			selection_aligner.setAttribute('class', 's-select__selection-aligner');
 
@@ -3000,16 +3030,16 @@ return /******/ (function(modules) { // webpackBootstrap
 			search_field.setAttribute('class', 's-select__search-field');
 			search_field.setAttribute('tabindex', -1);
 
-			// choices
-			var choices_container = document.createElement('ul');
-			choices_container.setAttribute('class', 's-select__choices');
+			// options
+			var options_container = document.createElement('div');
+			options_container.setAttribute('class', 's-select__options');
 
 			// append to document
 			selection_container.appendChild(selection_aligner);
 			selection_container.appendChild(search_field);
 
 			dropdown.appendChild(search_container);
-			dropdown.appendChild(choices_container);
+			dropdown.appendChild(options_container);
 
 			container.appendChild(open_checkbox);
 			container.appendChild(selection_container);
@@ -3024,8 +3054,126 @@ return /******/ (function(modules) { // webpackBootstrap
 			// save into object
 			this.container = container;
 			this.search_field = search_field;
-			this.choices_container = choices_container;
+			this.options_container = options_container;
 			this.open_checkbox = open_checkbox;
+		};
+
+		/**
+	  * Handle click on option
+	  */
+
+
+		SugarSelectElement.prototype._handleOptionClick = function _handleOptionClick(_s_option, e) {
+			var _this5 = this;
+
+			// check if is a multiple
+			if (!this.isMultiple()) {
+				// select the element in the source select
+				_s_option._s_select_source_option.selected = true;
+				// close
+				this.close();
+			} else {
+				// check if the alt key is pressed
+				if (e.metaKey) {
+					// toggle selection
+					_s_option._s_select_source_option.selected = !_s_option._s_select_source_option.selected;
+				} else if (e.shiftKey) {
+					// get the index of the last selected option
+					if (this.elm.options.selectedIndex) {
+						(function () {
+							// find the current option position
+							var current_option_idx = 0,
+							    found = false;
+							[].forEach.call(_this5.elm.options, function (opt) {
+								if (!found && opt != _s_option._s_select_source_option) {
+									current_option_idx++;
+								} else {
+									found = true;
+								}
+							});
+
+							// select all the options inbetween
+							var first = _this5.elm.options.selectedIndex;
+							var last = current_option_idx;
+							if (first > last) {
+								var _last = last;
+								last = first;
+								first = _last;
+							}
+							for (var i = first; i <= last; i++) {
+								if (!_this5.elm.options[i].disabled) {
+									_this5.elm.options[i].selected = true;
+								}
+							}
+						})();
+					} else {
+						// telection
+						_s_option._s_select_source_option.selected = !_s_option._s_select_source_option.selected;
+					}
+				} else {
+					// unactive all the options
+					[].forEach.call(this.elm.options, function (opt) {
+						opt.selected = false;
+					});
+					// activate the item
+					_s_option._s_select_source_option.selected = true;
+				}
+			}
+
+			// trigger change event
+			var event = new Event('change');
+			this.elm.dispatchEvent(event);
+		};
+
+		/**
+	  * Set selected elements
+	  */
+
+
+		SugarSelectElement.prototype._setSelected = function _setSelected() {
+			// loop on selected option to activate them
+			[].forEach.call(this.elm.options, function (option) {
+				// apply the active class
+				if (option._s_select_option) {
+					if (option.selected) {
+						option._s_select_option.classList.add('active');
+					} else {
+						option._s_select_option.classList.remove('active');
+					}
+				}
+			});
+		};
+
+		/**
+	  * Handle optgroup
+	  */
+
+
+		SugarSelectElement.prototype._handleOptgroup = function _handleOptgroup(_optgroup) {
+			// create the choice
+			var option = document.createElement('div');
+			option.classList.add('s-select__optgroup');
+
+			// get the content
+			var content = _optgroup.getAttribute('label');
+
+			// get the content
+			var source = _optgroup.getAttribute('data-s-select-option-source');
+			if (source) {
+				// try to get into document
+				source = document.querySelector(source);
+				if (source) {
+					option.appendChild(source);
+					option.classList.add('s-select__optgroup--custom');
+				} else {
+					option.innerHTML = content;
+				}
+			} else {
+				option.innerHTML = content;
+			}
+
+			// append new choice
+			this.options_container.appendChild(option);
 		};
 
 		/**
@@ -3033,20 +3181,77 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-		SugarSelectElement.prototype._handleOption = function _handleOption(option) {
+		SugarSelectElement.prototype._handleOption = function _handleOption(_option) {
+			var _this6 = this;
 
-			// create the choice
-			var choice = document.createElement('li');
+			var in_optgroup = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
 
-			var childs = option.children;
-			if (!childs.length) {
-				choice.innerHTML = option.innerHTML;
-			} else {
-				choice.appendChild(childs);
+
+			// check if is an optiongroup
+			if (_option.nodeName.toLowerCase() == 'optgroup') {
+				this._handleOptgroup(_option);
+				[].forEach.call(_option.querySelectorAll(':scope > option'), function (option) {
+					_this6._handleOption(option, true);
+				});
+				return;
 			}
 
+			// create the choice
+			var option = document.createElement('div');
+			option.classList.add('s-select__option');
+
+			// check if in optgroup
+			if (in_optgroup) {
+				option.classList.add('s-select__option--in-optgroup');
+			}
+
+			// check if disabled
+			if (_option.disabled) {
+				option.classList.add('s-select__option--disabled');
+			}
+
+			// save the option reference into html element
+			// to be able to activate it in the base select
+			option._s_select_source_option = _option;
+
+			// save the s_option into the base option
+			// to be able to activate the s_option later
+			_option._s_select_option = option;
+
+			// get the content
+			var content = _option.innerHTML;
+
+			// get the content
+			var source = _option.getAttribute('data-s-select-option-source');
+			if (source) {
+				// try to get into document
+				source = document.querySelector(source);
+				if (source) {
+					option.appendChild(source);
+					option.classList.add('s-select__option--custom');
+				} else {
+					option.innerHTML = content;
+				}
+			} else {
+				option.innerHTML = content;
+			}
+
+			// add a click event on the option
+			option.addEventListener('click', function (e) {
+				_this6._handleOptionClick(e.currentTarget, e);
+			});
+
 			// append new choice
-			this.choices_container.appendChild(choice);
+			this.options_container.appendChild(option);
+		};
+
+		/**
+	  * Is multiple
+	  */
+
+
+		SugarSelectElement.prototype.isMultiple = function isMultiple() {
+			return this.elm.getAttribute('multiple') != null;
 		};
 
 		/**
@@ -3111,10 +3316,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// init
 
-			var _this4 = _possibleConstructorReturn(this, _SugarElement3.call(this, 'sDatepicker', elm, {}, settings));
+			var _this7 = _possibleConstructorReturn(this, _SugarElement3.call(this, 'sDatepicker', elm, {}, settings));
 
-			_this4._init();
-			return _this4;
+			_this7._init();
+			return _this7;
 		}
 
 		/**
@@ -3123,7 +3328,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		SugarDatepickerElement.prototype._init = function _init() {
-			var _this5 = this;
+			var _this8 = this;
 
 			// try to get the theme automatically
 			var theme = null;
@@ -3145,8 +3350,8 @@ return /******/ (function(modules) { // webpackBootstrap
 					if (e.target.sDatepicker && e.target.sDatepicker.picker) {
 						// get the picker date
 						var date = e.target.sDatepicker.picker.getDate();
-						_this5.picker.setStartRange(date);
-						_this5.picker.setMinDate(date);
+						_this8.picker.setStartRange(date);
+						_this8.picker.setMinDate(date);
 						e.target.sDatepicker.picker.setStartRange(date);
 						e.target.sDatepicker.picker.hide();
 						e.target.sDatepicker.picker.show();
@@ -3163,8 +3368,8 @@ return /******/ (function(modules) { // webpackBootstrap
 					if (e.target.sDatepicker && e.target.sDatepicker.picker) {
 						// get the picker date
 						var date = e.target.sDatepicker.picker.getDate();
-						_this5.picker.setEndRange(date);
-						_this5.picker.setMaxDate(date);
+						_this8.picker.setEndRange(date);
+						_this8.picker.setMaxDate(date);
 						e.target.sDatepicker.picker.setEndRange(date);
 						e.target.sDatepicker.picker.hide();
 						e.target.sDatepicker.picker.show();

@@ -104,11 +104,23 @@ class SugarSelectElement extends SugarElement {
 		// build html structure
 		this._buildHTML();
 
+		// prevent default behavior on click in options container
+		this.options_container.addEventListener('click', (e) => {
+			e.preventDefault();
+		});
+
 		// listen for click outside of the dropdown
 		document.addEventListener('click', (e) => {
+			console.log('cliock');
 			if ( ! this.container.contains(e.target)) {
+				console.log('need to close');
 				this.open_checkbox.checked = false;
 			}
+		});
+
+		this.elm.addEventListener('change', (e) => {
+			console.log('update base select!!!', e);
+			this._setSelected();
 		});
 
 		// listen when opened to focus in searchfield
@@ -133,10 +145,22 @@ class SugarSelectElement extends SugarElement {
 		// });
 
 		// listen for new elements in the select
-		sDom.querySelectorLive('[data-s-select="'+this.id+'"] option', (elm) => {
+		sDom.querySelectorLive('[data-s-select="'+this.id+'"] > option, [data-s-select="'+this.id+'"] > optgroup', (elm) => {
 			// handle option
+			console.log('new element');
 			this._handleOption(elm);
 		}, this.elm);
+
+		// this._appendNew();
+	}
+
+	_appendNew() {
+		let opt = document.createElement('option');
+		opt.innerHTML = 'Coco';
+		this.elm.appendChild(opt);
+		setTimeout(() => {
+			this._appendNew();
+		}, 2000 + Math.random() * 5000);
 	}
 
 	/**
@@ -155,6 +179,8 @@ class SugarSelectElement extends SugarElement {
 
 		let selection_container = document.createElement('div');
 		selection_container.setAttribute('class', 's-select__selection');
+
+
 		let selection_aligner = document.createElement('div');
 		selection_aligner.setAttribute('class', 's-select__selection-aligner');
 
@@ -169,16 +195,16 @@ class SugarSelectElement extends SugarElement {
 		search_field.setAttribute('class', 's-select__search-field');
 		search_field.setAttribute('tabindex', -1);
 
-		// choices
-		let choices_container = document.createElement('ul');
-		choices_container.setAttribute('class', 's-select__choices');
+		// options
+		let options_container = document.createElement('div');
+		options_container.setAttribute('class', 's-select__options');
 
 		// append to document
 		selection_container.appendChild(selection_aligner);
 		selection_container.appendChild(search_field);
 
 		dropdown.appendChild(search_container);
-		dropdown.appendChild(choices_container);
+		dropdown.appendChild(options_container);
 
 		container.appendChild(open_checkbox);
 		container.appendChild(selection_container);
@@ -194,28 +220,188 @@ class SugarSelectElement extends SugarElement {
 		// save into object
 		this.container = container;
 		this.search_field = search_field;
-		this.choices_container = choices_container;
+		this.options_container = options_container;
 		this.open_checkbox = open_checkbox;
+	}
+
+	/**
+	 * Handle click on option
+	 */
+	_handleOptionClick(_s_option, e) {
+
+		// check if is a multiple
+		if ( ! this.isMultiple()) {
+			// select the element in the source select
+			_s_option._s_select_source_option.selected = true;
+			// close
+			this.close();
+		} else {
+			// check if the alt key is pressed
+			if (e.metaKey) {
+				// toggle selection
+				_s_option._s_select_source_option.selected = ! _s_option._s_select_source_option.selected;
+			} else if (e.shiftKey) {
+				// get the index of the last selected option
+				if (this.elm.options.selectedIndex) {
+					// find the current option position
+					let current_option_idx = 0,
+						found = false;
+					[].forEach.call(this.elm.options, (opt) => {
+						if ( ! found && opt != _s_option._s_select_source_option) {
+							current_option_idx++;
+						} else {
+							found = true;
+						}
+					});
+
+					// select all the options inbetween
+					let first = this.elm.options.selectedIndex;
+					let last = current_option_idx;
+					if (first > last) {
+						let _last = last;
+						last = first;
+						first = _last;
+					}
+					for (let i = first; i <= last; i++) {
+						if ( ! this.elm.options[i].disabled) {
+							this.elm.options[i].selected = true;
+						}
+					}
+				} else {
+					// telection
+					_s_option._s_select_source_option.selected = ! _s_option._s_select_source_option.selected;
+				}
+			} else {
+				// unactive all the options
+				[].forEach.call(this.elm.options, (opt) => {
+					opt.selected = false;
+				});
+				// activate the item
+				_s_option._s_select_source_option.selected = true;
+			}
+		}
+
+		// trigger change event
+		let event = new Event('change');
+		this.elm.dispatchEvent(event);
+	}
+
+	/**
+	 * Set selected elements
+	 */
+	 _setSelected() {
+	 	// loop on selected option to activate them
+	 	[].forEach.call(this.elm.options, (option) => {
+	 		// apply the active class
+	 		if (option._s_select_option) {
+	 			if (option.selected) {
+	 				option._s_select_option.classList.add('active');
+	 			} else {
+	 				option._s_select_option.classList.remove('active');
+	 			}
+	 		}
+	 	});
+	 }
+
+	/**
+	 * Handle optgroup
+	 */
+	_handleOptgroup(_optgroup) {
+		// create the choice
+		let option = document.createElement('div');
+		option.classList.add('s-select__optgroup');
+
+		// get the content
+		let content = _optgroup.getAttribute('label');
+
+		// get the content
+		let source = _optgroup.getAttribute('data-s-select-option-source');
+		if (source) {
+			// try to get into document
+			source = document.querySelector(source);
+			if (source) {
+				option.appendChild(source);
+				option.classList.add('s-select__optgroup--custom');
+			} else {
+				option.innerHTML = content;
+			}
+		} else {
+			option.innerHTML = content;
+		}
+
+		// append new choice
+		this.options_container.appendChild(option);
 	}
 
 	/**
 	 * Handle option
 	 */
-	_handleOption(option) {
-		
-		// create the choice
-		let choice = document.createElement('li');
-
-		let childs = option.children;
-		if ( ! childs.length) {
-			choice.innerHTML = option.innerHTML;
-		} else {
-			choice.appendChild(childs);
+	_handleOption(_option, in_optgroup = false) {
+			
+		// check if is an optiongroup
+		if (_option.nodeName.toLowerCase() == 'optgroup') {
+			this._handleOptgroup(_option);
+			[].forEach.call(_option.querySelectorAll(':scope > option'), (option) => {
+				this._handleOption(option, true);
+			});
+			return;
 		}
 
-		// append new choice
-		this.choices_container.appendChild(choice);
+		// create the choice
+		let option = document.createElement('div');
+		option.classList.add('s-select__option');
 
+		// check if in optgroup
+		if (in_optgroup) {
+			option.classList.add('s-select__option--in-optgroup');
+		}
+
+		// check if disabled
+		if (_option.disabled) {
+			option.classList.add('s-select__option--disabled');
+		}
+
+		// save the option reference into html element
+		// to be able to activate it in the base select
+		option._s_select_source_option = _option;
+
+		// save the s_option into the base option
+		// to be able to activate the s_option later
+		_option._s_select_option = option;
+
+		// get the content
+		let content = _option.innerHTML;
+
+		// get the content
+		let source = _option.getAttribute('data-s-select-option-source');
+		if (source) {
+			// try to get into document
+			source = document.querySelector(source);
+			if (source) {
+				option.appendChild(source);
+				option.classList.add('s-select__option--custom');
+			} else {
+				option.innerHTML = content;
+			}
+		} else {
+			option.innerHTML = content;
+		}
+
+		// add a click event on the option
+		option.addEventListener('click', (e) => {
+			this._handleOptionClick(e.currentTarget, e);
+		});
+
+		// append new choice
+		this.options_container.appendChild(option);
+
+	}
+
+	/**
+	 * Is multiple
+	 */
+	isMultiple() {
+		return this.elm.getAttribute('multiple') != null;
 	}
 
 	/**

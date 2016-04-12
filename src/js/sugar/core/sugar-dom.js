@@ -21,12 +21,15 @@ let sugarDom = {
 	/**
 	 * Make a selector detectable when new element are pushed in the page
 	 */
-	querySelectorLive : (selector, cb, element) => {
+	querySelectorLive : (selector, cb, rootNode)  => {
 
 		let _this = this;
 
 		// make a query on existing elements
 		sugarDom.domReady(() => {
+
+			// rootNode
+			if ( ! rootNode) { rootNode = document.body; }
 
 			// use the animation hack to detect
 			// new items in the page
@@ -36,12 +39,12 @@ let sugarDom = {
 			_insertDomElementsCallbacks[detection_id] = {
 				callback : cb,
 				selector : selector,
-				element : element
+				rootNode : rootNode
 			};
 
 			// check how we can detect new elements
 			if (window.MutationObserver != null) {
-				// // make use of great mutation summary library
+				// make use of great mutation summary library
 				// var observer = new MutationSummary({
 				// 	callback: (summaries) => {
 				// 		summaries.forEach((summary) => {
@@ -50,15 +53,14 @@ let sugarDom = {
 				// 			});
 				// 		});
 				// 	},
-				// 	rootNode : element,
+				// 	rootNode : rootNode,
 				// 	queries: [{ element: selector }]
 				// });
-
-				if ( ! _insertMutationObserver) {
-					_insertMutationObserver = new MutationObserver((mutations) => {
+				if ( ! rootNode._s_insert_mutation_observer) {
+					rootNode._s_insert_mutation_observer = new MutationObserver((mutations) => {
 						// check if what we need has been added
 						mutations.forEach((mutation) => {
-
+							console.log('mutation', mutation);
 							if (mutation.addedNodes && mutation.addedNodes[0]) {
 								// console.log(_this);
 								// loop on each callbacks to find a match
@@ -70,15 +72,13 @@ let sugarDom = {
 							}
 						});
 					});
-					_insertMutationObserver.observe(document.body, {
+					rootNode._s_insert_mutation_observer.observe(rootNode, {
 						childList: true
 					});
 				}
-
-				[].forEach.call(document.body.querySelectorAll(selector), (elm) => {
+				[].forEach.call(rootNode.querySelectorAll(selector), (elm) => {
 					cb(elm);
 				});
-
 			} else {
 				// add the animation style in DOM
 				let css = selector + ` { 
