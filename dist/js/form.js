@@ -360,7 +360,6 @@ return /******/ (function(modules) { // webpackBootstrap
 						rootNode._s_insert_mutation_observer = new MutationObserver(function (mutations) {
 							// check if what we need has been added
 							mutations.forEach(function (mutation) {
-								console.log('mutation', mutation);
 								if (mutation.addedNodes && mutation.addedNodes[0]) {
 									// console.log(_this);
 									// loop on each callbacks to find a match
@@ -525,6 +524,34 @@ return /******/ (function(modules) { // webpackBootstrap
 					return elm;
 				}
 				elm = elm.parentNode;
+			}
+			return false;
+		},
+
+		/**
+	  * Next
+	  */
+		next: function next(elm, selector) {
+			elm = elm.nextSibling;
+			while (elm) {
+				if (sugarDom.matches(elm, selector)) {
+					return elm;
+				}
+				elm = elm.nextSibling;
+			}
+			return false;
+		},
+
+		/**
+	  * Previous
+	  */
+		previous: function previous(elm, selector) {
+			elm = elm.previousSibling;
+			while (elm) {
+				if (sugarDom.matches(elm, selector)) {
+					return elm;
+				}
+				elm = elm.previousSibling;
 			}
 			return false;
 		},
@@ -2911,7 +2938,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// init
 
-			var _this2 = _possibleConstructorReturn(this, _SugarElement2.call(this, 'sSelect', elm, {}, settings));
+			var _this2 = _possibleConstructorReturn(this, _SugarElement2.call(this, 'sSelect', elm, {
+				onOpen: null,
+				onClose: null,
+				internalSearch: true,
+				minCharactersForSearch: 3
+			}, settings));
 
 			_this2._init();
 			return _this2;
@@ -2925,6 +2957,10 @@ return /******/ (function(modules) { // webpackBootstrap
 		SugarSelectElement.prototype._init = function _init() {
 			var _this3 = this;
 
+			// utils variables
+			this._openOnFocus = false;
+			this._currentActiveOption = null; // save the current keyboard selected item
+
 			// generate a custom id
 			this.id = _sugarTools2.default.uniqid();
 
@@ -2936,65 +2972,230 @@ return /******/ (function(modules) { // webpackBootstrap
 			// build html structure
 			this._buildHTML();
 
+			// make sure when we click that we focus on the search field
+			this.container.addEventListener('click', function (e) {
+				_this3.search_field.focus();
+			});
+
 			// prevent default behavior on click in options container
 			this.options_container.addEventListener('click', function (e) {
 				e.preventDefault();
 			});
 
+			// open on click
+			this.container.addEventListener('click', function (e) {
+				// open
+				if (!_this3.isOpen()) {
+					_this3.open();
+				}
+			});
+
+			// manage the keyup event
+			var _onKeyUpFn = function _onKeyUpFn(e) {
+				_this3._onKeyUp(e);
+			};
+			var _onKeyDownFn = function _onKeyDownFn(e) {
+				_this3._onKeyDown(e);
+			};
+			this.container.addEventListener('open', function (e) {
+				document.addEventListener('keyup', _onKeyUpFn);
+				document.addEventListener('keydown', _onKeyDownFn);
+			});
+			this.container.addEventListener('close', function (e) {
+				document.removeEventListener('keyup', _onKeyUpFn);
+				document.removeEventListener('keydown', _onKeyDownFn);
+			});
+
 			// listen for click outside of the dropdown
 			document.addEventListener('click', function (e) {
-				console.log('cliock');
 				if (!_this3.container.contains(e.target)) {
-					console.log('need to close');
-					_this3.open_checkbox.checked = false;
-				}
-			});
-
-			this.elm.addEventListener('change', function (e) {
-				console.log('update base select!!!', e);
-				_this3._setSelected();
-			});
-
-			// listen when opened to focus in searchfield
-			this.open_checkbox.addEventListener('change', function (e) {
-				if (e.target.checked) {
-					// focus on search if exist
-					_this3.search_field.focus();
-				}
-			});
-
-			// handle close
-			document.addEventListener('keyup', function (e) {
-				if ((e.keyCode == 9 // tab
-				 || e.keyCode == 27 // escape
-				) && _this3.isOpen()) {
 					_this3.close();
 				}
 			});
 
-			// this.open_checkbox.addEventListener('focus', (e) => {
-			// 	this.open();
-			// });
+			// listen for change on base select
+			// to set the selected items
+			this.elm.addEventListener('change', function (e) {
+				_this3._setSelected();
+			});
+
+			// listen for focus in search field to activate the field
+			this.search_field.addEventListener('focus', function (e) {
+				_this3._openOnFocus = true;
+				_this3.open();
+				setTimeout(function () {
+					_this3._openOnFocus = false;
+				}, 200);
+			});
+
+			// listen for keyup on search field
+			var internalSearch = this.setting('internalSearch');
+			this.search_field.addEventListener('keyup', function (e) {
+				// trigger custom event
+				var event = new Event('search');
+				_this3.container.dispatchEvent(event);
+				// on search callback
+				var onSearch = _this3.setting('onSearch');
+				if (onSearch) onSearch(e.target.value);
+				// check if internal search
+				if (internalSearch) {
+					_this3._search();
+				}
+			});
 
 			// listen for new elements in the select
 			_sugarDom2.default.querySelectorLive('[data-s-select="' + this.id + '"] > option, [data-s-select="' + this.id + '"] > optgroup', function (elm) {
 				// handle option
-				console.log('new element');
 				_this3._handleOption(elm);
 			}, this.elm);
+
+			// set selected the first time
+			this._setSelected();
 
 			// this._appendNew();
 		};
 
-		SugarSelectElement.prototype._appendNew = function _appendNew() {
+		/**
+	  * Search
+	  */
+
+
+		SugarSelectElement.prototype._search = function _search() {
 			var _this4 = this;
+
+			// loop on each options
+			[].forEach.call(this.options_container.querySelectorAll('.s-select__option'), function (option) {
+				// check if is a value in the search field
+				if (_this4.search_field.value && _this4.search_field.value.length >= _this4.setting('minCharactersForSearch')) {
+					// check if we find the text in the option
+					var regexp = new RegExp("(" + _this4.search_field.value + ")(?!([^<]+)?>)", 'gi');
+					// search the tokens in html
+					var replace = option._s_innerHTML.replace(regexp, '<span class="s-select__search-result">$1</span>');
+					if (option._s_innerHTML.match(regexp)) {
+						option.innerHTML = replace;
+					} else {
+						// reset the activate item if need to be hided
+						if (option == _this4._currentActiveOption) {
+							_this4._currentActiveOption = null;
+						}
+						option.classList.add('s-select__option--hidden');
+					}
+				} else {
+					option.innerHTML = option._s_innerHTML;
+					option.classList.remove('s-select__option--hidden');
+				}
+			});
+		};
+
+		SugarSelectElement.prototype._onKeyUp = function _onKeyUp(e) {
+			if ((e.keyCode == 9 // tab
+			 || e.keyCode == 27 // escape
+			) && this.isOpen()) {
+				if (!this._openOnFocus) {
+					this.close();
+				}
+			}
+		};
+
+		/**
+	  * On key down
+	  */
+
+
+		SugarSelectElement.prototype._onKeyDown = function _onKeyDown(e) {
+			switch (e.keyCode) {
+				case 40:
+					// down
+					this._activateNext();
+					e.preventDefault();
+					break;
+				case 38:
+					// up
+					this._activatePrevious();
+					e.preventDefault();
+					break;
+				case 13:
+					// enter
+					this._selectActivated();
+					e.preventDefault();
+					break;
+				case 8:
+					// backspace
+					if (this.search_field.focus && this.search_field.value == '') {
+						// remove the last item
+						this.removeLast();
+					}
+					break;
+			}
+		};
+
+		/**
+	  * Select next with keyboard
+	  */
+
+
+		SugarSelectElement.prototype._activateNext = function _activateNext() {
+			// remove active class if exist
+			if (this._currentActiveOption) {
+				this._currentActiveOption.classList.remove('active');
+			}
+			// check if already an item is selected
+			if (!this._currentActiveOption) {
+				this._currentActiveOption = this.options_container.querySelector('.s-select__option:not(.s-select__option--disabled):not(.s-select__option--hidden):first-child');
+			} else {
+				// try to get the next sibling
+				this._currentActiveOption = _sugarDom2.default.next(this._currentActiveOption, '.s-select__option:not(.s-select__option--disabled):not(.s-select__option--hidden)');
+			}
+			// activate the element
+			if (this._currentActiveOption) {
+				this._currentActiveOption.classList.add('active');
+			}
+		};
+
+		/**
+	  * Select previous with keyboard
+	  */
+
+
+		SugarSelectElement.prototype._activatePrevious = function _activatePrevious() {
+			// remove active class if exist
+			if (this._currentActiveOption) {
+				this._currentActiveOption.classList.remove('active');
+			}
+			// check if already an item is selected
+			if (!this._currentActiveOption) {
+				this._currentActiveOption = this.options_container.querySelector('.s-select__option:not(.s-select__option--disabled):not(.s-select__option--hidden):last-child');
+			} else {
+				// try to get the next sibling
+				this._currentActiveOption = _sugarDom2.default.previous(this._currentActiveOption, '.s-select__option:not(.s-select__option--disabled):not(.s-select__option--hidden)');
+			}
+			// activate the element
+			if (this._currentActiveOption) {
+				this._currentActiveOption.classList.add('active');
+			}
+		};
+
+		/**
+	  * Select activated item
+	  */
+
+
+		SugarSelectElement.prototype._selectActivated = function _selectActivated() {
+			// check if an activated element exist
+			if (this._currentActiveOption) {
+				this.select(this._currentActiveOption._s_select_source_option);
+			}
+		};
+
+		SugarSelectElement.prototype._appendNew = function _appendNew() {
+			var _this5 = this;
 
 			var opt = document.createElement('option');
 			opt.innerHTML = 'Coco';
 			this.elm.appendChild(opt);
 			setTimeout(function () {
-				_this4._appendNew();
-			}, 2000 + Math.random() * 5000);
+				_this5._appendNew();
+			}, 0 + Math.random() * 1000);
 		};
 
 		/**
@@ -3006,15 +3207,15 @@ return /******/ (function(modules) { // webpackBootstrap
 			var container = document.createElement('div');
 			container.setAttribute('class', this.elm.getAttribute('class') + ' s-select');
 
-			var open_checkbox = document.createElement('input');
-			open_checkbox.type = 'checkbox';
-			open_checkbox.setAttribute('class', 's-select__open-checkbox');
-			open_checkbox.setAttribute('data-input-activator', true);
-			open_checkbox.style.position = 'absolute';
-			open_checkbox.style.left = '-3000px';
+			// let open_checkbox = document.createElement('input');
+			// open_checkbox.type = 'checkbox';
+			// open_checkbox.setAttribute('class','s-select__open-checkbox');
+			// open_checkbox.setAttribute('data-input-activator', true);
+			// // open_checkbox.style.position = 'absolute';
+			// // open_checkbox.style.left = '-3000px';
 
 			var selection_container = document.createElement('div');
-			selection_container.setAttribute('class', 's-select__selection');
+			selection_container.setAttribute('class', 's-select__selection-container');
 
 			var selection_aligner = document.createElement('div');
 			selection_aligner.setAttribute('class', 's-select__selection-aligner');
@@ -3026,36 +3227,36 @@ return /******/ (function(modules) { // webpackBootstrap
 			var search_container = document.createElement('div');
 			search_container.setAttribute('class', 's-select__search-container');
 			var search_field = document.createElement('input');
-			search_field.type = "text";
+			search_field.type = "search";
 			search_field.setAttribute('class', 's-select__search-field');
-			search_field.setAttribute('tabindex', -1);
+			// search_field.setAttribute('tabindex', -1);
 
 			// options
 			var options_container = document.createElement('div');
 			options_container.setAttribute('class', 's-select__options');
 
 			// append to document
-			selection_container.appendChild(selection_aligner);
-			selection_container.appendChild(search_field);
+			// selection_container.appendChild(selection_aligner);
+			search_container.appendChild(search_field);
 
 			dropdown.appendChild(search_container);
 			dropdown.appendChild(options_container);
 
-			container.appendChild(open_checkbox);
+			// container.appendChild(open_checkbox);
 			container.appendChild(selection_container);
 			container.appendChild(dropdown);
 
+			// append the element right before the select
 			this.elm.parentNode.insertBefore(container, this.elm);
-			// document.body.appendChild(container);
 
 			// hide element
 			this.elm.style.display = 'none';
 
 			// save into object
 			this.container = container;
+			this.selection_container = selection_container;
 			this.search_field = search_field;
 			this.options_container = options_container;
-			this.open_checkbox = open_checkbox;
 		};
 
 		/**
@@ -3064,7 +3265,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		SugarSelectElement.prototype._handleOptionClick = function _handleOptionClick(_s_option, e) {
-			var _this5 = this;
 
 			// check if is a multiple
 			if (!this.isMultiple()) {
@@ -3073,51 +3273,52 @@ return /******/ (function(modules) { // webpackBootstrap
 				// close
 				this.close();
 			} else {
-				// check if the alt key is pressed
-				if (e.metaKey) {
-					// toggle selection
-					_s_option._s_select_source_option.selected = !_s_option._s_select_source_option.selected;
-				} else if (e.shiftKey) {
-					// get the index of the last selected option
-					if (this.elm.options.selectedIndex) {
-						(function () {
-							// find the current option position
-							var current_option_idx = 0,
-							    found = false;
-							[].forEach.call(_this5.elm.options, function (opt) {
-								if (!found && opt != _s_option._s_select_source_option) {
-									current_option_idx++;
-								} else {
-									found = true;
-								}
-							});
 
-							// select all the options inbetween
-							var first = _this5.elm.options.selectedIndex;
-							var last = current_option_idx;
-							if (first > last) {
-								var _last = last;
-								last = first;
-								first = _last;
-							}
-							for (var i = first; i <= last; i++) {
-								if (!_this5.elm.options[i].disabled) {
-									_this5.elm.options[i].selected = true;
-								}
-							}
-						})();
-					} else {
-						// telection
-						_s_option._s_select_source_option.selected = !_s_option._s_select_source_option.selected;
-					}
-				} else {
-					// unactive all the options
-					[].forEach.call(this.elm.options, function (opt) {
-						opt.selected = false;
-					});
-					// activate the item
-					_s_option._s_select_source_option.selected = true;
-				}
+				_s_option._s_select_source_option.selected = !_s_option._s_select_source_option.selected;
+
+				// // check if the alt key is pressed
+				// if (e.metaKey) {
+				// 	// toggle selection
+				// 	_s_option._s_select_source_option.selected = ! _s_option._s_select_source_option.selected;
+				// } else if (e.shiftKey) {
+				// 	// get the index of the last selected option
+				// 	if (this.elm.options.selectedIndex) {
+				// 		// find the current option position
+				// 		let current_option_idx = 0,
+				// 			found = false;
+				// 		[].forEach.call(this.elm.options, (opt) => {
+				// 			if ( ! found && opt != _s_option._s_select_source_option) {
+				// 				current_option_idx++;
+				// 			} else {
+				// 				found = true;
+				// 			}
+				// 		});
+
+				// 		// select all the options inbetween
+				// 		let first = this.elm.options.selectedIndex;
+				// 		let last = current_option_idx;
+				// 		if (first > last) {
+				// 			let _last = last;
+				// 			last = first;
+				// 			first = _last;
+				// 		}
+				// 		for (let i = first; i <= last; i++) {
+				// 			if ( ! this.elm.options[i].disabled) {
+				// 				this.elm.options[i].selected = true;
+				// 			}
+				// 		}
+				// 	} else {
+				// 		// telection
+				// 		_s_option._s_select_source_option.selected = ! _s_option._s_select_source_option.selected;
+				// 	}
+				// } else {
+				// 	// unactive all the options
+				// 	[].forEach.call(this.elm.options, (opt) => {
+				// 		opt.selected = false;
+				// 	});
+				// 	// activate the item
+				// 	_s_option._s_select_source_option.selected = true;
+				// }
 			}
 
 			// trigger change event
@@ -3131,17 +3332,54 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		SugarSelectElement.prototype._setSelected = function _setSelected() {
+			var _this6 = this;
+
 			// loop on selected option to activate them
 			[].forEach.call(this.elm.options, function (option) {
 				// apply the active class
 				if (option._s_select_option) {
 					if (option.selected) {
-						option._s_select_option.classList.add('active');
+						option._s_select_option.classList.add('selected');
 					} else {
-						option._s_select_option.classList.remove('active');
+						option._s_select_option.classList.remove('selected');
 					}
 				}
 			});
+			// set the selection
+			this.selection_container.innerHTML = '';
+			if (this.isMultiple()) {
+				// loop on each selected items
+				[].forEach.call(this.elm.options, function (option) {
+					if (option.selected) {
+						// get the content
+						var content = option.innerHTML;
+						// create the tag
+						var tag = document.createElement('div');
+						tag.classList.add('s-select__selection-tag');
+						tag.innerHTML = content;
+						var close = document.createElement('span');
+						close.classList.add('s-select__selection-tag-close');
+						close.addEventListener('click', function (e) {
+							option.selected = false;
+							// trigger change event
+							var event = new Event('change');
+							_this6.elm.dispatchEvent(event);
+						});
+						tag.appendChild(close);
+						_this6.selection_container.appendChild(tag);
+					}
+				});
+			} else {
+				// get the selected one
+				var selected_idx = this.elm.options.selectedIndex;
+				if (selected_idx) {
+					// set the selected
+					var selection = document.createElement('div');
+					selection.classList.add('s-select__selection');
+					selection.innerHTML = this.elm.options[selected_idx].innerHTML;
+					this.selection_container.appendChild(selection);
+				}
+			}
 		};
 
 		/**
@@ -3182,7 +3420,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		SugarSelectElement.prototype._handleOption = function _handleOption(_option) {
-			var _this6 = this;
+			var _this7 = this;
 
 			var in_optgroup = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
 
@@ -3191,7 +3429,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			if (_option.nodeName.toLowerCase() == 'optgroup') {
 				this._handleOptgroup(_option);
 				[].forEach.call(_option.querySelectorAll(':scope > option'), function (option) {
-					_this6._handleOption(option, true);
+					_this7._handleOption(option, true);
 				});
 				return;
 			}
@@ -3236,13 +3474,75 @@ return /******/ (function(modules) { // webpackBootstrap
 				option.innerHTML = content;
 			}
 
+			// save the html to restore later on search
+			option._s_innerHTML = option.innerHTML;
+			option._s_innerText = option.innerText;
+
 			// add a click event on the option
 			option.addEventListener('click', function (e) {
-				_this6._handleOptionClick(e.currentTarget, e);
+				_this7._handleOptionClick(e.currentTarget, e);
+			});
+
+			// add the listener for the hover
+			option.addEventListener('mouseover', function (e) {
+				_this7._currentActiveOption = option;
 			});
 
 			// append new choice
 			this.options_container.appendChild(option);
+		};
+
+		/**
+	  * Select an option in source select
+	  */
+
+
+		SugarSelectElement.prototype.select = function select(option) {
+			// check if we have the s-select option targer
+			if (option._s_select_option) {
+				this._handleOptionClick(option._s_select_option);
+			} else if (option._s_select_source_option) {
+				this._handleOptionClick(option);
+			}
+		};
+
+		/**
+	  * Remove last
+	  */
+
+
+		SugarSelectElement.prototype.removeLast = function removeLast() {
+			var last = null;
+			[].forEach.call(this.elm.options, function (option) {
+				if (option.selected) {
+					last = option;
+				}
+			});
+			// unselect the last
+			if (last) {
+				last.selected = false;
+				// trigger change event
+				var event = new Event('change');
+				this.elm.dispatchEvent(event);
+			}
+		};
+
+		/**
+	  * Add event listener
+	  */
+
+
+		SugarSelectElement.prototype.addEventListener = function addEventListener(event, callback, capture) {
+			this.container.addEventListener(event, callback, capture);
+		};
+
+		/**
+	  * Remove event listener
+	  */
+
+
+		SugarSelectElement.prototype.removeEventListener = function removeEventListener(event, callback, capture) {
+			this.container.removeEventListener(event, callback, capture);
 		};
 
 		/**
@@ -3260,6 +3560,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		SugarSelectElement.prototype.isOpen = function isOpen() {
+			return this.container.classList.contains('s-select--opened');
 			return this.open_checkbox.checked;
 		};
 
@@ -3269,7 +3570,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		SugarSelectElement.prototype.close = function close() {
-			this.open_checkbox.checked = false;
+			this.container.classList.remove('s-select--opened');
+			// unactivate the option if one exist
+			if (this._currentActiveOption) {
+				this._currentActiveOption.classList.remove('active');
+			}
+			// dispatch close event
+			var event = new Event('close');
+			this.container.dispatchEvent(event);
+			// handle onClose callback
+			var onClose = this.setting('onClose');
+			if (onClose) {
+				onClose();
+			}
 		};
 
 		/**
@@ -3278,7 +3591,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		SugarSelectElement.prototype.open = function open() {
-			this.open_checkbox.checked = true;
+			this.container.classList.add('s-select--opened');
+			// dispatch open event
+			var event = new Event('open');
+			this.container.dispatchEvent(event);
+			// manage onOpen callback
+			var onOpen = this.setting('onOpen');
+			if (onOpen) {
+				onOpen();
+			}
 		};
 
 		return SugarSelectElement;
@@ -3316,10 +3637,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// init
 
-			var _this7 = _possibleConstructorReturn(this, _SugarElement3.call(this, 'sDatepicker', elm, {}, settings));
+			var _this8 = _possibleConstructorReturn(this, _SugarElement3.call(this, 'sDatepicker', elm, {}, settings));
 
-			_this7._init();
-			return _this7;
+			_this8._init();
+			return _this8;
 		}
 
 		/**
@@ -3328,7 +3649,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		SugarDatepickerElement.prototype._init = function _init() {
-			var _this8 = this;
+			var _this9 = this;
 
 			// try to get the theme automatically
 			var theme = null;
@@ -3350,8 +3671,8 @@ return /******/ (function(modules) { // webpackBootstrap
 					if (e.target.sDatepicker && e.target.sDatepicker.picker) {
 						// get the picker date
 						var date = e.target.sDatepicker.picker.getDate();
-						_this8.picker.setStartRange(date);
-						_this8.picker.setMinDate(date);
+						_this9.picker.setStartRange(date);
+						_this9.picker.setMinDate(date);
 						e.target.sDatepicker.picker.setStartRange(date);
 						e.target.sDatepicker.picker.hide();
 						e.target.sDatepicker.picker.show();
@@ -3368,8 +3689,8 @@ return /******/ (function(modules) { // webpackBootstrap
 					if (e.target.sDatepicker && e.target.sDatepicker.picker) {
 						// get the picker date
 						var date = e.target.sDatepicker.picker.getDate();
-						_this8.picker.setEndRange(date);
-						_this8.picker.setMaxDate(date);
+						_this9.picker.setEndRange(date);
+						_this9.picker.setMaxDate(date);
 						e.target.sDatepicker.picker.setEndRange(date);
 						e.target.sDatepicker.picker.hide();
 						e.target.sDatepicker.picker.show();

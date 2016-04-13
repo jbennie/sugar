@@ -363,7 +363,6 @@ return /******/ (function(modules) { // webpackBootstrap
 						rootNode._s_insert_mutation_observer = new MutationObserver(function (mutations) {
 							// check if what we need has been added
 							mutations.forEach(function (mutation) {
-								console.log('mutation', mutation);
 								if (mutation.addedNodes && mutation.addedNodes[0]) {
 									// console.log(_this);
 									// loop on each callbacks to find a match
@@ -528,6 +527,34 @@ return /******/ (function(modules) { // webpackBootstrap
 					return elm;
 				}
 				elm = elm.parentNode;
+			}
+			return false;
+		},
+
+		/**
+	  * Next
+	  */
+		next: function next(elm, selector) {
+			elm = elm.nextSibling;
+			while (elm) {
+				if (sugarDom.matches(elm, selector)) {
+					return elm;
+				}
+				elm = elm.nextSibling;
+			}
+			return false;
+		},
+
+		/**
+	  * Previous
+	  */
+		previous: function previous(elm, selector) {
+			elm = elm.previousSibling;
+			while (elm) {
+				if (sugarDom.matches(elm, selector)) {
+					return elm;
+				}
+				elm = elm.previousSibling;
 			}
 			return false;
 		},

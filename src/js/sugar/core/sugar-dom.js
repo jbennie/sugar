@@ -60,7 +60,6 @@ let sugarDom = {
 					rootNode._s_insert_mutation_observer = new MutationObserver((mutations) => {
 						// check if what we need has been added
 						mutations.forEach((mutation) => {
-							console.log('mutation', mutation);
 							if (mutation.addedNodes && mutation.addedNodes[0]) {
 								// console.log(_this);
 								// loop on each callbacks to find a match
@@ -220,6 +219,34 @@ let sugarDom = {
 				return elm;
 			}
 			elm = elm.parentNode;
+		}
+		return false;
+	},
+
+	/**
+	 * Next
+	 */
+	next : (elm, selector) => {
+		elm = elm.nextSibling;
+		while(elm) {
+			if (sugarDom.matches(elm, selector)) {
+				return elm;
+			}
+			elm = elm.nextSibling;
+		}
+		return false;
+	},
+
+	/**
+	 * Previous
+	 */
+	previous : (elm, selector) => {
+		elm = elm.previousSibling;
+		while(elm) {
+			if (sugarDom.matches(elm, selector)) {
+				return elm;
+			}
+			elm = elm.previousSibling;
 		}
 		return false;
 	},

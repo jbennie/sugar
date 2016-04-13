@@ -461,7 +461,7 @@
 		$border : s-test-argument('s-vertical-rhythme','border','number|list',$border);
 		$cap-height : s-test-argument('s-vertical-rhythme','cap-height',number,$cap-height);
 		$scope-class : s-test-argument('s-vertical-rhythme','scope-class',boolean,$scope-class);
-		$calculate-height : s-test-argument('s-vertical-rhythme','calculate-height',boolean,$calculate-height);		
+		$calculate-height : s-test-argument('s-vertical-rhythme','calculate-height',(true,false,min-height,max-height,height),$calculate-height);		
 	}
 
 	$root-font-size : sugar('settings.typo.font-size');
@@ -651,9 +651,12 @@
 			line-height : s-rem($line-height)
 		);
 
-		@if $calculate-height {
+		@if $calculate-height != false {
 			$height : $padding-top + $padding-bottom + $line-height;
-			$ret : map-set($ret, height, $height);
+			@if $calculate-height == true {
+				$calculate-height : height;
+			}
+			$ret : map-set($ret, $calculate-height, $height);
 			$ret : map-set($ret, line-height, $height);
 			$dec : $height % 1;
 			$padding-top : 0;

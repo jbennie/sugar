@@ -82,6 +82,10 @@ class SugarSelectElement extends SugarElement {
 	 */
 	constructor(elm, settings = {}) {
 		super('sSelect', elm, {
+			onOpen : null,
+			onClose : null,
+			internalSearch : true,
+			minCharactersForSearch : 3
 		}, settings);
 
 		// init
@@ -92,6 +96,10 @@ class SugarSelectElement extends SugarElement {
 	 * Init
 	 */
 	_init() {
+
+		// utils variables
+		this._openOnFocus = false;
+		this._currentActiveOption = null; // save the current keyboard selected item
 
 		// generate a custom id
 		this.id = sTools.uniqid();
@@ -104,54 +112,206 @@ class SugarSelectElement extends SugarElement {
 		// build html structure
 		this._buildHTML();
 
+		// make sure when we click that we focus on the search field
+		this.container.addEventListener('click', (e) => {
+			this.search_field.focus();
+		});
+
 		// prevent default behavior on click in options container
 		this.options_container.addEventListener('click', (e) => {
 			e.preventDefault();
 		});
 
+		// open on click
+		this.container.addEventListener('click', (e) => {
+			// open
+			if ( ! this.isOpen()) {
+				this.open();
+			}
+		});
+
+		// manage the keyup event
+		let _onKeyUpFn = (e) => {
+			this._onKeyUp(e);
+		}
+		let _onKeyDownFn = (e) => {
+			this._onKeyDown(e);
+		}
+		this.container.addEventListener('open', (e) => {
+			document.addEventListener('keyup', _onKeyUpFn);
+			document.addEventListener('keydown', _onKeyDownFn);
+		});
+		this.container.addEventListener('close', (e) => {
+			document.removeEventListener('keyup', _onKeyUpFn);
+			document.removeEventListener('keydown', _onKeyDownFn);
+		});
+
 		// listen for click outside of the dropdown
 		document.addEventListener('click', (e) => {
-			console.log('cliock');
 			if ( ! this.container.contains(e.target)) {
-				console.log('need to close');
-				this.open_checkbox.checked = false;
-			}
-		});
-
-		this.elm.addEventListener('change', (e) => {
-			console.log('update base select!!!', e);
-			this._setSelected();
-		});
-
-		// listen when opened to focus in searchfield
-		this.open_checkbox.addEventListener('change', (e) => {
-			if (e.target.checked) {
-				// focus on search if exist
-				this.search_field.focus();
-			}
-		});
-
-		// handle close
-		document.addEventListener('keyup', (e) => {
-			if ((e.keyCode == 9 // tab
-				|| e.keyCode == 27 // escape
-				) && this.isOpen()) {
 				this.close();
 			}
 		});
 
-		// this.open_checkbox.addEventListener('focus', (e) => {
-		// 	this.open();
-		// });
+		// listen for change on base select
+		// to set the selected items
+		this.elm.addEventListener('change', (e) => {
+			this._setSelected();
+		});
+
+		// listen for focus in search field to activate the field
+		this.search_field.addEventListener('focus', (e) => {
+			this._openOnFocus = true;
+			this.open();
+			setTimeout(() => {
+				this._openOnFocus = false;
+			}, 200);
+		});
+
+		// listen for keyup on search field
+		let internalSearch = this.setting('internalSearch');
+		this.search_field.addEventListener('keyup', (e) => {
+			// trigger custom event
+			let event = new Event('search');
+			this.container.dispatchEvent(event);
+			// on search callback
+			let onSearch = this.setting('onSearch');
+			if (onSearch) onSearch(e.target.value);
+			// check if internal search
+			if (internalSearch) {
+				this._search();
+			}
+		});
 
 		// listen for new elements in the select
 		sDom.querySelectorLive('[data-s-select="'+this.id+'"] > option, [data-s-select="'+this.id+'"] > optgroup', (elm) => {
 			// handle option
-			console.log('new element');
 			this._handleOption(elm);
 		}, this.elm);
 
+		// set selected the first time
+		this._setSelected();
+
 		// this._appendNew();
+	}
+
+	/**
+	 * Search
+	 */
+	_search() {
+		// loop on each options
+		[].forEach.call(this.options_container.querySelectorAll('.s-select__option'), (option) => {
+			// check if is a value in the search field
+			if (this.search_field.value && this.search_field.value.length >= this.setting('minCharactersForSearch')) {
+				// check if we find the text in the option
+				let regexp = new RegExp("(" + this.search_field.value + ")(?!([^<]+)?>)",'gi');
+				// search the tokens in html
+				let replace = option._s_innerHTML.replace(regexp, '<span class="s-select__search-result">$1</span>');
+				if (option._s_innerHTML.match(regexp)) {
+					option.innerHTML = replace;
+				} else {
+					// reset the activate item if need to be hided
+					if (option == this._currentActiveOption) {
+						this._currentActiveOption = null;
+					}
+					option.classList.add('s-select__option--hidden');
+				}
+			} else {
+				option.innerHTML = option._s_innerHTML;
+				option.classList.remove('s-select__option--hidden');
+			}
+		});
+
+	}
+
+	_onKeyUp(e) {
+		if ((e.keyCode == 9 // tab
+			|| e.keyCode == 27 // escape
+			) && this.isOpen()) {
+			if ( ! this._openOnFocus) {
+				this.close();
+			}
+		}
+	}
+
+	/**
+	 * On key down
+	 */
+	_onKeyDown(e) {		
+		switch(e.keyCode) {
+			case 40: // down
+				this._activateNext();
+				e.preventDefault();
+			break;
+			case 38: // up
+				this._activatePrevious();
+				e.preventDefault();
+			break;
+			case 13: // enter
+				this._selectActivated();
+				e.preventDefault();
+			break;
+			case 8: // backspace
+				if (this.search_field.focus && this.search_field.value == '') {
+					// remove the last item
+					this.removeLast();
+				}
+			break;
+		}
+	}
+
+	/**
+	 * Select next with keyboard
+	 */
+	_activateNext() {
+		// remove active class if exist
+		if (this._currentActiveOption) {
+			this._currentActiveOption.classList.remove('active');
+		}
+		// check if already an item is selected
+		if ( ! this._currentActiveOption) {
+			this._currentActiveOption = this.options_container.querySelector('.s-select__option:not(.s-select__option--disabled):not(.s-select__option--hidden):first-child');
+			
+		} else {
+			// try to get the next sibling
+			this._currentActiveOption = sDom.next(this._currentActiveOption, '.s-select__option:not(.s-select__option--disabled):not(.s-select__option--hidden)');
+		}
+		// activate the element
+		if (this._currentActiveOption) {
+			this._currentActiveOption.classList.add('active');
+		}
+	}
+
+	/**
+	 * Select previous with keyboard
+	 */
+	_activatePrevious() {
+		// remove active class if exist
+		if (this._currentActiveOption) {
+			this._currentActiveOption.classList.remove('active');
+		}
+		// check if already an item is selected
+		if ( ! this._currentActiveOption) {
+			this._currentActiveOption = this.options_container.querySelector('.s-select__option:not(.s-select__option--disabled):not(.s-select__option--hidden):last-child');
+			
+		} else {
+			// try to get the next sibling
+			this._currentActiveOption = sDom.previous(this._currentActiveOption, '.s-select__option:not(.s-select__option--disabled):not(.s-select__option--hidden)');
+		}
+		// activate the element
+		if (this._currentActiveOption) {
+			this._currentActiveOption.classList.add('active');
+		}
+	}
+
+	/**
+	 * Select activated item
+	 */
+	_selectActivated() {
+		// check if an activated element exist
+		if (this._currentActiveOption) {
+			this.select(this._currentActiveOption._s_select_source_option);
+		}
 	}
 
 	_appendNew() {
@@ -160,7 +320,7 @@ class SugarSelectElement extends SugarElement {
 		this.elm.appendChild(opt);
 		setTimeout(() => {
 			this._appendNew();
-		}, 2000 + Math.random() * 5000);
+		}, 0 + Math.random() * 1000);
 	}
 
 	/**
@@ -170,16 +330,15 @@ class SugarSelectElement extends SugarElement {
 		let container = document.createElement('div');
 		container.setAttribute('class',this.elm.getAttribute('class') + ' s-select');
 
-		let open_checkbox = document.createElement('input');
-		open_checkbox.type = 'checkbox';
-		open_checkbox.setAttribute('class','s-select__open-checkbox');
-		open_checkbox.setAttribute('data-input-activator', true);
-		open_checkbox.style.position = 'absolute';
-		open_checkbox.style.left = '-3000px';
+		// let open_checkbox = document.createElement('input');
+		// open_checkbox.type = 'checkbox';
+		// open_checkbox.setAttribute('class','s-select__open-checkbox');
+		// open_checkbox.setAttribute('data-input-activator', true);
+		// // open_checkbox.style.position = 'absolute';
+		// // open_checkbox.style.left = '-3000px';
 
 		let selection_container = document.createElement('div');
-		selection_container.setAttribute('class', 's-select__selection');
-
+		selection_container.setAttribute('class', 's-select__selection-container');
 
 		let selection_aligner = document.createElement('div');
 		selection_aligner.setAttribute('class', 's-select__selection-aligner');
@@ -191,37 +350,36 @@ class SugarSelectElement extends SugarElement {
 		let search_container = document.createElement('div');
 		search_container.setAttribute('class','s-select__search-container');
 		let search_field = document.createElement('input');
-		search_field.type = "text";
+		search_field.type = "search";
 		search_field.setAttribute('class', 's-select__search-field');
-		search_field.setAttribute('tabindex', -1);
+		// search_field.setAttribute('tabindex', -1);
 
 		// options
 		let options_container = document.createElement('div');
 		options_container.setAttribute('class', 's-select__options');
 
 		// append to document
-		selection_container.appendChild(selection_aligner);
-		selection_container.appendChild(search_field);
+		// selection_container.appendChild(selection_aligner);
+		search_container.appendChild(search_field);
 
 		dropdown.appendChild(search_container);
 		dropdown.appendChild(options_container);
 
-		container.appendChild(open_checkbox);
+		// container.appendChild(open_checkbox);
 		container.appendChild(selection_container);
 		container.appendChild(dropdown);
 		
-
+		// append the element right before the select
 		this.elm.parentNode.insertBefore(container, this.elm);
-		// document.body.appendChild(container);
 
 		// hide element
 		this.elm.style.display = 'none';
 
 		// save into object
 		this.container = container;
+		this.selection_container = selection_container;
 		this.search_field = search_field;
 		this.options_container = options_container;
-		this.open_checkbox = open_checkbox;
 	}
 
 	/**
@@ -236,49 +394,52 @@ class SugarSelectElement extends SugarElement {
 			// close
 			this.close();
 		} else {
-			// check if the alt key is pressed
-			if (e.metaKey) {
-				// toggle selection
-				_s_option._s_select_source_option.selected = ! _s_option._s_select_source_option.selected;
-			} else if (e.shiftKey) {
-				// get the index of the last selected option
-				if (this.elm.options.selectedIndex) {
-					// find the current option position
-					let current_option_idx = 0,
-						found = false;
-					[].forEach.call(this.elm.options, (opt) => {
-						if ( ! found && opt != _s_option._s_select_source_option) {
-							current_option_idx++;
-						} else {
-							found = true;
-						}
-					});
 
-					// select all the options inbetween
-					let first = this.elm.options.selectedIndex;
-					let last = current_option_idx;
-					if (first > last) {
-						let _last = last;
-						last = first;
-						first = _last;
-					}
-					for (let i = first; i <= last; i++) {
-						if ( ! this.elm.options[i].disabled) {
-							this.elm.options[i].selected = true;
-						}
-					}
-				} else {
-					// telection
-					_s_option._s_select_source_option.selected = ! _s_option._s_select_source_option.selected;
-				}
-			} else {
-				// unactive all the options
-				[].forEach.call(this.elm.options, (opt) => {
-					opt.selected = false;
-				});
-				// activate the item
-				_s_option._s_select_source_option.selected = true;
-			}
+			_s_option._s_select_source_option.selected = ! _s_option._s_select_source_option.selected;
+
+			// // check if the alt key is pressed
+			// if (e.metaKey) {
+			// 	// toggle selection
+			// 	_s_option._s_select_source_option.selected = ! _s_option._s_select_source_option.selected;
+			// } else if (e.shiftKey) {
+			// 	// get the index of the last selected option
+			// 	if (this.elm.options.selectedIndex) {
+			// 		// find the current option position
+			// 		let current_option_idx = 0,
+			// 			found = false;
+			// 		[].forEach.call(this.elm.options, (opt) => {
+			// 			if ( ! found && opt != _s_option._s_select_source_option) {
+			// 				current_option_idx++;
+			// 			} else {
+			// 				found = true;
+			// 			}
+			// 		});
+
+			// 		// select all the options inbetween
+			// 		let first = this.elm.options.selectedIndex;
+			// 		let last = current_option_idx;
+			// 		if (first > last) {
+			// 			let _last = last;
+			// 			last = first;
+			// 			first = _last;
+			// 		}
+			// 		for (let i = first; i <= last; i++) {
+			// 			if ( ! this.elm.options[i].disabled) {
+			// 				this.elm.options[i].selected = true;
+			// 			}
+			// 		}
+			// 	} else {
+			// 		// telection
+			// 		_s_option._s_select_source_option.selected = ! _s_option._s_select_source_option.selected;
+			// 	}
+			// } else {
+			// 	// unactive all the options
+			// 	[].forEach.call(this.elm.options, (opt) => {
+			// 		opt.selected = false;
+			// 	});
+			// 	// activate the item
+			// 	_s_option._s_select_source_option.selected = true;
+			// }
 		}
 
 		// trigger change event
@@ -295,12 +456,47 @@ class SugarSelectElement extends SugarElement {
 	 		// apply the active class
 	 		if (option._s_select_option) {
 	 			if (option.selected) {
-	 				option._s_select_option.classList.add('active');
+	 				option._s_select_option.classList.add('selected');
 	 			} else {
-	 				option._s_select_option.classList.remove('active');
+	 				option._s_select_option.classList.remove('selected');
 	 			}
 	 		}
 	 	});
+	 	// set the selection
+	 	this.selection_container.innerHTML = '';
+	 	if (this.isMultiple()) {
+	 		// loop on each selected items
+	 		[].forEach.call(this.elm.options, (option) => {
+	 			if (option.selected) {
+	 				// get the content
+	 				let content = option.innerHTML;
+	 				// create the tag
+	 				let tag = document.createElement('div');
+	 				tag.classList.add('s-select__selection-tag');
+	 				tag.innerHTML = content;
+	 				let close = document.createElement('span');
+	 				close.classList.add('s-select__selection-tag-close');
+	 				close.addEventListener('click', (e) => {
+	 					option.selected = false;
+	 					// trigger change event
+						let event = new Event('change');
+						this.elm.dispatchEvent(event);
+	 				});
+	 				tag.appendChild(close);
+	 				this.selection_container.appendChild(tag);
+	 			}
+	 		});
+	 	} else {
+	 		// get the selected one
+	 		let selected_idx = this.elm.options.selectedIndex;
+	 		if (selected_idx) {
+	 			// set the selected
+	 			let selection = document.createElement('div');
+	 			selection.classList.add('s-select__selection');
+	 			selection.innerHTML = this.elm.options[selected_idx].innerHTML;
+	 			this.selection_container.appendChild(selection);
+	 		}
+	 	}
 	 }
 
 	/**
@@ -387,14 +583,68 @@ class SugarSelectElement extends SugarElement {
 			option.innerHTML = content;
 		}
 
+		// save the html to restore later on search
+		option._s_innerHTML = option.innerHTML;
+		option._s_innerText = option.innerText;
+
 		// add a click event on the option
 		option.addEventListener('click', (e) => {
 			this._handleOptionClick(e.currentTarget, e);
 		});
 
+		// add the listener for the hover
+		option.addEventListener('mouseover', (e) => {
+			this._currentActiveOption = option;
+		});
+
 		// append new choice
 		this.options_container.appendChild(option);
 
+	}
+
+	/**
+	 * Select an option in source select
+	 */
+	select(option) {
+		// check if we have the s-select option targer
+		if (option._s_select_option) {
+			this._handleOptionClick(option._s_select_option);
+		} else if (option._s_select_source_option) {
+			this._handleOptionClick(option);
+		}
+	}
+
+	/**
+	 * Remove last
+	 */
+	removeLast() {
+		let last = null;
+		[].forEach.call(this.elm.options, (option) => {
+			if (option.selected) {
+				last = option;
+			}
+		});
+		// unselect the last
+		if (last) {
+			last.selected = false;
+			// trigger change event
+			let event = new Event('change');
+			this.elm.dispatchEvent(event);
+		}
+	}
+
+	/**
+	 * Add event listener
+	 */
+	addEventListener(event, callback, capture) {
+		this.container.addEventListener(event, callback, capture);
+	}
+
+	/**
+	 * Remove event listener
+	 */
+	removeEventListener(event, callback, capture) {
+		this.container.removeEventListener(event, callback, capture);
 	}
 
 	/**
@@ -408,6 +658,7 @@ class SugarSelectElement extends SugarElement {
 	 * Is opened
 	 */
 	isOpen() {
+		return this.container.classList.contains('s-select--opened');
 		return this.open_checkbox.checked;
 	}
 
@@ -415,14 +666,30 @@ class SugarSelectElement extends SugarElement {
 	 * Close
 	 */
 	close() {
-		this.open_checkbox.checked = false;
+		this.container.classList.remove('s-select--opened');
+		// unactivate the option if one exist
+		if (this._currentActiveOption) {
+			this._currentActiveOption.classList.remove('active');
+		}
+		// dispatch close event
+		let event = new Event('close');
+		this.container.dispatchEvent(event);
+		// handle onClose callback
+		let onClose = this.setting('onClose');
+		if (onClose) { onClose(); }
 	}
 
 	/**
 	 * Close
 	 */
 	open() {
-		this.open_checkbox.checked = true;
+		this.container.classList.add('s-select--opened');
+		// dispatch open event
+		let event = new Event('open');
+		this.container.dispatchEvent(event);
+		// manage onOpen callback
+		let onOpen = this.setting('onOpen');
+		if (onOpen) { onOpen(); }
 	}
 
 }
