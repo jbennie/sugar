@@ -85,7 +85,8 @@ class SugarSelectElement extends SugarElement {
 			onOpen : null,
 			onClose : null,
 			internalSearch : true,
-			minCharactersForSearch : 3
+			minCharactersForSearch : 3,
+			screenMargin : 50
 		}, settings);
 
 		// init
@@ -96,6 +97,11 @@ class SugarSelectElement extends SugarElement {
 	 * Init
 	 */
 	_init() {
+
+		// setTimeout(() => {
+		// 	console.log('refresh');
+		// 	this.refresh();
+		// }, 3000);
 
 		// utils variables
 		this._openOnFocus = false;
@@ -130,6 +136,38 @@ class SugarSelectElement extends SugarElement {
 			}
 		});
 
+		// prevent scroll into the options
+		this.options_container.addEventListener('mousewheel', (ev) => {
+			let _this = ev.currentTarget;
+			let scrollTop = _this.scrollTop;
+			let scrollHeight = _this.scrollHeight;
+			let height = _this.offsetHeight;
+			let delta = ev.wheelDelta;
+			if (ev.type == 'DOMMouseScroll') {
+				delta = ev.originalEvent.details * -40;
+			}
+			let up = delta > 0
+			let prevent = () => {
+				ev.stopPropagation();
+				ev.preventDefault();
+				ev.returnValue = false;
+				return false;
+			}
+			if ( ! up && -delta > scrollHeight - height - scrollTop) {
+				// Scrolling down, but this will take us past the bottom.
+				_this.scrollTop = scrollHeight;
+				prevent();
+			} else if (up && delta > scrollTop) {
+				// Scrolling up, but this will take us past the top.
+				_this.scrollTop = 0;
+				prevent();
+			}
+		});
+		// this.dropdown.addEventListener('DOMMouseScroll', (e) => {
+		// 	e.preventDefault();
+		// 	e.stopPropagation();
+		// });
+
 		// manage the keyup event
 		let _onKeyUpFn = (e) => {
 			this._onKeyUp(e);
@@ -137,13 +175,20 @@ class SugarSelectElement extends SugarElement {
 		let _onKeyDownFn = (e) => {
 			this._onKeyDown(e);
 		}
+		let _onScrollResizeFn = (e) => {
+			this._onScrollResize(e);
+		}
 		this.container.addEventListener('open', (e) => {
 			document.addEventListener('keyup', _onKeyUpFn);
 			document.addEventListener('keydown', _onKeyDownFn);
+			document.addEventListener('scroll', _onScrollResizeFn);
+			document.addEventListener('resize', _onScrollResizeFn);
 		});
 		this.container.addEventListener('close', (e) => {
 			document.removeEventListener('keyup', _onKeyUpFn);
 			document.removeEventListener('keydown', _onKeyDownFn);
+			document.removeEventListener('scroll', _onScrollResizeFn);
+			document.removeEventListener('resize', _onScrollResizeFn);
 		});
 
 		// listen for click outside of the dropdown
@@ -222,6 +267,16 @@ class SugarSelectElement extends SugarElement {
 			}
 		});
 
+		// set position
+		this.setPosition();
+
+	}
+
+	/**
+	 * On scroll or resize
+	 */
+	_onScrollResize(e) {
+		this.setPosition();
 	}
 
 	_onKeyUp(e) {
@@ -330,12 +385,10 @@ class SugarSelectElement extends SugarElement {
 		let container = document.createElement('div');
 		container.setAttribute('class',this.elm.getAttribute('class') + ' s-select');
 
-		// let open_checkbox = document.createElement('input');
-		// open_checkbox.type = 'checkbox';
-		// open_checkbox.setAttribute('class','s-select__open-checkbox');
-		// open_checkbox.setAttribute('data-input-activator', true);
-		// // open_checkbox.style.position = 'absolute';
-		// // open_checkbox.style.left = '-3000px';
+		// multiple class
+		if (this.elm.getAttribute('multiple') != null) {
+			container.classList.add('s-select--multiple');
+		}
 
 		let selection_container = document.createElement('div');
 		selection_container.setAttribute('class', 's-select__selection-container');
@@ -352,14 +405,12 @@ class SugarSelectElement extends SugarElement {
 		let search_field = document.createElement('input');
 		search_field.type = "search";
 		search_field.setAttribute('class', 's-select__search-field');
-		// search_field.setAttribute('tabindex', -1);
 
 		// options
 		let options_container = document.createElement('div');
 		options_container.setAttribute('class', 's-select__options');
 
 		// append to document
-		// selection_container.appendChild(selection_aligner);
 		search_container.appendChild(search_field);
 
 		dropdown.appendChild(search_container);
@@ -377,6 +428,8 @@ class SugarSelectElement extends SugarElement {
 
 		// save into object
 		this.container = container;
+		this.dropdown = dropdown;
+		this.search_container = search_container;
 		this.selection_container = selection_container;
 		this.search_field = search_field;
 		this.options_container = options_container;
@@ -482,6 +535,12 @@ class SugarSelectElement extends SugarElement {
 						let event = new Event('change');
 						this.elm.dispatchEvent(event);
 	 				});
+	 				tag.addEventListener('dblclick', (e) => {
+	 					option.selected = false;
+	 					// trigger change event
+						let event = new Event('change');
+						this.elm.dispatchEvent(event);
+	 				})
 	 				tag.appendChild(close);
 	 				this.selection_container.appendChild(tag);
 	 			}
@@ -498,6 +557,30 @@ class SugarSelectElement extends SugarElement {
 	 		}
 	 	}
 	 }
+
+	/**
+	 * Set position
+	 */
+	setPosition() {
+		console.log('set potision');
+
+		// get the position of the container
+		let offset = sDom.offset(this.dropdown);
+		let top = offset.top - sDom.scrollTop();
+		let h = this.dropdown.offsetHeight;
+		let optionsH = this.options_container.scrollHeight;
+		let screenMargin = this.setting('screenMargin');
+
+		// console.log(top + h, window.innerHeight);
+		if (top + h + screenMargin > window.innerHeight) {
+			this.options_container.style.height = window.innerHeight - top - this.search_container.offsetHeight - screenMargin + 'px';
+		} else {
+			this.options_container.style.height = 'auto';
+		}
+		// console.log(h);
+		//console.log(top, h, optionsH);
+
+	}
 
 	/**
 	 * Handle optgroup
@@ -599,7 +682,23 @@ class SugarSelectElement extends SugarElement {
 
 		// append new choice
 		this.options_container.appendChild(option);
+	}
 
+	/**
+	 * Refresh
+	 */
+	refresh() {
+		// empty the options
+		this.options_container.innerHTML = '';
+
+		// create the options tree
+		[].forEach.call(this.elm.querySelectorAll(':scope > option, :scope > optgroup'), (elm) => {
+			// handle option
+			this._handleOption(elm);
+		}, this.elm);
+
+		// set selected the first time
+		this._setSelected();
 	}
 
 	/**
@@ -659,7 +758,6 @@ class SugarSelectElement extends SugarElement {
 	 */
 	isOpen() {
 		return this.container.classList.contains('s-select--opened');
-		return this.open_checkbox.checked;
 	}
 
 	/**
@@ -684,6 +782,8 @@ class SugarSelectElement extends SugarElement {
 	 */
 	open() {
 		this.container.classList.add('s-select--opened');
+		// set position
+		this.setPosition();
 		// dispatch open event
 		let event = new Event('open');
 		this.container.dispatchEvent(event);

@@ -1,0 +1,598 @@
+@include s-component-setup((
+	formset : (
+		scope-class : 'formset',
+		generate : (
+			colors : default primary secondary success warning error info,
+			sizes : default,
+			styles : inline inside
+		)
+	)
+));
+	
+$_s-formset-inited : false;
+@mixin s-formset-init() {
+	
+	@if not $_s-formset-inited {
+		$_s-formset-inited : true !global;
+		%s-formset-input-bare {
+			display: inline-block;
+			border-width:s-rem(1px);
+			border-bottom-width : s-rem(3px);
+			border-style : solid;
+			background-color: white;
+			@include s-font(sugar('settings.typo.font-family'));
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			&:not(.input-addon) {
+				line-height: 1 !important;
+			}
+			outline : none;
+			width:100%;
+			@include s-transition(fast);
+
+			color: s-color(text);
+			@include s-placeholder() {
+				color: s-color(text, -opacity .4);
+				line-height: normal;
+			}
+			
+			[data-input-activator]:focus ~ &,
+			&:focus {
+				border-left-width : s-rem(5px);
+			}
+			
+			&:disabled,
+			#{s-selector((
+				BEM : '&.input--disabled',
+				SMACCS : '&.is-disabled'
+			))} {
+				opacity : .65;
+				cursor: not-allowed;			
+			}
+		}
+		%s-formset-select-bare {
+			background-size: 9px 6px;
+			background-position: right center;
+			background-origin: content-box;
+			background-repeat: no-repeat;
+			border-radius: 0;
+		}
+	}
+}
+
+@mixin s-formset-input(
+	$color,
+	$size
+) {
+	@include s-formset-init();
+	@extend %s-formset-input-bare;
+	@include s-formset-input-size($size);
+	@include s-formset-input-color($color);	
+}
+@mixin s-formset-select(
+	$color,
+	$size
+) {
+	@include s-formset-init();
+	@extend %s-formset-input-bare;
+	@extend %s-formset-select-bare;
+	@include s-formset-input-size($size);
+	@include s-formset-input-color($color);
+	@include s-formset-select-color($color);
+}
+@mixin s-formset-textarea(
+	$color,
+	$size
+) {
+	@include s-formset-init();
+	@extend %s-formset-input-bare;
+	@include s-formset-textarea-size($size);
+	@include s-formset-input-color($color);
+}
+@mixin s-formset-input-size($size) {
+	font-size : s-lnf(font-size, $size);
+	// border-radius: s-lnf(border-radius, $size);
+	padding : s-lnf(padding-horizontal, $size) s-lnf(padding-vertical, $size);
+	height: s-lnf(font-size, $size) + s-lnf(padding-horizontal, $size) * 2;
+}
+@mixin s-formset-input-color($color) {
+	border-color: s-color($color, -opacity .1);
+	border-bottom-color: s-color($color, -opacity .3);
+		
+	[data-input-activator]:focus ~ &,
+	[data-input-activator]:checked ~ &,
+	&:hover:not(:disabled):not(.input--disabled):not(.is-disabled),
+	&:focus:not(:disabled):not(.input--disabled):not(.is-disabled),
+	&.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+		border-bottom-color: s-color($color, -opacity .6);
+		// @include s-filter(box-shadow(s-color($color, -opacity .3) 0 5px s-rem(10px)));
+		@include s-depth(3, s-color($color, -opacity .3));
+	}
+	[data-input-activator]:focus ~ &,
+	[data-input-activator]:checked ~ &,
+	&:focus:not(:disabled):not(.input--disabled):not(.is-disabled),
+	&.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+		border-left-color: s-color($color, -opacity .6);
+	}
+}
+@mixin s-formset-select-color($color) {
+	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A#{str-replace("#{s-color($color)}","#","%23")}"></polygon></svg>');
+}
+@mixin s-formset-textarea-size($size) {
+	font-size : s-lnf(font-size, $size);
+	// border-radius: s-lnf(border-radius, $size);
+	padding : s-lnf(padding-horizontal, $size) s-lnf(padding-vertical, $size);
+	display: inline-block;
+	height: s-lnf(font-size, $size) + s-lnf(padding-vertical, $size) * 2;
+}
+
+@mixin s-formset(
+	$sizes : sugar('settings.components.formset.generate.sizes'),
+	$colors : sugar('settings.components.formset.generate.colors'),
+	$styles : sugar('settings.components.formset.generate.styles'),
+	$scope-class : sugar('settings.components.formset.scope-class')
+) {
+	// init form
+	@include s-formset-init();
+	
+	// parse properties
+	@if $_sugar-test-arguments {
+		$sizes : s-test-argument('s-formset','sizes',map-keys(sugar('settings.sizes')),$sizes);
+		$colors : s-test-argument('s-formset','colors',map-keys(sugar('settings.colors')),$colors);
+	}
+
+	// pass in the component context
+	@include s-component-context('formset') {
+		
+		// get variables
+		$scope-class : sugar('settings.scope-class');
+
+		// base
+		.input:not([type="checkbox"]):not([type="radio"]),
+		.input-addon {
+			@extend %s-formset-input-bare;
+		}
+		textarea.input {
+			height: auto !important;
+		}
+		select.input {
+			@extend %s-formset-select-bare;
+		}
+		.label {
+			&, > span {
+				user-select: none;
+				font-weight: bold;
+			}
+
+			// restore font-weight
+			.s-radiobox ~ &,
+			.label, label,
+			> * {
+				font-weight: normal;
+			}
+
+			// no margin-bottom on nested labels
+			.label,
+			label {
+				margin-bottom: 0 !important;
+			}
+			
+			@include s-vertical-rhythme {
+				#{s-selector((
+					BEM : (
+						'.input:not([type="checkbox"]):not([type="radio"])',
+						'.input-addon',
+						'.form-group'
+					),
+					SMACCS : (
+						'.input:not([type="checkbox"]):not([type="radio"])',
+						'.input-addon',
+						'.form-group'
+					)
+				))} {
+					margin-top: s-rem(1);
+					margin-bottom: 0 !important;
+				}
+			}
+		}
+		[class*="input-reply"] {
+			display: none;
+		
+			@include s-vertical-rhythme() {
+				margin-bottom: 2;
+			}
+			.label & {
+				margin-bottom: 0;
+			}
+
+			textarea + & {
+				margin-top: s-rem(-3px);
+			}
+		}
+
+		// form group		
+		.form-group {
+			// make form group flex
+			display: flex !important;
+			flex: 1 !important;
+
+			.input-addon {
+				flex:0;
+			}
+
+			// remove margin-top from input that are in a form-group
+			> * {
+				margin-top: 0 !important;
+			}
+
+			// make input flex
+			.input:not([type="checkbox"]):not([type="radio"]) {
+				flex: 1 !important;
+				margin-top: 0 !important;
+			}
+		}
+
+		// generate each sizes
+		@each $size in $sizes {
+
+			// span label styling
+			#{s-selector((
+				BEM : (
+					'.label--inline.label--#{$size}',
+					'.label--inside.label--#{$size}',
+					'.size--#{$size} .label--inline.label',
+					'.size--#{$size} .label--inside.label'
+				),
+				SMACCS : (
+					'.label-inline.label-#{$size}',
+					'.label-inside.label-#{$size}',
+					'.size-#{$size} .label-inline.label',
+					'.size-#{$size} .label-inside.label'
+				)
+			))} {
+				> span {
+					padding : 0 s-lnf(padding-vertical, $size);
+					line-height: s-lnf(font-size, $size) + s-lnf(padding-horizontal, $size) * 2;
+					height: s-lnf(font-size, $size) + s-lnf(padding-horizontal, $size) * 2;	
+				}
+			}
+
+			// input styling
+			#{s-selector((
+				BEM : (
+					'.input--#{$size}',
+					'.input-addon--#{$size}',
+					'.size--#{$size} .input',
+					'.size--#{$size} .input-addon'
+				),
+				SMACCS : (
+					'.input-#{$size}',
+					'.input-addon-#{$size}',
+					'.size--#{$size} .input',
+					'.size--#{$size} .input-addon'
+				)
+			))} {
+				// set input styling
+				@include s-formset-input-size($size);
+
+				// vertical rhythme
+				&, & ~ span {
+					@include s-vertical-rhythme {
+						margin-bottom: 1rem;
+					}
+				}
+				// &, & ~ span {
+				// 	@include s-vertical-rhythme(
+				// 		$font-size : s-lnf(font-size, $size),
+				// 		$line-height: s-lnf(font-size, $size),
+				// 		$padding-top : s-lnf(padding-horizontal, $size),
+				// 		$padding-bottom : s-lnf(padding-horizontal, $size),
+				// 		$margin-bottom : 1,
+				// 		$margin-top : 0,
+				// 		$border-bottom-width: s-rem(1px),
+				// 		$border-top-width : s-rem(1px),
+				// 		$calculate-height : true
+				// 	);
+				// }
+			}
+
+			// textarea styling
+			#{s-selector((
+				BEM : (
+					'textarea.input--#{$size}',
+					'.size--#{$size} textarea.input'
+				),
+				SMACCS : (
+					'textarea.input-#{$size}',
+					'.size-#{$size} textarea.input'
+				)
+			))} {
+				@include s-formset-textarea-size($size);
+				
+				@include s-vertical-rhythme {
+					margin-bottom:1rem;
+				}
+				// $vr : s-vertical-rhythme(
+				// 	$font-size : s-lnf(font-size, $size),
+				// 	$line-height: s-lnf(font-size, $size) * 2,
+				// 	$padding-top : s-lnf(padding-horizontal, $size),
+				// 	$padding-bottom : s-lnf(padding-horizontal, $size),
+				// 	$margin-bottom : 1,
+				// 	$margin-top : 0,
+				// 	$border-bottom-width: s-rem(1px),
+				// 	$border-top-width : s-rem(1px)
+				// );
+				// @include s-vertical-rhythme($vr...);
+			}
+
+			#{s-selector((
+				BEM : (
+					'.input-reply--#{$size}'
+				),
+				SMACCS : (
+					'.input-reply-#{$size}'
+				)
+			))} {
+				padding: s-lnf(padding-horizontal, $size) s-lnf(padding-vertical, $size);
+				font-size: s-lnf(font-size, $size);
+
+				@include s-vertical-rhythme {
+					.label .label + &,
+					label label + & {
+						margin-top: round(s-rem(s-lnf(font-size, $size)));
+					}
+				}
+			}
+
+			#{s-selector((
+				BEM : (
+					'select.input--#{$size}',
+					'.input-addon--#{$size}',
+					'.size--#{$size} .input-addon',
+					'.size--#{$size} select.input'
+				),
+				SMACCS : (
+					'select.input-#{$size}',
+					'.input-addon-#{$size}',
+					'.size-#{$size} select.input',
+					'.size-#{$size} .input-addon'
+				)
+			))} {
+				@include s-vertical-rhythme {
+					margin-bottom: 1rem;
+				}
+				// $args : (
+				// 	font-size : s-lnf(font-size, $size),
+				// 	line-height: s-lnf(font-size, $size),
+				// 	padding-top : s-lnf(padding-horizontal, $size),
+				// 	padding-bottom : s-lnf(padding-horizontal, $size),
+				// 	margin-bottom : 1,
+				// 	margin-top : 0,
+				// 	border-bottom-width: s-rem(1px),
+				// 	border-top-width : s-rem(1px),
+				// 	calculate-height : true
+				// );
+				// @include s-vertical-rhythme($args...);
+			}
+
+			// label styling
+			#{s-selector((
+				BEM : (
+					'.label--#{$size}',
+					'.size--#{$size} .label'
+				),
+				SMACCS : (
+					'.label-#{$size}',
+					'.size-#{$size} .label'
+				)
+			))} {
+				font-size: s-lnf(font-size, $size);
+				display: inline-block;
+				vertical-align: middle;
+				position: relative;
+				
+				&:not(.s-radiobox) {
+					$mb : s-lnf(font-size, $size);
+					@if s-strip-units($mb) <= 2 { $mb : 2; }
+					@include s-vertical-rhythme {
+						margin-bottom: s-rem($mb);
+					}
+					// @include s-vertical-rhythme(
+					// 	$font-size : s-lnf(font-size, $size),
+					// 	$line-height: s-lnf(font-size, $size),
+					// 	$margin-bottom : $mb,
+					// 	$margin-top : 0
+					// );
+
+					&:first-child:last-child {
+						width: 100%;
+					}
+				}
+
+				& + label,
+				& + .label {
+					margin-left: s-lnf(padding-vertical, $size);
+				}
+			}
+		}
+
+		// generate each colors
+		@each $color in $colors {
+			
+			// label styling
+			@if index($styles, inside) {
+				#{s-selector((
+					BEM : (
+						'.label--inside > .input--#{$color}:not([type="checkbox"]):not([type="radio"])',
+						'.color--#{$color} .label--inside > .input:not([type="checkbox"]):not([type="radio"])'
+					),
+					SMACCS : (
+						'.label-inside > .input-#{$color}:not([type="checkbox"]):not([type="radio"])',
+						'.color-#{$color} .label-inside > .input:not([type="checkbox"]):not([type="radio"])'
+					)
+				))} {
+					& ~ span {
+						background-color: s-color($color, -opacity .05);
+					}
+
+					&:not([value=""]) ~ span,
+					&:focus ~ span {
+						background-color: s-color($color, -opacity .2);
+						color : s-color($color, -darken 20%);
+					}			
+				}
+			}
+
+			// display input-reply when parent has the good class
+			#{s-selector((
+				BEM : (
+					'.#{$color} > .input-reply--#{$color}',
+					'.color--#{$color} > .input-reply'
+				),
+				SMACCS : (
+					'.#{$color} > .input-reply-#{$color}',
+					'.color--#{$color} > .input-reply'
+				)
+			))} {
+				display: block;
+			}
+
+			#{s-selector((
+				BEM : (
+					'.input--#{$color}:not([type="checkbox"]):not([type="radio"])',
+					'.input-addon--#{$color}',
+					'.color--#{$color} .input:not([type="checkbox"]):not([type="radio"])',
+					'.color--#{$color} .input-addon'
+				),
+				SMACCS : (
+					'.input-#{$color}:not([type="checkbox"]):not([type="radio"])',
+					'.input-addon-#{$color}',
+					'.color-#{$color} .input:not([type="checkbox"]):not([type="radio"])',
+					'.color-#{$color} .input-addon'
+				)
+			))} {
+				@include s-formset-input-color($color);
+
+				& ~ .input-reply--#{$color} {
+					display: block;
+				}
+			}
+			#{s-selector((
+				BEM : (
+					'.input-reply--#{$color}',
+					'.color--#{$color} .input-reply'
+				),
+				SMACCS : (
+					'.input-reply-#{$color}',
+					'.color--#{$color} .input-reply'
+				)
+			))} {
+				color: s-color($color, -darken 20%);
+				background-color: s-color($color, -opacity .3);
+			}
+
+			#{s-selector((
+				BEM : (
+					'.input-addon--#{$color}',
+					'.color--#{$color} .input-addon'
+				),
+				SMACCS : (
+					'.input-addon-#{$color}',
+					'.color-#{$color} .input-addon'
+				)
+			))} {
+				background-color: s-color($color, -opacity .08);
+				color : s-color($color, -darken 20%);
+			}
+			#{s-selector((
+				BEM : (
+					'select.input--#{$color}',
+					'.input--#{$color}.s-select',
+					'.color--#{$color} select.input'
+				),
+				SMACCS : (
+					'select.input-#{$color}',
+					'.input-#{$color}.s-select',
+					'.color--#{$color} select.input'
+				)
+			))} {
+				@include s-formset-select-color($color);
+			}
+		}
+
+		// if want the inline style
+		@if index($styles, inline) {
+			#{s-selector((
+				BEM : '.label--inline',
+				SMACCS : '.label-inline'
+			))} {
+				display: flex;
+				
+				> * {
+					flex:0;
+					margin-top:0 !important;
+				}
+				> .input {
+					flex:1;
+				}
+				> span {
+					flex : 0;
+					white-space: nowrap;
+					display:inline-block;
+					
+					&:first-child {
+						padding-left: 0 !important;
+					}
+					&:last-child {
+						padding-right: 0 !important;
+					}
+				}
+			}
+		}
+
+		// if want the inside style
+		@if index($styles, inside) {
+			#{s-selector((
+				BEM : '.label--inside',
+				SMACCS : '.label-inside'
+			))} {
+				display: flex;
+
+				> * {
+					flex:0;
+					margin-top:0 !important;
+				}
+				> .input {
+					flex:1;
+
+					&:focus ~ span {
+						left: s-rem(5px);
+					}
+				}
+				
+				> span {
+					@include s-transition(fast);
+					white-space: nowrap;
+					display:inline-block;
+					text-align: right;
+					position:absolute;
+					// bottom:100%;
+					left:0;
+					z-index:1;
+				}
+			}
+		}
+
+		// addon
+		.input-addon {
+			pointer-events: none;
+		}
+	}
+}
+
+
+
+
+
+
+

@@ -1,0 +1,123 @@
+$_s-formset-fieldset-inited : false;
+@mixin s-formset-fieldset-init() {
+	
+	@if not $_s-formset-fieldset-inited {
+		$_s-formset-fieldset-inited : true !global;
+
+		%s-formset-fieldset-bare {
+			border-left-width: s-rem(5px);
+			border-left-style: solid;
+			display:block;
+			width: 100%;
+			@include s-transition(fast);
+
+			> legend,
+			> .legend {
+				@include s-transition(fast);
+				border-left-style: solid;
+				border-left-width: s-rem(5px);
+				border-bottom-style: solid;
+				border-bottom-width: s-rem(2px);
+			}
+		}
+	}
+}
+@mixin s-formset-fieldset(
+	$sizes : sugar('settings.components.formset.generate.sizes'),
+	$colors : sugar('settings.components.formset.generate.colors')
+) {
+	// init form
+	@include s-formset-fieldset-init();
+
+	@if $_sugar-test-arguments {
+		$sizes : s-test-argument('s-formset-fieldset','sizes',map-keys(sugar('settings.sizes')),$sizes);
+		$colors : s-test-argument('s-formset-fieldset','colors',map-keys(sugar('settings.colors')),$colors);
+	}
+
+	// pass in the component context
+	@include s-component-context('formset') {		
+		
+		// get variables
+		$form-scope-class : sugar('settings.scope-class');
+
+		.fieldset {
+			@extend %s-formset-fieldset-bare;
+
+			@include s-vertical-rhythme() {
+				margin-bottom: s-rem(2);
+			}
+		}
+
+		// generate each sizes
+		@each $size in $sizes {
+			// input styling
+			#{s-selector((
+				BEM : (
+					'.fieldset--#{$size}'
+				),
+				SMACCS : (
+					'.fieldset-#{$size}'
+				)
+			))} {
+				padding : 0 0 0 s-space($size);
+				padding-right: 0;
+				display: inline-block;
+
+				> [class*="legend"],
+				> legend {
+					margin-left: - (s-space($size) + s-rem(5px));
+					width : unquote('calc(100% + #{s-space($size)})');
+					margin-bottom: s-space($size);
+				}
+			}
+
+			#{s-selector((
+				BEM : (
+					'.legend--#{$size}'
+				),
+				SMACCS : (
+					'.legend-#{$size}'
+				)
+			))} {
+				// @include s-translate(0 50%);
+				font-size : s-look-and-feel(font-size, $size);
+				padding: s-look-and-feel(padding-horizontal, $size) s-look-and-feel(padding-vertical, $size);
+			}
+		}
+
+		// generate each colors
+		@each $color in $colors {
+			
+			#{s-selector((
+				BEM : (
+					'.fieldset--#{$color}'
+				),
+				SMACCS : (
+					'.fieldset-#{$color}'
+				)
+			))} {
+				border-color: s-color($color, -opacity .1);
+				
+				#{s-selector((
+					BEM : '&.fieldset--hover',
+					SMACCS : '&.is-hover'
+				))},
+				&:hover,
+				&.active {
+					border-color: s-color($color, -opacity .2);
+
+					> legend,
+					> .legend {
+						border-color: s-color($color, -opacity .2);
+					}
+				}
+
+				> legend,
+				> .legend {
+					color: s-color($color);
+					border-color: s-color($color, -opacity .1);
+				}
+			}
+		}
+	}
+}

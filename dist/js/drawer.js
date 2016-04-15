@@ -450,6 +450,13 @@ return /******/ (function(modules) { // webpackBootstrap
 		},
 
 		/**
+	  * Scroll top
+	  */
+		scrollTop: function scrollTop() {
+			return window.pageYOffset || docEl.scrollTop || body.scrollTop;
+		},
+
+		/**
 	  * Get offset of an element
 	  */
 		offset: function offset(elm) {

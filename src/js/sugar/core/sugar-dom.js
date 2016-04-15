@@ -158,6 +158,13 @@ let sugarDom = {
 	},
 
 	/**
+	 * Scroll top
+	 */
+	scrollTop : () => {
+		return window.pageYOffset || docEl.scrollTop || body.scrollTop;
+	},
+
+	/**
 	 * Get offset of an element
 	 */
 	offset : (elm) => {
