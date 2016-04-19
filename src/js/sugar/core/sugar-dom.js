@@ -1,5 +1,5 @@
 import * as sugarTools from './sugar-tools'
-let MutationSummary = require('mutation-summary');
+// let MutationSummary = require('mutation-summary');
 let _get = require('lodash/get');
 let _insertAnimationListener = false;
 let _insertMutationObserver = null;
@@ -11,6 +11,7 @@ let sugarDom = {
 	 * Polyfill for the matches js method
 	 */
 	matches : (el, selector) => {
+		if (el.nodeName == '#comment') { return false; }
 		var p = Element.prototype;
 		var f = p.matches || p.webkitMatchesSelector || p.mozMatchesSelector || p.msMatchesSelector || function(s) {
 			return [].indexOf.call(document.querySelectorAll(s), this) !== -1;
@@ -21,26 +22,27 @@ let sugarDom = {
 	/**
 	 * Make a selector detectable when new element are pushed in the page
 	 */
-	querySelectorLive : (selector, cb, rootNode)  => {
+	querySelectorLive : (selector, cb, rootNode, groupedNodes = false)  => {
 
 		let _this = this;
+
+		// use the animation hack to detect
+		// new items in the page
+		let detection_id = 's-insert-detection-'+sugarTools.uniqid();
+
+		// add the callback in stack
+		_insertDomElementsCallbacks[detection_id] = {
+			callback : cb,
+			selector : selector,
+			rootNode : rootNode,
+			groupedNodes : groupedNodes
+		};
 
 		// make a query on existing elements
 		sugarDom.domReady(() => {
 
 			// rootNode
-			if ( ! rootNode) { rootNode = document.body; }
-
-			// use the animation hack to detect
-			// new items in the page
-			let detection_id = 's-insert-detection-'+sugarTools.uniqid();
-
-			// add the callback in stack
-			_insertDomElementsCallbacks[detection_id] = {
-				callback : cb,
-				selector : selector,
-				rootNode : rootNode
-			};
+			if ( ! rootNode) { rootNode = document.body; }			
 
 			// check how we can detect new elements
 			if (window.MutationObserver != null) {
@@ -56,17 +58,41 @@ let sugarDom = {
 				// 	rootNode : rootNode,
 				// 	queries: [{ element: selector }]
 				// });
+
 				if ( ! rootNode._s_insert_mutation_observer) {
 					rootNode._s_insert_mutation_observer = new MutationObserver((mutations) => {
 						// check if what we need has been added
 						mutations.forEach((mutation) => {
-							if (mutation.addedNodes && mutation.addedNodes[0]) {
-								// console.log(_this);
-								// loop on each callbacks to find a match
-								for(let insert_id in _insertDomElementsCallbacks) {
-									if (sugarDom.matches(mutation.addedNodes[0], _insertDomElementsCallbacks[insert_id].selector)) {
-										_insertDomElementsCallbacks[insert_id].callback(mutation.addedNodes[0]);
+							
+							if (mutation.addedNodes) {
+								let _callback = null,
+									_groupedNodes = [];
+								// check if want grouped nodes in callback
+								[].forEach.call(mutation.addedNodes, (node) => {
+									// console.log(_this);
+									// loop on each callbacks to find a match
+									for(let insert_id in _insertDomElementsCallbacks) {
+										// console.log('TEST', node, _insertDomElementsCallbacks[insert_id].selector);
+										if (sugarDom.matches(node, _insertDomElementsCallbacks[insert_id].selector)) {
+											// console.log('MATCH', node);
+											if (_insertDomElementsCallbacks[insert_id].groupedNodes) {
+												if ( ! _callback) {
+													_callback = _insertDomElementsCallbacks[insert_id].callback;
+												}
+												// console.log('A', selector, node);
+												_groupedNodes.push(node);
+											} else {
+												_insertDomElementsCallbacks[insert_id].callback(node);
+											}
+										}
 									}
+								});
+								// if is a callback
+								// mean that we have grouped the nodes
+								// and that we need to call it with the array of nodes
+								// as parameter
+								if (_callback) {
+									_callback(_groupedNodes);
 								}
 							}
 						});
@@ -161,7 +187,7 @@ let sugarDom = {
 	 * Scroll top
 	 */
 	scrollTop : () => {
-		return window.pageYOffset || docEl.scrollTop || body.scrollTop;
+		return window.pageYOffset || document.scrollTop || document.body.scrollTop;
 	},
 
 	/**

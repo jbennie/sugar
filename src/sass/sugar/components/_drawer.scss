@@ -129,7 +129,7 @@
 		/* actual page content pane */
 		[data-s-drawer-content] {
 			@include s-translate(0,0);
-			width: 100%;
+			width: 100%; min-height:100vh;
 			@include s-transition();
 			background-color: white;
 			position: relative;

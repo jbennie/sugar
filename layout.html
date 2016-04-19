@@ -5,22 +5,6 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-	<script src="dist/js/sugar.js"></script>
-
-	<script>
-	sugar.ActivateElement.setup('nested', {
-		history : false
-	});
-
-	sugar.localStorageFonts.init({
-		json_path : './assets/fonts/fonts.json#2.2',
-		debug : true
-	});
-	if (/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) {
-		sugar.motionblur.enabled = false;
-		sugar.gooey.enabled = false;
-	}
-	</script>
 	<link href="assets/css/loaders.css" rel="stylesheet" type="text/css" />
 	<link href="assets/css/components.css" rel="stylesheet" type="text/css" />
 	<link href="assets/css/style.css" rel="stylesheet" type="text/css" />
@@ -509,6 +493,21 @@ bigger : 10rem // specify a special one for the bigger size
 		<i class="fa-arrow-up"></i>
 	</a>
 
+	<script>
+	sugar.ActivateElement.setup('nested', {
+		history : false
+	});
+
+	sugar.localStorageFonts.init({
+		json_path : './assets/fonts/fonts.json#2.2',
+		debug : true
+	});
+	if (/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) {
+		sugar.motionblur.enabled = false;
+		sugar.gooey.enabled = false;
+	}
+	</script>
+	
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.js"></script>
 
 	<script type="text/javascript">

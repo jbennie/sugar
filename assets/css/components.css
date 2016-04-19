@@ -4091,11 +4091,19 @@ input[data-s-radiobox].input--info:checked + .s-radiobox:before {
   left: 0;
   z-index: 1;
   width: 100%;
+  height: 0;
+  overflow-y: hidden;
+}
+
+.s-select--dropup .s-select__dropdown {
+  top: auto;
+  bottom: calc(100% + 0.76923077rem);
 }
 
 .s-select--opened .s-select__dropdown {
   opacity: 1;
   pointer-events: all;
+  height: auto;
 }
 
 .s-select__options {
@@ -4103,6 +4111,7 @@ input[data-s-radiobox].input--info:checked + .s-radiobox:before {
   overflow-x: hidden;
   height: 100%;
   min-height: 23.07692308rem;
+  max-height: 100vh;
 }
 
 .s-select__option--disabled {
@@ -4441,6 +4450,7 @@ input[data-s-radiobox].input--info:checked + .s-radiobox:before {
 
 .s-select.input .s-select__search-container {
   background: rgba(129, 149, 161, 0.1);
+  border-bottom: 0.07692308rem solid rgba(129, 149, 161, 0.2);
 }
 
 .s-select.input .s-select__selection-tag {
@@ -4477,6 +4487,7 @@ input[data-s-radiobox].input--info:checked + .s-radiobox:before {
 
 .s-select.input--primary .s-select__search-container {
   background: rgba(242, 188, 43, 0.1);
+  border-bottom: 0.07692308rem solid rgba(242, 188, 43, 0.2);
 }
 
 .s-select.input--primary .s-select__selection-tag {
@@ -4513,6 +4524,7 @@ input[data-s-radiobox].input--info:checked + .s-radiobox:before {
 
 .s-select.input--secondary .s-select__search-container {
   background: rgba(119, 119, 119, 0.1);
+  border-bottom: 0.07692308rem solid rgba(119, 119, 119, 0.2);
 }
 
 .s-select.input--secondary .s-select__selection-tag {
@@ -4549,6 +4561,7 @@ input[data-s-radiobox].input--info:checked + .s-radiobox:before {
 
 .s-select.input--success .s-select__search-container {
   background: rgba(92, 184, 92, 0.1);
+  border-bottom: 0.07692308rem solid rgba(92, 184, 92, 0.2);
 }
 
 .s-select.input--success .s-select__selection-tag {
@@ -4585,6 +4598,7 @@ input[data-s-radiobox].input--info:checked + .s-radiobox:before {
 
 .s-select.input--warning .s-select__search-container {
   background: rgba(240, 173, 78, 0.1);
+  border-bottom: 0.07692308rem solid rgba(240, 173, 78, 0.2);
 }
 
 .s-select.input--warning .s-select__selection-tag {
@@ -4621,6 +4635,7 @@ input[data-s-radiobox].input--info:checked + .s-radiobox:before {
 
 .s-select.input--error .s-select__search-container {
   background: rgba(217, 83, 79, 0.1);
+  border-bottom: 0.07692308rem solid rgba(217, 83, 79, 0.2);
 }
 
 .s-select.input--error .s-select__selection-tag {
@@ -4657,6 +4672,7 @@ input[data-s-radiobox].input--info:checked + .s-radiobox:before {
 
 .s-select.input--info .s-select__search-container {
   background: rgba(33, 153, 232, 0.1);
+  border-bottom: 0.07692308rem solid rgba(33, 153, 232, 0.2);
 }
 
 .s-select.input--info .s-select__selection-tag {

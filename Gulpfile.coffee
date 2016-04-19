@@ -37,9 +37,12 @@ webpackParams =
 			}
 		}]
 webpackAppParams = _.extend {}, webpackParams,
+	entry: {
+		'angular-demo': ['./src/js/angular-demo.js']
+	}
 	output:
 		path: require("path").resolve("./assets/js"),
-		filename: 'app.js',
+		filename: '[name].js',
 		libraryTarget: 'umd'
 webpackDistParams = _.extend {}, webpackParams,
 	entry: {

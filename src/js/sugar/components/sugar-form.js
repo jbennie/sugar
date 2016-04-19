@@ -181,14 +181,14 @@ class SugarSelectElement extends SugarElement {
 		this.container.addEventListener('open', (e) => {
 			document.addEventListener('keyup', _onKeyUpFn);
 			document.addEventListener('keydown', _onKeyDownFn);
-			document.addEventListener('scroll', _onScrollResizeFn);
-			document.addEventListener('resize', _onScrollResizeFn);
+			window.addEventListener('scroll', _onScrollResizeFn);
+			window.addEventListener('resize', _onScrollResizeFn);
 		});
 		this.container.addEventListener('close', (e) => {
 			document.removeEventListener('keyup', _onKeyUpFn);
 			document.removeEventListener('keydown', _onKeyDownFn);
-			document.removeEventListener('scroll', _onScrollResizeFn);
-			document.removeEventListener('resize', _onScrollResizeFn);
+			window.removeEventListener('scroll', _onScrollResizeFn);
+			window.removeEventListener('resize', _onScrollResizeFn);
 		});
 
 		// listen for click outside of the dropdown
@@ -230,12 +230,9 @@ class SugarSelectElement extends SugarElement {
 
 		// listen for new elements in the select
 		sDom.querySelectorLive('[data-s-select="'+this.id+'"] > option, [data-s-select="'+this.id+'"] > optgroup', (elm) => {
-			// handle option
-			this._handleOption(elm);
-		}, this.elm);
-
-		// set selected the first time
-		this._setSelected();
+			// refresh the select
+			this.refresh();
+		}, this.elm, true);
 
 		// this._appendNew();
 	}
@@ -268,7 +265,7 @@ class SugarSelectElement extends SugarElement {
 		});
 
 		// set position
-		this.setPosition();
+		this._setPosition();
 
 	}
 
@@ -276,7 +273,11 @@ class SugarSelectElement extends SugarElement {
 	 * On scroll or resize
 	 */
 	_onScrollResize(e) {
-		this.setPosition();
+		// clearTimeout(this._scrollResizeTimeout);
+		// this._scrollResizeTimeout = setTimeout(() => {
+			// console.log('set POSITION');
+			this._setPosition();
+		// }, 100);
 	}
 
 	_onKeyUp(e) {
@@ -424,7 +425,9 @@ class SugarSelectElement extends SugarElement {
 		this.elm.parentNode.insertBefore(container, this.elm);
 
 		// hide element
-		this.elm.style.display = 'none';
+		this.elm.style.position = 'absolute';
+		this.elm.style.left = '-120vw';
+		this.elm.style.opacity = 0;
 
 		// save into object
 		this.container = container;
@@ -548,7 +551,7 @@ class SugarSelectElement extends SugarElement {
 	 	} else {
 	 		// get the selected one
 	 		let selected_idx = this.elm.options.selectedIndex;
-	 		if (selected_idx) {
+	 		if (selected_idx != -1) {
 	 			// set the selected
 	 			let selection = document.createElement('div');
 	 			selection.classList.add('s-select__selection');
@@ -561,25 +564,36 @@ class SugarSelectElement extends SugarElement {
 	/**
 	 * Set position
 	 */
-	setPosition() {
-		console.log('set potision');
-
+	_setPosition() {
 		// get the position of the container
-		let offset = sDom.offset(this.dropdown);
-		let top = offset.top - sDom.scrollTop();
-		let h = this.dropdown.offsetHeight;
-		let optionsH = this.options_container.scrollHeight;
+		let dropdownOffset = sDom.offset(this.dropdown);
+		let dropdownTop = dropdownOffset.top - sDom.scrollTop();
+		let containerTop = sDom.offset(this.container).top - sDom.scrollTop();
+		let dropdownFullHeight = this.options_container.scrollHeight + this.search_container.offsetHeight;
+		let optionsFullHeight = this.options_container.scrollHeight;
+		let optionsHeight = this.options_container.offsetHeight;
 		let screenMargin = this.setting('screenMargin');
+		let optionsMinHeight = parseInt(window.getComputedStyle(this.options_container).getPropertyValue('min-height'));
 
-		// console.log(top + h, window.innerHeight);
-		if (top + h + screenMargin > window.innerHeight) {
-			this.options_container.style.height = window.innerHeight - top - this.search_container.offsetHeight - screenMargin + 'px';
+		// check if the min-height has been reached
+		if ( containerTop + this.container.offsetHeight + this.search_container.offsetHeight + optionsMinHeight + screenMargin > window.innerHeight) {
+		// if (optionsHeight < optionsFullHeight && optionsHeight <= optionsMinHeight ) {
+			this.container.classList.add('s-select--dropup');
+			// console.log(top + h, window.innerHeight);
+			if (containerTop - dropdownFullHeight - screenMargin < 0) {
+				this.options_container.style.height = window.innerHeight - (window.innerHeight - containerTop) - this.search_container.offsetHeight - screenMargin + 'px';
+			} else {
+				this.options_container.style.height = 'auto';
+			}
 		} else {
-			this.options_container.style.height = 'auto';
-		}
-		// console.log(h);
-		//console.log(top, h, optionsH);
-
+			this.container.classList.remove('s-select--dropup');
+			// console.log(top + h, window.innerHeight);
+			if (dropdownTop + dropdownFullHeight + screenMargin > window.innerHeight) {
+				this.options_container.style.height = window.innerHeight - dropdownTop - this.search_container.offsetHeight - screenMargin + 'px';
+			} else {
+				this.options_container.style.height = 'auto';
+			}
+		}		
 	}
 
 	/**
@@ -652,19 +666,21 @@ class SugarSelectElement extends SugarElement {
 		let content = _option.innerHTML;
 
 		// get the content
-		let source = _option.getAttribute('data-s-select-option-source');
-		if (source) {
-			// try to get into document
-			source = document.querySelector(source);
+		setTimeout(() => {
+			let source = _option.getAttribute('data-s-select-option-source');
 			if (source) {
-				option.appendChild(source);
-				option.classList.add('s-select__option--custom');
+				// try to get into document
+				source = document.querySelector(source);
+				if (source) {
+					option.appendChild(source);
+					option.classList.add('s-select__option--custom');
+				} else {
+					option.innerHTML = content;
+				}
 			} else {
 				option.innerHTML = content;
 			}
-		} else {
-			option.innerHTML = content;
-		}
+		}, 2000);
 
 		// save the html to restore later on search
 		option._s_innerHTML = option.innerHTML;
@@ -689,6 +705,8 @@ class SugarSelectElement extends SugarElement {
 	 */
 	refresh() {
 		// empty the options
+		let options_parent = this.options_container.parentNode;
+		options_parent.removeChild(this.options_container);
 		this.options_container.innerHTML = '';
 
 		// create the options tree
@@ -699,6 +717,9 @@ class SugarSelectElement extends SugarElement {
 
 		// set selected the first time
 		this._setSelected();
+
+		// append again in dom the options
+		options_parent.appendChild(this.options_container);
 	}
 
 	/**
@@ -769,6 +790,10 @@ class SugarSelectElement extends SugarElement {
 		if (this._currentActiveOption) {
 			this._currentActiveOption.classList.remove('active');
 		}
+		// remove the dropup class
+		this._clearDropupTimeout = setTimeout(() => {
+			this.container.classList.remove('s-select--dropup');
+		},500);
 		// dispatch close event
 		let event = new Event('close');
 		this.container.dispatchEvent(event);
@@ -783,7 +808,8 @@ class SugarSelectElement extends SugarElement {
 	open() {
 		this.container.classList.add('s-select--opened');
 		// set position
-		this.setPosition();
+		clearTimeout(this._clearDropupTimeout);
+		this._setPosition();
 		// dispatch open event
 		let event = new Event('open');
 		this.container.dispatchEvent(event);
@@ -794,7 +820,7 @@ class SugarSelectElement extends SugarElement {
 
 }
 
-// init the radiobox
+// init the select
 sDom.querySelectorLive('select[data-s-select]', (elm) => {
 	new SugarSelectElement(elm);
 });
@@ -958,9 +984,11 @@ sDom.querySelectorLive('[data-s-datetimepicker]', (elm) => {
 if (window.sugar == null) { window.sugar = {}; }
 window.sugar.RadioboxElement = SugarRadioboxElement;
 window.sugar.DatepickerElement = SugarDatepickerElement;
+window.sugar.SelectElement = SugarSelectElement;
 
 // export modules
 module.exports = {
 	RadioboxElement : SugarRadioboxElement,
-	DatepickerElement : SugarDatepickerElement
+	DatepickerElement : SugarDatepickerElement,
+	SelectElement : SugarSelectElement
 };

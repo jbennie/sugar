@@ -25,7 +25,6 @@ export default class SugarElement {
 		this.elm = elm;
 		this.name = name;
 		this.name_dash = uncamelize(this.name);
-		console.log(this.name_dash);
 		// extend settings
 		this._settings = {...default_settings, ...settings};
 

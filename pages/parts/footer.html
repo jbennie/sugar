@@ -4,6 +4,21 @@
 		<i class="fa-arrow-up"></i>
 	</a>
 
+	<script>
+	sugar.ActivateElement.setup('nested', {
+		history : false
+	});
+
+	sugar.localStorageFonts.init({
+		json_path : './assets/fonts/fonts.json#2.2',
+		debug : true
+	});
+	if (/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) {
+		sugar.motionblur.enabled = false;
+		sugar.gooey.enabled = false;
+	}
+	</script>
+	
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.js"></script>
 
 	<script type="text/javascript">

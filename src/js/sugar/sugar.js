@@ -8,7 +8,12 @@ import sDom from './core/sugar-dom'
 import { drawerManager, DrawerElement } from './components/sugar-drawer'
 import transitionstartEventDispatcher from './events/sugar-transitionstart'
 import localStorageFonts from './fonts/sugar-localstoragefonts'
-import { RadioboxElement, DatepickerElement, DatetimepickerElement } from './components/sugar-form'
+import {
+	RadioboxElement,
+	DatepickerElement,
+	DatetimepickerElement,
+	SelectElement
+} from './components/sugar-form'
 import settings from './core/sugar-settings'
 
 module.exports = {
@@ -24,6 +29,7 @@ module.exports = {
 	RadioboxElement : RadioboxElement,
 	DatepickerElement : DatepickerElement,
 	DatetimepickerElement : DatetimepickerElement,
+	SelectElement : SelectElement,
 	tools : tools,
 	dom : sDom,
 	settings : settings,
