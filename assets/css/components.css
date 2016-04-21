@@ -4074,6 +4074,26 @@ input[data-s-radiobox].input--info:checked + .s-radiobox:before {
   color: #8195a1;
 }
 
+.s-select__search-field::-webkit-input-placeholder {
+  color: rgba(129, 149, 161, 0.4);
+}
+
+.s-select__search-field:-moz-placeholder {
+  color: rgba(129, 149, 161, 0.4);
+}
+
+.s-select__search-field::-moz-placeholder {
+  color: rgba(129, 149, 161, 0.4);
+}
+
+.s-select__search-field:-ms-input-placeholder {
+  color: rgba(129, 149, 161, 0.4);
+}
+
+.input--placeholder {
+  color: rgba(129, 149, 161, 0.4);
+}
+
 .s-select__option {
   list-style: none;
   cursor: pointer;

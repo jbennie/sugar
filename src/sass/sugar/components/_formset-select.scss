@@ -23,6 +23,9 @@ $_s-formset-select-inited : false;
 			border-color:rgba(0,0,0,.1);
 			background:transparent;
 			color: s-color(text);
+			@include s-placeholder() {
+				color: s-color(text, -opacity .4);
+			}
 		}
 		.s-select__option {
 			list-style: none;
