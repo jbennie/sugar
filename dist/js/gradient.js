@@ -55,7 +55,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(156);
+	module.exports = __webpack_require__(160);
 
 
 /***/ },
@@ -81,8 +81,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var _upperfirst = __webpack_require__(18);
-	var _lowerfirst = __webpack_require__(21);
+	var _upperfirst = __webpack_require__(20);
+	var _lowerfirst = __webpack_require__(23);
 
 	// store the settings for the different
 	// components types
@@ -154,7 +154,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// if we didn't find any setting in dataset,
 			// get the one from the actual settings property
-			if (!s) {
+			if (s === null) {
 				s = this._settings[key];
 			}
 
@@ -243,6 +243,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 
+	var uniqidIdx = 0;
 	module.exports = {
 
 		/**
@@ -274,13 +275,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	  * Get a uniq id
 	  */
 		uniqid: function uniqid() {
+			// update uniqid idx
+			uniqidIdx++;
 			var ts = String(new Date().getTime()),
 			    i = 0,
 			    out = '';
 			for (i = 0; i < ts.length; i += 2) {
 				out += Number(ts.substr(i, 2)).toString(36);
 			}
-			return 'd' + out;
+			return 'd' + out + uniqidIdx * Math.round(Math.random() * 9999999);
 		}
 	};
 
@@ -299,11 +302,38 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+	__webpack_require__(5);
+	__webpack_require__(6);
 	// let MutationSummary = require('mutation-summary');
-	var _get = __webpack_require__(5);
+	var _get = __webpack_require__(7);
 	var _insertAnimationListener = false;
 	var _insertMutationObserver = null;
 	var _insertDomElementsCallbacks = {};
+
+	(function (doc, proto) {
+		try {
+			// check if browser supports :scope natively
+			doc.querySelector(':scope body');
+		} catch (err) {
+			// polyfill native methods if it doesn't
+			['querySelector', 'querySelectorAll'].forEach(function (method) {
+				var nativ = proto[method];
+				proto[method] = function (selectors) {
+					if (/(^|,)\s*:scope/.test(selectors)) {
+						// only if selectors contains :scope
+						var id = this.id; // remember current element id
+						this.id = 'ID_' + Date.now(); // assign new unique id
+						selectors = selectors.replace(/((^|,)\s*):scope/g, '$1#' + this.id); // replace :scope with #ID
+						var result = doc[method](selectors);
+						this.id = id; // restore previous id
+						return result;
+					} else {
+						return nativ.call(this, selectors); // use native code for other selectors
+					}
+				};
+			});
+		}
+	})(window.document, Element.prototype);
 
 	var sugarDom = {
 
@@ -311,7 +341,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  * Polyfill for the matches js method
 	  */
 		matches: function matches(el, selector) {
-			if (el.nodeName == '#comment') {
+			if (el.nodeName == '#comment' || el.nodeName == '#text') {
 				return false;
 			}
 			var p = Element.prototype;
@@ -332,14 +362,42 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// use the animation hack to detect
 			// new items in the page
-			var detection_id = 's-insert-detection-' + sugarTools.uniqid();
+			var detection_id = 's-query-selector-live-' + sugarTools.uniqid();
 
 			// add the callback in stack
 			_insertDomElementsCallbacks[detection_id] = {
-				callback: cb,
+				detection_id: detection_id,
+				_added_callback: typeof cb == 'function' ? cb : cb[0] ? cb[0] : null,
+				added_callback: function added_callback(_this) {
+					// save the detection if into node
+					if (_this.nodes) {
+						_this.nodes.forEach(function (node) {
+							node._s_query_selector_live_id = _this.detection_id;
+						});
+					}
+					if (!_this._added_callback) return;
+					if (_this.nodes.length > 1) {
+						_this._added_callback(_this.nodes);
+					} else if (_this.nodes.length == 1) {
+						_this._added_callback(_this.nodes[0]);
+					}
+					_this.nodes = [];
+				},
+				_removed_callback: cb instanceof Array && cb[1] ? cb[1] : null,
+				removed_callback: function removed_callback(_this) {
+					if (!_this._removed_callback) return;
+					if (_this.nodes.length > 1) {
+						_this._removed_callback(_this.nodes);
+					} else if (_this.nodes.length == 1) {
+						_this._removed_callback(_this.nodes[0]);
+					}
+					_this.nodes = [];
+				},
 				selector: selector,
 				rootNode: rootNode,
-				groupedNodes: groupedNodes
+				groupedNodes: groupedNodes,
+				nodes: [],
+				timeout: null
 			};
 
 			// make a query on existing elements
@@ -352,56 +410,63 @@ return /******/ (function(modules) { // webpackBootstrap
 
 				// check how we can detect new elements
 				if (window.MutationObserver != null) {
-					// make use of great mutation summary library
-					// var observer = new MutationSummary({
-					// 	callback: (summaries) => {
-					// 		summaries.forEach((summary) => {
-					// 			summary.added.forEach((elm) => {
-					// 				cb(elm);
-					// 			});
-					// 		});
-					// 	},
-					// 	rootNode : rootNode,
-					// 	queries: [{ element: selector }]
-					// });
+
+					// make sure we try to get dom nodes
+					// AFTER first js loop that handle frameworks
+					// like angular, etc...
+					//setTimeout(() => {
 
 					if (!rootNode._s_insert_mutation_observer) {
 						rootNode._s_insert_mutation_observer = new MutationObserver(function (mutations) {
+
 							// check if what we need has been added
 							mutations.forEach(function (mutation) {
 
+								// added nodes
 								if (mutation.addedNodes) {
-									(function () {
-										var _callback = null,
-										    _groupedNodes = [];
-										// check if want grouped nodes in callback
-										[].forEach.call(mutation.addedNodes, function (node) {
-											// console.log(_this);
-											// loop on each callbacks to find a match
+									// let _callback = null,
+									// 	_groupedNodes = [];
+									// check if want grouped nodes in callback
+									[].forEach.call(mutation.addedNodes, function (node) {
+										// loop on each callbacks to find a match
+										for (var insert_id in _insertDomElementsCallbacks) {
+											if (sugarDom.matches(node, _insertDomElementsCallbacks[insert_id].selector)) {
+												if (_insertDomElementsCallbacks[insert_id].groupedNodes) {
+													_insertDomElementsCallbacks[insert_id].nodes.push(node);
+													// _groupedNodes.push(node);
+													clearTimeout(_insertDomElementsCallbacks[insert_id].timeout);
+													_insertDomElementsCallbacks[insert_id].timeout = setTimeout(_insertDomElementsCallbacks[insert_id].added_callback.bind(null, _insertDomElementsCallbacks[insert_id]));
+												} else {
+													_insertDomElementsCallbacks[insert_id].added_callback(node);
+												}
+											}
+										}
+									});
+								}
+
+								// removed nodes
+								if (mutation.removedNodes) {
+									// let _callback = null,
+									// 	_groupedNodes = [];
+									// check if want grouped nodes in callback
+									[].forEach.call(mutation.removedNodes, function (node) {
+										// loop on each callbacks to find a match
+										if (node.nodeName != '#text') {
 											for (var insert_id in _insertDomElementsCallbacks) {
-												// console.log('TEST', node, _insertDomElementsCallbacks[insert_id].selector);
-												if (sugarDom.matches(node, _insertDomElementsCallbacks[insert_id].selector)) {
-													// console.log('MATCH', node);
+												if (node._s_query_selector_live_id == insert_id) {
+													// if (sugarDom.matches(node, _insertDomElementsCallbacks[insert_id].selector)) {
 													if (_insertDomElementsCallbacks[insert_id].groupedNodes) {
-														if (!_callback) {
-															_callback = _insertDomElementsCallbacks[insert_id].callback;
-														}
-														// console.log('A', selector, node);
-														_groupedNodes.push(node);
+														_insertDomElementsCallbacks[insert_id].nodes.push(node);
+														// _groupedNodes.push(node);
+														clearTimeout(_insertDomElementsCallbacks[insert_id].timeout);
+														_insertDomElementsCallbacks[insert_id].timeout = setTimeout(_insertDomElementsCallbacks[insert_id].removed_callback.bind(null, _insertDomElementsCallbacks[insert_id]));
 													} else {
-														_insertDomElementsCallbacks[insert_id].callback(node);
+														_insertDomElementsCallbacks[insert_id].removed_callback(node);
 													}
 												}
 											}
-										});
-										// if is a callback
-										// mean that we have grouped the nodes
-										// and that we need to call it with the array of nodes
-										// as parameter
-										if (_callback) {
-											_callback(_groupedNodes);
 										}
-									})();
+									});
 								}
 							});
 						});
@@ -409,8 +474,16 @@ return /******/ (function(modules) { // webpackBootstrap
 							childList: true
 						});
 					}
+
+					// parse the dom to find the currently present elements
 					[].forEach.call(rootNode.querySelectorAll(selector), function (elm) {
-						cb(elm);
+						_insertDomElementsCallbacks[detection_id].nodes.push(elm);
+						if (_insertDomElementsCallbacks[detection_id].groupedNodes) {
+							clearTimeout(_insertDomElementsCallbacks[detection_id].timeout);
+							_insertDomElementsCallbacks[detection_id].timeout = setTimeout(_insertDomElementsCallbacks[detection_id].added_callback.bind(null, _insertDomElementsCallbacks[detection_id]));
+						} else {
+							_insertDomElementsCallbacks[detection_id].added_callback(_insertDomElementsCallbacks[detection_id]);
+						}
 					});
 				} else {
 					// add the animation style in DOM
@@ -442,15 +515,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	  * Dom ready
 	  */
 		domReady: function domReady(cb) {
-			if (document.readyState == 'interactive') {
-				// 	console.log('ready!!!');
-				// 	console.log(document.body);
-				cb();
-			} else {
-				document.addEventListener('DOMContentLoaded', function (e) {
-					cb();
-				});
-			}
+			// if ( ! document.body) {
+			// 	setTimeout(sugarDom.domReady,9,cb);
+			// } else {
+			// 	cb();
+			// }
+
+			if (!cb) return;
+			!document.body || /(un|ing)/.test(document.readyState) ? setTimeout(function () {
+				sugarDom.domReady(cb);
+			}, 9) : cb();
+
+			// if (document.readyState == 'interactive') {
+			// // 	console.log('ready!!!');
+			// // 	console.log(document.body);
+			// 	cb();
+			// } else {
+			// 	document.addEventListener('DOMContentLoaded', (e) => {
+			// 		cb();
+			// 	});
+			// }	
 		},
 
 		/**
@@ -491,21 +575,51 @@ return /******/ (function(modules) { // webpackBootstrap
 		},
 
 		/**
+	  * Get offset left of an element
+	  */
+		offsetLeft: function offsetLeft(elm) {
+			var offsetLeft = 0;
+			do {
+				if (!isNaN(elm.offsetLeft)) {
+					offsetLeft += elm.offsetLeft;
+				}
+			} while (elm = elm.offsetParent);
+			return offsetLeft;
+		},
+
+		/**
+	  * Get offset top of an element
+	  */
+		offsetTop: function offsetTop(elm) {
+			var offsetTop = 0;
+			do {
+				if (!isNaN(elm.offsetTop)) {
+					offsetTop += elm.offsetTop;
+				}
+			} while (elm = elm.offsetParent);
+			return offsetTop;
+		},
+
+		/**
 	  * Get offset of an element
 	  */
 		offset: function offset(elm) {
-			var body = undefined,
-			    box = undefined,
-			    clientLeft = undefined,
-			    clientTop = undefined,
-			    docEl = undefined,
-			    left = undefined,
-			    scrollLeft = undefined,
-			    scrollTop = undefined,
-			    top = undefined,
-			    transX = undefined,
-			    transY = undefined;
+			var body = void 0,
+			    box = void 0,
+			    clientLeft = void 0,
+			    clientTop = void 0,
+			    docEl = void 0,
+			    left = void 0,
+			    scrollLeft = void 0,
+			    scrollTop = void 0,
+			    top = void 0,
+			    transX = void 0,
+			    transY = void 0;
 			box = elm.getBoundingClientRect();
+			// box = {
+			// 	top : sugarDom.offsetTop(elm),
+			// 	left : sugarDom.offsetLeft(elm)
+			// };
 			body = document.body;
 			docEl = document.documentElement;
 			scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
@@ -527,12 +641,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 		getTranslate: function getTranslate(elm, what) {
 			if (!window.getComputedStyle) return;
-			var idx = undefined,
-			    mat = undefined,
-			    style = undefined,
-			    transform = undefined;
+			var idx = void 0,
+			    mat = void 0,
+			    style = void 0,
+			    transform = void 0;
 			style = getComputedStyle(elm);
-			transform = style.transform || style.webkitTransform || style.mozTransform;
+			transform = style.transform || style.webkitTransform || style.mozTransform || style.msTransform;
 			mat = transform.match(/^matrix3d\((.+)\)$/);
 			if (mat) {
 				idx = {
@@ -609,7 +723,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 		},
 		removeClass: function removeClass(elm, cls) {
-			var reg = undefined;
+			var reg = void 0;
 			if (sugarDom.hasClass(elm, cls)) {
 				reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
 				return elm.className = elm.className.replace(reg, ' ');
@@ -622,9 +736,272 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ },
 
 /***/ 5:
+/***/ function(module, exports) {
+
+	// mutationobserver-shim v0.3.1 (github.com/megawac/MutationObserver.js)
+	// Authors: Graeme Yeates (github.com/megawac) 
+	window.MutationObserver=window.MutationObserver||window.WebKitMutationObserver||function(r){function w(a){this.g=[];this.k=a}function H(a){(function c(){var d=a.takeRecords();d.length&&a.k(d,a);a.f=setTimeout(c,w._period)})()}function t(a){var b={type:null,target:null,addedNodes:[],removedNodes:[],previousSibling:null,nextSibling:null,attributeName:null,attributeNamespace:null,oldValue:null},c;for(c in a)b[c]!==r&&a[c]!==r&&(b[c]=a[c]);return b}function I(a,b){var c=B(a,b);return function(d){var g=
+	d.length,n;b.a&&c.a&&A(d,a,c.a,b.d);if(b.b||b.e)n=J(d,a,c,b);if(n||d.length!==g)c=B(a,b)}}function A(a,b,c,d){for(var g={},n=b.attributes,h,m,C=n.length;C--;)h=n[C],m=h.name,d&&d[m]===r||(h.value!==c[m]&&a.push(t({type:"attributes",target:b,attributeName:m,oldValue:c[m],attributeNamespace:h.namespaceURI})),g[m]=!0);for(m in c)g[m]||a.push(t({target:b,type:"attributes",attributeName:m,oldValue:c[m]}))}function J(a,b,c,d){function g(b,c,g,h,y){var r=b.length-1;y=-~((r-y)/2);for(var f,k,e;e=b.pop();)f=
+	g[e.h],k=h[e.i],d.b&&y&&Math.abs(e.h-e.i)>=r&&(a.push(t({type:"childList",target:c,addedNodes:[f],removedNodes:[f],nextSibling:f.nextSibling,previousSibling:f.previousSibling})),y--),d.a&&k.a&&A(a,f,k.a,d.d),d.c&&3===f.nodeType&&f.nodeValue!==k.c&&a.push(t({type:"characterData",target:f})),d.e&&n(f,k)}function n(b,c){for(var x=b.childNodes,p=c.b,y=x.length,w=p?p.length:0,f,k,e,l,u,z=0,v=0,q=0;v<y||q<w;)l=x[v],u=(e=p[q])&&e.j,l===u?(d.a&&e.a&&A(a,l,e.a,d.d),d.c&&e.c!==r&&l.nodeValue!==e.c&&a.push(t({type:"characterData",
+	target:l})),k&&g(k,b,x,p,z),d.e&&(l.childNodes.length||e.b&&e.b.length)&&n(l,e),v++,q++):(h=!0,f||(f={},k=[]),l&&(f[e=D(l)]||(f[e]=!0,-1===(e=E(p,l,q,"j"))?d.b&&(a.push(t({type:"childList",target:b,addedNodes:[l],nextSibling:l.nextSibling,previousSibling:l.previousSibling})),z++):k.push({h:v,i:e})),v++),u&&u!==x[v]&&(f[e=D(u)]||(f[e]=!0,-1===(e=E(x,u,v))?d.b&&(a.push(t({type:"childList",target:c.j,removedNodes:[u],nextSibling:p[q+1],previousSibling:p[q-1]})),z--):k.push({h:e,i:q})),q++));k&&g(k,b,
+	x,p,z)}var h;n(b,c);return h}function B(a,b){var c=!0;return function g(a){var h={j:a};!b.c||3!==a.nodeType&&8!==a.nodeType?(b.a&&c&&1===a.nodeType&&(h.a=F(a.attributes,function(a,c){if(!b.d||b.d[c.name])a[c.name]=c.value;return a})),c&&(b.b||b.c||b.a&&b.e)&&(h.b=K(a.childNodes,g)),c=b.e):h.c=a.nodeValue;return h}(a)}function D(a){try{return a.id||(a.mo_id=a.mo_id||G++)}catch(b){try{return a.nodeValue}catch(c){return G++}}}function K(a,b){for(var c=[],d=0;d<a.length;d++)c[d]=b(a[d],d,a);return c}
+	function F(a,b){for(var c={},d=0;d<a.length;d++)c=b(c,a[d],d,a);return c}function E(a,b,c,d){for(;c<a.length;c++)if((d?a[c][d]:a[c])===b)return c;return-1}w._period=30;w.prototype={observe:function(a,b){for(var c={a:!!(b.attributes||b.attributeFilter||b.attributeOldValue),b:!!b.childList,e:!!b.subtree,c:!(!b.characterData&&!b.characterDataOldValue)},d=this.g,g=0;g<d.length;g++)d[g].m===a&&d.splice(g,1);b.attributeFilter&&(c.d=F(b.attributeFilter,function(a,b){a[b]=!0;return a}));d.push({m:a,l:I(a,
+	c)});this.f||H(this)},takeRecords:function(){for(var a=[],b=this.g,c=0;c<b.length;c++)b[c].l(a);return a},disconnect:function(){this.g=[];clearTimeout(this.f);this.f=null}};var G=1;return w}(void 0);
+
+
+/***/ },
+
+/***/ 6:
+/***/ function(module, exports) {
+
+	/*
+	 * classList.js: Cross-browser full element.classList implementation.
+	 * 1.1.20150312
+	 *
+	 * By Eli Grey, http://eligrey.com
+	 * License: Dedicated to the public domain.
+	 *   See https://github.com/eligrey/classList.js/blob/master/LICENSE.md
+	 */
+
+	/*global self, document, DOMException */
+
+	/*! @source http://purl.eligrey.com/github/classList.js/blob/master/classList.js */
+
+	if ("document" in self) {
+
+	// Full polyfill for browsers with no classList support
+	// Including IE < Edge missing SVGElement.classList
+	if (!("classList" in document.createElement("_")) 
+		|| document.createElementNS && !("classList" in document.createElementNS("http://www.w3.org/2000/svg","g"))) {
+
+	(function (view) {
+
+	"use strict";
+
+	if (!('Element' in view)) return;
+
+	var
+		  classListProp = "classList"
+		, protoProp = "prototype"
+		, elemCtrProto = view.Element[protoProp]
+		, objCtr = Object
+		, strTrim = String[protoProp].trim || function () {
+			return this.replace(/^\s+|\s+$/g, "");
+		}
+		, arrIndexOf = Array[protoProp].indexOf || function (item) {
+			var
+				  i = 0
+				, len = this.length
+			;
+			for (; i < len; i++) {
+				if (i in this && this[i] === item) {
+					return i;
+				}
+			}
+			return -1;
+		}
+		// Vendors: please allow content code to instantiate DOMExceptions
+		, DOMEx = function (type, message) {
+			this.name = type;
+			this.code = DOMException[type];
+			this.message = message;
+		}
+		, checkTokenAndGetIndex = function (classList, token) {
+			if (token === "") {
+				throw new DOMEx(
+					  "SYNTAX_ERR"
+					, "An invalid or illegal string was specified"
+				);
+			}
+			if (/\s/.test(token)) {
+				throw new DOMEx(
+					  "INVALID_CHARACTER_ERR"
+					, "String contains an invalid character"
+				);
+			}
+			return arrIndexOf.call(classList, token);
+		}
+		, ClassList = function (elem) {
+			var
+				  trimmedClasses = strTrim.call(elem.getAttribute("class") || "")
+				, classes = trimmedClasses ? trimmedClasses.split(/\s+/) : []
+				, i = 0
+				, len = classes.length
+			;
+			for (; i < len; i++) {
+				this.push(classes[i]);
+			}
+			this._updateClassName = function () {
+				elem.setAttribute("class", this.toString());
+			};
+		}
+		, classListProto = ClassList[protoProp] = []
+		, classListGetter = function () {
+			return new ClassList(this);
+		}
+	;
+	// Most DOMException implementations don't allow calling DOMException's toString()
+	// on non-DOMExceptions. Error's toString() is sufficient here.
+	DOMEx[protoProp] = Error[protoProp];
+	classListProto.item = function (i) {
+		return this[i] || null;
+	};
+	classListProto.contains = function (token) {
+		token += "";
+		return checkTokenAndGetIndex(this, token) !== -1;
+	};
+	classListProto.add = function () {
+		var
+			  tokens = arguments
+			, i = 0
+			, l = tokens.length
+			, token
+			, updated = false
+		;
+		do {
+			token = tokens[i] + "";
+			if (checkTokenAndGetIndex(this, token) === -1) {
+				this.push(token);
+				updated = true;
+			}
+		}
+		while (++i < l);
+
+		if (updated) {
+			this._updateClassName();
+		}
+	};
+	classListProto.remove = function () {
+		var
+			  tokens = arguments
+			, i = 0
+			, l = tokens.length
+			, token
+			, updated = false
+			, index
+		;
+		do {
+			token = tokens[i] + "";
+			index = checkTokenAndGetIndex(this, token);
+			while (index !== -1) {
+				this.splice(index, 1);
+				updated = true;
+				index = checkTokenAndGetIndex(this, token);
+			}
+		}
+		while (++i < l);
+
+		if (updated) {
+			this._updateClassName();
+		}
+	};
+	classListProto.toggle = function (token, force) {
+		token += "";
+
+		var
+			  result = this.contains(token)
+			, method = result ?
+				force !== true && "remove"
+			:
+				force !== false && "add"
+		;
+
+		if (method) {
+			this[method](token);
+		}
+
+		if (force === true || force === false) {
+			return force;
+		} else {
+			return !result;
+		}
+	};
+	classListProto.toString = function () {
+		return this.join(" ");
+	};
+
+	if (objCtr.defineProperty) {
+		var classListPropDesc = {
+			  get: classListGetter
+			, enumerable: true
+			, configurable: true
+		};
+		try {
+			objCtr.defineProperty(elemCtrProto, classListProp, classListPropDesc);
+		} catch (ex) { // IE 8 doesn't support enumerable:true
+			if (ex.number === -0x7FF5EC54) {
+				classListPropDesc.enumerable = false;
+				objCtr.defineProperty(elemCtrProto, classListProp, classListPropDesc);
+			}
+		}
+	} else if (objCtr[protoProp].__defineGetter__) {
+		elemCtrProto.__defineGetter__(classListProp, classListGetter);
+	}
+
+	}(self));
+
+	} else {
+	// There is full or partial native classList support, so just check if we need
+	// to normalize the add/remove and toggle APIs.
+
+	(function () {
+		"use strict";
+
+		var testElement = document.createElement("_");
+
+		testElement.classList.add("c1", "c2");
+
+		// Polyfill for IE 10/11 and Firefox <26, where classList.add and
+		// classList.remove exist but support only one argument at a time.
+		if (!testElement.classList.contains("c2")) {
+			var createMethod = function(method) {
+				var original = DOMTokenList.prototype[method];
+
+				DOMTokenList.prototype[method] = function(token) {
+					var i, len = arguments.length;
+
+					for (i = 0; i < len; i++) {
+						token = arguments[i];
+						original.call(this, token);
+					}
+				};
+			};
+			createMethod('add');
+			createMethod('remove');
+		}
+
+		testElement.classList.toggle("c3", false);
+
+		// Polyfill for IE 10 and Firefox <24, where classList.toggle does not
+		// support the second argument.
+		if (testElement.classList.contains("c3")) {
+			var _toggle = DOMTokenList.prototype.toggle;
+
+			DOMTokenList.prototype.toggle = function(token, force) {
+				if (1 in arguments && !this.contains(token) === !force) {
+					return force;
+				} else {
+					return _toggle.call(this, token);
+				}
+			};
+
+		}
+
+		testElement = null;
+	}());
+
+	}
+
+	}
+
+
+
+/***/ },
+
+/***/ 7:
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseGet = __webpack_require__(6);
+	var baseGet = __webpack_require__(8);
 
 	/**
 	 * Gets the value at `path` of `object`. If the resolved value is
@@ -660,11 +1037,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 6:
+/***/ 8:
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseCastPath = __webpack_require__(7),
-	    isKey = __webpack_require__(17);
+	var baseCastPath = __webpack_require__(9),
+	    isKey = __webpack_require__(19);
 
 	/**
 	 * The base implementation of `_.get` without support for default values.
@@ -691,11 +1068,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 7:
+/***/ 9:
 /***/ function(module, exports, __webpack_require__) {
 
-	var isArray = __webpack_require__(8),
-	    stringToPath = __webpack_require__(9);
+	var isArray = __webpack_require__(10),
+	    stringToPath = __webpack_require__(11);
 
 	/**
 	 * Casts `value` to a path array if it's not one.
@@ -713,7 +1090,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 8:
+/***/ 10:
 /***/ function(module, exports) {
 
 	/**
@@ -746,10 +1123,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 9:
+/***/ 11:
 /***/ function(module, exports, __webpack_require__) {
 
-	var toString = __webpack_require__(10);
+	var toString = __webpack_require__(12);
 
 	/** Used to match property names within property paths. */
 	var rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]/g;
@@ -777,11 +1154,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 10:
+/***/ 12:
 /***/ function(module, exports, __webpack_require__) {
 
-	var Symbol = __webpack_require__(11),
-	    isSymbol = __webpack_require__(15);
+	var Symbol = __webpack_require__(13),
+	    isSymbol = __webpack_require__(17);
 
 	/** Used as references for various `Number` constants. */
 	var INFINITY = 1 / 0;
@@ -830,10 +1207,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 11:
+/***/ 13:
 /***/ function(module, exports, __webpack_require__) {
 
-	var root = __webpack_require__(12);
+	var root = __webpack_require__(14);
 
 	/** Built-in value references. */
 	var Symbol = root.Symbol;
@@ -843,10 +1220,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 12:
+/***/ 14:
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module, global) {var checkGlobal = __webpack_require__(14);
+	/* WEBPACK VAR INJECTION */(function(module, global) {var checkGlobal = __webpack_require__(16);
 
 	/** Used to determine if values are of the language type `Object`. */
 	var objectTypes = {
@@ -888,11 +1265,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = root;
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(13)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)(module), (function() { return this; }())))
 
 /***/ },
 
-/***/ 13:
+/***/ 15:
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -909,7 +1286,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 14:
+/***/ 16:
 /***/ function(module, exports) {
 
 	/**
@@ -928,10 +1305,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 15:
+/***/ 17:
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObjectLike = __webpack_require__(16);
+	var isObjectLike = __webpack_require__(18);
 
 	/** `Object#toString` result references. */
 	var symbolTag = '[object Symbol]';
@@ -971,7 +1348,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 16:
+/***/ 18:
 /***/ function(module, exports) {
 
 	/**
@@ -1006,10 +1383,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 17:
+/***/ 19:
 /***/ function(module, exports, __webpack_require__) {
 
-	var isArray = __webpack_require__(8);
+	var isArray = __webpack_require__(10);
 
 	/** Used to match property names within property paths. */
 	var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
@@ -1037,10 +1414,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 18:
+/***/ 20:
 /***/ function(module, exports, __webpack_require__) {
 
-	var createCaseFirst = __webpack_require__(19);
+	var createCaseFirst = __webpack_require__(21);
 
 	/**
 	 * Converts the first character of `string` to upper case.
@@ -1065,11 +1442,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 19:
+/***/ 21:
 /***/ function(module, exports, __webpack_require__) {
 
-	var stringToArray = __webpack_require__(20),
-	    toString = __webpack_require__(10);
+	var stringToArray = __webpack_require__(22),
+	    toString = __webpack_require__(12);
 
 	/** Used to compose unicode character classes. */
 	var rsAstralRange = '\\ud800-\\udfff',
@@ -1110,7 +1487,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 20:
+/***/ 22:
 /***/ function(module, exports) {
 
 	/** Used to compose unicode character classes. */
@@ -1155,10 +1532,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 21:
+/***/ 23:
 /***/ function(module, exports, __webpack_require__) {
 
-	var createCaseFirst = __webpack_require__(19);
+	var createCaseFirst = __webpack_require__(21);
 
 	/**
 	 * Converts the first character of `string` to lower case.
@@ -1183,7 +1560,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 155:
+/***/ 159:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1312,12 +1689,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 156:
+/***/ 160:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _sugarSvgfilter = __webpack_require__(155);
+	var _sugarSvgfilter = __webpack_require__(159);
 
 	var _sugarSvgfilter2 = _interopRequireDefault(_sugarSvgfilter);
 

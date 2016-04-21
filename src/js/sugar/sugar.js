@@ -11,9 +11,9 @@ import localStorageFonts from './fonts/sugar-localstoragefonts'
 import {
 	RadioboxElement,
 	DatepickerElement,
-	DatetimepickerElement,
-	SelectElement
+	DatetimepickerElement
 } from './components/sugar-form'
+import SelectElement from './components/sugar-form-select'
 import settings from './core/sugar-settings'
 
 module.exports = {

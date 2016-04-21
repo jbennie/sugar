@@ -21,9 +21,6 @@ cached 		 = require 'gulp-cached'
 webpackParams =
 	module :
 		loaders: [{
-			test : /mutation-summary\.js/,
-			loader : require("path").join(__dirname, "loader-ie.js")
-		}, {
 			test: /\.coffee$/,
 			loader: 'coffee-loader'
 		}, {
@@ -31,7 +28,7 @@ webpackParams =
 			exclude: /(node_modules|bower_components)/,
 			loader: 'babel-loader',
 			query: {
-				presets: ['es2015-loose'],
+				presets: ['es2015-loose','stage-0'],
 				plugins: ['transform-proto-to-assign'],
 				compact: false
 			}
@@ -108,7 +105,8 @@ gulp.task 'compass', ->
 		config_file: './config.rb'
 		css: 'assets/css'
 		sass: 'src/sass'
-	.pipe autoprefixer()
+	.pipe autoprefixer
+		browsers: ['last 5 versions']
 	.pipe gulp.dest 'assets/css'
 
 # sass
@@ -119,7 +117,8 @@ gulp.task 'sass', ->
 		outputStyle: 'expanded'
 		precision : 8
 	).on 'error', sass.logError
-	.pipe autoprefixer()
+	.pipe autoprefixer
+		browsers: ['last 5 versions']
 	.pipe gulp.dest 'assets/css'
 
 # build the package

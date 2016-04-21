@@ -16,7 +16,7 @@ $_sugar-inited : false;
 		}
 
 		// settings
-		head:before {
+		.s-settings:after {
 			content : json-encode($_sugar-settings);
 			display:none;
 		}

@@ -136,6 +136,10 @@ $_s-formset-select-inited : false;
 			}
 			.s-select__selection-container {
 			}
+			&.s-select--multiple.s-select--placeholder .s-select__selection-container {
+				padding-top: $h / 8;
+				padding-bottom: $h / 8;
+			}
 			.s-select__selection {
 			}
 			.s-select__selection-tag {

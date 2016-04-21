@@ -8,12 +8,16 @@ let settings = {};
 
 // wait the css to be loaded
 sDom.domReady(() => {
+	let settingsElm = document.createElement('div');
+	settingsElm.classList.add('s-settings');
+	document.body.appendChild(settingsElm);
 	let _settings = window.getComputedStyle(
-		document.querySelector('head'), ':before'
+		document.querySelector('.s-settings'), ':after'
 	).getPropertyValue('content');
 	if (_settings) {
 		_settings = _settings.replace(/\\\'\\"/g,'"').replace(/\\"\\\'/g,'"');
 		_settings = _settings.replace(/\'\\"/g,'"').replace(/\\"\'/g,'"');
+		_settings = _settings.replace(/'"/g,'"').replace(/"'/g,'"');
 		_settings = _settings.slice(1,_settings.length - 1);
 		_settings = JSON.parse(_settings);
 		settings = _extend(settings, _settings);

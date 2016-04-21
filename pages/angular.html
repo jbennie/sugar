@@ -1,7 +1,5 @@
 {HEAD}
 
-<script src="assets/js/angular-demo.js"></script>
-
 <section class="section typeset vertical-rhythme showe-rhythme" id="typography" data-toggle-baseline-class data-toggle-rhythme-class ng-app="angular-demo">
 
 	<div class="container">
@@ -16,7 +14,9 @@
 					<div class="gr-6">
 						<label class="label">Select Box
 							<select class="input input--smaller input--error"
+								placeholder="Hello Jacques"
 								data-s-select
+								data-s-select-search="false"
 								ng-model="select_1_model"
 								ng-options="item.label for item in select_1_items">
 							</select>
@@ -27,10 +27,11 @@
 							<select class="input input--medium input--error"
 								data-s-select
 								multiple
+								placeholder="Coucou"
 								ng-model="select_2_model"
-								ng-options="item.label group by item.group for item in select_1_items">
+								ng-options="item.label group by item.group for item in select_1_items | filter:keywords">
 							</select>
-
+							<input ng-model="keywords" />
 						</label>
 					</div>
 				</div>
@@ -40,31 +41,36 @@
 						<label class="label">Select Box
 							<select class="input input--smaller input--error"
 								data-s-select
-								ng-model="select_1_model">
-								<option value="{{ item }}" ng-repeat="item in select_1_items">{{ item.label }}</option>
+								placeholder="Hello Jacques"
+								ng-model="select_3_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items">{{ item.label }}</option>
 							</select>
 						</label>
 					</div>
 					<div class="gr-6">
 						<label class="label">Select Box
-							<!-- <select class="input input--medium input--error"
+							<select class="input input--medium input--error"
 								data-s-select
 								multiple
-								ng-model="select_1_model">
+								placeholder="Yop yop"
+								ng-model="select_4_model">
 								<option value="{{ item }}"
 									ng-repeat="item in select_1_items"
 									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
-							</select> -->
+							</select>
 
-							<div id="my-select-option-{{ $index }}"
-								ng-repeat="item in select_1_items"
-								class="row row-align-middle">
-								<div class="gr-adapt">
-									<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
-								</div>
-								<div class="gr-grow">
-									<strong>{{ item.label }}</strong><br />
-									<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
 								</div>
 							</div>
 						</label>

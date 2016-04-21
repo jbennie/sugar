@@ -1,5 +1,6 @@
-import sugar from './sugar/sugar';
+// import sugar from './sugar/sugar';
 import angular from 'angular';
+import SelectElement from './sugar/index';
 
 const app = angular.module('angular-demo', []).run(() => {
 
@@ -37,15 +38,20 @@ app.controller('myForm',
 		}];
 		$scope.select_1_model = $scope.select_1_items[0];
 		$scope.select_2_model = [];
+		$scope.select_3_model = $scope.select_1_items[0];
+		$scope.select_4_model = [];
+
+		// $scope.keywords = 'efwefew';
 
 		// $timeout(() => {
-		for(let i = 0; i<100; i++) {
-			$scope.select_1_items.push({
-				id : Math.round(Math.random() * 622487880),
-				group : (Math.random() < 0.5) ? 'coco' : 'caca',
-				label : Math.random()*99999
-			});
-		}
+			for(let i = 0; i<100; i++) {
+				$scope.select_1_items.push({
+					id : Math.round(Math.random() * 622487880),
+					group : (Math.random() < 0.5) ? 'coco' : 'caca',
+					label : Math.random()*99999
+				});
+			}
+		// }, 2000);
 
 		$scope.$watch('select_1_model', (newVal, oldVal) => {
 			console.log('select_1_model updated', newVal, oldVal);

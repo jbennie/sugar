@@ -1,0 +1,1 @@
+export default Event = require('custom-event');

@@ -66,7 +66,7 @@ export default class SugarElement {
 
 		// if we didn't find any setting in dataset,
 		// get the one from the actual settings property
-		if ( ! s) {
+		if ( s === null) {
 			s = this._settings[key];
 		}
 

@@ -33,7 +33,7 @@ $_s-formset-inited : false;
 			color: s-color(text);
 			@include s-placeholder() {
 				color: s-color(text, -opacity .4);
-				line-height: normal;
+				// line-height: normal;
 			}
 			
 			[data-input-activator]:focus ~ &,
