@@ -1,6 +1,12 @@
 // import sugar from './sugar/sugar';
 import angular from 'angular';
-import SelectElement from './sugar/index';
+// import { SSelectElement, SActivateElement } from './sugar/index';
+//
+import sActivateManager from './sugar/components/s-activate-manager';
+import SSelectElement from './sugar/components/s-select-element';
+// 
+// import SSelectElement from './sugar/index';
+// import SActivateElement from './sugar/index';
 
 const app = angular.module('angular-demo', []).run(() => {
 
@@ -44,7 +50,7 @@ app.controller('myForm',
 		// $scope.keywords = 'efwefew';
 
 		// $timeout(() => {
-			for(let i = 0; i<100; i++) {
+			for(let i = 0; i<10; i++) {
 				$scope.select_1_items.push({
 					id : Math.round(Math.random() * 622487880),
 					group : (Math.random() < 0.5) ? 'coco' : 'caca',

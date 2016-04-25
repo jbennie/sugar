@@ -1,35 +1,21 @@
-import * as sugarTools from './sugar-tools'
-require('mutationobserver-shim');
-require('classlist.js');
-// let MutationSummary = require('mutation-summary');
-let _get = require('lodash/get');
+import sTools from './s-tools'
+import sString from './s-string'
+import Pro from 'promise-polyfill'
+if ( ! window.Promise) {
+	window.Promise = Pro;
+	// window.Promise._setUnhandledRejectionFn(function(rejectError) {});
+}
+// import 'core-js/fn/promise'
+import 'mutationobserver-shim'
+import 'classlist.js'
+import 'element-dataset'
+import '../vendors/queryselector-scope.js'
+import '../vendors/element-is-visible.js'
 let _insertAnimationListener = false;
 let _insertMutationObserver = null;
 let _insertDomElementsCallbacks = {};
 
-(function(doc, proto) {
-  try { // check if browser supports :scope natively
-    doc.querySelector(':scope body');
-  } catch (err) { // polyfill native methods if it doesn't
-    ['querySelector', 'querySelectorAll'].forEach(function(method) {
-      var nativ = proto[method];
-      proto[method] = function(selectors) {
-        if (/(^|,)\s*:scope/.test(selectors)) { // only if selectors contains :scope
-          var id = this.id; // remember current element id
-          this.id = 'ID_' + Date.now(); // assign new unique id
-          selectors = selectors.replace(/((^|,)\s*):scope/g, '$1#' + this.id); // replace :scope with #ID
-          var result = doc[method](selectors);
-          this.id = id; // restore previous id
-          return result;
-        } else {
-          return nativ.call(this, selectors); // use native code for other selectors
-        }
-      }
-    });
-  }
-})(window.document, Element.prototype);
-
-let sugarDom = {
+let sDom = {
 
 	/**
 	 * Polyfill for the matches js method
@@ -44,6 +30,114 @@ let sugarDom = {
 	},
 
 	/**
+	 * Detect if is in viewport
+	 */
+	inViewport : (elm, offset = { top:0, right:0, bottom:0, left:0 }) => {
+		const rect = elm.getBoundingClientRect();
+		return (
+			rect.top + offset.top >= 0 &&
+			rect.left + offset.left >= 0 &&
+			rect.bottom - offset.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
+			rect.right - offset.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
+		);
+	},
+
+	/** 
+	 * Check if element is really visible
+	 */
+	isTrullyVisible : (elm) => {
+		return elm.isTrullyVisible();
+	},
+
+	/**
+	 * Check if is visible
+	 */
+	isVisible : (elm) => {
+		// get style
+		const style = document.defaultView.getComputedStyle(elm, null),
+			  opacity = style['opacity'],
+			  visibility = style['visibility'],
+			  display = style['display'];
+		return (
+			'0' !== opacity &&
+			'none' !== display &&
+			'hidden' !== visibility
+		);
+	},
+
+	/**
+	 * [closestNotVisible description]
+	 * @param  {[type]} elm [description]
+	 * @return {[type]}     [description]
+	 */
+	closestNotVisible : (elm) => {
+		elm = elm.parentNode;
+		while(elm && elm != document) {
+			if ( ! sDom.isVisible(elm)) {
+				return elm;
+			}
+			elm = elm.parentNode;
+		}
+		return false;
+	},
+
+	/**
+	 * Register a callback to be launched when the element is visible
+	 * @param  {element}   elm The element to observe
+	 * @param  {Function} cb  The callback to launch
+	 * @return {[type]}       [description]
+	 */
+	whenVisible : (elm, cb = null) => {
+		return new Promise((resolve, reject) => {
+			let inViewport = false,
+				isVisible = false,
+				_cb = () => {
+					if (inViewport && isVisible) {
+						document.removeEventListener('scroll', checkViewport);
+						window.removeEventListener('resize', checkViewport);
+						if (cb)	cb();
+						resolve();
+					}
+				}
+			let checkViewport = (e) => {
+				inViewport = sDom.inViewport(elm, { top:50, right:50, bottom:50, left:50 });
+				_cb();
+			}
+
+			// get the closest not visible element
+			// if found, we monitor it to check when it is visible
+			let closestNotVisible = sDom.closestNotVisible(elm);
+			if (closestNotVisible) {
+				const observer = new MutationObserver((mutations) => {
+					mutations.forEach((mutation) => {
+						// check that is the style whos changed
+						if (mutation.attributeName === 'style'
+							|| mutation.attributeName === 'class') {
+							// check if is visible
+							if (sDom.isVisible(mutation.target)) {
+								isVisible = true;
+								checkViewport();
+								// stop observe
+								observer.disconnect();
+							}
+						}
+					});
+				});
+				observer.observe(closestNotVisible, { attributes: true });
+			} else {
+				isVisible = true;
+			}
+
+			// listen for resize
+			document.addEventListener('scroll', checkViewport);
+			window.addEventListener('resize', checkViewport);
+			setTimeout(() => {
+				checkViewport(null);
+			});
+		});
+	},
+
+	/**
 	 * Make a selector detectable when new element are pushed in the page
 	 */
 	querySelectorLive : (selector, cb, rootNode, groupedNodes = false)  => {
@@ -52,7 +146,7 @@ let sugarDom = {
 
 		// use the animation hack to detect
 		// new items in the page
-		let detection_id = 's-query-selector-live-'+sugarTools.uniqid();
+		let detection_id = 's-query-selector-live-'+sTools.uniqid();
 
 		// add the callback in stack
 		_insertDomElementsCallbacks[detection_id] = {
@@ -91,7 +185,7 @@ let sugarDom = {
 		};
 
 		// make a query on existing elements
-		sugarDom.domReady(() => {
+		sDom.domReady(() => {
 
 			// rootNode
 			if ( ! rootNode) { rootNode = document.body; }			
@@ -118,7 +212,7 @@ let sugarDom = {
 								[].forEach.call(mutation.addedNodes, (node) => {
 									// loop on each callbacks to find a match
 									for(let insert_id in _insertDomElementsCallbacks) {
-										if (sugarDom.matches(node, _insertDomElementsCallbacks[insert_id].selector)) {
+										if (sDom.matches(node, _insertDomElementsCallbacks[insert_id].selector)) {
 											if (_insertDomElementsCallbacks[insert_id].groupedNodes) {
 												_insertDomElementsCallbacks[insert_id].nodes.push(node);
 												// _groupedNodes.push(node);
@@ -142,7 +236,7 @@ let sugarDom = {
 									if (node.nodeName != '#text') {
 										for(let insert_id in _insertDomElementsCallbacks) {
 											if (node._s_query_selector_live_id == insert_id) {
-											// if (sugarDom.matches(node, _insertDomElementsCallbacks[insert_id].selector)) {
+											// if (sDom.matches(node, _insertDomElementsCallbacks[insert_id].selector)) {
 												if (_insertDomElementsCallbacks[insert_id].groupedNodes) {
 													_insertDomElementsCallbacks[insert_id].nodes.push(node);
 													// _groupedNodes.push(node);
@@ -213,27 +307,21 @@ let sugarDom = {
 	/**
 	 * Dom ready
 	 */
-	domReady : (cb) => {
-		// if ( ! document.body) {
-		// 	setTimeout(sugarDom.domReady,9,cb);
-		// } else {
-		// 	cb();
-		// }
-
-		if ( ! cb) return;
-		!document.body || /(un|ing)/.test(document.readyState)?setTimeout(() => {
-			sugarDom.domReady(cb);
-		},9):cb()
-
-		// if (document.readyState == 'interactive') {
-		// // 	console.log('ready!!!');
-		// // 	console.log(document.body);
-		// 	cb();
-		// } else {
-		// 	document.addEventListener('DOMContentLoaded', (e) => {
-		// 		cb();
-		// 	});
-		// }	
+	domReady : (cb = null) => {
+		// return new Promise((resolve, reject) => {
+			let _domReady = () => {
+				if (!document.body || /(un|ing)/.test(document.readyState)) {
+					setTimeout(() => {
+						_domReady();
+					},9);
+				} else {
+					console.log('loaded');
+					if (cb) cb();
+					// resolve();
+				}
+			}
+			_domReady();
+		// });
 	},
 
 	/**
@@ -243,23 +331,25 @@ let sugarDom = {
 		if ( ! elm.getAttribute) return;
 		if ( ! value) {
 			// try to get
-			let v = _get(elm, 'dataset.'+key);
+			let v = elm.dataset[key];
+			// let v = _get(elm, 'dataset.'+key);
 			if (v) return v;
-			v = elm.getAttribute('data-'+sugarTools.uncamelize(key));
+			v = elm.getAttribute('data-'+sString.uncamelize(key));
 			return v;
 		} else {
 			// try to set the value
-			if (_get(elm, 'dataset')) {
-				if (_get(elm, 'dataset.'+key)) {
+			let dataset = elm.dataset;
+			if (dataset) {
+				if (elm.dataset[key]) {
 					elm.dataset[key] = value;
 				} else {
 					// set the data through setAttribute
-					elm.setAttribute('data-'+sugarTools.uncamelize(key), value);
+					elm.setAttribute('data-'+sString.uncamelize(key), value);
 				}
 			} else {
 				// set the data through setAttribute
 				// cause no support for dataset
-				elm.setAttribute('data-'+sugarTools.uncamelize(key), value);
+				elm.setAttribute('data-'+sString.uncamelize(key), value);
 			}
 
 		}
@@ -305,8 +395,8 @@ let sugarDom = {
 		let body, box, clientLeft, clientTop, docEl, left, scrollLeft, scrollTop, top, transX, transY;
 		box = elm.getBoundingClientRect();
 		// box = {
-		// 	top : sugarDom.offsetTop(elm),
-		// 	left : sugarDom.offsetLeft(elm)
+		// 	top : sDom.offsetTop(elm),
+		// 	left : sDom.offsetLeft(elm)
 		// };
 		body = document.body;
 		docEl = document.documentElement;
@@ -314,8 +404,8 @@ let sugarDom = {
 		scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
 		clientTop = docEl.clientTop || body.clientTop || 0;
 		clientLeft = docEl.clientLeft || body.clientLeft || 0;
-		transX = sugarDom.getTranslate(elm, 'x');
-		transY = sugarDom.getTranslate(elm, 'y');
+		transX = sDom.getTranslate(elm, 'x');
+		transY = sDom.getTranslate(elm, 'y');
 		top = box.top + scrollTop - clientTop + transY;
 		left = box.left + scrollLeft - clientLeft + transX;
 		return {
@@ -360,7 +450,7 @@ let sugarDom = {
 	closest : (elm, selector) => {
 		elm = elm.parentNode;
 		while(elm && elm != document) {
-			if (sugarDom.matches(elm, selector)) {
+			if (sDom.matches(elm, selector)) {
 				return elm;
 			}
 			elm = elm.parentNode;
@@ -374,7 +464,7 @@ let sugarDom = {
 	next : (elm, selector) => {
 		elm = elm.nextSibling;
 		while(elm) {
-			if (sugarDom.matches(elm, selector)) {
+			if (sDom.matches(elm, selector)) {
 				return elm;
 			}
 			elm = elm.nextSibling;
@@ -388,7 +478,7 @@ let sugarDom = {
 	previous : (elm, selector) => {
 		elm = elm.previousSibling;
 		while(elm) {
-			if (sugarDom.matches(elm, selector)) {
+			if (sDom.matches(elm, selector)) {
 				return elm;
 			}
 			elm = elm.previousSibling;
@@ -403,17 +493,17 @@ let sugarDom = {
 		return elm.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
 	},
 	addClass : (elm, cls) => {
-		if (!sugarDom.hasClass(elm, cls)) {
+		if (!sDom.hasClass(elm, cls)) {
 			return elm.className += ' ' + cls;
 		}
 	},
 	removeClass : (elm, cls) => {
 		let reg;
-		if (sugarDom.hasClass(elm, cls)) {
+		if (sDom.hasClass(elm, cls)) {
 			reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
 			return elm.className = elm.className.replace(reg, ' ');
 		}
 	}
 }
 
-export default sugarDom;
+export default sDom;

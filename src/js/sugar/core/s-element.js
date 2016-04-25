@@ -1,13 +1,12 @@
-import { uncamelize, camelize } from './sugar-tools'
-import sDom from './sugar-dom'
-let _upperfirst = require('lodash/upperfirst');
-let _lowerfirst = require('lodash/lowerfirst');
+import sTools from './s-tools'
+import sString from './s-string'
+import sDom from './s-dom'
 
 // store the settings for the different
 // components types
 let _sugarTypesSettings = {};
 
-export default class SugarElement {
+export default class SElement {
 
 	/**
 	 * Setup
@@ -24,7 +23,7 @@ export default class SugarElement {
 		// save element reference
 		this.elm = elm;
 		this.name = name;
-		this.name_dash = uncamelize(this.name);
+		this.name_dash = sString.uncamelize(this.name);
 		// extend settings
 		this._settings = {...default_settings, ...settings};
 
@@ -46,13 +45,54 @@ export default class SugarElement {
 	}
 
 	/**
+	 * Init proxy
+	 */
+	initProxy() {
+		return new Promise((resolve, reject) => {
+			if (this.setting('initWhenVisible')) {
+				this.whenVisible().then(resolve);
+			} else {
+				resolve.apply(this);
+			}
+		});
+	}
+
+	/**
+	 * Get closest not visible element
+	 */
+	closestNotVisible(elm = this.elm) {
+		return sDom.closestNotVisible(elm);
+	}
+
+	/**
+	 * Visible proxy init
+	 */
+	whenVisible(cb = null, elm = this.elm) {
+		return sDom.whenVisible(elm, cb);
+	}
+
+	/**
+	 * Detect if is visible
+	 */
+	isVisible() {
+		return sDom.isVisible(this.elm);
+	}
+
+	/**
+	 * Detect when the element is in the viewport
+	 */
+	inViewport(offset = null) {
+		return sDom.inViewport(this.elm, offset);
+	}
+
+	/**
 	 * Setting
 	 */
 	setting(key) {
 		// check in the dataset
-		let key_string = this.name + _upperfirst(key);
-		key_string = key_string.replace(_upperfirst(key)+_upperfirst(key),_upperfirst(key));
-		let s = this.dataset(_lowerfirst(key_string));
+		let key_string = this.name + sString.upperFirst(key);
+		key_string = key_string.replace(sString.upperFirst(key)+sString.upperFirst(key),sString.upperFirst(key));
+		let s = this.dataset(sString.lowerFirst(key_string));
 
 		// process the value
 		if (s == 'false'

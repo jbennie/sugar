@@ -1,6 +1,18 @@
-let uniqidIdx = 0;
-module.exports = {
-	
+export default {
+	/**
+	 * Lower first letter
+	 */
+	lowerFirst : (string) => {
+		return string.charAt(0).toLowerCase() + string.slice(1);
+	},
+
+	/**
+	 * Upper first
+	 */
+	upperFirst : (string) => {
+		return string.charAt(0).toUpperCase() + string.slice(1);
+	},
+
 	/**
 	 * Uncamelize a string
 	 */
@@ -23,17 +35,4 @@ module.exports = {
 		});
 		return text.substr(0,1).toLowerCase() + text.slice(1);
 	},
-
-	/**
-	 * Get a uniq id
-	 */
-	uniqid : () => {
-		// update uniqid idx
-		uniqidIdx++;
-		let ts=String(new Date().getTime()), i = 0, out = '';
-		for(i=0;i<ts.length;i+=2) {        
-			out+=Number(ts.substr(i, 2)).toString(36);    
-		}
-		return ('d' + out + (uniqidIdx * Math.round(Math.random()*9999999)));
-	}
-};
+}

@@ -8,20 +8,19 @@
  * @updated  20.01.16
  * @version  1.0.0
  */
-import SugarElement from '../core/sugar-element'
-import sDom from '../core/sugar-dom'
-import sTools from '../core/sugar-tools'
-import sSettings from '../core/sugar-settings'
-import Event from '../core/sugar-event'
+import SElement from '../core/s-element'
+import sDom from '../core/s-dom'
+import sTools from '../core/s-tools'
+import SEvent from '../core/s-event'
 
 // Select
-class SugarSelectElement extends SugarElement {
+class SSelectElement extends SElement {
 
 	/**
 	 * Setup
 	 */
 	static setup(type, settings) {
-		SugarElement.setup('sSelect', type, settings);
+		SElement.setup('sSelect', type, settings);
 	}
 
 	/**
@@ -29,6 +28,7 @@ class SugarSelectElement extends SugarElement {
 	 */
 	constructor(elm, settings = {}) {
 		super('sSelect', elm, {
+			initWhenVisible : true,
 			onOpen : null,
 			onClose : null,
 			search : true,
@@ -38,14 +38,19 @@ class SugarSelectElement extends SugarElement {
 			screenMargin : 50
 		}, settings);
 
-		// init
-		this._init();
+		console.log('new item');
+
+		// init proxy
+		super.initProxy().then(::this._init);
+		// this._init();
 	}
 
 	/**
 	 * Init
 	 */
 	_init() {
+
+		console.log('init', this);
 
 		// setTimeout(() => {
 		// 	console.log('refresh');
@@ -173,7 +178,7 @@ class SugarSelectElement extends SugarElement {
 		let search = this.setting('search');
 		const searchFieldFn = (e) => {
 			// trigger custom event
-			let event = new Event('search');
+			let event = new SEvent('search');
 			this.elm.dispatchEvent(event);
 			// on search callback
 			let onSearch = this.setting('onSearch');
@@ -468,7 +473,7 @@ class SugarSelectElement extends SugarElement {
 		}
 
 		// trigger change event
-		let event = new Event('change');
+		let event = new SEvent('change');
 		this.elm.dispatchEvent(event);
 	}
 
@@ -508,13 +513,13 @@ class SugarSelectElement extends SugarElement {
 	 				close.addEventListener('click', (e) => {
 	 					option.selected = false;
 	 					// trigger change event
-						let event = new Event('change');
+						let event = new SEvent('change');
 						this.elm.dispatchEvent(event);
 	 				});
 	 				tag.addEventListener('dblclick', (e) => {
 	 					option.selected = false;
 	 					// trigger change event
-						let event = new Event('change');
+						let event = new SEvent('change');
 						this.elm.dispatchEvent(event);
 	 				})
 	 				tag.appendChild(close);
@@ -736,7 +741,7 @@ class SugarSelectElement extends SugarElement {
 		if (last) {
 			last.selected = false;
 			// trigger change event
-			let event = new Event('change');
+			let event = new SEvent('change');
 			this.elm.dispatchEvent(event);
 		}
 	}
@@ -783,7 +788,7 @@ class SugarSelectElement extends SugarElement {
 			this.container.classList.remove('s-select--dropup');
 		},500);
 		// dispatch close event
-		let event = new Event('close');
+		let event = new SEvent('close');
 		this.elm.dispatchEvent(event);
 		// handle onClose callback
 		let onClose = this.setting('onClose');
@@ -799,7 +804,7 @@ class SugarSelectElement extends SugarElement {
 		clearTimeout(this._clearDropupTimeout);
 		this._setPosition();
 		// dispatch open event
-		let event = new Event('open');
+		let event = new SEvent('open');
 		this.elm.dispatchEvent(event);
 		// manage onOpen callback
 		let onOpen = this.setting('onOpen');
@@ -810,12 +815,13 @@ class SugarSelectElement extends SugarElement {
 
 // init the select
 sDom.querySelectorLive('select[data-s-select]', (elm) => {
-	new SugarSelectElement(elm);
+	console.log('new element !!!');
+	new SSelectElement(elm);
 });
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }
-window.sugar.SelectElement = SugarSelectElement;
+window.sugar.SSelectElement = SSelectElement;
 
 // export modules
-export default SugarSelectElement;
+export default SSelectElement;

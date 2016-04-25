@@ -10,7 +10,7 @@
  */
 
 // Localstorage fonts
-class SugarLocalStorageFonts {
+class SLocalStorageFonts {
 
 	/**
 	 * Constructor
@@ -117,7 +117,7 @@ class SugarLocalStorageFonts {
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }
-window.sugar.localStorageFonts = new SugarLocalStorageFonts();
+window.sugar.sLocalStorageFonts = new SLocalStorageFonts();
 
 // export modules
-export default window.sugar.localStorageFonts;
+export default window.sugar.sLocalStorageFonts;

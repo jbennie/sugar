@@ -67,15 +67,22 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _angular2 = _interopRequireDefault(_angular);
 
-	var _index = __webpack_require__(4);
+	var _sActivateManager = __webpack_require__(4);
 
-	var _index2 = _interopRequireDefault(_index);
+	var _sActivateManager2 = _interopRequireDefault(_sActivateManager);
+
+	var _sSelectElement = __webpack_require__(18);
+
+	var _sSelectElement2 = _interopRequireDefault(_sSelectElement);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	// import sugar from './sugar/sugar';
+	//
+	// import SSelectElement from './sugar/index';
+	// import SActivateElement from './sugar/index';
 
-
+	// import { SSelectElement, SActivateElement } from './sugar/index';
+	//
 	var app = _angular2.default.module('angular-demo', []).run(function () {});
 
 	// app.directive('sSelect', () => {
@@ -90,6 +97,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// 	}
 	// })
 
+	// import sugar from './sugar/sugar';
 	app.controller('myForm', ['$scope', '$timeout', function ($scope, $timeout) {
 
 		// $scope.select_1_model = null;
@@ -110,7 +118,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		// $scope.keywords = 'efwefew';
 
 		// $timeout(() => {
-		for (var i = 0; i < 100; i++) {
+		for (var i = 0; i < 10; i++) {
 			$scope.select_1_items.push({
 				id: Math.round(Math.random() * 622487880),
 				group: Math.random() < 0.5 ? 'coco' : 'caca',
@@ -31012,15 +31020,91 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	exports.__esModule = true;
-	exports.SelectElement = undefined;
 
-	var _sugarFormSelect = __webpack_require__(5);
+	var _sActivateElement = __webpack_require__(5);
 
-	var _sugarFormSelect2 = _interopRequireDefault(_sugarFormSelect);
+	var _sActivateElement2 = _interopRequireDefault(_sActivateElement);
+
+	var _sDom = __webpack_require__(9);
+
+	var _sDom2 = _interopRequireDefault(_sDom);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	exports.SelectElement = _sugarFormSelect2.default;
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } } /*
+	                                                                                                                                                           * Sugar-activate.js
+	                                                                                                                                                          #
+	                                                                                                                                                           * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
+	                                                                                                                                                          #
+	                                                                                                                                                           * @author   Olivier Bossel <olivier.bossel@gmail.com>
+	                                                                                                                                                           * @created  20.01.16
+	                                                                                                                                                           * @updated  20.01.16
+	                                                                                                                                                           * @version  1.0.0
+	                                                                                                                                                           */
+
+
+	// save all the activate elements
+	var _sActivateStack = {};
+
+	var SActivateManager = function () {
+
+		/**
+	  * Constructor
+	  */
+
+		function SActivateManager() {
+			_classCallCheck(this, SActivateManager);
+
+			_sDom2.default.querySelectorLive('[data-s-activate]', function (element) {
+				if (!element.sActivate) {
+					new _sActivateElement2.default(element);
+				}
+			});
+		}
+
+		/**
+	  * Find a special activate element
+	  */
+
+
+		SActivateManager.prototype.find = function find(id) {
+			if (!_sActivateStack[id]) return false;
+			return _sActivateStack[id];
+		};
+
+		/**
+	  * Activate a special id
+	  */
+
+
+		SActivateManager.prototype.activate = function activate(id) {
+			var item = this.find(id);
+			if (item) item.activate();
+		};
+
+		/**
+	  * Unactivate
+	  */
+
+
+		SActivateManager.prototype.unactivate = function unactivate(id) {
+			var item = this.find(id);
+			if (item) item.unactivate();
+		};
+
+		return SActivateManager;
+	}();
+
+	;
+
+	// expose in window.sugar
+	if (window.sugar == null) {
+		window.sugar = {};
+	}
+	window.sugar.sActivateManager = new SActivateManager();
+
+	// export
+	exports.default = window.sugar.sActivateManager;
 
 /***/ },
 /* 5 */
@@ -31030,25 +31114,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.__esModule = true;
 
-	var _sugarElement = __webpack_require__(6);
+	var _sElement = __webpack_require__(6);
 
-	var _sugarElement2 = _interopRequireDefault(_sugarElement);
+	var _sElement2 = _interopRequireDefault(_sElement);
 
-	var _sugarDom = __webpack_require__(8);
+	var _sDom = __webpack_require__(9);
 
-	var _sugarDom2 = _interopRequireDefault(_sugarDom);
-
-	var _sugarTools = __webpack_require__(7);
-
-	var _sugarTools2 = _interopRequireDefault(_sugarTools);
-
-	var _sugarSettings = __webpack_require__(28);
-
-	var _sugarSettings2 = _interopRequireDefault(_sugarSettings);
-
-	var _sugarEvent = __webpack_require__(58);
-
-	var _sugarEvent2 = _interopRequireDefault(_sugarEvent);
+	var _sDom2 = _interopRequireDefault(_sDom);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31070,17 +31142,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
 
-	// Select
+	// save all the activate elements
+	var _sActivateStack = {};
 
-	var SugarSelectElement = function (_SugarElement) {
-		_inherits(SugarSelectElement, _SugarElement);
+	// Actual activate element class
+
+	var SActivateElement = function (_SElement) {
+		_inherits(SActivateElement, _SElement);
 
 		/**
 	  * Setup
 	  */
 
-		SugarSelectElement.setup = function setup(type, settings) {
-			_sugarElement2.default.setup('sSelect', type, settings);
+		SActivateElement.setup = function setup(type, settings) {
+			_sElement2.default.setup('sActivate', type, settings);
 		};
 
 		/**
@@ -31088,25 +31163,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-		function SugarSelectElement(elm) {
+		function SActivateElement(elm) {
 			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
-			_classCallCheck(this, SugarSelectElement);
+			_classCallCheck(this, SActivateElement);
 
-			// init
-
-			var _this2 = _possibleConstructorReturn(this, _SugarElement.call(this, 'sSelect', elm, {
-				onOpen: null,
-				onClose: null,
-				search: true,
-				searchPlaceholder: 'Search...',
-				internalSearch: true,
-				minCharactersForSearch: 3,
-				screenMargin: 50
+			var _this = _possibleConstructorReturn(this, _SElement.call(this, 'sActivate', elm, {
+				activeClass: 'active',
+				history: true,
+				anchor: true,
+				toggle: false,
+				trigger: 'click',
+				unactivateTrigger: null,
+				unactivateTimeout: 200
 			}, settings));
 
-			_this2._init();
-			return _this2;
+			_this._inited = true;
+			_this._tabs = {};
+
+			// init
+			_this.init();
+			return _this;
 		}
 
 		/**
@@ -31114,845 +31191,273 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-		SugarSelectElement.prototype._init = function _init() {
-			var _this3 = this;
+		SActivateElement.prototype.init = function init() {
+			var _this2 = this;
 
-			// setTimeout(() => {
-			// 	console.log('refresh');
-			// 	this.refresh();
-			// }, 3000);
-
-			// utils variables
-			this._openOnFocus = false;
-			this._currentActiveOption = null; // save the current keyboard selected item
-
-			// generate a custom id
-			this.id = _sugarTools2.default.uniqid();
-
-			// set the id to the element to
-			// be able to reach it and listen for
-			// new items in it
-			this.elm.setAttribute('data-s-select', this.id);
-
-			// build html structure
-			this._buildHTML();
-
-			// display or not the search
-			if (!this.setting('search')) {
-				this.search_container.style.position = 'absolute';
-				this.search_container.style.left = '-120vw';
-			}
-
-			// make sure when we click that we focus on the search field
-			this.container.addEventListener('click', function (e) {
-				_this3.search_field.focus();
-			});
-
-			// prevent default behavior on click in options container
-			this.options_container.addEventListener('click', function (e) {
-				e.preventDefault();
-			});
-
-			// open on click
-			this.container.addEventListener('click', function (e) {
-				// open
-				if (!_this3.isOpen()) {
-					_this3.open();
-				}
-			});
-
-			// prevent scroll into the options
-			this.options_container.addEventListener('mousewheel', function (ev) {
-				var _this = ev.currentTarget;
-				var scrollTop = _this.scrollTop;
-				var scrollHeight = _this.scrollHeight;
-				var height = _this.offsetHeight;
-				var delta = ev.wheelDelta;
-				if (ev.type == 'DOMMouseScroll') {
-					delta = ev.originalEvent.details * -40;
-				}
-				var up = delta > 0;
-				var prevent = function prevent() {
-					ev.stopPropagation();
-					ev.preventDefault();
-					ev.returnValue = false;
-					return false;
-				};
-				if (!up && -delta > scrollHeight - height - scrollTop) {
-					// Scrolling down, but this will take us past the bottom.
-					_this.scrollTop = scrollHeight;
-					prevent();
-				} else if (up && delta > scrollTop) {
-					// Scrolling up, but this will take us past the top.
-					_this.scrollTop = 0;
-					prevent();
-				}
-			});
-			// this.dropdown.addEventListener('DOMMouseScroll', (e) => {
-			// 	e.preventDefault();
-			// 	e.stopPropagation();
-			// });
-
-			// manage the keyup event
-			var _onKeyUpFn = function _onKeyUpFn(e) {
-				_this3._onKeyUp(e);
-			};
-			var _onKeyDownFn = function _onKeyDownFn(e) {
-				_this3._onKeyDown(e);
-			};
-			var _onScrollResizeFn = function _onScrollResizeFn(e) {
-				_this3._onScrollResize(e);
-			};
-			this.elm.addEventListener('open', function (e) {
-				document.addEventListener('keyup', _onKeyUpFn);
-				document.addEventListener('keydown', _onKeyDownFn);
-				window.addEventListener('scroll', _onScrollResizeFn);
-				window.addEventListener('resize', _onScrollResizeFn);
-			});
-			this.elm.addEventListener('close', function (e) {
-				document.removeEventListener('keyup', _onKeyUpFn);
-				document.removeEventListener('keydown', _onKeyDownFn);
-				window.removeEventListener('scroll', _onScrollResizeFn);
-				window.removeEventListener('resize', _onScrollResizeFn);
-			});
-
-			// listen for click outside of the dropdown
-			document.addEventListener('click', function (e) {
-				if (!_this3.container.contains(e.target)) {
-					_this3.close();
-				}
-			});
-
-			// listen for change on base select
-			// to set the selected items
-			this.elm.addEventListener('change', function (e) {
-				_this3._setSelected();
-			});
-
-			// listen for focus in search field to activate the field
-			this.search_field.addEventListener('focus', function (e) {
-				_this3._openOnFocus = true;
-				_this3.open();
-				setTimeout(function () {
-					_this3._openOnFocus = false;
-				}, 200);
-			});
-
-			// listen for keyup on search field
-			var internalSearch = this.setting('internalSearch');
-			var search = this.setting('search');
-			var searchFieldFn = function searchFieldFn(e) {
-				// trigger custom event
-				var event = new _sugarEvent2.default('search');
-				_this3.elm.dispatchEvent(event);
-				// on search callback
-				var onSearch = _this3.setting('onSearch');
-				if (onSearch) onSearch(e.target.value);
-				// check if internal search
-				_this3._search();
-			};
-			if (internalSearch && search) {
-				this.search_field.addEventListener('keyup', searchFieldFn);
-				this.search_field.addEventListener('search', searchFieldFn);
-			}
-
-			// listen for new elements in the select
-			_sugarDom2.default.querySelectorLive('[data-s-select="' + this.id + '"] > option, [data-s-select="' + this.id + '"] > optgroup', [function (elm) {
-				// refresh the select
-				_this3.refresh();
-			}, function (elm) {
-				// refresh the select
-				_this3.refresh();
-			}], this.elm, true);
-
-			// this._appendNew();
-		};
-
-		/**
-	  * Search
-	  */
-
-
-		SugarSelectElement.prototype._search = function _search() {
-			var _this4 = this;
-
-			// loop on each options
-			[].forEach.call(this.options_container.querySelectorAll('.s-select__option'), function (option) {
-				// check if is a value in the search field
-				if (_this4.search_field.value && _this4.search_field.value.length >= _this4.setting('minCharactersForSearch')) {
-					// check if we find the text in the option
-					var regexp = new RegExp("(" + _this4.search_field.value + ")(?!([^<]+)?>)", 'gi');
-					// search the tokens in html
-					var replace = option._s_innerHTML.replace(regexp, '<span class="s-select__search-result">$1</span>');
-					if (option._s_innerHTML.match(regexp)) {
-						option.innerHTML = replace;
-					} else {
-						// reset the activate item if need to be hided
-						if (option == _this4._currentActiveOption) {
-							_this4._currentActiveOption = null;
-						}
-						option.classList.add('s-select__option--hidden');
-					}
-				} else {
-					option.innerHTML = option._s_innerHTML;
-					option.classList.remove('s-select__option--hidden');
-				}
-			});
-
-			// set position
-			this._setPosition();
-		};
-
-		/**
-	  * On scroll or resize
-	  */
-
-
-		SugarSelectElement.prototype._onScrollResize = function _onScrollResize(e) {
-			// clearTimeout(this._scrollResizeTimeout);
-			// this._scrollResizeTimeout = setTimeout(() => {
-			// console.log('set POSITION');
-			this._setPosition();
-			// }, 100);
-		};
-
-		SugarSelectElement.prototype._onKeyUp = function _onKeyUp(e) {
-			if ((e.keyCode == 9 // tab
-			 || e.keyCode == 27 // escape
-			) && this.isOpen()) {
-				if (!this._openOnFocus) {
-					this.close();
-				}
-			}
-		};
-
-		/**
-	  * On key down
-	  */
-
-
-		SugarSelectElement.prototype._onKeyDown = function _onKeyDown(e) {
-			switch (e.keyCode) {
-				case 40:
-					// down
-					this._activateNext();
-					e.preventDefault();
-					break;
-				case 38:
-					// up
-					this._activatePrevious();
-					e.preventDefault();
-					break;
-				case 13:
-					// enter
-					this._selectActivated();
-					e.preventDefault();
-					break;
-				case 8:
-					// backspace
-					if (this.search_field.focus && this.search_field.value == '') {
-						// remove the last item
-						this.removeLast();
-					}
-					break;
-			}
-		};
-
-		/**
-	  * Select next with keyboard
-	  */
-
-
-		SugarSelectElement.prototype._activateNext = function _activateNext() {
-			// remove active class if exist
-			if (this._currentActiveOption) {
-				this._currentActiveOption.classList.remove('active');
-			}
-			// check if already an item is selected
-			if (!this._currentActiveOption) {
-				this._currentActiveOption = this.options_container.querySelector('.s-select__option:not(.s-select__option--disabled):not(.s-select__option--hidden):first-child');
-			} else {
-				// try to get the next sibling
-				this._currentActiveOption = _sugarDom2.default.next(this._currentActiveOption, '.s-select__option:not(.s-select__option--disabled):not(.s-select__option--hidden)');
-			}
-			// activate the element
-			if (this._currentActiveOption) {
-				this._currentActiveOption.classList.add('active');
-			}
-		};
-
-		/**
-	  * Select previous with keyboard
-	  */
-
-
-		SugarSelectElement.prototype._activatePrevious = function _activatePrevious() {
-			// remove active class if exist
-			if (this._currentActiveOption) {
-				this._currentActiveOption.classList.remove('active');
-			}
-			// check if already an item is selected
-			if (!this._currentActiveOption) {
-				this._currentActiveOption = this.options_container.querySelector('.s-select__option:not(.s-select__option--disabled):not(.s-select__option--hidden):last-child');
-			} else {
-				// try to get the next sibling
-				this._currentActiveOption = _sugarDom2.default.previous(this._currentActiveOption, '.s-select__option:not(.s-select__option--disabled):not(.s-select__option--hidden)');
-			}
-			// activate the element
-			if (this._currentActiveOption) {
-				this._currentActiveOption.classList.add('active');
-			}
-		};
-
-		/**
-	  * Select activated item
-	  */
-
-
-		SugarSelectElement.prototype._selectActivated = function _selectActivated() {
-			// check if an activated element exist
-			if (this._currentActiveOption) {
-				this.select(this._currentActiveOption._s_select_source_option);
-			}
-		};
-
-		SugarSelectElement.prototype._appendNew = function _appendNew() {
-			var _this5 = this;
-
-			var opt = document.createElement('option');
-			opt.innerHTML = 'Coco';
-			this.elm.appendChild(opt);
-			setTimeout(function () {
-				_this5._appendNew();
-			}, 0 + Math.random() * 1000);
-		};
-
-		/**
-	  * Create html structure
-	  */
-
-
-		SugarSelectElement.prototype._buildHTML = function _buildHTML() {
-			var container = document.createElement('div');
-			container.setAttribute('class', this.elm.getAttribute('class') + ' s-select');
-
-			// multiple class
-			if (this.elm.getAttribute('multiple') != null) {
-				container.classList.add('s-select--multiple');
-			}
-
-			var selection_container = document.createElement('div');
-			selection_container.setAttribute('class', 's-select__selection-container');
-
-			var selection_aligner = document.createElement('div');
-			selection_aligner.setAttribute('class', 's-select__selection-aligner');
-
-			var dropdown = document.createElement('div');
-			dropdown.setAttribute('class', 's-select__dropdown');
-
-			// search
-			var search_container = document.createElement('div');
-			search_container.setAttribute('class', 's-select__search-container');
-			var search_field = document.createElement('input');
-			search_field.setAttribute('type', 'search');
-			if (search_field.type != 'search') {
-				search_field.type = 'text';
-			}
-			search_field.setAttribute('placeholder', this.setting('searchPlaceholder'));
-			search_field.setAttribute('class', 's-select__search-field');
-
-			// options
-			var options_container = document.createElement('div');
-			options_container.setAttribute('class', 's-select__options');
-
-			// append to document
-			search_container.appendChild(search_field);
-
-			dropdown.appendChild(search_container);
-			dropdown.appendChild(options_container);
-
-			// container.appendChild(open_checkbox);
-			container.appendChild(selection_container);
-			container.appendChild(dropdown);
-
-			// append the element right before the select
-			this.elm.parentNode.insertBefore(container, this.elm);
-
-			// hide element
-			this.elm.style.position = 'absolute';
-			this.elm.style.left = '-120vw';
-			this.elm.style.opacity = 0;
-			this.elm.tabIndex = -1;
-			// this.elm.style.height = '400px';
-
-			// save into object
-			this.container = container;
-			this.dropdown = dropdown;
-			this.search_container = search_container;
-			this.selection_container = selection_container;
-			this.search_field = search_field;
-			this.options_container = options_container;
-		};
-
-		/**
-	  * Handle click on option
-	  */
-
-
-		SugarSelectElement.prototype._handleOptionClick = function _handleOptionClick(_s_option, e) {
-
-			// check if is a multiple
-			if (!this.isMultiple()) {
-				// select the element in the source select
-				_s_option._s_select_source_option.selected = true;
-				// close
-				this.close();
-			} else {
-
-				_s_option._s_select_source_option.selected = !_s_option._s_select_source_option.selected;
-
-				// // check if the alt key is pressed
-				// if (e.metaKey) {
-				// 	// toggle selection
-				// 	_s_option._s_select_source_option.selected = ! _s_option._s_select_source_option.selected;
-				// } else if (e.shiftKey) {
-				// 	// get the index of the last selected option
-				// 	if (this.elm.options.selectedIndex) {
-				// 		// find the current option position
-				// 		let current_option_idx = 0,
-				// 			found = false;
-				// 		[].forEach.call(this.elm.options, (opt) => {
-				// 			if ( ! found && opt != _s_option._s_select_source_option) {
-				// 				current_option_idx++;
-				// 			} else {
-				// 				found = true;
-				// 			}
-				// 		});
-
-				// 		// select all the options inbetween
-				// 		let first = this.elm.options.selectedIndex;
-				// 		let last = current_option_idx;
-				// 		if (first > last) {
-				// 			let _last = last;
-				// 			last = first;
-				// 			first = _last;
-				// 		}
-				// 		for (let i = first; i <= last; i++) {
-				// 			if ( ! this.elm.options[i].disabled) {
-				// 				this.elm.options[i].selected = true;
-				// 			}
-				// 		}
-				// 	} else {
-				// 		// telection
-				// 		_s_option._s_select_source_option.selected = ! _s_option._s_select_source_option.selected;
-				// 	}
-				// } else {
-				// 	// unactive all the options
-				// 	[].forEach.call(this.elm.options, (opt) => {
-				// 		opt.selected = false;
-				// 	});
-				// 	// activate the item
-				// 	_s_option._s_select_source_option.selected = true;
-				// }
-			}
-
-			// trigger change event
-			var event = new _sugarEvent2.default('change');
-			this.elm.dispatchEvent(event);
-		};
-
-		/**
-	  * Set selected elements
-	  */
-
-
-		SugarSelectElement.prototype._setSelected = function _setSelected() {
-			var _this6 = this;
-
-			// loop on selected option to activate them
-			var areSomeSelectedItems = false;
-			[].forEach.call(this.elm.options, function (option) {
-				// apply the active class
-				if (option._s_select_option) {
-					if (option.selected) {
-						if (option.innerHTML != '') {
-							areSomeSelectedItems = true;
-						}
-						option._s_select_option.classList.add('selected');
-					} else {
-						option._s_select_option.classList.remove('selected');
-					}
-				}
-			});
-			// set the selection
-			this.selection_container.innerHTML = '';
-			if (this.isMultiple()) {
-				// loop on each selected items
-				[].forEach.call(this.elm.options, function (option) {
-					if (option.selected) {
-						// get the content
-						var content = option.innerHTML;
-						// create the tag
-						var tag = document.createElement('div');
-						tag.classList.add('s-select__selection-tag');
-						tag.innerHTML = content;
-						var close = document.createElement('span');
-						close.classList.add('s-select__selection-tag-close');
-						close.addEventListener('click', function (e) {
-							option.selected = false;
-							// trigger change event
-							var event = new _sugarEvent2.default('change');
-							_this6.elm.dispatchEvent(event);
-						});
-						tag.addEventListener('dblclick', function (e) {
-							option.selected = false;
-							// trigger change event
-							var event = new _sugarEvent2.default('change');
-							_this6.elm.dispatchEvent(event);
-						});
-						tag.appendChild(close);
-						_this6.selection_container.appendChild(tag);
-					}
-				});
-			} else {
-				// get the selected one
-				var selected_idx = this.elm.options.selectedIndex;
-				if (selected_idx != -1) {
-					// set the selected
-					var selection = document.createElement('div');
-					selection.classList.add('s-select__selection');
-					selection.innerHTML = this.elm.options[selected_idx].innerHTML;
-					this.selection_container.appendChild(selection);
-				}
-			}
-
-			if (!areSomeSelectedItems) {
-				var placeholder = this.elm.getAttribute('placeholder');
-				if (placeholder) {
-					var _selection = document.createElement('div');
-					_selection.classList.add('s-select__selection');
-					_selection.classList.add('input--placeholder');
-					_selection.innerHTML = placeholder;
-					this.container.classList.add('s-select--placeholder');
-					this.selection_container.appendChild(_selection);
-				}
-			} else {
-				this.container.classList.remove('s-select--placeholder');
-			}
-		};
-
-		/**
-	  * Set position
-	  */
-
-
-		SugarSelectElement.prototype._setPosition = function _setPosition() {
-			// get the position of the container
-			var dropdownOffset = _sugarDom2.default.offset(this.dropdown);
-			var dropdownTop = dropdownOffset.top - _sugarDom2.default.scrollTop();
-			var containerTop = _sugarDom2.default.offset(this.container).top - _sugarDom2.default.scrollTop();
-			var dropdownFullHeight = this.options_container.scrollHeight + this.search_container.offsetHeight;
-			var optionsFullHeight = this.options_container.scrollHeight;
-			var optionsHeight = this.options_container.offsetHeight;
-			var screenMargin = this.setting('screenMargin');
-			var optionsMinHeight = parseInt(window.getComputedStyle(this.options_container).getPropertyValue('min-height'));
-
-			// check if the min-height has been reached
-			if (containerTop + this.container.offsetHeight + this.search_container.offsetHeight + optionsMinHeight + screenMargin > window.innerHeight) {
-				// if (optionsHeight < optionsFullHeight && optionsHeight <= optionsMinHeight ) {
-				this.container.classList.add('s-select--dropup');
-				// console.log(top + h, window.innerHeight);
-				if (containerTop - dropdownFullHeight - screenMargin < 0) {
-					this.options_container.style.height = window.innerHeight - (window.innerHeight - containerTop) - this.search_container.offsetHeight - screenMargin + 'px';
-				} else {
-					this.options_container.style.height = 'auto';
-				}
-			} else {
-				this.container.classList.remove('s-select--dropup');
-				// console.log(top + h, window.innerHeight);
-				if (dropdownTop + dropdownFullHeight + screenMargin > window.innerHeight) {
-					this.options_container.style.height = window.innerHeight - dropdownTop - this.search_container.offsetHeight - screenMargin + 'px';
-				} else {
-					this.options_container.style.height = 'auto';
-				}
-			}
-		};
-
-		/**
-	  * Handle optgroup
-	  */
-
-
-		SugarSelectElement.prototype._handleOptgroup = function _handleOptgroup(_optgroup) {
-			// create the choice
-			var option = document.createElement('div');
-			option.classList.add('s-select__optgroup');
-
-			// get the content
-			var content = _optgroup.getAttribute('label');
-
-			// get the content
-			var source = _optgroup.getAttribute('data-s-select-option-source');
-			if (source) {
-				// try to get into document
-				source = document.querySelector(source);
-				if (source) {
-					option.appendChild(source);
-					option.classList.add('s-select__optgroup--custom');
-				} else {
-					option.innerHTML = content;
-				}
-			} else {
-				option.innerHTML = content;
-			}
-
-			// append new choice
-			this.options_container.appendChild(option);
-		};
-
-		/**
-	  * Handle option
-	  */
-
-
-		SugarSelectElement.prototype._handleOption = function _handleOption(_option) {
-			var _this7 = this;
-
-			var in_optgroup = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
-
-
-			// check if is an optiongroup
-			if (_option.nodeName.toLowerCase() == 'optgroup') {
-				this._handleOptgroup(_option);
-				[].forEach.call(_option.querySelectorAll(':scope > option'), function (option) {
-					_this7._handleOption(option, true);
-				});
+			if (this.inited) {
 				return;
 			}
+			this.inited = true;
+			var group = this.elm.dataset.sActivateGroup;
 
-			// create the choice
-			var option = document.createElement('div');
-			option.classList.add('s-select__option');
+			// save in stack
+			_sActivateStack[this.elm.dataset.sActivate] = this;
 
-			// check if in optgroup
-			if (in_optgroup) {
-				option.classList.add('s-select__option--in-optgroup');
+			// update references
+			this.update();
+
+			// handle history if needed
+			if (this.setting('history')) {
+				this._handleHistory();
 			}
 
-			// check if disabled
-			if (_option.disabled) {
-				option.classList.add('s-select__option--disabled');
+			// managing group
+			if (!group) {
+				[].forEach.call(this.elm.parentNode.childNodes, function (sibling) {
+					if (!_this2.elm.dataset.sActivateGroup) {
+						// let sActivate = this.dataset('sActivate', null, sibling);
+						// console.log(sibling);
+						// sActivate = sibling.dataset.sActivate;
+						// console.log(sActivate);
+						if (sibling.dataset && sibling.dataset.sActivate) {
+							var sibling_grp = null;
+							if (sibling.dataset) {
+								sibling_grp = sibling.dataset.sActivateGroup;
+							}
+							// let sibling_grp = sibling.dataset('sActivateGroup', null, sibling);
+							if (sibling_grp && sibling.sActivateGeneratedGroup) {
+								_this2.elm.dataset.sActivateGroup = sibling_grp;
+							}
+						}
+					}
+				});
+
+				// if we don't have any group yet
+				if (!this.elm.dataset.sActivateGroup) {
+					console.log('no group');
+					this.elm.dataset.sActivateGroup = 'group-' + Math.round(Math.random() * 99999999);
+					this.elm.sActivateGeneratedGroup = true;
+				}
+				console.dir(this.elm.dataset.sActivateGroup);
 			}
 
-			// save the option reference into html element
-			// to be able to activate it in the base select
-			option._s_select_source_option = _option;
+			// check if we are in another s-activate element
+			var closest = this._getClosestActivate();
+			if (closest) {
+				// save the closest content reference
+				this.parentActivate = document.body.querySelector('[data-s-activate="' + closest.id + '"]');
+			}
 
-			// save the s_option into the base option
-			// to be able to activate the s_option later
-			_option._s_select_option = option;
-
-			// get the content
-			var content = _option.innerHTML;
-
-			// get the content
-			var source = _option.getAttribute('data-s-select-option-source');
-			if (source) {
-				// try to get into document
-				source = document.querySelector(source);
-				if (source) {
-					option.appendChild(source);
-					option.classList.add('s-select__option--custom');
+			// listen for click
+			this.elm.addEventListener(this.setting('trigger'), function (e) {
+				// clear unactivate timeout
+				clearTimeout(_this2._unactivateSetTimeout);
+				// if toggle
+				if (_this2.setting('toggle') && _this2.isActive()) {
+					// unactivate
+					_this2.unactivate();
+					// check if has a hash
+					if (_this2.setting('history')) {
+						window.history.back();
+					}
 				} else {
-					option.innerHTML = content;
+					if (_this2.setting('history')) {
+						// simply activate again if the same id that anchor
+						// this can happened when an element has history to false
+						if (document.location.hash && document.location.hash.substr(1) == _this2.elm.dataset.sActivate) {
+							_this2._activate();
+						} else {
+							// simply change the hash
+							// the event listener will take care of activate the
+							// good element
+							document.location.hash = _this2.elm.dataset.sActivate;
+						}
+					} else {
+						// activate the element
+						_this2._activate();
+					}
 				}
+			});
+			// check if has an unactivate trigger
+			var unactivate_trigger = this.setting('unactivateTrigger');
+			if (unactivate_trigger) {
+				this.elm.addEventListener(unactivate_trigger, function (e) {
+					_this2._unactivateSetTimeout = setTimeout(function () {
+						_this2.unactivate();
+					}, _this2.setting('unactivateTimeout'));
+				});
+				if (unactivate_trigger == 'mouseleave' || unactivate_trigger == 'mouseout') {
+					[].forEach.call(this.targets, function (target) {
+						target.addEventListener('mouseenter', function (e) {
+							// clear the unactivate timeout
+							clearTimeout(_this2._unactivateSetTimeout);
+						});
+						target.addEventListener(unactivate_trigger, function (e) {
+							_this2._unactivateSetTimeout = setTimeout(function () {
+								_this2.unactivate();
+							}, _this2.setting('unactivateTimeout'));
+						});
+					});
+				}
+			}
+
+			// if the element has the active class
+			if (this.hasClass('active')) {
+				this._activate();
+			}
+
+			// if need to handle anchor
+			if (this.setting('anchor')) {
+				var hash = document.location.hash;
+				if (hash) {
+					hash = hash.substr(1);
+					if (hash == this.elm.dataset.sActivate) {
+						this._activate();
+					}
+				}
+			}
+		};
+
+		/**
+	  * Check if is active
+	  */
+
+
+		SActivateElement.prototype.isActive = function isActive() {
+			return this.hasClass('active');
+		};
+
+		/**
+	  * Activate the element
+	  */
+
+
+		SActivateElement.prototype._activate = function _activate() {
+			var _this3 = this;
+
+			// unactive all group elements
+			var grp = this.elm.dataset.sActivateGroup;
+			[].forEach.call(document.body.querySelectorAll('[data-s-activate-group="' + grp + '"]'), function (group_elm) {
+				// get the api
+				var api = group_elm.sActivate;
+				// unactive element
+				if (api) {
+					api.unactivate();
+				}
+			});
+
+			// activate the element
+			this.addClass('active');
+
+			// activate all the targets
+			[].forEach.call(this.targets, function (target_elm) {
+				// remove the active class on target
+				_this3.addClass('active', target_elm);
+			});
+
+			// if has a perent, activate it
+			if (this.parentActivate) {
+				var parent_api = this.parentActivate.sActivate;
+				if (parent_api) {
+					parent_api._activate();
+				}
+			}
+		};
+
+		/**
+	  * Handle history
+	  */
+
+
+		SActivateElement.prototype._handleHistory = function _handleHistory() {
+			var _this4 = this;
+
+			window.addEventListener('hashchange', function (e) {
+				var hash = document.location.hash;
+				if (hash) {
+					hash = hash.substr(1);
+					if (hash == _this4.elm.dataset.sActivate) {
+						_this4._activate();
+					}
+				}
+			});
+		};
+
+		/**
+	  * Activate the element
+	  */
+
+
+		SActivateElement.prototype.activate = function activate() {
+			if (this.setting('history')) {
+				// change hash
+				document.location.hash = this.elm.dataset.sActivate;
 			} else {
-				if (!content) return;
-				option.innerHTML = content;
-			}
-
-			// save the html to restore later on search
-			option._s_innerHTML = option.innerHTML;
-
-			// add a click event on the option
-			option.addEventListener('click', function (e) {
-				_this7._handleOptionClick(e.currentTarget, e);
-			});
-
-			// add the listener for the hover
-			option.addEventListener('mouseover', function (e) {
-				_this7._currentActiveOption = option;
-			});
-
-			// append new choice
-			this.options_container.appendChild(option);
-		};
-
-		/**
-	  * Refresh
-	  */
-
-
-		SugarSelectElement.prototype.refresh = function refresh() {
-			var _this8 = this;
-
-			// empty the options
-			var options_parent = this.options_container.parentNode;
-			options_parent.removeChild(this.options_container);
-			this.options_container.innerHTML = '';
-
-			// create the options tree
-			[].forEach.call(this.elm.querySelectorAll(':scope > option, :scope > optgroup'), function (elm) {
-				// handle option
-				_this8._handleOption(elm);
-			}, this.elm);
-
-			// set selected the first time
-			this._setSelected();
-
-			// append again in dom the options
-			options_parent.appendChild(this.options_container);
-
-			// set position
-			this._setPosition();
-		};
-
-		/**
-	  * Select an option in source select
-	  */
-
-
-		SugarSelectElement.prototype.select = function select(option) {
-			// check if we have the s-select option targer
-			if (option._s_select_option) {
-				this._handleOptionClick(option._s_select_option);
-			} else if (option._s_select_source_option) {
-				this._handleOptionClick(option);
+				// activate simply
+				this._activate();
 			}
 		};
 
 		/**
-	  * Remove last
+	  * Unactive
 	  */
 
 
-		SugarSelectElement.prototype.removeLast = function removeLast() {
-			var last = null;
-			[].forEach.call(this.elm.options, function (option) {
-				if (option.selected) {
-					last = option;
+		SActivateElement.prototype.unactivate = function unactivate() {
+			var _this5 = this;
+
+			// unactive the item itself
+			this.removeClass('active');
+
+			// unactive targets
+			[].forEach.call(this.targets, function (target) {
+				_this5.removeClass('active', target);
+			});
+		};
+
+		/**
+	  * Update targets, etc...
+	  */
+
+
+		SActivateElement.prototype.update = function update() {
+			var scope = arguments.length <= 0 || arguments[0] === undefined ? document.body : arguments[0];
+
+			this.targets = scope.querySelectorAll('#' + this.elm.dataset.sActivate);
+			[].forEach.call(this.targets, function (target) {
+				target.setAttribute('data-s-activate-target', true);
+			});
+		};
+
+		/**
+	  * Get closest 
+	  */
+
+
+		SActivateElement.prototype._getClosestActivate = function _getClosestActivate() {
+			var elm = this.elm.parentNode;
+			while (elm && elm != document) {
+				if (elm.id && _sActivateStack[elm.id]) {
+					return elm;
 				}
-			});
-			// unselect the last
-			if (last) {
-				last.selected = false;
-				// trigger change event
-				var event = new _sugarEvent2.default('change');
-				this.elm.dispatchEvent(event);
+				elm = elm.parentNode;
 			}
+			return false;
 		};
 
-		/**
-	  * Add event listener
-	  */
-
-
-		SugarSelectElement.prototype.addEventListener = function addEventListener(event, callback, capture) {
-			this.elm.addEventListener(event, callback, capture);
-		};
-
-		/**
-	  * Remove event listener
-	  */
-
-
-		SugarSelectElement.prototype.removeEventListener = function removeEventListener(event, callback, capture) {
-			this.elm.removeEventListener(event, callback, capture);
-		};
-
-		/**
-	  * Is multiple
-	  */
-
-
-		SugarSelectElement.prototype.isMultiple = function isMultiple() {
-			return this.elm.getAttribute('multiple') != null;
-		};
-
-		/**
-	  * Is opened
-	  */
-
-
-		SugarSelectElement.prototype.isOpen = function isOpen() {
-			return this.container.classList.contains('s-select--opened');
-		};
-
-		/**
-	  * Close
-	  */
-
-
-		SugarSelectElement.prototype.close = function close() {
-			var _this9 = this;
-
-			this.container.classList.remove('s-select--opened');
-			// unactivate the option if one exist
-			if (this._currentActiveOption) {
-				this._currentActiveOption.classList.remove('active');
-			}
-			// remove the dropup class
-			this._clearDropupTimeout = setTimeout(function () {
-				_this9.container.classList.remove('s-select--dropup');
-			}, 500);
-			// dispatch close event
-			var event = new _sugarEvent2.default('close');
-			this.elm.dispatchEvent(event);
-			// handle onClose callback
-			var onClose = this.setting('onClose');
-			if (onClose) {
-				onClose();
-			}
-		};
-
-		/**
-	  * Close
-	  */
-
-
-		SugarSelectElement.prototype.open = function open() {
-			this.container.classList.add('s-select--opened');
-			// set position
-			clearTimeout(this._clearDropupTimeout);
-			this._setPosition();
-			// dispatch open event
-			var event = new _sugarEvent2.default('open');
-			this.elm.dispatchEvent(event);
-			// manage onOpen callback
-			var onOpen = this.setting('onOpen');
-			if (onOpen) {
-				onOpen();
-			}
-		};
-
-		return SugarSelectElement;
-	}(_sugarElement2.default);
-
-	// init the select
-
-
-	_sugarDom2.default.querySelectorLive('select[data-s-select]', function (elm) {
-		new SugarSelectElement(elm);
-	});
+		return SActivateElement;
+	}(_sElement2.default);
 
 	// expose in window.sugar
+
+
 	if (window.sugar == null) {
 		window.sugar = {};
 	}
-	window.sugar.SelectElement = SugarSelectElement;
+	window.sugar.SActivateElement = SActivateElement;
 
-	// export modules
-	exports.default = SugarSelectElement;
+	// export
+	exports.default = SActivateElement;
 
 /***/ },
 /* 6 */
@@ -31966,30 +31471,33 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _sugarTools = __webpack_require__(7);
+	var _sTools = __webpack_require__(7);
 
-	var _sugarDom = __webpack_require__(8);
+	var _sTools2 = _interopRequireDefault(_sTools);
 
-	var _sugarDom2 = _interopRequireDefault(_sugarDom);
+	var _sString = __webpack_require__(8);
+
+	var _sString2 = _interopRequireDefault(_sString);
+
+	var _sDom = __webpack_require__(9);
+
+	var _sDom2 = _interopRequireDefault(_sDom);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var _upperfirst = __webpack_require__(24);
-	var _lowerfirst = __webpack_require__(27);
-
 	// store the settings for the different
 	// components types
 	var _sugarTypesSettings = {};
 
-	var SugarElement = function () {
+	var SElement = function () {
 
 		/**
 	  * Setup
 	  */
 
-		SugarElement.setup = function setup(name, type, settings) {
+		SElement.setup = function setup(name, type, settings) {
 			if (!_sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
 			_sugarTypesSettings[name][type] = settings;
 		};
@@ -31999,16 +31507,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-		function SugarElement(name, elm) {
+		function SElement(name, elm) {
 			var default_settings = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 			var settings = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
 
-			_classCallCheck(this, SugarElement);
+			_classCallCheck(this, SElement);
 
 			// save element reference
 			this.elm = elm;
 			this.name = name;
-			this.name_dash = (0, _sugarTools.uncamelize)(this.name);
+			this.name_dash = _sString2.default.uncamelize(this.name);
 			// extend settings
 			this._settings = _extends({}, default_settings, settings);
 
@@ -32030,15 +31538,75 @@ return /******/ (function(modules) { // webpackBootstrap
 		}
 
 		/**
+	  * Init proxy
+	  */
+
+
+		SElement.prototype.initProxy = function initProxy() {
+			var _this = this;
+
+			return new Promise(function (resolve, reject) {
+				if (_this.setting('initWhenVisible')) {
+					_this.whenVisible().then(resolve);
+				} else {
+					resolve.apply(_this);
+				}
+			});
+		};
+
+		/**
+	  * Get closest not visible element
+	  */
+
+
+		SElement.prototype.closestNotVisible = function closestNotVisible() {
+			var elm = arguments.length <= 0 || arguments[0] === undefined ? this.elm : arguments[0];
+
+			return _sDom2.default.closestNotVisible(elm);
+		};
+
+		/**
+	  * Visible proxy init
+	  */
+
+
+		SElement.prototype.whenVisible = function whenVisible() {
+			var cb = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+			var elm = arguments.length <= 1 || arguments[1] === undefined ? this.elm : arguments[1];
+
+			return _sDom2.default.whenVisible(elm, cb);
+		};
+
+		/**
+	  * Detect if is visible
+	  */
+
+
+		SElement.prototype.isVisible = function isVisible() {
+			return _sDom2.default.isVisible(this.elm);
+		};
+
+		/**
+	  * Detect when the element is in the viewport
+	  */
+
+
+		SElement.prototype.inViewport = function inViewport() {
+			var offset = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+
+			return _sDom2.default.inViewport(this.elm, offset);
+		};
+
+		/**
 	  * Setting
 	  */
 
 
-		SugarElement.prototype.setting = function setting(key) {
+		SElement.prototype.setting = function setting(key) {
 			// check in the dataset
-			var key_string = this.name + _upperfirst(key);
-			key_string = key_string.replace(_upperfirst(key) + _upperfirst(key), _upperfirst(key));
-			var s = this.dataset(_lowerfirst(key_string));
+			var key_string = this.name + _sString2.default.upperFirst(key);
+			key_string = key_string.replace(_sString2.default.upperFirst(key) + _sString2.default.upperFirst(key), _sString2.default.upperFirst(key));
+			var s = this.dataset(_sString2.default.lowerFirst(key_string));
 
 			// process the value
 			if (s == 'false' || s == 'true' || typeof s == 'string' && s.substr(0, 1) == '[' || !isNaN(s)) {
@@ -32070,21 +31638,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-		SugarElement.prototype.settings = function settings() {
-			var _this = this;
+		SElement.prototype.settings = function settings() {
+			var _this2 = this;
 
 			var settings = this._settings;
 			// loop on all attributes
 			[].forEach.call(this.elm.attributes, function (attr) {
-				var data_name = 'data-' + _this.name_dash;
+				var data_name = 'data-' + _this2.name_dash;
 				if (attr.name.indexOf(data_name) != -1) {
 					var n = attr.name.substr(data_name.length);
 					// if (n.substr(0,1) == '-') {
 					// 	n = n.substr(1);
 					// }
 					if (n) {
-						n = (0, _sugarTools.camelize)(n);
-						settings[n] = _this.setting(n);
+						n = camelize(n);
+						settings[n] = _this2.setting(n);
 					}
 				}
 			});
@@ -32096,11 +31664,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-		SugarElement.prototype.dataset = function dataset(key) {
+		SElement.prototype.dataset = function dataset(key) {
 			var value = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
 			var elm = arguments.length <= 2 || arguments[2] === undefined ? this.elm : arguments[2];
 
-			return _sugarDom2.default.dataset(elm, key, value);
+			return _sDom2.default.dataset(elm, key, value);
 		};
 
 		/**
@@ -32108,37 +31676,76 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-		SugarElement.prototype.hasClass = function hasClass(cls) {
+		SElement.prototype.hasClass = function hasClass(cls) {
 			var elm = arguments.length <= 1 || arguments[1] === undefined ? this.elm : arguments[1];
 
-			return _sugarDom2.default.hasClass(elm, cls);
+			return _sDom2.default.hasClass(elm, cls);
 		};
 
-		SugarElement.prototype.addClass = function addClass(cls) {
+		SElement.prototype.addClass = function addClass(cls) {
 			var elm = arguments.length <= 1 || arguments[1] === undefined ? this.elm : arguments[1];
 
-			return _sugarDom2.default.addClass(elm, cls);
+			return _sDom2.default.addClass(elm, cls);
 		};
 
-		SugarElement.prototype.removeClass = function removeClass(cls) {
+		SElement.prototype.removeClass = function removeClass(cls) {
 			var elm = arguments.length <= 1 || arguments[1] === undefined ? this.elm : arguments[1];
 
-			return _sugarDom2.default.removeClass(elm, cls);
+			return _sDom2.default.removeClass(elm, cls);
 		};
 
-		return SugarElement;
+		return SElement;
 	}();
 
-	exports.default = SugarElement;
+	exports.default = SElement;
 
 /***/ },
 /* 7 */
 /***/ function(module, exports) {
 
+	'use strict';
+
+	exports.__esModule = true;
+	var uniqidIdx = 0;
+	var sTools = {
+		/**
+	  * Get a uniq id
+	  */
+		uniqid: function uniqid() {
+			// update uniqid idx
+			uniqidIdx++;
+			var ts = String(new Date().getTime()),
+			    i = 0,
+			    out = '';
+			for (i = 0; i < ts.length; i += 2) {
+				out += Number(ts.substr(i, 2)).toString(36);
+			}
+			return 'd' + out + uniqidIdx * Math.round(Math.random() * 9999999);
+		}
+	};
+	exports.default = sTools;
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
 	"use strict";
 
-	var uniqidIdx = 0;
-	module.exports = {
+	exports.__esModule = true;
+	exports.default = {
+		/**
+	  * Lower first letter
+	  */
+		lowerFirst: function lowerFirst(string) {
+			return string.charAt(0).toLowerCase() + string.slice(1);
+		},
+
+		/**
+	  * Upper first
+	  */
+		upperFirst: function upperFirst(string) {
+			return string.charAt(0).toUpperCase() + string.slice(1);
+		},
 
 		/**
 	  * Uncamelize a string
@@ -32163,72 +31770,52 @@ return /******/ (function(modules) { // webpackBootstrap
 				return c ? c.toUpperCase() : '';
 			});
 			return text.substr(0, 1).toLowerCase() + text.slice(1);
-		},
-
-		/**
-	  * Get a uniq id
-	  */
-		uniqid: function uniqid() {
-			// update uniqid idx
-			uniqidIdx++;
-			var ts = String(new Date().getTime()),
-			    i = 0,
-			    out = '';
-			for (i = 0; i < ts.length; i += 2) {
-				out += Number(ts.substr(i, 2)).toString(36);
-			}
-			return 'd' + out + uniqidIdx * Math.round(Math.random() * 9999999);
 		}
 	};
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _sugarTools = __webpack_require__(7);
+	var _sTools = __webpack_require__(7);
 
-	var sugarTools = _interopRequireWildcard(_sugarTools);
+	var _sTools2 = _interopRequireDefault(_sTools);
 
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	var _sString = __webpack_require__(8);
 
-	__webpack_require__(9);
-	__webpack_require__(10);
-	// let MutationSummary = require('mutation-summary');
-	var _get = __webpack_require__(11);
+	var _sString2 = _interopRequireDefault(_sString);
+
+	var _promisePolyfill = __webpack_require__(10);
+
+	var _promisePolyfill2 = _interopRequireDefault(_promisePolyfill);
+
+	__webpack_require__(13);
+
+	__webpack_require__(14);
+
+	__webpack_require__(15);
+
+	__webpack_require__(16);
+
+	__webpack_require__(17);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	if (!window.Promise) {
+		window.Promise = _promisePolyfill2.default;
+		// window.Promise._setUnhandledRejectionFn(function(rejectError) {});
+	}
+	// import 'core-js/fn/promise'
+
 	var _insertAnimationListener = false;
 	var _insertMutationObserver = null;
 	var _insertDomElementsCallbacks = {};
 
-	(function (doc, proto) {
-		try {
-			// check if browser supports :scope natively
-			doc.querySelector(':scope body');
-		} catch (err) {
-			// polyfill native methods if it doesn't
-			['querySelector', 'querySelectorAll'].forEach(function (method) {
-				var nativ = proto[method];
-				proto[method] = function (selectors) {
-					if (/(^|,)\s*:scope/.test(selectors)) {
-						// only if selectors contains :scope
-						var id = this.id; // remember current element id
-						this.id = 'ID_' + Date.now(); // assign new unique id
-						selectors = selectors.replace(/((^|,)\s*):scope/g, '$1#' + this.id); // replace :scope with #ID
-						var result = doc[method](selectors);
-						this.id = id; // restore previous id
-						return result;
-					} else {
-						return nativ.call(this, selectors); // use native code for other selectors
-					}
-				};
-			});
-		}
-	})(window.document, Element.prototype);
-
-	var sugarDom = {
+	var sDom = {
 
 		/**
 	  * Polyfill for the matches js method
@@ -32245,6 +31832,112 @@ return /******/ (function(modules) { // webpackBootstrap
 		},
 
 		/**
+	  * Detect if is in viewport
+	  */
+		inViewport: function inViewport(elm) {
+			var offset = arguments.length <= 1 || arguments[1] === undefined ? { top: 0, right: 0, bottom: 0, left: 0 } : arguments[1];
+
+			var rect = elm.getBoundingClientRect();
+			return rect.top + offset.top >= 0 && rect.left + offset.left >= 0 && rect.bottom - offset.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
+			rect.right - offset.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
+			;
+		},
+
+		/** 
+	  * Check if element is really visible
+	  */
+		isTrullyVisible: function isTrullyVisible(elm) {
+			return elm.isTrullyVisible();
+		},
+
+		/**
+	  * Check if is visible
+	  */
+		isVisible: function isVisible(elm) {
+			// get style
+			var style = document.defaultView.getComputedStyle(elm, null),
+			    opacity = style['opacity'],
+			    visibility = style['visibility'],
+			    display = style['display'];
+			return '0' !== opacity && 'none' !== display && 'hidden' !== visibility;
+		},
+
+		/**
+	  * [closestNotVisible description]
+	  * @param  {[type]} elm [description]
+	  * @return {[type]}     [description]
+	  */
+		closestNotVisible: function closestNotVisible(elm) {
+			elm = elm.parentNode;
+			while (elm && elm != document) {
+				if (!sDom.isVisible(elm)) {
+					return elm;
+				}
+				elm = elm.parentNode;
+			}
+			return false;
+		},
+
+		/**
+	  * Register a callback to be launched when the element is visible
+	  * @param  {element}   elm The element to observe
+	  * @param  {Function} cb  The callback to launch
+	  * @return {[type]}       [description]
+	  */
+		whenVisible: function whenVisible(elm) {
+			var cb = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+
+			return new Promise(function (resolve, reject) {
+				var inViewport = false,
+				    isVisible = false,
+				    _cb = function _cb() {
+					if (inViewport && isVisible) {
+						document.removeEventListener('scroll', checkViewport);
+						window.removeEventListener('resize', checkViewport);
+						if (cb) cb();
+						resolve();
+					}
+				};
+				var checkViewport = function checkViewport(e) {
+					inViewport = sDom.inViewport(elm, { top: 50, right: 50, bottom: 50, left: 50 });
+					_cb();
+				};
+
+				// get the closest not visible element
+				// if found, we monitor it to check when it is visible
+				var closestNotVisible = sDom.closestNotVisible(elm);
+				if (closestNotVisible) {
+					(function () {
+						var observer = new MutationObserver(function (mutations) {
+							mutations.forEach(function (mutation) {
+								// check that is the style whos changed
+								if (mutation.attributeName === 'style' || mutation.attributeName === 'class') {
+									// check if is visible
+									if (sDom.isVisible(mutation.target)) {
+										isVisible = true;
+										checkViewport();
+										// stop observe
+										observer.disconnect();
+									}
+								}
+							});
+						});
+						observer.observe(closestNotVisible, { attributes: true });
+					})();
+				} else {
+					isVisible = true;
+				}
+
+				// listen for resize
+				document.addEventListener('scroll', checkViewport);
+				window.addEventListener('resize', checkViewport);
+				setTimeout(function () {
+					checkViewport(null);
+				});
+			});
+		},
+
+		/**
 	  * Make a selector detectable when new element are pushed in the page
 	  */
 		querySelectorLive: function querySelectorLive(selector, cb, rootNode) {
@@ -32255,7 +31948,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// use the animation hack to detect
 			// new items in the page
-			var detection_id = 's-query-selector-live-' + sugarTools.uniqid();
+			var detection_id = 's-query-selector-live-' + _sTools2.default.uniqid();
 
 			// add the callback in stack
 			_insertDomElementsCallbacks[detection_id] = {
@@ -32294,7 +31987,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			};
 
 			// make a query on existing elements
-			sugarDom.domReady(function () {
+			sDom.domReady(function () {
 
 				// rootNode
 				if (!rootNode) {
@@ -32323,7 +32016,7 @@ return /******/ (function(modules) { // webpackBootstrap
 									[].forEach.call(mutation.addedNodes, function (node) {
 										// loop on each callbacks to find a match
 										for (var insert_id in _insertDomElementsCallbacks) {
-											if (sugarDom.matches(node, _insertDomElementsCallbacks[insert_id].selector)) {
+											if (sDom.matches(node, _insertDomElementsCallbacks[insert_id].selector)) {
 												if (_insertDomElementsCallbacks[insert_id].groupedNodes) {
 													_insertDomElementsCallbacks[insert_id].nodes.push(node);
 													// _groupedNodes.push(node);
@@ -32347,7 +32040,7 @@ return /******/ (function(modules) { // webpackBootstrap
 										if (node.nodeName != '#text') {
 											for (var insert_id in _insertDomElementsCallbacks) {
 												if (node._s_query_selector_live_id == insert_id) {
-													// if (sugarDom.matches(node, _insertDomElementsCallbacks[insert_id].selector)) {
+													// if (sDom.matches(node, _insertDomElementsCallbacks[insert_id].selector)) {
 													if (_insertDomElementsCallbacks[insert_id].groupedNodes) {
 														_insertDomElementsCallbacks[insert_id].nodes.push(node);
 														// _groupedNodes.push(node);
@@ -32407,27 +32100,23 @@ return /******/ (function(modules) { // webpackBootstrap
 		/**
 	  * Dom ready
 	  */
-		domReady: function domReady(cb) {
-			// if ( ! document.body) {
-			// 	setTimeout(sugarDom.domReady,9,cb);
-			// } else {
-			// 	cb();
-			// }
+		domReady: function domReady() {
+			var cb = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
 
-			if (!cb) return;
-			!document.body || /(un|ing)/.test(document.readyState) ? setTimeout(function () {
-				sugarDom.domReady(cb);
-			}, 9) : cb();
-
-			// if (document.readyState == 'interactive') {
-			// // 	console.log('ready!!!');
-			// // 	console.log(document.body);
-			// 	cb();
-			// } else {
-			// 	document.addEventListener('DOMContentLoaded', (e) => {
-			// 		cb();
-			// 	});
-			// }	
+			// return new Promise((resolve, reject) => {
+			var _domReady = function _domReady() {
+				if (!document.body || /(un|ing)/.test(document.readyState)) {
+					setTimeout(function () {
+						_domReady();
+					}, 9);
+				} else {
+					console.log('loaded');
+					if (cb) cb();
+					// resolve();
+				}
+			};
+			_domReady();
+			// });
 		},
 
 		/**
@@ -32439,23 +32128,25 @@ return /******/ (function(modules) { // webpackBootstrap
 			if (!elm.getAttribute) return;
 			if (!value) {
 				// try to get
-				var v = _get(elm, 'dataset.' + key);
+				var v = elm.dataset[key];
+				// let v = _get(elm, 'dataset.'+key);
 				if (v) return v;
-				v = elm.getAttribute('data-' + sugarTools.uncamelize(key));
+				v = elm.getAttribute('data-' + _sString2.default.uncamelize(key));
 				return v;
 			} else {
 				// try to set the value
-				if (_get(elm, 'dataset')) {
-					if (_get(elm, 'dataset.' + key)) {
+				var dataset = elm.dataset;
+				if (dataset) {
+					if (elm.dataset[key]) {
 						elm.dataset[key] = value;
 					} else {
 						// set the data through setAttribute
-						elm.setAttribute('data-' + sugarTools.uncamelize(key), value);
+						elm.setAttribute('data-' + _sString2.default.uncamelize(key), value);
 					}
 				} else {
 					// set the data through setAttribute
 					// cause no support for dataset
-					elm.setAttribute('data-' + sugarTools.uncamelize(key), value);
+					elm.setAttribute('data-' + _sString2.default.uncamelize(key), value);
 				}
 			}
 		},
@@ -32510,8 +32201,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			    transY = void 0;
 			box = elm.getBoundingClientRect();
 			// box = {
-			// 	top : sugarDom.offsetTop(elm),
-			// 	left : sugarDom.offsetLeft(elm)
+			// 	top : sDom.offsetTop(elm),
+			// 	left : sDom.offsetLeft(elm)
 			// };
 			body = document.body;
 			docEl = document.documentElement;
@@ -32519,8 +32210,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
 			clientTop = docEl.clientTop || body.clientTop || 0;
 			clientLeft = docEl.clientLeft || body.clientLeft || 0;
-			transX = sugarDom.getTranslate(elm, 'x');
-			transY = sugarDom.getTranslate(elm, 'y');
+			transX = sDom.getTranslate(elm, 'x');
+			transY = sDom.getTranslate(elm, 'y');
 			top = box.top + scrollTop - clientTop + transY;
 			left = box.left + scrollLeft - clientLeft + transX;
 			return {
@@ -32568,7 +32259,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		closest: function closest(elm, selector) {
 			elm = elm.parentNode;
 			while (elm && elm != document) {
-				if (sugarDom.matches(elm, selector)) {
+				if (sDom.matches(elm, selector)) {
 					return elm;
 				}
 				elm = elm.parentNode;
@@ -32582,7 +32273,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		next: function next(elm, selector) {
 			elm = elm.nextSibling;
 			while (elm) {
-				if (sugarDom.matches(elm, selector)) {
+				if (sDom.matches(elm, selector)) {
 					return elm;
 				}
 				elm = elm.nextSibling;
@@ -32596,7 +32287,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		previous: function previous(elm, selector) {
 			elm = elm.previousSibling;
 			while (elm) {
-				if (sugarDom.matches(elm, selector)) {
+				if (sDom.matches(elm, selector)) {
 					return elm;
 				}
 				elm = elm.previousSibling;
@@ -32611,23 +32302,439 @@ return /******/ (function(modules) { // webpackBootstrap
 			return elm.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
 		},
 		addClass: function addClass(elm, cls) {
-			if (!sugarDom.hasClass(elm, cls)) {
+			if (!sDom.hasClass(elm, cls)) {
 				return elm.className += ' ' + cls;
 			}
 		},
 		removeClass: function removeClass(elm, cls) {
 			var reg = void 0;
-			if (sugarDom.hasClass(elm, cls)) {
+			if (sDom.hasClass(elm, cls)) {
 				reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
 				return elm.className = elm.className.replace(reg, ' ');
 			}
 		}
 	};
 
-	exports.default = sugarDom;
+	exports.default = sDom;
 
 /***/ },
-/* 9 */
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(setImmediate) {(function (root) {
+
+	  // Store setTimeout reference so promise-polyfill will be unaffected by
+	  // other code modifying setTimeout (like sinon.useFakeTimers())
+	  var setTimeoutFunc = setTimeout;
+
+	  function noop() {
+	  }
+
+	  // Use polyfill for setImmediate for performance gains
+	  var asap = (typeof setImmediate === 'function' && setImmediate) ||
+	    function (fn) {
+	      setTimeoutFunc(fn, 1);
+	    };
+
+	  var onUnhandledRejection = function onUnhandledRejection(err) {
+	    console.warn('Possible Unhandled Promise Rejection:', err); // eslint-disable-line no-console
+	  };
+
+	  // Polyfill for Function.prototype.bind
+	  function bind(fn, thisArg) {
+	    return function () {
+	      fn.apply(thisArg, arguments);
+	    };
+	  }
+
+	  var isArray = Array.isArray || function (value) {
+	    return Object.prototype.toString.call(value) === '[object Array]';
+	  };
+
+	  function Promise(fn) {
+	    if (typeof this !== 'object') throw new TypeError('Promises must be constructed via new');
+	    if (typeof fn !== 'function') throw new TypeError('not a function');
+	    this._state = 0;
+	    this._handled = false;
+	    this._value = undefined;
+	    this._deferreds = [];
+
+	    doResolve(fn, this);
+	  }
+
+	  function handle(self, deferred) {
+	    while (self._state === 3) {
+	      self = self._value;
+	    }
+	    if (self._state === 0) {
+	      self._deferreds.push(deferred);
+	      return;
+	    }
+	    self._handled = true;
+	    asap(function () {
+	      var cb = self._state === 1 ? deferred.onFulfilled : deferred.onRejected;
+	      if (cb === null) {
+	        (self._state === 1 ? resolve : reject)(deferred.promise, self._value);
+	        return;
+	      }
+	      var ret;
+	      try {
+	        ret = cb(self._value);
+	      } catch (e) {
+	        reject(deferred.promise, e);
+	        return;
+	      }
+	      resolve(deferred.promise, ret);
+	    });
+	  }
+
+	  function resolve(self, newValue) {
+	    try {
+	      // Promise Resolution Procedure: https://github.com/promises-aplus/promises-spec#the-promise-resolution-procedure
+	      if (newValue === self) throw new TypeError('A promise cannot be resolved with itself.');
+	      if (newValue && (typeof newValue === 'object' || typeof newValue === 'function')) {
+	        var then = newValue.then;
+	        if (newValue instanceof Promise) {
+	          self._state = 3;
+	          self._value = newValue;
+	          finale(self);
+	          return;
+	        } else if (typeof then === 'function') {
+	          doResolve(bind(then, newValue), self);
+	          return;
+	        }
+	      }
+	      self._state = 1;
+	      self._value = newValue;
+	      finale(self);
+	    } catch (e) {
+	      reject(self, e);
+	    }
+	  }
+
+	  function reject(self, newValue) {
+	    self._state = 2;
+	    self._value = newValue;
+	    finale(self);
+	  }
+
+	  function finale(self) {
+	    if (self._state === 2 && self._deferreds.length === 0) {
+	      setTimeout(function() {
+	        if (!self._handled) {
+	          onUnhandledRejection(self._value);
+	        }
+	      }, 1);
+	    }
+	    
+	    for (var i = 0, len = self._deferreds.length; i < len; i++) {
+	      handle(self, self._deferreds[i]);
+	    }
+	    self._deferreds = null;
+	  }
+
+	  function Handler(onFulfilled, onRejected, promise) {
+	    this.onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : null;
+	    this.onRejected = typeof onRejected === 'function' ? onRejected : null;
+	    this.promise = promise;
+	  }
+
+	  /**
+	   * Take a potentially misbehaving resolver function and make sure
+	   * onFulfilled and onRejected are only called once.
+	   *
+	   * Makes no guarantees about asynchrony.
+	   */
+	  function doResolve(fn, self) {
+	    var done = false;
+	    try {
+	      fn(function (value) {
+	        if (done) return;
+	        done = true;
+	        resolve(self, value);
+	      }, function (reason) {
+	        if (done) return;
+	        done = true;
+	        reject(self, reason);
+	      });
+	    } catch (ex) {
+	      if (done) return;
+	      done = true;
+	      reject(self, ex);
+	    }
+	  }
+
+	  Promise.prototype['catch'] = function (onRejected) {
+	    return this.then(null, onRejected);
+	  };
+
+	  Promise.prototype.then = function (onFulfilled, onRejected) {
+	    var prom = new Promise(noop);
+	    handle(this, new Handler(onFulfilled, onRejected, prom));
+	    return prom;
+	  };
+
+	  Promise.all = function () {
+	    var args = Array.prototype.slice.call(arguments.length === 1 && isArray(arguments[0]) ? arguments[0] : arguments);
+
+	    return new Promise(function (resolve, reject) {
+	      if (args.length === 0) return resolve([]);
+	      var remaining = args.length;
+
+	      function res(i, val) {
+	        try {
+	          if (val && (typeof val === 'object' || typeof val === 'function')) {
+	            var then = val.then;
+	            if (typeof then === 'function') {
+	              then.call(val, function (val) {
+	                res(i, val);
+	              }, reject);
+	              return;
+	            }
+	          }
+	          args[i] = val;
+	          if (--remaining === 0) {
+	            resolve(args);
+	          }
+	        } catch (ex) {
+	          reject(ex);
+	        }
+	      }
+
+	      for (var i = 0; i < args.length; i++) {
+	        res(i, args[i]);
+	      }
+	    });
+	  };
+
+	  Promise.resolve = function (value) {
+	    if (value && typeof value === 'object' && value.constructor === Promise) {
+	      return value;
+	    }
+
+	    return new Promise(function (resolve) {
+	      resolve(value);
+	    });
+	  };
+
+	  Promise.reject = function (value) {
+	    return new Promise(function (resolve, reject) {
+	      reject(value);
+	    });
+	  };
+
+	  Promise.race = function (values) {
+	    return new Promise(function (resolve, reject) {
+	      for (var i = 0, len = values.length; i < len; i++) {
+	        values[i].then(resolve, reject);
+	      }
+	    });
+	  };
+
+	  /**
+	   * Set the immediate function to execute callbacks
+	   * @param fn {function} Function to execute
+	   * @private
+	   */
+	  Promise._setImmediateFn = function _setImmediateFn(fn) {
+	    asap = fn;
+	  };
+	  
+	  Promise._setUnhandledRejectionFn = function _setUnhandledRejectionFn(fn) {
+	    onUnhandledRejection = fn;
+	  };
+
+	  if (typeof module !== 'undefined' && module.exports) {
+	    module.exports = Promise;
+	  } else if (!root.Promise) {
+	    root.Promise = Promise;
+	  }
+
+	})(this);
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11).setImmediate))
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(12).nextTick;
+	var apply = Function.prototype.apply;
+	var slice = Array.prototype.slice;
+	var immediateIds = {};
+	var nextImmediateId = 0;
+
+	// DOM APIs, for completeness
+
+	exports.setTimeout = function() {
+	  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
+	};
+	exports.setInterval = function() {
+	  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
+	};
+	exports.clearTimeout =
+	exports.clearInterval = function(timeout) { timeout.close(); };
+
+	function Timeout(id, clearFn) {
+	  this._id = id;
+	  this._clearFn = clearFn;
+	}
+	Timeout.prototype.unref = Timeout.prototype.ref = function() {};
+	Timeout.prototype.close = function() {
+	  this._clearFn.call(window, this._id);
+	};
+
+	// Does not start the time, just sets up the members needed.
+	exports.enroll = function(item, msecs) {
+	  clearTimeout(item._idleTimeoutId);
+	  item._idleTimeout = msecs;
+	};
+
+	exports.unenroll = function(item) {
+	  clearTimeout(item._idleTimeoutId);
+	  item._idleTimeout = -1;
+	};
+
+	exports._unrefActive = exports.active = function(item) {
+	  clearTimeout(item._idleTimeoutId);
+
+	  var msecs = item._idleTimeout;
+	  if (msecs >= 0) {
+	    item._idleTimeoutId = setTimeout(function onTimeout() {
+	      if (item._onTimeout)
+	        item._onTimeout();
+	    }, msecs);
+	  }
+	};
+
+	// That's not how node.js implements it but the exposed api is the same.
+	exports.setImmediate = typeof setImmediate === "function" ? setImmediate : function(fn) {
+	  var id = nextImmediateId++;
+	  var args = arguments.length < 2 ? false : slice.call(arguments, 1);
+
+	  immediateIds[id] = true;
+
+	  nextTick(function onNextTick() {
+	    if (immediateIds[id]) {
+	      // fn.call() is faster so we optimize for the common use-case
+	      // @see http://jsperf.com/call-apply-segu
+	      if (args) {
+	        fn.apply(null, args);
+	      } else {
+	        fn.call(null);
+	      }
+	      // Prevent ids from leaking
+	      exports.clearImmediate(id);
+	    }
+	  });
+
+	  return id;
+	};
+
+	exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
+	  delete immediateIds[id];
+	};
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11).setImmediate, __webpack_require__(11).clearImmediate))
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+	// shim for using process in browser
+
+	var process = module.exports = {};
+	var queue = [];
+	var draining = false;
+	var currentQueue;
+	var queueIndex = -1;
+
+	function cleanUpNextTick() {
+	    draining = false;
+	    if (currentQueue.length) {
+	        queue = currentQueue.concat(queue);
+	    } else {
+	        queueIndex = -1;
+	    }
+	    if (queue.length) {
+	        drainQueue();
+	    }
+	}
+
+	function drainQueue() {
+	    if (draining) {
+	        return;
+	    }
+	    var timeout = setTimeout(cleanUpNextTick);
+	    draining = true;
+
+	    var len = queue.length;
+	    while(len) {
+	        currentQueue = queue;
+	        queue = [];
+	        while (++queueIndex < len) {
+	            if (currentQueue) {
+	                currentQueue[queueIndex].run();
+	            }
+	        }
+	        queueIndex = -1;
+	        len = queue.length;
+	    }
+	    currentQueue = null;
+	    draining = false;
+	    clearTimeout(timeout);
+	}
+
+	process.nextTick = function (fun) {
+	    var args = new Array(arguments.length - 1);
+	    if (arguments.length > 1) {
+	        for (var i = 1; i < arguments.length; i++) {
+	            args[i - 1] = arguments[i];
+	        }
+	    }
+	    queue.push(new Item(fun, args));
+	    if (queue.length === 1 && !draining) {
+	        setTimeout(drainQueue, 0);
+	    }
+	};
+
+	// v8 likes predictible objects
+	function Item(fun, array) {
+	    this.fun = fun;
+	    this.array = array;
+	}
+	Item.prototype.run = function () {
+	    this.fun.apply(null, this.array);
+	};
+	process.title = 'browser';
+	process.browser = true;
+	process.env = {};
+	process.argv = [];
+	process.version = ''; // empty string to avoid regexp issues
+	process.versions = {};
+
+	function noop() {}
+
+	process.on = noop;
+	process.addListener = noop;
+	process.once = noop;
+	process.off = noop;
+	process.removeListener = noop;
+	process.removeAllListeners = noop;
+	process.emit = noop;
+
+	process.binding = function (name) {
+	    throw new Error('process.binding is not supported');
+	};
+
+	process.cwd = function () { return '/' };
+	process.chdir = function (dir) {
+	    throw new Error('process.chdir is not supported');
+	};
+	process.umask = function() { return 0; };
+
+
+/***/ },
+/* 13 */
 /***/ function(module, exports) {
 
 	// mutationobserver-shim v0.3.1 (github.com/megawac/MutationObserver.js)
@@ -32642,7 +32749,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 10 */
+/* 14 */
 /***/ function(module, exports) {
 
 	/*
@@ -32888,1647 +32995,1163 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 11 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var baseGet = __webpack_require__(12);
-
-	/**
-	 * Gets the value at `path` of `object`. If the resolved value is
-	 * `undefined` the `defaultValue` is used in its place.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category Object
-	 * @param {Object} object The object to query.
-	 * @param {Array|string} path The path of the property to get.
-	 * @param {*} [defaultValue] The value returned if the resolved value is `undefined`.
-	 * @returns {*} Returns the resolved value.
-	 * @example
-	 *
-	 * var object = { 'a': [{ 'b': { 'c': 3 } }] };
-	 *
-	 * _.get(object, 'a[0].b.c');
-	 * // => 3
-	 *
-	 * _.get(object, ['a', '0', 'b', 'c']);
-	 * // => 3
-	 *
-	 * _.get(object, 'a.b.c', 'default');
-	 * // => 'default'
-	 */
-	function get(object, path, defaultValue) {
-	  var result = object == null ? undefined : baseGet(object, path);
-	  return result === undefined ? defaultValue : result;
-	}
-
-	module.exports = get;
-
-
-/***/ },
-/* 12 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var baseCastPath = __webpack_require__(13),
-	    isKey = __webpack_require__(23);
-
-	/**
-	 * The base implementation of `_.get` without support for default values.
-	 *
-	 * @private
-	 * @param {Object} object The object to query.
-	 * @param {Array|string} path The path of the property to get.
-	 * @returns {*} Returns the resolved value.
-	 */
-	function baseGet(object, path) {
-	  path = isKey(path, object) ? [path + ''] : baseCastPath(path);
-
-	  var index = 0,
-	      length = path.length;
-
-	  while (object != null && index < length) {
-	    object = object[path[index++]];
-	  }
-	  return (index && index == length) ? object : undefined;
-	}
-
-	module.exports = baseGet;
-
-
-/***/ },
-/* 13 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var isArray = __webpack_require__(14),
-	    stringToPath = __webpack_require__(15);
-
-	/**
-	 * Casts `value` to a path array if it's not one.
-	 *
-	 * @private
-	 * @param {*} value The value to inspect.
-	 * @returns {Array} Returns the cast property path array.
-	 */
-	function baseCastPath(value) {
-	  return isArray(value) ? value : stringToPath(value);
-	}
-
-	module.exports = baseCastPath;
-
-
-/***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports) {
 
-	/**
-	 * Checks if `value` is classified as an `Array` object.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @type {Function}
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
-	 * @example
-	 *
-	 * _.isArray([1, 2, 3]);
-	 * // => true
-	 *
-	 * _.isArray(document.body.children);
-	 * // => false
-	 *
-	 * _.isArray('abc');
-	 * // => false
-	 *
-	 * _.isArray(_.noop);
-	 * // => false
-	 */
-	var isArray = Array.isArray;
+	'use strict';
 
-	module.exports = isArray;
+	function elementDatasetPolyfill() {
+		if (!document.documentElement.dataset && (!Object.getOwnPropertyDescriptor(Element.prototype, 'dataset') || !Object.getOwnPropertyDescriptor(Element.prototype, 'dataset').get)) {
+			var descriptor = {};
 
+			descriptor.enumerable = true;
 
-/***/ },
-/* 15 */
-/***/ function(module, exports, __webpack_require__) {
+			descriptor.get = function () {
+				var element = this;
+				var map = {};
+				var attributes = this.attributes;
 
-	var toString = __webpack_require__(16);
+				function toUpperCase(n0) {
+					return n0.charAt(1).toUpperCase();
+				}
 
-	/** Used to match property names within property paths. */
-	var rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]/g;
+				function getter() {
+					return this.value;
+				}
 
-	/** Used to match backslashes in property paths. */
-	var reEscapeChar = /\\(\\)?/g;
+				function setter(name, value) {
+					if (typeof value !== 'undefined') {
+						this.setAttribute(name, value);
+					} else {
+						this.removeAttribute(name);
+					}
+				}
 
-	/**
-	 * Converts `string` to a property path array.
-	 *
-	 * @private
-	 * @param {string} string The string to convert.
-	 * @returns {Array} Returns the property path array.
-	 */
-	function stringToPath(string) {
-	  var result = [];
-	  toString(string).replace(rePropName, function(match, number, quote, string) {
-	    result.push(quote ? string.replace(reEscapeChar, '$1') : (number || match));
-	  });
-	  return result;
+				for (var i = 0; i < attributes.length; i++) {
+					var attribute = attributes[i];
+
+					// This test really should allow any XML Name without
+					// colons (and non-uppercase for XHTML)
+
+					if (attribute && attribute.name && /^data-\w[\w\-]*$/.test(attribute.name)) {
+						var name = attribute.name;
+						var value = attribute.value;
+
+						// Change to CamelCase
+
+						var propName = name.substr(5).replace(/-./g, toUpperCase);
+
+						Object.defineProperty(map, propName, {
+							enumerable: this.enumerable,
+							get: getter.bind({ value: value || '' }),
+							set: setter.bind(element, name)
+						});
+					}
+				}
+				return map;
+			};
+
+			Object.defineProperty(Element.prototype, 'dataset', descriptor);
+		}
 	}
 
-	module.exports = stringToPath;
-
+	module.exports = elementDatasetPolyfill;
 
 /***/ },
 /* 16 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	var Symbol = __webpack_require__(17),
-	    isSymbol = __webpack_require__(21);
+	'use strict';
 
-	/** Used as references for various `Number` constants. */
-	var INFINITY = 1 / 0;
-
-	/** Used to convert symbols to primitives and strings. */
-	var symbolProto = Symbol ? Symbol.prototype : undefined,
-	    symbolToString = Symbol ? symbolProto.toString : undefined;
-
-	/**
-	 * Converts `value` to a string if it's not one. An empty string is returned
-	 * for `null` and `undefined` values. The sign of `-0` is preserved.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category Lang
-	 * @param {*} value The value to process.
-	 * @returns {string} Returns the string.
-	 * @example
-	 *
-	 * _.toString(null);
-	 * // => ''
-	 *
-	 * _.toString(-0);
-	 * // => '-0'
-	 *
-	 * _.toString([1, 2, 3]);
-	 * // => '1,2,3'
-	 */
-	function toString(value) {
-	  // Exit early for strings to avoid a performance hit in some environments.
-	  if (typeof value == 'string') {
-	    return value;
+	(function (doc, proto) {
+	  try {
+	    // check if browser supports :scope natively
+	    doc.querySelector(':scope body');
+	  } catch (err) {
+	    // polyfill native methods if it doesn't
+	    ['querySelector', 'querySelectorAll'].forEach(function (method) {
+	      var nativ = proto[method];
+	      proto[method] = function (selectors) {
+	        if (/(^|,)\s*:scope/.test(selectors)) {
+	          // only if selectors contains :scope
+	          var id = this.id; // remember current element id
+	          this.id = 'ID_' + Date.now(); // assign new unique id
+	          selectors = selectors.replace(/((^|,)\s*):scope/g, '$1#' + this.id); // replace :scope with #ID
+	          var result = doc[method](selectors);
+	          this.id = id; // restore previous id
+	          return result;
+	        } else {
+	          return nativ.call(this, selectors); // use native code for other selectors
+	        }
+	      };
+	    });
 	  }
-	  if (value == null) {
-	    return '';
-	  }
-	  if (isSymbol(value)) {
-	    return Symbol ? symbolToString.call(value) : '';
-	  }
-	  var result = (value + '');
-	  return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
-	}
-
-	module.exports = toString;
-
+	})(window.document, Element.prototype);
 
 /***/ },
 /* 17 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	var root = __webpack_require__(18);
+	'use strict';
 
-	/** Built-in value references. */
-	var Symbol = root.Symbol;
+	/**
+	 * Author: Jason Farrell
+	 * Author URI: http://useallfive.com/
+	 *
+	 * Description: Checks if a DOM element is truly visible.
+	 * Package URL: https://github.com/UseAllFive/true-visibility
+	 */
+	Element.prototype.isTrullyVisible = function () {
 
-	module.exports = Symbol;
+	    'use strict';
 
+	    /**
+	     * Checks if a DOM element is visible. Takes into
+	     * consideration its parents and overflow.
+	     *
+	     * @param (el)      the DOM element to check if is visible
+	     *
+	     * These params are optional that are sent in recursively,
+	     * you typically won't use these:
+	     *
+	     * @param (t)       Top corner position number
+	     * @param (r)       Right corner position number
+	     * @param (b)       Bottom corner position number
+	     * @param (l)       Left corner position number
+	     * @param (w)       Element width number
+	     * @param (h)       Element height number
+	     */
+
+	    function _isVisible(el, t, r, b, l, w, h) {
+	        var p = el.parentNode,
+	            VISIBLE_PADDING = 2;
+
+	        if (!_elementInDocument(el)) {
+	            return false;
+	        }
+
+	        //-- Return true for document node
+	        if (9 === p.nodeType) {
+	            return true;
+	        }
+
+	        //-- Return false if our element is invisible
+	        if ('0' === _getStyle(el, 'opacity') || 'none' === _getStyle(el, 'display') || 'hidden' === _getStyle(el, 'visibility')) {
+	            return false;
+	        }
+
+	        if ('undefined' === typeof t || 'undefined' === typeof r || 'undefined' === typeof b || 'undefined' === typeof l || 'undefined' === typeof w || 'undefined' === typeof h) {
+	            t = el.offsetTop;
+	            l = el.offsetLeft;
+	            b = t + el.offsetHeight;
+	            r = l + el.offsetWidth;
+	            w = el.offsetWidth;
+	            h = el.offsetHeight;
+	        }
+	        //-- If we have a parent, let's continue:
+	        if (p) {
+	            //-- Check if the parent can hide its children.
+	            if ('hidden' === _getStyle(p, 'overflow') || 'scroll' === _getStyle(p, 'overflow')) {
+	                //-- Only check if the offset is different for the parent
+	                if (
+	                //-- If the target element is to the right of the parent elm
+	                l + VISIBLE_PADDING > p.offsetWidth + p.scrollLeft ||
+	                //-- If the target element is to the left of the parent elm
+	                l + w - VISIBLE_PADDING < p.scrollLeft ||
+	                //-- If the target element is under the parent elm
+	                t + VISIBLE_PADDING > p.offsetHeight + p.scrollTop ||
+	                //-- If the target element is above the parent elm
+	                t + h - VISIBLE_PADDING < p.scrollTop) {
+	                    //-- Our target element is out of bounds:
+	                    return false;
+	                }
+	            }
+	            //-- Add the offset parent's left/top coords to our element's offset:
+	            if (el.offsetParent === p) {
+	                l += p.offsetLeft;
+	                t += p.offsetTop;
+	            }
+	            //-- Let's recursively check upwards:
+	            return _isVisible(p, t, r, b, l, w, h);
+	        }
+	        return true;
+	    }
+
+	    //-- Cross browser method to get style properties:
+	    function _getStyle(el, property) {
+	        if (window.getComputedStyle) {
+	            return document.defaultView.getComputedStyle(el, null)[property];
+	        }
+	        if (el.currentStyle) {
+	            return el.currentStyle[property];
+	        }
+	    }
+
+	    function _elementInDocument(element) {
+	        while (element = element.parentNode) {
+	            if (element == document) {
+	                return true;
+	            }
+	        }
+	        return false;
+	    }
+
+	    return _isVisible(this);
+	};
 
 /***/ },
 /* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module, global) {var checkGlobal = __webpack_require__(20);
-
-	/** Used to determine if values are of the language type `Object`. */
-	var objectTypes = {
-	  'function': true,
-	  'object': true
-	};
-
-	/** Detect free variable `exports`. */
-	var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
-	  ? exports
-	  : undefined;
-
-	/** Detect free variable `module`. */
-	var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
-	  ? module
-	  : undefined;
-
-	/** Detect free variable `global` from Node.js. */
-	var freeGlobal = checkGlobal(freeExports && freeModule && typeof global == 'object' && global);
-
-	/** Detect free variable `self`. */
-	var freeSelf = checkGlobal(objectTypes[typeof self] && self);
-
-	/** Detect free variable `window`. */
-	var freeWindow = checkGlobal(objectTypes[typeof window] && window);
-
-	/** Detect `this` as the global object. */
-	var thisGlobal = checkGlobal(objectTypes[typeof this] && this);
-
-	/**
-	 * Used as a reference to the global object.
-	 *
-	 * The `this` value is used if it's the global object to avoid Greasemonkey's
-	 * restricted `window` object, otherwise the `window` object is used.
-	 */
-	var root = freeGlobal ||
-	  ((freeWindow !== (thisGlobal && thisGlobal.window)) && freeWindow) ||
-	    freeSelf || thisGlobal || Function('return this')();
-
-	module.exports = root;
-
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)(module), (function() { return this; }())))
-
-/***/ },
-/* 19 */
-/***/ function(module, exports) {
-
-	module.exports = function(module) {
-		if(!module.webpackPolyfill) {
-			module.deprecate = function() {};
-			module.paths = [];
-			// module.parent = undefined by default
-			module.children = [];
-			module.webpackPolyfill = 1;
-		}
-		return module;
-	}
-
-
-/***/ },
-/* 20 */
-/***/ function(module, exports) {
-
-	/**
-	 * Checks if `value` is a global object.
-	 *
-	 * @private
-	 * @param {*} value The value to check.
-	 * @returns {null|Object} Returns `value` if it's a global object, else `null`.
-	 */
-	function checkGlobal(value) {
-	  return (value && value.Object === Object) ? value : null;
-	}
-
-	module.exports = checkGlobal;
-
-
-/***/ },
-/* 21 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var isObjectLike = __webpack_require__(22);
-
-	/** `Object#toString` result references. */
-	var symbolTag = '[object Symbol]';
-
-	/** Used for built-in method references. */
-	var objectProto = Object.prototype;
-
-	/**
-	 * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
-	 * of values.
-	 */
-	var objectToString = objectProto.toString;
-
-	/**
-	 * Checks if `value` is classified as a `Symbol` primitive or object.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
-	 * @example
-	 *
-	 * _.isSymbol(Symbol.iterator);
-	 * // => true
-	 *
-	 * _.isSymbol('abc');
-	 * // => false
-	 */
-	function isSymbol(value) {
-	  return typeof value == 'symbol' ||
-	    (isObjectLike(value) && objectToString.call(value) == symbolTag);
-	}
-
-	module.exports = isSymbol;
-
-
-/***/ },
-/* 22 */
-/***/ function(module, exports) {
-
-	/**
-	 * Checks if `value` is object-like. A value is object-like if it's not `null`
-	 * and has a `typeof` result of "object".
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
-	 * @example
-	 *
-	 * _.isObjectLike({});
-	 * // => true
-	 *
-	 * _.isObjectLike([1, 2, 3]);
-	 * // => true
-	 *
-	 * _.isObjectLike(_.noop);
-	 * // => false
-	 *
-	 * _.isObjectLike(null);
-	 * // => false
-	 */
-	function isObjectLike(value) {
-	  return !!value && typeof value == 'object';
-	}
-
-	module.exports = isObjectLike;
-
-
-/***/ },
-/* 23 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var isArray = __webpack_require__(14);
-
-	/** Used to match property names within property paths. */
-	var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
-	    reIsPlainProp = /^\w*$/;
-
-	/**
-	 * Checks if `value` is a property name and not a property path.
-	 *
-	 * @private
-	 * @param {*} value The value to check.
-	 * @param {Object} [object] The object to query keys on.
-	 * @returns {boolean} Returns `true` if `value` is a property name, else `false`.
-	 */
-	function isKey(value, object) {
-	  if (typeof value == 'number') {
-	    return true;
-	  }
-	  return !isArray(value) &&
-	    (reIsPlainProp.test(value) || !reIsDeepProp.test(value) ||
-	      (object != null && value in Object(object)));
-	}
-
-	module.exports = isKey;
-
-
-/***/ },
-/* 24 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var createCaseFirst = __webpack_require__(25);
-
-	/**
-	 * Converts the first character of `string` to upper case.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category String
-	 * @param {string} [string=''] The string to convert.
-	 * @returns {string} Returns the converted string.
-	 * @example
-	 *
-	 * _.upperFirst('fred');
-	 * // => 'Fred'
-	 *
-	 * _.upperFirst('FRED');
-	 * // => 'FRED'
-	 */
-	var upperFirst = createCaseFirst('toUpperCase');
-
-	module.exports = upperFirst;
-
-
-/***/ },
-/* 25 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var stringToArray = __webpack_require__(26),
-	    toString = __webpack_require__(16);
-
-	/** Used to compose unicode character classes. */
-	var rsAstralRange = '\\ud800-\\udfff',
-	    rsComboMarksRange = '\\u0300-\\u036f\\ufe20-\\ufe23',
-	    rsComboSymbolsRange = '\\u20d0-\\u20f0',
-	    rsVarRange = '\\ufe0e\\ufe0f';
-
-	/** Used to compose unicode capture groups. */
-	var rsZWJ = '\\u200d';
-
-	/** Used to detect strings with [zero-width joiners or code points from the astral planes](http://eev.ee/blog/2015/09/12/dark-corners-of-unicode/). */
-	var reHasComplexSymbol = RegExp('[' + rsZWJ + rsAstralRange  + rsComboMarksRange + rsComboSymbolsRange + rsVarRange + ']');
-
-	/**
-	 * Creates a function like `_.lowerFirst`.
-	 *
-	 * @private
-	 * @param {string} methodName The name of the `String` case method to use.
-	 * @returns {Function} Returns the new function.
-	 */
-	function createCaseFirst(methodName) {
-	  return function(string) {
-	    string = toString(string);
-
-	    var strSymbols = reHasComplexSymbol.test(string)
-	      ? stringToArray(string)
-	      : undefined;
-
-	    var chr = strSymbols ? strSymbols[0] : string.charAt(0),
-	        trailing = strSymbols ? strSymbols.slice(1).join('') : string.slice(1);
-
-	    return chr[methodName]() + trailing;
-	  };
-	}
-
-	module.exports = createCaseFirst;
-
-
-/***/ },
-/* 26 */
-/***/ function(module, exports) {
-
-	/** Used to compose unicode character classes. */
-	var rsAstralRange = '\\ud800-\\udfff',
-	    rsComboMarksRange = '\\u0300-\\u036f\\ufe20-\\ufe23',
-	    rsComboSymbolsRange = '\\u20d0-\\u20f0',
-	    rsVarRange = '\\ufe0e\\ufe0f';
-
-	/** Used to compose unicode capture groups. */
-	var rsAstral = '[' + rsAstralRange + ']',
-	    rsCombo = '[' + rsComboMarksRange + rsComboSymbolsRange + ']',
-	    rsFitz = '\\ud83c[\\udffb-\\udfff]',
-	    rsModifier = '(?:' + rsCombo + '|' + rsFitz + ')',
-	    rsNonAstral = '[^' + rsAstralRange + ']',
-	    rsRegional = '(?:\\ud83c[\\udde6-\\uddff]){2}',
-	    rsSurrPair = '[\\ud800-\\udbff][\\udc00-\\udfff]',
-	    rsZWJ = '\\u200d';
-
-	/** Used to compose unicode regexes. */
-	var reOptMod = rsModifier + '?',
-	    rsOptVar = '[' + rsVarRange + ']?',
-	    rsOptJoin = '(?:' + rsZWJ + '(?:' + [rsNonAstral, rsRegional, rsSurrPair].join('|') + ')' + rsOptVar + reOptMod + ')*',
-	    rsSeq = rsOptVar + reOptMod + rsOptJoin,
-	    rsSymbol = '(?:' + [rsNonAstral + rsCombo + '?', rsCombo, rsRegional, rsSurrPair, rsAstral].join('|') + ')';
-
-	/** Used to match [string symbols](https://mathiasbynens.be/notes/javascript-unicode). */
-	var reComplexSymbol = RegExp(rsFitz + '(?=' + rsFitz + ')|' + rsSymbol + rsSeq, 'g');
-
-	/**
-	 * Converts `string` to an array.
-	 *
-	 * @private
-	 * @param {string} string The string to convert.
-	 * @returns {Array} Returns the converted array.
-	 */
-	function stringToArray(string) {
-	  return string.match(reComplexSymbol);
-	}
-
-	module.exports = stringToArray;
-
-
-/***/ },
-/* 27 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var createCaseFirst = __webpack_require__(25);
-
-	/**
-	 * Converts the first character of `string` to lower case.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category String
-	 * @param {string} [string=''] The string to convert.
-	 * @returns {string} Returns the converted string.
-	 * @example
-	 *
-	 * _.lowerFirst('Fred');
-	 * // => 'fred'
-	 *
-	 * _.lowerFirst('FRED');
-	 * // => 'fRED'
-	 */
-	var lowerFirst = createCaseFirst('toLowerCase');
-
-	module.exports = lowerFirst;
-
-
-/***/ },
-/* 28 */
-/***/ function(module, exports, __webpack_require__) {
-
 	'use strict';
 
-	var _sugarDom = __webpack_require__(8);
+	exports.__esModule = true;
 
-	var _sugarDom2 = _interopRequireDefault(_sugarDom);
+	var _sElement = __webpack_require__(6);
+
+	var _sElement2 = _interopRequireDefault(_sElement);
+
+	var _sDom = __webpack_require__(9);
+
+	var _sDom2 = _interopRequireDefault(_sDom);
+
+	var _sTools = __webpack_require__(7);
+
+	var _sTools2 = _interopRequireDefault(_sTools);
+
+	var _sEvent = __webpack_require__(19);
+
+	var _sEvent2 = _interopRequireDefault(_sEvent);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var _extend = __webpack_require__(29);
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
 
-	// prepare a settings object to store
-	// the getted settings from the css
-	// imports
-	var settings = {};
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	// wait the css to be loaded
-	_sugarDom2.default.domReady(function () {
-		var settingsElm = document.createElement('div');
-		settingsElm.classList.add('s-settings');
-		document.body.appendChild(settingsElm);
-		var _settings = window.getComputedStyle(document.querySelector('.s-settings'), ':after').getPropertyValue('content');
-		if (_settings) {
-			_settings = _settings.replace(/\\\'\\"/g, '"').replace(/\\"\\\'/g, '"');
-			_settings = _settings.replace(/\'\\"/g, '"').replace(/\\"\'/g, '"');
-			_settings = _settings.replace(/'"/g, '"').replace(/"'/g, '"');
-			_settings = _settings.slice(1, _settings.length - 1);
-			_settings = JSON.parse(_settings);
-			settings = _extend(settings, _settings);
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); } /*
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Sugar-activate.js
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author   Olivier Bossel <olivier.bossel@gmail.com>
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @created  20.01.16
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @updated  20.01.16
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @version  1.0.0
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+
+	// Select
+
+	var SSelectElement = function (_SElement) {
+		_inherits(SSelectElement, _SElement);
+
+		/**
+	  * Setup
+	  */
+
+		SSelectElement.setup = function setup(type, settings) {
+			_sElement2.default.setup('sSelect', type, settings);
+		};
+
+		/**
+	  * Constructor
+	  */
+
+
+		function SSelectElement(elm) {
+			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+			_classCallCheck(this, SSelectElement);
+
+			var _this2 = _possibleConstructorReturn(this, _SElement.call(this, 'sSelect', elm, {
+				initWhenVisible: true,
+				onOpen: null,
+				onClose: null,
+				search: true,
+				searchPlaceholder: 'Search...',
+				internalSearch: true,
+				minCharactersForSearch: 3,
+				screenMargin: 50
+			}, settings));
+
+			console.log('new item');
+
+			// init proxy
+			_SElement.prototype.initProxy.call(_this2).then(_this2._init.bind(_this2));
+			// this._init();
+			return _this2;
 		}
+
+		/**
+	  * Init
+	  */
+
+
+		SSelectElement.prototype._init = function _init() {
+			var _this3 = this;
+
+			console.log('init', this);
+
+			// setTimeout(() => {
+			// 	console.log('refresh');
+			// 	this.refresh();
+			// }, 3000);
+
+			// utils variables
+			this._openOnFocus = false;
+			this._currentActiveOption = null; // save the current keyboard selected item
+
+			// generate a custom id
+			this.id = _sTools2.default.uniqid();
+
+			// set the id to the element to
+			// be able to reach it and listen for
+			// new items in it
+			this.elm.setAttribute('data-s-select', this.id);
+
+			// build html structure
+			this._buildHTML();
+
+			// display or not the search
+			if (!this.setting('search')) {
+				this.search_container.style.position = 'absolute';
+				this.search_container.style.left = '-120vw';
+			}
+
+			// make sure when we click that we focus on the search field
+			this.container.addEventListener('click', function (e) {
+				_this3.search_field.focus();
+			});
+
+			// prevent default behavior on click in options container
+			this.options_container.addEventListener('click', function (e) {
+				e.preventDefault();
+			});
+
+			// open on click
+			this.container.addEventListener('click', function (e) {
+				// open
+				if (!_this3.isOpen()) {
+					_this3.open();
+				}
+			});
+
+			// prevent scroll into the options
+			this.options_container.addEventListener('mousewheel', function (ev) {
+				var _this = ev.currentTarget;
+				var scrollTop = _this.scrollTop;
+				var scrollHeight = _this.scrollHeight;
+				var height = _this.offsetHeight;
+				var delta = ev.wheelDelta;
+				if (ev.type == 'DOMMouseScroll') {
+					delta = ev.originalEvent.details * -40;
+				}
+				var up = delta > 0;
+				var prevent = function prevent() {
+					ev.stopPropagation();
+					ev.preventDefault();
+					ev.returnValue = false;
+					return false;
+				};
+				if (!up && -delta > scrollHeight - height - scrollTop) {
+					// Scrolling down, but this will take us past the bottom.
+					_this.scrollTop = scrollHeight;
+					prevent();
+				} else if (up && delta > scrollTop) {
+					// Scrolling up, but this will take us past the top.
+					_this.scrollTop = 0;
+					prevent();
+				}
+			});
+			// this.dropdown.addEventListener('DOMMouseScroll', (e) => {
+			// 	e.preventDefault();
+			// 	e.stopPropagation();
+			// });
+
+			// manage the keyup event
+			var _onKeyUpFn = function _onKeyUpFn(e) {
+				_this3._onKeyUp(e);
+			};
+			var _onKeyDownFn = function _onKeyDownFn(e) {
+				_this3._onKeyDown(e);
+			};
+			var _onScrollResizeFn = function _onScrollResizeFn(e) {
+				_this3._onScrollResize(e);
+			};
+			this.elm.addEventListener('open', function (e) {
+				document.addEventListener('keyup', _onKeyUpFn);
+				document.addEventListener('keydown', _onKeyDownFn);
+				window.addEventListener('scroll', _onScrollResizeFn);
+				window.addEventListener('resize', _onScrollResizeFn);
+			});
+			this.elm.addEventListener('close', function (e) {
+				document.removeEventListener('keyup', _onKeyUpFn);
+				document.removeEventListener('keydown', _onKeyDownFn);
+				window.removeEventListener('scroll', _onScrollResizeFn);
+				window.removeEventListener('resize', _onScrollResizeFn);
+			});
+
+			// listen for click outside of the dropdown
+			document.addEventListener('click', function (e) {
+				if (!_this3.container.contains(e.target)) {
+					_this3.close();
+				}
+			});
+
+			// listen for change on base select
+			// to set the selected items
+			this.elm.addEventListener('change', function (e) {
+				_this3._setSelected();
+			});
+
+			// listen for focus in search field to activate the field
+			this.search_field.addEventListener('focus', function (e) {
+				_this3._openOnFocus = true;
+				_this3.open();
+				setTimeout(function () {
+					_this3._openOnFocus = false;
+				}, 200);
+			});
+
+			// listen for keyup on search field
+			var internalSearch = this.setting('internalSearch');
+			var search = this.setting('search');
+			var searchFieldFn = function searchFieldFn(e) {
+				// trigger custom event
+				var event = new _sEvent2.default('search');
+				_this3.elm.dispatchEvent(event);
+				// on search callback
+				var onSearch = _this3.setting('onSearch');
+				if (onSearch) onSearch(e.target.value);
+				// check if internal search
+				_this3._search();
+			};
+			if (internalSearch && search) {
+				this.search_field.addEventListener('keyup', searchFieldFn);
+				this.search_field.addEventListener('search', searchFieldFn);
+			}
+
+			// listen for new elements in the select
+			_sDom2.default.querySelectorLive('[data-s-select="' + this.id + '"] > option, [data-s-select="' + this.id + '"] > optgroup', [function (elm) {
+				// refresh the select
+				_this3.refresh();
+			}, function (elm) {
+				// refresh the select
+				_this3.refresh();
+			}], this.elm, true);
+
+			// this._appendNew();
+		};
+
+		/**
+	  * Search
+	  */
+
+
+		SSelectElement.prototype._search = function _search() {
+			var _this4 = this;
+
+			// loop on each options
+			[].forEach.call(this.options_container.querySelectorAll('.s-select__option'), function (option) {
+				// check if is a value in the search field
+				if (_this4.search_field.value && _this4.search_field.value.length >= _this4.setting('minCharactersForSearch')) {
+					// check if we find the text in the option
+					var regexp = new RegExp("(" + _this4.search_field.value + ")(?!([^<]+)?>)", 'gi');
+					// search the tokens in html
+					var replace = option._s_innerHTML.replace(regexp, '<span class="s-select__search-result">$1</span>');
+					if (option._s_innerHTML.match(regexp)) {
+						option.innerHTML = replace;
+					} else {
+						// reset the activate item if need to be hided
+						if (option == _this4._currentActiveOption) {
+							_this4._currentActiveOption = null;
+						}
+						option.classList.add('s-select__option--hidden');
+					}
+				} else {
+					option.innerHTML = option._s_innerHTML;
+					option.classList.remove('s-select__option--hidden');
+				}
+			});
+
+			// set position
+			this._setPosition();
+		};
+
+		/**
+	  * On scroll or resize
+	  */
+
+
+		SSelectElement.prototype._onScrollResize = function _onScrollResize(e) {
+			// clearTimeout(this._scrollResizeTimeout);
+			// this._scrollResizeTimeout = setTimeout(() => {
+			// console.log('set POSITION');
+			this._setPosition();
+			// }, 100);
+		};
+
+		SSelectElement.prototype._onKeyUp = function _onKeyUp(e) {
+			if ((e.keyCode == 9 // tab
+			 || e.keyCode == 27 // escape
+			) && this.isOpen()) {
+				if (!this._openOnFocus) {
+					this.close();
+				}
+			}
+		};
+
+		/**
+	  * On key down
+	  */
+
+
+		SSelectElement.prototype._onKeyDown = function _onKeyDown(e) {
+			switch (e.keyCode) {
+				case 40:
+					// down
+					this._activateNext();
+					e.preventDefault();
+					break;
+				case 38:
+					// up
+					this._activatePrevious();
+					e.preventDefault();
+					break;
+				case 13:
+					// enter
+					this._selectActivated();
+					e.preventDefault();
+					break;
+				case 8:
+					// backspace
+					if (this.search_field.focus && this.search_field.value == '') {
+						// remove the last item
+						this.removeLast();
+					}
+					break;
+			}
+		};
+
+		/**
+	  * Select next with keyboard
+	  */
+
+
+		SSelectElement.prototype._activateNext = function _activateNext() {
+			// remove active class if exist
+			if (this._currentActiveOption) {
+				this._currentActiveOption.classList.remove('active');
+			}
+			// check if already an item is selected
+			if (!this._currentActiveOption) {
+				this._currentActiveOption = this.options_container.querySelector('.s-select__option:not(.s-select__option--disabled):not(.s-select__option--hidden):first-child');
+			} else {
+				// try to get the next sibling
+				this._currentActiveOption = _sDom2.default.next(this._currentActiveOption, '.s-select__option:not(.s-select__option--disabled):not(.s-select__option--hidden)');
+			}
+			// activate the element
+			if (this._currentActiveOption) {
+				this._currentActiveOption.classList.add('active');
+			}
+		};
+
+		/**
+	  * Select previous with keyboard
+	  */
+
+
+		SSelectElement.prototype._activatePrevious = function _activatePrevious() {
+			// remove active class if exist
+			if (this._currentActiveOption) {
+				this._currentActiveOption.classList.remove('active');
+			}
+			// check if already an item is selected
+			if (!this._currentActiveOption) {
+				this._currentActiveOption = this.options_container.querySelector('.s-select__option:not(.s-select__option--disabled):not(.s-select__option--hidden):last-child');
+			} else {
+				// try to get the next sibling
+				this._currentActiveOption = _sDom2.default.previous(this._currentActiveOption, '.s-select__option:not(.s-select__option--disabled):not(.s-select__option--hidden)');
+			}
+			// activate the element
+			if (this._currentActiveOption) {
+				this._currentActiveOption.classList.add('active');
+			}
+		};
+
+		/**
+	  * Select activated item
+	  */
+
+
+		SSelectElement.prototype._selectActivated = function _selectActivated() {
+			// check if an activated element exist
+			if (this._currentActiveOption) {
+				this.select(this._currentActiveOption._s_select_source_option);
+			}
+		};
+
+		SSelectElement.prototype._appendNew = function _appendNew() {
+			var _this5 = this;
+
+			var opt = document.createElement('option');
+			opt.innerHTML = 'Coco';
+			this.elm.appendChild(opt);
+			setTimeout(function () {
+				_this5._appendNew();
+			}, 0 + Math.random() * 1000);
+		};
+
+		/**
+	  * Create html structure
+	  */
+
+
+		SSelectElement.prototype._buildHTML = function _buildHTML() {
+			var container = document.createElement('div');
+			container.setAttribute('class', this.elm.getAttribute('class') + ' s-select');
+
+			// multiple class
+			if (this.elm.getAttribute('multiple') != null) {
+				container.classList.add('s-select--multiple');
+			}
+
+			var selection_container = document.createElement('div');
+			selection_container.setAttribute('class', 's-select__selection-container');
+
+			var selection_aligner = document.createElement('div');
+			selection_aligner.setAttribute('class', 's-select__selection-aligner');
+
+			var dropdown = document.createElement('div');
+			dropdown.setAttribute('class', 's-select__dropdown');
+
+			// search
+			var search_container = document.createElement('div');
+			search_container.setAttribute('class', 's-select__search-container');
+			var search_field = document.createElement('input');
+			search_field.setAttribute('type', 'search');
+			if (search_field.type != 'search') {
+				search_field.type = 'text';
+			}
+			search_field.setAttribute('placeholder', this.setting('searchPlaceholder'));
+			search_field.setAttribute('class', 's-select__search-field');
+
+			// options
+			var options_container = document.createElement('div');
+			options_container.setAttribute('class', 's-select__options');
+
+			// append to document
+			search_container.appendChild(search_field);
+
+			dropdown.appendChild(search_container);
+			dropdown.appendChild(options_container);
+
+			// container.appendChild(open_checkbox);
+			container.appendChild(selection_container);
+			container.appendChild(dropdown);
+
+			// append the element right before the select
+			this.elm.parentNode.insertBefore(container, this.elm);
+
+			// hide element
+			this.elm.style.position = 'absolute';
+			this.elm.style.left = '-120vw';
+			this.elm.style.opacity = 0;
+			this.elm.tabIndex = -1;
+			// this.elm.style.height = '400px';
+
+			// save into object
+			this.container = container;
+			this.dropdown = dropdown;
+			this.search_container = search_container;
+			this.selection_container = selection_container;
+			this.search_field = search_field;
+			this.options_container = options_container;
+		};
+
+		/**
+	  * Handle click on option
+	  */
+
+
+		SSelectElement.prototype._handleOptionClick = function _handleOptionClick(_s_option, e) {
+
+			// check if is a multiple
+			if (!this.isMultiple()) {
+				// select the element in the source select
+				_s_option._s_select_source_option.selected = true;
+				// close
+				this.close();
+			} else {
+
+				_s_option._s_select_source_option.selected = !_s_option._s_select_source_option.selected;
+
+				// // check if the alt key is pressed
+				// if (e.metaKey) {
+				// 	// toggle selection
+				// 	_s_option._s_select_source_option.selected = ! _s_option._s_select_source_option.selected;
+				// } else if (e.shiftKey) {
+				// 	// get the index of the last selected option
+				// 	if (this.elm.options.selectedIndex) {
+				// 		// find the current option position
+				// 		let current_option_idx = 0,
+				// 			found = false;
+				// 		[].forEach.call(this.elm.options, (opt) => {
+				// 			if ( ! found && opt != _s_option._s_select_source_option) {
+				// 				current_option_idx++;
+				// 			} else {
+				// 				found = true;
+				// 			}
+				// 		});
+
+				// 		// select all the options inbetween
+				// 		let first = this.elm.options.selectedIndex;
+				// 		let last = current_option_idx;
+				// 		if (first > last) {
+				// 			let _last = last;
+				// 			last = first;
+				// 			first = _last;
+				// 		}
+				// 		for (let i = first; i <= last; i++) {
+				// 			if ( ! this.elm.options[i].disabled) {
+				// 				this.elm.options[i].selected = true;
+				// 			}
+				// 		}
+				// 	} else {
+				// 		// telection
+				// 		_s_option._s_select_source_option.selected = ! _s_option._s_select_source_option.selected;
+				// 	}
+				// } else {
+				// 	// unactive all the options
+				// 	[].forEach.call(this.elm.options, (opt) => {
+				// 		opt.selected = false;
+				// 	});
+				// 	// activate the item
+				// 	_s_option._s_select_source_option.selected = true;
+				// }
+			}
+
+			// trigger change event
+			var event = new _sEvent2.default('change');
+			this.elm.dispatchEvent(event);
+		};
+
+		/**
+	  * Set selected elements
+	  */
+
+
+		SSelectElement.prototype._setSelected = function _setSelected() {
+			var _this6 = this;
+
+			// loop on selected option to activate them
+			var areSomeSelectedItems = false;
+			[].forEach.call(this.elm.options, function (option) {
+				// apply the active class
+				if (option._s_select_option) {
+					if (option.selected) {
+						if (option.innerHTML != '') {
+							areSomeSelectedItems = true;
+						}
+						option._s_select_option.classList.add('selected');
+					} else {
+						option._s_select_option.classList.remove('selected');
+					}
+				}
+			});
+			// set the selection
+			this.selection_container.innerHTML = '';
+			if (this.isMultiple()) {
+				// loop on each selected items
+				[].forEach.call(this.elm.options, function (option) {
+					if (option.selected) {
+						// get the content
+						var content = option.innerHTML;
+						// create the tag
+						var tag = document.createElement('div');
+						tag.classList.add('s-select__selection-tag');
+						tag.innerHTML = content;
+						var close = document.createElement('span');
+						close.classList.add('s-select__selection-tag-close');
+						close.addEventListener('click', function (e) {
+							option.selected = false;
+							// trigger change event
+							var event = new _sEvent2.default('change');
+							_this6.elm.dispatchEvent(event);
+						});
+						tag.addEventListener('dblclick', function (e) {
+							option.selected = false;
+							// trigger change event
+							var event = new _sEvent2.default('change');
+							_this6.elm.dispatchEvent(event);
+						});
+						tag.appendChild(close);
+						_this6.selection_container.appendChild(tag);
+					}
+				});
+			} else {
+				// get the selected one
+				var selected_idx = this.elm.options.selectedIndex;
+				if (selected_idx != -1) {
+					// set the selected
+					var selection = document.createElement('div');
+					selection.classList.add('s-select__selection');
+					selection.innerHTML = this.elm.options[selected_idx].innerHTML;
+					this.selection_container.appendChild(selection);
+				}
+			}
+
+			if (!areSomeSelectedItems) {
+				var placeholder = this.elm.getAttribute('placeholder');
+				if (placeholder) {
+					var _selection = document.createElement('div');
+					_selection.classList.add('s-select__selection');
+					_selection.classList.add('input--placeholder');
+					_selection.innerHTML = placeholder;
+					this.container.classList.add('s-select--placeholder');
+					this.selection_container.appendChild(_selection);
+				}
+			} else {
+				this.container.classList.remove('s-select--placeholder');
+			}
+		};
+
+		/**
+	  * Set position
+	  */
+
+
+		SSelectElement.prototype._setPosition = function _setPosition() {
+			// get the position of the container
+			var dropdownOffset = _sDom2.default.offset(this.dropdown);
+			var dropdownTop = dropdownOffset.top - _sDom2.default.scrollTop();
+			var containerTop = _sDom2.default.offset(this.container).top - _sDom2.default.scrollTop();
+			var dropdownFullHeight = this.options_container.scrollHeight + this.search_container.offsetHeight;
+			var optionsFullHeight = this.options_container.scrollHeight;
+			var optionsHeight = this.options_container.offsetHeight;
+			var screenMargin = this.setting('screenMargin');
+			var optionsMinHeight = parseInt(window.getComputedStyle(this.options_container).getPropertyValue('min-height'));
+
+			// check if the min-height has been reached
+			if (containerTop + this.container.offsetHeight + this.search_container.offsetHeight + optionsMinHeight + screenMargin > window.innerHeight) {
+				// if (optionsHeight < optionsFullHeight && optionsHeight <= optionsMinHeight ) {
+				this.container.classList.add('s-select--dropup');
+				// console.log(top + h, window.innerHeight);
+				if (containerTop - dropdownFullHeight - screenMargin < 0) {
+					this.options_container.style.height = window.innerHeight - (window.innerHeight - containerTop) - this.search_container.offsetHeight - screenMargin + 'px';
+				} else {
+					this.options_container.style.height = 'auto';
+				}
+			} else {
+				this.container.classList.remove('s-select--dropup');
+				// console.log(top + h, window.innerHeight);
+				if (dropdownTop + dropdownFullHeight + screenMargin > window.innerHeight) {
+					this.options_container.style.height = window.innerHeight - dropdownTop - this.search_container.offsetHeight - screenMargin + 'px';
+				} else {
+					this.options_container.style.height = 'auto';
+				}
+			}
+		};
+
+		/**
+	  * Handle optgroup
+	  */
+
+
+		SSelectElement.prototype._handleOptgroup = function _handleOptgroup(_optgroup) {
+			// create the choice
+			var option = document.createElement('div');
+			option.classList.add('s-select__optgroup');
+
+			// get the content
+			var content = _optgroup.getAttribute('label');
+
+			// get the content
+			var source = _optgroup.getAttribute('data-s-select-option-source');
+			if (source) {
+				// try to get into document
+				source = document.querySelector(source);
+				if (source) {
+					option.appendChild(source);
+					option.classList.add('s-select__optgroup--custom');
+				} else {
+					option.innerHTML = content;
+				}
+			} else {
+				option.innerHTML = content;
+			}
+
+			// append new choice
+			this.options_container.appendChild(option);
+		};
+
+		/**
+	  * Handle option
+	  */
+
+
+		SSelectElement.prototype._handleOption = function _handleOption(_option) {
+			var _this7 = this;
+
+			var in_optgroup = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+
+
+			// check if is an optiongroup
+			if (_option.nodeName.toLowerCase() == 'optgroup') {
+				this._handleOptgroup(_option);
+				[].forEach.call(_option.querySelectorAll(':scope > option'), function (option) {
+					_this7._handleOption(option, true);
+				});
+				return;
+			}
+
+			// create the choice
+			var option = document.createElement('div');
+			option.classList.add('s-select__option');
+
+			// check if in optgroup
+			if (in_optgroup) {
+				option.classList.add('s-select__option--in-optgroup');
+			}
+
+			// check if disabled
+			if (_option.disabled) {
+				option.classList.add('s-select__option--disabled');
+			}
+
+			// save the option reference into html element
+			// to be able to activate it in the base select
+			option._s_select_source_option = _option;
+
+			// save the s_option into the base option
+			// to be able to activate the s_option later
+			_option._s_select_option = option;
+
+			// get the content
+			var content = _option.innerHTML;
+
+			// get the content
+			var source = _option.getAttribute('data-s-select-option-source');
+			if (source) {
+				// try to get into document
+				source = document.querySelector(source);
+				if (source) {
+					option.appendChild(source);
+					option.classList.add('s-select__option--custom');
+				} else {
+					option.innerHTML = content;
+				}
+			} else {
+				if (!content) return;
+				option.innerHTML = content;
+			}
+
+			// save the html to restore later on search
+			option._s_innerHTML = option.innerHTML;
+
+			// add a click event on the option
+			option.addEventListener('click', function (e) {
+				_this7._handleOptionClick(e.currentTarget, e);
+			});
+
+			// add the listener for the hover
+			option.addEventListener('mouseover', function (e) {
+				_this7._currentActiveOption = option;
+			});
+
+			// append new choice
+			this.options_container.appendChild(option);
+		};
+
+		/**
+	  * Refresh
+	  */
+
+
+		SSelectElement.prototype.refresh = function refresh() {
+			var _this8 = this;
+
+			// empty the options
+			var options_parent = this.options_container.parentNode;
+			options_parent.removeChild(this.options_container);
+			this.options_container.innerHTML = '';
+
+			// create the options tree
+			[].forEach.call(this.elm.querySelectorAll(':scope > option, :scope > optgroup'), function (elm) {
+				// handle option
+				_this8._handleOption(elm);
+			}, this.elm);
+
+			// set selected the first time
+			this._setSelected();
+
+			// append again in dom the options
+			options_parent.appendChild(this.options_container);
+
+			// set position
+			this._setPosition();
+		};
+
+		/**
+	  * Select an option in source select
+	  */
+
+
+		SSelectElement.prototype.select = function select(option) {
+			// check if we have the s-select option targer
+			if (option._s_select_option) {
+				this._handleOptionClick(option._s_select_option);
+			} else if (option._s_select_source_option) {
+				this._handleOptionClick(option);
+			}
+		};
+
+		/**
+	  * Remove last
+	  */
+
+
+		SSelectElement.prototype.removeLast = function removeLast() {
+			var last = null;
+			[].forEach.call(this.elm.options, function (option) {
+				if (option.selected) {
+					last = option;
+				}
+			});
+			// unselect the last
+			if (last) {
+				last.selected = false;
+				// trigger change event
+				var event = new _sEvent2.default('change');
+				this.elm.dispatchEvent(event);
+			}
+		};
+
+		/**
+	  * Add event listener
+	  */
+
+
+		SSelectElement.prototype.addEventListener = function addEventListener(event, callback, capture) {
+			this.elm.addEventListener(event, callback, capture);
+		};
+
+		/**
+	  * Remove event listener
+	  */
+
+
+		SSelectElement.prototype.removeEventListener = function removeEventListener(event, callback, capture) {
+			this.elm.removeEventListener(event, callback, capture);
+		};
+
+		/**
+	  * Is multiple
+	  */
+
+
+		SSelectElement.prototype.isMultiple = function isMultiple() {
+			return this.elm.getAttribute('multiple') != null;
+		};
+
+		/**
+	  * Is opened
+	  */
+
+
+		SSelectElement.prototype.isOpen = function isOpen() {
+			return this.container.classList.contains('s-select--opened');
+		};
+
+		/**
+	  * Close
+	  */
+
+
+		SSelectElement.prototype.close = function close() {
+			var _this9 = this;
+
+			this.container.classList.remove('s-select--opened');
+			// unactivate the option if one exist
+			if (this._currentActiveOption) {
+				this._currentActiveOption.classList.remove('active');
+			}
+			// remove the dropup class
+			this._clearDropupTimeout = setTimeout(function () {
+				_this9.container.classList.remove('s-select--dropup');
+			}, 500);
+			// dispatch close event
+			var event = new _sEvent2.default('close');
+			this.elm.dispatchEvent(event);
+			// handle onClose callback
+			var onClose = this.setting('onClose');
+			if (onClose) {
+				onClose();
+			}
+		};
+
+		/**
+	  * Close
+	  */
+
+
+		SSelectElement.prototype.open = function open() {
+			this.container.classList.add('s-select--opened');
+			// set position
+			clearTimeout(this._clearDropupTimeout);
+			this._setPosition();
+			// dispatch open event
+			var event = new _sEvent2.default('open');
+			this.elm.dispatchEvent(event);
+			// manage onOpen callback
+			var onOpen = this.setting('onOpen');
+			if (onOpen) {
+				onOpen();
+			}
+		};
+
+		return SSelectElement;
+	}(_sElement2.default);
+
+	// init the select
+
+
+	_sDom2.default.querySelectorLive('select[data-s-select]', function (elm) {
+		console.log('new element !!!');
+		new SSelectElement(elm);
 	});
 
-	// export the settings
-	module.exports = settings;
-
-/***/ },
-/* 29 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(30);
-
-
-/***/ },
-/* 30 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var copyObject = __webpack_require__(31),
-	    createAssigner = __webpack_require__(35),
-	    keysIn = __webpack_require__(48);
-
-	/**
-	 * This method is like `_.assign` except that it iterates over own and
-	 * inherited source properties.
-	 *
-	 * **Note:** This method mutates `object`.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @alias extend
-	 * @category Object
-	 * @param {Object} object The destination object.
-	 * @param {...Object} [sources] The source objects.
-	 * @returns {Object} Returns `object`.
-	 * @example
-	 *
-	 * function Foo() {
-	 *   this.b = 2;
-	 * }
-	 *
-	 * function Bar() {
-	 *   this.d = 4;
-	 * }
-	 *
-	 * Foo.prototype.c = 3;
-	 * Bar.prototype.e = 5;
-	 *
-	 * _.assignIn({ 'a': 1 }, new Foo, new Bar);
-	 * // => { 'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5 }
-	 */
-	var assignIn = createAssigner(function(object, source) {
-	  copyObject(source, keysIn(source), object);
-	});
-
-	module.exports = assignIn;
-
-
-/***/ },
-/* 31 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var copyObjectWith = __webpack_require__(32);
-
-	/**
-	 * Copies properties of `source` to `object`.
-	 *
-	 * @private
-	 * @param {Object} source The object to copy properties from.
-	 * @param {Array} props The property names to copy.
-	 * @param {Object} [object={}] The object to copy properties to.
-	 * @returns {Object} Returns `object`.
-	 */
-	function copyObject(source, props, object) {
-	  return copyObjectWith(source, props, object);
+	// expose in window.sugar
+	if (window.sugar == null) {
+		window.sugar = {};
 	}
+	window.sugar.SSelectElement = SSelectElement;
 
-	module.exports = copyObject;
-
-
-/***/ },
-/* 32 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var assignValue = __webpack_require__(33);
-
-	/**
-	 * This function is like `copyObject` except that it accepts a function to
-	 * customize copied values.
-	 *
-	 * @private
-	 * @param {Object} source The object to copy properties from.
-	 * @param {Array} props The property names to copy.
-	 * @param {Object} [object={}] The object to copy properties to.
-	 * @param {Function} [customizer] The function to customize copied values.
-	 * @returns {Object} Returns `object`.
-	 */
-	function copyObjectWith(source, props, object, customizer) {
-	  object || (object = {});
-
-	  var index = -1,
-	      length = props.length;
-
-	  while (++index < length) {
-	    var key = props[index];
-
-	    var newValue = customizer
-	      ? customizer(object[key], source[key], key, object, source)
-	      : source[key];
-
-	    assignValue(object, key, newValue);
-	  }
-	  return object;
-	}
-
-	module.exports = copyObjectWith;
-
+	// export modules
+	exports.default = SSelectElement;
 
 /***/ },
-/* 33 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var eq = __webpack_require__(34);
-
-	/** Used for built-in method references. */
-	var objectProto = Object.prototype;
-
-	/** Used to check objects for own properties. */
-	var hasOwnProperty = objectProto.hasOwnProperty;
-
-	/**
-	 * Assigns `value` to `key` of `object` if the existing value is not equivalent
-	 * using [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
-	 * for equality comparisons.
-	 *
-	 * @private
-	 * @param {Object} object The object to modify.
-	 * @param {string} key The key of the property to assign.
-	 * @param {*} value The value to assign.
-	 */
-	function assignValue(object, key, value) {
-	  var objValue = object[key];
-	  if ((!eq(objValue, value) ||
-	        (eq(objValue, objectProto[key]) && !hasOwnProperty.call(object, key))) ||
-	      (value === undefined && !(key in object))) {
-	    object[key] = value;
-	  }
-	}
-
-	module.exports = assignValue;
-
-
-/***/ },
-/* 34 */
-/***/ function(module, exports) {
-
-	/**
-	 * Performs a [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
-	 * comparison between two values to determine if they are equivalent.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category Lang
-	 * @param {*} value The value to compare.
-	 * @param {*} other The other value to compare.
-	 * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
-	 * @example
-	 *
-	 * var object = { 'user': 'fred' };
-	 * var other = { 'user': 'fred' };
-	 *
-	 * _.eq(object, object);
-	 * // => true
-	 *
-	 * _.eq(object, other);
-	 * // => false
-	 *
-	 * _.eq('a', 'a');
-	 * // => true
-	 *
-	 * _.eq('a', Object('a'));
-	 * // => false
-	 *
-	 * _.eq(NaN, NaN);
-	 * // => true
-	 */
-	function eq(value, other) {
-	  return value === other || (value !== value && other !== other);
-	}
-
-	module.exports = eq;
-
-
-/***/ },
-/* 35 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var isIterateeCall = __webpack_require__(36),
-	    rest = __webpack_require__(44);
-
-	/**
-	 * Creates a function like `_.assign`.
-	 *
-	 * @private
-	 * @param {Function} assigner The function to assign values.
-	 * @returns {Function} Returns the new assigner function.
-	 */
-	function createAssigner(assigner) {
-	  return rest(function(object, sources) {
-	    var index = -1,
-	        length = sources.length,
-	        customizer = length > 1 ? sources[length - 1] : undefined,
-	        guard = length > 2 ? sources[2] : undefined;
-
-	    customizer = typeof customizer == 'function'
-	      ? (length--, customizer)
-	      : undefined;
-
-	    if (guard && isIterateeCall(sources[0], sources[1], guard)) {
-	      customizer = length < 3 ? undefined : customizer;
-	      length = 1;
-	    }
-	    object = Object(object);
-	    while (++index < length) {
-	      var source = sources[index];
-	      if (source) {
-	        assigner(object, source, index, customizer);
-	      }
-	    }
-	    return object;
-	  });
-	}
-
-	module.exports = createAssigner;
-
-
-/***/ },
-/* 36 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var eq = __webpack_require__(34),
-	    isArrayLike = __webpack_require__(37),
-	    isIndex = __webpack_require__(43),
-	    isObject = __webpack_require__(41);
-
-	/**
-	 * Checks if the given arguments are from an iteratee call.
-	 *
-	 * @private
-	 * @param {*} value The potential iteratee value argument.
-	 * @param {*} index The potential iteratee index or key argument.
-	 * @param {*} object The potential iteratee object argument.
-	 * @returns {boolean} Returns `true` if the arguments are from an iteratee call, else `false`.
-	 */
-	function isIterateeCall(value, index, object) {
-	  if (!isObject(object)) {
-	    return false;
-	  }
-	  var type = typeof index;
-	  if (type == 'number'
-	      ? (isArrayLike(object) && isIndex(index, object.length))
-	      : (type == 'string' && index in object)) {
-	    return eq(object[index], value);
-	  }
-	  return false;
-	}
-
-	module.exports = isIterateeCall;
-
-
-/***/ },
-/* 37 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var getLength = __webpack_require__(38),
-	    isFunction = __webpack_require__(40),
-	    isLength = __webpack_require__(42);
-
-	/**
-	 * Checks if `value` is array-like. A value is considered array-like if it's
-	 * not a function and has a `value.length` that's an integer greater than or
-	 * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
-	 * @example
-	 *
-	 * _.isArrayLike([1, 2, 3]);
-	 * // => true
-	 *
-	 * _.isArrayLike(document.body.children);
-	 * // => true
-	 *
-	 * _.isArrayLike('abc');
-	 * // => true
-	 *
-	 * _.isArrayLike(_.noop);
-	 * // => false
-	 */
-	function isArrayLike(value) {
-	  return value != null &&
-	    !(typeof value == 'function' && isFunction(value)) && isLength(getLength(value));
-	}
-
-	module.exports = isArrayLike;
-
-
-/***/ },
-/* 38 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var baseProperty = __webpack_require__(39);
-
-	/**
-	 * Gets the "length" property value of `object`.
-	 *
-	 * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
-	 * that affects Safari on at least iOS 8.1-8.3 ARM64.
-	 *
-	 * @private
-	 * @param {Object} object The object to query.
-	 * @returns {*} Returns the "length" value.
-	 */
-	var getLength = baseProperty('length');
-
-	module.exports = getLength;
-
-
-/***/ },
-/* 39 */
-/***/ function(module, exports) {
-
-	/**
-	 * The base implementation of `_.property` without support for deep paths.
-	 *
-	 * @private
-	 * @param {string} key The key of the property to get.
-	 * @returns {Function} Returns the new function.
-	 */
-	function baseProperty(key) {
-	  return function(object) {
-	    return object == null ? undefined : object[key];
-	  };
-	}
-
-	module.exports = baseProperty;
-
-
-/***/ },
-/* 40 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var isObject = __webpack_require__(41);
-
-	/** `Object#toString` result references. */
-	var funcTag = '[object Function]',
-	    genTag = '[object GeneratorFunction]';
-
-	/** Used for built-in method references. */
-	var objectProto = Object.prototype;
-
-	/**
-	 * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
-	 * of values.
-	 */
-	var objectToString = objectProto.toString;
-
-	/**
-	 * Checks if `value` is classified as a `Function` object.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
-	 * @example
-	 *
-	 * _.isFunction(_);
-	 * // => true
-	 *
-	 * _.isFunction(/abc/);
-	 * // => false
-	 */
-	function isFunction(value) {
-	  // The use of `Object#toString` avoids issues with the `typeof` operator
-	  // in Safari 8 which returns 'object' for typed array constructors, and
-	  // PhantomJS 1.9 which returns 'function' for `NodeList` instances.
-	  var tag = isObject(value) ? objectToString.call(value) : '';
-	  return tag == funcTag || tag == genTag;
-	}
-
-	module.exports = isFunction;
-
-
-/***/ },
-/* 41 */
-/***/ function(module, exports) {
-
-	/**
-	 * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
-	 * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
-	 * @example
-	 *
-	 * _.isObject({});
-	 * // => true
-	 *
-	 * _.isObject([1, 2, 3]);
-	 * // => true
-	 *
-	 * _.isObject(_.noop);
-	 * // => true
-	 *
-	 * _.isObject(null);
-	 * // => false
-	 */
-	function isObject(value) {
-	  var type = typeof value;
-	  return !!value && (type == 'object' || type == 'function');
-	}
-
-	module.exports = isObject;
-
-
-/***/ },
-/* 42 */
-/***/ function(module, exports) {
-
-	/** Used as references for various `Number` constants. */
-	var MAX_SAFE_INTEGER = 9007199254740991;
-
-	/**
-	 * Checks if `value` is a valid array-like length.
-	 *
-	 * **Note:** This function is loosely based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
-	 * @example
-	 *
-	 * _.isLength(3);
-	 * // => true
-	 *
-	 * _.isLength(Number.MIN_VALUE);
-	 * // => false
-	 *
-	 * _.isLength(Infinity);
-	 * // => false
-	 *
-	 * _.isLength('3');
-	 * // => false
-	 */
-	function isLength(value) {
-	  return typeof value == 'number' &&
-	    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-	}
-
-	module.exports = isLength;
-
-
-/***/ },
-/* 43 */
-/***/ function(module, exports) {
-
-	/** Used as references for various `Number` constants. */
-	var MAX_SAFE_INTEGER = 9007199254740991;
-
-	/** Used to detect unsigned integer values. */
-	var reIsUint = /^(?:0|[1-9]\d*)$/;
-
-	/**
-	 * Checks if `value` is a valid array-like index.
-	 *
-	 * @private
-	 * @param {*} value The value to check.
-	 * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
-	 * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
-	 */
-	function isIndex(value, length) {
-	  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
-	  length = length == null ? MAX_SAFE_INTEGER : length;
-	  return value > -1 && value % 1 == 0 && value < length;
-	}
-
-	module.exports = isIndex;
-
-
-/***/ },
-/* 44 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var apply = __webpack_require__(45),
-	    toInteger = __webpack_require__(46);
-
-	/** Used as the `TypeError` message for "Functions" methods. */
-	var FUNC_ERROR_TEXT = 'Expected a function';
-
-	/* Built-in method references for those with the same name as other `lodash` methods. */
-	var nativeMax = Math.max;
-
-	/**
-	 * Creates a function that invokes `func` with the `this` binding of the
-	 * created function and arguments from `start` and beyond provided as an array.
-	 *
-	 * **Note:** This method is based on the [rest parameter](https://mdn.io/rest_parameters).
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category Function
-	 * @param {Function} func The function to apply a rest parameter to.
-	 * @param {number} [start=func.length-1] The start position of the rest parameter.
-	 * @returns {Function} Returns the new function.
-	 * @example
-	 *
-	 * var say = _.rest(function(what, names) {
-	 *   return what + ' ' + _.initial(names).join(', ') +
-	 *     (_.size(names) > 1 ? ', & ' : '') + _.last(names);
-	 * });
-	 *
-	 * say('hello', 'fred', 'barney', 'pebbles');
-	 * // => 'hello fred, barney, & pebbles'
-	 */
-	function rest(func, start) {
-	  if (typeof func != 'function') {
-	    throw new TypeError(FUNC_ERROR_TEXT);
-	  }
-	  start = nativeMax(start === undefined ? (func.length - 1) : toInteger(start), 0);
-	  return function() {
-	    var args = arguments,
-	        index = -1,
-	        length = nativeMax(args.length - start, 0),
-	        array = Array(length);
-
-	    while (++index < length) {
-	      array[index] = args[start + index];
-	    }
-	    switch (start) {
-	      case 0: return func.call(this, array);
-	      case 1: return func.call(this, args[0], array);
-	      case 2: return func.call(this, args[0], args[1], array);
-	    }
-	    var otherArgs = Array(start + 1);
-	    index = -1;
-	    while (++index < start) {
-	      otherArgs[index] = args[index];
-	    }
-	    otherArgs[start] = array;
-	    return apply(func, this, otherArgs);
-	  };
-	}
-
-	module.exports = rest;
-
-
-/***/ },
-/* 45 */
-/***/ function(module, exports) {
-
-	/**
-	 * A faster alternative to `Function#apply`, this function invokes `func`
-	 * with the `this` binding of `thisArg` and the arguments of `args`.
-	 *
-	 * @private
-	 * @param {Function} func The function to invoke.
-	 * @param {*} thisArg The `this` binding of `func`.
-	 * @param {...*} args The arguments to invoke `func` with.
-	 * @returns {*} Returns the result of `func`.
-	 */
-	function apply(func, thisArg, args) {
-	  var length = args.length;
-	  switch (length) {
-	    case 0: return func.call(thisArg);
-	    case 1: return func.call(thisArg, args[0]);
-	    case 2: return func.call(thisArg, args[0], args[1]);
-	    case 3: return func.call(thisArg, args[0], args[1], args[2]);
-	  }
-	  return func.apply(thisArg, args);
-	}
-
-	module.exports = apply;
-
-
-/***/ },
-/* 46 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var toNumber = __webpack_require__(47);
-
-	/** Used as references for various `Number` constants. */
-	var INFINITY = 1 / 0,
-	    MAX_INTEGER = 1.7976931348623157e+308;
-
-	/**
-	 * Converts `value` to an integer.
-	 *
-	 * **Note:** This function is loosely based on [`ToInteger`](http://www.ecma-international.org/ecma-262/6.0/#sec-tointeger).
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category Lang
-	 * @param {*} value The value to convert.
-	 * @returns {number} Returns the converted integer.
-	 * @example
-	 *
-	 * _.toInteger(3);
-	 * // => 3
-	 *
-	 * _.toInteger(Number.MIN_VALUE);
-	 * // => 0
-	 *
-	 * _.toInteger(Infinity);
-	 * // => 1.7976931348623157e+308
-	 *
-	 * _.toInteger('3');
-	 * // => 3
-	 */
-	function toInteger(value) {
-	  if (!value) {
-	    return value === 0 ? value : 0;
-	  }
-	  value = toNumber(value);
-	  if (value === INFINITY || value === -INFINITY) {
-	    var sign = (value < 0 ? -1 : 1);
-	    return sign * MAX_INTEGER;
-	  }
-	  var remainder = value % 1;
-	  return value === value ? (remainder ? value - remainder : value) : 0;
-	}
-
-	module.exports = toInteger;
-
-
-/***/ },
-/* 47 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var isFunction = __webpack_require__(40),
-	    isObject = __webpack_require__(41);
-
-	/** Used as references for various `Number` constants. */
-	var NAN = 0 / 0;
-
-	/** Used to match leading and trailing whitespace. */
-	var reTrim = /^\s+|\s+$/g;
-
-	/** Used to detect bad signed hexadecimal string values. */
-	var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
-
-	/** Used to detect binary string values. */
-	var reIsBinary = /^0b[01]+$/i;
-
-	/** Used to detect octal string values. */
-	var reIsOctal = /^0o[0-7]+$/i;
-
-	/** Built-in method references without a dependency on `root`. */
-	var freeParseInt = parseInt;
-
-	/**
-	 * Converts `value` to a number.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category Lang
-	 * @param {*} value The value to process.
-	 * @returns {number} Returns the number.
-	 * @example
-	 *
-	 * _.toNumber(3);
-	 * // => 3
-	 *
-	 * _.toNumber(Number.MIN_VALUE);
-	 * // => 5e-324
-	 *
-	 * _.toNumber(Infinity);
-	 * // => Infinity
-	 *
-	 * _.toNumber('3');
-	 * // => 3
-	 */
-	function toNumber(value) {
-	  if (isObject(value)) {
-	    var other = isFunction(value.valueOf) ? value.valueOf() : value;
-	    value = isObject(other) ? (other + '') : other;
-	  }
-	  if (typeof value != 'string') {
-	    return value === 0 ? value : +value;
-	  }
-	  value = value.replace(reTrim, '');
-	  var isBinary = reIsBinary.test(value);
-	  return (isBinary || reIsOctal.test(value))
-	    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
-	    : (reIsBadHex.test(value) ? NAN : +value);
-	}
-
-	module.exports = toNumber;
-
-
-/***/ },
-/* 48 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var baseKeysIn = __webpack_require__(49),
-	    indexKeys = __webpack_require__(52),
-	    isIndex = __webpack_require__(43),
-	    isPrototype = __webpack_require__(57);
-
-	/** Used for built-in method references. */
-	var objectProto = Object.prototype;
-
-	/** Used to check objects for own properties. */
-	var hasOwnProperty = objectProto.hasOwnProperty;
-
-	/**
-	 * Creates an array of the own and inherited enumerable property names of `object`.
-	 *
-	 * **Note:** Non-object values are coerced to objects.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category Object
-	 * @param {Object} object The object to query.
-	 * @returns {Array} Returns the array of property names.
-	 * @example
-	 *
-	 * function Foo() {
-	 *   this.a = 1;
-	 *   this.b = 2;
-	 * }
-	 *
-	 * Foo.prototype.c = 3;
-	 *
-	 * _.keysIn(new Foo);
-	 * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
-	 */
-	function keysIn(object) {
-	  var index = -1,
-	      isProto = isPrototype(object),
-	      props = baseKeysIn(object),
-	      propsLength = props.length,
-	      indexes = indexKeys(object),
-	      skipIndexes = !!indexes,
-	      result = indexes || [],
-	      length = result.length;
-
-	  while (++index < propsLength) {
-	    var key = props[index];
-	    if (!(skipIndexes && (key == 'length' || isIndex(key, length))) &&
-	        !(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
-	      result.push(key);
-	    }
-	  }
-	  return result;
-	}
-
-	module.exports = keysIn;
-
-
-/***/ },
-/* 49 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Reflect = __webpack_require__(50),
-	    iteratorToArray = __webpack_require__(51);
-
-	/** Used for built-in method references. */
-	var objectProto = Object.prototype;
-
-	/** Built-in value references. */
-	var enumerate = Reflect ? Reflect.enumerate : undefined,
-	    propertyIsEnumerable = objectProto.propertyIsEnumerable;
-
-	/**
-	 * The base implementation of `_.keysIn` which doesn't skip the constructor
-	 * property of prototypes or treat sparse arrays as dense.
-	 *
-	 * @private
-	 * @param {Object} object The object to query.
-	 * @returns {Array} Returns the array of property names.
-	 */
-	function baseKeysIn(object) {
-	  object = object == null ? object : Object(object);
-
-	  var result = [];
-	  for (var key in object) {
-	    result.push(key);
-	  }
-	  return result;
-	}
-
-	// Fallback for IE < 9 with es6-shim.
-	if (enumerate && !propertyIsEnumerable.call({ 'valueOf': 1 }, 'valueOf')) {
-	  baseKeysIn = function(object) {
-	    return iteratorToArray(enumerate(object));
-	  };
-	}
-
-	module.exports = baseKeysIn;
-
-
-/***/ },
-/* 50 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var root = __webpack_require__(18);
-
-	/** Built-in value references. */
-	var Reflect = root.Reflect;
-
-	module.exports = Reflect;
-
-
-/***/ },
-/* 51 */
-/***/ function(module, exports) {
-
-	/**
-	 * Converts `iterator` to an array.
-	 *
-	 * @private
-	 * @param {Object} iterator The iterator to convert.
-	 * @returns {Array} Returns the converted array.
-	 */
-	function iteratorToArray(iterator) {
-	  var data,
-	      result = [];
-
-	  while (!(data = iterator.next()).done) {
-	    result.push(data.value);
-	  }
-	  return result;
-	}
-
-	module.exports = iteratorToArray;
-
-
-/***/ },
-/* 52 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var baseTimes = __webpack_require__(53),
-	    isArguments = __webpack_require__(54),
-	    isArray = __webpack_require__(14),
-	    isLength = __webpack_require__(42),
-	    isString = __webpack_require__(56);
-
-	/**
-	 * Creates an array of index keys for `object` values of arrays,
-	 * `arguments` objects, and strings, otherwise `null` is returned.
-	 *
-	 * @private
-	 * @param {Object} object The object to query.
-	 * @returns {Array|null} Returns index keys, else `null`.
-	 */
-	function indexKeys(object) {
-	  var length = object ? object.length : undefined;
-	  if (isLength(length) &&
-	      (isArray(object) || isString(object) || isArguments(object))) {
-	    return baseTimes(length, String);
-	  }
-	  return null;
-	}
-
-	module.exports = indexKeys;
-
-
-/***/ },
-/* 53 */
-/***/ function(module, exports) {
-
-	/**
-	 * The base implementation of `_.times` without support for iteratee shorthands
-	 * or max array length checks.
-	 *
-	 * @private
-	 * @param {number} n The number of times to invoke `iteratee`.
-	 * @param {Function} iteratee The function invoked per iteration.
-	 * @returns {Array} Returns the array of results.
-	 */
-	function baseTimes(n, iteratee) {
-	  var index = -1,
-	      result = Array(n);
-
-	  while (++index < n) {
-	    result[index] = iteratee(index);
-	  }
-	  return result;
-	}
-
-	module.exports = baseTimes;
-
-
-/***/ },
-/* 54 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var isArrayLikeObject = __webpack_require__(55);
-
-	/** `Object#toString` result references. */
-	var argsTag = '[object Arguments]';
-
-	/** Used for built-in method references. */
-	var objectProto = Object.prototype;
-
-	/** Used to check objects for own properties. */
-	var hasOwnProperty = objectProto.hasOwnProperty;
-
-	/**
-	 * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
-	 * of values.
-	 */
-	var objectToString = objectProto.toString;
-
-	/** Built-in value references. */
-	var propertyIsEnumerable = objectProto.propertyIsEnumerable;
-
-	/**
-	 * Checks if `value` is likely an `arguments` object.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
-	 * @example
-	 *
-	 * _.isArguments(function() { return arguments; }());
-	 * // => true
-	 *
-	 * _.isArguments([1, 2, 3]);
-	 * // => false
-	 */
-	function isArguments(value) {
-	  // Safari 8.1 incorrectly makes `arguments.callee` enumerable in strict mode.
-	  return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
-	    (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
-	}
-
-	module.exports = isArguments;
-
-
-/***/ },
-/* 55 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var isArrayLike = __webpack_require__(37),
-	    isObjectLike = __webpack_require__(22);
-
-	/**
-	 * This method is like `_.isArrayLike` except that it also checks if `value`
-	 * is an object.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is an array-like object, else `false`.
-	 * @example
-	 *
-	 * _.isArrayLikeObject([1, 2, 3]);
-	 * // => true
-	 *
-	 * _.isArrayLikeObject(document.body.children);
-	 * // => true
-	 *
-	 * _.isArrayLikeObject('abc');
-	 * // => false
-	 *
-	 * _.isArrayLikeObject(_.noop);
-	 * // => false
-	 */
-	function isArrayLikeObject(value) {
-	  return isObjectLike(value) && isArrayLike(value);
-	}
-
-	module.exports = isArrayLikeObject;
-
-
-/***/ },
-/* 56 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var isArray = __webpack_require__(14),
-	    isObjectLike = __webpack_require__(22);
-
-	/** `Object#toString` result references. */
-	var stringTag = '[object String]';
-
-	/** Used for built-in method references. */
-	var objectProto = Object.prototype;
-
-	/**
-	 * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
-	 * of values.
-	 */
-	var objectToString = objectProto.toString;
-
-	/**
-	 * Checks if `value` is classified as a `String` primitive or object.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
-	 * @example
-	 *
-	 * _.isString('abc');
-	 * // => true
-	 *
-	 * _.isString(1);
-	 * // => false
-	 */
-	function isString(value) {
-	  return typeof value == 'string' ||
-	    (!isArray(value) && isObjectLike(value) && objectToString.call(value) == stringTag);
-	}
-
-	module.exports = isString;
-
-
-/***/ },
-/* 57 */
-/***/ function(module, exports) {
-
-	/** Used for built-in method references. */
-	var objectProto = Object.prototype;
-
-	/**
-	 * Checks if `value` is likely a prototype object.
-	 *
-	 * @private
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
-	 */
-	function isPrototype(value) {
-	  var Ctor = value && value.constructor,
-	      proto = (typeof Ctor == 'function' && Ctor.prototype) || objectProto;
-
-	  return value === proto;
-	}
-
-	module.exports = isPrototype;
-
-
-/***/ },
-/* 58 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
-	exports.default = Event = __webpack_require__(59);
+	exports.default = undefined;
+
+	var _customEvent = __webpack_require__(20);
+
+	var _customEvent2 = _interopRequireDefault(_customEvent);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = _customEvent2.default;
 
 /***/ },
-/* 59 */
+/* 20 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {

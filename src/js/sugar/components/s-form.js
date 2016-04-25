@@ -8,22 +8,20 @@
  * @updated  20.01.16
  * @version  1.0.0
  */
-import SugarElement from '../core/sugar-element'
-import sDom from '../core/sugar-dom'
-import sTools from '../core/sugar-tools'
+import SElement from '../core/s-element'
+import sDom from '../core/s-dom'
+import sTools from '../core/s-tools'
 import Pikaday from 'pikaday-time'
-import sSettings from '../core/sugar-settings'
-import Event from '../core/sugar-event'
-var _get = require('lodash/get');
+import sSettings from '../core/s-settings'
 
 // Actual activate element class
-class SugarRadioboxElement extends SugarElement {
+class SugarRadioboxElement extends SElement {
 
 	/**
 	 * Setup
 	 */
 	static setup(type, settings) {
-		SugarElement.setup('sRadiobox', type, settings);
+		SElement.setup('sRadiobox', type, settings);
 	}
 
 	/**
@@ -69,13 +67,13 @@ sDom.querySelectorLive('[data-s-radiobox][type="checkbox"],[data-s-radiobox][typ
 });
 
 // Date picker
-class SugarDatepickerElement extends SugarElement {
+class SugarDatepickerElement extends SElement {
 
 	/**
 	 * Setup
 	 */
 	static setup(type, settings) {
-		SugarElement.setup('sDatepicker', type, settings);
+		SElement.setup('sDatepicker', type, settings);
 	}
 
 	/**

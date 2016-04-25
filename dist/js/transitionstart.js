@@ -55,12 +55,12 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(164);
+	module.exports = __webpack_require__(162);
 
 
 /***/ },
 
-/***/ 164:
+/***/ 162:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -82,14 +82,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	// Actual activate element class
 
-	var SugarTransitionstartEventDispatcher = function () {
+	var STransitionstartEventDispatcher = function () {
 
 		/**
 	  * Constructor
 	  */
 
-		function SugarTransitionstartEventDispatcher() {
-			_classCallCheck(this, SugarTransitionstartEventDispatcher);
+		function STransitionstartEventDispatcher() {
+			_classCallCheck(this, STransitionstartEventDispatcher);
 
 			// listen for transitionend
 			document.addEventListener('transitionend', this._onTransitionEnd, false);
@@ -104,7 +104,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-		SugarTransitionstartEventDispatcher.prototype._onTransitionEnd = function _onTransitionEnd(e) {
+		STransitionstartEventDispatcher.prototype._onTransitionEnd = function _onTransitionEnd(e) {
 			if (e.elapsedTime == 0.000001 || e.propertyName == 'outline-color') {
 				e.target.dispatchEvent(new CustomEvent('transitionstart', {
 					bubbles: true,
@@ -113,13 +113,13 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 		};
 
-		return SugarTransitionstartEventDispatcher;
+		return STransitionstartEventDispatcher;
 	}();
 
 	// create the new dispatcher instance
 
 
-	var dispatcher = new SugarTransitionstartEventDispatcher();
+	var dispatcher = new STransitionstartEventDispatcher();
 
 	// export the dispatcher
 	exports.default = dispatcher;

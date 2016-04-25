@@ -1,5 +1,5 @@
 // imports
-import sDom from './sugar-dom';
+import sDom from './s-dom';
 var _extend = require('lodash/extend');
 
 // prepare a settings object to store

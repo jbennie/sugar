@@ -10,7 +10,7 @@
  */
 
 // Actual activate element class
-class SugarTransitionstartEventDispatcher {
+class STransitionstartEventDispatcher {
 
 	/**
 	 * Constructor
@@ -38,7 +38,7 @@ class SugarTransitionstartEventDispatcher {
 }
 
 // create the new dispatcher instance
-let dispatcher = new SugarTransitionstartEventDispatcher();
+let dispatcher = new STransitionstartEventDispatcher();
 
 // export the dispatcher
 export default dispatcher;

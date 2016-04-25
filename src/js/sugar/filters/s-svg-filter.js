@@ -1,9 +1,9 @@
-import * as sugarTools from '../core/sugar-tools'
+import * as sTools from '../core/s-tools'
 
 let _sSvgFilters = [];
 let _sIsSvgInjected = false;
 
-export default class SugarSvgFilter {
+export default class SSvgFilter {
 
 	/**
 	 * Constructor
@@ -17,10 +17,10 @@ export default class SugarSvgFilter {
 		this.filter_content = filter_content;
 
 		// generate a uniqid
-		this.id = 's-svg-filter-' + sugarTools.uniqid();
+		this.id = 's-svg-filter-' + sTools.uniqid();
 
 		// if need to inject svg
-		if ( ! document.body.querySelector('#s-svg-filters')) SugarSvgFilter._injectFiltersContainer();
+		if ( ! document.body.querySelector('#s-svg-filters')) SSvgFilter._injectFiltersContainer();
 
 		// insert the filter
 		this._insertFilter();
@@ -67,7 +67,7 @@ export default class SugarSvgFilter {
 		defs.innerHTML = this.filter_content;
 		this.filter = defs.querySelector('#'+this.id);
 		this.svg = div.querySelector('svg');
-		SugarSvgFilter.filtersContainer.appendChild(this.svg);
+		SSvgFilter.filtersContainer.appendChild(this.svg);
 	}
 
 	/**
@@ -90,10 +90,10 @@ export default class SugarSvgFilter {
 		if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
 			style.push('display:none;');
 		}
-		SugarSvgFilter.filtersContainer = document.createElement('div');
-		SugarSvgFilter.filtersContainer.id = 's-svg-filters';
-		SugarSvgFilter.filtersContainer.style = style.join(' ');
-		document.body.appendChild(SugarSvgFilter.filtersContainer);
+		SSvgFilter.filtersContainer = document.createElement('div');
+		SSvgFilter.filtersContainer.id = 's-svg-filters';
+		SSvgFilter.filtersContainer.style = style.join(' ');
+		document.body.appendChild(SSvgFilter.filtersContainer);
 	}
 
 }

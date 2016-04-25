@@ -8,15 +8,12 @@
  * @updated  20.01.16
  * @version  1.0.0
  */
-import SugarSvgFilter from './sugar-svgfilter'
-import SugarElement from '../core/sugar-element'
-import sDom from '../core/sugar-dom'
-var _get = require('lodash/get');
+import SSvgFilter from './s-svg-filter'
 
 /**
  * Svg filter
  */
-class SugarGooeyFilter extends SugarSvgFilter {
+class SGooeySvgFilter extends SSvgFilter {
 
 	/**
 	 * Constructor
@@ -73,63 +70,9 @@ class SugarGooeyFilter extends SugarSvgFilter {
 	}
 }
 
-// Actual activate element class
-class SugarGooeyElement extends SugarElement {
-
-	/**
-	 * Setup
-	 */
-	// static setup(type, settings) {
-	// 	SugarElement.setup('sActivate', type, settings);
-	// }
-
-	/**
-	 * Constructor
-	 */
-	constructor(elm, settings = {}) {
-		super('sGooey', elm, {
-		}, settings);
-		if (this._inited) return;
-		this._inited = true;
-
-		// init the filter
-		this._initFilter();
-	}
-
-	/**
-	 * Init the filter
-	 */
-	_initFilter() {
-		// get amount
-		let amount = this.dataset('sGooey') || 10;
-		let blur = this.dataset('sGooeyBlur');
-		let contrast = this.dataset('sGooeyContrast');
-		let shrink = this.dataset('sGooeyShrink');
-		// create a new svg filter
-		this.filter = new SugarGooeyFilter(amount);
-		// apply the filter
-		this.filter.applyTo(this.elm);
-		if (blur) this.filter.blur = blur;
-		if (contrast) this.filter.contrast = contrast;
-		if (shrink) this.filter.shrink = shrink;
-	}
-}
-
-// Automatic init of dom elements
-sDom.domReady(() => {
-	[].forEach.call(document.body.querySelectorAll('[data-s-gooey]'), (item) => {
-		// init gooey element
-		new SugarGooeyElement(item);
-	});
-});
-
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }
-window.sugar.GooeyElement = SugarGooeyElement;
-window.sugar.GooeyFilter = SugarGooeyFilter;
+window.sugar.SGooeySvgFilter = SGooeySvgFilter;
 
 // export modules
-module.exports = {
-	GooeyFilter : SugarGooeyFilter,
-	GooeyElement : SugarGooeyElement
-};
+export default SGooeySvgFilter;

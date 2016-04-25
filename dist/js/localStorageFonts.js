@@ -55,12 +55,12 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(161);
+	module.exports = __webpack_require__(158);
 
 
 /***/ },
 
-/***/ 161:
+/***/ 158:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -84,14 +84,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	// Localstorage fonts
 
-	var SugarLocalStorageFonts = function () {
+	var SLocalStorageFonts = function () {
 
 		/**
 	  * Constructor
 	  */
 
-		function SugarLocalStorageFonts() {
-			_classCallCheck(this, SugarLocalStorageFonts);
+		function SLocalStorageFonts() {
+			_classCallCheck(this, SLocalStorageFonts);
 
 			this.settings = {
 				version: 1.0,
@@ -105,7 +105,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-		SugarLocalStorageFonts.prototype.init = function init() {
+		SLocalStorageFonts.prototype.init = function init() {
 			var _this = this;
 
 			var settings = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
@@ -181,7 +181,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-		SugarLocalStorageFonts.prototype._insertFonts = function _insertFonts(value) {
+		SLocalStorageFonts.prototype._insertFonts = function _insertFonts(value) {
 			this._debug('inserting fonts');
 			var style = document.createElement('style');
 			style.innerHTML = value;
@@ -193,13 +193,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-		SugarLocalStorageFonts.prototype._debug = function _debug() {
+		SLocalStorageFonts.prototype._debug = function _debug() {
 			if (this.settings.debug) {
 				console.log('SUGAR-LOCALSTORAGEFONTS', arguments);
 			}
 		};
 
-		return SugarLocalStorageFonts;
+		return SLocalStorageFonts;
 	}();
 
 	;
@@ -208,10 +208,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	if (window.sugar == null) {
 		window.sugar = {};
 	}
-	window.sugar.localStorageFonts = new SugarLocalStorageFonts();
+	window.sugar.sLocalStorageFonts = new SLocalStorageFonts();
 
 	// export modules
-	exports.default = window.sugar.localStorageFonts;
+	exports.default = window.sugar.sLocalStorageFonts;
 
 /***/ }
 

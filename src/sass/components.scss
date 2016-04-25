@@ -11,6 +11,11 @@
 @include s-dropup();
 
 //
+// Activate
+//
+@include s-activate();
+
+//
 // Nav
 //
 @include s-nav-tabs(

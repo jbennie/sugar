@@ -43,14 +43,20 @@ webpackAppParams = _.extend {}, webpackParams,
 		libraryTarget: 'umd'
 webpackDistParams = _.extend {}, webpackParams,
 	entry: {
-		'drawer': ["./src/js/sugar/components/sugar-drawer.js"]
-		'gooey': ["./src/js/sugar/filters/sugar-gooey.js"]
-		'motionblur': ["./src/js/sugar/filters/sugar-motionblur.js"]
-		'gradient': ["./src/js/sugar/filters/sugar-gradient.js"]
-		'transitionstart': ["./src/js/sugar/events/sugar-transitionstart.js"]
-		'localStorageFonts': ["./src/js/sugar/fonts/sugar-localstoragefonts.js"]
-		'activate' : ['./src/js/sugar/components/sugar-activate.js']
-		'form' : ['./src/js/sugar/components/sugar-form.js']
+		'drawer': [
+			"./src/js/sugar/components/s-drawer-element.js"
+			"./src/js/sugar/components/s-drawer-manager.js"
+		]
+		'gooey': ["./src/js/sugar/filters/s-gooey-element.js"]
+		'motionblur': ["./src/js/sugar/filters/s-motionblur-element.js"]
+		'gradient': ["./src/js/sugar/filters/s-gradient-element.js"]
+		'transitionstart': ["./src/js/sugar/events/s-transitionstart.js"]
+		'localStorageFonts': ["./src/js/sugar/fonts/s-localstoragefonts.js"]
+		'activate' : [
+			'./src/js/sugar/components/s-activate-element.js'
+			'./src/js/sugar/components/s-activate-manager.js'
+		]
+		'form' : ['./src/js/sugar/components/s-form.js']
 		'sugar' : ['./src/js/sugar/sugar.js']
 	},
 	output:

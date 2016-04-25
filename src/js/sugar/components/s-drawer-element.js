@@ -8,20 +8,20 @@
  * @updated  20.01.16
  * @version  1.0.0
  */
-import SugarElement from '../core/sugar-element'
-import sDom from '../core/sugar-dom'
+import SElement from '../core/s-element'
+import sDom from '../core/s-dom'
 
 // save all the activate elements
 let _sDrawerStack = {};
 
 // Actual activate element class
-class SugarDrawerElement extends SugarElement {
+class SDrawerElement extends SElement {
 
 	/**
 	 * Setup
 	 */
 	static setup(type, settings) {
-		SugarElement.setup('sDrawer', type, settings);
+		SElement.setup('sDrawer', type, settings);
 	}
 
 	/**
@@ -156,75 +156,9 @@ class SugarDrawerElement extends SugarElement {
 	}
 }
 
-class SugarDrawerManager {
-	
-	/**
-	 * Constructor
-	 */
-	constructor() {
-
-		// what that the dom is ready
-		sDom.domReady(() => {
-			this._init();
-		});
-	}
-
-	/**
-	 * Init
-	 */
-	_init() {
-
-		// init all elements in the page
-		[].forEach.call(document.body.querySelectorAll('[data-s-drawer]'), (elm) => {
-			new SugarDrawerElement(elm);
-		});
-
-		// listen for new element
-		sDom.querySelectorLive('[data-s-drawer]', (element) => {
-			new SugarDrawerElement(element);
-		});
-	}
-
-	/**
-	 * Find a special activate element
-	 */
-	find(id) {
-		if ( ! _sDrawerStack[id]) return false;
-		return _sDrawerStack[id];
-	}
-
-	/**
-	 * Open a special id
-	 */
-	open(id) {
-		let item = this.find(id);
-		if (item) return item.open();
-	}
-
-	/**
-	 * Close
-	 */
-	close(id) {
-		let item = this.find(id);
-		if (item) return item.close();
-	}
-
-	/**
-	 * Is open
-	 */
-	isOpen(id) {
-		let item = this.find(id);
-		if (item) return item.isOpen();
-	}
-};
-
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }
-window.sugar.drawerManager = new SugarDrawerManager();
-window.sugar.DrawerElement = SugarDrawerElement;
+window.sugar.SDrawerElement = SDrawerElement;
 
 // export modules
-module.exports = {
-	drawerManager : window.sugar.drawerManager,
-	DrawerElement : SugarDrawerElement
-};
+export default SDrawerElement;

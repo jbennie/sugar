@@ -8,21 +8,20 @@
  * @updated  20.01.16
  * @version  1.0.0
  */
-import SugarElement from '../core/sugar-element'
-import sDom from '../core/sugar-dom'
-var _get = require('lodash/get');
+import SElement from '../core/s-element'
+import sDom from '../core/s-dom'
 
 // save all the activate elements
 let _sActivateStack = {};
 
 // Actual activate element class
-class SugarActivateElement extends SugarElement {
+class SActivateElement extends SElement {
 
 	/**
 	 * Setup
 	 */
 	static setup(type, settings) {
-		SugarElement.setup('sActivate', type, settings);
+		SElement.setup('sActivate', type, settings);
 	}
 
 	/**
@@ -54,10 +53,10 @@ class SugarActivateElement extends SugarElement {
 			return;
 		}
 		this.inited = true;
-		let group = this.dataset('sActivateGroup');
+		let group = this.elm.dataset.sActivateGroup;
 
 		// save in stack
-		_sActivateStack[this.dataset('sActivate')] = this;
+		_sActivateStack[this.elm.dataset.sActivate] = this;
 
 		// update references
 		this.update();
@@ -70,22 +69,31 @@ class SugarActivateElement extends SugarElement {
 		// managing group
 		if (! group) {
 			[].forEach.call(this.elm.parentNode.childNodes, (sibling) => {
-				if ( ! this.dataset('sActivateGroup')) {
-					let sActivate = this.dataset('sActivate', null, sibling);
-					if (sActivate) {
-						let sibling_grp = this.dataset('sActivateGroup', null, sibling);
+				if ( ! this.elm.dataset.sActivateGroup) {
+					// let sActivate = this.dataset('sActivate', null, sibling);
+					// console.log(sibling);
+					// sActivate = sibling.dataset.sActivate;
+					// console.log(sActivate);
+					if (sibling.dataset && sibling.dataset.sActivate) {
+						let sibling_grp = null;
+						if (sibling.dataset) {
+							sibling_grp = sibling.dataset.sActivateGroup;
+						}
+						// let sibling_grp = sibling.dataset('sActivateGroup', null, sibling);
 						if (sibling_grp && sibling.sActivateGeneratedGroup) {
-							this.dataset('sActivateGroup', sibling_grp);
+							this.elm.dataset.sActivateGroup = sibling_grp;
 						}
 					}
 				}
 			});
 
 			// if we don't have any group yet
-			if ( ! this.dataset('sActivateGroup')) {
-				this.dataset('sActivateGroup', 'group-'+Math.round(Math.random()*99999999));
+			if ( ! this.elm.dataset.sActivateGroup) {
+				console.log('no group');
+				this.elm.dataset.sActivateGroup = 'group-'+Math.round(Math.random()*99999999);
 				this.elm.sActivateGeneratedGroup = true;
 			}
+			console.dir(this.elm.dataset.sActivateGroup);
 		}
 
 		// check if we are in another s-activate element
@@ -111,13 +119,13 @@ class SugarActivateElement extends SugarElement {
 				if (this.setting('history')) {
 					// simply activate again if the same id that anchor
 					// this can happened when an element has history to false
-					if (document.location.hash && document.location.hash.substr(1) == this.dataset('sActivate')) {
+					if (document.location.hash && document.location.hash.substr(1) == this.elm.dataset.sActivate) {
 						this._activate();
 					} else {
 						// simply change the hash 
 						// the event listener will take care of activate the
 						// good element
-						document.location.hash = this.dataset('sActivate');
+						document.location.hash = this.elm.dataset.sActivate;
 					}
 				} else {
 					// activate the element
@@ -158,7 +166,7 @@ class SugarActivateElement extends SugarElement {
 			let hash = document.location.hash;
 			if (hash) {
 				hash = hash.substr(1);
-				if (hash == this.dataset('sActivate')) {
+				if (hash == this.elm.dataset.sActivate) {
 					this._activate();
 				}
 			}
@@ -177,7 +185,7 @@ class SugarActivateElement extends SugarElement {
 	 */
 	_activate() {
 		// unactive all group elements
-		let grp = this.dataset('sActivateGroup');
+		let grp = this.elm.dataset.sActivateGroup;
 		[].forEach.call(document.body.querySelectorAll('[data-s-activate-group="'+grp+'"]'), (group_elm) => {
 			// get the api
 			let api = group_elm.sActivate;
@@ -213,7 +221,7 @@ class SugarActivateElement extends SugarElement {
 			let hash = document.location.hash;
 			if (hash) {
 				hash = hash.substr(1);
-				if (hash == this.dataset('sActivate')) {
+				if (hash == this.elm.dataset.sActivate) {
 					this._activate();
 				}
 			}
@@ -226,7 +234,7 @@ class SugarActivateElement extends SugarElement {
 	activate() {
 		if (this.setting('history')) {
 			// change hash
-			document.location.hash = this.dataset('sActivate');
+			document.location.hash = this.elm.dataset.sActivate;
 		} else {
 			// activate simply
 			this._activate();
@@ -250,7 +258,10 @@ class SugarActivateElement extends SugarElement {
 	 * Update targets, etc...
 	 */
 	update(scope = document.body) {
-		this.targets = scope.querySelectorAll('#'+this.dataset('sActivate'));
+		this.targets = scope.querySelectorAll('#'+this.elm.dataset.sActivate);
+		[].forEach.call(this.targets, (target) => {
+			target.setAttribute('data-s-activate-target',true);
+		});
 	}
 
 	/**
@@ -268,51 +279,9 @@ class SugarActivateElement extends SugarElement {
 	}
 }
 
-class SugarActivateManager {
-	
-	/**
-	 * Constructor
-	 */
-	constructor() {
-		sDom.querySelectorLive('[data-s-activate]', (element) => {
-			if (!element.sActivate) {
-				new SugarActivateElement(element);
-			}
-		});
-	}
-
-	/**
-	 * Find a special activate element
-	 */
-	find(id) {
-		if ( ! _sActivateStack[id]) return false;
-		return _sActivateStack[id];
-	}
-
-	/**
-	 * Activate a special id
-	 */
-	activate(id) {
-		let item = this.find(id);
-		if (item) item.activate();
-	}
-
-	/**
-	 * Unactivate
-	 */
-	unactivate(id) {
-		let item = this.find(id);
-		if (item) item.unactivate();
-	}
-};
-
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }
-window.sugar.activateManager = new SugarActivateManager();
-window.sugar.ActivateElement = SugarActivateElement;
+window.sugar.SActivateElement = SActivateElement;
 
-// export modules
-module.exports = {
-	activateManager : window.sugar.activateManager,
-	ActivateElement : SugarActivateElement
-};
+// export
+export default SActivateElement;

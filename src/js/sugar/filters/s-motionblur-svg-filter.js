@@ -8,12 +8,10 @@
  * @updated  20.01.16
  * @version  1.0.0
  */
-import SugarSvgFilter from './sugar-svgfilter'
-import SugarElement from '../core/sugar-element'
-import sDom from '../core/sugar-dom'
+import SSvgFilter from './s-svg-filter'
 
 // motionblur filter
-class SugarMotionblurFilter extends SugarSvgFilter {
+class SMotionblurSvgFilter extends SSvgFilter {
 
 	/**
 	 * Constructor
@@ -96,58 +94,9 @@ class SugarMotionblurFilter extends SugarSvgFilter {
 	}
 }
 
-// Actual activate element class
-class SugarMotionblurElement extends SugarElement {
-
-	/**
-	 * Setup
-	 */
-	// static setup(type, settings) {
-	// 	SugarElement.setup('sActivate', type, settings);
-	// }
-
-	/**
-	 * Constructor
-	 */
-	constructor(elm, settings = {}) {
-		super('sMotionblur', elm, {
-			motionblur : 0.5
-		}, settings);
-		if (this._inited) return;
-		this._inited = true;
-
-		// init the filter
-		this._initFilter();
-	}
-
-	/**
-	 * Init the filter
-	 */
-	_initFilter() {
-		// get amount
-		let amount = this.setting('motionblur');
-		// create a new svg filter
-		this.filter = new SugarMotionblurFilter(amount);
-		// apply the filter
-		this.filter.applyTo(this.elm);
-	}
-}
-
-// automatic init of dom elements
-sDom.domReady(() => {
-	[].forEach.call(document.body.querySelectorAll('[data-s-motionblur]'), (item) => {
-		// init gooey element
-		new SugarMotionblurElement(item);
-	});
-});
-
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }
-window.sugar.MotionblurFilter = SugarMotionblurFilter;
-window.sugar.MotionblurElement = SugarMotionblurElement;
+window.sugar.SMotionblurSvgFilter = SMotionblurSvgFilter;
 
 // export modules
-module.exports = {
-	MotionblurFilter : SugarMotionblurFilter,
-	MotionblurElement : SugarMotionblurElement
-};
+export default SMotionblurSvgFilter;

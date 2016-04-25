@@ -408,7 +408,7 @@ table {
 }
 
 .s-settings:after {
-  content: "{'\"reset\"': true, '\"border-box\"': true, '\"sizes\"': {'\"smaller\"': 0.6, '\"small\"': 0.8, '\"default\"': 1, '\"medium\"': 1.4, '\"big\"': 1.8, '\"bigger\"': 2.4}, '\"typo\"': {'\"font-family\"': '\"helvetica\"', '\"font-size\"': '\"13px\"', '\"font-sizes\"': {'\"11.5px\"': {'\"min-width\"': 0, '\"max-width\"': '\"800px\"'}, '\"9.5px\"': {'\"min-width\"': 0, '\"max-width\"': '\"400px\"'}}, '\"line-letters-count\"': 55, '\"font-format\"': {'\"eot\"': '\"embedded-opentype\"', '\"woff2\"': '\"woff2\"', '\"woff\"': '\"woff\"', '\"ttf\"': '\"truetype\"', '\"otf\"': '\"opentype\"', '\"svg\"': '\"svg\"', '\"svgz\"': '\"svgz\"'}}, '\"look-and-feel\"': {'\"border-radius\"': {'\"default\"': '\"3px\"'}, '\"padding-vertical\"': {'\"default\"': '\"1rem\"'}, '\"padding-horizontal\"': {'\"default\"': '\"0.8rem\"'}, '\"font-size\"': {'\"default\"': '\"1rem\"'}}, '\"spaces\"': {'\"default\"': '\"2rem\"'}, '\"colors\"': {'\"default\"': {'\"color\"': '\"#8195a1\"'}, '\"text\"': {'\"color\"': '\"default\"'}, '\"link\"': {'\"color\"': '\"primary\"'}, '\"primary\"': '\"orange\"', '\"secondary\"': {'\"color\"': '\"#777\"'}, '\"success\"': {'\"color\"': '\"#5cb85c\"'}, '\"warning\"': {'\"color\"': '\"#f0ad4e\"'}, '\"error\"': {'\"color\"': '\"#d9534f\"'}, '\"info\"': {'\"color\"': '\"#2199e8\"'}, '\"grey\"': {'\"color\"': '\"#c1c1c1\"', '\"modifiers\"': {'\"light\"': '\"#fafafa\"', '\"dark\"': ['\"-darken\"', '\"15%\"']}}, '\"blue\"': {'\"color\"': '\"#8195a1\"'}, '\"green\"': '\"#00ff00\"', '\"orange\"': {'\"color\"': '\"#f2bc2b\"', '\"classes\"': ['\"color\"', '\"bkg\"'], '\"modifiers\"': {'\"light\"': '\"#f2ebd6\"', '\"dark\"': '\"#563c05\"'}}}, '\"vertical-rhythme\"': {'\"enabled\"': true, '\"scope-class\"': '\"vertical-rhythme\"', '\"no-vertical-rhythme-class\"': false}, '\"selector\"': {'\"method\"': '\"BEM\"'}, '\"BEM\"': {'\"standelone-modifier\"': false, '\"element-separator\"': '\"__\"', '\"modifier-separator\"': '\"--\"'}, '\"modular-scale\"': {'\"base\"': '\"1rem\"', '\"ratio\"': 1.618034, '\"range\"': null, '\"fluid\"': false}, '\"fonts\"': {'\"default\"': {'\"font-family\"': ['\"Helvetica Neue\"', '\"Helvetica\"', '\"Verdana\"', '\"Arial\"', '\"sans-serif\"'], '\"font-weight\"': '\"normal\"', '\"cap-height\"': 0.65}, '\"code\"': {'\"font-family\"': ['\"Menlo\"', '\"Monaco\"', '\"Consolas\"', '\"Courier New\"', '\"monospace\"'], '\"font-weight\"': '\"normal\"', '\"cap-height\"': 0.65}, '\"helvetica\"': {'\"font-family\"': '\"Open Sans\"', '\"cap-height\"': 0.65}, '\"helvetica-bold\"': {'\"font-family\"': '\"Open Sans\"', '\"font-weight\"': 700, '\"cap-height\"': 0.65}, '\"helvetica-light\"': {'\"font-family\"': '\"Open Sans\"', '\"font-weight\"': 300, '\"cap-height\"': 0.65}, '\"cousine\"': {'\"font-family\"': '\"Cousine\"', '\"cap-height\"': 0.61}}, '\"filters\"': {'\"shadow\"': '\"box-shadow(#text 0 0 32px)\"', '\"blur\"': '\"blur(30px)\"'}, '\"transitions\"': {'\"duration\"': '\"0.2s\"', '\"ease\"': '\"ease-in-out\"', '\"delay\"': '\"0s\"', '\"property\"': '\"all\"', '\"transitions\"': {'\"fast\"': ['\"all\"', '\"0.1s\"', '\"ease-in-out\"'], '\"normal\"': ['\"all\"', '\"0.2s\"', '\"ease-in-out\"'], '\"slow\"': ['\"all\"', '\"0.5s\"', '\"ease-in-out\"']}}, '\"components\"': {'\"animate-css\"': {'\"duration\"': '\"1s\"', '\"ease\"': '\"ease-in-out\"', '\"fill-mode\"': '\"both\"', '\"animations\"': ['\"rubberBand\"', '\"tada\"', '\"flipOutX\"', '\"fadeIn\"']}, '\"button\"': {'\"generate\"': {'\"colors\"': ['\"default\"', '\"primary\"', '\"secondary\"', '\"success\"', '\"warning\"', '\"error\"', '\"info\"'], '\"sizes\"': '\"default\"'}}, '\"drawer\"': {'\"method\"': '\"translate\"', '\"size\"': '\"400px\"', '\"side\"': '\"left\"', '\"type\"': '\"push\"'}, '\"dropdown\"': {'\"generate\"': {'\"sizes\"': '\"default\"', '\"colors\"': '\"default\"', '\"bare\"': false}}, '\"font-awesome\"': {'\"font-path\"': '\"../fonts/font-awesome\"', '\"version\"': [4.4, 0], '\"icons\"': ['\"user\"', '\"gg-circle\"', '\"angle-right\"', '\"bars\"', '\"check\"', '\"coffee\"', '\"camera-retro\"', '\"cloud\"', '\"arrow-up\"', '\"linkedin\"', '\"github\"', '\"home\"', '\"twitter\"', '\"beer\"', '\"caret-down\"']}, '\"formset\"': {'\"scope-class\"': '\"formset\"', '\"generate\"': {'\"colors\"': ['\"default\"', '\"primary\"', '\"secondary\"', '\"success\"', '\"warning\"', '\"error\"', '\"info\"'], '\"sizes\"': '\"default\"', '\"styles\"': ['\"inline\"', '\"inside\"']}}, '\"nav\"': {'\"generate\"': {'\"colors\"': ['\"default\"', '\"primary\"', '\"secondary\"', '\"success\"', '\"warning\"', '\"error\"', '\"info\"'], '\"sizes\"': '\"default\"'}}, '\"typeset\"': {'\"scope-class\"': '\"typeset\"', '\"titles\"': {'\"default\"': {'\"margin-bottom\"': '\"2rem\"', '\"color\"': '\"black\"'}, '\"h1\"': {'\"font-size\"': '\"57px\"', '\"font-family\"': '\"helvetica-light\"'}, '\"h2\"': {'\"font-size\"': '\"50px\"', '\"font-family\"': '\"helvetica-light\"'}, '\"h3\"': {'\"font-size\"': '\"36px\"', '\"font-family\"': '\"helvetica-light\"'}, '\"h4\"': {'\"font-size\"': '\"26px\"'}, '\"h5\"': {'\"font-size\"': '\"20px\"'}, '\"h6\"': {'\"font-size\"': '\"1rem\"'}}, '\"paragraphs\"': {'\"default\"': {'\"font-size\"': '\"16px\"', '\"margin-bottom\"': '\"2rem\"'}, '\"lead\"': {'\"font-size\"': '\"22px\"'}}, '\"lists\"': {'\"default\"': {'\"font-size\"': '\"16px\"', '\"margin-bottom\"': '\"2rem\"'}, '\"ul\"': [], '\"ol\"': [], '\"dl\"': []}, '\"tables\"': {'\"default\"': {'\"margin-bottom\"': '\"2rem\"'}}}}}";
+  content: '{"reset": true, "border-box": true, "sizes": {"smaller": 0.6, "small": 0.8, "default": 1, "medium": 1.4, "big": 1.8, "bigger": 2.4}, "typo": {"font-family": "helvetica", "font-size": "13px", "font-sizes": {"11.5px": {"min-width": 0, "max-width": "800px"}, "9.5px": {"min-width": 0, "max-width": "400px"}}, "line-letters-count": 55, "font-format": {"eot": "embedded-opentype", "woff2": "woff2", "woff": "woff", "ttf": "truetype", "otf": "opentype", "svg": "svg", "svgz": "svgz"}}, "look-and-feel": {"border-radius": {"default": "3px"}, "padding-vertical": {"default": "1rem"}, "padding-horizontal": {"default": "0.8rem"}, "font-size": {"default": "1rem"}}, "spaces": {"default": "2rem"}, "colors": {"default": {"color": "#8195a1"}, "text": {"color": "default"}, "link": {"color": "primary"}, "primary": "orange", "secondary": {"color": "#777"}, "success": {"color": "#5cb85c"}, "warning": {"color": "#f0ad4e"}, "error": {"color": "#d9534f"}, "info": {"color": "#2199e8"}, "grey": {"color": "#c1c1c1", "modifiers": {"light": "#fafafa", "dark": ["-darken", "15%"]}}, "blue": {"color": "#8195a1"}, "green": "#00ff00", "orange": {"color": "#f2bc2b", "classes": ["color", "bkg"], "modifiers": {"light": "#f2ebd6", "dark": "#563c05"}}}, "vertical-rhythme": {"enabled": true, "scope-class": "vertical-rhythme", "no-vertical-rhythme-class": false}, "selector": {"method": "BEM"}, "BEM": {"standelone-modifier": false, "element-separator": "__", "modifier-separator": "--"}, "modular-scale": {"base": "1rem", "ratio": 1.618034, "range": null, "fluid": false}, "fonts": {"default": {"font-family": ["Helvetica Neue", "Helvetica", "Verdana", "Arial", "sans-serif"], "font-weight": "normal", "cap-height": 0.65}, "code": {"font-family": ["Menlo", "Monaco", "Consolas", "Courier New", "monospace"], "font-weight": "normal", "cap-height": 0.65}, "helvetica": {"font-family": "Open Sans", "cap-height": 0.65}, "helvetica-bold": {"font-family": "Open Sans", "font-weight": 700, "cap-height": 0.65}, "helvetica-light": {"font-family": "Open Sans", "font-weight": 300, "cap-height": 0.65}, "cousine": {"font-family": "Cousine", "cap-height": 0.61}}, "filters": {"shadow": "box-shadow(#text 0 0 32px)", "blur": "blur(30px)"}, "transitions": {"duration": "0.2s", "ease": "ease-in-out", "delay": "0s", "property": "all", "transitions": {"fast": ["all", "0.1s", "ease-in-out"], "normal": ["all", "0.2s", "ease-in-out"], "slow": ["all", "0.5s", "ease-in-out"]}}, "components": {"activate": [], "animate-css": {"duration": "1s", "ease": "ease-in-out", "fill-mode": "both", "animations": ["rubberBand", "tada", "flipOutX", "fadeIn"]}, "button": {"generate": {"colors": ["default", "primary", "secondary", "success", "warning", "error", "info"], "sizes": "default"}}, "drawer": {"method": "translate", "size": "400px", "side": "left", "type": "push"}, "dropdown": {"generate": {"sizes": "default", "colors": "default", "bare": false}}, "font-awesome": {"font-path": "../fonts/font-awesome", "version": [4.4, 0], "icons": ["user", "gg-circle", "angle-right", "bars", "check", "coffee", "camera-retro", "cloud", "arrow-up", "linkedin", "github", "home", "twitter", "beer", "caret-down"]}, "formset": {"scope-class": "formset", "generate": {"colors": ["default", "primary", "secondary", "success", "warning", "error", "info"], "sizes": "default", "styles": ["inline", "inside"]}}, "nav": {"generate": {"colors": ["default", "primary", "secondary", "success", "warning", "error", "info"], "sizes": "default"}}, "typeset": {"scope-class": "typeset", "titles": {"default": {"margin-bottom": "2rem", "color": "black"}, "h1": {"font-size": "57px", "font-family": "helvetica-light"}, "h2": {"font-size": "50px", "font-family": "helvetica-light"}, "h3": {"font-size": "36px", "font-family": "helvetica-light"}, "h4": {"font-size": "26px"}, "h5": {"font-size": "20px"}, "h6": {"font-size": "1rem"}}, "paragraphs": {"default": {"font-size": "16px", "margin-bottom": "2rem"}, "lead": {"font-size": "22px"}}, "lists": {"default": {"font-size": "16px", "margin-bottom": "2rem"}, "ul": [], "ol": [], "dl": []}, "tables": {"default": {"margin-bottom": "2rem"}}}}}';
   display: none;
 }
 
@@ -1989,67 +1989,67 @@ pre > code {
 .slide-0 [data-slidizle-content] {
   -webkit-transform: translateX(0px) translateY(0) translateZ(0);
           transform: translateX(0px) translateY(0) translateZ(0);
-  outline-color: #9f3451;
+  outline-color: #1467a9;
 }
 
 .slide-1 [data-slidizle-content] {
   -webkit-transform: translateX(-640px) translateY(0) translateZ(0);
           transform: translateX(-640px) translateY(0) translateZ(0);
-  outline-color: #1ff325;
+  outline-color: #7d8278;
 }
 
 .slide-2 [data-slidizle-content] {
   -webkit-transform: translateX(-1280px) translateY(0) translateZ(0);
           transform: translateX(-1280px) translateY(0) translateZ(0);
-  outline-color: #79b206;
+  outline-color: #70e949;
 }
 
 .slide-3 [data-slidizle-content] {
   -webkit-transform: translateX(-1920px) translateY(0) translateZ(0);
           transform: translateX(-1920px) translateY(0) translateZ(0);
-  outline-color: #d8ec66;
+  outline-color: #49afb8;
 }
 
 .slide-4 [data-slidizle-content] {
   -webkit-transform: translateX(-2560px) translateY(0) translateZ(0);
           transform: translateX(-2560px) translateY(0) translateZ(0);
-  outline-color: #be2818;
+  outline-color: #2467f5;
 }
 
 .slide-5 [data-slidizle-content] {
   -webkit-transform: translateX(-3200px) translateY(0) translateZ(0);
           transform: translateX(-3200px) translateY(0) translateZ(0);
-  outline-color: #3575cb;
+  outline-color: #b89aaf;
 }
 
 .slide-6 [data-slidizle-content] {
   -webkit-transform: translateX(-3840px) translateY(0) translateZ(0);
           transform: translateX(-3840px) translateY(0) translateZ(0);
-  outline-color: #444c13;
+  outline-color: #343833;
 }
 
 .slide-7 [data-slidizle-content] {
   -webkit-transform: translateX(-4480px) translateY(0) translateZ(0);
           transform: translateX(-4480px) translateY(0) translateZ(0);
-  outline-color: #84c33f;
+  outline-color: #902ea5;
 }
 
 .slide-8 [data-slidizle-content] {
   -webkit-transform: translateX(-5120px) translateY(0) translateZ(0);
           transform: translateX(-5120px) translateY(0) translateZ(0);
-  outline-color: #fd6d4e;
+  outline-color: #6c20e3;
 }
 
 .slide-9 [data-slidizle-content] {
   -webkit-transform: translateX(-5760px) translateY(0) translateZ(0);
           transform: translateX(-5760px) translateY(0) translateZ(0);
-  outline-color: #632818;
+  outline-color: #acdc29;
 }
 
 .slide-10 [data-slidizle-content] {
   -webkit-transform: translateX(-6400px) translateY(0) translateZ(0);
           transform: translateX(-6400px) translateY(0) translateZ(0);
-  outline-color: #ca28f6;
+  outline-color: #822a12;
 }
 
 [data-slidizle-item] {
