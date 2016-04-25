@@ -3,14 +3,10 @@ import sString from './s-string'
 import Pro from 'promise-polyfill'
 if ( ! window.Promise) {
 	window.Promise = Pro;
-	// window.Promise._setUnhandledRejectionFn(function(rejectError) {});
 }
-// import 'core-js/fn/promise'
 import 'mutationobserver-shim'
 import 'classlist.js'
-import 'element-dataset'
 import '../vendors/queryselector-scope.js'
-import '../vendors/element-is-visible.js'
 let _insertAnimationListener = false;
 let _insertMutationObserver = null;
 let _insertDomElementsCallbacks = {};
@@ -40,13 +36,6 @@ let sDom = {
 			rect.bottom - offset.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
 			rect.right - offset.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
 		);
-	},
-
-	/** 
-	 * Check if element is really visible
-	 */
-	isTrullyVisible : (elm) => {
-		return elm.isTrullyVisible();
 	},
 
 	/**
@@ -95,8 +84,8 @@ let sDom = {
 					if (inViewport && isVisible) {
 						document.removeEventListener('scroll', checkViewport);
 						window.removeEventListener('resize', checkViewport);
-						if (cb)	cb();
-						resolve();
+						if (cb)	cb(elm);
+						resolve(elm);
 					}
 				}
 			let checkViewport = (e) => {
@@ -138,9 +127,53 @@ let sDom = {
 	},
 
 	/**
+	 * Grab all the visible element
+	 * And apply the callback when a new item match the selector
+	 */
+	querySelectorVisibleLive : (selector, cb, settings) => {
+		sDom.querySelectorLive(selector, (elm) => {
+			// check if is array
+			if (elm instanceof Array) {
+				elm.forEach((e) => {
+					sDom.whenVisible(e).then((e) => {
+						cb(e);
+					});
+				});
+			} else {
+				// check if is visible
+				sDom.whenVisible(elm).then((elm) => {
+					cb(elm);
+				});
+			}
+		}, settings);
+	},
+
+	/**
+	 * Grab all the visible elements
+	 */
+	querySelectorVisible : (selector, rootNode = document) => {
+		// return array
+		let elms = [];
+		// grab the elements in the page
+		[].forEach.call(rootNode.querySelectorAll(selector), (elm) => {
+			if (sDom.inViewport(elm) && sDom.isVisible(elm) && ! sDom.closestNotVisible(elm)) {
+				elms.push(elm);
+			}
+		});
+		// return the elements
+		return elms;
+	},
+
+	/**
 	 * Make a selector detectable when new element are pushed in the page
 	 */
-	querySelectorLive : (selector, cb, rootNode, groupedNodes = false)  => {
+	querySelectorLive : (selector, cb, settings = {}) => {
+
+		// extend settings
+		settings = {...{
+			rootNode : document,
+			groupedNodes : false
+		}, ...settings};
 
 		let _this = this;
 
@@ -178,8 +211,8 @@ let sDom = {
 				_this.nodes = [];			
 			},
 			selector : selector,
-			rootNode : rootNode,
-			groupedNodes : groupedNodes,
+			rootNode : settings.rootNode,
+			groupedNodes : settings.groupedNodes,
 			nodes : [],
 			timeout : null
 		};
@@ -188,7 +221,7 @@ let sDom = {
 		sDom.domReady(() => {
 
 			// rootNode
-			if ( ! rootNode) { rootNode = document.body; }			
+			if ( ! settings.rootNode) { settings.rootNode = document.body; }			
 
 			// check how we can detect new elements
 			if (window.MutationObserver != null) {
@@ -198,8 +231,8 @@ let sDom = {
 				// like angular, etc...
 				//setTimeout(() => {
 
-				if ( ! rootNode._s_insert_mutation_observer) {
-					rootNode._s_insert_mutation_observer = new MutationObserver((mutations) => {
+				if ( ! settings.rootNode._s_insert_mutation_observer) {
+					settings.rootNode._s_insert_mutation_observer = new MutationObserver((mutations) => {
 							
 						// check if what we need has been added
 						mutations.forEach((mutation) => {
@@ -253,13 +286,13 @@ let sDom = {
 
 						});
 					});
-					rootNode._s_insert_mutation_observer.observe(rootNode, {
+					settings.rootNode._s_insert_mutation_observer.observe(settings.rootNode, {
 						childList: true
 					});
 				}
 				
 				// parse the dom to find the currently present elements
-				[].forEach.call(rootNode.querySelectorAll(selector), (elm) => {
+				[].forEach.call(settings.rootNode.querySelectorAll(selector), (elm) => {
 					_insertDomElementsCallbacks[detection_id].nodes.push(elm);
 					if (_insertDomElementsCallbacks[detection_id].groupedNodes) {
 						clearTimeout(_insertDomElementsCallbacks[detection_id].timeout);
@@ -308,20 +341,19 @@ let sDom = {
 	 * Dom ready
 	 */
 	domReady : (cb = null) => {
-		// return new Promise((resolve, reject) => {
+		return new Promise((resolve, reject) => {
 			let _domReady = () => {
 				if (!document.body || /(un|ing)/.test(document.readyState)) {
 					setTimeout(() => {
 						_domReady();
 					},9);
 				} else {
-					console.log('loaded');
 					if (cb) cb();
-					// resolve();
+					resolve();
 				}
 			}
 			_domReady();
-		// });
+		});
 	},
 
 	/**
@@ -394,10 +426,6 @@ let sDom = {
 	offset : (elm) => {
 		let body, box, clientLeft, clientTop, docEl, left, scrollLeft, scrollTop, top, transX, transY;
 		box = elm.getBoundingClientRect();
-		// box = {
-		// 	top : sDom.offsetTop(elm),
-		// 	left : sDom.offsetLeft(elm)
-		// };
 		body = document.body;
 		docEl = document.documentElement;
 		scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
@@ -484,25 +512,6 @@ let sDom = {
 			elm = elm.previousSibling;
 		}
 		return false;
-	},
-
-	/**
-	 * Classes helpers
-	 */
-	hasClass : (elm, cls) => {
-		return elm.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
-	},
-	addClass : (elm, cls) => {
-		if (!sDom.hasClass(elm, cls)) {
-			return elm.className += ' ' + cls;
-		}
-	},
-	removeClass : (elm, cls) => {
-		let reg;
-		if (sDom.hasClass(elm, cls)) {
-			reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
-			return elm.className = elm.className.replace(reg, ' ');
-		}
 	}
 }
 

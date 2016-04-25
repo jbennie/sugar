@@ -35,4 +35,21 @@ export default {
 		});
 		return text.substr(0,1).toLowerCase() + text.slice(1);
 	},
+
+	/**
+	 * Auto cast the string into the correct variable type
+	 */
+	autoCast : (string) => {
+		if (string === "" || ! string) {
+			return true;
+		} else if (string == 'false'
+			|| string == 'true'
+			|| (typeof(string) == 'string' && string.substr(0,1) == '[')
+			|| ! isNaN(string)) {
+			return eval(string);
+		} else if (typeof(string) == 'string' && string.substr(0,1) == '{') {
+			return eval('('+string+')');
+		}
+		return string;
+	}
 }

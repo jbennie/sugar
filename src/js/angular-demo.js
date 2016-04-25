@@ -4,6 +4,7 @@ import angular from 'angular';
 //
 import sActivateManager from './sugar/components/s-activate-manager';
 import SSelectElement from './sugar/components/s-select-element';
+import sDrawerManager from './sugar/components/s-drawer-manager';
 // 
 // import SSelectElement from './sugar/index';
 // import SActivateElement from './sugar/index';

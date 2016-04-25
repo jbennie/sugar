@@ -8,20 +8,20 @@
  * @updated  20.01.16
  * @version  1.0.0
  */
-import SElement from '../core/s-element'
+import SComponent from '../core/s-component'
 import sDom from '../core/s-dom'
 import sTools from '../core/s-tools'
 import Pikaday from 'pikaday-time'
 import sSettings from '../core/s-settings'
 
 // Actual activate element class
-class SugarRadioboxElement extends SElement {
+class SugarRadioboxElement extends SComponent {
 
 	/**
 	 * Setup
 	 */
 	static setup(type, settings) {
-		SElement.setup('sRadiobox', type, settings);
+		SComponent.setup('sRadiobox', type, settings);
 	}
 
 	/**
@@ -67,13 +67,13 @@ sDom.querySelectorLive('[data-s-radiobox][type="checkbox"],[data-s-radiobox][typ
 });
 
 // Date picker
-class SugarDatepickerElement extends SElement {
+class SugarDatepickerElement extends SComponent {
 
 	/**
 	 * Setup
 	 */
 	static setup(type, settings) {
-		SElement.setup('sDatepicker', type, settings);
+		SComponent.setup('sDatepicker', type, settings);
 	}
 
 	/**
@@ -104,7 +104,7 @@ class SugarDatepickerElement extends SElement {
 		}
 
 		// check if a "from" is specified
-		let from = this.setting('from');
+		let from = this.settings.from;
 		if (from) {
 			// listen for change on the input
 			document.querySelector(from).addEventListener('change', (e) => {
@@ -122,7 +122,7 @@ class SugarDatepickerElement extends SElement {
 		}
 
 		// check if a "to" is specified
-		let to = this.setting('to');
+		let to = this.settings.to;
 		if (to) {
 			// listen for change on the input
 			document.querySelector(to).addEventListener('change', (e) => {
@@ -144,7 +144,7 @@ class SugarDatepickerElement extends SElement {
 			field : this.elm,
 			showTime : false,
 			theme : theme
-		}, ...this.settings()});
+		}, ...this.settings});
 	}
 }
 

@@ -137,7 +137,11 @@ gulp.task 'webpack-dist', ['clean-js'], ->
 	# .pipe babel
 	# 	presets: ['es2015','stage-0']
 	# 	compact: false
-	# .pipe uglify()
+	
+	.pipe gulp.dest 'dist/js'
+	.pipe uglify()
+	.pipe rename
+		extname : '.min.js'
 	.pipe gulp.dest 'dist/js'
 
 gulp.task 'webpack-app', ['clean-js'], ->
@@ -150,6 +154,10 @@ gulp.task 'webpack-app', ['clean-js'], ->
 	# 	presets: ['es2015','stage-0']
 	# 	#plugins: ['dataset']
 	# .pipe uglify()
+	.pipe gulp.dest 'assets/js'
+	.pipe uglify()
+	.pipe rename
+		extname : '.min.js'
 	.pipe gulp.dest 'assets/js'
 
 # register tasks

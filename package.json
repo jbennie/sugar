@@ -22,7 +22,8 @@
     "mutationobserver-shim": "^0.3.1",
     "pikaday": "^1.4.0",
     "pikaday-time": "^1.4.0",
-    "promise-polyfill": "^4.0.3"
+    "promise-polyfill": "^4.0.3",
+    "riot": "^2.3.18"
   },
   "devDependencies": {
     "angular": "^1.5.5",

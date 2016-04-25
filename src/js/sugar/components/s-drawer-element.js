@@ -8,20 +8,21 @@
  * @updated  20.01.16
  * @version  1.0.0
  */
-import SElement from '../core/s-element'
+import SComponent from '../core/s-component'
 import sDom from '../core/s-dom'
 
-// save all the activate elements
-let _sDrawerStack = {};
+if ( ! window._sDrawerStack) {
+	window._sDrawerStack = {};
+}
 
 // Actual activate element class
-class SDrawerElement extends SElement {
+class SDrawerElement extends SComponent {
 
 	/**
 	 * Setup
 	 */
 	static setup(type, settings) {
-		SElement.setup('sDrawer', type, settings);
+		SComponent.setup('sDrawer', type, settings);
 	}
 
 	/**
@@ -34,11 +35,13 @@ class SDrawerElement extends SElement {
 			handleHash : true
 		}, settings);
 
+		console.log('setings', this.settings);
+
 		// get the name
-		this.name = this.setting('name');
+		this.name = this.settings.name;
 
 		// add the class into the stack
-		_sDrawerStack[this.name] = this;
+		window._sDrawerStack[this.name] = this;
 
 		// init
 		this._init();
@@ -90,9 +93,9 @@ class SDrawerElement extends SElement {
 		this.toggle.addEventListener('change', (e) => {
 			let name = e.target.name;
 			if (e.target.checked) {
-				sDom.addClass(document.body, 's-drawer-'+this.name);
+				document.body.classList.add('s-drawer-'+this.name)
 			} else {
-				sDom.removeClass(document.body, 's-drawer-'+this.name);
+				document.body.classList.remove('s-drawer-'+this.name);
 			}
 		});
 
@@ -106,7 +109,7 @@ class SDrawerElement extends SElement {
 		}
 
 		// listen for click on links into the drawer to close it
-		if (this.setting('closeOnClick')) {
+		if (this.settings.closeOnClick) {
 			this.elm.addEventListener('click', (e) => {
 				if (e.target.nodeName.toLowerCase() == 'a') {
 					// close the drawer
@@ -116,7 +119,7 @@ class SDrawerElement extends SElement {
 		}
 
 		// if handle hach
-		if (this.setting('handleHash')) {
+		if (this.settings.handleHash) {
 			if (document.location.hash) {
 				let hash = document.location.hash.substr(1);
 				if (hash == this.name) {

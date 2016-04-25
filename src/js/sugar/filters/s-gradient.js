@@ -142,13 +142,13 @@ class SGradientElement extends SElement {
 	 * Init the filter
 	 */
 	_initFilter() {
-		let type = this.setting('type');
+		let type = this.settings.type;
 		// create a new svg filter
 		this.filter = new SGradientFilter();
 		if (type == 'radial') {
-			this.filter.radial(this.setting('colors'));
+			this.filter.radial(this.settings.colors);
 		} else {
-			this.filter.linear(this.setting('colors'));
+			this.filter.linear(this.settings.colors);
 		}
 		// apply the filter
 		this.filter.applyTo(this.elm);

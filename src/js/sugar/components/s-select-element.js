@@ -8,19 +8,19 @@
  * @updated  20.01.16
  * @version  1.0.0
  */
-import SElement from '../core/s-element'
+import SComponent from '../core/s-component'
 import sDom from '../core/s-dom'
 import sTools from '../core/s-tools'
 import SEvent from '../core/s-event'
 
 // Select
-class SSelectElement extends SElement {
+class SSelectElement extends SComponent {
 
 	/**
 	 * Setup
 	 */
 	static setup(type, settings) {
-		SElement.setup('sSelect', type, settings);
+		SComponent.setup('sSelect', type, settings);
 	}
 
 	/**
@@ -28,7 +28,6 @@ class SSelectElement extends SElement {
 	 */
 	constructor(elm, settings = {}) {
 		super('sSelect', elm, {
-			initWhenVisible : true,
 			onOpen : null,
 			onClose : null,
 			search : true,
@@ -38,11 +37,17 @@ class SSelectElement extends SElement {
 			screenMargin : 50
 		}, settings);
 
-		console.log('new item');
+		setTimeout(() => {
+			this.set('attr.coco', 'hello');
+		}, 2000);
 
-		// init proxy
-		super.initProxy().then(::this._init);
-		// this._init();
+		this.watch('attr.coco', (newVal) => {
+			console.log('NEW COCO', newVal);
+			console.log(this.attr);
+		});
+
+		// init
+		this._init();
 	}
 
 	/**
@@ -51,11 +56,6 @@ class SSelectElement extends SElement {
 	_init() {
 
 		console.log('init', this);
-
-		// setTimeout(() => {
-		// 	console.log('refresh');
-		// 	this.refresh();
-		// }, 3000);
 
 		// utils variables
 		this._openOnFocus = false;
@@ -73,7 +73,7 @@ class SSelectElement extends SElement {
 		this._buildHTML();
 
 		// display or not the search
-		if ( ! this.setting('search')) {
+		if ( ! this.settings.search) {
 			this.search_container.style.position = 'absolute';
 			this.search_container.style.left = '-120vw';
 		}
@@ -174,14 +174,14 @@ class SSelectElement extends SElement {
 		});
 
 		// listen for keyup on search field
-		let internalSearch = this.setting('internalSearch');
-		let search = this.setting('search');
+		let internalSearch = this.settings.internalSearch;
+		let search = this.settings.search;
 		const searchFieldFn = (e) => {
 			// trigger custom event
 			let event = new SEvent('search');
 			this.elm.dispatchEvent(event);
 			// on search callback
-			let onSearch = this.setting('onSearch');
+			let onSearch = this.settings.onSearch;
 			if (onSearch) onSearch(e.target.value);
 			// check if internal search
 			this._search();
@@ -200,7 +200,10 @@ class SSelectElement extends SElement {
 				// refresh the select
 				this.refresh();
 			}
-		], this.elm, true);
+		], {
+			rootNode : this.elm,
+			groupedNodes : true
+		});
 
 		// this._appendNew();
 	}
@@ -212,7 +215,7 @@ class SSelectElement extends SElement {
 		// loop on each options
 		[].forEach.call(this.options_container.querySelectorAll('.s-select__option'), (option) => {
 			// check if is a value in the search field
-			if (this.search_field.value && this.search_field.value.length >= this.setting('minCharactersForSearch')) {
+			if (this.search_field.value && this.search_field.value.length >= this.settings.minCharactersForSearch) {
 				// check if we find the text in the option
 				let regexp = new RegExp("(" + this.search_field.value + ")(?!([^<]+)?>)",'gi');
 				// search the tokens in html
@@ -376,7 +379,7 @@ class SSelectElement extends SElement {
 		if (search_field.type != 'search') {
 			search_field.type = 'text';
 		}
-		search_field.setAttribute('placeholder', this.setting('searchPlaceholder'));
+		search_field.setAttribute('placeholder', this.settings.searchPlaceholder);
 		search_field.setAttribute('class', 's-select__search-field');
 
 		// options
@@ -564,7 +567,7 @@ class SSelectElement extends SElement {
 		let dropdownFullHeight = this.options_container.scrollHeight + this.search_container.offsetHeight;
 		let optionsFullHeight = this.options_container.scrollHeight;
 		let optionsHeight = this.options_container.offsetHeight;
-		let screenMargin = this.setting('screenMargin');
+		let screenMargin = this.settings.screenMargin;
 		let optionsMinHeight = parseInt(window.getComputedStyle(this.options_container).getPropertyValue('min-height'));
 
 		// check if the min-height has been reached
@@ -712,7 +715,9 @@ class SSelectElement extends SElement {
 		options_parent.appendChild(this.options_container);
 
 		// set position
-		this._setPosition();
+		if (this.isOpen()) {
+			this._setPosition();
+		}
 	}
 
 	/**
@@ -791,7 +796,7 @@ class SSelectElement extends SElement {
 		let event = new SEvent('close');
 		this.elm.dispatchEvent(event);
 		// handle onClose callback
-		let onClose = this.setting('onClose');
+		let onClose = this.settings.onClose;
 		if (onClose) { onClose(); }
 	}
 
@@ -807,15 +812,14 @@ class SSelectElement extends SElement {
 		let event = new SEvent('open');
 		this.elm.dispatchEvent(event);
 		// manage onOpen callback
-		let onOpen = this.setting('onOpen');
+		let onOpen = this.settings.onOpen;
 		if (onOpen) { onOpen(); }
 	}
 
 }
 
 // init the select
-sDom.querySelectorLive('select[data-s-select]', (elm) => {
-	console.log('new element !!!');
+sDom.querySelectorVisibleLive('select[data-s-select]', (elm) => {
 	new SSelectElement(elm);
 });
 

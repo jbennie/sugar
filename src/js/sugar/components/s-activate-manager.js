@@ -12,7 +12,9 @@ import SActivateElement from './s-activate-element'
 import sDom from '../core/s-dom'
 
 // save all the activate elements
-let _sActivateStack = {};
+if ( ! window._sActivateStack) {
+	window._sActivateStack = {};
+}
 
 class SActivateManager {
 	
@@ -31,8 +33,8 @@ class SActivateManager {
 	 * Find a special activate element
 	 */
 	find(id) {
-		if ( ! _sActivateStack[id]) return false;
-		return _sActivateStack[id];
+		if ( ! window._sActivateStack[id]) return false;
+		return window._sActivateStack[id];
 	}
 
 	/**

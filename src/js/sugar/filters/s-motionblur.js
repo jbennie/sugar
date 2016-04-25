@@ -125,7 +125,7 @@ class SMotionblurElement extends SElement {
 	 */
 	_initFilter() {
 		// get amount
-		let amount = this.setting('motionblur');
+		let amount = this.settings.motionblur;
 		// create a new svg filter
 		this.filter = new SMotionblurFilter(amount);
 		// apply the filter

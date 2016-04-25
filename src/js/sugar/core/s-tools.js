@@ -10,7 +10,7 @@ let sTools = {
 		for(i=0;i<ts.length;i+=2) {        
 			out+=Number(ts.substr(i, 2)).toString(36);    
 		}
-		return ('d' + out + (uniqidIdx * Math.round(Math.random()*9999999)));
+		return ('s' + out + (uniqidIdx * Math.round(Math.random()*9999999)));
 	}
 };
 export default sTools;

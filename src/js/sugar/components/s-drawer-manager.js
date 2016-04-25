@@ -1,6 +1,10 @@
 import sDom from '../core/s-dom'
 import SDrawerElement from './s-drawer-element'
 
+if ( ! window._sDrawerStack) {
+	window._sDrawerStack = {};
+}
+
 class SDrawerManager {
 	
 	/**
@@ -18,15 +22,9 @@ class SDrawerManager {
 	 * Init
 	 */
 	_init() {
-
-		// init all elements in the page
-		[].forEach.call(document.body.querySelectorAll('[data-s-drawer]'), (elm) => {
-			new SDrawerElement(elm);
-		});
-
 		// listen for new element
-		sDom.querySelectorLive('[data-s-drawer]', (element) => {
-			new SDrawerElement(element);
+		sDom.querySelectorLive('[data-s-drawer]', (elm) => {
+			new SDrawerElement(elm);
 		});
 	}
 
@@ -34,8 +32,8 @@ class SDrawerManager {
 	 * Find a special activate element
 	 */
 	find(id) {
-		if ( ! _sDrawerStack[id]) return false;
-		return _sDrawerStack[id];
+		if ( ! window._sDrawerStack[id]) return false;
+		return window._sDrawerStack[id];
 	}
 
 	/**

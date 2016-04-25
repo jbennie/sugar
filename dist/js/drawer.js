@@ -54,8 +54,8 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(15);
-	module.exports = __webpack_require__(16);
+	__webpack_require__(18);
+	module.exports = __webpack_require__(19);
 
 
 /***/ },
@@ -83,221 +83,110 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _sDom2 = _interopRequireDefault(_sDom);
 
+	var _sElement = __webpack_require__(12);
+
+	var _sElement2 = _interopRequireDefault(_sElement);
+
+	var _sWatchable = __webpack_require__(15);
+
+	var _sWatchable2 = _interopRequireDefault(_sWatchable);
+
+	var _sMixin = __webpack_require__(14);
+
+	var _sMixin2 = _interopRequireDefault(_sMixin);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
 
 	// store the settings for the different
 	// components types
 	var _sugarTypesSettings = {};
 
-	var SElement = function () {
+	var SComponent = function (_SElement) {
+		_inherits(SComponent, _SElement);
 
 		/**
 	  * Setup
 	  */
 
-		SElement.setup = function setup(name, type, settings) {
+		SComponent.setup = function setup(name, type, settings) {
 			if (!_sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
 			_sugarTypesSettings[name][type] = settings;
 		};
 
-		/**
+		/**	
 	  * Constructor
 	  */
 
 
-		function SElement(name, elm) {
+		function SComponent(name, elm) {
 			var default_settings = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 			var settings = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
 
-			_classCallCheck(this, SElement);
+			_classCallCheck(this, SComponent);
 
 			// save element reference
-			this.elm = elm;
-			this.name = name;
-			this.name_dash = _sString2.default.uncamelize(this.name);
+
+			var _this = _possibleConstructorReturn(this, _SElement.call(this, elm));
+
+			// init parent
+
+
+			_this.elm = elm;
+			_this.name = name;
+			_this.name_dash = _sString2.default.uncamelize(_this.name);
 			// extend settings
-			this._settings = _extends({}, default_settings, settings);
+			_this.settings = _extends({}, default_settings, settings);
 
 			// check if the main data attribute is an object to extend the settings
-			var set = this.setting('');
+			var set = _this.elm.getAttribute('data-' + _this.name_dash);
 			if (set && (typeof set === 'undefined' ? 'undefined' : _typeof(set)) == 'object') {
-				this._settings = _extends({}, this._settings, set);
+				_this.settings = _extends({}, _this.settings, set);
+			}
+
+			// try to find the setting with the @ sign as value
+			for (var settingName in _this.settings) {
+				if (_this.settings[settingName] == '@') {
+					_this.settings[settingName] = _this.elm.getAttribute('data-' + _this.name_dash);
+				}
 			}
 
 			// set the api in the dom element
-			this.elm[this.name] = this;
+			_this.elm[_this.name] = _this;
 
 			// check if a type is defined then extend the settings
 			if (!_sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
-			var type = this.setting('settings');
+			var type = _this.settings.settings;
 			if (type && _sugarTypesSettings[name][type]) {
-				this._settings = _extends({}, this._settings, _sugarTypesSettings[name][type]);
+				_this.settings = _extends({}, _this.settings, _sugarTypesSettings[name][type]);
 			}
+
+			// extend settings from attributes
+			[].forEach.call(_this.elm.attributes, function (attr) {
+				// check if need to update the settings
+				var attrName = attr.name.replace('data-', '').replace(_this.name_dash, '');
+				var name = _sString2.default.camelize(attrName);
+				if (_this.settings[name] !== undefined) {
+					// get the old value
+					var oldValue = _this.settings[name];
+					// set the new value
+					_this.set('settings.' + name, _this.elm.getAttribute(attrName));
+				}
+			});
+			return _this;
 		}
 
-		/**
-	  * Init proxy
-	  */
+		return SComponent;
+	}(_sElement2.default);
 
-
-		SElement.prototype.initProxy = function initProxy() {
-			var _this = this;
-
-			return new Promise(function (resolve, reject) {
-				if (_this.setting('initWhenVisible')) {
-					_this.whenVisible().then(resolve);
-				} else {
-					resolve.apply(_this);
-				}
-			});
-		};
-
-		/**
-	  * Get closest not visible element
-	  */
-
-
-		SElement.prototype.closestNotVisible = function closestNotVisible() {
-			var elm = arguments.length <= 0 || arguments[0] === undefined ? this.elm : arguments[0];
-
-			return _sDom2.default.closestNotVisible(elm);
-		};
-
-		/**
-	  * Visible proxy init
-	  */
-
-
-		SElement.prototype.whenVisible = function whenVisible() {
-			var cb = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
-			var elm = arguments.length <= 1 || arguments[1] === undefined ? this.elm : arguments[1];
-
-			return _sDom2.default.whenVisible(elm, cb);
-		};
-
-		/**
-	  * Detect if is visible
-	  */
-
-
-		SElement.prototype.isVisible = function isVisible() {
-			return _sDom2.default.isVisible(this.elm);
-		};
-
-		/**
-	  * Detect when the element is in the viewport
-	  */
-
-
-		SElement.prototype.inViewport = function inViewport() {
-			var offset = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
-
-			return _sDom2.default.inViewport(this.elm, offset);
-		};
-
-		/**
-	  * Setting
-	  */
-
-
-		SElement.prototype.setting = function setting(key) {
-			// check in the dataset
-			var key_string = this.name + _sString2.default.upperFirst(key);
-			key_string = key_string.replace(_sString2.default.upperFirst(key) + _sString2.default.upperFirst(key), _sString2.default.upperFirst(key));
-			var s = this.dataset(_sString2.default.lowerFirst(key_string));
-
-			// process the value
-			if (s == 'false' || s == 'true' || typeof s == 'string' && s.substr(0, 1) == '[' || !isNaN(s)) {
-				s = eval(s);
-			} else if (typeof s == 'string' && s.substr(0, 1) == '{') {
-				s = eval('(' + s + ')');
-			}
-
-			// if we didn't find any setting in dataset,
-			// get the one from the actual settings property
-			if (s === null) {
-				s = this._settings[key];
-			}
-
-			// check if the setting begin by @
-			// mean that it's an alias of another setting
-			if (typeof s == 'string' && s.substr(0, 1) == '@') {
-				var _key = s.substr(1);
-				// return the alias property
-				return this.setting(_key);
-			}
-
-			// return the settings
-			return s;
-		};
-
-		/**
-	  * Get all settings
-	  */
-
-
-		SElement.prototype.settings = function settings() {
-			var _this2 = this;
-
-			var settings = this._settings;
-			// loop on all attributes
-			[].forEach.call(this.elm.attributes, function (attr) {
-				var data_name = 'data-' + _this2.name_dash;
-				if (attr.name.indexOf(data_name) != -1) {
-					var n = attr.name.substr(data_name.length);
-					// if (n.substr(0,1) == '-') {
-					// 	n = n.substr(1);
-					// }
-					if (n) {
-						n = camelize(n);
-						settings[n] = _this2.setting(n);
-					}
-				}
-			});
-			return settings;
-		};
-
-		/**
-	  * Access dataset
-	  */
-
-
-		SElement.prototype.dataset = function dataset(key) {
-			var value = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
-			var elm = arguments.length <= 2 || arguments[2] === undefined ? this.elm : arguments[2];
-
-			return _sDom2.default.dataset(elm, key, value);
-		};
-
-		/**
-	  * Classes helpers
-	  */
-
-
-		SElement.prototype.hasClass = function hasClass(cls) {
-			var elm = arguments.length <= 1 || arguments[1] === undefined ? this.elm : arguments[1];
-
-			return _sDom2.default.hasClass(elm, cls);
-		};
-
-		SElement.prototype.addClass = function addClass(cls) {
-			var elm = arguments.length <= 1 || arguments[1] === undefined ? this.elm : arguments[1];
-
-			return _sDom2.default.addClass(elm, cls);
-		};
-
-		SElement.prototype.removeClass = function removeClass(cls) {
-			var elm = arguments.length <= 1 || arguments[1] === undefined ? this.elm : arguments[1];
-
-			return _sDom2.default.removeClass(elm, cls);
-		};
-
-		return SElement;
-	}();
-
-	exports.default = SElement;
+	exports.default = SComponent;
 
 /***/ },
 /* 3 */
@@ -320,7 +209,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			for (i = 0; i < ts.length; i += 2) {
 				out += Number(ts.substr(i, 2)).toString(36);
 			}
-			return 'd' + out + uniqidIdx * Math.round(Math.random() * 9999999);
+			return 's' + out + uniqidIdx * Math.round(Math.random() * 9999999);
 		}
 	};
 	exports.default = sTools;
@@ -370,6 +259,20 @@ return /******/ (function(modules) { // webpackBootstrap
 				return c ? c.toUpperCase() : '';
 			});
 			return text.substr(0, 1).toLowerCase() + text.slice(1);
+		},
+
+		/**
+	  * Auto cast the string into the correct variable type
+	  */
+		autoCast: function autoCast(string) {
+			if (string === "" || !string) {
+				return true;
+			} else if (string == 'false' || string == 'true' || typeof string == 'string' && string.substr(0, 1) == '[' || !isNaN(string)) {
+				return eval(string);
+			} else if (typeof string == 'string' && string.substr(0, 1) == '{') {
+				return eval('(' + string + ')');
+			}
+			return string;
 		}
 	};
 
@@ -380,6 +283,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	exports.__esModule = true;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	var _sTools = __webpack_require__(3);
 
@@ -399,17 +304,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	__webpack_require__(11);
 
-	__webpack_require__(12);
-
-	__webpack_require__(13);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	if (!window.Promise) {
 		window.Promise = _promisePolyfill2.default;
-		// window.Promise._setUnhandledRejectionFn(function(rejectError) {});
 	}
-	// import 'core-js/fn/promise'
 
 	var _insertAnimationListener = false;
 	var _insertMutationObserver = null;
@@ -441,13 +340,6 @@ return /******/ (function(modules) { // webpackBootstrap
 			return rect.top + offset.top >= 0 && rect.left + offset.left >= 0 && rect.bottom - offset.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
 			rect.right - offset.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
 			;
-		},
-
-		/** 
-	  * Check if element is really visible
-	  */
-		isTrullyVisible: function isTrullyVisible(elm) {
-			return elm.isTrullyVisible();
 		},
 
 		/**
@@ -494,8 +386,8 @@ return /******/ (function(modules) { // webpackBootstrap
 					if (inViewport && isVisible) {
 						document.removeEventListener('scroll', checkViewport);
 						window.removeEventListener('resize', checkViewport);
-						if (cb) cb();
-						resolve();
+						if (cb) cb(elm);
+						resolve(elm);
 					}
 				};
 				var checkViewport = function checkViewport(e) {
@@ -538,11 +430,57 @@ return /******/ (function(modules) { // webpackBootstrap
 		},
 
 		/**
+	  * Grab all the visible element
+	  * And apply the callback when a new item match the selector
+	  */
+		querySelectorVisibleLive: function querySelectorVisibleLive(selector, cb, settings) {
+			sDom.querySelectorLive(selector, function (elm) {
+				// check if is array
+				if (elm instanceof Array) {
+					elm.forEach(function (e) {
+						sDom.whenVisible(e).then(function (e) {
+							cb(e);
+						});
+					});
+				} else {
+					// check if is visible
+					sDom.whenVisible(elm).then(function (elm) {
+						cb(elm);
+					});
+				}
+			}, settings);
+		},
+
+		/**
+	  * Grab all the visible elements
+	  */
+		querySelectorVisible: function querySelectorVisible(selector) {
+			var rootNode = arguments.length <= 1 || arguments[1] === undefined ? document : arguments[1];
+
+			// return array
+			var elms = [];
+			// grab the elements in the page
+			[].forEach.call(rootNode.querySelectorAll(selector), function (elm) {
+				if (sDom.inViewport(elm) && sDom.isVisible(elm) && !sDom.closestNotVisible(elm)) {
+					elms.push(elm);
+				}
+			});
+			// return the elements
+			return elms;
+		},
+
+		/**
 	  * Make a selector detectable when new element are pushed in the page
 	  */
-		querySelectorLive: function querySelectorLive(selector, cb, rootNode) {
-			var groupedNodes = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
+		querySelectorLive: function querySelectorLive(selector, cb) {
+			var settings = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
+
+			// extend settings
+			settings = _extends({
+				rootNode: document,
+				groupedNodes: false
+			}, settings);
 
 			var _this = undefined;
 
@@ -580,8 +518,8 @@ return /******/ (function(modules) { // webpackBootstrap
 					_this.nodes = [];
 				},
 				selector: selector,
-				rootNode: rootNode,
-				groupedNodes: groupedNodes,
+				rootNode: settings.rootNode,
+				groupedNodes: settings.groupedNodes,
 				nodes: [],
 				timeout: null
 			};
@@ -590,8 +528,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			sDom.domReady(function () {
 
 				// rootNode
-				if (!rootNode) {
-					rootNode = document.body;
+				if (!settings.rootNode) {
+					settings.rootNode = document.body;
 				}
 
 				// check how we can detect new elements
@@ -602,8 +540,8 @@ return /******/ (function(modules) { // webpackBootstrap
 					// like angular, etc...
 					//setTimeout(() => {
 
-					if (!rootNode._s_insert_mutation_observer) {
-						rootNode._s_insert_mutation_observer = new MutationObserver(function (mutations) {
+					if (!settings.rootNode._s_insert_mutation_observer) {
+						settings.rootNode._s_insert_mutation_observer = new MutationObserver(function (mutations) {
 
 							// check if what we need has been added
 							mutations.forEach(function (mutation) {
@@ -656,13 +594,13 @@ return /******/ (function(modules) { // webpackBootstrap
 								}
 							});
 						});
-						rootNode._s_insert_mutation_observer.observe(rootNode, {
+						settings.rootNode._s_insert_mutation_observer.observe(settings.rootNode, {
 							childList: true
 						});
 					}
 
 					// parse the dom to find the currently present elements
-					[].forEach.call(rootNode.querySelectorAll(selector), function (elm) {
+					[].forEach.call(settings.rootNode.querySelectorAll(selector), function (elm) {
 						_insertDomElementsCallbacks[detection_id].nodes.push(elm);
 						if (_insertDomElementsCallbacks[detection_id].groupedNodes) {
 							clearTimeout(_insertDomElementsCallbacks[detection_id].timeout);
@@ -703,20 +641,19 @@ return /******/ (function(modules) { // webpackBootstrap
 		domReady: function domReady() {
 			var cb = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
 
-			// return new Promise((resolve, reject) => {
-			var _domReady = function _domReady() {
-				if (!document.body || /(un|ing)/.test(document.readyState)) {
-					setTimeout(function () {
-						_domReady();
-					}, 9);
-				} else {
-					console.log('loaded');
-					if (cb) cb();
-					// resolve();
-				}
-			};
-			_domReady();
-			// });
+			return new Promise(function (resolve, reject) {
+				var _domReady = function _domReady() {
+					if (!document.body || /(un|ing)/.test(document.readyState)) {
+						setTimeout(function () {
+							_domReady();
+						}, 9);
+					} else {
+						if (cb) cb();
+						resolve();
+					}
+				};
+				_domReady();
+			});
 		},
 
 		/**
@@ -800,10 +737,6 @@ return /******/ (function(modules) { // webpackBootstrap
 			    transX = void 0,
 			    transY = void 0;
 			box = elm.getBoundingClientRect();
-			// box = {
-			// 	top : sDom.offsetTop(elm),
-			// 	left : sDom.offsetLeft(elm)
-			// };
 			body = document.body;
 			docEl = document.documentElement;
 			scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
@@ -893,25 +826,6 @@ return /******/ (function(modules) { // webpackBootstrap
 				elm = elm.previousSibling;
 			}
 			return false;
-		},
-
-		/**
-	  * Classes helpers
-	  */
-		hasClass: function hasClass(elm, cls) {
-			return elm.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
-		},
-		addClass: function addClass(elm, cls) {
-			if (!sDom.hasClass(elm, cls)) {
-				return elm.className += ' ' + cls;
-			}
-		},
-		removeClass: function removeClass(elm, cls) {
-			var reg = void 0;
-			if (sDom.hasClass(elm, cls)) {
-				reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
-				return elm.className = elm.className.replace(reg, ' ');
-			}
 		}
 	};
 
@@ -937,7 +851,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	  var onUnhandledRejection = function onUnhandledRejection(err) {
-	    console.warn('Possible Unhandled Promise Rejection:', err); // eslint-disable-line no-console
+	    if (typeof console !== 'undefined' && console) {
+	      console.warn('Possible Unhandled Promise Rejection:', err); // eslint-disable-line no-console
+	    }
 	  };
 
 	  // Polyfill for Function.prototype.bind
@@ -1600,69 +1516,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	function elementDatasetPolyfill() {
-		if (!document.documentElement.dataset && (!Object.getOwnPropertyDescriptor(Element.prototype, 'dataset') || !Object.getOwnPropertyDescriptor(Element.prototype, 'dataset').get)) {
-			var descriptor = {};
-
-			descriptor.enumerable = true;
-
-			descriptor.get = function () {
-				var element = this;
-				var map = {};
-				var attributes = this.attributes;
-
-				function toUpperCase(n0) {
-					return n0.charAt(1).toUpperCase();
-				}
-
-				function getter() {
-					return this.value;
-				}
-
-				function setter(name, value) {
-					if (typeof value !== 'undefined') {
-						this.setAttribute(name, value);
-					} else {
-						this.removeAttribute(name);
-					}
-				}
-
-				for (var i = 0; i < attributes.length; i++) {
-					var attribute = attributes[i];
-
-					// This test really should allow any XML Name without
-					// colons (and non-uppercase for XHTML)
-
-					if (attribute && attribute.name && /^data-\w[\w\-]*$/.test(attribute.name)) {
-						var name = attribute.name;
-						var value = attribute.value;
-
-						// Change to CamelCase
-
-						var propName = name.substr(5).replace(/-./g, toUpperCase);
-
-						Object.defineProperty(map, propName, {
-							enumerable: this.enumerable,
-							get: getter.bind({ value: value || '' }),
-							set: setter.bind(element, name)
-						});
-					}
-				}
-				return map;
-			};
-
-			Object.defineProperty(Element.prototype, 'dataset', descriptor);
-		}
-	}
-
-	module.exports = elementDatasetPolyfill;
-
-/***/ },
-/* 12 */
-/***/ function(module, exports) {
-
-	'use strict';
-
 	(function (doc, proto) {
 	  try {
 	    // check if browser supports :scope natively
@@ -1689,118 +1542,246 @@ return /******/ (function(modules) { // webpackBootstrap
 	})(window.document, Element.prototype);
 
 /***/ },
-/* 13 */
-/***/ function(module, exports) {
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	/**
-	 * Author: Jason Farrell
-	 * Author URI: http://useallfive.com/
-	 *
-	 * Description: Checks if a DOM element is truly visible.
-	 * Package URL: https://github.com/UseAllFive/true-visibility
-	 */
-	Element.prototype.isTrullyVisible = function () {
+	exports.__esModule = true;
 
-	    'use strict';
+	var _sTools = __webpack_require__(3);
 
-	    /**
-	     * Checks if a DOM element is visible. Takes into
-	     * consideration its parents and overflow.
-	     *
-	     * @param (el)      the DOM element to check if is visible
-	     *
-	     * These params are optional that are sent in recursively,
-	     * you typically won't use these:
-	     *
-	     * @param (t)       Top corner position number
-	     * @param (r)       Right corner position number
-	     * @param (b)       Bottom corner position number
-	     * @param (l)       Left corner position number
-	     * @param (w)       Element width number
-	     * @param (h)       Element height number
-	     */
+	var _sTools2 = _interopRequireDefault(_sTools);
 
-	    function _isVisible(el, t, r, b, l, w, h) {
-	        var p = el.parentNode,
-	            VISIBLE_PADDING = 2;
+	var _sString = __webpack_require__(4);
 
-	        if (!_elementInDocument(el)) {
-	            return false;
-	        }
+	var _sString2 = _interopRequireDefault(_sString);
 
-	        //-- Return true for document node
-	        if (9 === p.nodeType) {
-	            return true;
-	        }
+	var _sDom = __webpack_require__(5);
 
-	        //-- Return false if our element is invisible
-	        if ('0' === _getStyle(el, 'opacity') || 'none' === _getStyle(el, 'display') || 'hidden' === _getStyle(el, 'visibility')) {
-	            return false;
-	        }
+	var _sDom2 = _interopRequireDefault(_sDom);
 
-	        if ('undefined' === typeof t || 'undefined' === typeof r || 'undefined' === typeof b || 'undefined' === typeof l || 'undefined' === typeof w || 'undefined' === typeof h) {
-	            t = el.offsetTop;
-	            l = el.offsetLeft;
-	            b = t + el.offsetHeight;
-	            r = l + el.offsetWidth;
-	            w = el.offsetWidth;
-	            h = el.offsetHeight;
-	        }
-	        //-- If we have a parent, let's continue:
-	        if (p) {
-	            //-- Check if the parent can hide its children.
-	            if ('hidden' === _getStyle(p, 'overflow') || 'scroll' === _getStyle(p, 'overflow')) {
-	                //-- Only check if the offset is different for the parent
-	                if (
-	                //-- If the target element is to the right of the parent elm
-	                l + VISIBLE_PADDING > p.offsetWidth + p.scrollLeft ||
-	                //-- If the target element is to the left of the parent elm
-	                l + w - VISIBLE_PADDING < p.scrollLeft ||
-	                //-- If the target element is under the parent elm
-	                t + VISIBLE_PADDING > p.offsetHeight + p.scrollTop ||
-	                //-- If the target element is above the parent elm
-	                t + h - VISIBLE_PADDING < p.scrollTop) {
-	                    //-- Our target element is out of bounds:
-	                    return false;
-	                }
-	            }
-	            //-- Add the offset parent's left/top coords to our element's offset:
-	            if (el.offsetParent === p) {
-	                l += p.offsetLeft;
-	                t += p.offsetTop;
-	            }
-	            //-- Let's recursively check upwards:
-	            return _isVisible(p, t, r, b, l, w, h);
-	        }
-	        return true;
-	    }
+	var _sObject = __webpack_require__(13);
 
-	    //-- Cross browser method to get style properties:
-	    function _getStyle(el, property) {
-	        if (window.getComputedStyle) {
-	            return document.defaultView.getComputedStyle(el, null)[property];
-	        }
-	        if (el.currentStyle) {
-	            return el.currentStyle[property];
-	        }
-	    }
+	var _sObject2 = _interopRequireDefault(_sObject);
 
-	    function _elementInDocument(element) {
-	        while (element = element.parentNode) {
-	            if (element == document) {
-	                return true;
-	            }
-	        }
-	        return false;
-	    }
+	var _sMixin = __webpack_require__(14);
 
-	    return _isVisible(this);
-	};
+	var _sMixin2 = _interopRequireDefault(_sMixin);
+
+	var _sWatchable = __webpack_require__(15);
+
+	var _sWatchable2 = _interopRequireDefault(_sWatchable);
+
+	var _sWatchableAttributes = __webpack_require__(16);
+
+	var _sWatchableAttributes2 = _interopRequireDefault(_sWatchableAttributes);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
+
+	// store the settings for the different
+	// components types
+	var _sugarTypesSettings = {};
+
+	var SElement = function (_SMixin$with) {
+		_inherits(SElement, _SMixin$with);
+
+		/**
+	  * Setup
+	  */
+
+		SElement.setup = function setup(name, type, settings) {
+			if (!_sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
+			_sugarTypesSettings[name][type] = settings;
+		};
+
+		/**
+	  * Watch stack
+	  */
+
+
+		/**
+	  * The dom element reference
+	  */
+
+
+		/**
+	  * Store the attributes
+	  */
+
+
+		/**	
+	  * Constructor
+	  */
+
+		function SElement(elm) {
+			_classCallCheck(this, SElement);
+
+			// save the element reference
+
+			var _this = _possibleConstructorReturn(this, _SMixin$with.call(this));
+			// init parent
+
+
+			_this._watchStack = {};
+			_this.elm = null;
+			_this.attr = {};
+			_this.elm = elm;
+			// process attributes
+			[].forEach.call(_this.elm.attributes, function (attr) {
+				_this.set('attr.' + _sString2.default.camelize(attr.name), _sString2.default.autoCast(attr.value));
+			});
+
+			// check attributes changes to update settings
+			var observer = new MutationObserver(function (mutations) {
+				// loop on mutations
+				mutations.forEach(function (mutation) {
+					// update the attr property
+					var val = _this.elm.getAttribute(mutation.attributeName);
+					// process val
+					val = _sString2.default.autoCast(val);
+					// set the attribute with the fromMutation flag to true
+					// to avoid recursive assignation
+					_this.set('attr.' + _sString2.default.camelize(mutation.attributeName), val, true);
+				});
+			});
+			// observe the node itself
+			observer.observe(_this.elm, {
+				addedNodes: false,
+				attributeName: true,
+				characterData: true,
+				subtree: false,
+				attributeOldValue: true,
+				characterDataOldValue: true
+			});
+			return _this;
+		}
+
+		/**
+	  * Get closest not visible element
+	  */
+
+
+		SElement.prototype.closestNotVisible = function closestNotVisible() {
+			var elm = arguments.length <= 0 || arguments[0] === undefined ? this.elm : arguments[0];
+
+			return _sDom2.default.closestNotVisible(elm);
+		};
+
+		/**
+	  * Visible proxy init
+	  */
+
+
+		SElement.prototype.whenVisible = function whenVisible() {
+			var cb = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+			var elm = arguments.length <= 1 || arguments[1] === undefined ? this.elm : arguments[1];
+
+			return _sDom2.default.whenVisible(elm, cb);
+		};
+
+		/**
+	  * Detect if is visible
+	  */
+
+
+		SElement.prototype.isVisible = function isVisible() {
+			return _sDom2.default.isVisible(this.elm);
+		};
+
+		/**
+	  * Detect when the element is in the viewport
+	  */
+
+
+		SElement.prototype.inViewport = function inViewport() {
+			var offset = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+
+			return _sDom2.default.inViewport(this.elm, offset);
+		};
+
+		/**
+	  * Access dataset
+	  */
+
+
+		SElement.prototype.dataset = function dataset(key) {
+			var value = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+			var elm = arguments.length <= 2 || arguments[2] === undefined ? this.elm : arguments[2];
+
+			return _sDom2.default.dataset(elm, key, value);
+		};
+
+		return SElement;
+	}((0, _sMixin2.default)(_sObject2.default).with(_sWatchable2.default));
+
+	exports.default = SElement;
 
 /***/ },
-/* 14 */,
+/* 13 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	exports.__esModule = true;
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var SObject =
+	/**
+	 * Constructor
+	 */
+	function SObject() {
+		_classCallCheck(this, SObject);
+	};
+
+	exports.default = SObject;
+
+/***/ },
+/* 14 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	exports.__esModule = true;
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var mix = function mix(superclass) {
+	  return new MixinBuilder(superclass);
+	};
+
+	var MixinBuilder = function () {
+	  function MixinBuilder(superclass) {
+	    _classCallCheck(this, MixinBuilder);
+
+	    this.superclass = superclass;
+	  }
+
+	  MixinBuilder.prototype.with = function _with() {
+	    for (var _len = arguments.length, mixins = Array(_len), _key = 0; _key < _len; _key++) {
+	      mixins[_key] = arguments[_key];
+	    }
+
+	    return mixins.reduce(function (c, mixin) {
+	      return mixin(c);
+	    }, this.superclass);
+	  };
+
+	  return MixinBuilder;
+	}();
+
+	exports.default = mix;
+
+/***/ },
 /* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -1808,9 +1789,204 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.__esModule = true;
 
-	var _sElement = __webpack_require__(2);
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _sElement2 = _interopRequireDefault(_sElement);
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	var _sString = __webpack_require__(4);
+
+	var _sString2 = _interopRequireDefault(_sString);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
+
+	exports.default = function (superclass) {
+		return function (_superclass) {
+			_inherits(SWatchable, _superclass);
+
+			/**	
+	   * Constructor
+	   */
+
+			function SWatchable() {
+				_classCallCheck(this, SWatchable);
+
+				var _this = _possibleConstructorReturn(this, _superclass.apply(this, arguments));
+
+				_this._watchStack = {};
+				return _this;
+			}
+
+			/**
+	   * Watch something on the element
+	   */
+
+
+			/**
+	   * Watch stack
+	   */
+
+
+			SWatchable.prototype.watch = function watch(what, cb) {
+				// register new watch
+				if (!this._watchStack[what]) {
+					this._watchStack[what] = [];
+				}
+				this._watchStack[what].push(cb);
+			};
+
+			/**
+	   * Update something that need to be notified
+	   */
+
+
+			SWatchable.prototype.set = function set(what, value) {
+				var _this2 = this;
+
+				var fromMutation = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+
+
+				// loop through each modified elements
+				var splitParts = what.split('.');
+				var splitPartsLength = splitParts.length - 1;
+
+				var _loop = function _loop(i) {
+
+					var splitPath = splitParts.join('.');
+					var oldValue = function () {
+						return eval('this.' + splitPath);
+					}.call(_this2);
+					if ((typeof oldValue === 'undefined' ? 'undefined' : _typeof(oldValue)) == 'object') {
+						oldValue = _extends({}, oldValue);
+					}
+
+					// set the new value only if is the targeted
+					// one
+					if (i >= splitPartsLength) {
+						// set the new value
+						if (typeof value == 'string') {
+							(function () {
+								eval('this.' + splitPath + ' = "' + value + '";');
+							}).call(_this2);
+						} else {
+							(function () {
+								eval('this.' + what + ' = ' + value + ';');
+							}).call(_this2);
+						}
+						// handle if is an attribute
+						// and the this.elm exist
+						if (!fromMutation && splitParts[0] == 'attr' && splitParts[1] && _this2.elm) {
+							_this2.elm.setAttribute(_sString2.default.uncamelize(splitParts[1], '-'), value);
+						}
+					}
+
+					var newValue = function () {
+						eval('this.' + splitPath);
+					}.call(_this2);
+
+					// check if has some registerer
+					if (_this2._watchStack[splitPath]) {
+						_this2._watchStack[splitPath].forEach(function (cb) {
+							cb(newValue, oldValue);
+						});
+					}
+
+					// pop splitpart
+					splitParts.pop();
+				};
+
+				for (var i = splitPartsLength; i >= 0; i--) {
+					_loop(i);
+				}
+			};
+
+			/**
+	   * Unset a value
+	   */
+
+
+			SWatchable.prototype.unset = function unset(what) {
+				// get the current value
+				var oldValue = eval('this.' + what);
+				// unset the value
+				eval('delete this.' + what);
+				// check if has some registerer
+				if (this._watchStack[what]) {
+					this._watchStack[what].forEach(function (cb) {
+						cb(undefined, oldValue);
+					});
+				}
+			};
+
+			return SWatchable;
+		}(superclass);
+	};
+
+/***/ },
+/* 16 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	exports.__esModule = true;
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
+
+	exports.default = function (superclass) {
+		return function (_superclass) {
+			_inherits(SWatchableAttributes, _superclass);
+
+			/**	
+	   * Constructor
+	   */
+
+			function SWatchableAttributes() {
+				_classCallCheck(this, SWatchableAttributes);
+
+				// setTimeout(() => {
+
+				// make sure we have an 'attr' attribute
+				// on the object
+
+				var _this = _possibleConstructorReturn(this, _superclass.apply(this, arguments));
+
+				if (!_this.attr) {
+					_this.attr = {};
+				}
+
+				// });
+				return _this;
+			}
+
+			return SWatchableAttributes;
+		}(superclass);
+	};
+
+/***/ },
+/* 17 */,
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _sComponent = __webpack_require__(2);
+
+	var _sComponent2 = _interopRequireDefault(_sComponent);
 
 	var _sDom = __webpack_require__(5);
 
@@ -1836,20 +2012,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
 
-	// save all the activate elements
-	var _sDrawerStack = {};
+	if (!window._sDrawerStack) {
+		window._sDrawerStack = {};
+	}
 
 	// Actual activate element class
 
-	var SDrawerElement = function (_SElement) {
-		_inherits(SDrawerElement, _SElement);
+	var SDrawerElement = function (_SComponent) {
+		_inherits(SDrawerElement, _SComponent);
 
 		/**
 	  * Setup
 	  */
 
 		SDrawerElement.setup = function setup(type, settings) {
-			_sElement2.default.setup('sDrawer', type, settings);
+			_sComponent2.default.setup('sDrawer', type, settings);
 		};
 
 		/**
@@ -1862,18 +2039,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			_classCallCheck(this, SDrawerElement);
 
-			// get the name
-
-			var _this = _possibleConstructorReturn(this, _SElement.call(this, 'sDrawer', elm, {
+			var _this = _possibleConstructorReturn(this, _SComponent.call(this, 'sDrawer', elm, {
 				name: '@',
 				closeOnClick: true,
 				handleHash: true
 			}, settings));
 
-			_this.name = _this.setting('name');
+			console.log('setings', _this.settings);
+
+			// get the name
+			_this.name = _this.settings.name;
 
 			// add the class into the stack
-			_sDrawerStack[_this.name] = _this;
+			window._sDrawerStack[_this.name] = _this;
 
 			// init
 			_this._init();
@@ -1929,9 +2107,9 @@ return /******/ (function(modules) { // webpackBootstrap
 			this.toggle.addEventListener('change', function (e) {
 				var name = e.target.name;
 				if (e.target.checked) {
-					_sDom2.default.addClass(document.body, 's-drawer-' + _this2.name);
+					document.body.classList.add('s-drawer-' + _this2.name);
 				} else {
-					_sDom2.default.removeClass(document.body, 's-drawer-' + _this2.name);
+					document.body.classList.remove('s-drawer-' + _this2.name);
 				}
 			});
 
@@ -1945,7 +2123,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 
 			// listen for click on links into the drawer to close it
-			if (this.setting('closeOnClick')) {
+			if (this.settings.closeOnClick) {
 				this.elm.addEventListener('click', function (e) {
 					if (e.target.nodeName.toLowerCase() == 'a') {
 						// close the drawer
@@ -1955,7 +2133,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 
 			// if handle hach
-			if (this.setting('handleHash')) {
+			if (this.settings.handleHash) {
 				if (document.location.hash) {
 					var hash = document.location.hash.substr(1);
 					if (hash == this.name) {
@@ -2001,7 +2179,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		};
 
 		return SDrawerElement;
-	}(_sElement2.default);
+	}(_sComponent2.default);
 
 	// expose in window.sugar
 
@@ -2015,7 +2193,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = SDrawerElement;
 
 /***/ },
-/* 16 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2026,13 +2204,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _sDom2 = _interopRequireDefault(_sDom);
 
-	var _sDrawerElement = __webpack_require__(15);
+	var _sDrawerElement = __webpack_require__(18);
 
 	var _sDrawerElement2 = _interopRequireDefault(_sDrawerElement);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	if (!window._sDrawerStack) {
+		window._sDrawerStack = {};
+	}
 
 	var SDrawerManager = function () {
 
@@ -2057,15 +2239,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		SDrawerManager.prototype._init = function _init() {
-
-			// init all elements in the page
-			[].forEach.call(document.body.querySelectorAll('[data-s-drawer]'), function (elm) {
-				new _sDrawerElement2.default(elm);
-			});
-
 			// listen for new element
-			_sDom2.default.querySelectorLive('[data-s-drawer]', function (element) {
-				new _sDrawerElement2.default(element);
+			_sDom2.default.querySelectorLive('[data-s-drawer]', function (elm) {
+				new _sDrawerElement2.default(elm);
 			});
 		};
 
@@ -2075,8 +2251,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		SDrawerManager.prototype.find = function find(id) {
-			if (!_sDrawerStack[id]) return false;
-			return _sDrawerStack[id];
+			if (!window._sDrawerStack[id]) return false;
+			return window._sDrawerStack[id];
 		};
 
 		/**

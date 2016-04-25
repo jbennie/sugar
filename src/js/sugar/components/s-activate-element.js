@@ -8,20 +8,22 @@
  * @updated  20.01.16
  * @version  1.0.0
  */
-import SElement from '../core/s-element'
+import SComponent from '../core/s-component'
 import sDom from '../core/s-dom'
 
 // save all the activate elements
-let _sActivateStack = {};
+if ( ! window._sActivateStack) {
+	window._sActivateStack = {};
+}
 
 // Actual activate element class
-class SActivateElement extends SElement {
+class SActivateElement extends SComponent {
 
 	/**
 	 * Setup
 	 */
 	static setup(type, settings) {
-		SElement.setup('sActivate', type, settings);
+		SComponent.setup('sActivate', type, settings);
 	}
 
 	/**
@@ -53,47 +55,38 @@ class SActivateElement extends SElement {
 			return;
 		}
 		this.inited = true;
-		let group = this.elm.dataset.sActivateGroup;
+		let group = this.dataset('sActivateGroup');
 
 		// save in stack
-		_sActivateStack[this.elm.dataset.sActivate] = this;
+		window._sActivateStack[this.dataset('sActivate')] = this;
 
 		// update references
 		this.update();
 
 		// handle history if needed
-		if (this.setting('history')) {
+		if (this.settings.history) {
 			this._handleHistory();
 		}
 
 		// managing group
 		if (! group) {
 			[].forEach.call(this.elm.parentNode.childNodes, (sibling) => {
-				if ( ! this.elm.dataset.sActivateGroup) {
-					// let sActivate = this.dataset('sActivate', null, sibling);
-					// console.log(sibling);
-					// sActivate = sibling.dataset.sActivate;
-					// console.log(sActivate);
-					if (sibling.dataset && sibling.dataset.sActivate) {
-						let sibling_grp = null;
-						if (sibling.dataset) {
-							sibling_grp = sibling.dataset.sActivateGroup;
-						}
-						// let sibling_grp = sibling.dataset('sActivateGroup', null, sibling);
+				if ( ! this.dataset('sActivateGroup')) {
+					let sActivate = this.dataset('sActivate', null, sibling);
+					if (sActivate) {
+						let sibling_grp = this.dataset('sActivateGroup', null, sibling);
 						if (sibling_grp && sibling.sActivateGeneratedGroup) {
-							this.elm.dataset.sActivateGroup = sibling_grp;
+							this.dataset('sActivateGroup', sibling_grp);
 						}
 					}
 				}
 			});
 
 			// if we don't have any group yet
-			if ( ! this.elm.dataset.sActivateGroup) {
-				console.log('no group');
-				this.elm.dataset.sActivateGroup = 'group-'+Math.round(Math.random()*99999999);
+			if ( ! this.dataset('sActivateGroup')) {
+				this.dataset('sActivateGroup', 'group-'+Math.round(Math.random()*99999999));
 				this.elm.sActivateGeneratedGroup = true;
 			}
-			console.dir(this.elm.dataset.sActivateGroup);
 		}
 
 		// check if we are in another s-activate element
@@ -104,28 +97,28 @@ class SActivateElement extends SElement {
 		}
 
 		// listen for click
-		this.elm.addEventListener(this.setting('trigger'), (e) => {
+		this.elm.addEventListener(this.settings.trigger, (e) => {
 			// clear unactivate timeout
 			clearTimeout(this._unactivateSetTimeout);
 			// if toggle
-			if (this.setting('toggle') && this.isActive()) {
+			if (this.settings.toggle && this.isActive()) {
 				// unactivate
 				this.unactivate();
 				// check if has a hash
-				if (this.setting('history')) {
+				if (this.settings.history) {
 					window.history.back();
 				}
 			} else {
-				if (this.setting('history')) {
+				if (this.settings.history) {
 					// simply activate again if the same id that anchor
 					// this can happened when an element has history to false
-					if (document.location.hash && document.location.hash.substr(1) == this.elm.dataset.sActivate) {
+					if (document.location.hash && document.location.hash.substr(1) == this.dataset('sActivate')) {
 						this._activate();
 					} else {
 						// simply change the hash 
 						// the event listener will take care of activate the
 						// good element
-						document.location.hash = this.elm.dataset.sActivate;
+						document.location.hash = this.dataset('sActivate');
 					}
 				} else {
 					// activate the element
@@ -134,12 +127,12 @@ class SActivateElement extends SElement {
 			}	
 		});
 		// check if has an unactivate trigger
-		let unactivate_trigger = this.setting('unactivateTrigger');
+		let unactivate_trigger = this.settings.unactivateTrigger;
 		if (unactivate_trigger) {
 			this.elm.addEventListener(unactivate_trigger, (e) => {
 				this._unactivateSetTimeout = setTimeout(() => {
 					this.unactivate();
-				}, this.setting('unactivateTimeout'));		
+				}, this.settings.unactivateTimeout);		
 			});
 			if (unactivate_trigger == 'mouseleave' || unactivate_trigger == 'mouseout') {
 				[].forEach.call(this.targets, (target) => {
@@ -150,23 +143,23 @@ class SActivateElement extends SElement {
 					target.addEventListener(unactivate_trigger, (e) => {
 						this._unactivateSetTimeout = setTimeout(() => {
 							this.unactivate();
-						}, this.setting('unactivateTimeout'));	
+						}, this.settings.unactivateTimeout);	
 					});
 				});
 			}
 		}
 
 		// if the element has the active class
-		if (this.hasClass('active')) {
+		if (this.elm.classList.contains('active')) {
 			this._activate();
 		}
 
 		// if need to handle anchor
-		if (this.setting('anchor')) {
+		if (this.settings.anchor) {
 			let hash = document.location.hash;
 			if (hash) {
 				hash = hash.substr(1);
-				if (hash == this.elm.dataset.sActivate) {
+				if (hash == this.dataset('sActivate')) {
 					this._activate();
 				}
 			}
@@ -177,7 +170,7 @@ class SActivateElement extends SElement {
 	 * Check if is active
 	 */
 	isActive() {
-		return this.hasClass('active');
+		return this.elm.classList.contains('active');
 	}
 
 	/**
@@ -185,7 +178,7 @@ class SActivateElement extends SElement {
 	 */
 	_activate() {
 		// unactive all group elements
-		let grp = this.elm.dataset.sActivateGroup;
+		let grp = this.dataset('sActivateGroup');
 		[].forEach.call(document.body.querySelectorAll('[data-s-activate-group="'+grp+'"]'), (group_elm) => {
 			// get the api
 			let api = group_elm.sActivate;
@@ -196,12 +189,12 @@ class SActivateElement extends SElement {
 		});
 
 		// activate the element
-		this.addClass('active');
+		this.elm.classList.add('active');
 
 		// activate all the targets
 		[].forEach.call(this.targets, (target_elm) => {
 			// remove the active class on target
-			this.addClass('active', target_elm);
+			target_elm.classList.add('active');
 		});
 
 		// if has a perent, activate it
@@ -221,7 +214,7 @@ class SActivateElement extends SElement {
 			let hash = document.location.hash;
 			if (hash) {
 				hash = hash.substr(1);
-				if (hash == this.elm.dataset.sActivate) {
+				if (hash == this.dataset('sActivate')) {
 					this._activate();
 				}
 			}
@@ -232,9 +225,9 @@ class SActivateElement extends SElement {
 	 * Activate the element
 	 */
 	activate() {
-		if (this.setting('history')) {
+		if (this.settings.history) {
 			// change hash
-			document.location.hash = this.elm.dataset.sActivate;
+			document.location.hash = this.dataset('sActivate');
 		} else {
 			// activate simply
 			this._activate();
@@ -246,11 +239,11 @@ class SActivateElement extends SElement {
 	 */
 	unactivate() {
 		// unactive the item itself
-		this.removeClass('active');
+		this.elm.classList.remove('active');
 
 		// unactive targets
 		[].forEach.call(this.targets, (target) => {
-			this.removeClass('active', target);
+			target.classList.remove('active');
 		});
 	}
 
@@ -258,10 +251,7 @@ class SActivateElement extends SElement {
 	 * Update targets, etc...
 	 */
 	update(scope = document.body) {
-		this.targets = scope.querySelectorAll('#'+this.elm.dataset.sActivate);
-		[].forEach.call(this.targets, (target) => {
-			target.setAttribute('data-s-activate-target',true);
-		});
+		this.targets = scope.querySelectorAll('#'+this.dataset('sActivate'));
 	}
 
 	/**
@@ -270,7 +260,7 @@ class SActivateElement extends SElement {
 	_getClosestActivate() {
 		let elm = this.elm.parentNode;
 		while(elm && elm != document) {
-			if (elm.id && _sActivateStack[elm.id]) {
+			if (elm.id && window._sActivateStack[elm.id]) {
 				return elm;
 			}
 			elm = elm.parentNode;

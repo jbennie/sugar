@@ -1,12 +1,16 @@
 import sTools from './s-tools'
 import sString from './s-string'
 import sDom from './s-dom'
+import SObject from './s-object'
+import SMixin from './s-mixin'
+import SWatchable from '../mixins/s-watchable'
+import SWatchableAttributes from '../mixins/s-watchable-attributes'
 
 // store the settings for the different
 // components types
 let _sugarTypesSettings = {};
 
-export default class SElement {
+export default class SElement extends SMixin(SObject).with(SWatchable) {
 
 	/**
 	 * Setup
@@ -17,43 +21,54 @@ export default class SElement {
 	}
 
 	/**
-	 * Constructor
+	 * Watch stack
 	 */
-	constructor(name, elm, default_settings = {}, settings = {}) {
-		// save element reference
-		this.elm = elm;
-		this.name = name;
-		this.name_dash = sString.uncamelize(this.name);
-		// extend settings
-		this._settings = {...default_settings, ...settings};
-
-		// check if the main data attribute is an object to extend the settings
-		let set = this.setting('');
-		if (set && typeof(set) == 'object') {
-			this._settings = {...this._settings, ...set};
-		} 
-
-		// set the api in the dom element
-		this.elm[this.name] = this;
-
-		// check if a type is defined then extend the settings
-		if (! _sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
-		let type = this.setting('settings');
-		if (type && _sugarTypesSettings[name][type]) {
-			this._settings = {...this._settings, ..._sugarTypesSettings[name][type]};
-		}
-	}
+	_watchStack = {};
 
 	/**
-	 * Init proxy
+	 * The dom element reference
 	 */
-	initProxy() {
-		return new Promise((resolve, reject) => {
-			if (this.setting('initWhenVisible')) {
-				this.whenVisible().then(resolve);
-			} else {
-				resolve.apply(this);
-			}
+	elm = null;
+
+	/**
+	 * Store the attributes
+	 */
+	attr = {};
+
+	/**	
+	 * Constructor
+	 */
+	constructor(elm) {
+		// init parent
+		super();
+		// save the element reference
+		this.elm = elm;
+		// process attributes
+		[].forEach.call(this.elm.attributes, (attr) => {
+			this.set(`attr.${sString.camelize(attr.name)}`, sString.autoCast(attr.value));
+		});
+
+		// check attributes changes to update settings
+		let observer = new MutationObserver((mutations) => {
+			// loop on mutations
+			mutations.forEach((mutation) => {
+				// update the attr property
+				let val = this.elm.getAttribute(mutation.attributeName);
+				// process val
+				val = sString.autoCast(val);
+				// set the attribute with the fromMutation flag to true
+				// to avoid recursive assignation
+				this.set(`attr.${sString.camelize(mutation.attributeName)}`, val, true);
+			});
+		});
+		// observe the node itself
+		observer.observe(this.elm, {
+			addedNodes: false,
+			attributeName: true,
+			characterData : true,
+			subtree : false,
+			attributeOldValue : true,
+			characterDataOldValue : true
 		});
 	}
 
@@ -86,81 +101,9 @@ export default class SElement {
 	}
 
 	/**
-	 * Setting
-	 */
-	setting(key) {
-		// check in the dataset
-		let key_string = this.name + sString.upperFirst(key);
-		key_string = key_string.replace(sString.upperFirst(key)+sString.upperFirst(key),sString.upperFirst(key));
-		let s = this.dataset(sString.lowerFirst(key_string));
-
-		// process the value
-		if (s == 'false'
-			|| s == 'true'
-			|| (typeof(s) == 'string' && s.substr(0,1) == '[')
-			|| ! isNaN(s)) {
-			s = eval(s);
-		} else if (typeof(s) == 'string' && s.substr(0,1) == '{') {
-			s = eval('('+s+')');
-		}
-
-		// if we didn't find any setting in dataset,
-		// get the one from the actual settings property
-		if ( s === null) {
-			s = this._settings[key];
-		}
-
-		// check if the setting begin by @
-		// mean that it's an alias of another setting
-		if (typeof(s) == 'string' && s.substr(0,1) == '@') {
-			let key = s.substr(1);
-			// return the alias property
-			return this.setting(key);
-		}
-
-		// return the settings
-		return s;
-	}
-
-	/**
-	 * Get all settings
-	 */
-	settings() {
-		let settings = this._settings;
-		// loop on all attributes
-		[].forEach.call(this.elm.attributes, (attr) => {
-			let data_name = 'data-'+this.name_dash;
-			if (attr.name.indexOf(data_name) != -1) {
-				let n = attr.name.substr(data_name.length);
-				// if (n.substr(0,1) == '-') {
-				// 	n = n.substr(1);
-				// }
-				if (n) {
-					n = camelize(n);
-					settings[n] = this.setting(n);
-				}
-			}
-		});	
-		return settings;
-	}
-
-	/**
 	 * Access dataset
 	 */
 	dataset(key, value = null, elm = this.elm) {
 		return sDom.dataset(elm, key, value);
-	}
-
-	/**
-	 * Classes helpers
-	 */
-	hasClass(cls, elm = this.elm) {
-		return sDom.hasClass(elm, cls);
-	}
-	addClass(cls, elm = this.elm) {
-		return sDom.addClass(elm, cls);
-	}
-	removeClass(cls, elm = this.elm) {
-		return sDom.removeClass(elm, cls);
 	}
 }
