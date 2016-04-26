@@ -38,22 +38,31 @@ class SSelectElement extends SComponent {
 		}, settings);
 
 		setTimeout(() => {
-			this.set('attr.coco', 'hello');
+			this.attr.sSelectSearchPlaceholder = 'hello coco';
+			// this.set('attr.coco', 'hello');
 		}, 2000);
 
-		this.watch('attr.coco', (newVal) => {
-			console.log('NEW COCO', newVal);
-			console.log(this.attr);
+		this.watch('attr.sSelectSearchPlaceholder', (newVal, oldVal) => {
+			console.log('NEW PLLAC', newVal, oldVal);
+		});
+
+		this.watch('settings.searchPlaceholder', (newVal, oldVal) => {
+			console.log('NEW SETTINGS', newVal, oldVal);
+			console.log('this', this);
 		});
 
 		// init
-		this._init();
+		// this._init();
 	}
 
+	// onVisible() {
+	// 	console.log('VISIBLE');
+	// }
+
 	/**
-	 * Init
+	 * On added to dom
 	 */
-	_init() {
+	init() {
 
 		console.log('init', this);
 
@@ -819,7 +828,7 @@ class SSelectElement extends SComponent {
 }
 
 // init the select
-sDom.querySelectorVisibleLive('select[data-s-select]', (elm) => {
+sDom.querySelectorLive('select[s-select]', (elm) => {
 	new SSelectElement(elm);
 });
 

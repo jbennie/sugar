@@ -78,21 +78,40 @@ let sDom = {
 	 */
 	whenVisible : (elm, cb = null) => {
 		return new Promise((resolve, reject) => {
-			let inViewport = false,
-				isVisible = false,
-				_cb = () => {
-					if (inViewport && isVisible) {
-						document.removeEventListener('scroll', checkViewport);
-						window.removeEventListener('resize', checkViewport);
-						if (cb)	cb(elm);
-						resolve(elm);
-					}
-				}
-			let checkViewport = (e) => {
-				inViewport = sDom.inViewport(elm, { top:50, right:50, bottom:50, left:50 });
-				_cb();
-			}
 
+			let isSelfVisible = false,
+				areParentsVisible = false;
+			const _cb = () => {
+				if (isSelfVisible && areParentsVisible) {
+					if (cb) cb(elm);
+					resolve(elm);
+				}
+			};
+
+			// check if element itself is not visible
+			if ( ! sDom.isVisible(elm)) {
+				const selfObserver = new MutationObserver((mutations) => {
+					mutations.forEach((mutation) => {
+						// check that is the style whos changed
+						if (mutation.attributeName === 'style'
+							|| mutation.attributeName === 'class') {
+							// check if is visible
+							if (sDom.isVisible(mutation.target)) {
+								// update
+								isSelfVisible = true;
+								// callback
+								_cb();
+								// stop observe
+								selfObserver.disconnect();
+							}
+						}
+					});
+				});
+				selfObserver.observe(elm, { attributes: true });
+			} else {
+				isSelfVisible = true;
+			} 
+			 
 			// get the closest not visible element
 			// if found, we monitor it to check when it is visible
 			let closestNotVisible = sDom.closestNotVisible(elm);
@@ -104,8 +123,10 @@ let sDom = {
 							|| mutation.attributeName === 'class') {
 							// check if is visible
 							if (sDom.isVisible(mutation.target)) {
-								isVisible = true;
-								checkViewport();
+								// update
+								areParentsVisible = true;
+								// callback
+								_cb();
 								// stop observe
 								observer.disconnect();
 							}
@@ -114,14 +135,48 @@ let sDom = {
 				});
 				observer.observe(closestNotVisible, { attributes: true });
 			} else {
-				isVisible = true;
+				areParentsVisible = true;
 			}
+
+			// callback
+			_cb();
+		});
+	},
+
+	/**
+	 * Register a callback to be launched when the element is visible
+	 * @param  {element}   elm The element to observe
+	 * @param  {Function} cb  The callback to launch
+	 * @return {[type]}       [description]
+	 */
+	whenViewportVisible : (elm, cb = null) => {
+		return new Promise((resolve, reject) => {
+			let inViewport = false,
+				isVisible = false,
+				_cb = () => {
+					if (isVisible && inViewport) {
+						document.removeEventListener('scroll', checkViewport);
+						window.removeEventListener('resize', checkViewport);
+						if (cb)	cb(elm);
+						resolve(elm);
+					}
+				}
+			let checkViewport = (e) => {
+				inViewport = sDom.inViewport(elm, { top:50, right:50, bottom:50, left:50 });
+				_cb();
+			}
+
+			// detect when visible
+			sDom.whenVisible(elm).then((elm) => {
+				isVisible = true;
+				_cb();
+			});
 
 			// listen for resize
 			document.addEventListener('scroll', checkViewport);
 			window.addEventListener('resize', checkViewport);
 			setTimeout(() => {
-				checkViewport(null);
+			checkViewport(null);
 			});
 		});
 	},
@@ -149,9 +204,75 @@ let sDom = {
 	},
 
 	/**
+	 * Grab all the visible element just once
+	 * And apply the callback when a new item match the selector
+	 */
+	querySelectorVisibleLiveOnce : (selector, cb, settings) => {
+		// extend settings
+		settings = {...settings,...{ once : true }};
+		// make the selection
+		sDom.querySelectorLive(selector, (elm) => {
+			// check if is array
+			if (elm instanceof Array) {
+				elm.forEach((e) => {
+					sDom.whenVisible(e).then((e) => {
+						cb(e);
+					});
+				});
+			} else {
+				// check if is visible
+				sDom.whenVisible(elm).then((elm) => {
+					cb(elm);
+				});
+			}
+		}, settings);
+	},
+
+	/**
 	 * Grab all the visible elements
 	 */
 	querySelectorVisible : (selector, rootNode = document) => {
+		// return array
+		let elms = [];
+		// grab the elements in the page
+		[].forEach.call(rootNode.querySelectorAll(selector), (elm) => {
+			if (sDom.isVisible(elm) && ! sDom.closestNotVisible(elm)) {
+				elms.push(elm);
+			}
+		});
+		// return the elements
+		return elms;
+	},
+
+	/**
+	 * Grab all the visible element just once
+	 * And apply the callback when a new item match the selector
+	 */
+	querySelectorViewportVisibleLiveOnce : (selector, cb, settings) => {
+		// extend settings
+		settings = {...settings,...{ once : true }};
+		// make the selection
+		sDom.querySelectorLive(selector, (elm) => {
+			// check if is array
+			if (elm instanceof Array) {
+				elm.forEach((e) => {
+					sDom.whenViewportVisible(e).then((e) => {
+						cb(e);
+					});
+				});
+			} else {
+				// check if is visible
+				sDom.whenViewportVisible(elm).then((elm) => {
+					cb(elm);
+				});
+			}
+		}, settings);
+	},
+
+	/**
+	 * Grab all the visible viewport
+	 */
+	querySelectorViewportVisible : (selector, rootNode = document) => {
 		// return array
 		let elms = [];
 		// grab the elements in the page
@@ -165,14 +286,29 @@ let sDom = {
 	},
 
 	/**
+	 * Get the element once
+	 */
+	querySelectorLiveOnce : (selector, cb, settings = {}) => {
+		// extend settings
+		settings = {
+			...settings,
+			...{
+				once : true
+			}
+		};
+		sDom.querySelectorLive(selector, cb, settings);
+	},
+
+	/**
 	 * Make a selector detectable when new element are pushed in the page
 	 */
 	querySelectorLive : (selector, cb, settings = {}) => {
 
 		// extend settings
 		settings = {...{
-			rootNode : document,
-			groupedNodes : false
+			rootNode : null,
+			groupedNodes : false,
+			once : false
 		}, ...settings};
 
 		let _this = this;
@@ -183,10 +319,14 @@ let sDom = {
 
 		// add the callback in stack
 		_insertDomElementsCallbacks[detection_id] = {
+			once : settings.once,
+			once_added : false,
+			once_removed : false,
 			detection_id : detection_id,
 			_added_callback : typeof(cb) == 'function' ? cb : cb[0] ? cb[0] : null,
 			added_callback : (_this) => {
-				// save the detection if into node
+				// save the detection id into node
+				// in order to be able to detect the deletion of it
 				if (_this.nodes) {
 					_this.nodes.forEach((node) => {
 						node._s_query_selector_live_id = _this.detection_id;
@@ -232,8 +372,9 @@ let sDom = {
 				//setTimeout(() => {
 
 				if ( ! settings.rootNode._s_insert_mutation_observer) {
-					settings.rootNode._s_insert_mutation_observer = new MutationObserver((mutations) => {
-							
+
+					settings.rootNode._s_insert_mutation_observer = new MutationObserver((mutations) => {						
+
 						// check if what we need has been added
 						mutations.forEach((mutation) => {
 							
@@ -245,14 +386,30 @@ let sDom = {
 								[].forEach.call(mutation.addedNodes, (node) => {
 									// loop on each callbacks to find a match
 									for(let insert_id in _insertDomElementsCallbacks) {
-										if (sDom.matches(node, _insertDomElementsCallbacks[insert_id].selector)) {
-											if (_insertDomElementsCallbacks[insert_id].groupedNodes) {
-												_insertDomElementsCallbacks[insert_id].nodes.push(node);
-												// _groupedNodes.push(node);
-												clearTimeout(_insertDomElementsCallbacks[insert_id].timeout);
-												_insertDomElementsCallbacks[insert_id].timeout = setTimeout(_insertDomElementsCallbacks[insert_id].added_callback.bind(null, _insertDomElementsCallbacks[insert_id]));
-											} else {
-												_insertDomElementsCallbacks[insert_id].added_callback(node);
+										let insertDomParams = _insertDomElementsCallbacks[insert_id],
+											once = insertDomParams.once,
+											once_added = insertDomParams.once_added;
+										if ( ! once || ! once_added) {
+											// check if the selector match
+											if (sDom.matches(node, insertDomParams.selector)) {
+												// check if we need to group the elements in one
+												// callback call
+												insertDomParams.nodes.push(node);
+												if (insertDomParams.groupedNodes) {
+													clearTimeout(insertDomParams.timeout);
+													insertDomParams.timeout = setTimeout(insertDomParams.added_callback.bind(null, insertDomParams));
+												} else {
+													insertDomParams.added_callback(insertDomParams);
+												}
+												// if once, update the once_added property
+												if (once) {
+													_insertDomElementsCallbacks[insert_id].once_added = true;
+													// if we don't have any removed callback
+													// we delete the parameters from the stack
+													if ( ! insertDomParams._removed_callback) {
+														delete _insertDomElementsCallbacks[insert_id];
+													}
+												}
 											}
 										}
 									}
@@ -268,15 +425,28 @@ let sDom = {
 									// loop on each callbacks to find a match
 									if (node.nodeName != '#text') {
 										for(let insert_id in _insertDomElementsCallbacks) {
-											if (node._s_query_selector_live_id == insert_id) {
-											// if (sDom.matches(node, _insertDomElementsCallbacks[insert_id].selector)) {
-												if (_insertDomElementsCallbacks[insert_id].groupedNodes) {
-													_insertDomElementsCallbacks[insert_id].nodes.push(node);
-													// _groupedNodes.push(node);
-													clearTimeout(_insertDomElementsCallbacks[insert_id].timeout);
-													_insertDomElementsCallbacks[insert_id].timeout = setTimeout(_insertDomElementsCallbacks[insert_id].removed_callback.bind(null, _insertDomElementsCallbacks[insert_id]));
-												} else {
-													_insertDomElementsCallbacks[insert_id].removed_callback(node);
+											
+											let insertDomParams = _insertDomElementsCallbacks[insert_id],
+												once = insertDomParams.once,
+												once_removed = insertDomParams.once_removed;
+											if ( ! once || ! once_removed) {
+
+												if (node._s_query_selector_live_id == insert_id) {
+												// if (sDom.matches(node, _insertDomElementsCallbacks[insert_id].selector)) {
+													// check if we need to group the elements
+													// to pass to callback
+													insertDomParams.nodes.push(node);
+													if (insertDomParams.groupedNodes) {
+														clearTimeout(insertDomParams.timeout);
+														insertDomParams.timeout = setTimeout(insertDomParams.removed_callback.bind(null, insertDomParams));
+													} else {
+														insertDomParams.removed_callback(insertDomParams);
+													}
+													// if once, we remove the parameters from the stack
+													// because we don't want to check this selector again
+													if (once) {
+														delete _insertDomElementsCallbacks[insert_id];
+													}
 												}
 											}
 										}

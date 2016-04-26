@@ -120,10 +120,24 @@ return /******/ (function(modules) { // webpackBootstrap
 			_sugarTypesSettings[name][type] = settings;
 		};
 
+		/**
+	  * Settings
+	  */
+
+
+		/**
+	  * Settings values
+	  */
+
+
+		/**
+	  * Old settings values
+	  */
+
+
 		/**	
 	  * Constructor
 	  */
-
 
 		function SComponent(name, elm) {
 			var default_settings = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
@@ -131,56 +145,152 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			_classCallCheck(this, SComponent);
 
-			// save element reference
-
-			var _this = _possibleConstructorReturn(this, _SElement.call(this, elm));
+			// process shortcuts attributes
+			// before init parent class
+			// cause the parent class process
+			// the attributes
+			var nameDash = _sString2.default.uncamelize(name, '-');
+			var isCurrentComponentSetting = false;
+			var attrsToRemove = [];
+			[].forEach.call(elm.attributes, function (attr) {
+				// check if need to update the settings
+				if (attr.name == nameDash) {
+					isCurrentComponentSetting = true;
+				} else {
+					if (isCurrentComponentSetting && attr.name.substr(0, 1) == '-') {
+						// remove the attribute and set the new complete one
+						attrsToRemove.push(attr.name);
+						// set the new attribute
+						elm.setAttribute('' + nameDash + attr.name, attr.value);
+					} else {
+						// it's no more the same component
+						isCurrentComponentSetting = false;
+					}
+				}
+			});
+			// remove the unwanted attributes
+			attrsToRemove.forEach(function (attrName) {
+				elm.removeAttribute(attrName);
+			});
 
 			// init parent
 
 
+			// save element reference
+
+			var _this = _possibleConstructorReturn(this, _SElement.call(this, elm));
+
+			_this.settings = {};
+			_this._settingsValues = {};
+			_this._previousSettingsValues = {};
 			_this.elm = elm;
 			_this.name = name;
-			_this.name_dash = _sString2.default.uncamelize(_this.name);
-			// extend settings
-			_this.settings = _extends({}, default_settings, settings);
+			_this.name_dash = nameDash;
+
+			_this.coco = {
+				hello: {
+					jaja: 'youhou',
+					world: 'tuptudup'
+				}
+			};
+
+			// make name watchable
+			// this.watchable('name');
+			_this.watchable('coco.hello.world');
+
+			_this.watch('coco.hello', function (newVal, oldVal) {
+				console.log('YOPYOP', newVal, oldVal);
+			});
+
+			console.log('MY COCO', _this.coco);
+
+			// this.coco.hello = 'coucou';
+			// this.coco.hello = 'haha';
+
+			console.log('HHHHHH', _this.coco.hello);
+
+			// extend settings values
+			_this._settingsValues = _extends({}, default_settings, settings);
+
+			// preparing all the settings accessors
+			for (var _name in default_settings) {
+				// new setting
+				_this._newSetting(_name);
+			}
 
 			// check if the main data attribute is an object to extend the settings
-			var set = _this.elm.getAttribute('data-' + _this.name_dash);
+			var set = _sString2.default.autoCast(_this.elm.getAttribute('data-' + _this.name_dash) || _this.elm.getAttribute(_this.name_dash));
 			if (set && (typeof set === 'undefined' ? 'undefined' : _typeof(set)) == 'object') {
-				_this.settings = _extends({}, _this.settings, set);
+				_this._settingsValues = _extends({}, _this._settingsValues, set);
 			}
 
 			// try to find the setting with the @ sign as value
-			for (var settingName in _this.settings) {
-				if (_this.settings[settingName] == '@') {
-					_this.settings[settingName] = _this.elm.getAttribute('data-' + _this.name_dash);
+			for (var settingName in _this._settingsValues) {
+				if (_this._settingsValues[settingName] == '@') {
+					_this._settingsValues[settingName] = set;
 				}
 			}
-
-			// set the api in the dom element
-			_this.elm[_this.name] = _this;
 
 			// check if a type is defined then extend the settings
-			if (!_sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
-			var type = _this.settings.settings;
-			if (type && _sugarTypesSettings[name][type]) {
-				_this.settings = _extends({}, _this.settings, _sugarTypesSettings[name][type]);
-			}
+			// if (! _sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
+			// let type = this.settings.settings;
+			// if (type && _sugarTypesSettings[name][type]) {
+			// 	this.settings = {...this.settings, ..._sugarTypesSettings[name][type]};
+			// }
 
-			// extend settings from attributes
-			[].forEach.call(_this.elm.attributes, function (attr) {
-				// check if need to update the settings
-				var attrName = attr.name.replace('data-', '').replace(_this.name_dash, '');
-				var name = _sString2.default.camelize(attrName);
-				if (_this.settings[name] !== undefined) {
-					// get the old value
-					var oldValue = _this.settings[name];
-					// set the new value
-					_this.set('settings.' + name, _this.elm.getAttribute(attrName));
+			// watch attributes to update settings accordingly
+
+			var _loop = function _loop(_name2) {
+				// check if has a different value in the attributes
+				// console.log('name', name);
+				var attrName = _this.name + _sString2.default.upperFirst(_name2);
+				if (_this.attr[attrName] !== undefined) {
+					_this._settingsValues[_name2] = _this.attr[attrName];
 				}
-			});
+
+				// watch settings attributes
+				_this.watch('attr.' + attrName, function (newVal, oldVal) {
+					// update the setting
+					_this.settings[_name2] = newVal;
+				});
+			};
+
+			for (var _name2 in _this._settingsValues) {
+				_loop(_name2);
+			}
 			return _this;
 		}
+
+		/**
+	  * New setting
+	  */
+
+
+		SComponent.prototype._newSetting = function _newSetting(name) {
+			var _this2 = this;
+
+			// make only if not exist already
+			if (this.settings.hasOwnProperty[name]) return name;
+
+			// define new property on the attr
+			Object.defineProperty(this.settings, name, {
+				get: function get() {
+					return _this2._settingsValues[name];
+				},
+				set: function set(value) {
+					// cast value
+					value = _sString2.default.autoCast(value);
+					// save the old value
+					var previousValue = _this2._previousSettingsValues[name] = _this2.settings[name];
+					_this2._settingsValues[name] = value;
+					// notify of new value
+					_this2.notify('settings.' + name, value, previousValue);
+					_this2.notify('settings', _this2._settingsValues, _this2._previousSettingsValues);
+				},
+				enumarable: true
+			});
+			return name;
+		};
 
 		return SComponent;
 	}(_sElement2.default);
@@ -379,20 +489,40 @@ return /******/ (function(modules) { // webpackBootstrap
 			var cb = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
 
 			return new Promise(function (resolve, reject) {
-				var inViewport = false,
-				    isVisible = false,
-				    _cb = function _cb() {
-					if (inViewport && isVisible) {
-						document.removeEventListener('scroll', checkViewport);
-						window.removeEventListener('resize', checkViewport);
+
+				var isSelfVisible = false,
+				    areParentsVisible = false;
+				var _cb = function _cb() {
+					if (isSelfVisible && areParentsVisible) {
 						if (cb) cb(elm);
 						resolve(elm);
 					}
 				};
-				var checkViewport = function checkViewport(e) {
-					inViewport = sDom.inViewport(elm, { top: 50, right: 50, bottom: 50, left: 50 });
-					_cb();
-				};
+
+				// check if element itself is not visible
+				if (!sDom.isVisible(elm)) {
+					(function () {
+						var selfObserver = new MutationObserver(function (mutations) {
+							mutations.forEach(function (mutation) {
+								// check that is the style whos changed
+								if (mutation.attributeName === 'style' || mutation.attributeName === 'class') {
+									// check if is visible
+									if (sDom.isVisible(mutation.target)) {
+										// update
+										isSelfVisible = true;
+										// callback
+										_cb();
+										// stop observe
+										selfObserver.disconnect();
+									}
+								}
+							});
+						});
+						selfObserver.observe(elm, { attributes: true });
+					})();
+				} else {
+					isSelfVisible = true;
+				}
 
 				// get the closest not visible element
 				// if found, we monitor it to check when it is visible
@@ -405,8 +535,10 @@ return /******/ (function(modules) { // webpackBootstrap
 								if (mutation.attributeName === 'style' || mutation.attributeName === 'class') {
 									// check if is visible
 									if (sDom.isVisible(mutation.target)) {
-										isVisible = true;
-										checkViewport();
+										// update
+										areParentsVisible = true;
+										// callback
+										_cb();
 										// stop observe
 										observer.disconnect();
 									}
@@ -416,8 +548,44 @@ return /******/ (function(modules) { // webpackBootstrap
 						observer.observe(closestNotVisible, { attributes: true });
 					})();
 				} else {
-					isVisible = true;
+					areParentsVisible = true;
 				}
+
+				// callback
+				_cb();
+			});
+		},
+
+		/**
+	  * Register a callback to be launched when the element is visible
+	  * @param  {element}   elm The element to observe
+	  * @param  {Function} cb  The callback to launch
+	  * @return {[type]}       [description]
+	  */
+		whenViewportVisible: function whenViewportVisible(elm) {
+			var cb = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+
+			return new Promise(function (resolve, reject) {
+				var inViewport = false,
+				    isVisible = false,
+				    _cb = function _cb() {
+					if (isVisible && inViewport) {
+						document.removeEventListener('scroll', checkViewport);
+						window.removeEventListener('resize', checkViewport);
+						if (cb) cb(elm);
+						resolve(elm);
+					}
+				};
+				var checkViewport = function checkViewport(e) {
+					inViewport = sDom.inViewport(elm, { top: 50, right: 50, bottom: 50, left: 50 });
+					_cb();
+				};
+
+				// detect when visible
+				sDom.whenVisible(elm).then(function (elm) {
+					isVisible = true;
+					_cb();
+				});
 
 				// listen for resize
 				document.addEventListener('scroll', checkViewport);
@@ -451,9 +619,77 @@ return /******/ (function(modules) { // webpackBootstrap
 		},
 
 		/**
+	  * Grab all the visible element just once
+	  * And apply the callback when a new item match the selector
+	  */
+		querySelectorVisibleLiveOnce: function querySelectorVisibleLiveOnce(selector, cb, settings) {
+			// extend settings
+			settings = _extends({}, settings, { once: true });
+			// make the selection
+			sDom.querySelectorLive(selector, function (elm) {
+				// check if is array
+				if (elm instanceof Array) {
+					elm.forEach(function (e) {
+						sDom.whenVisible(e).then(function (e) {
+							cb(e);
+						});
+					});
+				} else {
+					// check if is visible
+					sDom.whenVisible(elm).then(function (elm) {
+						cb(elm);
+					});
+				}
+			}, settings);
+		},
+
+		/**
 	  * Grab all the visible elements
 	  */
 		querySelectorVisible: function querySelectorVisible(selector) {
+			var rootNode = arguments.length <= 1 || arguments[1] === undefined ? document : arguments[1];
+
+			// return array
+			var elms = [];
+			// grab the elements in the page
+			[].forEach.call(rootNode.querySelectorAll(selector), function (elm) {
+				if (sDom.isVisible(elm) && !sDom.closestNotVisible(elm)) {
+					elms.push(elm);
+				}
+			});
+			// return the elements
+			return elms;
+		},
+
+		/**
+	  * Grab all the visible element just once
+	  * And apply the callback when a new item match the selector
+	  */
+		querySelectorViewportVisibleLiveOnce: function querySelectorViewportVisibleLiveOnce(selector, cb, settings) {
+			// extend settings
+			settings = _extends({}, settings, { once: true });
+			// make the selection
+			sDom.querySelectorLive(selector, function (elm) {
+				// check if is array
+				if (elm instanceof Array) {
+					elm.forEach(function (e) {
+						sDom.whenViewportVisible(e).then(function (e) {
+							cb(e);
+						});
+					});
+				} else {
+					// check if is visible
+					sDom.whenViewportVisible(elm).then(function (elm) {
+						cb(elm);
+					});
+				}
+			}, settings);
+		},
+
+		/**
+	  * Grab all the visible viewport
+	  */
+		querySelectorViewportVisible: function querySelectorViewportVisible(selector) {
 			var rootNode = arguments.length <= 1 || arguments[1] === undefined ? document : arguments[1];
 
 			// return array
@@ -469,6 +705,19 @@ return /******/ (function(modules) { // webpackBootstrap
 		},
 
 		/**
+	  * Get the element once
+	  */
+		querySelectorLiveOnce: function querySelectorLiveOnce(selector, cb) {
+			var settings = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+			// extend settings
+			settings = _extends({}, settings, {
+				once: true
+			});
+			sDom.querySelectorLive(selector, cb, settings);
+		},
+
+		/**
 	  * Make a selector detectable when new element are pushed in the page
 	  */
 		querySelectorLive: function querySelectorLive(selector, cb) {
@@ -477,8 +726,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// extend settings
 			settings = _extends({
-				rootNode: document,
-				groupedNodes: false
+				rootNode: null,
+				groupedNodes: false,
+				once: false
 			}, settings);
 
 			var _this = undefined;
@@ -489,10 +739,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// add the callback in stack
 			_insertDomElementsCallbacks[detection_id] = {
+				once: settings.once,
+				once_added: false,
+				once_removed: false,
 				detection_id: detection_id,
 				_added_callback: typeof cb == 'function' ? cb : cb[0] ? cb[0] : null,
 				added_callback: function added_callback(_this) {
-					// save the detection if into node
+					// save the detection id into node
+					// in order to be able to detect the deletion of it
 					if (_this.nodes) {
 						_this.nodes.forEach(function (node) {
 							node._s_query_selector_live_id = _this.detection_id;
@@ -540,6 +794,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					//setTimeout(() => {
 
 					if (!settings.rootNode._s_insert_mutation_observer) {
+
 						settings.rootNode._s_insert_mutation_observer = new MutationObserver(function (mutations) {
 
 							// check if what we need has been added
@@ -553,14 +808,30 @@ return /******/ (function(modules) { // webpackBootstrap
 									[].forEach.call(mutation.addedNodes, function (node) {
 										// loop on each callbacks to find a match
 										for (var insert_id in _insertDomElementsCallbacks) {
-											if (sDom.matches(node, _insertDomElementsCallbacks[insert_id].selector)) {
-												if (_insertDomElementsCallbacks[insert_id].groupedNodes) {
-													_insertDomElementsCallbacks[insert_id].nodes.push(node);
-													// _groupedNodes.push(node);
-													clearTimeout(_insertDomElementsCallbacks[insert_id].timeout);
-													_insertDomElementsCallbacks[insert_id].timeout = setTimeout(_insertDomElementsCallbacks[insert_id].added_callback.bind(null, _insertDomElementsCallbacks[insert_id]));
-												} else {
-													_insertDomElementsCallbacks[insert_id].added_callback(node);
+											var insertDomParams = _insertDomElementsCallbacks[insert_id],
+											    once = insertDomParams.once,
+											    once_added = insertDomParams.once_added;
+											if (!once || !once_added) {
+												// check if the selector match
+												if (sDom.matches(node, insertDomParams.selector)) {
+													// check if we need to group the elements in one
+													// callback call
+													insertDomParams.nodes.push(node);
+													if (insertDomParams.groupedNodes) {
+														clearTimeout(insertDomParams.timeout);
+														insertDomParams.timeout = setTimeout(insertDomParams.added_callback.bind(null, insertDomParams));
+													} else {
+														insertDomParams.added_callback(insertDomParams);
+													}
+													// if once, update the once_added property
+													if (once) {
+														_insertDomElementsCallbacks[insert_id].once_added = true;
+														// if we don't have any removed callback
+														// we delete the parameters from the stack
+														if (!insertDomParams._removed_callback) {
+															delete _insertDomElementsCallbacks[insert_id];
+														}
+													}
 												}
 											}
 										}
@@ -576,15 +847,28 @@ return /******/ (function(modules) { // webpackBootstrap
 										// loop on each callbacks to find a match
 										if (node.nodeName != '#text') {
 											for (var insert_id in _insertDomElementsCallbacks) {
-												if (node._s_query_selector_live_id == insert_id) {
-													// if (sDom.matches(node, _insertDomElementsCallbacks[insert_id].selector)) {
-													if (_insertDomElementsCallbacks[insert_id].groupedNodes) {
-														_insertDomElementsCallbacks[insert_id].nodes.push(node);
-														// _groupedNodes.push(node);
-														clearTimeout(_insertDomElementsCallbacks[insert_id].timeout);
-														_insertDomElementsCallbacks[insert_id].timeout = setTimeout(_insertDomElementsCallbacks[insert_id].removed_callback.bind(null, _insertDomElementsCallbacks[insert_id]));
-													} else {
-														_insertDomElementsCallbacks[insert_id].removed_callback(node);
+
+												var insertDomParams = _insertDomElementsCallbacks[insert_id],
+												    once = insertDomParams.once,
+												    once_removed = insertDomParams.once_removed;
+												if (!once || !once_removed) {
+
+													if (node._s_query_selector_live_id == insert_id) {
+														// if (sDom.matches(node, _insertDomElementsCallbacks[insert_id].selector)) {
+														// check if we need to group the elements
+														// to pass to callback
+														insertDomParams.nodes.push(node);
+														if (insertDomParams.groupedNodes) {
+															clearTimeout(insertDomParams.timeout);
+															insertDomParams.timeout = setTimeout(insertDomParams.removed_callback.bind(null, insertDomParams));
+														} else {
+															insertDomParams.removed_callback(insertDomParams);
+														}
+														// if once, we remove the parameters from the stack
+														// because we don't want to check this selector again
+														if (once) {
+															delete _insertDomElementsCallbacks[insert_id];
+														}
 													}
 												}
 											}
@@ -850,9 +1134,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	  var onUnhandledRejection = function onUnhandledRejection(err) {
-	    if (typeof console !== 'undefined' && console) {
-	      console.warn('Possible Unhandled Promise Rejection:', err); // eslint-disable-line no-console
-	    }
+	    console.warn('Possible Unhandled Promise Rejection:', err); // eslint-disable-line no-console
 	  };
 
 	  // Polyfill for Function.prototype.bind
@@ -1617,6 +1899,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
+		/**
+	  * Store the attributes values
+	  */
+
+
+		/**
+	  * Store the previous attributes values
+	  */
+
+
 		/**	
 	  * Constructor
 	  */
@@ -1627,17 +1919,32 @@ return /******/ (function(modules) { // webpackBootstrap
 			// save the element reference
 
 			var _this = _possibleConstructorReturn(this, _SMixin$with.call(this));
+
 			// init parent
 
 
 			_this._watchStack = {};
 			_this.elm = null;
 			_this.attr = {};
+			_this._attrValues = {};
+			_this._previousAttrValues = {};
 			_this.elm = elm;
 			// process attributes
 			[].forEach.call(_this.elm.attributes, function (attr) {
-				_this.set('attr.' + _sString2.default.camelize(attr.name), _sString2.default.autoCast(attr.value));
+				// new attribute
+				var camelName = _this._newAttribute(attr.name);
+				// set the value
+				_this.attr[camelName] = attr.value;
 			});
+
+			// set the api in the dom element
+			_this.elm[_this.name] = _this;
+
+			// create a uniqid for the element
+			_this.uniqid = _sTools2.default.uniqid();
+
+			// set the uniqid to the element
+			_this.elm.setAttribute('data-s-element-id', _this.uniqid);
 
 			// check attributes changes to update settings
 			var observer = new MutationObserver(function (mutations) {
@@ -1645,11 +1952,10 @@ return /******/ (function(modules) { // webpackBootstrap
 				mutations.forEach(function (mutation) {
 					// update the attr property
 					var val = _this.elm.getAttribute(mutation.attributeName);
-					// process val
-					val = _sString2.default.autoCast(val);
-					// set the attribute with the fromMutation flag to true
-					// to avoid recursive assignation
-					_this.set('attr.' + _sString2.default.camelize(mutation.attributeName), val, true);
+					// make a new attribute
+					var camelName = _this._newAttribute(mutation.attributeName);
+					// set the value
+					_this.attr[camelName] = mutation.target.getAttribute(mutation.attributeName);
 				});
 			});
 			// observe the node itself
@@ -1661,8 +1967,86 @@ return /******/ (function(modules) { // webpackBootstrap
 				attributeOldValue: true,
 				characterDataOldValue: true
 			});
+
+			// listen when the element is added to the dom
+			setTimeout(function () {
+				var cbs = [function (elm) {
+					_this.onAdded(elm);
+				}];
+				if (typeof _this.onRemoved == 'function') {
+					cbs.push(function (elm) {
+						_this.onRemoved(elm);
+					});
+				}
+				if (typeof _this.onAdded == 'function') {
+					_sDom2.default.querySelectorLiveOnce('[data-s-element-id="' + _this.uniqid + '"]', cbs);
+				}
+				// check if is the onVisible method
+				if (typeof _this.onVisible == 'function') {
+					_sDom2.default.querySelectorVisibleLiveOnce('[data-s-element-id="' + _this.uniqid + '"]', function (elm) {
+						_this.onVisible(elm);
+					});
+				}
+				// check if is the onViewportVisible method
+				if (typeof _this.onViewportVisible == 'function') {
+					_sDom2.default.querySelectorViewportVisibleLiveOnce('[data-s-element-id="' + _this.uniqid + '"]', function (elm) {
+						_this.onViewportVisible(elm);
+					});
+				}
+			});
 			return _this;
 		}
+
+		/**
+	  * New attribute
+	  */
+
+
+		SElement.prototype._newAttribute = function _newAttribute(name) {
+			var _this2 = this;
+
+			var camelName = _sString2.default.camelize(name);
+			// make only if not exist already
+			if (this._attrValues[camelName] != undefined) return camelName;
+
+			// define new property on the attr
+			Object.defineProperty(this.attr, camelName, {
+				get: function get() {
+					return _this2._attrValues[camelName];
+				},
+				set: function set(value) {
+					// cast the value
+					value = _sString2.default.autoCast(value);
+					// protect from recursion
+					if (value == _this2._previousAttrValues[camelName]) {
+						return;
+					}
+					// save the old value
+					var previousValue = _this2._previousAttrValues[camelName] = _this2.attr[camelName];
+					_this2._attrValues[camelName] = value;
+					// set the new attribute on html tag
+					_this2.elm.setAttribute(name, value);
+					// notify of new value
+					_this2.notify('attr.' + camelName, value, previousValue);
+					_this2.notify('attr', _this2._attrValues, _this2._previousAttrValues);
+				},
+				enumarable: true
+			});
+			return camelName;
+		};
+
+		/**
+	  * On added
+	  */
+		// onAdded() {
+		// 	console.log('onAdded', this.uniqid);
+		// }
+
+		// /**
+		//  * On removed
+		//  */
+		// onRemoved() {
+		// }
 
 		/**
 	  * Get closest not visible element
@@ -1788,10 +2172,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.__esModule = true;
 
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
 	var _sString = __webpack_require__(4);
 
 	var _sString2 = _interopRequireDefault(_sString);
@@ -1842,68 +2222,242 @@ return /******/ (function(modules) { // webpackBootstrap
 			};
 
 			/**
+	   * Tell that something has changed
+	   */
+
+
+			SWatchable.prototype.notify = function notify(propertyPath, newValue, oldValue) {
+				if (this._watchStack[propertyPath] && newValue !== oldValue) {
+					this._watchStack[propertyPath].forEach(function (cb) {
+						cb(newValue, oldValue);
+					});
+				}
+			};
+
+			SWatchable.prototype._defineProp = function _defineProp(currentObj, property, currentSplitPath, currentValue) {
+				var _this2 = this;
+
+				var val = currentValue;
+				Object.defineProperty(currentObj, property, {
+					get: function get() {
+						return val;
+					},
+					set: function set(value) {
+						var oldValue = val;
+						val = value;
+						_this2.notify(currentSplitPath + '.' + property, val, oldValue);
+						// currentObj[property] = value;
+						// console.log('set', property, currentSplitPath, value);
+						// const oldValue = this._watchValues[currentSplitPath][property];
+						// if (oldValue !== value) {
+						// 	this._watchValues[currentSplitPath][property] = value;
+						// }
+						// notify update
+						// this.notify(currentSplitPath, value, oldValue);
+					}
+				});
+				// return currentObj;
+			};
+
+			/**
 	   * Update something that need to be notified
 	   */
 
 
-			SWatchable.prototype.set = function set(what, value) {
-				var _this2 = this;
+			SWatchable.prototype.watchable = function watchable(path) {
+				var _this3 = this;
 
-				var fromMutation = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+				var value = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
 
 
-				// loop through each modified elements
-				var splitParts = what.split('.');
-				var splitPartsLength = splitParts.length - 1;
+				// check if already has a value
+				var currentValue = function () {
+					try {
+						return eval('this.' + path);
+					} catch (e) {}
+				}.call(this);
+				// const ccccc = (() => {
+				// 	try {
+				// 		let sp = path.split('.');
+				// 		sp.pop();
+				// 		return eval(`this.${sp.join('.')}`);
+				// 	} catch(e) {}
+				// }).call(this);
+				// console.log('JUIHIUHUIHUIH', ccccc);
 
-				var _loop = function _loop(i) {
+				if (!value && currentValue) {
+					value = currentValue;
+				}
 
-					var splitPath = splitParts.join('.');
-					var oldValue = function () {
-						return eval('this.' + splitPath);
-					}.call(_this2);
-					if ((typeof oldValue === 'undefined' ? 'undefined' : _typeof(oldValue)) == 'object') {
-						oldValue = _extends({}, oldValue);
-					}
+				// create the tree if needed
+				var splitParts = path.split('.'),
+				    splitPartsLength = splitParts.length,
+				    currentSplitParts = [],
+				    currentSplitPath = null,
+				    currentObj = {},
+				    firstObj = null,
+				    currentWatchValues = this._watchValues;
+				for (var i = 0; i < splitPartsLength; i++) {
 
-					// set the new value only if is the targeted
-					// one
-					if (i >= splitPartsLength) {
-						// set the new value
-						if (typeof value == 'string') {
-							(function () {
-								eval('this.' + splitPath + ' = "' + value + '";');
-							}).call(_this2);
-						} else {
-							(function () {
-								eval('this.' + what + ' = ' + value + ';');
-							}).call(_this2);
+					currentSplitParts.push(splitParts[i]);
+					currentSplitPath = currentSplitParts.join('.');
+
+					// console.log(i, splitParts[i]);
+
+					// currentObj = newObject;
+
+					// // if ( ! currentObj) currentObj = {};
+					// if (i == 0) newObject = this;
+					// // else newObject = {};
+
+					// Object.defineProperty(newObject, splitParts[i], {
+					// 	get : () => currentObj[splitParts[i]],
+					// 	set : (value) => {
+					// 		currentObj[splitParts[i]] = value;
+					// 	}
+					// });
+
+					// // new current object
+					// newObject = 
+
+					// console.log()
+
+					if (splitParts[i + 1]) {
+						this._defineProp(currentObj, splitParts[i + 1], currentSplitPath, value);
+						// this._watchValues[currentSplitPath] = currentObj;
+						if (i <= 0) {
+							firstObj = currentObj;
 						}
-						// handle if is an attribute
-						// and the this.elm exist
-						if (!fromMutation && splitParts[0] == 'attr' && splitParts[1] && _this2.elm) {
-							_this2.elm.setAttribute(_sString2.default.uncamelize(splitParts[1], '-'), value);
-						}
-					}
+						// try to get the current object
+						var co = function () {
+							try {
+								return eval('this.' + currentSplitPath);
+							} catch (e) {}
+						}.call(this);
+						console.warn('COOO', currentSplitPath, co);
 
-					var newValue = function () {
-						eval('this.' + splitPath);
-					}.call(_this2);
+						currentObj = co || {};
+					} else {
+						// this._watchValues[currentSplitPath] = value;
 
-					// check if has some registerer
-					if (_this2._watchStack[splitPath]) {
-						_this2._watchStack[splitPath].forEach(function (cb) {
-							cb(newValue, oldValue);
+						Object.defineProperty(this, splitParts[0], {
+							get: function get() {
+								return firstObj;
+							},
+							set: function set(value) {
+								var oldValue = firstObj;
+								// this._watchValues[splitParts[0]] = value;
+								// notify update
+								_this3.notify(splitParts[0], value, oldValue);
+							}
 						});
 					}
+					// currentObj = this
 
-					// pop splitpart
-					splitParts.pop();
-				};
+					// // this._watchValues[currentSplitPath] = currentObj;
+					// if (currentObj === this) {
+					// 	currentObj = {};
+					// }
+					// // } else {
+					// // 	currentObj == this._watchValues[currentSplitPath];
+					// // }
+					// this._watchValues[currentSplitPath] = currentObj;
 
-				for (var i = splitPartsLength; i >= 0; i--) {
-					_loop(i);
+					// if ( ! currentObj[splitParts[i]]) {
+					// 	currentObj[splitParts[i]] = {};
+					// 	currentWatchValues[currentSplitParts.join('.')] = currentObj[splitParts[i]];
+
+					// 	console.log(currentObj);
+					// 	console.log(currentWatchValues);
+
+					// 	Object.defineProperty(currentObj, splitParts[i], {
+					// 		get : () => {
+					// 		 	return currentWatchValues[currentSplitParts.join('.')];
+					// 		},
+					// 		set : (value) => {
+					// 			currentWatchValues[currentSplitParts.join('.')] = value;
+					// 			// currentObj[splitParts[i]] = value;
+					// 		}
+					// 	})
+					// 	currentObj = currentObj[splitParts[i]];
+					// 	// currentWatchValues = currentWatchValues[splitParts[i]];
+					// }
+
+					// currentSplitParts.push(splitParts[i]);
+					// if ( ! currentObj[splitParts[i]]) {
+					// 	currentObj[splitParts[i]] = {};
+					// 	currentWatchValues[currentSplitParts.join('.')] = currentObj[splitParts[i]];
+
+					// 	console.log(currentObj);
+					// 	console.log(currentWatchValues);
+
+					// 	Object.defineProperty(currentObj, splitParts[i], {
+					// 		get : () => {
+					// 		 	return currentWatchValues[currentSplitParts.join('.')];
+					// 		},
+					// 		set : (value) => {
+					// 			currentWatchValues[currentSplitParts.join('.')] = value;
+					// 			// currentObj[splitParts[i]] = value;
+					// 		}
+					// 	})
+					// 	currentObj = currentObj[splitParts[i]];
+					// 	// currentWatchValues = currentWatchValues[splitParts[i]];
+					// }
 				}
+
+				// set the property on the object itself
+
+				// console.log('COCO', this.coco);
+
+				// register the setter
+
+				// console.log('currentValue', currentValue);
+
+				// new watchable value
+
+				// loop through each modified elements
+				// let splitParts = what.split('.');
+				// const splitPartsLength = splitParts.length - 1;
+				// for (let i = splitPartsLength; i>=0; i--) {
+
+				// 	const splitPath = splitParts.join('.');
+				// 	let oldValue = (() => {
+				// 		return eval(`this.${splitPath}`);
+				// 	}).call(this);
+				// 	if (typeof(oldValue) == 'object') {
+				// 		oldValue = {...{},...oldValue};
+				// 	}
+
+				// 	// set the new value only if is the targeted
+				// 	// one
+				// 	if (i >= splitPartsLength) {
+				// 		// set the new value
+				// 		if (typeof(value) == 'string') {
+				// 			(() => {
+				// 				eval(`this.${splitPath} = "${value}";`);
+				// 			}).call(this);
+				// 		} else {
+				// 			(() => {
+				// 				eval(`this.${what} = ${value};`);
+				// 			}).call(this);
+				// 		}
+				// 		// handle if is an attribute
+				// 		// and the this.elm exist
+				// 		// if ( ! fromMutation && splitParts[0] == 'attr' && splitParts[1] && this.elm) {
+				// 		// 	this.elm.setAttribute(sString.uncamelize(splitParts[1],'-'), value);
+				// 		// }
+				// 	}
+
+				// 	let newValue = (() => {
+				// 		eval(`this.${splitPath}`);
+				// 	}).call(this);
+
+				// 	// notify of new value
+				// 	this.notify(this[splitPath], value, oldValue);
+
+				// 	// pop splitpart
+				// 	splitParts.pop();
+				// }
 			};
 
 			/**
@@ -16695,9 +17249,21 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var copyObject = __webpack_require__(125),
-	    createAssigner = __webpack_require__(129),
-	    keysIn = __webpack_require__(142);
+	var assignValue = __webpack_require__(125),
+	    copyObject = __webpack_require__(127),
+	    createAssigner = __webpack_require__(128),
+	    isArrayLike = __webpack_require__(130),
+	    isPrototype = __webpack_require__(143),
+	    keysIn = __webpack_require__(144);
+
+	/** Used for built-in method references. */
+	var objectProto = Object.prototype;
+
+	/** Built-in value references. */
+	var propertyIsEnumerable = objectProto.propertyIsEnumerable;
+
+	/** Detect if properties shadowing those on `Object.prototype` are non-enumerable. */
+	var nonEnumShadows = !propertyIsEnumerable.call({ 'valueOf': 1 }, 'valueOf');
 
 	/**
 	 * This method is like `_.assign` except that it iterates over own and
@@ -16707,6 +17273,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 * @static
 	 * @memberOf _
+	 * @since 4.0.0
 	 * @alias extend
 	 * @category Object
 	 * @param {Object} object The destination object.
@@ -16729,7 +17296,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * // => { 'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5 }
 	 */
 	var assignIn = createAssigner(function(object, source) {
-	  copyObject(source, keysIn(source), object);
+	  if (nonEnumShadows || isPrototype(source) || isArrayLike(source)) {
+	    copyObject(source, keysIn(source), object);
+	    return;
+	  }
+	  for (var key in source) {
+	    assignValue(object, key, source[key]);
+	  }
 	});
 
 	module.exports = assignIn;
@@ -16739,67 +17312,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 125 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var copyObjectWith = __webpack_require__(126);
-
-	/**
-	 * Copies properties of `source` to `object`.
-	 *
-	 * @private
-	 * @param {Object} source The object to copy properties from.
-	 * @param {Array} props The property names to copy.
-	 * @param {Object} [object={}] The object to copy properties to.
-	 * @returns {Object} Returns `object`.
-	 */
-	function copyObject(source, props, object) {
-	  return copyObjectWith(source, props, object);
-	}
-
-	module.exports = copyObject;
-
-
-/***/ },
-/* 126 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var assignValue = __webpack_require__(127);
-
-	/**
-	 * This function is like `copyObject` except that it accepts a function to
-	 * customize copied values.
-	 *
-	 * @private
-	 * @param {Object} source The object to copy properties from.
-	 * @param {Array} props The property names to copy.
-	 * @param {Object} [object={}] The object to copy properties to.
-	 * @param {Function} [customizer] The function to customize copied values.
-	 * @returns {Object} Returns `object`.
-	 */
-	function copyObjectWith(source, props, object, customizer) {
-	  object || (object = {});
-
-	  var index = -1,
-	      length = props.length;
-
-	  while (++index < length) {
-	    var key = props[index];
-
-	    var newValue = customizer
-	      ? customizer(object[key], source[key], key, object, source)
-	      : source[key];
-
-	    assignValue(object, key, newValue);
-	  }
-	  return object;
-	}
-
-	module.exports = copyObjectWith;
-
-
-/***/ },
-/* 127 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var eq = __webpack_require__(128);
+	var eq = __webpack_require__(126);
 
 	/** Used for built-in method references. */
 	var objectProto = Object.prototype;
@@ -16819,8 +17332,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	function assignValue(object, key, value) {
 	  var objValue = object[key];
-	  if ((!eq(objValue, value) ||
-	        (eq(objValue, objectProto[key]) && !hasOwnProperty.call(object, key))) ||
+	  if (!(hasOwnProperty.call(object, key) && eq(objValue, value)) ||
 	      (value === undefined && !(key in object))) {
 	    object[key] = value;
 	  }
@@ -16830,15 +17342,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 128 */
+/* 126 */
 /***/ function(module, exports) {
 
 	/**
-	 * Performs a [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+	 * Performs a
+	 * [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
 	 * comparison between two values to determine if they are equivalent.
 	 *
 	 * @static
 	 * @memberOf _
+	 * @since 4.0.0
 	 * @category Lang
 	 * @param {*} value The value to compare.
 	 * @param {*} other The other value to compare.
@@ -16871,11 +17385,48 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 129 */
+/* 127 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isIterateeCall = __webpack_require__(130),
-	    rest = __webpack_require__(138);
+	var assignValue = __webpack_require__(125);
+
+	/**
+	 * Copies properties of `source` to `object`.
+	 *
+	 * @private
+	 * @param {Object} source The object to copy properties from.
+	 * @param {Array} props The property identifiers to copy.
+	 * @param {Object} [object={}] The object to copy properties to.
+	 * @param {Function} [customizer] The function to customize copied values.
+	 * @returns {Object} Returns `object`.
+	 */
+	function copyObject(source, props, object, customizer) {
+	  object || (object = {});
+
+	  var index = -1,
+	      length = props.length;
+
+	  while (++index < length) {
+	    var key = props[index];
+
+	    var newValue = customizer
+	      ? customizer(object[key], source[key], key, object, source)
+	      : source[key];
+
+	    assignValue(object, key, newValue);
+	  }
+	  return object;
+	}
+
+	module.exports = copyObject;
+
+
+/***/ },
+/* 128 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var isIterateeCall = __webpack_require__(129),
+	    rest = __webpack_require__(137);
 
 	/**
 	 * Creates a function like `_.assign`.
@@ -16914,13 +17465,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 130 */
+/* 129 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var eq = __webpack_require__(128),
-	    isArrayLike = __webpack_require__(131),
-	    isIndex = __webpack_require__(137),
-	    isObject = __webpack_require__(135);
+	var eq = __webpack_require__(126),
+	    isArrayLike = __webpack_require__(130),
+	    isIndex = __webpack_require__(136),
+	    isObject = __webpack_require__(134);
 
 	/**
 	 * Checks if the given arguments are from an iteratee call.
@@ -16929,7 +17480,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {*} value The potential iteratee value argument.
 	 * @param {*} index The potential iteratee index or key argument.
 	 * @param {*} object The potential iteratee object argument.
-	 * @returns {boolean} Returns `true` if the arguments are from an iteratee call, else `false`.
+	 * @returns {boolean} Returns `true` if the arguments are from an iteratee call,
+	 *  else `false`.
 	 */
 	function isIterateeCall(value, index, object) {
 	  if (!isObject(object)) {
@@ -16937,8 +17489,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  var type = typeof index;
 	  if (type == 'number'
-	      ? (isArrayLike(object) && isIndex(index, object.length))
-	      : (type == 'string' && index in object)) {
+	        ? (isArrayLike(object) && isIndex(index, object.length))
+	        : (type == 'string' && index in object)
+	      ) {
 	    return eq(object[index], value);
 	  }
 	  return false;
@@ -16948,12 +17501,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 131 */
+/* 130 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var getLength = __webpack_require__(132),
-	    isFunction = __webpack_require__(134),
-	    isLength = __webpack_require__(136);
+	var getLength = __webpack_require__(131),
+	    isFunction = __webpack_require__(133),
+	    isLength = __webpack_require__(135);
 
 	/**
 	 * Checks if `value` is array-like. A value is considered array-like if it's
@@ -16962,6 +17515,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 * @static
 	 * @memberOf _
+	 * @since 4.0.0
 	 * @category Lang
 	 * @param {*} value The value to check.
 	 * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
@@ -16980,24 +17534,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * // => false
 	 */
 	function isArrayLike(value) {
-	  return value != null &&
-	    !(typeof value == 'function' && isFunction(value)) && isLength(getLength(value));
+	  return value != null && isLength(getLength(value)) && !isFunction(value);
 	}
 
 	module.exports = isArrayLike;
 
 
 /***/ },
-/* 132 */
+/* 131 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseProperty = __webpack_require__(133);
+	var baseProperty = __webpack_require__(132);
 
 	/**
 	 * Gets the "length" property value of `object`.
 	 *
-	 * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
-	 * that affects Safari on at least iOS 8.1-8.3 ARM64.
+	 * **Note:** This function is used to avoid a
+	 * [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792) that affects
+	 * Safari on at least iOS 8.1-8.3 ARM64.
 	 *
 	 * @private
 	 * @param {Object} object The object to query.
@@ -17009,7 +17563,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 133 */
+/* 132 */
 /***/ function(module, exports) {
 
 	/**
@@ -17029,10 +17583,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 134 */
+/* 133 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(135);
+	var isObject = __webpack_require__(134);
 
 	/** `Object#toString` result references. */
 	var funcTag = '[object Function]',
@@ -17042,7 +17596,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var objectProto = Object.prototype;
 
 	/**
-	 * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+	 * Used to resolve the
+	 * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
 	 * of values.
 	 */
 	var objectToString = objectProto.toString;
@@ -17052,9 +17607,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 * @static
 	 * @memberOf _
+	 * @since 0.1.0
 	 * @category Lang
 	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+	 * @returns {boolean} Returns `true` if `value` is correctly classified,
+	 *  else `false`.
 	 * @example
 	 *
 	 * _.isFunction(_);
@@ -17065,8 +17622,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	function isFunction(value) {
 	  // The use of `Object#toString` avoids issues with the `typeof` operator
-	  // in Safari 8 which returns 'object' for typed array constructors, and
-	  // PhantomJS 1.9 which returns 'function' for `NodeList` instances.
+	  // in Safari 8 which returns 'object' for typed array and weak map constructors,
+	  // and PhantomJS 1.9 which returns 'function' for `NodeList` instances.
 	  var tag = isObject(value) ? objectToString.call(value) : '';
 	  return tag == funcTag || tag == genTag;
 	}
@@ -17075,15 +17632,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 135 */
+/* 134 */
 /***/ function(module, exports) {
 
 	/**
-	 * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
-	 * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+	 * Checks if `value` is the
+	 * [language type](http://www.ecma-international.org/ecma-262/6.0/#sec-ecmascript-language-types)
+	 * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
 	 *
 	 * @static
 	 * @memberOf _
+	 * @since 0.1.0
 	 * @category Lang
 	 * @param {*} value The value to check.
 	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
@@ -17110,7 +17669,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 136 */
+/* 135 */
 /***/ function(module, exports) {
 
 	/** Used as references for various `Number` constants. */
@@ -17119,13 +17678,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Checks if `value` is a valid array-like length.
 	 *
-	 * **Note:** This function is loosely based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+	 * **Note:** This function is loosely based on
+	 * [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
 	 *
 	 * @static
 	 * @memberOf _
+	 * @since 4.0.0
 	 * @category Lang
 	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+	 * @returns {boolean} Returns `true` if `value` is a valid length,
+	 *  else `false`.
 	 * @example
 	 *
 	 * _.isLength(3);
@@ -17149,7 +17711,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 137 */
+/* 136 */
 /***/ function(module, exports) {
 
 	/** Used as references for various `Number` constants. */
@@ -17176,11 +17738,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 138 */
+/* 137 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var apply = __webpack_require__(139),
-	    toInteger = __webpack_require__(140);
+	var apply = __webpack_require__(138),
+	    toInteger = __webpack_require__(139);
 
 	/** Used as the `TypeError` message for "Functions" methods. */
 	var FUNC_ERROR_TEXT = 'Expected a function';
@@ -17190,12 +17752,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * Creates a function that invokes `func` with the `this` binding of the
-	 * created function and arguments from `start` and beyond provided as an array.
+	 * created function and arguments from `start` and beyond provided as
+	 * an array.
 	 *
-	 * **Note:** This method is based on the [rest parameter](https://mdn.io/rest_parameters).
+	 * **Note:** This method is based on the
+	 * [rest parameter](https://mdn.io/rest_parameters).
 	 *
 	 * @static
 	 * @memberOf _
+	 * @since 4.0.0
 	 * @category Function
 	 * @param {Function} func The function to apply a rest parameter to.
 	 * @param {number} [start=func.length-1] The start position of the rest parameter.
@@ -17243,7 +17808,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 139 */
+/* 138 */
 /***/ function(module, exports) {
 
 	/**
@@ -17253,7 +17818,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @private
 	 * @param {Function} func The function to invoke.
 	 * @param {*} thisArg The `this` binding of `func`.
-	 * @param {...*} args The arguments to invoke `func` with.
+	 * @param {Array} args The arguments to invoke `func` with.
 	 * @returns {*} Returns the result of `func`.
 	 */
 	function apply(func, thisArg, args) {
@@ -17271,10 +17836,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 140 */
+/* 139 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var toNumber = __webpack_require__(141);
+	var toNumber = __webpack_require__(140);
 
 	/** Used as references for various `Number` constants. */
 	var INFINITY = 1 / 0,
@@ -17283,10 +17848,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Converts `value` to an integer.
 	 *
-	 * **Note:** This function is loosely based on [`ToInteger`](http://www.ecma-international.org/ecma-262/6.0/#sec-tointeger).
+	 * **Note:** This function is loosely based on
+	 * [`ToInteger`](http://www.ecma-international.org/ecma-262/6.0/#sec-tointeger).
 	 *
 	 * @static
 	 * @memberOf _
+	 * @since 4.0.0
 	 * @category Lang
 	 * @param {*} value The value to convert.
 	 * @returns {number} Returns the converted integer.
@@ -17321,11 +17888,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 141 */
+/* 140 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isFunction = __webpack_require__(134),
-	    isObject = __webpack_require__(135);
+	var isFunction = __webpack_require__(133),
+	    isObject = __webpack_require__(134),
+	    isSymbol = __webpack_require__(141);
 
 	/** Used as references for various `Number` constants. */
 	var NAN = 0 / 0;
@@ -17350,6 +17918,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 * @static
 	 * @memberOf _
+	 * @since 4.0.0
 	 * @category Lang
 	 * @param {*} value The value to process.
 	 * @returns {number} Returns the number.
@@ -17368,6 +17937,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * // => 3
 	 */
 	function toNumber(value) {
+	  if (typeof value == 'number') {
+	    return value;
+	  }
+	  if (isSymbol(value)) {
+	    return NAN;
+	  }
 	  if (isObject(value)) {
 	    var other = isFunction(value.valueOf) ? value.valueOf() : value;
 	    value = isObject(other) ? (other + '') : other;
@@ -17386,13 +17961,117 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 142 */
+/* 141 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseKeysIn = __webpack_require__(143),
-	    indexKeys = __webpack_require__(148),
-	    isIndex = __webpack_require__(137),
-	    isPrototype = __webpack_require__(155);
+	var isObjectLike = __webpack_require__(142);
+
+	/** `Object#toString` result references. */
+	var symbolTag = '[object Symbol]';
+
+	/** Used for built-in method references. */
+	var objectProto = Object.prototype;
+
+	/**
+	 * Used to resolve the
+	 * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+	 * of values.
+	 */
+	var objectToString = objectProto.toString;
+
+	/**
+	 * Checks if `value` is classified as a `Symbol` primitive or object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 4.0.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is correctly classified,
+	 *  else `false`.
+	 * @example
+	 *
+	 * _.isSymbol(Symbol.iterator);
+	 * // => true
+	 *
+	 * _.isSymbol('abc');
+	 * // => false
+	 */
+	function isSymbol(value) {
+	  return typeof value == 'symbol' ||
+	    (isObjectLike(value) && objectToString.call(value) == symbolTag);
+	}
+
+	module.exports = isSymbol;
+
+
+/***/ },
+/* 142 */
+/***/ function(module, exports) {
+
+	/**
+	 * Checks if `value` is object-like. A value is object-like if it's not `null`
+	 * and has a `typeof` result of "object".
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 4.0.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+	 * @example
+	 *
+	 * _.isObjectLike({});
+	 * // => true
+	 *
+	 * _.isObjectLike([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObjectLike(_.noop);
+	 * // => false
+	 *
+	 * _.isObjectLike(null);
+	 * // => false
+	 */
+	function isObjectLike(value) {
+	  return !!value && typeof value == 'object';
+	}
+
+	module.exports = isObjectLike;
+
+
+/***/ },
+/* 143 */
+/***/ function(module, exports) {
+
+	/** Used for built-in method references. */
+	var objectProto = Object.prototype;
+
+	/**
+	 * Checks if `value` is likely a prototype object.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
+	 */
+	function isPrototype(value) {
+	  var Ctor = value && value.constructor,
+	      proto = (typeof Ctor == 'function' && Ctor.prototype) || objectProto;
+
+	  return value === proto;
+	}
+
+	module.exports = isPrototype;
+
+
+/***/ },
+/* 144 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var baseKeysIn = __webpack_require__(145),
+	    indexKeys = __webpack_require__(150),
+	    isIndex = __webpack_require__(136),
+	    isPrototype = __webpack_require__(143);
 
 	/** Used for built-in method references. */
 	var objectProto = Object.prototype;
@@ -17407,6 +18086,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 * @static
 	 * @memberOf _
+	 * @since 3.0.0
 	 * @category Object
 	 * @param {Object} object The object to query.
 	 * @returns {Array} Returns the array of property names.
@@ -17446,11 +18126,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 143 */
+/* 145 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Reflect = __webpack_require__(144),
-	    iteratorToArray = __webpack_require__(147);
+	var Reflect = __webpack_require__(146),
+	    iteratorToArray = __webpack_require__(149);
 
 	/** Used for built-in method references. */
 	var objectProto = Object.prototype;
@@ -17488,10 +18168,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 144 */
+/* 146 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var root = __webpack_require__(145);
+	var root = __webpack_require__(147);
 
 	/** Built-in value references. */
 	var Reflect = root.Reflect;
@@ -17500,10 +18180,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 145 */
+/* 147 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module, global) {var checkGlobal = __webpack_require__(146);
+	/* WEBPACK VAR INJECTION */(function(module, global) {var checkGlobal = __webpack_require__(148);
 
 	/** Used to determine if values are of the language type `Object`. */
 	var objectTypes = {
@@ -17548,7 +18228,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)(module), (function() { return this; }())))
 
 /***/ },
-/* 146 */
+/* 148 */
 /***/ function(module, exports) {
 
 	/**
@@ -17566,7 +18246,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 147 */
+/* 149 */
 /***/ function(module, exports) {
 
 	/**
@@ -17590,14 +18270,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 148 */
+/* 150 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseTimes = __webpack_require__(149),
-	    isArguments = __webpack_require__(150),
-	    isArray = __webpack_require__(153),
-	    isLength = __webpack_require__(136),
-	    isString = __webpack_require__(154);
+	var baseTimes = __webpack_require__(151),
+	    isArguments = __webpack_require__(152),
+	    isArray = __webpack_require__(154),
+	    isLength = __webpack_require__(135),
+	    isString = __webpack_require__(155);
 
 	/**
 	 * Creates an array of index keys for `object` values of arrays,
@@ -17620,7 +18300,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 149 */
+/* 151 */
 /***/ function(module, exports) {
 
 	/**
@@ -17646,10 +18326,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 150 */
+/* 152 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isArrayLikeObject = __webpack_require__(151);
+	var isArrayLikeObject = __webpack_require__(153);
 
 	/** `Object#toString` result references. */
 	var argsTag = '[object Arguments]';
@@ -17661,7 +18341,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var hasOwnProperty = objectProto.hasOwnProperty;
 
 	/**
-	 * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+	 * Used to resolve the
+	 * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
 	 * of values.
 	 */
 	var objectToString = objectProto.toString;
@@ -17674,9 +18355,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 * @static
 	 * @memberOf _
+	 * @since 0.1.0
 	 * @category Lang
 	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+	 * @returns {boolean} Returns `true` if `value` is correctly classified,
+	 *  else `false`.
 	 * @example
 	 *
 	 * _.isArguments(function() { return arguments; }());
@@ -17695,11 +18378,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 151 */
+/* 153 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isArrayLike = __webpack_require__(131),
-	    isObjectLike = __webpack_require__(152);
+	var isArrayLike = __webpack_require__(130),
+	    isObjectLike = __webpack_require__(142);
 
 	/**
 	 * This method is like `_.isArrayLike` except that it also checks if `value`
@@ -17707,9 +18390,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 * @static
 	 * @memberOf _
+	 * @since 4.0.0
 	 * @category Lang
 	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is an array-like object, else `false`.
+	 * @returns {boolean} Returns `true` if `value` is an array-like object,
+	 *  else `false`.
 	 * @example
 	 *
 	 * _.isArrayLikeObject([1, 2, 3]);
@@ -17732,41 +18417,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 152 */
-/***/ function(module, exports) {
-
-	/**
-	 * Checks if `value` is object-like. A value is object-like if it's not `null`
-	 * and has a `typeof` result of "object".
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
-	 * @example
-	 *
-	 * _.isObjectLike({});
-	 * // => true
-	 *
-	 * _.isObjectLike([1, 2, 3]);
-	 * // => true
-	 *
-	 * _.isObjectLike(_.noop);
-	 * // => false
-	 *
-	 * _.isObjectLike(null);
-	 * // => false
-	 */
-	function isObjectLike(value) {
-	  return !!value && typeof value == 'object';
-	}
-
-	module.exports = isObjectLike;
-
-
-/***/ },
-/* 153 */
+/* 154 */
 /***/ function(module, exports) {
 
 	/**
@@ -17774,10 +18425,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 * @static
 	 * @memberOf _
+	 * @since 0.1.0
 	 * @type {Function}
 	 * @category Lang
 	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+	 * @returns {boolean} Returns `true` if `value` is correctly classified,
+	 *  else `false`.
 	 * @example
 	 *
 	 * _.isArray([1, 2, 3]);
@@ -17798,11 +18451,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 154 */
+/* 155 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isArray = __webpack_require__(153),
-	    isObjectLike = __webpack_require__(152);
+	var isArray = __webpack_require__(154),
+	    isObjectLike = __webpack_require__(142);
 
 	/** `Object#toString` result references. */
 	var stringTag = '[object String]';
@@ -17811,7 +18464,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var objectProto = Object.prototype;
 
 	/**
-	 * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+	 * Used to resolve the
+	 * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
 	 * of values.
 	 */
 	var objectToString = objectProto.toString;
@@ -17820,10 +18474,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Checks if `value` is classified as a `String` primitive or object.
 	 *
 	 * @static
+	 * @since 0.1.0
 	 * @memberOf _
 	 * @category Lang
 	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+	 * @returns {boolean} Returns `true` if `value` is correctly classified,
+	 *  else `false`.
 	 * @example
 	 *
 	 * _.isString('abc');
@@ -17838,30 +18494,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	module.exports = isString;
-
-
-/***/ },
-/* 155 */
-/***/ function(module, exports) {
-
-	/** Used for built-in method references. */
-	var objectProto = Object.prototype;
-
-	/**
-	 * Checks if `value` is likely a prototype object.
-	 *
-	 * @private
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
-	 */
-	function isPrototype(value) {
-	  var Ctor = value && value.constructor,
-	      proto = (typeof Ctor == 'function' && Ctor.prototype) || objectProto;
-
-	  return value === proto;
-	}
-
-	module.exports = isPrototype;
 
 
 /***/ }

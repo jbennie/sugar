@@ -33,7 +33,7 @@
 	<i class="fa-bars"></i>
 </label>
 
-<div data-s-drawer="menu" class="typeset vertical-rhythme">
+<div data-s-drawer="menu" active-class="coco" class="typeset vertical-rhythme">
 
 	<h3>
 		<strong>SUGAR</strong><span class="c-orange--dark">{.SCSS}</span>
@@ -336,8 +336,9 @@ Vivamus congue, enim at tristique lobortis, ante elit suscipit nisl, nec efficit
 						<label class="label">Select Box
 							<select class="input input--smaller input--error"
 								placeholder="Hello Jacques"
-								data-s-select
-								data-s-select-search="false"
+								s-select
+								-search="false"
+								-search-placeholder="Denis"
 								ng-model="select_1_model"
 								ng-options="item.label for item in select_1_items">
 							</select>
@@ -345,19 +346,19 @@ Vivamus congue, enim at tristique lobortis, ante elit suscipit nisl, nec efficit
 					</div>
 					<div class="gr-6">
 						<label class="label">Select Box
-							<select class="input input--medium input--error"
+							<!-- <select class="input input--medium input--error"
 								data-s-select
 								multiple
 								placeholder="Coucou"
 								ng-model="select_2_model"
 								ng-options="item.label group by item.group for item in select_1_items | filter:keywords">
-							</select>
+							</select> -->
 							<input ng-model="keywords" />
 						</label>
 					</div>
 				</div>
 
-				<div class="row" id="nav-3" data-s-activate-target>
+				<!-- <div class="row" id="nav-3" data-s-activate-target>
 					
 					<div class="gr-6">
 
@@ -3173,6 +3174,1321 @@ Vivamus congue, enim at tristique lobortis, ante elit suscipit nisl, nec efficit
 
 					<div class="gr-6">
 						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
+							<select class="input input--medium input--warning"
+								data-s-select
+								multiple
+								placeholder="Yop yop"
+								ng-model="select_4_model">
+								<option value="{{ item }}"
+									ng-repeat="item in select_1_items"
+									data-s-select-option-source="#my-select-option-{{ $index }}">{{ item.label }}</option>
+							</select>
+
+							<div style="display:none;">
+								<div id="my-select-option-{{ $index }}"
+									ng-repeat="item in select_1_items"
+									class="row row-align-middle">
+									<div class="gr-adapt">
+										<img src="http://graph.facebook.com/{{ item.id }}/picture?type=large" width="70px" height="70px" />
+									</div>
+									<div class="gr-grow">
+										<strong>{{ item.label }}</strong><br />
+										<small>Curabitur ullamcorper sapien quis eros consectetur, non ullamcorper.</small>
+									</div>
+								</div>
+							</div>
+						</label>
+					</div>
+
+					<div class="gr-6">
+						<label class="label">Select Box
 							<select class="input input--smaller input--success"
 								data-s-select
 								placeholder="Hello Jacques"
@@ -3210,7 +4526,7 @@ Vivamus congue, enim at tristique lobortis, ante elit suscipit nisl, nec efficit
 						</label>
 					</div>
 
-				</div>
+				</div> -->
 
 			</div>
 

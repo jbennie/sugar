@@ -4,10 +4,25 @@ import angular from 'angular';
 //
 import sActivateManager from './sugar/components/s-activate-manager';
 import SSelectElement from './sugar/components/s-select-element';
-import sDrawerManager from './sugar/components/s-drawer-manager';
+// import sDrawerManager from './sugar/components/s-drawer-manager';
 // 
 // import SSelectElement from './sugar/index';
 // import SActivateElement from './sugar/index';
+
+let myCoolSelect = new SSelectElement(document.createElement('select'), {
+	searchPlaceholder : 'Coco world'
+});
+
+console.log('my cool select', myCoolSelect);
+
+setTimeout(() => {
+	document.body.appendChild(myCoolSelect.elm);
+}, 1000);
+
+setTimeout(() => {
+	// myCoolSelect.elm.setAttribute('s-select-search-placeholder', 'hello');
+	myCoolSelect.settings.searchPlaceholder = 'yopyopyop';
+}, 3000);
 
 const app = angular.module('angular-demo', []).run(() => {
 
