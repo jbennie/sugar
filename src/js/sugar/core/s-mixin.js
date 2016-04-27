@@ -1,13 +1,14 @@
-let mix = (superclass) => new MixinBuilder(superclass);
+let mix = (...mixins) => new Mix(mixins);
 
-class MixinBuilder {  
-  constructor(superclass) {
-    this.superclass = superclass;
-  }
-
-  with(...mixins) { 
-    return mixins.reduce((c, mixin) => mixin(c), this.superclass);
-  }
+class Mix {
+	constructor(mixins) {
+		this.mixins = mixins;
+	}
+	in(superclass) {
+		return this.mixins.reduce((c, mixin) => {
+			return mixin(c);
+		}, superclass);
+	}
 }
 
 export default mix;

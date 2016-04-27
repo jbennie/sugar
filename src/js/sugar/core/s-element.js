@@ -2,7 +2,7 @@ import sTools from './s-tools'
 import sString from './s-string'
 import sDom from './s-dom'
 import SObject from './s-object'
-import SMixin from './s-mixin'
+import SMix from './s-mixin'
 import SWatchable from '../mixins/s-watchable'
 import SWatchableAttributes from '../mixins/s-watchable-attributes'
 
@@ -10,7 +10,7 @@ import SWatchableAttributes from '../mixins/s-watchable-attributes'
 // components types
 let _sugarTypesSettings = {};
 
-export default class SElement extends SMixin(SObject).with(SWatchable) {
+export default class SElement extends SMix(SWatchable).in(SObject) {
 
 	/**
 	 * Setup
@@ -35,16 +35,6 @@ export default class SElement extends SMixin(SObject).with(SWatchable) {
 	 */
 	attr = {};
 
-	/**
-	 * Store the attributes values
-	 */
-	_attrValues = {};
-
-	/**
-	 * Store the previous attributes values
-	 */
-	_previousAttrValues = {};
-
 	/**	
 	 * Constructor
 	 */
@@ -56,10 +46,7 @@ export default class SElement extends SMixin(SObject).with(SWatchable) {
 		this.elm = elm;
 		// process attributes
 		[].forEach.call(this.elm.attributes, (attr) => {
-			// new attribute
-			const camelName = this._newAttribute(attr.name);
-			// set the value
-			this.attr[camelName] = attr.value;
+			this._newAttribute(attr.name, attr.value);
 		});
 
 		// set the api in the dom element
@@ -124,47 +111,34 @@ export default class SElement extends SMixin(SObject).with(SWatchable) {
 	/**
 	 * New attribute
 	 */
-	_newAttribute(name) {
+	_attrs = {};
+	_newAttribute(name, value) {
 		let camelName = sString.camelize(name);
+		
 		// make only if not exist already
-		if (this._attrValues[camelName] != undefined) return camelName;
+		if (this._attrs[name]) return camelName;
+		console.log('new attributeName', camelName, value);
+		this._attrs[name] = true;
+		this.attr[camelName] = sString.autoCast(value);
+		let val = this.attr[camelName];
 
 		// define new property on the attr
 		Object.defineProperty(this.attr, camelName, {
-			get : () => this._attrValues[camelName],
+			get : () => val,
 			set : (value) => {
 				// cast the value
 				value = sString.autoCast(value);
 				// protect from recursion
-				if (value == this._previousAttrValues[camelName]) {
-					return;
-				}
-				// save the old value
-				let previousValue = this._previousAttrValues[camelName] = this.attr[camelName];
-				this._attrValues[camelName] = value;
+				if (value === val) return value;
+				// save the value localy
+				val = value;
 				// set the new attribute on html tag
 				this.elm.setAttribute(name, value);
-				// notify of new value
-				this.notify(`attr.${camelName}`, value, previousValue);
-				this.notify('attr', this._attrValues, this._previousAttrValues);
 			},
 			enumarable : true
 		});
 		return camelName;
 	}
-
-	/**
-	 * On added
-	 */
-	// onAdded() {
-	// 	console.log('onAdded', this.uniqid);
-	// }
-
-	// /**
-	//  * On removed
-	//  */
-	// onRemoved() {
-	// }
 
 	/**
 	 * Get closest not visible element

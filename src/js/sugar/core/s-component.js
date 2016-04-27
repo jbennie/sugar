@@ -67,6 +67,7 @@ export default class SComponent extends SElement {
 			elm.removeAttribute(attrName);
 		});
 
+
 		// init parent
 		super(elm);
 
@@ -84,56 +85,89 @@ export default class SComponent extends SElement {
 
 		// make name watchable
 		// this.watchable('name');
-		this.watchable('coco.hello.world');
+		// this.watchable('coco.hello.world');
+
+		let hello = this.coco.hello;
+		Object.defineProperty(this.coco, 'hello', {
+			get : () => hello,
+			set : (value) => {
+				hello = value;
+			}
+		});
 
 		this.watch('coco.hello', (newVal, oldVal) => {
 			console.log('YOPYOP', newVal, oldVal);
 		});
 
-		console.log('MY COCO', this.coco);
+		// this.watch('elm.style.display', (newVal, oldVal) => {
+		// 	console.log('update elm.style.display', newVal, oldVal);
+		// });
+		// this.watch('elm.style.display', (newVal, oldVal) => {
+		// 	console.log('NEW NEW NEW update elm.style.display', newVal, oldVal);
+		// });
+		
 
-		// this.coco.hello = 'coucou';
-		// this.coco.hello = 'haha';
 
-		console.log('HHHHHH', this.coco.hello);
+
+		// setTimeout(() => {
+			// this.coco.hello = 'yooooooppppppp';
+			// this.elm.style.display = 'none';
+			// // console.log('new element', this.elm);
+			// // console.log('new display', this.elm.style.display);
+			// setTimeout(() => {
+			// 	this.elm.style.display = 'block';
+			// }, 4000);
+		// }, 500);
+
+		// console.log('MY COCO', this.coco);
+
+		// // this.coco.hello = 'coucou';
+		// // this.coco.hello = 'haha';
+
+		// console.log('HHHHHH', this.coco.hello);
 
 		// extend settings values
-		this._settingsValues = { ...default_settings, ...settings };
+		this.settings = { ...default_settings, ...settings };
 
-		// preparing all the settings accessors
-		for(const name in default_settings) {
-			// new setting
-			this._newSetting(name);
-		}
+		// // preparing all the settings accessors
+		// for(const name in default_settings) {
+		// 	// new setting
+		// 	this._newSetting(name);
+		// }
 
 		// check if the main data attribute is an object to extend the settings
 		let set = sString.autoCast(this.elm.getAttribute('data-' + this.name_dash) || this.elm.getAttribute(this.name_dash));
 		if (set && typeof(set) == 'object') {
-			this._settingsValues = {...this._settingsValues, ...set};
+			this.settings = {...this.settings, ...set};
 		}
 
 		// try to find the setting with the @ sign as value
-		for (let settingName in this._settingsValues) {
-			if (this._settingsValues[settingName] == '@') {
-				this._settingsValues[settingName] = set;
+		for (let settingName in this.settings) {
+			if (this.settings[settingName] == '@') {
+				this.settings[settingName] = set;
 			}
 		}
 
 		// check if a type is defined then extend the settings
-		// if (! _sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
-		// let type = this.settings.settings;
-		// if (type && _sugarTypesSettings[name][type]) {
-		// 	this.settings = {...this.settings, ..._sugarTypesSettings[name][type]};
-		// }
+		if (! _sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
+		let type = this.settings.settings;
+		if (type && _sugarTypesSettings[name][type]) {
+			this.settings = {...this.settings, ..._sugarTypesSettings[name][type]};
+		}
 
 		// watch attributes to update settings accordingly
-		for(const name in this._settingsValues) {
+		for(const name in this.settings) {
 			// check if has a different value in the attributes
 			// console.log('name', name);
 			const attrName = this.name + sString.upperFirst(name);
 			if (this.attr[attrName] !== undefined) {
-				this._settingsValues[name] = this.attr[attrName];
+				this.settings[name] = this.attr[attrName];
+			} else {
+				this.attr[attrName] = null;
 			}
+
+			// add the property if not exist
+			// if ( ! this.attr[attrName])
 
 			// watch settings attributes
 			this.watch(`attr.${attrName}`, (newVal, oldVal) => {
@@ -146,25 +180,25 @@ export default class SComponent extends SElement {
 	/**
 	 * New setting
 	 */
-	_newSetting(name) {
-		// make only if not exist already
-		if (this.settings.hasOwnProperty[name]) return name;
+	// _newSetting(name) {
+	// 	// make only if not exist already
+	// 	if (this.settings.hasOwnProperty[name]) return name;
 
-		// define new property on the attr
-		Object.defineProperty(this.settings, name, {
-			get : () => this._settingsValues[name],
-			set : (value) => {
-				// cast value
-				value = sString.autoCast(value);
-				// save the old value
-				let previousValue = this._previousSettingsValues[name] = this.settings[name];
-				this._settingsValues[name] = value;
-				// notify of new value
-				this.notify(`settings.${name}`, value, previousValue);
-				this.notify('settings', this._settingsValues, this._previousSettingsValues);
-			},
-			enumarable : true
-		});
-		return name;
-	}
+	// 	// define new property on the attr
+	// 	Object.defineProperty(this.settings, name, {
+	// 		get : () => this._settingsValues[name],
+	// 		set : (value) => {
+	// 			// cast value
+	// 			value = sString.autoCast(value);
+	// 			// save the old value
+	// 			// let previousValue = this._previousSettingsValues[name] = this.settings[name];
+	// 			this._settingsValues[name] = value;
+	// 			// notify of new value
+	// 			// this.notify(`settings.${name}`, value, previousValue);
+	// 			// this.notify('settings', this._settingsValues, this._previousSettingsValues);
+	// 		},
+	// 		enumarable : true
+	// 	});
+	// 	return name;
+	// }
 }

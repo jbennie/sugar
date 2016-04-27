@@ -37,19 +37,28 @@ class SSelectElement extends SComponent {
 			screenMargin : 50
 		}, settings);
 
-		setTimeout(() => {
-			this.attr.sSelectSearchPlaceholder = 'hello coco';
-			// this.set('attr.coco', 'hello');
-		}, 2000);
+		// setTimeout(() => {
+		// 	this.attr.sSelectSearchPlaceholder = 'hello coco';
+		// 	console.log('settings', this.settings);
+		// }, 2000);
 
-		this.watch('attr.sSelectSearchPlaceholder', (newVal, oldVal) => {
-			console.log('NEW PLLAC', newVal, oldVal);
-		});
+		// this.watch('attr.sSelectSearchPlaceholder', (newVal, oldVal) => {
+		// 	console.log('sSelectSearchPlaceholder', newVal, oldVal);
+		// });
 
-		this.watch('settings.searchPlaceholder', (newVal, oldVal) => {
-			console.log('NEW SETTINGS', newVal, oldVal);
-			console.log('this', this);
-		});
+		// this.watch('settings.searchPlaceholder', (newVal, oldVal) => {
+		// 	console.log('settings.searchPlaceholder', newVal, oldVal);
+		// 	console.log('searchPlaceholder', this.settings.searchPlaceholder);
+		// });
+
+		// this.watch('attr.sSelectSearchPlaceholder', (newVal, oldVal) => {
+		// 	console.log('NEW PLLAC', newVal, oldVal);
+		// });
+
+		// this.watch('settings.searchPlaceholder', (newVal, oldVal) => {
+		// 	console.log('NEW SETTINGS', newVal, oldVal);
+		// 	console.log('this', this);
+		// });
 
 		// init
 		// this._init();

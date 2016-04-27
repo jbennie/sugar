@@ -54,8 +54,8 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(18);
-	module.exports = __webpack_require__(19);
+	__webpack_require__(58);
+	module.exports = __webpack_require__(59);
 
 
 /***/ },
@@ -197,67 +197,99 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// make name watchable
 			// this.watchable('name');
-			_this.watchable('coco.hello.world');
+			// this.watchable('coco.hello.world');
+
+			var hello = _this.coco.hello;
+			Object.defineProperty(_this.coco, 'hello', {
+				get: function get() {
+					return hello;
+				},
+				set: function set(value) {
+					hello = value;
+				}
+			});
 
 			_this.watch('coco.hello', function (newVal, oldVal) {
 				console.log('YOPYOP', newVal, oldVal);
 			});
 
-			console.log('MY COCO', _this.coco);
+			// this.watch('elm.style.display', (newVal, oldVal) => {
+			// 	console.log('update elm.style.display', newVal, oldVal);
+			// });
+			// this.watch('elm.style.display', (newVal, oldVal) => {
+			// 	console.log('NEW NEW NEW update elm.style.display', newVal, oldVal);
+			// });
 
-			// this.coco.hello = 'coucou';
-			// this.coco.hello = 'haha';
+			// setTimeout(() => {
+			// this.coco.hello = 'yooooooppppppp';
+			// this.elm.style.display = 'none';
+			// // console.log('new element', this.elm);
+			// // console.log('new display', this.elm.style.display);
+			// setTimeout(() => {
+			// 	this.elm.style.display = 'block';
+			// }, 4000);
+			// }, 500);
 
-			console.log('HHHHHH', _this.coco.hello);
+			// console.log('MY COCO', this.coco);
+
+			// // this.coco.hello = 'coucou';
+			// // this.coco.hello = 'haha';
+
+			// console.log('HHHHHH', this.coco.hello);
 
 			// extend settings values
-			_this._settingsValues = _extends({}, default_settings, settings);
+			_this.settings = _extends({}, default_settings, settings);
 
-			// preparing all the settings accessors
-			for (var _name in default_settings) {
-				// new setting
-				_this._newSetting(_name);
-			}
+			// // preparing all the settings accessors
+			// for(const name in default_settings) {
+			// 	// new setting
+			// 	this._newSetting(name);
+			// }
 
 			// check if the main data attribute is an object to extend the settings
 			var set = _sString2.default.autoCast(_this.elm.getAttribute('data-' + _this.name_dash) || _this.elm.getAttribute(_this.name_dash));
 			if (set && (typeof set === 'undefined' ? 'undefined' : _typeof(set)) == 'object') {
-				_this._settingsValues = _extends({}, _this._settingsValues, set);
+				_this.settings = _extends({}, _this.settings, set);
 			}
 
 			// try to find the setting with the @ sign as value
-			for (var settingName in _this._settingsValues) {
-				if (_this._settingsValues[settingName] == '@') {
-					_this._settingsValues[settingName] = set;
+			for (var settingName in _this.settings) {
+				if (_this.settings[settingName] == '@') {
+					_this.settings[settingName] = set;
 				}
 			}
 
 			// check if a type is defined then extend the settings
-			// if (! _sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
-			// let type = this.settings.settings;
-			// if (type && _sugarTypesSettings[name][type]) {
-			// 	this.settings = {...this.settings, ..._sugarTypesSettings[name][type]};
-			// }
+			if (!_sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
+			var type = _this.settings.settings;
+			if (type && _sugarTypesSettings[name][type]) {
+				_this.settings = _extends({}, _this.settings, _sugarTypesSettings[name][type]);
+			}
 
 			// watch attributes to update settings accordingly
 
-			var _loop = function _loop(_name2) {
+			var _loop = function _loop(_name) {
 				// check if has a different value in the attributes
 				// console.log('name', name);
-				var attrName = _this.name + _sString2.default.upperFirst(_name2);
+				var attrName = _this.name + _sString2.default.upperFirst(_name);
 				if (_this.attr[attrName] !== undefined) {
-					_this._settingsValues[_name2] = _this.attr[attrName];
+					_this.settings[_name] = _this.attr[attrName];
+				} else {
+					_this.attr[attrName] = null;
 				}
+
+				// add the property if not exist
+				// if ( ! this.attr[attrName])
 
 				// watch settings attributes
 				_this.watch('attr.' + attrName, function (newVal, oldVal) {
 					// update the setting
-					_this.settings[_name2] = newVal;
+					_this.settings[_name] = newVal;
 				});
 			};
 
-			for (var _name2 in _this._settingsValues) {
-				_loop(_name2);
+			for (var _name in _this.settings) {
+				_loop(_name);
 			}
 			return _this;
 		}
@@ -265,33 +297,28 @@ return /******/ (function(modules) { // webpackBootstrap
 		/**
 	  * New setting
 	  */
+		// _newSetting(name) {
+		// 	// make only if not exist already
+		// 	if (this.settings.hasOwnProperty[name]) return name;
 
+		// 	// define new property on the attr
+		// 	Object.defineProperty(this.settings, name, {
+		// 		get : () => this._settingsValues[name],
+		// 		set : (value) => {
+		// 			// cast value
+		// 			value = sString.autoCast(value);
+		// 			// save the old value
+		// 			// let previousValue = this._previousSettingsValues[name] = this.settings[name];
+		// 			this._settingsValues[name] = value;
+		// 			// notify of new value
+		// 			// this.notify(`settings.${name}`, value, previousValue);
+		// 			// this.notify('settings', this._settingsValues, this._previousSettingsValues);
+		// 		},
+		// 		enumarable : true
+		// 	});
+		// 	return name;
+		// }
 
-		SComponent.prototype._newSetting = function _newSetting(name) {
-			var _this2 = this;
-
-			// make only if not exist already
-			if (this.settings.hasOwnProperty[name]) return name;
-
-			// define new property on the attr
-			Object.defineProperty(this.settings, name, {
-				get: function get() {
-					return _this2._settingsValues[name];
-				},
-				set: function set(value) {
-					// cast value
-					value = _sString2.default.autoCast(value);
-					// save the old value
-					var previousValue = _this2._previousSettingsValues[name] = _this2.settings[name];
-					_this2._settingsValues[name] = value;
-					// notify of new value
-					_this2.notify('settings.' + name, value, previousValue);
-					_this2.notify('settings', _this2._settingsValues, _this2._previousSettingsValues);
-				},
-				enumarable: true
-			});
-			return name;
-		};
 
 		return SComponent;
 	}(_sElement2.default);
@@ -320,7 +347,17 @@ return /******/ (function(modules) { // webpackBootstrap
 				out += Number(ts.substr(i, 2)).toString(36);
 			}
 			return 's' + out + uniqidIdx * Math.round(Math.random() * 9999999);
+		},
+
+		/**
+	  * Get an object constructor name
+	  */
+		constructorName: function constructorName(obj) {
+			var funcNameRegex = /function (.{1,})\(/;
+			var results = funcNameRegex.exec(obj.constructor.toString());
+			return results && results.length > 1 ? results[1] : "";
 		}
+
 	};
 	exports.default = sTools;
 
@@ -1855,7 +1892,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _sWatchable2 = _interopRequireDefault(_sWatchable);
 
-	var _sWatchableAttributes = __webpack_require__(16);
+	var _sWatchableAttributes = __webpack_require__(56);
 
 	var _sWatchableAttributes2 = _interopRequireDefault(_sWatchableAttributes);
 
@@ -1873,8 +1910,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	// components types
 	var _sugarTypesSettings = {};
 
-	var SElement = function (_SMixin$with) {
-		_inherits(SElement, _SMixin$with);
+	var SElement = function (_SMix$in) {
+		_inherits(SElement, _SMix$in);
 
 		/**
 	  * Setup
@@ -1900,16 +1937,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-		/**
-	  * Store the attributes values
-	  */
-
-
-		/**
-	  * Store the previous attributes values
-	  */
-
-
 		/**	
 	  * Constructor
 	  */
@@ -1919,7 +1946,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// save the element reference
 
-			var _this = _possibleConstructorReturn(this, _SMixin$with.call(this));
+			var _this = _possibleConstructorReturn(this, _SMix$in.call(this));
 
 			// init parent
 
@@ -1927,15 +1954,11 @@ return /******/ (function(modules) { // webpackBootstrap
 			_this._watchStack = {};
 			_this.elm = null;
 			_this.attr = {};
-			_this._attrValues = {};
-			_this._previousAttrValues = {};
+			_this._attrs = {};
 			_this.elm = elm;
 			// process attributes
 			[].forEach.call(_this.elm.attributes, function (attr) {
-				// new attribute
-				var camelName = _this._newAttribute(attr.name);
-				// set the value
-				_this.attr[camelName] = attr.value;
+				_this._newAttribute(attr.name, attr.value);
 			});
 
 			// set the api in the dom element
@@ -2003,51 +2026,37 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-		SElement.prototype._newAttribute = function _newAttribute(name) {
+		SElement.prototype._newAttribute = function _newAttribute(name, value) {
 			var _this2 = this;
 
 			var camelName = _sString2.default.camelize(name);
+
 			// make only if not exist already
-			if (this._attrValues[camelName] != undefined) return camelName;
+			if (this._attrs[name]) return camelName;
+			console.log('new attributeName', camelName, value);
+			this._attrs[name] = true;
+			this.attr[camelName] = _sString2.default.autoCast(value);
+			var val = this.attr[camelName];
 
 			// define new property on the attr
 			Object.defineProperty(this.attr, camelName, {
 				get: function get() {
-					return _this2._attrValues[camelName];
+					return val;
 				},
 				set: function set(value) {
 					// cast the value
 					value = _sString2.default.autoCast(value);
 					// protect from recursion
-					if (value == _this2._previousAttrValues[camelName]) {
-						return;
-					}
-					// save the old value
-					var previousValue = _this2._previousAttrValues[camelName] = _this2.attr[camelName];
-					_this2._attrValues[camelName] = value;
+					if (value === val) return value;
+					// save the value localy
+					val = value;
 					// set the new attribute on html tag
 					_this2.elm.setAttribute(name, value);
-					// notify of new value
-					_this2.notify('attr.' + camelName, value, previousValue);
-					_this2.notify('attr', _this2._attrValues, _this2._previousAttrValues);
 				},
 				enumarable: true
 			});
 			return camelName;
 		};
-
-		/**
-	  * On added
-	  */
-		// onAdded() {
-		// 	console.log('onAdded', this.uniqid);
-		// }
-
-		// /**
-		//  * On removed
-		//  */
-		// onRemoved() {
-		// }
 
 		/**
 	  * Get closest not visible element
@@ -2105,7 +2114,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		};
 
 		return SElement;
-	}((0, _sMixin2.default)(_sObject2.default).with(_sWatchable2.default));
+	}((0, _sMixin2.default)(_sWatchable2.default).in(_sObject2.default));
 
 	exports.default = SElement;
 
@@ -2139,28 +2148,28 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var mix = function mix(superclass) {
-	  return new MixinBuilder(superclass);
+	var mix = function mix() {
+		for (var _len = arguments.length, mixins = Array(_len), _key = 0; _key < _len; _key++) {
+			mixins[_key] = arguments[_key];
+		}
+
+		return new Mix(mixins);
 	};
 
-	var MixinBuilder = function () {
-	  function MixinBuilder(superclass) {
-	    _classCallCheck(this, MixinBuilder);
+	var Mix = function () {
+		function Mix(mixins) {
+			_classCallCheck(this, Mix);
 
-	    this.superclass = superclass;
-	  }
+			this.mixins = mixins;
+		}
 
-	  MixinBuilder.prototype.with = function _with() {
-	    for (var _len = arguments.length, mixins = Array(_len), _key = 0; _key < _len; _key++) {
-	      mixins[_key] = arguments[_key];
-	    }
+		Mix.prototype.in = function _in(superclass) {
+			return this.mixins.reduce(function (c, mixin) {
+				return mixin(c);
+			}, superclass);
+		};
 
-	    return mixins.reduce(function (c, mixin) {
-	      return mixin(c);
-	    }, this.superclass);
-	  };
-
-	  return MixinBuilder;
+		return Mix;
 	}();
 
 	exports.default = mix;
@@ -2177,6 +2186,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _sString2 = _interopRequireDefault(_sString);
 
+	var _sTools = __webpack_require__(3);
+
+	var _sTools2 = _interopRequireDefault(_sTools);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
@@ -2187,12 +2200,21 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
 
+	var _get = __webpack_require__(16);
+
 	exports.default = function (superclass) {
-		return function (_superclass) {
+		var _class, _temp;
+
+		return _temp = _class = function (_superclass) {
 			_inherits(SWatchable, _superclass);
 
 			/**	
 	   * Constructor
+	   */
+
+
+			/**
+	   * Setters methods
 	   */
 
 			function SWatchable() {
@@ -2205,16 +2227,102 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 
 			/**
-	   * Watch something on the element
-	   */
-
-
-			/**
 	   * Watch stack
 	   */
 
 
+			SWatchable.prototype._defineProp = function _defineProp(obj, property, value, objPath) {
+				var _this2 = this;
+
+				// do not define multiple time the description
+				if (this._watchStack[objPath]) return;
+
+				// const o = obj;
+				// console.warn('_defineProp', o, property, value, objPath);
+
+				var val = value;
+				var descriptor = Object.getOwnPropertyDescriptor(obj.prototype || obj, property);
+
+				// get the setter
+				var customSetter = void 0;
+				for (var name in SWatchable.setters) {
+					if (_sTools2.default.constructorName(obj) === name) {
+						customSetter = SWatchable.setters[name];
+						break;
+					}
+				}
+
+				// custom setter check
+				var _set = function _set(value) {
+					// check if have a custom setter for this object
+					if (customSetter) {
+						customSetter(obj, property, value);
+						val = value;
+					}
+					// descriptor
+					else if (descriptor && descriptor.set) {
+							var ret = descriptor.set(value);
+							if (ret) {
+								val = ret;
+							} else {
+								val = descriptor.get();
+							}
+						} else {
+							val = value;
+						}
+				};
+
+				// make sure we have the good descriptor
+				var d = Object.getOwnPropertyDescriptor(obj, property);
+				Object.defineProperty(obj, property, {
+					get: function get() {
+						// console.log('get', property);
+						if (descriptor && descriptor.get) {
+							return descriptor.get();
+						}
+						return val;
+					},
+					set: function set(v) {
+						var oldValue = val;
+						// internal set to use the good setter
+						_set(v);
+						// notify of new update
+						_this2.notify(objPath, val, oldValue);
+					},
+					configurable: descriptor && descriptor.configurable !== undefined ? descriptor.configurable : false,
+					enumarable: descriptor && descriptor.enumarable !== undefined ? descriptor.enumarable : true
+				});
+			};
+
+			/**
+	   * Watch something on the element
+	   */
+
+
+			// writable : descriptor && descriptor.writable !== undefined ? descriptor.writable : true
+
 			SWatchable.prototype.watch = function watch(what, cb) {
+				// check if the what parameter has already a descriptor
+				var split = what.split('.');
+				var obj = this;
+				var property = null;
+				if (split.length > 1) {
+					property = split.pop();
+					obj = _get(this, split.join('.'));
+				} else {
+					property = split[0];
+				}
+				var currentValue = null;
+				currentValue = _get(this, what);
+
+				// if is undefined, throw an error
+				if (obj === undefined || currentValue === undefined) {
+					throw 'It\'s not possible to watch the property ' + what + ' cause it does not exist...';
+				};
+
+				// define the property proxy		
+				this._defineProp(obj, property, currentValue, what);
+
 				// register new watch
 				if (!this._watchStack[what]) {
 					this._watchStack[what] = [];
@@ -2235,256 +2343,1269 @@ return /******/ (function(modules) { // webpackBootstrap
 				}
 			};
 
-			SWatchable.prototype._defineProp = function _defineProp(currentObj, property, currentSplitPath, currentValue) {
-				var _this2 = this;
-
-				var val = currentValue;
-				Object.defineProperty(currentObj, property, {
-					get: function get() {
-						return val;
-					},
-					set: function set(value) {
-						var oldValue = val;
-						val = value;
-						_this2.notify(currentSplitPath + '.' + property, val, oldValue);
-						// currentObj[property] = value;
-						// console.log('set', property, currentSplitPath, value);
-						// const oldValue = this._watchValues[currentSplitPath][property];
-						// if (oldValue !== value) {
-						// 	this._watchValues[currentSplitPath][property] = value;
-						// }
-						// notify update
-						// this.notify(currentSplitPath, value, oldValue);
-					}
-				});
-				// return currentObj;
-			};
-
-			/**
-	   * Update something that need to be notified
-	   */
-
-
-			SWatchable.prototype.watchable = function watchable(path) {
-				var _this3 = this;
-
-				var value = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
-
-
-				// check if already has a value
-				var currentValue = function () {
-					try {
-						return eval('this.' + path);
-					} catch (e) {}
-				}.call(this);
-				// const ccccc = (() => {
-				// 	try {
-				// 		let sp = path.split('.');
-				// 		sp.pop();
-				// 		return eval(`this.${sp.join('.')}`);
-				// 	} catch(e) {}
-				// }).call(this);
-				// console.log('JUIHIUHUIHUIH', ccccc);
-
-				if (!value && currentValue) {
-					value = currentValue;
-				}
-
-				// create the tree if needed
-				var splitParts = path.split('.'),
-				    splitPartsLength = splitParts.length,
-				    currentSplitParts = [],
-				    currentSplitPath = null,
-				    currentObj = {},
-				    firstObj = null,
-				    currentWatchValues = this._watchValues;
-				for (var i = 0; i < splitPartsLength; i++) {
-
-					currentSplitParts.push(splitParts[i]);
-					currentSplitPath = currentSplitParts.join('.');
-
-					// console.log(i, splitParts[i]);
-
-					// currentObj = newObject;
-
-					// // if ( ! currentObj) currentObj = {};
-					// if (i == 0) newObject = this;
-					// // else newObject = {};
-
-					// Object.defineProperty(newObject, splitParts[i], {
-					// 	get : () => currentObj[splitParts[i]],
-					// 	set : (value) => {
-					// 		currentObj[splitParts[i]] = value;
-					// 	}
-					// });
-
-					// // new current object
-					// newObject = 
-
-					// console.log()
-
-					if (splitParts[i + 1]) {
-						this._defineProp(currentObj, splitParts[i + 1], currentSplitPath, value);
-						// this._watchValues[currentSplitPath] = currentObj;
-						if (i <= 0) {
-							firstObj = currentObj;
-						}
-						// try to get the current object
-						var co = function () {
-							try {
-								return eval('this.' + currentSplitPath);
-							} catch (e) {}
-						}.call(this);
-						console.warn('COOO', currentSplitPath, co);
-
-						currentObj = co || {};
-					} else {
-						// this._watchValues[currentSplitPath] = value;
-
-						Object.defineProperty(this, splitParts[0], {
-							get: function get() {
-								return firstObj;
-							},
-							set: function set(value) {
-								var oldValue = firstObj;
-								// this._watchValues[splitParts[0]] = value;
-								// notify update
-								_this3.notify(splitParts[0], value, oldValue);
-							}
-						});
-					}
-					// currentObj = this
-
-					// // this._watchValues[currentSplitPath] = currentObj;
-					// if (currentObj === this) {
-					// 	currentObj = {};
-					// }
-					// // } else {
-					// // 	currentObj == this._watchValues[currentSplitPath];
-					// // }
-					// this._watchValues[currentSplitPath] = currentObj;
-
-					// if ( ! currentObj[splitParts[i]]) {
-					// 	currentObj[splitParts[i]] = {};
-					// 	currentWatchValues[currentSplitParts.join('.')] = currentObj[splitParts[i]];
-
-					// 	console.log(currentObj);
-					// 	console.log(currentWatchValues);
-
-					// 	Object.defineProperty(currentObj, splitParts[i], {
-					// 		get : () => {
-					// 		 	return currentWatchValues[currentSplitParts.join('.')];
-					// 		},
-					// 		set : (value) => {
-					// 			currentWatchValues[currentSplitParts.join('.')] = value;
-					// 			// currentObj[splitParts[i]] = value;
-					// 		}
-					// 	})
-					// 	currentObj = currentObj[splitParts[i]];
-					// 	// currentWatchValues = currentWatchValues[splitParts[i]];
-					// }
-
-					// currentSplitParts.push(splitParts[i]);
-					// if ( ! currentObj[splitParts[i]]) {
-					// 	currentObj[splitParts[i]] = {};
-					// 	currentWatchValues[currentSplitParts.join('.')] = currentObj[splitParts[i]];
-
-					// 	console.log(currentObj);
-					// 	console.log(currentWatchValues);
-
-					// 	Object.defineProperty(currentObj, splitParts[i], {
-					// 		get : () => {
-					// 		 	return currentWatchValues[currentSplitParts.join('.')];
-					// 		},
-					// 		set : (value) => {
-					// 			currentWatchValues[currentSplitParts.join('.')] = value;
-					// 			// currentObj[splitParts[i]] = value;
-					// 		}
-					// 	})
-					// 	currentObj = currentObj[splitParts[i]];
-					// 	// currentWatchValues = currentWatchValues[splitParts[i]];
-					// }
-				}
-
-				// set the property on the object itself
-
-				// console.log('COCO', this.coco);
-
-				// register the setter
-
-				// console.log('currentValue', currentValue);
-
-				// new watchable value
-
-				// loop through each modified elements
-				// let splitParts = what.split('.');
-				// const splitPartsLength = splitParts.length - 1;
-				// for (let i = splitPartsLength; i>=0; i--) {
-
-				// 	const splitPath = splitParts.join('.');
-				// 	let oldValue = (() => {
-				// 		return eval(`this.${splitPath}`);
-				// 	}).call(this);
-				// 	if (typeof(oldValue) == 'object') {
-				// 		oldValue = {...{},...oldValue};
-				// 	}
-
-				// 	// set the new value only if is the targeted
-				// 	// one
-				// 	if (i >= splitPartsLength) {
-				// 		// set the new value
-				// 		if (typeof(value) == 'string') {
-				// 			(() => {
-				// 				eval(`this.${splitPath} = "${value}";`);
-				// 			}).call(this);
-				// 		} else {
-				// 			(() => {
-				// 				eval(`this.${what} = ${value};`);
-				// 			}).call(this);
-				// 		}
-				// 		// handle if is an attribute
-				// 		// and the this.elm exist
-				// 		// if ( ! fromMutation && splitParts[0] == 'attr' && splitParts[1] && this.elm) {
-				// 		// 	this.elm.setAttribute(sString.uncamelize(splitParts[1],'-'), value);
-				// 		// }
-				// 	}
-
-				// 	let newValue = (() => {
-				// 		eval(`this.${splitPath}`);
-				// 	}).call(this);
-
-				// 	// notify of new value
-				// 	this.notify(this[splitPath], value, oldValue);
-
-				// 	// pop splitpart
-				// 	splitParts.pop();
-				// }
-			};
-
-			/**
-	   * Unset a value
-	   */
-
-
-			SWatchable.prototype.unset = function unset(what) {
-				// get the current value
-				var oldValue = eval('this.' + what);
-				// unset the value
-				eval('delete this.' + what);
-				// check if has some registerer
-				if (this._watchStack[what]) {
-					this._watchStack[what].forEach(function (cb) {
-						cb(undefined, oldValue);
-					});
-				}
-			};
-
 			return SWatchable;
-		}(superclass);
+		}(superclass), _class.setters = {
+			CSSStyleDeclaration: function CSSStyleDeclaration(obj, property, value) {
+				obj.setProperty(property, value);
+			}
+		}, _temp;
 	};
 
 /***/ },
 /* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var baseGet = __webpack_require__(17);
+
+	/**
+	 * Gets the value at `path` of `object`. If the resolved value is
+	 * `undefined`, the `defaultValue` is used in its place.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 3.7.0
+	 * @category Object
+	 * @param {Object} object The object to query.
+	 * @param {Array|string} path The path of the property to get.
+	 * @param {*} [defaultValue] The value returned for `undefined` resolved values.
+	 * @returns {*} Returns the resolved value.
+	 * @example
+	 *
+	 * var object = { 'a': [{ 'b': { 'c': 3 } }] };
+	 *
+	 * _.get(object, 'a[0].b.c');
+	 * // => 3
+	 *
+	 * _.get(object, ['a', '0', 'b', 'c']);
+	 * // => 3
+	 *
+	 * _.get(object, 'a.b.c', 'default');
+	 * // => 'default'
+	 */
+	function get(object, path, defaultValue) {
+	  var result = object == null ? undefined : baseGet(object, path);
+	  return result === undefined ? defaultValue : result;
+	}
+
+	module.exports = get;
+
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var castPath = __webpack_require__(18),
+	    isKey = __webpack_require__(55);
+
+	/**
+	 * The base implementation of `_.get` without support for default values.
+	 *
+	 * @private
+	 * @param {Object} object The object to query.
+	 * @param {Array|string} path The path of the property to get.
+	 * @returns {*} Returns the resolved value.
+	 */
+	function baseGet(object, path) {
+	  path = isKey(path, object) ? [path] : castPath(path);
+
+	  var index = 0,
+	      length = path.length;
+
+	  while (object != null && index < length) {
+	    object = object[path[index++]];
+	  }
+	  return (index && index == length) ? object : undefined;
+	}
+
+	module.exports = baseGet;
+
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var isArray = __webpack_require__(19),
+	    stringToPath = __webpack_require__(20);
+
+	/**
+	 * Casts `value` to a path array if it's not one.
+	 *
+	 * @private
+	 * @param {*} value The value to inspect.
+	 * @returns {Array} Returns the cast property path array.
+	 */
+	function castPath(value) {
+	  return isArray(value) ? value : stringToPath(value);
+	}
+
+	module.exports = castPath;
+
+
+/***/ },
+/* 19 */
+/***/ function(module, exports) {
+
+	/**
+	 * Checks if `value` is classified as an `Array` object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 0.1.0
+	 * @type {Function}
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is correctly classified,
+	 *  else `false`.
+	 * @example
+	 *
+	 * _.isArray([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isArray(document.body.children);
+	 * // => false
+	 *
+	 * _.isArray('abc');
+	 * // => false
+	 *
+	 * _.isArray(_.noop);
+	 * // => false
+	 */
+	var isArray = Array.isArray;
+
+	module.exports = isArray;
+
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var memoize = __webpack_require__(21),
+	    toString = __webpack_require__(51);
+
+	/** Used to match property names within property paths. */
+	var rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]/g;
+
+	/** Used to match backslashes in property paths. */
+	var reEscapeChar = /\\(\\)?/g;
+
+	/**
+	 * Converts `string` to a property path array.
+	 *
+	 * @private
+	 * @param {string} string The string to convert.
+	 * @returns {Array} Returns the property path array.
+	 */
+	var stringToPath = memoize(function(string) {
+	  var result = [];
+	  toString(string).replace(rePropName, function(match, number, quote, string) {
+	    result.push(quote ? string.replace(reEscapeChar, '$1') : (number || match));
+	  });
+	  return result;
+	});
+
+	module.exports = stringToPath;
+
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var MapCache = __webpack_require__(22);
+
+	/** Used as the `TypeError` message for "Functions" methods. */
+	var FUNC_ERROR_TEXT = 'Expected a function';
+
+	/**
+	 * Creates a function that memoizes the result of `func`. If `resolver` is
+	 * provided, it determines the cache key for storing the result based on the
+	 * arguments provided to the memoized function. By default, the first argument
+	 * provided to the memoized function is used as the map cache key. The `func`
+	 * is invoked with the `this` binding of the memoized function.
+	 *
+	 * **Note:** The cache is exposed as the `cache` property on the memoized
+	 * function. Its creation may be customized by replacing the `_.memoize.Cache`
+	 * constructor with one whose instances implement the
+	 * [`Map`](http://ecma-international.org/ecma-262/6.0/#sec-properties-of-the-map-prototype-object)
+	 * method interface of `delete`, `get`, `has`, and `set`.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 0.1.0
+	 * @category Function
+	 * @param {Function} func The function to have its output memoized.
+	 * @param {Function} [resolver] The function to resolve the cache key.
+	 * @returns {Function} Returns the new memoizing function.
+	 * @example
+	 *
+	 * var object = { 'a': 1, 'b': 2 };
+	 * var other = { 'c': 3, 'd': 4 };
+	 *
+	 * var values = _.memoize(_.values);
+	 * values(object);
+	 * // => [1, 2]
+	 *
+	 * values(other);
+	 * // => [3, 4]
+	 *
+	 * object.a = 2;
+	 * values(object);
+	 * // => [1, 2]
+	 *
+	 * // Modify the result cache.
+	 * values.cache.set(object, ['a', 'b']);
+	 * values(object);
+	 * // => ['a', 'b']
+	 *
+	 * // Replace `_.memoize.Cache`.
+	 * _.memoize.Cache = WeakMap;
+	 */
+	function memoize(func, resolver) {
+	  if (typeof func != 'function' || (resolver && typeof resolver != 'function')) {
+	    throw new TypeError(FUNC_ERROR_TEXT);
+	  }
+	  var memoized = function() {
+	    var args = arguments,
+	        key = resolver ? resolver.apply(this, args) : args[0],
+	        cache = memoized.cache;
+
+	    if (cache.has(key)) {
+	      return cache.get(key);
+	    }
+	    var result = func.apply(this, args);
+	    memoized.cache = cache.set(key, result);
+	    return result;
+	  };
+	  memoized.cache = new (memoize.Cache || MapCache);
+	  return memoized;
+	}
+
+	// Assign cache to `_.memoize`.
+	memoize.Cache = MapCache;
+
+	module.exports = memoize;
+
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var mapClear = __webpack_require__(23),
+	    mapDelete = __webpack_require__(36),
+	    mapGet = __webpack_require__(43),
+	    mapHas = __webpack_require__(46),
+	    mapSet = __webpack_require__(48);
+
+	/**
+	 * Creates a map cache object to store key-value pairs.
+	 *
+	 * @private
+	 * @constructor
+	 * @param {Array} [values] The values to cache.
+	 */
+	function MapCache(values) {
+	  var index = -1,
+	      length = values ? values.length : 0;
+
+	  this.clear();
+	  while (++index < length) {
+	    var entry = values[index];
+	    this.set(entry[0], entry[1]);
+	  }
+	}
+
+	// Add methods to `MapCache`.
+	MapCache.prototype.clear = mapClear;
+	MapCache.prototype['delete'] = mapDelete;
+	MapCache.prototype.get = mapGet;
+	MapCache.prototype.has = mapHas;
+	MapCache.prototype.set = mapSet;
+
+	module.exports = MapCache;
+
+
+/***/ },
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Hash = __webpack_require__(24),
+	    Map = __webpack_require__(32);
+
+	/**
+	 * Removes all key-value entries from the map.
+	 *
+	 * @private
+	 * @name clear
+	 * @memberOf MapCache
+	 */
+	function mapClear() {
+	  this.__data__ = {
+	    'hash': new Hash,
+	    'map': Map ? new Map : [],
+	    'string': new Hash
+	  };
+	}
+
+	module.exports = mapClear;
+
+
+/***/ },
+/* 24 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var nativeCreate = __webpack_require__(25);
+
+	/** Used for built-in method references. */
+	var objectProto = Object.prototype;
+
+	/**
+	 * Creates a hash object.
+	 *
+	 * @private
+	 * @constructor
+	 * @returns {Object} Returns the new hash object.
+	 */
+	function Hash() {}
+
+	// Avoid inheriting from `Object.prototype` when possible.
+	Hash.prototype = nativeCreate ? nativeCreate(null) : objectProto;
+
+	module.exports = Hash;
+
+
+/***/ },
+/* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var getNative = __webpack_require__(26);
+
+	/* Built-in method references that are verified to be native. */
+	var nativeCreate = getNative(Object, 'create');
+
+	module.exports = nativeCreate;
+
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var isNative = __webpack_require__(27);
+
+	/**
+	 * Gets the native function at `key` of `object`.
+	 *
+	 * @private
+	 * @param {Object} object The object to query.
+	 * @param {string} key The key of the method to get.
+	 * @returns {*} Returns the function if it's native, else `undefined`.
+	 */
+	function getNative(object, key) {
+	  var value = object[key];
+	  return isNative(value) ? value : undefined;
+	}
+
+	module.exports = getNative;
+
+
+/***/ },
+/* 27 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var isFunction = __webpack_require__(28),
+	    isHostObject = __webpack_require__(30),
+	    isObject = __webpack_require__(29),
+	    toSource = __webpack_require__(31);
+
+	/**
+	 * Used to match `RegExp`
+	 * [syntax characters](http://ecma-international.org/ecma-262/6.0/#sec-patterns).
+	 */
+	var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+
+	/** Used to detect host constructors (Safari). */
+	var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+	/** Used for built-in method references. */
+	var objectProto = Object.prototype;
+
+	/** Used to resolve the decompiled source of functions. */
+	var funcToString = Function.prototype.toString;
+
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+
+	/** Used to detect if a method is native. */
+	var reIsNative = RegExp('^' +
+	  funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&')
+	  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+	);
+
+	/**
+	 * Checks if `value` is a native function.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 3.0.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a native function,
+	 *  else `false`.
+	 * @example
+	 *
+	 * _.isNative(Array.prototype.push);
+	 * // => true
+	 *
+	 * _.isNative(_);
+	 * // => false
+	 */
+	function isNative(value) {
+	  if (!isObject(value)) {
+	    return false;
+	  }
+	  var pattern = (isFunction(value) || isHostObject(value)) ? reIsNative : reIsHostCtor;
+	  return pattern.test(toSource(value));
+	}
+
+	module.exports = isNative;
+
+
+/***/ },
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var isObject = __webpack_require__(29);
+
+	/** `Object#toString` result references. */
+	var funcTag = '[object Function]',
+	    genTag = '[object GeneratorFunction]';
+
+	/** Used for built-in method references. */
+	var objectProto = Object.prototype;
+
+	/**
+	 * Used to resolve the
+	 * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+	 * of values.
+	 */
+	var objectToString = objectProto.toString;
+
+	/**
+	 * Checks if `value` is classified as a `Function` object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 0.1.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is correctly classified,
+	 *  else `false`.
+	 * @example
+	 *
+	 * _.isFunction(_);
+	 * // => true
+	 *
+	 * _.isFunction(/abc/);
+	 * // => false
+	 */
+	function isFunction(value) {
+	  // The use of `Object#toString` avoids issues with the `typeof` operator
+	  // in Safari 8 which returns 'object' for typed array and weak map constructors,
+	  // and PhantomJS 1.9 which returns 'function' for `NodeList` instances.
+	  var tag = isObject(value) ? objectToString.call(value) : '';
+	  return tag == funcTag || tag == genTag;
+	}
+
+	module.exports = isFunction;
+
+
+/***/ },
+/* 29 */
+/***/ function(module, exports) {
+
+	/**
+	 * Checks if `value` is the
+	 * [language type](http://www.ecma-international.org/ecma-262/6.0/#sec-ecmascript-language-types)
+	 * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 0.1.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+	 * @example
+	 *
+	 * _.isObject({});
+	 * // => true
+	 *
+	 * _.isObject([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObject(_.noop);
+	 * // => true
+	 *
+	 * _.isObject(null);
+	 * // => false
+	 */
+	function isObject(value) {
+	  var type = typeof value;
+	  return !!value && (type == 'object' || type == 'function');
+	}
+
+	module.exports = isObject;
+
+
+/***/ },
+/* 30 */
+/***/ function(module, exports) {
+
+	/**
+	 * Checks if `value` is a host object in IE < 9.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
+	 */
+	function isHostObject(value) {
+	  // Many host objects are `Object` objects that can coerce to strings
+	  // despite having improperly defined `toString` methods.
+	  var result = false;
+	  if (value != null && typeof value.toString != 'function') {
+	    try {
+	      result = !!(value + '');
+	    } catch (e) {}
+	  }
+	  return result;
+	}
+
+	module.exports = isHostObject;
+
+
+/***/ },
+/* 31 */
+/***/ function(module, exports) {
+
+	/** Used to resolve the decompiled source of functions. */
+	var funcToString = Function.prototype.toString;
+
+	/**
+	 * Converts `func` to its source code.
+	 *
+	 * @private
+	 * @param {Function} func The function to process.
+	 * @returns {string} Returns the source code.
+	 */
+	function toSource(func) {
+	  if (func != null) {
+	    try {
+	      return funcToString.call(func);
+	    } catch (e) {}
+	    try {
+	      return (func + '');
+	    } catch (e) {}
+	  }
+	  return '';
+	}
+
+	module.exports = toSource;
+
+
+/***/ },
+/* 32 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var getNative = __webpack_require__(26),
+	    root = __webpack_require__(33);
+
+	/* Built-in method references that are verified to be native. */
+	var Map = getNative(root, 'Map');
+
+	module.exports = Map;
+
+
+/***/ },
+/* 33 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module, global) {var checkGlobal = __webpack_require__(35);
+
+	/** Used to determine if values are of the language type `Object`. */
+	var objectTypes = {
+	  'function': true,
+	  'object': true
+	};
+
+	/** Detect free variable `exports`. */
+	var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
+	  ? exports
+	  : undefined;
+
+	/** Detect free variable `module`. */
+	var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
+	  ? module
+	  : undefined;
+
+	/** Detect free variable `global` from Node.js. */
+	var freeGlobal = checkGlobal(freeExports && freeModule && typeof global == 'object' && global);
+
+	/** Detect free variable `self`. */
+	var freeSelf = checkGlobal(objectTypes[typeof self] && self);
+
+	/** Detect free variable `window`. */
+	var freeWindow = checkGlobal(objectTypes[typeof window] && window);
+
+	/** Detect `this` as the global object. */
+	var thisGlobal = checkGlobal(objectTypes[typeof this] && this);
+
+	/**
+	 * Used as a reference to the global object.
+	 *
+	 * The `this` value is used if it's the global object to avoid Greasemonkey's
+	 * restricted `window` object, otherwise the `window` object is used.
+	 */
+	var root = freeGlobal ||
+	  ((freeWindow !== (thisGlobal && thisGlobal.window)) && freeWindow) ||
+	    freeSelf || thisGlobal || Function('return this')();
+
+	module.exports = root;
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(34)(module), (function() { return this; }())))
+
+/***/ },
+/* 34 */
+/***/ function(module, exports) {
+
+	module.exports = function(module) {
+		if(!module.webpackPolyfill) {
+			module.deprecate = function() {};
+			module.paths = [];
+			// module.parent = undefined by default
+			module.children = [];
+			module.webpackPolyfill = 1;
+		}
+		return module;
+	}
+
+
+/***/ },
+/* 35 */
+/***/ function(module, exports) {
+
+	/**
+	 * Checks if `value` is a global object.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {null|Object} Returns `value` if it's a global object, else `null`.
+	 */
+	function checkGlobal(value) {
+	  return (value && value.Object === Object) ? value : null;
+	}
+
+	module.exports = checkGlobal;
+
+
+/***/ },
+/* 36 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Map = __webpack_require__(32),
+	    assocDelete = __webpack_require__(37),
+	    hashDelete = __webpack_require__(40),
+	    isKeyable = __webpack_require__(42);
+
+	/**
+	 * Removes `key` and its value from the map.
+	 *
+	 * @private
+	 * @name delete
+	 * @memberOf MapCache
+	 * @param {string} key The key of the value to remove.
+	 * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+	 */
+	function mapDelete(key) {
+	  var data = this.__data__;
+	  if (isKeyable(key)) {
+	    return hashDelete(typeof key == 'string' ? data.string : data.hash, key);
+	  }
+	  return Map ? data.map['delete'](key) : assocDelete(data.map, key);
+	}
+
+	module.exports = mapDelete;
+
+
+/***/ },
+/* 37 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var assocIndexOf = __webpack_require__(38);
+
+	/** Used for built-in method references. */
+	var arrayProto = Array.prototype;
+
+	/** Built-in value references. */
+	var splice = arrayProto.splice;
+
+	/**
+	 * Removes `key` and its value from the associative array.
+	 *
+	 * @private
+	 * @param {Array} array The array to modify.
+	 * @param {string} key The key of the value to remove.
+	 * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+	 */
+	function assocDelete(array, key) {
+	  var index = assocIndexOf(array, key);
+	  if (index < 0) {
+	    return false;
+	  }
+	  var lastIndex = array.length - 1;
+	  if (index == lastIndex) {
+	    array.pop();
+	  } else {
+	    splice.call(array, index, 1);
+	  }
+	  return true;
+	}
+
+	module.exports = assocDelete;
+
+
+/***/ },
+/* 38 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var eq = __webpack_require__(39);
+
+	/**
+	 * Gets the index at which the `key` is found in `array` of key-value pairs.
+	 *
+	 * @private
+	 * @param {Array} array The array to search.
+	 * @param {*} key The key to search for.
+	 * @returns {number} Returns the index of the matched value, else `-1`.
+	 */
+	function assocIndexOf(array, key) {
+	  var length = array.length;
+	  while (length--) {
+	    if (eq(array[length][0], key)) {
+	      return length;
+	    }
+	  }
+	  return -1;
+	}
+
+	module.exports = assocIndexOf;
+
+
+/***/ },
+/* 39 */
+/***/ function(module, exports) {
+
+	/**
+	 * Performs a
+	 * [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+	 * comparison between two values to determine if they are equivalent.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 4.0.0
+	 * @category Lang
+	 * @param {*} value The value to compare.
+	 * @param {*} other The other value to compare.
+	 * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+	 * @example
+	 *
+	 * var object = { 'user': 'fred' };
+	 * var other = { 'user': 'fred' };
+	 *
+	 * _.eq(object, object);
+	 * // => true
+	 *
+	 * _.eq(object, other);
+	 * // => false
+	 *
+	 * _.eq('a', 'a');
+	 * // => true
+	 *
+	 * _.eq('a', Object('a'));
+	 * // => false
+	 *
+	 * _.eq(NaN, NaN);
+	 * // => true
+	 */
+	function eq(value, other) {
+	  return value === other || (value !== value && other !== other);
+	}
+
+	module.exports = eq;
+
+
+/***/ },
+/* 40 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var hashHas = __webpack_require__(41);
+
+	/**
+	 * Removes `key` and its value from the hash.
+	 *
+	 * @private
+	 * @param {Object} hash The hash to modify.
+	 * @param {string} key The key of the value to remove.
+	 * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+	 */
+	function hashDelete(hash, key) {
+	  return hashHas(hash, key) && delete hash[key];
+	}
+
+	module.exports = hashDelete;
+
+
+/***/ },
+/* 41 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var nativeCreate = __webpack_require__(25);
+
+	/** Used for built-in method references. */
+	var objectProto = Object.prototype;
+
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+
+	/**
+	 * Checks if a hash value for `key` exists.
+	 *
+	 * @private
+	 * @param {Object} hash The hash to query.
+	 * @param {string} key The key of the entry to check.
+	 * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+	 */
+	function hashHas(hash, key) {
+	  return nativeCreate ? hash[key] !== undefined : hasOwnProperty.call(hash, key);
+	}
+
+	module.exports = hashHas;
+
+
+/***/ },
+/* 42 */
+/***/ function(module, exports) {
+
+	/**
+	 * Checks if `value` is suitable for use as unique object key.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is suitable, else `false`.
+	 */
+	function isKeyable(value) {
+	  var type = typeof value;
+	  return type == 'number' || type == 'boolean' ||
+	    (type == 'string' && value != '__proto__') || value == null;
+	}
+
+	module.exports = isKeyable;
+
+
+/***/ },
+/* 43 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Map = __webpack_require__(32),
+	    assocGet = __webpack_require__(44),
+	    hashGet = __webpack_require__(45),
+	    isKeyable = __webpack_require__(42);
+
+	/**
+	 * Gets the map value for `key`.
+	 *
+	 * @private
+	 * @name get
+	 * @memberOf MapCache
+	 * @param {string} key The key of the value to get.
+	 * @returns {*} Returns the entry value.
+	 */
+	function mapGet(key) {
+	  var data = this.__data__;
+	  if (isKeyable(key)) {
+	    return hashGet(typeof key == 'string' ? data.string : data.hash, key);
+	  }
+	  return Map ? data.map.get(key) : assocGet(data.map, key);
+	}
+
+	module.exports = mapGet;
+
+
+/***/ },
+/* 44 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var assocIndexOf = __webpack_require__(38);
+
+	/**
+	 * Gets the associative array value for `key`.
+	 *
+	 * @private
+	 * @param {Array} array The array to query.
+	 * @param {string} key The key of the value to get.
+	 * @returns {*} Returns the entry value.
+	 */
+	function assocGet(array, key) {
+	  var index = assocIndexOf(array, key);
+	  return index < 0 ? undefined : array[index][1];
+	}
+
+	module.exports = assocGet;
+
+
+/***/ },
+/* 45 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var nativeCreate = __webpack_require__(25);
+
+	/** Used to stand-in for `undefined` hash values. */
+	var HASH_UNDEFINED = '__lodash_hash_undefined__';
+
+	/** Used for built-in method references. */
+	var objectProto = Object.prototype;
+
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+
+	/**
+	 * Gets the hash value for `key`.
+	 *
+	 * @private
+	 * @param {Object} hash The hash to query.
+	 * @param {string} key The key of the value to get.
+	 * @returns {*} Returns the entry value.
+	 */
+	function hashGet(hash, key) {
+	  if (nativeCreate) {
+	    var result = hash[key];
+	    return result === HASH_UNDEFINED ? undefined : result;
+	  }
+	  return hasOwnProperty.call(hash, key) ? hash[key] : undefined;
+	}
+
+	module.exports = hashGet;
+
+
+/***/ },
+/* 46 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Map = __webpack_require__(32),
+	    assocHas = __webpack_require__(47),
+	    hashHas = __webpack_require__(41),
+	    isKeyable = __webpack_require__(42);
+
+	/**
+	 * Checks if a map value for `key` exists.
+	 *
+	 * @private
+	 * @name has
+	 * @memberOf MapCache
+	 * @param {string} key The key of the entry to check.
+	 * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+	 */
+	function mapHas(key) {
+	  var data = this.__data__;
+	  if (isKeyable(key)) {
+	    return hashHas(typeof key == 'string' ? data.string : data.hash, key);
+	  }
+	  return Map ? data.map.has(key) : assocHas(data.map, key);
+	}
+
+	module.exports = mapHas;
+
+
+/***/ },
+/* 47 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var assocIndexOf = __webpack_require__(38);
+
+	/**
+	 * Checks if an associative array value for `key` exists.
+	 *
+	 * @private
+	 * @param {Array} array The array to query.
+	 * @param {string} key The key of the entry to check.
+	 * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+	 */
+	function assocHas(array, key) {
+	  return assocIndexOf(array, key) > -1;
+	}
+
+	module.exports = assocHas;
+
+
+/***/ },
+/* 48 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Map = __webpack_require__(32),
+	    assocSet = __webpack_require__(49),
+	    hashSet = __webpack_require__(50),
+	    isKeyable = __webpack_require__(42);
+
+	/**
+	 * Sets the map `key` to `value`.
+	 *
+	 * @private
+	 * @name set
+	 * @memberOf MapCache
+	 * @param {string} key The key of the value to set.
+	 * @param {*} value The value to set.
+	 * @returns {Object} Returns the map cache instance.
+	 */
+	function mapSet(key, value) {
+	  var data = this.__data__;
+	  if (isKeyable(key)) {
+	    hashSet(typeof key == 'string' ? data.string : data.hash, key, value);
+	  } else if (Map) {
+	    data.map.set(key, value);
+	  } else {
+	    assocSet(data.map, key, value);
+	  }
+	  return this;
+	}
+
+	module.exports = mapSet;
+
+
+/***/ },
+/* 49 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var assocIndexOf = __webpack_require__(38);
+
+	/**
+	 * Sets the associative array `key` to `value`.
+	 *
+	 * @private
+	 * @param {Array} array The array to modify.
+	 * @param {string} key The key of the value to set.
+	 * @param {*} value The value to set.
+	 */
+	function assocSet(array, key, value) {
+	  var index = assocIndexOf(array, key);
+	  if (index < 0) {
+	    array.push([key, value]);
+	  } else {
+	    array[index][1] = value;
+	  }
+	}
+
+	module.exports = assocSet;
+
+
+/***/ },
+/* 50 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var nativeCreate = __webpack_require__(25);
+
+	/** Used to stand-in for `undefined` hash values. */
+	var HASH_UNDEFINED = '__lodash_hash_undefined__';
+
+	/**
+	 * Sets the hash `key` to `value`.
+	 *
+	 * @private
+	 * @param {Object} hash The hash to modify.
+	 * @param {string} key The key of the value to set.
+	 * @param {*} value The value to set.
+	 */
+	function hashSet(hash, key, value) {
+	  hash[key] = (nativeCreate && value === undefined) ? HASH_UNDEFINED : value;
+	}
+
+	module.exports = hashSet;
+
+
+/***/ },
+/* 51 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Symbol = __webpack_require__(52),
+	    isSymbol = __webpack_require__(53);
+
+	/** Used as references for various `Number` constants. */
+	var INFINITY = 1 / 0;
+
+	/** Used to convert symbols to primitives and strings. */
+	var symbolProto = Symbol ? Symbol.prototype : undefined,
+	    symbolToString = symbolProto ? symbolProto.toString : undefined;
+
+	/**
+	 * Converts `value` to a string. An empty string is returned for `null`
+	 * and `undefined` values. The sign of `-0` is preserved.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 4.0.0
+	 * @category Lang
+	 * @param {*} value The value to process.
+	 * @returns {string} Returns the string.
+	 * @example
+	 *
+	 * _.toString(null);
+	 * // => ''
+	 *
+	 * _.toString(-0);
+	 * // => '-0'
+	 *
+	 * _.toString([1, 2, 3]);
+	 * // => '1,2,3'
+	 */
+	function toString(value) {
+	  // Exit early for strings to avoid a performance hit in some environments.
+	  if (typeof value == 'string') {
+	    return value;
+	  }
+	  if (value == null) {
+	    return '';
+	  }
+	  if (isSymbol(value)) {
+	    return symbolToString ? symbolToString.call(value) : '';
+	  }
+	  var result = (value + '');
+	  return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
+	}
+
+	module.exports = toString;
+
+
+/***/ },
+/* 52 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var root = __webpack_require__(33);
+
+	/** Built-in value references. */
+	var Symbol = root.Symbol;
+
+	module.exports = Symbol;
+
+
+/***/ },
+/* 53 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var isObjectLike = __webpack_require__(54);
+
+	/** `Object#toString` result references. */
+	var symbolTag = '[object Symbol]';
+
+	/** Used for built-in method references. */
+	var objectProto = Object.prototype;
+
+	/**
+	 * Used to resolve the
+	 * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+	 * of values.
+	 */
+	var objectToString = objectProto.toString;
+
+	/**
+	 * Checks if `value` is classified as a `Symbol` primitive or object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 4.0.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is correctly classified,
+	 *  else `false`.
+	 * @example
+	 *
+	 * _.isSymbol(Symbol.iterator);
+	 * // => true
+	 *
+	 * _.isSymbol('abc');
+	 * // => false
+	 */
+	function isSymbol(value) {
+	  return typeof value == 'symbol' ||
+	    (isObjectLike(value) && objectToString.call(value) == symbolTag);
+	}
+
+	module.exports = isSymbol;
+
+
+/***/ },
+/* 54 */
+/***/ function(module, exports) {
+
+	/**
+	 * Checks if `value` is object-like. A value is object-like if it's not `null`
+	 * and has a `typeof` result of "object".
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 4.0.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+	 * @example
+	 *
+	 * _.isObjectLike({});
+	 * // => true
+	 *
+	 * _.isObjectLike([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObjectLike(_.noop);
+	 * // => false
+	 *
+	 * _.isObjectLike(null);
+	 * // => false
+	 */
+	function isObjectLike(value) {
+	  return !!value && typeof value == 'object';
+	}
+
+	module.exports = isObjectLike;
+
+
+/***/ },
+/* 55 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var isArray = __webpack_require__(19),
+	    isSymbol = __webpack_require__(53);
+
+	/** Used to match property names within property paths. */
+	var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
+	    reIsPlainProp = /^\w*$/;
+
+	/**
+	 * Checks if `value` is a property name and not a property path.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @param {Object} [object] The object to query keys on.
+	 * @returns {boolean} Returns `true` if `value` is a property name, else `false`.
+	 */
+	function isKey(value, object) {
+	  var type = typeof value;
+	  if (type == 'number' || type == 'symbol') {
+	    return true;
+	  }
+	  return !isArray(value) &&
+	    (isSymbol(value) || reIsPlainProp.test(value) || !reIsDeepProp.test(value) ||
+	      (object != null && value in Object(object)));
+	}
+
+	module.exports = isKey;
+
+
+/***/ },
+/* 56 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -2530,8 +3651,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 17 */,
-/* 18 */
+/* 57 */,
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2747,7 +3868,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = SDrawerElement;
 
 /***/ },
-/* 19 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2758,7 +3879,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _sDom2 = _interopRequireDefault(_sDom);
 
-	var _sDrawerElement = __webpack_require__(18);
+	var _sDrawerElement = __webpack_require__(58);
 
 	var _sDrawerElement2 = _interopRequireDefault(_sDrawerElement);
 
