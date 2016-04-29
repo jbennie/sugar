@@ -392,6 +392,15 @@
 	::selection { @content; }
 }
 
+/**
+ * Center block
+ */
+@mixin s-center-block() {
+	display: block;
+	margin-left:auto;
+	margin-right:auto;
+}
+
 //
 // Expanded
 // 
