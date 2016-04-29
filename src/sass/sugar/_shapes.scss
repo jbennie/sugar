@@ -131,11 +131,14 @@
 //
 @mixin s-rect(
 	$width,
-	$height
+	$height : null
 ) {
 	@if $_sugar-test-arguments {
 		$width : s-test-argument('s-rect','width',number,$width);
-		$height : s-test-argument('s-rect','height',number,$height);
+		// $height : s-test-argument('s-rect','height',number,$height);
+	}
+	@if $height == null {
+		$height : $width;
 	}
 	width : $width;
 	height : $height;
