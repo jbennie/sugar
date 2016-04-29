@@ -347,7 +347,7 @@
 @mixin s-size(
 	$size-width,
 	$height : null,
-	$position : relative
+	$position : absolute
 ) {
 	@if $_sugar-test-arguments {
 		@if type-of($size-width) != number {
