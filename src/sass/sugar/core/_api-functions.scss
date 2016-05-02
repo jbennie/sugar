@@ -151,11 +151,13 @@
 // syntax in the futur
 //
 @function s-selector(
-	$map,
+	$sel,
 	$vertical-rhythme-scope : false
 ) {
-	$method : sugar('settings.selector.method');
-	$sel : map-get($map,$method);
+	@if type-of($sel) == 'map' {
+		$method : sugar('settings.selector.method');
+		$sel : map-get($map,$method);
+	}
 	@if not $sel {
 		$sel : map-get($map,BEM);
 	}
