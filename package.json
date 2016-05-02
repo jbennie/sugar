@@ -4,7 +4,7 @@
   "version": "1.0.4",
   "main": "src/js/sugar/index.js",
   "scripts": {
-    "install" : "rm -rf *.html"
+    "install" : "./scripts/install.sh"
   },
   "repository": {
     "type": "git",
