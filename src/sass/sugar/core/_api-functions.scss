@@ -156,10 +156,7 @@
 ) {
 	@if type-of($sel) == 'map' {
 		$method : sugar('settings.selector.method');
-		$sel : map-get($map,$method);
-	}
-	@if not $sel {
-		$sel : map-get($map,BEM);
+		$sel : map-get($sel,$method);
 	}
 	@if not $sel {
 		@error("The method #{$method} is not available in the passed selector map : #{inspect($map)}");
