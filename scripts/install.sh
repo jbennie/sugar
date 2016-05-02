@@ -10,5 +10,5 @@ rm -rf *.html
 rm -rf pages
 rm -rf assets
 rm -rf config.rb
-rm -rf favicon.ico &&
--rf .DS_Store
+rm -rf favicon.ico
+rm -rf .DS_Store
