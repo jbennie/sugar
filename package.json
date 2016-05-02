@@ -4,7 +4,7 @@
   "version": "1.0.4",
   "main": "src/js/sugar/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "install" : "rm -rf *.html"
   },
   "repository": {
     "type": "git",

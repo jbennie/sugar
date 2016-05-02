@@ -54,7 +54,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(187);
+	module.exports = __webpack_require__(74);
 
 
 /***/ },
@@ -63,102 +63,410 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 3 */
 /***/ function(module, exports) {
 
-	'use strict';
-
-	exports.__esModule = true;
-	var uniqidIdx = 0;
-	var sTools = {
-		/**
-	  * Get a uniq id
-	  */
-		uniqid: function uniqid() {
-			// update uniqid idx
-			uniqidIdx++;
-			var ts = String(new Date().getTime()),
-			    i = 0,
-			    out = '';
-			for (i = 0; i < ts.length; i += 2) {
-				out += Number(ts.substr(i, 2)).toString(36);
-			}
-			return 's' + out + uniqidIdx * Math.round(Math.random() * 9999999);
-		},
-
-		/**
-	  * Get an object constructor name
-	  */
-		constructorName: function constructorName(obj) {
-			var funcNameRegex = /function (.{1,})\(/;
-			var results = funcNameRegex.exec(obj.constructor.toString());
-			return results && results.length > 1 ? results[1] : "";
-		}
-
-	};
-	exports.default = sTools;
-
-/***/ },
-/* 4 */
-/***/ function(module, exports) {
-
 	"use strict";
 
 	exports.__esModule = true;
-	exports.default = {
-		/**
-	  * Lower first letter
-	  */
-		lowerFirst: function lowerFirst(string) {
-			return string.charAt(0).toLowerCase() + string.slice(1);
-		},
+	exports.default = uncamelize;
+	/**
+	 * Uncamelize a string
+	 */
+	function uncamelize(text) {
+		var separator = arguments.length <= 1 || arguments[1] === undefined ? '-' : arguments[1];
 
-		/**
-	  * Upper first
-	  */
-		upperFirst: function upperFirst(string) {
-			return string.charAt(0).toUpperCase() + string.slice(1);
-		},
+		// Replace all capital letters by separator followed by lowercase one
+		var text = text.replace(/[A-Z]/g, function (letter) {
+			return separator + letter.toLowerCase();
+		});
 
-		/**
-	  * Uncamelize a string
-	  */
-		uncamelize: function uncamelize(text) {
-			var separator = arguments.length <= 1 || arguments[1] === undefined ? '-' : arguments[1];
-
-			// Replace all capital letters by separator followed by lowercase one
-			var text = text.replace(/[A-Z]/g, function (letter) {
-				return separator + letter.toLowerCase();
-			});
-
-			// Remove first separator (to avoid _hello_world name)
-			return text.replace("/^" + separator + "/", '');
-		},
-
-		/**
-	  * Camelize a string
-	  */
-		camelize: function camelize(text) {
-			text = text.replace(/(?:^|[-_])(\w)/g, function (_, c) {
-				return c ? c.toUpperCase() : '';
-			});
-			return text.substr(0, 1).toLowerCase() + text.slice(1);
-		},
-
-		/**
-	  * Auto cast the string into the correct variable type
-	  */
-		autoCast: function autoCast(string) {
-			if (string === "" || !string) {
-				return true;
-			} else if (string == 'false' || string == 'true' || typeof string == 'string' && string.substr(0, 1) == '[' || !isNaN(string)) {
-				return eval(string);
-			} else if (typeof string == 'string' && string.substr(0, 1) == '{') {
-				return eval('(' + string + ')');
-			}
-			return string;
-		}
-	};
+		// Remove first separator (to avoid _hello_world name)
+		return text.replace("/^" + separator + "/", '');
+	}
 
 /***/ },
+/* 4 */,
 /* 5 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.default = autoCast;
+	/**
+	 * Auto cast the string into the correct variable type
+	 */
+	function autoCast(string) {
+		if (string === "" || !string) {
+			return true;
+		} else if (string == 'false' || string == 'true' || typeof string == 'string' && string.substr(0, 1) == '[' || !isNaN(string)) {
+			return eval(string);
+		} else if (typeof string == 'string' && string.substr(0, 1) == '{') {
+			return eval('(' + string + ')');
+		}
+		return string;
+	}
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _uniqid = __webpack_require__(7);
+
+	var _uniqid2 = _interopRequireDefault(_uniqid);
+
+	var _camelize = __webpack_require__(8);
+
+	var _camelize2 = _interopRequireDefault(_camelize);
+
+	var _autoCast = __webpack_require__(5);
+
+	var _autoCast2 = _interopRequireDefault(_autoCast);
+
+	var _querySelectorLiveOnce = __webpack_require__(9);
+
+	var _querySelectorLiveOnce2 = _interopRequireDefault(_querySelectorLiveOnce);
+
+	var _querySelectorVisibleLiveOnce = __webpack_require__(19);
+
+	var _querySelectorVisibleLiveOnce2 = _interopRequireDefault(_querySelectorVisibleLiveOnce);
+
+	var _querySelectorViewportVisibleLiveOnce = __webpack_require__(23);
+
+	var _querySelectorViewportVisibleLiveOnce2 = _interopRequireDefault(_querySelectorViewportVisibleLiveOnce);
+
+	var _closestNotVisible = __webpack_require__(22);
+
+	var _closestNotVisible2 = _interopRequireDefault(_closestNotVisible);
+
+	var _whenVisible = __webpack_require__(20);
+
+	var _whenVisible2 = _interopRequireDefault(_whenVisible);
+
+	var _isVisible = __webpack_require__(21);
+
+	var _isVisible2 = _interopRequireDefault(_isVisible);
+
+	var _inViewport = __webpack_require__(25);
+
+	var _inViewport2 = _interopRequireDefault(_inViewport);
+
+	var _dataset = __webpack_require__(26);
+
+	var _dataset2 = _interopRequireDefault(_dataset);
+
+	var _SObject = __webpack_require__(27);
+
+	var _SObject2 = _interopRequireDefault(_SObject);
+
+	var _SMix = __webpack_require__(28);
+
+	var _SMix2 = _interopRequireDefault(_SMix);
+
+	var _SWatchable = __webpack_require__(29);
+
+	var _SWatchable2 = _interopRequireDefault(_SWatchable);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
+
+	// store the settings for the different
+	// components types
+	var _sugarTypesSettings = {};
+
+	var SElement = function (_SMix$in) {
+		_inherits(SElement, _SMix$in);
+
+		/**
+	  * Setup
+	  */
+
+		SElement.setup = function setup(name, type, settings) {
+			if (!_sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
+			_sugarTypesSettings[name][type] = settings;
+		};
+
+		/**
+	  * Watch stack
+	  */
+
+
+		/**
+	  * The dom element reference
+	  */
+
+
+		/**
+	  * Store the attributes
+	  */
+
+
+		/**	
+	  * Constructor
+	  */
+
+		function SElement(elm) {
+			_classCallCheck(this, SElement);
+
+			// save the element reference
+
+			var _this = _possibleConstructorReturn(this, _SMix$in.call(this));
+
+			// init parent
+
+
+			_this._watchStack = {};
+			_this.elm = null;
+			_this.attr = {};
+			_this._attrs = {};
+			_this.elm = elm;
+			// process attributes
+			[].forEach.call(_this.elm.attributes, function (attr) {
+				_this._newAttribute(attr.name, attr.value);
+			});
+
+			// set the api in the dom element
+			_this.elm[_this.name] = _this;
+
+			// create a uniqid for the element
+			_this.uniqid = (0, _uniqid2.default)();
+
+			// set the uniqid to the element
+			_this.elm.setAttribute('data-s-element-id', _this.uniqid);
+
+			// check attributes changes to update settings
+			var observer = new MutationObserver(function (mutations) {
+				// loop on mutations
+				mutations.forEach(function (mutation) {
+					// update the attr property
+					var val = _this.elm.getAttribute(mutation.attributeName);
+					// make a new attribute
+					var camelName = _this._newAttribute(mutation.attributeName);
+					// set the value
+					_this.attr[camelName] = mutation.target.getAttribute(mutation.attributeName);
+				});
+			});
+			// observe the node itself
+			observer.observe(_this.elm, {
+				addedNodes: false,
+				attributeName: true,
+				characterData: true,
+				subtree: false,
+				attributeOldValue: true,
+				characterDataOldValue: true
+			});
+
+			// listen when the element is added to the dom
+			setTimeout(function () {
+				var cbs = [function (elm) {
+					_this.onAdded(elm);
+				}];
+				if (typeof _this.onRemoved == 'function') {
+					cbs.push(function (elm) {
+						_this.onRemoved(elm);
+					});
+				}
+				if (typeof _this.onAdded == 'function') {
+					(0, _querySelectorLiveOnce2.default)('[data-s-element-id="' + _this.uniqid + '"]', cbs);
+				}
+				// check if is the onVisible method
+				if (typeof _this.onVisible == 'function') {
+					(0, _querySelectorVisibleLiveOnce2.default)('[data-s-element-id="' + _this.uniqid + '"]', function (elm) {
+						_this.onVisible(elm);
+					});
+				}
+				// check if is the onViewportVisible method
+				if (typeof _this.onViewportVisible == 'function') {
+					(0, _querySelectorViewportVisibleLiveOnce2.default)('[data-s-element-id="' + _this.uniqid + '"]', function (elm) {
+						_this.onViewportVisible(elm);
+					});
+				}
+			});
+			return _this;
+		}
+
+		/**
+	  * New attribute
+	  */
+
+
+		SElement.prototype._newAttribute = function _newAttribute(name, value) {
+			var _this2 = this;
+
+			var camelName = (0, _camelize2.default)(name);
+
+			// make only if not exist already
+			if (this._attrs[name]) return camelName;
+			console.log('new attributeName', camelName, value);
+			this._attrs[name] = true;
+			this.attr[camelName] = (0, _autoCast2.default)(value);
+			var val = this.attr[camelName];
+
+			// define new property on the attr
+			Object.defineProperty(this.attr, camelName, {
+				get: function get() {
+					return val;
+				},
+				set: function set(value) {
+					// cast the value
+					value = (0, _autoCast2.default)(value);
+					// protect from recursion
+					if (value === val) return value;
+					// save the value localy
+					val = value;
+					// set the new attribute on html tag
+					_this2.elm.setAttribute(name, value);
+				},
+				enumarable: true
+			});
+			return camelName;
+		};
+
+		/**
+	  * Get closest not visible element
+	  */
+
+
+		SElement.prototype.closestNotVisible = function closestNotVisible() {
+			var elm = arguments.length <= 0 || arguments[0] === undefined ? this.elm : arguments[0];
+
+			return (0, _closestNotVisible2.default)(elm);
+		};
+
+		/**
+	  * Visible proxy init
+	  */
+
+
+		SElement.prototype.whenVisible = function whenVisible() {
+			var cb = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+			var elm = arguments.length <= 1 || arguments[1] === undefined ? this.elm : arguments[1];
+
+			return (0, _whenVisible2.default)(elm, cb);
+		};
+
+		/**
+	  * Detect if is visible
+	  */
+
+
+		SElement.prototype.isVisible = function isVisible() {
+			return (0, _isVisible2.default)(this.elm);
+		};
+
+		/**
+	  * Detect when the element is in the viewport
+	  */
+
+
+		SElement.prototype.inViewport = function inViewport() {
+			var offset = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+
+			return (0, _inViewport2.default)(this.elm, offset);
+		};
+
+		/**
+	  * Access dataset
+	  */
+
+
+		SElement.prototype.dataset = function dataset(key) {
+			var value = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+			var elm = arguments.length <= 2 || arguments[2] === undefined ? this.elm : arguments[2];
+
+			return (0, _dataset2.default)(elm, key, value);
+		};
+
+		return SElement;
+	}((0, _SMix2.default)(_SWatchable2.default).in(_SObject2.default));
+
+	exports.default = SElement;
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.default = uniqid;
+	var uniqidIdx = 0;
+
+	/**
+	 * Get a uniq id
+	 */
+	function uniqid() {
+		// update uniqid idx
+		uniqidIdx++;
+		var ts = String(new Date().getTime()),
+		    i = 0,
+		    out = '';
+		for (i = 0; i < ts.length; i += 2) {
+			out += Number(ts.substr(i, 2)).toString(36);
+		}
+		return 's' + out + uniqidIdx * Math.round(Math.random() * 9999999);
+	}
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.default = camelize;
+	/**
+	 * Camelize a string
+	 */
+	function camelize(text) {
+		text = text.replace(/(?:^|[-_])(\w)/g, function (_, c) {
+			return c ? c.toUpperCase() : '';
+		});
+		return text.substr(0, 1).toLowerCase() + text.slice(1);
+	}
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; /**
+	                                                                                                                                                                                                                                                                   * Get the element once
+	                                                                                                                                                                                                                                                                   */
+
+
+	exports.default = querySelectorLiveOnce;
+
+	var _querySelectorLive = __webpack_require__(10);
+
+	var _querySelectorLive2 = _interopRequireDefault(_querySelectorLive);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function querySelectorLiveOnce(selector, cb) {
+		var settings = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+		// extend settings
+		settings = _extends({}, settings, {
+			once: true
+		});
+		(0, _querySelectorLive2.default)(selector, cb, settings);
+	}
+
+/***/ },
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -167,727 +475,257 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _sTools = __webpack_require__(3);
-
-	var _sTools2 = _interopRequireDefault(_sTools);
-
-	var _sString = __webpack_require__(4);
-
-	var _sString2 = _interopRequireDefault(_sString);
-
-	var _promisePolyfill = __webpack_require__(6);
-
-	var _promisePolyfill2 = _interopRequireDefault(_promisePolyfill);
-
-	__webpack_require__(9);
-
-	__webpack_require__(10);
+	exports.default = querySelectorLive;
 
 	__webpack_require__(11);
 
+	var _promisePolyfill = __webpack_require__(12);
+
+	var _promisePolyfill2 = _interopRequireDefault(_promisePolyfill);
+
+	__webpack_require__(15);
+
+	__webpack_require__(16);
+
+	var _matches = __webpack_require__(17);
+
+	var _matches2 = _interopRequireDefault(_matches);
+
+	var _uniqid = __webpack_require__(7);
+
+	var _uniqid2 = _interopRequireDefault(_uniqid);
+
+	var _domReady = __webpack_require__(18);
+
+	var _domReady2 = _interopRequireDefault(_domReady);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	if (!window.Promise) {
-		window.Promise = _promisePolyfill2.default;
-	}
-
+	/**
+	 * Make a selector detectable when new element are pushed in the page
+	 */
 	var _insertAnimationListener = false;
 	var _insertMutationObserver = null;
 	var _insertDomElementsCallbacks = {};
 
-	var sDom = {
+	if (!window.Promise) {
+		window.Promise = _promisePolyfill2.default;
+	}
+	function querySelectorLive(selector, cb) {
+		var settings = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
-		/**
-	  * Polyfill for the matches js method
-	  */
-		matches: function matches(el, selector) {
-			if (el.nodeName == '#comment' || el.nodeName == '#text') {
-				return false;
+
+		// extend settings
+		settings = _extends({
+			rootNode: null,
+			groupedNodes: false,
+			once: false
+		}, settings);
+
+		var _this = this;
+
+		// use the animation hack to detect
+		// new items in the page
+		var detection_id = 's-query-selector-live-' + (0, _uniqid2.default)();
+
+		// add the callback in stack
+		_insertDomElementsCallbacks[detection_id] = {
+			once: settings.once,
+			once_added: false,
+			once_removed: false,
+			detection_id: detection_id,
+			_added_callback: typeof cb == 'function' ? cb : cb[0] ? cb[0] : null,
+			added_callback: function added_callback(_this) {
+				// save the detection id into node
+				// in order to be able to detect the deletion of it
+				if (_this.nodes) {
+					_this.nodes.forEach(function (node) {
+						node._s_query_selector_live_id = _this.detection_id;
+					});
+				}
+				if (!_this._added_callback) return;
+				if (_this.nodes.length > 1) {
+					_this._added_callback(_this.nodes);
+				} else if (_this.nodes.length == 1) {
+					_this._added_callback(_this.nodes[0]);
+				}
+				_this.nodes = [];
+			},
+			_removed_callback: cb instanceof Array && cb[1] ? cb[1] : null,
+			removed_callback: function removed_callback(_this) {
+				if (!_this._removed_callback) return;
+				if (_this.nodes.length > 1) {
+					_this._removed_callback(_this.nodes);
+				} else if (_this.nodes.length == 1) {
+					_this._removed_callback(_this.nodes[0]);
+				}
+				_this.nodes = [];
+			},
+			selector: selector,
+			rootNode: settings.rootNode,
+			groupedNodes: settings.groupedNodes,
+			nodes: [],
+			timeout: null
+		};
+
+		// make a query on existing elements
+		(0, _domReady2.default)(function () {
+
+			// rootNode
+			if (!settings.rootNode) {
+				settings.rootNode = document.body;
 			}
-			var p = Element.prototype;
-			var f = p.matches || p.webkitMatchesSelector || p.mozMatchesSelector || p.msMatchesSelector || function (s) {
-				return [].indexOf.call(document.querySelectorAll(s), this) !== -1;
-			};
-			return f.call(el, selector);
-		},
 
-		/**
-	  * Detect if is in viewport
-	  */
-		inViewport: function inViewport(elm) {
-			var offset = arguments.length <= 1 || arguments[1] === undefined ? { top: 0, right: 0, bottom: 0, left: 0 } : arguments[1];
+			// check how we can detect new elements
+			if (window.MutationObserver != null) {
 
-			var rect = elm.getBoundingClientRect();
-			return rect.top + offset.top >= 0 && rect.left + offset.left >= 0 && rect.bottom - offset.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
-			rect.right - offset.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
-			;
-		},
+				// make sure we try to get dom nodes
+				// AFTER first js loop that handle frameworks
+				// like angular, etc...
+				//setTimeout(() => {
 
-		/**
-	  * Check if is visible
-	  */
-		isVisible: function isVisible(elm) {
-			// get style
-			var style = document.defaultView.getComputedStyle(elm, null),
-			    opacity = style['opacity'],
-			    visibility = style['visibility'],
-			    display = style['display'];
-			return '0' !== opacity && 'none' !== display && 'hidden' !== visibility;
-		},
+				if (!settings.rootNode._s_insert_mutation_observer) {
 
-		/**
-	  * [closestNotVisible description]
-	  * @param  {[type]} elm [description]
-	  * @return {[type]}     [description]
-	  */
-		closestNotVisible: function closestNotVisible(elm) {
-			elm = elm.parentNode;
-			while (elm && elm != document) {
-				if (!sDom.isVisible(elm)) {
-					return elm;
-				}
-				elm = elm.parentNode;
-			}
-			return false;
-		},
+					settings.rootNode._s_insert_mutation_observer = new MutationObserver(function (mutations) {
 
-		/**
-	  * Register a callback to be launched when the element is visible
-	  * @param  {element}   elm The element to observe
-	  * @param  {Function} cb  The callback to launch
-	  * @return {[type]}       [description]
-	  */
-		whenVisible: function whenVisible(elm) {
-			var cb = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+						// check if what we need has been added
+						mutations.forEach(function (mutation) {
 
-			return new Promise(function (resolve, reject) {
-
-				var isSelfVisible = false,
-				    areParentsVisible = false;
-				var _cb = function _cb() {
-					if (isSelfVisible && areParentsVisible) {
-						if (cb) cb(elm);
-						resolve(elm);
-					}
-				};
-
-				// check if element itself is not visible
-				if (!sDom.isVisible(elm)) {
-					(function () {
-						var selfObserver = new MutationObserver(function (mutations) {
-							mutations.forEach(function (mutation) {
-								// check that is the style whos changed
-								if (mutation.attributeName === 'style' || mutation.attributeName === 'class') {
-									// check if is visible
-									if (sDom.isVisible(mutation.target)) {
-										// update
-										isSelfVisible = true;
-										// callback
-										_cb();
-										// stop observe
-										selfObserver.disconnect();
+							// added nodes
+							if (mutation.addedNodes) {
+								// let _callback = null,
+								// 	_groupedNodes = [];
+								// check if want grouped nodes in callback
+								[].forEach.call(mutation.addedNodes, function (node) {
+									// loop on each callbacks to find a match
+									for (var insert_id in _insertDomElementsCallbacks) {
+										var insertDomParams = _insertDomElementsCallbacks[insert_id],
+										    once = insertDomParams.once,
+										    once_added = insertDomParams.once_added;
+										if (!once || !once_added) {
+											// check if the selector match
+											if ((0, _matches2.default)(node, insertDomParams.selector)) {
+												// check if we need to group the elements in one
+												// callback call
+												insertDomParams.nodes.push(node);
+												if (insertDomParams.groupedNodes) {
+													clearTimeout(insertDomParams.timeout);
+													insertDomParams.timeout = setTimeout(insertDomParams.added_callback.bind(null, insertDomParams));
+												} else {
+													insertDomParams.added_callback(insertDomParams);
+												}
+												// if once, update the once_added property
+												if (once) {
+													_insertDomElementsCallbacks[insert_id].once_added = true;
+													// if we don't have any removed callback
+													// we delete the parameters from the stack
+													if (!insertDomParams._removed_callback) {
+														delete _insertDomElementsCallbacks[insert_id];
+													}
+												}
+											}
+										}
 									}
-								}
-							});
-						});
-						selfObserver.observe(elm, { attributes: true });
-					})();
-				} else {
-					isSelfVisible = true;
-				}
+								});
+							}
 
-				// get the closest not visible element
-				// if found, we monitor it to check when it is visible
-				var closestNotVisible = sDom.closestNotVisible(elm);
-				if (closestNotVisible) {
-					(function () {
-						var observer = new MutationObserver(function (mutations) {
-							mutations.forEach(function (mutation) {
-								// check that is the style whos changed
-								if (mutation.attributeName === 'style' || mutation.attributeName === 'class') {
-									// check if is visible
-									if (sDom.isVisible(mutation.target)) {
-										// update
-										areParentsVisible = true;
-										// callback
-										_cb();
-										// stop observe
-										observer.disconnect();
-									}
-								}
-							});
-						});
-						observer.observe(closestNotVisible, { attributes: true });
-					})();
-				} else {
-					areParentsVisible = true;
-				}
-
-				// callback
-				_cb();
-			});
-		},
-
-		/**
-	  * Register a callback to be launched when the element is visible
-	  * @param  {element}   elm The element to observe
-	  * @param  {Function} cb  The callback to launch
-	  * @return {[type]}       [description]
-	  */
-		whenViewportVisible: function whenViewportVisible(elm) {
-			var cb = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
-
-			return new Promise(function (resolve, reject) {
-				var inViewport = false,
-				    isVisible = false,
-				    _cb = function _cb() {
-					if (isVisible && inViewport) {
-						document.removeEventListener('scroll', checkViewport);
-						window.removeEventListener('resize', checkViewport);
-						if (cb) cb(elm);
-						resolve(elm);
-					}
-				};
-				var checkViewport = function checkViewport(e) {
-					inViewport = sDom.inViewport(elm, { top: 50, right: 50, bottom: 50, left: 50 });
-					_cb();
-				};
-
-				// detect when visible
-				sDom.whenVisible(elm).then(function (elm) {
-					isVisible = true;
-					_cb();
-				});
-
-				// listen for resize
-				document.addEventListener('scroll', checkViewport);
-				window.addEventListener('resize', checkViewport);
-				setTimeout(function () {
-					checkViewport(null);
-				});
-			});
-		},
-
-		/**
-	  * Grab all the visible element
-	  * And apply the callback when a new item match the selector
-	  */
-		querySelectorVisibleLive: function querySelectorVisibleLive(selector, cb, settings) {
-			sDom.querySelectorLive(selector, function (elm) {
-				// check if is array
-				if (elm instanceof Array) {
-					elm.forEach(function (e) {
-						sDom.whenVisible(e).then(function (e) {
-							cb(e);
-						});
-					});
-				} else {
-					// check if is visible
-					sDom.whenVisible(elm).then(function (elm) {
-						cb(elm);
-					});
-				}
-			}, settings);
-		},
-
-		/**
-	  * Grab all the visible element just once
-	  * And apply the callback when a new item match the selector
-	  */
-		querySelectorVisibleLiveOnce: function querySelectorVisibleLiveOnce(selector, cb, settings) {
-			// extend settings
-			settings = _extends({}, settings, { once: true });
-			// make the selection
-			sDom.querySelectorLive(selector, function (elm) {
-				// check if is array
-				if (elm instanceof Array) {
-					elm.forEach(function (e) {
-						sDom.whenVisible(e).then(function (e) {
-							cb(e);
-						});
-					});
-				} else {
-					// check if is visible
-					sDom.whenVisible(elm).then(function (elm) {
-						cb(elm);
-					});
-				}
-			}, settings);
-		},
-
-		/**
-	  * Grab all the visible elements
-	  */
-		querySelectorVisible: function querySelectorVisible(selector) {
-			var rootNode = arguments.length <= 1 || arguments[1] === undefined ? document : arguments[1];
-
-			// return array
-			var elms = [];
-			// grab the elements in the page
-			[].forEach.call(rootNode.querySelectorAll(selector), function (elm) {
-				if (sDom.isVisible(elm) && !sDom.closestNotVisible(elm)) {
-					elms.push(elm);
-				}
-			});
-			// return the elements
-			return elms;
-		},
-
-		/**
-	  * Grab all the visible element just once
-	  * And apply the callback when a new item match the selector
-	  */
-		querySelectorViewportVisibleLiveOnce: function querySelectorViewportVisibleLiveOnce(selector, cb, settings) {
-			// extend settings
-			settings = _extends({}, settings, { once: true });
-			// make the selection
-			sDom.querySelectorLive(selector, function (elm) {
-				// check if is array
-				if (elm instanceof Array) {
-					elm.forEach(function (e) {
-						sDom.whenViewportVisible(e).then(function (e) {
-							cb(e);
-						});
-					});
-				} else {
-					// check if is visible
-					sDom.whenViewportVisible(elm).then(function (elm) {
-						cb(elm);
-					});
-				}
-			}, settings);
-		},
-
-		/**
-	  * Grab all the visible viewport
-	  */
-		querySelectorViewportVisible: function querySelectorViewportVisible(selector) {
-			var rootNode = arguments.length <= 1 || arguments[1] === undefined ? document : arguments[1];
-
-			// return array
-			var elms = [];
-			// grab the elements in the page
-			[].forEach.call(rootNode.querySelectorAll(selector), function (elm) {
-				if (sDom.inViewport(elm) && sDom.isVisible(elm) && !sDom.closestNotVisible(elm)) {
-					elms.push(elm);
-				}
-			});
-			// return the elements
-			return elms;
-		},
-
-		/**
-	  * Get the element once
-	  */
-		querySelectorLiveOnce: function querySelectorLiveOnce(selector, cb) {
-			var settings = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-			// extend settings
-			settings = _extends({}, settings, {
-				once: true
-			});
-			sDom.querySelectorLive(selector, cb, settings);
-		},
-
-		/**
-	  * Make a selector detectable when new element are pushed in the page
-	  */
-		querySelectorLive: function querySelectorLive(selector, cb) {
-			var settings = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-
-			// extend settings
-			settings = _extends({
-				rootNode: null,
-				groupedNodes: false,
-				once: false
-			}, settings);
-
-			var _this = undefined;
-
-			// use the animation hack to detect
-			// new items in the page
-			var detection_id = 's-query-selector-live-' + _sTools2.default.uniqid();
-
-			// add the callback in stack
-			_insertDomElementsCallbacks[detection_id] = {
-				once: settings.once,
-				once_added: false,
-				once_removed: false,
-				detection_id: detection_id,
-				_added_callback: typeof cb == 'function' ? cb : cb[0] ? cb[0] : null,
-				added_callback: function added_callback(_this) {
-					// save the detection id into node
-					// in order to be able to detect the deletion of it
-					if (_this.nodes) {
-						_this.nodes.forEach(function (node) {
-							node._s_query_selector_live_id = _this.detection_id;
-						});
-					}
-					if (!_this._added_callback) return;
-					if (_this.nodes.length > 1) {
-						_this._added_callback(_this.nodes);
-					} else if (_this.nodes.length == 1) {
-						_this._added_callback(_this.nodes[0]);
-					}
-					_this.nodes = [];
-				},
-				_removed_callback: cb instanceof Array && cb[1] ? cb[1] : null,
-				removed_callback: function removed_callback(_this) {
-					if (!_this._removed_callback) return;
-					if (_this.nodes.length > 1) {
-						_this._removed_callback(_this.nodes);
-					} else if (_this.nodes.length == 1) {
-						_this._removed_callback(_this.nodes[0]);
-					}
-					_this.nodes = [];
-				},
-				selector: selector,
-				rootNode: settings.rootNode,
-				groupedNodes: settings.groupedNodes,
-				nodes: [],
-				timeout: null
-			};
-
-			// make a query on existing elements
-			sDom.domReady(function () {
-
-				// rootNode
-				if (!settings.rootNode) {
-					settings.rootNode = document.body;
-				}
-
-				// check how we can detect new elements
-				if (window.MutationObserver != null) {
-
-					// make sure we try to get dom nodes
-					// AFTER first js loop that handle frameworks
-					// like angular, etc...
-					//setTimeout(() => {
-
-					if (!settings.rootNode._s_insert_mutation_observer) {
-
-						settings.rootNode._s_insert_mutation_observer = new MutationObserver(function (mutations) {
-
-							// check if what we need has been added
-							mutations.forEach(function (mutation) {
-
-								// added nodes
-								if (mutation.addedNodes) {
-									// let _callback = null,
-									// 	_groupedNodes = [];
-									// check if want grouped nodes in callback
-									[].forEach.call(mutation.addedNodes, function (node) {
-										// loop on each callbacks to find a match
+							// removed nodes
+							if (mutation.removedNodes) {
+								// let _callback = null,
+								// 	_groupedNodes = [];
+								// check if want grouped nodes in callback
+								[].forEach.call(mutation.removedNodes, function (node) {
+									// loop on each callbacks to find a match
+									if (node.nodeName != '#text') {
 										for (var insert_id in _insertDomElementsCallbacks) {
+
 											var insertDomParams = _insertDomElementsCallbacks[insert_id],
 											    once = insertDomParams.once,
-											    once_added = insertDomParams.once_added;
-											if (!once || !once_added) {
-												// check if the selector match
-												if (sDom.matches(node, insertDomParams.selector)) {
-													// check if we need to group the elements in one
-													// callback call
+											    once_removed = insertDomParams.once_removed;
+											if (!once || !once_removed) {
+
+												if (node._s_query_selector_live_id == insert_id) {
+													// if (__matches(node, _insertDomElementsCallbacks[insert_id].selector)) {
+													// check if we need to group the elements
+													// to pass to callback
 													insertDomParams.nodes.push(node);
 													if (insertDomParams.groupedNodes) {
 														clearTimeout(insertDomParams.timeout);
-														insertDomParams.timeout = setTimeout(insertDomParams.added_callback.bind(null, insertDomParams));
+														insertDomParams.timeout = setTimeout(insertDomParams.removed_callback.bind(null, insertDomParams));
 													} else {
-														insertDomParams.added_callback(insertDomParams);
+														insertDomParams.removed_callback(insertDomParams);
 													}
-													// if once, update the once_added property
+													// if once, we remove the parameters from the stack
+													// because we don't want to check this selector again
 													if (once) {
-														_insertDomElementsCallbacks[insert_id].once_added = true;
-														// if we don't have any removed callback
-														// we delete the parameters from the stack
-														if (!insertDomParams._removed_callback) {
-															delete _insertDomElementsCallbacks[insert_id];
-														}
+														delete _insertDomElementsCallbacks[insert_id];
 													}
 												}
 											}
 										}
-									});
-								}
-
-								// removed nodes
-								if (mutation.removedNodes) {
-									// let _callback = null,
-									// 	_groupedNodes = [];
-									// check if want grouped nodes in callback
-									[].forEach.call(mutation.removedNodes, function (node) {
-										// loop on each callbacks to find a match
-										if (node.nodeName != '#text') {
-											for (var insert_id in _insertDomElementsCallbacks) {
-
-												var insertDomParams = _insertDomElementsCallbacks[insert_id],
-												    once = insertDomParams.once,
-												    once_removed = insertDomParams.once_removed;
-												if (!once || !once_removed) {
-
-													if (node._s_query_selector_live_id == insert_id) {
-														// if (sDom.matches(node, _insertDomElementsCallbacks[insert_id].selector)) {
-														// check if we need to group the elements
-														// to pass to callback
-														insertDomParams.nodes.push(node);
-														if (insertDomParams.groupedNodes) {
-															clearTimeout(insertDomParams.timeout);
-															insertDomParams.timeout = setTimeout(insertDomParams.removed_callback.bind(null, insertDomParams));
-														} else {
-															insertDomParams.removed_callback(insertDomParams);
-														}
-														// if once, we remove the parameters from the stack
-														// because we don't want to check this selector again
-														if (once) {
-															delete _insertDomElementsCallbacks[insert_id];
-														}
-													}
-												}
-											}
-										}
-									});
-								}
-							});
-						});
-						settings.rootNode._s_insert_mutation_observer.observe(settings.rootNode, {
-							childList: true
-						});
-					}
-
-					// parse the dom to find the currently present elements
-					[].forEach.call(settings.rootNode.querySelectorAll(selector), function (elm) {
-						_insertDomElementsCallbacks[detection_id].nodes.push(elm);
-						if (_insertDomElementsCallbacks[detection_id].groupedNodes) {
-							clearTimeout(_insertDomElementsCallbacks[detection_id].timeout);
-							_insertDomElementsCallbacks[detection_id].timeout = setTimeout(_insertDomElementsCallbacks[detection_id].added_callback.bind(null, _insertDomElementsCallbacks[detection_id]));
-						} else {
-							_insertDomElementsCallbacks[detection_id].added_callback(_insertDomElementsCallbacks[detection_id]);
-						}
-					});
-				} else {
-					// add the animation style in DOM
-					var css = selector + (' { \n\t\t\t\t\t-webkit-animation:' + detection_id + ' 0.001s;\n\t\t\t\t\t-moz-animation:' + detection_id + ' 0.001s;\n\t\t\t\t\t-ms-animation:' + detection_id + ' 0.001s;\n\t\t\t\t\tanimation:' + detection_id + ' 0.001s;\n\t\t\t\t}\n\t\t\t\t@keyframes ' + detection_id + ' {\n\t\t\t\t\tfrom { opacity: .99; }\n\t\t\t\t\tto { opacity: 1; }\n\t\t\t\t}');
-					var style = document.createElement('style');
-					style.type = 'text/css';
-					if (style.styleSheet) {
-						style.styleSheet.cssText = css;
-					} else {
-						style.appendChild(document.createTextNode(css));
-					}
-					// now we listen for animation end
-					// but only once
-					if (!_insertAnimationListener) {
-						_insertAnimationListener = true;
-						document.addEventListener('animationend', function (e) {
-							if (_insertDomElementsCallbacks[e.animationName]) {
-								_insertDomElementsCallbacks[e.animationName].callback(e.target);
+									}
+								});
 							}
 						});
-					}
-					// append the animation in head
-					document.head.appendChild(style);
+					});
+					settings.rootNode._s_insert_mutation_observer.observe(settings.rootNode, {
+						childList: true
+					});
 				}
-			});
-		},
 
-		/**
-	  * Dom ready
-	  */
-		domReady: function domReady() {
-			var cb = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
-
-			return new Promise(function (resolve, reject) {
-				var _domReady = function _domReady() {
-					if (!document.body || /(un|ing)/.test(document.readyState)) {
-						setTimeout(function () {
-							_domReady();
-						}, 9);
+				// parse the dom to find the currently present elements
+				[].forEach.call(settings.rootNode.querySelectorAll(selector), function (elm) {
+					_insertDomElementsCallbacks[detection_id].nodes.push(elm);
+					if (_insertDomElementsCallbacks[detection_id].groupedNodes) {
+						clearTimeout(_insertDomElementsCallbacks[detection_id].timeout);
+						_insertDomElementsCallbacks[detection_id].timeout = setTimeout(_insertDomElementsCallbacks[detection_id].added_callback.bind(null, _insertDomElementsCallbacks[detection_id]));
 					} else {
-						if (cb) cb();
-						resolve();
+						_insertDomElementsCallbacks[detection_id].added_callback(_insertDomElementsCallbacks[detection_id]);
 					}
-				};
-				_domReady();
-			});
-		},
-
-		/**
-	  * Access dataset
-	  */
-		dataset: function dataset(elm, key) {
-			var value = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
-
-			if (!elm.getAttribute) return;
-			if (!value) {
-				// try to get
-				var v = elm.dataset[key];
-				// let v = _get(elm, 'dataset.'+key);
-				if (v) return v;
-				v = elm.getAttribute('data-' + _sString2.default.uncamelize(key));
-				return v;
+				});
 			} else {
-				// try to set the value
-				var dataset = elm.dataset;
-				if (dataset) {
-					if (elm.dataset[key]) {
-						elm.dataset[key] = value;
-					} else {
-						// set the data through setAttribute
-						elm.setAttribute('data-' + _sString2.default.uncamelize(key), value);
-					}
+				// add the animation style in DOM
+				var css = selector + (' { \n\t\t\t\t-webkit-animation:' + detection_id + ' 0.001s;\n\t\t\t\t-moz-animation:' + detection_id + ' 0.001s;\n\t\t\t\t-ms-animation:' + detection_id + ' 0.001s;\n\t\t\t\tanimation:' + detection_id + ' 0.001s;\n\t\t\t}\n\t\t\t@keyframes ' + detection_id + ' {\n\t\t\t\tfrom { opacity: .99; }\n\t\t\t\tto { opacity: 1; }\n\t\t\t}');
+				var style = document.createElement('style');
+				style.type = 'text/css';
+				if (style.styleSheet) {
+					style.styleSheet.cssText = css;
 				} else {
-					// set the data through setAttribute
-					// cause no support for dataset
-					elm.setAttribute('data-' + _sString2.default.uncamelize(key), value);
+					style.appendChild(document.createTextNode(css));
 				}
-			}
-		},
-
-		/**
-	  * Scroll top
-	  */
-		scrollTop: function scrollTop() {
-			return window.pageYOffset || document.scrollTop || document.body.scrollTop;
-		},
-
-		/**
-	  * Get offset left of an element
-	  */
-		offsetLeft: function offsetLeft(elm) {
-			var offsetLeft = 0;
-			do {
-				if (!isNaN(elm.offsetLeft)) {
-					offsetLeft += elm.offsetLeft;
+				// now we listen for animation end
+				// but only once
+				if (!_insertAnimationListener) {
+					_insertAnimationListener = true;
+					document.addEventListener('animationend', function (e) {
+						if (_insertDomElementsCallbacks[e.animationName]) {
+							_insertDomElementsCallbacks[e.animationName].callback(e.target);
+						}
+					});
 				}
-			} while (elm = elm.offsetParent);
-			return offsetLeft;
-		},
-
-		/**
-	  * Get offset top of an element
-	  */
-		offsetTop: function offsetTop(elm) {
-			var offsetTop = 0;
-			do {
-				if (!isNaN(elm.offsetTop)) {
-					offsetTop += elm.offsetTop;
-				}
-			} while (elm = elm.offsetParent);
-			return offsetTop;
-		},
-
-		/**
-	  * Get offset of an element
-	  */
-		offset: function offset(elm) {
-			var body = void 0,
-			    box = void 0,
-			    clientLeft = void 0,
-			    clientTop = void 0,
-			    docEl = void 0,
-			    left = void 0,
-			    scrollLeft = void 0,
-			    scrollTop = void 0,
-			    top = void 0,
-			    transX = void 0,
-			    transY = void 0;
-			box = elm.getBoundingClientRect();
-			body = document.body;
-			docEl = document.documentElement;
-			scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
-			scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
-			clientTop = docEl.clientTop || body.clientTop || 0;
-			clientLeft = docEl.clientLeft || body.clientLeft || 0;
-			transX = sDom.getTranslate(elm, 'x');
-			transY = sDom.getTranslate(elm, 'y');
-			top = box.top + scrollTop - clientTop + transY;
-			left = box.left + scrollLeft - clientLeft + transX;
-			return {
-				top: Math.round(top),
-				left: Math.round(left)
-			};
-		},
-
-		/**
-	  * Get element translate values
-	  */
-		getTranslate: function getTranslate(elm, what) {
-			if (!window.getComputedStyle) return;
-			var idx = void 0,
-			    mat = void 0,
-			    style = void 0,
-			    transform = void 0;
-			style = getComputedStyle(elm);
-			transform = style.transform || style.webkitTransform || style.mozTransform || style.msTransform;
-			mat = transform.match(/^matrix3d\((.+)\)$/);
-			if (mat) {
-				idx = {
-					x: 12,
-					y: 13,
-					z: 14
-				};
-				return parseFloat(mat[1].split(', ')[idx[what]]);
+				// append the animation in head
+				document.head.appendChild(style);
 			}
-			mat = transform.match(/^matrix\((.+)\)$/);
-			idx = {
-				x: 4,
-				y: 5,
-				z: 6
-			};
-			if (mat) {
-				return parseFloat(mat[1].split(', ')[idx[what]]);
-			} else {
-				return 0;
-			}
-		},
-
-		/**
-	  * Get closest 
-	  */
-		closest: function closest(elm, selector) {
-			elm = elm.parentNode;
-			while (elm && elm != document) {
-				if (sDom.matches(elm, selector)) {
-					return elm;
-				}
-				elm = elm.parentNode;
-			}
-			return false;
-		},
-
-		/**
-	  * Next
-	  */
-		next: function next(elm, selector) {
-			elm = elm.nextSibling;
-			while (elm) {
-				if (sDom.matches(elm, selector)) {
-					return elm;
-				}
-				elm = elm.nextSibling;
-			}
-			return false;
-		},
-
-		/**
-	  * Previous
-	  */
-		previous: function previous(elm, selector) {
-			elm = elm.previousSibling;
-			while (elm) {
-				if (sDom.matches(elm, selector)) {
-					return elm;
-				}
-				elm = elm.previousSibling;
-			}
-			return false;
-		}
-	};
-
-	exports.default = sDom;
+		});
+	}
 
 /***/ },
-/* 6 */
+/* 11 */
+/***/ function(module, exports) {
+
+	// mutationobserver-shim v0.3.1 (github.com/megawac/MutationObserver.js)
+	// Authors: Graeme Yeates (github.com/megawac) 
+	window.MutationObserver=window.MutationObserver||window.WebKitMutationObserver||function(r){function w(a){this.g=[];this.k=a}function H(a){(function c(){var d=a.takeRecords();d.length&&a.k(d,a);a.f=setTimeout(c,w._period)})()}function t(a){var b={type:null,target:null,addedNodes:[],removedNodes:[],previousSibling:null,nextSibling:null,attributeName:null,attributeNamespace:null,oldValue:null},c;for(c in a)b[c]!==r&&a[c]!==r&&(b[c]=a[c]);return b}function I(a,b){var c=B(a,b);return function(d){var g=
+	d.length,n;b.a&&c.a&&A(d,a,c.a,b.d);if(b.b||b.e)n=J(d,a,c,b);if(n||d.length!==g)c=B(a,b)}}function A(a,b,c,d){for(var g={},n=b.attributes,h,m,C=n.length;C--;)h=n[C],m=h.name,d&&d[m]===r||(h.value!==c[m]&&a.push(t({type:"attributes",target:b,attributeName:m,oldValue:c[m],attributeNamespace:h.namespaceURI})),g[m]=!0);for(m in c)g[m]||a.push(t({target:b,type:"attributes",attributeName:m,oldValue:c[m]}))}function J(a,b,c,d){function g(b,c,g,h,y){var r=b.length-1;y=-~((r-y)/2);for(var f,k,e;e=b.pop();)f=
+	g[e.h],k=h[e.i],d.b&&y&&Math.abs(e.h-e.i)>=r&&(a.push(t({type:"childList",target:c,addedNodes:[f],removedNodes:[f],nextSibling:f.nextSibling,previousSibling:f.previousSibling})),y--),d.a&&k.a&&A(a,f,k.a,d.d),d.c&&3===f.nodeType&&f.nodeValue!==k.c&&a.push(t({type:"characterData",target:f})),d.e&&n(f,k)}function n(b,c){for(var x=b.childNodes,p=c.b,y=x.length,w=p?p.length:0,f,k,e,l,u,z=0,v=0,q=0;v<y||q<w;)l=x[v],u=(e=p[q])&&e.j,l===u?(d.a&&e.a&&A(a,l,e.a,d.d),d.c&&e.c!==r&&l.nodeValue!==e.c&&a.push(t({type:"characterData",
+	target:l})),k&&g(k,b,x,p,z),d.e&&(l.childNodes.length||e.b&&e.b.length)&&n(l,e),v++,q++):(h=!0,f||(f={},k=[]),l&&(f[e=D(l)]||(f[e]=!0,-1===(e=E(p,l,q,"j"))?d.b&&(a.push(t({type:"childList",target:b,addedNodes:[l],nextSibling:l.nextSibling,previousSibling:l.previousSibling})),z++):k.push({h:v,i:e})),v++),u&&u!==x[v]&&(f[e=D(u)]||(f[e]=!0,-1===(e=E(x,u,v))?d.b&&(a.push(t({type:"childList",target:c.j,removedNodes:[u],nextSibling:p[q+1],previousSibling:p[q-1]})),z--):k.push({h:e,i:q})),q++));k&&g(k,b,
+	x,p,z)}var h;n(b,c);return h}function B(a,b){var c=!0;return function g(a){var h={j:a};!b.c||3!==a.nodeType&&8!==a.nodeType?(b.a&&c&&1===a.nodeType&&(h.a=F(a.attributes,function(a,c){if(!b.d||b.d[c.name])a[c.name]=c.value;return a})),c&&(b.b||b.c||b.a&&b.e)&&(h.b=K(a.childNodes,g)),c=b.e):h.c=a.nodeValue;return h}(a)}function D(a){try{return a.id||(a.mo_id=a.mo_id||G++)}catch(b){try{return a.nodeValue}catch(c){return G++}}}function K(a,b){for(var c=[],d=0;d<a.length;d++)c[d]=b(a[d],d,a);return c}
+	function F(a,b){for(var c={},d=0;d<a.length;d++)c=b(c,a[d],d,a);return c}function E(a,b,c,d){for(;c<a.length;c++)if((d?a[c][d]:a[c])===b)return c;return-1}w._period=30;w.prototype={observe:function(a,b){for(var c={a:!!(b.attributes||b.attributeFilter||b.attributeOldValue),b:!!b.childList,e:!!b.subtree,c:!(!b.characterData&&!b.characterDataOldValue)},d=this.g,g=0;g<d.length;g++)d[g].m===a&&d.splice(g,1);b.attributeFilter&&(c.d=F(b.attributeFilter,function(a,b){a[b]=!0;return a}));d.push({m:a,l:I(a,
+	c)});this.f||H(this)},takeRecords:function(){for(var a=[],b=this.g,c=0;c<b.length;c++)b[c].l(a);return a},disconnect:function(){this.g=[];clearTimeout(this.f);this.f=null}};var G=1;return w}(void 0);
+
+
+/***/ },
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(setImmediate) {(function (root) {
@@ -1121,13 +959,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	})(this);
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7).setImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(13).setImmediate))
 
 /***/ },
-/* 7 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(8).nextTick;
+	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(14).nextTick;
 	var apply = Function.prototype.apply;
 	var slice = Array.prototype.slice;
 	var immediateIds = {};
@@ -1203,10 +1041,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
 	  delete immediateIds[id];
 	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7).setImmediate, __webpack_require__(7).clearImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(13).setImmediate, __webpack_require__(13).clearImmediate))
 
 /***/ },
-/* 8 */
+/* 14 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -1303,22 +1141,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 9 */
-/***/ function(module, exports) {
-
-	// mutationobserver-shim v0.3.1 (github.com/megawac/MutationObserver.js)
-	// Authors: Graeme Yeates (github.com/megawac) 
-	window.MutationObserver=window.MutationObserver||window.WebKitMutationObserver||function(r){function w(a){this.g=[];this.k=a}function H(a){(function c(){var d=a.takeRecords();d.length&&a.k(d,a);a.f=setTimeout(c,w._period)})()}function t(a){var b={type:null,target:null,addedNodes:[],removedNodes:[],previousSibling:null,nextSibling:null,attributeName:null,attributeNamespace:null,oldValue:null},c;for(c in a)b[c]!==r&&a[c]!==r&&(b[c]=a[c]);return b}function I(a,b){var c=B(a,b);return function(d){var g=
-	d.length,n;b.a&&c.a&&A(d,a,c.a,b.d);if(b.b||b.e)n=J(d,a,c,b);if(n||d.length!==g)c=B(a,b)}}function A(a,b,c,d){for(var g={},n=b.attributes,h,m,C=n.length;C--;)h=n[C],m=h.name,d&&d[m]===r||(h.value!==c[m]&&a.push(t({type:"attributes",target:b,attributeName:m,oldValue:c[m],attributeNamespace:h.namespaceURI})),g[m]=!0);for(m in c)g[m]||a.push(t({target:b,type:"attributes",attributeName:m,oldValue:c[m]}))}function J(a,b,c,d){function g(b,c,g,h,y){var r=b.length-1;y=-~((r-y)/2);for(var f,k,e;e=b.pop();)f=
-	g[e.h],k=h[e.i],d.b&&y&&Math.abs(e.h-e.i)>=r&&(a.push(t({type:"childList",target:c,addedNodes:[f],removedNodes:[f],nextSibling:f.nextSibling,previousSibling:f.previousSibling})),y--),d.a&&k.a&&A(a,f,k.a,d.d),d.c&&3===f.nodeType&&f.nodeValue!==k.c&&a.push(t({type:"characterData",target:f})),d.e&&n(f,k)}function n(b,c){for(var x=b.childNodes,p=c.b,y=x.length,w=p?p.length:0,f,k,e,l,u,z=0,v=0,q=0;v<y||q<w;)l=x[v],u=(e=p[q])&&e.j,l===u?(d.a&&e.a&&A(a,l,e.a,d.d),d.c&&e.c!==r&&l.nodeValue!==e.c&&a.push(t({type:"characterData",
-	target:l})),k&&g(k,b,x,p,z),d.e&&(l.childNodes.length||e.b&&e.b.length)&&n(l,e),v++,q++):(h=!0,f||(f={},k=[]),l&&(f[e=D(l)]||(f[e]=!0,-1===(e=E(p,l,q,"j"))?d.b&&(a.push(t({type:"childList",target:b,addedNodes:[l],nextSibling:l.nextSibling,previousSibling:l.previousSibling})),z++):k.push({h:v,i:e})),v++),u&&u!==x[v]&&(f[e=D(u)]||(f[e]=!0,-1===(e=E(x,u,v))?d.b&&(a.push(t({type:"childList",target:c.j,removedNodes:[u],nextSibling:p[q+1],previousSibling:p[q-1]})),z--):k.push({h:e,i:q})),q++));k&&g(k,b,
-	x,p,z)}var h;n(b,c);return h}function B(a,b){var c=!0;return function g(a){var h={j:a};!b.c||3!==a.nodeType&&8!==a.nodeType?(b.a&&c&&1===a.nodeType&&(h.a=F(a.attributes,function(a,c){if(!b.d||b.d[c.name])a[c.name]=c.value;return a})),c&&(b.b||b.c||b.a&&b.e)&&(h.b=K(a.childNodes,g)),c=b.e):h.c=a.nodeValue;return h}(a)}function D(a){try{return a.id||(a.mo_id=a.mo_id||G++)}catch(b){try{return a.nodeValue}catch(c){return G++}}}function K(a,b){for(var c=[],d=0;d<a.length;d++)c[d]=b(a[d],d,a);return c}
-	function F(a,b){for(var c={},d=0;d<a.length;d++)c=b(c,a[d],d,a);return c}function E(a,b,c,d){for(;c<a.length;c++)if((d?a[c][d]:a[c])===b)return c;return-1}w._period=30;w.prototype={observe:function(a,b){for(var c={a:!!(b.attributes||b.attributeFilter||b.attributeOldValue),b:!!b.childList,e:!!b.subtree,c:!(!b.characterData&&!b.characterDataOldValue)},d=this.g,g=0;g<d.length;g++)d[g].m===a&&d.splice(g,1);b.attributeFilter&&(c.d=F(b.attributeFilter,function(a,b){a[b]=!0;return a}));d.push({m:a,l:I(a,
-	c)});this.f||H(this)},takeRecords:function(){for(var a=[],b=this.g,c=0;c<b.length;c++)b[c].l(a);return a},disconnect:function(){this.g=[];clearTimeout(this.f);this.f=null}};var G=1;return w}(void 0);
-
-
-/***/ },
-/* 10 */
+/* 15 */
 /***/ function(module, exports) {
 
 	/*
@@ -1564,7 +1387,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 11 */
+/* 16 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1595,265 +1418,434 @@ return /******/ (function(modules) { // webpackBootstrap
 	})(window.document, Element.prototype);
 
 /***/ },
-/* 12 */
+/* 17 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.default = matches;
+	/**
+	 * Polyfill for the matches js method
+	 */
+	function matches(el, selector) {
+		if (el.nodeName == '#comment' || el.nodeName == '#text') {
+			return false;
+		}
+		var p = Element.prototype;
+		var f = p.matches || p.webkitMatchesSelector || p.mozMatchesSelector || p.msMatchesSelector || function (s) {
+			return [].indexOf.call(document.querySelectorAll(s), this) !== -1;
+		};
+		return f.call(el, selector);
+	}
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.default = domReady;
+
+	var _promisePolyfill = __webpack_require__(12);
+
+	var _promisePolyfill2 = _interopRequireDefault(_promisePolyfill);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	if (!window.Promise) {
+		window.Promise = _promisePolyfill2.default;
+	} /**
+	   * Dom ready
+	   */
+
+
+	function domReady() {
+		var cb = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+
+		return new Promise(function (resolve, reject) {
+			var _domReady = function _domReady() {
+				if (!document.body || /(un|ing)/.test(document.readyState)) {
+					setTimeout(function () {
+						_domReady();
+					}, 9);
+				} else {
+					if (cb) cb();
+					resolve();
+				}
+			};
+			_domReady();
+		});
+	}
+
+/***/ },
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _sTools = __webpack_require__(3);
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; /**
+	                                                                                                                                                                                                                                                                   * Grab all the visible element just once
+	                                                                                                                                                                                                                                                                   * And apply the callback when a new item match the selector
+	                                                                                                                                                                                                                                                                   */
 
-	var _sTools2 = _interopRequireDefault(_sTools);
 
-	var _sString = __webpack_require__(4);
+	exports.default = querySelectorVisibleLiveOnce;
 
-	var _sString2 = _interopRequireDefault(_sString);
+	var _querySelectorLive = __webpack_require__(10);
 
-	var _sDom = __webpack_require__(5);
+	var _querySelectorLive2 = _interopRequireDefault(_querySelectorLive);
 
-	var _sDom2 = _interopRequireDefault(_sDom);
+	var _whenVisible = __webpack_require__(20);
 
-	var _sObject = __webpack_require__(13);
-
-	var _sObject2 = _interopRequireDefault(_sObject);
-
-	var _sMixin = __webpack_require__(14);
-
-	var _sMixin2 = _interopRequireDefault(_sMixin);
-
-	var _sWatchable = __webpack_require__(15);
-
-	var _sWatchable2 = _interopRequireDefault(_sWatchable);
-
-	var _sWatchableAttributes = __webpack_require__(56);
-
-	var _sWatchableAttributes2 = _interopRequireDefault(_sWatchableAttributes);
+	var _whenVisible2 = _interopRequireDefault(_whenVisible);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
-
-	// store the settings for the different
-	// components types
-	var _sugarTypesSettings = {};
-
-	var SElement = function (_SMix$in) {
-		_inherits(SElement, _SMix$in);
-
-		/**
-	  * Setup
-	  */
-
-		SElement.setup = function setup(name, type, settings) {
-			if (!_sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
-			_sugarTypesSettings[name][type] = settings;
-		};
-
-		/**
-	  * Watch stack
-	  */
-
-
-		/**
-	  * The dom element reference
-	  */
-
-
-		/**
-	  * Store the attributes
-	  */
-
-
-		/**	
-	  * Constructor
-	  */
-
-		function SElement(elm) {
-			_classCallCheck(this, SElement);
-
-			// save the element reference
-
-			var _this = _possibleConstructorReturn(this, _SMix$in.call(this));
-
-			// init parent
-
-
-			_this._watchStack = {};
-			_this.elm = null;
-			_this.attr = {};
-			_this._attrs = {};
-			_this.elm = elm;
-			// process attributes
-			[].forEach.call(_this.elm.attributes, function (attr) {
-				_this._newAttribute(attr.name, attr.value);
-			});
-
-			// set the api in the dom element
-			_this.elm[_this.name] = _this;
-
-			// create a uniqid for the element
-			_this.uniqid = _sTools2.default.uniqid();
-
-			// set the uniqid to the element
-			_this.elm.setAttribute('data-s-element-id', _this.uniqid);
-
-			// check attributes changes to update settings
-			var observer = new MutationObserver(function (mutations) {
-				// loop on mutations
-				mutations.forEach(function (mutation) {
-					// update the attr property
-					var val = _this.elm.getAttribute(mutation.attributeName);
-					// make a new attribute
-					var camelName = _this._newAttribute(mutation.attributeName);
-					// set the value
-					_this.attr[camelName] = mutation.target.getAttribute(mutation.attributeName);
+	function querySelectorVisibleLiveOnce(selector, cb, settings) {
+		// extend settings
+		settings = _extends({}, settings, { once: true });
+		// make the selection
+		(0, _querySelectorLive2.default)(selector, function (elm) {
+			// check if is array
+			if (elm instanceof Array) {
+				elm.forEach(function (e) {
+					(0, _whenVisible2.default)(e).then(function (e) {
+						cb(e);
+					});
 				});
-			});
-			// observe the node itself
-			observer.observe(_this.elm, {
-				addedNodes: false,
-				attributeName: true,
-				characterData: true,
-				subtree: false,
-				attributeOldValue: true,
-				characterDataOldValue: true
-			});
-
-			// listen when the element is added to the dom
-			setTimeout(function () {
-				var cbs = [function (elm) {
-					_this.onAdded(elm);
-				}];
-				if (typeof _this.onRemoved == 'function') {
-					cbs.push(function (elm) {
-						_this.onRemoved(elm);
-					});
-				}
-				if (typeof _this.onAdded == 'function') {
-					_sDom2.default.querySelectorLiveOnce('[data-s-element-id="' + _this.uniqid + '"]', cbs);
-				}
-				// check if is the onVisible method
-				if (typeof _this.onVisible == 'function') {
-					_sDom2.default.querySelectorVisibleLiveOnce('[data-s-element-id="' + _this.uniqid + '"]', function (elm) {
-						_this.onVisible(elm);
-					});
-				}
-				// check if is the onViewportVisible method
-				if (typeof _this.onViewportVisible == 'function') {
-					_sDom2.default.querySelectorViewportVisibleLiveOnce('[data-s-element-id="' + _this.uniqid + '"]', function (elm) {
-						_this.onViewportVisible(elm);
-					});
-				}
-			});
-			return _this;
-		}
-
-		/**
-	  * New attribute
-	  */
-
-
-		SElement.prototype._newAttribute = function _newAttribute(name, value) {
-			var _this2 = this;
-
-			var camelName = _sString2.default.camelize(name);
-
-			// make only if not exist already
-			if (this._attrs[name]) return camelName;
-			console.log('new attributeName', camelName, value);
-			this._attrs[name] = true;
-			this.attr[camelName] = _sString2.default.autoCast(value);
-			var val = this.attr[camelName];
-
-			// define new property on the attr
-			Object.defineProperty(this.attr, camelName, {
-				get: function get() {
-					return val;
-				},
-				set: function set(value) {
-					// cast the value
-					value = _sString2.default.autoCast(value);
-					// protect from recursion
-					if (value === val) return value;
-					// save the value localy
-					val = value;
-					// set the new attribute on html tag
-					_this2.elm.setAttribute(name, value);
-				},
-				enumarable: true
-			});
-			return camelName;
-		};
-
-		/**
-	  * Get closest not visible element
-	  */
-
-
-		SElement.prototype.closestNotVisible = function closestNotVisible() {
-			var elm = arguments.length <= 0 || arguments[0] === undefined ? this.elm : arguments[0];
-
-			return _sDom2.default.closestNotVisible(elm);
-		};
-
-		/**
-	  * Visible proxy init
-	  */
-
-
-		SElement.prototype.whenVisible = function whenVisible() {
-			var cb = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
-			var elm = arguments.length <= 1 || arguments[1] === undefined ? this.elm : arguments[1];
-
-			return _sDom2.default.whenVisible(elm, cb);
-		};
-
-		/**
-	  * Detect if is visible
-	  */
-
-
-		SElement.prototype.isVisible = function isVisible() {
-			return _sDom2.default.isVisible(this.elm);
-		};
-
-		/**
-	  * Detect when the element is in the viewport
-	  */
-
-
-		SElement.prototype.inViewport = function inViewport() {
-			var offset = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
-
-			return _sDom2.default.inViewport(this.elm, offset);
-		};
-
-		/**
-	  * Access dataset
-	  */
-
-
-		SElement.prototype.dataset = function dataset(key) {
-			var value = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
-			var elm = arguments.length <= 2 || arguments[2] === undefined ? this.elm : arguments[2];
-
-			return _sDom2.default.dataset(elm, key, value);
-		};
-
-		return SElement;
-	}((0, _sMixin2.default)(_sWatchable2.default).in(_sObject2.default));
-
-	exports.default = SElement;
+			} else {
+				// check if is visible
+				(0, _whenVisible2.default)(elm).then(function (elm) {
+					cb(elm);
+				});
+			}
+		}, settings);
+	}
 
 /***/ },
-/* 13 */
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.default = whenVisible;
+
+	var _isVisible = __webpack_require__(21);
+
+	var _isVisible2 = _interopRequireDefault(_isVisible);
+
+	var _closestNotVisible = __webpack_require__(22);
+
+	var _closestNotVisible2 = _interopRequireDefault(_closestNotVisible);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * Register a callback to be launched when the element is visible
+	 * @param  {element}   elm The element to observe
+	 * @param  {Function} cb  The callback to launch
+	 * @return {[type]}       [description]
+	 */
+	function whenVisible(elm) {
+		var cb = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+
+		return new Promise(function (resolve, reject) {
+
+			var isSelfVisible = false,
+			    areParentsVisible = false;
+			var _cb = function _cb() {
+				if (isSelfVisible && areParentsVisible) {
+					if (cb) cb(elm);
+					resolve(elm);
+				}
+			};
+
+			// check if element itself is not visible
+			if (!(0, _isVisible2.default)(elm)) {
+				(function () {
+					var selfObserver = new MutationObserver(function (mutations) {
+						mutations.forEach(function (mutation) {
+							// check that is the style whos changed
+							if (mutation.attributeName === 'style' || mutation.attributeName === 'class') {
+								// check if is visible
+								if ((0, _isVisible2.default)(mutation.target)) {
+									// update
+									isSelfVisible = true;
+									// callback
+									_cb();
+									// stop observe
+									selfObserver.disconnect();
+								}
+							}
+						});
+					});
+					selfObserver.observe(elm, { attributes: true });
+				})();
+			} else {
+				isSelfVisible = true;
+			}
+
+			// get the closest not visible element
+			// if found, we monitor it to check when it is visible
+			var closestNotVisible = closestNotVisible(elm);
+			if (closestNotVisible) {
+				(function () {
+					var observer = new MutationObserver(function (mutations) {
+						mutations.forEach(function (mutation) {
+							// check that is the style whos changed
+							if (mutation.attributeName === 'style' || mutation.attributeName === 'class') {
+								// check if is visible
+								if ((0, _isVisible2.default)(mutation.target)) {
+									// update
+									areParentsVisible = true;
+									// callback
+									_cb();
+									// stop observe
+									observer.disconnect();
+								}
+							}
+						});
+					});
+					observer.observe(closestNotVisible, { attributes: true });
+				})();
+			} else {
+				areParentsVisible = true;
+			}
+
+			// callback
+			_cb();
+		});
+	}
+
+/***/ },
+/* 21 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.default = isVisible;
+	/**
+	 * Check if is visible
+	 */
+	function isVisible(elm) {
+		// get style
+		var style = document.defaultView.getComputedStyle(elm, null),
+		    opacity = style['opacity'],
+		    visibility = style['visibility'],
+		    display = style['display'];
+		return '0' !== opacity && 'none' !== display && 'hidden' !== visibility;
+	}
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.default = closestNotVisible;
+
+	var _isVisible = __webpack_require__(21);
+
+	var _isVisible2 = _interopRequireDefault(_isVisible);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function closestNotVisible(elm) {
+		elm = elm.parentNode;
+		while (elm && elm != document) {
+			if (!(0, _isVisible2.default)(elm)) {
+				return elm;
+			}
+			elm = elm.parentNode;
+		}
+		return false;
+	} /**
+	   * [closestNotVisible description]
+	   * @param  {[type]} elm [description]
+	   * @return {[type]}     [description]
+	   */
+
+/***/ },
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; /**
+	                                                                                                                                                                                                                                                                   * Grab all the visible element just once
+	                                                                                                                                                                                                                                                                   * And apply the callback when a new item match the selector
+	                                                                                                                                                                                                                                                                   */
+
+
+	exports.default = querySelectorViewportVisibleLiveOnce;
+
+	var _querySelectorLive = __webpack_require__(10);
+
+	var _querySelectorLive2 = _interopRequireDefault(_querySelectorLive);
+
+	var _whenViewportVisible = __webpack_require__(24);
+
+	var _whenViewportVisible2 = _interopRequireDefault(_whenViewportVisible);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function querySelectorViewportVisibleLiveOnce(selector, cb, settings) {
+		// extend settings
+		settings = _extends({}, settings, { once: true });
+		// make the selection
+		(0, _querySelectorLive2.default)(selector, function (elm) {
+			// check if is array
+			if (elm instanceof Array) {
+				elm.forEach(function (e) {
+					(0, _whenViewportVisible2.default)(e).then(function (e) {
+						cb(e);
+					});
+				});
+			} else {
+				// check if is visible
+				(0, _whenViewportVisible2.default)(elm).then(function (elm) {
+					cb(elm);
+				});
+			}
+		}, settings);
+	}
+
+/***/ },
+/* 24 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.default = whenViewportVisible;
+
+	var _whenVisible = __webpack_require__(20);
+
+	var _whenVisible2 = _interopRequireDefault(_whenVisible);
+
+	var _inViewport = __webpack_require__(25);
+
+	var _inViewport2 = _interopRequireDefault(_inViewport);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * Register a callback to be launched when the element is visible
+	 * @param  {element}   elm The element to observe
+	 * @param  {Function} cb  The callback to launch
+	 * @return {[type]}       [description]
+	 */
+	function whenViewportVisible(elm) {
+		var cb = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+
+		return new Promise(function (resolve, reject) {
+			var inViewport = false,
+			    isVisible = false,
+			    _cb = function _cb() {
+				if (isVisible && inViewport) {
+					document.removeEventListener('scroll', checkViewport);
+					window.removeEventListener('resize', checkViewport);
+					if (cb) cb(elm);
+					resolve(elm);
+				}
+			};
+			var checkViewport = function checkViewport(e) {
+				inViewport = (0, _inViewport2.default)(elm, { top: 50, right: 50, bottom: 50, left: 50 });
+				_cb();
+			};
+
+			// detect when visible
+			(0, _whenVisible2.default)(elm).then(function (elm) {
+				isVisible = true;
+				_cb();
+			});
+
+			// listen for resize
+			document.addEventListener('scroll', checkViewport);
+			window.addEventListener('resize', checkViewport);
+			setTimeout(function () {
+				checkViewport(null);
+			});
+		});
+	}
+
+/***/ },
+/* 25 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	exports.__esModule = true;
+	exports.default = inViewport;
+	/**
+	 * Detect if is in viewport
+	 */
+	function inViewport(elm) {
+		var offset = arguments.length <= 1 || arguments[1] === undefined ? { top: 0, right: 0, bottom: 0, left: 0 } : arguments[1];
+
+		var rect = elm.getBoundingClientRect();
+		return rect.top + offset.top >= 0 && rect.left + offset.left >= 0 && rect.bottom - offset.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
+		rect.right - offset.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
+		;
+	}
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.default = dataset;
+
+	var _uncamelize = __webpack_require__(3);
+
+	var _uncamelize2 = _interopRequireDefault(_uncamelize);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function dataset(elm, key) {
+		var value = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+
+		if (!elm.getAttribute) return;
+		if (!value) {
+			// try to get
+			var v = elm.dataset[key];
+			// let v = _get(elm, 'dataset.'+key);
+			if (v) return v;
+			v = elm.getAttribute('data-' + (0, _uncamelize2.default)(key));
+			return v;
+		} else {
+			// try to set the value
+			var _dataset = elm.dataset;
+			if (_dataset) {
+				if (elm.dataset[key]) {
+					elm.dataset[key] = value;
+				} else {
+					// set the data through setAttribute
+					elm.setAttribute('data-' + (0, _uncamelize2.default)(key), value);
+				}
+			} else {
+				// set the data through setAttribute
+				// cause no support for dataset
+				elm.setAttribute('data-' + (0, _uncamelize2.default)(key), value);
+			}
+		}
+	} /**
+	   * Access dataset
+	   */
+
+/***/ },
+/* 27 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1873,7 +1865,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = SObject;
 
 /***/ },
-/* 14 */
+/* 28 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1887,42 +1879,38 @@ return /******/ (function(modules) { // webpackBootstrap
 			mixins[_key] = arguments[_key];
 		}
 
-		return new Mix(mixins);
+		return new SMix(mixins);
 	};
 
-	var Mix = function () {
-		function Mix(mixins) {
-			_classCallCheck(this, Mix);
+	var SMix = function () {
+		function SMix(mixins) {
+			_classCallCheck(this, SMix);
 
 			this.mixins = mixins;
 		}
 
-		Mix.prototype.in = function _in(superclass) {
+		SMix.prototype.in = function _in(superclass) {
 			return this.mixins.reduce(function (c, mixin) {
 				return mixin(c);
 			}, superclass);
 		};
 
-		return Mix;
+		return SMix;
 	}();
 
 	exports.default = mix;
 
 /***/ },
-/* 15 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _sString = __webpack_require__(4);
+	var _constructorName = __webpack_require__(30);
 
-	var _sString2 = _interopRequireDefault(_sString);
-
-	var _sTools = __webpack_require__(3);
-
-	var _sTools2 = _interopRequireDefault(_sTools);
+	var _constructorName2 = _interopRequireDefault(_constructorName);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1934,7 +1922,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
 
-	var _get = __webpack_require__(16);
+	var _get = __webpack_require__(31);
 
 	exports.default = function (superclass) {
 		var _class, _temp;
@@ -1980,7 +1968,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				// get the setter
 				var customSetter = void 0;
 				for (var name in SWatchable.setters) {
-					if (_sTools2.default.constructorName(obj) === name) {
+					if ((0, _constructorName2.default)(obj) === name) {
 						customSetter = SWatchable.setters[name];
 						break;
 					}
@@ -2086,10 +2074,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 16 */
+/* 30 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	exports.__esModule = true;
+	exports.default = constructorName;
+	/**
+	 * Get an object constructor name
+	 */
+	function constructorName(obj) {
+		var funcNameRegex = /function (.{1,})\(/;
+		var results = funcNameRegex.exec(obj.constructor.toString());
+		return results && results.length > 1 ? results[1] : "";
+	}
+
+/***/ },
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseGet = __webpack_require__(17);
+	var baseGet = __webpack_require__(32);
 
 	/**
 	 * Gets the value at `path` of `object`. If the resolved value is
@@ -2125,11 +2130,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 17 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var castPath = __webpack_require__(18),
-	    isKey = __webpack_require__(55);
+	var castPath = __webpack_require__(33),
+	    isKey = __webpack_require__(70);
 
 	/**
 	 * The base implementation of `_.get` without support for default values.
@@ -2155,11 +2160,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 18 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isArray = __webpack_require__(19),
-	    stringToPath = __webpack_require__(20);
+	var isArray = __webpack_require__(34),
+	    stringToPath = __webpack_require__(35);
 
 	/**
 	 * Casts `value` to a path array if it's not one.
@@ -2176,7 +2181,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 19 */
+/* 34 */
 /***/ function(module, exports) {
 
 	/**
@@ -2210,11 +2215,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 20 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var memoize = __webpack_require__(21),
-	    toString = __webpack_require__(51);
+	var memoize = __webpack_require__(36),
+	    toString = __webpack_require__(66);
 
 	/** Used to match property names within property paths. */
 	var rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]/g;
@@ -2241,10 +2246,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 21 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var MapCache = __webpack_require__(22);
+	var MapCache = __webpack_require__(37);
 
 	/** Used as the `TypeError` message for "Functions" methods. */
 	var FUNC_ERROR_TEXT = 'Expected a function';
@@ -2320,14 +2325,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 22 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var mapClear = __webpack_require__(23),
-	    mapDelete = __webpack_require__(36),
-	    mapGet = __webpack_require__(43),
-	    mapHas = __webpack_require__(46),
-	    mapSet = __webpack_require__(48);
+	var mapClear = __webpack_require__(38),
+	    mapDelete = __webpack_require__(51),
+	    mapGet = __webpack_require__(58),
+	    mapHas = __webpack_require__(61),
+	    mapSet = __webpack_require__(63);
 
 	/**
 	 * Creates a map cache object to store key-value pairs.
@@ -2358,11 +2363,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 23 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Hash = __webpack_require__(24),
-	    Map = __webpack_require__(32);
+	var Hash = __webpack_require__(39),
+	    Map = __webpack_require__(47);
 
 	/**
 	 * Removes all key-value entries from the map.
@@ -2383,10 +2388,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 24 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var nativeCreate = __webpack_require__(25);
+	var nativeCreate = __webpack_require__(40);
 
 	/** Used for built-in method references. */
 	var objectProto = Object.prototype;
@@ -2407,10 +2412,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 25 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var getNative = __webpack_require__(26);
+	var getNative = __webpack_require__(41);
 
 	/* Built-in method references that are verified to be native. */
 	var nativeCreate = getNative(Object, 'create');
@@ -2419,10 +2424,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 26 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isNative = __webpack_require__(27);
+	var isNative = __webpack_require__(42);
 
 	/**
 	 * Gets the native function at `key` of `object`.
@@ -2441,13 +2446,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 27 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isFunction = __webpack_require__(28),
-	    isHostObject = __webpack_require__(30),
-	    isObject = __webpack_require__(29),
-	    toSource = __webpack_require__(31);
+	var isFunction = __webpack_require__(43),
+	    isHostObject = __webpack_require__(45),
+	    isObject = __webpack_require__(44),
+	    toSource = __webpack_require__(46);
 
 	/**
 	 * Used to match `RegExp`
@@ -2503,10 +2508,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 28 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(29);
+	var isObject = __webpack_require__(44);
 
 	/** `Object#toString` result references. */
 	var funcTag = '[object Function]',
@@ -2552,7 +2557,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 29 */
+/* 44 */
 /***/ function(module, exports) {
 
 	/**
@@ -2589,7 +2594,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 30 */
+/* 45 */
 /***/ function(module, exports) {
 
 	/**
@@ -2615,7 +2620,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 31 */
+/* 46 */
 /***/ function(module, exports) {
 
 	/** Used to resolve the decompiled source of functions. */
@@ -2644,11 +2649,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 32 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var getNative = __webpack_require__(26),
-	    root = __webpack_require__(33);
+	var getNative = __webpack_require__(41),
+	    root = __webpack_require__(48);
 
 	/* Built-in method references that are verified to be native. */
 	var Map = getNative(root, 'Map');
@@ -2657,10 +2662,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 33 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module, global) {var checkGlobal = __webpack_require__(35);
+	/* WEBPACK VAR INJECTION */(function(module, global) {var checkGlobal = __webpack_require__(50);
 
 	/** Used to determine if values are of the language type `Object`. */
 	var objectTypes = {
@@ -2702,10 +2707,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = root;
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(34)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(49)(module), (function() { return this; }())))
 
 /***/ },
-/* 34 */
+/* 49 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -2721,7 +2726,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 35 */
+/* 50 */
 /***/ function(module, exports) {
 
 	/**
@@ -2739,13 +2744,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 36 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Map = __webpack_require__(32),
-	    assocDelete = __webpack_require__(37),
-	    hashDelete = __webpack_require__(40),
-	    isKeyable = __webpack_require__(42);
+	var Map = __webpack_require__(47),
+	    assocDelete = __webpack_require__(52),
+	    hashDelete = __webpack_require__(55),
+	    isKeyable = __webpack_require__(57);
 
 	/**
 	 * Removes `key` and its value from the map.
@@ -2768,10 +2773,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 37 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var assocIndexOf = __webpack_require__(38);
+	var assocIndexOf = __webpack_require__(53);
 
 	/** Used for built-in method references. */
 	var arrayProto = Array.prototype;
@@ -2805,10 +2810,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 38 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var eq = __webpack_require__(39);
+	var eq = __webpack_require__(54);
 
 	/**
 	 * Gets the index at which the `key` is found in `array` of key-value pairs.
@@ -2832,7 +2837,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 39 */
+/* 54 */
 /***/ function(module, exports) {
 
 	/**
@@ -2875,10 +2880,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 40 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var hashHas = __webpack_require__(41);
+	var hashHas = __webpack_require__(56);
 
 	/**
 	 * Removes `key` and its value from the hash.
@@ -2896,10 +2901,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 41 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var nativeCreate = __webpack_require__(25);
+	var nativeCreate = __webpack_require__(40);
 
 	/** Used for built-in method references. */
 	var objectProto = Object.prototype;
@@ -2923,7 +2928,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 42 */
+/* 57 */
 /***/ function(module, exports) {
 
 	/**
@@ -2943,13 +2948,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 43 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Map = __webpack_require__(32),
-	    assocGet = __webpack_require__(44),
-	    hashGet = __webpack_require__(45),
-	    isKeyable = __webpack_require__(42);
+	var Map = __webpack_require__(47),
+	    assocGet = __webpack_require__(59),
+	    hashGet = __webpack_require__(60),
+	    isKeyable = __webpack_require__(57);
 
 	/**
 	 * Gets the map value for `key`.
@@ -2972,10 +2977,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 44 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var assocIndexOf = __webpack_require__(38);
+	var assocIndexOf = __webpack_require__(53);
 
 	/**
 	 * Gets the associative array value for `key`.
@@ -2994,10 +2999,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 45 */
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var nativeCreate = __webpack_require__(25);
+	var nativeCreate = __webpack_require__(40);
 
 	/** Used to stand-in for `undefined` hash values. */
 	var HASH_UNDEFINED = '__lodash_hash_undefined__';
@@ -3028,13 +3033,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 46 */
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Map = __webpack_require__(32),
-	    assocHas = __webpack_require__(47),
-	    hashHas = __webpack_require__(41),
-	    isKeyable = __webpack_require__(42);
+	var Map = __webpack_require__(47),
+	    assocHas = __webpack_require__(62),
+	    hashHas = __webpack_require__(56),
+	    isKeyable = __webpack_require__(57);
 
 	/**
 	 * Checks if a map value for `key` exists.
@@ -3057,10 +3062,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 47 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var assocIndexOf = __webpack_require__(38);
+	var assocIndexOf = __webpack_require__(53);
 
 	/**
 	 * Checks if an associative array value for `key` exists.
@@ -3078,13 +3083,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 48 */
+/* 63 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Map = __webpack_require__(32),
-	    assocSet = __webpack_require__(49),
-	    hashSet = __webpack_require__(50),
-	    isKeyable = __webpack_require__(42);
+	var Map = __webpack_require__(47),
+	    assocSet = __webpack_require__(64),
+	    hashSet = __webpack_require__(65),
+	    isKeyable = __webpack_require__(57);
 
 	/**
 	 * Sets the map `key` to `value`.
@@ -3112,10 +3117,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 49 */
+/* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var assocIndexOf = __webpack_require__(38);
+	var assocIndexOf = __webpack_require__(53);
 
 	/**
 	 * Sets the associative array `key` to `value`.
@@ -3138,10 +3143,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 50 */
+/* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var nativeCreate = __webpack_require__(25);
+	var nativeCreate = __webpack_require__(40);
 
 	/** Used to stand-in for `undefined` hash values. */
 	var HASH_UNDEFINED = '__lodash_hash_undefined__';
@@ -3162,11 +3167,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 51 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Symbol = __webpack_require__(52),
-	    isSymbol = __webpack_require__(53);
+	var Symbol = __webpack_require__(67),
+	    isSymbol = __webpack_require__(68);
 
 	/** Used as references for various `Number` constants. */
 	var INFINITY = 1 / 0;
@@ -3215,10 +3220,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 52 */
+/* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var root = __webpack_require__(33);
+	var root = __webpack_require__(48);
 
 	/** Built-in value references. */
 	var Symbol = root.Symbol;
@@ -3227,10 +3232,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 53 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObjectLike = __webpack_require__(54);
+	var isObjectLike = __webpack_require__(69);
 
 	/** `Object#toString` result references. */
 	var symbolTag = '[object Symbol]';
@@ -3272,7 +3277,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 54 */
+/* 69 */
 /***/ function(module, exports) {
 
 	/**
@@ -3307,11 +3312,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 55 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isArray = __webpack_require__(19),
-	    isSymbol = __webpack_require__(53);
+	var isArray = __webpack_require__(34),
+	    isSymbol = __webpack_require__(68);
 
 	/** Used to match property names within property paths. */
 	var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
@@ -3339,200 +3344,27 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 56 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	exports.__esModule = true;
-
-	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
-
-	exports.default = function (superclass) {
-		return function (_superclass) {
-			_inherits(SWatchableAttributes, _superclass);
-
-			/**	
-	   * Constructor
-	   */
-
-			function SWatchableAttributes() {
-				_classCallCheck(this, SWatchableAttributes);
-
-				// setTimeout(() => {
-
-				// make sure we have an 'attr' attribute
-				// on the object
-
-				var _this = _possibleConstructorReturn(this, _superclass.apply(this, arguments));
-
-				if (!_this.attr) {
-					_this.attr = {};
-				}
-
-				// });
-				return _this;
-			}
-
-			return SWatchableAttributes;
-		}(superclass);
-	};
-
-/***/ },
-/* 57 */,
-/* 58 */,
-/* 59 */,
-/* 60 */,
-/* 61 */,
-/* 62 */,
-/* 63 */,
-/* 64 */,
-/* 65 */,
-/* 66 */,
-/* 67 */,
-/* 68 */,
-/* 69 */,
-/* 70 */,
 /* 71 */,
 /* 72 */,
 /* 73 */,
-/* 74 */,
-/* 75 */,
-/* 76 */,
-/* 77 */,
-/* 78 */,
-/* 79 */,
-/* 80 */,
-/* 81 */,
-/* 82 */,
-/* 83 */,
-/* 84 */,
-/* 85 */,
-/* 86 */,
-/* 87 */,
-/* 88 */,
-/* 89 */,
-/* 90 */,
-/* 91 */,
-/* 92 */,
-/* 93 */,
-/* 94 */,
-/* 95 */,
-/* 96 */,
-/* 97 */,
-/* 98 */,
-/* 99 */,
-/* 100 */,
-/* 101 */,
-/* 102 */,
-/* 103 */,
-/* 104 */,
-/* 105 */,
-/* 106 */,
-/* 107 */,
-/* 108 */,
-/* 109 */,
-/* 110 */,
-/* 111 */,
-/* 112 */,
-/* 113 */,
-/* 114 */,
-/* 115 */,
-/* 116 */,
-/* 117 */,
-/* 118 */,
-/* 119 */,
-/* 120 */,
-/* 121 */,
-/* 122 */,
-/* 123 */,
-/* 124 */,
-/* 125 */,
-/* 126 */,
-/* 127 */,
-/* 128 */,
-/* 129 */,
-/* 130 */,
-/* 131 */,
-/* 132 */,
-/* 133 */,
-/* 134 */,
-/* 135 */,
-/* 136 */,
-/* 137 */,
-/* 138 */,
-/* 139 */,
-/* 140 */,
-/* 141 */,
-/* 142 */,
-/* 143 */,
-/* 144 */,
-/* 145 */,
-/* 146 */,
-/* 147 */,
-/* 148 */,
-/* 149 */,
-/* 150 */,
-/* 151 */,
-/* 152 */,
-/* 153 */,
-/* 154 */,
-/* 155 */,
-/* 156 */,
-/* 157 */,
-/* 158 */,
-/* 159 */,
-/* 160 */,
-/* 161 */,
-/* 162 */,
-/* 163 */,
-/* 164 */,
-/* 165 */,
-/* 166 */,
-/* 167 */,
-/* 168 */,
-/* 169 */,
-/* 170 */,
-/* 171 */,
-/* 172 */,
-/* 173 */,
-/* 174 */,
-/* 175 */,
-/* 176 */,
-/* 177 */,
-/* 178 */,
-/* 179 */,
-/* 180 */,
-/* 181 */,
-/* 182 */,
-/* 183 */,
-/* 184 */,
-/* 185 */,
-/* 186 */,
-/* 187 */
+/* 74 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _sGooeySvgFilter = __webpack_require__(188);
+	var _SGooeySvgFilter = __webpack_require__(75);
 
-	var _sGooeySvgFilter2 = _interopRequireDefault(_sGooeySvgFilter);
+	var _SGooeySvgFilter2 = _interopRequireDefault(_SGooeySvgFilter);
 
-	var _sElement = __webpack_require__(12);
+	var _SElement2 = __webpack_require__(6);
 
-	var _sElement2 = _interopRequireDefault(_sElement);
+	var _SElement3 = _interopRequireDefault(_SElement2);
 
-	var _sDom = __webpack_require__(5);
+	var _domReady = __webpack_require__(18);
 
-	var _sDom2 = _interopRequireDefault(_sDom);
+	var _domReady2 = _interopRequireDefault(_domReady);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3564,7 +3396,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 		SGooeyElement.setup = function setup(type, settings) {
-			_sElement2.default.setup('sGooey', type, settings);
+			_SElement3.default.setup('sGooey', type, settings);
 		};
 
 		/**
@@ -3599,7 +3431,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			var contrast = this.dataset('sGooeyContrast');
 			var shrink = this.dataset('sGooeyShrink');
 			// create a new svg filter
-			this.filter = new _sGooeySvgFilter2.default(amount);
+			this.filter = new _SGooeySvgFilter2.default(amount);
 			// apply the filter
 			this.filter.applyTo(this.elm);
 			if (blur) this.filter.blur = blur;
@@ -3608,12 +3440,12 @@ return /******/ (function(modules) { // webpackBootstrap
 		};
 
 		return SGooeyElement;
-	}(_sElement2.default);
+	}(_SElement3.default);
 
 	// Automatic init of dom elements
 
 
-	_sDom2.default.domReady(function () {
+	(0, _domReady2.default)(function () {
 		[].forEach.call(document.body.querySelectorAll('[data-s-gooey]'), function (item) {
 			// init gooey element
 			new SGooeyElement(item);
@@ -3630,7 +3462,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = SGooeyElement;
 
 /***/ },
-/* 188 */
+/* 75 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3639,9 +3471,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _sSvgFilter = __webpack_require__(189);
+	var _SSvgFilter2 = __webpack_require__(76);
 
-	var _sSvgFilter2 = _interopRequireDefault(_sSvgFilter);
+	var _SSvgFilter3 = _interopRequireDefault(_SSvgFilter2);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3742,7 +3574,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		}]);
 
 		return SGooeySvgFilter;
-	}(_sSvgFilter2.default);
+	}(_SSvgFilter3.default);
 
 	// expose in window.sugar
 
@@ -3756,18 +3588,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = SGooeySvgFilter;
 
 /***/ },
-/* 189 */
+/* 76 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _sTools = __webpack_require__(3);
+	var _uniqid = __webpack_require__(7);
 
-	var sTools = _interopRequireWildcard(_sTools);
+	var _uniqid2 = _interopRequireDefault(_uniqid);
 
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -3790,7 +3622,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			this.filter_content = filter_content;
 
 			// generate a uniqid
-			this.id = 's-svg-filter-' + sTools.uniqid();
+			this.id = 's-svg-filter-' + (0, _uniqid2.default)();
 
 			// if need to inject svg
 			if (!document.body.querySelector('#s-svg-filters')) SSvgFilter._injectFiltersContainer();

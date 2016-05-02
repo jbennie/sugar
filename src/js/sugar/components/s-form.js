@@ -9,8 +9,9 @@
  * @version  1.0.0
  */
 import SComponent from '../core/s-component'
-import sDom from '../core/s-dom'
-import sTools from '../core/s-tools'
+import {
+	querySelectorLive
+} from '../core/s-dom'
 import Pikaday from 'pikaday-time'
 import sSettings from '../core/s-settings'
 
@@ -44,7 +45,7 @@ class SugarRadioboxElement extends SComponent {
 		let input_for = this.elm.id || this.elm.name;
 
 		// stop if already the s-radiobox div
-		if (this.elm.nextSibling && this.elm.nextSibling.nodeName != '#text' && sDom.hasClass(this.elm.nextSibling, 's-radiobox')) return;
+		if (this.elm.nextSibling && this.elm.nextSibling.nodeName != '#text' && this.elm.nextSibling.classList.contains('s-radiobox')) return;
 
 		// append an empty element after the input to style it
 		let nodeType = 'div';
@@ -62,7 +63,7 @@ class SugarRadioboxElement extends SComponent {
 }
 
 // init the radiobox
-sDom.querySelectorLive('[data-s-radiobox][type="checkbox"],[data-s-radiobox][type="radio"]', (elm) => {
+querySelectorLive('[data-s-radiobox][type="checkbox"],[data-s-radiobox][type="radio"]', (elm) => {
 	new SugarRadioboxElement(elm);
 });
 
@@ -148,7 +149,7 @@ class SugarDatepickerElement extends SComponent {
 	}
 }
 
-sDom.querySelectorLive('.label--inside, .label-inside', (elm) => {
+querySelectorLive('.label--inside, .label-inside', (elm) => {
 
 	let span = elm.querySelector(':scope > span');
 	if (span) {
@@ -211,10 +212,10 @@ sDom.querySelectorLive('.label--inside, .label-inside', (elm) => {
 });
 
 // init the datepicker
-sDom.querySelectorLive('[data-s-datepicker]', (elm) => {
+querySelectorLive('[data-s-datepicker]', (elm) => {
 	new SugarDatepickerElement(elm);
 });
-sDom.querySelectorLive('[data-s-datetimepicker]', (elm) => {
+querySelectorLive('[data-s-datetimepicker]', (elm) => {
 	new SugarDatepickerElement(elm, {
 		autoClose : false,
 		showTime : true

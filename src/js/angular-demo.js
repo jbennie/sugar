@@ -1,9 +1,11 @@
+
+
 // import sugar from './sugar/sugar';
 import angular from 'angular';
 // import { SSelectElement, SActivateElement } from './sugar/index';
 //
-import sActivateManager from './sugar/components/s-activate-manager';
-import SSelectElement from './sugar/components/s-select-element';
+import sActivateManager from './sugar/components/sActivateManager';
+import SSelectElement from './sugar/components/SSelectElement';
 // import sDrawerManager from './sugar/components/s-drawer-manager';
 // 
 // import SSelectElement from './sugar/index';

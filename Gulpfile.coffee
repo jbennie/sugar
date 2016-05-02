@@ -44,19 +44,19 @@ webpackAppParams = _.extend {}, webpackParams,
 webpackDistParams = _.extend {}, webpackParams,
 	entry: {
 		'drawer': [
-			"./src/js/sugar/components/s-drawer-element.js"
-			"./src/js/sugar/components/s-drawer-manager.js"
+			"./src/js/sugar/components/SDrawerElement.js"
+			"./src/js/sugar/components/sDrawerManager.js"
 		]
-		'gooey': ["./src/js/sugar/filters/s-gooey-element.js"]
-		'motionblur': ["./src/js/sugar/filters/s-motionblur-element.js"]
-		'gradient': ["./src/js/sugar/filters/s-gradient-element.js"]
-		'transitionstart': ["./src/js/sugar/events/s-transitionstart.js"]
-		'localStorageFonts': ["./src/js/sugar/fonts/s-localstoragefonts.js"]
+		'gooey': ["./src/js/sugar/filters/SGooeyElement.js"]
+		'motionblur': ["./src/js/sugar/filters/SMotionblurElement.js"]
+		'gradient': ["./src/js/sugar/filters/SGradientElement.js"]
+		'transitionstart': ["./src/js/sugar/events/STransitionStartEventDispatcher.js"]
+		'localStorageFonts': ["./src/js/sugar/fonts/sLocalStorageFonts.js"]
 		'activate' : [
-			'./src/js/sugar/components/s-activate-element.js'
-			'./src/js/sugar/components/s-activate-manager.js'
+			'./src/js/sugar/components/SActivateElement.js'
+			'./src/js/sugar/components/sActivateManager.js'
 		]
-		'form' : ['./src/js/sugar/components/s-form.js']
+		#'form' : ['./src/js/sugar/components/s-form.js']
 		'sugar' : ['./src/js/sugar/sugar.js']
 	},
 	output:
