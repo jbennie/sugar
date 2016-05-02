@@ -154,8 +154,8 @@
 	$sel,
 	$vertical-rhythme-scope : false
 ) {
+	$method : sugar('settings.selector.method');
 	@if type-of($sel) == 'map' {
-		$method : sugar('settings.selector.method');
 		$sel : map-get($sel,$method);
 	}
 	@if not $sel {
