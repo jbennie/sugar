@@ -283,7 +283,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			if (elm[this.name]) {
 				return elm[this.name].target;
 			}
-			return this.dataset(this.name, null, elm) || elm.getAttribute('href');
+			return elm.getAttribute(this.name_dash) || elm.getAttribute('href');
 		};
 
 		/**
