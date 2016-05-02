@@ -214,6 +214,15 @@ $_sugar-classes-inited : false;
 		}
 
 		//
+		// Text size
+		// 
+		@each $size, $value in sugar('settings.size') {
+			@include s-register-class(text-#{$size}, 'sugar.text.size.#{$size}') {
+				font-size : s-lnf(font-size, $size);
+			}
+		}
+
+		//
 		// Paddings
 		//
 		@include s-register-class(no-p-t,'sugar.padding.no.top') {
