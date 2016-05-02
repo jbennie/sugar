@@ -31269,16 +31269,18 @@ return /******/ (function(modules) { // webpackBootstrap
 					}
 				} else {
 					if (_this2.settings.history) {
-						// simply activate again if the same id that anchor
-						// this can happened when an element has history to false
-						if (document.location.hash && document.location.hash.substr(1) == _this2.dataset('sActivate')) {
-							_this2._activate();
-						} else {
-							// simply change the hash
-							// the event listener will take care of activate the
-							// good element
-							document.location.hash = _this2.dataset('sActivate');
-						}
+						setTimeout(function () {
+							// simply activate again if the same id that anchor
+							// this can happened when an element has history to false
+							if (document.location.hash && document.location.hash.substr(1) == _this2.dataset('sActivate')) {
+								_this2._activate();
+							} else {
+								// simply change the hash
+								// the event listener will take care of activate the
+								// good element
+								document.location.hash = _this2.dataset('sActivate');
+							}
+						});
 					} else {
 						// activate the element
 						_this2._activate();
@@ -31343,6 +31345,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			// unactive all group elements
 			var grp = this.dataset('sActivateGroup');
 			[].forEach.call(document.body.querySelectorAll('[data-s-activate-group="' + grp + '"]'), function (group_elm) {
+
 				// get the api
 				var api = group_elm.sActivate;
 				// unactive element
@@ -31579,6 +31582,9 @@ return /******/ (function(modules) { // webpackBootstrap
 			_this.elm = elm;
 			_this.name = name;
 			_this.name_dash = nameDash;
+
+			// set the api in the dom element
+			_this.elm[_this.name] = _this;
 
 			_this.coco = {
 				hello: {
@@ -31906,9 +31912,6 @@ return /******/ (function(modules) { // webpackBootstrap
 				_this._newAttribute(attr.name, attr.value);
 			});
 
-			// set the api in the dom element
-			_this.elm[_this.name] = _this;
-
 			// create a uniqid for the element
 			_this.uniqid = (0, _uniqid2.default)();
 
@@ -31978,7 +31981,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// make only if not exist already
 			if (this._attrs[name]) return camelName;
-			console.log('new attributeName', camelName, value);
 			this._attrs[name] = true;
 			this.attr[camelName] = (0, _autoCast2.default)(value);
 			var val = this.attr[camelName];

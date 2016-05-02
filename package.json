@@ -2,7 +2,7 @@
   "name": "sugarcss",
   "description": "Writing SCSS has never tasted better!",
   "version": "1.0.4",
-  "main": "src/js/sugar/index.js",
+  "main": "js/index.js",
   "scripts": {
     "install" : "./scripts/install.sh"
   },

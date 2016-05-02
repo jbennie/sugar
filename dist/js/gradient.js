@@ -234,9 +234,6 @@ return /******/ (function(modules) { // webpackBootstrap
 				_this._newAttribute(attr.name, attr.value);
 			});
 
-			// set the api in the dom element
-			_this.elm[_this.name] = _this;
-
 			// create a uniqid for the element
 			_this.uniqid = (0, _uniqid2.default)();
 
@@ -306,7 +303,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// make only if not exist already
 			if (this._attrs[name]) return camelName;
-			console.log('new attributeName', camelName, value);
 			this._attrs[name] = true;
 			this.attr[camelName] = (0, _autoCast2.default)(value);
 			var val = this.attr[camelName];

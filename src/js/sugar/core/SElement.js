@@ -57,9 +57,6 @@ export default class SElement extends SMix(SWatchable).in(SObject) {
 			this._newAttribute(attr.name, attr.value);
 		});
 
-		// set the api in the dom element
-		this.elm[this.name] = this;
-
 		// create a uniqid for the element
 		this.uniqid = __uniqid();
 
@@ -125,7 +122,6 @@ export default class SElement extends SMix(SWatchable).in(SObject) {
 		
 		// make only if not exist already
 		if (this._attrs[name]) return camelName;
-		console.log('new attributeName', camelName, value);
 		this._attrs[name] = true;
 		this.attr[camelName] = __autoCast(value);
 		let val = this.attr[camelName];

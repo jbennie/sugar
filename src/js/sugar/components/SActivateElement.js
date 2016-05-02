@@ -109,16 +109,18 @@ class SActivateElement extends SComponent {
 				}
 			} else {
 				if (this.settings.history) {
-					// simply activate again if the same id that anchor
-					// this can happened when an element has history to false
-					if (document.location.hash && document.location.hash.substr(1) == this.dataset('sActivate')) {
-						this._activate();
-					} else {
-						// simply change the hash 
-						// the event listener will take care of activate the
-						// good element
-						document.location.hash = this.dataset('sActivate');
-					}
+					setTimeout(() => {
+						// simply activate again if the same id that anchor
+						// this can happened when an element has history to false
+						if (document.location.hash && document.location.hash.substr(1) == this.dataset('sActivate')) {
+							this._activate();
+						} else {
+							// simply change the hash 
+							// the event listener will take care of activate the
+							// good element
+							document.location.hash = this.dataset('sActivate');
+						}
+					});
 				} else {
 					// activate the element
 					this._activate();
@@ -179,6 +181,7 @@ class SActivateElement extends SComponent {
 		// unactive all group elements
 		let grp = this.dataset('sActivateGroup');
 		[].forEach.call(document.body.querySelectorAll('[data-s-activate-group="'+grp+'"]'), (group_elm) => {
+			
 			// get the api
 			let api = group_elm.sActivate;
 			// unactive element
