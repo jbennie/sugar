@@ -21,15 +21,17 @@ class SActivateElement extends SComponent {
 	/**
 	 * Setup
 	 */
-	static setup(type, settings) {
-		SComponent.setup('sActivate', type, settings);
+	static setup(type, settings, name = 'sActivate') {
+		SComponent.setup(name, type, settings);
 	}
 
 	/**
 	 * Constructor
 	 */
-	constructor(elm, settings = {}) {
-		super('sActivate', elm, {
+	constructor(elm, settings = {}, name = 'sActivate') {
+		super(name, elm, {
+			target : '@',
+			group : null,
 			activeClass : 'active',
 			history : true,
 			anchor : true,
@@ -54,10 +56,12 @@ class SActivateElement extends SComponent {
 			return;
 		}
 		this.inited = true;
-		let group = this.dataset('sActivateGroup');
+		
+		// get the target
+		this.target = this.settings.target || this.elm.getAttribute('href');
 
 		// save in stack
-		window._sActivateStack[this.dataset('sActivate')] = this;
+		window._sActivateStack[this.target] = this;
 
 		// update references
 		this.update();
@@ -68,22 +72,27 @@ class SActivateElement extends SComponent {
 		}
 
 		// managing group
-		if (! group) {
+		if (! this._getGroup(this.elm)) {
 			[].forEach.call(this.elm.parentNode.childNodes, (sibling) => {
-				if ( ! this.dataset('sActivateGroup')) {
-					let sActivate = this.dataset('sActivate', null, sibling);
-					if (sActivate) {
-						let sibling_grp = this.dataset('sActivateGroup', null, sibling);
+				if ( ! this._getGroup(this.elm) && sibling.nodeName != '#text' && sibling.nodeName != '#coment') {
+				// if ( ! this.dataset(`${this.name}Group`)) {
+					let target = this._getTarget(sibling);
+					if (target) {
+						let sibling_grp = this._getGroup(sibling);
 						if (sibling_grp && sibling.sActivateGeneratedGroup) {
-							this.dataset('sActivateGroup', sibling_grp);
+							// this._getGroup(this.elm) = sibling_grp;
+							this.elm.setAttribute(this.name_dash+'-group', sibling_grp);
+							// this.dataset(`${this.name}Group`, sibling_grp);
 						}
 					}
 				}
 			});
 
 			// if we don't have any group yet
-			if ( ! this.dataset('sActivateGroup')) {
-				this.dataset('sActivateGroup', 'group-'+Math.round(Math.random()*99999999));
+			if ( ! this._getGroup(this.elm)) {
+			// if ( ! this.dataset(`${this.name}Group`)) {
+				this.elm.setAttribute(this.name_dash+'-group','group-'+Math.round(Math.random()*99999999));
+				// this.dataset(`${this.name}Group`, 'group-'+Math.round(Math.random()*99999999));
 				this.elm.sActivateGeneratedGroup = true;
 			}
 		}
@@ -92,7 +101,8 @@ class SActivateElement extends SComponent {
 		let closest = this._getClosestActivate();
 		if (closest) {
 			// save the closest content reference
-			this.parentActivate = document.body.querySelector('[data-s-activate="'+closest.id+'"]');
+			this.parentActivate = document.body.querySelector(`[data-${this.name_dash}="${closest.id}"],[${this.name_dash}="${closest.id}"]`);
+			// this.parentActivate = document.body.querySelector('[data-s-activate="'+closest.id+'"],[s-activate="'+closest.id+'"]');
 		}
 
 		// listen for click
@@ -112,13 +122,13 @@ class SActivateElement extends SComponent {
 					setTimeout(() => {
 						// simply activate again if the same id that anchor
 						// this can happened when an element has history to false
-						if (document.location.hash && document.location.hash.substr(1) == this.dataset('sActivate')) {
+						if (document.location.hash && document.location.hash.substr(1) == this.dataset(this.name)) {
 							this._activate();
 						} else {
 							// simply change the hash 
 							// the event listener will take care of activate the
 							// good element
-							document.location.hash = this.dataset('sActivate');
+							document.location.hash = this.dataset(this.name);
 						}
 					});
 				} else {
@@ -160,11 +170,28 @@ class SActivateElement extends SComponent {
 			let hash = document.location.hash;
 			if (hash) {
 				hash = hash.substr(1);
-				if (hash == this.dataset('sActivate')) {
+				if (hash == this.dataset(this.name)) {
 					this._activate();
 				}
 			}
 		}
+	}
+
+	/**
+	 * Get target
+	 */
+	_getTarget(elm) {
+		if (elm[this.name]) {
+			return elm[this.name].target;
+		}
+		return this.dataset(this.name, null, elm) || elm.getAttribute('href');
+	}
+
+	/**
+	 * Get group
+	 */
+	_getGroup(elm) {
+		return elm.getAttribute(this.name_dash+'-group');
 	}
 
 	/**
@@ -179,8 +206,8 @@ class SActivateElement extends SComponent {
 	 */
 	_activate() {
 		// unactive all group elements
-		let grp = this.dataset('sActivateGroup');
-		[].forEach.call(document.body.querySelectorAll('[data-s-activate-group="'+grp+'"]'), (group_elm) => {
+		let grp = this._getGroup(this.elm);
+		[].forEach.call(document.body.querySelectorAll(`[data-${this.name_dash}-group="${grp}"],[${this.name_dash}-group="${grp}"]`), (group_elm) => {
 			
 			// get the api
 			let api = group_elm.sActivate;
@@ -216,7 +243,7 @@ class SActivateElement extends SComponent {
 			let hash = document.location.hash;
 			if (hash) {
 				hash = hash.substr(1);
-				if (hash == this.dataset('sActivate')) {
+				if (hash == this.dataset(this.name)) {
 					this._activate();
 				}
 			}
@@ -229,7 +256,7 @@ class SActivateElement extends SComponent {
 	activate() {
 		if (this.settings.history) {
 			// change hash
-			document.location.hash = this.dataset('sActivate');
+			document.location.hash = this.dataset(this.name);
 		} else {
 			// activate simply
 			this._activate();
@@ -253,7 +280,7 @@ class SActivateElement extends SComponent {
 	 * Update targets, etc...
 	 */
 	update(scope = document.body) {
-		this.targets = scope.querySelectorAll('#'+this.dataset('sActivate'));
+		this.targets = scope.querySelectorAll('#'+this.dataset(this.name));
 	}
 
 	/**

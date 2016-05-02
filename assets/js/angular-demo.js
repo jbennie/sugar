@@ -31171,7 +31171,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 		SActivateElement.setup = function setup(type, settings) {
-			_SComponent3.default.setup('sActivate', type, settings);
+			var name = arguments.length <= 2 || arguments[2] === undefined ? 'sActivate' : arguments[2];
+
+			_SComponent3.default.setup(name, type, settings);
 		};
 
 		/**
@@ -31181,10 +31183,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 		function SActivateElement(elm) {
 			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+			var name = arguments.length <= 2 || arguments[2] === undefined ? 'sActivate' : arguments[2];
 
 			_classCallCheck(this, SActivateElement);
 
-			var _this = _possibleConstructorReturn(this, _SComponent.call(this, 'sActivate', elm, {
+			var _this = _possibleConstructorReturn(this, _SComponent.call(this, name, elm, {
+				target: '@',
+				group: null,
 				activeClass: 'active',
 				history: true,
 				anchor: true,
@@ -31214,10 +31219,12 @@ return /******/ (function(modules) { // webpackBootstrap
 				return;
 			}
 			this.inited = true;
-			var group = this.dataset('sActivateGroup');
+
+			// get the target
+			this.target = this.settings.target || this.elm.getAttribute('href');
 
 			// save in stack
-			window._sActivateStack[this.dataset('sActivate')] = this;
+			window._sActivateStack[this.target] = this;
 
 			// update references
 			this.update();
@@ -31228,22 +31235,27 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 
 			// managing group
-			if (!group) {
+			if (!this._getGroup(this.elm)) {
 				[].forEach.call(this.elm.parentNode.childNodes, function (sibling) {
-					if (!_this2.dataset('sActivateGroup')) {
-						var sActivate = _this2.dataset('sActivate', null, sibling);
-						if (sActivate) {
-							var sibling_grp = _this2.dataset('sActivateGroup', null, sibling);
+					if (!_this2._getGroup(_this2.elm) && sibling.nodeName != '#text' && sibling.nodeName != '#coment') {
+						// if ( ! this.dataset(`${this.name}Group`)) {
+						var target = _this2._getTarget(sibling);
+						if (target) {
+							var sibling_grp = _this2._getGroup(sibling);
 							if (sibling_grp && sibling.sActivateGeneratedGroup) {
-								_this2.dataset('sActivateGroup', sibling_grp);
+								// this._getGroup(this.elm) = sibling_grp;
+								_this2.elm.setAttribute(_this2.name_dash + '-group', sibling_grp);
+								// this.dataset(`${this.name}Group`, sibling_grp);
 							}
 						}
 					}
 				});
 
 				// if we don't have any group yet
-				if (!this.dataset('sActivateGroup')) {
-					this.dataset('sActivateGroup', 'group-' + Math.round(Math.random() * 99999999));
+				if (!this._getGroup(this.elm)) {
+					// if ( ! this.dataset(`${this.name}Group`)) {
+					this.elm.setAttribute(this.name_dash + '-group', 'group-' + Math.round(Math.random() * 99999999));
+					// this.dataset(`${this.name}Group`, 'group-'+Math.round(Math.random()*99999999));
 					this.elm.sActivateGeneratedGroup = true;
 				}
 			}
@@ -31252,7 +31264,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			var closest = this._getClosestActivate();
 			if (closest) {
 				// save the closest content reference
-				this.parentActivate = document.body.querySelector('[data-s-activate="' + closest.id + '"]');
+				this.parentActivate = document.body.querySelector('[data-' + this.name_dash + '="' + closest.id + '"],[' + this.name_dash + '="' + closest.id + '"]');
+				// this.parentActivate = document.body.querySelector('[data-s-activate="'+closest.id+'"],[s-activate="'+closest.id+'"]');
 			}
 
 			// listen for click
@@ -31272,13 +31285,13 @@ return /******/ (function(modules) { // webpackBootstrap
 						setTimeout(function () {
 							// simply activate again if the same id that anchor
 							// this can happened when an element has history to false
-							if (document.location.hash && document.location.hash.substr(1) == _this2.dataset('sActivate')) {
+							if (document.location.hash && document.location.hash.substr(1) == _this2.dataset(_this2.name)) {
 								_this2._activate();
 							} else {
 								// simply change the hash
 								// the event listener will take care of activate the
 								// good element
-								document.location.hash = _this2.dataset('sActivate');
+								document.location.hash = _this2.dataset(_this2.name);
 							}
 						});
 					} else {
@@ -31320,11 +31333,32 @@ return /******/ (function(modules) { // webpackBootstrap
 				var hash = document.location.hash;
 				if (hash) {
 					hash = hash.substr(1);
-					if (hash == this.dataset('sActivate')) {
+					if (hash == this.dataset(this.name)) {
 						this._activate();
 					}
 				}
 			}
+		};
+
+		/**
+	  * Get target
+	  */
+
+
+		SActivateElement.prototype._getTarget = function _getTarget(elm) {
+			if (elm[this.name]) {
+				return elm[this.name].target;
+			}
+			return this.dataset(this.name, null, elm) || elm.getAttribute('href');
+		};
+
+		/**
+	  * Get group
+	  */
+
+
+		SActivateElement.prototype._getGroup = function _getGroup(elm) {
+			return elm.getAttribute(this.name_dash + '-group');
 		};
 
 		/**
@@ -31343,8 +31377,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 		SActivateElement.prototype._activate = function _activate() {
 			// unactive all group elements
-			var grp = this.dataset('sActivateGroup');
-			[].forEach.call(document.body.querySelectorAll('[data-s-activate-group="' + grp + '"]'), function (group_elm) {
+			var grp = this._getGroup(this.elm);
+			[].forEach.call(document.body.querySelectorAll('[data-' + this.name_dash + '-group="' + grp + '"],[' + this.name_dash + '-group="' + grp + '"]'), function (group_elm) {
 
 				// get the api
 				var api = group_elm.sActivate;
@@ -31384,7 +31418,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				var hash = document.location.hash;
 				if (hash) {
 					hash = hash.substr(1);
-					if (hash == _this3.dataset('sActivate')) {
+					if (hash == _this3.dataset(_this3.name)) {
 						_this3._activate();
 					}
 				}
@@ -31399,7 +31433,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		SActivateElement.prototype.activate = function activate() {
 			if (this.settings.history) {
 				// change hash
-				document.location.hash = this.dataset('sActivate');
+				document.location.hash = this.dataset(this.name);
 			} else {
 				// activate simply
 				this._activate();
@@ -31429,7 +31463,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		SActivateElement.prototype.update = function update() {
 			var scope = arguments.length <= 0 || arguments[0] === undefined ? document.body : arguments[0];
 
-			this.targets = scope.querySelectorAll('#' + this.dataset('sActivate'));
+			this.targets = scope.querySelectorAll('#' + this.dataset(this.name));
 		};
 
 		/**

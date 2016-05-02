@@ -76,7 +76,7 @@ export default class SComponent extends SElement {
 
 		// set the api in the dom element
 		this.elm[this.name] = this;
-		
+
 		this.coco = {
 			hello : {
 				jaja : 'youhou',
