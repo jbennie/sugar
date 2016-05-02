@@ -12,3 +12,7 @@ rm -rf assets
 rm -rf config.rb
 rm -rf favicon.ico
 rm -rf .DS_Store
+rm -rf *.coffee
+rm -rf node_modules
+rm -rf scripts
+rm -rf bower.json
