@@ -59,10 +59,22 @@
 //
 // Transition
 //
-
+$_s-default-transition-map : null;
 @function s-transition-map(
 	$transition
 ) {
+	// merge with default transition
+	// to avoid recursion
+	@if not $_s-default-transition-map {
+		$_s-default-transition-map : s-parse-properties(sugar('settings.transitions.default'), (
+			property : string,
+			duration : number,
+			ease : string,
+			delay : number
+		)) !global;
+	}
+
+	// parse passed transition
 	$tran : s-parse-properties($transition, (
 		name : map-keys(sugar('settings.transitions')),
 		property : string,
@@ -71,33 +83,34 @@
 		delay : number
 	));
 
-	// merge with default transition
-	@if $_s-default-transition-map {
-		$tran : map-merge($_s-default-transition-map,$tran);
-	}
+	// working transition
+	$working_tran : $_s-default-transition-map;
 
 	// if we have a name, mean that we want to merge transitions
 	$name : map-get($tran, name);
 	@if $name {
 		// get the transition
 		$named_transition : sugar('settings.transitions.#{$name}');
-		// merge the maps
-		$tran : map-merge(s-transition-map($named_transition),$tran);
+		// check the name
+		@if not $named_transition {
+			@error('The transition named "#{$name}" does not exist...');
+		}
+		// transform the named transition in map
+		$named_transition : s-transition-map($named_transition);
+		// merge the named transition with the actual transition
+		$working_tran : map-merge($_s-default-transition-map, $named_transition);
 	}
+
+	// merge the actual transition into the working one
+	$tran : map-merge($working_tran,$tran);
 
 	// return the transition map
 	@return $tran;
 }
-$_s-default-transition-map : null;
+
 @function s-transition(
 	$transitions...
 ) {
-	// merge with default transition
-	// to avoid recursion
-	@if not $_s-default-transition-map {
-		$_s-default-transition-map : s-transition-map(sugar('settings.transitions.default')) !global;
-	}
-
 	$trans : ();
 	$available-transitions : map-keys(sugar('settings.transitions'));
 	@if length($transitions) == 0 {
