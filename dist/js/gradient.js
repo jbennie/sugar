@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["motionblur"] = factory();
+		exports["gradient"] = factory();
 	else
-		root["motionblur"] = factory();
+		root["gradient"] = factory();
 })(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -54,7 +54,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(82);
+	module.exports = __webpack_require__(79);
 
 
 /***/ },
@@ -3525,19 +3525,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = SSvgFilter;
 
 /***/ },
-/* 79 */,
-/* 80 */,
-/* 81 */,
-/* 82 */
+/* 79 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _SMotionblurSvgFilter = __webpack_require__(83);
+	var _SGradientSvgFilter = __webpack_require__(80);
 
-	var _SMotionblurSvgFilter2 = _interopRequireDefault(_SMotionblurSvgFilter);
+	var _SGradientSvgFilter2 = _interopRequireDefault(_SGradientSvgFilter);
 
 	var _SElement2 = __webpack_require__(6);
 
@@ -3567,10 +3564,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
 
-	// Actual activate element class
+	// Gradient element class
 
-	var SMotionblurElement = function (_SElement) {
-		_inherits(SMotionblurElement, _SElement);
+	var SGradientElement = function (_SElement) {
+		_inherits(SGradientElement, _SElement);
 
 		/**
 	  * Setup
@@ -3583,13 +3580,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  * Constructor
 	  */
 
-		function SMotionblurElement(elm) {
+		function SGradientElement(elm) {
 			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
-			_classCallCheck(this, SMotionblurElement);
+			_classCallCheck(this, SGradientElement);
 
-			var _this = _possibleConstructorReturn(this, _SElement.call(this, 'sMotionblur', elm, {
-				motionblur: 0.5
+			var _this = _possibleConstructorReturn(this, _SElement.call(this, 'sGradient', elm, {
+				colors: ['#a3385e', '#f2bc2b'],
+				type: 'linear'
 			}, settings));
 
 			if (_this._inited) return _possibleConstructorReturn(_this);
@@ -3605,25 +3603,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-		SMotionblurElement.prototype._initFilter = function _initFilter() {
-			// get amount
-			var amount = this.settings.motionblur;
+		SGradientElement.prototype._initFilter = function _initFilter() {
+			var type = this.settings.type;
 			// create a new svg filter
-			this.filter = new _SMotionblurSvgFilter2.default(amount);
+			this.filter = new _SGradientSvgFilter2.default();
+			if (type == 'radial') {
+				this.filter.radial(this.settings.colors);
+			} else {
+				this.filter.linear(this.settings.colors);
+			}
 			// apply the filter
 			this.filter.applyTo(this.elm);
 		};
 
-		return SMotionblurElement;
+		return SGradientElement;
 	}(_SElement3.default);
 
 	// automatic init of dom elements
 
 
 	(0, _domReady2.default)(function () {
-		[].forEach.call(document.body.querySelectorAll('[data-s-motionblur]'), function (item) {
-			// init gooey element
-			new SMotionblurElement(item);
+		[].forEach.call(document.body.querySelectorAll('[data-s-gradient]'), function (item) {
+			// init element
+			new SGradientElement(item);
 		});
 	});
 
@@ -3631,13 +3633,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	if (window.sugar == null) {
 		window.sugar = {};
 	}
-	window.sugar.SMotionblurElement = SMotionblurElement;
+	window.sugar.SGradientElement = SGradientElement;
 
 	// export modules
-	exports.default = SMotionblurElement;
+	exports.default = SGradientElement;
 
 /***/ },
-/* 83 */
+/* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3668,113 +3670,125 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
 
-	// motionblur filter
+	// Gradient filter
 
-	var SMotionblurSvgFilter = function (_SSvgFilter) {
-		_inherits(SMotionblurSvgFilter, _SSvgFilter);
+	var SGradientSvgFilter = function (_SSvgFilter) {
+		_inherits(SGradientSvgFilter, _SSvgFilter);
 
 		/**
 	  * Constructor
 	  */
 
-		function SMotionblurSvgFilter() {
-			var amount = arguments.length <= 0 || arguments[0] === undefined ? 0.5 : arguments[0];
+		function SGradientSvgFilter() {
+			_classCallCheck(this, SGradientSvgFilter);
 
-			_classCallCheck(this, SMotionblurSvgFilter);
+			var _this = _possibleConstructorReturn(this, _SSvgFilter.call(this, '\t\t\t\t\n\t\t\t<feImage xlink:href="" x="0" y="0" result="IMAGEFILL" preserveAspectRatio="none" />\n\t\t\t<feComposite operator="in" in="IMAGEFILL" in2="SourceAlpha" />\n\t\t'));
 
-			// settings
-
-			var _this = _possibleConstructorReturn(this, _SSvgFilter.call(this, '\n\t\t\t<feGaussianBlur in="SourceGraphic" stdDeviation="0,0" />\n\t\t'));
-
-			_this._notMovingStepsBeforeStop = 10;
-			_this._currentStep = 0;
-			_this._amount = parseInt(amount);
-
-			// variables
-			_this._animationFrame = null;
-
-			// filter elements
-			_this._blur = _this.filter.querySelector('feGaussianBlur');
+			_this._image = _this.filter.querySelector('feImage');
+			_this._tile = _this.filter.querySelector('feTile');
 			return _this;
 		}
 
 		/**
-	  * Apply to element (override)
+	  * Linear gradient
 	  */
 
 
-		SMotionblurSvgFilter.prototype.applyTo = function applyTo(elm) {
+		SGradientSvgFilter.prototype.linear = function linear(colors) {
+			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+			var width = settings.width || 512,
+			    height = settings.height || 512,
+			    x0 = settings.x0 || 0,
+			    x1 = settings.x1 || width,
+			    y0 = settings.y0 || 0,
+			    y1 = settings.y1 || 0;
+			var can = document.createElement('canvas');
+			can.setAttribute('width', width);
+			can.setAttribute('height', height);
+			var ctx = can.getContext('2d'),
+			    grad = ctx.createLinearGradient(x0, y0, x1, y1);
+			// loop on each colors
+			var i = 0;
+			colors.forEach(function (color) {
+				grad.addColorStop(1 / (colors.length - 1) * i, color);
+				i++;
+			});
+			ctx.fillStyle = grad;
+			ctx.fillRect(0, 0, width, height);
+			this.grad64 = can.toDataURL();
+			this._image.setAttribute('xlink:href', this.grad64);
+		};
+
+		/**
+	  * Radial
+	  */
+
+
+		SGradientSvgFilter.prototype.radial = function radial(colors) {
+			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+
+			var width = settings.width || 512,
+			    height = settings.height || 512,
+			    x0 = settings.x0 || width / 2,
+			    x1 = settings.x1 || width / 2,
+			    r0 = settings.r0 || 0,
+			    y0 = settings.y0 || height / 2,
+			    y1 = settings.y1 || height / 2,
+			    r1 = settings.r1 || width;
+			var can = document.createElement('canvas');
+			can.setAttribute('width', width);
+			can.setAttribute('height', height);
+			var ctx = can.getContext('2d'),
+			    grad = ctx.createRadialGradient(x0, y0, r0, x1, y1, r1);
+			// loop on each colors
+			var i = 0;
+			colors.forEach(function (color) {
+				grad.addColorStop(1 / (colors.length - 1) * i, color);
+				i++;
+			});
+			ctx.fillStyle = grad;
+			ctx.fillRect(0, 0, width, height);
+			this.grad64 = can.toDataURL();
+			this._image.setAttribute('xlink:href', this.grad64);
+		};
+
+		/**
+	  * Apply to override
+	  */
+
+
+		SGradientSvgFilter.prototype.applyTo = function applyTo(elm) {
 			var _this2 = this;
 
-			// call parent method
 			_SSvgFilter.prototype.applyTo.call(this, elm);
-			// listen to animation, transitionstart and move event
-			elm.addEventListener('animationiteration', function (e) {
-				_this2._handleFilter();
-			});
-			elm.addEventListener('transitionstart', function (e) {
-				_this2._handleFilter();
-			});
-			elm.addEventListener('move', function (e) {
-				_this2._handleFilter();
-			});
-			this._lastPos = sDom.offset(this.elms[0]);
-		};
-
-		/**
-	  * Handle filter
-	  */
-
-
-		SMotionblurSvgFilter.prototype._handleFilter = function _handleFilter(recusrive) {
-			var _this3 = this;
-
-			if (!recusrive) {
-				this._currentStep = 0;
-			}
-
-			// set the motion blur and get the moving difference
-			var diff = this._setMotionBlur();
-
-			// check if the element is moving or not anymore
-			if (diff.x <= 0 && diff.y <= 0) {
-				this._currentStep += 1;
-				if (this._currentStep >= this._notMovingStepsBeforeStop) {
-					this._currentStep = 0;
-					return;
-				}
-			}
-
-			// recusrive call to apply the blur with requestAnimationFrame for performances
-			this._animationFrame = requestAnimationFrame(function () {
-				_this3._handleFilter(true);
+			this._setImageSize();
+			window.addEventListener('resize', function (e) {
+				_this2._setImageSize();
 			});
 		};
 
 		/**
-	  * Set motion blur
+	  * Set image width
 	  */
 
 
-		SMotionblurSvgFilter.prototype._setMotionBlur = function _setMotionBlur() {
-			this._currentPos = sDom.offset(this.elms[0]);
-			var xDiff = Math.abs(this._currentPos.left - this._lastPos.left) * this._amount;
-			var yDiff = Math.abs(this._currentPos.top - this._lastPos.top) * this._amount;
-
-			// set the blur
-			this._blur.setAttribute('stdDeviation', xDiff + ',' + yDiff);
-
-			// update lastPos
-			this._lastPos = sDom.offset(this.elms[0]);
-
-			// return the diff
-			return {
-				x: xDiff,
-				y: yDiff
-			};
+		SGradientSvgFilter.prototype._setImageSize = function _setImageSize() {
+			var width = this.elms[0].offsetWidth,
+			    height = this.elms[0].offsetHeight;
+			if (width >= height) {
+				this._image.setAttribute('width', width);
+				this._image.removeAttribute('height');
+			} else {
+				this._image.setAttribute('height', height);
+				this._image.removeAttribute('width');
+			}
+			// this._image.setAttribute('width', width);
+			// this._image.setAttribute('height', height);
 		};
 
-		return SMotionblurSvgFilter;
+		return SGradientSvgFilter;
 	}(_SSvgFilter3.default);
 
 	// expose in window.sugar
@@ -3783,10 +3797,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	if (window.sugar == null) {
 		window.sugar = {};
 	}
-	window.sugar.SMotionblurSvgFilter = SMotionblurSvgFilter;
+	window.sugar.SGradientSvgFilter = SGradientSvgFilter;
 
 	// export modules
-	exports.default = SMotionblurSvgFilter;
+	exports.default = SGradientSvgFilter;
 
 /***/ }
 /******/ ])

@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["motionblur"] = factory();
+		exports["activate"] = factory();
 	else
-		root["motionblur"] = factory();
+		root["activate"] = factory();
 })(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -54,12 +54,644 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(82);
+	__webpack_require__(1);
+	module.exports = __webpack_require__(73);
 
 
 /***/ },
-/* 1 */,
-/* 2 */,
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _SComponent2 = __webpack_require__(2);
+
+	var _SComponent3 = _interopRequireDefault(_SComponent2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); } /*
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Sugar-activate.js
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author   Olivier Bossel <olivier.bossel@gmail.com>
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @created  20.01.16
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @updated  20.01.16
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @version  1.0.0
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+
+	// save all the activate elements
+	if (!window._sActivateStack) {
+		window._sActivateStack = {};
+	}
+
+	// Actual activate element class
+
+	var SActivateElement = function (_SComponent) {
+		_inherits(SActivateElement, _SComponent);
+
+		/**
+	  * Setup
+	  */
+
+		SActivateElement.setup = function setup(type, settings) {
+			var name = arguments.length <= 2 || arguments[2] === undefined ? 'sActivate' : arguments[2];
+
+			_SComponent3.default.setup(name, type, settings);
+		};
+
+		/**
+	  * Constructor
+	  */
+
+
+		function SActivateElement(elm) {
+			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+			var name = arguments.length <= 2 || arguments[2] === undefined ? 'sActivate' : arguments[2];
+
+			_classCallCheck(this, SActivateElement);
+
+			var _this = _possibleConstructorReturn(this, _SComponent.call(this, name, elm, {
+				target: '@',
+				group: null,
+				activeClass: 'active',
+				history: true,
+				anchor: true,
+				toggle: false,
+				trigger: 'click',
+				unactivateTrigger: null,
+				unactivateTimeout: 200
+			}, settings));
+
+			_this._inited = true;
+			_this._tabs = {};
+
+			// init
+			_this.init();
+			return _this;
+		}
+
+		/**
+	  * Init
+	  */
+
+
+		SActivateElement.prototype.init = function init() {
+			var _this2 = this;
+
+			if (this.inited) {
+				return;
+			}
+			this.inited = true;
+
+			// get the target
+			this.target = this.settings.target || this.elm.getAttribute('href');
+
+			// save in stack
+			window._sActivateStack[this.target] = this;
+
+			// update references
+			this.update();
+
+			// handle history if needed
+			if (this.settings.history) {
+				this._handleHistory();
+			}
+
+			// managing group
+			if (!this._getGroup(this.elm)) {
+				[].forEach.call(this.elm.parentNode.childNodes, function (sibling) {
+					if (!_this2._getGroup(_this2.elm) && sibling.nodeName != '#text' && sibling.nodeName != '#coment') {
+						// if ( ! this.dataset(`${this.name}Group`)) {
+						var target = _this2._getTarget(sibling);
+						if (target) {
+							var sibling_grp = _this2._getGroup(sibling);
+							if (sibling_grp && sibling.sActivateGeneratedGroup) {
+								// this._getGroup(this.elm) = sibling_grp;
+								_this2.elm.setAttribute(_this2.name_dash + '-group', sibling_grp);
+								// this.dataset(`${this.name}Group`, sibling_grp);
+							}
+						}
+					}
+				});
+
+				// if we don't have any group yet
+				if (!this._getGroup(this.elm)) {
+					// if ( ! this.dataset(`${this.name}Group`)) {
+					this.elm.setAttribute(this.name_dash + '-group', 'group-' + Math.round(Math.random() * 99999999));
+					// this.dataset(`${this.name}Group`, 'group-'+Math.round(Math.random()*99999999));
+					this.elm.sActivateGeneratedGroup = true;
+				}
+			}
+
+			// check if we are in another s-activate element
+			var closest = this._getClosestActivate();
+			if (closest) {
+				// save the closest content reference
+				this.parentActivate = document.body.querySelector('[data-' + this.name_dash + '="' + closest.id + '"],[' + this.name_dash + '="' + closest.id + '"]');
+				// this.parentActivate = document.body.querySelector('[data-s-activate="'+closest.id+'"],[s-activate="'+closest.id+'"]');
+			}
+
+			// listen for click
+			this.elm.addEventListener(this.settings.trigger, function (e) {
+				// clear unactivate timeout
+				clearTimeout(_this2._unactivateSetTimeout);
+				// if toggle
+				if (_this2.settings.toggle && _this2.isActive()) {
+					// unactivate
+					_this2.unactivate();
+					// check if has a hash
+					if (_this2.settings.history) {
+						window.history.back();
+					}
+				} else {
+					if (_this2.settings.history) {
+						setTimeout(function () {
+							// simply activate again if the same id that anchor
+							// this can happened when an element has history to false
+							if (document.location.hash && document.location.hash.substr(1) == _this2.dataset(_this2.name)) {
+								_this2._activate();
+							} else {
+								// simply change the hash
+								// the event listener will take care of activate the
+								// good element
+								document.location.hash = _this2.dataset(_this2.name);
+							}
+						});
+					} else {
+						// activate the element
+						_this2._activate();
+					}
+				}
+			});
+			// check if has an unactivate trigger
+			var unactivate_trigger = this.settings.unactivateTrigger;
+			if (unactivate_trigger) {
+				this.elm.addEventListener(unactivate_trigger, function (e) {
+					_this2._unactivateSetTimeout = setTimeout(function () {
+						_this2.unactivate();
+					}, _this2.settings.unactivateTimeout);
+				});
+				if (unactivate_trigger == 'mouseleave' || unactivate_trigger == 'mouseout') {
+					[].forEach.call(this.targets, function (target) {
+						target.addEventListener('mouseenter', function (e) {
+							// clear the unactivate timeout
+							clearTimeout(_this2._unactivateSetTimeout);
+						});
+						target.addEventListener(unactivate_trigger, function (e) {
+							_this2._unactivateSetTimeout = setTimeout(function () {
+								_this2.unactivate();
+							}, _this2.settings.unactivateTimeout);
+						});
+					});
+				}
+			}
+
+			// if the element has the active class
+			if (this.elm.classList.contains('active')) {
+				this._activate();
+			}
+
+			// if need to handle anchor
+			if (this.settings.anchor) {
+				var hash = document.location.hash;
+				if (hash) {
+					hash = hash.substr(1);
+					if (hash == this.dataset(this.name)) {
+						this._activate();
+					}
+				}
+			}
+		};
+
+		/**
+	  * Get target
+	  */
+
+
+		SActivateElement.prototype._getTarget = function _getTarget(elm) {
+			if (elm[this.name]) {
+				return elm[this.name].target;
+			}
+			return elm.getAttribute(this.name_dash) || elm.getAttribute('href');
+		};
+
+		/**
+	  * Get group
+	  */
+
+
+		SActivateElement.prototype._getGroup = function _getGroup(elm) {
+			return elm.getAttribute(this.name_dash + '-group');
+		};
+
+		/**
+	  * Check if is active
+	  */
+
+
+		SActivateElement.prototype.isActive = function isActive() {
+			return this.elm.classList.contains('active');
+		};
+
+		/**
+	  * Activate the element
+	  */
+
+
+		SActivateElement.prototype._activate = function _activate() {
+			// unactive all group elements
+			var grp = this._getGroup(this.elm);
+			[].forEach.call(document.body.querySelectorAll('[data-' + this.name_dash + '-group="' + grp + '"],[' + this.name_dash + '-group="' + grp + '"]'), function (group_elm) {
+
+				// get the api
+				var api = group_elm.sActivate;
+				// unactive element
+				if (api) {
+					api.unactivate();
+				}
+			});
+
+			// activate the element
+			this.elm.classList.add('active');
+
+			// activate all the targets
+			[].forEach.call(this.targets, function (target_elm) {
+				// remove the active class on target
+				target_elm.classList.add('active');
+			});
+
+			// if has a perent, activate it
+			if (this.parentActivate) {
+				var parent_api = this.parentActivate.sActivate;
+				if (parent_api) {
+					parent_api._activate();
+				}
+			}
+		};
+
+		/**
+	  * Handle history
+	  */
+
+
+		SActivateElement.prototype._handleHistory = function _handleHistory() {
+			var _this3 = this;
+
+			window.addEventListener('hashchange', function (e) {
+				var hash = document.location.hash;
+				if (hash) {
+					hash = hash.substr(1);
+					if (hash == _this3.dataset(_this3.name)) {
+						_this3._activate();
+					}
+				}
+			});
+		};
+
+		/**
+	  * Activate the element
+	  */
+
+
+		SActivateElement.prototype.activate = function activate() {
+			if (this.settings.history) {
+				// change hash
+				document.location.hash = this.dataset(this.name);
+			} else {
+				// activate simply
+				this._activate();
+			}
+		};
+
+		/**
+	  * Unactive
+	  */
+
+
+		SActivateElement.prototype.unactivate = function unactivate() {
+			// unactive the item itself
+			this.elm.classList.remove('active');
+
+			// unactive targets
+			[].forEach.call(this.targets, function (target) {
+				target.classList.remove('active');
+			});
+		};
+
+		/**
+	  * Update targets, etc...
+	  */
+
+
+		SActivateElement.prototype.update = function update() {
+			var scope = arguments.length <= 0 || arguments[0] === undefined ? document.body : arguments[0];
+
+			this.targets = scope.querySelectorAll('#' + this.dataset(this.name));
+		};
+
+		/**
+	  * Get closest 
+	  */
+
+
+		SActivateElement.prototype._getClosestActivate = function _getClosestActivate() {
+			var elm = this.elm.parentNode;
+			while (elm && elm != document) {
+				if (elm.id && window._sActivateStack[elm.id]) {
+					return elm;
+				}
+				elm = elm.parentNode;
+			}
+			return false;
+		};
+
+		return SActivateElement;
+	}(_SComponent3.default);
+
+	// expose in window.sugar
+
+
+	if (window.sugar == null) {
+		window.sugar = {};
+	}
+	window.sugar.SActivateElement = SActivateElement;
+
+	// export
+	exports.default = SActivateElement;
+
+/***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _uncamelize = __webpack_require__(3);
+
+	var _uncamelize2 = _interopRequireDefault(_uncamelize);
+
+	var _upperFirst = __webpack_require__(4);
+
+	var _upperFirst2 = _interopRequireDefault(_upperFirst);
+
+	var _autoCast = __webpack_require__(5);
+
+	var _autoCast2 = _interopRequireDefault(_autoCast);
+
+	var _SElement2 = __webpack_require__(6);
+
+	var _SElement3 = _interopRequireDefault(_SElement2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
+
+	// store the settings for the different
+	// components types
+	var _sugarTypesSettings = {};
+
+	var SComponent = function (_SElement) {
+		_inherits(SComponent, _SElement);
+
+		/**
+	  * Setup
+	  */
+
+		SComponent.setup = function setup(name, type, settings) {
+			if (!_sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
+			_sugarTypesSettings[name][type] = settings;
+		};
+
+		/**
+	  * Settings
+	  */
+
+
+		/**
+	  * Settings values
+	  */
+
+
+		/**
+	  * Old settings values
+	  */
+
+
+		/**	
+	  * Constructor
+	  */
+
+		function SComponent(name, elm) {
+			var default_settings = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+			var settings = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
+
+			_classCallCheck(this, SComponent);
+
+			// process shortcuts attributes
+			// before init parent class
+			// cause the parent class process
+			// the attributes
+			var nameDash = (0, _uncamelize2.default)(name, '-');
+			var isCurrentComponentSetting = false;
+			var attrsToRemove = [];
+			[].forEach.call(elm.attributes, function (attr) {
+				// check if need to update the settings
+				if (attr.name == nameDash) {
+					isCurrentComponentSetting = true;
+				} else {
+					if (isCurrentComponentSetting && attr.name.substr(0, 1) == '-') {
+						// remove the attribute and set the new complete one
+						attrsToRemove.push(attr.name);
+						// set the new attribute
+						elm.setAttribute('' + nameDash + attr.name, attr.value);
+					} else {
+						// it's no more the same component
+						isCurrentComponentSetting = false;
+					}
+				}
+			});
+			// remove the unwanted attributes
+			attrsToRemove.forEach(function (attrName) {
+				elm.removeAttribute(attrName);
+			});
+
+			// init parent
+
+
+			// save element reference
+
+			var _this = _possibleConstructorReturn(this, _SElement.call(this, elm));
+
+			_this.settings = {};
+			_this._settingsValues = {};
+			_this._previousSettingsValues = {};
+			_this.elm = elm;
+			_this.name = name;
+			_this.name_dash = nameDash;
+
+			// set the api in the dom element
+			_this.elm[_this.name] = _this;
+
+			_this.coco = {
+				hello: {
+					jaja: 'youhou',
+					world: 'tuptudup'
+				}
+			};
+
+			// make name watchable
+			// this.watchable('name');
+			// this.watchable('coco.hello.world');
+
+			var hello = _this.coco.hello;
+			Object.defineProperty(_this.coco, 'hello', {
+				get: function get() {
+					return hello;
+				},
+				set: function set(value) {
+					hello = value;
+				}
+			});
+
+			_this.watch('coco.hello', function (newVal, oldVal) {
+				console.log('YOPYOP', newVal, oldVal);
+			});
+
+			// this.watch('elm.style.display', (newVal, oldVal) => {
+			// 	console.log('update elm.style.display', newVal, oldVal);
+			// });
+			// this.watch('elm.style.display', (newVal, oldVal) => {
+			// 	console.log('NEW NEW NEW update elm.style.display', newVal, oldVal);
+			// });
+
+			// setTimeout(() => {
+			// this.coco.hello = 'yooooooppppppp';
+			// this.elm.style.display = 'none';
+			// // console.log('new element', this.elm);
+			// // console.log('new display', this.elm.style.display);
+			// setTimeout(() => {
+			// 	this.elm.style.display = 'block';
+			// }, 4000);
+			// }, 500);
+
+			// console.log('MY COCO', this.coco);
+
+			// // this.coco.hello = 'coucou';
+			// // this.coco.hello = 'haha';
+
+			// console.log('HHHHHH', this.coco.hello);
+
+			// extend settings values
+			_this.settings = _extends({}, default_settings, settings);
+
+			// // preparing all the settings accessors
+			// for(const name in default_settings) {
+			// 	// new setting
+			// 	this._newSetting(name);
+			// }
+
+			// check if the main data attribute is an object to extend the settings
+			var set = (0, _autoCast2.default)(_this.elm.getAttribute('data-' + _this.name_dash) || _this.elm.getAttribute(_this.name_dash));
+			if (set && (typeof set === 'undefined' ? 'undefined' : _typeof(set)) == 'object') {
+				_this.settings = _extends({}, _this.settings, set);
+			}
+
+			// try to find the setting with the @ sign as value
+			for (var settingName in _this.settings) {
+				if (_this.settings[settingName] == '@') {
+					_this.settings[settingName] = set;
+				}
+			}
+
+			// check if a type is defined then extend the settings
+			if (!_sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
+			var type = _this.settings.settings;
+			if (type && _sugarTypesSettings[name][type]) {
+				_this.settings = _extends({}, _this.settings, _sugarTypesSettings[name][type]);
+			}
+
+			// watch attributes to update settings accordingly
+
+			var _loop = function _loop(_name) {
+				// check if has a different value in the attributes
+				// console.log('name', name);
+				var attrName = _this.name + (0, _upperFirst2.default)(_name);
+				if (_this.attr[attrName] !== undefined) {
+					_this.settings[_name] = _this.attr[attrName];
+				} else {
+					_this.attr[attrName] = null;
+				}
+
+				// add the property if not exist
+				// if ( ! this.attr[attrName])
+
+				// watch settings attributes
+				_this.watch('attr.' + attrName, function (newVal, oldVal) {
+					// update the setting
+					_this.settings[_name] = newVal;
+				});
+			};
+
+			for (var _name in _this.settings) {
+				_loop(_name);
+			}
+			return _this;
+		}
+
+		/**
+	  * New setting
+	  */
+		// _newSetting(name) {
+		// 	// make only if not exist already
+		// 	if (this.settings.hasOwnProperty[name]) return name;
+
+		// 	// define new property on the attr
+		// 	Object.defineProperty(this.settings, name, {
+		// 		get : () => this._settingsValues[name],
+		// 		set : (value) => {
+		// 			// cast value
+		// 			value = __autoCast(value);
+		// 			// save the old value
+		// 			// let previousValue = this._previousSettingsValues[name] = this.settings[name];
+		// 			this._settingsValues[name] = value;
+		// 			// notify of new value
+		// 			// this.notify(`settings.${name}`, value, previousValue);
+		// 			// this.notify('settings', this._settingsValues, this._previousSettingsValues);
+		// 		},
+		// 		enumarable : true
+		// 	});
+		// 	return name;
+		// }
+
+
+		return SComponent;
+	}(_SElement3.default);
+
+	exports.default = SComponent;
+
+/***/ },
 /* 3 */
 /***/ function(module, exports) {
 
@@ -83,7 +715,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 4 */,
+/* 4 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	exports.__esModule = true;
+	exports.default = upperFirst;
+	/**
+	 * Upper first
+	 */
+	function upperFirst(string) {
+	  return string.charAt(0).toUpperCase() + string.slice(1);
+	}
+
+/***/ },
 /* 5 */
 /***/ function(module, exports) {
 
@@ -3392,401 +4038,99 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 73 */,
-/* 74 */,
-/* 75 */,
-/* 76 */,
-/* 77 */,
-/* 78 */
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _uniqid = __webpack_require__(7);
+	var _SActivateElement = __webpack_require__(1);
 
-	var _uniqid2 = _interopRequireDefault(_uniqid);
+	var _SActivateElement2 = _interopRequireDefault(_SActivateElement);
+
+	var _querySelectorLive = __webpack_require__(10);
+
+	var _querySelectorLive2 = _interopRequireDefault(_querySelectorLive);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } } /*
+	                                                                                                                                                           * Sugar-activate.js
+	                                                                                                                                                          #
+	                                                                                                                                                           * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
+	                                                                                                                                                          #
+	                                                                                                                                                           * @author   Olivier Bossel <olivier.bossel@gmail.com>
+	                                                                                                                                                           * @created  20.01.16
+	                                                                                                                                                           * @updated  20.01.16
+	                                                                                                                                                           * @version  1.0.0
+	                                                                                                                                                           */
 
-	var _sSvgFilters = [];
-	var _sIsSvgInjected = false;
 
-	var SSvgFilter = function () {
+	// save all the activate elements
+	if (!window._sActivateStack) {
+		window._sActivateStack = {};
+	}
+
+	var SActivateManager = function () {
 
 		/**
 	  * Constructor
 	  */
 
-		function SSvgFilter(filter_content) {
-			_classCallCheck(this, SSvgFilter);
+		function SActivateManager() {
+			_classCallCheck(this, SActivateManager);
 
-			// save the reference of each elements
-			this.elms = [];
-
-			// save parameters
-			this.filter_content = filter_content;
-
-			// generate a uniqid
-			this.id = 's-svg-filter-' + (0, _uniqid2.default)();
-
-			// if need to inject svg
-			if (!document.body.querySelector('#s-svg-filters')) SSvgFilter._injectFiltersContainer();
-
-			// insert the filter
-			this._insertFilter();
+			(0, _querySelectorLive2.default)('[data-s-activate]', function (element) {
+				if (!element.sActivate) {
+					new _SActivateElement2.default(element);
+				}
+			});
 		}
 
 		/**
-	  * Apply the filter to an element
+	  * Find a special activate element
 	  */
 
 
-		SSvgFilter.prototype.applyTo = function applyTo(elm) {
-			var _this = this;
-
-			['-webkit-', '-moz-', '-ms-', '-o-', ''].forEach(function (vendor) {
-				elm.style[vendor + 'filter'] = 'url("#' + _this.id + '")';
-			});
-			this.elms.push(elm);
+		SActivateManager.prototype.find = function find(id) {
+			if (!window._sActivateStack[id]) return false;
+			return window._sActivateStack[id];
 		};
 
 		/**
-	  * Unapply from
+	  * Activate a special id
 	  */
 
 
-		SSvgFilter.prototype.unapplyFrom = function unapplyFrom(elm) {
-			['-webkit-', '-moz-', '-ms-', '-o-', ''].forEach(function (vendor) {
-				delete elm.style[vendor + 'filter'];
-			});
-			// remove from stack
-			var idx = this.elms.indexOf(elm);
-			if (idx) this.elms.splice(idx, 1);
+		SActivateManager.prototype.activate = function activate(id) {
+			var item = this.find(id);
+			if (item) item.activate();
 		};
 
 		/**
-	  * Insert the filter
+	  * Unactivate
 	  */
 
 
-		SSvgFilter.prototype._insertFilter = function _insertFilter() {
-			var svg = '\n\t\t\t<svg xmlns="http://www.w3.org/2000/svg" version="1.1">\n\t\t\t\t<defs>\n\t\t\t\t</defs>\n\t\t\t</svg>\n\t\t';
-			var div = document.createElement('div');
-			div.innerHTML = svg;
-			var defs = div.querySelector('defs');
-
-			// add the filter to the svg
-			this.filter_content = '<filter id="' + this.id + '">' + this.filter_content + '</filter>';
-			defs.innerHTML = this.filter_content;
-			this.filter = defs.querySelector('#' + this.id);
-			this.svg = div.querySelector('svg');
-			SSvgFilter.filtersContainer.appendChild(this.svg);
+		SActivateManager.prototype.unactivate = function unactivate(id) {
+			var item = this.find(id);
+			if (item) item.unactivate();
 		};
 
-		/**
-	  * Destroy
-	  */
-
-
-		SSvgFilter.prototype.destroy = function destroy() {
-			var _this2 = this;
-
-			// loop on each element savec in stack to remove the filter
-			this.elms.forEach(function (elm) {
-				_this2.unapplyFrom(elm);
-			});
-			// remove the filter from the html
-			this.filter.parent.removeChild(this.filter);
-		};
-
-		/**
-	  * Inject svg
-	  */
-
-
-		SSvgFilter._injectFiltersContainer = function _injectFiltersContainer() {
-			var style = ['position:absolute;', 'left:-1000px;', 'top:-300px;'];
-			if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
-				style.push('display:none;');
-			}
-			SSvgFilter.filtersContainer = document.createElement('div');
-			SSvgFilter.filtersContainer.id = 's-svg-filters';
-			SSvgFilter.filtersContainer.style = style.join(' ');
-			document.body.appendChild(SSvgFilter.filtersContainer);
-		};
-
-		return SSvgFilter;
+		return SActivateManager;
 	}();
 
-	exports.default = SSvgFilter;
-
-/***/ },
-/* 79 */,
-/* 80 */,
-/* 81 */,
-/* 82 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _SMotionblurSvgFilter = __webpack_require__(83);
-
-	var _SMotionblurSvgFilter2 = _interopRequireDefault(_SMotionblurSvgFilter);
-
-	var _SElement2 = __webpack_require__(6);
-
-	var _SElement3 = _interopRequireDefault(_SElement2);
-
-	var _domReady = __webpack_require__(18);
-
-	var _domReady2 = _interopRequireDefault(_domReady);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); } /*
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Sugar-activate.js
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author   Olivier Bossel <olivier.bossel@gmail.com>
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @created  20.01.16
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @updated  20.01.16
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @version  1.0.0
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
-
-	// Actual activate element class
-
-	var SMotionblurElement = function (_SElement) {
-		_inherits(SMotionblurElement, _SElement);
-
-		/**
-	  * Setup
-	  */
-		// static setup(type, settings) {
-		// 	SElement.setup('sActivate', type, settings);
-		// }
-
-		/**
-	  * Constructor
-	  */
-
-		function SMotionblurElement(elm) {
-			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-			_classCallCheck(this, SMotionblurElement);
-
-			var _this = _possibleConstructorReturn(this, _SElement.call(this, 'sMotionblur', elm, {
-				motionblur: 0.5
-			}, settings));
-
-			if (_this._inited) return _possibleConstructorReturn(_this);
-			_this._inited = true;
-
-			// init the filter
-			_this._initFilter();
-			return _this;
-		}
-
-		/**
-	  * Init the filter
-	  */
-
-
-		SMotionblurElement.prototype._initFilter = function _initFilter() {
-			// get amount
-			var amount = this.settings.motionblur;
-			// create a new svg filter
-			this.filter = new _SMotionblurSvgFilter2.default(amount);
-			// apply the filter
-			this.filter.applyTo(this.elm);
-		};
-
-		return SMotionblurElement;
-	}(_SElement3.default);
-
-	// automatic init of dom elements
-
-
-	(0, _domReady2.default)(function () {
-		[].forEach.call(document.body.querySelectorAll('[data-s-motionblur]'), function (item) {
-			// init gooey element
-			new SMotionblurElement(item);
-		});
-	});
+	;
 
 	// expose in window.sugar
 	if (window.sugar == null) {
 		window.sugar = {};
 	}
-	window.sugar.SMotionblurElement = SMotionblurElement;
+	window.sugar.sActivateManager = new SActivateManager();
 
-	// export modules
-	exports.default = SMotionblurElement;
-
-/***/ },
-/* 83 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _SSvgFilter2 = __webpack_require__(78);
-
-	var _SSvgFilter3 = _interopRequireDefault(_SSvgFilter2);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); } /*
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Sugar-activate.js
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author   Olivier Bossel <olivier.bossel@gmail.com>
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @created  20.01.16
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @updated  20.01.16
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @version  1.0.0
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
-
-	// motionblur filter
-
-	var SMotionblurSvgFilter = function (_SSvgFilter) {
-		_inherits(SMotionblurSvgFilter, _SSvgFilter);
-
-		/**
-	  * Constructor
-	  */
-
-		function SMotionblurSvgFilter() {
-			var amount = arguments.length <= 0 || arguments[0] === undefined ? 0.5 : arguments[0];
-
-			_classCallCheck(this, SMotionblurSvgFilter);
-
-			// settings
-
-			var _this = _possibleConstructorReturn(this, _SSvgFilter.call(this, '\n\t\t\t<feGaussianBlur in="SourceGraphic" stdDeviation="0,0" />\n\t\t'));
-
-			_this._notMovingStepsBeforeStop = 10;
-			_this._currentStep = 0;
-			_this._amount = parseInt(amount);
-
-			// variables
-			_this._animationFrame = null;
-
-			// filter elements
-			_this._blur = _this.filter.querySelector('feGaussianBlur');
-			return _this;
-		}
-
-		/**
-	  * Apply to element (override)
-	  */
-
-
-		SMotionblurSvgFilter.prototype.applyTo = function applyTo(elm) {
-			var _this2 = this;
-
-			// call parent method
-			_SSvgFilter.prototype.applyTo.call(this, elm);
-			// listen to animation, transitionstart and move event
-			elm.addEventListener('animationiteration', function (e) {
-				_this2._handleFilter();
-			});
-			elm.addEventListener('transitionstart', function (e) {
-				_this2._handleFilter();
-			});
-			elm.addEventListener('move', function (e) {
-				_this2._handleFilter();
-			});
-			this._lastPos = sDom.offset(this.elms[0]);
-		};
-
-		/**
-	  * Handle filter
-	  */
-
-
-		SMotionblurSvgFilter.prototype._handleFilter = function _handleFilter(recusrive) {
-			var _this3 = this;
-
-			if (!recusrive) {
-				this._currentStep = 0;
-			}
-
-			// set the motion blur and get the moving difference
-			var diff = this._setMotionBlur();
-
-			// check if the element is moving or not anymore
-			if (diff.x <= 0 && diff.y <= 0) {
-				this._currentStep += 1;
-				if (this._currentStep >= this._notMovingStepsBeforeStop) {
-					this._currentStep = 0;
-					return;
-				}
-			}
-
-			// recusrive call to apply the blur with requestAnimationFrame for performances
-			this._animationFrame = requestAnimationFrame(function () {
-				_this3._handleFilter(true);
-			});
-		};
-
-		/**
-	  * Set motion blur
-	  */
-
-
-		SMotionblurSvgFilter.prototype._setMotionBlur = function _setMotionBlur() {
-			this._currentPos = sDom.offset(this.elms[0]);
-			var xDiff = Math.abs(this._currentPos.left - this._lastPos.left) * this._amount;
-			var yDiff = Math.abs(this._currentPos.top - this._lastPos.top) * this._amount;
-
-			// set the blur
-			this._blur.setAttribute('stdDeviation', xDiff + ',' + yDiff);
-
-			// update lastPos
-			this._lastPos = sDom.offset(this.elms[0]);
-
-			// return the diff
-			return {
-				x: xDiff,
-				y: yDiff
-			};
-		};
-
-		return SMotionblurSvgFilter;
-	}(_SSvgFilter3.default);
-
-	// expose in window.sugar
-
-
-	if (window.sugar == null) {
-		window.sugar = {};
-	}
-	window.sugar.SMotionblurSvgFilter = SMotionblurSvgFilter;
-
-	// export modules
-	exports.default = SMotionblurSvgFilter;
+	// export
+	exports.default = window.sugar.sActivateManager;
 
 /***/ }
 /******/ ])

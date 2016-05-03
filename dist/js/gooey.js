@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["motionblur"] = factory();
+		exports["gooey"] = factory();
 	else
-		root["motionblur"] = factory();
+		root["gooey"] = factory();
 })(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -54,7 +54,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(82);
+	module.exports = __webpack_require__(76);
 
 
 /***/ },
@@ -3395,8 +3395,247 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 73 */,
 /* 74 */,
 /* 75 */,
-/* 76 */,
-/* 77 */,
+/* 76 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _SGooeySvgFilter = __webpack_require__(77);
+
+	var _SGooeySvgFilter2 = _interopRequireDefault(_SGooeySvgFilter);
+
+	var _SElement2 = __webpack_require__(6);
+
+	var _SElement3 = _interopRequireDefault(_SElement2);
+
+	var _domReady = __webpack_require__(18);
+
+	var _domReady2 = _interopRequireDefault(_domReady);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); } /*
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Sugar-activate.js
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author   Olivier Bossel <olivier.bossel@gmail.com>
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @created  20.01.16
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @updated  20.01.16
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @version  1.0.0
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+
+	// Actual activate element class
+
+	var SGooeyElement = function (_SElement) {
+		_inherits(SGooeyElement, _SElement);
+
+		/**
+	  * Setup
+	  */
+
+		SGooeyElement.setup = function setup(type, settings) {
+			_SElement3.default.setup('sGooey', type, settings);
+		};
+
+		/**
+	  * Constructor
+	  */
+
+
+		function SGooeyElement(elm) {
+			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+			_classCallCheck(this, SGooeyElement);
+
+			var _this = _possibleConstructorReturn(this, _SElement.call(this, 'sGooey', elm, {}, settings));
+
+			if (_this._inited) return _possibleConstructorReturn(_this);
+			_this._inited = true;
+
+			// init the filter
+			_this._initFilter();
+			return _this;
+		}
+
+		/**
+	  * Init the filter
+	  */
+
+
+		SGooeyElement.prototype._initFilter = function _initFilter() {
+			// get amount
+			var amount = this.dataset('sGooey') || 10;
+			var blur = this.dataset('sGooeyBlur');
+			var contrast = this.dataset('sGooeyContrast');
+			var shrink = this.dataset('sGooeyShrink');
+			// create a new svg filter
+			this.filter = new _SGooeySvgFilter2.default(amount);
+			// apply the filter
+			this.filter.applyTo(this.elm);
+			if (blur) this.filter.blur = blur;
+			if (contrast) this.filter.contrast = contrast;
+			if (shrink) this.filter.shrink = shrink;
+		};
+
+		return SGooeyElement;
+	}(_SElement3.default);
+
+	// Automatic init of dom elements
+
+
+	(0, _domReady2.default)(function () {
+		[].forEach.call(document.body.querySelectorAll('[data-s-gooey]'), function (item) {
+			// init gooey element
+			new SGooeyElement(item);
+		});
+	});
+
+	// expose in window.sugar
+	if (window.sugar == null) {
+		window.sugar = {};
+	}
+	window.sugar.SGooeyElement = SGooeyElement;
+
+	// export modules
+	exports.default = SGooeyElement;
+
+/***/ },
+/* 77 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _SSvgFilter2 = __webpack_require__(78);
+
+	var _SSvgFilter3 = _interopRequireDefault(_SSvgFilter2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); } /*
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Sugar-activate.js
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author   Olivier Bossel <olivier.bossel@gmail.com>
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @created  20.01.16
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @updated  20.01.16
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @version  1.0.0
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+
+	/**
+	 * Svg filter
+	 */
+
+	var SGooeySvgFilter = function (_SSvgFilter) {
+		_inherits(SGooeySvgFilter, _SSvgFilter);
+
+		/**
+	  * Constructor
+	  */
+
+		function SGooeySvgFilter() {
+			var amount = arguments.length <= 0 || arguments[0] === undefined ? 8 : arguments[0];
+
+			_classCallCheck(this, SGooeySvgFilter);
+
+			var _this = _possibleConstructorReturn(this, _SSvgFilter.call(this, '\n\t\t\t<feGaussianBlur in="SourceGraphic" stdDeviation="' + amount + '" result="blur" />\n\t\t\t<feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + (parseInt(amount) + 9) + ' -9" result="gooey" />\n\t\t\t<feComposite in="SourceGraphic" in2="gooey" operator="atop"/>\n\t\t'));
+
+			_this._blur = _this.filter.querySelector('feGaussianBlur');
+			_this._color_matrix = _this.filter.querySelector('feColorMatrix');
+			return _this;
+		}
+
+		/**
+	  * Set blur
+	  */
+
+
+		_createClass(SGooeySvgFilter, [{
+			key: 'blur',
+			set: function set(value) {
+				this._blur.setAttribute('stdDeviation', value);
+			}
+
+			/**
+	   * Set contrast
+	   */
+
+		}, {
+			key: 'contrast',
+			set: function set(value) {
+				// get value
+				var v = this._color_matrix.getAttribute('values');
+				// process
+				v = v.split(' ');
+				v[v.length - 2] = value;
+				// apply the new filter
+				this._color_matrix.setAttribute('values', v.join(' '));
+			}
+
+			/**
+	   * Set shrink
+	   */
+
+		}, {
+			key: 'shrink',
+			set: function set(value) {
+				// get value
+				var v = this._color_matrix.getAttribute('values');
+				// process
+				v = v.split(' ');
+				v[v.length - 1] = value;
+				// apply the new filter
+				this._color_matrix.setAttribute('values', v.join(' '));
+			}
+
+			/**
+	   * Set amount
+	   */
+
+		}, {
+			key: 'amount',
+			set: function set(value) {
+				this._blur.setAttribute('stdDeviation', value);
+				this._color_matrix.setAttribute('values', '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + (parseInt(value) + 9) + ' -9');
+			}
+		}]);
+
+		return SGooeySvgFilter;
+	}(_SSvgFilter3.default);
+
+	// expose in window.sugar
+
+
+	if (window.sugar == null) {
+		window.sugar = {};
+	}
+	window.sugar.SGooeySvgFilter = SGooeySvgFilter;
+
+	// export modules
+	exports.default = SGooeySvgFilter;
+
+/***/ },
 /* 78 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -3523,270 +3762,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 
 	exports.default = SSvgFilter;
-
-/***/ },
-/* 79 */,
-/* 80 */,
-/* 81 */,
-/* 82 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _SMotionblurSvgFilter = __webpack_require__(83);
-
-	var _SMotionblurSvgFilter2 = _interopRequireDefault(_SMotionblurSvgFilter);
-
-	var _SElement2 = __webpack_require__(6);
-
-	var _SElement3 = _interopRequireDefault(_SElement2);
-
-	var _domReady = __webpack_require__(18);
-
-	var _domReady2 = _interopRequireDefault(_domReady);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); } /*
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Sugar-activate.js
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author   Olivier Bossel <olivier.bossel@gmail.com>
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @created  20.01.16
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @updated  20.01.16
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @version  1.0.0
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
-
-	// Actual activate element class
-
-	var SMotionblurElement = function (_SElement) {
-		_inherits(SMotionblurElement, _SElement);
-
-		/**
-	  * Setup
-	  */
-		// static setup(type, settings) {
-		// 	SElement.setup('sActivate', type, settings);
-		// }
-
-		/**
-	  * Constructor
-	  */
-
-		function SMotionblurElement(elm) {
-			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-			_classCallCheck(this, SMotionblurElement);
-
-			var _this = _possibleConstructorReturn(this, _SElement.call(this, 'sMotionblur', elm, {
-				motionblur: 0.5
-			}, settings));
-
-			if (_this._inited) return _possibleConstructorReturn(_this);
-			_this._inited = true;
-
-			// init the filter
-			_this._initFilter();
-			return _this;
-		}
-
-		/**
-	  * Init the filter
-	  */
-
-
-		SMotionblurElement.prototype._initFilter = function _initFilter() {
-			// get amount
-			var amount = this.settings.motionblur;
-			// create a new svg filter
-			this.filter = new _SMotionblurSvgFilter2.default(amount);
-			// apply the filter
-			this.filter.applyTo(this.elm);
-		};
-
-		return SMotionblurElement;
-	}(_SElement3.default);
-
-	// automatic init of dom elements
-
-
-	(0, _domReady2.default)(function () {
-		[].forEach.call(document.body.querySelectorAll('[data-s-motionblur]'), function (item) {
-			// init gooey element
-			new SMotionblurElement(item);
-		});
-	});
-
-	// expose in window.sugar
-	if (window.sugar == null) {
-		window.sugar = {};
-	}
-	window.sugar.SMotionblurElement = SMotionblurElement;
-
-	// export modules
-	exports.default = SMotionblurElement;
-
-/***/ },
-/* 83 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _SSvgFilter2 = __webpack_require__(78);
-
-	var _SSvgFilter3 = _interopRequireDefault(_SSvgFilter2);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); } /*
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Sugar-activate.js
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author   Olivier Bossel <olivier.bossel@gmail.com>
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @created  20.01.16
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @updated  20.01.16
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @version  1.0.0
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
-
-	// motionblur filter
-
-	var SMotionblurSvgFilter = function (_SSvgFilter) {
-		_inherits(SMotionblurSvgFilter, _SSvgFilter);
-
-		/**
-	  * Constructor
-	  */
-
-		function SMotionblurSvgFilter() {
-			var amount = arguments.length <= 0 || arguments[0] === undefined ? 0.5 : arguments[0];
-
-			_classCallCheck(this, SMotionblurSvgFilter);
-
-			// settings
-
-			var _this = _possibleConstructorReturn(this, _SSvgFilter.call(this, '\n\t\t\t<feGaussianBlur in="SourceGraphic" stdDeviation="0,0" />\n\t\t'));
-
-			_this._notMovingStepsBeforeStop = 10;
-			_this._currentStep = 0;
-			_this._amount = parseInt(amount);
-
-			// variables
-			_this._animationFrame = null;
-
-			// filter elements
-			_this._blur = _this.filter.querySelector('feGaussianBlur');
-			return _this;
-		}
-
-		/**
-	  * Apply to element (override)
-	  */
-
-
-		SMotionblurSvgFilter.prototype.applyTo = function applyTo(elm) {
-			var _this2 = this;
-
-			// call parent method
-			_SSvgFilter.prototype.applyTo.call(this, elm);
-			// listen to animation, transitionstart and move event
-			elm.addEventListener('animationiteration', function (e) {
-				_this2._handleFilter();
-			});
-			elm.addEventListener('transitionstart', function (e) {
-				_this2._handleFilter();
-			});
-			elm.addEventListener('move', function (e) {
-				_this2._handleFilter();
-			});
-			this._lastPos = sDom.offset(this.elms[0]);
-		};
-
-		/**
-	  * Handle filter
-	  */
-
-
-		SMotionblurSvgFilter.prototype._handleFilter = function _handleFilter(recusrive) {
-			var _this3 = this;
-
-			if (!recusrive) {
-				this._currentStep = 0;
-			}
-
-			// set the motion blur and get the moving difference
-			var diff = this._setMotionBlur();
-
-			// check if the element is moving or not anymore
-			if (diff.x <= 0 && diff.y <= 0) {
-				this._currentStep += 1;
-				if (this._currentStep >= this._notMovingStepsBeforeStop) {
-					this._currentStep = 0;
-					return;
-				}
-			}
-
-			// recusrive call to apply the blur with requestAnimationFrame for performances
-			this._animationFrame = requestAnimationFrame(function () {
-				_this3._handleFilter(true);
-			});
-		};
-
-		/**
-	  * Set motion blur
-	  */
-
-
-		SMotionblurSvgFilter.prototype._setMotionBlur = function _setMotionBlur() {
-			this._currentPos = sDom.offset(this.elms[0]);
-			var xDiff = Math.abs(this._currentPos.left - this._lastPos.left) * this._amount;
-			var yDiff = Math.abs(this._currentPos.top - this._lastPos.top) * this._amount;
-
-			// set the blur
-			this._blur.setAttribute('stdDeviation', xDiff + ',' + yDiff);
-
-			// update lastPos
-			this._lastPos = sDom.offset(this.elms[0]);
-
-			// return the diff
-			return {
-				x: xDiff,
-				y: yDiff
-			};
-		};
-
-		return SMotionblurSvgFilter;
-	}(_SSvgFilter3.default);
-
-	// expose in window.sugar
-
-
-	if (window.sugar == null) {
-		window.sugar = {};
-	}
-	window.sugar.SMotionblurSvgFilter = SMotionblurSvgFilter;
-
-	// export modules
-	exports.default = SMotionblurSvgFilter;
 
 /***/ }
 /******/ ])
