@@ -240,7 +240,6 @@ class SActivateElement extends SComponent {
 		if (this.parentActivate) {
 			let parent_api = this.parentActivate[this.name];
 			if (parent_api) {
-				console.log('activate parent', parent_api);
 				parent_api._activate();
 			}
 		}
@@ -316,7 +315,7 @@ class SActivateElement extends SComponent {
 	_getClosestActivate() {
 		let elm = this.elm.parentNode;
 		while(elm && elm != document) {
-			if (elm.id && window._sActivateStack[elm.id]) {
+			if (elm.id && window._sActivateStack[`#${elm.id}`]) {
 				return elm;
 			}
 			elm = elm.parentNode;

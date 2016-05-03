@@ -31414,7 +31414,6 @@ return /******/ (function(modules) { // webpackBootstrap
 			if (this.parentActivate) {
 				var parent_api = this.parentActivate[this.name];
 				if (parent_api) {
-					console.log('activate parent', parent_api);
 					parent_api._activate();
 				}
 			}
@@ -31506,7 +31505,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		SActivateElement.prototype._getClosestActivate = function _getClosestActivate() {
 			var elm = this.elm.parentNode;
 			while (elm && elm != document) {
-				if (elm.id && window._sActivateStack[elm.id]) {
+				if (elm.id && window._sActivateStack['#' + elm.id]) {
 					return elm;
 				}
 				elm = elm.parentNode;
