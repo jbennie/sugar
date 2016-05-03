@@ -93,58 +93,58 @@
 //
 // BEMize selector
 //
-@function s-parse-BEM-selector(
-	$selector
-) {
-	$bem_element_separator : '__';
-	$bem_modifier_separator : '--';
-	$bem_state_separator : '---';
+// @function s-parse-BEM-selector(
+// 	$selector
+// ) {
+// 	$bem_element_separator : '__';
+// 	$bem_modifier_separator : '--';
+// 	$bem_state_separator : '---';
 
-	$block : null;
-	$element : null;
-	$modifier : null;
-	$state : null;
+// 	$block : null;
+// 	$element : null;
+// 	$modifier : null;
+// 	$state : null;
 
-	// remove the .
-	$selector : str-replace($selector,'.','');
+// 	// remove the .
+// 	$selector : str-replace($selector,'.','');
 
-	// replace items in selector
+// 	// replace items in selector
 
-	@if str-index($selector, $bem_state_separator) {
-		$split : _split($selector, $bem_state_separator);
-		$selector : nth($split,1);
-		// set the modifier
-		$state : nth($split,2);
-	}
+// 	@if str-index($selector, $bem_state_separator) {
+// 		$split : _split($selector, $bem_state_separator);
+// 		$selector : nth($split,1);
+// 		// set the modifier
+// 		$state : nth($split,2);
+// 	}
 
-	@if str-index($selector, $bem_modifier_separator) {
-		$split : _split($selector, $bem_modifier_separator);
-		$selector : nth($split,1);
-		// set the modifier
-		$modifier : nth($split,2);
-	}
+// 	@if str-index($selector, $bem_modifier_separator) {
+// 		$split : _split($selector, $bem_modifier_separator);
+// 		$selector : nth($split,1);
+// 		// set the modifier
+// 		$modifier : nth($split,2);
+// 	}
 
-	// split block
-	@if str-index($selector, $bem_element_separator) {
-		$split : _split($selector, $bem_element_separator);
-		$element : nth($split,2);
-		$block : nth($split,1);
-	} @else {
-		$block : $selector
-	}	
+// 	// split block
+// 	@if str-index($selector, $bem_element_separator) {
+// 		$split : _split($selector, $bem_element_separator);
+// 		$element : nth($split,2);
+// 		$block : nth($split,1);
+// 	} @else {
+// 		$block : $selector
+// 	}	
 
-	@if $block == '' {
-		$block : null;
-	}
+// 	@if $block == '' {
+// 		$block : null;
+// 	}
 
-	// return the parsed selector map
-	@return (
-		block : $block,
-		element : $element,
-		modifier : $modifier,
-		state : $state
-	);	
-}
+// 	// return the parsed selector map
+// 	@return (
+// 		block : $block,
+// 		element : $element,
+// 		modifier : $modifier,
+// 		state : $state
+// 	);	
+// }
 
 //
 // Declare multiple selectors for BEM, SMACCS, and maybe others
@@ -208,7 +208,12 @@ $_sugar-settings-cache : ();
 	// check in cache
 	$cache : map-get($_sugar-settings-cache, $path);
 	@if $cache {
-		@return $cache;
+		// check if is a number and need a special unit context
+		@if type-of($cache) == number and not unitless($cache) and s-unit-context() {
+			@return s-convert($cache, s-unit-context());
+		} @else {
+			@return $cache;
+		}
 	}
 
 	// do not have any cache
@@ -226,9 +231,6 @@ $_sugar-settings-cache : ();
 				// try to get the non component version of the setting
 				// @debug('not found #{$path}, trying #{$base_path}');
 				$val : s-setting($base_path, default);
-				@if $val {
-					$_sugar-settings-cache : map-set($_sugar-settings-cache, $path, $val) !global;
-				}
 				@return $val;
 			} @else {
 				@return null;
@@ -237,7 +239,12 @@ $_sugar-settings-cache : ();
 
 		@if $idx == $length {
 			$_sugar-settings-cache : map-set($_sugar-settings-cache, $path, $value) !global;
-			@return $value;
+			// check if is a number and need a special unit context
+			@if type-of($value) == number and not unitless($value) and s-unit-context() {
+				@return s-convert($value, s-unit-context());
+			} @else {
+				@return $value;
+			}
 		}
 	}
 }
@@ -379,6 +386,13 @@ $_sugar-settings-cache : ();
 	}
 	// return the color
 	@return $color;
+}
+
+//
+// Get the current unit context
+//
+@function s-unit-context() {
+	@return $_s-unit-context;
 }
 
 //
