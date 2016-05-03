@@ -59,6 +59,7 @@ class SActivateElement extends SComponent {
 		
 		// get the target
 		this.target = this.settings.target || this.elm.getAttribute('href');
+		if (this.target.substr(0,1) == '#') this.target = this.target.substr(1);
 
 		// save in stack
 		window._sActivateStack[this.target] = this;
@@ -122,13 +123,13 @@ class SActivateElement extends SComponent {
 					setTimeout(() => {
 						// simply activate again if the same id that anchor
 						// this can happened when an element has history to false
-						if (document.location.hash && document.location.hash.substr(1) == this.dataset(this.name)) {
+						if (document.location.hash && document.location.hash.substr(1) == this.target) {
 							this._activate();
 						} else {
 							// simply change the hash 
 							// the event listener will take care of activate the
 							// good element
-							document.location.hash = this.dataset(this.name);
+							document.location.hash = this.target;
 						}
 					});
 				} else {
@@ -170,7 +171,7 @@ class SActivateElement extends SComponent {
 			let hash = document.location.hash;
 			if (hash) {
 				hash = hash.substr(1);
-				if (hash == this.dataset(this.name)) {
+				if (hash == this.target) {
 					this._activate();
 				}
 			}
@@ -205,6 +206,7 @@ class SActivateElement extends SComponent {
 	 * Activate the element
 	 */
 	_activate() {
+
 		// unactive all group elements
 		let grp = this._getGroup(this.elm);
 		[].forEach.call(document.body.querySelectorAll(`[data-${this.name_dash}-group="${grp}"],[${this.name_dash}-group="${grp}"]`), (group_elm) => {
@@ -243,7 +245,7 @@ class SActivateElement extends SComponent {
 			let hash = document.location.hash;
 			if (hash) {
 				hash = hash.substr(1);
-				if (hash == this.dataset(this.name)) {
+				if (hash == this.target) {
 					this._activate();
 				}
 			}
@@ -256,7 +258,7 @@ class SActivateElement extends SComponent {
 	activate() {
 		if (this.settings.history) {
 			// change hash
-			document.location.hash = this.dataset(this.name);
+			document.location.hash = this.target;
 		} else {
 			// activate simply
 			this._activate();
@@ -280,7 +282,7 @@ class SActivateElement extends SComponent {
 	 * Update targets, etc...
 	 */
 	update(scope = document.body) {
-		this.targets = scope.querySelectorAll('#'+this.dataset(this.name));
+		this.targets = scope.querySelectorAll('#'+this.target);
 	}
 
 	/**

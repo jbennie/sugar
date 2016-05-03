@@ -3,7 +3,7 @@
  */
 export default function autoCast(string) {
 	if (string === "" || ! string) {
-		return true;
+		return null;
 	} else if (string == 'false'
 		|| string == 'true'
 		|| (typeof(string) == 'string' && string.substr(0,1) == '[')

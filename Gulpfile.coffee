@@ -161,10 +161,10 @@ gulp.task 'webpack-app', ['clean-js'], ->
 	.pipe gulp.dest 'assets/js'
 
 # register tasks
-gulp.task 'default', ['webpack-dist','webpack-app','sass']
+gulp.task 'default', ['webpack-app','sass']
 gulp.task 'watch', ['default'], ->
 	# Recompile on change
-	gulp.watch ["src/coffee/**/*.coffee"], ['webpack-dist','webpack-app']
-	gulp.watch ['src/js/**/*.js'], ['webpack-dist','webpack-app']
+	gulp.watch ["src/coffee/**/*.coffee"], ['webpack-app']
+	gulp.watch ['src/js/**/*.js'], ['webpack-app']
 	gulp.watch ["src/sass/**/*.scss"], ['sass']
 	gulp.watch ['pages/**/*.html'], ['tokens']

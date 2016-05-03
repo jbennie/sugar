@@ -31073,7 +31073,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		function SActivateManager() {
 			_classCallCheck(this, SActivateManager);
 
-			(0, _querySelectorLive2.default)('[data-s-activate]', function (element) {
+			(0, _querySelectorLive2.default)('[data-s-activate],[s-activate]', function (element) {
 				if (!element.sActivate) {
 					new _SActivateElement2.default(element);
 				}
@@ -31222,6 +31222,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// get the target
 			this.target = this.settings.target || this.elm.getAttribute('href');
+			if (this.target.substr(0, 1) == '#') this.target = this.target.substr(1);
 
 			// save in stack
 			window._sActivateStack[this.target] = this;
@@ -31285,13 +31286,13 @@ return /******/ (function(modules) { // webpackBootstrap
 						setTimeout(function () {
 							// simply activate again if the same id that anchor
 							// this can happened when an element has history to false
-							if (document.location.hash && document.location.hash.substr(1) == _this2.dataset(_this2.name)) {
+							if (document.location.hash && document.location.hash.substr(1) == _this2.target) {
 								_this2._activate();
 							} else {
 								// simply change the hash
 								// the event listener will take care of activate the
 								// good element
-								document.location.hash = _this2.dataset(_this2.name);
+								document.location.hash = _this2.target;
 							}
 						});
 					} else {
@@ -31333,7 +31334,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				var hash = document.location.hash;
 				if (hash) {
 					hash = hash.substr(1);
-					if (hash == this.dataset(this.name)) {
+					if (hash == this.target) {
 						this._activate();
 					}
 				}
@@ -31376,6 +31377,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		SActivateElement.prototype._activate = function _activate() {
+
 			// unactive all group elements
 			var grp = this._getGroup(this.elm);
 			[].forEach.call(document.body.querySelectorAll('[data-' + this.name_dash + '-group="' + grp + '"],[' + this.name_dash + '-group="' + grp + '"]'), function (group_elm) {
@@ -31418,7 +31420,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				var hash = document.location.hash;
 				if (hash) {
 					hash = hash.substr(1);
-					if (hash == _this3.dataset(_this3.name)) {
+					if (hash == _this3.target) {
 						_this3._activate();
 					}
 				}
@@ -31433,7 +31435,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		SActivateElement.prototype.activate = function activate() {
 			if (this.settings.history) {
 				// change hash
-				document.location.hash = this.dataset(this.name);
+				document.location.hash = this.target;
 			} else {
 				// activate simply
 				this._activate();
@@ -31463,7 +31465,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		SActivateElement.prototype.update = function update() {
 			var scope = arguments.length <= 0 || arguments[0] === undefined ? document.body : arguments[0];
 
-			this.targets = scope.querySelectorAll('#' + this.dataset(this.name));
+			this.targets = scope.querySelectorAll('#' + this.target);
 		};
 
 		/**
@@ -31620,30 +31622,28 @@ return /******/ (function(modules) { // webpackBootstrap
 			// set the api in the dom element
 			_this.elm[_this.name] = _this;
 
-			_this.coco = {
-				hello: {
-					jaja: 'youhou',
-					world: 'tuptudup'
-				}
-			};
+			// this.coco = {
+			// 	hello : {
+			// 		jaja : 'youhou',
+			// 		world : 'tuptudup'
+			// 	}
+			// };
 
 			// make name watchable
 			// this.watchable('name');
 			// this.watchable('coco.hello.world');
 
-			var hello = _this.coco.hello;
-			Object.defineProperty(_this.coco, 'hello', {
-				get: function get() {
-					return hello;
-				},
-				set: function set(value) {
-					hello = value;
-				}
-			});
+			// let hello = this.coco.hello;
+			// Object.defineProperty(this.coco, 'hello', {
+			// 	get : () => hello,
+			// 	set : (value) => {
+			// 		hello = value;
+			// 	}
+			// });
 
-			_this.watch('coco.hello', function (newVal, oldVal) {
-				console.log('YOPYOP', newVal, oldVal);
-			});
+			// this.watch('coco.hello', (newVal, oldVal) => {
+			// 	console.log('YOPYOP', newVal, oldVal);
+			// });
 
 			// this.watch('elm.style.display', (newVal, oldVal) => {
 			// 	console.log('update elm.style.display', newVal, oldVal);
@@ -31710,9 +31710,6 @@ return /******/ (function(modules) { // webpackBootstrap
 					_this.attr[attrName] = null;
 				}
 
-				// add the property if not exist
-				// if ( ! this.attr[attrName])
-
 				// watch settings attributes
 				_this.watch('attr.' + attrName, function (newVal, oldVal) {
 					// update the setting
@@ -31725,32 +31722,6 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 			return _this;
 		}
-
-		/**
-	  * New setting
-	  */
-		// _newSetting(name) {
-		// 	// make only if not exist already
-		// 	if (this.settings.hasOwnProperty[name]) return name;
-
-		// 	// define new property on the attr
-		// 	Object.defineProperty(this.settings, name, {
-		// 		get : () => this._settingsValues[name],
-		// 		set : (value) => {
-		// 			// cast value
-		// 			value = __autoCast(value);
-		// 			// save the old value
-		// 			// let previousValue = this._previousSettingsValues[name] = this.settings[name];
-		// 			this._settingsValues[name] = value;
-		// 			// notify of new value
-		// 			// this.notify(`settings.${name}`, value, previousValue);
-		// 			// this.notify('settings', this._settingsValues, this._previousSettingsValues);
-		// 		},
-		// 		enumarable : true
-		// 	});
-		// 	return name;
-		// }
-
 
 		return SComponent;
 	}(_SElement3.default);
@@ -31808,7 +31779,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	function autoCast(string) {
 		if (string === "" || !string) {
-			return true;
+			return null;
 		} else if (string == 'false' || string == 'true' || typeof string == 'string' && string.substr(0, 1) == '[' || !isNaN(string)) {
 			return eval(string);
 		} else if (typeof string == 'string' && string.substr(0, 1) == '{') {

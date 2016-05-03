@@ -22,7 +22,7 @@ class SActivateManager {
 	 * Constructor
 	 */
 	constructor() {
-		querySelectorLive('[data-s-activate]', (element) => {
+		querySelectorLive('[data-s-activate],[s-activate]', (element) => {
 			if (!element.sActivate) {
 				new SActivateElement(element);
 			}

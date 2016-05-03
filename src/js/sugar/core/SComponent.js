@@ -77,28 +77,28 @@ export default class SComponent extends SElement {
 		// set the api in the dom element
 		this.elm[this.name] = this;
 
-		this.coco = {
-			hello : {
-				jaja : 'youhou',
-				world : 'tuptudup'
-			}
-		};
+		// this.coco = {
+		// 	hello : {
+		// 		jaja : 'youhou',
+		// 		world : 'tuptudup'
+		// 	}
+		// };
 
 		// make name watchable
 		// this.watchable('name');
 		// this.watchable('coco.hello.world');
 
-		let hello = this.coco.hello;
-		Object.defineProperty(this.coco, 'hello', {
-			get : () => hello,
-			set : (value) => {
-				hello = value;
-			}
-		});
+		// let hello = this.coco.hello;
+		// Object.defineProperty(this.coco, 'hello', {
+		// 	get : () => hello,
+		// 	set : (value) => {
+		// 		hello = value;
+		// 	}
+		// });
 
-		this.watch('coco.hello', (newVal, oldVal) => {
-			console.log('YOPYOP', newVal, oldVal);
-		});
+		// this.watch('coco.hello', (newVal, oldVal) => {
+		// 	console.log('YOPYOP', newVal, oldVal);
+		// });
 
 		// this.watch('elm.style.display', (newVal, oldVal) => {
 		// 	console.log('update elm.style.display', newVal, oldVal);
@@ -167,9 +167,6 @@ export default class SComponent extends SElement {
 				this.attr[attrName] = null;
 			}
 
-			// add the property if not exist
-			// if ( ! this.attr[attrName])
-
 			// watch settings attributes
 			this.watch(`attr.${attrName}`, (newVal, oldVal) => {
 				// update the setting
@@ -177,29 +174,4 @@ export default class SComponent extends SElement {
 			});
 		}
 	}
-
-	/**
-	 * New setting
-	 */
-	// _newSetting(name) {
-	// 	// make only if not exist already
-	// 	if (this.settings.hasOwnProperty[name]) return name;
-
-	// 	// define new property on the attr
-	// 	Object.defineProperty(this.settings, name, {
-	// 		get : () => this._settingsValues[name],
-	// 		set : (value) => {
-	// 			// cast value
-	// 			value = __autoCast(value);
-	// 			// save the old value
-	// 			// let previousValue = this._previousSettingsValues[name] = this.settings[name];
-	// 			this._settingsValues[name] = value;
-	// 			// notify of new value
-	// 			// this.notify(`settings.${name}`, value, previousValue);
-	// 			// this.notify('settings', this._settingsValues, this._previousSettingsValues);
-	// 		},
-	// 		enumarable : true
-	// 	});
-	// 	return name;
-	// }
 }
