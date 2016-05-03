@@ -31263,10 +31263,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// check if we are in another s-activate element
 			var closest = this._getClosestActivate();
+
 			if (closest) {
 				// save the closest content reference
-				this.parentActivate = document.body.querySelector('[data-' + this.name_dash + '="' + closest.id + '"],[' + this.name_dash + '="' + closest.id + '"]');
+				this.parentActivate = document.body.querySelector('[data-' + this.name_dash + '="' + closest.id + '"],[' + this.name_dash + '="' + closest.id + '"],[data-' + this.name_dash + '][href="#' + closest.id + '"],[' + this.name_dash + '][href="#' + closest.id + '"]');
 				// this.parentActivate = document.body.querySelector('[data-s-activate="'+closest.id+'"],[s-activate="'+closest.id+'"]');
+				// console.log(this.parentActivate);
 			}
 
 			// listen for click
