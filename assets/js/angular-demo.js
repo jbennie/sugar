@@ -31292,7 +31292,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					if (_this2.settings.history) {
 						// simply activate again if the same id that anchor
 						// this can happened when an element has history to false
-						if (document.location.hash && document.location.hash.substr(1) == _this2.target) {
+						if (document.location.hash && document.location.hash == _this2.target) {
 							_this2._activate();
 						} else {
 							// save the scroll position
@@ -31346,7 +31346,6 @@ return /******/ (function(modules) { // webpackBootstrap
 			if (this.settings.anchor) {
 				var hash = document.location.hash;
 				if (hash) {
-					hash = hash.substr(1);
 					if (hash == this.target) {
 						this._activate();
 					}
@@ -31394,7 +31393,6 @@ return /******/ (function(modules) { // webpackBootstrap
 			// unactive all group elements
 			var grp = this._getGroup(this.elm);
 			[].forEach.call(document.body.querySelectorAll('[data-' + this.name_dash + '-group="' + grp + '"],[' + this.name_dash + '-group="' + grp + '"]'), function (group_elm) {
-
 				// get the api
 				var api = group_elm.sActivate;
 				// unactive element
@@ -31402,6 +31400,8 @@ return /******/ (function(modules) { // webpackBootstrap
 					api.unactivate();
 				}
 			});
+
+			console.log('activate', this.elm, this.targets);
 
 			// activate the element
 			this.elm.classList.add('active');
@@ -31414,7 +31414,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// if has a perent, activate it
 			if (this.parentActivate) {
-				var parent_api = this.parentActivate.sActivate;
+				var parent_api = this.parentActivate[this.name];
 				if (parent_api) {
 					parent_api._activate();
 				}
@@ -31442,7 +31442,6 @@ return /******/ (function(modules) { // webpackBootstrap
 		SActivateElement.prototype._processHistoryChange = function _processHistoryChange() {
 			var hash = document.location.hash;
 			if (hash) {
-				hash = hash.substr(1);
 				if (hash == this.target) {
 					this._activate();
 					// restore scrollTop

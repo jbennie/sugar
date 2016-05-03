@@ -126,7 +126,7 @@ class SActivateElement extends SComponent {
 				if (this.settings.history) {
 					// simply activate again if the same id that anchor
 					// this can happened when an element has history to false
-					if (document.location.hash && document.location.hash.substr(1) == this.target) {
+					if (document.location.hash && document.location.hash == this.target) {
 						this._activate();
 					} else {
 						// save the scroll position
@@ -180,7 +180,6 @@ class SActivateElement extends SComponent {
 		if (this.settings.anchor) {
 			let hash = document.location.hash;
 			if (hash) {
-				hash = hash.substr(1);
 				if (hash == this.target) {
 					this._activate();
 				}
@@ -220,7 +219,6 @@ class SActivateElement extends SComponent {
 		// unactive all group elements
 		let grp = this._getGroup(this.elm);
 		[].forEach.call(document.body.querySelectorAll(`[data-${this.name_dash}-group="${grp}"],[${this.name_dash}-group="${grp}"]`), (group_elm) => {
-			
 			// get the api
 			let api = group_elm.sActivate;
 			// unactive element
@@ -228,6 +226,8 @@ class SActivateElement extends SComponent {
 				api.unactivate();
 			}
 		});
+
+		console.log('activate', this.elm, this.targets);
 
 		// activate the element
 		this.elm.classList.add('active');
@@ -240,7 +240,7 @@ class SActivateElement extends SComponent {
 
 		// if has a perent, activate it
 		if (this.parentActivate) {
-			let parent_api = this.parentActivate.sActivate;
+			let parent_api = this.parentActivate[this.name];
 			if (parent_api) {
 				parent_api._activate();
 			}
@@ -262,7 +262,6 @@ class SActivateElement extends SComponent {
 	_processHistoryChange() {
 		let hash = document.location.hash;
 		if (hash) {
-			hash = hash.substr(1);
 			if (hash == this.target) {
 				this._activate();
 				// restore scrollTop
