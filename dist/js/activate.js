@@ -283,7 +283,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			if (elm[this.name]) {
 				return elm[this.name].target;
 			}
-			return elm.getAttribute(this.name_dash) || elm.getAttribute('href');
+			return elm.getAttribute('data-' + this.name_dash) || elm.getAttribute(this.name_dash) || elm.getAttribute('href');
 		};
 
 		/**
@@ -292,7 +292,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		SActivateElement.prototype._getGroup = function _getGroup(elm) {
-			return elm.getAttribute(this.name_dash + '-group');
+			return elm.getAttribute(this.name_dash + '-group') || elm.getAttribute('data-' + this.name_dash + '-group');
 		};
 
 		/**

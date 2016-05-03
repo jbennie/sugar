@@ -184,14 +184,14 @@ class SActivateElement extends SComponent {
 		if (elm[this.name]) {
 			return elm[this.name].target;
 		}
-		return elm.getAttribute(this.name_dash) || elm.getAttribute('href');
+		return elm.getAttribute(`data-${this.name_dash}`) || elm.getAttribute(this.name_dash) || elm.getAttribute('href');
 	}
 
 	/**
 	 * Get group
 	 */
 	_getGroup(elm) {
-		return elm.getAttribute(this.name_dash+'-group');
+		return elm.getAttribute(this.name_dash+'-group') || elm.getAttribute('data-'+this.name_dash+'-group');
 	}
 
 	/**
