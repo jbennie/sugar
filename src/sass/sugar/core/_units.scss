@@ -28,9 +28,11 @@
 	@return s-convert($value, em);
 }
 
+
 //
 // Convert some values
 //
+$_s-font-size : null;
 @function s-convert($value, $convertUnit){
 
 	// get the unit
@@ -39,11 +41,24 @@
 	// get the unit
 	$unit : unit($value);
 
-	// get the default font-size
-	$font-size : s-strip-units(sugar('settings.typo.font-size'));
+	// put font size in cache to avoid
+	// unit conversion recursion
+	@if not $_s-font-size {
+		$_s-font-size : sugar('settings.typo.font-size') !global;
+		$_s-font-size : s-convert($_s-font-size, px) !global;
+	}
+	$font-size : s-strip-units($_s-font-size);
+
+	// @debug(type-of($unit));
+	// @debug($unit);
+	// @debug(type-of($convertUnit));
+	// @debug($convertUnit);
+	// @debug('******');
+	// @debug($font-size);
 
 	// return the value if same units
 	@if $unit and $unit == $convertUnit {
+		// @debug('same unit #{$unit} => #{$convertUnit}');
 		@return $value;
 	}
 

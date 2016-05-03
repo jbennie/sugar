@@ -1705,9 +1705,9 @@ textarea.input {
 }
 
 .input--smaller, .size--smaller .input {
-  font-size: 0.61538462rem;
-  padding: 0.46153846rem 0.61538462rem;
-  height: 1.53846154rem;
+  font-size: 8px;
+  padding: 6px 8px;
+  height: 20px;
 }
 
 .vertical-rhythme .input--smaller, .vertical-rhythme .input--smaller ~  span, .vertical-rhythme .size--smaller .input, .vertical-rhythme .size--smaller .input ~  span {
@@ -1725,9 +1725,9 @@ textarea.input--smaller, .size--smaller textarea.input {
 }
 
 .input--small, .size--small .input {
-  font-size: 0.76923077rem;
-  padding: 0.61538462rem 0.76923077rem;
-  height: 2rem;
+  font-size: 10px;
+  padding: 8px 10px;
+  height: 26px;
 }
 
 .vertical-rhythme .input--small, .vertical-rhythme .input--small ~  span, .vertical-rhythme .size--small .input, .vertical-rhythme .size--small .input ~  span {
@@ -1745,9 +1745,9 @@ textarea.input--small, .size--small textarea.input {
 }
 
 .input, .size .input {
-  font-size: 1rem;
-  padding: 0.76923077rem 1rem;
-  height: 2.53846154rem;
+  font-size: 13px;
+  padding: 10px 13px;
+  height: 33px;
 }
 
 .vertical-rhythme .input, .vertical-rhythme .input ~  span, .vertical-rhythme .size .input, .vertical-rhythme .size .input ~  span {
@@ -1765,9 +1765,9 @@ textarea.input, .size textarea.input {
 }
 
 .input--medium, .size--medium .input {
-  font-size: 1.38461538rem;
-  padding: 1.15384615rem 1.38461538rem;
-  height: 3.69230769rem;
+  font-size: 18px;
+  padding: 15px 18px;
+  height: 48px;
 }
 
 .vertical-rhythme .input--medium, .vertical-rhythme .input--medium ~  span, .vertical-rhythme .size--medium .input, .vertical-rhythme .size--medium .input ~  span {
@@ -1785,9 +1785,9 @@ textarea.input--medium, .size--medium textarea.input {
 }
 
 .input--big, .size--big .input {
-  font-size: 1.76923077rem;
-  padding: 1.46153846rem 1.76923077rem;
-  height: 4.69230769rem;
+  font-size: 23px;
+  padding: 19px 23px;
+  height: 61px;
 }
 
 .vertical-rhythme .input--big, .vertical-rhythme .input--big ~  span, .vertical-rhythme .size--big .input, .vertical-rhythme .size--big .input ~  span {
@@ -1805,9 +1805,9 @@ textarea.input--big, .size--big textarea.input {
 }
 
 .input--bigger, .size--bigger .input {
-  font-size: 2.38461538rem;
-  padding: 1.92307692rem 2.38461538rem;
-  height: 6.23076923rem;
+  font-size: 31px;
+  padding: 25px 31px;
+  height: 81px;
 }
 
 .vertical-rhythme .input--bigger, .vertical-rhythme .input--bigger ~  span, .vertical-rhythme .size--bigger .input, .vertical-rhythme .size--bigger .input ~  span {
@@ -2011,9 +2011,9 @@ select.input--info, .input--info.s-select, .color--info select.input {
 }
 
 .input-addon--smaller, .size--smaller .input-addon {
-  font-size: 0.61538462rem;
-  padding: 0.46153846rem 0.61538462rem;
-  height: 1.53846154rem;
+  font-size: 8px;
+  padding: 6px 8px;
+  height: 20px;
 }
 
 .vertical-rhythme .input-addon--smaller, .vertical-rhythme .size--smaller .input-addon {
@@ -2021,9 +2021,9 @@ select.input--info, .input--info.s-select, .color--info select.input {
 }
 
 .input-addon--small, .size--small .input-addon {
-  font-size: 0.76923077rem;
-  padding: 0.61538462rem 0.76923077rem;
-  height: 2rem;
+  font-size: 10px;
+  padding: 8px 10px;
+  height: 26px;
 }
 
 .vertical-rhythme .input-addon--small, .vertical-rhythme .size--small .input-addon {
@@ -2031,9 +2031,9 @@ select.input--info, .input--info.s-select, .color--info select.input {
 }
 
 .input-addon, .size .input-addon {
-  font-size: 1rem;
-  padding: 0.76923077rem 1rem;
-  height: 2.53846154rem;
+  font-size: 13px;
+  padding: 10px 13px;
+  height: 33px;
 }
 
 .vertical-rhythme .input-addon, .vertical-rhythme .size .input-addon {
@@ -2041,9 +2041,9 @@ select.input--info, .input--info.s-select, .color--info select.input {
 }
 
 .input-addon--medium, .size--medium .input-addon {
-  font-size: 1.38461538rem;
-  padding: 1.15384615rem 1.38461538rem;
-  height: 3.69230769rem;
+  font-size: 18px;
+  padding: 15px 18px;
+  height: 48px;
 }
 
 .vertical-rhythme .input-addon--medium, .vertical-rhythme .size--medium .input-addon {
@@ -2051,9 +2051,9 @@ select.input--info, .input--info.s-select, .color--info select.input {
 }
 
 .input-addon--big, .size--big .input-addon {
-  font-size: 1.76923077rem;
-  padding: 1.46153846rem 1.76923077rem;
-  height: 4.69230769rem;
+  font-size: 23px;
+  padding: 19px 23px;
+  height: 61px;
 }
 
 .vertical-rhythme .input-addon--big, .vertical-rhythme .size--big .input-addon {
@@ -2061,9 +2061,9 @@ select.input--info, .input--info.s-select, .color--info select.input {
 }
 
 .input-addon--bigger, .size--bigger .input-addon {
-  font-size: 2.38461538rem;
-  padding: 1.92307692rem 2.38461538rem;
-  height: 6.23076923rem;
+  font-size: 31px;
+  padding: 25px 31px;
+  height: 81px;
 }
 
 .vertical-rhythme .input-addon--bigger, .vertical-rhythme .size--bigger .input-addon {
@@ -3677,9 +3677,9 @@ input[data-s-radiobox].input--info:checked + .s-radiobox:before {
 }
 
 .pika-single .pika-time select {
-  font-size: 1.38461538rem;
-  padding: 1.15384615rem 1.38461538rem;
-  height: 3.69230769rem;
+  font-size: 18px;
+  padding: 15px 18px;
+  height: 48px;
   border-color: rgba(129, 149, 161, 0.1);
   border-bottom-color: rgba(129, 149, 161, 0.3);
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A%238195a1"></polygon></svg>');
@@ -3757,9 +3757,9 @@ input[data-s-radiobox].input--info:checked + .s-radiobox:before {
 }
 
 .pika-single.primary .pika-time select {
-  font-size: 1.38461538rem;
-  padding: 1.15384615rem 1.38461538rem;
-  height: 3.69230769rem;
+  font-size: 18px;
+  padding: 15px 18px;
+  height: 48px;
   border-color: rgba(242, 188, 43, 0.1);
   border-bottom-color: rgba(242, 188, 43, 0.3);
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A%23f2bc2b"></polygon></svg>');
@@ -3837,9 +3837,9 @@ input[data-s-radiobox].input--info:checked + .s-radiobox:before {
 }
 
 .pika-single.secondary .pika-time select {
-  font-size: 1.38461538rem;
-  padding: 1.15384615rem 1.38461538rem;
-  height: 3.69230769rem;
+  font-size: 18px;
+  padding: 15px 18px;
+  height: 48px;
   border-color: rgba(119, 119, 119, 0.1);
   border-bottom-color: rgba(119, 119, 119, 0.3);
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A%23777"></polygon></svg>');
@@ -3917,9 +3917,9 @@ input[data-s-radiobox].input--info:checked + .s-radiobox:before {
 }
 
 .pika-single.success .pika-time select {
-  font-size: 1.38461538rem;
-  padding: 1.15384615rem 1.38461538rem;
-  height: 3.69230769rem;
+  font-size: 18px;
+  padding: 15px 18px;
+  height: 48px;
   border-color: rgba(92, 184, 92, 0.1);
   border-bottom-color: rgba(92, 184, 92, 0.3);
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A%235cb85c"></polygon></svg>');
@@ -3997,9 +3997,9 @@ input[data-s-radiobox].input--info:checked + .s-radiobox:before {
 }
 
 .pika-single.warning .pika-time select {
-  font-size: 1.38461538rem;
-  padding: 1.15384615rem 1.38461538rem;
-  height: 3.69230769rem;
+  font-size: 18px;
+  padding: 15px 18px;
+  height: 48px;
   border-color: rgba(240, 173, 78, 0.1);
   border-bottom-color: rgba(240, 173, 78, 0.3);
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A%23f0ad4e"></polygon></svg>');
@@ -4077,9 +4077,9 @@ input[data-s-radiobox].input--info:checked + .s-radiobox:before {
 }
 
 .pika-single.error .pika-time select {
-  font-size: 1.38461538rem;
-  padding: 1.15384615rem 1.38461538rem;
-  height: 3.69230769rem;
+  font-size: 18px;
+  padding: 15px 18px;
+  height: 48px;
   border-color: rgba(217, 83, 79, 0.1);
   border-bottom-color: rgba(217, 83, 79, 0.3);
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A%23d9534f"></polygon></svg>');
@@ -4157,9 +4157,9 @@ input[data-s-radiobox].input--info:checked + .s-radiobox:before {
 }
 
 .pika-single.info .pika-time select {
-  font-size: 1.38461538rem;
-  padding: 1.15384615rem 1.38461538rem;
-  height: 3.69230769rem;
+  font-size: 18px;
+  padding: 15px 18px;
+  height: 48px;
   border-color: rgba(33, 153, 232, 0.1);
   border-bottom-color: rgba(33, 153, 232, 0.3);
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A%232199e8"></polygon></svg>');
@@ -4368,9 +4368,9 @@ input[data-s-radiobox].input--info:checked + .s-radiobox:before {
 }
 
 .s-select.input--smaller .s-select__search-field {
-  font-size: 0.61538462rem;
-  padding: 0.46153846rem 0.61538462rem;
-  height: 1.53846154rem;
+  font-size: 8px;
+  padding: 6px 8px;
+  height: 20px;
   border-radius: 2px;
 }
 
@@ -4423,9 +4423,9 @@ input[data-s-radiobox].input--info:checked + .s-radiobox:before {
 }
 
 .s-select.input--small .s-select__search-field {
-  font-size: 0.76923077rem;
-  padding: 0.61538462rem 0.76923077rem;
-  height: 2rem;
+  font-size: 10px;
+  padding: 8px 10px;
+  height: 26px;
   border-radius: 2px;
 }
 
@@ -4478,9 +4478,9 @@ input[data-s-radiobox].input--info:checked + .s-radiobox:before {
 }
 
 .s-select.input .s-select__search-field {
-  font-size: 1rem;
-  padding: 0.76923077rem 1rem;
-  height: 2.53846154rem;
+  font-size: 13px;
+  padding: 10px 13px;
+  height: 33px;
   border-radius: 3px;
 }
 
@@ -4533,9 +4533,9 @@ input[data-s-radiobox].input--info:checked + .s-radiobox:before {
 }
 
 .s-select.input--medium .s-select__search-field {
-  font-size: 1.38461538rem;
-  padding: 1.15384615rem 1.38461538rem;
-  height: 3.69230769rem;
+  font-size: 18px;
+  padding: 15px 18px;
+  height: 48px;
   border-radius: 4px;
 }
 
@@ -4588,9 +4588,9 @@ input[data-s-radiobox].input--info:checked + .s-radiobox:before {
 }
 
 .s-select.input--big .s-select__search-field {
-  font-size: 1.76923077rem;
-  padding: 1.46153846rem 1.76923077rem;
-  height: 4.69230769rem;
+  font-size: 23px;
+  padding: 19px 23px;
+  height: 61px;
   border-radius: 5px;
 }
 
@@ -4643,9 +4643,9 @@ input[data-s-radiobox].input--info:checked + .s-radiobox:before {
 }
 
 .s-select.input--bigger .s-select__search-field {
-  font-size: 2.38461538rem;
-  padding: 1.92307692rem 2.38461538rem;
-  height: 6.23076923rem;
+  font-size: 31px;
+  padding: 25px 31px;
+  height: 81px;
   border-radius: 7px;
 }
 

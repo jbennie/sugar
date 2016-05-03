@@ -210,6 +210,7 @@ $_sugar-settings-cache : ();
 	@if $cache {
 		// check if is a number and need a special unit context
 		@if type-of($cache) == number and not unitless($cache) and s-unit-context() {
+			// @return $cache;
 			@return s-convert($cache, s-unit-context());
 		} @else {
 			@return $cache;
@@ -241,6 +242,8 @@ $_sugar-settings-cache : ();
 			$_sugar-settings-cache : map-set($_sugar-settings-cache, $path, $value) !global;
 			// check if is a number and need a special unit context
 			@if type-of($value) == number and not unitless($value) and s-unit-context() {
+				@debug('111 convert #{unit($value)} to #{s-unit-context()}');
+				@return $value;
 				@return s-convert($value, s-unit-context());
 			} @else {
 				@return $value;

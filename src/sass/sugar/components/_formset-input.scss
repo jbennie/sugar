@@ -131,10 +131,12 @@
 	}
 }
 @mixin s-formset-input-size($size) {
-	font-size : s-lnf(font-size, $size);
-	// border-radius: s-lnf(border-radius, $size);
-	padding : s-lnf(padding-horizontal, $size) s-lnf(padding-vertical, $size);
-	height: s-lnf(font-size, $size) + s-lnf(padding-horizontal, $size) * 2;
+	@include s-unit-context(px) {
+		font-size : s-lnf(font-size, $size);
+		// border-radius: s-lnf(border-radius, $size);
+		padding : s-lnf(padding-horizontal, $size) s-lnf(padding-vertical, $size);
+		height: s-lnf(font-size, $size) + s-lnf(padding-horizontal, $size) * 2;
+	}
 }
 @mixin s-formset-input-color($color) {
 	border-color: s-color($color, -opacity .1);
