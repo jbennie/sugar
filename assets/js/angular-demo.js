@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _sActivateManager2 = _interopRequireDefault(_sActivateManager);
 
-	var _SSelectElement = __webpack_require__(77);
+	var _SSelectElement = __webpack_require__(78);
 
 	var _SSelectElement2 = _interopRequireDefault(_SSelectElement);
 
@@ -31136,6 +31136,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _SComponent3 = _interopRequireDefault(_SComponent2);
 
+	var _scrollTop = __webpack_require__(77);
+
+	var _scrollTop2 = _interopRequireDefault(_scrollTop);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
@@ -31196,7 +31200,8 @@ return /******/ (function(modules) { // webpackBootstrap
 				toggle: false,
 				trigger: 'click',
 				unactivateTrigger: null,
-				unactivateTimeout: 200
+				unactivateTimeout: 200,
+				preventScroll: true
 			}, settings));
 
 			_this._inited = true;
@@ -31222,7 +31227,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// get the target
 			this.target = this.settings.target || this.elm.getAttribute('href');
-			if (this.target.substr(0, 1) == '#') this.target = this.target.substr(1);
 
 			// save in stack
 			window._sActivateStack[this.target] = this;
@@ -31273,6 +31277,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// listen for click
 			this.elm.addEventListener(this.settings.trigger, function (e) {
+				e.preventDefault();
 				// clear unactivate timeout
 				clearTimeout(_this2._unactivateSetTimeout);
 				// if toggle
@@ -31285,18 +31290,24 @@ return /******/ (function(modules) { // webpackBootstrap
 					}
 				} else {
 					if (_this2.settings.history) {
-						setTimeout(function () {
-							// simply activate again if the same id that anchor
-							// this can happened when an element has history to false
-							if (document.location.hash && document.location.hash.substr(1) == _this2.target) {
-								_this2._activate();
+						// simply activate again if the same id that anchor
+						// this can happened when an element has history to false
+						if (document.location.hash && document.location.hash.substr(1) == _this2.target) {
+							_this2._activate();
+						} else {
+							// save the scroll position
+							// this._scrollTop = __scrollTop();
+							// simply change the hash
+							// the event listener will take care of activate the
+							// good element
+							if (_this2.settings.preventScroll) {
+								// document.location.hash = `${this.target}/`;
+								window.history.pushState(null, null, '' + document.location.pathname + _this2.target);
+								_this2._processHistoryChange();
 							} else {
-								// simply change the hash
-								// the event listener will take care of activate the
-								// good element
-								document.location.hash = _this2.target;
+								document.location.hash = '' + _this2.target;
 							}
-						});
+						}
 					} else {
 						// activate the element
 						_this2._activate();
@@ -31419,14 +31430,25 @@ return /******/ (function(modules) { // webpackBootstrap
 			var _this3 = this;
 
 			window.addEventListener('hashchange', function (e) {
-				var hash = document.location.hash;
-				if (hash) {
-					hash = hash.substr(1);
-					if (hash == _this3.target) {
-						_this3._activate();
-					}
-				}
+				_this3._processHistoryChange();
 			});
+		};
+
+		/**
+	  * Process history change
+	  */
+
+
+		SActivateElement.prototype._processHistoryChange = function _processHistoryChange() {
+			var hash = document.location.hash;
+			if (hash) {
+				hash = hash.substr(1);
+				if (hash == this.target) {
+					this._activate();
+					// restore scrollTop
+					document.body.scrollTop = this._scrollTop;
+				}
+			}
 		};
 
 		/**
@@ -31436,8 +31458,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 		SActivateElement.prototype.activate = function activate() {
 			if (this.settings.history) {
-				// change hash
-				document.location.hash = this.target;
+				if (this.settings.preventScroll) {
+					window.history.pushState(null, null, document.location.pathname + '#' + this.target);
+					this._processHistoryChange();
+				} else {
+					document.location.hash = '' + this.target;
+				}
 			} else {
 				// activate simply
 				this._activate();
@@ -31467,7 +31493,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		SActivateElement.prototype.update = function update() {
 			var scope = arguments.length <= 0 || arguments[0] === undefined ? document.body : arguments[0];
 
-			this.targets = scope.querySelectorAll('#' + this.target);
+			this.targets = scope.querySelectorAll(this.target);
 		};
 
 		/**
@@ -35078,6 +35104,21 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 77 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	exports.__esModule = true;
+	exports.default = scrollTop;
+	/**
+	 * Scroll top
+	 */
+	function scrollTop() {
+	  return window.pageYOffset || document.scrollTop || document.body.scrollTop;
+	}
+
+/***/ },
+/* 78 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35092,19 +35133,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _querySelectorLive2 = _interopRequireDefault(_querySelectorLive);
 
-	var _next = __webpack_require__(78);
+	var _next = __webpack_require__(79);
 
 	var _next2 = _interopRequireDefault(_next);
 
-	var _previous = __webpack_require__(79);
+	var _previous = __webpack_require__(80);
 
 	var _previous2 = _interopRequireDefault(_previous);
 
-	var _offset = __webpack_require__(80);
+	var _offset = __webpack_require__(81);
 
 	var _offset2 = _interopRequireDefault(_offset);
 
-	var _scrollTop = __webpack_require__(82);
+	var _scrollTop = __webpack_require__(77);
 
 	var _scrollTop2 = _interopRequireDefault(_scrollTop);
 
@@ -36048,7 +36089,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = SSelectElement;
 
 /***/ },
-/* 78 */
+/* 79 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36076,7 +36117,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 /***/ },
-/* 79 */
+/* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36104,7 +36145,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 /***/ },
-/* 80 */
+/* 81 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36112,7 +36153,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.__esModule = true;
 	exports.default = offset;
 
-	var _getTranslate = __webpack_require__(81);
+	var _getTranslate = __webpack_require__(82);
 
 	var _getTranslate2 = _interopRequireDefault(_getTranslate);
 
@@ -36150,7 +36191,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 /***/ },
-/* 81 */
+/* 82 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36188,21 +36229,6 @@ return /******/ (function(modules) { // webpackBootstrap
 		} else {
 			return 0;
 		}
-	}
-
-/***/ },
-/* 82 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	exports.__esModule = true;
-	exports.default = scrollTop;
-	/**
-	 * Scroll top
-	 */
-	function scrollTop() {
-	  return window.pageYOffset || document.scrollTop || document.body.scrollTop;
 	}
 
 /***/ },

@@ -9,6 +9,7 @@
  * @version  1.0.0
  */
 import SComponent from '../core/SComponent'
+import __scrollTop from '../dom/scrollTop'
 
 // save all the activate elements
 if ( ! window._sActivateStack) {
@@ -38,7 +39,8 @@ class SActivateElement extends SComponent {
 			toggle : false,
 			trigger : 'click',
 			unactivateTrigger : null,
-			unactivateTimeout : 200
+			unactivateTimeout : 200,
+			preventScroll : true
 		}, settings);
 
 		this._inited = true;
@@ -59,7 +61,6 @@ class SActivateElement extends SComponent {
 		
 		// get the target
 		this.target = this.settings.target || this.elm.getAttribute('href');
-		if (this.target.substr(0,1) == '#') this.target = this.target.substr(1);
 
 		// save in stack
 		window._sActivateStack[this.target] = this;
@@ -110,6 +111,7 @@ class SActivateElement extends SComponent {
 
 		// listen for click
 		this.elm.addEventListener(this.settings.trigger, (e) => {
+			e.preventDefault();
 			// clear unactivate timeout
 			clearTimeout(this._unactivateSetTimeout);
 			// if toggle
@@ -122,18 +124,24 @@ class SActivateElement extends SComponent {
 				}
 			} else {
 				if (this.settings.history) {
-					setTimeout(() => {
-						// simply activate again if the same id that anchor
-						// this can happened when an element has history to false
-						if (document.location.hash && document.location.hash.substr(1) == this.target) {
-							this._activate();
+					// simply activate again if the same id that anchor
+					// this can happened when an element has history to false
+					if (document.location.hash && document.location.hash.substr(1) == this.target) {
+						this._activate();
+					} else {
+						// save the scroll position
+						// this._scrollTop = __scrollTop();
+						// simply change the hash 
+						// the event listener will take care of activate the
+						// good element
+						if (this.settings.preventScroll) {
+							// document.location.hash = `${this.target}/`;
+							window.history.pushState(null,null,`${document.location.pathname}${this.target}`);
+							this._processHistoryChange();
 						} else {
-							// simply change the hash 
-							// the event listener will take care of activate the
-							// good element
-							document.location.hash = this.target;
+							document.location.hash = `${this.target}`;
 						}
-					});
+					}
 				} else {
 					// activate the element
 					this._activate();
@@ -244,14 +252,23 @@ class SActivateElement extends SComponent {
 	 */
 	_handleHistory() {
 		window.addEventListener('hashchange', (e) => {
-			let hash = document.location.hash;
-			if (hash) {
-				hash = hash.substr(1);
-				if (hash == this.target) {
-					this._activate();
-				}
-			}
+			this._processHistoryChange();
 		});
+	}
+
+	/**
+	 * Process history change
+	 */
+	_processHistoryChange() {
+		let hash = document.location.hash;
+		if (hash) {
+			hash = hash.substr(1);
+			if (hash == this.target) {
+				this._activate();
+				// restore scrollTop
+				document.body.scrollTop = this._scrollTop;
+			}
+		}
 	}
 
 	/**
@@ -259,8 +276,12 @@ class SActivateElement extends SComponent {
 	 */
 	activate() {
 		if (this.settings.history) {
-			// change hash
-			document.location.hash = this.target;
+			if (this.settings.preventScroll) {
+				window.history.pushState(null,null,`${document.location.pathname}#${this.target}`);
+				this._processHistoryChange();
+			} else {
+				document.location.hash = `${this.target}`;
+			}
 		} else {
 			// activate simply
 			this._activate();
@@ -284,7 +305,7 @@ class SActivateElement extends SComponent {
 	 * Update targets, etc...
 	 */
 	update(scope = document.body) {
-		this.targets = scope.querySelectorAll('#'+this.target);
+		this.targets = scope.querySelectorAll(this.target);
 	}
 
 	/**
