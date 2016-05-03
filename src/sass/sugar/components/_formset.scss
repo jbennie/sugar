@@ -27,8 +27,8 @@ $_s-formset-inited : false;
 			width:100%;
 		}
 		%s-formset-input-style {
-			border-width:s-rem(1px);
-			border-bottom-width : s-rem(3px);
+			border-width:1px;
+			border-bottom-width : 3px;
 			border-style : solid;
 			background-color: white;
 			color: s-color(text);
@@ -38,7 +38,7 @@ $_s-formset-inited : false;
 			}
 			[data-input-activator]:focus ~ &,
 			&:focus {
-				border-left-width : s-rem(5px);
+				border-left-width : 5px;
 			}
 			&:disabled,
 			#{s-selector((

@@ -36,7 +36,7 @@
 
 	// padding
 	@if $space  {
-		padding-left : s-rem($space);
+		padding-left : $space;
 	}
 
 	// style type
@@ -57,8 +57,8 @@
 			} @else if type-of($offset) == number {
 				$top : $offset;
 			}
-			left : s-rem($left);
-			top : s-rem($top);
+			left : $left;
+			top : $top;
 		} @else {
 			left : 0;
 		}
@@ -69,7 +69,7 @@
 			@if type-of($size) == list and length($size) == 2 {
 				width : nth($size,1) nth($size,2);
 			} @else if type-of($size) == number {
-				font-size: s-rem($size);
+				font-size: $size;
 			}
 		}
 		@if $font {

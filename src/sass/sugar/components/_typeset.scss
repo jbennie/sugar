@@ -472,7 +472,7 @@
 				$font-size : 0,
 				$line-height : 0,
 				$margin-top : s-space(default),
-				$margin-bottom : s-rem(s-space(default)) - s-rem(1px),
+				$margin-bottom : s-px(s-space(default)) - 1px,
 				$border-bottom: 1px solid s-color(text, -opacity .3)
 			);
 		}
@@ -627,7 +627,7 @@
 			#{s-vertical-rhythme-scope-class()} .table.table-#{$size} {
 				$args : (
 					font-size : $font-size,
-					border-bottom : solid s-color(text, -opacity .2) s-rem(1px),
+					border-bottom : solid s-color(text, -opacity .2) 1px,
 					padding-top : ceil(s-look-and-feel(padding-vertical, $size)),
 					padding-bottom : ceil(s-look-and-feel(padding-vertical, $size)),
 					margin-bottom : 0,
@@ -638,7 +638,7 @@
 					@include s-vertical-rhythme($args...);
 				}
 				th {
-					$args : map-set($args, border-bottom, solid s-color(text, -opacity .2) s-rem(2px));
+					$args : map-set($args, border-bottom, solid s-color(text, -opacity .2) 2px);
 					@include s-vertical-rhythme($args...);
 					
 				}

@@ -131,12 +131,10 @@
 	}
 }
 @mixin s-formset-input-size($size) {
-	@include s-unit-context(px) {
-		font-size : s-lnf(font-size, $size);
-		// border-radius: s-lnf(border-radius, $size);
-		padding : s-lnf(padding-horizontal, $size) s-lnf(padding-vertical, $size);
-		height: s-lnf(font-size, $size) + s-lnf(padding-horizontal, $size) * 2;
-	}
+	font-size : s-lnf(font-size, $size);
+	// border-radius: s-lnf(border-radius, $size);
+	padding : s-lnf(padding-horizontal, $size) s-lnf(padding-vertical, $size);
+	height: s-lnf(font-size, $size) + s-lnf(padding-horizontal, $size) * 2;
 }
 @mixin s-formset-input-color($color) {
 	border-color: s-color($color, -opacity .1);
@@ -148,7 +146,6 @@
 	&:focus:not(:disabled):not(.input--disabled):not(.is-disabled),
 	&.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
 		border-bottom-color: s-color($color, -opacity .6);
-		// @include s-filter(box-shadow(s-color($color, -opacity .3) 0 5px s-rem(10px)));
 		@include s-depth(3, s-color($color, -opacity .3));
 	}
 	[data-input-activator]:focus ~ &,

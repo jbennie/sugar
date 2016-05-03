@@ -9,7 +9,7 @@
 	$depth,
 	$color : rgba(0,0,0,.2)
 ) {
-	@include s-filter(box-shadow(#{$color} 0 #{$depth * s-rem(2px)} #{$depth * s-rem(3px)} ));
+	@include s-filter(box-shadow(#{$color} 0 #{$depth * 2px} #{$depth * 3px} ));
 }
 
 //
@@ -92,7 +92,7 @@
 		position: absolute;
 		// top: $top; right: $right;
 		height: $size - $border-width * 2; width: $size - $border-width * 2;
-		@include s-corner(s-rem($size / 2));
+		@include s-corner($size / 2);
 		background-color: transparent;
 		border: solid $color;
 		border-width: $border-width; // animates
@@ -161,7 +161,7 @@
 		@if $blur-ratio > 0 {
 			$b : $blur + $i * $blur-ratio;
 		}
-		$shadow: $shadow, $i*$x $i*$y s-rem($b) hsla(hue($color) , saturation($color), (lightness($color) - ($i * $darken)), 1 - ($i * $opacify));     
+		$shadow: $shadow, $i*$x $i*$y $b hsla(hue($color) , saturation($color), (lightness($color) - ($i * $darken)), 1 - ($i * $opacify));     
 	}       
 	#{$type}-shadow: $shadow;
 }

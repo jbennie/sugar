@@ -109,24 +109,24 @@
 ) {
 	@if type-of($margin) == number {
 		@return (
-			top : s-rem($margin),
-			right : s-rem($margin),
-			bottom : s-rem($margin),
-			left : s-rem($margin)
+			top : $margin,
+			right : $margin,
+			bottom : $margin,
+			left : $margin
 		);
 	} @else if type-of($margin) == list and length($margin) == 2 {
 		@return (
-			top : s-rem(nth($margin,1)),
-			bottom : s-rem(nth($margin,1)),
-			left : s-rem(nth($margin,2)),
-			right : s-rem(nth($margin,2))
+			top : nth($margin,1),
+			bottom : nth($margin,1),
+			left : nth($margin,2),
+			right : nth($margin,2)
 		);
 	} @else if type-of($margin) == list and length($margin) == 4 {
 		@return (
-			top : s-rem(nth($margin,1)),
-			right : s-rem(nth($margin,2)),
-			bottom : s-rem(nth($margin,3)),
-			left : s-rem(nth($margin,4))
+			top : nth($margin,1),
+			right : nth($margin,2),
+			bottom : nth($margin,3),
+			left : nth($margin,4)
 		);
 	}
 }

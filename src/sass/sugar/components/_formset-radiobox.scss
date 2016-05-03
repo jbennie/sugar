@@ -16,7 +16,7 @@ $_s-formset-radiobox-inited : false;
 				@include s-translate(0,0,0);
 
 				&:before {
-					border-width: s-rem(2px);
+					border-width: 2px;
 					border-style: solid;
 					content:'';
 					display: block;
@@ -138,7 +138,7 @@ $_s-formset-radiobox-inited : false;
 				'.label .label .s-radiobox'
 			)
 		))} {
-			margin-top:s-rem(1);
+			margin-top:1rem;
 		}
 
 		// generate each sizes
@@ -170,8 +170,8 @@ $_s-formset-radiobox-inited : false;
 					$line-height: $fs,
 					$margin-bottom : 2,
 					$margin-top : 0,
-					$border-bottom-width: s-rem(2px),
-					$border-top-width : s-rem(2px)
+					$border-bottom-width: 2px,
+					$border-top-width : 2px
 				);
 
 				label + & + .s-radiobox, .label + & + .s-radiobox {
@@ -246,7 +246,7 @@ $_s-formset-radiobox-inited : false;
 				&:focus {
 					& + .s-radiobox {
 						&:before {
-							@include s-filter(box-shadow(s-color($color, -opacity .3) 0 5px s-rem(5px)));
+							@include s-filter(box-shadow(s-color($color, -opacity .3) 0 5px 5px));
 						}
 					}	
 				}

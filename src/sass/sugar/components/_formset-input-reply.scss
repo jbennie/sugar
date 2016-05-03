@@ -20,7 +20,7 @@
 				margin-bottom: 0;
 			}
 			textarea + & {
-				margin-top: s-rem(-3px);
+				margin-top: -3px;
 			}
 		}
 
@@ -36,11 +36,11 @@
 			))} {
 				padding: s-lnf(padding-horizontal, $size) s-lnf(padding-vertical, $size);
 				font-size: s-lnf(font-size, $size);
-
+				
 				@include s-vertical-rhythme {
 					.label .label + &,
 					label label + & {
-						margin-top: round(s-rem(s-lnf(font-size, $size)));
+						margin-top: round(s-lnf(font-size, $size));
 					}
 				}
 			}

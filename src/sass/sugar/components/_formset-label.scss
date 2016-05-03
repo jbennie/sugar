@@ -43,7 +43,7 @@
 						'.form-group'
 					)
 				))} {
-					margin-top: s-rem(1);
+					margin-top: 1rem;
 					margin-bottom: 0 !important;
 				}
 			}
@@ -69,7 +69,7 @@
 				> span {
 					padding : 0 s-lnf(padding-vertical, $size);
 					line-height: s-lnf(font-size, $size) + s-lnf(padding-horizontal, $size) * 2;
-					height: s-lnf(font-size, $size) + s-lnf(padding-horizontal, $size) * 2;	
+					height: s-lnf(font-size, $size) + s-lnf(padding-horizontal, $size) * 2;		
 				}
 			}
 
@@ -207,7 +207,7 @@
 			> .input {
 			
 				&:focus ~ span {
-					left: s-rem(5px);
+					left: 5px;
 				}
 			}
 			> span {

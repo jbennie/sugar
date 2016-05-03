@@ -209,12 +209,12 @@ $_sugar-settings-cache : ();
 	$cache : map-get($_sugar-settings-cache, $path);
 	@if $cache {
 		// check if is a number and need a special unit context
-		@if type-of($cache) == number and not unitless($cache) and s-unit-context() {
-			// @return $cache;
-			@return s-convert($cache, s-unit-context());
-		} @else {
-			@return $cache;
-		}
+		// @if type-of($cache) == number and not unitless($cache) and s-unit-context() {
+		// 	// @return $cache;
+		// 	@return s-convert($cache, s-unit-context());
+		// } @else {
+		@return $cache;
+		// }
 	}
 
 	// do not have any cache
@@ -239,13 +239,23 @@ $_sugar-settings-cache : ();
 		}
 
 		@if $idx == $length {
-			$_sugar-settings-cache : map-set($_sugar-settings-cache, $path, $value) !global;
-			// check if is a number and need a special unit context
-			@if type-of($value) == number and not unitless($value) and s-unit-context() {
-				@return s-convert($value, s-unit-context());
-			} @else {
-				@return $value;
+
+			// convert to pixels if possible
+			@if type-of($value) == number and not unitless($value) {
+				@if unit($value) == px or unit($value) == pt or unit($value) == em {
+					$value : s-convert($value, rem);
+				} @else {
+					@return $value;
+				}
 			}
+			$_sugar-settings-cache : map-set($_sugar-settings-cache, $path, $value) !global;
+			@return $value;
+			// check if is a number and need a special unit context
+			// @if type-of($value) == number and not unitless($value) and s-unit-context() {
+			// 	@return s-convert($value, s-unit-context());
+			// } @else {
+			// 	@return $value;
+			// }
 		}
 	}
 }

@@ -17,7 +17,7 @@ $_s-formset-datepicker-inited : false;
 			&.is-hidden {
 				opacity:0;
 				@include s-visually-hidden();
-				margin-top:s-rem(-20px);
+				margin-top:-20px;
 			}
 
 			&.is-bound {

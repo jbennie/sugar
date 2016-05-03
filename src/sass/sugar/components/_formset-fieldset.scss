@@ -5,7 +5,7 @@ $_s-formset-fieldset-inited : false;
 		$_s-formset-fieldset-inited : true !global;
 
 		%s-formset-fieldset-bare {
-			border-left-width: s-rem(5px);
+			border-left-width: 5px;
 			border-left-style: solid;
 			display:block;
 			width: 100%;
@@ -15,9 +15,9 @@ $_s-formset-fieldset-inited : false;
 			> .legend {
 				@include s-transition(fast);
 				border-left-style: solid;
-				border-left-width: s-rem(5px);
+				border-left-width: 5px;
 				border-bottom-style: solid;
-				border-bottom-width: s-rem(2px);
+				border-bottom-width: 2px;
 			}
 		}
 	}
@@ -44,7 +44,7 @@ $_s-formset-fieldset-inited : false;
 			@extend %s-formset-fieldset-bare;
 
 			@include s-vertical-rhythme() {
-				margin-bottom: s-rem(2);
+				margin-bottom: 2rem;
 			}
 		}
 
@@ -65,7 +65,7 @@ $_s-formset-fieldset-inited : false;
 
 				> [class*="legend"],
 				> legend {
-					margin-left: - (s-space($size) + s-rem(5px));
+					margin-left: - (s-px(s-space($size)) + 5px);
 					width : unquote('calc(100% + #{s-space($size)})');
 					margin-bottom: s-space($size);
 				}

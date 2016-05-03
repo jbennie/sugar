@@ -8,7 +8,7 @@
 @mixin s-side-lined(
 	$style : solid,
 	$side : both,
-	$height : s-rem(1px),
+	$height : 1px,
 	$width : 50%,
 	$color : black,
 	$padding : 0,

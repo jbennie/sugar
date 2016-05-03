@@ -144,7 +144,7 @@
 							@if $i >= $a-steps {
 								$s-spread : 0;
 							} @else {
-								$s-spread : s-rem(random($a-scale - $size) + 0px);
+								$s-spread : random($a-scale - $size) + 0px;
 							}
 						}
 						@if $a-spread and $i < $a-steps {

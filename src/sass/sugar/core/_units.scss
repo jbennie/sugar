@@ -44,8 +44,10 @@ $_s-font-size : null;
 	// put font size in cache to avoid
 	// unit conversion recursion
 	@if not $_s-font-size {
-		$_s-font-size : sugar('settings.typo.font-size') !global;
-		$_s-font-size : s-convert($_s-font-size, px) !global;
+		$fs : map-get($_sugar-settings, typo);
+		$fs : map-get($fs, font-size);
+		$_s-font-size : $fs !global;
+		// $_s-font-size : s-convert($_s-font-size, px) !global;
 	}
 	$font-size : s-strip-units($_s-font-size);
 
