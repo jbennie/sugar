@@ -31140,6 +31140,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _scrollTop2 = _interopRequireDefault(_scrollTop);
 
+	var _uniqid = __webpack_require__(11);
+
+	var _uniqid2 = _interopRequireDefault(_uniqid);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
@@ -31228,8 +31232,23 @@ return /******/ (function(modules) { // webpackBootstrap
 			// get the target
 			this.target = this.settings.target || this.elm.getAttribute('href');
 
+			// set an id
+			this.id = this.target || this.name_dash + '-' + (0, _uniqid2.default)();
+			if (this.id.substr(0, 1) == '#') this.id = this.id.substr(1);
+
+			// if don't have any target
+			// mean that it's the element itself
+			// so check if already an id
+			// otherwise, set a new one
+			if (!this.target) {
+				if (this.elm.getAttribute('id') == null) {
+					this.elm.setAttribute('id', this.id);
+				}
+				this.target = '#' + this.id;
+			}
+
 			// save in stack
-			window._sActivateStack[this.target] = this;
+			window._sActivateStack[this.id] = this;
 
 			// update references
 			this.update();
@@ -31494,7 +31513,11 @@ return /******/ (function(modules) { // webpackBootstrap
 		SActivateElement.prototype.update = function update() {
 			var scope = arguments.length <= 0 || arguments[0] === undefined ? document.body : arguments[0];
 
-			this.targets = scope.querySelectorAll(this.target);
+			if (this.target) {
+				this.targets = scope.querySelectorAll(this.target);
+			} else {
+				this.targets = [];
+			}
 		};
 
 		/**
@@ -31505,7 +31528,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		SActivateElement.prototype._getClosestActivate = function _getClosestActivate() {
 			var elm = this.elm.parentNode;
 			while (elm && elm != document) {
-				if (elm.id && window._sActivateStack['#' + elm.id]) {
+				if (elm.id && window._sActivateStack['' + elm.id]) {
 					return elm;
 				}
 				elm = elm.parentNode;

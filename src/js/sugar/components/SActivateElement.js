@@ -10,6 +10,7 @@
  */
 import SComponent from '../core/SComponent'
 import __scrollTop from '../dom/scrollTop'
+import __uniqid from '../tools/uniqid'
 
 // save all the activate elements
 if ( ! window._sActivateStack) {
@@ -62,8 +63,23 @@ class SActivateElement extends SComponent {
 		// get the target
 		this.target = this.settings.target || this.elm.getAttribute('href');
 
+		// set an id
+		this.id = this.target || `${this.name_dash}-${__uniqid()}`;
+		if (this.id.substr(0,1) == '#') this.id = this.id.substr(1);
+
+		// if don't have any target
+		// mean that it's the element itself
+		// so check if already an id
+		// otherwise, set a new one
+		if ( ! this.target) {
+			if (this.elm.getAttribute('id') == null) {
+				this.elm.setAttribute('id', this.id);
+			}
+			this.target = `#${this.id}`;
+		}
+
 		// save in stack
-		window._sActivateStack[this.target] = this;
+		window._sActivateStack[this.id] = this;
 
 		// update references
 		this.update();
@@ -306,7 +322,11 @@ class SActivateElement extends SComponent {
 	 * Update targets, etc...
 	 */
 	update(scope = document.body) {
-		this.targets = scope.querySelectorAll(this.target);
+		if (this.target) {
+			this.targets = scope.querySelectorAll(this.target);
+		} else {
+			this.targets = [];
+		}
 	}
 
 	/**
@@ -315,7 +335,7 @@ class SActivateElement extends SComponent {
 	_getClosestActivate() {
 		let elm = this.elm.parentNode;
 		while(elm && elm != document) {
-			if (elm.id && window._sActivateStack[`#${elm.id}`]) {
+			if (elm.id && window._sActivateStack[`${elm.id}`]) {
 				return elm;
 			}
 			elm = elm.parentNode;
