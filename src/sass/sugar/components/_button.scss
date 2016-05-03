@@ -57,18 +57,19 @@ $_s-button-inited : false;
 				font-size : s-look-and-feel(font-size, $size);
 				border-radius: s-look-and-feel(border-radius, $size);
 				padding : s-look-and-feel(padding-horizontal, $size) s-look-and-feel(padding-vertical, $size);
-			
-				@include s-vertical-rhythme(
-					$font-size : s-look-and-feel(font-size, $size),
-					$line-height: s-look-and-feel(font-size, $size),
-					$padding-top : s-look-and-feel(padding-horizontal, $size),
-					$padding-bottom : s-look-and-feel(padding-horizontal, $size),
-					$margin-bottom : 1,
-					$margin-top : 0,
-					$border-bottom-width: s-rem(1px),
-					$border-top-width : s-rem(1px),
-					$calculate-height : true
-				);
+				height: s-lnf(font-size, $size) + s-lnf(padding-horizontal, $size) * 2;
+
+				// @include s-vertical-rhythme(
+				// 	$font-size : s-look-and-feel(font-size, $size),
+				// 	$line-height: s-look-and-feel(font-size, $size),
+				// 	$padding-top : s-look-and-feel(padding-horizontal, $size),
+				// 	$padding-bottom : s-look-and-feel(padding-horizontal, $size),
+				// 	$margin-bottom : 1,
+				// 	$margin-top : 0,
+				// 	$border-bottom-width: s-rem(1px),
+				// 	$border-top-width : s-rem(1px),
+				// 	$calculate-height : true
+				// );
 			}
 		}
 		// generate each colors
