@@ -9,7 +9,7 @@
 	@include s-formset-input-color($color);	
 }
 
-@mixin s-formset-input-bar(
+@mixin s-formset-input-bare(
 	$sizes : sugar('settings.components.formset.generate.sizes')
 ) {
 	@include s-formset-init();
@@ -24,6 +24,9 @@
 
 		.input:not([type="checkbox"]):not([type="radio"]) {
 			@extend %s-formset-input-bare;
+		}
+		textarea.input {
+			height: auto !important;
 		}
 
 		// generate each sizes
@@ -49,12 +52,29 @@
 					}
 				}
 			}
+			// textarea styling
+			#{s-selector((
+				BEM : (
+					'textarea.input--#{$size}',
+					'.size--#{$size} textarea.input'
+				),
+				SMACCS : (
+					'textarea.input-#{$size}',
+					'.size-#{$size} textarea.input'
+				)
+			))} {
+				@include s-formset-textarea-size($size);
+
+				// vertical rhythme
+				@include s-vertical-rhythme {
+					margin-bottom:1rem;
+				}
+			}
 		}
 	}
 }
 @mixin s-formset-input-style(
-	$colors : sugar('settings.components.formset.generate.colors'),
-	$styles : sugar('settings.components.formset.generate.styles')
+	$colors : sugar('settings.components.formset.generate.colors')
 ) {
 	// parse properties
 	@if $_sugar-test-arguments {
@@ -67,10 +87,14 @@
 		.input:not([type="checkbox"]):not([type="radio"]) {
 			@extend %s-formset-input-style;
 		}
+		select.input {
+			@extend %s-formset-select-style;
+		}
 
 		// generate each colors
 		@each $color in $colors {
 
+			// input styling
 			#{s-selector((
 				BEM : (
 					'.input--#{$color}:not([type="checkbox"]):not([type="radio"])',
@@ -86,6 +110,22 @@
 				& ~ .input-reply--#{$color} {
 					display: block;
 				}
+			}
+
+			// select styling
+			#{s-selector((
+				BEM : (
+					'select.input--#{$color}',
+					'.input--#{$color}.s-select',
+					'.color--#{$color} select.input'
+				),
+				SMACCS : (
+					'select.input-#{$color}',
+					'.input-#{$color}.s-select',
+					'.color--#{$color} select.input'
+				)
+			))} {
+				@include s-formset-select-color($color);
 			}
 		}
 	}

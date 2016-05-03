@@ -34,17 +34,34 @@
 	$sizes : smaller small medium big bigger
 );
 
+// form group
+@include s-formset-group();
+
 // form
-@include s-formset-input-bar(
+@include s-formset-input-bare(
 	$sizes : smaller small default medium big bigger
 );
 @include s-formset-input-style();
 
-
-
-@include s-formset(
+// addons
+@include s-formset-input-addon-bare(
 	$sizes : smaller small default medium big bigger
 );
+@include s-formset-input-addon-style();
+
+// label
+@include s-formset-label-bare(
+	$sizes : smaller small default medium big bigger
+);
+@include s-formset-label-style();
+
+// input-reply
+@include s-formset-input-reply-bare(
+	$sizes : smaller small default medium big bigger
+);
+@include s-formset-input-reply-style();
+
+
 @include s-formset-radiobox(
 	$sizes : smaller small default medium big bigger
 );

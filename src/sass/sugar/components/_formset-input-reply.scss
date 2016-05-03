@@ -1,0 +1,94 @@
+@mixin s-formset-input-reply-bare(
+	$sizes : sugar('settings.components.formset.generate.sizes')
+) {
+	@include s-formset-init();
+	
+	// parse properties
+	@if $_sugar-test-arguments {
+		$sizes : s-test-argument('s-formset','sizes',map-keys(sugar('settings.sizes')),$sizes);
+	}
+
+	// pass in the component context
+	@include s-component-context('formset') {
+		[class*="input-reply"] {
+			display: none;
+		
+			@include s-vertical-rhythme() {
+				margin-bottom: 2;
+			}
+			.label & {
+				margin-bottom: 0;
+			}
+			textarea + & {
+				margin-top: s-rem(-3px);
+			}
+		}
+
+		// generate each sizes
+		@each $size in $sizes {
+			#{s-selector((
+				BEM : (
+					'.input-reply--#{$size}'
+				),
+				SMACCS : (
+					'.input-reply-#{$size}'
+				)
+			))} {
+				padding: s-lnf(padding-horizontal, $size) s-lnf(padding-vertical, $size);
+				font-size: s-lnf(font-size, $size);
+
+				@include s-vertical-rhythme {
+					.label .label + &,
+					label label + & {
+						margin-top: round(s-rem(s-lnf(font-size, $size)));
+					}
+				}
+			}
+		}
+	}
+}
+
+
+@mixin s-formset-input-reply-style(
+	$colors : sugar('settings.components.formset.generate.colors')
+) {
+	// parse properties
+	@if $_sugar-test-arguments {
+		$colors : s-test-argument('s-formset','colors',map-keys(sugar('settings.colors')),$colors);
+	}
+
+	// pass in the component context
+	@include s-component-context('formset') {
+
+		// generate each colors
+		@each $color in $colors {
+			// display input-reply when parent has the good class
+			#{s-selector((
+				BEM : (
+					'.#{$color} > .input-reply--#{$color}',
+					'.color--#{$color} > .input-reply'
+				),
+				SMACCS : (
+					'.#{$color} > .input-reply-#{$color}',
+					'.color--#{$color} > .input-reply'
+				)
+			))} {
+				display: block;
+			}
+
+			#{s-selector((
+				BEM : (
+					'.input-reply--#{$color}',
+					'.color--#{$color} .input-reply'
+				),
+				SMACCS : (
+					'.input-reply-#{$color}',
+					'.color--#{$color} .input-reply'
+				)
+			))} {
+				color: s-color($color, -darken 20%);
+				background-color: s-color($color, -opacity .3);
+			}
+		}
+	}
+}

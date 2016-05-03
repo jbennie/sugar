@@ -1,0 +1,219 @@
+@mixin s-formset-label-bare(
+	$sizes : sugar('settings.components.formset.generate.sizes')
+) {
+	@include s-formset-init();
+	
+	// parse properties
+	@if $_sugar-test-arguments {
+		$sizes : s-test-argument('s-formset','sizes',map-keys(sugar('settings.sizes')),$sizes);
+	}
+
+	// pass in the component context
+	@include s-component-context('formset') {
+
+		.label {
+			&, > span {
+				user-select: none;
+				font-weight: bold;
+			}
+
+			// restore font-weight
+			.s-radiobox ~ &,
+			.label, label,
+			> * {
+				font-weight: normal;
+			}
+
+			// no margin-bottom on nested labels
+			.label,
+			label {
+				margin-bottom: 0 !important;
+			}
+			
+			@include s-vertical-rhythme {
+				#{s-selector((
+					BEM : (
+						'.input:not([type="checkbox"]):not([type="radio"])',
+						'.input-addon',
+						'.form-group'
+					),
+					SMACCS : (
+						'.input:not([type="checkbox"]):not([type="radio"])',
+						'.input-addon',
+						'.form-group'
+					)
+				))} {
+					margin-top: s-rem(1);
+					margin-bottom: 0 !important;
+				}
+			}
+		}
+
+		@each $size in $sizes {
+
+			// span label styling
+			#{s-selector((
+				BEM : (
+					'.label--inline.label--#{$size}',
+					'.label--inside.label--#{$size}',
+					'.size--#{$size} .label--inline.label',
+					'.size--#{$size} .label--inside.label'
+				),
+				SMACCS : (
+					'.label-inline.label-#{$size}',
+					'.label-inside.label-#{$size}',
+					'.size-#{$size} .label-inline.label',
+					'.size-#{$size} .label-inside.label'
+				)
+			))} {
+				> span {
+					padding : 0 s-lnf(padding-vertical, $size);
+					line-height: s-lnf(font-size, $size) + s-lnf(padding-horizontal, $size) * 2;
+					height: s-lnf(font-size, $size) + s-lnf(padding-horizontal, $size) * 2;	
+				}
+			}
+
+			// label styling
+			#{s-selector((
+				BEM : (
+					'.label--#{$size}',
+					'.size--#{$size} .label'
+				),
+				SMACCS : (
+					'.label-#{$size}',
+					'.size-#{$size} .label'
+				)
+			))} {
+				font-size: s-lnf(font-size, $size);
+				display: inline-block;
+				vertical-align: middle;
+				position: relative;
+				
+				&:not(.s-radiobox) {
+					$mb : s-lnf(font-size, $size);
+					@if s-strip-units($mb) <= 2 { $mb : 2; }
+					@include s-vertical-rhythme {
+						margin-bottom: s-rem($mb);
+					}
+					&:first-child:last-child {
+						width: 100%;
+					}
+				}
+
+				& + label,
+				& + .label {
+					margin-left: s-lnf(padding-vertical, $size);
+				}
+			}
+		}
+
+		// if want the inline style
+		#{s-selector((
+			BEM : '.label--inline',
+			SMACCS : '.label-inline'
+		))} {
+			display: flex !important;
+			
+			> * {
+				flex:0;
+				margin-top:0 !important;
+			}
+			> .input {
+				flex:1;
+			}
+			> span {
+				flex : 0;
+				white-space: nowrap;
+				display:inline-block;
+				
+				&:first-child {
+					padding-left: 0 !important;
+				}
+				&:last-child {
+					padding-right: 0 !important;
+				}
+			}
+		}
+
+		// if want the inside style
+		#{s-selector((
+			BEM : '.label--inside',
+			SMACCS : '.label-inside'
+		))} {
+			display: flex;
+
+			> * {
+				flex:0;
+				margin-top:0 !important;
+			}
+			> .input {
+				flex:1;
+			}
+			
+			> span {
+				white-space: nowrap;
+				display:inline-block;
+				text-align: right;
+				position:absolute;
+				left:0;
+				z-index:1;
+			}
+		}
+	}
+}
+
+@mixin s-formset-label-style(
+	$colors : sugar('settings.components.formset.generate.colors')
+) {
+	// parse properties
+	@if $_sugar-test-arguments {
+		$colors : s-test-argument('s-formset','colors',map-keys(sugar('settings.colors')),$colors);
+	}
+
+	// pass in the component context
+	@include s-component-context('formset') {
+
+		// generate each colors
+		@each $color in $colors {
+			
+			// label styling
+			#{s-selector((
+				BEM : (
+					'.label--inside > .input--#{$color}:not([type="checkbox"]):not([type="radio"])',
+					'.color--#{$color} .label--inside > .input:not([type="checkbox"]):not([type="radio"])'
+				),
+				SMACCS : (
+					'.label-inside > .input-#{$color}:not([type="checkbox"]):not([type="radio"])',
+					'.color-#{$color} .label-inside > .input:not([type="checkbox"]):not([type="radio"])'
+				)
+			))} {
+				& ~ span {
+					background-color: s-color($color, -opacity .05);
+				}
+
+				&:not([value=""]) ~ span,
+				&:focus ~ span {
+					background-color: s-color($color, -opacity .2);
+					color : s-color($color, -darken 20%);
+				}			
+			}
+		}
+
+		// if want the inside style
+		#{s-selector((
+			BEM : '.label--inside',
+			SMACCS : '.label-inside'
+		))} {
+			> .input {
+			
+				&:focus ~ span {
+					left: s-rem(5px);
+				}
+			}
+			> span {
+				@include s-transition(fast);
+			}
+		}
+
+	}
+}
