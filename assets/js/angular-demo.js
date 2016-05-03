@@ -31432,6 +31432,9 @@ return /******/ (function(modules) { // webpackBootstrap
 			window.addEventListener('hashchange', function (e) {
 				_this3._processHistoryChange();
 			});
+			window.addEventListener('popstate', function (e) {
+				_this3._processHistoryChange();
+			});
 		};
 
 		/**

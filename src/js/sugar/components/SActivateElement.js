@@ -254,6 +254,9 @@ class SActivateElement extends SComponent {
 		window.addEventListener('hashchange', (e) => {
 			this._processHistoryChange();
 		});
+		window.addEventListener('popstate', (e) => {
+			this._processHistoryChange();
+		});
 	}
 
 	/**
