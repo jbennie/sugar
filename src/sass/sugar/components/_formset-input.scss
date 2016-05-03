@@ -1,0 +1,118 @@
+@mixin s-formset-input(
+	$color,
+	$size
+) {
+	@include s-formset-init();
+	@extend %s-formset-input-bare;
+	@extend %s-formset-input-style;
+	@include s-formset-input-size($size);
+	@include s-formset-input-color($color);	
+}
+
+@mixin s-formset-input-bar(
+	$sizes : sugar('settings.components.formset.generate.sizes')
+) {
+	@include s-formset-init();
+	
+	// parse properties
+	@if $_sugar-test-arguments {
+		$sizes : s-test-argument('s-formset','sizes',map-keys(sugar('settings.sizes')),$sizes);
+	}
+
+	// pass in the component context
+	@include s-component-context('formset') {
+
+		.input:not([type="checkbox"]):not([type="radio"]) {
+			@extend %s-formset-input-bare;
+		}
+
+		// generate each sizes
+		@each $size in $sizes {
+			// input styling
+			#{s-selector((
+				BEM : (
+					'.input--#{$size}',
+					'.size--#{$size} .input'
+				),
+				SMACCS : (
+					'.input-#{$size}',
+					'.size--#{$size} .input'
+				)
+			))} {
+				// set input styling
+				@include s-formset-input-size($size);
+
+				// vertical rhythme
+				&, & ~ span {
+					@include s-vertical-rhythme {
+						margin-bottom: 1rem;
+					}
+				}
+			}
+		}
+	}
+}
+@mixin s-formset-input-style(
+	$colors : sugar('settings.components.formset.generate.colors'),
+	$styles : sugar('settings.components.formset.generate.styles')
+) {
+	// parse properties
+	@if $_sugar-test-arguments {
+		$colors : s-test-argument('s-formset','colors',map-keys(sugar('settings.colors')),$colors);
+	}
+
+	// pass in the component context
+	@include s-component-context('formset') {
+
+		.input:not([type="checkbox"]):not([type="radio"]) {
+			@extend %s-formset-input-style;
+		}
+
+		// generate each colors
+		@each $color in $colors {
+
+			#{s-selector((
+				BEM : (
+					'.input--#{$color}:not([type="checkbox"]):not([type="radio"])',
+					'.color--#{$color} .input:not([type="checkbox"]):not([type="radio"])'
+				),
+				SMACCS : (
+					'.input-#{$color}:not([type="checkbox"]):not([type="radio"])',
+					'.color-#{$color} .input:not([type="checkbox"]):not([type="radio"])'
+				)
+			))} {
+				@include s-formset-input-color($color);
+
+				& ~ .input-reply--#{$color} {
+					display: block;
+				}
+			}
+		}
+	}
+}
+@mixin s-formset-input-size($size) {
+	font-size : s-lnf(font-size, $size);
+	// border-radius: s-lnf(border-radius, $size);
+	padding : s-lnf(padding-horizontal, $size) s-lnf(padding-vertical, $size);
+	height: s-lnf(font-size, $size) + s-lnf(padding-horizontal, $size) * 2;
+}
+@mixin s-formset-input-color($color) {
+	border-color: s-color($color, -opacity .1);
+	border-bottom-color: s-color($color, -opacity .3);
+		
+	[data-input-activator]:focus ~ &,
+	[data-input-activator]:checked ~ &,
+	&:hover:not(:disabled):not(.input--disabled):not(.is-disabled),
+	&:focus:not(:disabled):not(.input--disabled):not(.is-disabled),
+	&.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+		border-bottom-color: s-color($color, -opacity .6);
+		// @include s-filter(box-shadow(s-color($color, -opacity .3) 0 5px s-rem(10px)));
+		@include s-depth(3, s-color($color, -opacity .3));
+	}
+	[data-input-activator]:focus ~ &,
+	[data-input-activator]:checked ~ &,
+	&:focus:not(:disabled):not(.input--disabled):not(.is-disabled),
+	&.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+		border-left-color: s-color($color, -opacity .6);
+	}
+}

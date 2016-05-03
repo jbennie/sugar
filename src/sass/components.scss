@@ -35,6 +35,13 @@
 );
 
 // form
+@include s-formset-input-bar(
+	$sizes : smaller small default medium big bigger
+);
+@include s-formset-input-style();
+
+
+
 @include s-formset(
 	$sizes : smaller small default medium big bigger
 );
@@ -46,7 +53,7 @@
 );
 @include s-formset-datepicker();
 
-@include s-formset-select-component(
+@include s-formset-advanced-select(
 	$sizes : smaller small default medium big bigger
 );
 

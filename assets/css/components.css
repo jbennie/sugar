@@ -1608,47 +1608,44 @@ body {
   margin-bottom: 0.35002rem;
 }
 
-.input:not([type="checkbox"]):not([type="radio"]),
-.input-addon, .pika-single .pika-time select, .pika-single.primary .pika-time select, .pika-single.secondary .pika-time select, .pika-single.success .pika-time select, .pika-single.warning .pika-time select, .pika-single.error .pika-time select, .pika-single.info .pika-time select {
+.input:not([type="checkbox"]):not([type="radio"]), .input-addon, .pika-single .pika-time select, .pika-single.primary .pika-time select, .pika-single.secondary .pika-time select, .pika-single.success .pika-time select, .pika-single.warning .pika-time select, .pika-single.error .pika-time select, .pika-single.info .pika-time select {
   display: inline-block;
-  border-width: 0.07692308rem;
-  border-bottom-width: 0.23076923rem;
-  border-style: solid;
-  background-color: white;
   font-family: "Open Sans";
   color: s-test-truncate("s-font", "color", color, );
   -webkit-appearance: none;
   -moz-appearance: none;
   outline: none;
   width: 100%;
-  -webkit-transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
-  transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
-  outline-color: black;
-  color: #8195a1;
 }
 
-.input:not(.input-addon):not([type="checkbox"]):not([type="radio"]),
-.input-addon:not(.input-addon), .pika-single .pika-time select:not(.input-addon) {
+.input:not(.input-addon):not([type="checkbox"]):not([type="radio"]), .input-addon:not(.input-addon), .pika-single .pika-time select:not(.input-addon) {
   line-height: 1 !important;
 }
 
-.input:not([type="radio"]):not([type="checkbox"])::-webkit-input-placeholder,
-.input-addon::-webkit-input-placeholder, .pika-single .pika-time select::-webkit-input-placeholder, .pika-single.primary .pika-time select::-webkit-input-placeholder, .pika-single.secondary .pika-time select::-webkit-input-placeholder, .pika-single.success .pika-time select::-webkit-input-placeholder, .pika-single.warning .pika-time select::-webkit-input-placeholder, .pika-single.error .pika-time select::-webkit-input-placeholder, .pika-single.info .pika-time select::-webkit-input-placeholder {
+.input:not([type="checkbox"]):not([type="radio"]) {
+  border-width: 0.07692308rem;
+  border-bottom-width: 0.23076923rem;
+  border-style: solid;
+  background-color: white;
+  color: #8195a1;
+  -webkit-transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
+  transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
+  outline-color: black;
+}
+
+.input:not([type="radio"]):not([type="checkbox"])::-webkit-input-placeholder {
   color: rgba(129, 149, 161, 0.4);
 }
 
-.input:-moz-placeholder:not([type="checkbox"]):not([type="radio"]),
-.input-addon:-moz-placeholder, .pika-single .pika-time select:-moz-placeholder {
+.input:-moz-placeholder:not([type="checkbox"]):not([type="radio"]) {
   color: rgba(129, 149, 161, 0.4);
 }
 
-.input:not([type="radio"]):not([type="checkbox"])::-moz-placeholder,
-.input-addon::-moz-placeholder, .pika-single .pika-time select::-moz-placeholder, .pika-single.primary .pika-time select::-moz-placeholder, .pika-single.secondary .pika-time select::-moz-placeholder, .pika-single.success .pika-time select::-moz-placeholder, .pika-single.warning .pika-time select::-moz-placeholder, .pika-single.error .pika-time select::-moz-placeholder, .pika-single.info .pika-time select::-moz-placeholder {
+.input:not([type="radio"]):not([type="checkbox"])::-moz-placeholder {
   color: rgba(129, 149, 161, 0.4);
 }
 
-.input:-ms-input-placeholder:not([type="checkbox"]):not([type="radio"]),
-.input-addon:-ms-input-placeholder, .pika-single .pika-time select:-ms-input-placeholder {
+.input:-ms-input-placeholder:not([type="checkbox"]):not([type="radio"]) {
   color: rgba(129, 149, 161, 0.4);
 }
 
@@ -1656,15 +1653,11 @@ body {
   color: rgba(129, 149, 161, 0.4);
 }
 
-[data-input-activator]:focus ~ .input:not([type="checkbox"]):not([type="radio"]), [data-input-activator]:focus ~
-.input-addon, .pika-single .pika-time [data-input-activator]:focus ~ select, .input:focus:not([type="checkbox"]):not([type="radio"]),
-.input-addon:focus, .pika-single .pika-time select:focus {
+[data-input-activator]:focus ~ .input:not([type="checkbox"]):not([type="radio"]), .input:focus:not([type="checkbox"]):not([type="radio"]) {
   border-left-width: 0.38461538rem;
 }
 
-.input:disabled:not([type="checkbox"]):not([type="radio"]),
-.input-addon:disabled, .pika-single .pika-time select:disabled, .input--disabled.input:not([type="checkbox"]):not([type="radio"]),
-.input--disabled.input-addon, .pika-single .pika-time select.input--disabled {
+.input:disabled:not([type="checkbox"]):not([type="radio"]), .input--disabled.input:not([type="checkbox"]):not([type="radio"]) {
   opacity: .65;
   cursor: not-allowed;
 }
@@ -1675,6 +1668,220 @@ select.input, .pika-single .pika-time select, .pika-single.primary .pika-time se
   background-origin: content-box;
   background-repeat: no-repeat;
   border-radius: 0;
+}
+
+.input--smaller, .size--smaller .input {
+  font-size: 0.61538462rem;
+  padding: 0.46153846rem 0.61538462rem;
+  height: 1.53846154rem;
+}
+
+.vertical-rhythme .input--smaller, .vertical-rhythme .input--smaller ~  span, .vertical-rhythme .size--smaller .input, .vertical-rhythme .size--smaller .input ~  span {
+  margin-bottom: 1rem;
+}
+
+.input--small, .size--small .input {
+  font-size: 0.76923077rem;
+  padding: 0.61538462rem 0.76923077rem;
+  height: 2rem;
+}
+
+.vertical-rhythme .input--small, .vertical-rhythme .input--small ~  span, .vertical-rhythme .size--small .input, .vertical-rhythme .size--small .input ~  span {
+  margin-bottom: 1rem;
+}
+
+.input, .size .input {
+  font-size: 1rem;
+  padding: 0.76923077rem 1rem;
+  height: 2.53846154rem;
+}
+
+.vertical-rhythme .input, .vertical-rhythme .input ~  span, .vertical-rhythme .size .input, .vertical-rhythme .size .input ~  span {
+  margin-bottom: 1rem;
+}
+
+.input--medium, .size--medium .input {
+  font-size: 1.38461538rem;
+  padding: 1.15384615rem 1.38461538rem;
+  height: 3.69230769rem;
+}
+
+.vertical-rhythme .input--medium, .vertical-rhythme .input--medium ~  span, .vertical-rhythme .size--medium .input, .vertical-rhythme .size--medium .input ~  span {
+  margin-bottom: 1rem;
+}
+
+.input--big, .size--big .input {
+  font-size: 1.76923077rem;
+  padding: 1.46153846rem 1.76923077rem;
+  height: 4.69230769rem;
+}
+
+.vertical-rhythme .input--big, .vertical-rhythme .input--big ~  span, .vertical-rhythme .size--big .input, .vertical-rhythme .size--big .input ~  span {
+  margin-bottom: 1rem;
+}
+
+.input--bigger, .size--bigger .input {
+  font-size: 2.38461538rem;
+  padding: 1.92307692rem 2.38461538rem;
+  height: 6.23076923rem;
+}
+
+.vertical-rhythme .input--bigger, .vertical-rhythme .input--bigger ~  span, .vertical-rhythme .size--bigger .input, .vertical-rhythme .size--bigger .input ~  span {
+  margin-bottom: 1rem;
+}
+
+.input:not([type="checkbox"]):not([type="radio"]), .color .input:not([type="checkbox"]):not([type="radio"]) {
+  border-color: rgba(129, 149, 161, 0.1);
+  border-bottom-color: rgba(129, 149, 161, 0.3);
+}
+
+[data-input-activator]:focus ~ .input:not([type="checkbox"]):not([type="radio"]),
+[data-input-activator]:checked ~ .input:not([type="checkbox"]):not([type="radio"]), .input:not([type="checkbox"]):not([type="radio"]):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color .input:not([type="checkbox"]):not([type="radio"]),
+[data-input-activator]:checked ~ .color .input:not([type="checkbox"]):not([type="radio"]), .color .input:not([type="checkbox"]):not([type="radio"]):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+  border-bottom-color: rgba(129, 149, 161, 0.6);
+  box-shadow: rgba(129, 149, 161, 0.3) 0 0.46153846rem 0.69230769rem;
+}
+
+[data-input-activator]:focus ~ .input:not([type="checkbox"]):not([type="radio"]),
+[data-input-activator]:checked ~ .input:not([type="checkbox"]):not([type="radio"]), .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color .input:not([type="checkbox"]):not([type="radio"]),
+[data-input-activator]:checked ~ .color .input:not([type="checkbox"]):not([type="radio"]), .color .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+  border-left-color: rgba(129, 149, 161, 0.6);
+}
+
+.input:not([type="checkbox"]):not([type="radio"]) ~ .input-reply--default, .color .input:not([type="checkbox"]):not([type="radio"]) ~ .input-reply--default {
+  display: block;
+}
+
+.input--primary:not([type="checkbox"]):not([type="radio"]), .color--primary .input:not([type="checkbox"]):not([type="radio"]) {
+  border-color: rgba(242, 188, 43, 0.1);
+  border-bottom-color: rgba(242, 188, 43, 0.3);
+}
+
+[data-input-activator]:focus ~ .input--primary:not([type="checkbox"]):not([type="radio"]),
+[data-input-activator]:checked ~ .input--primary:not([type="checkbox"]):not([type="radio"]), .input--primary:not([type="checkbox"]):not([type="radio"]):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input--primary:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--primary:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--primary .input:not([type="checkbox"]):not([type="radio"]),
+[data-input-activator]:checked ~ .color--primary .input:not([type="checkbox"]):not([type="radio"]), .color--primary .input:not([type="checkbox"]):not([type="radio"]):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--primary .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--primary .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+  border-bottom-color: rgba(242, 188, 43, 0.6);
+  box-shadow: rgba(242, 188, 43, 0.3) 0 0.46153846rem 0.69230769rem;
+}
+
+[data-input-activator]:focus ~ .input--primary:not([type="checkbox"]):not([type="radio"]),
+[data-input-activator]:checked ~ .input--primary:not([type="checkbox"]):not([type="radio"]), .input--primary:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--primary:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--primary .input:not([type="checkbox"]):not([type="radio"]),
+[data-input-activator]:checked ~ .color--primary .input:not([type="checkbox"]):not([type="radio"]), .color--primary .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--primary .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+  border-left-color: rgba(242, 188, 43, 0.6);
+}
+
+.input--primary:not([type="checkbox"]):not([type="radio"]) ~ .input-reply--primary, .color--primary .input:not([type="checkbox"]):not([type="radio"]) ~ .input-reply--primary {
+  display: block;
+}
+
+.input--secondary:not([type="checkbox"]):not([type="radio"]), .color--secondary .input:not([type="checkbox"]):not([type="radio"]) {
+  border-color: rgba(119, 119, 119, 0.1);
+  border-bottom-color: rgba(119, 119, 119, 0.3);
+}
+
+[data-input-activator]:focus ~ .input--secondary:not([type="checkbox"]):not([type="radio"]),
+[data-input-activator]:checked ~ .input--secondary:not([type="checkbox"]):not([type="radio"]), .input--secondary:not([type="checkbox"]):not([type="radio"]):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input--secondary:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--secondary:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--secondary .input:not([type="checkbox"]):not([type="radio"]),
+[data-input-activator]:checked ~ .color--secondary .input:not([type="checkbox"]):not([type="radio"]), .color--secondary .input:not([type="checkbox"]):not([type="radio"]):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--secondary .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--secondary .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+  border-bottom-color: rgba(119, 119, 119, 0.6);
+  box-shadow: rgba(119, 119, 119, 0.3) 0 0.46153846rem 0.69230769rem;
+}
+
+[data-input-activator]:focus ~ .input--secondary:not([type="checkbox"]):not([type="radio"]),
+[data-input-activator]:checked ~ .input--secondary:not([type="checkbox"]):not([type="radio"]), .input--secondary:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--secondary:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--secondary .input:not([type="checkbox"]):not([type="radio"]),
+[data-input-activator]:checked ~ .color--secondary .input:not([type="checkbox"]):not([type="radio"]), .color--secondary .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--secondary .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+  border-left-color: rgba(119, 119, 119, 0.6);
+}
+
+.input--secondary:not([type="checkbox"]):not([type="radio"]) ~ .input-reply--secondary, .color--secondary .input:not([type="checkbox"]):not([type="radio"]) ~ .input-reply--secondary {
+  display: block;
+}
+
+.input--success:not([type="checkbox"]):not([type="radio"]), .color--success .input:not([type="checkbox"]):not([type="radio"]) {
+  border-color: rgba(92, 184, 92, 0.1);
+  border-bottom-color: rgba(92, 184, 92, 0.3);
+}
+
+[data-input-activator]:focus ~ .input--success:not([type="checkbox"]):not([type="radio"]),
+[data-input-activator]:checked ~ .input--success:not([type="checkbox"]):not([type="radio"]), .input--success:not([type="checkbox"]):not([type="radio"]):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input--success:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--success:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--success .input:not([type="checkbox"]):not([type="radio"]),
+[data-input-activator]:checked ~ .color--success .input:not([type="checkbox"]):not([type="radio"]), .color--success .input:not([type="checkbox"]):not([type="radio"]):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--success .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--success .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+  border-bottom-color: rgba(92, 184, 92, 0.6);
+  box-shadow: rgba(92, 184, 92, 0.3) 0 0.46153846rem 0.69230769rem;
+}
+
+[data-input-activator]:focus ~ .input--success:not([type="checkbox"]):not([type="radio"]),
+[data-input-activator]:checked ~ .input--success:not([type="checkbox"]):not([type="radio"]), .input--success:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--success:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--success .input:not([type="checkbox"]):not([type="radio"]),
+[data-input-activator]:checked ~ .color--success .input:not([type="checkbox"]):not([type="radio"]), .color--success .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--success .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+  border-left-color: rgba(92, 184, 92, 0.6);
+}
+
+.input--success:not([type="checkbox"]):not([type="radio"]) ~ .input-reply--success, .color--success .input:not([type="checkbox"]):not([type="radio"]) ~ .input-reply--success {
+  display: block;
+}
+
+.input--warning:not([type="checkbox"]):not([type="radio"]), .color--warning .input:not([type="checkbox"]):not([type="radio"]) {
+  border-color: rgba(240, 173, 78, 0.1);
+  border-bottom-color: rgba(240, 173, 78, 0.3);
+}
+
+[data-input-activator]:focus ~ .input--warning:not([type="checkbox"]):not([type="radio"]),
+[data-input-activator]:checked ~ .input--warning:not([type="checkbox"]):not([type="radio"]), .input--warning:not([type="checkbox"]):not([type="radio"]):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input--warning:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--warning:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--warning .input:not([type="checkbox"]):not([type="radio"]),
+[data-input-activator]:checked ~ .color--warning .input:not([type="checkbox"]):not([type="radio"]), .color--warning .input:not([type="checkbox"]):not([type="radio"]):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--warning .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--warning .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+  border-bottom-color: rgba(240, 173, 78, 0.6);
+  box-shadow: rgba(240, 173, 78, 0.3) 0 0.46153846rem 0.69230769rem;
+}
+
+[data-input-activator]:focus ~ .input--warning:not([type="checkbox"]):not([type="radio"]),
+[data-input-activator]:checked ~ .input--warning:not([type="checkbox"]):not([type="radio"]), .input--warning:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--warning:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--warning .input:not([type="checkbox"]):not([type="radio"]),
+[data-input-activator]:checked ~ .color--warning .input:not([type="checkbox"]):not([type="radio"]), .color--warning .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--warning .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+  border-left-color: rgba(240, 173, 78, 0.6);
+}
+
+.input--warning:not([type="checkbox"]):not([type="radio"]) ~ .input-reply--warning, .color--warning .input:not([type="checkbox"]):not([type="radio"]) ~ .input-reply--warning {
+  display: block;
+}
+
+.input--error:not([type="checkbox"]):not([type="radio"]), .color--error .input:not([type="checkbox"]):not([type="radio"]) {
+  border-color: rgba(217, 83, 79, 0.1);
+  border-bottom-color: rgba(217, 83, 79, 0.3);
+}
+
+[data-input-activator]:focus ~ .input--error:not([type="checkbox"]):not([type="radio"]),
+[data-input-activator]:checked ~ .input--error:not([type="checkbox"]):not([type="radio"]), .input--error:not([type="checkbox"]):not([type="radio"]):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input--error:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--error:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--error .input:not([type="checkbox"]):not([type="radio"]),
+[data-input-activator]:checked ~ .color--error .input:not([type="checkbox"]):not([type="radio"]), .color--error .input:not([type="checkbox"]):not([type="radio"]):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--error .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--error .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+  border-bottom-color: rgba(217, 83, 79, 0.6);
+  box-shadow: rgba(217, 83, 79, 0.3) 0 0.46153846rem 0.69230769rem;
+}
+
+[data-input-activator]:focus ~ .input--error:not([type="checkbox"]):not([type="radio"]),
+[data-input-activator]:checked ~ .input--error:not([type="checkbox"]):not([type="radio"]), .input--error:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--error:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--error .input:not([type="checkbox"]):not([type="radio"]),
+[data-input-activator]:checked ~ .color--error .input:not([type="checkbox"]):not([type="radio"]), .color--error .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--error .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+  border-left-color: rgba(217, 83, 79, 0.6);
+}
+
+.input--error:not([type="checkbox"]):not([type="radio"]) ~ .input-reply--error, .color--error .input:not([type="checkbox"]):not([type="radio"]) ~ .input-reply--error {
+  display: block;
+}
+
+.input--info:not([type="checkbox"]):not([type="radio"]), .color--info .input:not([type="checkbox"]):not([type="radio"]) {
+  border-color: rgba(33, 153, 232, 0.1);
+  border-bottom-color: rgba(33, 153, 232, 0.3);
+}
+
+[data-input-activator]:focus ~ .input--info:not([type="checkbox"]):not([type="radio"]),
+[data-input-activator]:checked ~ .input--info:not([type="checkbox"]):not([type="radio"]), .input--info:not([type="checkbox"]):not([type="radio"]):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input--info:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--info:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--info .input:not([type="checkbox"]):not([type="radio"]),
+[data-input-activator]:checked ~ .color--info .input:not([type="checkbox"]):not([type="radio"]), .color--info .input:not([type="checkbox"]):not([type="radio"]):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--info .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--info .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+  border-bottom-color: rgba(33, 153, 232, 0.6);
+  box-shadow: rgba(33, 153, 232, 0.3) 0 0.46153846rem 0.69230769rem;
+}
+
+[data-input-activator]:focus ~ .input--info:not([type="checkbox"]):not([type="radio"]),
+[data-input-activator]:checked ~ .input--info:not([type="checkbox"]):not([type="radio"]), .input--info:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--info:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--info .input:not([type="checkbox"]):not([type="radio"]),
+[data-input-activator]:checked ~ .color--info .input:not([type="checkbox"]):not([type="radio"]), .color--info .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--info .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+  border-left-color: rgba(33, 153, 232, 0.6);
+}
+
+.input--info:not([type="checkbox"]):not([type="radio"]) ~ .input-reply--info, .color--info .input:not([type="checkbox"]):not([type="radio"]) ~ .input-reply--info {
+  display: block;
 }
 
 textarea.input {
@@ -1757,16 +1964,6 @@ textarea + [class*="input-reply"] {
   height: 1.53846154rem;
 }
 
-.input--smaller, .input-addon--smaller, .size--smaller .input, .size--smaller .input-addon {
-  font-size: 0.61538462rem;
-  padding: 0.46153846rem 0.61538462rem;
-  height: 1.53846154rem;
-}
-
-.vertical-rhythme .input--smaller, .vertical-rhythme .input--smaller ~  span, .vertical-rhythme .input-addon--smaller, .vertical-rhythme .input-addon--smaller ~  span, .vertical-rhythme .size--smaller .input, .vertical-rhythme .size--smaller .input ~  span, .vertical-rhythme .size--smaller .input-addon, .vertical-rhythme .size--smaller .input-addon ~  span {
-  margin-bottom: 1rem;
-}
-
 textarea.input--smaller, .size--smaller textarea.input {
   font-size: 0.61538462rem;
   padding: 0.46153846rem 0.61538462rem;
@@ -1817,16 +2014,6 @@ label label + .vertical-rhythme .input-reply--smaller {
   padding: 0 0.76923077rem;
   line-height: 2rem;
   height: 2rem;
-}
-
-.input--small, .input-addon--small, .size--small .input, .size--small .input-addon {
-  font-size: 0.76923077rem;
-  padding: 0.61538462rem 0.76923077rem;
-  height: 2rem;
-}
-
-.vertical-rhythme .input--small, .vertical-rhythme .input--small ~  span, .vertical-rhythme .input-addon--small, .vertical-rhythme .input-addon--small ~  span, .vertical-rhythme .size--small .input, .vertical-rhythme .size--small .input ~  span, .vertical-rhythme .size--small .input-addon, .vertical-rhythme .size--small .input-addon ~  span {
-  margin-bottom: 1rem;
 }
 
 textarea.input--small, .size--small textarea.input {
@@ -1881,16 +2068,6 @@ label label + .vertical-rhythme .input-reply--small {
   height: 2.53846154rem;
 }
 
-.input, .input-addon, .size .input, .size .input-addon {
-  font-size: 1rem;
-  padding: 0.76923077rem 1rem;
-  height: 2.53846154rem;
-}
-
-.vertical-rhythme .input, .vertical-rhythme .input ~  span, .vertical-rhythme .input-addon, .vertical-rhythme .input-addon ~  span, .vertical-rhythme .size .input, .vertical-rhythme .size .input ~  span, .vertical-rhythme .size .input-addon, .vertical-rhythme .size .input-addon ~  span {
-  margin-bottom: 1rem;
-}
-
 textarea.input, .size textarea.input {
   font-size: 1rem;
   padding: 0.76923077rem 1rem;
@@ -1941,16 +2118,6 @@ label label + .vertical-rhythme .input-reply {
   padding: 0 1.38461538rem;
   line-height: 3.69230769rem;
   height: 3.69230769rem;
-}
-
-.input--medium, .input-addon--medium, .size--medium .input, .size--medium .input-addon {
-  font-size: 1.38461538rem;
-  padding: 1.15384615rem 1.38461538rem;
-  height: 3.69230769rem;
-}
-
-.vertical-rhythme .input--medium, .vertical-rhythme .input--medium ~  span, .vertical-rhythme .input-addon--medium, .vertical-rhythme .input-addon--medium ~  span, .vertical-rhythme .size--medium .input, .vertical-rhythme .size--medium .input ~  span, .vertical-rhythme .size--medium .input-addon, .vertical-rhythme .size--medium .input-addon ~  span {
-  margin-bottom: 1rem;
 }
 
 textarea.input--medium, .size--medium textarea.input {
@@ -2005,16 +2172,6 @@ label label + .vertical-rhythme .input-reply--medium {
   height: 4.69230769rem;
 }
 
-.input--big, .input-addon--big, .size--big .input, .size--big .input-addon {
-  font-size: 1.76923077rem;
-  padding: 1.46153846rem 1.76923077rem;
-  height: 4.69230769rem;
-}
-
-.vertical-rhythme .input--big, .vertical-rhythme .input--big ~  span, .vertical-rhythme .input-addon--big, .vertical-rhythme .input-addon--big ~  span, .vertical-rhythme .size--big .input, .vertical-rhythme .size--big .input ~  span, .vertical-rhythme .size--big .input-addon, .vertical-rhythme .size--big .input-addon ~  span {
-  margin-bottom: 1rem;
-}
-
 textarea.input--big, .size--big textarea.input {
   font-size: 1.76923077rem;
   padding: 1.46153846rem 1.76923077rem;
@@ -2065,16 +2222,6 @@ label label + .vertical-rhythme .input-reply--big {
   padding: 0 2.38461538rem;
   line-height: 6.23076923rem;
   height: 6.23076923rem;
-}
-
-.input--bigger, .input-addon--bigger, .size--bigger .input, .size--bigger .input-addon {
-  font-size: 2.38461538rem;
-  padding: 1.92307692rem 2.38461538rem;
-  height: 6.23076923rem;
-}
-
-.vertical-rhythme .input--bigger, .vertical-rhythme .input--bigger ~  span, .vertical-rhythme .input-addon--bigger, .vertical-rhythme .input-addon--bigger ~  span, .vertical-rhythme .size--bigger .input, .vertical-rhythme .size--bigger .input ~  span, .vertical-rhythme .size--bigger .input-addon, .vertical-rhythme .size--bigger .input-addon ~  span {
-  margin-bottom: 1rem;
 }
 
 textarea.input--bigger, .size--bigger textarea.input {
@@ -2138,29 +2285,25 @@ label label + .vertical-rhythme .input-reply--bigger {
   display: block;
 }
 
-.input:not([type="checkbox"]):not([type="radio"]), .input-addon, .color .input:not([type="checkbox"]):not([type="radio"]), .color .input-addon {
+.input-addon, .color .input-addon {
   border-color: rgba(129, 149, 161, 0.1);
   border-bottom-color: rgba(129, 149, 161, 0.3);
 }
 
-[data-input-activator]:focus ~ .input:not([type="checkbox"]):not([type="radio"]),
-[data-input-activator]:checked ~ .input:not([type="checkbox"]):not([type="radio"]), .input:not([type="checkbox"]):not([type="radio"]):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .input-addon,
-[data-input-activator]:checked ~ .input-addon, .input-addon:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon.active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color .input:not([type="checkbox"]):not([type="radio"]),
-[data-input-activator]:checked ~ .color .input:not([type="checkbox"]):not([type="radio"]), .color .input:not([type="checkbox"]):not([type="radio"]):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color .input-addon,
+[data-input-activator]:focus ~ .input-addon,
+[data-input-activator]:checked ~ .input-addon, .input-addon:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon.active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color .input-addon,
 [data-input-activator]:checked ~ .color .input-addon, .color .input-addon:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color .input-addon:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color .input-addon.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
   border-bottom-color: rgba(129, 149, 161, 0.6);
   box-shadow: rgba(129, 149, 161, 0.3) 0 0.46153846rem 0.69230769rem;
 }
 
-[data-input-activator]:focus ~ .input:not([type="checkbox"]):not([type="radio"]),
-[data-input-activator]:checked ~ .input:not([type="checkbox"]):not([type="radio"]), .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .input-addon,
-[data-input-activator]:checked ~ .input-addon, .input-addon:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon.active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color .input:not([type="checkbox"]):not([type="radio"]),
-[data-input-activator]:checked ~ .color .input:not([type="checkbox"]):not([type="radio"]), .color .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color .input-addon,
+[data-input-activator]:focus ~ .input-addon,
+[data-input-activator]:checked ~ .input-addon, .input-addon:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon.active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color .input-addon,
 [data-input-activator]:checked ~ .color .input-addon, .color .input-addon:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color .input-addon.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
   border-left-color: rgba(129, 149, 161, 0.6);
 }
 
-.input:not([type="checkbox"]):not([type="radio"]) ~ .input-reply--default, .input-addon ~ .input-reply--default, .color .input:not([type="checkbox"]):not([type="radio"]) ~ .input-reply--default, .color .input-addon ~ .input-reply--default {
+.input-addon ~ .input-reply--default, .color .input-addon ~ .input-reply--default {
   display: block;
 }
 
@@ -2193,29 +2336,25 @@ select.input, .input.s-select, .color select.input {
   display: block;
 }
 
-.input--primary:not([type="checkbox"]):not([type="radio"]), .input-addon--primary, .color--primary .input:not([type="checkbox"]):not([type="radio"]), .color--primary .input-addon {
+.input-addon--primary, .color--primary .input-addon {
   border-color: rgba(242, 188, 43, 0.1);
   border-bottom-color: rgba(242, 188, 43, 0.3);
 }
 
-[data-input-activator]:focus ~ .input--primary:not([type="checkbox"]):not([type="radio"]),
-[data-input-activator]:checked ~ .input--primary:not([type="checkbox"]):not([type="radio"]), .input--primary:not([type="checkbox"]):not([type="radio"]):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input--primary:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--primary:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .input-addon--primary,
-[data-input-activator]:checked ~ .input-addon--primary, .input-addon--primary:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--primary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--primary.active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--primary .input:not([type="checkbox"]):not([type="radio"]),
-[data-input-activator]:checked ~ .color--primary .input:not([type="checkbox"]):not([type="radio"]), .color--primary .input:not([type="checkbox"]):not([type="radio"]):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--primary .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--primary .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--primary .input-addon,
+[data-input-activator]:focus ~ .input-addon--primary,
+[data-input-activator]:checked ~ .input-addon--primary, .input-addon--primary:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--primary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--primary.active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--primary .input-addon,
 [data-input-activator]:checked ~ .color--primary .input-addon, .color--primary .input-addon:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--primary .input-addon:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--primary .input-addon.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
   border-bottom-color: rgba(242, 188, 43, 0.6);
   box-shadow: rgba(242, 188, 43, 0.3) 0 0.46153846rem 0.69230769rem;
 }
 
-[data-input-activator]:focus ~ .input--primary:not([type="checkbox"]):not([type="radio"]),
-[data-input-activator]:checked ~ .input--primary:not([type="checkbox"]):not([type="radio"]), .input--primary:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--primary:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .input-addon--primary,
-[data-input-activator]:checked ~ .input-addon--primary, .input-addon--primary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--primary.active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--primary .input:not([type="checkbox"]):not([type="radio"]),
-[data-input-activator]:checked ~ .color--primary .input:not([type="checkbox"]):not([type="radio"]), .color--primary .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--primary .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--primary .input-addon,
+[data-input-activator]:focus ~ .input-addon--primary,
+[data-input-activator]:checked ~ .input-addon--primary, .input-addon--primary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--primary.active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--primary .input-addon,
 [data-input-activator]:checked ~ .color--primary .input-addon, .color--primary .input-addon:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--primary .input-addon.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
   border-left-color: rgba(242, 188, 43, 0.6);
 }
 
-.input--primary:not([type="checkbox"]):not([type="radio"]) ~ .input-reply--primary, .input-addon--primary ~ .input-reply--primary, .color--primary .input:not([type="checkbox"]):not([type="radio"]) ~ .input-reply--primary, .color--primary .input-addon ~ .input-reply--primary {
+.input-addon--primary ~ .input-reply--primary, .color--primary .input-addon ~ .input-reply--primary {
   display: block;
 }
 
@@ -2248,29 +2387,25 @@ select.input--primary, .input--primary.s-select, .color--primary select.input {
   display: block;
 }
 
-.input--secondary:not([type="checkbox"]):not([type="radio"]), .input-addon--secondary, .color--secondary .input:not([type="checkbox"]):not([type="radio"]), .color--secondary .input-addon {
+.input-addon--secondary, .color--secondary .input-addon {
   border-color: rgba(119, 119, 119, 0.1);
   border-bottom-color: rgba(119, 119, 119, 0.3);
 }
 
-[data-input-activator]:focus ~ .input--secondary:not([type="checkbox"]):not([type="radio"]),
-[data-input-activator]:checked ~ .input--secondary:not([type="checkbox"]):not([type="radio"]), .input--secondary:not([type="checkbox"]):not([type="radio"]):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input--secondary:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--secondary:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .input-addon--secondary,
-[data-input-activator]:checked ~ .input-addon--secondary, .input-addon--secondary:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--secondary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--secondary.active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--secondary .input:not([type="checkbox"]):not([type="radio"]),
-[data-input-activator]:checked ~ .color--secondary .input:not([type="checkbox"]):not([type="radio"]), .color--secondary .input:not([type="checkbox"]):not([type="radio"]):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--secondary .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--secondary .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--secondary .input-addon,
+[data-input-activator]:focus ~ .input-addon--secondary,
+[data-input-activator]:checked ~ .input-addon--secondary, .input-addon--secondary:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--secondary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--secondary.active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--secondary .input-addon,
 [data-input-activator]:checked ~ .color--secondary .input-addon, .color--secondary .input-addon:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--secondary .input-addon:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--secondary .input-addon.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
   border-bottom-color: rgba(119, 119, 119, 0.6);
   box-shadow: rgba(119, 119, 119, 0.3) 0 0.46153846rem 0.69230769rem;
 }
 
-[data-input-activator]:focus ~ .input--secondary:not([type="checkbox"]):not([type="radio"]),
-[data-input-activator]:checked ~ .input--secondary:not([type="checkbox"]):not([type="radio"]), .input--secondary:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--secondary:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .input-addon--secondary,
-[data-input-activator]:checked ~ .input-addon--secondary, .input-addon--secondary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--secondary.active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--secondary .input:not([type="checkbox"]):not([type="radio"]),
-[data-input-activator]:checked ~ .color--secondary .input:not([type="checkbox"]):not([type="radio"]), .color--secondary .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--secondary .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--secondary .input-addon,
+[data-input-activator]:focus ~ .input-addon--secondary,
+[data-input-activator]:checked ~ .input-addon--secondary, .input-addon--secondary:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--secondary.active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--secondary .input-addon,
 [data-input-activator]:checked ~ .color--secondary .input-addon, .color--secondary .input-addon:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--secondary .input-addon.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
   border-left-color: rgba(119, 119, 119, 0.6);
 }
 
-.input--secondary:not([type="checkbox"]):not([type="radio"]) ~ .input-reply--secondary, .input-addon--secondary ~ .input-reply--secondary, .color--secondary .input:not([type="checkbox"]):not([type="radio"]) ~ .input-reply--secondary, .color--secondary .input-addon ~ .input-reply--secondary {
+.input-addon--secondary ~ .input-reply--secondary, .color--secondary .input-addon ~ .input-reply--secondary {
   display: block;
 }
 
@@ -2303,29 +2438,25 @@ select.input--secondary, .input--secondary.s-select, .color--secondary select.in
   display: block;
 }
 
-.input--success:not([type="checkbox"]):not([type="radio"]), .input-addon--success, .color--success .input:not([type="checkbox"]):not([type="radio"]), .color--success .input-addon {
+.input-addon--success, .color--success .input-addon {
   border-color: rgba(92, 184, 92, 0.1);
   border-bottom-color: rgba(92, 184, 92, 0.3);
 }
 
-[data-input-activator]:focus ~ .input--success:not([type="checkbox"]):not([type="radio"]),
-[data-input-activator]:checked ~ .input--success:not([type="checkbox"]):not([type="radio"]), .input--success:not([type="checkbox"]):not([type="radio"]):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input--success:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--success:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .input-addon--success,
-[data-input-activator]:checked ~ .input-addon--success, .input-addon--success:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--success:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--success.active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--success .input:not([type="checkbox"]):not([type="radio"]),
-[data-input-activator]:checked ~ .color--success .input:not([type="checkbox"]):not([type="radio"]), .color--success .input:not([type="checkbox"]):not([type="radio"]):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--success .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--success .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--success .input-addon,
+[data-input-activator]:focus ~ .input-addon--success,
+[data-input-activator]:checked ~ .input-addon--success, .input-addon--success:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--success:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--success.active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--success .input-addon,
 [data-input-activator]:checked ~ .color--success .input-addon, .color--success .input-addon:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--success .input-addon:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--success .input-addon.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
   border-bottom-color: rgba(92, 184, 92, 0.6);
   box-shadow: rgba(92, 184, 92, 0.3) 0 0.46153846rem 0.69230769rem;
 }
 
-[data-input-activator]:focus ~ .input--success:not([type="checkbox"]):not([type="radio"]),
-[data-input-activator]:checked ~ .input--success:not([type="checkbox"]):not([type="radio"]), .input--success:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--success:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .input-addon--success,
-[data-input-activator]:checked ~ .input-addon--success, .input-addon--success:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--success.active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--success .input:not([type="checkbox"]):not([type="radio"]),
-[data-input-activator]:checked ~ .color--success .input:not([type="checkbox"]):not([type="radio"]), .color--success .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--success .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--success .input-addon,
+[data-input-activator]:focus ~ .input-addon--success,
+[data-input-activator]:checked ~ .input-addon--success, .input-addon--success:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--success.active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--success .input-addon,
 [data-input-activator]:checked ~ .color--success .input-addon, .color--success .input-addon:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--success .input-addon.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
   border-left-color: rgba(92, 184, 92, 0.6);
 }
 
-.input--success:not([type="checkbox"]):not([type="radio"]) ~ .input-reply--success, .input-addon--success ~ .input-reply--success, .color--success .input:not([type="checkbox"]):not([type="radio"]) ~ .input-reply--success, .color--success .input-addon ~ .input-reply--success {
+.input-addon--success ~ .input-reply--success, .color--success .input-addon ~ .input-reply--success {
   display: block;
 }
 
@@ -2358,29 +2489,25 @@ select.input--success, .input--success.s-select, .color--success select.input {
   display: block;
 }
 
-.input--warning:not([type="checkbox"]):not([type="radio"]), .input-addon--warning, .color--warning .input:not([type="checkbox"]):not([type="radio"]), .color--warning .input-addon {
+.input-addon--warning, .color--warning .input-addon {
   border-color: rgba(240, 173, 78, 0.1);
   border-bottom-color: rgba(240, 173, 78, 0.3);
 }
 
-[data-input-activator]:focus ~ .input--warning:not([type="checkbox"]):not([type="radio"]),
-[data-input-activator]:checked ~ .input--warning:not([type="checkbox"]):not([type="radio"]), .input--warning:not([type="checkbox"]):not([type="radio"]):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input--warning:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--warning:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .input-addon--warning,
-[data-input-activator]:checked ~ .input-addon--warning, .input-addon--warning:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--warning:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--warning.active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--warning .input:not([type="checkbox"]):not([type="radio"]),
-[data-input-activator]:checked ~ .color--warning .input:not([type="checkbox"]):not([type="radio"]), .color--warning .input:not([type="checkbox"]):not([type="radio"]):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--warning .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--warning .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--warning .input-addon,
+[data-input-activator]:focus ~ .input-addon--warning,
+[data-input-activator]:checked ~ .input-addon--warning, .input-addon--warning:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--warning:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--warning.active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--warning .input-addon,
 [data-input-activator]:checked ~ .color--warning .input-addon, .color--warning .input-addon:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--warning .input-addon:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--warning .input-addon.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
   border-bottom-color: rgba(240, 173, 78, 0.6);
   box-shadow: rgba(240, 173, 78, 0.3) 0 0.46153846rem 0.69230769rem;
 }
 
-[data-input-activator]:focus ~ .input--warning:not([type="checkbox"]):not([type="radio"]),
-[data-input-activator]:checked ~ .input--warning:not([type="checkbox"]):not([type="radio"]), .input--warning:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--warning:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .input-addon--warning,
-[data-input-activator]:checked ~ .input-addon--warning, .input-addon--warning:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--warning.active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--warning .input:not([type="checkbox"]):not([type="radio"]),
-[data-input-activator]:checked ~ .color--warning .input:not([type="checkbox"]):not([type="radio"]), .color--warning .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--warning .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--warning .input-addon,
+[data-input-activator]:focus ~ .input-addon--warning,
+[data-input-activator]:checked ~ .input-addon--warning, .input-addon--warning:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--warning.active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--warning .input-addon,
 [data-input-activator]:checked ~ .color--warning .input-addon, .color--warning .input-addon:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--warning .input-addon.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
   border-left-color: rgba(240, 173, 78, 0.6);
 }
 
-.input--warning:not([type="checkbox"]):not([type="radio"]) ~ .input-reply--warning, .input-addon--warning ~ .input-reply--warning, .color--warning .input:not([type="checkbox"]):not([type="radio"]) ~ .input-reply--warning, .color--warning .input-addon ~ .input-reply--warning {
+.input-addon--warning ~ .input-reply--warning, .color--warning .input-addon ~ .input-reply--warning {
   display: block;
 }
 
@@ -2413,29 +2540,25 @@ select.input--warning, .input--warning.s-select, .color--warning select.input {
   display: block;
 }
 
-.input--error:not([type="checkbox"]):not([type="radio"]), .input-addon--error, .color--error .input:not([type="checkbox"]):not([type="radio"]), .color--error .input-addon {
+.input-addon--error, .color--error .input-addon {
   border-color: rgba(217, 83, 79, 0.1);
   border-bottom-color: rgba(217, 83, 79, 0.3);
 }
 
-[data-input-activator]:focus ~ .input--error:not([type="checkbox"]):not([type="radio"]),
-[data-input-activator]:checked ~ .input--error:not([type="checkbox"]):not([type="radio"]), .input--error:not([type="checkbox"]):not([type="radio"]):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input--error:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--error:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .input-addon--error,
-[data-input-activator]:checked ~ .input-addon--error, .input-addon--error:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--error:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--error.active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--error .input:not([type="checkbox"]):not([type="radio"]),
-[data-input-activator]:checked ~ .color--error .input:not([type="checkbox"]):not([type="radio"]), .color--error .input:not([type="checkbox"]):not([type="radio"]):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--error .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--error .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--error .input-addon,
+[data-input-activator]:focus ~ .input-addon--error,
+[data-input-activator]:checked ~ .input-addon--error, .input-addon--error:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--error:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--error.active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--error .input-addon,
 [data-input-activator]:checked ~ .color--error .input-addon, .color--error .input-addon:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--error .input-addon:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--error .input-addon.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
   border-bottom-color: rgba(217, 83, 79, 0.6);
   box-shadow: rgba(217, 83, 79, 0.3) 0 0.46153846rem 0.69230769rem;
 }
 
-[data-input-activator]:focus ~ .input--error:not([type="checkbox"]):not([type="radio"]),
-[data-input-activator]:checked ~ .input--error:not([type="checkbox"]):not([type="radio"]), .input--error:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--error:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .input-addon--error,
-[data-input-activator]:checked ~ .input-addon--error, .input-addon--error:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--error.active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--error .input:not([type="checkbox"]):not([type="radio"]),
-[data-input-activator]:checked ~ .color--error .input:not([type="checkbox"]):not([type="radio"]), .color--error .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--error .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--error .input-addon,
+[data-input-activator]:focus ~ .input-addon--error,
+[data-input-activator]:checked ~ .input-addon--error, .input-addon--error:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--error.active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--error .input-addon,
 [data-input-activator]:checked ~ .color--error .input-addon, .color--error .input-addon:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--error .input-addon.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
   border-left-color: rgba(217, 83, 79, 0.6);
 }
 
-.input--error:not([type="checkbox"]):not([type="radio"]) ~ .input-reply--error, .input-addon--error ~ .input-reply--error, .color--error .input:not([type="checkbox"]):not([type="radio"]) ~ .input-reply--error, .color--error .input-addon ~ .input-reply--error {
+.input-addon--error ~ .input-reply--error, .color--error .input-addon ~ .input-reply--error {
   display: block;
 }
 
@@ -2468,29 +2591,25 @@ select.input--error, .input--error.s-select, .color--error select.input {
   display: block;
 }
 
-.input--info:not([type="checkbox"]):not([type="radio"]), .input-addon--info, .color--info .input:not([type="checkbox"]):not([type="radio"]), .color--info .input-addon {
+.input-addon--info, .color--info .input-addon {
   border-color: rgba(33, 153, 232, 0.1);
   border-bottom-color: rgba(33, 153, 232, 0.3);
 }
 
-[data-input-activator]:focus ~ .input--info:not([type="checkbox"]):not([type="radio"]),
-[data-input-activator]:checked ~ .input--info:not([type="checkbox"]):not([type="radio"]), .input--info:not([type="checkbox"]):not([type="radio"]):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input--info:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--info:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .input-addon--info,
-[data-input-activator]:checked ~ .input-addon--info, .input-addon--info:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--info:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--info.active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--info .input:not([type="checkbox"]):not([type="radio"]),
-[data-input-activator]:checked ~ .color--info .input:not([type="checkbox"]):not([type="radio"]), .color--info .input:not([type="checkbox"]):not([type="radio"]):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--info .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--info .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--info .input-addon,
+[data-input-activator]:focus ~ .input-addon--info,
+[data-input-activator]:checked ~ .input-addon--info, .input-addon--info:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--info:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--info.active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--info .input-addon,
 [data-input-activator]:checked ~ .color--info .input-addon, .color--info .input-addon:hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--info .input-addon:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--info .input-addon.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
   border-bottom-color: rgba(33, 153, 232, 0.6);
   box-shadow: rgba(33, 153, 232, 0.3) 0 0.46153846rem 0.69230769rem;
 }
 
-[data-input-activator]:focus ~ .input--info:not([type="checkbox"]):not([type="radio"]),
-[data-input-activator]:checked ~ .input--info:not([type="checkbox"]):not([type="radio"]), .input--info:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--info:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .input-addon--info,
-[data-input-activator]:checked ~ .input-addon--info, .input-addon--info:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--info.active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--info .input:not([type="checkbox"]):not([type="radio"]),
-[data-input-activator]:checked ~ .color--info .input:not([type="checkbox"]):not([type="radio"]), .color--info .input:not([type="checkbox"]):not([type="radio"]):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--info .input:not([type="checkbox"]):not([type="radio"]).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--info .input-addon,
+[data-input-activator]:focus ~ .input-addon--info,
+[data-input-activator]:checked ~ .input-addon--info, .input-addon--info:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input-addon--info.active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--info .input-addon,
 [data-input-activator]:checked ~ .color--info .input-addon, .color--info .input-addon:focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--info .input-addon.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
   border-left-color: rgba(33, 153, 232, 0.6);
 }
 
-.input--info:not([type="checkbox"]):not([type="radio"]) ~ .input-reply--info, .input-addon--info ~ .input-reply--info, .color--info .input:not([type="checkbox"]):not([type="radio"]) ~ .input-reply--info, .color--info .input-addon ~ .input-reply--info {
+.input-addon--info ~ .input-reply--info, .color--info .input-addon ~ .input-reply--info {
   display: block;
 }
 

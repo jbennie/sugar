@@ -16,10 +16,6 @@ $_s-formset-inited : false;
 		$_s-formset-inited : true !global;
 		%s-formset-input-bare {
 			display: inline-block;
-			border-width:s-rem(1px);
-			border-bottom-width : s-rem(3px);
-			border-style : solid;
-			background-color: white;
 			@include s-font(sugar('settings.typo.font-family'));
 			-webkit-appearance: none;
 			-moz-appearance: none;
@@ -28,19 +24,21 @@ $_s-formset-inited : false;
 			}
 			outline : none;
 			width:100%;
-			@include s-transition(fast);
-
+		}
+		%s-formset-input-style {
+			border-width:s-rem(1px);
+			border-bottom-width : s-rem(3px);
+			border-style : solid;
+			background-color: white;
 			color: s-color(text);
+			@include s-transition(fast);
 			@include s-placeholder() {
 				color: s-color(text, -opacity .4);
-				// line-height: normal;
 			}
-			
 			[data-input-activator]:focus ~ &,
 			&:focus {
 				border-left-width : s-rem(5px);
 			}
-			
 			&:disabled,
 			#{s-selector((
 				BEM : '&.input--disabled',
@@ -60,15 +58,7 @@ $_s-formset-inited : false;
 	}
 }
 
-@mixin s-formset-input(
-	$color,
-	$size
-) {
-	@include s-formset-init();
-	@extend %s-formset-input-bare;
-	@include s-formset-input-size($size);
-	@include s-formset-input-color($color);	
-}
+
 @mixin s-formset-select(
 	$color,
 	$size
@@ -89,32 +79,7 @@ $_s-formset-inited : false;
 	@include s-formset-textarea-size($size);
 	@include s-formset-input-color($color);
 }
-@mixin s-formset-input-size($size) {
-	font-size : s-lnf(font-size, $size);
-	// border-radius: s-lnf(border-radius, $size);
-	padding : s-lnf(padding-horizontal, $size) s-lnf(padding-vertical, $size);
-	height: s-lnf(font-size, $size) + s-lnf(padding-horizontal, $size) * 2;
-}
-@mixin s-formset-input-color($color) {
-	border-color: s-color($color, -opacity .1);
-	border-bottom-color: s-color($color, -opacity .3);
-		
-	[data-input-activator]:focus ~ &,
-	[data-input-activator]:checked ~ &,
-	&:hover:not(:disabled):not(.input--disabled):not(.is-disabled),
-	&:focus:not(:disabled):not(.input--disabled):not(.is-disabled),
-	&.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
-		border-bottom-color: s-color($color, -opacity .6);
-		// @include s-filter(box-shadow(s-color($color, -opacity .3) 0 5px s-rem(10px)));
-		@include s-depth(3, s-color($color, -opacity .3));
-	}
-	[data-input-activator]:focus ~ &,
-	[data-input-activator]:checked ~ &,
-	&:focus:not(:disabled):not(.input--disabled):not(.is-disabled),
-	&.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
-		border-left-color: s-color($color, -opacity .6);
-	}
-}
+
 @mixin s-formset-select-color($color) {
 	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A#{str-replace("#{s-color($color)}","#","%23")}"></polygon></svg>');
 }
@@ -125,6 +90,8 @@ $_s-formset-inited : false;
 	display: inline-block;
 	height: s-lnf(font-size, $size) + s-lnf(padding-vertical, $size) * 2;
 }
+
+
 
 @mixin s-formset(
 	$sizes : sugar('settings.components.formset.generate.sizes'),
@@ -144,11 +111,7 @@ $_s-formset-inited : false;
 	// pass in the component context
 	@include s-component-context('formset') {
 		
-		// get variables
-		$scope-class : sugar('settings.scope-class');
-
 		// base
-		.input:not([type="checkbox"]):not([type="radio"]),
 		.input-addon {
 			@extend %s-formset-input-bare;
 		}
@@ -255,46 +218,7 @@ $_s-formset-inited : false;
 					line-height: s-lnf(font-size, $size) + s-lnf(padding-horizontal, $size) * 2;
 					height: s-lnf(font-size, $size) + s-lnf(padding-horizontal, $size) * 2;	
 				}
-			}
-
-			// input styling
-			#{s-selector((
-				BEM : (
-					'.input--#{$size}',
-					'.input-addon--#{$size}',
-					'.size--#{$size} .input',
-					'.size--#{$size} .input-addon'
-				),
-				SMACCS : (
-					'.input-#{$size}',
-					'.input-addon-#{$size}',
-					'.size--#{$size} .input',
-					'.size--#{$size} .input-addon'
-				)
-			))} {
-				// set input styling
-				@include s-formset-input-size($size);
-
-				// vertical rhythme
-				&, & ~ span {
-					@include s-vertical-rhythme {
-						margin-bottom: 1rem;
-					}
-				}
-				// &, & ~ span {
-				// 	@include s-vertical-rhythme(
-				// 		$font-size : s-lnf(font-size, $size),
-				// 		$line-height: s-lnf(font-size, $size),
-				// 		$padding-top : s-lnf(padding-horizontal, $size),
-				// 		$padding-bottom : s-lnf(padding-horizontal, $size),
-				// 		$margin-bottom : 1,
-				// 		$margin-top : 0,
-				// 		$border-bottom-width: s-rem(1px),
-				// 		$border-top-width : s-rem(1px),
-				// 		$calculate-height : true
-				// 	);
-				// }
-			}
+			}			
 
 			// textarea styling
 			#{s-selector((
@@ -361,18 +285,6 @@ $_s-formset-inited : false;
 				@include s-vertical-rhythme {
 					margin-bottom: 1rem;
 				}
-				// $args : (
-				// 	font-size : s-lnf(font-size, $size),
-				// 	line-height: s-lnf(font-size, $size),
-				// 	padding-top : s-lnf(padding-horizontal, $size),
-				// 	padding-bottom : s-lnf(padding-horizontal, $size),
-				// 	margin-bottom : 1,
-				// 	margin-top : 0,
-				// 	border-bottom-width: s-rem(1px),
-				// 	border-top-width : s-rem(1px),
-				// 	calculate-height : true
-				// );
-				// @include s-vertical-rhythme($args...);
 			}
 
 			// label styling
@@ -459,15 +371,11 @@ $_s-formset-inited : false;
 
 			#{s-selector((
 				BEM : (
-					'.input--#{$color}:not([type="checkbox"]):not([type="radio"])',
 					'.input-addon--#{$color}',
-					'.color--#{$color} .input:not([type="checkbox"]):not([type="radio"])',
 					'.color--#{$color} .input-addon'
 				),
 				SMACCS : (
-					'.input-#{$color}:not([type="checkbox"]):not([type="radio"])',
 					'.input-addon-#{$color}',
-					'.color-#{$color} .input:not([type="checkbox"]):not([type="radio"])',
 					'.color-#{$color} .input-addon'
 				)
 			))} {
