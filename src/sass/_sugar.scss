@@ -77,11 +77,9 @@
 		blur : blur(30px)
 	),
 	transitions : (
-		transitions : (
-			fast : all .1s ease-in-out,
-			normal : all .2s ease-in-out,
-			slow : all .5s ease-in-out
-		)
+		fast : all .1s ease-in-out,
+		default : all .2s ease-in-out,
+		slow : all .5s ease-in-out
 	),
 	components : (
 		typeset : (

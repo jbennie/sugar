@@ -119,7 +119,7 @@ $_sugar-classes-inited : false;
 		}
 
 		// transitions
-		$transitions : sugar('settings.transitions.transitions');
+		$transitions : sugar('settings.transitions');
 		@each $name, $transition in $transitions {
 			@include s-register-class(
 				$classname : 't-#{$name}',

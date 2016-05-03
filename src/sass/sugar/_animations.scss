@@ -59,52 +59,51 @@
 //
 // Transition
 //
+
 @function s-transition-map(
 	$transition
 ) {
 	$tran : s-parse-properties($transition, (
-		name : map-keys(sugar('settings.transitions.transitions')),
+		name : map-keys(sugar('settings.transitions')),
 		property : string,
 		duration : number,
 		ease : string,
 		delay : number
 	));
 
+	// merge with default transition
+	@if $_s-default-transition-map {
+		$tran : map-merge($_s-default-transition-map,$tran);
+	}
+
 	// if we have a name, mean that we want to merge transitions
 	$name : map-get($tran, name);
 	@if $name {
 		// get the transition
-		$named_transition : sugar('settings.transitions.transitions.#{$name}');
+		$named_transition : sugar('settings.transitions.#{$name}');
 		// merge the maps
 		$tran : map-merge(s-transition-map($named_transition),$tran);
-	}
-
-	// set default values
-	@if not map-get($tran, property) {
-		$tran : map-set($tran,property,sugar('settings.transitions.property'));
-	}
-	@if not map-get($tran, duration) {
-		$tran : map-set($tran,duration,sugar('settings.transitions.duration'));
-	}
-	@if not map-get($tran, delay) {
-		$tran : map-set($tran,delay,sugar('settings.transitions.delay'));
-	}
-	@if not map-get($tran, ease) {
-		$tran : map-set($tran,ease,sugar('settings.transitions.ease'));
 	}
 
 	// return the transition map
 	@return $tran;
 }
+$_s-default-transition-map : null;
 @function s-transition(
 	$transitions...
 ) {
+	// merge with default transition
+	// to avoid recursion
+	@if not $_s-default-transition-map {
+		$_s-default-transition-map : s-transition-map(sugar('settings.transitions.default')) !global;
+	}
+
 	$trans : ();
-	$available-transitions : map-keys(sugar('settings.transitions.transitions'));
+	$available-transitions : map-keys(sugar('settings.transitions'));
 	@if length($transitions) == 0 {
-		$trans : append($trans, sugar('settings.transitions.property') sugar('settings.transitions.duration') sugar('settings.transitions.ease') sugar('settings.transitions.deéay'), comma);
+		$trans : sugar('settings.transitions.default');
 	} @else {
-		$transitions-settings : sugar('settings.transitions.transitions');
+		$transitions-settings : sugar('settings.transitions');
 		@each $transition in $transitions {
 			// get the transition map
 			$t-map : s-transition-map($transition);

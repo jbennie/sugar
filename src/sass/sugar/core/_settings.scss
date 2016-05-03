@@ -111,10 +111,6 @@ $_sugar-settings : (								// store all the settings
 		shadow 						: box-shadow(#text 0 0 32px)
 								), 				
 	transitions 				: ( 				// store all the transition settings
-		duration 					: .2s, 				// default transition duration
-		ease 						: ease-in-out, 		// default easing function 
-		delay 						: 0s, 				// default delay
-		property 					: all, 				// default property
-		transitions 				: () 				// store all registered transitions
-	)
+		default  					: all .2s ease-in-out 0s // default transition
+								)
 );	
