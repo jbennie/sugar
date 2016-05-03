@@ -31401,8 +31401,6 @@ return /******/ (function(modules) { // webpackBootstrap
 				}
 			});
 
-			console.log('activate', this.elm, this.targets);
-
 			// activate the element
 			this.elm.classList.add('active');
 
@@ -31416,6 +31414,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			if (this.parentActivate) {
 				var parent_api = this.parentActivate[this.name];
 				if (parent_api) {
+					console.log('activate parent', parent_api);
 					parent_api._activate();
 				}
 			}
@@ -31429,12 +31428,15 @@ return /******/ (function(modules) { // webpackBootstrap
 		SActivateElement.prototype._handleHistory = function _handleHistory() {
 			var _this3 = this;
 
-			window.addEventListener('hashchange', function (e) {
-				_this3._processHistoryChange();
-			});
-			window.addEventListener('popstate', function (e) {
-				_this3._processHistoryChange();
-			});
+			if (!this.settings.preventScroll) {
+				window.addEventListener('hashchange', function (e) {
+					_this3._processHistoryChange();
+				});
+			} else {
+				window.addEventListener('popstate', function (e) {
+					_this3._processHistoryChange();
+				});
+			}
 		};
 
 		/**
@@ -31447,8 +31449,6 @@ return /******/ (function(modules) { // webpackBootstrap
 			if (hash) {
 				if (hash == this.target) {
 					this._activate();
-					// restore scrollTop
-					document.body.scrollTop = this._scrollTop;
 				}
 			}
 		};
@@ -31464,7 +31464,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					window.history.pushState(null, null, document.location.pathname + '#' + this.target);
 					this._processHistoryChange();
 				} else {
-					document.location.hash = '' + this.target;
+					document.location.hash = this.target;
 				}
 			} else {
 				// activate simply

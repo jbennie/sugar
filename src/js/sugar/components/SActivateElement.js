@@ -227,8 +227,6 @@ class SActivateElement extends SComponent {
 			}
 		});
 
-		console.log('activate', this.elm, this.targets);
-
 		// activate the element
 		this.elm.classList.add('active');
 
@@ -242,6 +240,7 @@ class SActivateElement extends SComponent {
 		if (this.parentActivate) {
 			let parent_api = this.parentActivate[this.name];
 			if (parent_api) {
+				console.log('activate parent', parent_api);
 				parent_api._activate();
 			}
 		}
@@ -251,12 +250,15 @@ class SActivateElement extends SComponent {
 	 * Handle history
 	 */
 	_handleHistory() {
-		window.addEventListener('hashchange', (e) => {
-			this._processHistoryChange();
-		});
-		window.addEventListener('popstate', (e) => {
-			this._processHistoryChange();
-		});
+		if ( ! this.settings.preventScroll) {
+			window.addEventListener('hashchange', (e) => {
+				this._processHistoryChange();
+			});
+		} else {
+			window.addEventListener('popstate', (e) => {
+				this._processHistoryChange();
+			});
+		}
 	}
 
 	/**
@@ -267,8 +269,6 @@ class SActivateElement extends SComponent {
 		if (hash) {
 			if (hash == this.target) {
 				this._activate();
-				// restore scrollTop
-				document.body.scrollTop = this._scrollTop;
 			}
 		}
 	}
@@ -282,7 +282,7 @@ class SActivateElement extends SComponent {
 				window.history.pushState(null,null,`${document.location.pathname}#${this.target}`);
 				this._processHistoryChange();
 			} else {
-				document.location.hash = `${this.target}`;
+				document.location.hash = this.target;
 			}
 		} else {
 			// activate simply
