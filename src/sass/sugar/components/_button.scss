@@ -54,10 +54,12 @@ $_s-button-inited : false;
 				BEM : '.btn--#{$size}',
 				SMACCS : '.btn-#{$size}'
 			))} {
-				font-size : s-look-and-feel(font-size, $size);
-				border-radius: s-look-and-feel(border-radius, $size);
-				padding : s-look-and-feel(padding-horizontal, $size) s-look-and-feel(padding-vertical, $size);
-				height: s-lnf(font-size, $size) + s-lnf(padding-horizontal, $size) * 2;
+				@include s-unit-context(px) {
+					font-size : s-look-and-feel(font-size, $size);
+					border-radius: s-look-and-feel(border-radius, $size);
+					padding : s-look-and-feel(padding-horizontal, $size) s-look-and-feel(padding-vertical, $size);
+					height: s-lnf(font-size, $size) + s-lnf(padding-horizontal, $size) * 2;
+				}
 
 				// @include s-vertical-rhythme(
 				// 	$font-size : s-look-and-feel(font-size, $size),
