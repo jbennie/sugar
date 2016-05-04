@@ -151,8 +151,8 @@ $_s-formset-advanced-select-inited : false;
 				line-height: $h / 2;
 				font-size: s-lnf(font-size, $size) * .8;
 				// // margin-bottom: $h / 4;
-				margin-top: $h / 8 - 2px;
-				margin-bottom: $h / 8 - 2px;
+				margin-top: $h / 8 - s-convert(2px);
+				margin-bottom: $h / 8 - s-convert(2px);
 				margin-right: s-lnf(padding-vertical, $size) / 2;
 				padding:0 s-lnf(padding-vertical, $size) / 2;
 			}

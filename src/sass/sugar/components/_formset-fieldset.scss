@@ -65,7 +65,7 @@ $_s-formset-fieldset-inited : false;
 
 				> [class*="legend"],
 				> legend {
-					margin-left: - (s-px(s-space($size)) + 5px);
+					margin-left: - (s-space($size) + s-convert(5px));
 					width : unquote('calc(100% + #{s-space($size)})');
 					margin-bottom: s-space($size);
 				}

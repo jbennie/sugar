@@ -242,8 +242,8 @@ $_sugar-settings-cache : ();
 
 			// convert to pixels if possible
 			@if type-of($value) == number and not unitless($value) {
-				@if unit($value) == px or unit($value) == pt or unit($value) == em {
-					$value : s-convert($value, rem);
+				@if unit($value) == px or unit($value) == pt or unit($value) == rem or unit($value) == em {
+					$value : s-convert($value);
 				} @else {
 					@return $value;
 				}

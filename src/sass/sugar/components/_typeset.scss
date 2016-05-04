@@ -472,7 +472,7 @@
 				$font-size : 0,
 				$line-height : 0,
 				$margin-top : s-space(default),
-				$margin-bottom : s-px(s-space(default)) - 1px,
+				$margin-bottom : s-space(default) - s-convert(1px),
 				$border-bottom: 1px solid s-color(text, -opacity .3)
 			);
 		}

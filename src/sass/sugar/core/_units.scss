@@ -33,10 +33,17 @@
 // Convert some values
 //
 $_s-font-size : null;
-@function s-convert($value, $convertUnit){
-
+@function s-convert(
+	$value,
+	$convertUnit : null	
+){
 	// get the unit
 	$unit : null;
+
+	// get the default unit if not specified
+	@if not $convertUnit {
+		$convertUnit : map-get($_sugar-settings,unit);
+	}
 
 	// get the unit
 	$unit : unit($value);

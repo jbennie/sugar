@@ -4,6 +4,7 @@
 $_sugar-classes : () !default; 						// store all the classes in their namespaces
 $sugar-animatecss : () !default; 					// store all the icons wanted from animate.css package
 $_sugar-settings : (								// store all the settings
+	unit 					    : rem, 				// set default unit to use
 	reset 						: true, 			// by default, a reset will be applied
 	border-box 					: true, 			// set if need to set all as border box model
 	sizes 						: (					// store all the ratios between sizes
