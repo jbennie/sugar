@@ -42,7 +42,12 @@ $_s-font-size : null;
 
 	// get the default unit if not specified
 	@if not $convertUnit {
-		$convertUnit : map-get($_sugar-settings,unit);
+		// check if is a unit context
+		@if s-unit-context() {
+			$convertUnit : s-unit-context();
+		} @else {
+			$convertUnit : map-get($_sugar-settings,unit);
+		}
 	}
 
 	// get the unit

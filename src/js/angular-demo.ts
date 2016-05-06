@@ -1,7 +1,8 @@
 
 
 // import sugar from './sugar/sugar';
-import angular from 'angular';
+let angular = require('angular');
+// import angular from 'angular';
 // import { SSelectElement, SActivateElement } from './sugar/index';
 //
 import sActivateManager from './sugar/components/sActivateManager';

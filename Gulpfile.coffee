@@ -16,6 +16,7 @@ clean 		 = require 'gulp-clean'
 babel 		 = require 'gulp-babel'
 filter 		 = require 'gulp-filter'
 cached 		 = require 'gulp-cached'
+ts 			 = require 'gulp-typescript'
 
 # configure webpack
 webpackParams =
@@ -114,6 +115,15 @@ gulp.task 'compass', ->
 	.pipe autoprefixer
 		browsers: ['last 5 versions']
 	.pipe gulp.dest 'assets/css'
+
+# typescript
+gulp.task 'ts', [], ->
+	gulp.src './src/js/**/*.ts'
+	.pipe ts
+		# moduleResolution: 'Node'
+		# target: 'es5'
+		# module: 'umd'
+	.pipe gulp.dest 'assets/js'
 
 # sass
 gulp.task 'sass', ->
