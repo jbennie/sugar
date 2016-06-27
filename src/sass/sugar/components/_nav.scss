@@ -28,7 +28,6 @@ $_s-nav-inited : false;
 
 	@if $_sugar-test-arguments {
 		$sizes : s-test-argument('s-nav-tabs','sizes',map-keys(sugar('settings.sizes')),$sizes);
-		$colors : s-test-argument('s-nav-tabs','colors',map-keys(sugar('settings.colors')),$colors);
 	}
 
 	// pass in component context
