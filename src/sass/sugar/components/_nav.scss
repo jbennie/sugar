@@ -20,32 +20,76 @@ $_s-nav-inited : false;
 	}
 }
 
-@mixin s-nav-tabs(
-	$sizes : sugar('settings.components.nav.generate.sizes'),
-	$colors : sugar('settings.components.nav.generate.colors')
+@mixin s-nav-inline(
+	$sizes : sugar('settings.components.nav.generate.sizes')
 ) {
-	// init dropdown
+	// init nav
 	@include s-nav-init();
-	
+
 	@if $_sugar-test-arguments {
 		$sizes : s-test-argument('s-nav-tabs','sizes',map-keys(sugar('settings.sizes')),$sizes);
 		$colors : s-test-argument('s-nav-tabs','colors',map-keys(sugar('settings.colors')),$colors);
 	}
-	
-	// get variables
-	$vertical-rhythme : sugar('settings.vertical-rhythme.scope-class');
-	$typeset : sugar('settings.components.typeset.scope-class');
 
 	// pass in component context
-	@include s-component-context('nav') {		
-	
+	@include s-component-context('nav') {
+		#{s-selector((
+			BEM : '.nav.nav--inline',
+			SMACCS : '.nav.nav-inline'
+		))} {
+			@extend %s-nav-bare;
+
+			> li,
+			> #{s-selector((
+				BEM : '.nav__item',
+				SMACCS : '.nav-item'
+			))} {
+				display: inline-block;
+			}
+		}
+
+		// generate each sizes
+		@each $size in $sizes {
+			// extend dropdown
+			#{s-selector((
+				BEM : '.nav--tabs.nav--#{$size}',
+				SMACCS : '.nav-tabs.nav-#{$size}'
+			))} {
+				> li,
+				> #{s-selector((
+					BEM : '.nav__item',
+					SMACCS : '.nav-item'
+				))} {
+					font-size : s-look-and-feel(font-size, $size);
+					padding : s-look-and-feel(padding-vertical, $size) s-look-and-feel(padding-horizontal, $size);
+				}
+			}
+		}
+	}
+}
+
+@mixin s-nav-tabs(
+	$sizes : sugar('settings.components.nav.generate.sizes'),
+	$colors : sugar('settings.components.nav.generate.colors')
+) {
+	// init nav
+	@include s-nav-init();
+
+	@if $_sugar-test-arguments {
+		$sizes : s-test-argument('s-nav-tabs','sizes',map-keys(sugar('settings.sizes')),$sizes);
+		$colors : s-test-argument('s-nav-tabs','colors',map-keys(sugar('settings.colors')),$colors);
+	}
+
+	// pass in component context
+	@include s-component-context('nav') {
+
 		// base
 		#{s-selector((
 			BEM : '.nav.nav--tabs',
 			SMACCS : '.nav.nav-tabs'
 		))} {
 			@extend %s-nav-bare;
-			
+
 			> li,
 			> #{s-selector((
 				BEM : '.nav__item',
@@ -62,7 +106,7 @@ $_s-nav-inited : false;
 				}
 			}
 		}
-		
+
 		// generate each sizes
 		@each $size in $sizes {
 			// extend dropdown
@@ -91,7 +135,7 @@ $_s-nav-inited : false;
 		// generate each colors
 		@each $color in $colors {
 			// extend dropdown
-		
+
 			#{s-selector((
 				BEM : '.nav--tabs.nav--#{$color}',
 				SMACCS : '.nav--tabs.nav-#{$color}'
@@ -118,7 +162,7 @@ $_s-nav-inited : false;
 						BEM : '&.active',
 						SMACCS : '&.is-active'
 					))} {
-						background-color : s-color($color);	
+						background-color : s-color($color);
 						border-color: s-color($color);
 						@if lightness(s-color($color)) > 70 {
 							color : s-color($color, -darken 30%);

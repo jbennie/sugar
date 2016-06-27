@@ -8,7 +8,7 @@ let angular = require('angular');
 import sActivateManager from './sugar/components/sActivateManager';
 import SSelectElement from './sugar/components/SSelectElement';
 // import sDrawerManager from './sugar/components/s-drawer-manager';
-// 
+//
 // import SSelectElement from './sugar/index';
 // import SActivateElement from './sugar/index';
 
