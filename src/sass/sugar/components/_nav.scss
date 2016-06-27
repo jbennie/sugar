@@ -51,8 +51,8 @@ $_s-nav-inited : false;
 		@each $size in $sizes {
 			// extend dropdown
 			#{s-selector((
-				BEM : '.nav--tabs.nav--#{$size}',
-				SMACCS : '.nav-tabs.nav-#{$size}'
+				BEM : '.nav--inline.nav--#{$size}',
+				SMACCS : '.nav-inline.nav-#{$size}'
 			))} {
 				> li,
 				> #{s-selector((
