@@ -152,8 +152,12 @@ $_sugar-classes-inited : false;
 		$vertical-rhythme-scope : sugar('settings.vertical-rhythme.scope-class');
 		$spaces : sugar('settings.sizes');
 		@each $name, $space in $spaces {
+			$cname : 'm-b-#{$name}';
+			@if $name == 'default' {
+				$cname : 'm-b';
+			}
 			@include s-register-class(
-				$classname : 'm-b-#{$name}',
+				$classname : $cname,
 				$namespace : 'sugar.margin.bottom.#{$name}'
 			) {
 				margin-bottom : s-space($name);
@@ -162,8 +166,12 @@ $_sugar-classes-inited : false;
 					margin-bottom : round(s-space($name));
 				}
 			}
+			$cname : 'm-t-#{$name}';
+			@if $name == 'default' {
+				$cname : 'm-t';
+			}
 			@include s-register-class(
-				$classname : 'm-t-#{$name}',
+				$classname : $cname,
 				$namespace : 'sugar.margin.top.#{$name}'
 			) {
 				margin-top : s-space($name);
@@ -172,58 +180,94 @@ $_sugar-classes-inited : false;
 					margin-top : round(s-space($name));
 				}
 			}
+			$cname : 'm-l-#{$name}';
+			@if $name == 'default' {
+				$cname : 'm-l';
+			}
 			@include s-register-class(
-				$classname : 'm-l-#{$name}',
+				$classname : $cname,
 				$namespace : 'sugar.margin.left.#{$name}'
 			) {
 				margin-left : s-space($name);
 			}
+			$cname : 'm-r-#{$name}';
+			@if $name == 'default' {
+				$cname : 'm-r';
+			}
 			@include s-register-class(
-				$classname : 'm-r-#{$name}',
+				$classname : $cname,
 				$namespace : 'sugar.margin.right.#{$name}'
 			) {
 				margin-right : s-space($name);
 			}
+			$cname : 'm-s-#{$name}';
+			@if $name == 'default' {
+				$cname : 'm-s';
+			}
 			@include s-register-class(
-				$classname : 'm-s-#{$name}',
+				$classname : $cname,
 				$namespace : 'sugar.margin.side.#{$name}'
 			) {
 				margin-left : s-space($name);
 				margin-right : s-space($name);
 			}
 
+			$cname : 'p-#{$name}';
+			@if $name == 'default' {
+				$cname : 'p';
+			}
 			@include s-register-class(
-				$classname : 'p-#{$name}',
+				$classname : $cname,
 				$namespace : 'sugar.padding.all.#{$name}'
 			) {
 				padding : s-space($name);
 			}
+			$cname : 'p-b-#{$name}';
+			@if $name == 'default' {
+				$cname : 'p-b';
+			}
 			@include s-register-class(
-				$classname : 'p-b-#{$name}',
+				$classname : $cname,
 				$namespace : 'sugar.padding.bottom.#{$name}'
 			) {
 				padding-bottom : s-space($name);
 			}
+			$cname : 'p-t-#{$name}';
+			@if $name == 'default' {
+				$cname : 'p-t';
+			}
 			@include s-register-class(
-				$classname : 'p-t-#{$name}',
+				$classname : $cname,
 				$namespace : 'sugar.padding.top.#{$name}'
 			) {
 				padding-top : s-space($name);
 			}
+			$cname : 'p-l-#{$name}';
+			@if $name == 'default' {
+				$cname : 'p-l';
+			}
 			@include s-register-class(
-				$classname : 'p-l-#{$name}',
+				$classname : $cname,
 				$namespace : 'sugar.padding.left.#{$name}'
 			) {
 				padding-left : s-space($name);
 			}
+			$cname : 'p-r-#{$name}';
+			@if $name == 'default' {
+				$cname : 'p-r';
+			}
 			@include s-register-class(
-				$classname : 'p-r-#{$name}',
+				$classname : $cname,
 				$namespace : 'sugar.padding.right.#{$name}'
 			) {
 				padding-right : s-space($name);
 			}
+			$cname : 'p-s-#{$name}';
+			@if $name == 'default' {
+				$cname : 'p-s';
+			}
 			@include s-register-class(
-				$classname : 'p-s-#{$name}',
+				$classname : $cname,
 				$namespace : 'sugar.padding.side.#{$name}'
 			) {
 				padding-left : s-space($name);
