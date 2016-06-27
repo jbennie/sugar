@@ -82,7 +82,7 @@ $_sugar-current-component : null;
 	}
 	$name : nth($keys,1);
 	$settings : map-get($settings, $name);
-	
+
 	// get component
 	$components : map-get($_sugar-settings, components);
 	@if not $components {
@@ -193,24 +193,22 @@ $_sugar-classes-inited : false;
 			}
 
 			@include s-register-class(
+				$classname : 'p-#{$name}',
+				$namespace : 'sugar.padding.all.#{$name}'
+			) {
+				padding : s-space($name);
+			}
+			@include s-register-class(
 				$classname : 'p-b-#{$name}',
 				$namespace : 'sugar.padding.bottom.#{$name}'
 			) {
 				padding-bottom : s-space($name);
-				.#{$vertical-rhythme-scope} &:not(.not-#{$vertical-rhythme-scope}),
-				&.#{$vertical-rhythme-scope}:not(.not-#{$vertical-rhythme-scope}) {
-					padding-bottom : round(s-space($name));
-				}
 			}
 			@include s-register-class(
 				$classname : 'p-t-#{$name}',
 				$namespace : 'sugar.padding.top.#{$name}'
 			) {
 				padding-top : s-space($name);
-				.#{$vertical-rhythme-scope} &:not(.not-#{$vertical-rhythme-scope}),
-				&.#{$vertical-rhythme-scope}:not(.not-#{$vertical-rhythme-scope}) {
-					padding-top : round(s-space($name));
-				}
 			}
 			@include s-register-class(
 				$classname : 'p-l-#{$name}',
@@ -235,7 +233,7 @@ $_sugar-classes-inited : false;
 
 		//
 		// Text size
-		// 
+		//
 		@each $size, $value in sugar('settings.sizes') {
 			@include s-register-class(text-#{$size}, 'sugar.text.size.#{$size}') {
 				font-size : s-lnf(font-size, $size);
@@ -290,7 +288,7 @@ $_sugar-classes-inited : false;
 				@if type-of($color) == map {
 					$modifiers : map-get($color, modifiers);
 					$color : map-get($color, color);
-				}	
+				}
 				$cls : unquote("c-#{$name}");
 				@include s-register-class(
 					$classname : $cls,
@@ -357,7 +355,7 @@ $_sugar-classes-inited : false;
 		}
 	}
 
-	
+
 }
 
 
@@ -374,5 +372,5 @@ $_sugar-classes-inited : false;
 		#{$property} : s-font-family($value);
 	} @else {
 		#{$property} : $value;
-	} 
+	}
 }
