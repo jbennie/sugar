@@ -60,7 +60,8 @@ $_s-nav-inited : false;
 					SMACCS : '.nav-item'
 				))} {
 					font-size : s-look-and-feel(font-size, $size);
-					padding : s-look-and-feel(padding-vertical, $size) s-look-and-feel(padding-horizontal, $size);
+					padding-left : s-look-and-feel(padding-horizontal, $size);
+					padding-right : s-look-and-feel(padding-horizontal, $size);
 				}
 			}
 		}
