@@ -302,7 +302,7 @@ $_sugar-settings-cache : ();
 
 	// if the color is a string
 	@if s-is($color, string) or s-is($color, color) {
-		@if $color != $name && index(map-keys($colors),$color) {
+		@if $color != $name and index(map-keys($colors),$color) {
 			@return s-color($color, $actions);
 		}
 	}
