@@ -72,7 +72,7 @@
 ) {
 	// pass in component context
 	@include s-component-context('typeset') {
-		
+
 		@if $_sugar-test-arguments {
 			$count : s-test-argument('s-typeset-titles','count',integer,$count);
 			$color : s-test-argument('s-typeset-titles','color|list-color',color,$color);
@@ -84,7 +84,7 @@
 			// merge with default
 			$s : sugar('settings.titles.h#{$i}');
 			$s : map-extend(sugar('settings.titles.default'), $s);
-			
+
 			// vertical rhythme
 			#{s-vertical-rhythme-scope-class()} .h#{$i},
 			#{s-vertical-rhythme-scope-class()}.#{$typeset} h#{$i}#{s-no-typeset()} {
@@ -114,7 +114,7 @@
 ) {
 	// pass in component context
 	@include s-component-context('typeset') {
-	
+
 		@if $_sugar-test-arguments {
 			$color : s-test-argument('s-typeset-paragraphs','color|map-color',color,$color);
 		}
@@ -131,7 +131,7 @@
 				$sel : 'p';
 				$sel-class : '.p';
 			}
-		
+
 			// extend
 			$s : map-extend(sugar('settings.paragraphs.default'), $s);
 
@@ -154,7 +154,7 @@
 			#{s-selector((
 				BEM : '.#{$typeset} p.#{$name}#{s-no-typeset()}, .p--#{$name}',
 				SMACCS : '.#{$typeset} p.#{$name}#{s-no-typeset()}, .p-#{$name}'
-			))} {	
+			))} {
 				@each $prop, $value in $s {
 					@include s-property-proxy($prop, $value);
 				}
@@ -177,7 +177,7 @@
 
 		// ul
 		$s : map-extend(sugar('settings.lists.default'), sugar('settings.lists.ul'));
-	
+
 		.ul,
 		.#{$typeset} ul#{s-no-typeset()} {
 			@include s-list();
@@ -187,7 +187,7 @@
 				@include s-list-bullet(
 					$space : s-space(default),
 					$type : square,
-					$color : s-color(text, -opacity .5)	
+					$color : s-color(text, -opacity .5)
 				);
 			}
 		}
@@ -199,7 +199,7 @@
 				cap-height : 0.65
 			);
 			$rhythme : s-vertical-rhythme($args...);
-			
+
 			@include s-vertical-rhythme {
 				margin-bottom: ceil(s-rem(s-px(map-get($s, margin-bottom)))) + map-get($rhythme, margin-bottom);
 			}
@@ -219,7 +219,7 @@
 		// ol
 		$s : map-extend(sugar('settings.lists.default'), sugar('settings.lists.ol'));
 		.ol,
-		.#{$typeset} ol#{s-no-typeset()} {	
+		.#{$typeset} ol#{s-no-typeset()} {
 			@include s-list();
 
 			> li,
@@ -227,7 +227,7 @@
 				@include s-list-bullet(
 					$space : s-space(default),
 					$type : decimal,
-					$color : s-color(text, -opacity .5)	
+					$color : s-color(text, -opacity .5)
 				);
 			}
 		}
@@ -239,7 +239,7 @@
 				cap-height : 0.65
 			);
 			$rhythme : s-vertical-rhythme($args...);
-			
+
 			@include s-vertical-rhythme {
 				margin-bottom: ceil(s-rem(s-px(map-get($s, margin-bottom)))) + map-get($rhythme, margin-bottom);
 			}
@@ -267,7 +267,7 @@
 				@include s-list-bullet(
 					$space : 0,
 					$type : none,
-					$color : s-color(text, -opacity .5)	
+					$color : s-color(text, -opacity .5)
 				);
 			}
 			> dd,
@@ -275,7 +275,7 @@
 				@include s-list-bullet(
 					$space :0,
 					$type : none,
-					$color : s-color(text, -opacity .5)	
+					$color : s-color(text, -opacity .5)
 				);
 			}
 		}
@@ -313,19 +313,19 @@
 
 	// pass in component context
 	@include s-component-context('typeset') {
-		
+
 		$font-size : sugar('settings.typo.font-size');
 		$typeset : sugar('settings.scope-class');
 
 		// blockquote
 		.blockquote,
-		.#{$typeset} blockquote#{s-no-typeset()} {	
+		.#{$typeset} blockquote#{s-no-typeset()} {
 			border-left: s-space(smaller) solid s-color(text, -opacity .3);
 			padding-left: s-space(default);
 
 			footer {
 				color : s-color(text, -opacity .6);
-				
+
 				cite {
 					font-style: italic;
 				}
@@ -401,15 +401,35 @@
 }
 
 @mixin s-typeset-decorators(
-) {	
+) {
 	// pass in component context
 	@include s-component-context('typeset') {
 
 		$typeset : sugar('settings.scope-class');
-		.small,
+		.smaller,
+		.#{$typeset} smaller#{s-no-typeset()} {
+			font-size: 0.5em;
+			line-height: 0.5em;
+		}
+ 		.small,
 		.#{$typeset} small#{s-no-typeset()} {
-			font-size: 0.6em;
-			line-height: 0.6em;
+			font-size: 0.75em;
+			line-height: 0.75em;
+		}
+		.medium,
+		.#{$typeset} medium#{s-no-typeset()} {
+			font-size: 1.25em;
+			line-height: 1.25em;
+		}
+		.big,
+		.#{$typeset} big#{s-no-typeset()} {
+			font-size: 1.5em;
+			line-height: 1.5em;
+		}
+		.bigger,
+		.#{$typeset} bigger#{s-no-typeset()} {
+			font-size: 1.75em;
+			line-height: 1.75em;
 		}
 		.strong,
 		.#{$typeset} strong#{s-no-typeset()} {
@@ -484,7 +504,7 @@
 ) {
 	// pass in component context
 	@include s-component-context('typeset') {
-	
+
 		$font-size : sugar('settings.typo.font-size');
 
 		@if $_sugar-test-arguments {
@@ -598,14 +618,14 @@
 			th {
 				$args : map-set($args, border-bottom, solid s-color(text, -opacity .2) 2px);
 				@include s-vertical-rhythme($args...);
-				
+
 			}
 			caption {
 				@include s-vertical-rhythme(
 					$font-size : $font-size,
 					$margin-bottom : 1
 				);
-			}	
+			}
 		}
 
 		@each $size in $sizes {
@@ -640,7 +660,7 @@
 				th {
 					$args : map-set($args, border-bottom, solid s-color(text, -opacity .2) 2px);
 					@include s-vertical-rhythme($args...);
-					
+
 				}
 			}
 		}
