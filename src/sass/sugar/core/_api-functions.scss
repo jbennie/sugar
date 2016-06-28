@@ -42,7 +42,7 @@
 			}
 			// set new prop
 			$prop : str-slice($d,2);
-			// check if 
+			// check if
 		} @else {
 			// append values
 			$values : append($values,$d);
@@ -131,7 +131,7 @@
 // 		$block : nth($split,1);
 // 	} @else {
 // 		$block : $selector
-// 	}	
+// 	}
 
 // 	@if $block == '' {
 // 		$block : null;
@@ -143,7 +143,7 @@
 // 		element : $element,
 // 		modifier : $modifier,
 // 		state : $state
-// 	);	
+// 	);
 // }
 
 //
@@ -199,7 +199,7 @@ $_sugar-settings-cache : ();
 	@if $component == default {
 		$component : null;
 	}
-	
+
 	// check if has a component
 	@if $component {
 		$path : 'components.#{$component}.#{$path}';
@@ -299,10 +299,10 @@ $_sugar-settings-cache : ();
 		$modifiers : map-get($color, modifiers);
 		$color : map-get($color, color);
 	}
-	
+
 	// if the color is a string
 	@if s-is($color, string) or s-is($color, color) {
-		@if  index(map-keys($colors),$color) {
+		@if $color != $name && index(map-keys($colors),$color) {
 			@return s-color($color, $actions);
 		}
 	}
@@ -427,7 +427,7 @@ $_sugar-settings-cache : ();
 		}
 		@return $ok;
 	} @else {
-		
+
 		@if $type == mixed {
 			@return true;
 		} @else if $type == null or $type == 'null' {
@@ -520,15 +520,15 @@ $_sugar-settings-cache : ();
 	@if not $stack or type-of($stack) != string {
 		@error('The value "#{$stack}" is not a settings path');
 	}
-	
-	// get the value	
+
+	// get the value
 	$value : sugar('#{$stack}.#{$size}');
 
 	// if we have a value with units, return
 	@if $value and not unitless($value) {
 		@return $value;
 	}
-	
+
 	// get what we need to interpolate the value
 	$ratio : sugar('settings.sizes.#{$size}');
 	$default-size : sugar('#{$stack}.default');
@@ -582,7 +582,7 @@ $_sugar-settings-cache : ();
 	$name,
 	$size : default
 ) {
-	// protect 
+	// protect
 	@if not s-is($name, string) {
 		@error("the s-look-and-feel name parameter has to be a string corresponding to a look and feel setting...");
 	}
