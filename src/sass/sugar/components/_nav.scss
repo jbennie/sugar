@@ -82,7 +82,7 @@ $_s-nav-inited : false;
 	@include s-nav-init();
 
 	@if $_sugar-test-arguments {
-		$sizes : s-test-argument('s-nav-tabs','sizes',map-keys(sugar('settings.sizes')),$sizes);
+		$sizes : s-test-argument('s-nav-justify-bare','sizes',map-keys(sugar('settings.sizes')),$sizes);
 	}
 
 	// pass in component context
