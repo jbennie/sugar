@@ -20,6 +20,63 @@ $_s-nav-inited : false;
 	}
 }
 
+@mixin s-nav-justify-bare (
+	$sizes : sugar('settings.components.nav.generate.sizes')
+) {
+	// init nav
+	@include s-nav-init();
+
+	@if $_sugar-test-arguments {
+		$sizes : s-test-argument('s-nav-justify-bare','sizes',map-keys(sugar('settings.sizes')),$sizes);
+	}
+
+	// pass in component context
+	@include s-component-context('nav') {
+		#{s-selector((
+			BEM : '.nav.nav--justify',
+			SMACCS : '.nav.nav-justify'
+		))} {
+			@extend %s-nav-bare;
+			display: table;
+			width: 100%;
+
+			> li,
+			> #{s-selector((
+				BEM : '.nav__item',
+				SMACCS : '.nav-item'
+			))} {
+				display: table-cell;
+				vertical-align: middle;
+
+				&:last-of-type {
+					padding-right: 0 !important;
+				}
+				&:first-of-type {
+					padding-left: 0 !important;
+				}
+			}
+		}
+
+		// generate each sizes
+		@each $size in $sizes {
+			// extend dropdown
+			#{s-selector((
+				BEM : '.nav--justify.nav--#{$size}',
+				SMACCS : '.nav-justify.nav-#{$size}'
+			))} {
+				> li,
+				> #{s-selector((
+					BEM : '.nav__item',
+					SMACCS : '.nav-item'
+				))} {
+					padding-left : s-look-and-feel(padding-horizontal, $size);
+					padding-right : s-look-and-feel(padding-horizontal, $size);
+				}
+			}
+		}
+	}
+}
+
 @mixin s-nav-inline-bare (
 	$sizes : sugar('settings.components.nav.generate.sizes')
 ) {
@@ -61,63 +118,6 @@ $_s-nav-inited : false;
 			#{s-selector((
 				BEM : '.nav--inline.nav--#{$size}',
 				SMACCS : '.nav-inline.nav-#{$size}'
-			))} {
-				> li,
-				> #{s-selector((
-					BEM : '.nav__item',
-					SMACCS : '.nav-item'
-				))} {
-					padding-left : s-look-and-feel(padding-horizontal, $size);
-					padding-right : s-look-and-feel(padding-horizontal, $size);
-				}
-			}
-		}
-	}
-}
-
-@mixin s-nav-justify-bare (
-	$sizes : sugar('settings.components.nav.generate.sizes')
-) {
-	// init nav
-	@include s-nav-init();
-
-	@if $_sugar-test-arguments {
-		$sizes : s-test-argument('s-nav-justify-bare','sizes',map-keys(sugar('settings.sizes')),$sizes);
-	}
-
-	// pass in component context
-	@include s-component-context('nav') {
-		#{s-selector((
-			BEM : '.nav.nav--justify',
-			SMACCS : '.nav.nav-justify'
-		))} {
-			@extend %s-nav-bare;
-			display: table;
-			width: 100%;
-
-			> li,
-			> #{s-selector((
-				BEM : '.nav__item',
-				SMACCS : '.nav-item'
-			))} {
-				display: table-cell;;
-				vertical-align: middle;
-
-				&:last-of-type {
-					padding-right: 0 !important;
-				}
-				&:first-of-type {
-					padding-left: 0 !important;
-				}
-			}
-		}
-
-		// generate each sizes
-		@each $size in $sizes {
-			// extend dropdown
-			#{s-selector((
-				BEM : '.nav--justify.nav--#{$size}',
-				SMACCS : '.nav-justify.nav-#{$size}'
 			))} {
 				> li,
 				> #{s-selector((
