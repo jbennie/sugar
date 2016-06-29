@@ -93,14 +93,14 @@ $_s-nav-inited : false;
 		))} {
 			@extend %s-nav-bare;
 			display: table;
-			width : 100%;
+			width: 100%;
 
 			> li,
 			> #{s-selector((
 				BEM : '.nav__item',
 				SMACCS : '.nav-item'
 			))} {
-				display: table-cell;
+				display: table-cell;;
 				vertical-align: middle;
 
 				&:last-of-type {
