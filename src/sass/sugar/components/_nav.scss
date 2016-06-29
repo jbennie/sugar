@@ -224,7 +224,7 @@ $_s-nav-inited : false;
 					}
 					#{s-selector((
 						BEM : '&.active',
-						SMACCS : '&.is-active'	
+						SMACCS : '&.is-active'
 					))} {
 						background-color : s-color($color);
 						border-color: s-color($color);
