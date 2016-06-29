@@ -222,10 +222,10 @@ $_s-nav-inited : false;
 					&:hover {
 						background-color : s-color($color, -opacity .1);
 					}
-					#{s-se<Terms & lector((
+					#{s-selector((
 						BEM : '&.active',
 						SMACCS : '&.is-active'
-					)k<?<u12)} {
+					))} {
 						background-color : s-color($color);
 						border-color: s-color($color);
 						@if lightness(s-color($color)) > 70 {
