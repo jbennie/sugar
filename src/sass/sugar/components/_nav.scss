@@ -20,7 +20,7 @@ $_s-nav-inited : false;
 	}
 }
 
-@mixin s-nav-inline(
+@mixin s-nav-inline-bare (
 	$sizes : sugar('settings.components.nav.generate.sizes')
 ) {
 	// init nav
@@ -44,6 +44,7 @@ $_s-nav-inited : false;
 				SMACCS : '.nav-item'
 			))} {
 				display: inline-block;
+				vertical-align: middle;
 
 				&:last-of-type {
 					padding-right: 0 !important;
