@@ -6,14 +6,14 @@
 	@extend %s-formset-input-bare;
 	@extend %s-formset-input-style;
 	@include s-formset-input-size($size);
-	@include s-formset-input-color($color);	
+	@include s-formset-input-color($color);
 }
 
 @mixin s-formset-input-bare(
 	$sizes : sugar('settings.components.formset.generate.sizes')
 ) {
 	@include s-formset-init();
-	
+
 	// parse properties
 	@if $_sugar-test-arguments {
 		$sizes : s-test-argument('s-formset','sizes',map-keys(sugar('settings.sizes')),$sizes);
@@ -39,7 +39,7 @@
 				),
 				SMACCS : (
 					'.input-#{$size}',
-					'.size--#{$size} .input'
+					'.size-#{$size} .input'
 				)
 			))} {
 				// set input styling
@@ -139,7 +139,7 @@
 @mixin s-formset-input-color($color) {
 	border-color: s-color($color, -opacity .1);
 	border-bottom-color: s-color($color, -opacity .3);
-		
+
 	[data-input-activator]:focus ~ &,
 	[data-input-activator]:checked ~ &,
 	&:hover:not(:disabled):not(.input--disabled):not(.is-disabled),
