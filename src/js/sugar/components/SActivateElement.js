@@ -41,7 +41,9 @@ class SActivateElement extends SComponent {
 			trigger : 'click',
 			unactivateTrigger : null,
 			unactivateTimeout : 200,
-			preventScroll : true
+			preventScroll : true,
+			onActivate : null,
+			onUnactivate : null
 		}, settings);
 
 		this._inited = true;
@@ -260,6 +262,9 @@ class SActivateElement extends SComponent {
 				parent_api._activate();
 			}
 		}
+
+		// callback
+		this.settings.onActivate && this.settings.onActivate(this);
 	}
 
 	/**
@@ -317,6 +322,9 @@ class SActivateElement extends SComponent {
 		[].forEach.call(this.targets, (target) => {
 			target.classList.remove('active');
 		});
+
+		// callback
+		this.settings.onUnactivate && this.settings.onUnactivate(this);
 	}
 
 	/**
