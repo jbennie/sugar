@@ -3,13 +3,15 @@
 //
 @mixin s-icon(
 	$name
-) {	
+) {
 	// if font-awesome
 	@if str-slice($name,1,3) == 'fa-' {
 		@extend %fa;
 		@extend %#{$name};
 	} @else {
 		@extend %icon !optional;
-		@extend %icon-#{$name};
+		@extend %icon-#{$name} !optional;
+		@extend .icon !optional;
+		@extend .icon-#{$name} !optional;
 	}
 }
