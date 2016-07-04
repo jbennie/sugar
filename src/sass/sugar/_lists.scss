@@ -63,13 +63,13 @@
 			left : 0;
 		}
 		@if $color {
-			color : $color;
+			color : $color !important;
 		}
 		@if $size {
-			@if type-of($size) == list and length($size) == 2 {
-				width : nth($size,1) nth($size,2);
+			@if $image and type-of($size) == list and length($size) == 2 {
+				background-size : nth($size,1) nth($size,2);
 			} @else if type-of($size) == number {
-				font-size: $size;
+				font-size: $size !important;
 			}
 		}
 		@if $font {
