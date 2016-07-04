@@ -14,6 +14,17 @@
 
 
 //
+// Position
+//
+@include s-register-class(relative, 'sugar.position.relative') {
+	position: relative;
+}
+@include s-register-class(absolute, 'sugar.position.absolute') {
+	position: absolute;
+}
+
+
+//
 // Clear
 //
 @include s-register-class(clear-left, 'sugar.clear.left') {
