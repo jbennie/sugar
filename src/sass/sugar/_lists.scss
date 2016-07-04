@@ -96,13 +96,10 @@
 			background-size: 100% 100%;
 			background-position: 50% 50%;
 		}
-	
+
 	} @else if $icon {
 		position: relative;
-		&:before {
-			@include s-icon($icon);
-		}
-		
+		@include s-icon($icon);
 	}
 
 	// reset margin-left for nested lists
