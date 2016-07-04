@@ -5,7 +5,7 @@
  * @return {[type]}       [description]
  */
 import isVisible from './isVisible'
-import closestNotVisible from './closestNotVisible'
+import __closestNotVisible from './closestNotVisible'
 
 export default function whenVisible(elm, cb = null) {
 	return new Promise((resolve, reject) => {
@@ -42,10 +42,10 @@ export default function whenVisible(elm, cb = null) {
 		} else {
 			isSelfVisible = true;
 		} 
-		 
+
 		// get the closest not visible element
 		// if found, we monitor it to check when it is visible
-		let closestNotVisible = closestNotVisible(elm);
+		let closestNotVisible = __closestNotVisible(elm);
 		if (closestNotVisible) {
 			const observer = new MutationObserver((mutations) => {
 				mutations.forEach((mutation) => {

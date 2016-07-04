@@ -341,7 +341,6 @@ class SActivateElement extends SComponent {
 		}
 		let elm = this.elm.parentNode;
 		while(elm && elm != document) {
-			console.log(elm.id, t);
 			if (elm.id && elm.id !== t && window._sActivateStack[`${elm.id}`]) {
 				return elm;
 			}
