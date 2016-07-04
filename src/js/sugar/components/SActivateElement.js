@@ -59,7 +59,7 @@ class SActivateElement extends SComponent {
 			return;
 		}
 		this.inited = true;
-		
+
 		// get the target
 		this.target = this.settings.target || this.elm.getAttribute('href');
 
@@ -147,7 +147,7 @@ class SActivateElement extends SComponent {
 					} else {
 						// save the scroll position
 						// this._scrollTop = __scrollTop();
-						// simply change the hash 
+						// simply change the hash
 						// the event listener will take care of activate the
 						// good element
 						if (this.settings.preventScroll) {
@@ -162,7 +162,7 @@ class SActivateElement extends SComponent {
 					// activate the element
 					this._activate();
 				}
-			}	
+			}
 		});
 		// check if has an unactivate trigger
 		let unactivate_trigger = this.settings.unactivateTrigger;
@@ -170,7 +170,7 @@ class SActivateElement extends SComponent {
 			this.elm.addEventListener(unactivate_trigger, (e) => {
 				this._unactivateSetTimeout = setTimeout(() => {
 					this.unactivate();
-				}, this.settings.unactivateTimeout);		
+				}, this.settings.unactivateTimeout);
 			});
 			if (unactivate_trigger == 'mouseleave' || unactivate_trigger == 'mouseout') {
 				[].forEach.call(this.targets, (target) => {
@@ -181,7 +181,7 @@ class SActivateElement extends SComponent {
 					target.addEventListener(unactivate_trigger, (e) => {
 						this._unactivateSetTimeout = setTimeout(() => {
 							this.unactivate();
-						}, this.settings.unactivateTimeout);	
+						}, this.settings.unactivateTimeout);
 					});
 				});
 			}
@@ -234,6 +234,7 @@ class SActivateElement extends SComponent {
 
 		// unactive all group elements
 		let grp = this._getGroup(this.elm);
+
 		[].forEach.call(document.body.querySelectorAll(`[data-${this.name_dash}-group="${grp}"],[${this.name_dash}-group="${grp}"]`), (group_elm) => {
 			// get the api
 			let api = group_elm.sActivate;
@@ -330,12 +331,14 @@ class SActivateElement extends SComponent {
 	}
 
 	/**
-	 * Get closest 
+	 * Get closest
 	 */
 	_getClosestActivate() {
+		// process target
+		const t = this.target.substr(1);
 		let elm = this.elm.parentNode;
 		while(elm && elm != document) {
-			if (elm.id && window._sActivateStack[`${elm.id}`]) {
+			if (elm.id && elm.id !== t && window._sActivateStack[`${elm.id}`]) {
 				return elm;
 			}
 			elm = elm.parentNode;
