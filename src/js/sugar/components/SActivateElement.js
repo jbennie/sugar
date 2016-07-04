@@ -335,9 +335,13 @@ class SActivateElement extends SComponent {
 	 */
 	_getClosestActivate() {
 		// process target
-		const t = this.target.substr(1);
+		let t = this.target;
+		if (t.substr(0,1) === '#') {
+			t = t.substr(1);
+		}
 		let elm = this.elm.parentNode;
 		while(elm && elm != document) {
+			console.log(elm.id, t);
 			if (elm.id && elm.id !== t && window._sActivateStack[`${elm.id}`]) {
 				return elm;
 			}
