@@ -70,6 +70,13 @@
 );
 @include s-formset-datepicker();
 
+@include s-formset-range-bare(
+	$sizes : smaller small default medium big bigger
+);
+@include s-formset-range-style(
+	$colors : default primary secondary warning success
+);
+
 @include s-formset-advanced-select(
 	$sizes : smaller small default medium big bigger
 );

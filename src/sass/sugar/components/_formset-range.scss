@@ -1,0 +1,364 @@
+$_s-formset-range-inited : false;
+@mixin s-formset-range-init() {
+	@if not $_s-formset-range-inited {
+		$_s-formset-range-inited : true ! global;
+
+		/* Functional styling;
+		 * These styles are required for noUiSlider to function.
+		 * You don't need to change these rules to apply your design.
+		 */
+		.noUi-target,
+		.noUi-target * {
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-ms-touch-action: none;
+				touch-action: none;
+			-ms-user-select: none;
+			-moz-user-select: none;
+				user-select: none;
+			-moz-box-sizing: border-box;
+				box-sizing: border-box;
+		}
+		.noUi-target {
+			position: relative;
+			direction: ltr;
+		}
+		.noUi-base {
+			width: 100%;
+			height: 100%;
+			position: relative;
+			z-index: 1; /* Fix 401 */
+		}
+		.noUi-origin {
+			position: absolute;
+			right: 0;
+			top: 0;
+			left: 0;
+			bottom: 0;
+		}
+		.noUi-handle {
+			position: relative;
+			z-index: 1;
+		}
+		.noUi-stacking .noUi-handle {
+		/* This class is applied to the lower origin when
+		   its values is > 50%. */
+			z-index: 10;
+		}
+		.noUi-state-tap .noUi-origin {
+			-webkit-transition: left 0.3s, top 0.3s;
+			transition: left 0.3s, top 0.3s;
+		}
+		.noUi-state-drag * {
+			cursor: inherit !important;
+		}
+
+		/* Painting and performance;
+		 * Browsers can paint handles in their own layer.
+		 */
+		.noUi-base,
+		.noUi-handle {
+			-webkit-transform: translate3d(0,0,0);
+			transform: translate3d(0,0,0);
+		}
+
+		/* Handles and cursors;
+		 */
+		.noUi-draggable {
+			cursor: w-resize;
+		}
+		.noUi-vertical .noUi-draggable {
+			cursor: n-resize;
+		}
+	}
+}
+
+@mixin s-formset-range-bare(
+	$sizes : sugar('settings.components.formset.generate.sizes')
+) {
+	@include s-formset-range-init();
+
+	// parse properties
+	@if $_sugar-test-arguments {
+		$sizes : s-test-argument('s-formset-range-bare','sizes',map-keys(sugar('settings.sizes')),$sizes);
+	}
+
+	// pass in the component context
+	@include s-component-context('formset') {
+
+		.noUi-target {
+			transform:translateY(75%) !important;
+		}
+
+		.noUi-handle {
+			.noUi-handle__value {
+				text-align:center;
+			}
+			.tooltip {
+				display: inline-block;
+				pointer-events:none;
+			}
+
+			&:before {
+				content:'';
+				display:block;
+				width:100%;
+				height:100%;
+				position:absolute;
+				top:50%; left:50%;
+				@include s-translate(-50%,-50%);
+				border-radius: 50%;
+				@include s-transition(fast);
+			}
+
+			&:hover {
+				&:before {
+					width:150%;
+					height:150%;
+				}
+			}
+		}
+		.noUi-active {
+			&:before {
+				width:400% !important;
+				height:400% !important;
+			}
+		}
+
+		// manage sizes
+		@each $size in $sizes {
+			$paddingHorizontal : s-lnf(padding-horizontal, $size);
+			$h : $paddingHorizontal * 2 + s-lnf(font-size, $size);
+			$h : $h / 4 * 3;
+
+			#{s-selector((
+				BEM : (
+					'.input--#{$size}',
+					'.size--#{$size} .input'
+				),
+				SMACCS : (
+					'.input-#{$size}',
+					'.size-#{$size} .input'
+				)
+			))} {
+				border-radius: s-lnf(border-radius, $size);
+
+				&.noUi-horizontal {
+					height : $h * .5;
+				}
+				&.noUi-vertical {
+					width : $h * .5;
+				}
+				.noUi-handle {
+					width : $h;
+					height : $h;
+					border-radius: $h * .5;
+					top: -$h / 4;
+					left: -$h / 2;
+
+					.noUi-handle__value {
+						line-height:$h;
+						font-size:s-lnf(font-size, $size) * .5;
+					}
+
+					.tooltip {
+						font-size:s-lnf(font-size, $size);
+						padding:s-lnf(padding-horizontal, $size) s-lnf(padding-vertical, $size);
+						border-radius: s-lnf(border-radius, $size);
+					}
+				}
+				.noUi-active {
+					width: $h * .5;
+					height: $h * .5;
+					border-radius: $h / 4;
+					top : -1px;
+					left : -$h / 4;
+
+					.noUi-handle__value {
+						font-size:0;
+					}
+				}
+			}
+		}
+
+	}
+}
+
+@mixin s-formset-range-style(
+	$colors : sugar('settings.components.formset.generate.colors')
+) {
+	@include s-formset-range-init();
+
+	// parse properties
+	@if $_sugar-test-arguments {
+		$colors : s-test-argument('s-formset-range-style','colors',map-keys(sugar('settings.colors')),$colors);
+	}
+
+	// pass in the component context
+	@include s-component-context('formset') {
+
+		.noUi-background {
+			background: #fff;
+		}
+		.noUi-target {
+			border-width: 1px;
+			border-style: solid;
+			border-bottom-width: 3px;
+		}
+		.noUi-target.noUi-connect {
+		}
+
+		.noUi-handle {
+			@include s-transition(fast);
+			background: #FFF;
+			cursor: pointer;
+
+			.noUi-handle__value {
+				color:white;
+				@include s-transition(fast);
+			}
+
+			.tooltip {
+				color: white;
+				position: absolute !important;
+				top:0; left:50%;
+				@include s-translate(-50%,-100%);
+				opacity: 0;
+				@include s-transition(fast);
+			}
+		}
+		.noUi-active {
+			.tooltip {
+				opacity:1;
+				top:-15px;
+			}
+		}
+
+
+		@each $color in $colors {
+
+			#{s-selector((
+				BEM : (
+					'.input--#{$color}',
+					'.color--#{$color} .input'
+				),
+				SMACCS : (
+					'.input-#{$color}',
+					'.color-#{$color} .input'
+				)
+			))} {
+
+				&.noUi-target {
+					border-color: s-color($color, -opacity .1);
+					border-bottom-color: s-color($color, -opacity .3);
+				}
+
+				.noUi-connect {
+					background-color: s-color($color, -opacity .3);
+				}
+				&.noUi-connect {
+					.noUi-base {
+						background-color: s-color($color, -opacity .3);
+					}
+				}
+
+
+				.noUi-handle {
+					// border:1px solid s-color($color);
+					background-color: s-color($color);
+
+					&:hover {
+						background-color: s-color($color, -darken 10%);
+					}
+
+					&:before {
+						background-color: s-color($color, -opacity .3);
+					}
+
+					.tooltip {
+						@include s-bubble(
+							$side : bottom,
+							$align : center,
+							$size : 5px,
+							$color : #fff,
+							$arrow-offset : 0,
+							$border-width : 0,
+							$border-color : null
+						);
+						@include s-depth(3, s-color($color, -opacity .3));
+						color: s-color($color);
+					}
+				}
+				.noUi-active {
+					background-color: s-color($color, -darken 20%) !important;
+					@include s-depth(3, s-color($color, -opacity .3));
+
+					.noUi-handle__value {
+						color: s-color($color, -darken 20%);
+					}
+					&:before {
+						background-color: s-color($color, -opacity .2);
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
+
+
+/* Slider size and handle placement;
+ */
+
+// .noUi-horizontal .noUi-handle {
+// 	width: 34px;
+// 	height: 28px;
+// 	left: -17px;
+// 	top: -6px;
+// }
+// .noUi-vertical .noUi-handle {
+// 	width: 28px;
+// 	height: 34px;
+// 	left: -6px;
+// 	top: -17px;
+// }
+
+/* Styling;
+ */
+
+
+// .noUi-origin {
+// 	border-radius: 2px;
+// }
+
+
+
+
+
+
+// .noUi-handle:after {
+// 	left: 17px;
+// }
+// .noUi-vertical .noUi-handle:before,
+// .noUi-vertical .noUi-handle:after {
+// 	width: 14px;
+// 	height: 1px;
+// 	left: 6px;
+// 	top: 14px;
+// }
+// .noUi-vertical .noUi-handle:after {
+// 	top: 17px;
+// }
+
+/* Disabled state;
+ */
+// [disabled].noUi-connect,
+// [disabled] .noUi-connect {
+// 	background: #B8B8B8;
+// }
+// [disabled].noUi-origin,
+// [disabled] .noUi-handle {
+// 	cursor: not-allowed;
+// }

@@ -9,6 +9,9 @@
 	@include s-formset-input-color($color);
 }
 
+// what to exclude from styling
+$not : ':not([type="checkbox"]):not([type="radio"]):not(.noUi-target)';
+
 @mixin s-formset-input-bare(
 	$sizes : sugar('settings.components.formset.generate.sizes')
 ) {
@@ -22,7 +25,7 @@
 	// pass in the component context
 	@include s-component-context('formset') {
 
-		.input:not([type="checkbox"]):not([type="radio"]) {
+		.input#{$not} {
 			@extend %s-formset-input-bare;
 		}
 		textarea.input {
@@ -34,12 +37,12 @@
 			// input styling
 			#{s-selector((
 				BEM : (
-					'.input--#{$size}',
-					'.size--#{$size} .input'
+					'.input--#{$size}#{$not}',
+					'.size--#{$size} .input#{$not}'
 				),
 				SMACCS : (
-					'.input-#{$size}',
-					'.size-#{$size} .input'
+					'.input-#{$size}#{$not}',
+					'.size-#{$size} .input#{$not}'
 				)
 			))} {
 				// set input styling
@@ -84,7 +87,7 @@
 	// pass in the component context
 	@include s-component-context('formset') {
 
-		.input:not([type="checkbox"]):not([type="radio"]) {
+		.input#{$not} {
 			@extend %s-formset-input-style;
 		}
 		select.input {
@@ -97,12 +100,12 @@
 			// input styling
 			#{s-selector((
 				BEM : (
-					'.input--#{$color}:not([type="checkbox"]):not([type="radio"])',
-					'.color--#{$color} .input:not([type="checkbox"]):not([type="radio"])'
+					'.input--#{$color}#{$not}',
+					'.color--#{$color} .input#{$not}'
 				),
 				SMACCS : (
-					'.input-#{$color}:not([type="checkbox"]):not([type="radio"])',
-					'.color-#{$color} .input:not([type="checkbox"]):not([type="radio"])'
+					'.input-#{$color}#{$not}',
+					'.color-#{$color} .input#{$not}'
 				)
 			))} {
 				@include s-formset-input-color($color);

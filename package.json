@@ -19,6 +19,7 @@
     "custom-event": "^1.0.0",
     "lodash": "^4.4.0",
     "mutationobserver-shim": "^0.3.1",
+    "nouislider": "^8.5.1",
     "pikaday": "^1.4.0",
     "pikaday-time": "^1.4.0",
     "promise-polyfill": "^4.0.3"

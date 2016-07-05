@@ -32,7 +32,7 @@ export default class SComponent extends SElement {
 	 */
 	_previousSettingsValues = {};
 
-	/**	
+	/**
 	 * Constructor
 	 */
 	constructor(name, elm, default_settings = {}, settings = {}) {
@@ -106,7 +106,7 @@ export default class SComponent extends SElement {
 		// this.watch('elm.style.display', (newVal, oldVal) => {
 		// 	console.log('NEW NEW NEW update elm.style.display', newVal, oldVal);
 		// });
-		
+
 
 
 
@@ -143,35 +143,113 @@ export default class SComponent extends SElement {
 		}
 
 		// try to find the setting with the @ sign as value
+		let connectSettingToAttribute = {};
+		let connectAttributeToAttribute = {};
 		for (let settingName in this.settings) {
-			if (this.settings[settingName] == '@') {
+			const setting = this.settings[settingName];
+			if (setting == '@') {
 				this.settings[settingName] = set;
-			}
-		}
+			} else if (typeof(setting) === 'string' && setting.substr(0,1) === '@') {
+				// set the setting to the attribute value
+				const attrName = setting.substr(1);
+				// check that the element has the requested attribute
+				if (this.elm.getAttribute(attrName) !== undefined)
+				{
+					this.settings[settingName] = this.elm.getAttribute(attrName);
 
-		// check if a type is defined then extend the settings
-		if (! _sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
-		let type = this.settings.settings;
-		if (type && _sugarTypesSettings[name][type]) {
-			this.settings = {...this.settings, ..._sugarTypesSettings[name][type]};
-		}
+					// connect the linked setting to the setting attribute
+					// if the attribute exist
+					if (this.elm.getAttribute(this.name_dash + '-' + attrName) !== null) {
+						this.bind(attrName, `attr.${this.name + __upperFirst(settingName)}`);
+					}
 
-		// watch attributes to update settings accordingly
-		for(const name in this.settings) {
-			// check if has a different value in the attributes
-			// console.log('name', name);
-			const attrName = this.name + __upperFirst(name);
-			if (this.attr[attrName] !== undefined) {
-				this.settings[name] = this.attr[attrName];
+					// pluginNameProperty => settings.settingName
+					this.bind(this.name + __upperFirst(settingName), `settings.${settingName}`);
+					this.bind(attrName, `settings.${settingName}`);
+					this.bind(this.name + __upperFirst(settingName), `attr.${attrName}`);
+
+					// this.bind(attrName, `attr.${attrName}`);
+					// set that we need to connect this setting to the attribute
+					// connectSettingToAttribute = {
+					// 	...connectSettingToAttribute,
+					// 	[settingName] : attrName
+					// };
+				}
+				// connectAttributeToAttribute = {
+				// 	...connectAttributeToAttribute,
+				// 	[this.name + __upperFirst(settingName)] : attrName
+				// };
 			} else {
-				this.attr[attrName] = null;
+				this.bind(this.name + __upperFirst(settingName), `settings.${settingName}`);
 			}
-
-			// watch settings attributes
-			this.watch(`attr.${attrName}`, (newVal, oldVal) => {
-				// update the setting
-				this.settings[name] = newVal;
-			});
 		}
+
+		// connect settings to attribute
+		// for(const settingName in connectSettingToAttribute) {
+		// 	const attrName = connectSettingToAttribute[settingName];
+		// 	console.log('connect', attrName, 'to', settingName);
+		// 	// connect the attribute to the setting
+		// 	this.bind(attrName, `settings.${settingName}`);
+		// }
+
+		//
+		// // check if a type is defined then extend the settings
+		// if (! _sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
+		// let type = this.settings.settings;
+		// if (type && _sugarTypesSettings[name][type]) {
+		// 	this.settings = {...this.settings, ..._sugarTypesSettings[name][type]};
+		// }
+		//
+		// // watch attributes to update settings accordingly
+		// for(const name in this.settings) {
+		// 	// check if has a different value in the attributes
+		// 	const attrName = this.name + __upperFirst(name);
+		// 	if (this.attr[attrName] !== undefined) {
+		// 		this.settings[name] = this.attr[attrName];
+		// 	} else {
+		// 		this.attr[attrName] = null;
+		// 	}
+		//
+		// 	// check if the setting is connected to an attribute
+		// 	if (connectSettingToAttribute[name])
+		// 	{
+		// 		// we need to set the attribute is not already exist on the element
+		// 		if (this.elm.getAttribute(name) === null)
+		// 		{
+		// 			// set the new attribute on the element with the good value
+		// 			this.elm.setAttribute(name, this.settings[name]);
+		// 			// register new attribute
+		// 			this._newAttribute(name, this.settings[name]);
+		// 		}
+		// 	}
+		//
+		// 	// connect attributes to settings
+		// 	for(const settingName in connectSettingToAttribute) {
+		// 		const attrName = connectSettingToAttribute[settingName];
+		// 		console.log('attrName', attrName);
+		// 		if (this.attr[attrName] !== undefined) {
+		// 			this.watch(`attr.${attrName}`, (newVal, oldVal) => {
+		// 				console.log('update the attribute', attrName, newVal);
+		// 				// update the setting
+		// 				this.settings[settingName] = newVal;
+		// 			});
+		// 		}
+		// 	}
+		//
+		// 	// watch settings attributes
+		// 	this.watch(`attr.${attrName}`, (newVal, oldVal) => {
+		// 		// update the setting
+		// 		this.settings[name] = newVal;
+		// 	});
+		// }
+		//
+		// // watch all connected attribute to attribute
+		// for(const attrName in connectAttributeToAttribute) {
+		// 	const toAttrName = connectAttributeToAttribute[attrName];
+		// 	this.watch(`attr.${attrName}`, (newVal, oldVal) => {
+		// 		this.attr[toAttrName] = newVal;
+		// 	});
+		// }
+
 	}
 }

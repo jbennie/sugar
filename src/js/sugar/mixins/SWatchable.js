@@ -1,5 +1,6 @@
 import __constructorName from '../tools/constructorName'
 let _get = require('lodash/get');
+import _set from 'lodash/set';
 
 export default (superclass) => class SWatchable extends superclass {
 
@@ -8,7 +9,7 @@ export default (superclass) => class SWatchable extends superclass {
 	 */
 	static setters = {
 		CSSStyleDeclaration : (obj, property, value) => {
-			obj.setProperty(property, value);	
+			obj.setProperty(property, value);
 		}
 	}
 
@@ -17,7 +18,7 @@ export default (superclass) => class SWatchable extends superclass {
 	 */
 	_watchStack = {};
 
-	/**	
+	/**
 	 * Constructor
 	 */
 	constructor() {
@@ -34,7 +35,7 @@ export default (superclass) => class SWatchable extends superclass {
 
 		let val = value;
 		let descriptor = Object.getOwnPropertyDescriptor(obj.prototype || obj, property);
-		
+
 		// get the setter
 		let customSetter;
 		for (let name in SWatchable.setters) {
@@ -58,12 +59,12 @@ export default (superclass) => class SWatchable extends superclass {
 					val = ret;
 				} else {
 					val = descriptor.get();
-				}	
+				}
 			} else {
 				val = value;
 			}
 		}
-		
+
 		// make sure we have the good descriptor
 		let d = Object.getOwnPropertyDescriptor(obj, property);
 		Object.defineProperty(obj, property, {
@@ -83,7 +84,7 @@ export default (superclass) => class SWatchable extends superclass {
 			},
 			configurable : descriptor && descriptor.configurable !== undefined ? descriptor.configurable : false,
 			enumarable : descriptor && descriptor.enumarable !== undefined ? descriptor.enumarable : true,
-			// writable : descriptor && descriptor.writable !== undefined ? descriptor.writable : true 
+			// writable : descriptor && descriptor.writable !== undefined ? descriptor.writable : true
 		});
 	}
 
@@ -103,13 +104,14 @@ export default (superclass) => class SWatchable extends superclass {
 		}
 		let currentValue = null;
 		currentValue = _get(this, what);
-		
+
 		// if is undefined, throw an error
 		if ( obj === undefined || currentValue === undefined) {
+			// _set(this, split.join('.'),null);
 			throw `It's not possible to watch the property ${what} cause it does not exist...`;
 		};
 
-		// define the property proxy		
+		// define the property proxy
 		this._defineProp(obj, property, currentValue, what);
 
 		// register new watch
@@ -126,7 +128,7 @@ export default (superclass) => class SWatchable extends superclass {
 		if (this._watchStack[propertyPath] && newValue !== oldValue) {
 			this._watchStack[propertyPath].forEach((cb) => {
 				cb(newValue, oldValue);
-			});	
+			});
 		}
 	}
 }
