@@ -42,8 +42,12 @@ class SActivateElement extends SComponent {
 			unactivateTrigger : null,
 			unactivateTimeout : 200,
 			preventScroll : true,
-			onActivate : null,
-			onUnactivate : null
+			beforeInit : null,
+			afterInit : null
+			beforeActivate : null,
+			afterActivate : null,
+			beforeUnactivate : null,
+			afterUnactivate : null
 		}, settings);
 
 		this._inited = true;
@@ -61,6 +65,9 @@ class SActivateElement extends SComponent {
 			return;
 		}
 		this.inited = true;
+
+		// before init
+		this.settings.beforeInit && this.settings.beforeInit(this);
 
 		// get the target
 		this.target = this.settings.target || this.elm.getAttribute('href');
@@ -203,6 +210,9 @@ class SActivateElement extends SComponent {
 				}
 			}
 		}
+
+		// init callback
+		this.settings.afterInit && this.settings.afterInit(this);
 	}
 
 	/**
@@ -234,6 +244,9 @@ class SActivateElement extends SComponent {
 	 */
 	_activate() {
 
+		// before activate callback
+		this.settings.beforeActivate && this.settings.beforeActivate(this);
+
 		// unactive all group elements
 		let grp = this._getGroup(this.elm);
 
@@ -264,7 +277,7 @@ class SActivateElement extends SComponent {
 		}
 
 		// callback
-		this.settings.onActivate && this.settings.onActivate(this);
+		this.settings.afterActivate && this.settings.afterActivate(this);
 	}
 
 	/**
@@ -315,6 +328,10 @@ class SActivateElement extends SComponent {
 	 * Unactive
 	 */
 	unactivate() {
+
+		// before unactivate
+		this.settings.beforeUnactivate && this.settings.onBeforeUnactivate(this);
+
 		// unactive the item itself
 		this.elm.classList.remove('active');
 
@@ -324,7 +341,7 @@ class SActivateElement extends SComponent {
 		});
 
 		// callback
-		this.settings.onUnactivate && this.settings.onUnactivate(this);
+		this.settings.afterUnactivate && this.settings.afterUnactivate(this);
 	}
 
 	/**
