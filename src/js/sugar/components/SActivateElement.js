@@ -43,7 +43,7 @@ class SActivateElement extends SComponent {
 			unactivateTimeout : 200,
 			preventScroll : true,
 			beforeInit : null,
-			afterInit : null
+			afterInit : null,
 			beforeActivate : null,
 			afterActivate : null,
 			beforeUnactivate : null,
