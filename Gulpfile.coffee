@@ -71,12 +71,12 @@ if process.env.NODE_ENV is 'debug'
 
 # topbar
 gulp.task 'tokens', ->
-	topbar_content = fs.readFileSync("pages/parts/top-bar.html", "utf8");
-	drawers_content = fs.readFileSync("pages/parts/drawers.html", "utf8");
-	head_content = fs.readFileSync("pages/parts/head.html", "utf8");
-	footer_content = fs.readFileSync("pages/parts/footer.html", "utf8");
+	topbar_content = fs.readFileSync("pages/parts/top-bar.php", "utf8");
+	drawers_content = fs.readFileSync("pages/parts/drawers.php", "utf8");
+	head_content = fs.readFileSync("pages/parts/head.php", "utf8");
+	footer_content = fs.readFileSync("pages/parts/footer.php", "utf8");
 	gulp.src [
-		'pages/*.html'
+		'pages/*.php'
 	]
 	.pipe replace '{HEAD}', head_content
 	.pipe replace '{FOOTER}', footer_content
@@ -147,7 +147,7 @@ gulp.task 'webpack-dist', ['clean-js'], ->
 	# .pipe babel
 	# 	presets: ['es2015','stage-0']
 	# 	compact: false
-	
+
 	.pipe gulp.dest 'dist/js'
 	.pipe uglify()
 	.pipe rename
@@ -177,4 +177,4 @@ gulp.task 'watch', ['default'], ->
 	gulp.watch ["src/coffee/**/*.coffee"], ['webpack-app']
 	gulp.watch ['src/js/**/*.js'], ['webpack-app']
 	gulp.watch ["src/sass/**/*.scss"], ['sass']
-	gulp.watch ['pages/**/*.html'], ['tokens']
+	gulp.watch ['pages/**/*.php'], ['tokens']

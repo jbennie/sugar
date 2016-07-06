@@ -13,10 +13,10 @@
 		json_path : './assets/fonts/fonts.json#2.2',
 		debug : true
 	});
-	if (/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) {
-		sugar.motionblur.enabled = false;
-		sugar.gooey.enabled = false;
-	}
+	// if (/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) {
+	// 	sugar.motionblur.enabled = false;
+	// 	sugar.gooey.enabled = false;
+	// }
 	</script>
 
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.js"></script>

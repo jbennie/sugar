@@ -5,10 +5,15 @@ let angular = require('angular');
 // import angular from 'angular';
 // import { SSelectElement, SActivateElement } from './sugar/index';
 //
+import sSettings from './sugar/core/sSettings';
+//
 import sActivateManager from './sugar/components/sActivateManager';
 import SSelectElement from './sugar/components/SSelectElement';
+import SDatepickerElement from './sugar/components/SDatepickerElement';
 import sLocalStorageFonts from './sugar/fonts/sLocalStorageFonts';
 import SRangeInputElement from './sugar/components/SRangeInputElement';
+import SRadioboxElement from './sugar/components/SRadioboxElement';
+
 
 // import sDrawerManager from './sugar/components/s-drawer-manager';
 //

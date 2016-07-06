@@ -11,13 +11,9 @@ $_s-formset-range-inited : false;
 		.noUi-target * {
 			-webkit-touch-callout: none;
 			-webkit-user-select: none;
-			-ms-touch-action: none;
-				touch-action: none;
-			-ms-user-select: none;
-			-moz-user-select: none;
-				user-select: none;
-			-moz-box-sizing: border-box;
-				box-sizing: border-box;
+			touch-action: none;
+			user-select: none;
+			box-sizing: border-box;
 		}
 		.noUi-target {
 			position: relative;
@@ -45,10 +41,6 @@ $_s-formset-range-inited : false;
 		   its values is > 50%. */
 			z-index: 10;
 		}
-		.noUi-state-tap .noUi-origin {
-			-webkit-transition: left 0.3s, top 0.3s;
-			transition: left 0.3s, top 0.3s;
-		}
 		.noUi-state-drag * {
 			cursor: inherit !important;
 		}
@@ -58,7 +50,6 @@ $_s-formset-range-inited : false;
 		 */
 		.noUi-base,
 		.noUi-handle {
-			-webkit-transform: translate3d(0,0,0);
 			transform: translate3d(0,0,0);
 		}
 
@@ -91,37 +82,9 @@ $_s-formset-range-inited : false;
 		}
 
 		.noUi-handle {
-			.noUi-handle__value {
-				text-align:center;
-			}
 			.tooltip {
 				display: inline-block;
 				pointer-events:none;
-			}
-
-			&:before {
-				content:'';
-				display:block;
-				width:100%;
-				height:100%;
-				position:absolute;
-				top:50%; left:50%;
-				@include s-translate(-50%,-50%);
-				border-radius: 50%;
-				@include s-transition(fast);
-			}
-
-			&:hover {
-				&:before {
-					width:150%;
-					height:150%;
-				}
-			}
-		}
-		.noUi-active {
-			&:before {
-				width:400% !important;
-				height:400% !important;
 			}
 		}
 
@@ -133,15 +96,18 @@ $_s-formset-range-inited : false;
 
 			#{s-selector((
 				BEM : (
-					'.input--#{$size}',
-					'.size--#{$size} .input'
+					'.noUi-target.input--#{$size}',
+					'.size--#{$size} .noUi-target.input'
 				),
 				SMACCS : (
-					'.input-#{$size}',
-					'.size-#{$size} .input'
+					'.noUi-target.input-#{$size}',
+					'.size-#{$size} .noUi-target.input'
 				)
 			))} {
 				border-radius: s-lnf(border-radius, $size);
+
+				margin-left: $h * .5;
+				margin-right: $h * .5;
 
 				&.noUi-horizontal {
 					height : $h * .5;
@@ -204,8 +170,13 @@ $_s-formset-range-inited : false;
 			border-width: 1px;
 			border-style: solid;
 			border-bottom-width: 3px;
+			cursor:pointer;
 		}
 		.noUi-target.noUi-connect {
+		}
+
+		.noUi-state-tap .noUi-origin {
+			@include s-transition(left fast, top fast);
 		}
 
 		.noUi-handle {
@@ -214,7 +185,10 @@ $_s-formset-range-inited : false;
 			cursor: pointer;
 
 			.noUi-handle__value {
+				text-align:center;
+				font-weight:bold;
 				color:white;
+				position:relative;
 				@include s-transition(fast);
 			}
 
@@ -226,32 +200,51 @@ $_s-formset-range-inited : false;
 				opacity: 0;
 				@include s-transition(fast);
 			}
+
+			&:before {
+				content:'';
+				display:block;
+				width:100%;
+				height:100%;
+				position:absolute;
+				top:50%; left:50%;
+				@include s-translate(-50%,-50%);
+				border-radius: 50%;
+				@include s-transition(fast);
+			}
+
+			&:hover {
+				&:before {
+					width:150%;
+					height:150%;
+				}
+			}
 		}
 		.noUi-active {
 			.tooltip {
 				opacity:1;
 				top:-15px;
 			}
+			&:before {
+				width:400% !important;
+				height:400% !important;
+			}
 		}
-
 
 		@each $color in $colors {
 
 			#{s-selector((
 				BEM : (
-					'.input--#{$color}',
-					'.color--#{$color} .input'
+					'.noUi-target.input--#{$color}',
+					'.color--#{$color} .noUi-target.input'
 				),
 				SMACCS : (
-					'.input-#{$color}',
-					'.color-#{$color} .input'
+					'.noUi-target.input-#{$color}',
+					'.color-#{$color} .noUi-target.input'
 				)
 			))} {
-
-				&.noUi-target {
-					border-color: s-color($color, -opacity .1);
-					border-bottom-color: s-color($color, -opacity .3);
-				}
+				border-color: s-color($color, -opacity .1);
+				border-bottom-color: s-color($color, -opacity .3);
 
 				.noUi-connect {
 					background-color: s-color($color, -opacity .3);
@@ -261,10 +254,7 @@ $_s-formset-range-inited : false;
 						background-color: s-color($color, -opacity .3);
 					}
 				}
-
-
 				.noUi-handle {
-					// border:1px solid s-color($color);
 					background-color: s-color($color);
 
 					&:hover {

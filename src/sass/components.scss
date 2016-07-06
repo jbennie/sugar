@@ -1,12 +1,15 @@
 // import sugar settings
 @import 'sugar';
 
+$colors : (default,primary,secondary,warning,error,success,info);
+$sizes : (small,default,medium,big,bigger);
+
 //
 // Dropdown
 //
 @include s-dropdown(
-	$sizes : smaller default medium big bigger,
-	$colors : default primary secondary success warning error info
+	$sizes : $sizes,
+	$colors : $colors
 );
 @include s-dropup();
 
@@ -19,7 +22,7 @@
 // Nav
 //
 @include s-nav-tabs(
-	$sizes : small default medium big bigger
+	$sizes : $sizes
 );
 
 //
@@ -31,7 +34,7 @@
 @include s-typeset-lists();
 @include s-typeset-blocks();
 @include s-typeset-tables(
-	$sizes : smaller small medium big bigger
+	$sizes : $sizes
 );
 
 // form group
@@ -39,51 +42,51 @@
 
 // form
 @include s-formset-input-bare(
-	$sizes : smaller small default medium big bigger
+	$sizes : $sizes
 );
 @include s-formset-input-style();
 
 // addons
 @include s-formset-input-addon-bare(
-	$sizes : smaller small default medium big bigger
+	$sizes : $sizes
 );
 @include s-formset-input-addon-style();
 
 // label
 @include s-formset-label-bare(
-	$sizes : smaller small default medium big bigger
+	$sizes : $sizes
 );
 @include s-formset-label-style();
 
 // input-reply
 @include s-formset-input-reply-bare(
-	$sizes : smaller small default medium big bigger
+	$sizes : $sizes
 );
 @include s-formset-input-reply-style();
 
 
 @include s-formset-radiobox(
-	$sizes : smaller small default medium big bigger
+	$sizes : $sizes
 );
 @include s-formset-fieldset(
-	$sizes : smaller small default medium big bigger
+	$sizes : $sizes
 );
 @include s-formset-datepicker();
 
 @include s-formset-range-bare(
-	$sizes : smaller small default medium big bigger
+	$sizes : $sizes
 );
 @include s-formset-range-style(
-	$colors : default primary secondary warning success
+	$colors : $colors
 );
 
 @include s-formset-advanced-select(
-	$sizes : smaller small default medium big bigger
+	$sizes : $sizes
 );
 
 //
 // Button
 //
 @include s-button(
-	$sizes : smaller small default medium big bigger
+	$sizes : $sizes
 );

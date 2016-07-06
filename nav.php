@@ -2,12 +2,21 @@
 <html lang="en">
 <head>
 
+	<?php
+	$colors = ['default','primary','secondary','warning','error','success','info'];
+	$sizes = ['small','default','medium','big'];
+	function rand_color() {
+		global $colors;
+		return $colors[rand(0,count($colors)-1)];
+	}
+	?>
+
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
 	<link href="assets/css/loaders.css" rel="stylesheet" type="text/css" />
 	<link href="assets/css/components.css" rel="stylesheet" type="text/css" />
-	<link href="assets/css/style.css" rel="stylesheet" type="text/css" />
+	<link href="assets/css/style.css" s-domready-dependency rel="stylesheet" type="text/css" />
 	<link href="assets/css/grid.css" rel="stylesheet" type="text/css" />
 
 	<script src="assets/js/angular-demo.js"></script>
@@ -16,7 +25,7 @@
 
 </head>
 <body>
-	
+
 	<label id="author-toggle" for="author">
 		<i class="fa-user"></i>
 	</label>
@@ -278,7 +287,7 @@
 		<section id="header">
 
 			<div class="container">
-				
+
 				<div class="row">
 
 					<div class="gr-12">
@@ -292,148 +301,30 @@
 
 		</section>
 
-<section class="section">
 
-	<div class="container">
-		
-		<div class="row typeset vertical-rhythme show-rhythme">
-
-			<div class="gr-12">
-				<div class="loader-1"></div>
-				<p class="lead">
-					Sugar is build around it's core features which are described bellow. It allows you to manage efficiently your colors, fonts, transitions, filters as well as giving you access to a lot of very useful mixins and function that will dramatically speed up your development process.
-				</p>
-				<p>
-					This page is just a quick overview of the sugar features. This is not a replacement for the official documentation that you can find <a href="http://sugarcss.io" target="_blank">here</a>
-				</p>
-			</div>
-		
-		</div>
-
-	</div>
-
-</section>
-
-<div data-toggle-baseline-class>
-
-	<section id="vertical-rhythme" class="section bkg-grey--light">
-	
-		<div class="container">
-			
-			<div class="row typeset vertical-rhythme" data-toggle-rhythme-class>
-
-				<div class="gr-12">
-					<a data-toggle-rhythme class="pull-right active">
-						<i class="fa-check"></i> Toggle rhythme
-					</a>
-					<a data-toggle-baseline class="pull-right">
-						<i class="fa-bars"></i> Toggle baseline
-					</a>
-
-					<h3>Vertical rhythme</h3>
-
-					<p class="lead">
-						We all know as front-end developers that the vertical rhythme concept is nice, but sometimes it became hard to understand and implement. Sugar is here for you guys!
-					</p>
-
-				</div>
-
-				<div class="gr-6">
-
-					<h4>Title</h4>
-
-					<figure>
-						<img src="http://sugarcss.io/assets/img/highlight-bkg.jpg" />
-					</figure>
-
-					<p>
-						In hac habitasse platea dictumst. Sed venenatis non massa ut vehicula. Vivamus gravida a nunc nec facilisis. Mauris tristique tellus dolor, vel interdum tortor congue laoreet. Mauris lobortis, tellus sit amet dictum fermentum, felis erat iaculis ex, sed luctus augue odio ut orci. Duis commodo.
-					</p>
-
-				</div>
-
-				<div class="gr-6">
-
-					<h4>Title</h4>
-
-					<figure>
-						<img src="http://sugarcss.io/assets/img/highlight-bkg.jpg" />
-					</figure>
-
-					<p>
-						In hac habitasse platea dictumst. Sed venenatis non massa ut vehicula. Vivamus gravida a nunc nec facilisis. Mauris tristique tellus dolor, vel interdum tortor congue laoreet. Mauris lobortis, tellus sit amet dictum fermentum, felis erat iaculis ex, sed luctus augue odio ut orci. Duis commodo.
-					</p>
-
-				</div>
-
-				<div class="gr-4">
-
-					<h4>Title</h4>
-
-					<figure>
-						<img src="http://sugarcss.io/assets/img/highlight-bkg.jpg" />
-					</figure>
-
-					<p>
-						In hac habitasse platea dictumst. Sed venenatis non massa ut vehicula. Vivamus gravida a nunc nec facilisis. Mauris tristique tellus dolor, vel interdum tortor congue laoreet. Mauris lobortis, tellus sit amet dictum fermentum, felis erat iaculis ex, sed luctus augue odio ut orci. Duis commodo.
-					</p>
-
-				</div>
-
-				<div class="gr-4">
-
-					<h4>Title</h4>
-
-					<figure>
-						<img src="http://sugarcss.io/assets/img/highlight-bkg.jpg" />
-					</figure>
-
-					<p>
-						In hac habitasse platea dictumst. Sed venenatis non massa ut vehicula. Vivamus gravida a nunc nec facilisis. Mauris tristique tellus dolor, vel interdum tortor congue laoreet. Mauris lobortis, tellus sit amet dictum fermentum, felis erat iaculis ex, sed luctus augue odio ut orci. Duis commodo.
-					</p>
-
-				</div>
-
-				<div class="gr-4">
-
-					<h4>Title</h4>
-
-					<figure>
-						<img src="http://sugarcss.io/assets/img/highlight-bkg.jpg" />
-					</figure>
-
-					<p>
-						In hac habitasse platea dictumst. Sed venenatis non massa ut vehicula. Vivamus gravida a nunc nec facilisis. Mauris tristique tellus dolor, vel interdum tortor congue laoreet. Mauris lobortis, tellus sit amet dictum fermentum, felis erat iaculis ex, sed luctus augue odio ut orci. Duis commodo.
-					</p>
-
-				</div>
-
-			</div>
-
-		</div>
-
-	</section>
-
-</div>
-
-<section class="section" id="more">
+<section class="section bkg-grey--light" id="typeset">
 
 	<div class="container typeset vertical-rhythme">
 
 		<div class="row">
 
-			<div class="gr-12 text-center">
-
-				<h3>Many more to discover on the official website</h3>
-
-				<iframe width="560" height="315" src="https://www.youtube.com/embed/xJjCnWm5cvE?start=83&end=95" frameborder="0" allowfullscreen></iframe>
-
-				<br />
-				<br />
-				<br />
+			<div class="gr-12">
 				
+				<h3>Typeset</h3>
 
-				<a href="http://sugarcss.io" target="_blank" class="btn hey">Check out sugarcss.io</a>
+				<p class="lead">
+					The sugar button component allows you to access a full stack a buttons that depends on your settings.
+				</p>
+
+<pre><code class="language-scss">// print out the buttons css
+@include s-button();
+</code></pre>
+
+				<p>
+					<a class="btn" href="http://sugarcss.io/documentation#button">
+						Full button documentation
+					</a>
+				</p>
 
 			</div>
 
@@ -442,6 +333,165 @@
 	</div>
 
 </section>
+
+<section class="section typeset vertical-rhythme" id="typography" data-toggle-baseline-class data-toggle-rhythme-class>
+
+	<div class="container">
+
+		<div class="row">
+
+			<div class="gr-12">
+				
+				<h3>Tabs</h3>
+
+				<ul class="nav nav--tabs no-typeset no-vertical-rhythme">
+					<li>Nav item #1</li>
+					<li class="active">Nav item #2</li>
+					<li>Nav item #3</li>
+					<li>Nav item #4</li>
+					<li class="disabled">Disabled item</li>
+				</ul>
+
+				<h4>Small tabs</h4>
+	
+				<ul class="nav nav--tabs nav--small nav--success no-typeset no-vertical-rhythme">
+					<li>Nav item #1</li>
+					<li class="active">Nav item #2</li>
+					<li>Nav item #3</li>
+					<li>Nav item #4</li>
+					<li class="disabled">Disabled item</li>
+				</ul>
+
+				<h4>Default tabs</h4>
+	
+				<ul class="nav nav--tabs nav--warning no-typeset no-vertical-rhythme">
+					<li>Nav item #1</li>
+					<li class="active">Nav item #2</li>
+					<li>Nav item #3</li>
+					<li>Nav item #4</li>
+					<li class="disabled">Disabled item</li>
+				</ul>
+
+				<h4>Medium tabs</h4>
+	
+				<ul class="nav nav--tabs nav--medium nav--secondary no-typeset no-vertical-rhythme">
+					<li>Nav item #1</li>
+					<li class="active">Nav item #2</li>
+					<li>Nav item #3</li>
+					<li>Nav item #4</li>
+					<li class="disabled">Disabled item</li>
+				</ul>
+
+				<h4>Big tabs</h4>
+	
+				<ul class="nav nav--tabs nav--big nav--info no-typeset no-vertical-rhythme">
+					<li>Nav item #1</li>
+					<li class="active">Nav item #2</li>
+					<li>Nav item #3</li>
+					<li>Nav item #4</li>
+					<li class="disabled">Disabled item</li>
+				</ul>
+
+				<h4>Bigger tabs</h4>
+	
+				<ul class="nav nav--tabs nav--primary nav--bigger no-typeset no-vertical-rhythme">
+					<li>Nav item #1</li>
+					<li class="active">Nav item #2</li>
+					<li>Nav item #3</li>
+					<li>Nav item #4</li>
+					<li class="disabled">Disabled item</li>
+				</ul>
+
+				<!-- <hr> -->
+
+				<h4>Working tabs</h4>
+	
+				<style>
+					.nav-content {
+						position: absolute;
+						left:-3000px;
+						visibility: hidden;
+					}
+					.nav-content.active {
+						visibility: visible;
+						position: static;
+						left: 0;
+					}
+				</style>
+				<ul class="nav nav--tabs nav--primary no-typeset no-vertical-rhythme">
+					<li data-s-activate="nav-1" data-s-activate-trigger="mouseenter" data-s-activate-unactivate-trigger="mouseleave">Nav item #1</li>
+					<li data-s-activate="nav-2" data-s-activate-toggle="true" data-s-activate-history="false">Nav item #2</li>
+					<li data-s-activate="nav-3">Nav item #3</li>
+					<li data-s-activate="nav-4">Nav item #4</li>
+					<li class="disabled">Disabled item</li>
+				</ul>
+				<div class="nav-content" id="nav-1">
+					<h4>Tab content #1</h4>
+					<p>In eu neque nec nunc laoreet mattis. Donec ex nisi, laoreet in augue at, malesuada feugiat purus. Praesent sit amet odio bibendum, sagittis turpis ut, condimentum nunc. Phasellus quis aliquam.</p>
+				</div>
+				<div class="nav-content" id="nav-2">
+					<h4>Tab content #2</h4>
+					<p>In eu neque nec nunc laoreet mattis. Donec ex nisi, laoreet in augue at, malesuada feugiat purus. Praesent sit amet odio bibendum, sagittis turpis ut, condimentum nunc. Phasellus quis aliquam.</p>
+				</div>
+				<div class="nav-content" id="nav-3">
+					<h4>Tab content #3</h4>
+					<p>In eu neque nec nunc laoreet mattis. Donec ex nisi, laoreet in augue at, malesuada feugiat purus. Praesent sit amet odio bibendum, sagittis turpis ut, condimentum nunc. Phasellus quis aliquam.</p>
+
+					<ul class="nav nav--tabs nav--secondary no-typeset no-vertical-rhythme">
+						<li data-s-activate="nested-nav-1">Nested nav item #1</li>
+						<li data-s-activate="nested-nav-2">Nested nav item #2</li>
+						<li data-s-activate="nested-nav-3">Nested nav item #3</li>
+						<li data-s-activate="nested-nav-4" data-s-activate-history="false">Nested nav item #4</li>
+						<li class="disabled">Disabled item</li>
+					</ul>
+
+					<div class="nav-content" id="nested-nav-1">
+						<h4>Nested tab content #1</h4>
+						<p>In eu neque nec nunc laoreet mattis. Donec ex nisi, laoreet in augue at, malesuada feugiat purus. Praesent sit amet odio bibendum, sagittis turpis ut, condimentum nunc. Phasellus quis aliquam.</p>
+					</div>
+					<div class="nav-content" id="nested-nav-2">
+						<h4>Nested tab content #2</h4>
+						<p>In eu neque nec nunc laoreet mattis. Donec ex nisi, laoreet in augue at, malesuada feugiat purus. Praesent sit amet odio bibendum, sagittis turpis ut, condimentum nunc. Phasellus quis aliquam.</p>
+					</div>
+					<div class="nav-content" id="nested-nav-3">
+						<h4>Nested tab content #3</h4>
+						<p>In eu neque nec nunc laoreet mattis. Donec ex nisi, laoreet in augue at, malesuada feugiat purus. Praesent sit amet odio bibendum, sagittis turpis ut, condimentum nunc. Phasellus quis aliquam.</p>
+					</div>
+					<div class="nav-content" id="nested-nav-4">
+						<h4>Nested tab content #4</h4>
+						<p>In eu neque nec nunc laoreet mattis. Donec ex nisi, laoreet in augue at, malesuada feugiat purus. Praesent sit amet odio bibendum, sagittis turpis ut, condimentum nunc. Phasellus quis aliquam.</p>
+					</div>
+
+				</div>
+				<div class="nav-content" id="nav-4">
+					<h4>Tab content #4</h4>
+					<p>In eu neque nec nunc laoreet mattis. Donec ex nisi, laoreet in augue at, malesuada feugiat purus. Praesent sit amet odio bibendum, sagittis turpis ut, condimentum nunc. Phasellus quis aliquam.</p>
+				</div>
+				
+				<script>
+					setTimeout(function() {
+						// sugar.activate.activate('nested-nav-1');
+					},2000);
+				</script>
+
+			</div>
+
+		</div>
+
+	</div>
+
+</section>
+
+<script>
+setTimeout(function() {
+	var el = document.createElement('li');
+	el.setAttribute('data-s-activate','nested-nav-3');
+	el.innerHTML = 'coco';
+	document.body.appendChild(el);
+	document.body.appendChild(el.cloneNode());
+	document.body.appendChild(el.cloneNode());
+}, 2000);
+</script>
 
 	</div>
 
@@ -458,10 +508,10 @@
 		json_path : './assets/fonts/fonts.json#2.2',
 		debug : true
 	});
-	if (/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) {
-		sugar.motionblur.enabled = false;
-		sugar.gooey.enabled = false;
-	}
+	// if (/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) {
+	// 	sugar.motionblur.enabled = false;
+	// 	sugar.gooey.enabled = false;
+	// }
 	</script>
 
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.js"></script>

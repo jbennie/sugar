@@ -1,6 +1,6 @@
 $_s-formset-radiobox-inited : false;
 @mixin s-formset-radiobox-init() {
-	
+
 	@if not $_s-formset-radiobox-inited {
 		$_s-formset-radiobox-inited : true !global;
 		%s-formset-checkbox-bare {
@@ -72,7 +72,7 @@ $_s-formset-radiobox-inited : false;
 		}
 		%s-formset-radio-bare {
 			@extend %s-formset-checkbox-bare;
-			
+
 			#{s-selector((
 				BEM : (
 					'&.checkmark--inside',
@@ -102,7 +102,7 @@ $_s-formset-radiobox-inited : false;
 ) {
 	// init form
 	@include s-formset-radiobox-init();
-	
+
 	// parse properties
 	@if $_sugar-test-arguments {
 		$sizes : s-test-argument('s-formset-radiobox','sizes',map-keys(sugar('settings.sizes')),$sizes);
@@ -116,17 +116,17 @@ $_s-formset-radiobox-inited : false;
 		$form-scope-class : sugar('settings.scope-class');
 
 		// base
-		input[data-s-radiobox] + .s-radiobox:after {
+		input[s-radiobox] + .s-radiobox:after {
 			background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><style>path{fill%3A#{str-replace("#{s-color(success)}","#","%23")};}</style><path d="M432 48L192 288 80 176 0 256l192 192 320-320"/></svg>');
 		}
-		input[data-s-radiobox].checkmark--fill + .s-radiobox:after {
+		input[s-radiobox].checkmark--fill + .s-radiobox:after {
 			background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><style>path{fill%3A#{str-replace("#{s-color(#fff)}","#","%23")};}</style><path d="M432 48L192 288 80 176 0 256l192 192 320-320"/></svg>');
 			background-color: s-color(success);
 		}
-		input[data-s-radiobox][type="checkbox"] {
+		input[s-radiobox][type="checkbox"] {
 			@extend %s-formset-checkbox-bare;
 		}
-		input[data-s-radiobox][type="radio"] {
+		input[s-radiobox][type="radio"] {
 			@extend %s-formset-radio-bare;
 		}
 
@@ -145,10 +145,10 @@ $_s-formset-radiobox-inited : false;
 		@each $size in $sizes {
 			#{s-selector((
 				BEM : (
-					'input[data-s-radiobox].input--#{$size}'
+					'input[s-radiobox].input--#{$size}'
 				),
 				SMACCS : (
-					'input[data-s-radiobox].input-#{$size}'
+					'input[s-radiobox].input-#{$size}'
 				)
 			))} {
 				height: s-look-and-feel(font-size, $size);
@@ -198,10 +198,10 @@ $_s-formset-radiobox-inited : false;
 
 			#{s-selector((
 				BEM : (
-					'input[data-s-radiobox]'
+					'input[s-radiobox]'
 				),
 				SMACCS : (
-					'input[data-s-radiobox]'
+					'input[s-radiobox]'
 				)
 			))} {
 				&.checkmark--#{$color}:not(.checkmark--fill) + .s-radiobox:after {
@@ -214,17 +214,17 @@ $_s-formset-radiobox-inited : false;
 
 			#{s-selector((
 				BEM : (
-					'input[data-s-radiobox].input--#{$color}'
+					'input[s-radiobox].input--#{$color}'
 				),
 				SMACCS : (
-					'input[data-s-radiobox].input-#{$color}'
+					'input[s-radiobox].input-#{$color}'
 				)
 			))} {
 				& + .s-radiobox {
 					&:before {
 						border-color: s-color($color, -opacity .3);
 					}
-					
+
 				}
 				#{s-selector((
 					BEM : (
@@ -248,7 +248,7 @@ $_s-formset-radiobox-inited : false;
 						&:before {
 							@include s-filter(box-shadow(s-color($color, -opacity .3) 0 5px 5px));
 						}
-					}	
+					}
 				}
 				&:checked {
 					& + .s-radiobox {
@@ -263,17 +263,17 @@ $_s-formset-radiobox-inited : false;
 		// error fields
 		#{s-selector((
 			BEM : (
-				'.error input[data-s-radiobox]'
+				'.error input[s-radiobox]'
 			),
 			SMACCS : (
-				'.error input[data-s-radiobox]'
+				'.error input[s-radiobox]'
 			)
 		))} {
 			& + .s-radiobox {
 				&:before {
 					border-color: s-color(error, -opacity .3);
 				}
-				
+
 			}
 		}
 	}

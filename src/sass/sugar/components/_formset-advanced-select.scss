@@ -2,11 +2,11 @@ $_s-formset-advanced-select-inited : false;
 @mixin s-formset-advanced-select-init() {
 	@if not $_s-formset-advanced-select-inited {
 		$_s-formset-advanced-select-inited : true ! global;
-	
+
 		.s-select {
 			background-color: white;
 		}
-		.s-select__dropdown {			
+		.s-select__dropdown {
 			background:white;
 			@include s-depth(6);
 		}
@@ -44,7 +44,7 @@ $_s-formset-advanced-select-inited : false;
 }
 
 @mixin s-formset-advanced-select-bare() {
-	
+
 	.s-select {
 		position:relative;
 	}
@@ -59,7 +59,7 @@ $_s-formset-advanced-select-inited : false;
 		overflow-y: hidden;
 	}
 	.s-select--dropup .s-select__dropdown {
-		top:auto; bottom:calc(#{unquote("100% + #{10px}")});	
+		top:auto; bottom:calc(#{unquote("100% + #{10px}")});
 	}
 	.s-select--opened .s-select__dropdown {
 		opacity:1;
@@ -88,7 +88,7 @@ $_s-formset-advanced-select-inited : false;
 ) {
 	@include s-formset-advanced-select-init();
 	@include s-formset-advanced-select-bare();
-	
+
 	.s-select {
 		@extend %s-formset-select-style;
 	}
@@ -121,7 +121,7 @@ $_s-formset-advanced-select-inited : false;
 			SMACCS : 's-select.input-#{$size}'
 		))} {
 			$h : s-lnf(padding-horizontal, $size) * 2 + s-lnf(font-size, $size);
-			&.s-select--multiple {	
+			&.s-select--multiple {
 				padding-top: $h / 8;
 				padding-bottom: $h / 8;
 				height : auto !important;
@@ -177,7 +177,7 @@ $_s-formset-advanced-select-inited : false;
 			BEM : '.s-select.input--#{$color}',
 			SMACCS : 's-select.input-#{$color}'
 		))} {
-			
+
 			.s-select__search-container {
 				background: s-color($color, -opacity .1);
 				border-bottom:1px solid s-color($color, -opacity .2);

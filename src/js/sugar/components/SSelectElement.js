@@ -41,31 +41,8 @@ class SSelectElement extends SComponent {
 			screenMargin : 50
 		}, settings);
 
-		// setTimeout(() => {
-		// 	this.attr.sSelectSearchPlaceholder = 'hello coco';
-		// 	console.log('settings', this.settings);
-		// }, 2000);
-
-		// this.watch('attr.sSelectSearchPlaceholder', (newVal, oldVal) => {
-		// 	console.log('sSelectSearchPlaceholder', newVal, oldVal);
-		// });
-
-		// this.watch('settings.searchPlaceholder', (newVal, oldVal) => {
-		// 	console.log('settings.searchPlaceholder', newVal, oldVal);
-		// 	console.log('searchPlaceholder', this.settings.searchPlaceholder);
-		// });
-
-		// this.watch('attr.sSelectSearchPlaceholder', (newVal, oldVal) => {
-		// 	console.log('NEW PLLAC', newVal, oldVal);
-		// });
-
-		// this.watch('settings.searchPlaceholder', (newVal, oldVal) => {
-		// 	console.log('NEW SETTINGS', newVal, oldVal);
-		// 	console.log('this', this);
-		// });
-
 		// init
-		// this._init();
+		this.initProxy(this.init.bind(this));
 	}
 
 	// onVisible() {
@@ -77,7 +54,7 @@ class SSelectElement extends SComponent {
 	 */
 	init() {
 
-		console.log('init', this);
+		console.warn('INIT SELECT');
 
 		// utils variables
 		this._openOnFocus = false;
@@ -286,7 +263,7 @@ class SSelectElement extends SComponent {
 	/**
 	 * On key down
 	 */
-	_onKeyDown(e) {		
+	_onKeyDown(e) {
 		switch(e.keyCode) {
 			case 40: // down
 				this._activateNext();
@@ -320,7 +297,7 @@ class SSelectElement extends SComponent {
 		// check if already an item is selected
 		if ( ! this._currentActiveOption) {
 			this._currentActiveOption = this.options_container.querySelector('.s-select__option:not(.s-select__option--disabled):not(.s-select__option--hidden):first-child');
-			
+
 		} else {
 			// try to get the next sibling
 			this._currentActiveOption = __next(this._currentActiveOption, '.s-select__option:not(.s-select__option--disabled):not(.s-select__option--hidden)');
@@ -342,7 +319,7 @@ class SSelectElement extends SComponent {
 		// check if already an item is selected
 		if ( ! this._currentActiveOption) {
 			this._currentActiveOption = this.options_container.querySelector('.s-select__option:not(.s-select__option--disabled):not(.s-select__option--hidden):last-child');
-			
+
 		} else {
 			// try to get the next sibling
 			this._currentActiveOption = __previous(this._currentActiveOption, '.s-select__option:not(.s-select__option--disabled):not(.s-select__option--hidden)');
@@ -417,7 +394,7 @@ class SSelectElement extends SComponent {
 		// container.appendChild(open_checkbox);
 		container.appendChild(selection_container);
 		container.appendChild(dropdown);
-		
+
 		// append the element right before the select
 		this.elm.parentNode.insertBefore(container, this.elm);
 
@@ -610,7 +587,7 @@ class SSelectElement extends SComponent {
 			} else {
 				this.options_container.style.height = 'auto';
 			}
-		}		
+		}
 	}
 
 	/**
@@ -647,7 +624,7 @@ class SSelectElement extends SComponent {
 	 * Handle option
 	 */
 	_handleOption(_option, in_optgroup = false) {
-			
+
 		// check if is an optiongroup
 		if (_option.nodeName.toLowerCase() == 'optgroup') {
 			this._handleOptgroup(_option);
@@ -842,6 +819,7 @@ class SSelectElement extends SComponent {
 
 // init the select
 __querySelectorLive('select[s-select]', (elm) => {
+	console.log('init');
 	new SSelectElement(elm);
 });
 

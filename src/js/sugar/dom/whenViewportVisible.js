@@ -34,7 +34,7 @@ export default function whenViewportVisible(elm, cb = null) {
 		document.addEventListener('scroll', checkViewport);
 		window.addEventListener('resize', checkViewport);
 		setTimeout(() => {
-		checkViewport(null);
+			checkViewport(null);
 		});
 	});
 }

@@ -18,8 +18,6 @@ import __uniqid from '../tools/uniqid'
 import SEvent from '../core/SEvent'
 import noUiSlider from 'nouislider';
 
-console.log('noUiSlider', noUiSlider);
-
 // class
 class SRangeInputElement extends SComponent {
 
@@ -41,11 +39,13 @@ class SRangeInputElement extends SComponent {
 			max : 100,
 			connect : true,
 			tooltip : true,
-			value : '@value'
+			value : '@value',
+			formater : null
 		}, settings);
 
 		// init
-		this._init();
+		this.initProxy(this._init.bind(this));
+		// this._init();
 	}
 
 	/**
@@ -54,6 +54,8 @@ class SRangeInputElement extends SComponent {
 	_init() {
 		if (this._inited) return;
 		this._inited = true;
+
+		console.warn('INIT');
 
 		// create the container for the slider
 		this.container = document.createElement('div');
@@ -104,7 +106,7 @@ class SRangeInputElement extends SComponent {
 		}
 
 		// hide the base input
-		// this.elm.style.display = 'none';
+		this.elm.style.display = 'none';
 
 		// append the slider into the dom
 		this.elm.parentNode.insertBefore(this.container, this.elm);
@@ -122,15 +124,18 @@ class SRangeInputElement extends SComponent {
 		});
 		this.slider.on('change', (e) => {
 			// set new value in attributes
-			console.log('new vl', this.slider.get());
+			// console.log('new vl', this.slider.get());
 			this.attr.value = this.slider.get().join(',');
 		});
 
-		this.watch('settings.value', (newVal, oldVal) => {
-			console.log('update setting value', newVal, oldVal);
+		this.watcher.watch(this, 'settings.value', (newVal, oldVal) => {
+			// console.log('update setting value', newVal, oldVal);
 
 			// set the new values to the slider
 			this.slider.set(newVal.split(','));
+
+			console.warn('VALUE!!!', this.elm.getAttribute('value'));
+
 		});
 
 		// this.elm.addEventListener('change', (e) => {
@@ -145,12 +150,36 @@ class SRangeInputElement extends SComponent {
 	_boundValuesInHtml() {
 		const values = this.slider.get();
 		if (this.tooltipStartElm && values[0] !== undefined) {
-			this.tooltipStartElm.innerHTML = values[0];
-			this.handleStartValueElm.innerHTML = Math.round(values[0]);
+			if (this.settings.formater) {
+				this.tooltipStartElm.innerHTML = this.settings.formater(
+					values[0],
+					'tooltip'
+				);
+				this.handleStartValueElm.innerHTML = this.settings.formater(
+					values[0],
+					'handle'
+				);
+
+			} else {
+				this.tooltipStartElm.innerHTML = Math.round(values[0]);
+				this.handleStartValueElm.innerHTML = Math.round(values[0]);
+			}
 		}
 		if (this.tooltipEndElm && values[1] !== undefined) {
-			this.tooltipEndElm.innerHTML = values[1];
-			this.handleEndValueElm.innerHTML = Math.round(values[1]);
+			if (this.settings.formater) {
+				this.tooltipEndElm.innerHTML = this.settings.formater(
+					values[1],
+					'tooltip'
+				);
+				this.handleEndValueElm.innerHTML = this.settings.formater(
+					values[1],
+					'handle'
+				);
+
+			} else {
+				this.tooltipEndElm.innerHTML = Math.round(values[1]);
+				this.handleEndValueElm.innerHTML = Math.round(values[1]);
+			}
 		}
 	}
 
@@ -178,7 +207,14 @@ class SRangeInputElement extends SComponent {
 
 // init the select
 __querySelectorLive('input[s-range-input]', (elm) => {
-	new SRangeInputElement(elm);
+	new SRangeInputElement(elm, {
+		formater : (value, destination) => {
+			if (destination === 'tooltip') {
+				return Math.round(value) + '%';
+			}
+			return Math.round(value);
+		}
+	});
 });
 
 // expose in window.sugar

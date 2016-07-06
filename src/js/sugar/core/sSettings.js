@@ -14,12 +14,18 @@ domReady(() => {
 		document.querySelector('.s-settings'), ':after'
 	).getPropertyValue('content');
 	if (_settings) {
-		_settings = _settings.replace(/\\\'\\"/g,'"').replace(/\\"\\\'/g,'"');
-		_settings = _settings.replace(/\'\\"/g,'"').replace(/\\"\'/g,'"');
-		_settings = _settings.replace(/'"/g,'"').replace(/"'/g,'"');
+		_settings = _settings.replace(/\\"/g, '"');
+		// _settings = _settings.replace(/\\\'\\"/g,'"').replace(/\\"\\\'/g,'"');
+		// _settings = _settings.replace(/\'\\"/g,'"').replace(/\\"\'/g,'"');
+		// _settings = _settings.replace(/'"/g,'"').replace(/"'/g,'"');
 		_settings = _settings.slice(1,_settings.length - 1);
 		_settings = JSON.parse(_settings);
-		settings = (...settings, ..._settings);
+
+		Object.assign(settings, _settings);
+
+		console.log('settings', settings);
+
+		// settings = {...settings, ..._settings};
 	}
 });
 
