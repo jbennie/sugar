@@ -23,12 +23,9 @@ function _domReady(cb = null) {
 				if ( ! neededStylesheetsStack) {
 					// check in dom if has some needed stylesheets
 					neededStylesheetsStack = document.querySelectorAll('link[s-domready-dependency]');
-					// console.error('Dependencies', neededStylesheetsStack);
 				}
-				console.log(neededStylesheetsStack);
 
 				if ( ! neededStylesheetsStack.length) {
-					console.log('GO');
 					if (cb) cb();
 					resolve();
 				} else {
@@ -55,23 +52,21 @@ export default function domReady(cb = null) {
 
 		// check if the dom is already ready
 		if (domIsReady) {
-			cb !== null && cb();
+			if (cb) cb();
 			resolve();
 			return;
 		}
 
 		// add the callback to the stack
 		domReadyCallbacks.push(() => {
-			cb !== null && cb();
+			if (cb) cb();
 			resolve();
-			// console.log('Callback');
 		});
 
 		// check if already a domReady detecting process
 		if ( ! domReadyProcess) {
 			domReadyProcess = true;
 			_domReady(() => {
-				console.log('DOM is finaly ready');
 				// update the domIsReady
 				domIsReady = true;
 				// apply all the callbacks
@@ -80,10 +75,5 @@ export default function domReady(cb = null) {
 				});
 			});
 		}
-
-
-
-
 	});
-
 }

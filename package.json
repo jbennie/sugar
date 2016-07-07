@@ -37,6 +37,7 @@
     "babel-preset-es2015-loose": "^7.0.0",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
+    "chai": "^3.5.0",
     "cjsx-loader": "^2.0.1",
     "coffee-loader": "^0.7.2",
     "coffee-script": "^1.10.0",
@@ -58,6 +59,8 @@
     "gulp-concat": "^2.6.0",
     "gulp-filter": "^3.0.1",
     "gulp-imagemin": "^2.3.0",
+    "gulp-mocha": "^2.2.0",
+    "gulp-mocha-phantomjs": "^0.11.0",
     "gulp-postcss": "^6.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.4",
@@ -68,10 +71,14 @@
     "gulp-webpack": "^1.5.0",
     "gulp-wrap": "^0.11.0",
     "inline-style-prefixer": "^0.6.3",
+    "install": "^0.8.1",
+    "mocha": "^2.5.3",
+    "mocha-logger": "^1.0.3",
     "node-sass": "^3.4.2",
+    "npm": "^3.10.3",
     "sassyjson": "^1.1.8",
-    "webpack": "^1.13.0",
-    "webpack-dev-server": "^1.10.1",
-    "webpack-stream": "^3.1.0"
+    "vinyl-named": "^1.1.0",
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.10.1"
   }
 }

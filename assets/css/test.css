@@ -297,9 +297,7 @@ body {
   width: 10px;
   border-radius: 10px;
   background-color: gold;
-  top: -webkit-calc(0% + 5px + 0 - 0);
   top: calc(0% + 5px + 0 - 0);
-  left: -webkit-calc(0% + 5px + 0 - 0);
   left: calc(0% + 5px + 0 - 0);
 }
 
@@ -315,11 +313,8 @@ body {
   boz-sizing: border-box;
   -webkit-animation: s-hey 1s 0s ease-in-out infinite normal forwards;
           animation: s-hey 1s 0s ease-in-out infinite normal forwards;
-  position: -webkit-calc(absolute);
   position: calc(absolute);
-  top: -webkit-calc(0% + 0 - 0);
   top: calc(0% + 0 - 0);
-  left: -webkit-calc(0% + 0 - 0);
   left: calc(0% + 0 - 0);
 }
 

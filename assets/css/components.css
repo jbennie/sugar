@@ -277,7 +277,6 @@ body {
   position: absolute;
   top: 100%;
   pointer-events: none;
-  -webkit-transition: all, 0.2s, ease-in-out, outline-color 0.000001s linear 0s;
   transition: all, 0.2s, ease-in-out, outline-color 0.000001s linear 0s;
   outline-color: black;
 }
@@ -289,7 +288,6 @@ body {
 .dropdown .dropdown__menu, .dropup .dropdown__menu {
   background: #8195a1;
   box-shadow: rgba(129, 149, 161, 0.3) 0 10px 10px;
-  -webkit-transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   outline-color: black;
   overflow: hidden;
@@ -300,7 +298,6 @@ body {
   background-color: white;
   left: 0;
   position: relative;
-  -webkit-transition: left 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   transition: left 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   outline-color: black;
 }
@@ -315,7 +312,6 @@ body {
   width: 100%;
   border-left-style: solid;
   border-left-width: 0;
-  -webkit-transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   outline-color: black;
 }
@@ -1395,7 +1391,6 @@ body {
 .typeset table:not(.no-typeset).table-shadowed, .typeset table:not(.no-typeset).table--shadowed,
 .table.table-shadowed,
 .table.table--shadowed {
-  -webkit-transition: all, 0.2s, ease-in-out, outline-color 0.000001s linear 0s;
   transition: all, 0.2s, ease-in-out, outline-color 0.000001s linear 0s;
   outline-color: black;
 }
@@ -1632,18 +1627,15 @@ body {
 }
 
 .form-group {
-  display: -webkit-box !important;
   display: -webkit-flex !important;
   display: -ms-flexbox !important;
   display: flex !important;
-  -webkit-box-flex: 1 !important;
   -webkit-flex: 1 !important;
       -ms-flex: 1 !important;
           flex: 1 !important;
 }
 
 .form-group .input-addon {
-  -webkit-box-flex: 0;
   -webkit-flex: 0;
       -ms-flex: 0;
           flex: 0;
@@ -1654,7 +1646,6 @@ body {
 }
 
 .form-group .input:not([type="checkbox"]):not([type="radio"]) {
-  -webkit-box-flex: 1 !important;
   -webkit-flex: 1 !important;
       -ms-flex: 1 !important;
           flex: 1 !important;
@@ -1681,7 +1672,6 @@ body {
   border-style: solid;
   background-color: white;
   color: #8195a1;
-  -webkit-transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   outline-color: black;
 }
@@ -2412,14 +2402,12 @@ select.input--info, .input--info.s-select, .color--info select.input {
 }
 
 .label--inline {
-  display: -webkit-box !important;
   display: -webkit-flex !important;
   display: -ms-flexbox !important;
   display: flex !important;
 }
 
 .label--inline > * {
-  -webkit-box-flex: 0;
   -webkit-flex: 0;
       -ms-flex: 0;
           flex: 0;
@@ -2427,14 +2415,12 @@ select.input--info, .input--info.s-select, .color--info select.input {
 }
 
 .label--inline > .input {
-  -webkit-box-flex: 1;
   -webkit-flex: 1;
       -ms-flex: 1;
           flex: 1;
 }
 
 .label--inline > span {
-  -webkit-box-flex: 0;
   -webkit-flex: 0;
       -ms-flex: 0;
           flex: 0;
@@ -2451,14 +2437,12 @@ select.input--info, .input--info.s-select, .color--info select.input {
 }
 
 .label--inside {
-  display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
 }
 
 .label--inside > * {
-  -webkit-box-flex: 0;
   -webkit-flex: 0;
       -ms-flex: 0;
           flex: 0;
@@ -2466,7 +2450,6 @@ select.input--info, .input--info.s-select, .color--info select.input {
 }
 
 .label--inside > .input {
-  -webkit-box-flex: 1;
   -webkit-flex: 1;
       -ms-flex: 1;
           flex: 1;
@@ -2563,7 +2546,6 @@ select.input--info, .input--info.s-select, .color--info select.input {
 }
 
 .label--inside > span {
-  -webkit-transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   outline-color: black;
 }
@@ -2706,7 +2688,6 @@ input[s-radiobox][type="radio"] + .s-radiobox, input[s-radiobox][type="checkbox"
   display: inline-block;
   position: relative;
   cursor: pointer;
-  -webkit-transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   outline-color: black;
   vertical-align: sub;
@@ -2725,7 +2706,6 @@ input[s-radiobox][type="radio"] + .s-radiobox:before, input[s-radiobox][type="ch
           transform: scaleX(1) scaleY(1) rotate(360deg);
   width: 100%;
   height: 100%;
-  -webkit-transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   outline-color: black;
 }
@@ -2739,7 +2719,6 @@ input[s-radiobox][type="radio"] + .s-radiobox:after, input[s-radiobox][type="che
           transform: scaleX(0) scaleY(0) rotate(-360deg);
   width: 100%;
   height: 100%;
-  -webkit-transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   outline-color: black;
   background-size: 100% 100%;
@@ -3093,13 +3072,11 @@ input[s-radiobox].input--info:checked + .s-radiobox:before {
   border-left-style: solid;
   display: block;
   width: 100%;
-  -webkit-transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   outline-color: black;
 }
 
 .fieldset > legend, .fieldset > .legend {
-  -webkit-transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   outline-color: black;
   border-left-style: solid;
@@ -3121,7 +3098,6 @@ input[s-radiobox].input--info:checked + .s-radiobox:before {
 .fieldset--small > [class*="legend"],
 .fieldset--small > legend {
   margin-left: -2rem;
-  width: -webkit-calc(100% + 1.61538462rem);
   width: calc(100% + 1.61538462rem);
   margin-bottom: 1.61538462rem;
 }
@@ -3140,7 +3116,6 @@ input[s-radiobox].input--info:checked + .s-radiobox:before {
 .fieldset > [class*="legend"],
 .fieldset > legend {
   margin-left: -2.38461538rem;
-  width: -webkit-calc(100% + 2rem);
   width: calc(100% + 2rem);
   margin-bottom: 2rem;
 }
@@ -3159,7 +3134,6 @@ input[s-radiobox].input--info:checked + .s-radiobox:before {
 .fieldset--medium > [class*="legend"],
 .fieldset--medium > legend {
   margin-left: -3.15384615rem;
-  width: -webkit-calc(100% + 2.76923077rem);
   width: calc(100% + 2.76923077rem);
   margin-bottom: 2.76923077rem;
 }
@@ -3178,7 +3152,6 @@ input[s-radiobox].input--info:checked + .s-radiobox:before {
 .fieldset--big > [class*="legend"],
 .fieldset--big > legend {
   margin-left: -4rem;
-  width: -webkit-calc(100% + 3.61538462rem);
   width: calc(100% + 3.61538462rem);
   margin-bottom: 3.61538462rem;
 }
@@ -3197,7 +3170,6 @@ input[s-radiobox].input--info:checked + .s-radiobox:before {
 .fieldset--bigger > [class*="legend"],
 .fieldset--bigger > legend {
   margin-left: -5.15384615rem;
-  width: -webkit-calc(100% + 4.76923077rem);
   width: calc(100% + 4.76923077rem);
   margin-bottom: 4.76923077rem;
 }
@@ -3361,7 +3333,6 @@ input[s-radiobox].input--info:checked + .s-radiobox:before {
   background: white;
   font-family: "Helvetica Neue", Helvetica, Verdana, Arial, sans-serif;
   border-radius: 0.23076923rem;
-  -webkit-transition: margin-top 0.1s ease-in-out, opacity 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   transition: margin-top 0.1s ease-in-out, opacity 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   outline-color: black;
   margin-top: 0;
@@ -4450,13 +4421,11 @@ input[s-radiobox].input--info:checked + .s-radiobox:before {
 }
 
 .noUi-state-tap .noUi-origin {
-  -webkit-transition: left 0.1s ease-in-out, top 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   transition: left 0.1s ease-in-out, top 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   outline-color: black;
 }
 
 .noUi-handle {
-  -webkit-transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   outline-color: black;
   background: #FFF;
@@ -4468,7 +4437,6 @@ input[s-radiobox].input--info:checked + .s-radiobox:before {
   font-weight: bold;
   color: white;
   position: relative;
-  -webkit-transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   outline-color: black;
 }
@@ -4481,7 +4449,6 @@ input[s-radiobox].input--info:checked + .s-radiobox:before {
   -webkit-transform: translateX(-50%) translateY(-100%) translateZ(0);
           transform: translateX(-50%) translateY(-100%) translateZ(0);
   opacity: 0;
-  -webkit-transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   outline-color: black;
 }
@@ -4497,7 +4464,6 @@ input[s-radiobox].input--info:checked + .s-radiobox:before {
   -webkit-transform: translateX(-50%) translateY(-50%) translateZ(0);
           transform: translateX(-50%) translateY(-50%) translateZ(0);
   border-radius: 50%;
-  -webkit-transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   outline-color: black;
 }
@@ -5070,7 +5036,6 @@ input[s-radiobox].input--info:checked + .s-radiobox:before {
 .s-select__option {
   list-style: none;
   cursor: pointer;
-  -webkit-transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   outline-color: black;
 }
@@ -5101,7 +5066,6 @@ input[s-radiobox].input--info:checked + .s-radiobox:before {
 
 .s-select--dropup .s-select__dropdown {
   top: auto;
-  bottom: -webkit-calc(100% + 10px);
   bottom: calc(100% + 10px);
 }
 
@@ -5134,10 +5098,8 @@ input[s-radiobox].input--info:checked + .s-radiobox:before {
 }
 
 .s-select__dropdown {
-  top: -webkit-calc(100% + 3px);
   top: calc(100% + 3px);
   margin-top: -20px;
-  -webkit-transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   outline-color: black;
 }

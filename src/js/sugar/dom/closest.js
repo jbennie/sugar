@@ -1,7 +1,7 @@
 /**
- * Get closest 
+ * Get closest
  */
-import matches as __matches from './matches'
+import __matches from './matches'
 
 export default function closest(elm, selector) {
 	elm = elm.parentNode;

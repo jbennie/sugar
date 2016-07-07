@@ -1,3 +1,4 @@
+require('babel-core/register');
 _            = require 'lodash'
 gulp         = require 'gulp'
 gulpWebpack  = require 'gulp-webpack'
@@ -6,7 +7,6 @@ rename       = require 'gulp-rename'
 sass         = require 'gulp-sass'
 uglify       = require 'gulp-uglify'
 autoprefixer = require 'gulp-autoprefixer'
-webpack 	 = require 'webpack'
 replace 	 = require 'gulp-replace'
 fs 			 = require 'fs'
 compass 	 = require 'gulp-compass'
@@ -17,9 +17,15 @@ babel 		 = require 'gulp-babel'
 filter 		 = require 'gulp-filter'
 cached 		 = require 'gulp-cached'
 ts 			 = require 'gulp-typescript'
+mocha 	 	 = require 'gulp-mocha'
+mochaPhantom = require 'gulp-mocha-phantomjs'
+named 		 = require 'vinyl-named'
 
 # configure webpack
 webpackParams =
+	resolve:
+		alias:
+			sugarcss: __dirname + '/src/js/sugar'
 	module :
 		loaders: [{
 			test: /\.coffee$/,
@@ -34,6 +40,8 @@ webpackParams =
 				compact: false
 			}
 		}]
+
+
 webpackAppParams = _.extend {}, webpackParams,
 	entry: {
 		'angular-demo': ['./src/js/angular-demo.js']
@@ -144,10 +152,6 @@ gulp.task 'webpack-dist', ['clean-js'], ->
 		'./src/coffee/sugar/**/*.coffee'
 	]
 	.pipe gulpWebpack webpackDistParams
-	# .pipe babel
-	# 	presets: ['es2015','stage-0']
-	# 	compact: false
-
 	.pipe gulp.dest 'dist/js'
 	.pipe uglify()
 	.pipe rename
@@ -160,15 +164,22 @@ gulp.task 'webpack-app', ['clean-js'], ->
 		'./src/coffee/*.coffee'
 	]
 	.pipe gulpWebpack webpackAppParams
-	# .pipe babel
-	# 	presets: ['es2015','stage-0']
-	# 	#plugins: ['dataset']
-	# .pipe uglify()
 	.pipe gulp.dest 'assets/js'
 	.pipe uglify()
 	.pipe rename
 		extname : '.min.js'
 	.pipe gulp.dest 'assets/js'
+
+# tests
+gulp.task 'tests-js-compile', [], ->
+	gulp.src 'src/tests/phantomjs/src/**/*.js'
+	.pipe named()
+	.pipe gulpWebpack webpackParams
+	.pipe gulp.dest 'src/tests/phantomjs/js'
+gulp.task 'tests', ['tests-js-compile'], ->
+	gulp.src 'src/tests/phantomjs/*.html'
+	.pipe mochaPhantom
+		reporter: 'nyan'
 
 # register tasks
 gulp.task 'default', ['webpack-app','sass']
@@ -178,3 +189,4 @@ gulp.task 'watch', ['default'], ->
 	gulp.watch ['src/js/**/*.js'], ['webpack-app']
 	gulp.watch ["src/sass/**/*.scss"], ['sass']
 	gulp.watch ['pages/**/*.php'], ['tokens']
+	gulp.watch ['src/tests/phantomjs/src/**/*.js'], ['tests']
