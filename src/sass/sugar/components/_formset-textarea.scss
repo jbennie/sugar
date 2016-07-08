@@ -7,9 +7,9 @@
 	@include s-formset-textarea-size($size);
 	@include s-formset-input-color($color);
 }
-@mixin s-formset-textarea-size($size) {
-	font-size : s-lnf(font-size, $size);
-	// border-radius: s-lnf(border-radius, $size);
-	padding : s-lnf(padding-horizontal, $size) s-lnf(padding-vertical, $size);
+@mixin s-formset-textarea-size() {
+	font-size : s-lnf(font-size);
+	// border-radius: s-lnf(border-radius, );
+	padding : s-lnf(padding-horizontal) s-lnf(padding-vertical);
 	display: inline-block;
 }

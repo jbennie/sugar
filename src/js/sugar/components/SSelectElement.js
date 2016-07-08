@@ -369,6 +369,7 @@ class SSelectElement extends SComponent {
 
 		let dropdown = document.createElement('div');
 		dropdown.setAttribute('class', 's-select__dropdown');
+		dropdown.style.fontSize = '1rem';
 
 		// search
 		let search_container = document.createElement('div');

@@ -172,12 +172,12 @@ gulp.task 'webpack-app', ['clean-js'], ->
 
 # tests
 gulp.task 'tests-js-compile', [], ->
-	gulp.src 'src/tests/phantomjs/src/**/*.js'
+	gulp.src 'tests/phantomjs/src/**/*.js'
 	.pipe named()
 	.pipe gulpWebpack webpackParams
-	.pipe gulp.dest 'src/tests/phantomjs/js'
+	.pipe gulp.dest 'tests/phantomjs/js'
 gulp.task 'tests', ['tests-js-compile'], ->
-	gulp.src 'src/tests/phantomjs/*.html'
+	gulp.src 'tests/phantomjs/*.html'
 	.pipe mochaPhantom
 		reporter: 'nyan'
 
@@ -189,4 +189,4 @@ gulp.task 'watch', ['default'], ->
 	gulp.watch ['src/js/**/*.js'], ['webpack-app']
 	gulp.watch ["src/sass/**/*.scss"], ['sass']
 	gulp.watch ['pages/**/*.php'], ['tokens']
-	gulp.watch ['src/tests/phantomjs/src/**/*.js'], ['tests']
+	gulp.watch ['tests/phantomjs/src/**/*.js'], ['tests']

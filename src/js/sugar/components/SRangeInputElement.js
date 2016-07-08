@@ -55,8 +55,6 @@ class SRangeInputElement extends SComponent {
 		if (this._inited) return;
 		this._inited = true;
 
-		console.warn('INIT');
-
 		// create the container for the slider
 		this.container = document.createElement('div');
 		this.container.className = this.elm.className;
@@ -83,15 +81,15 @@ class SRangeInputElement extends SComponent {
 			}
 		});
 
-		// setTimeout(() => {
-		// 	console.log('UP');
-		// 	this.attr.type = 'password';
-		// },2000);
+		// remove the noUi-background class on the main element
+		this.container.classList.remove('noUi-background');
 
 		// query references
 		this.handleStartElm = this.container.querySelector('.noUi-origin:first-of-type .noUi-handle');
 		this.handleEndElm = this.container.querySelector('.noUi-origin:last-of-type .noUi-handle');
 		if (this.handleStartElm === this.handleEndElm) this.handleEndElm = null;
+		this.connectElm = this.container.querySelector('.noUi-connect');
+		this.baseElm = this.container.querySelector('.noUi-base');
 
 		// create handleValueElm
 		if (this.handleStartElm) {
@@ -104,6 +102,15 @@ class SRangeInputElement extends SComponent {
 			this.handleEndValueElm.classList.add('noUi-handle__value');
 			this.handleEndElm.appendChild(this.handleEndValueElm);
 		}
+
+		// create new noUi-background.noUi-origin for the lower background
+		this.backgroundLowerElm = document.createElement('div');
+		this.backgroundLowerElm.classList.add('noUi-origin');
+		this.backgroundLowerElm.classList.add('noUi-background');
+		this.backgroundLowerElm.style.right = '100%';
+
+		// append the element to the base
+		this.baseElm.appendChild(this.backgroundLowerElm);
 
 		// hide the base input
 		this.elm.style.display = 'none';
@@ -124,31 +131,37 @@ class SRangeInputElement extends SComponent {
 		});
 		this.slider.on('change', (e) => {
 			// set new value in attributes
-			// console.log('new vl', this.slider.get());
-			this.attr.value = this.slider.get().join(',');
+			const value = this.slider.get();
+			if (typeof(value) === 'number' || typeof(value) === 'string') {
+				this.attr.value = value;
+			} else {
+				this.attr.value = this.slider.get().join(',');
+			}
 		});
 
 		this.watcher.watch(this, 'settings.value', (newVal, oldVal) => {
-			// console.log('update setting value', newVal, oldVal);
-
 			// set the new values to the slider
 			this.slider.set(newVal.split(','));
-
 			console.warn('VALUE!!!', this.elm.getAttribute('value'));
-
 		});
-
-		// this.elm.addEventListener('change', (e) => {
-		// 	console.log('new value', e);
-		// 	this.settings.value = e.target.value;
-		// });
 	}
 
 	/**
 	 * Set tooltip values
 	 */
 	_boundValuesInHtml() {
+
 		const values = this.slider.get();
+
+		// if we have 2 values
+		// we set the width of the .noUi-target.noUi-background:before
+		// to the left percentage of the lower handle
+		if (values.length == 2) {
+			this.backgroundLowerElm.style.right = 100 - parseInt(this.connectElm.style.left) + '%';
+			console.log(this.connectElm.style.left);
+		}
+
+
 		if (this.tooltipStartElm && values[0] !== undefined) {
 			if (this.settings.formater) {
 				this.tooltipStartElm.innerHTML = this.settings.formater(

@@ -279,8 +279,8 @@ $_sugar-classes-inited : false;
 		// Text size
 		//
 		@each $size, $value in sugar('settings.sizes') {
-			@include s-register-class(text-#{$size}, 'sugar.text.size.#{$size}') {
-				font-size : s-lnf(font-size, $size);
+			@include s-register-class(size-#{$size}, 'sugar.size.#{$size}') {
+				font-size : s-rem($value);
 			}
 		}
 

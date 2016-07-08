@@ -242,7 +242,7 @@ $_sugar-settings-cache : ();
 
 			// convert to pixels if possible
 			@if type-of($value) == number and not unitless($value) {
-				@if unit($value) == px or unit($value) == pt or unit($value) == rem or unit($value) == em {
+				@if unit($value) == px or unit($value) == pt or unit($value) == rem {
 					$value : s-convert($value);
 				} @else {
 					@return $value;
@@ -589,6 +589,11 @@ $_sugar-settings-cache : ();
 
 	// initial value
 	$value : sugar('settings.look-and-feel.#{$name}.#{$size}');
+
+	// make sure value is in em unit
+	@if type-of($value) == number and unit($value) != em {
+		@error('Your look-and-feel value "#{$name}" setted to "#{$value}" need to be in "em"');
+	}
 
 	// if we have a non number value, return it
 	@if $value and type-of($value) != number {

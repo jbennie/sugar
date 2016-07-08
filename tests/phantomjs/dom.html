@@ -1,7 +1,11 @@
 <!doctype html>
 <html>
-<head></head>
+<head>
+	<link rel="stylesheet" href="../../node_modules/mocha/mocha.css" />
+</head>
 <body>
+
+	<div id="mocha"></div>
 
 	<div id="closest">
 		<div class="target" target>
@@ -30,7 +34,7 @@
 	<div id="dataset" data-hello="world"></div>
 
 
-	<script src="../../../node_modules/mocha/mocha.js"></script>
+	<script src="../../node_modules/mocha/mocha.js"></script>
     <script>mocha.setup('bdd')</script>
 	<script src="js/dom.js"></script>
 </body>

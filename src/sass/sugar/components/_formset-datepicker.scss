@@ -9,10 +9,10 @@ $_s-formset-datepicker-inited : false;
 			color: s-color(text);
 			background: white;
 			font-family: s-font-family(default);
-			border-radius: s-look-and-feel(border-radius);
+			border-radius: s-lnf(border-radius);
 			@include s-transition(fast margin-top,fast opacity);
 			margin-top:0;
-			padding:s-look-and-feel(padding-vertical);
+			padding:s-lnf(padding-vertical);
 
 			&.is-hidden {
 				opacity:0;
@@ -37,8 +37,8 @@ $_s-formset-datepicker-inited : false;
 			.pika-lendar {
 				float: left;
 				// width: 240px;
-				margin-left: s-look-and-feel(padding-vertical);
-				margin-right: s-look-and-feel(padding-vertical);
+				margin-left: s-lnf(padding-vertical);
+				margin-right: s-lnf(padding-vertical);
 				&:first-of-type {
 					margin-left:0;
 				}
@@ -70,10 +70,10 @@ $_s-formset-datepicker-inited : false;
 				z-index: 9999;
 				overflow: hidden;
 				margin: 0;
-				padding : s-look-and-feel(padding-horizontal) s-look-and-feel(padding-vertical);
+				padding : s-lnf(padding-horizontal) s-lnf(padding-vertical);
 				//padding: 5px 3px;
-				font-size: s-look-and-feel(font-size);
-				line-height: s-look-and-feel(font-size);
+				font-size: s-lnf(font-size);
+				line-height: s-lnf(font-size);
 				// line-height: 20px;
 				font-weight: bold;
 				color: s-color(text);
@@ -88,7 +88,7 @@ $_s-formset-datepicker-inited : false;
 				outline: none;
 				border: 0;
 				// padding: 0;
-				padding : s-look-and-feel(padding-horizontal) 0;
+				padding : s-lnf(padding-horizontal) 0;
 				width: 20px;
 				height: 30px;
 				text-indent: 20px; // hide text using text-indent trick, using width value (it's enough)
@@ -145,8 +145,8 @@ $_s-formset-datepicker-inited : false;
 
 				th {
 					color: s-color(text);
-					font-size: s-look-and-feel(font-size);
-					line-height: s-look-and-feel(font-size) * 2;
+					font-size: s-lnf(font-size);
+					line-height: s-lnf(font-size) * 2;
 					// line-height: 25px;
 					font-weight: bold;
 					text-align: center;
@@ -167,19 +167,19 @@ $_s-formset-datepicker-inited : false;
 				border: 0;
 				margin: 0;
 				width: 100%;
-				padding: s-look-and-feel(padding-horizontal) s-look-and-feel(padding-vertical);
-				font-size: s-look-and-feel(font-size);
-				line-height: s-look-and-feel(font-size);
+				padding: s-lnf(padding-horizontal) s-lnf(padding-vertical);
+				font-size: s-lnf(font-size);
+				line-height: s-lnf(font-size);
 				// line-height: 15px;
 				text-align: right;
-				
+
 				.is-today & {
 					font-weight: bold;
 				}
 
 				.is-selected & {
 					font-weight: bold;
-					border-radius: s-look-and-feel(border-radius);
+					border-radius: s-lnf(border-radius);
 				}
 
 				.is-disabled &,
@@ -191,13 +191,13 @@ $_s-formset-datepicker-inited : false;
 
 				&:hover {
 					box-shadow: none;
-					border-radius: s-look-and-feel(border-radius);
+					border-radius: s-lnf(border-radius);
 				}
 			}
 
 			.pika-week {
-				font-size: s-look-and-feel(font-size);
-				line-height: s-look-and-feel(font-size);
+				font-size: s-lnf(font-size);
+				line-height: s-lnf(font-size);
 			}
 
 			.is-inrange .pika-button {
@@ -208,14 +208,14 @@ $_s-formset-datepicker-inited : false;
 				color: #fff;
 				background: #6CB31D;
 				box-shadow: none;
-				border-radius: s-look-and-feel(border-radius);
+				border-radius: s-lnf(border-radius);
 			}
 
 			.is-endrange .pika-button {
 				color: #fff;
 				background: #33aaff;
 				box-shadow: none;
-				border-radius: s-look-and-feel(border-radius);
+				border-radius: s-lnf(border-radius);
 			}
 		}
 	}
@@ -228,7 +228,7 @@ $_s-formset-datepicker-inited : false;
 	// clear child float (pika-lendar), using the famous micro clearfix hack
 	// http://nicolasgallagher.com/micro-clearfix-hack/
 	.pika-single {
-		@extend %pika-single;	
+		@extend %pika-single;
 	}
 
 	@each $color in $colors {
@@ -243,7 +243,7 @@ $_s-formset-datepicker-inited : false;
 				td {
 					text-align: center;
 					padding-top:s-lnf(padding-vertical);
-					
+
 					&:first-child {
 						width:63%;
 					}
@@ -252,19 +252,19 @@ $_s-formset-datepicker-inited : false;
 					}
 				}
 				select {
-					@include s-formset-select($color, medium);
+					@include s-formset-select($color);
 					width:100%;
 				}
 			}
 
 			.pika-prev,
 			.is-rtl .pika-next {
-				
+
 			}
 
 			.pika-next,
 			.is-rtl .pika-prev {
-				
+
 			}
 
 			.is-today .pika-button {
@@ -301,7 +301,7 @@ $_s-formset-datepicker-inited : false;
 
 			.pika-button {
 				color: s-color(text);
-				background: s-color(default, -opacity .05);		
+				background: s-color(default, -opacity .05);
 
 				&:hover {
 					color: s-color($color, -darken 20%);

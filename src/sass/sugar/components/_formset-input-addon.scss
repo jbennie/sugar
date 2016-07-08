@@ -2,7 +2,7 @@
 	$sizes : sugar('settings.components.formset.generate.sizes')
 ) {
 	@include s-formset-init();
-	
+
 	// parse properties
 	@if $_sugar-test-arguments {
 		$sizes : s-test-argument('s-formset','sizes',map-keys(sugar('settings.sizes')),$sizes);
@@ -15,28 +15,12 @@
 		.input-addon {
 			@extend %s-formset-input-bare;
 			pointer-events: none;
-		}
+			// set input styling
+			@include s-formset-input-size();
 
-		@each $size in $sizes {
-
-			#{s-selector((
-				BEM : (
-					'.input-addon--#{$size}',
-					'.size--#{$size} .input-addon',
-				),
-				SMACCS : (
-					'.input-addon-#{$size}',
-					'.size-#{$size} .input-addon'
-				)
-			))} {
-				// set input styling
-				@include s-formset-input-size($size);
-
-				@include s-vertical-rhythme {
-					margin-bottom: 1rem;
-				}
+			@include s-vertical-rhythme {
+				margin-bottom: 1rem;
 			}
-
 		}
 	}
 }

@@ -257,12 +257,9 @@ return /******/ (function(modules) { // webpackBootstrap
 					if (!neededStylesheetsStack) {
 						// check in dom if has some needed stylesheets
 						neededStylesheetsStack = document.querySelectorAll('link[s-domready-dependency]');
-						// console.error('Dependencies', neededStylesheetsStack);
 					}
-					console.log(neededStylesheetsStack);
 
 					if (!neededStylesheetsStack.length) {
-						console.log('GO');
 						if (cb) cb();
 						resolve();
 					} else {
@@ -291,23 +288,21 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// check if the dom is already ready
 			if (domIsReady) {
-				cb !== null && cb();
+				if (cb) cb();
 				resolve();
 				return;
 			}
 
 			// add the callback to the stack
 			domReadyCallbacks.push(function () {
-				cb !== null && cb();
+				if (cb) cb();
 				resolve();
-				// console.log('Callback');
 			});
 
 			// check if already a domReady detecting process
 			if (!domReadyProcess) {
 				domReadyProcess = true;
 				_domReady(function () {
-					console.log('DOM is finaly ready');
 					// update the domIsReady
 					domIsReady = true;
 					// apply all the callbacks
@@ -3001,12 +2996,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 		if (!elm.getAttribute) return;
 		if (!value) {
-			// try to get
-			var v = elm.dataset[key];
-			// let v = _get(elm, 'dataset.'+key);
-			if (v) return v;
-			v = elm.getAttribute('data-' + (0, _uncamelize2.default)(key));
-			return v;
+			return elm.dataset[key] || getAttribute('data-' + (0, _uncamelize2.default)(key));
 		} else {
 			// try to set the value
 			var _dataset = elm.dataset;
@@ -3022,6 +3012,8 @@ return /******/ (function(modules) { // webpackBootstrap
 				// cause no support for dataset
 				elm.setAttribute('data-' + (0, _uncamelize2.default)(key), value);
 			}
+			// return the element
+			return elm;
 		}
 	} /**
 	   * Access dataset
@@ -5698,6 +5690,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			var dropdown = document.createElement('div');
 			dropdown.setAttribute('class', 's-select__dropdown');
+			dropdown.style.fontSize = '1rem';
 
 			// search
 			var search_container = document.createElement('div');
@@ -22241,8 +22234,6 @@ return /******/ (function(modules) { // webpackBootstrap
 			if (this._inited) return;
 			this._inited = true;
 
-			console.warn('INIT');
-
 			// create the container for the slider
 			this.container = document.createElement('div');
 			this.container.className = this.elm.className;
@@ -22269,15 +22260,15 @@ return /******/ (function(modules) { // webpackBootstrap
 				}
 			});
 
-			// setTimeout(() => {
-			// 	console.log('UP');
-			// 	this.attr.type = 'password';
-			// },2000);
+			// remove the noUi-background class on the main element
+			this.container.classList.remove('noUi-background');
 
 			// query references
 			this.handleStartElm = this.container.querySelector('.noUi-origin:first-of-type .noUi-handle');
 			this.handleEndElm = this.container.querySelector('.noUi-origin:last-of-type .noUi-handle');
 			if (this.handleStartElm === this.handleEndElm) this.handleEndElm = null;
+			this.connectElm = this.container.querySelector('.noUi-connect');
+			this.baseElm = this.container.querySelector('.noUi-base');
 
 			// create handleValueElm
 			if (this.handleStartElm) {
@@ -22290,6 +22281,15 @@ return /******/ (function(modules) { // webpackBootstrap
 				this.handleEndValueElm.classList.add('noUi-handle__value');
 				this.handleEndElm.appendChild(this.handleEndValueElm);
 			}
+
+			// create new noUi-background.noUi-origin for the lower background
+			this.backgroundLowerElm = document.createElement('div');
+			this.backgroundLowerElm.classList.add('noUi-origin');
+			this.backgroundLowerElm.classList.add('noUi-background');
+			this.backgroundLowerElm.style.right = '100%';
+
+			// append the element to the base
+			this.baseElm.appendChild(this.backgroundLowerElm);
 
 			// hide the base input
 			this.elm.style.display = 'none';
@@ -22310,23 +22310,19 @@ return /******/ (function(modules) { // webpackBootstrap
 			});
 			this.slider.on('change', function (e) {
 				// set new value in attributes
-				// console.log('new vl', this.slider.get());
-				_this2.attr.value = _this2.slider.get().join(',');
+				var value = _this2.slider.get();
+				if (typeof value === 'number' || typeof value === 'string') {
+					_this2.attr.value = value;
+				} else {
+					_this2.attr.value = _this2.slider.get().join(',');
+				}
 			});
 
 			this.watcher.watch(this, 'settings.value', function (newVal, oldVal) {
-				// console.log('update setting value', newVal, oldVal);
-
 				// set the new values to the slider
 				_this2.slider.set(newVal.split(','));
-
 				console.warn('VALUE!!!', _this2.elm.getAttribute('value'));
 			});
-
-			// this.elm.addEventListener('change', (e) => {
-			// 	console.log('new value', e);
-			// 	this.settings.value = e.target.value;
-			// });
 		};
 
 		/**
@@ -22335,7 +22331,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		SRangeInputElement.prototype._boundValuesInHtml = function _boundValuesInHtml() {
+
 			var values = this.slider.get();
+
+			// if we have 2 values
+			// we set the width of the .noUi-target.noUi-background:before
+			// to the left percentage of the lower handle
+			if (values.length == 2) {
+				this.backgroundLowerElm.style.right = 100 - parseInt(this.connectElm.style.left) + '%';
+				console.log(this.connectElm.style.left);
+			}
+
 			if (this.tooltipStartElm && values[0] !== undefined) {
 				if (this.settings.formater) {
 					this.tooltipStartElm.innerHTML = this.settings.formater(values[0], 'tooltip');

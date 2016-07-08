@@ -20,7 +20,7 @@ $_sugar-settings : (								// store all the settings
 		font-size 					: 16px, 			// default font-size
 		font-sizes 					: null, 			// map of font-sizes by media (size : media)
 		line-letters-count			: 55,				// optimal letters count in a line
-								
+
 		font-format 				: ( 				// font format used in font-face
 			eot 						: embedded-opentype,
 			woff2 						: woff2,
@@ -33,21 +33,21 @@ $_sugar-settings : (								// store all the settings
 								),
 	look-and-feel 				: ( 				// store some settings for the look and feel
 		border-radius 				: (
-			default 					: 3px
+			default 					: 0.2em
 		),
 		padding-vertical 			: (
-			default 					: 1rem
+			default 					: 1em
 		),
 		padding-horizontal 			: (
-			default 					: 0.8rem
+			default 					: 0.8em
 		),
 		font-size 					: (
-			default 					: 1rem
+			default 					: 1em
 		)
 	),
 	spaces 						: (					// store all the spaces available
 		default 					: 2rem
-								), 
+								),
 	colors 						: (					// store all the colors
 		default 					: (
 			color 						: #333
@@ -76,7 +76,7 @@ $_sugar-settings : (								// store all the settings
 		info 						: (
 			color 						: #2199e8
 									)
-								), 							
+								),
 	vertical-rhythme 			: ( 				// Vertical rhythme options
 		enabled 					: true,					// set if need the vertical rhythme options or not
 		scope-class 				: vertical-rhythme, 	// the class in which the vertical rhythme will be applied
@@ -107,11 +107,11 @@ $_sugar-settings : (								// store all the settings
 			font-weight 				: normal,
 			cap-height 					: 0.65
 									)
-								), 				
+								),
 	filters 					: ( 				// store all the registered filters
 		shadow 						: box-shadow(#text 0 0 32px)
-								), 				
+								),
 	transitions 				: ( 				// store all the transition settings
 		default  					: all .2s ease-in-out 0s // default transition
 								)
-);	
+);

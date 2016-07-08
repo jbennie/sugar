@@ -1,12 +1,6 @@
 @mixin s-formset-label-bare(
-	$sizes : sugar('settings.components.formset.generate.sizes')
 ) {
 	@include s-formset-init();
-	
-	// parse properties
-	@if $_sugar-test-arguments {
-		$sizes : s-test-argument('s-formset','sizes',map-keys(sugar('settings.sizes')),$sizes);
-	}
 
 	// pass in the component context
 	@include s-component-context('formset') {
@@ -29,16 +23,16 @@
 			label {
 				margin-bottom: 0 !important;
 			}
-			
+
 			@include s-vertical-rhythme {
 				#{s-selector((
 					BEM : (
-						'.input:not([type="checkbox"]):not([type="radio"])',
+						'input.input:not([type="checkbox"]):not([type="radio"])',
 						'.input-addon',
 						'.form-group'
 					),
 					SMACCS : (
-						'.input:not([type="checkbox"]):not([type="radio"])',
+						'input.input:not([type="checkbox"]):not([type="radio"])',
 						'.input-addon',
 						'.form-group'
 					)
@@ -49,61 +43,42 @@
 			}
 		}
 
-		@each $size in $sizes {
+		// span label styling
+		#{s-selector((
+			BEM : (
+				'.label--inline',
+				'.label--inside'
+			),
+			SMACCS : (
+				'.label-inline',
+				'.label-inside'
+			)
+		))} {
+			> span {
+				padding : 0 s-lnf(padding-vertical);
+				line-height: s-lnf(font-size) + s-lnf(padding-horizontal) * 2;
+				height: s-lnf(font-size) + s-lnf(padding-horizontal) * 2;
+			}
+		}
 
-			// span label styling
-			#{s-selector((
-				BEM : (
-					'.label--inline.label--#{$size}',
-					'.label--inside.label--#{$size}',
-					'.size--#{$size} .label--inline.label',
-					'.size--#{$size} .label--inside.label'
-				),
-				SMACCS : (
-					'.label-inline.label-#{$size}',
-					'.label-inside.label-#{$size}',
-					'.size-#{$size} .label-inline.label',
-					'.size-#{$size} .label-inside.label'
-				)
-			))} {
-				> span {
-					padding : 0 s-lnf(padding-vertical, $size);
-					line-height: s-lnf(font-size, $size) + s-lnf(padding-horizontal, $size) * 2;
-					height: s-lnf(font-size, $size) + s-lnf(padding-horizontal, $size) * 2;		
+		.label {
+			font-size: s-lnf(font-size);
+			display: inline-block;
+			vertical-align: middle;
+			position: relative;
+
+			&:not(.s-radiobox) {
+				@include s-vertical-rhythme {
+					margin-bottom: 2em;
+				}
+				&:first-child:last-child {
+					width: 100%;
 				}
 			}
 
-			// label styling
-			#{s-selector((
-				BEM : (
-					'.label--#{$size}',
-					'.size--#{$size} .label'
-				),
-				SMACCS : (
-					'.label-#{$size}',
-					'.size-#{$size} .label'
-				)
-			))} {
-				font-size: s-lnf(font-size, $size);
-				display: inline-block;
-				vertical-align: middle;
-				position: relative;
-				
-				&:not(.s-radiobox) {
-					$mb : s-lnf(font-size, $size);
-					@if s-strip-units($mb) <= 2 { $mb : 2; }
-					@include s-vertical-rhythme {
-						margin-bottom: s-rem($mb);
-					}
-					&:first-child:last-child {
-						width: 100%;
-					}
-				}
-
-				& + label,
-				& + .label {
-					margin-left: s-lnf(padding-vertical, $size);
-				}
+			& + label,
+			& + .label {
+				margin-left: s-lnf(padding-vertical);
 			}
 		}
 
@@ -113,7 +88,7 @@
 			SMACCS : '.label-inline'
 		))} {
 			display: flex !important;
-			
+
 			> * {
 				flex:0;
 				margin-top:0 !important;
@@ -125,7 +100,7 @@
 				flex : 0;
 				white-space: nowrap;
 				display:inline-block;
-				
+
 				&:first-child {
 					padding-left: 0 !important;
 				}
@@ -149,7 +124,7 @@
 			> .input {
 				flex:1;
 			}
-			
+
 			> span {
 				white-space: nowrap;
 				display:inline-block;
@@ -175,7 +150,7 @@
 
 		// generate each colors
 		@each $color in $colors {
-			
+
 			// label styling
 			#{s-selector((
 				BEM : (
@@ -195,7 +170,7 @@
 				&:focus ~ span {
 					background-color: s-color($color, -opacity .2);
 					color : s-color($color, -darken 20%);
-				}			
+				}
 			}
 		}
 
@@ -205,7 +180,7 @@
 			SMACCS : '.label-inside'
 		))} {
 			> .input {
-			
+
 				&:focus ~ span {
 					left: 5px;
 				}

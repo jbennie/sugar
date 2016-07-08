@@ -41,48 +41,35 @@ $sizes : (small,default,medium,big,bigger);
 @include s-formset-group();
 
 // form
-@include s-formset-input-bare(
-	$sizes : $sizes
-);
+@include s-formset-input-bare();
 @include s-formset-input-style();
 
 // addons
-@include s-formset-input-addon-bare(
-	$sizes : $sizes
-);
+@include s-formset-input-addon-bare();
 @include s-formset-input-addon-style();
 
 // label
-@include s-formset-label-bare(
-	$sizes : $sizes
-);
+@include s-formset-label-bare();
 @include s-formset-label-style();
 
 // input-reply
-@include s-formset-input-reply-bare(
-	$sizes : $sizes
-);
+@include s-formset-input-reply-bare();
 @include s-formset-input-reply-style();
 
 
 @include s-formset-radiobox(
-	$sizes : $sizes
+	$colors : $colors,
+	$animations : true
 );
-@include s-formset-fieldset(
-	$sizes : $sizes
-);
+@include s-formset-fieldset();
 @include s-formset-datepicker();
 
-@include s-formset-range-bare(
-	$sizes : $sizes
-);
+@include s-formset-range-bare();
 @include s-formset-range-style(
 	$colors : $colors
 );
 
-@include s-formset-advanced-select(
-	$sizes : $sizes
-);
+@include s-formset-advanced-select();
 
 //
 // Button

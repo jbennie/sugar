@@ -24,18 +24,6 @@ $_s-formset-range-inited : false;
 			height: 100%;
 			position: relative;
 			z-index: 1; /* Fix 401 */
-
-
-		}
-		.noUi-background {
-			&:before {
-				content:'';
-				display:block;
-				position:absolute;
-				top:50%; left:0;
-				width:100%; height:0.1em;
-				border-radius:0.05em;
-			}
 		}
 		.noUi-origin {
 			position: absolute;
@@ -47,7 +35,6 @@ $_s-formset-range-inited : false;
 		.noUi-handle {
 			position: relative;
 			z-index: 1;
-			transform-origin:50% 50%;
 		}
 		.noUi-stacking .noUi-handle {
 		/* This class is applied to the lower origin when
@@ -74,12 +61,6 @@ $_s-formset-range-inited : false;
 		.noUi-vertical .noUi-draggable {
 			cursor: n-resize;
 		}
-
-		.noUi-handle__value {
-			position:absolute;
-			top:50%; left:50%;
-			@include s-translate(-50%, -50%);
-		}
 	}
 }
 
@@ -104,47 +85,65 @@ $_s-formset-range-inited : false;
 			.tooltip {
 				display: inline-block;
 				pointer-events:none;
-				font-size:1rem !important;
 			}
 		}
 
-		.noUi-target {
-			$h : 1em;
-			border-radius: s-lnf(border-radius);
-			// margin-bottom: $h / 2;
-			// margin-top: $h * .3;
-			margin-left: $h;
-			margin-right: $h;
+		// manage sizes
+		@each $size in $sizes {
+			$paddingHorizontal : s-lnf(padding-horizontal, $size);
+			$h : $paddingHorizontal * 2 + s-lnf(font-size, $size);
+			$h : $h / 4 * 3;
 
-			&.noUi-horizontal {
-				height : $h;
-			}
-			&.noUi-vertical {
-				width : $h;
-			}
-			.noUi-handle {
-				width : $h * 2;
-				height : $h * 2;
-				border-radius: 50%;
-				@include s-translate(-50%, -25%);
+			#{s-selector((
+				BEM : (
+					'.noUi-target.input--#{$size}',
+					'.size--#{$size} .noUi-target.input'
+				),
+				SMACCS : (
+					'.noUi-target.input-#{$size}',
+					'.size-#{$size} .noUi-target.input'
+				)
+			))} {
+				border-radius: s-lnf(border-radius, $size);
+				margin-bottom: $h / 2;
+				margin-top: $h * .3;
+				margin-left: $h * .5;
+				margin-right: $h * .5;
 
-				.noUi-handle__value {
-					font-size:s-lnf(font-size) / 2;
+				&.noUi-horizontal {
+					height : $h * .5;
 				}
-
-				.tooltip {
-					font-size:s-lnf(font-size);
-					padding:s-lnf(padding-horizontal) s-lnf(padding-vertical);
-					border-radius: s-lnf(border-radius);
+				&.noUi-vertical {
+					width : $h * .5;
 				}
-			}
-			.noUi-active {
-				width: $h;
-				height: $h;
-				@include s-translate(-50%, 0);
+				.noUi-handle {
+					width : $h;
+					height : $h;
+					border-radius: $h * .5;
+					top: -$h / 4;
+					left: -$h / 2;
 
-				.noUi-handle__value {
-					font-size:0;
+					.noUi-handle__value {
+						line-height:$h;
+						font-size:s-lnf(font-size, $size) * .5;
+					}
+
+					.tooltip {
+						font-size:s-lnf(font-size, $size);
+						padding:s-lnf(padding-horizontal, $size) s-lnf(padding-vertical, $size);
+						border-radius: s-lnf(border-radius, $size);
+					}
+				}
+				.noUi-active {
+					width: $h * .5;
+					height: $h * .5;
+					border-radius: $h / 4;
+					top : -1px;
+					left : -$h / 4;
+
+					.noUi-handle__value {
+						font-size:0;
+					}
 				}
 			}
 		}
@@ -169,6 +168,9 @@ $_s-formset-range-inited : false;
 			background: #fff;
 		}
 		.noUi-target {
+			border-width: 1px;
+			border-style: solid;
+			border-bottom-width: 3px;
 			cursor:pointer;
 		}
 		.noUi-target.noUi-connect {
@@ -246,19 +248,13 @@ $_s-formset-range-inited : false;
 				border-bottom-color: s-color($color, -opacity .3);
 
 				.noUi-connect {
-					background-color: s-color($color, -opacity .1);
+					background-color: s-color($color, -opacity .3);
 				}
 				&.noUi-connect {
 					.noUi-base {
-						background-color: s-color($color, -opacity .1);
+						background-color: s-color($color, -opacity .3);
 					}
 				}
-
-				&.noUi-background:before,
-				.noUi-background:before {
-					background-color: s-color($color, -opacity .3);
-				}
-
 				.noUi-handle {
 					background-color: s-color($color);
 
@@ -299,3 +295,61 @@ $_s-formset-range-inited : false;
 		}
 	}
 }
+
+
+
+
+
+/* Slider size and handle placement;
+ */
+
+// .noUi-horizontal .noUi-handle {
+// 	width: 34px;
+// 	height: 28px;
+// 	left: -17px;
+// 	top: -6px;
+// }
+// .noUi-vertical .noUi-handle {
+// 	width: 28px;
+// 	height: 34px;
+// 	left: -6px;
+// 	top: -17px;
+// }
+
+/* Styling;
+ */
+
+
+// .noUi-origin {
+// 	border-radius: 2px;
+// }
+
+
+
+
+
+
+// .noUi-handle:after {
+// 	left: 17px;
+// }
+// .noUi-vertical .noUi-handle:before,
+// .noUi-vertical .noUi-handle:after {
+// 	width: 14px;
+// 	height: 1px;
+// 	left: 6px;
+// 	top: 14px;
+// }
+// .noUi-vertical .noUi-handle:after {
+// 	top: 17px;
+// }
+
+/* Disabled state;
+ */
+// [disabled].noUi-connect,
+// [disabled] .noUi-connect {
+// 	background: #B8B8B8;
+// }
+// [disabled].noUi-origin,
+// [disabled] .noUi-handle {
+// 	cursor: not-allowed;
+// }

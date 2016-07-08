@@ -1,12 +1,13 @@
 @mixin s-formset-input(
-	$color,
-	$size
+	$color : null
 ) {
 	@include s-formset-init();
 	@extend %s-formset-input-bare;
 	@extend %s-formset-input-style;
-	@include s-formset-input-size($size);
-	@include s-formset-input-color($color);
+	@include s-formset-input-size();
+	@if ($color) {
+		@include s-formset-input-color($color);
+	}
 }
 
 // what to exclude from styling
@@ -25,53 +26,32 @@ $not : ':not([type="checkbox"]):not([type="radio"]):not(.noUi-target)';
 	// pass in the component context
 	@include s-component-context('formset') {
 
-		.input#{$not} {
+		input.input#{$not} {
 			@extend %s-formset-input-bare;
 		}
 		textarea.input {
 			height: auto !important;
 		}
 
-		// generate each sizes
-		@each $size in $sizes {
-			// input styling
-			#{s-selector((
-				BEM : (
-					'.input--#{$size}#{$not}',
-					'.size--#{$size} .input#{$not}'
-				),
-				SMACCS : (
-					'.input-#{$size}#{$not}',
-					'.size-#{$size} .input#{$not}'
-				)
-			))} {
-				// set input styling
-				@include s-formset-input-size($size);
+		// input styling
+		input.input#{$not} {
+			// set input styling
+			@include s-formset-input-size();
 
-				// vertical rhythme
-				&, & ~ span {
-					@include s-vertical-rhythme {
-						margin-bottom: 1rem;
-					}
+			// vertical rhythme
+			&, & ~ span {
+				@include s-vertical-rhythme {
+					margin-bottom: 1rem;
 				}
 			}
-			// textarea styling
-			#{s-selector((
-				BEM : (
-					'textarea.input--#{$size}',
-					'.size--#{$size} textarea.input'
-				),
-				SMACCS : (
-					'textarea.input-#{$size}',
-					'.size-#{$size} textarea.input'
-				)
-			))} {
-				@include s-formset-textarea-size($size);
+		}
+		// textarea styling
+		textarea.input {
+			@include s-formset-textarea-size();
 
-				// vertical rhythme
-				@include s-vertical-rhythme {
-					margin-bottom:1rem;
-				}
+			// vertical rhythme
+			@include s-vertical-rhythme {
+				margin-bottom:1rem;
 			}
 		}
 	}
@@ -87,7 +67,7 @@ $not : ':not([type="checkbox"]):not([type="radio"]):not(.noUi-target)';
 	// pass in the component context
 	@include s-component-context('formset') {
 
-		.input#{$not} {
+		input.input#{$not} {
 			@extend %s-formset-input-style;
 		}
 		select.input {
@@ -133,11 +113,11 @@ $not : ':not([type="checkbox"]):not([type="radio"]):not(.noUi-target)';
 		}
 	}
 }
-@mixin s-formset-input-size($size) {
-	font-size : s-lnf(font-size, $size);
+@mixin s-formset-input-size() {
+	font-size : s-lnf(font-size);
 	// border-radius: s-lnf(border-radius, $size);
-	padding : s-lnf(padding-horizontal, $size) s-lnf(padding-vertical, $size);
-	height: s-lnf(font-size, $size) + s-lnf(padding-horizontal, $size) * 2;
+	padding : s-lnf(padding-horizontal) s-lnf(padding-vertical);
+	height: s-lnf(font-size) + s-lnf(padding-horizontal) * 2;
 }
 @mixin s-formset-input-color($color) {
 	border-color: s-color($color, -opacity .1);
