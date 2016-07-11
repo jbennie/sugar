@@ -41,7 +41,7 @@ export default function whenVisible(elm, cb = null) {
 			selfObserver.observe(elm, { attributes: true });
 		} else {
 			isSelfVisible = true;
-		} 
+		}
 
 		// get the closest not visible element
 		// if found, we monitor it to check when it is visible

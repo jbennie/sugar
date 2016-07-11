@@ -2,8 +2,10 @@
  * Camelize a string
  */
 export default function camelize(text) {
-	text = text.replace(/(?:^|[-_])(\w)/g, function (_, c) {
+	let res = '';
+	res = text.replace(/(?:^|[-_])(\w)/g, function (_, c) {
 		return c ? c.toUpperCase () : '';
 	});
-	return text.substr(0,1).toLowerCase() + text.slice(1);
+	res = res.substr(0,1).toLowerCase() + res.slice(1);
+	return res.trim();
 }

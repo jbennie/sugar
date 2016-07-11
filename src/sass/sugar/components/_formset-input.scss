@@ -1,4 +1,4 @@
-@mixin s-formset-input(
+@mixin s-formset-input-field(
 	$color : null
 ) {
 	@include s-formset-init();

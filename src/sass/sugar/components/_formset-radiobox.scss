@@ -134,6 +134,7 @@ $_s-formset-radiobox-inited : false;
 					& + .s-radiobox:hover {
 						&:after {
 							background-color: s-color($color, -opacity .15);
+							@include s-depth(3, s-color($color, -opacity .3));
 						}
 						&:after,
 						&:before {
@@ -145,6 +146,7 @@ $_s-formset-radiobox-inited : false;
 						& + .s-radiobox {
 							&:after {
 								background-color: s-color($color);
+								@include s-depth(3, s-color($color, -opacity .3));
 							}
 						}
 					}

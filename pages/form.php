@@ -49,7 +49,7 @@
 			<div class="gr-12">
 
 				<ul class="nav nav--tabs no-typeset no-vertical-rhythme m-b-bigger">
-					<li s-activate="#input-text">Input text</li>
+					<li s-activate="#input-text" s-ripple>Input text</li>
 					<li s-activate="#input-password">Input password</li>
 					<li s-activate="#datepicker">Datepicker</li>
 					<li s-activate="#range">Range</li>
@@ -334,17 +334,6 @@
 						<?php $i++ ?>
 						<?php endforeach; ?>
 						<?php endforeach; ?>
-					</div>
-
-					<div class="row">
-						<div class="gr-12">
-							<label class="label">Textarea Label
-								<textarea placeholder="small-12" rows="5" class="input input--error"></textarea>
-								<div class="input-reply input-reply--error">
-									This is a success on the field...
-								</div>
-							</label>
-						</div>
 					</div>
 
 				</form>

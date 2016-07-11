@@ -27,12 +27,12 @@
 			@include s-vertical-rhythme {
 				#{s-selector((
 					BEM : (
-						'input.input:not([type="checkbox"]):not([type="radio"])',
+						'.input:not([type="checkbox"]):not([type="radio"])',
 						'.input-addon',
 						'.form-group'
 					),
 					SMACCS : (
-						'input.input:not([type="checkbox"]):not([type="radio"])',
+						'.input:not([type="checkbox"]):not([type="radio"])',
 						'.input-addon',
 						'.form-group'
 					)

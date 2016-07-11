@@ -22,7 +22,7 @@ export default function whenViewportVisible(elm, cb = null) {
 		let checkViewport = (e) => {
 			inViewport = __inViewport(elm, { top:50, right:50, bottom:50, left:50 });
 			_cb();
-		}
+		};
 
 		// detect when visible
 		whenVisible(elm).then((elm) => {

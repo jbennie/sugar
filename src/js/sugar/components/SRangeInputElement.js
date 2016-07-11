@@ -158,7 +158,6 @@ class SRangeInputElement extends SComponent {
 		// to the left percentage of the lower handle
 		if (values.length == 2) {
 			this.backgroundLowerElm.style.right = 100 - parseInt(this.connectElm.style.left) + '%';
-			console.log(this.connectElm.style.left);
 		}
 
 
@@ -221,14 +220,17 @@ class SRangeInputElement extends SComponent {
 // init the select
 __querySelectorLive('input[s-range-input]', (elm) => {
 	new SRangeInputElement(elm, {
-		formater : (value, destination) => {
-			if (destination === 'tooltip') {
-				return Math.round(value) + '%';
-			}
-			return Math.round(value);
-		}
+		formater : SRangeInputElement.percentFormater
 	});
 });
+
+// default formaters
+SRangeInputElement.percentFormater = function(value, destination) {
+	if (destination === 'tooltip') {
+		return Math.round(value) + '%';
+	}
+	return Math.round(value);
+};
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }

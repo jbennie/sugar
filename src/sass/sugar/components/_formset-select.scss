@@ -1,4 +1,4 @@
-@mixin s-formset-select(
+@mixin s-formset-select-field(
 	$color : default
 ) {
 	@include s-formset-init();

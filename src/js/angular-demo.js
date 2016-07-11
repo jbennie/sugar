@@ -13,7 +13,8 @@ import SDatepickerElement from './sugar/components/SDatepickerElement';
 import sLocalStorageFonts from './sugar/fonts/sLocalStorageFonts';
 import SRangeInputElement from './sugar/components/SRangeInputElement';
 import SRadioboxElement from './sugar/components/SRadioboxElement';
-
+import sForm from 'sugarcss/components/sForm';
+import SRipple from 'sugarcss/components/SRipple';
 
 // import sDrawerManager from './sugar/components/s-drawer-manager';
 //

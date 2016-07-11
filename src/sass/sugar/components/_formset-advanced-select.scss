@@ -90,7 +90,11 @@ $_s-formset-advanced-select-inited : false;
 	@include s-formset-advanced-select-bare();
 
 	.s-select {
-		@include s-formset-select(default);
+		@include s-formset-select-field(default);
+
+		@include s-vertical-rhythme {
+			margin-bottom:1rem;
+		}
 	}
 
 	.s-select__search-field {

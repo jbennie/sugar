@@ -91,10 +91,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _SRadioboxElement2 = _interopRequireDefault(_SRadioboxElement);
 
+	var _sForm = __webpack_require__(208);
+
+	var _sForm2 = _interopRequireDefault(_sForm);
+
+	var _SRipple = __webpack_require__(210);
+
+	var _SRipple2 = _interopRequireDefault(_SRipple);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	// import sugar from './sugar/sugar';
-	var angular = __webpack_require__(208);
+	var angular = __webpack_require__(215);
 	// import angular from 'angular';
 	// import { SSelectElement, SActivateElement } from './sugar/index';
 	//
@@ -1706,7 +1714,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 12 */
 /***/ function(module, exports) {
 
-	"use strict";
+	'use strict';
 
 	exports.__esModule = true;
 	exports.default = uncamelize;
@@ -1717,12 +1725,13 @@ return /******/ (function(modules) { // webpackBootstrap
 		var separator = arguments.length <= 1 || arguments[1] === undefined ? '-' : arguments[1];
 
 		// Replace all capital letters by separator followed by lowercase one
-		var text = text.replace(/[A-Z]/g, function (letter) {
+		var res = '';
+		res = text.replace(/[A-Z]/g, function (letter) {
 			return separator + letter.toLowerCase();
 		});
 
 		// Remove first separator (to avoid _hello_world name)
-		return text.replace("/^" + separator + "/", '');
+		return res.replace("/^" + separator + "/", '').trim();
 	}
 
 /***/ },
@@ -2062,10 +2071,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Camelize a string
 	 */
 	function camelize(text) {
-		text = text.replace(/(?:^|[-_])(\w)/g, function (_, c) {
+		var res = '';
+		res = text.replace(/(?:^|[-_])(\w)/g, function (_, c) {
 			return c ? c.toUpperCase() : '';
 		});
-		return text.substr(0, 1).toLowerCase() + text.slice(1);
+		res = res.substr(0, 1).toLowerCase() + res.slice(1);
+		return res.trim();
 	}
 
 /***/ },
@@ -22339,7 +22350,6 @@ return /******/ (function(modules) { // webpackBootstrap
 			// to the left percentage of the lower handle
 			if (values.length == 2) {
 				this.backgroundLowerElm.style.right = 100 - parseInt(this.connectElm.style.left) + '%';
-				console.log(this.connectElm.style.left);
 			}
 
 			if (this.tooltipStartElm && values[0] !== undefined) {
@@ -22393,14 +22403,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	(0, _querySelectorLive2.default)('input[s-range-input]', function (elm) {
 		new SRangeInputElement(elm, {
-			formater: function formater(value, destination) {
-				if (destination === 'tooltip') {
-					return Math.round(value) + '%';
-				}
-				return Math.round(value);
-			}
+			formater: SRangeInputElement.percentFormater
 		});
 	});
+
+	// default formaters
+	SRangeInputElement.percentFormater = function (value, destination) {
+		if (destination === 'tooltip') {
+			return Math.round(value) + '%';
+		}
+		return Math.round(value);
+	};
 
 	// expose in window.sugar
 	if (window.sugar == null) {
@@ -24482,12 +24495,493 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(209);
+	'use strict';
+
+	var _querySelectorVisibleLive = __webpack_require__(209);
+
+	var _querySelectorVisibleLive2 = _interopRequireDefault(_querySelectorVisibleLive);
+
+	var _isVisible = __webpack_require__(26);
+
+	var _isVisible2 = _interopRequireDefault(_isVisible);
+
+	var _closestNotVisible = __webpack_require__(27);
+
+	var _closestNotVisible2 = _interopRequireDefault(_closestNotVisible);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	(0, _querySelectorVisibleLive2.default)('.label--inside', function (elm) {
+
+		var span = elm.querySelector(':scope > span');
+		if (span) {
+			span.parentNode.removeChild(span);
+		}
+
+		// get all childs
+		var childs = elm.querySelectorAll(':scope > *');
+		// remove all childs to add them after
+		[].forEach.call(childs, function (child) {
+			child.parentNode.removeChild(child);
+		});
+
+		// build correct html structure
+		var innerText = elm.innerText || elm.textContent;
+		if (innerText.trim()) {
+			var text = elm.innerText || elm.textContent;
+
+			// empty the label
+			elm.innerHTML = '';
+
+			// add the children again
+			[].forEach.call(childs, function (child) {
+				elm.appendChild(child);
+			});
+
+			// create and add the span
+			if (!span) {
+				span = document.createElement('span');
+			}
+			span.innerHTML = text;
+		} else {
+			// add the children again
+			[].forEach.call(childs, function (child) {
+				elm.appendChild(child);
+			});
+		}
+
+		// add span at end
+		elm.appendChild(span);
+
+		// find the input inside to set the value on it
+		var input = elm.querySelector('input, textarea');
+		if (input) {
+			input.addEventListener('keyup', function (e) {
+				input.setAttribute('value', input.value);
+			});
+			input.addEventListener('change', function (e) {
+				input.setAttribute('value', input.value);
+			});
+			input.setAttribute('value', input.value);
+		}
+
+		var pl = window.getComputedStyle(input).getPropertyValue('padding-left');
+		// get the width of the span
+		var spanWidth = span.offsetWidth;
+		// set the values
+		input.style.paddingLeft = parseInt(pl) + spanWidth + 'px';
+	});
+
+/***/ },
+/* 209 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.default = querySelectorVisibleLive;
+
+	var _querySelectorLive = __webpack_require__(19);
+
+	var _querySelectorLive2 = _interopRequireDefault(_querySelectorLive);
+
+	var _whenVisible = __webpack_require__(25);
+
+	var _whenVisible2 = _interopRequireDefault(_whenVisible);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * Grab all the visible element
+	 * And apply the callback when a new item match the selector
+	 */
+	function querySelectorVisibleLive(selector, cb, settings) {
+		(0, _querySelectorLive2.default)(selector, function (elm) {
+			// check if is array
+			if (elm instanceof Array) {
+				elm.forEach(function (e) {
+					(0, _whenVisible2.default)(e).then(function (e) {
+						cb(e);
+					});
+				});
+			} else {
+				// check if is visible
+				(0, _whenVisible2.default)(elm).then(function (elm) {
+					cb(elm);
+				});
+			}
+		}, settings);
+	}
+
+/***/ },
+/* 210 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _SComponent2 = __webpack_require__(11);
+
+	var _SComponent3 = _interopRequireDefault(_SComponent2);
+
+	var _querySelectorLive = __webpack_require__(19);
+
+	var _querySelectorLive2 = _interopRequireDefault(_querySelectorLive);
+
+	var _getAnimationProperties = __webpack_require__(211);
+
+	var _getAnimationProperties2 = _interopRequireDefault(_getAnimationProperties);
+
+	var _next = __webpack_require__(92);
+
+	var _next2 = _interopRequireDefault(_next);
+
+	var _previous = __webpack_require__(93);
+
+	var _previous2 = _interopRequireDefault(_previous);
+
+	var _offset = __webpack_require__(94);
+
+	var _offset2 = _interopRequireDefault(_offset);
+
+	var _scrollTop = __webpack_require__(90);
+
+	var _scrollTop2 = _interopRequireDefault(_scrollTop);
+
+	var _uniqid = __webpack_require__(16);
+
+	var _uniqid2 = _interopRequireDefault(_uniqid);
+
+	var _SEvent = __webpack_require__(96);
+
+	var _SEvent2 = _interopRequireDefault(_SEvent);
+
+	var _debounce = __webpack_require__(214);
+
+	var _debounce2 = _interopRequireDefault(_debounce);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); } /*
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Sugar-activate.js
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author   Olivier Bossel <olivier.bossel@gmail.com>
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @created  20.01.16
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @updated  20.01.16
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @version  1.0.0
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+
+	// class
+
+	var SRipple = function (_SComponent) {
+		_inherits(SRipple, _SComponent);
+
+		/**
+	  * Setup
+	  */
+
+		SRipple.setup = function setup(type, settings) {
+			_SComponent3.default.setup('sRipple', type, settings);
+		};
+
+		/**
+	  * Constructor
+	  */
+
+
+		function SRipple(elm) {
+			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+			var name = arguments.length <= 2 || arguments[2] === undefined ? 'sRipple' : arguments[2];
+
+			_classCallCheck(this, SRipple);
+
+			// listen for click
+
+			var _this = _possibleConstructorReturn(this, _SComponent.call(this, name, elm, {
+				delay: 150, // delay in ms between each ripple
+				count: 1, // number of ripple to trigger on click
+				spread: 0 }, settings));
+
+			_this.elm.addEventListener('click', _this.handleClick.bind(_this));
+
+			// init
+			_this.initProxy(_this._init.bind(_this));
+			return _this;
+		}
+
+		/**
+	  * Build html
+	  */
+
+
+		SRipple.prototype.getHtml = function getHtml() {
+
+			// container
+			var container = document.createElement('div');
+			container.classList.add('s-ripple');
+			var rippleItem = null;
+
+			// create each ripples
+			// for(let i=0; i<this.settings.count; i++) {
+			// 	const ripple = document.createElement('div');
+			// 	ripple.classList.add('s-ripple__ripple');
+			// 	container.appendChild(ripple);
+			// 	if (i===0) this.rippleItem = ripple;
+			// }
+
+			// save into instance
+			return container;
+		};
+
+		/**
+	  * Add ripple element
+	  */
+
+
+		SRipple.prototype.addRippleItemTo = function addRippleItemTo(container) {
+			console.log('add');
+			var item = document.createElement('div');
+			item.classList.add('s-ripple__ripple');
+			container.appendChild(item);
+			return item;
+		};
+
+		/**
+	  * Handle click
+	  */
+
+
+		SRipple.prototype.handleClick = function handleClick(e) {
+			var _this2 = this;
+
+			var html = this.getHtml();
+
+			// add a new ripple
+			this.elm.appendChild(html);
+
+			console.log(e);
+
+			// set position if needed
+			var position = this.elm.style.position;
+			if (!position) {
+				console.log('set relative');
+				this.elm.style.position = 'relative';
+			}
+
+			for (var i = 0; i < this.settings.count; i++) {
+				if (i === 0) {
+					var item = this.addRippleItemTo(html);
+					item.style.top = e.offsetY + 'px';
+					item.style.left = e.offsetX + 'px';
+				} else {
+					setTimeout(function () {
+						var item = _this2.addRippleItemTo(html);
+						item.style.top = e.offsetY + 'px';
+						item.style.left = e.offsetX + 'px';
+					}, this.settings.delay * i);
+				}
+			}
+
+			var firstItem = html.firstChild;
+
+			// get animation
+			var animation = (0, _getAnimationProperties2.default)(firstItem);
+
+			// wait till the animation is finished
+			setTimeout(function () {
+				// remove the html
+				_this2.elm.removeChild(html);
+			}, animation.totalDuration + this.settings.count * this.settings.delay);
+		};
+
+		/**
+	  * On added to dom
+	  */
+
+
+		SRipple.prototype._init = function _init() {
+			if (this._inited) return;
+			this._inited = true;
+		};
+
+		return SRipple;
+	}(_SComponent3.default);
+
+	// init the select
+
+
+	(0, _querySelectorLive2.default)('[s-ripple]', function (elm) {
+		new SRipple(elm);
+	});
+
+	// expose in window.sugar
+	if (window.sugar == null) {
+		window.sugar = {};
+	}
+	window.sugar.SRipple = SRipple;
+
+	// export modules
+	exports.default = SRipple;
+
+/***/ },
+/* 211 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.default = getAnimationProperties;
+
+	var _getStyleProperty = __webpack_require__(212);
+
+	var _getStyleProperty2 = _interopRequireDefault(_getStyleProperty);
+
+	var _toMs = __webpack_require__(213);
+
+	var _toMs2 = _interopRequireDefault(_toMs);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function splitIfNeeded(what, separator) {
+		if (what.indexOf(separator) !== -1) {
+			return what.split(separator).map(function (item) {
+				return item.trim();
+			});
+		}
+		return what;
+	}
+
+	function getAnimationProperties(elm) {
+		// get the animation properties
+		var name = (0, _getStyleProperty2.default)(elm, 'animation-name');
+		var duration = (0, _getStyleProperty2.default)(elm, 'animation-duration') || '0s';
+		var timingFunction = (0, _getStyleProperty2.default)(elm, 'animation-timing-function') || 'linear';
+		var delay = (0, _getStyleProperty2.default)(elm, 'animation-delay') || '0s';
+		var iterationCount = (0, _getStyleProperty2.default)(elm, 'animation-iteration-count') || 1;
+		var direction = (0, _getStyleProperty2.default)(elm, 'animation-direction') || 'normal';
+
+		// return the animation object
+		var props = {
+			name: name.split(','),
+			duration: duration.split(',').map(function (value) {
+				return (0, _toMs2.default)(value);
+			}),
+			delay: delay.split(',').map(function (value) {
+				return (0, _toMs2.default)(value);
+			}),
+			timingFunction: timingFunction.split(','),
+			iterationCount: ('' + iterationCount).split(','),
+			direction: direction.split(',')
+		};
+		var totalDuration = 0;
+		var i = 0;
+		var delays = [0].concat(props.delay);
+		[0].concat(props.duration).forEach(function (val) {
+			if (val + delays[i] > totalDuration) {
+				totalDuration = val + delays[i];
+			}
+		});
+		props.totalDuration = totalDuration;
+		return props;
+	}
+
+/***/ },
+/* 212 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.default = getStyleProperty;
+
+	var _camelize = __webpack_require__(17);
+
+	var _camelize2 = _interopRequireDefault(_camelize);
+
+	var _autoCast = __webpack_require__(14);
+
+	var _autoCast2 = _interopRequireDefault(_autoCast);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function getStyleProperty(elm, name) {
+		var computed = window.getComputedStyle(elm);
+		var prefixes = ['', 'webkit-', 'moz-', 'ms-', 'o-', 'khtml-'];
+		for (var i = 0; i < prefixes.length; i++) {
+			var prefix = prefixes[i];
+			var value = computed[(0, _camelize2.default)('' + prefix + name)];
+			if (value) return (0, _autoCast2.default)(value);
+		}
+		return null;
+	}
+
+/***/ },
+/* 213 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.default = toMs;
+	function toMs(string) {
+		// parse the string to int to get the lenght of the suffix
+		// if (string.substr(0,1) === '.') string = '0${string}';
+		var value = parseFloat(string);
+		var valueLength = ('' + value).length;
+		var suffix = string.substr(valueLength);
+		// switch on suffix
+		switch (suffix) {
+			case 'ms':
+				// milisecond
+				return value;
+				break;
+			case 's': // seconds
+			default:
+				return value * 1000;
+				break;
+		}
+	}
+
+/***/ },
+/* 214 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	exports.__esModule = true;
+	exports.default = debounce;
+	function debounce(fn, delay) {
+		var timer = null;
+		return function () {
+			var context = this,
+			    args = arguments;
+			clearTimeout(timer);
+			timer = setTimeout(function () {
+				fn.apply(context, args);
+			}, delay);
+		};
+	}
+
+/***/ },
+/* 215 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(216);
 	module.exports = angular;
 
 
 /***/ },
-/* 209 */
+/* 216 */
 /***/ function(module, exports) {
 
 	/**

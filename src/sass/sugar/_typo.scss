@@ -22,7 +22,7 @@
 ) {
 
 	@if sugar('settings.vertical-rhythme.enabled') {
-		
+
 		// get if need the no-vertical-rhythme or not
 		$no-vertical-rhythme-class : sugar('settings.vertical-rhythme.no-vertical-rhythme-class');
 		$no-vertical-rhythme-selector : ':not(.#{$no-vertical-rhythme-class})';
@@ -232,7 +232,7 @@
 		$break : s-test-argument('s-font','break',(normal,break-all,keep-all,initial,inherit),$break);
 		$wrap : s-test-argument('s-font','wrap',(normal,break-word,initial,inherit),$wrap);
 	}
-	
+
 	// get the font object
 	$fonts : sugar('settings.fonts');
 	$f : map-get($fonts, sugar('settings.typo.font-family'));
@@ -240,7 +240,7 @@
 		$f : map-get($fonts, $f);
 	}
 	$cap-height : map-get-or($f, cap-height, 0);
-	
+
 	// if a font family is passed
 	@if $family {
 		@if map-get($fonts, $family) {
@@ -256,9 +256,9 @@
 			@if not $weight {
 				$weight : map-get($f, font-weight);
 			}
-		}			
+		}
 	}
-	
+
 	// init object to return
 	$return : (
 		cap-height : $cap-height
@@ -466,7 +466,7 @@
 		$border : s-test-argument('s-vertical-rhythme','border','number|list',$border);
 		$cap-height : s-test-argument('s-vertical-rhythme','cap-height',number,$cap-height);
 		$scope-class : s-test-argument('s-vertical-rhythme','scope-class',boolean,$scope-class);
-		$calculate-height : s-test-argument('s-vertical-rhythme','calculate-height',(true,false,min-height,max-height,height),$calculate-height);		
+		$calculate-height : s-test-argument('s-vertical-rhythme','calculate-height',(true,false,min-height,max-height,height),$calculate-height);
 	}
 
 	$root-font-size : sugar('settings.typo.font-size');
@@ -480,7 +480,7 @@
 		}
 		$cap-height : map-get-or($f, cap-height, 0);
 	}
-	
+
 	// if a font family is passed
 	@if $font-family {
 		@if map-get($fonts, $font-family) {
@@ -490,7 +490,7 @@
 			}
 			$cap-height : map-get-or($f, cap-height, $cap-height);
 			$font-family : map-get-or($f, font-family, $font-family);
-		}			
+		}
 	}
 
 	// check some values
@@ -569,7 +569,7 @@
 		$rootsize: $root-font-size;
 		$baseline-shift: ($font-size / 2 * (($line-height * $rootsize / $font-size) - $cap-height)) / $rootsize + 0.00001;
 		$baseline-push: $margin-bottom - (($font-size / 2 * (($line-height * $rootsize / $font-size) - $cap-height)) / $rootsize + 0.00001);
-	
+
 		$baseline-push : $baseline-push % 1;
 		$baseline-shift : $baseline-shift % 1;
 		$decimal : $baseline-push % 1;
@@ -679,7 +679,7 @@
 				margin-bottom : $margin-bottom + $margin-top
 			));
 		}
-		
+
 		@return $ret;
 		// }
 	} @else {
@@ -725,7 +725,7 @@
 	$rule-style : null,
 	$rule-color : null,
 	$rule-width : null
-	
+
 ) {
 	// get columns props
 	$columns : s-columns(
