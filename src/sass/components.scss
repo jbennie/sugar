@@ -22,7 +22,7 @@ $sizes : (small,default,medium,big,bigger);
 // Nav
 //
 @include s-nav-tabs(
-	$sizes : $sizes
+	$colors : $colors
 );
 
 //
@@ -36,7 +36,6 @@ $sizes : (small,default,medium,big,bigger);
 	background:rgba(0,0,0,.5);
 	// border:solid 3px rgba(0,0,0,.5);
 	mix-blend-mode: overlay;
-	@include s-filter(drop-shadow(rgba(0,0,0,.5) 0 0 10px));
 }
 
 //
@@ -77,7 +76,9 @@ $sizes : (small,default,medium,big,bigger);
 	$colors : $colors,
 	$animations : true
 );
-@include s-formset-fieldset();
+@include s-formset-fieldset(
+	$sizes : $sizes
+);
 @include s-formset-datepicker(
 	$colors : $colors
 );

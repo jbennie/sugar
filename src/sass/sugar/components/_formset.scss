@@ -3,12 +3,11 @@
 		scope-class : 'formset',
 		generate : (
 			colors : default primary secondary success warning error info,
-			sizes : default,
 			styles : inline inside
 		)
 	)
 ));
-	
+
 $_s-formset-inited : false;
 @mixin s-formset-init() {
 	@if not $_s-formset-inited {
@@ -46,7 +45,7 @@ $_s-formset-inited : false;
 				SMACCS : '&.is-disabled'
 			))} {
 				opacity : .65;
-				cursor: not-allowed;			
+				cursor: not-allowed;
 			}
 		}
 		%s-formset-select-style {
@@ -58,9 +57,3 @@ $_s-formset-inited : false;
 		}
 	}
 }
-
-
-
-
-
-

@@ -1,8 +1,7 @@
 @include s-component-setup((
 	nav : (
 		generate : (
-			colors : default primary secondary success warning error info,
-			sizes : default
+			colors : default primary secondary success warning error info
 		)
 	)
 ));
@@ -22,14 +21,9 @@ $_s-nav-inited : false;
 }
 
 @mixin s-nav-inline(
-	$sizes : sugar('settings.components.nav.generate.sizes')
 ) {
 	// init nav
 	@include s-nav-init();
-
-	@if $_sugar-test-arguments {
-		$sizes : s-test-argument('s-nav-tabs','sizes',map-keys(sugar('settings.sizes')),$sizes);
-	}
 
 	// pass in component context
 	@include s-component-context('nav') {
@@ -45,9 +39,10 @@ $_s-nav-inited : false;
 				SMACCS : '.nav-item'
 			))} {
 				display: inline-block;
+				padding-left : s-lnf(padding-horizontal);
+				padding-right : s-lnf(padding-horizontal);
 
-				&:ld
-				rast-of-type {
+				&:last-of-type {
 					padding-right: 0 !important;
 				}
 				&:first-of-type {
@@ -55,36 +50,66 @@ $_s-nav-inited : false;
 				}
 			}
 		}
-
-		// generate each sizes
-		@each $size in $sizes {
-			// extend dropdown
-			#{s-selector((
-				BEM : '.nav--inline.nav--#{$size}',
-				SMACCS : '.nav-inline.nav-#{$size}'
-			))} {
-				> li,
-				> #{s-selector((
-					BEM : '.nav__item',
-					SMACCS : '.nav-item'
-				))} {
-					padding-left : s-look-and-feel(padding-horizontal, $size);
-					padding-right : s-look-and-feel(padding-horizontal, $size);
-				}
-			}
-		}
 	}
 }
 
 @mixin s-nav-tabs(
-	$sizes : sugar('settings.components.nav.generate.sizes'),
+	$colors : sugar('settings.components.nav.generate.colors')
+) {
+	@include s-nav-tabs-bare();
+	@include s-nav-tabs-style($colors);
+}
+
+@mixin s-nav-tabs-bare() {
+	@include s-nav-init();
+
+	@include s-component-context('nav') {
+
+		// base
+		#{s-selector((
+			BEM : '.nav.nav--tabs',
+			SMACCS : '.nav.nav-tabs'
+		))} {
+			@extend %s-nav-bare;
+
+			> li,
+			> #{s-selector((
+				BEM : '.nav__item',
+				SMACCS : '.nav-item'
+			))} {
+
+				font-size : s-lnf(font-size);
+				@include s-corner(
+					$top-left : s-lnf(border-radius),
+					$top-right : s-lnf(border-radius)
+				);
+				// margin-right: s-space(smaller);
+				padding : s-lnf(padding-vertical) s-lnf(padding-horizontal);
+				float: left;
+				cursor: pointer;
+
+				&.disabled,
+				#{s-selector((
+					BEM : '&.nav__item--disabled',
+					SMACCS : '&.is-disabled'
+				))} {
+					pointer-events: none;
+					opacity: .5;
+					cursor: not-allowed;
+				}
+			}
+		}
+
+	}
+}
+
+@mixin s-nav-tabs-style(
 	$colors : sugar('settings.components.nav.generate.colors')
 ) {
 	// init nav
 	@include s-nav-init();
 
 	@if $_sugar-test-arguments {
-		$sizes : s-test-argument('s-nav-tabs','sizes',map-keys(sugar('settings.sizes')),$sizes);
 		$colors : s-test-argument('s-nav-tabs','colors',map-keys(sugar('settings.colors')),$colors);
 	}
 
@@ -103,46 +128,12 @@ $_s-nav-inited : false;
 				BEM : '.nav__item',
 				SMACCS : '.nav-item'
 			))} {
-				&.disabled,
-				#{s-selector((
-					BEM : '&.nav__item--disabled',
-					SMACCS : '&.is-disabled'
-				))} {
-					pointer-events: none;
-					opacity: .5;
-					cursor: not-allowed;
-				}
+				margin-bottom: -1px;
 			}
 		}
 
-		// generate each sizes
-		@each $size in $sizes {
-			// extend dropdown
-			#{s-selector((
-				BEM : '.nav--tabs.nav--#{$size}',
-				SMACCS : '.nav-tabs.nav-#{$size}'
-			))} {
-				> li,
-				> #{s-selector((
-					BEM : '.nav__item',
-					SMACCS : '.nav-item'
-				))} {
-					font-size : s-look-and-feel(font-size, $size);
-					@include s-corner(
-						$top-left : s-look-and-feel(border-radius, $size),
-						$top-right : s-look-and-feel(border-radius, $size)
-					);
-					// margin-right: s-space(smaller);
-					padding : s-look-and-feel(padding-vertical, $size) s-look-and-feel(padding-horizontal, $size);
-					float: left;
-					margin-bottom: -1px;
-					cursor: pointer;
-				}
-			}
-		}
 		// generate each colors
 		@each $color in $colors {
-			// extend dropdown
 
 			#{s-selector((
 				BEM : '.nav--tabs.nav--#{$color}',

@@ -4,6 +4,13 @@ import __getAnimationProperties from '../dom/getAnimationProperties';
 export default class SParticleElement extends SComponent {
 
 	/**
+	 * Setup
+	 */
+	static setup(type, settings) {
+		SComponent.setup('sParticle', type, settings);
+	}
+	
+	/**
 	 * Constructor
 	 */
 	constructor(elm, settings = {}, name = 'sParticle') {

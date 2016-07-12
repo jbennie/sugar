@@ -49,17 +49,11 @@ class SRipple extends SComponent {
 	 */
 	constructor(elm, settings = {}, name = 'sRipple') {
 		super(name, elm, {
-			delay : 50, // delay in ms between each ripple
-			count : 2, // number of ripple to trigger on click
+			delay : 130, // delay in ms between each ripple
+			count : 1, // number of ripple to trigger on click
 			spread : 0, // spread distance for each ripple
 			class : 's-ripple' // the class that will be applied on each ripples
 		}, settings);
-
-		console.log('settings', this.settings);
-
-		// const clear = setRecursiveTimeout(() => {
-		// 	console.log('Howo');
-		// }, 100, 2000, 0);
 
 		// init
 		this.initProxy(this._init.bind(this));
@@ -71,8 +65,6 @@ class SRipple extends SComponent {
 	_init() {
 		if (this._inited) return;
 		this._inited = true;
-
-		console.log('INIT ripple');
 
 		// listen for click
 		this.elm.addEventListener('click', this.handleClick.bind(this));
@@ -98,14 +90,14 @@ class SRipple extends SComponent {
 			}
 		});
 
-		// add a new ripple
-		this.elm.appendChild(particlesSystemElm);
-
 		// set position if needed
 		const position = this.elm.style.position;
 		if ( ! position) {
 			this.elm.style.position = 'relative';
 		}
+
+		// add a new ripple
+		this.elm.appendChild(particlesSystemElm);
 	}
 }
 

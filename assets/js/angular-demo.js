@@ -24712,24 +24712,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			_classCallCheck(this, SRipple);
 
+			// init
+
 			var _this = _possibleConstructorReturn(this, _SComponent.call(this, name, elm, {
-				delay: 50, // delay in ms between each ripple
-				count: 2, // number of ripple to trigger on click
+				delay: 130, // delay in ms between each ripple
+				count: 1, // number of ripple to trigger on click
 				spread: 0, // spread distance for each ripple
 				class: 's-ripple' // the class that will be applied on each ripples
 			}, settings));
 
 			_this.containerElm = null;
 			_this.rippleElms = [];
-
-
-			console.log('settings', _this.settings);
-
-			// const clear = setRecursiveTimeout(() => {
-			// 	console.log('Howo');
-			// }, 100, 2000, 0);
-
-			// init
 			_this.initProxy(_this._init.bind(_this));
 			return _this;
 		}
@@ -24742,8 +24735,6 @@ return /******/ (function(modules) { // webpackBootstrap
 		SRipple.prototype._init = function _init() {
 			if (this._inited) return;
 			this._inited = true;
-
-			console.log('INIT ripple');
 
 			// listen for click
 			this.elm.addEventListener('click', this.handleClick.bind(this));
@@ -24771,14 +24762,14 @@ return /******/ (function(modules) { // webpackBootstrap
 				}
 			});
 
-			// add a new ripple
-			this.elm.appendChild(particlesSystemElm);
-
 			// set position if needed
 			var position = this.elm.style.position;
 			if (!position) {
 				this.elm.style.position = 'relative';
 			}
+
+			// add a new ripple
+			this.elm.appendChild(particlesSystemElm);
 		};
 
 		return SRipple;
@@ -24962,8 +24953,17 @@ return /******/ (function(modules) { // webpackBootstrap
 		_inherits(SParticlesSystemElement, _SComponent);
 
 		/**
+	  * Setup
+	  */
+
+		SParticlesSystemElement.setup = function setup(type, settings) {
+			_SComponent3.default.setup('sParticlesSystem', type, settings);
+		};
+
+		/**
 	  * Constructor
 	  */
+
 
 		function SParticlesSystemElement(elm) {
 			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
@@ -25070,8 +25070,17 @@ return /******/ (function(modules) { // webpackBootstrap
 		_inherits(SParticleElement, _SComponent);
 
 		/**
+	  * Setup
+	  */
+
+		SParticleElement.setup = function setup(type, settings) {
+			_SComponent3.default.setup('sParticle', type, settings);
+		};
+
+		/**
 	  * Constructor
 	  */
+
 
 		function SParticleElement(elm) {
 			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];

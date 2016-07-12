@@ -1,6 +1,6 @@
 $_s-formset-fieldset-inited : false;
 @mixin s-formset-fieldset-init() {
-	
+
 	@if not $_s-formset-fieldset-inited {
 		$_s-formset-fieldset-inited : true !global;
 
@@ -23,7 +23,7 @@ $_s-formset-fieldset-inited : false;
 	}
 }
 @mixin s-formset-fieldset(
-	$sizes : sugar('settings.components.formset.generate.sizes'),
+	$sizes,
 	$colors : sugar('settings.components.formset.generate.colors')
 ) {
 	// init form
@@ -35,8 +35,8 @@ $_s-formset-fieldset-inited : false;
 	}
 
 	// pass in the component context
-	@include s-component-context('formset') {		
-		
+	@include s-component-context('formset') {
+
 		// get variables
 		$form-scope-class : sugar('settings.scope-class');
 
@@ -46,6 +46,12 @@ $_s-formset-fieldset-inited : false;
 			@include s-vertical-rhythme() {
 				margin-bottom: 2rem;
 			}
+		}
+
+		.legend {
+			// @include s-translate(0 50%);
+			font-size : s-look-and-feel(font-size);
+			padding: s-look-and-feel(padding-horizontal) s-look-and-feel(padding-vertical);
 		}
 
 		// generate each sizes
@@ -70,24 +76,11 @@ $_s-formset-fieldset-inited : false;
 					margin-bottom: s-space($size);
 				}
 			}
-
-			#{s-selector((
-				BEM : (
-					'.legend--#{$size}'
-				),
-				SMACCS : (
-					'.legend-#{$size}'
-				)
-			))} {
-				// @include s-translate(0 50%);
-				font-size : s-look-and-feel(font-size, $size);
-				padding: s-look-and-feel(padding-horizontal, $size) s-look-and-feel(padding-vertical, $size);
-			}
 		}
 
 		// generate each colors
 		@each $color in $colors {
-			
+
 			#{s-selector((
 				BEM : (
 					'.fieldset--#{$color}'
@@ -97,7 +90,7 @@ $_s-formset-fieldset-inited : false;
 				)
 			))} {
 				border-color: s-color($color, -opacity .1);
-				
+
 				#{s-selector((
 					BEM : '&.fieldset--hover',
 					SMACCS : '&.is-hover'

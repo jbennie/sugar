@@ -5,6 +5,13 @@ import setRecursiveTimeout from '../functions/setRecursiveTimeout';
 export default class SParticlesSystemElement extends SComponent {
 
 	/**
+	 * Setup
+	 */
+	static setup(type, settings) {
+		SComponent.setup('sParticlesSystem', type, settings);
+	}
+
+	/**
 	 * Constructor
 	 */
 	constructor(elm, settings = {}, name = 'sParticlesSystem') {
