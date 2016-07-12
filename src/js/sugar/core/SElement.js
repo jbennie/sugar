@@ -75,27 +75,28 @@ export default class SElement extends SObject {
 		setTimeout(() => {
 			let cbs = [(elm) => {
 				// empty callback just for the onRemove
+				if (this.onAdded) this.onAdded();
 			}];
 			if (typeof(this.onRemoved) == 'function') {
 				cbs.push((elm) => {
 					this.onRemoved(elm);
 				});
 			}
-			// if (typeof(this.onAdded) == 'function') {
-			// 	querySelectorLiveOnce(`[data-s-element-id="${this.uniqid}"]`, cbs);
-			// }
-			// // check if is the onVisible method
-			// if (typeof(this.onVisible) == 'function') {
-			// 	querySelectorVisibleLiveOnce(`[data-s-element-id="${this.uniqid}"]`, (elm) => {
-			// 		this.onVisible(elm);
-			// 	});
-			// }
-			// // check if is the onViewportVisible method
-			// if (typeof(this.onViewportVisible) == 'function') {
-			// 	querySelectorViewportVisibleLiveOnce(`[data-s-element-id="${this.uniqid}"]`, (elm) => {
-			// 		this.onViewportVisible(elm);
-			// 	});
-			// }
+			if (typeof(this.onAdded) == 'function') {
+				querySelectorLiveOnce(`[data-s-element-id="${this.uniqid}"]`, cbs);
+			}
+			// check if is the onVisible method
+			if (typeof(this.onVisible) == 'function') {
+				querySelectorVisibleLiveOnce(`[data-s-element-id="${this.uniqid}"]`, (elm) => {
+					this.onVisible(elm);
+				});
+			}
+			// check if is the onViewportVisible method
+			if (typeof(this.onViewportVisible) == 'function') {
+				querySelectorViewportVisibleLiveOnce(`[data-s-element-id="${this.uniqid}"]`, (elm) => {
+					this.onViewportVisible(elm);
+				});
+			}
 		});
 	}
 

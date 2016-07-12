@@ -147,6 +147,16 @@ export default class SComponent extends SElement {
 			case 'added':
 				querySelectorLiveOnce(`[data-s-element-id="${this.uniqid}"]`, cb);
 			break;
+			case 'click':
+				function clickHandler(e) {
+					const id = e.target.getAttribute('data-s-element-id');
+					if (e.target === this.elm) {
+						cb();
+						document.removeEventListener('click', clickHandler.bind(this));
+					}
+				}
+				document.addEventListener('click', clickHandler.bind(this));
+			break;
 			default:
 				cb();
 			break;

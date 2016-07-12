@@ -1,5 +1,5 @@
 $_s-formset-radiobox-inited : false;
-@mixin s-formset-radiobox-bare() {
+@mixin s-formset-radiobox-init() {
 
 	@if not $_s-formset-radiobox-inited {
 		$_s-formset-radiobox-inited : true !global;
@@ -68,13 +68,12 @@ $_s-formset-radiobox-inited : false;
 }
 
 @mixin s-formset-radiobox(
-	$sizes : null,
 	$colors : null,
 	$animations : true
 ) {
 
 	// init form
-	@include s-formset-radiobox-bare();
+	@include s-formset-radiobox-init();
 
 	// parse properties
 	@if $_sugar-test-arguments {
@@ -152,23 +151,7 @@ $_s-formset-radiobox-inited : false;
 					}
 				}
 			}
-
-			// error fields
-			// #{s-selector((
-			// 	BEM : (
-			// 		'.error input[s-radiobox]'
-			// 	),
-			// 	SMACCS : (
-			// 		'.error input[s-radiobox]'
-			// 	)
-			// ))} {
-			// 	& + .s-radiobox {
-			// 		// border-color: s-color(error, -opacity .3);
-			// 	}
-			// }
 		}
-
-
 
 		.input[s-radiobox] {
 
@@ -210,7 +193,6 @@ $_s-formset-radiobox-inited : false;
 					}
 				}
 			}
-
 		}
 
 		// animations

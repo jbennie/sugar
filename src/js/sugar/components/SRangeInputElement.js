@@ -9,7 +9,7 @@
  * @version  1.0.0
  */
 import SComponent from '../core/SComponent'
-import __querySelectorLive from '../dom/querySelectorLive'
+import __querySelectorVisibleLiveOnce from '../dom/querySelectorVisibleLiveOnce'
 import __next from '../dom/next'
 import __previous from '../dom/previous'
 import __offset from '../dom/offset'
@@ -218,7 +218,7 @@ class SRangeInputElement extends SComponent {
 }
 
 // init the select
-__querySelectorLive('input[s-range-input]', (elm) => {
+__querySelectorVisibleLiveOnce('input[s-range-input]', (elm) => {
 	new SRangeInputElement(elm, {
 		formater : SRangeInputElement.percentFormater
 	});

@@ -63,11 +63,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var _sSettings = __webpack_require__(2);
+	var _querySelectorLiveOnce = __webpack_require__(2);
+
+	var _querySelectorLiveOnce2 = _interopRequireDefault(_querySelectorLiveOnce);
+
+	var _sSettings = __webpack_require__(15);
 
 	var _sSettings2 = _interopRequireDefault(_sSettings);
 
-	var _sActivateManager = __webpack_require__(9);
+	var _sActivateManager = __webpack_require__(16);
 
 	var _sActivateManager2 = _interopRequireDefault(_sActivateManager);
 
@@ -95,16 +99,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _sForm2 = _interopRequireDefault(_sForm);
 
-	var _SRipple = __webpack_require__(210);
+	var _SRipple = __webpack_require__(209);
 
 	var _SRipple2 = _interopRequireDefault(_SRipple);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	// import sugar from './sugar/sugar';
-	var angular = __webpack_require__(215);
+	var angular = __webpack_require__(218);
 	// import angular from 'angular';
 	// import { SSelectElement, SActivateElement } from './sugar/index';
+	//
+	//
+
 	//
 
 	//
@@ -129,6 +136,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	// 	// myCoolSelect.elm.setAttribute('s-select-search-placeholder', 'hello');
 	// 	myCoolSelect.settings.searchPlaceholder = 'yopyopyop';
 	// }, 3000);
+
+	(0, _querySelectorLiveOnce2.default)('.btn, .nav > li', function (elm) {
+		new _SRipple2.default(elm);
+	});
 
 	var app = angular.module('angular-demo', []).run(function () {});
 
@@ -184,41 +195,30 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var _domReady = __webpack_require__(3);
+	exports.__esModule = true;
 
-	var _domReady2 = _interopRequireDefault(_domReady);
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; /**
+	                                                                                                                                                                                                                                                                   * Get the element once
+	                                                                                                                                                                                                                                                                   */
+
+
+	exports.default = querySelectorLiveOnce;
+
+	var _querySelectorLive = __webpack_require__(3);
+
+	var _querySelectorLive2 = _interopRequireDefault(_querySelectorLive);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	// prepare a settings object to store
-	// the getted settings from the css
-	var settings = {};
+	function querySelectorLiveOnce(selector, cb) {
+		var settings = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
-	// wait the css to be loaded
-	// imports
-	(0, _domReady2.default)(function () {
-		var settingsElm = document.createElement('div');
-		settingsElm.classList.add('s-settings');
-		document.body.appendChild(settingsElm);
-		var _settings = window.getComputedStyle(document.querySelector('.s-settings'), ':after').getPropertyValue('content');
-		if (_settings) {
-			_settings = _settings.replace(/\\"/g, '"');
-			// _settings = _settings.replace(/\\\'\\"/g,'"').replace(/\\"\\\'/g,'"');
-			// _settings = _settings.replace(/\'\\"/g,'"').replace(/\\"\'/g,'"');
-			// _settings = _settings.replace(/'"/g,'"').replace(/"'/g,'"');
-			_settings = _settings.slice(1, _settings.length - 1);
-			_settings = JSON.parse(_settings);
-
-			Object.assign(settings, _settings);
-
-			console.log('settings', settings);
-
-			// settings = {...settings, ..._settings};
-		}
-	});
-
-	// export the settings
-	module.exports = settings;
+		// extend settings
+		settings = _extends({}, settings, {
+			once: true
+		});
+		(0, _querySelectorLive2.default)(selector, cb, settings);
+	}
 
 /***/ },
 /* 3 */
@@ -227,278 +227,260 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	exports.__esModule = true;
-	exports.default = domReady;
 
-	var _stylesheetsReady = __webpack_require__(4);
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _stylesheetsReady2 = _interopRequireDefault(_stylesheetsReady);
+	exports.default = querySelectorLive;
 
-	var _promisePolyfill = __webpack_require__(6);
+	__webpack_require__(4);
+
+	var _promisePolyfill = __webpack_require__(5);
 
 	var _promisePolyfill2 = _interopRequireDefault(_promisePolyfill);
+
+	__webpack_require__(8);
+
+	__webpack_require__(9);
+
+	var _matches = __webpack_require__(10);
+
+	var _matches2 = _interopRequireDefault(_matches);
+
+	var _uniqid = __webpack_require__(11);
+
+	var _uniqid2 = _interopRequireDefault(_uniqid);
+
+	var _domReady = __webpack_require__(12);
+
+	var _domReady2 = _interopRequireDefault(_domReady);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/**
-	 * Dom ready
+	 * Make a selector detectable when new element are pushed in the page
 	 */
+	var _insertAnimationListener = false;
+	var _insertMutationObserver = null;
+	var _insertDomElementsCallbacks = {};
 
 	if (!window.Promise) {
 		window.Promise = _promisePolyfill2.default;
 	}
+	function querySelectorLive(selector, cb) {
+		var settings = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
-	var neededStylesheetsStack = null;
 
-	function _domReady() {
-		var cb = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+		// extend settings
+		settings = _extends({
+			rootNode: null,
+			groupedNodes: false,
+			once: false
+		}, settings);
 
-		return new Promise(function (resolve, reject) {
+		var _this = this;
 
-			var _domReady = function _domReady() {
-				if (!document.body || /(un|ing)/.test(document.readyState)) {
-					setTimeout(function () {
-						_domReady();
-					}, 9);
-				} else {
+		// use the animation hack to detect
+		// new items in the page
+		var detection_id = 's-query-selector-live-' + (0, _uniqid2.default)();
 
-					// grab all the needed stylesheets if not already done
-					if (!neededStylesheetsStack) {
-						// check in dom if has some needed stylesheets
-						neededStylesheetsStack = document.querySelectorAll('link[s-domready-dependency]');
-					}
-
-					if (!neededStylesheetsStack.length) {
-						if (cb) cb();
-						resolve();
-					} else {
-
-						(0, _stylesheetsReady2.default)(neededStylesheetsStack, function () {
-							// console.log('stylesheets loaded');
-							if (cb) cb();
-							resolve();
-						});
-					}
+		// add the callback in stack
+		_insertDomElementsCallbacks[detection_id] = {
+			once: settings.once,
+			once_added: false,
+			once_removed: false,
+			detection_id: detection_id,
+			_added_callback: typeof cb == 'function' ? cb : cb[0] ? cb[0] : null,
+			added_callback: function added_callback(_this) {
+				// save the detection id into node
+				// in order to be able to detect the deletion of it
+				if (_this.nodes) {
+					_this.nodes.forEach(function (node) {
+						node._s_query_selector_live_id = _this.detection_id;
+					});
 				}
-			};
-			_domReady();
-		});
-	}
+				if (!_this._added_callback) return;
+				if (_this.nodes.length > 1) {
+					_this._added_callback(_this.nodes);
+				} else if (_this.nodes.length == 1) {
+					_this._added_callback(_this.nodes[0]);
+				}
+				_this.nodes = [];
+			},
+			_removed_callback: cb instanceof Array && cb[1] ? cb[1] : null,
+			removed_callback: function removed_callback(_this) {
+				if (!_this._removed_callback) return;
+				if (_this.nodes.length > 1) {
+					_this._removed_callback(_this.nodes);
+				} else if (_this.nodes.length == 1) {
+					_this._removed_callback(_this.nodes[0]);
+				}
+				_this.nodes = [];
+			},
+			selector: selector,
+			rootNode: settings.rootNode,
+			groupedNodes: settings.groupedNodes,
+			nodes: [],
+			timeout: null
+		};
 
-	var domReadyCallbacks = [];
-	var domReadyProcess = false;
-	var domIsReady = false;
+		// make a query on existing elements
+		(0, _domReady2.default)(function () {
 
-	function domReady() {
-		var cb = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
-
-
-		return new Promise(function (resolve, reject) {
-
-			// check if the dom is already ready
-			if (domIsReady) {
-				if (cb) cb();
-				resolve();
-				return;
+			// rootNode
+			if (!settings.rootNode) {
+				settings.rootNode = document.body;
 			}
 
-			// add the callback to the stack
-			domReadyCallbacks.push(function () {
-				if (cb) cb();
-				resolve();
-			});
+			// check how we can detect new elements
+			if (window.MutationObserver != null) {
 
-			// check if already a domReady detecting process
-			if (!domReadyProcess) {
-				domReadyProcess = true;
-				_domReady(function () {
-					// update the domIsReady
-					domIsReady = true;
-					// apply all the callbacks
-					domReadyCallbacks.forEach(function (callback) {
-						callback();
+				// make sure we try to get dom nodes
+				// AFTER first js loop that handle frameworks
+				// like angular, etc...
+				//setTimeout(() => {
+
+				if (!settings.rootNode._s_insert_mutation_observer) {
+
+					settings.rootNode._s_insert_mutation_observer = new MutationObserver(function (mutations) {
+
+						// check if what we need has been added
+						mutations.forEach(function (mutation) {
+
+							// added nodes
+							if (mutation.addedNodes) {
+								// let _callback = null,
+								// 	_groupedNodes = [];
+								// check if want grouped nodes in callback
+								[].forEach.call(mutation.addedNodes, function (node) {
+									// loop on each callbacks to find a match
+									for (var insert_id in _insertDomElementsCallbacks) {
+										var insertDomParams = _insertDomElementsCallbacks[insert_id],
+										    once = insertDomParams.once,
+										    once_added = insertDomParams.once_added;
+										if (!once || !once_added) {
+											// check if the selector match
+											if ((0, _matches2.default)(node, insertDomParams.selector)) {
+												// check if we need to group the elements in one
+												// callback call
+												insertDomParams.nodes.push(node);
+												if (insertDomParams.groupedNodes) {
+													clearTimeout(insertDomParams.timeout);
+													insertDomParams.timeout = setTimeout(insertDomParams.added_callback.bind(null, insertDomParams));
+												} else {
+													insertDomParams.added_callback(insertDomParams);
+												}
+												// if once, update the once_added property
+												if (once) {
+													_insertDomElementsCallbacks[insert_id].once_added = true;
+													// if we don't have any removed callback
+													// we delete the parameters from the stack
+													if (!insertDomParams._removed_callback) {
+														delete _insertDomElementsCallbacks[insert_id];
+													}
+												}
+											}
+										}
+									}
+								});
+							}
+
+							// removed nodes
+							if (mutation.removedNodes) {
+								// let _callback = null,
+								// 	_groupedNodes = [];
+								// check if want grouped nodes in callback
+								[].forEach.call(mutation.removedNodes, function (node) {
+									// loop on each callbacks to find a match
+									if (node.nodeName != '#text') {
+										for (var insert_id in _insertDomElementsCallbacks) {
+
+											var insertDomParams = _insertDomElementsCallbacks[insert_id],
+											    once = insertDomParams.once,
+											    once_removed = insertDomParams.once_removed;
+											if (!once || !once_removed) {
+
+												if (node._s_query_selector_live_id == insert_id) {
+													// if (__matches(node, _insertDomElementsCallbacks[insert_id].selector)) {
+													// check if we need to group the elements
+													// to pass to callback
+													insertDomParams.nodes.push(node);
+													if (insertDomParams.groupedNodes) {
+														clearTimeout(insertDomParams.timeout);
+														insertDomParams.timeout = setTimeout(insertDomParams.removed_callback.bind(null, insertDomParams));
+													} else {
+														insertDomParams.removed_callback(insertDomParams);
+													}
+													// if once, we remove the parameters from the stack
+													// because we don't want to check this selector again
+													if (once) {
+														delete _insertDomElementsCallbacks[insert_id];
+													}
+												}
+											}
+										}
+									}
+								});
+							}
+						});
 					});
+					settings.rootNode._s_insert_mutation_observer.observe(settings.rootNode, {
+						childList: true
+					});
+				}
+
+				// parse the dom to find the currently present elements
+				[].forEach.call(settings.rootNode.querySelectorAll(selector), function (elm) {
+					_insertDomElementsCallbacks[detection_id].nodes.push(elm);
+					if (_insertDomElementsCallbacks[detection_id].groupedNodes) {
+						clearTimeout(_insertDomElementsCallbacks[detection_id].timeout);
+						_insertDomElementsCallbacks[detection_id].timeout = setTimeout(_insertDomElementsCallbacks[detection_id].added_callback.bind(null, _insertDomElementsCallbacks[detection_id]));
+					} else {
+						_insertDomElementsCallbacks[detection_id].added_callback(_insertDomElementsCallbacks[detection_id]);
+					}
 				});
+			} else {
+				// add the animation style in DOM
+				var css = selector + (' { \n\t\t\t\t-webkit-animation:' + detection_id + ' 0.001s;\n\t\t\t\t-moz-animation:' + detection_id + ' 0.001s;\n\t\t\t\t-ms-animation:' + detection_id + ' 0.001s;\n\t\t\t\tanimation:' + detection_id + ' 0.001s;\n\t\t\t}\n\t\t\t@keyframes ' + detection_id + ' {\n\t\t\t\tfrom { opacity: .99; }\n\t\t\t\tto { opacity: 1; }\n\t\t\t}');
+				var style = document.createElement('style');
+				style.type = 'text/css';
+				if (style.styleSheet) {
+					style.styleSheet.cssText = css;
+				} else {
+					style.appendChild(document.createTextNode(css));
+				}
+				// now we listen for animation end
+				// but only once
+				if (!_insertAnimationListener) {
+					_insertAnimationListener = true;
+					document.addEventListener('animationend', function (e) {
+						if (_insertDomElementsCallbacks[e.animationName]) {
+							_insertDomElementsCallbacks[e.animationName].callback(e.target);
+						}
+					});
+				}
+				// append the animation in head
+				document.head.appendChild(style);
 			}
 		});
 	}
 
 /***/ },
 /* 4 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	'use strict';
+	// mutationobserver-shim v0.3.1 (github.com/megawac/MutationObserver.js)
+	// Authors: Graeme Yeates (github.com/megawac) 
+	window.MutationObserver=window.MutationObserver||window.WebKitMutationObserver||function(r){function w(a){this.g=[];this.k=a}function H(a){(function c(){var d=a.takeRecords();d.length&&a.k(d,a);a.f=setTimeout(c,w._period)})()}function t(a){var b={type:null,target:null,addedNodes:[],removedNodes:[],previousSibling:null,nextSibling:null,attributeName:null,attributeNamespace:null,oldValue:null},c;for(c in a)b[c]!==r&&a[c]!==r&&(b[c]=a[c]);return b}function I(a,b){var c=B(a,b);return function(d){var g=
+	d.length,n;b.a&&c.a&&A(d,a,c.a,b.d);if(b.b||b.e)n=J(d,a,c,b);if(n||d.length!==g)c=B(a,b)}}function A(a,b,c,d){for(var g={},n=b.attributes,h,m,C=n.length;C--;)h=n[C],m=h.name,d&&d[m]===r||(h.value!==c[m]&&a.push(t({type:"attributes",target:b,attributeName:m,oldValue:c[m],attributeNamespace:h.namespaceURI})),g[m]=!0);for(m in c)g[m]||a.push(t({target:b,type:"attributes",attributeName:m,oldValue:c[m]}))}function J(a,b,c,d){function g(b,c,g,h,y){var r=b.length-1;y=-~((r-y)/2);for(var f,k,e;e=b.pop();)f=
+	g[e.h],k=h[e.i],d.b&&y&&Math.abs(e.h-e.i)>=r&&(a.push(t({type:"childList",target:c,addedNodes:[f],removedNodes:[f],nextSibling:f.nextSibling,previousSibling:f.previousSibling})),y--),d.a&&k.a&&A(a,f,k.a,d.d),d.c&&3===f.nodeType&&f.nodeValue!==k.c&&a.push(t({type:"characterData",target:f})),d.e&&n(f,k)}function n(b,c){for(var x=b.childNodes,p=c.b,y=x.length,w=p?p.length:0,f,k,e,l,u,z=0,v=0,q=0;v<y||q<w;)l=x[v],u=(e=p[q])&&e.j,l===u?(d.a&&e.a&&A(a,l,e.a,d.d),d.c&&e.c!==r&&l.nodeValue!==e.c&&a.push(t({type:"characterData",
+	target:l})),k&&g(k,b,x,p,z),d.e&&(l.childNodes.length||e.b&&e.b.length)&&n(l,e),v++,q++):(h=!0,f||(f={},k=[]),l&&(f[e=D(l)]||(f[e]=!0,-1===(e=E(p,l,q,"j"))?d.b&&(a.push(t({type:"childList",target:b,addedNodes:[l],nextSibling:l.nextSibling,previousSibling:l.previousSibling})),z++):k.push({h:v,i:e})),v++),u&&u!==x[v]&&(f[e=D(u)]||(f[e]=!0,-1===(e=E(x,u,v))?d.b&&(a.push(t({type:"childList",target:c.j,removedNodes:[u],nextSibling:p[q+1],previousSibling:p[q-1]})),z--):k.push({h:e,i:q})),q++));k&&g(k,b,
+	x,p,z)}var h;n(b,c);return h}function B(a,b){var c=!0;return function g(a){var h={j:a};!b.c||3!==a.nodeType&&8!==a.nodeType?(b.a&&c&&1===a.nodeType&&(h.a=F(a.attributes,function(a,c){if(!b.d||b.d[c.name])a[c.name]=c.value;return a})),c&&(b.b||b.c||b.a&&b.e)&&(h.b=K(a.childNodes,g)),c=b.e):h.c=a.nodeValue;return h}(a)}function D(a){try{return a.id||(a.mo_id=a.mo_id||G++)}catch(b){try{return a.nodeValue}catch(c){return G++}}}function K(a,b){for(var c=[],d=0;d<a.length;d++)c[d]=b(a[d],d,a);return c}
+	function F(a,b){for(var c={},d=0;d<a.length;d++)c=b(c,a[d],d,a);return c}function E(a,b,c,d){for(;c<a.length;c++)if((d?a[c][d]:a[c])===b)return c;return-1}w._period=30;w.prototype={observe:function(a,b){for(var c={a:!!(b.attributes||b.attributeFilter||b.attributeOldValue),b:!!b.childList,e:!!b.subtree,c:!(!b.characterData&&!b.characterDataOldValue)},d=this.g,g=0;g<d.length;g++)d[g].m===a&&d.splice(g,1);b.attributeFilter&&(c.d=F(b.attributeFilter,function(a,b){a[b]=!0;return a}));d.push({m:a,l:I(a,
+	c)});this.f||H(this)},takeRecords:function(){for(var a=[],b=this.g,c=0;c<b.length;c++)b[c].l(a);return a},disconnect:function(){this.g=[];clearTimeout(this.f);this.f=null}};var G=1;return w}(void 0);
 
-	exports.__esModule = true;
-	exports.default = stylesheetsReady;
-
-	var _linkLoaded = __webpack_require__(5);
-
-	var _linkLoaded2 = _interopRequireDefault(_linkLoaded);
-
-	var _promisePolyfill = __webpack_require__(6);
-
-	var _promisePolyfill2 = _interopRequireDefault(_promisePolyfill);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	if (!window.Promise) {
-		window.Promise = _promisePolyfill2.default;
-	}
-
-	function stylesheetsReady(links) {
-		var cb = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
-
-
-		var neededStylesheetsStack = links;
-		var neededStylesheetsCount = links.length;
-		var loadedStylesheedsCount = 0;
-		var loadedStylesheetsCallbacks = [];
-		var loadedStylesheedsProcess = false;
-		var stylesheetsDependenciesStatus = false;
-
-		return new Promise(function (resolve, reject) {
-
-			if (stylesheetsDependenciesStatus) {
-				cb !== null && cb();
-				resolve();
-				return;
-			}
-
-			// check if has some needed stylesheeds
-			if (!neededStylesheetsCount) {
-				// update the stylesheetsDependenciesStatus
-				stylesheetsDependenciesStatus = true;
-				// no dependencies or already loaded
-				cb !== null && cb();
-				resolve();
-				return;
-			}
-
-			// add the callback into the loaded stylesheets stack
-			// add the the callback stack
-			loadedStylesheetsCallbacks.push(function () {
-				cb !== null && cb();
-				resolve();
-			});
-
-			// check if already a process of checking for loaded
-			// stylesheets
-			if (!loadedStylesheedsProcess) {
-
-				// update the status
-				loadedStylesheedsProcess = true;
-
-				if (neededStylesheetsStack.length) {
-					[].forEach.call(neededStylesheetsStack, function (link) {
-						// check loaded
-						(0, _linkLoaded2.default)(link).then(function (link) {
-							console.log('loaded', link.href);
-							// update the loaded stylesheet count
-							loadedStylesheedsCount++;
-							// check if all stylesheets has been loaded
-							if (loadedStylesheedsCount >= neededStylesheetsCount) {
-
-								// update the stylesheetsDependenciesStatus
-								stylesheetsDependenciesStatus = true;
-								// loop on all the loadedStylesheetsCallbacks
-								loadedStylesheetsCallbacks.forEach(function (callback) {
-									// apply the callback
-									callback();
-								});
-							}
-						}, function (error) {
-							console.log('COCO', error);
-							// something goes wrong...
-							console.error('The following link as not been loaded properly...', error);
-						});
-					});
-				}
-			}
-		});
-	}
 
 /***/ },
 /* 5 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-	exports.default = linkLoaded;
-
-	var _promisePolyfill = __webpack_require__(6);
-
-	var _promisePolyfill2 = _interopRequireDefault(_promisePolyfill);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	if (!window.Promise) {
-		window.Promise = _promisePolyfill2.default;
-	} /**
-	   * Detect when an image is loaded
-	   */
-
-
-	function alreadyLoaded(link) {
-		var href = link.href;
-		var result = false;
-		for (var i = 0; i < document.styleSheets.length; i++) {
-			if (document.styleSheets[i].href && document.styleSheets[i].href.match(href)) {
-				if (!document.styleSheets[i].cssRules || document.styleSheets[i].cssRules.length == 0) {
-					// Fallback. There is a request for the css file, but it failed.
-					break;
-				}
-				// the css is already loaded
-				result = true;
-			} else if (i == document.styleSheets.length - 1) {
-				// Fallback. There is no request for the css file.
-			}
-		}
-		return result;
-	}
-
-	function linkLoaded(link) {
-		var callback = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
-
-		return new Promise(function (resolve, reject) {
-			// check if image is already loaded
-			if (alreadyLoaded(link)) {
-				// resolve promise
-				resolve(link);
-				// call the callback if exist
-				callback != null && callback(link);
-			} else {
-
-				var img = document.createElement('img');
-
-				// wait until loaded
-				console.log('CHECK LOADING', link.href);
-				// we load the css into an image
-				// when the image is in error more
-				// that mean that the css is loaded
-				img.addEventListener('error', function (e) {
-					console.log('LOADED', e);
-					// resolve the promise
-					resolve(link);
-					// callback if exist
-					callback != null && callback(link);
-				});
-				// listen for error
-				// img.addEventListener('error', (e) => {
-				// 	console.error('ERROR', e);
-				// 	// reject
-				// 	reject(e);
-				// }, false);
-
-				// set url
-				img.src = link.href;
-				// document.body.appendChild(img);
-			}
-		});
-	}
-
-/***/ },
-/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(setImmediate) {(function (root) {
@@ -734,13 +716,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	})(this);
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7).setImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6).setImmediate))
 
 /***/ },
-/* 7 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(8).nextTick;
+	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(7).nextTick;
 	var apply = Function.prototype.apply;
 	var slice = Array.prototype.slice;
 	var immediateIds = {};
@@ -816,10 +798,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
 	  delete immediateIds[id];
 	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7).setImmediate, __webpack_require__(7).clearImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6).setImmediate, __webpack_require__(6).clearImmediate))
 
 /***/ },
-/* 8 */
+/* 7 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -944,20 +926,663 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	/*
+	 * classList.js: Cross-browser full element.classList implementation.
+	 * 1.1.20150312
+	 *
+	 * By Eli Grey, http://eligrey.com
+	 * License: Dedicated to the public domain.
+	 *   See https://github.com/eligrey/classList.js/blob/master/LICENSE.md
+	 */
+
+	/*global self, document, DOMException */
+
+	/*! @source http://purl.eligrey.com/github/classList.js/blob/master/classList.js */
+
+	if ("document" in self) {
+
+	// Full polyfill for browsers with no classList support
+	// Including IE < Edge missing SVGElement.classList
+	if (!("classList" in document.createElement("_")) 
+		|| document.createElementNS && !("classList" in document.createElementNS("http://www.w3.org/2000/svg","g"))) {
+
+	(function (view) {
+
+	"use strict";
+
+	if (!('Element' in view)) return;
+
+	var
+		  classListProp = "classList"
+		, protoProp = "prototype"
+		, elemCtrProto = view.Element[protoProp]
+		, objCtr = Object
+		, strTrim = String[protoProp].trim || function () {
+			return this.replace(/^\s+|\s+$/g, "");
+		}
+		, arrIndexOf = Array[protoProp].indexOf || function (item) {
+			var
+				  i = 0
+				, len = this.length
+			;
+			for (; i < len; i++) {
+				if (i in this && this[i] === item) {
+					return i;
+				}
+			}
+			return -1;
+		}
+		// Vendors: please allow content code to instantiate DOMExceptions
+		, DOMEx = function (type, message) {
+			this.name = type;
+			this.code = DOMException[type];
+			this.message = message;
+		}
+		, checkTokenAndGetIndex = function (classList, token) {
+			if (token === "") {
+				throw new DOMEx(
+					  "SYNTAX_ERR"
+					, "An invalid or illegal string was specified"
+				);
+			}
+			if (/\s/.test(token)) {
+				throw new DOMEx(
+					  "INVALID_CHARACTER_ERR"
+					, "String contains an invalid character"
+				);
+			}
+			return arrIndexOf.call(classList, token);
+		}
+		, ClassList = function (elem) {
+			var
+				  trimmedClasses = strTrim.call(elem.getAttribute("class") || "")
+				, classes = trimmedClasses ? trimmedClasses.split(/\s+/) : []
+				, i = 0
+				, len = classes.length
+			;
+			for (; i < len; i++) {
+				this.push(classes[i]);
+			}
+			this._updateClassName = function () {
+				elem.setAttribute("class", this.toString());
+			};
+		}
+		, classListProto = ClassList[protoProp] = []
+		, classListGetter = function () {
+			return new ClassList(this);
+		}
+	;
+	// Most DOMException implementations don't allow calling DOMException's toString()
+	// on non-DOMExceptions. Error's toString() is sufficient here.
+	DOMEx[protoProp] = Error[protoProp];
+	classListProto.item = function (i) {
+		return this[i] || null;
+	};
+	classListProto.contains = function (token) {
+		token += "";
+		return checkTokenAndGetIndex(this, token) !== -1;
+	};
+	classListProto.add = function () {
+		var
+			  tokens = arguments
+			, i = 0
+			, l = tokens.length
+			, token
+			, updated = false
+		;
+		do {
+			token = tokens[i] + "";
+			if (checkTokenAndGetIndex(this, token) === -1) {
+				this.push(token);
+				updated = true;
+			}
+		}
+		while (++i < l);
+
+		if (updated) {
+			this._updateClassName();
+		}
+	};
+	classListProto.remove = function () {
+		var
+			  tokens = arguments
+			, i = 0
+			, l = tokens.length
+			, token
+			, updated = false
+			, index
+		;
+		do {
+			token = tokens[i] + "";
+			index = checkTokenAndGetIndex(this, token);
+			while (index !== -1) {
+				this.splice(index, 1);
+				updated = true;
+				index = checkTokenAndGetIndex(this, token);
+			}
+		}
+		while (++i < l);
+
+		if (updated) {
+			this._updateClassName();
+		}
+	};
+	classListProto.toggle = function (token, force) {
+		token += "";
+
+		var
+			  result = this.contains(token)
+			, method = result ?
+				force !== true && "remove"
+			:
+				force !== false && "add"
+		;
+
+		if (method) {
+			this[method](token);
+		}
+
+		if (force === true || force === false) {
+			return force;
+		} else {
+			return !result;
+		}
+	};
+	classListProto.toString = function () {
+		return this.join(" ");
+	};
+
+	if (objCtr.defineProperty) {
+		var classListPropDesc = {
+			  get: classListGetter
+			, enumerable: true
+			, configurable: true
+		};
+		try {
+			objCtr.defineProperty(elemCtrProto, classListProp, classListPropDesc);
+		} catch (ex) { // IE 8 doesn't support enumerable:true
+			if (ex.number === -0x7FF5EC54) {
+				classListPropDesc.enumerable = false;
+				objCtr.defineProperty(elemCtrProto, classListProp, classListPropDesc);
+			}
+		}
+	} else if (objCtr[protoProp].__defineGetter__) {
+		elemCtrProto.__defineGetter__(classListProp, classListGetter);
+	}
+
+	}(self));
+
+	} else {
+	// There is full or partial native classList support, so just check if we need
+	// to normalize the add/remove and toggle APIs.
+
+	(function () {
+		"use strict";
+
+		var testElement = document.createElement("_");
+
+		testElement.classList.add("c1", "c2");
+
+		// Polyfill for IE 10/11 and Firefox <26, where classList.add and
+		// classList.remove exist but support only one argument at a time.
+		if (!testElement.classList.contains("c2")) {
+			var createMethod = function(method) {
+				var original = DOMTokenList.prototype[method];
+
+				DOMTokenList.prototype[method] = function(token) {
+					var i, len = arguments.length;
+
+					for (i = 0; i < len; i++) {
+						token = arguments[i];
+						original.call(this, token);
+					}
+				};
+			};
+			createMethod('add');
+			createMethod('remove');
+		}
+
+		testElement.classList.toggle("c3", false);
+
+		// Polyfill for IE 10 and Firefox <24, where classList.toggle does not
+		// support the second argument.
+		if (testElement.classList.contains("c3")) {
+			var _toggle = DOMTokenList.prototype.toggle;
+
+			DOMTokenList.prototype.toggle = function(token, force) {
+				if (1 in arguments && !this.contains(token) === !force) {
+					return force;
+				} else {
+					return _toggle.call(this, token);
+				}
+			};
+
+		}
+
+		testElement = null;
+	}());
+
+	}
+
+	}
+
+
+
+/***/ },
 /* 9 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	(function (doc, proto) {
+	  try {
+	    // check if browser supports :scope natively
+	    doc.querySelector(':scope body');
+	  } catch (err) {
+	    // polyfill native methods if it doesn't
+	    ['querySelector', 'querySelectorAll'].forEach(function (method) {
+	      var nativ = proto[method];
+	      proto[method] = function (selectors) {
+	        if (/(^|,)\s*:scope/.test(selectors)) {
+	          // only if selectors contains :scope
+	          var id = this.id; // remember current element id
+	          this.id = 'ID_' + Date.now(); // assign new unique id
+	          selectors = selectors.replace(/((^|,)\s*):scope/g, '$1#' + this.id); // replace :scope with #ID
+	          var result = doc[method](selectors);
+	          this.id = id; // restore previous id
+	          return result;
+	        } else {
+	          return nativ.call(this, selectors); // use native code for other selectors
+	        }
+	      };
+	    });
+	  }
+	})(window.document, Element.prototype);
+
+/***/ },
+/* 10 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.default = matches;
+	/**
+	 * Polyfill for the matches js method
+	 */
+	function matches(el, selector) {
+		if (el.nodeName == '#comment' || el.nodeName == '#text') {
+			return false;
+		}
+		var p = Element.prototype;
+		var f = p.matches || p.webkitMatchesSelector || p.mozMatchesSelector || p.msMatchesSelector || function (s) {
+			return [].indexOf.call(document.querySelectorAll(s), this) !== -1;
+		};
+		return f.call(el, selector);
+	}
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.default = uniqid;
+	var uniqidIdx = 0;
+
+	/**
+	 * Get a uniq id
+	 */
+	function uniqid() {
+		// update uniqid idx
+		uniqidIdx++;
+		var ts = String(new Date().getTime()),
+		    i = 0,
+		    out = '';
+		for (i = 0; i < ts.length; i += 2) {
+			out += Number(ts.substr(i, 2)).toString(36);
+		}
+		return 's' + out + uniqidIdx * Math.round(Math.random() * 9999999);
+	}
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.default = domReady;
+
+	var _stylesheetsReady = __webpack_require__(13);
+
+	var _stylesheetsReady2 = _interopRequireDefault(_stylesheetsReady);
+
+	var _promisePolyfill = __webpack_require__(5);
+
+	var _promisePolyfill2 = _interopRequireDefault(_promisePolyfill);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * Dom ready
+	 */
+
+	if (!window.Promise) {
+		window.Promise = _promisePolyfill2.default;
+	}
+
+	var neededStylesheetsStack = null;
+
+	function _domReady() {
+		var cb = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+
+		return new Promise(function (resolve, reject) {
+
+			var _domReady = function _domReady() {
+				if (!document.body || /(un|ing)/.test(document.readyState)) {
+					setTimeout(function () {
+						_domReady();
+					}, 9);
+				} else {
+
+					// grab all the needed stylesheets if not already done
+					if (!neededStylesheetsStack) {
+						// check in dom if has some needed stylesheets
+						neededStylesheetsStack = document.querySelectorAll('link[s-domready-dependency]');
+					}
+
+					if (!neededStylesheetsStack.length) {
+						if (cb) cb();
+						resolve();
+					} else {
+
+						(0, _stylesheetsReady2.default)(neededStylesheetsStack, function () {
+							// console.log('stylesheets loaded');
+							if (cb) cb();
+							resolve();
+						});
+					}
+				}
+			};
+			_domReady();
+		});
+	}
+
+	var domReadyCallbacks = [];
+	var domReadyProcess = false;
+	var domIsReady = false;
+
+	function domReady() {
+		var cb = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+
+
+		return new Promise(function (resolve, reject) {
+
+			// check if the dom is already ready
+			if (domIsReady) {
+				if (cb) cb();
+				resolve();
+				return;
+			}
+
+			// add the callback to the stack
+			domReadyCallbacks.push(function () {
+				if (cb) cb();
+				resolve();
+			});
+
+			// check if already a domReady detecting process
+			if (!domReadyProcess) {
+				domReadyProcess = true;
+				_domReady(function () {
+					// update the domIsReady
+					domIsReady = true;
+					// apply all the callbacks
+					domReadyCallbacks.forEach(function (callback) {
+						callback();
+					});
+				});
+			}
+		});
+	}
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.default = stylesheetsReady;
+
+	var _linkLoaded = __webpack_require__(14);
+
+	var _linkLoaded2 = _interopRequireDefault(_linkLoaded);
+
+	var _promisePolyfill = __webpack_require__(5);
+
+	var _promisePolyfill2 = _interopRequireDefault(_promisePolyfill);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	if (!window.Promise) {
+		window.Promise = _promisePolyfill2.default;
+	}
+
+	function stylesheetsReady(links) {
+		var cb = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+
+
+		var neededStylesheetsStack = links;
+		var neededStylesheetsCount = links.length;
+		var loadedStylesheedsCount = 0;
+		var loadedStylesheetsCallbacks = [];
+		var loadedStylesheedsProcess = false;
+		var stylesheetsDependenciesStatus = false;
+
+		return new Promise(function (resolve, reject) {
+
+			if (stylesheetsDependenciesStatus) {
+				cb !== null && cb();
+				resolve();
+				return;
+			}
+
+			// check if has some needed stylesheeds
+			if (!neededStylesheetsCount) {
+				// update the stylesheetsDependenciesStatus
+				stylesheetsDependenciesStatus = true;
+				// no dependencies or already loaded
+				cb !== null && cb();
+				resolve();
+				return;
+			}
+
+			// add the callback into the loaded stylesheets stack
+			// add the the callback stack
+			loadedStylesheetsCallbacks.push(function () {
+				cb !== null && cb();
+				resolve();
+			});
+
+			// check if already a process of checking for loaded
+			// stylesheets
+			if (!loadedStylesheedsProcess) {
+
+				// update the status
+				loadedStylesheedsProcess = true;
+
+				if (neededStylesheetsStack.length) {
+					[].forEach.call(neededStylesheetsStack, function (link) {
+						// check loaded
+						(0, _linkLoaded2.default)(link).then(function (link) {
+							console.log('loaded', link.href);
+							// update the loaded stylesheet count
+							loadedStylesheedsCount++;
+							// check if all stylesheets has been loaded
+							if (loadedStylesheedsCount >= neededStylesheetsCount) {
+
+								// update the stylesheetsDependenciesStatus
+								stylesheetsDependenciesStatus = true;
+								// loop on all the loadedStylesheetsCallbacks
+								loadedStylesheetsCallbacks.forEach(function (callback) {
+									// apply the callback
+									callback();
+								});
+							}
+						}, function (error) {
+							console.log('COCO', error);
+							// something goes wrong...
+							console.error('The following link as not been loaded properly...', error);
+						});
+					});
+				}
+			}
+		});
+	}
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.default = linkLoaded;
+
+	var _promisePolyfill = __webpack_require__(5);
+
+	var _promisePolyfill2 = _interopRequireDefault(_promisePolyfill);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	if (!window.Promise) {
+		window.Promise = _promisePolyfill2.default;
+	} /**
+	   * Detect when an image is loaded
+	   */
+
+
+	function alreadyLoaded(link) {
+		var href = link.href;
+		var result = false;
+		for (var i = 0; i < document.styleSheets.length; i++) {
+			if (document.styleSheets[i].href && document.styleSheets[i].href.match(href)) {
+				if (!document.styleSheets[i].cssRules || document.styleSheets[i].cssRules.length == 0) {
+					// Fallback. There is a request for the css file, but it failed.
+					break;
+				}
+				// the css is already loaded
+				result = true;
+			} else if (i == document.styleSheets.length - 1) {
+				// Fallback. There is no request for the css file.
+			}
+		}
+		return result;
+	}
+
+	function linkLoaded(link) {
+		var callback = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+
+		return new Promise(function (resolve, reject) {
+			// check if image is already loaded
+			if (alreadyLoaded(link)) {
+				// resolve promise
+				resolve(link);
+				// call the callback if exist
+				callback != null && callback(link);
+			} else {
+
+				var img = document.createElement('img');
+
+				// wait until loaded
+				console.log('CHECK LOADING', link.href);
+				// we load the css into an image
+				// when the image is in error more
+				// that mean that the css is loaded
+				img.addEventListener('error', function (e) {
+					console.log('LOADED', e);
+					// resolve the promise
+					resolve(link);
+					// callback if exist
+					callback != null && callback(link);
+				});
+				// listen for error
+				// img.addEventListener('error', (e) => {
+				// 	console.error('ERROR', e);
+				// 	// reject
+				// 	reject(e);
+				// }, false);
+
+				// set url
+				img.src = link.href;
+				// document.body.appendChild(img);
+			}
+		});
+	}
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _domReady = __webpack_require__(12);
+
+	var _domReady2 = _interopRequireDefault(_domReady);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// prepare a settings object to store
+	// the getted settings from the css
+	var settings = {};
+
+	// wait the css to be loaded
+	// imports
+	(0, _domReady2.default)(function () {
+		var settingsElm = document.createElement('div');
+		settingsElm.classList.add('s-settings');
+		document.body.appendChild(settingsElm);
+		var _settings = window.getComputedStyle(document.querySelector('.s-settings'), ':after').getPropertyValue('content');
+		if (_settings) {
+			_settings = _settings.replace(/\\"/g, '"');
+			// _settings = _settings.replace(/\\\'\\"/g,'"').replace(/\\"\\\'/g,'"');
+			// _settings = _settings.replace(/\'\\"/g,'"').replace(/\\"\'/g,'"');
+			// _settings = _settings.replace(/'"/g,'"').replace(/"'/g,'"');
+			_settings = _settings.slice(1, _settings.length - 1);
+			_settings = JSON.parse(_settings);
+
+			Object.assign(settings, _settings);
+
+			console.log('settings', settings);
+
+			// settings = {...settings, ..._settings};
+		}
+	});
+
+	// export the settings
+	module.exports = settings;
+
+/***/ },
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _SActivateElement = __webpack_require__(10);
+	var _SActivateElement = __webpack_require__(17);
 
 	var _SActivateElement2 = _interopRequireDefault(_SActivateElement);
 
-	var _querySelectorLive = __webpack_require__(19);
+	var _querySelectorLiveOnce = __webpack_require__(2);
 
-	var _querySelectorLive2 = _interopRequireDefault(_querySelectorLive);
+	var _querySelectorLiveOnce2 = _interopRequireDefault(_querySelectorLiveOnce);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -987,7 +1612,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		function SActivateManager() {
 			_classCallCheck(this, SActivateManager);
 
-			(0, _querySelectorLive2.default)('[data-s-activate],[s-activate]', function (element) {
+			(0, _querySelectorLiveOnce2.default)('[data-s-activate],[s-activate]', function (element) {
 				if (!element.sActivate) {
 					new _SActivateElement2.default(element);
 				}
@@ -1039,14 +1664,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = window.sugar.sActivateManager;
 
 /***/ },
-/* 10 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _SComponent2 = __webpack_require__(11);
+	var _SComponent2 = __webpack_require__(18);
 
 	var _SComponent3 = _interopRequireDefault(_SComponent2);
 
@@ -1054,7 +1679,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _scrollTop2 = _interopRequireDefault(_scrollTop);
 
-	var _uniqid = __webpack_require__(16);
+	var _uniqid = __webpack_require__(11);
 
 	var _uniqid2 = _interopRequireDefault(_uniqid);
 
@@ -1496,7 +2121,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = SActivateElement;
 
 /***/ },
-/* 11 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1507,23 +2132,23 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _uncamelize = __webpack_require__(12);
+	var _uncamelize = __webpack_require__(19);
 
 	var _uncamelize2 = _interopRequireDefault(_uncamelize);
 
-	var _upperFirst = __webpack_require__(13);
+	var _upperFirst = __webpack_require__(20);
 
 	var _upperFirst2 = _interopRequireDefault(_upperFirst);
 
-	var _autoCast = __webpack_require__(14);
+	var _autoCast = __webpack_require__(21);
 
 	var _autoCast2 = _interopRequireDefault(_autoCast);
 
-	var _SElement2 = __webpack_require__(15);
+	var _SElement2 = __webpack_require__(22);
 
 	var _SElement3 = _interopRequireDefault(_SElement2);
 
-	var _querySelectorLiveOnce = __webpack_require__(18);
+	var _querySelectorLiveOnce = __webpack_require__(2);
 
 	var _querySelectorLiveOnce2 = _interopRequireDefault(_querySelectorLiveOnce);
 
@@ -1688,21 +2313,36 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		SComponent.prototype.initProxy = function initProxy(cb) {
+			var _this2 = this;
 
-			switch (this.settings.initWhen) {
-				case 'visible':
-					(0, _querySelectorVisibleLiveOnce2.default)('[data-s-element-id="' + this.uniqid + '"]', cb);
-					break;
-				case 'viewportVisible':
-					(0, _querySelectorViewportVisibleLiveOnce2.default)('[data-s-element-id="' + this.uniqid + '"]', cb);
-					break;
-				case 'added':
-					(0, _querySelectorLiveOnce2.default)('[data-s-element-id="' + this.uniqid + '"]', cb);
-					break;
-				default:
-					cb();
-					break;
-			}
+			(function () {
+
+				switch (_this2.settings.initWhen) {
+					case 'visible':
+						(0, _querySelectorVisibleLiveOnce2.default)('[data-s-element-id="' + _this2.uniqid + '"]', cb);
+						break;
+					case 'viewportVisible':
+						(0, _querySelectorViewportVisibleLiveOnce2.default)('[data-s-element-id="' + _this2.uniqid + '"]', cb);
+						break;
+					case 'added':
+						(0, _querySelectorLiveOnce2.default)('[data-s-element-id="' + _this2.uniqid + '"]', cb);
+						break;
+					case 'click':
+						var clickHandler = function clickHandler(e) {
+							var id = e.target.getAttribute('data-s-element-id');
+							if (e.target === this.elm) {
+								cb();
+								document.removeEventListener('click', clickHandler.bind(this));
+							}
+						};
+
+						document.addEventListener('click', clickHandler.bind(_this2));
+						break;
+					default:
+						cb();
+						break;
+				}
+			})();
 		};
 
 		return SComponent;
@@ -1711,7 +2351,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = SComponent;
 
 /***/ },
-/* 12 */
+/* 19 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1735,7 +2375,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 13 */
+/* 20 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1750,7 +2390,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 14 */
+/* 21 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1772,30 +2412,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 15 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _uniqid = __webpack_require__(16);
+	var _uniqid = __webpack_require__(11);
 
 	var _uniqid2 = _interopRequireDefault(_uniqid);
 
-	var _camelize = __webpack_require__(17);
+	var _camelize = __webpack_require__(23);
 
 	var _camelize2 = _interopRequireDefault(_camelize);
 
-	var _uncamelize = __webpack_require__(12);
+	var _uncamelize = __webpack_require__(19);
 
 	var _uncamelize2 = _interopRequireDefault(_uncamelize);
 
-	var _autoCast = __webpack_require__(14);
+	var _autoCast = __webpack_require__(21);
 
 	var _autoCast2 = _interopRequireDefault(_autoCast);
 
-	var _querySelectorLiveOnce = __webpack_require__(18);
+	var _querySelectorLiveOnce = __webpack_require__(2);
 
 	var _querySelectorLiveOnce2 = _interopRequireDefault(_querySelectorLiveOnce);
 
@@ -1928,27 +2568,28 @@ return /******/ (function(modules) { // webpackBootstrap
 			setTimeout(function () {
 				var cbs = [function (elm) {
 					// empty callback just for the onRemove
+					if (_this.onAdded) _this.onAdded();
 				}];
 				if (typeof _this.onRemoved == 'function') {
 					cbs.push(function (elm) {
 						_this.onRemoved(elm);
 					});
 				}
-				// if (typeof(this.onAdded) == 'function') {
-				// 	querySelectorLiveOnce(`[data-s-element-id="${this.uniqid}"]`, cbs);
-				// }
-				// // check if is the onVisible method
-				// if (typeof(this.onVisible) == 'function') {
-				// 	querySelectorVisibleLiveOnce(`[data-s-element-id="${this.uniqid}"]`, (elm) => {
-				// 		this.onVisible(elm);
-				// 	});
-				// }
-				// // check if is the onViewportVisible method
-				// if (typeof(this.onViewportVisible) == 'function') {
-				// 	querySelectorViewportVisibleLiveOnce(`[data-s-element-id="${this.uniqid}"]`, (elm) => {
-				// 		this.onViewportVisible(elm);
-				// 	});
-				// }
+				if (typeof _this.onAdded == 'function') {
+					(0, _querySelectorLiveOnce2.default)('[data-s-element-id="' + _this.uniqid + '"]', cbs);
+				}
+				// check if is the onVisible method
+				if (typeof _this.onVisible == 'function') {
+					(0, _querySelectorVisibleLiveOnce2.default)('[data-s-element-id="' + _this.uniqid + '"]', function (elm) {
+						_this.onVisible(elm);
+					});
+				}
+				// check if is the onViewportVisible method
+				if (typeof _this.onViewportVisible == 'function') {
+					(0, _querySelectorViewportVisibleLiveOnce2.default)('[data-s-element-id="' + _this.uniqid + '"]', function (elm) {
+						_this.onViewportVisible(elm);
+					});
+				}
 			});
 			return _this;
 		}
@@ -2035,32 +2676,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = SElement;
 
 /***/ },
-/* 16 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	exports.__esModule = true;
-	exports.default = uniqid;
-	var uniqidIdx = 0;
-
-	/**
-	 * Get a uniq id
-	 */
-	function uniqid() {
-		// update uniqid idx
-		uniqidIdx++;
-		var ts = String(new Date().getTime()),
-		    i = 0,
-		    out = '';
-		for (i = 0; i < ts.length; i += 2) {
-			out += Number(ts.substr(i, 2)).toString(36);
-		}
-		return 's' + out + uniqidIdx * Math.round(Math.random() * 9999999);
-	}
-
-/***/ },
-/* 17 */
+/* 23 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2080,595 +2696,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 18 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; /**
-	                                                                                                                                                                                                                                                                   * Get the element once
-	                                                                                                                                                                                                                                                                   */
-
-
-	exports.default = querySelectorLiveOnce;
-
-	var _querySelectorLive = __webpack_require__(19);
-
-	var _querySelectorLive2 = _interopRequireDefault(_querySelectorLive);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function querySelectorLiveOnce(selector, cb) {
-		var settings = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-		// extend settings
-		settings = _extends({}, settings, {
-			once: true
-		});
-		(0, _querySelectorLive2.default)(selector, cb, settings);
-	}
-
-/***/ },
-/* 19 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	exports.default = querySelectorLive;
-
-	__webpack_require__(20);
-
-	var _promisePolyfill = __webpack_require__(6);
-
-	var _promisePolyfill2 = _interopRequireDefault(_promisePolyfill);
-
-	__webpack_require__(21);
-
-	__webpack_require__(22);
-
-	var _matches = __webpack_require__(23);
-
-	var _matches2 = _interopRequireDefault(_matches);
-
-	var _uniqid = __webpack_require__(16);
-
-	var _uniqid2 = _interopRequireDefault(_uniqid);
-
-	var _domReady = __webpack_require__(3);
-
-	var _domReady2 = _interopRequireDefault(_domReady);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	/**
-	 * Make a selector detectable when new element are pushed in the page
-	 */
-	var _insertAnimationListener = false;
-	var _insertMutationObserver = null;
-	var _insertDomElementsCallbacks = {};
-
-	if (!window.Promise) {
-		window.Promise = _promisePolyfill2.default;
-	}
-	function querySelectorLive(selector, cb) {
-		var settings = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-
-		// extend settings
-		settings = _extends({
-			rootNode: null,
-			groupedNodes: false,
-			once: false
-		}, settings);
-
-		var _this = this;
-
-		// use the animation hack to detect
-		// new items in the page
-		var detection_id = 's-query-selector-live-' + (0, _uniqid2.default)();
-
-		// add the callback in stack
-		_insertDomElementsCallbacks[detection_id] = {
-			once: settings.once,
-			once_added: false,
-			once_removed: false,
-			detection_id: detection_id,
-			_added_callback: typeof cb == 'function' ? cb : cb[0] ? cb[0] : null,
-			added_callback: function added_callback(_this) {
-				// save the detection id into node
-				// in order to be able to detect the deletion of it
-				if (_this.nodes) {
-					_this.nodes.forEach(function (node) {
-						node._s_query_selector_live_id = _this.detection_id;
-					});
-				}
-				if (!_this._added_callback) return;
-				if (_this.nodes.length > 1) {
-					_this._added_callback(_this.nodes);
-				} else if (_this.nodes.length == 1) {
-					_this._added_callback(_this.nodes[0]);
-				}
-				_this.nodes = [];
-			},
-			_removed_callback: cb instanceof Array && cb[1] ? cb[1] : null,
-			removed_callback: function removed_callback(_this) {
-				if (!_this._removed_callback) return;
-				if (_this.nodes.length > 1) {
-					_this._removed_callback(_this.nodes);
-				} else if (_this.nodes.length == 1) {
-					_this._removed_callback(_this.nodes[0]);
-				}
-				_this.nodes = [];
-			},
-			selector: selector,
-			rootNode: settings.rootNode,
-			groupedNodes: settings.groupedNodes,
-			nodes: [],
-			timeout: null
-		};
-
-		// make a query on existing elements
-		(0, _domReady2.default)(function () {
-
-			// rootNode
-			if (!settings.rootNode) {
-				settings.rootNode = document.body;
-			}
-
-			// check how we can detect new elements
-			if (window.MutationObserver != null) {
-
-				// make sure we try to get dom nodes
-				// AFTER first js loop that handle frameworks
-				// like angular, etc...
-				//setTimeout(() => {
-
-				if (!settings.rootNode._s_insert_mutation_observer) {
-
-					settings.rootNode._s_insert_mutation_observer = new MutationObserver(function (mutations) {
-
-						// check if what we need has been added
-						mutations.forEach(function (mutation) {
-
-							// added nodes
-							if (mutation.addedNodes) {
-								// let _callback = null,
-								// 	_groupedNodes = [];
-								// check if want grouped nodes in callback
-								[].forEach.call(mutation.addedNodes, function (node) {
-									// loop on each callbacks to find a match
-									for (var insert_id in _insertDomElementsCallbacks) {
-										var insertDomParams = _insertDomElementsCallbacks[insert_id],
-										    once = insertDomParams.once,
-										    once_added = insertDomParams.once_added;
-										if (!once || !once_added) {
-											// check if the selector match
-											if ((0, _matches2.default)(node, insertDomParams.selector)) {
-												// check if we need to group the elements in one
-												// callback call
-												insertDomParams.nodes.push(node);
-												if (insertDomParams.groupedNodes) {
-													clearTimeout(insertDomParams.timeout);
-													insertDomParams.timeout = setTimeout(insertDomParams.added_callback.bind(null, insertDomParams));
-												} else {
-													insertDomParams.added_callback(insertDomParams);
-												}
-												// if once, update the once_added property
-												if (once) {
-													_insertDomElementsCallbacks[insert_id].once_added = true;
-													// if we don't have any removed callback
-													// we delete the parameters from the stack
-													if (!insertDomParams._removed_callback) {
-														delete _insertDomElementsCallbacks[insert_id];
-													}
-												}
-											}
-										}
-									}
-								});
-							}
-
-							// removed nodes
-							if (mutation.removedNodes) {
-								// let _callback = null,
-								// 	_groupedNodes = [];
-								// check if want grouped nodes in callback
-								[].forEach.call(mutation.removedNodes, function (node) {
-									// loop on each callbacks to find a match
-									if (node.nodeName != '#text') {
-										for (var insert_id in _insertDomElementsCallbacks) {
-
-											var insertDomParams = _insertDomElementsCallbacks[insert_id],
-											    once = insertDomParams.once,
-											    once_removed = insertDomParams.once_removed;
-											if (!once || !once_removed) {
-
-												if (node._s_query_selector_live_id == insert_id) {
-													// if (__matches(node, _insertDomElementsCallbacks[insert_id].selector)) {
-													// check if we need to group the elements
-													// to pass to callback
-													insertDomParams.nodes.push(node);
-													if (insertDomParams.groupedNodes) {
-														clearTimeout(insertDomParams.timeout);
-														insertDomParams.timeout = setTimeout(insertDomParams.removed_callback.bind(null, insertDomParams));
-													} else {
-														insertDomParams.removed_callback(insertDomParams);
-													}
-													// if once, we remove the parameters from the stack
-													// because we don't want to check this selector again
-													if (once) {
-														delete _insertDomElementsCallbacks[insert_id];
-													}
-												}
-											}
-										}
-									}
-								});
-							}
-						});
-					});
-					settings.rootNode._s_insert_mutation_observer.observe(settings.rootNode, {
-						childList: true
-					});
-				}
-
-				// parse the dom to find the currently present elements
-				[].forEach.call(settings.rootNode.querySelectorAll(selector), function (elm) {
-					_insertDomElementsCallbacks[detection_id].nodes.push(elm);
-					if (_insertDomElementsCallbacks[detection_id].groupedNodes) {
-						clearTimeout(_insertDomElementsCallbacks[detection_id].timeout);
-						_insertDomElementsCallbacks[detection_id].timeout = setTimeout(_insertDomElementsCallbacks[detection_id].added_callback.bind(null, _insertDomElementsCallbacks[detection_id]));
-					} else {
-						_insertDomElementsCallbacks[detection_id].added_callback(_insertDomElementsCallbacks[detection_id]);
-					}
-				});
-			} else {
-				// add the animation style in DOM
-				var css = selector + (' { \n\t\t\t\t-webkit-animation:' + detection_id + ' 0.001s;\n\t\t\t\t-moz-animation:' + detection_id + ' 0.001s;\n\t\t\t\t-ms-animation:' + detection_id + ' 0.001s;\n\t\t\t\tanimation:' + detection_id + ' 0.001s;\n\t\t\t}\n\t\t\t@keyframes ' + detection_id + ' {\n\t\t\t\tfrom { opacity: .99; }\n\t\t\t\tto { opacity: 1; }\n\t\t\t}');
-				var style = document.createElement('style');
-				style.type = 'text/css';
-				if (style.styleSheet) {
-					style.styleSheet.cssText = css;
-				} else {
-					style.appendChild(document.createTextNode(css));
-				}
-				// now we listen for animation end
-				// but only once
-				if (!_insertAnimationListener) {
-					_insertAnimationListener = true;
-					document.addEventListener('animationend', function (e) {
-						if (_insertDomElementsCallbacks[e.animationName]) {
-							_insertDomElementsCallbacks[e.animationName].callback(e.target);
-						}
-					});
-				}
-				// append the animation in head
-				document.head.appendChild(style);
-			}
-		});
-	}
-
-/***/ },
-/* 20 */
-/***/ function(module, exports) {
-
-	// mutationobserver-shim v0.3.1 (github.com/megawac/MutationObserver.js)
-	// Authors: Graeme Yeates (github.com/megawac) 
-	window.MutationObserver=window.MutationObserver||window.WebKitMutationObserver||function(r){function w(a){this.g=[];this.k=a}function H(a){(function c(){var d=a.takeRecords();d.length&&a.k(d,a);a.f=setTimeout(c,w._period)})()}function t(a){var b={type:null,target:null,addedNodes:[],removedNodes:[],previousSibling:null,nextSibling:null,attributeName:null,attributeNamespace:null,oldValue:null},c;for(c in a)b[c]!==r&&a[c]!==r&&(b[c]=a[c]);return b}function I(a,b){var c=B(a,b);return function(d){var g=
-	d.length,n;b.a&&c.a&&A(d,a,c.a,b.d);if(b.b||b.e)n=J(d,a,c,b);if(n||d.length!==g)c=B(a,b)}}function A(a,b,c,d){for(var g={},n=b.attributes,h,m,C=n.length;C--;)h=n[C],m=h.name,d&&d[m]===r||(h.value!==c[m]&&a.push(t({type:"attributes",target:b,attributeName:m,oldValue:c[m],attributeNamespace:h.namespaceURI})),g[m]=!0);for(m in c)g[m]||a.push(t({target:b,type:"attributes",attributeName:m,oldValue:c[m]}))}function J(a,b,c,d){function g(b,c,g,h,y){var r=b.length-1;y=-~((r-y)/2);for(var f,k,e;e=b.pop();)f=
-	g[e.h],k=h[e.i],d.b&&y&&Math.abs(e.h-e.i)>=r&&(a.push(t({type:"childList",target:c,addedNodes:[f],removedNodes:[f],nextSibling:f.nextSibling,previousSibling:f.previousSibling})),y--),d.a&&k.a&&A(a,f,k.a,d.d),d.c&&3===f.nodeType&&f.nodeValue!==k.c&&a.push(t({type:"characterData",target:f})),d.e&&n(f,k)}function n(b,c){for(var x=b.childNodes,p=c.b,y=x.length,w=p?p.length:0,f,k,e,l,u,z=0,v=0,q=0;v<y||q<w;)l=x[v],u=(e=p[q])&&e.j,l===u?(d.a&&e.a&&A(a,l,e.a,d.d),d.c&&e.c!==r&&l.nodeValue!==e.c&&a.push(t({type:"characterData",
-	target:l})),k&&g(k,b,x,p,z),d.e&&(l.childNodes.length||e.b&&e.b.length)&&n(l,e),v++,q++):(h=!0,f||(f={},k=[]),l&&(f[e=D(l)]||(f[e]=!0,-1===(e=E(p,l,q,"j"))?d.b&&(a.push(t({type:"childList",target:b,addedNodes:[l],nextSibling:l.nextSibling,previousSibling:l.previousSibling})),z++):k.push({h:v,i:e})),v++),u&&u!==x[v]&&(f[e=D(u)]||(f[e]=!0,-1===(e=E(x,u,v))?d.b&&(a.push(t({type:"childList",target:c.j,removedNodes:[u],nextSibling:p[q+1],previousSibling:p[q-1]})),z--):k.push({h:e,i:q})),q++));k&&g(k,b,
-	x,p,z)}var h;n(b,c);return h}function B(a,b){var c=!0;return function g(a){var h={j:a};!b.c||3!==a.nodeType&&8!==a.nodeType?(b.a&&c&&1===a.nodeType&&(h.a=F(a.attributes,function(a,c){if(!b.d||b.d[c.name])a[c.name]=c.value;return a})),c&&(b.b||b.c||b.a&&b.e)&&(h.b=K(a.childNodes,g)),c=b.e):h.c=a.nodeValue;return h}(a)}function D(a){try{return a.id||(a.mo_id=a.mo_id||G++)}catch(b){try{return a.nodeValue}catch(c){return G++}}}function K(a,b){for(var c=[],d=0;d<a.length;d++)c[d]=b(a[d],d,a);return c}
-	function F(a,b){for(var c={},d=0;d<a.length;d++)c=b(c,a[d],d,a);return c}function E(a,b,c,d){for(;c<a.length;c++)if((d?a[c][d]:a[c])===b)return c;return-1}w._period=30;w.prototype={observe:function(a,b){for(var c={a:!!(b.attributes||b.attributeFilter||b.attributeOldValue),b:!!b.childList,e:!!b.subtree,c:!(!b.characterData&&!b.characterDataOldValue)},d=this.g,g=0;g<d.length;g++)d[g].m===a&&d.splice(g,1);b.attributeFilter&&(c.d=F(b.attributeFilter,function(a,b){a[b]=!0;return a}));d.push({m:a,l:I(a,
-	c)});this.f||H(this)},takeRecords:function(){for(var a=[],b=this.g,c=0;c<b.length;c++)b[c].l(a);return a},disconnect:function(){this.g=[];clearTimeout(this.f);this.f=null}};var G=1;return w}(void 0);
-
-
-/***/ },
-/* 21 */
-/***/ function(module, exports) {
-
-	/*
-	 * classList.js: Cross-browser full element.classList implementation.
-	 * 1.1.20150312
-	 *
-	 * By Eli Grey, http://eligrey.com
-	 * License: Dedicated to the public domain.
-	 *   See https://github.com/eligrey/classList.js/blob/master/LICENSE.md
-	 */
-
-	/*global self, document, DOMException */
-
-	/*! @source http://purl.eligrey.com/github/classList.js/blob/master/classList.js */
-
-	if ("document" in self) {
-
-	// Full polyfill for browsers with no classList support
-	// Including IE < Edge missing SVGElement.classList
-	if (!("classList" in document.createElement("_")) 
-		|| document.createElementNS && !("classList" in document.createElementNS("http://www.w3.org/2000/svg","g"))) {
-
-	(function (view) {
-
-	"use strict";
-
-	if (!('Element' in view)) return;
-
-	var
-		  classListProp = "classList"
-		, protoProp = "prototype"
-		, elemCtrProto = view.Element[protoProp]
-		, objCtr = Object
-		, strTrim = String[protoProp].trim || function () {
-			return this.replace(/^\s+|\s+$/g, "");
-		}
-		, arrIndexOf = Array[protoProp].indexOf || function (item) {
-			var
-				  i = 0
-				, len = this.length
-			;
-			for (; i < len; i++) {
-				if (i in this && this[i] === item) {
-					return i;
-				}
-			}
-			return -1;
-		}
-		// Vendors: please allow content code to instantiate DOMExceptions
-		, DOMEx = function (type, message) {
-			this.name = type;
-			this.code = DOMException[type];
-			this.message = message;
-		}
-		, checkTokenAndGetIndex = function (classList, token) {
-			if (token === "") {
-				throw new DOMEx(
-					  "SYNTAX_ERR"
-					, "An invalid or illegal string was specified"
-				);
-			}
-			if (/\s/.test(token)) {
-				throw new DOMEx(
-					  "INVALID_CHARACTER_ERR"
-					, "String contains an invalid character"
-				);
-			}
-			return arrIndexOf.call(classList, token);
-		}
-		, ClassList = function (elem) {
-			var
-				  trimmedClasses = strTrim.call(elem.getAttribute("class") || "")
-				, classes = trimmedClasses ? trimmedClasses.split(/\s+/) : []
-				, i = 0
-				, len = classes.length
-			;
-			for (; i < len; i++) {
-				this.push(classes[i]);
-			}
-			this._updateClassName = function () {
-				elem.setAttribute("class", this.toString());
-			};
-		}
-		, classListProto = ClassList[protoProp] = []
-		, classListGetter = function () {
-			return new ClassList(this);
-		}
-	;
-	// Most DOMException implementations don't allow calling DOMException's toString()
-	// on non-DOMExceptions. Error's toString() is sufficient here.
-	DOMEx[protoProp] = Error[protoProp];
-	classListProto.item = function (i) {
-		return this[i] || null;
-	};
-	classListProto.contains = function (token) {
-		token += "";
-		return checkTokenAndGetIndex(this, token) !== -1;
-	};
-	classListProto.add = function () {
-		var
-			  tokens = arguments
-			, i = 0
-			, l = tokens.length
-			, token
-			, updated = false
-		;
-		do {
-			token = tokens[i] + "";
-			if (checkTokenAndGetIndex(this, token) === -1) {
-				this.push(token);
-				updated = true;
-			}
-		}
-		while (++i < l);
-
-		if (updated) {
-			this._updateClassName();
-		}
-	};
-	classListProto.remove = function () {
-		var
-			  tokens = arguments
-			, i = 0
-			, l = tokens.length
-			, token
-			, updated = false
-			, index
-		;
-		do {
-			token = tokens[i] + "";
-			index = checkTokenAndGetIndex(this, token);
-			while (index !== -1) {
-				this.splice(index, 1);
-				updated = true;
-				index = checkTokenAndGetIndex(this, token);
-			}
-		}
-		while (++i < l);
-
-		if (updated) {
-			this._updateClassName();
-		}
-	};
-	classListProto.toggle = function (token, force) {
-		token += "";
-
-		var
-			  result = this.contains(token)
-			, method = result ?
-				force !== true && "remove"
-			:
-				force !== false && "add"
-		;
-
-		if (method) {
-			this[method](token);
-		}
-
-		if (force === true || force === false) {
-			return force;
-		} else {
-			return !result;
-		}
-	};
-	classListProto.toString = function () {
-		return this.join(" ");
-	};
-
-	if (objCtr.defineProperty) {
-		var classListPropDesc = {
-			  get: classListGetter
-			, enumerable: true
-			, configurable: true
-		};
-		try {
-			objCtr.defineProperty(elemCtrProto, classListProp, classListPropDesc);
-		} catch (ex) { // IE 8 doesn't support enumerable:true
-			if (ex.number === -0x7FF5EC54) {
-				classListPropDesc.enumerable = false;
-				objCtr.defineProperty(elemCtrProto, classListProp, classListPropDesc);
-			}
-		}
-	} else if (objCtr[protoProp].__defineGetter__) {
-		elemCtrProto.__defineGetter__(classListProp, classListGetter);
-	}
-
-	}(self));
-
-	} else {
-	// There is full or partial native classList support, so just check if we need
-	// to normalize the add/remove and toggle APIs.
-
-	(function () {
-		"use strict";
-
-		var testElement = document.createElement("_");
-
-		testElement.classList.add("c1", "c2");
-
-		// Polyfill for IE 10/11 and Firefox <26, where classList.add and
-		// classList.remove exist but support only one argument at a time.
-		if (!testElement.classList.contains("c2")) {
-			var createMethod = function(method) {
-				var original = DOMTokenList.prototype[method];
-
-				DOMTokenList.prototype[method] = function(token) {
-					var i, len = arguments.length;
-
-					for (i = 0; i < len; i++) {
-						token = arguments[i];
-						original.call(this, token);
-					}
-				};
-			};
-			createMethod('add');
-			createMethod('remove');
-		}
-
-		testElement.classList.toggle("c3", false);
-
-		// Polyfill for IE 10 and Firefox <24, where classList.toggle does not
-		// support the second argument.
-		if (testElement.classList.contains("c3")) {
-			var _toggle = DOMTokenList.prototype.toggle;
-
-			DOMTokenList.prototype.toggle = function(token, force) {
-				if (1 in arguments && !this.contains(token) === !force) {
-					return force;
-				} else {
-					return _toggle.call(this, token);
-				}
-			};
-
-		}
-
-		testElement = null;
-	}());
-
-	}
-
-	}
-
-
-
-/***/ },
-/* 22 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	(function (doc, proto) {
-	  try {
-	    // check if browser supports :scope natively
-	    doc.querySelector(':scope body');
-	  } catch (err) {
-	    // polyfill native methods if it doesn't
-	    ['querySelector', 'querySelectorAll'].forEach(function (method) {
-	      var nativ = proto[method];
-	      proto[method] = function (selectors) {
-	        if (/(^|,)\s*:scope/.test(selectors)) {
-	          // only if selectors contains :scope
-	          var id = this.id; // remember current element id
-	          this.id = 'ID_' + Date.now(); // assign new unique id
-	          selectors = selectors.replace(/((^|,)\s*):scope/g, '$1#' + this.id); // replace :scope with #ID
-	          var result = doc[method](selectors);
-	          this.id = id; // restore previous id
-	          return result;
-	        } else {
-	          return nativ.call(this, selectors); // use native code for other selectors
-	        }
-	      };
-	    });
-	  }
-	})(window.document, Element.prototype);
-
-/***/ },
-/* 23 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	exports.__esModule = true;
-	exports.default = matches;
-	/**
-	 * Polyfill for the matches js method
-	 */
-	function matches(el, selector) {
-		if (el.nodeName == '#comment' || el.nodeName == '#text') {
-			return false;
-		}
-		var p = Element.prototype;
-		var f = p.matches || p.webkitMatchesSelector || p.mozMatchesSelector || p.msMatchesSelector || function (s) {
-			return [].indexOf.call(document.querySelectorAll(s), this) !== -1;
-		};
-		return f.call(el, selector);
-	}
-
-/***/ },
 /* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -2684,7 +2711,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.default = querySelectorVisibleLiveOnce;
 
-	var _querySelectorLive = __webpack_require__(19);
+	var _querySelectorLive = __webpack_require__(3);
 
 	var _querySelectorLive2 = _interopRequireDefault(_querySelectorLive);
 
@@ -2877,7 +2904,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.default = querySelectorViewportVisibleLiveOnce;
 
-	var _querySelectorLive = __webpack_require__(19);
+	var _querySelectorLive = __webpack_require__(3);
 
 	var _querySelectorLive2 = _interopRequireDefault(_querySelectorLive);
 
@@ -2996,7 +3023,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.__esModule = true;
 	exports.default = dataset;
 
-	var _uncamelize = __webpack_require__(12);
+	var _uncamelize = __webpack_require__(19);
 
 	var _uncamelize2 = _interopRequireDefault(_uncamelize);
 
@@ -5054,15 +5081,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _SWatcher2 = _interopRequireDefault(_SWatcher);
 
-	var _camelize = __webpack_require__(17);
+	var _camelize = __webpack_require__(23);
 
 	var _camelize2 = _interopRequireDefault(_camelize);
 
-	var _uncamelize = __webpack_require__(12);
+	var _uncamelize = __webpack_require__(19);
 
 	var _uncamelize2 = _interopRequireDefault(_uncamelize);
 
-	var _uniqid = __webpack_require__(16);
+	var _uniqid = __webpack_require__(11);
 
 	var _uniqid2 = _interopRequireDefault(_uniqid);
 
@@ -5266,11 +5293,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.__esModule = true;
 
-	var _SComponent2 = __webpack_require__(11);
+	var _SComponent2 = __webpack_require__(18);
 
 	var _SComponent3 = _interopRequireDefault(_SComponent2);
 
-	var _querySelectorLive = __webpack_require__(19);
+	var _querySelectorLive = __webpack_require__(3);
 
 	var _querySelectorLive2 = _interopRequireDefault(_querySelectorLive);
 
@@ -5290,7 +5317,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _scrollTop2 = _interopRequireDefault(_scrollTop);
 
-	var _uniqid = __webpack_require__(16);
+	var _uniqid = __webpack_require__(11);
 
 	var _uniqid2 = _interopRequireDefault(_uniqid);
 
@@ -6219,7 +6246,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.__esModule = true;
 	exports.default = next;
 
-	var _matches = __webpack_require__(23);
+	var _matches = __webpack_require__(10);
 
 	var _matches2 = _interopRequireDefault(_matches);
 
@@ -6247,7 +6274,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.__esModule = true;
 	exports.default = previous;
 
-	var _matches = __webpack_require__(23);
+	var _matches = __webpack_require__(10);
 
 	var _matches2 = _interopRequireDefault(_matches);
 
@@ -6435,7 +6462,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _SComponent2 = __webpack_require__(11);
+	var _SComponent2 = __webpack_require__(18);
 
 	var _SComponent3 = _interopRequireDefault(_SComponent2);
 
@@ -6443,11 +6470,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _pikadayTime2 = _interopRequireDefault(_pikadayTime);
 
-	var _sSettings = __webpack_require__(2);
+	var _sSettings = __webpack_require__(15);
 
 	var _sSettings2 = _interopRequireDefault(_sSettings);
 
-	var _querySelectorLive = __webpack_require__(19);
+	var _querySelectorLive = __webpack_require__(3);
 
 	var _querySelectorLive2 = _interopRequireDefault(_querySelectorLive);
 
@@ -22137,13 +22164,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.__esModule = true;
 
-	var _SComponent2 = __webpack_require__(11);
+	var _SComponent2 = __webpack_require__(18);
 
 	var _SComponent3 = _interopRequireDefault(_SComponent2);
 
-	var _querySelectorLive = __webpack_require__(19);
+	var _querySelectorVisibleLiveOnce = __webpack_require__(24);
 
-	var _querySelectorLive2 = _interopRequireDefault(_querySelectorLive);
+	var _querySelectorVisibleLiveOnce2 = _interopRequireDefault(_querySelectorVisibleLiveOnce);
 
 	var _next = __webpack_require__(92);
 
@@ -22161,7 +22188,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _scrollTop2 = _interopRequireDefault(_scrollTop);
 
-	var _uniqid = __webpack_require__(16);
+	var _uniqid = __webpack_require__(11);
 
 	var _uniqid2 = _interopRequireDefault(_uniqid);
 
@@ -22401,7 +22428,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// init the select
 
 
-	(0, _querySelectorLive2.default)('input[s-range-input]', function (elm) {
+	(0, _querySelectorVisibleLiveOnce2.default)('input[s-range-input]', function (elm) {
 		new SRangeInputElement(elm, {
 			formater: SRangeInputElement.percentFormater
 		});
@@ -24396,13 +24423,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.__esModule = true;
 
-	var _SComponent2 = __webpack_require__(11);
+	var _SComponent2 = __webpack_require__(18);
 
 	var _SComponent3 = _interopRequireDefault(_SComponent2);
 
-	var _querySelectorLive = __webpack_require__(19);
+	var _querySelectorVisibleLiveOnce = __webpack_require__(24);
 
-	var _querySelectorLive2 = _interopRequireDefault(_querySelectorLive);
+	var _querySelectorVisibleLiveOnce2 = _interopRequireDefault(_querySelectorVisibleLiveOnce);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -24478,7 +24505,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// init the radiobox
 
 
-	(0, _querySelectorLive2.default)('[s-radiobox][type="checkbox"],[s-radiobox][type="radio"]', function (elm) {
+	(0, _querySelectorVisibleLiveOnce2.default)('[s-radiobox][type="checkbox"],[s-radiobox][type="radio"]', function (elm) {
 		new SRadioboxElement(elm);
 	});
 
@@ -24497,9 +24524,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var _querySelectorVisibleLive = __webpack_require__(209);
+	var _querySelectorVisibleLiveOnce = __webpack_require__(24);
 
-	var _querySelectorVisibleLive2 = _interopRequireDefault(_querySelectorVisibleLive);
+	var _querySelectorVisibleLiveOnce2 = _interopRequireDefault(_querySelectorVisibleLiveOnce);
 
 	var _isVisible = __webpack_require__(26);
 
@@ -24511,7 +24538,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	(0, _querySelectorVisibleLive2.default)('.label--inside', function (elm) {
+	(0, _querySelectorVisibleLiveOnce2.default)('.label--inside', function (elm) {
 
 		var span = elm.querySelector(':scope > span');
 		if (span) {
@@ -24579,57 +24606,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	exports.__esModule = true;
-	exports.default = querySelectorVisibleLive;
 
-	var _querySelectorLive = __webpack_require__(19);
-
-	var _querySelectorLive2 = _interopRequireDefault(_querySelectorLive);
-
-	var _whenVisible = __webpack_require__(25);
-
-	var _whenVisible2 = _interopRequireDefault(_whenVisible);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	/**
-	 * Grab all the visible element
-	 * And apply the callback when a new item match the selector
-	 */
-	function querySelectorVisibleLive(selector, cb, settings) {
-		(0, _querySelectorLive2.default)(selector, function (elm) {
-			// check if is array
-			if (elm instanceof Array) {
-				elm.forEach(function (e) {
-					(0, _whenVisible2.default)(e).then(function (e) {
-						cb(e);
-					});
-				});
-			} else {
-				// check if is visible
-				(0, _whenVisible2.default)(elm).then(function (elm) {
-					cb(elm);
-				});
-			}
-		}, settings);
-	}
-
-/***/ },
-/* 210 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _SComponent2 = __webpack_require__(11);
+	var _SComponent2 = __webpack_require__(18);
 
 	var _SComponent3 = _interopRequireDefault(_SComponent2);
 
-	var _querySelectorLive = __webpack_require__(19);
+	var _querySelectorVisibleLiveOnce = __webpack_require__(24);
 
-	var _querySelectorLive2 = _interopRequireDefault(_querySelectorLive);
+	var _querySelectorVisibleLiveOnce2 = _interopRequireDefault(_querySelectorVisibleLiveOnce);
 
-	var _getAnimationProperties = __webpack_require__(211);
+	var _getAnimationProperties = __webpack_require__(210);
 
 	var _getAnimationProperties2 = _interopRequireDefault(_getAnimationProperties);
 
@@ -24649,7 +24635,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _scrollTop2 = _interopRequireDefault(_scrollTop);
 
-	var _uniqid = __webpack_require__(16);
+	var _uniqid = __webpack_require__(11);
 
 	var _uniqid2 = _interopRequireDefault(_uniqid);
 
@@ -24657,7 +24643,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _SEvent2 = _interopRequireDefault(_SEvent);
 
-	var _debounce = __webpack_require__(214);
+	var _requestAnimationFrame = __webpack_require__(213);
+
+	var _requestAnimationFrame2 = _interopRequireDefault(_requestAnimationFrame);
+
+	var _SParticlesSystemElement = __webpack_require__(214);
+
+	var _SParticlesSystemElement2 = _interopRequireDefault(_SParticlesSystemElement);
+
+	var _setRecursiveTimeout = __webpack_require__(216);
+
+	var _setRecursiveTimeout2 = _interopRequireDefault(_setRecursiveTimeout);
+
+	var _debounce = __webpack_require__(217);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -24695,9 +24693,18 @@ return /******/ (function(modules) { // webpackBootstrap
 		};
 
 		/**
-	  * Constructor
+	  * Container
 	  */
 
+
+		/**
+	  * Ripple elements
+	  */
+
+
+		/**
+	  * Constructor
+	  */
 
 		function SRipple(elm) {
 			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
@@ -24705,104 +24712,27 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			_classCallCheck(this, SRipple);
 
-			// listen for click
-
 			var _this = _possibleConstructorReturn(this, _SComponent.call(this, name, elm, {
-				delay: 150, // delay in ms between each ripple
-				count: 1, // number of ripple to trigger on click
-				spread: 0 }, settings));
+				delay: 50, // delay in ms between each ripple
+				count: 2, // number of ripple to trigger on click
+				spread: 0, // spread distance for each ripple
+				class: 's-ripple' // the class that will be applied on each ripples
+			}, settings));
 
-			_this.elm.addEventListener('click', _this.handleClick.bind(_this));
+			_this.containerElm = null;
+			_this.rippleElms = [];
+
+
+			console.log('settings', _this.settings);
+
+			// const clear = setRecursiveTimeout(() => {
+			// 	console.log('Howo');
+			// }, 100, 2000, 0);
 
 			// init
 			_this.initProxy(_this._init.bind(_this));
 			return _this;
 		}
-
-		/**
-	  * Build html
-	  */
-
-
-		SRipple.prototype.getHtml = function getHtml() {
-
-			// container
-			var container = document.createElement('div');
-			container.classList.add('s-ripple');
-			var rippleItem = null;
-
-			// create each ripples
-			// for(let i=0; i<this.settings.count; i++) {
-			// 	const ripple = document.createElement('div');
-			// 	ripple.classList.add('s-ripple__ripple');
-			// 	container.appendChild(ripple);
-			// 	if (i===0) this.rippleItem = ripple;
-			// }
-
-			// save into instance
-			return container;
-		};
-
-		/**
-	  * Add ripple element
-	  */
-
-
-		SRipple.prototype.addRippleItemTo = function addRippleItemTo(container) {
-			console.log('add');
-			var item = document.createElement('div');
-			item.classList.add('s-ripple__ripple');
-			container.appendChild(item);
-			return item;
-		};
-
-		/**
-	  * Handle click
-	  */
-
-
-		SRipple.prototype.handleClick = function handleClick(e) {
-			var _this2 = this;
-
-			var html = this.getHtml();
-
-			// add a new ripple
-			this.elm.appendChild(html);
-
-			console.log(e);
-
-			// set position if needed
-			var position = this.elm.style.position;
-			if (!position) {
-				console.log('set relative');
-				this.elm.style.position = 'relative';
-			}
-
-			for (var i = 0; i < this.settings.count; i++) {
-				if (i === 0) {
-					var item = this.addRippleItemTo(html);
-					item.style.top = e.offsetY + 'px';
-					item.style.left = e.offsetX + 'px';
-				} else {
-					setTimeout(function () {
-						var item = _this2.addRippleItemTo(html);
-						item.style.top = e.offsetY + 'px';
-						item.style.left = e.offsetX + 'px';
-					}, this.settings.delay * i);
-				}
-			}
-
-			var firstItem = html.firstChild;
-
-			// get animation
-			var animation = (0, _getAnimationProperties2.default)(firstItem);
-
-			// wait till the animation is finished
-			setTimeout(function () {
-				// remove the html
-				_this2.elm.removeChild(html);
-			}, animation.totalDuration + this.settings.count * this.settings.delay);
-		};
 
 		/**
 	  * On added to dom
@@ -24812,6 +24742,43 @@ return /******/ (function(modules) { // webpackBootstrap
 		SRipple.prototype._init = function _init() {
 			if (this._inited) return;
 			this._inited = true;
+
+			console.log('INIT ripple');
+
+			// listen for click
+			this.elm.addEventListener('click', this.handleClick.bind(this));
+		};
+
+		/**
+	  * Handle click
+	  */
+
+
+		SRipple.prototype.handleClick = function handleClick(e) {
+			// create new particle system
+			var particlesSystemElm = document.createElement('div');
+			particlesSystemElm.classList.add('s-ripple-container');
+
+			var particlesSystem = new _SParticlesSystemElement2.default(particlesSystemElm, {
+				emitterX: e.offsetX + 'px',
+				emitterY: e.offsetY + 'px',
+				amount: this.settings.count,
+				spread: this.settings.spread,
+				particleClass: this.settings.class,
+				duration: this.settings.delay * this.settings.count,
+				onComplete: function onComplete() {
+					particlesSystemElm.parentNode.removeChild(particlesSystemElm);
+				}
+			});
+
+			// add a new ripple
+			this.elm.appendChild(particlesSystemElm);
+
+			// set position if needed
+			var position = this.elm.style.position;
+			if (!position) {
+				this.elm.style.position = 'relative';
+			}
 		};
 
 		return SRipple;
@@ -24820,7 +24787,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// init the select
 
 
-	(0, _querySelectorLive2.default)('[s-ripple]', function (elm) {
+	(0, _querySelectorVisibleLiveOnce2.default)('[s-ripple]', function (elm) {
 		new SRipple(elm);
 	});
 
@@ -24834,7 +24801,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = SRipple;
 
 /***/ },
-/* 211 */
+/* 210 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24842,11 +24809,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.__esModule = true;
 	exports.default = getAnimationProperties;
 
-	var _getStyleProperty = __webpack_require__(212);
+	var _getStyleProperty = __webpack_require__(211);
 
 	var _getStyleProperty2 = _interopRequireDefault(_getStyleProperty);
 
-	var _toMs = __webpack_require__(213);
+	var _toMs = __webpack_require__(212);
 
 	var _toMs2 = _interopRequireDefault(_toMs);
 
@@ -24896,7 +24863,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 212 */
+/* 211 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24904,11 +24871,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.__esModule = true;
 	exports.default = getStyleProperty;
 
-	var _camelize = __webpack_require__(17);
+	var _camelize = __webpack_require__(23);
 
 	var _camelize2 = _interopRequireDefault(_camelize);
 
-	var _autoCast = __webpack_require__(14);
+	var _autoCast = __webpack_require__(21);
 
 	var _autoCast2 = _interopRequireDefault(_autoCast);
 
@@ -24926,7 +24893,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 213 */
+/* 212 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -24953,7 +24920,240 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
+/* 213 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	exports.__esModule = true;
+	exports.default = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+
+/***/ },
 /* 214 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _SComponent2 = __webpack_require__(18);
+
+	var _SComponent3 = _interopRequireDefault(_SComponent2);
+
+	var _SParticleElement = __webpack_require__(215);
+
+	var _SParticleElement2 = _interopRequireDefault(_SParticleElement);
+
+	var _setRecursiveTimeout = __webpack_require__(216);
+
+	var _setRecursiveTimeout2 = _interopRequireDefault(_setRecursiveTimeout);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
+
+	var SParticlesSystemElement = function (_SComponent) {
+		_inherits(SParticlesSystemElement, _SComponent);
+
+		/**
+	  * Constructor
+	  */
+
+		function SParticlesSystemElement(elm) {
+			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+			var name = arguments.length <= 2 || arguments[2] === undefined ? 'sParticlesSystem' : arguments[2];
+
+			_classCallCheck(this, SParticlesSystemElement);
+
+			// init
+
+			var _this = _possibleConstructorReturn(this, _SComponent.call(this, name, elm, {
+				emitterX: 0,
+				emitterY: 0,
+				spread: 0,
+				amount: 5,
+				timeoutSpread: 0,
+				duration: null,
+				particleClass: null,
+				particleClassSelection: 'random',
+				onComplete: null
+			}, settings));
+
+			_this.initProxy(_this._init.bind(_this));
+			return _this;
+		}
+
+		/**
+	  * Init
+	  */
+
+
+		SParticlesSystemElement.prototype._init = function _init() {
+			var _this2 = this;
+
+			var particleClsIdx = 0;
+
+			// init the particle creation system
+			(0, _setRecursiveTimeout2.default)(function (idx) {
+				// create new particle
+				var particleElm = document.createElement('div');
+
+				// set particle position
+				particleElm.style.top = _this2.settings.emitterY;
+				particleElm.style.left = _this2.settings.emitterX;
+				particleElm.style.marginLeft = -_this2.settings.spread + Math.round(Math.random() * _this2.settings.spread * 2) + 'px';
+				particleElm.style.marginRight = -_this2.settings.spread + Math.round(Math.random() * _this2.settings.spread * 2) + 'px';
+
+				var cls = _this2.settings.particleClass;
+				if (cls instanceof Array) {
+					if (_this2.settings.particleClassSelection === 'random') {
+						cls = Math.round(Math.random() * (cls.length - 1));
+					} else {
+						cls = cls[particleClsIdx];
+						particleClsIdx = particleClsIdx + 1 < cls.length - 1 ? particleClsIdx + 1 : 0;
+					}
+				}
+				if (_this2.settings.particleClass) {
+					particleElm.classList.add(_this2.settings.particleClass);
+				}
+				var particle = new _SParticleElement2.default(particleElm, {
+					class: cls
+				});
+				// add the particle to the element
+				_this2.elm.appendChild(particleElm);
+			}, this.settings.duration / this.settings.amount, this.settings.duration, this.settings.timeoutSpread);
+
+			// detect the end of the particles
+			// setTimeout(() => {
+			// 	if (this.settings.onComplete) this.settings.onComplete();
+			// }, this.settings.duration + 1000 / this.settings.amount);
+		};
+
+		return SParticlesSystemElement;
+	}(_SComponent3.default);
+
+	exports.default = SParticlesSystemElement;
+
+/***/ },
+/* 215 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _SComponent2 = __webpack_require__(18);
+
+	var _SComponent3 = _interopRequireDefault(_SComponent2);
+
+	var _getAnimationProperties = __webpack_require__(210);
+
+	var _getAnimationProperties2 = _interopRequireDefault(_getAnimationProperties);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
+
+	var SParticleElement = function (_SComponent) {
+		_inherits(SParticleElement, _SComponent);
+
+		/**
+	  * Constructor
+	  */
+
+		function SParticleElement(elm) {
+			var settings = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+			var name = arguments.length <= 2 || arguments[2] === undefined ? 'sParticle' : arguments[2];
+
+			_classCallCheck(this, SParticleElement);
+
+			// set class if needed
+
+			var _this = _possibleConstructorReturn(this, _SComponent.call(this, name, elm, {
+				class: null
+			}, settings));
+
+			if (_this.settings.class) {
+				_this.elm.classList.add(_this.settings.class);
+			}
+			return _this;
+		}
+
+		/**
+	  * When added
+	  */
+
+
+		SParticleElement.prototype.onAdded = function onAdded() {
+			var _this2 = this;
+
+			// get the animation properties
+			var animation = (0, _getAnimationProperties2.default)(this.elm);
+
+			// wait till the animation is finished to remove the particle from DOM
+			setTimeout(function () {
+				_this2.elm.parentNode.removeChild(_this2.elm);
+			}, animation.totalDuration);
+		};
+
+		return SParticleElement;
+	}(_SComponent3.default);
+
+	exports.default = SParticleElement;
+
+/***/ },
+/* 216 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	exports.__esModule = true;
+	exports.default = setRecursiveTimeout;
+	function setRecursiveTimeout(fn, timeout, duration) {
+		var spread = arguments.length <= 3 || arguments[3] === undefined ? 0 : arguments[3];
+
+
+		var idx = 0;
+		var currentDuration = 0;
+		var timeoutFn = null;
+
+		(function tick() {
+
+			// call the function
+			fn(idx);
+
+			// update current duration
+			currentDuration += timeout;
+			idx++;
+
+			// recursive call until end
+			if (!duration || duration === -1 || currentDuration < duration) {
+				var spreadValue = -spread + Math.round(Math.random(spread * 2));
+				timeoutFn = setTimeout(tick, timeout + spreadValue);
+			}
+		})();
+
+		// return the clear function to be able to stop the timeout
+		return function () {
+			// clear the timeout
+			clearTimeout(timeoutFn);
+		};
+	}
+
+/***/ },
+/* 217 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -24973,15 +25173,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 215 */
+/* 218 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(216);
+	__webpack_require__(219);
 	module.exports = angular;
 
 
 /***/ },
-/* 216 */
+/* 219 */
 /***/ function(module, exports) {
 
 	/**

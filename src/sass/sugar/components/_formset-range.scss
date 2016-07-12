@@ -83,15 +83,16 @@ $_s-formset-range-inited : false;
 	}
 }
 
+@mixin s-formset-range(
+	$colors : sugar('settings.components.formset.generate.colors')
+) {
+	@include s-formset-range-bare();
+	@include s-formset-range-style($colors);
+}
+
 @mixin s-formset-range-bare(
-	$sizes : sugar('settings.components.formset.generate.sizes')
 ) {
 	@include s-formset-range-init();
-
-	// parse properties
-	@if $_sugar-test-arguments {
-		$sizes : s-test-argument('s-formset-range-bare','sizes',map-keys(sugar('settings.sizes')),$sizes);
-	}
 
 	// pass in the component context
 	@include s-component-context('formset') {
@@ -148,7 +149,6 @@ $_s-formset-range-inited : false;
 				}
 			}
 		}
-
 	}
 }
 

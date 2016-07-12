@@ -10,18 +10,19 @@
 	}
 }
 
+@mixin s-formset-input(
+	$colors : sugar('settings.components.formset.generate.sizes')
+) {
+	@include s-formset-input-bare();
+	@include s-formset-input-style($colors);
+}
+
 // what to exclude from styling
 $not : ':not([type="checkbox"]):not([type="radio"]):not(.noUi-target)';
 
 @mixin s-formset-input-bare(
-	$sizes : sugar('settings.components.formset.generate.sizes')
 ) {
 	@include s-formset-init();
-
-	// parse properties
-	@if $_sugar-test-arguments {
-		$sizes : s-test-argument('s-formset','sizes',map-keys(sugar('settings.sizes')),$sizes);
-	}
 
 	// pass in the component context
 	@include s-component-context('formset') {

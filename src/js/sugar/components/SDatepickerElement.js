@@ -1,7 +1,7 @@
 import SComponent from '../core/SComponent'
 import Pikaday from 'pikaday-time'
 import sSettings from '../core/sSettings'
-import __querySelectorLive from '../dom/querySelectorLive';
+import __querySelectorVisibleLiveOnce from '../dom/querySelectorLive';
 
 // Date picker
 class SDatepickerElement extends SComponent {
@@ -88,11 +88,11 @@ class SDatepickerElement extends SComponent {
 	}
 }
 
-__querySelectorLive('input[s-datepicker]', (elm) => {
+__querySelectorVisibleLiveOnce('input[s-datepicker]', (elm) => {
 	new SDatepickerElement(elm);
 });
 
-__querySelectorLive('input[s-datetimepicker]', (elm) => {
+__querySelectorVisibleLiveOnce('input[s-datetimepicker]', (elm) => {
 	new SDatepickerElement(elm, {
 		autoClose : true,
 		showTime : true

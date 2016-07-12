@@ -10,14 +10,14 @@ $_s-ripple-inited : false;
 		$_s-ripple-inited : true !global;
 
 		// input
-		%s-ripple-bare {
+		%s-ripple-container-bare {
 			position: absolute;
 			top:0; left:0;
 			overflow: hidden;
 			width:100%; height:100%;
 			pointer-events:none;
 		}
-		%s-ripple__item-bare {
+		%s-ripple-bare {
 			top:50%; left:50%;
 			@include s-translate(-50%,-50%);
 			transform-origin: 50% 50%;
@@ -47,11 +47,11 @@ $_s-ripple-inited : false;
 
 	// pass in the component context
 	@include s-component-context('ripple') {
+		.s-ripple-container {
+			@extend %s-ripple-container-bare;
+		}
 		.s-ripple {
 			@extend %s-ripple-bare;
-		}
-		.s-ripple__ripple {
-			@extend %s-ripple__item-bare;
 		}
 	}
 }
@@ -66,7 +66,7 @@ $_s-ripple-inited : false;
 	// pass in the component context
 	@include s-component-context('ripple') {
 
-		.s-ripple__ripple {
+		.s-ripple {
 			@include s-animation(ripple .3s ease-out);
 		}
 	}

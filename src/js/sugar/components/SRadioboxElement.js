@@ -1,5 +1,5 @@
 import SComponent from '../core/SComponent'
-import querySelectorLive from '../dom/querySelectorLive'
+import querySelectorVisibleLiveOnce from '../dom/querySelectorVisibleLiveOnce'
 
 // Actual activate element class
 class SRadioboxElement extends SComponent {
@@ -49,7 +49,7 @@ class SRadioboxElement extends SComponent {
 }
 
 // init the radiobox
-querySelectorLive('[s-radiobox][type="checkbox"],[s-radiobox][type="radio"]', (elm) => {
+querySelectorVisibleLiveOnce('[s-radiobox][type="checkbox"],[s-radiobox][type="radio"]', (elm) => {
 	new SRadioboxElement(elm);
 });
 

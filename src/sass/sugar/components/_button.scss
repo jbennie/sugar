@@ -28,18 +28,24 @@ $_s-button-inited : false;
 	$sizes : sugar('settings.components.button.generate.sizes'),
 	$colors : sugar('settings.components.button.generate.colors')
 ) {
+	@include s-button-bare($sizes);
+	@include s-button-style($colors);
+}
+
+@mixin s-button-bare(
+	$sizes : sugar('settings.components.button.generate.sizes')
+) {
 	// init dropdown
 	@include s-button-init();
-	
+
 	// parse properties
 	@if $_sugar-test-arguments {
 		$sizes : s-test-argument('s-button','sizes',map-keys(sugar('settings.sizes')),$sizes);
-		$colors : s-test-argument('s-button','colors',map-keys(sugar('settings.colors')),$colors);
 	}
 
 	// pass in component context
 	@include s-component-context('button') {
-	
+
 		// base
 		.btn {
 			@extend %s-button-bare;
@@ -48,18 +54,46 @@ $_s-button-inited : false;
 			line-height: 1 !important;
 		}
 
-		// generate each sizes
-		@each $size in $sizes {
-			#{s-selector((
-				BEM : '.btn--#{$size}',
-				SMACCS : '.btn-#{$size}'
-			))} {
-				font-size : s-look-and-feel(font-size, $size);
-				border-radius: s-look-and-feel(border-radius, $size);
-				padding : s-look-and-feel(padding-horizontal, $size) s-look-and-feel(padding-vertical, $size);
-				height: s-lnf(font-size, $size) + s-lnf(padding-horizontal, $size) * 2;
-			}
+		.btn {
+			font-size : s-lnf(font-size);
+			border-radius: s-lnf(border-radius);
+			padding : s-lnf(padding-horizontal) s-lnf(padding-vertical);
+			height: s-lnf(font-size) + s-lnf(padding-horizontal) * 2;
 		}
+
+		// block
+		#{s-selector((
+			BEM : '.btn--block',
+			SMACCS : '.btn-block'
+		))} {
+			display: block;
+			width: 100%;
+		}
+	}
+}
+
+@mixin s-button-style(
+	$colors : sugar('settings.components.button.generate.colors')
+) {
+	// init dropdown
+	@include s-button-init();
+
+	// parse properties
+	@if $_sugar-test-arguments {
+		$colors : s-test-argument('s-button-style','colors',map-keys(sugar('settings.colors')),$colors);
+	}
+
+	// pass in component context
+	@include s-component-context('button') {
+
+		// base
+		.btn {
+			@extend %s-button-bare;
+		}
+		button {
+			line-height: 1 !important;
+		}
+
 		// generate each colors
 		@each $color in $colors {
 			#{s-selector((
@@ -73,7 +107,7 @@ $_s-button-inited : false;
 				} @else {
 					color : white;
 				}
-				
+
 				&:active,
 				&:hover,
 				&.active,
@@ -95,7 +129,7 @@ $_s-button-inited : false;
 					SMACCS : '&.btn-outline'
 				))} {
 					color: s-color($color);
-					
+
 					&:active,
 					&:hover,
 					&.active,
@@ -140,14 +174,6 @@ $_s-button-inited : false;
 			opacity: 0.65;
 			cursor: not-allowed !important;
 		}
-		// block
-		#{s-selector((
-			BEM : '.btn--block',
-			SMACCS : '.btn-block'
-		))} {
-			display: block;
-			width: 100%;
-		}
 
 		// button group
 		.btn-group {
@@ -156,7 +182,7 @@ $_s-button-inited : false;
 			> input[type="checkbox"],
 			> input[type="radio"] {
 				display: none;
-			}		
+			}
 
 			.btn {
 				float: left;

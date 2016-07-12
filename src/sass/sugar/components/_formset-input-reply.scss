@@ -1,18 +1,19 @@
+@mixin s-formset-input-reply(
+	$colors : sugar('settings.components.formset.generate.color')
+) {
+	@include s-formset-input-reply-bare();
+	@include s-formset-input-reply-style($colors);
+}
+
 @mixin s-formset-input-reply-bare(
-	$sizes : sugar('settings.components.formset.generate.sizes')
 ) {
 	@include s-formset-init();
-	
-	// parse properties
-	@if $_sugar-test-arguments {
-		$sizes : s-test-argument('s-formset','sizes',map-keys(sugar('settings.sizes')),$sizes);
-	}
 
 	// pass in the component context
 	@include s-component-context('formset') {
 		[class*="input-reply"] {
 			display: none;
-		
+
 			@include s-vertical-rhythme() {
 				margin-bottom: 2;
 			}
@@ -24,30 +25,19 @@
 			}
 		}
 
-		// generate each sizes
-		@each $size in $sizes {
-			#{s-selector((
-				BEM : (
-					'.input-reply--#{$size}'
-				),
-				SMACCS : (
-					'.input-reply-#{$size}'
-				)
-			))} {
-				padding: s-lnf(padding-horizontal, $size) s-lnf(padding-vertical, $size);
-				font-size: s-lnf(font-size, $size);
-				
-				@include s-vertical-rhythme {
-					.label .label + &,
-					label label + & {
-						margin-top: round(s-lnf(font-size, $size));
-					}
+		.input-reply {
+			padding: s-lnf(padding-horizontal) s-lnf(padding-vertical);
+			font-size: s-lnf(font-size);
+
+			@include s-vertical-rhythme {
+				.label .label + &,
+				label label + & {
+					margin-top: round(s-lnf(font-size));
 				}
 			}
 		}
 	}
 }
-
 
 @mixin s-formset-input-reply-style(
 	$colors : sugar('settings.components.formset.generate.colors')

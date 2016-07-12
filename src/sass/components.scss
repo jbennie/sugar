@@ -32,10 +32,11 @@ $sizes : (small,default,medium,big,bigger);
 @include s-ripple-style(
 	$colors : $colors
 );
-.s-ripple__ripple {
+.s-ripple {
 	background:rgba(0,0,0,.5);
 	// border:solid 3px rgba(0,0,0,.5);
 	mix-blend-mode: overlay;
+	@include s-filter(drop-shadow(rgba(0,0,0,.5) 0 0 10px));
 }
 
 //
@@ -54,39 +55,44 @@ $sizes : (small,default,medium,big,bigger);
 @include s-formset-group();
 
 // form
-@include s-formset-input-bare();
-@include s-formset-input-style();
+@include s-formset-input(
+	$colors : $colors
+);
 
 // addons
-@include s-formset-input-addon-bare();
-@include s-formset-input-addon-style();
+@include s-formset-input-addon(
+	$colors : $colors
+);
 
 // label
 @include s-formset-label-bare();
 @include s-formset-label-style();
 
 // input-reply
-@include s-formset-input-reply-bare();
-@include s-formset-input-reply-style();
-
+@include s-formset-input-reply(
+	$colors : $colors
+);
 
 @include s-formset-radiobox(
 	$colors : $colors,
 	$animations : true
 );
 @include s-formset-fieldset();
-@include s-formset-datepicker();
-
-@include s-formset-range-bare();
-@include s-formset-range-style(
+@include s-formset-datepicker(
 	$colors : $colors
 );
 
-@include s-formset-advanced-select();
+@include s-formset-range(
+	$colors : $colors
+);
+
+@include s-formset-advanced-select(
+	$colors : $colors
+);
 
 //
 // Button
 //
 @include s-button(
-	$sizes : $sizes
+	$colors : $colors
 );

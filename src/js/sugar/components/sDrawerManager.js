@@ -1,5 +1,5 @@
 import domReady from '../dom/domReady'
-import querySelectorLive from '../dom/querySelectorLive'
+import querySelectorVisibleLiveOnce from '../dom/querySelectorVisibleLiveOnce'
 import SDrawerElement from './SDrawerElement'
 
 if ( ! window._sDrawerStack) {
@@ -7,7 +7,7 @@ if ( ! window._sDrawerStack) {
 }
 
 class SDrawerManager {
-	
+
 	/**
 	 * Constructor
 	 */
@@ -24,7 +24,7 @@ class SDrawerManager {
 	 */
 	_init() {
 		// listen for new element
-		querySelectorLive('[data-s-drawer]', (elm) => {
+		querySelectorVisibleLiveOnce('[data-s-drawer]', (elm) => {
 			new SDrawerElement(elm);
 		});
 	}

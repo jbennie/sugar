@@ -321,7 +321,7 @@
 </code></pre>
 
 				<p>
-					<a class="btn" href="http://sugarcss.io/documentation#button">
+					<a class="btn" href="javascript:void(0)">
 						Full button documentation
 					</a>
 				</p>
@@ -351,7 +351,7 @@
 			<div class="gr-12">
 
 				<ul class="nav nav--tabs no-typeset no-vertical-rhythme m-b-bigger">
-					<li s-activate="#input-text" s-ripple>Input text</li>
+					<li s-activate="#input-text">Input text</li>
 					<li s-activate="#input-password">Input password</li>
 					<li s-activate="#datepicker">Datepicker</li>
 					<li s-activate="#range">Range</li>
@@ -396,7 +396,9 @@
 					<div id="input-password" s-activate-target>
 						<?php foreach($colors as $color): ?>
 						<?php foreach($sizes as $size): ?>
-
+							<p>
+								Proin lobortis neque eget turpis condimentum, vulputate volutpat arcu cursus. Nunc scelerisque enim in lacus condimentum, et vehicula felis molestie. Nam efficitur tellus arcu, vitae ultricies neque tristique quis. Maecenas non felis non magna tristique lobortis vel fermentum dolor. Suspendisse potenti. Praesent porttitor mauris quis nibh placerat, sit amet congue urna tincidunt. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi in quam felis. Nunc porttitor, odio in pellentesque pulvinar, est tortor efficitur libero, id scelerisque urna sem semper eros. Suspendisse fringilla sem ut odio euismod malesuada. Pellentesque congue neque at elit malesuada aliquam. Mauris semper lobortis risus, at rhoncus mauris euismod vitae. Sed sit amet odio in dolor lobortis bibendum quis eget mauris. Nulla elementum mollis massa, vel mollis nulla interdum quis. Suspendisse augue lectus, volutpat ac nulla in, eleifend ullamcorper sapien.
+							</p>
 						<?php endforeach; ?>
 						<?php endforeach; ?>
 					</div>
@@ -439,6 +441,18 @@
 					</div>
 
 					<div id="select" s-activate-target>
+						<p>
+							Proin lobortis neque eget turpis condimentum, vulputate volutpat arcu cursus. Nunc scelerisque enim in lacus condimentum, et vehicula felis molestie. Nam efficitur tellus arcu, vitae ultricies neque tristique quis. Maecenas non felis non magna tristique lobortis vel fermentum dolor. Suspendisse potenti. Praesent porttitor mauris quis nibh placerat, sit amet congue urna tincidunt. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi in quam felis. Nunc porttitor, odio in pellentesque pulvinar, est tortor efficitur libero, id scelerisque urna sem semper eros. Suspendisse fringilla sem ut odio euismod malesuada. Pellentesque congue neque at elit malesuada aliquam. Mauris semper lobortis risus, at rhoncus mauris euismod vitae. Sed sit amet odio in dolor lobortis bibendum quis eget mauris. Nulla elementum mollis massa, vel mollis nulla interdum quis. Suspendisse augue lectus, volutpat ac nulla in, eleifend ullamcorper sapien.
+						</p>
+						<p>
+							Proin lobortis neque eget turpis condimentum, vulputate volutpat arcu cursus. Nunc scelerisque enim in lacus condimentum, et vehicula felis molestie. Nam efficitur tellus arcu, vitae ultricies neque tristique quis. Maecenas non felis non magna tristique lobortis vel fermentum dolor. Suspendisse potenti. Praesent porttitor mauris quis nibh placerat, sit amet congue urna tincidunt. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi in quam felis. Nunc porttitor, odio in pellentesque pulvinar, est tortor efficitur libero, id scelerisque urna sem semper eros. Suspendisse fringilla sem ut odio euismod malesuada. Pellentesque congue neque at elit malesuada aliquam. Mauris semper lobortis risus, at rhoncus mauris euismod vitae. Sed sit amet odio in dolor lobortis bibendum quis eget mauris. Nulla elementum mollis massa, vel mollis nulla interdum quis. Suspendisse augue lectus, volutpat ac nulla in, eleifend ullamcorper sapien.
+						</p>
+						<p>
+							Proin lobortis neque eget turpis condimentum, vulputate volutpat arcu cursus. Nunc scelerisque enim in lacus condimentum, et vehicula felis molestie. Nam efficitur tellus arcu, vitae ultricies neque tristique quis. Maecenas non felis non magna tristique lobortis vel fermentum dolor. Suspendisse potenti. Praesent porttitor mauris quis nibh placerat, sit amet congue urna tincidunt. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi in quam felis. Nunc porttitor, odio in pellentesque pulvinar, est tortor efficitur libero, id scelerisque urna sem semper eros. Suspendisse fringilla sem ut odio euismod malesuada. Pellentesque congue neque at elit malesuada aliquam. Mauris semper lobortis risus, at rhoncus mauris euismod vitae. Sed sit amet odio in dolor lobortis bibendum quis eget mauris. Nulla elementum mollis massa, vel mollis nulla interdum quis. Suspendisse augue lectus, volutpat ac nulla in, eleifend ullamcorper sapien.
+						</p>
+						<p>
+							Proin lobortis neque eget turpis condimentum, vulputate volutpat arcu cursus. Nunc scelerisque enim in lacus condimentum, et vehicula felis molestie. Nam efficitur tellus arcu, vitae ultricies neque tristique quis. Maecenas non felis non magna tristique lobortis vel fermentum dolor. Suspendisse potenti. Praesent porttitor mauris quis nibh placerat, sit amet congue urna tincidunt. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi in quam felis. Nunc porttitor, odio in pellentesque pulvinar, est tortor efficitur libero, id scelerisque urna sem semper eros. Suspendisse fringilla sem ut odio euismod malesuada. Pellentesque congue neque at elit malesuada aliquam. Mauris semper lobortis risus, at rhoncus mauris euismod vitae. Sed sit amet odio in dolor lobortis bibendum quis eget mauris. Nulla elementum mollis massa, vel mollis nulla interdum quis. Suspendisse augue lectus, volutpat ac nulla in, eleifend ullamcorper sapien.
+						</p>
 						<?php foreach($colors as $color): ?>
 						<?php foreach($sizes as $size): ?>
 							<div class="row size-<?= $size ?>">

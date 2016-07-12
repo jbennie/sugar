@@ -1,12 +1,13 @@
+@mixin s-formset-input-addon(
+	$colors : sugar('settings.components.formset.generate.colors')
+) {
+	@include s-formset-input-addon-bare();
+	@include s-formset-input-addon-style($colors);
+}
+
 @mixin s-formset-input-addon-bare(
-	$sizes : sugar('settings.components.formset.generate.sizes')
 ) {
 	@include s-formset-init();
-
-	// parse properties
-	@if $_sugar-test-arguments {
-		$sizes : s-test-argument('s-formset','sizes',map-keys(sugar('settings.sizes')),$sizes);
-	}
 
 	// pass in the component context
 	@include s-component-context('formset') {

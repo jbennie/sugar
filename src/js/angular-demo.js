@@ -5,6 +5,9 @@ let angular = require('angular');
 // import angular from 'angular';
 // import { SSelectElement, SActivateElement } from './sugar/index';
 //
+//
+import querySelectorVisibleLiveOnce from 'sugarcss/dom/querySelectorLiveOnce';
+//
 import sSettings from './sugar/core/sSettings';
 //
 import sActivateManager from './sugar/components/sActivateManager';
@@ -35,6 +38,10 @@ import SRipple from 'sugarcss/components/SRipple';
 // 	// myCoolSelect.elm.setAttribute('s-select-search-placeholder', 'hello');
 // 	myCoolSelect.settings.searchPlaceholder = 'yopyopyop';
 // }, 3000);
+
+querySelectorVisibleLiveOnce('.btn, .nav > li', (elm) => {
+	new SRipple(elm);
+});
 
 const app = angular.module('angular-demo', []).run(() => {
 
