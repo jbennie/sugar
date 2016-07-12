@@ -1,3 +1,10 @@
+@mixin s-formset-label(
+	$colors : sugar('settings.components.formset.generate.colors')
+) {
+	@include s-formset-label-bare();
+	@include s-formset-label-style($colors);
+}
+
 @mixin s-formset-label-bare(
 ) {
 	@include s-formset-init();
