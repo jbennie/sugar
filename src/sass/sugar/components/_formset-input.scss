@@ -11,7 +11,7 @@
 }
 
 @mixin s-formset-input(
-	$colors : sugar('settings.components.formset.generate.sizes')
+	$colors : sugar('settings.components.formset.generate.colors')
 ) {
 	@include s-formset-input-bare();
 	@include s-formset-input-style($colors);
