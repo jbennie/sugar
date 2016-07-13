@@ -1,7 +1,7 @@
 import SComponent from '../core/SComponent';
 import __getAnimationProperties from '../dom/getAnimationProperties';
 
-export default class SParticleElement extends SComponent {
+class SParticleComponent extends SComponent {
 
 	/**
 	 * Setup
@@ -9,7 +9,7 @@ export default class SParticleElement extends SComponent {
 	static setup(type, settings) {
 		SComponent.setup('sParticle', type, settings);
 	}
-	
+
 	/**
 	 * Constructor
 	 */
@@ -39,3 +39,10 @@ export default class SParticleElement extends SComponent {
 	}
 
 }
+
+// expose in window.sugar
+if (window.sugar == null) { window.sugar = {}; }
+window.sugar.SParticleComponent = SParticleComponent;
+
+// export modules
+export default SParticleComponent;

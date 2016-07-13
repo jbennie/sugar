@@ -2,7 +2,7 @@ import SComponent from '../core/SComponent';
 import SParticleElement from './SParticleElement';
 import setRecursiveTimeout from '../functions/setRecursiveTimeout';
 
-export default class SParticlesSystemElement extends SComponent {
+class SParticlesSystemComponent extends SComponent {
 
 	/**
 	 * Setup
@@ -75,7 +75,11 @@ export default class SParticlesSystemElement extends SComponent {
 		// }, this.settings.duration + 1000 / this.settings.amount);
 
 	}
-
-
-
 }
+
+// expose in window.sugar
+if (window.sugar == null) { window.sugar = {}; }
+window.sugar.SParticlesSystemComponent = SParticlesSystemComponent;
+
+// export modules
+export default SParticlesSystemComponent;

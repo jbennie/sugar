@@ -11,17 +11,17 @@ import querySelectorVisibleLiveOnce from 'sugarcss/dom/querySelectorLiveOnce';
 import sSettings from './sugar/core/sSettings';
 //
 import sActivateManager from './sugar/components/sActivateManager';
-import SSelectElement from './sugar/components/SSelectElement';
-import SDatepickerElement from './sugar/components/SDatepickerElement';
+import SSelectComponent from './sugar/components/SSelectComponent';
+import SDatepickerComponent from './sugar/components/SDatepickerComponent';
 import sLocalStorageFonts from './sugar/fonts/sLocalStorageFonts';
-import SRangeInputElement from './sugar/components/SRangeInputElement';
-import SRadioboxElement from './sugar/components/SRadioboxElement';
+import SRangeInputComponent from './sugar/components/SRangeInputComponent';
+import SRadioboxComponent from './sugar/components/SRadioboxComponent';
 import sForm from 'sugarcss/components/sForm';
-import SRipple from 'sugarcss/components/SRipple';
+import SRippleComponent from 'sugarcss/components/SRippleComponent';
 
 // import sDrawerManager from './sugar/components/s-drawer-manager';
 //
-// import SSelectElement from './sugar/index';
+// import SSelectComponent from './sugar/index';
 // import SActivateElement from './sugar/index';
 
 // let myCoolSelect = new SSelectElement(document.createElement('select'), {

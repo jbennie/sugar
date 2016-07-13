@@ -15,7 +15,7 @@ if ( ! window._sDrawerStack) {
 }
 
 // Actual activate element class
-class SDrawerElement extends SComponent {
+class SDrawerComponent extends SComponent {
 
 	/**
 	 * Setup
@@ -50,7 +50,7 @@ class SDrawerElement extends SComponent {
 	 * Init
 	 */
 	_init() {
-		
+
 		// try to find the drawer background
 		this.bkg = document.querySelector('[data-s-drawer-bkg="'+this.name+'"]');
 		if ( ! this.bkg) {
@@ -160,7 +160,7 @@ class SDrawerElement extends SComponent {
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }
-window.sugar.SDrawerElement = SDrawerElement;
+window.sugar.SDrawerComponent = SDrawerComponent;
 
 // export modules
-export default SDrawerElement;
+export default SDrawerComponent;

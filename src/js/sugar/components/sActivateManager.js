@@ -8,7 +8,7 @@
  * @updated  20.01.16
  * @version  1.0.0
  */
-import SActivateElement from './SActivateElement'
+import SActivateComponent from './SActivateComponent'
 import querySelectorLiveOnce from '../dom/querySelectorLiveOnce'
 
 // save all the activate elements
@@ -22,9 +22,9 @@ class SActivateManager {
 	 * Constructor
 	 */
 	constructor() {
-		querySelectorLiveOnce('[data-s-activate],[s-activate]', (element) => {
+		querySelectorLiveOnce('[s-activate]', (element) => {
 			if (!element.sActivate) {
-				new SActivateElement(element);
+				new SActivateComponent(element);
 			}
 		});
 	}

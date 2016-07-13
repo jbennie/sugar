@@ -18,7 +18,7 @@ import __uniqid from '../tools/uniqid'
 import SEvent from '../core/SEvent'
 
 // Select
-class SSelectElement extends SComponent {
+class SSelectComponent extends SComponent {
 
 	/**
 	 * Setup
@@ -820,13 +820,12 @@ class SSelectElement extends SComponent {
 
 // init the select
 __querySelectorLive('select[s-select]', (elm) => {
-	console.log('init');
-	new SSelectElement(elm);
+	new SSelectComponent(elm);
 });
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }
-window.sugar.SSelectElement = SSelectElement;
+window.sugar.SSelectComponent = SSelectComponent;
 
 // export modules
-export default SSelectElement;
+export default SSelectComponent;

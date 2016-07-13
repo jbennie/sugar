@@ -25,7 +25,7 @@ import setRecursiveTimeout from '../functions/setRecursiveTimeout';
 import debounce from '../functions/debounce';
 
 // class
-class SRipple extends SComponent {
+class SRippleComponent extends SComponent {
 
 	/**
 	 * Setup
@@ -103,12 +103,12 @@ class SRipple extends SComponent {
 
 // init the select
 __querySelectorVisibleLiveOnce('[s-ripple]', (elm) => {
-	new SRipple(elm);
+	new SRippleComponent(elm);
 });
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }
-window.sugar.SRipple = SRipple;
+window.sugar.SRippleComponent = SRippleComponent;
 
 // export modules
-export default SRipple;
+export default SRippleComponent;

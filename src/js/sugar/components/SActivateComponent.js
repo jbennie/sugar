@@ -18,7 +18,7 @@ if ( ! window._sActivateStack) {
 }
 
 // Actual activate element class
-class SActivateElement extends SComponent {
+class SActivateComponent extends SComponent {
 
 	/**
 	 * Setup
@@ -377,7 +377,7 @@ class SActivateElement extends SComponent {
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }
-window.sugar.SActivateElement = SActivateElement;
+window.sugar.SActivateComponent = SActivateComponent;
 
 // export
-export default SActivateElement;
+export default SActivateComponent;

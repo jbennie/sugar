@@ -4,7 +4,7 @@ import sSettings from '../core/sSettings'
 import __querySelectorVisibleLiveOnce from '../dom/querySelectorLive';
 
 // Date picker
-class SDatepickerElement extends SComponent {
+class SDatepickerComponent extends SComponent {
 
 	/**
 	 * Setup
@@ -89,11 +89,11 @@ class SDatepickerElement extends SComponent {
 }
 
 __querySelectorVisibleLiveOnce('input[s-datepicker]', (elm) => {
-	new SDatepickerElement(elm);
+	new SDatepickerComponent(elm);
 });
 
 __querySelectorVisibleLiveOnce('input[s-datetimepicker]', (elm) => {
-	new SDatepickerElement(elm, {
+	new SDatepickerComponent(elm, {
 		autoClose : true,
 		showTime : true
 	});
@@ -101,7 +101,7 @@ __querySelectorVisibleLiveOnce('input[s-datetimepicker]', (elm) => {
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }
-window.sugar.SDatepickerElement = SDatepickerElement;
+window.sugar.SDatepickerComponent = SDatepickerComponent;
 
 // export modules
-export default SDatepickerElement;
+export default SDatepickerComponent;

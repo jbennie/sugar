@@ -19,20 +19,20 @@ import SEvent from '../core/SEvent'
 import noUiSlider from 'nouislider';
 
 // class
-class SRangeInputElement extends SComponent {
+class SRangeComponent extends SComponent {
 
 	/**
 	 * Setup
 	 */
 	static setup(type, settings) {
-		SComponent.setup('sRangeInput', type, settings);
+		SComponent.setup('sRange', type, settings);
 	}
 
 	/**
 	 * Constructor
 	 */
 	constructor(elm, settings = {}) {
-		super('sRangeInput', elm, {
+		super('sRange', elm, {
 			start : 0,
 			end : 100,
 			min : 0,
@@ -273,13 +273,13 @@ class SRangeInputElement extends SComponent {
 
 // init the select
 __querySelectorVisibleLiveOnce('input[s-range-input]', (elm) => {
-	new SRangeInputElement(elm, {
-		formater : SRangeInputElement.percentFormater
+	new SRangeComponent(elm, {
+		formater : SRangeComponent.percentFormater
 	});
 });
 
 // default formaters
-SRangeInputElement.percentFormater = function(value, target) {
+SRangeComponent.percentFormater = function(value, target) {
 	if (target === 'tooltip') {
 		return Math.round(value) + '%';
 	}
@@ -288,7 +288,7 @@ SRangeInputElement.percentFormater = function(value, target) {
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }
-window.sugar.SRangeInputElement = SRangeInputElement;
+window.sugar.SRangeComponent = SRangeComponent;
 
 // export modules
-export default SRangeInputElement;
+export default SRangeComponent;
