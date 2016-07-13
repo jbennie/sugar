@@ -272,7 +272,7 @@ class SRangeComponent extends SComponent {
 }
 
 // init the select
-__querySelectorVisibleLiveOnce('input[s-range-input]', (elm) => {
+__querySelectorVisibleLiveOnce('input[s-range]', (elm) => {
 	new SRangeComponent(elm, {
 		formater : SRangeComponent.percentFormater
 	});
