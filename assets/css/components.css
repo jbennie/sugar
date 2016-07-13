@@ -4003,65 +4003,60 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   outline-color: black;
 }
 
-.input, .color .input {
-  border-color: rgba(129, 149, 161, 0.1);
-  border-bottom-color: rgba(129, 149, 161, 0.3);
-}
-
-.input .noUi-connect, .color .input .noUi-connect {
+.s-range.input .noUi-connect, .color .s-range.input .noUi-connect {
   background-color: rgba(129, 149, 161, 0.1);
 }
 
-.input .noUi-target.noUi-connect .noUi-base, .color .input .noUi-target.noUi-connect .noUi-base {
+.s-range.input .noUi-target.noUi-connect .noUi-base, .color .s-range.input .noUi-target.noUi-connect .noUi-base {
   background-color: rgba(129, 149, 161, 0.1);
 }
 
-.input .noUi-target:hover .noUi-connect, .color .input .noUi-target:hover .noUi-connect {
+.s-range.input .noUi-target:hover .noUi-connect, .color .s-range.input .noUi-target:hover .noUi-connect {
   background-color: rgba(129, 149, 161, 0.3);
 }
 
-.input .noUi-target:hover.noUi-connect .noUi-base, .color .input .noUi-target:hover.noUi-connect .noUi-base {
+.s-range.input .noUi-target:hover.noUi-connect .noUi-base, .color .s-range.input .noUi-target:hover.noUi-connect .noUi-base {
   background-color: rgba(129, 149, 161, 0.3);
 }
 
-.input .noUi-target.noUi-background:before,
-.input .noUi-background:before, .color .input .noUi-target.noUi-background:before,
-.color .input .noUi-background:before {
+.s-range.input .noUi-target.noUi-background:before,
+.s-range.input .noUi-background:before, .color .s-range.input .noUi-target.noUi-background:before,
+.color .s-range.input .noUi-background:before {
   background-color: rgba(129, 149, 161, 0.1);
 }
 
-.input .noUi-target:hover.noUi-background:before,
-.input .noUi-target:hover .noUi-background:before, .color .input .noUi-target:hover.noUi-background:before,
-.color .input .noUi-target:hover .noUi-background:before {
+.s-range.input .noUi-target:hover.noUi-background:before,
+.s-range.input .noUi-target:hover .noUi-background:before, .color .s-range.input .noUi-target:hover.noUi-background:before,
+.color .s-range.input .noUi-target:hover .noUi-background:before {
   background-color: rgba(129, 149, 161, 0.3);
 }
 
-.input .noUi-handle, .color .input .noUi-handle {
+.s-range.input .noUi-handle, .color .s-range.input .noUi-handle {
   background-color: #8195a1;
 }
 
-.input .noUi-handle:before, .color .input .noUi-handle:before {
+.s-range.input .noUi-handle:before, .color .s-range.input .noUi-handle:before {
   background-color: rgba(129, 149, 161, 0.3);
 }
 
-.input .noUi-handle:hover, .color .input .noUi-handle:hover {
+.s-range.input .noUi-handle:hover, .color .s-range.input .noUi-handle:hover {
   background-color: #667c89;
 }
 
-.input .noUi-active, .color .input .noUi-active {
+.s-range.input .noUi-active, .color .s-range.input .noUi-active {
   background-color: #50616c !important;
   box-shadow: rgba(129, 149, 161, 0.3) 0 6px 9px;
 }
 
-.input .noUi-active:before, .color .input .noUi-active:before {
+.s-range.input .noUi-active:before, .color .s-range.input .noUi-active:before {
   background-color: rgba(129, 149, 161, 0.2);
 }
 
-.input .noUi-active .noUi-handle__value, .color .input .noUi-active .noUi-handle__value {
+.s-range.input .noUi-active .noUi-handle__value, .color .s-range.input .noUi-active .noUi-handle__value {
   color: #50616c;
 }
 
-.input .noUi-handle .tooltip, .color .input .noUi-handle .tooltip {
+.s-range.input .noUi-handle .tooltip, .color .s-range.input .noUi-handle .tooltip {
   position: relative;
   background: #fff;
   border-style: solid;
@@ -4070,7 +4065,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   color: #8195a1;
 }
 
-.input .noUi-handle .tooltip:after, .input .noUi-handle .tooltip:before, .color .input .noUi-handle .tooltip:after, .color .input .noUi-handle .tooltip:before {
+.s-range.input .noUi-handle .tooltip:after, .s-range.input .noUi-handle .tooltip:before, .color .s-range.input .noUi-handle .tooltip:after, .color .s-range.input .noUi-handle .tooltip:before {
   border: solid transparent;
   content: " ";
   height: 0;
@@ -4080,7 +4075,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   visibility: visible;
 }
 
-.input .noUi-handle .tooltip:after, .color .input .noUi-handle .tooltip:after {
+.s-range.input .noUi-handle .tooltip:after, .color .s-range.input .noUi-handle .tooltip:after {
   border-width: 5px;
   border-top-color: #fff;
   bottom: -10px;
@@ -4088,72 +4083,67 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   margin-right: -5px;
 }
 
-.input .noUi-handle .tooltip:before, .color .input .noUi-handle .tooltip:before {
+.s-range.input .noUi-handle .tooltip:before, .color .s-range.input .noUi-handle .tooltip:before {
   border-width: 5px;
   bottom: -10px;
   right: 50%;
   margin-right: -5px;
 }
 
-.input--primary, .color--primary .input {
-  border-color: rgba(242, 188, 43, 0.1);
-  border-bottom-color: rgba(242, 188, 43, 0.3);
-}
-
-.input--primary .noUi-connect, .color--primary .input .noUi-connect {
+.s-range.input--primary .noUi-connect, .color--primary .s-range.input .noUi-connect {
   background-color: rgba(242, 188, 43, 0.1);
 }
 
-.input--primary .noUi-target.noUi-connect .noUi-base, .color--primary .input .noUi-target.noUi-connect .noUi-base {
+.s-range.input--primary .noUi-target.noUi-connect .noUi-base, .color--primary .s-range.input .noUi-target.noUi-connect .noUi-base {
   background-color: rgba(242, 188, 43, 0.1);
 }
 
-.input--primary .noUi-target:hover .noUi-connect, .color--primary .input .noUi-target:hover .noUi-connect {
+.s-range.input--primary .noUi-target:hover .noUi-connect, .color--primary .s-range.input .noUi-target:hover .noUi-connect {
   background-color: rgba(242, 188, 43, 0.3);
 }
 
-.input--primary .noUi-target:hover.noUi-connect .noUi-base, .color--primary .input .noUi-target:hover.noUi-connect .noUi-base {
+.s-range.input--primary .noUi-target:hover.noUi-connect .noUi-base, .color--primary .s-range.input .noUi-target:hover.noUi-connect .noUi-base {
   background-color: rgba(242, 188, 43, 0.3);
 }
 
-.input--primary .noUi-target.noUi-background:before,
-.input--primary .noUi-background:before, .color--primary .input .noUi-target.noUi-background:before,
-.color--primary .input .noUi-background:before {
+.s-range.input--primary .noUi-target.noUi-background:before,
+.s-range.input--primary .noUi-background:before, .color--primary .s-range.input .noUi-target.noUi-background:before,
+.color--primary .s-range.input .noUi-background:before {
   background-color: rgba(242, 188, 43, 0.1);
 }
 
-.input--primary .noUi-target:hover.noUi-background:before,
-.input--primary .noUi-target:hover .noUi-background:before, .color--primary .input .noUi-target:hover.noUi-background:before,
-.color--primary .input .noUi-target:hover .noUi-background:before {
+.s-range.input--primary .noUi-target:hover.noUi-background:before,
+.s-range.input--primary .noUi-target:hover .noUi-background:before, .color--primary .s-range.input .noUi-target:hover.noUi-background:before,
+.color--primary .s-range.input .noUi-target:hover .noUi-background:before {
   background-color: rgba(242, 188, 43, 0.3);
 }
 
-.input--primary .noUi-handle, .color--primary .input .noUi-handle {
+.s-range.input--primary .noUi-handle, .color--primary .s-range.input .noUi-handle {
   background-color: #f2bc2b;
 }
 
-.input--primary .noUi-handle:before, .color--primary .input .noUi-handle:before {
+.s-range.input--primary .noUi-handle:before, .color--primary .s-range.input .noUi-handle:before {
   background-color: rgba(242, 188, 43, 0.3);
 }
 
-.input--primary .noUi-handle:hover, .color--primary .input .noUi-handle:hover {
+.s-range.input--primary .noUi-handle:hover, .color--primary .s-range.input .noUi-handle:hover {
   background-color: #dca40e;
 }
 
-.input--primary .noUi-active, .color--primary .input .noUi-active {
+.s-range.input--primary .noUi-active, .color--primary .s-range.input .noUi-active {
   background-color: #ac810b !important;
   box-shadow: rgba(242, 188, 43, 0.3) 0 6px 9px;
 }
 
-.input--primary .noUi-active:before, .color--primary .input .noUi-active:before {
+.s-range.input--primary .noUi-active:before, .color--primary .s-range.input .noUi-active:before {
   background-color: rgba(242, 188, 43, 0.2);
 }
 
-.input--primary .noUi-active .noUi-handle__value, .color--primary .input .noUi-active .noUi-handle__value {
+.s-range.input--primary .noUi-active .noUi-handle__value, .color--primary .s-range.input .noUi-active .noUi-handle__value {
   color: #ac810b;
 }
 
-.input--primary .noUi-handle .tooltip, .color--primary .input .noUi-handle .tooltip {
+.s-range.input--primary .noUi-handle .tooltip, .color--primary .s-range.input .noUi-handle .tooltip {
   position: relative;
   background: #fff;
   border-style: solid;
@@ -4162,7 +4152,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   color: #f2bc2b;
 }
 
-.input--primary .noUi-handle .tooltip:after, .input--primary .noUi-handle .tooltip:before, .color--primary .input .noUi-handle .tooltip:after, .color--primary .input .noUi-handle .tooltip:before {
+.s-range.input--primary .noUi-handle .tooltip:after, .s-range.input--primary .noUi-handle .tooltip:before, .color--primary .s-range.input .noUi-handle .tooltip:after, .color--primary .s-range.input .noUi-handle .tooltip:before {
   border: solid transparent;
   content: " ";
   height: 0;
@@ -4172,7 +4162,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   visibility: visible;
 }
 
-.input--primary .noUi-handle .tooltip:after, .color--primary .input .noUi-handle .tooltip:after {
+.s-range.input--primary .noUi-handle .tooltip:after, .color--primary .s-range.input .noUi-handle .tooltip:after {
   border-width: 5px;
   border-top-color: #fff;
   bottom: -10px;
@@ -4180,72 +4170,67 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   margin-right: -5px;
 }
 
-.input--primary .noUi-handle .tooltip:before, .color--primary .input .noUi-handle .tooltip:before {
+.s-range.input--primary .noUi-handle .tooltip:before, .color--primary .s-range.input .noUi-handle .tooltip:before {
   border-width: 5px;
   bottom: -10px;
   right: 50%;
   margin-right: -5px;
 }
 
-.input--secondary, .color--secondary .input {
-  border-color: rgba(119, 119, 119, 0.1);
-  border-bottom-color: rgba(119, 119, 119, 0.3);
-}
-
-.input--secondary .noUi-connect, .color--secondary .input .noUi-connect {
+.s-range.input--secondary .noUi-connect, .color--secondary .s-range.input .noUi-connect {
   background-color: rgba(119, 119, 119, 0.1);
 }
 
-.input--secondary .noUi-target.noUi-connect .noUi-base, .color--secondary .input .noUi-target.noUi-connect .noUi-base {
+.s-range.input--secondary .noUi-target.noUi-connect .noUi-base, .color--secondary .s-range.input .noUi-target.noUi-connect .noUi-base {
   background-color: rgba(119, 119, 119, 0.1);
 }
 
-.input--secondary .noUi-target:hover .noUi-connect, .color--secondary .input .noUi-target:hover .noUi-connect {
+.s-range.input--secondary .noUi-target:hover .noUi-connect, .color--secondary .s-range.input .noUi-target:hover .noUi-connect {
   background-color: rgba(119, 119, 119, 0.3);
 }
 
-.input--secondary .noUi-target:hover.noUi-connect .noUi-base, .color--secondary .input .noUi-target:hover.noUi-connect .noUi-base {
+.s-range.input--secondary .noUi-target:hover.noUi-connect .noUi-base, .color--secondary .s-range.input .noUi-target:hover.noUi-connect .noUi-base {
   background-color: rgba(119, 119, 119, 0.3);
 }
 
-.input--secondary .noUi-target.noUi-background:before,
-.input--secondary .noUi-background:before, .color--secondary .input .noUi-target.noUi-background:before,
-.color--secondary .input .noUi-background:before {
+.s-range.input--secondary .noUi-target.noUi-background:before,
+.s-range.input--secondary .noUi-background:before, .color--secondary .s-range.input .noUi-target.noUi-background:before,
+.color--secondary .s-range.input .noUi-background:before {
   background-color: rgba(119, 119, 119, 0.1);
 }
 
-.input--secondary .noUi-target:hover.noUi-background:before,
-.input--secondary .noUi-target:hover .noUi-background:before, .color--secondary .input .noUi-target:hover.noUi-background:before,
-.color--secondary .input .noUi-target:hover .noUi-background:before {
+.s-range.input--secondary .noUi-target:hover.noUi-background:before,
+.s-range.input--secondary .noUi-target:hover .noUi-background:before, .color--secondary .s-range.input .noUi-target:hover.noUi-background:before,
+.color--secondary .s-range.input .noUi-target:hover .noUi-background:before {
   background-color: rgba(119, 119, 119, 0.3);
 }
 
-.input--secondary .noUi-handle, .color--secondary .input .noUi-handle {
+.s-range.input--secondary .noUi-handle, .color--secondary .s-range.input .noUi-handle {
   background-color: #777;
 }
 
-.input--secondary .noUi-handle:before, .color--secondary .input .noUi-handle:before {
+.s-range.input--secondary .noUi-handle:before, .color--secondary .s-range.input .noUi-handle:before {
   background-color: rgba(119, 119, 119, 0.3);
 }
 
-.input--secondary .noUi-handle:hover, .color--secondary .input .noUi-handle:hover {
+.s-range.input--secondary .noUi-handle:hover, .color--secondary .s-range.input .noUi-handle:hover {
   background-color: #5e5e5e;
 }
 
-.input--secondary .noUi-active, .color--secondary .input .noUi-active {
+.s-range.input--secondary .noUi-active, .color--secondary .s-range.input .noUi-active {
   background-color: #444444 !important;
   box-shadow: rgba(119, 119, 119, 0.3) 0 6px 9px;
 }
 
-.input--secondary .noUi-active:before, .color--secondary .input .noUi-active:before {
+.s-range.input--secondary .noUi-active:before, .color--secondary .s-range.input .noUi-active:before {
   background-color: rgba(119, 119, 119, 0.2);
 }
 
-.input--secondary .noUi-active .noUi-handle__value, .color--secondary .input .noUi-active .noUi-handle__value {
+.s-range.input--secondary .noUi-active .noUi-handle__value, .color--secondary .s-range.input .noUi-active .noUi-handle__value {
   color: #444444;
 }
 
-.input--secondary .noUi-handle .tooltip, .color--secondary .input .noUi-handle .tooltip {
+.s-range.input--secondary .noUi-handle .tooltip, .color--secondary .s-range.input .noUi-handle .tooltip {
   position: relative;
   background: #fff;
   border-style: solid;
@@ -4254,7 +4239,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   color: #777;
 }
 
-.input--secondary .noUi-handle .tooltip:after, .input--secondary .noUi-handle .tooltip:before, .color--secondary .input .noUi-handle .tooltip:after, .color--secondary .input .noUi-handle .tooltip:before {
+.s-range.input--secondary .noUi-handle .tooltip:after, .s-range.input--secondary .noUi-handle .tooltip:before, .color--secondary .s-range.input .noUi-handle .tooltip:after, .color--secondary .s-range.input .noUi-handle .tooltip:before {
   border: solid transparent;
   content: " ";
   height: 0;
@@ -4264,7 +4249,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   visibility: visible;
 }
 
-.input--secondary .noUi-handle .tooltip:after, .color--secondary .input .noUi-handle .tooltip:after {
+.s-range.input--secondary .noUi-handle .tooltip:after, .color--secondary .s-range.input .noUi-handle .tooltip:after {
   border-width: 5px;
   border-top-color: #fff;
   bottom: -10px;
@@ -4272,72 +4257,67 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   margin-right: -5px;
 }
 
-.input--secondary .noUi-handle .tooltip:before, .color--secondary .input .noUi-handle .tooltip:before {
+.s-range.input--secondary .noUi-handle .tooltip:before, .color--secondary .s-range.input .noUi-handle .tooltip:before {
   border-width: 5px;
   bottom: -10px;
   right: 50%;
   margin-right: -5px;
 }
 
-.input--warning, .color--warning .input {
-  border-color: rgba(240, 173, 78, 0.1);
-  border-bottom-color: rgba(240, 173, 78, 0.3);
-}
-
-.input--warning .noUi-connect, .color--warning .input .noUi-connect {
+.s-range.input--warning .noUi-connect, .color--warning .s-range.input .noUi-connect {
   background-color: rgba(240, 173, 78, 0.1);
 }
 
-.input--warning .noUi-target.noUi-connect .noUi-base, .color--warning .input .noUi-target.noUi-connect .noUi-base {
+.s-range.input--warning .noUi-target.noUi-connect .noUi-base, .color--warning .s-range.input .noUi-target.noUi-connect .noUi-base {
   background-color: rgba(240, 173, 78, 0.1);
 }
 
-.input--warning .noUi-target:hover .noUi-connect, .color--warning .input .noUi-target:hover .noUi-connect {
+.s-range.input--warning .noUi-target:hover .noUi-connect, .color--warning .s-range.input .noUi-target:hover .noUi-connect {
   background-color: rgba(240, 173, 78, 0.3);
 }
 
-.input--warning .noUi-target:hover.noUi-connect .noUi-base, .color--warning .input .noUi-target:hover.noUi-connect .noUi-base {
+.s-range.input--warning .noUi-target:hover.noUi-connect .noUi-base, .color--warning .s-range.input .noUi-target:hover.noUi-connect .noUi-base {
   background-color: rgba(240, 173, 78, 0.3);
 }
 
-.input--warning .noUi-target.noUi-background:before,
-.input--warning .noUi-background:before, .color--warning .input .noUi-target.noUi-background:before,
-.color--warning .input .noUi-background:before {
+.s-range.input--warning .noUi-target.noUi-background:before,
+.s-range.input--warning .noUi-background:before, .color--warning .s-range.input .noUi-target.noUi-background:before,
+.color--warning .s-range.input .noUi-background:before {
   background-color: rgba(240, 173, 78, 0.1);
 }
 
-.input--warning .noUi-target:hover.noUi-background:before,
-.input--warning .noUi-target:hover .noUi-background:before, .color--warning .input .noUi-target:hover.noUi-background:before,
-.color--warning .input .noUi-target:hover .noUi-background:before {
+.s-range.input--warning .noUi-target:hover.noUi-background:before,
+.s-range.input--warning .noUi-target:hover .noUi-background:before, .color--warning .s-range.input .noUi-target:hover.noUi-background:before,
+.color--warning .s-range.input .noUi-target:hover .noUi-background:before {
   background-color: rgba(240, 173, 78, 0.3);
 }
 
-.input--warning .noUi-handle, .color--warning .input .noUi-handle {
+.s-range.input--warning .noUi-handle, .color--warning .s-range.input .noUi-handle {
   background-color: #f0ad4e;
 }
 
-.input--warning .noUi-handle:before, .color--warning .input .noUi-handle:before {
+.s-range.input--warning .noUi-handle:before, .color--warning .s-range.input .noUi-handle:before {
   background-color: rgba(240, 173, 78, 0.3);
 }
 
-.input--warning .noUi-handle:hover, .color--warning .input .noUi-handle:hover {
+.s-range.input--warning .noUi-handle:hover, .color--warning .s-range.input .noUi-handle:hover {
   background-color: #ec971f;
 }
 
-.input--warning .noUi-active, .color--warning .input .noUi-active {
+.s-range.input--warning .noUi-active, .color--warning .s-range.input .noUi-active {
   background-color: #c77c11 !important;
   box-shadow: rgba(240, 173, 78, 0.3) 0 6px 9px;
 }
 
-.input--warning .noUi-active:before, .color--warning .input .noUi-active:before {
+.s-range.input--warning .noUi-active:before, .color--warning .s-range.input .noUi-active:before {
   background-color: rgba(240, 173, 78, 0.2);
 }
 
-.input--warning .noUi-active .noUi-handle__value, .color--warning .input .noUi-active .noUi-handle__value {
+.s-range.input--warning .noUi-active .noUi-handle__value, .color--warning .s-range.input .noUi-active .noUi-handle__value {
   color: #c77c11;
 }
 
-.input--warning .noUi-handle .tooltip, .color--warning .input .noUi-handle .tooltip {
+.s-range.input--warning .noUi-handle .tooltip, .color--warning .s-range.input .noUi-handle .tooltip {
   position: relative;
   background: #fff;
   border-style: solid;
@@ -4346,7 +4326,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   color: #f0ad4e;
 }
 
-.input--warning .noUi-handle .tooltip:after, .input--warning .noUi-handle .tooltip:before, .color--warning .input .noUi-handle .tooltip:after, .color--warning .input .noUi-handle .tooltip:before {
+.s-range.input--warning .noUi-handle .tooltip:after, .s-range.input--warning .noUi-handle .tooltip:before, .color--warning .s-range.input .noUi-handle .tooltip:after, .color--warning .s-range.input .noUi-handle .tooltip:before {
   border: solid transparent;
   content: " ";
   height: 0;
@@ -4356,7 +4336,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   visibility: visible;
 }
 
-.input--warning .noUi-handle .tooltip:after, .color--warning .input .noUi-handle .tooltip:after {
+.s-range.input--warning .noUi-handle .tooltip:after, .color--warning .s-range.input .noUi-handle .tooltip:after {
   border-width: 5px;
   border-top-color: #fff;
   bottom: -10px;
@@ -4364,72 +4344,67 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   margin-right: -5px;
 }
 
-.input--warning .noUi-handle .tooltip:before, .color--warning .input .noUi-handle .tooltip:before {
+.s-range.input--warning .noUi-handle .tooltip:before, .color--warning .s-range.input .noUi-handle .tooltip:before {
   border-width: 5px;
   bottom: -10px;
   right: 50%;
   margin-right: -5px;
 }
 
-.input--error, .color--error .input {
-  border-color: rgba(217, 83, 79, 0.1);
-  border-bottom-color: rgba(217, 83, 79, 0.3);
-}
-
-.input--error .noUi-connect, .color--error .input .noUi-connect {
+.s-range.input--error .noUi-connect, .color--error .s-range.input .noUi-connect {
   background-color: rgba(217, 83, 79, 0.1);
 }
 
-.input--error .noUi-target.noUi-connect .noUi-base, .color--error .input .noUi-target.noUi-connect .noUi-base {
+.s-range.input--error .noUi-target.noUi-connect .noUi-base, .color--error .s-range.input .noUi-target.noUi-connect .noUi-base {
   background-color: rgba(217, 83, 79, 0.1);
 }
 
-.input--error .noUi-target:hover .noUi-connect, .color--error .input .noUi-target:hover .noUi-connect {
+.s-range.input--error .noUi-target:hover .noUi-connect, .color--error .s-range.input .noUi-target:hover .noUi-connect {
   background-color: rgba(217, 83, 79, 0.3);
 }
 
-.input--error .noUi-target:hover.noUi-connect .noUi-base, .color--error .input .noUi-target:hover.noUi-connect .noUi-base {
+.s-range.input--error .noUi-target:hover.noUi-connect .noUi-base, .color--error .s-range.input .noUi-target:hover.noUi-connect .noUi-base {
   background-color: rgba(217, 83, 79, 0.3);
 }
 
-.input--error .noUi-target.noUi-background:before,
-.input--error .noUi-background:before, .color--error .input .noUi-target.noUi-background:before,
-.color--error .input .noUi-background:before {
+.s-range.input--error .noUi-target.noUi-background:before,
+.s-range.input--error .noUi-background:before, .color--error .s-range.input .noUi-target.noUi-background:before,
+.color--error .s-range.input .noUi-background:before {
   background-color: rgba(217, 83, 79, 0.1);
 }
 
-.input--error .noUi-target:hover.noUi-background:before,
-.input--error .noUi-target:hover .noUi-background:before, .color--error .input .noUi-target:hover.noUi-background:before,
-.color--error .input .noUi-target:hover .noUi-background:before {
+.s-range.input--error .noUi-target:hover.noUi-background:before,
+.s-range.input--error .noUi-target:hover .noUi-background:before, .color--error .s-range.input .noUi-target:hover.noUi-background:before,
+.color--error .s-range.input .noUi-target:hover .noUi-background:before {
   background-color: rgba(217, 83, 79, 0.3);
 }
 
-.input--error .noUi-handle, .color--error .input .noUi-handle {
+.s-range.input--error .noUi-handle, .color--error .s-range.input .noUi-handle {
   background-color: #d9534f;
 }
 
-.input--error .noUi-handle:before, .color--error .input .noUi-handle:before {
+.s-range.input--error .noUi-handle:before, .color--error .s-range.input .noUi-handle:before {
   background-color: rgba(217, 83, 79, 0.3);
 }
 
-.input--error .noUi-handle:hover, .color--error .input .noUi-handle:hover {
+.s-range.input--error .noUi-handle:hover, .color--error .s-range.input .noUi-handle:hover {
   background-color: #c9302c;
 }
 
-.input--error .noUi-active, .color--error .input .noUi-active {
+.s-range.input--error .noUi-active, .color--error .s-range.input .noUi-active {
   background-color: #a02622 !important;
   box-shadow: rgba(217, 83, 79, 0.3) 0 6px 9px;
 }
 
-.input--error .noUi-active:before, .color--error .input .noUi-active:before {
+.s-range.input--error .noUi-active:before, .color--error .s-range.input .noUi-active:before {
   background-color: rgba(217, 83, 79, 0.2);
 }
 
-.input--error .noUi-active .noUi-handle__value, .color--error .input .noUi-active .noUi-handle__value {
+.s-range.input--error .noUi-active .noUi-handle__value, .color--error .s-range.input .noUi-active .noUi-handle__value {
   color: #a02622;
 }
 
-.input--error .noUi-handle .tooltip, .color--error .input .noUi-handle .tooltip {
+.s-range.input--error .noUi-handle .tooltip, .color--error .s-range.input .noUi-handle .tooltip {
   position: relative;
   background: #fff;
   border-style: solid;
@@ -4438,7 +4413,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   color: #d9534f;
 }
 
-.input--error .noUi-handle .tooltip:after, .input--error .noUi-handle .tooltip:before, .color--error .input .noUi-handle .tooltip:after, .color--error .input .noUi-handle .tooltip:before {
+.s-range.input--error .noUi-handle .tooltip:after, .s-range.input--error .noUi-handle .tooltip:before, .color--error .s-range.input .noUi-handle .tooltip:after, .color--error .s-range.input .noUi-handle .tooltip:before {
   border: solid transparent;
   content: " ";
   height: 0;
@@ -4448,7 +4423,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   visibility: visible;
 }
 
-.input--error .noUi-handle .tooltip:after, .color--error .input .noUi-handle .tooltip:after {
+.s-range.input--error .noUi-handle .tooltip:after, .color--error .s-range.input .noUi-handle .tooltip:after {
   border-width: 5px;
   border-top-color: #fff;
   bottom: -10px;
@@ -4456,72 +4431,67 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   margin-right: -5px;
 }
 
-.input--error .noUi-handle .tooltip:before, .color--error .input .noUi-handle .tooltip:before {
+.s-range.input--error .noUi-handle .tooltip:before, .color--error .s-range.input .noUi-handle .tooltip:before {
   border-width: 5px;
   bottom: -10px;
   right: 50%;
   margin-right: -5px;
 }
 
-.input--success, .color--success .input {
-  border-color: rgba(92, 184, 92, 0.1);
-  border-bottom-color: rgba(92, 184, 92, 0.3);
-}
-
-.input--success .noUi-connect, .color--success .input .noUi-connect {
+.s-range.input--success .noUi-connect, .color--success .s-range.input .noUi-connect {
   background-color: rgba(92, 184, 92, 0.1);
 }
 
-.input--success .noUi-target.noUi-connect .noUi-base, .color--success .input .noUi-target.noUi-connect .noUi-base {
+.s-range.input--success .noUi-target.noUi-connect .noUi-base, .color--success .s-range.input .noUi-target.noUi-connect .noUi-base {
   background-color: rgba(92, 184, 92, 0.1);
 }
 
-.input--success .noUi-target:hover .noUi-connect, .color--success .input .noUi-target:hover .noUi-connect {
+.s-range.input--success .noUi-target:hover .noUi-connect, .color--success .s-range.input .noUi-target:hover .noUi-connect {
   background-color: rgba(92, 184, 92, 0.3);
 }
 
-.input--success .noUi-target:hover.noUi-connect .noUi-base, .color--success .input .noUi-target:hover.noUi-connect .noUi-base {
+.s-range.input--success .noUi-target:hover.noUi-connect .noUi-base, .color--success .s-range.input .noUi-target:hover.noUi-connect .noUi-base {
   background-color: rgba(92, 184, 92, 0.3);
 }
 
-.input--success .noUi-target.noUi-background:before,
-.input--success .noUi-background:before, .color--success .input .noUi-target.noUi-background:before,
-.color--success .input .noUi-background:before {
+.s-range.input--success .noUi-target.noUi-background:before,
+.s-range.input--success .noUi-background:before, .color--success .s-range.input .noUi-target.noUi-background:before,
+.color--success .s-range.input .noUi-background:before {
   background-color: rgba(92, 184, 92, 0.1);
 }
 
-.input--success .noUi-target:hover.noUi-background:before,
-.input--success .noUi-target:hover .noUi-background:before, .color--success .input .noUi-target:hover.noUi-background:before,
-.color--success .input .noUi-target:hover .noUi-background:before {
+.s-range.input--success .noUi-target:hover.noUi-background:before,
+.s-range.input--success .noUi-target:hover .noUi-background:before, .color--success .s-range.input .noUi-target:hover.noUi-background:before,
+.color--success .s-range.input .noUi-target:hover .noUi-background:before {
   background-color: rgba(92, 184, 92, 0.3);
 }
 
-.input--success .noUi-handle, .color--success .input .noUi-handle {
+.s-range.input--success .noUi-handle, .color--success .s-range.input .noUi-handle {
   background-color: #5cb85c;
 }
 
-.input--success .noUi-handle:before, .color--success .input .noUi-handle:before {
+.s-range.input--success .noUi-handle:before, .color--success .s-range.input .noUi-handle:before {
   background-color: rgba(92, 184, 92, 0.3);
 }
 
-.input--success .noUi-handle:hover, .color--success .input .noUi-handle:hover {
+.s-range.input--success .noUi-handle:hover, .color--success .s-range.input .noUi-handle:hover {
   background-color: #449d44;
 }
 
-.input--success .noUi-active, .color--success .input .noUi-active {
+.s-range.input--success .noUi-active, .color--success .s-range.input .noUi-active {
   background-color: #357935 !important;
   box-shadow: rgba(92, 184, 92, 0.3) 0 6px 9px;
 }
 
-.input--success .noUi-active:before, .color--success .input .noUi-active:before {
+.s-range.input--success .noUi-active:before, .color--success .s-range.input .noUi-active:before {
   background-color: rgba(92, 184, 92, 0.2);
 }
 
-.input--success .noUi-active .noUi-handle__value, .color--success .input .noUi-active .noUi-handle__value {
+.s-range.input--success .noUi-active .noUi-handle__value, .color--success .s-range.input .noUi-active .noUi-handle__value {
   color: #357935;
 }
 
-.input--success .noUi-handle .tooltip, .color--success .input .noUi-handle .tooltip {
+.s-range.input--success .noUi-handle .tooltip, .color--success .s-range.input .noUi-handle .tooltip {
   position: relative;
   background: #fff;
   border-style: solid;
@@ -4530,7 +4500,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   color: #5cb85c;
 }
 
-.input--success .noUi-handle .tooltip:after, .input--success .noUi-handle .tooltip:before, .color--success .input .noUi-handle .tooltip:after, .color--success .input .noUi-handle .tooltip:before {
+.s-range.input--success .noUi-handle .tooltip:after, .s-range.input--success .noUi-handle .tooltip:before, .color--success .s-range.input .noUi-handle .tooltip:after, .color--success .s-range.input .noUi-handle .tooltip:before {
   border: solid transparent;
   content: " ";
   height: 0;
@@ -4540,7 +4510,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   visibility: visible;
 }
 
-.input--success .noUi-handle .tooltip:after, .color--success .input .noUi-handle .tooltip:after {
+.s-range.input--success .noUi-handle .tooltip:after, .color--success .s-range.input .noUi-handle .tooltip:after {
   border-width: 5px;
   border-top-color: #fff;
   bottom: -10px;
@@ -4548,72 +4518,67 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   margin-right: -5px;
 }
 
-.input--success .noUi-handle .tooltip:before, .color--success .input .noUi-handle .tooltip:before {
+.s-range.input--success .noUi-handle .tooltip:before, .color--success .s-range.input .noUi-handle .tooltip:before {
   border-width: 5px;
   bottom: -10px;
   right: 50%;
   margin-right: -5px;
 }
 
-.input--info, .color--info .input {
-  border-color: rgba(33, 153, 232, 0.1);
-  border-bottom-color: rgba(33, 153, 232, 0.3);
-}
-
-.input--info .noUi-connect, .color--info .input .noUi-connect {
+.s-range.input--info .noUi-connect, .color--info .s-range.input .noUi-connect {
   background-color: rgba(33, 153, 232, 0.1);
 }
 
-.input--info .noUi-target.noUi-connect .noUi-base, .color--info .input .noUi-target.noUi-connect .noUi-base {
+.s-range.input--info .noUi-target.noUi-connect .noUi-base, .color--info .s-range.input .noUi-target.noUi-connect .noUi-base {
   background-color: rgba(33, 153, 232, 0.1);
 }
 
-.input--info .noUi-target:hover .noUi-connect, .color--info .input .noUi-target:hover .noUi-connect {
+.s-range.input--info .noUi-target:hover .noUi-connect, .color--info .s-range.input .noUi-target:hover .noUi-connect {
   background-color: rgba(33, 153, 232, 0.3);
 }
 
-.input--info .noUi-target:hover.noUi-connect .noUi-base, .color--info .input .noUi-target:hover.noUi-connect .noUi-base {
+.s-range.input--info .noUi-target:hover.noUi-connect .noUi-base, .color--info .s-range.input .noUi-target:hover.noUi-connect .noUi-base {
   background-color: rgba(33, 153, 232, 0.3);
 }
 
-.input--info .noUi-target.noUi-background:before,
-.input--info .noUi-background:before, .color--info .input .noUi-target.noUi-background:before,
-.color--info .input .noUi-background:before {
+.s-range.input--info .noUi-target.noUi-background:before,
+.s-range.input--info .noUi-background:before, .color--info .s-range.input .noUi-target.noUi-background:before,
+.color--info .s-range.input .noUi-background:before {
   background-color: rgba(33, 153, 232, 0.1);
 }
 
-.input--info .noUi-target:hover.noUi-background:before,
-.input--info .noUi-target:hover .noUi-background:before, .color--info .input .noUi-target:hover.noUi-background:before,
-.color--info .input .noUi-target:hover .noUi-background:before {
+.s-range.input--info .noUi-target:hover.noUi-background:before,
+.s-range.input--info .noUi-target:hover .noUi-background:before, .color--info .s-range.input .noUi-target:hover.noUi-background:before,
+.color--info .s-range.input .noUi-target:hover .noUi-background:before {
   background-color: rgba(33, 153, 232, 0.3);
 }
 
-.input--info .noUi-handle, .color--info .input .noUi-handle {
+.s-range.input--info .noUi-handle, .color--info .s-range.input .noUi-handle {
   background-color: #2199e8;
 }
 
-.input--info .noUi-handle:before, .color--info .input .noUi-handle:before {
+.s-range.input--info .noUi-handle:before, .color--info .s-range.input .noUi-handle:before {
   background-color: rgba(33, 153, 232, 0.3);
 }
 
-.input--info .noUi-handle:hover, .color--info .input .noUi-handle:hover {
+.s-range.input--info .noUi-handle:hover, .color--info .s-range.input .noUi-handle:hover {
   background-color: #147dc2;
 }
 
-.input--info .noUi-active, .color--info .input .noUi-active {
+.s-range.input--info .noUi-active, .color--info .s-range.input .noUi-active {
   background-color: #0f5f94 !important;
   box-shadow: rgba(33, 153, 232, 0.3) 0 6px 9px;
 }
 
-.input--info .noUi-active:before, .color--info .input .noUi-active:before {
+.s-range.input--info .noUi-active:before, .color--info .s-range.input .noUi-active:before {
   background-color: rgba(33, 153, 232, 0.2);
 }
 
-.input--info .noUi-active .noUi-handle__value, .color--info .input .noUi-active .noUi-handle__value {
+.s-range.input--info .noUi-active .noUi-handle__value, .color--info .s-range.input .noUi-active .noUi-handle__value {
   color: #0f5f94;
 }
 
-.input--info .noUi-handle .tooltip, .color--info .input .noUi-handle .tooltip {
+.s-range.input--info .noUi-handle .tooltip, .color--info .s-range.input .noUi-handle .tooltip {
   position: relative;
   background: #fff;
   border-style: solid;
@@ -4622,7 +4587,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   color: #2199e8;
 }
 
-.input--info .noUi-handle .tooltip:after, .input--info .noUi-handle .tooltip:before, .color--info .input .noUi-handle .tooltip:after, .color--info .input .noUi-handle .tooltip:before {
+.s-range.input--info .noUi-handle .tooltip:after, .s-range.input--info .noUi-handle .tooltip:before, .color--info .s-range.input .noUi-handle .tooltip:after, .color--info .s-range.input .noUi-handle .tooltip:before {
   border: solid transparent;
   content: " ";
   height: 0;
@@ -4632,7 +4597,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   visibility: visible;
 }
 
-.input--info .noUi-handle .tooltip:after, .color--info .input .noUi-handle .tooltip:after {
+.s-range.input--info .noUi-handle .tooltip:after, .color--info .s-range.input .noUi-handle .tooltip:after {
   border-width: 5px;
   border-top-color: #fff;
   bottom: -10px;
@@ -4640,7 +4605,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   margin-right: -5px;
 }
 
-.input--info .noUi-handle .tooltip:before, .color--info .input .noUi-handle .tooltip:before {
+.s-range.input--info .noUi-handle .tooltip:before, .color--info .s-range.input .noUi-handle .tooltip:before {
   border-width: 5px;
   bottom: -10px;
   right: 50%;

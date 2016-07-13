@@ -64,7 +64,7 @@ class SRangeComponent extends SComponent {
 		// create the container for the slider
 		this.container = document.createElement('div');
 		this.container.className = this.elm.className;
-		this.container.classList.add('s-range-container');
+		this.container.classList.add('s-range');
 		this.container.classList.add('clear-transmations'); // do not animate anything at initialisation
 
 		// range element
@@ -289,11 +289,12 @@ if (window.sugar == null) { window.sugar = {}; }
 window.sugar.SRangeComponent = SRangeComponent;
 
 // autoInit
-SRangeComponent.autoInit = function() {
+SRangeComponent.autoInit = function(settings = {}) {
 	// init the select
 	__querySelectorVisibleLiveOnce('input[s-range]', (elm) => {
 		new SRangeComponent(elm, {
-			formater : SRangeComponent.percentFormater
+			formater : SRangeComponent.percentFormater,
+			...settings
 		});
 	});
 };

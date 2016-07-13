@@ -99,7 +99,7 @@ $_s-formset-range-inited : false;
 	// pass in the component context
 	@include s-component-context('formset') {
 
-		.s-range-container {
+		.s-range {
 			padding-top:.5em;
 			padding-bottom:.5em;
 		}
@@ -331,16 +331,14 @@ $_s-formset-range-inited : false;
 
 			#{s-selector((
 				BEM : (
-					'.input--#{$color}',
-					'.color--#{$color} .input'
+					'.s-range.input--#{$color}',
+					'.color--#{$color} .s-range.input'
 				),
 				SMACCS : (
-					'.input-#{$color}',
-					'.color-#{$color} .input'
+					'.s-range.input-#{$color}',
+					'.color-#{$color} .s-range.input'
 				)
 			))} {
-				border-color: s-color($color, -opacity .1);
-				border-bottom-color: s-color($color, -opacity .3);
 
 				@include s-formset-range-style-connect() {
 					background-color: s-color($color, -opacity .1);

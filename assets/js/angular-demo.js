@@ -22175,6 +22175,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.__esModule = true;
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	var _SComponent2 = __webpack_require__(18);
 
 	var _SComponent3 = _interopRequireDefault(_SComponent2);
@@ -22292,7 +22294,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			// create the container for the slider
 			this.container = document.createElement('div');
 			this.container.className = this.elm.className;
-			this.container.classList.add('s-range-container');
+			this.container.classList.add('s-range');
 			this.container.classList.add('clear-transmations'); // do not animate anything at initialisation
 
 			// range element
@@ -22514,11 +22516,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	// autoInit
 	SRangeComponent.autoInit = function () {
+		var settings = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
 		// init the select
 		(0, _querySelectorVisibleLiveOnce2.default)('input[s-range]', function (elm) {
-			new SRangeComponent(elm, {
+			new SRangeComponent(elm, _extends({
 				formater: SRangeComponent.percentFormater
-			});
+			}, settings));
 		});
 	};
 
