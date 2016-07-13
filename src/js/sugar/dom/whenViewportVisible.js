@@ -5,14 +5,14 @@
  * @return {[type]}       [description]
  */
 import whenVisible from './whenVisible'
-import __inViewport from './inViewport'
+import __isInViewport from './isInViewport'
 
 export default function whenViewportVisible(elm, cb = null) {
 	return new Promise((resolve, reject) => {
-		let inViewport = false,
+		let isInViewport = false,
 			isVisible = false,
 			_cb = () => {
-				if (isVisible && inViewport) {
+				if (isVisible && isInViewport) {
 					document.removeEventListener('scroll', checkViewport);
 					window.removeEventListener('resize', checkViewport);
 					if (cb)	cb(elm);
@@ -20,7 +20,7 @@ export default function whenViewportVisible(elm, cb = null) {
 				}
 			}
 		let checkViewport = (e) => {
-			inViewport = __inViewport(elm, { top:50, right:50, bottom:50, left:50 });
+			isInViewport = __isInViewport(elm, { top:50, right:50, bottom:50, left:50 });
 			_cb();
 		};
 

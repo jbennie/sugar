@@ -1,7 +1,7 @@
 /**
  * Detect if is in viewport
  */
-export default function inViewport(elm, offset = { top:0, right:0, bottom:0, left:0 }) {
+export default function isInViewport(elm, offset = { top:0, right:0, bottom:0, left:0 }) {
 	const rect = elm.getBoundingClientRect();
 	return (
 		rect.top + offset.top >= 0 &&

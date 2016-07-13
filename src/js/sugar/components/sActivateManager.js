@@ -22,11 +22,6 @@ class SActivateManager {
 	 * Constructor
 	 */
 	constructor() {
-		querySelectorLiveOnce('[s-activate]', (element) => {
-			if (!element.sActivate) {
-				new SActivateComponent(element);
-			}
-		});
 	}
 
 	/**

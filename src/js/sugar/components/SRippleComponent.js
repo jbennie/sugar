@@ -101,10 +101,13 @@ class SRippleComponent extends SComponent {
 	}
 }
 
-// init the select
-__querySelectorVisibleLiveOnce('[s-ripple]', (elm) => {
-	new SRippleComponent(elm);
-});
+// initOn
+SRippleComponent.initOn = function(selector, settings = {}) {
+	// init the select
+	return __querySelectorVisibleLiveOnce(selector, (elm) => {
+		new SRippleComponent(elm, settings);
+	});
+};
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }

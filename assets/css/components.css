@@ -3870,7 +3870,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
           transform: translateX(-50%) translateY(-50%) translateZ(0);
 }
 
-.s-range-container {
+.s-range {
   padding-top: .5em;
   padding-bottom: .5em;
 }

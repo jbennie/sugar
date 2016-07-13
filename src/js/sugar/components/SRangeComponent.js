@@ -288,10 +288,10 @@ SRangeComponent.percentFormater = function(value, target) {
 if (window.sugar == null) { window.sugar = {}; }
 window.sugar.SRangeComponent = SRangeComponent;
 
-// autoInit
-SRangeComponent.autoInit = function(settings = {}) {
+// initOn
+SRangeComponent.initOn = function(selector, settings = {}) {
 	// init the select
-	__querySelectorVisibleLiveOnce('input[s-range]', (elm) => {
+	return __querySelectorVisibleLiveOnce(selector, (elm) => {
 		new SRangeComponent(elm, {
 			formater : SRangeComponent.percentFormater,
 			...settings

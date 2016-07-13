@@ -10,6 +10,7 @@
  */
 import SComponent from '../core/SComponent'
 import __querySelectorLive from '../dom/querySelectorLive'
+import __querySelectorVisibleLiveOnce from '../dom/querySelectorVisibleLiveOnce';
 import __next from '../dom/next'
 import __previous from '../dom/previous'
 import __offset from '../dom/offset'
@@ -818,10 +819,13 @@ class SSelectComponent extends SComponent {
 
 }
 
-// init the select
-__querySelectorLive('select[s-select]', (elm) => {
-	new SSelectComponent(elm);
-});
+// initOn
+SSelectComponent.initOn = function(selector, settings = {}) {
+	// init the select
+	return __querySelectorVisibleLiveOnce(selector, (elm) => {
+		new SSelectComponent(elm, settings);
+	});
+};
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }

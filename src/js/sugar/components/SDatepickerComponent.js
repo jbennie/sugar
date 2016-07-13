@@ -88,16 +88,14 @@ class SDatepickerComponent extends SComponent {
 	}
 }
 
-__querySelectorVisibleLiveOnce('input[s-datepicker]', (elm) => {
-	new SDatepickerComponent(elm);
-});
-
-__querySelectorVisibleLiveOnce('input[s-datetimepicker]', (elm) => {
-	new SDatepickerComponent(elm, {
-		autoClose : true,
-		showTime : true
+// initOn
+SDatepickerComponent.initOn = function(selector, settings = {}) {
+	// init the select
+	return __querySelectorVisibleLiveOnce(selector, (elm) => {
+		new SDatepickerComponent(elm, settings);
 	});
-});
+};
+
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }

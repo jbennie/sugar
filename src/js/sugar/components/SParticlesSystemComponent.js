@@ -1,6 +1,7 @@
 import SComponent from '../core/SComponent';
 import SParticleComponent from './SParticleComponent';
 import setRecursiveTimeout from '../functions/setRecursiveTimeout';
+import __querySelectorVisibleLiveOnce from '../dom/querySelectorVisibleLiveOnce';
 
 class SParticlesSystemComponent extends SComponent {
 
@@ -76,6 +77,14 @@ class SParticlesSystemComponent extends SComponent {
 
 	}
 }
+
+// initOn
+SParticlesSystemComponent.initOn = function(selector, settings = {}) {
+	// init the select
+	return __querySelectorVisibleLiveOnce(selector, (elm) => {
+		new SParticlesSystemComponent(elm, settings);
+	});
+};
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }

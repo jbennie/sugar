@@ -1,5 +1,5 @@
 import SComponent from '../core/SComponent'
-import querySelectorVisibleLiveOnce from '../dom/querySelectorVisibleLiveOnce'
+import __querySelectorVisibleLiveOnce from '../dom/querySelectorVisibleLiveOnce';
 
 // Actual activate element class
 class SRadioboxComponent extends SComponent {
@@ -48,10 +48,13 @@ class SRadioboxComponent extends SComponent {
 	}
 }
 
-// init the radiobox
-querySelectorVisibleLiveOnce('[s-radiobox][type="checkbox"],[s-radiobox][type="radio"]', (elm) => {
-	new SRadioboxComponent(elm);
-});
+// initOn
+SRadioboxComponent.initOn = function(selector, settings = {}) {
+	// init the select
+	return __querySelectorVisibleLiveOnce(selector, (elm) => {
+		new SRadioboxComponent(elm, settings);
+	});
+};
 
 
 // expose in window.sugar

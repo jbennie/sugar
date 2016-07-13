@@ -9,6 +9,7 @@
  * @version  1.0.0
  */
 import SComponent from '../core/SComponent'
+import __querySelectorVisibleLiveOnce from '../dom/querySelectorVisibleLiveOnce';
 
 if ( ! window._sDrawerStack) {
 	window._sDrawerStack = {};
@@ -157,6 +158,14 @@ class SDrawerComponent extends SComponent {
 		return (this.toggle.checked);
 	}
 }
+
+// initOn
+SDrawerComponent.initOn = function(selector, settings = {}) {
+	// init the select
+	return __querySelectorVisibleLiveOnce(selector, (elm) => {
+		new SDrawerComponent(elm, settings);
+	});
+};
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }

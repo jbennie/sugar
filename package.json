@@ -22,7 +22,8 @@
     "nouislider": "^8.5.1",
     "pikaday": "^1.4.0",
     "pikaday-time": "^1.4.0",
-    "promise-polyfill": "^4.0.3"
+    "promise-polyfill": "^4.0.3",
+    "rx": "^4.1.0"
   },
   "devDependencies": {
     "angular": "^1.5.5",

@@ -9,7 +9,7 @@ import __closestNotVisible from '../dom/closestNotVisible'
 import __whenVisible from '../dom/whenVisible'
 import __whenViewportVisible from '../dom/whenViewportVisible'
 import __isVisible from '../dom/isVisible'
-import __inViewport from '../dom/inViewport'
+import __isInViewport from '../dom/isInViewport'
 import __dataset from '../dom/dataset'
 import _set from 'lodash/set';
 import _get from 'lodash/get';
@@ -141,8 +141,8 @@ export default class SElement extends SObject {
 	/**
 	 * Detect when the element is in the viewport
 	 */
-	inViewport(offset = null) {
-		return __inViewport(this.elm, offset);
+	isInViewport(offset = null) {
+		return __isInViewport(this.elm, offset);
 	}
 
 	/**

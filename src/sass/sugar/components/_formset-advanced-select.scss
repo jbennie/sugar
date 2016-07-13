@@ -179,7 +179,7 @@ $_s-formset-advanced-select-inited : false;
 
 		#{s-selector((
 			BEM : '.s-select.input--#{$color}',
-			SMACCS : 's-select.input-#{$color}'
+			SMACCS : '.s-select.input-#{$color}'
 		))} {
 
 			.s-select__search-container {

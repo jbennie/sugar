@@ -11,6 +11,7 @@
 import SComponent from '../core/SComponent'
 import __scrollTop from '../dom/scrollTop'
 import __uniqid from '../tools/uniqid'
+import __querySelectorVisibleLiveOnce from '../dom/querySelectorVisibleLiveOnce';
 
 // save all the activate elements
 if ( ! window._sActivateStack) {
@@ -374,6 +375,15 @@ class SActivateComponent extends SComponent {
 		return false;
 	}
 }
+
+// initOn
+SActivateComponent.initOn = function(selector, settings = {}) {
+	// init the select
+	return __querySelectorVisibleLiveOnce(selector, (elm) => {
+		console.log('NEW ACI');
+		new SActivateComponent(elm, settings);
+	});
+};
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }

@@ -6,10 +6,13 @@ let angular = require('angular');
 // import { SSelectElement, SActivateElement } from './sugar/index';
 //
 //
+import querySelectorLive from 'sugarcss/dom/querySelectorLive';
 import querySelectorVisibleLiveOnce from 'sugarcss/dom/querySelectorLiveOnce';
+import querySelectorViewportVisibleLiveOnce from 'sugarcss/dom/querySelectorViewportVisibleLiveOnce';
 //
 import sSettings from './sugar/core/sSettings';
 //
+import SActivateComponent from './sugar/components/SActivateComponent';
 import sActivateManager from './sugar/components/sActivateManager';
 import SSelectComponent from './sugar/components/SSelectComponent';
 import SDatepickerComponent from './sugar/components/SDatepickerComponent';
@@ -19,35 +22,27 @@ import SRadioboxComponent from './sugar/components/SRadioboxComponent';
 import sForm from 'sugarcss/components/sForm';
 import SRippleComponent from 'sugarcss/components/SRippleComponent';
 
-SRangeComponent.autoInit();
 
-// import sDrawerManager from './sugar/components/s-drawer-manager';
-//
-// import SSelectComponent from './sugar/index';
-// import SActivateElement from './sugar/index';
-
-// let myCoolSelect = new SSelectElement(document.createElement('select'), {
-// 	searchPlaceholder : 'Coco world'
-// });
-
-// console.log('my cool select', myCoolSelect);
-
-// setTimeout(() => {
-// 	document.body.appendChild(myCoolSelect.elm);
-// }, 1000);
-
-// setTimeout(() => {
-// 	// myCoolSelect.elm.setAttribute('s-select-search-placeholder', 'hello');
-// 	myCoolSelect.settings.searchPlaceholder = 'yopyopyop';
-// }, 3000);
-
-querySelectorVisibleLiveOnce('.btn, .nav > li', (elm) => {
-	new SRippleComponent(elm);
-});
+SActivateComponent.initOn('[s-activate]');
+SRangeComponent.initOn('[s-range]');
+SSelectComponent.initOn('[s-select]');
+SDatepickerComponent.initOn('input[type="date"]');
+SRadioboxComponent.initOn('input[type="radio"],input[type="checkbox"]');
+SRippleComponent.initOn('.btn, .nav > li');
 
 const app = angular.module('angular-demo', []).run(() => {
 
 });
+
+const whenVisibleObs = querySelectorViewportVisibleLiveOnce('.btn').subscribe((elm) => {
+	console.log('VISIBLE', elm);
+});
+
+// const obs = querySelectorLive('.btn');
+// console.log(obs);
+// obs.subscribe((elm) => {
+// 	console.log('ELEMENT', elm);
+// });
 
 // app.directive('sSelect', () => {
 // 	return {

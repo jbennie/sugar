@@ -1,5 +1,6 @@
 import SComponent from '../core/SComponent';
 import __getAnimationProperties from '../dom/getAnimationProperties';
+import __querySelectorVisibleLiveOnce from '../dom/querySelectorVisibleLiveOnce';
 
 class SParticleComponent extends SComponent {
 
@@ -39,6 +40,14 @@ class SParticleComponent extends SComponent {
 	}
 
 }
+
+// initOn
+SParticleComponent.initOn = function(selector, settings = {}) {
+	// init the select
+	return __querySelectorVisibleLiveOnce(selector, (elm) => {
+		new SParticleComponent(elm, settings);
+	});
+};
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }

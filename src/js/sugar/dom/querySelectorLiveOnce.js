@@ -11,5 +11,5 @@ export default function querySelectorLiveOnce(selector, cb, settings = {}) {
 			once : true
 		}
 	};
-	querySelectorLive(selector, cb, settings);
+	return querySelectorLive(selector, cb, settings);
 }
