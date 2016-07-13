@@ -81,12 +81,12 @@ $not : ':not([type="checkbox"]):not([type="radio"]):not(.noUi-target)';
 			// input styling
 			#{s-selector((
 				BEM : (
-					'.input--#{$color}#{$not}',
-					'.color--#{$color} .input#{$not}'
+					'input.input--#{$color}#{$not}',
+					'.color--#{$color} input.input#{$not}'
 				),
 				SMACCS : (
-					'.input-#{$color}#{$not}',
-					'.color-#{$color} .input#{$not}'
+					'input.input-#{$color}#{$not}',
+					'.color-#{$color} input.input#{$not}'
 				)
 			))} {
 				@include s-formset-input-color($color);

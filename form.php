@@ -432,7 +432,7 @@
 								<div class="gr-12">
 									<label class="label">
 										<span>Range label</span>
-										<input class="input input--<?= $color ?>" type="text" value="<?=rand(1,50)?>,<?=rand(50,100)?>" s-range-input -init-when="viewportVisible" />
+										<input class="input input--<?= $color ?>" type="text" value="<?=rand(1,50)?>,<?=rand(50,100)?>" s-range -init-when="viewportVisible" />
 									</label>
 								</div>
 							</div>
@@ -670,7 +670,7 @@
 	</a>
 
 	<script>
-	sugar.SActivateElement.setup('nested', {
+	sugar.SActivateComponent.setup('nested', {
 		history : false
 	});
 

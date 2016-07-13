@@ -1755,25 +1755,25 @@ textarea.input {
   margin-bottom: 1rem;
 }
 
-.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) {
+input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) {
   border-color: rgba(129, 149, 161, 0.1);
   border-bottom-color: rgba(129, 149, 161, 0.3);
 }
 
-[data-input-activator]:focus ~ .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
-[data-input-activator]:checked ~ .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
-[data-input-activator]:checked ~ .color .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+[data-input-activator]:focus ~ input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
+[data-input-activator]:checked ~ input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):hover:not(:disabled):not(.input--disabled):not(.is-disabled), input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
+[data-input-activator]:checked ~ .color input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
   border-bottom-color: rgba(129, 149, 161, 0.6);
   box-shadow: rgba(129, 149, 161, 0.3) 0 6px 9px;
 }
 
-[data-input-activator]:focus ~ .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
-[data-input-activator]:checked ~ .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
-[data-input-activator]:checked ~ .color .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+[data-input-activator]:focus ~ input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
+[data-input-activator]:checked ~ input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
+[data-input-activator]:checked ~ .color input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
   border-left-color: rgba(129, 149, 161, 0.6);
 }
 
-.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) ~ .input-reply--default, .color .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) ~ .input-reply--default {
+input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) ~ .input-reply--default, .color input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) ~ .input-reply--default {
   display: block;
 }
 
@@ -1781,25 +1781,25 @@ select.input, .input.s-select, .color select.input {
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A%238195a1"></polygon></svg>');
 }
 
-.input--primary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--primary .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) {
+input.input--primary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--primary input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) {
   border-color: rgba(242, 188, 43, 0.1);
   border-bottom-color: rgba(242, 188, 43, 0.3);
 }
 
-[data-input-activator]:focus ~ .input--primary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
-[data-input-activator]:checked ~ .input--primary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .input--primary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input--primary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--primary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--primary .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
-[data-input-activator]:checked ~ .color--primary .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--primary .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--primary .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--primary .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+[data-input-activator]:focus ~ input.input--primary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
+[data-input-activator]:checked ~ input.input--primary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), input.input--primary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):hover:not(:disabled):not(.input--disabled):not(.is-disabled), input.input--primary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), input.input--primary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--primary input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
+[data-input-activator]:checked ~ .color--primary input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--primary input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--primary input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--primary input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
   border-bottom-color: rgba(242, 188, 43, 0.6);
   box-shadow: rgba(242, 188, 43, 0.3) 0 6px 9px;
 }
 
-[data-input-activator]:focus ~ .input--primary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
-[data-input-activator]:checked ~ .input--primary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .input--primary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--primary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--primary .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
-[data-input-activator]:checked ~ .color--primary .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--primary .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--primary .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+[data-input-activator]:focus ~ input.input--primary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
+[data-input-activator]:checked ~ input.input--primary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), input.input--primary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), input.input--primary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--primary input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
+[data-input-activator]:checked ~ .color--primary input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--primary input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--primary input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
   border-left-color: rgba(242, 188, 43, 0.6);
 }
 
-.input--primary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) ~ .input-reply--primary, .color--primary .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) ~ .input-reply--primary {
+input.input--primary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) ~ .input-reply--primary, .color--primary input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) ~ .input-reply--primary {
   display: block;
 }
 
@@ -1807,25 +1807,25 @@ select.input--primary, .input--primary.s-select, .color--primary select.input {
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A%23f2bc2b"></polygon></svg>');
 }
 
-.input--secondary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--secondary .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) {
+input.input--secondary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--secondary input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) {
   border-color: rgba(119, 119, 119, 0.1);
   border-bottom-color: rgba(119, 119, 119, 0.3);
 }
 
-[data-input-activator]:focus ~ .input--secondary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
-[data-input-activator]:checked ~ .input--secondary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .input--secondary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input--secondary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--secondary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--secondary .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
-[data-input-activator]:checked ~ .color--secondary .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--secondary .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--secondary .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--secondary .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+[data-input-activator]:focus ~ input.input--secondary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
+[data-input-activator]:checked ~ input.input--secondary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), input.input--secondary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):hover:not(:disabled):not(.input--disabled):not(.is-disabled), input.input--secondary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), input.input--secondary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--secondary input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
+[data-input-activator]:checked ~ .color--secondary input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--secondary input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--secondary input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--secondary input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
   border-bottom-color: rgba(119, 119, 119, 0.6);
   box-shadow: rgba(119, 119, 119, 0.3) 0 6px 9px;
 }
 
-[data-input-activator]:focus ~ .input--secondary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
-[data-input-activator]:checked ~ .input--secondary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .input--secondary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--secondary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--secondary .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
-[data-input-activator]:checked ~ .color--secondary .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--secondary .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--secondary .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+[data-input-activator]:focus ~ input.input--secondary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
+[data-input-activator]:checked ~ input.input--secondary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), input.input--secondary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), input.input--secondary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--secondary input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
+[data-input-activator]:checked ~ .color--secondary input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--secondary input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--secondary input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
   border-left-color: rgba(119, 119, 119, 0.6);
 }
 
-.input--secondary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) ~ .input-reply--secondary, .color--secondary .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) ~ .input-reply--secondary {
+input.input--secondary:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) ~ .input-reply--secondary, .color--secondary input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) ~ .input-reply--secondary {
   display: block;
 }
 
@@ -1833,25 +1833,25 @@ select.input--secondary, .input--secondary.s-select, .color--secondary select.in
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A%23777"></polygon></svg>');
 }
 
-.input--warning:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--warning .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) {
+input.input--warning:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--warning input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) {
   border-color: rgba(240, 173, 78, 0.1);
   border-bottom-color: rgba(240, 173, 78, 0.3);
 }
 
-[data-input-activator]:focus ~ .input--warning:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
-[data-input-activator]:checked ~ .input--warning:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .input--warning:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input--warning:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--warning:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--warning .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
-[data-input-activator]:checked ~ .color--warning .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--warning .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--warning .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--warning .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+[data-input-activator]:focus ~ input.input--warning:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
+[data-input-activator]:checked ~ input.input--warning:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), input.input--warning:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):hover:not(:disabled):not(.input--disabled):not(.is-disabled), input.input--warning:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), input.input--warning:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--warning input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
+[data-input-activator]:checked ~ .color--warning input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--warning input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--warning input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--warning input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
   border-bottom-color: rgba(240, 173, 78, 0.6);
   box-shadow: rgba(240, 173, 78, 0.3) 0 6px 9px;
 }
 
-[data-input-activator]:focus ~ .input--warning:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
-[data-input-activator]:checked ~ .input--warning:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .input--warning:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--warning:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--warning .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
-[data-input-activator]:checked ~ .color--warning .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--warning .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--warning .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+[data-input-activator]:focus ~ input.input--warning:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
+[data-input-activator]:checked ~ input.input--warning:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), input.input--warning:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), input.input--warning:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--warning input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
+[data-input-activator]:checked ~ .color--warning input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--warning input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--warning input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
   border-left-color: rgba(240, 173, 78, 0.6);
 }
 
-.input--warning:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) ~ .input-reply--warning, .color--warning .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) ~ .input-reply--warning {
+input.input--warning:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) ~ .input-reply--warning, .color--warning input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) ~ .input-reply--warning {
   display: block;
 }
 
@@ -1859,25 +1859,25 @@ select.input--warning, .input--warning.s-select, .color--warning select.input {
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A%23f0ad4e"></polygon></svg>');
 }
 
-.input--error:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--error .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) {
+input.input--error:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--error input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) {
   border-color: rgba(217, 83, 79, 0.1);
   border-bottom-color: rgba(217, 83, 79, 0.3);
 }
 
-[data-input-activator]:focus ~ .input--error:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
-[data-input-activator]:checked ~ .input--error:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .input--error:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input--error:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--error:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--error .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
-[data-input-activator]:checked ~ .color--error .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--error .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--error .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--error .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+[data-input-activator]:focus ~ input.input--error:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
+[data-input-activator]:checked ~ input.input--error:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), input.input--error:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):hover:not(:disabled):not(.input--disabled):not(.is-disabled), input.input--error:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), input.input--error:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--error input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
+[data-input-activator]:checked ~ .color--error input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--error input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--error input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--error input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
   border-bottom-color: rgba(217, 83, 79, 0.6);
   box-shadow: rgba(217, 83, 79, 0.3) 0 6px 9px;
 }
 
-[data-input-activator]:focus ~ .input--error:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
-[data-input-activator]:checked ~ .input--error:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .input--error:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--error:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--error .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
-[data-input-activator]:checked ~ .color--error .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--error .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--error .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+[data-input-activator]:focus ~ input.input--error:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
+[data-input-activator]:checked ~ input.input--error:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), input.input--error:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), input.input--error:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--error input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
+[data-input-activator]:checked ~ .color--error input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--error input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--error input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
   border-left-color: rgba(217, 83, 79, 0.6);
 }
 
-.input--error:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) ~ .input-reply--error, .color--error .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) ~ .input-reply--error {
+input.input--error:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) ~ .input-reply--error, .color--error input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) ~ .input-reply--error {
   display: block;
 }
 
@@ -1885,25 +1885,25 @@ select.input--error, .input--error.s-select, .color--error select.input {
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A%23d9534f"></polygon></svg>');
 }
 
-.input--success:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--success .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) {
+input.input--success:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--success input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) {
   border-color: rgba(92, 184, 92, 0.1);
   border-bottom-color: rgba(92, 184, 92, 0.3);
 }
 
-[data-input-activator]:focus ~ .input--success:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
-[data-input-activator]:checked ~ .input--success:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .input--success:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input--success:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--success:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--success .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
-[data-input-activator]:checked ~ .color--success .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--success .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--success .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--success .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+[data-input-activator]:focus ~ input.input--success:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
+[data-input-activator]:checked ~ input.input--success:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), input.input--success:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):hover:not(:disabled):not(.input--disabled):not(.is-disabled), input.input--success:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), input.input--success:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--success input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
+[data-input-activator]:checked ~ .color--success input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--success input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--success input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--success input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
   border-bottom-color: rgba(92, 184, 92, 0.6);
   box-shadow: rgba(92, 184, 92, 0.3) 0 6px 9px;
 }
 
-[data-input-activator]:focus ~ .input--success:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
-[data-input-activator]:checked ~ .input--success:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .input--success:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--success:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--success .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
-[data-input-activator]:checked ~ .color--success .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--success .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--success .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+[data-input-activator]:focus ~ input.input--success:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
+[data-input-activator]:checked ~ input.input--success:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), input.input--success:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), input.input--success:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--success input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
+[data-input-activator]:checked ~ .color--success input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--success input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--success input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
   border-left-color: rgba(92, 184, 92, 0.6);
 }
 
-.input--success:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) ~ .input-reply--success, .color--success .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) ~ .input-reply--success {
+input.input--success:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) ~ .input-reply--success, .color--success input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) ~ .input-reply--success {
   display: block;
 }
 
@@ -1911,25 +1911,25 @@ select.input--success, .input--success.s-select, .color--success select.input {
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A%235cb85c"></polygon></svg>');
 }
 
-.input--info:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--info .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) {
+input.input--info:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--info input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) {
   border-color: rgba(33, 153, 232, 0.1);
   border-bottom-color: rgba(33, 153, 232, 0.3);
 }
 
-[data-input-activator]:focus ~ .input--info:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
-[data-input-activator]:checked ~ .input--info:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .input--info:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .input--info:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--info:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--info .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
-[data-input-activator]:checked ~ .color--info .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--info .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--info .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--info .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+[data-input-activator]:focus ~ input.input--info:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
+[data-input-activator]:checked ~ input.input--info:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), input.input--info:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):hover:not(:disabled):not(.input--disabled):not(.is-disabled), input.input--info:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), input.input--info:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--info input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
+[data-input-activator]:checked ~ .color--info input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--info input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):hover:not(:disabled):not(.input--disabled):not(.is-disabled), .color--info input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--info input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
   border-bottom-color: rgba(33, 153, 232, 0.6);
   box-shadow: rgba(33, 153, 232, 0.3) 0 6px 9px;
 }
 
-[data-input-activator]:focus ~ .input--info:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
-[data-input-activator]:checked ~ .input--info:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .input--info:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .input--info:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--info .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
-[data-input-activator]:checked ~ .color--info .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--info .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--info .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+[data-input-activator]:focus ~ input.input--info:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
+[data-input-activator]:checked ~ input.input--info:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), input.input--info:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), input.input--info:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled), [data-input-activator]:focus ~ .color--info input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target),
+[data-input-activator]:checked ~ .color--info input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target), .color--info input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target):focus:not(:disabled):not(.input--disabled):not(.is-disabled), .color--info input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target).active:not(:disabled):not(.input--disabled):not(.is-disabled) {
   border-left-color: rgba(33, 153, 232, 0.6);
 }
 
-.input--info:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) ~ .input-reply--info, .color--info .input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) ~ .input-reply--info {
+input.input--info:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) ~ .input-reply--info, .color--info input.input:not([type="checkbox"]):not([type="radio"]):not(.noUi-target) ~ .input-reply--info {
   display: block;
 }
 
@@ -3870,22 +3870,21 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
           transform: translateX(-50%) translateY(-50%) translateZ(0);
 }
 
-.noUi-target,
+.s-range-container {
+  padding-top: .5em;
+  padding-bottom: .5em;
+}
+
 .noUi-target {
-  -webkit-transform: translateY(75%) !important;
-      -ms-transform: translateY(75%) !important;
-          transform: translateY(75%) !important;
   margin-left: 1em;
   margin-right: 1em;
   cursor: pointer;
 }
 
-.noUi-target.noUi-horizontal,
 .noUi-target.noUi-horizontal {
   height: 1em;
 }
 
-.noUi-target.noUi-vertical,
 .noUi-target.noUi-vertical {
   width: 1em;
 }
@@ -3923,14 +3922,10 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
 }
 
 .noUi-target.noUi-background,
-.noUi-background,
-.noUi-target.noUi-background,
 .noUi-background {
   background: white;
 }
 
-.noUi-target.noUi-background:before,
-.noUi-background:before,
 .noUi-target.noUi-background:before,
 .noUi-background:before {
   transition: background-color 0.1s ease-in-out, outline-color 0.000001s linear 0s;
@@ -3942,7 +3937,6 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   outline-color: black;
 }
 
-.noUi-target.noUi-connect .noUi-base,
 .noUi-target.noUi-connect .noUi-base {
   transition: background-color 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   outline-color: black;
@@ -4009,75 +4003,65 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   outline-color: black;
 }
 
-.noUi-target.input, .color .noUi-target.input {
+.input, .color .input {
   border-color: rgba(129, 149, 161, 0.1);
   border-bottom-color: rgba(129, 149, 161, 0.3);
 }
 
-.noUi-target.input .noUi-connect, .color .noUi-target.input .noUi-connect {
+.input .noUi-connect, .color .input .noUi-connect {
   background-color: rgba(129, 149, 161, 0.1);
 }
 
-.noUi-target.input.noUi-target.noUi-connect .noUi-base,
-.noUi-target.input .noUi-target.noUi-connect .noUi-base, .color .noUi-target.input.noUi-target.noUi-connect .noUi-base,
-.color .noUi-target.input .noUi-target.noUi-connect .noUi-base {
+.input .noUi-target.noUi-connect .noUi-base, .color .input .noUi-target.noUi-connect .noUi-base {
   background-color: rgba(129, 149, 161, 0.1);
 }
 
-.noUi-target.input.noUi-target:hover .noUi-connect,
-.noUi-target.input .noUi-target:hover .noUi-connect, .color .noUi-target.input.noUi-target:hover .noUi-connect,
-.color .noUi-target.input .noUi-target:hover .noUi-connect {
+.input .noUi-target:hover .noUi-connect, .color .input .noUi-target:hover .noUi-connect {
   background-color: rgba(129, 149, 161, 0.3);
 }
 
-.noUi-target.input:hover.noUi-connect .noUi-base, .color .noUi-target.input:hover.noUi-connect .noUi-base {
+.input .noUi-target:hover.noUi-connect .noUi-base, .color .input .noUi-target:hover.noUi-connect .noUi-base {
   background-color: rgba(129, 149, 161, 0.3);
 }
 
-.noUi-target.input.noUi-target.noUi-background:before, .noUi-target.input.noUi-background:before,
-.noUi-target.input .noUi-target.noUi-background:before,
-.noUi-target.input .noUi-background:before, .color .noUi-target.input.noUi-target.noUi-background:before, .color .noUi-target.input.noUi-background:before,
-.color .noUi-target.input .noUi-target.noUi-background:before,
-.color .noUi-target.input .noUi-background:before {
+.input .noUi-target.noUi-background:before,
+.input .noUi-background:before, .color .input .noUi-target.noUi-background:before,
+.color .input .noUi-background:before {
   background-color: rgba(129, 149, 161, 0.1);
 }
 
-.noUi-target.input.noUi-target:hover.noUi-background:before,
-.noUi-target.input.noUi-target:hover .noUi-background:before,
-.noUi-target.input .noUi-target:hover.noUi-background:before,
-.noUi-target.input .noUi-target:hover .noUi-background:before, .color .noUi-target.input.noUi-target:hover.noUi-background:before,
-.color .noUi-target.input.noUi-target:hover .noUi-background:before,
-.color .noUi-target.input .noUi-target:hover.noUi-background:before,
-.color .noUi-target.input .noUi-target:hover .noUi-background:before {
+.input .noUi-target:hover.noUi-background:before,
+.input .noUi-target:hover .noUi-background:before, .color .input .noUi-target:hover.noUi-background:before,
+.color .input .noUi-target:hover .noUi-background:before {
   background-color: rgba(129, 149, 161, 0.3);
 }
 
-.noUi-target.input .noUi-handle, .color .noUi-target.input .noUi-handle {
+.input .noUi-handle, .color .input .noUi-handle {
   background-color: #8195a1;
 }
 
-.noUi-target.input .noUi-handle:before, .color .noUi-target.input .noUi-handle:before {
+.input .noUi-handle:before, .color .input .noUi-handle:before {
   background-color: rgba(129, 149, 161, 0.3);
 }
 
-.noUi-target.input .noUi-handle:hover, .color .noUi-target.input .noUi-handle:hover {
+.input .noUi-handle:hover, .color .input .noUi-handle:hover {
   background-color: #667c89;
 }
 
-.noUi-target.input .noUi-active, .color .noUi-target.input .noUi-active {
+.input .noUi-active, .color .input .noUi-active {
   background-color: #50616c !important;
   box-shadow: rgba(129, 149, 161, 0.3) 0 6px 9px;
 }
 
-.noUi-target.input .noUi-active:before, .color .noUi-target.input .noUi-active:before {
+.input .noUi-active:before, .color .input .noUi-active:before {
   background-color: rgba(129, 149, 161, 0.2);
 }
 
-.noUi-target.input .noUi-active .noUi-handle__value, .color .noUi-target.input .noUi-active .noUi-handle__value {
+.input .noUi-active .noUi-handle__value, .color .input .noUi-active .noUi-handle__value {
   color: #50616c;
 }
 
-.noUi-target.input .noUi-handle .tooltip, .color .noUi-target.input .noUi-handle .tooltip {
+.input .noUi-handle .tooltip, .color .input .noUi-handle .tooltip {
   position: relative;
   background: #fff;
   border-style: solid;
@@ -4086,7 +4070,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   color: #8195a1;
 }
 
-.noUi-target.input .noUi-handle .tooltip:after, .noUi-target.input .noUi-handle .tooltip:before, .color .noUi-target.input .noUi-handle .tooltip:after, .color .noUi-target.input .noUi-handle .tooltip:before {
+.input .noUi-handle .tooltip:after, .input .noUi-handle .tooltip:before, .color .input .noUi-handle .tooltip:after, .color .input .noUi-handle .tooltip:before {
   border: solid transparent;
   content: " ";
   height: 0;
@@ -4096,7 +4080,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   visibility: visible;
 }
 
-.noUi-target.input .noUi-handle .tooltip:after, .color .noUi-target.input .noUi-handle .tooltip:after {
+.input .noUi-handle .tooltip:after, .color .input .noUi-handle .tooltip:after {
   border-width: 5px;
   border-top-color: #fff;
   bottom: -10px;
@@ -4104,82 +4088,72 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   margin-right: -5px;
 }
 
-.noUi-target.input .noUi-handle .tooltip:before, .color .noUi-target.input .noUi-handle .tooltip:before {
+.input .noUi-handle .tooltip:before, .color .input .noUi-handle .tooltip:before {
   border-width: 5px;
   bottom: -10px;
   right: 50%;
   margin-right: -5px;
 }
 
-.noUi-target.input--primary, .color--primary .noUi-target.input {
+.input--primary, .color--primary .input {
   border-color: rgba(242, 188, 43, 0.1);
   border-bottom-color: rgba(242, 188, 43, 0.3);
 }
 
-.noUi-target.input--primary .noUi-connect, .color--primary .noUi-target.input .noUi-connect {
+.input--primary .noUi-connect, .color--primary .input .noUi-connect {
   background-color: rgba(242, 188, 43, 0.1);
 }
 
-.noUi-target.input--primary.noUi-target.noUi-connect .noUi-base,
-.noUi-target.input--primary .noUi-target.noUi-connect .noUi-base, .color--primary .noUi-target.input.noUi-target.noUi-connect .noUi-base,
-.color--primary .noUi-target.input .noUi-target.noUi-connect .noUi-base {
+.input--primary .noUi-target.noUi-connect .noUi-base, .color--primary .input .noUi-target.noUi-connect .noUi-base {
   background-color: rgba(242, 188, 43, 0.1);
 }
 
-.noUi-target.input--primary.noUi-target:hover .noUi-connect,
-.noUi-target.input--primary .noUi-target:hover .noUi-connect, .color--primary .noUi-target.input.noUi-target:hover .noUi-connect,
-.color--primary .noUi-target.input .noUi-target:hover .noUi-connect {
+.input--primary .noUi-target:hover .noUi-connect, .color--primary .input .noUi-target:hover .noUi-connect {
   background-color: rgba(242, 188, 43, 0.3);
 }
 
-.noUi-target.input--primary:hover.noUi-connect .noUi-base, .color--primary .noUi-target.input:hover.noUi-connect .noUi-base {
+.input--primary .noUi-target:hover.noUi-connect .noUi-base, .color--primary .input .noUi-target:hover.noUi-connect .noUi-base {
   background-color: rgba(242, 188, 43, 0.3);
 }
 
-.noUi-target.input--primary.noUi-target.noUi-background:before, .noUi-target.input--primary.noUi-background:before,
-.noUi-target.input--primary .noUi-target.noUi-background:before,
-.noUi-target.input--primary .noUi-background:before, .color--primary .noUi-target.input.noUi-target.noUi-background:before, .color--primary .noUi-target.input.noUi-background:before,
-.color--primary .noUi-target.input .noUi-target.noUi-background:before,
-.color--primary .noUi-target.input .noUi-background:before {
+.input--primary .noUi-target.noUi-background:before,
+.input--primary .noUi-background:before, .color--primary .input .noUi-target.noUi-background:before,
+.color--primary .input .noUi-background:before {
   background-color: rgba(242, 188, 43, 0.1);
 }
 
-.noUi-target.input--primary.noUi-target:hover.noUi-background:before,
-.noUi-target.input--primary.noUi-target:hover .noUi-background:before,
-.noUi-target.input--primary .noUi-target:hover.noUi-background:before,
-.noUi-target.input--primary .noUi-target:hover .noUi-background:before, .color--primary .noUi-target.input.noUi-target:hover.noUi-background:before,
-.color--primary .noUi-target.input.noUi-target:hover .noUi-background:before,
-.color--primary .noUi-target.input .noUi-target:hover.noUi-background:before,
-.color--primary .noUi-target.input .noUi-target:hover .noUi-background:before {
+.input--primary .noUi-target:hover.noUi-background:before,
+.input--primary .noUi-target:hover .noUi-background:before, .color--primary .input .noUi-target:hover.noUi-background:before,
+.color--primary .input .noUi-target:hover .noUi-background:before {
   background-color: rgba(242, 188, 43, 0.3);
 }
 
-.noUi-target.input--primary .noUi-handle, .color--primary .noUi-target.input .noUi-handle {
+.input--primary .noUi-handle, .color--primary .input .noUi-handle {
   background-color: #f2bc2b;
 }
 
-.noUi-target.input--primary .noUi-handle:before, .color--primary .noUi-target.input .noUi-handle:before {
+.input--primary .noUi-handle:before, .color--primary .input .noUi-handle:before {
   background-color: rgba(242, 188, 43, 0.3);
 }
 
-.noUi-target.input--primary .noUi-handle:hover, .color--primary .noUi-target.input .noUi-handle:hover {
+.input--primary .noUi-handle:hover, .color--primary .input .noUi-handle:hover {
   background-color: #dca40e;
 }
 
-.noUi-target.input--primary .noUi-active, .color--primary .noUi-target.input .noUi-active {
+.input--primary .noUi-active, .color--primary .input .noUi-active {
   background-color: #ac810b !important;
   box-shadow: rgba(242, 188, 43, 0.3) 0 6px 9px;
 }
 
-.noUi-target.input--primary .noUi-active:before, .color--primary .noUi-target.input .noUi-active:before {
+.input--primary .noUi-active:before, .color--primary .input .noUi-active:before {
   background-color: rgba(242, 188, 43, 0.2);
 }
 
-.noUi-target.input--primary .noUi-active .noUi-handle__value, .color--primary .noUi-target.input .noUi-active .noUi-handle__value {
+.input--primary .noUi-active .noUi-handle__value, .color--primary .input .noUi-active .noUi-handle__value {
   color: #ac810b;
 }
 
-.noUi-target.input--primary .noUi-handle .tooltip, .color--primary .noUi-target.input .noUi-handle .tooltip {
+.input--primary .noUi-handle .tooltip, .color--primary .input .noUi-handle .tooltip {
   position: relative;
   background: #fff;
   border-style: solid;
@@ -4188,7 +4162,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   color: #f2bc2b;
 }
 
-.noUi-target.input--primary .noUi-handle .tooltip:after, .noUi-target.input--primary .noUi-handle .tooltip:before, .color--primary .noUi-target.input .noUi-handle .tooltip:after, .color--primary .noUi-target.input .noUi-handle .tooltip:before {
+.input--primary .noUi-handle .tooltip:after, .input--primary .noUi-handle .tooltip:before, .color--primary .input .noUi-handle .tooltip:after, .color--primary .input .noUi-handle .tooltip:before {
   border: solid transparent;
   content: " ";
   height: 0;
@@ -4198,7 +4172,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   visibility: visible;
 }
 
-.noUi-target.input--primary .noUi-handle .tooltip:after, .color--primary .noUi-target.input .noUi-handle .tooltip:after {
+.input--primary .noUi-handle .tooltip:after, .color--primary .input .noUi-handle .tooltip:after {
   border-width: 5px;
   border-top-color: #fff;
   bottom: -10px;
@@ -4206,82 +4180,72 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   margin-right: -5px;
 }
 
-.noUi-target.input--primary .noUi-handle .tooltip:before, .color--primary .noUi-target.input .noUi-handle .tooltip:before {
+.input--primary .noUi-handle .tooltip:before, .color--primary .input .noUi-handle .tooltip:before {
   border-width: 5px;
   bottom: -10px;
   right: 50%;
   margin-right: -5px;
 }
 
-.noUi-target.input--secondary, .color--secondary .noUi-target.input {
+.input--secondary, .color--secondary .input {
   border-color: rgba(119, 119, 119, 0.1);
   border-bottom-color: rgba(119, 119, 119, 0.3);
 }
 
-.noUi-target.input--secondary .noUi-connect, .color--secondary .noUi-target.input .noUi-connect {
+.input--secondary .noUi-connect, .color--secondary .input .noUi-connect {
   background-color: rgba(119, 119, 119, 0.1);
 }
 
-.noUi-target.input--secondary.noUi-target.noUi-connect .noUi-base,
-.noUi-target.input--secondary .noUi-target.noUi-connect .noUi-base, .color--secondary .noUi-target.input.noUi-target.noUi-connect .noUi-base,
-.color--secondary .noUi-target.input .noUi-target.noUi-connect .noUi-base {
+.input--secondary .noUi-target.noUi-connect .noUi-base, .color--secondary .input .noUi-target.noUi-connect .noUi-base {
   background-color: rgba(119, 119, 119, 0.1);
 }
 
-.noUi-target.input--secondary.noUi-target:hover .noUi-connect,
-.noUi-target.input--secondary .noUi-target:hover .noUi-connect, .color--secondary .noUi-target.input.noUi-target:hover .noUi-connect,
-.color--secondary .noUi-target.input .noUi-target:hover .noUi-connect {
+.input--secondary .noUi-target:hover .noUi-connect, .color--secondary .input .noUi-target:hover .noUi-connect {
   background-color: rgba(119, 119, 119, 0.3);
 }
 
-.noUi-target.input--secondary:hover.noUi-connect .noUi-base, .color--secondary .noUi-target.input:hover.noUi-connect .noUi-base {
+.input--secondary .noUi-target:hover.noUi-connect .noUi-base, .color--secondary .input .noUi-target:hover.noUi-connect .noUi-base {
   background-color: rgba(119, 119, 119, 0.3);
 }
 
-.noUi-target.input--secondary.noUi-target.noUi-background:before, .noUi-target.input--secondary.noUi-background:before,
-.noUi-target.input--secondary .noUi-target.noUi-background:before,
-.noUi-target.input--secondary .noUi-background:before, .color--secondary .noUi-target.input.noUi-target.noUi-background:before, .color--secondary .noUi-target.input.noUi-background:before,
-.color--secondary .noUi-target.input .noUi-target.noUi-background:before,
-.color--secondary .noUi-target.input .noUi-background:before {
+.input--secondary .noUi-target.noUi-background:before,
+.input--secondary .noUi-background:before, .color--secondary .input .noUi-target.noUi-background:before,
+.color--secondary .input .noUi-background:before {
   background-color: rgba(119, 119, 119, 0.1);
 }
 
-.noUi-target.input--secondary.noUi-target:hover.noUi-background:before,
-.noUi-target.input--secondary.noUi-target:hover .noUi-background:before,
-.noUi-target.input--secondary .noUi-target:hover.noUi-background:before,
-.noUi-target.input--secondary .noUi-target:hover .noUi-background:before, .color--secondary .noUi-target.input.noUi-target:hover.noUi-background:before,
-.color--secondary .noUi-target.input.noUi-target:hover .noUi-background:before,
-.color--secondary .noUi-target.input .noUi-target:hover.noUi-background:before,
-.color--secondary .noUi-target.input .noUi-target:hover .noUi-background:before {
+.input--secondary .noUi-target:hover.noUi-background:before,
+.input--secondary .noUi-target:hover .noUi-background:before, .color--secondary .input .noUi-target:hover.noUi-background:before,
+.color--secondary .input .noUi-target:hover .noUi-background:before {
   background-color: rgba(119, 119, 119, 0.3);
 }
 
-.noUi-target.input--secondary .noUi-handle, .color--secondary .noUi-target.input .noUi-handle {
+.input--secondary .noUi-handle, .color--secondary .input .noUi-handle {
   background-color: #777;
 }
 
-.noUi-target.input--secondary .noUi-handle:before, .color--secondary .noUi-target.input .noUi-handle:before {
+.input--secondary .noUi-handle:before, .color--secondary .input .noUi-handle:before {
   background-color: rgba(119, 119, 119, 0.3);
 }
 
-.noUi-target.input--secondary .noUi-handle:hover, .color--secondary .noUi-target.input .noUi-handle:hover {
+.input--secondary .noUi-handle:hover, .color--secondary .input .noUi-handle:hover {
   background-color: #5e5e5e;
 }
 
-.noUi-target.input--secondary .noUi-active, .color--secondary .noUi-target.input .noUi-active {
+.input--secondary .noUi-active, .color--secondary .input .noUi-active {
   background-color: #444444 !important;
   box-shadow: rgba(119, 119, 119, 0.3) 0 6px 9px;
 }
 
-.noUi-target.input--secondary .noUi-active:before, .color--secondary .noUi-target.input .noUi-active:before {
+.input--secondary .noUi-active:before, .color--secondary .input .noUi-active:before {
   background-color: rgba(119, 119, 119, 0.2);
 }
 
-.noUi-target.input--secondary .noUi-active .noUi-handle__value, .color--secondary .noUi-target.input .noUi-active .noUi-handle__value {
+.input--secondary .noUi-active .noUi-handle__value, .color--secondary .input .noUi-active .noUi-handle__value {
   color: #444444;
 }
 
-.noUi-target.input--secondary .noUi-handle .tooltip, .color--secondary .noUi-target.input .noUi-handle .tooltip {
+.input--secondary .noUi-handle .tooltip, .color--secondary .input .noUi-handle .tooltip {
   position: relative;
   background: #fff;
   border-style: solid;
@@ -4290,7 +4254,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   color: #777;
 }
 
-.noUi-target.input--secondary .noUi-handle .tooltip:after, .noUi-target.input--secondary .noUi-handle .tooltip:before, .color--secondary .noUi-target.input .noUi-handle .tooltip:after, .color--secondary .noUi-target.input .noUi-handle .tooltip:before {
+.input--secondary .noUi-handle .tooltip:after, .input--secondary .noUi-handle .tooltip:before, .color--secondary .input .noUi-handle .tooltip:after, .color--secondary .input .noUi-handle .tooltip:before {
   border: solid transparent;
   content: " ";
   height: 0;
@@ -4300,7 +4264,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   visibility: visible;
 }
 
-.noUi-target.input--secondary .noUi-handle .tooltip:after, .color--secondary .noUi-target.input .noUi-handle .tooltip:after {
+.input--secondary .noUi-handle .tooltip:after, .color--secondary .input .noUi-handle .tooltip:after {
   border-width: 5px;
   border-top-color: #fff;
   bottom: -10px;
@@ -4308,82 +4272,72 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   margin-right: -5px;
 }
 
-.noUi-target.input--secondary .noUi-handle .tooltip:before, .color--secondary .noUi-target.input .noUi-handle .tooltip:before {
+.input--secondary .noUi-handle .tooltip:before, .color--secondary .input .noUi-handle .tooltip:before {
   border-width: 5px;
   bottom: -10px;
   right: 50%;
   margin-right: -5px;
 }
 
-.noUi-target.input--warning, .color--warning .noUi-target.input {
+.input--warning, .color--warning .input {
   border-color: rgba(240, 173, 78, 0.1);
   border-bottom-color: rgba(240, 173, 78, 0.3);
 }
 
-.noUi-target.input--warning .noUi-connect, .color--warning .noUi-target.input .noUi-connect {
+.input--warning .noUi-connect, .color--warning .input .noUi-connect {
   background-color: rgba(240, 173, 78, 0.1);
 }
 
-.noUi-target.input--warning.noUi-target.noUi-connect .noUi-base,
-.noUi-target.input--warning .noUi-target.noUi-connect .noUi-base, .color--warning .noUi-target.input.noUi-target.noUi-connect .noUi-base,
-.color--warning .noUi-target.input .noUi-target.noUi-connect .noUi-base {
+.input--warning .noUi-target.noUi-connect .noUi-base, .color--warning .input .noUi-target.noUi-connect .noUi-base {
   background-color: rgba(240, 173, 78, 0.1);
 }
 
-.noUi-target.input--warning.noUi-target:hover .noUi-connect,
-.noUi-target.input--warning .noUi-target:hover .noUi-connect, .color--warning .noUi-target.input.noUi-target:hover .noUi-connect,
-.color--warning .noUi-target.input .noUi-target:hover .noUi-connect {
+.input--warning .noUi-target:hover .noUi-connect, .color--warning .input .noUi-target:hover .noUi-connect {
   background-color: rgba(240, 173, 78, 0.3);
 }
 
-.noUi-target.input--warning:hover.noUi-connect .noUi-base, .color--warning .noUi-target.input:hover.noUi-connect .noUi-base {
+.input--warning .noUi-target:hover.noUi-connect .noUi-base, .color--warning .input .noUi-target:hover.noUi-connect .noUi-base {
   background-color: rgba(240, 173, 78, 0.3);
 }
 
-.noUi-target.input--warning.noUi-target.noUi-background:before, .noUi-target.input--warning.noUi-background:before,
-.noUi-target.input--warning .noUi-target.noUi-background:before,
-.noUi-target.input--warning .noUi-background:before, .color--warning .noUi-target.input.noUi-target.noUi-background:before, .color--warning .noUi-target.input.noUi-background:before,
-.color--warning .noUi-target.input .noUi-target.noUi-background:before,
-.color--warning .noUi-target.input .noUi-background:before {
+.input--warning .noUi-target.noUi-background:before,
+.input--warning .noUi-background:before, .color--warning .input .noUi-target.noUi-background:before,
+.color--warning .input .noUi-background:before {
   background-color: rgba(240, 173, 78, 0.1);
 }
 
-.noUi-target.input--warning.noUi-target:hover.noUi-background:before,
-.noUi-target.input--warning.noUi-target:hover .noUi-background:before,
-.noUi-target.input--warning .noUi-target:hover.noUi-background:before,
-.noUi-target.input--warning .noUi-target:hover .noUi-background:before, .color--warning .noUi-target.input.noUi-target:hover.noUi-background:before,
-.color--warning .noUi-target.input.noUi-target:hover .noUi-background:before,
-.color--warning .noUi-target.input .noUi-target:hover.noUi-background:before,
-.color--warning .noUi-target.input .noUi-target:hover .noUi-background:before {
+.input--warning .noUi-target:hover.noUi-background:before,
+.input--warning .noUi-target:hover .noUi-background:before, .color--warning .input .noUi-target:hover.noUi-background:before,
+.color--warning .input .noUi-target:hover .noUi-background:before {
   background-color: rgba(240, 173, 78, 0.3);
 }
 
-.noUi-target.input--warning .noUi-handle, .color--warning .noUi-target.input .noUi-handle {
+.input--warning .noUi-handle, .color--warning .input .noUi-handle {
   background-color: #f0ad4e;
 }
 
-.noUi-target.input--warning .noUi-handle:before, .color--warning .noUi-target.input .noUi-handle:before {
+.input--warning .noUi-handle:before, .color--warning .input .noUi-handle:before {
   background-color: rgba(240, 173, 78, 0.3);
 }
 
-.noUi-target.input--warning .noUi-handle:hover, .color--warning .noUi-target.input .noUi-handle:hover {
+.input--warning .noUi-handle:hover, .color--warning .input .noUi-handle:hover {
   background-color: #ec971f;
 }
 
-.noUi-target.input--warning .noUi-active, .color--warning .noUi-target.input .noUi-active {
+.input--warning .noUi-active, .color--warning .input .noUi-active {
   background-color: #c77c11 !important;
   box-shadow: rgba(240, 173, 78, 0.3) 0 6px 9px;
 }
 
-.noUi-target.input--warning .noUi-active:before, .color--warning .noUi-target.input .noUi-active:before {
+.input--warning .noUi-active:before, .color--warning .input .noUi-active:before {
   background-color: rgba(240, 173, 78, 0.2);
 }
 
-.noUi-target.input--warning .noUi-active .noUi-handle__value, .color--warning .noUi-target.input .noUi-active .noUi-handle__value {
+.input--warning .noUi-active .noUi-handle__value, .color--warning .input .noUi-active .noUi-handle__value {
   color: #c77c11;
 }
 
-.noUi-target.input--warning .noUi-handle .tooltip, .color--warning .noUi-target.input .noUi-handle .tooltip {
+.input--warning .noUi-handle .tooltip, .color--warning .input .noUi-handle .tooltip {
   position: relative;
   background: #fff;
   border-style: solid;
@@ -4392,7 +4346,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   color: #f0ad4e;
 }
 
-.noUi-target.input--warning .noUi-handle .tooltip:after, .noUi-target.input--warning .noUi-handle .tooltip:before, .color--warning .noUi-target.input .noUi-handle .tooltip:after, .color--warning .noUi-target.input .noUi-handle .tooltip:before {
+.input--warning .noUi-handle .tooltip:after, .input--warning .noUi-handle .tooltip:before, .color--warning .input .noUi-handle .tooltip:after, .color--warning .input .noUi-handle .tooltip:before {
   border: solid transparent;
   content: " ";
   height: 0;
@@ -4402,7 +4356,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   visibility: visible;
 }
 
-.noUi-target.input--warning .noUi-handle .tooltip:after, .color--warning .noUi-target.input .noUi-handle .tooltip:after {
+.input--warning .noUi-handle .tooltip:after, .color--warning .input .noUi-handle .tooltip:after {
   border-width: 5px;
   border-top-color: #fff;
   bottom: -10px;
@@ -4410,82 +4364,72 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   margin-right: -5px;
 }
 
-.noUi-target.input--warning .noUi-handle .tooltip:before, .color--warning .noUi-target.input .noUi-handle .tooltip:before {
+.input--warning .noUi-handle .tooltip:before, .color--warning .input .noUi-handle .tooltip:before {
   border-width: 5px;
   bottom: -10px;
   right: 50%;
   margin-right: -5px;
 }
 
-.noUi-target.input--error, .color--error .noUi-target.input {
+.input--error, .color--error .input {
   border-color: rgba(217, 83, 79, 0.1);
   border-bottom-color: rgba(217, 83, 79, 0.3);
 }
 
-.noUi-target.input--error .noUi-connect, .color--error .noUi-target.input .noUi-connect {
+.input--error .noUi-connect, .color--error .input .noUi-connect {
   background-color: rgba(217, 83, 79, 0.1);
 }
 
-.noUi-target.input--error.noUi-target.noUi-connect .noUi-base,
-.noUi-target.input--error .noUi-target.noUi-connect .noUi-base, .color--error .noUi-target.input.noUi-target.noUi-connect .noUi-base,
-.color--error .noUi-target.input .noUi-target.noUi-connect .noUi-base {
+.input--error .noUi-target.noUi-connect .noUi-base, .color--error .input .noUi-target.noUi-connect .noUi-base {
   background-color: rgba(217, 83, 79, 0.1);
 }
 
-.noUi-target.input--error.noUi-target:hover .noUi-connect,
-.noUi-target.input--error .noUi-target:hover .noUi-connect, .color--error .noUi-target.input.noUi-target:hover .noUi-connect,
-.color--error .noUi-target.input .noUi-target:hover .noUi-connect {
+.input--error .noUi-target:hover .noUi-connect, .color--error .input .noUi-target:hover .noUi-connect {
   background-color: rgba(217, 83, 79, 0.3);
 }
 
-.noUi-target.input--error:hover.noUi-connect .noUi-base, .color--error .noUi-target.input:hover.noUi-connect .noUi-base {
+.input--error .noUi-target:hover.noUi-connect .noUi-base, .color--error .input .noUi-target:hover.noUi-connect .noUi-base {
   background-color: rgba(217, 83, 79, 0.3);
 }
 
-.noUi-target.input--error.noUi-target.noUi-background:before, .noUi-target.input--error.noUi-background:before,
-.noUi-target.input--error .noUi-target.noUi-background:before,
-.noUi-target.input--error .noUi-background:before, .color--error .noUi-target.input.noUi-target.noUi-background:before, .color--error .noUi-target.input.noUi-background:before,
-.color--error .noUi-target.input .noUi-target.noUi-background:before,
-.color--error .noUi-target.input .noUi-background:before {
+.input--error .noUi-target.noUi-background:before,
+.input--error .noUi-background:before, .color--error .input .noUi-target.noUi-background:before,
+.color--error .input .noUi-background:before {
   background-color: rgba(217, 83, 79, 0.1);
 }
 
-.noUi-target.input--error.noUi-target:hover.noUi-background:before,
-.noUi-target.input--error.noUi-target:hover .noUi-background:before,
-.noUi-target.input--error .noUi-target:hover.noUi-background:before,
-.noUi-target.input--error .noUi-target:hover .noUi-background:before, .color--error .noUi-target.input.noUi-target:hover.noUi-background:before,
-.color--error .noUi-target.input.noUi-target:hover .noUi-background:before,
-.color--error .noUi-target.input .noUi-target:hover.noUi-background:before,
-.color--error .noUi-target.input .noUi-target:hover .noUi-background:before {
+.input--error .noUi-target:hover.noUi-background:before,
+.input--error .noUi-target:hover .noUi-background:before, .color--error .input .noUi-target:hover.noUi-background:before,
+.color--error .input .noUi-target:hover .noUi-background:before {
   background-color: rgba(217, 83, 79, 0.3);
 }
 
-.noUi-target.input--error .noUi-handle, .color--error .noUi-target.input .noUi-handle {
+.input--error .noUi-handle, .color--error .input .noUi-handle {
   background-color: #d9534f;
 }
 
-.noUi-target.input--error .noUi-handle:before, .color--error .noUi-target.input .noUi-handle:before {
+.input--error .noUi-handle:before, .color--error .input .noUi-handle:before {
   background-color: rgba(217, 83, 79, 0.3);
 }
 
-.noUi-target.input--error .noUi-handle:hover, .color--error .noUi-target.input .noUi-handle:hover {
+.input--error .noUi-handle:hover, .color--error .input .noUi-handle:hover {
   background-color: #c9302c;
 }
 
-.noUi-target.input--error .noUi-active, .color--error .noUi-target.input .noUi-active {
+.input--error .noUi-active, .color--error .input .noUi-active {
   background-color: #a02622 !important;
   box-shadow: rgba(217, 83, 79, 0.3) 0 6px 9px;
 }
 
-.noUi-target.input--error .noUi-active:before, .color--error .noUi-target.input .noUi-active:before {
+.input--error .noUi-active:before, .color--error .input .noUi-active:before {
   background-color: rgba(217, 83, 79, 0.2);
 }
 
-.noUi-target.input--error .noUi-active .noUi-handle__value, .color--error .noUi-target.input .noUi-active .noUi-handle__value {
+.input--error .noUi-active .noUi-handle__value, .color--error .input .noUi-active .noUi-handle__value {
   color: #a02622;
 }
 
-.noUi-target.input--error .noUi-handle .tooltip, .color--error .noUi-target.input .noUi-handle .tooltip {
+.input--error .noUi-handle .tooltip, .color--error .input .noUi-handle .tooltip {
   position: relative;
   background: #fff;
   border-style: solid;
@@ -4494,7 +4438,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   color: #d9534f;
 }
 
-.noUi-target.input--error .noUi-handle .tooltip:after, .noUi-target.input--error .noUi-handle .tooltip:before, .color--error .noUi-target.input .noUi-handle .tooltip:after, .color--error .noUi-target.input .noUi-handle .tooltip:before {
+.input--error .noUi-handle .tooltip:after, .input--error .noUi-handle .tooltip:before, .color--error .input .noUi-handle .tooltip:after, .color--error .input .noUi-handle .tooltip:before {
   border: solid transparent;
   content: " ";
   height: 0;
@@ -4504,7 +4448,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   visibility: visible;
 }
 
-.noUi-target.input--error .noUi-handle .tooltip:after, .color--error .noUi-target.input .noUi-handle .tooltip:after {
+.input--error .noUi-handle .tooltip:after, .color--error .input .noUi-handle .tooltip:after {
   border-width: 5px;
   border-top-color: #fff;
   bottom: -10px;
@@ -4512,82 +4456,72 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   margin-right: -5px;
 }
 
-.noUi-target.input--error .noUi-handle .tooltip:before, .color--error .noUi-target.input .noUi-handle .tooltip:before {
+.input--error .noUi-handle .tooltip:before, .color--error .input .noUi-handle .tooltip:before {
   border-width: 5px;
   bottom: -10px;
   right: 50%;
   margin-right: -5px;
 }
 
-.noUi-target.input--success, .color--success .noUi-target.input {
+.input--success, .color--success .input {
   border-color: rgba(92, 184, 92, 0.1);
   border-bottom-color: rgba(92, 184, 92, 0.3);
 }
 
-.noUi-target.input--success .noUi-connect, .color--success .noUi-target.input .noUi-connect {
+.input--success .noUi-connect, .color--success .input .noUi-connect {
   background-color: rgba(92, 184, 92, 0.1);
 }
 
-.noUi-target.input--success.noUi-target.noUi-connect .noUi-base,
-.noUi-target.input--success .noUi-target.noUi-connect .noUi-base, .color--success .noUi-target.input.noUi-target.noUi-connect .noUi-base,
-.color--success .noUi-target.input .noUi-target.noUi-connect .noUi-base {
+.input--success .noUi-target.noUi-connect .noUi-base, .color--success .input .noUi-target.noUi-connect .noUi-base {
   background-color: rgba(92, 184, 92, 0.1);
 }
 
-.noUi-target.input--success.noUi-target:hover .noUi-connect,
-.noUi-target.input--success .noUi-target:hover .noUi-connect, .color--success .noUi-target.input.noUi-target:hover .noUi-connect,
-.color--success .noUi-target.input .noUi-target:hover .noUi-connect {
+.input--success .noUi-target:hover .noUi-connect, .color--success .input .noUi-target:hover .noUi-connect {
   background-color: rgba(92, 184, 92, 0.3);
 }
 
-.noUi-target.input--success:hover.noUi-connect .noUi-base, .color--success .noUi-target.input:hover.noUi-connect .noUi-base {
+.input--success .noUi-target:hover.noUi-connect .noUi-base, .color--success .input .noUi-target:hover.noUi-connect .noUi-base {
   background-color: rgba(92, 184, 92, 0.3);
 }
 
-.noUi-target.input--success.noUi-target.noUi-background:before, .noUi-target.input--success.noUi-background:before,
-.noUi-target.input--success .noUi-target.noUi-background:before,
-.noUi-target.input--success .noUi-background:before, .color--success .noUi-target.input.noUi-target.noUi-background:before, .color--success .noUi-target.input.noUi-background:before,
-.color--success .noUi-target.input .noUi-target.noUi-background:before,
-.color--success .noUi-target.input .noUi-background:before {
+.input--success .noUi-target.noUi-background:before,
+.input--success .noUi-background:before, .color--success .input .noUi-target.noUi-background:before,
+.color--success .input .noUi-background:before {
   background-color: rgba(92, 184, 92, 0.1);
 }
 
-.noUi-target.input--success.noUi-target:hover.noUi-background:before,
-.noUi-target.input--success.noUi-target:hover .noUi-background:before,
-.noUi-target.input--success .noUi-target:hover.noUi-background:before,
-.noUi-target.input--success .noUi-target:hover .noUi-background:before, .color--success .noUi-target.input.noUi-target:hover.noUi-background:before,
-.color--success .noUi-target.input.noUi-target:hover .noUi-background:before,
-.color--success .noUi-target.input .noUi-target:hover.noUi-background:before,
-.color--success .noUi-target.input .noUi-target:hover .noUi-background:before {
+.input--success .noUi-target:hover.noUi-background:before,
+.input--success .noUi-target:hover .noUi-background:before, .color--success .input .noUi-target:hover.noUi-background:before,
+.color--success .input .noUi-target:hover .noUi-background:before {
   background-color: rgba(92, 184, 92, 0.3);
 }
 
-.noUi-target.input--success .noUi-handle, .color--success .noUi-target.input .noUi-handle {
+.input--success .noUi-handle, .color--success .input .noUi-handle {
   background-color: #5cb85c;
 }
 
-.noUi-target.input--success .noUi-handle:before, .color--success .noUi-target.input .noUi-handle:before {
+.input--success .noUi-handle:before, .color--success .input .noUi-handle:before {
   background-color: rgba(92, 184, 92, 0.3);
 }
 
-.noUi-target.input--success .noUi-handle:hover, .color--success .noUi-target.input .noUi-handle:hover {
+.input--success .noUi-handle:hover, .color--success .input .noUi-handle:hover {
   background-color: #449d44;
 }
 
-.noUi-target.input--success .noUi-active, .color--success .noUi-target.input .noUi-active {
+.input--success .noUi-active, .color--success .input .noUi-active {
   background-color: #357935 !important;
   box-shadow: rgba(92, 184, 92, 0.3) 0 6px 9px;
 }
 
-.noUi-target.input--success .noUi-active:before, .color--success .noUi-target.input .noUi-active:before {
+.input--success .noUi-active:before, .color--success .input .noUi-active:before {
   background-color: rgba(92, 184, 92, 0.2);
 }
 
-.noUi-target.input--success .noUi-active .noUi-handle__value, .color--success .noUi-target.input .noUi-active .noUi-handle__value {
+.input--success .noUi-active .noUi-handle__value, .color--success .input .noUi-active .noUi-handle__value {
   color: #357935;
 }
 
-.noUi-target.input--success .noUi-handle .tooltip, .color--success .noUi-target.input .noUi-handle .tooltip {
+.input--success .noUi-handle .tooltip, .color--success .input .noUi-handle .tooltip {
   position: relative;
   background: #fff;
   border-style: solid;
@@ -4596,7 +4530,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   color: #5cb85c;
 }
 
-.noUi-target.input--success .noUi-handle .tooltip:after, .noUi-target.input--success .noUi-handle .tooltip:before, .color--success .noUi-target.input .noUi-handle .tooltip:after, .color--success .noUi-target.input .noUi-handle .tooltip:before {
+.input--success .noUi-handle .tooltip:after, .input--success .noUi-handle .tooltip:before, .color--success .input .noUi-handle .tooltip:after, .color--success .input .noUi-handle .tooltip:before {
   border: solid transparent;
   content: " ";
   height: 0;
@@ -4606,7 +4540,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   visibility: visible;
 }
 
-.noUi-target.input--success .noUi-handle .tooltip:after, .color--success .noUi-target.input .noUi-handle .tooltip:after {
+.input--success .noUi-handle .tooltip:after, .color--success .input .noUi-handle .tooltip:after {
   border-width: 5px;
   border-top-color: #fff;
   bottom: -10px;
@@ -4614,82 +4548,72 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   margin-right: -5px;
 }
 
-.noUi-target.input--success .noUi-handle .tooltip:before, .color--success .noUi-target.input .noUi-handle .tooltip:before {
+.input--success .noUi-handle .tooltip:before, .color--success .input .noUi-handle .tooltip:before {
   border-width: 5px;
   bottom: -10px;
   right: 50%;
   margin-right: -5px;
 }
 
-.noUi-target.input--info, .color--info .noUi-target.input {
+.input--info, .color--info .input {
   border-color: rgba(33, 153, 232, 0.1);
   border-bottom-color: rgba(33, 153, 232, 0.3);
 }
 
-.noUi-target.input--info .noUi-connect, .color--info .noUi-target.input .noUi-connect {
+.input--info .noUi-connect, .color--info .input .noUi-connect {
   background-color: rgba(33, 153, 232, 0.1);
 }
 
-.noUi-target.input--info.noUi-target.noUi-connect .noUi-base,
-.noUi-target.input--info .noUi-target.noUi-connect .noUi-base, .color--info .noUi-target.input.noUi-target.noUi-connect .noUi-base,
-.color--info .noUi-target.input .noUi-target.noUi-connect .noUi-base {
+.input--info .noUi-target.noUi-connect .noUi-base, .color--info .input .noUi-target.noUi-connect .noUi-base {
   background-color: rgba(33, 153, 232, 0.1);
 }
 
-.noUi-target.input--info.noUi-target:hover .noUi-connect,
-.noUi-target.input--info .noUi-target:hover .noUi-connect, .color--info .noUi-target.input.noUi-target:hover .noUi-connect,
-.color--info .noUi-target.input .noUi-target:hover .noUi-connect {
+.input--info .noUi-target:hover .noUi-connect, .color--info .input .noUi-target:hover .noUi-connect {
   background-color: rgba(33, 153, 232, 0.3);
 }
 
-.noUi-target.input--info:hover.noUi-connect .noUi-base, .color--info .noUi-target.input:hover.noUi-connect .noUi-base {
+.input--info .noUi-target:hover.noUi-connect .noUi-base, .color--info .input .noUi-target:hover.noUi-connect .noUi-base {
   background-color: rgba(33, 153, 232, 0.3);
 }
 
-.noUi-target.input--info.noUi-target.noUi-background:before, .noUi-target.input--info.noUi-background:before,
-.noUi-target.input--info .noUi-target.noUi-background:before,
-.noUi-target.input--info .noUi-background:before, .color--info .noUi-target.input.noUi-target.noUi-background:before, .color--info .noUi-target.input.noUi-background:before,
-.color--info .noUi-target.input .noUi-target.noUi-background:before,
-.color--info .noUi-target.input .noUi-background:before {
+.input--info .noUi-target.noUi-background:before,
+.input--info .noUi-background:before, .color--info .input .noUi-target.noUi-background:before,
+.color--info .input .noUi-background:before {
   background-color: rgba(33, 153, 232, 0.1);
 }
 
-.noUi-target.input--info.noUi-target:hover.noUi-background:before,
-.noUi-target.input--info.noUi-target:hover .noUi-background:before,
-.noUi-target.input--info .noUi-target:hover.noUi-background:before,
-.noUi-target.input--info .noUi-target:hover .noUi-background:before, .color--info .noUi-target.input.noUi-target:hover.noUi-background:before,
-.color--info .noUi-target.input.noUi-target:hover .noUi-background:before,
-.color--info .noUi-target.input .noUi-target:hover.noUi-background:before,
-.color--info .noUi-target.input .noUi-target:hover .noUi-background:before {
+.input--info .noUi-target:hover.noUi-background:before,
+.input--info .noUi-target:hover .noUi-background:before, .color--info .input .noUi-target:hover.noUi-background:before,
+.color--info .input .noUi-target:hover .noUi-background:before {
   background-color: rgba(33, 153, 232, 0.3);
 }
 
-.noUi-target.input--info .noUi-handle, .color--info .noUi-target.input .noUi-handle {
+.input--info .noUi-handle, .color--info .input .noUi-handle {
   background-color: #2199e8;
 }
 
-.noUi-target.input--info .noUi-handle:before, .color--info .noUi-target.input .noUi-handle:before {
+.input--info .noUi-handle:before, .color--info .input .noUi-handle:before {
   background-color: rgba(33, 153, 232, 0.3);
 }
 
-.noUi-target.input--info .noUi-handle:hover, .color--info .noUi-target.input .noUi-handle:hover {
+.input--info .noUi-handle:hover, .color--info .input .noUi-handle:hover {
   background-color: #147dc2;
 }
 
-.noUi-target.input--info .noUi-active, .color--info .noUi-target.input .noUi-active {
+.input--info .noUi-active, .color--info .input .noUi-active {
   background-color: #0f5f94 !important;
   box-shadow: rgba(33, 153, 232, 0.3) 0 6px 9px;
 }
 
-.noUi-target.input--info .noUi-active:before, .color--info .noUi-target.input .noUi-active:before {
+.input--info .noUi-active:before, .color--info .input .noUi-active:before {
   background-color: rgba(33, 153, 232, 0.2);
 }
 
-.noUi-target.input--info .noUi-active .noUi-handle__value, .color--info .noUi-target.input .noUi-active .noUi-handle__value {
+.input--info .noUi-active .noUi-handle__value, .color--info .input .noUi-active .noUi-handle__value {
   color: #0f5f94;
 }
 
-.noUi-target.input--info .noUi-handle .tooltip, .color--info .noUi-target.input .noUi-handle .tooltip {
+.input--info .noUi-handle .tooltip, .color--info .input .noUi-handle .tooltip {
   position: relative;
   background: #fff;
   border-style: solid;
@@ -4698,7 +4622,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   color: #2199e8;
 }
 
-.noUi-target.input--info .noUi-handle .tooltip:after, .noUi-target.input--info .noUi-handle .tooltip:before, .color--info .noUi-target.input .noUi-handle .tooltip:after, .color--info .noUi-target.input .noUi-handle .tooltip:before {
+.input--info .noUi-handle .tooltip:after, .input--info .noUi-handle .tooltip:before, .color--info .input .noUi-handle .tooltip:after, .color--info .input .noUi-handle .tooltip:before {
   border: solid transparent;
   content: " ";
   height: 0;
@@ -4708,7 +4632,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   visibility: visible;
 }
 
-.noUi-target.input--info .noUi-handle .tooltip:after, .color--info .noUi-target.input .noUi-handle .tooltip:after {
+.input--info .noUi-handle .tooltip:after, .color--info .input .noUi-handle .tooltip:after {
   border-width: 5px;
   border-top-color: #fff;
   bottom: -10px;
@@ -4716,7 +4640,7 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   margin-right: -5px;
 }
 
-.noUi-target.input--info .noUi-handle .tooltip:before, .color--info .noUi-target.input .noUi-handle .tooltip:before {
+.input--info .noUi-handle .tooltip:before, .color--info .input .noUi-handle .tooltip:before {
   border-width: 5px;
   bottom: -10px;
   right: 50%;

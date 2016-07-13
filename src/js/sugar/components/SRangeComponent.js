@@ -64,7 +64,12 @@ class SRangeComponent extends SComponent {
 		// create the container for the slider
 		this.container = document.createElement('div');
 		this.container.className = this.elm.className;
+		this.container.classList.add('s-range-container');
 		this.container.classList.add('clear-transmations'); // do not animate anything at initialisation
+
+		// range element
+		this.rangeElm = document.createElement('div');
+		this.container.appendChild(this.rangeElm);
 
 		// init new noUiSlider
 		let start = this.settings.start;
@@ -98,7 +103,7 @@ class SRangeComponent extends SComponent {
 		if (this.settings.step) {
 			args.step = this.settings.step;
 		}
-		this.slider = noUiSlider.create(this.container, args);
+		this.slider = noUiSlider.create(this.rangeElm, args);
 
 		// set the value
 		if (this.attr.value) {
@@ -106,7 +111,7 @@ class SRangeComponent extends SComponent {
 		}
 
 		// remove the noUi-background class on the main element
-		this.container.classList.remove('noUi-background');
+		this.rangeElm.classList.remove('noUi-background');
 
 		// query references
 		this.handleStartElm = this.container.querySelector('.noUi-origin:first-of-type .noUi-handle');
@@ -271,13 +276,6 @@ class SRangeComponent extends SComponent {
 	}
 }
 
-// init the select
-__querySelectorVisibleLiveOnce('input[s-range]', (elm) => {
-	new SRangeComponent(elm, {
-		formater : SRangeComponent.percentFormater
-	});
-});
-
 // default formaters
 SRangeComponent.percentFormater = function(value, target) {
 	if (target === 'tooltip') {
@@ -289,6 +287,16 @@ SRangeComponent.percentFormater = function(value, target) {
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }
 window.sugar.SRangeComponent = SRangeComponent;
+
+// autoInit
+SRangeComponent.autoInit = function() {
+	// init the select
+	__querySelectorVisibleLiveOnce('input[s-range]', (elm) => {
+		new SRangeComponent(elm, {
+			formater : SRangeComponent.percentFormater
+		});
+	});
+};
 
 // export modules
 export default SRangeComponent;

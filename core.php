@@ -758,7 +758,7 @@ color : s-color(#ff0000, -desaturate 20%);
 	</a>
 
 	<script>
-	sugar.SActivateElement.setup('nested', {
+	sugar.SActivateComponent.setup('nested', {
 		history : false
 	});
 

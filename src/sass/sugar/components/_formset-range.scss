@@ -99,8 +99,12 @@ $_s-formset-range-inited : false;
 	// pass in the component context
 	@include s-component-context('formset') {
 
+		.s-range-container {
+			padding-top:.5em;
+			padding-bottom:.5em;
+		}
+
 		@include s-formset-range-style-container() {
-			transform:translateY(75%) !important;
 			margin-left: $h;
 			margin-right: $h;
 			cursor:pointer;
@@ -147,12 +151,10 @@ $_s-formset-range-inited : false;
 	$state : null
 ) {
 	@if not $state {
-		&.noUi-target,
 		.noUi-target {
 			@content;
 		}
 	} @else if $state == hover {
-		&.noUi-target:hover,
 		.noUi-target:hover {
 			@content;
 		}
@@ -165,18 +167,16 @@ $_s-formset-range-inited : false;
 		.noUi-connect {
 			@content;
 		}
-		&.noUi-target.noUi-connect,
 		.noUi-target.noUi-connect {
 			.noUi-base {
 				@content;
 			}
 		}
 	} @else if $state == hover {
-		&.noUi-target:hover .noUi-connect,
 		.noUi-target:hover .noUi-connect {
 			@content;
 		}
-		&:hover.noUi-connect {
+		.noUi-target:hover.noUi-connect {
 			.noUi-base {
 				@content;
 			}
@@ -221,15 +221,11 @@ $_s-formset-range-inited : false;
 	$state : null
 ) {
 	@if not $state {
-		&.noUi-target.noUi-background,
-		&.noUi-background,
 		.noUi-target.noUi-background,
 		.noUi-background {
 			@content;
 		}
 	} @else if $state == hover {
-		&.noUi-target:hover.noUi-background,
-		&.noUi-target:hover .noUi-background,
 		.noUi-target:hover.noUi-background,
 		.noUi-target:hover .noUi-background {
 			@content;
@@ -335,12 +331,12 @@ $_s-formset-range-inited : false;
 
 			#{s-selector((
 				BEM : (
-					'.noUi-target.input--#{$color}',
-					'.color--#{$color} .noUi-target.input'
+					'.input--#{$color}',
+					'.color--#{$color} .input'
 				),
 				SMACCS : (
-					'.noUi-target.input-#{$color}',
-					'.color-#{$color} .noUi-target.input'
+					'.input-#{$color}',
+					'.color-#{$color} .input'
 				)
 			))} {
 				border-color: s-color($color, -opacity .1);

@@ -2028,67 +2028,67 @@ pre > code {
 .slide-0 [data-slidizle-content] {
   -webkit-transform: translateX(0px) translateY(0) translateZ(0);
           transform: translateX(0px) translateY(0) translateZ(0);
-  outline-color: #8e3a28;
+  outline-color: #c8d999;
 }
 
 .slide-1 [data-slidizle-content] {
   -webkit-transform: translateX(-640px) translateY(0) translateZ(0);
           transform: translateX(-640px) translateY(0) translateZ(0);
-  outline-color: #8ece16;
+  outline-color: #6f6ebe;
 }
 
 .slide-2 [data-slidizle-content] {
   -webkit-transform: translateX(-1280px) translateY(0) translateZ(0);
           transform: translateX(-1280px) translateY(0) translateZ(0);
-  outline-color: #e2d3c0;
+  outline-color: #7766c2;
 }
 
 .slide-3 [data-slidizle-content] {
   -webkit-transform: translateX(-1920px) translateY(0) translateZ(0);
           transform: translateX(-1920px) translateY(0) translateZ(0);
-  outline-color: #691f2e;
+  outline-color: #b13125;
 }
 
 .slide-4 [data-slidizle-content] {
   -webkit-transform: translateX(-2560px) translateY(0) translateZ(0);
           transform: translateX(-2560px) translateY(0) translateZ(0);
-  outline-color: #30a2e7;
+  outline-color: #aa9c3e;
 }
 
 .slide-5 [data-slidizle-content] {
   -webkit-transform: translateX(-3200px) translateY(0) translateZ(0);
           transform: translateX(-3200px) translateY(0) translateZ(0);
-  outline-color: #6be37a;
+  outline-color: #0fc332;
 }
 
 .slide-6 [data-slidizle-content] {
   -webkit-transform: translateX(-3840px) translateY(0) translateZ(0);
           transform: translateX(-3840px) translateY(0) translateZ(0);
-  outline-color: #300423;
+  outline-color: #8a6fcd;
 }
 
 .slide-7 [data-slidizle-content] {
   -webkit-transform: translateX(-4480px) translateY(0) translateZ(0);
           transform: translateX(-4480px) translateY(0) translateZ(0);
-  outline-color: #311fe2;
+  outline-color: #c0d190;
 }
 
 .slide-8 [data-slidizle-content] {
   -webkit-transform: translateX(-5120px) translateY(0) translateZ(0);
           transform: translateX(-5120px) translateY(0) translateZ(0);
-  outline-color: #45f1f6;
+  outline-color: #6de560;
 }
 
 .slide-9 [data-slidizle-content] {
   -webkit-transform: translateX(-5760px) translateY(0) translateZ(0);
           transform: translateX(-5760px) translateY(0) translateZ(0);
-  outline-color: #a87874;
+  outline-color: #6c6e26;
 }
 
 .slide-10 [data-slidizle-content] {
   -webkit-transform: translateX(-6400px) translateY(0) translateZ(0);
           transform: translateX(-6400px) translateY(0) translateZ(0);
-  outline-color: #976f0d;
+  outline-color: #469db0;
 }
 
 [data-slidizle-item] {

@@ -14,10 +14,12 @@ import sActivateManager from './sugar/components/sActivateManager';
 import SSelectComponent from './sugar/components/SSelectComponent';
 import SDatepickerComponent from './sugar/components/SDatepickerComponent';
 import sLocalStorageFonts from './sugar/fonts/sLocalStorageFonts';
-import SRangeInputComponent from './sugar/components/SRangeInputComponent';
+import SRangeComponent from './sugar/components/SRangeComponent';
 import SRadioboxComponent from './sugar/components/SRadioboxComponent';
 import sForm from 'sugarcss/components/sForm';
 import SRippleComponent from 'sugarcss/components/SRippleComponent';
+
+SRangeComponent.autoInit();
 
 // import sDrawerManager from './sugar/components/s-drawer-manager';
 //
@@ -40,7 +42,7 @@ import SRippleComponent from 'sugarcss/components/SRippleComponent';
 // }, 3000);
 
 querySelectorVisibleLiveOnce('.btn, .nav > li', (elm) => {
-	new SRipple(elm);
+	new SRippleComponent(elm);
 });
 
 const app = angular.module('angular-demo', []).run(() => {

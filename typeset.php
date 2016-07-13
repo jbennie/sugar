@@ -741,7 +741,7 @@
 	</a>
 
 	<script>
-	sugar.SActivateElement.setup('nested', {
+	sugar.SActivateComponent.setup('nested', {
 		history : false
 	});
 
