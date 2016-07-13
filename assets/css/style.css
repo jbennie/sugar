@@ -272,7 +272,7 @@
 /**
  * Center block
  */
-@-webkit-keyframes ripple {
+@-webkit-keyframes s-ripple {
   0% {
     opacity: 1;
     width: 0;
@@ -282,7 +282,7 @@
     width: 150%;
   }
 }
-@keyframes ripple {
+@keyframes s-ripple {
   0% {
     opacity: 1;
     width: 0;
@@ -397,6 +397,36 @@
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+.no-transitions, .no-transitions:before, .no-transitions:after {
+  transition: none !important;
+}
+
+.clear-transitions, .clear-transitions:before, .clear-transitions:after, .clear-transitions *, .clear-transitions *:before, .clear-transitions *:after {
+  transition: none !important;
+}
+
+.no-animations, .no-animations:before, .no-animations:after {
+  -webkit-animation: none !important;
+          animation: none !important;
+}
+
+.clear-animations, .clear-animations:before, .clear-animations:after, .clear-animations *, .clear-animations *:before, .clear-animations *:after {
+  -webkit-animation: none !important;
+          animation: none !important;
+}
+
+.no-transmations, .no-transmations:before, .no-transmations:after {
+  transition: none !important;
+  -webkit-animation: none !important;
+          animation: none !important;
+}
+
+.clear-transmations, .clear-transmations:before, .clear-transmations:after, .clear-transmations *, .clear-transmations *:before, .clear-transmations *:after {
+  transition: none !important;
+  -webkit-animation: none !important;
+          animation: none !important;
 }
 
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
@@ -1998,67 +2028,67 @@ pre > code {
 .slide-0 [data-slidizle-content] {
   -webkit-transform: translateX(0px) translateY(0) translateZ(0);
           transform: translateX(0px) translateY(0) translateZ(0);
-  outline-color: #2eae34;
+  outline-color: #100f53;
 }
 
 .slide-1 [data-slidizle-content] {
   -webkit-transform: translateX(-640px) translateY(0) translateZ(0);
           transform: translateX(-640px) translateY(0) translateZ(0);
-  outline-color: #d73aaf;
+  outline-color: #9a5d4a;
 }
 
 .slide-2 [data-slidizle-content] {
   -webkit-transform: translateX(-1280px) translateY(0) translateZ(0);
           transform: translateX(-1280px) translateY(0) translateZ(0);
-  outline-color: #97029d;
+  outline-color: #4185ed;
 }
 
 .slide-3 [data-slidizle-content] {
   -webkit-transform: translateX(-1920px) translateY(0) translateZ(0);
           transform: translateX(-1920px) translateY(0) translateZ(0);
-  outline-color: #c4f082;
+  outline-color: #52f4a0;
 }
 
 .slide-4 [data-slidizle-content] {
   -webkit-transform: translateX(-2560px) translateY(0) translateZ(0);
           transform: translateX(-2560px) translateY(0) translateZ(0);
-  outline-color: #3bb642;
+  outline-color: #7a68f5;
 }
 
 .slide-5 [data-slidizle-content] {
   -webkit-transform: translateX(-3200px) translateY(0) translateZ(0);
           transform: translateX(-3200px) translateY(0) translateZ(0);
-  outline-color: #d9e126;
+  outline-color: #31d2b7;
 }
 
 .slide-6 [data-slidizle-content] {
   -webkit-transform: translateX(-3840px) translateY(0) translateZ(0);
           transform: translateX(-3840px) translateY(0) translateZ(0);
-  outline-color: #5fa4b5;
+  outline-color: #788d7d;
 }
 
 .slide-7 [data-slidizle-content] {
   -webkit-transform: translateX(-4480px) translateY(0) translateZ(0);
           transform: translateX(-4480px) translateY(0) translateZ(0);
-  outline-color: #c4788a;
+  outline-color: #f91fd8;
 }
 
 .slide-8 [data-slidizle-content] {
   -webkit-transform: translateX(-5120px) translateY(0) translateZ(0);
           transform: translateX(-5120px) translateY(0) translateZ(0);
-  outline-color: #012665;
+  outline-color: #14c3c5;
 }
 
 .slide-9 [data-slidizle-content] {
   -webkit-transform: translateX(-5760px) translateY(0) translateZ(0);
           transform: translateX(-5760px) translateY(0) translateZ(0);
-  outline-color: #1b73fc;
+  outline-color: #13ebf4;
 }
 
 .slide-10 [data-slidizle-content] {
   -webkit-transform: translateX(-6400px) translateY(0) translateZ(0);
           transform: translateX(-6400px) translateY(0) translateZ(0);
-  outline-color: #906dde;
+  outline-color: #2cd061;
 }
 
 [data-slidizle-item] {

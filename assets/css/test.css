@@ -164,7 +164,7 @@
 /**
  * Center block
  */
-@-webkit-keyframes ripple {
+@-webkit-keyframes s-ripple {
   0% {
     opacity: 1;
     width: 0;
@@ -174,7 +174,7 @@
     width: 150%;
   }
 }
-@keyframes ripple {
+@keyframes s-ripple {
   0% {
     opacity: 1;
     width: 0;

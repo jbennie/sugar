@@ -94,28 +94,16 @@ $_s-formset-range-inited : false;
 ) {
 	@include s-formset-range-init();
 
+	$h : 1em;
+
 	// pass in the component context
 	@include s-component-context('formset') {
 
-		.noUi-target {
+		@include s-formset-range-style-container() {
 			transform:translateY(75%) !important;
-		}
-
-		.noUi-handle {
-			.tooltip {
-				display: inline-block;
-				pointer-events:none;
-				font-size:1rem !important;
-			}
-		}
-
-		.noUi-target {
-			$h : 1em;
-			border-radius: s-lnf(border-radius);
-			// margin-bottom: $h / 2;
-			// margin-top: $h * .3;
 			margin-left: $h;
 			margin-right: $h;
+			cursor:pointer;
 
 			&.noUi-horizontal {
 				height : $h;
@@ -123,31 +111,145 @@ $_s-formset-range-inited : false;
 			&.noUi-vertical {
 				width : $h;
 			}
-			.noUi-handle {
-				width : $h * 2;
-				height : $h * 2;
-				border-radius: 50%;
-				@include s-translate(-50%, -25%);
+		}
 
-				.noUi-handle__value {
-					font-size:s-lnf(font-size) / 2;
-				}
+		@include s-formset-range-style-tooltip() {
+			display: inline-block;
+			pointer-events:none;
+			font-size:1rem !important;
+			font-size:s-lnf(font-size);
+			padding:s-lnf(padding-horizontal) s-lnf(padding-vertical);
+			border-radius: s-lnf(border-radius);
+		}
 
-				.tooltip {
-					font-size:s-lnf(font-size);
-					padding:s-lnf(padding-horizontal) s-lnf(padding-vertical);
-					border-radius: s-lnf(border-radius);
-				}
+		@include s-formset-range-style-handle() {
+			width : $h * 2;
+			height : $h * 2;
+			border-radius: 50%;
+			@include s-translate(-50%, -25%);
+		}
+		@include s-formset-range-style-handle(active) {
+			width: $h;
+			height: $h;
+			@include s-translate(-50%, 0);
+		}
+
+		@include s-formset-range-style-handle-value() {
+			font-size:s-lnf(font-size) / 2;
+		}
+		@include s-formset-range-style-handle-value(active) {
+			font-size:0;
+		}
+	}
+}
+
+@mixin s-formset-range-style-container(
+	$state : null
+) {
+	@if not $state {
+		&.noUi-target,
+		.noUi-target {
+			@content;
+		}
+	} @else if $state == hover {
+		&.noUi-target:hover,
+		.noUi-target:hover {
+			@content;
+		}
+	}
+}
+@mixin s-formset-range-style-connect(
+	$state : null
+) {
+	@if not $state {
+		.noUi-connect {
+			@content;
+		}
+		&.noUi-target.noUi-connect,
+		.noUi-target.noUi-connect {
+			.noUi-base {
+				@content;
 			}
-			.noUi-active {
-				width: $h;
-				height: $h;
-				@include s-translate(-50%, 0);
-
-				.noUi-handle__value {
-					font-size:0;
-				}
+		}
+	} @else if $state == hover {
+		&.noUi-target:hover .noUi-connect,
+		.noUi-target:hover .noUi-connect {
+			@content;
+		}
+		&:hover.noUi-connect {
+			.noUi-base {
+				@content;
 			}
+		}
+	}
+}
+@mixin s-formset-range-style-handle(
+	$state : null
+) {
+	@if not $state {
+		.noUi-handle {
+			@content;
+		}
+	} @else if $state == hover {
+		.noUi-handle:hover {
+			@content;
+		}
+	} @else if $state == active {
+		.noUi-active {
+			@content;
+		}
+	}
+}
+@mixin s-formset-range-style-handle-value(
+	$state : null
+) {
+	@if not $state {
+		.noUi-handle__value {
+			@content;
+		}
+	} @else if $state == hover {
+		.noUi-handle:hover .noUi-handle__value {
+			@content;
+		}
+	} @else if $state == active {
+		.noUi-active .noUi-handle__value {
+			@content;
+		}
+	}
+}
+@mixin s-formset-range-style-base(
+	$state : null
+) {
+	@if not $state {
+		&.noUi-target.noUi-background,
+		&.noUi-background,
+		.noUi-target.noUi-background,
+		.noUi-background {
+			@content;
+		}
+	} @else if $state == hover {
+		&.noUi-target:hover.noUi-background,
+		&.noUi-target:hover .noUi-background,
+		.noUi-target:hover.noUi-background,
+		.noUi-target:hover .noUi-background {
+			@content;
+		}
+	}
+}
+@mixin s-formset-range-style-tooltip(
+	$state : null
+) {
+	@if not $state {
+		.noUi-handle .tooltip {
+			@content;
+		}
+	} @else if $state == hover {
+		.noUi-handle:hover .tooltip {
+			@content;
+		}
+	} @else if $state == active {
+		.noUi-active .tooltip {
+			@content;
 		}
 	}
 }
@@ -165,40 +267,19 @@ $_s-formset-range-inited : false;
 	// pass in the component context
 	@include s-component-context('formset') {
 
-		.noUi-background {
-			background: #fff;
-		}
-		.noUi-target {
-			cursor:pointer;
-		}
-		.noUi-target.noUi-connect {
+		@include s-formset-range-style-base() {
+			background:white;
+			&:before {
+				@include s-transition(fast background-color);
+			}
 		}
 
-		.noUi-state-tap .noUi-origin {
-			@include s-transition(left fast, top fast);
+		@include s-formset-range-style-connect() {
+			@include s-transition(fast background-color);
 		}
 
-		.noUi-handle {
+		@include s-formset-range-style-handle() {
 			@include s-transition(fast);
-			background: #FFF;
-			cursor: pointer;
-
-			.noUi-handle__value {
-				text-align:center;
-				font-weight:bold;
-				color:white;
-				position:relative;
-				@include s-transition(fast);
-			}
-
-			.tooltip {
-				color: white;
-				position: absolute !important;
-				top:0; left:50%;
-				@include s-translate(-50%,-100%);
-				opacity: 0;
-				@include s-transition(fast);
-			}
 
 			&:before {
 				content:'';
@@ -211,23 +292,43 @@ $_s-formset-range-inited : false;
 				border-radius: 50%;
 				@include s-transition(fast);
 			}
-
-			&:hover {
-				&:before {
-					width:150%;
-					height:150%;
-				}
+		}
+		@include s-formset-range-style-handle(hover) {
+			&:before {
+				width:150%;
+				height:150%;
 			}
 		}
-		.noUi-active {
-			.tooltip {
-				opacity:1;
-				top:-15px;
-			}
+		@include s-formset-range-style-handle(active) {
 			&:before {
 				width:400% !important;
 				height:400% !important;
 			}
+		}
+
+		@include s-formset-range-style-handle-value() {
+			text-align:center;
+			font-weight:bold;
+			color:white;
+			position:relative;
+			@include s-transition(fast);
+		}
+
+		@include s-formset-range-style-tooltip() {
+			color: white;
+			position: absolute !important;
+			top:0; left:50%;
+			@include s-translate(-50%,-100%);
+			opacity: 0;
+			@include s-transition(fast);
+		}
+		@include s-formset-range-style-tooltip(active) {
+			opacity:1;
+			top:-15px;
+		}
+
+		.noUi-state-tap .noUi-origin {
+			@include s-transition(left fast, top fast);
 		}
 
 		@each $color in $colors {
@@ -245,55 +346,59 @@ $_s-formset-range-inited : false;
 				border-color: s-color($color, -opacity .1);
 				border-bottom-color: s-color($color, -opacity .3);
 
-				.noUi-connect {
+				@include s-formset-range-style-connect() {
 					background-color: s-color($color, -opacity .1);
 				}
-				&.noUi-connect {
-					.noUi-base {
-						background-color: s-color($color, -opacity .1);
-					}
-				}
-
-				&.noUi-background:before,
-				.noUi-background:before {
+				@include s-formset-range-style-connect(hover) {
 					background-color: s-color($color, -opacity .3);
 				}
 
-				.noUi-handle {
-					background-color: s-color($color);
-
-					&:hover {
-						background-color: s-color($color, -darken 10%);
+				@include s-formset-range-style-base() {
+					&:before {
+						background-color: s-color($color, -opacity .1);
 					}
+				}
+				@include s-formset-range-style-base(hover) {
+					&:before {
+						background-color: s-color($color, -opacity .3);
+					}
+				}
+
+				@include s-formset-range-style-handle() {
+					background-color: s-color($color);
 
 					&:before {
 						background-color: s-color($color, -opacity .3);
 					}
-
-					.tooltip {
-						@include s-bubble(
-							$side : bottom,
-							$align : center,
-							$size : 5px,
-							$color : #fff,
-							$arrow-offset : 0,
-							$border-width : 0,
-							$border-color : null
-						);
-						@include s-depth(3, s-color($color, -opacity .3));
-						color: s-color($color);
-					}
 				}
-				.noUi-active {
+				@include s-formset-range-style-handle(hover) {
+					background-color: s-color($color, -darken 10%);
+				}
+				@include s-formset-range-style-handle(active) {
 					background-color: s-color($color, -darken 20%) !important;
 					@include s-depth(3, s-color($color, -opacity .3));
 
-					.noUi-handle__value {
-						color: s-color($color, -darken 20%);
-					}
 					&:before {
 						background-color: s-color($color, -opacity .2);
 					}
+				}
+
+				@include s-formset-range-style-handle-value(active) {
+					color: s-color($color, -darken 20%);
+				}
+
+				@include s-formset-range-style-tooltip() {
+					@include s-bubble(
+						$side : bottom,
+						$align : center,
+						$size : 5px,
+						$color : #fff,
+						$arrow-offset : 0,
+						$border-width : 0,
+						$border-color : null
+					);
+					@include s-depth(3, s-color($color, -opacity .3));
+					color: s-color($color);
 				}
 			}
 		}

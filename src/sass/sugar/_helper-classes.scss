@@ -118,3 +118,42 @@
 @include s-register-class(clearfix-facebook, 'sugar.clearfix.facebook') {
 	@include s-clearfix(facebook);
 }
+
+//
+// Transition / Animation
+//
+@include s-register-class(no-transitions, 'sugar.no-transitions') {
+	&, &:before, &:after {
+		transition: none !important;
+	}
+}
+@include s-register-class(clear-transitions, 'sugar.clear-transitions') {
+	&, &:before, &:after,
+	*, *:before, *:after {
+		transition: none !important;
+	}
+}
+@include s-register-class(no-animations, 'sugar.no-animations') {
+	&, &:before, &:after {
+		animation: none !important;
+	}
+}
+@include s-register-class(clear-animations, 'sugar.clear-animations') {
+	&, &:before, &:after,
+	*, *:before, *:after {
+		animation: none !important;
+	}
+}
+@include s-register-class(no-transmations, 'sugar.no-transmations') {
+	&, &:before, &:after {
+		transition: none !important;
+		animation: none !important;
+	}
+}
+@include s-register-class(clear-transmations, 'sugar.clear-transmations') {
+	&, &:before, &:after,
+	*, *:before, *:after {
+		transition: none !important;
+		animation: none !important;
+	}
+}

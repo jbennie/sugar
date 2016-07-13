@@ -432,7 +432,7 @@
 								<div class="gr-12">
 									<label class="label">
 										<span>Range label</span>
-										<input class="input input--<?= $color ?>" type="text" value="10,20" s-range-input -init-when="viewportVisible" -value="11,44" />
+										<input class="input input--<?= $color ?>" type="text" value="<?=rand(1,50)?>,<?=rand(50,100)?>" s-range-input -init-when="viewportVisible" />
 									</label>
 								</div>
 							</div>

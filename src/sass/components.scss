@@ -28,15 +28,7 @@ $sizes : (small,default,medium,big,bigger);
 //
 // ripple
 //
-@include s-ripple-bare();
-@include s-ripple-style(
-	$colors : $colors
-);
-.s-ripple {
-	background:rgba(0,0,0,.5);
-	// border:solid 3px rgba(0,0,0,.5);
-	mix-blend-mode: overlay;
-}
+@include s-ripple();
 
 //
 // typeset

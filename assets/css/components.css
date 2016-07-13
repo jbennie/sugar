@@ -170,7 +170,7 @@
 /**
  * Center block
  */
-@-webkit-keyframes ripple {
+@-webkit-keyframes s-ripple {
   0% {
     opacity: 1;
     width: 0;
@@ -180,7 +180,7 @@
     width: 150%;
   }
 }
-@keyframes ripple {
+@keyframes s-ripple {
   0% {
     opacity: 1;
     width: 0;
@@ -676,13 +676,10 @@ body {
 }
 
 .s-ripple {
-  -webkit-animation: ripple 0.3s 0s ease-out 1 normal forwards;
-          animation: ripple 0.3s 0s ease-out 1 normal forwards;
-}
-
-.s-ripple {
   background: rgba(0, 0, 0, 0.5);
   mix-blend-mode: overlay;
+  -webkit-animation: s-ripple 0.3s 0s ease-out 1 normal forwards;
+          animation: s-ripple 0.3s 0s ease-out 1 normal forwards;
 }
 
 .vertical-rhythme .h1,
@@ -3873,33 +3870,36 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
           transform: translateX(-50%) translateY(-50%) translateZ(0);
 }
 
+.noUi-target,
 .noUi-target {
   -webkit-transform: translateY(75%) !important;
       -ms-transform: translateY(75%) !important;
           transform: translateY(75%) !important;
+  margin-left: 1em;
+  margin-right: 1em;
+  cursor: pointer;
+}
+
+.noUi-target.noUi-horizontal,
+.noUi-target.noUi-horizontal {
+  height: 1em;
+}
+
+.noUi-target.noUi-vertical,
+.noUi-target.noUi-vertical {
+  width: 1em;
 }
 
 .noUi-handle .tooltip {
   display: inline-block;
   pointer-events: none;
   font-size: 1rem !important;
-}
-
-.noUi-target {
+  font-size: 1em;
+  padding: 0.76923077em 1em;
   border-radius: 0.23076923em;
-  margin-left: 1em;
-  margin-right: 1em;
 }
 
-.noUi-target.noUi-horizontal {
-  height: 1em;
-}
-
-.noUi-target.noUi-vertical {
-  width: 1em;
-}
-
-.noUi-target .noUi-handle {
+.noUi-handle {
   width: 2em;
   height: 2em;
   border-radius: 50%;
@@ -3907,64 +3907,48 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
           transform: translateX(-50%) translateY(-25%) translateZ(0);
 }
 
-.noUi-target .noUi-handle .noUi-handle__value {
-  font-size: 0.5em;
-}
-
-.noUi-target .noUi-handle .tooltip {
-  font-size: 1em;
-  padding: 0.76923077em 1em;
-  border-radius: 0.23076923em;
-}
-
-.noUi-target .noUi-active {
+.noUi-active {
   width: 1em;
   height: 1em;
   -webkit-transform: translateX(-50%) translateY(0) translateZ(0);
           transform: translateX(-50%) translateY(0) translateZ(0);
 }
 
-.noUi-target .noUi-active .noUi-handle__value {
+.noUi-handle__value {
+  font-size: 0.5em;
+}
+
+.noUi-active .noUi-handle__value {
   font-size: 0;
 }
 
+.noUi-target.noUi-background,
+.noUi-background,
+.noUi-target.noUi-background,
 .noUi-background {
-  background: #fff;
+  background: white;
 }
 
-.noUi-target {
-  cursor: pointer;
+.noUi-target.noUi-background:before,
+.noUi-background:before,
+.noUi-target.noUi-background:before,
+.noUi-background:before {
+  transition: background-color 0.1s ease-in-out, outline-color 0.000001s linear 0s;
+  outline-color: black;
 }
 
-.noUi-state-tap .noUi-origin {
-  transition: left 0.1s ease-in-out, top 0.1s ease-in-out, outline-color 0.000001s linear 0s;
+.noUi-connect {
+  transition: background-color 0.1s ease-in-out, outline-color 0.000001s linear 0s;
+  outline-color: black;
+}
+
+.noUi-target.noUi-connect .noUi-base,
+.noUi-target.noUi-connect .noUi-base {
+  transition: background-color 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   outline-color: black;
 }
 
 .noUi-handle {
-  transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
-  outline-color: black;
-  background: #FFF;
-  cursor: pointer;
-}
-
-.noUi-handle .noUi-handle__value {
-  text-align: center;
-  font-weight: bold;
-  color: white;
-  position: relative;
-  transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
-  outline-color: black;
-}
-
-.noUi-handle .tooltip {
-  color: white;
-  position: absolute !important;
-  top: 0;
-  left: 50%;
-  -webkit-transform: translateX(-50%) translateY(-100%) translateZ(0);
-          transform: translateX(-50%) translateY(-100%) translateZ(0);
-  opacity: 0;
   transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
   outline-color: black;
 }
@@ -3989,14 +3973,40 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   height: 150%;
 }
 
+.noUi-active:before {
+  width: 400% !important;
+  height: 400% !important;
+}
+
+.noUi-handle__value {
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  position: relative;
+  transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
+  outline-color: black;
+}
+
+.noUi-handle .tooltip {
+  color: white;
+  position: absolute !important;
+  top: 0;
+  left: 50%;
+  -webkit-transform: translateX(-50%) translateY(-100%) translateZ(0);
+          transform: translateX(-50%) translateY(-100%) translateZ(0);
+  opacity: 0;
+  transition: all 0.1s ease-in-out, outline-color 0.000001s linear 0s;
+  outline-color: black;
+}
+
 .noUi-active .tooltip {
   opacity: 1;
   top: -15px;
 }
 
-.noUi-active:before {
-  width: 400% !important;
-  height: 400% !important;
+.noUi-state-tap .noUi-origin {
+  transition: left 0.1s ease-in-out, top 0.1s ease-in-out, outline-color 0.000001s linear 0s;
+  outline-color: black;
 }
 
 .noUi-target.input, .color .noUi-target.input {
@@ -4008,13 +4018,37 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   background-color: rgba(129, 149, 161, 0.1);
 }
 
-.noUi-target.input.noUi-connect .noUi-base, .color .noUi-target.input.noUi-connect .noUi-base {
+.noUi-target.input.noUi-target.noUi-connect .noUi-base,
+.noUi-target.input .noUi-target.noUi-connect .noUi-base, .color .noUi-target.input.noUi-target.noUi-connect .noUi-base,
+.color .noUi-target.input .noUi-target.noUi-connect .noUi-base {
   background-color: rgba(129, 149, 161, 0.1);
 }
 
-.noUi-target.input.noUi-background:before,
-.noUi-target.input .noUi-background:before, .color .noUi-target.input.noUi-background:before,
+.noUi-target.input.noUi-target:hover .noUi-connect,
+.noUi-target.input .noUi-target:hover .noUi-connect, .color .noUi-target.input.noUi-target:hover .noUi-connect,
+.color .noUi-target.input .noUi-target:hover .noUi-connect {
+  background-color: rgba(129, 149, 161, 0.3);
+}
+
+.noUi-target.input:hover.noUi-connect .noUi-base, .color .noUi-target.input:hover.noUi-connect .noUi-base {
+  background-color: rgba(129, 149, 161, 0.3);
+}
+
+.noUi-target.input.noUi-target.noUi-background:before, .noUi-target.input.noUi-background:before,
+.noUi-target.input .noUi-target.noUi-background:before,
+.noUi-target.input .noUi-background:before, .color .noUi-target.input.noUi-target.noUi-background:before, .color .noUi-target.input.noUi-background:before,
+.color .noUi-target.input .noUi-target.noUi-background:before,
 .color .noUi-target.input .noUi-background:before {
+  background-color: rgba(129, 149, 161, 0.1);
+}
+
+.noUi-target.input.noUi-target:hover.noUi-background:before,
+.noUi-target.input.noUi-target:hover .noUi-background:before,
+.noUi-target.input .noUi-target:hover.noUi-background:before,
+.noUi-target.input .noUi-target:hover .noUi-background:before, .color .noUi-target.input.noUi-target:hover.noUi-background:before,
+.color .noUi-target.input.noUi-target:hover .noUi-background:before,
+.color .noUi-target.input .noUi-target:hover.noUi-background:before,
+.color .noUi-target.input .noUi-target:hover .noUi-background:before {
   background-color: rgba(129, 149, 161, 0.3);
 }
 
@@ -4022,12 +4056,25 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   background-color: #8195a1;
 }
 
+.noUi-target.input .noUi-handle:before, .color .noUi-target.input .noUi-handle:before {
+  background-color: rgba(129, 149, 161, 0.3);
+}
+
 .noUi-target.input .noUi-handle:hover, .color .noUi-target.input .noUi-handle:hover {
   background-color: #667c89;
 }
 
-.noUi-target.input .noUi-handle:before, .color .noUi-target.input .noUi-handle:before {
-  background-color: rgba(129, 149, 161, 0.3);
+.noUi-target.input .noUi-active, .color .noUi-target.input .noUi-active {
+  background-color: #50616c !important;
+  box-shadow: rgba(129, 149, 161, 0.3) 0 6px 9px;
+}
+
+.noUi-target.input .noUi-active:before, .color .noUi-target.input .noUi-active:before {
+  background-color: rgba(129, 149, 161, 0.2);
+}
+
+.noUi-target.input .noUi-active .noUi-handle__value, .color .noUi-target.input .noUi-active .noUi-handle__value {
+  color: #50616c;
 }
 
 .noUi-target.input .noUi-handle .tooltip, .color .noUi-target.input .noUi-handle .tooltip {
@@ -4064,19 +4111,6 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   margin-right: -5px;
 }
 
-.noUi-target.input .noUi-active, .color .noUi-target.input .noUi-active {
-  background-color: #50616c !important;
-  box-shadow: rgba(129, 149, 161, 0.3) 0 6px 9px;
-}
-
-.noUi-target.input .noUi-active .noUi-handle__value, .color .noUi-target.input .noUi-active .noUi-handle__value {
-  color: #50616c;
-}
-
-.noUi-target.input .noUi-active:before, .color .noUi-target.input .noUi-active:before {
-  background-color: rgba(129, 149, 161, 0.2);
-}
-
 .noUi-target.input--primary, .color--primary .noUi-target.input {
   border-color: rgba(242, 188, 43, 0.1);
   border-bottom-color: rgba(242, 188, 43, 0.3);
@@ -4086,13 +4120,37 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   background-color: rgba(242, 188, 43, 0.1);
 }
 
-.noUi-target.input--primary.noUi-connect .noUi-base, .color--primary .noUi-target.input.noUi-connect .noUi-base {
+.noUi-target.input--primary.noUi-target.noUi-connect .noUi-base,
+.noUi-target.input--primary .noUi-target.noUi-connect .noUi-base, .color--primary .noUi-target.input.noUi-target.noUi-connect .noUi-base,
+.color--primary .noUi-target.input .noUi-target.noUi-connect .noUi-base {
   background-color: rgba(242, 188, 43, 0.1);
 }
 
-.noUi-target.input--primary.noUi-background:before,
-.noUi-target.input--primary .noUi-background:before, .color--primary .noUi-target.input.noUi-background:before,
+.noUi-target.input--primary.noUi-target:hover .noUi-connect,
+.noUi-target.input--primary .noUi-target:hover .noUi-connect, .color--primary .noUi-target.input.noUi-target:hover .noUi-connect,
+.color--primary .noUi-target.input .noUi-target:hover .noUi-connect {
+  background-color: rgba(242, 188, 43, 0.3);
+}
+
+.noUi-target.input--primary:hover.noUi-connect .noUi-base, .color--primary .noUi-target.input:hover.noUi-connect .noUi-base {
+  background-color: rgba(242, 188, 43, 0.3);
+}
+
+.noUi-target.input--primary.noUi-target.noUi-background:before, .noUi-target.input--primary.noUi-background:before,
+.noUi-target.input--primary .noUi-target.noUi-background:before,
+.noUi-target.input--primary .noUi-background:before, .color--primary .noUi-target.input.noUi-target.noUi-background:before, .color--primary .noUi-target.input.noUi-background:before,
+.color--primary .noUi-target.input .noUi-target.noUi-background:before,
 .color--primary .noUi-target.input .noUi-background:before {
+  background-color: rgba(242, 188, 43, 0.1);
+}
+
+.noUi-target.input--primary.noUi-target:hover.noUi-background:before,
+.noUi-target.input--primary.noUi-target:hover .noUi-background:before,
+.noUi-target.input--primary .noUi-target:hover.noUi-background:before,
+.noUi-target.input--primary .noUi-target:hover .noUi-background:before, .color--primary .noUi-target.input.noUi-target:hover.noUi-background:before,
+.color--primary .noUi-target.input.noUi-target:hover .noUi-background:before,
+.color--primary .noUi-target.input .noUi-target:hover.noUi-background:before,
+.color--primary .noUi-target.input .noUi-target:hover .noUi-background:before {
   background-color: rgba(242, 188, 43, 0.3);
 }
 
@@ -4100,12 +4158,25 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   background-color: #f2bc2b;
 }
 
+.noUi-target.input--primary .noUi-handle:before, .color--primary .noUi-target.input .noUi-handle:before {
+  background-color: rgba(242, 188, 43, 0.3);
+}
+
 .noUi-target.input--primary .noUi-handle:hover, .color--primary .noUi-target.input .noUi-handle:hover {
   background-color: #dca40e;
 }
 
-.noUi-target.input--primary .noUi-handle:before, .color--primary .noUi-target.input .noUi-handle:before {
-  background-color: rgba(242, 188, 43, 0.3);
+.noUi-target.input--primary .noUi-active, .color--primary .noUi-target.input .noUi-active {
+  background-color: #ac810b !important;
+  box-shadow: rgba(242, 188, 43, 0.3) 0 6px 9px;
+}
+
+.noUi-target.input--primary .noUi-active:before, .color--primary .noUi-target.input .noUi-active:before {
+  background-color: rgba(242, 188, 43, 0.2);
+}
+
+.noUi-target.input--primary .noUi-active .noUi-handle__value, .color--primary .noUi-target.input .noUi-active .noUi-handle__value {
+  color: #ac810b;
 }
 
 .noUi-target.input--primary .noUi-handle .tooltip, .color--primary .noUi-target.input .noUi-handle .tooltip {
@@ -4142,19 +4213,6 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   margin-right: -5px;
 }
 
-.noUi-target.input--primary .noUi-active, .color--primary .noUi-target.input .noUi-active {
-  background-color: #ac810b !important;
-  box-shadow: rgba(242, 188, 43, 0.3) 0 6px 9px;
-}
-
-.noUi-target.input--primary .noUi-active .noUi-handle__value, .color--primary .noUi-target.input .noUi-active .noUi-handle__value {
-  color: #ac810b;
-}
-
-.noUi-target.input--primary .noUi-active:before, .color--primary .noUi-target.input .noUi-active:before {
-  background-color: rgba(242, 188, 43, 0.2);
-}
-
 .noUi-target.input--secondary, .color--secondary .noUi-target.input {
   border-color: rgba(119, 119, 119, 0.1);
   border-bottom-color: rgba(119, 119, 119, 0.3);
@@ -4164,13 +4222,37 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   background-color: rgba(119, 119, 119, 0.1);
 }
 
-.noUi-target.input--secondary.noUi-connect .noUi-base, .color--secondary .noUi-target.input.noUi-connect .noUi-base {
+.noUi-target.input--secondary.noUi-target.noUi-connect .noUi-base,
+.noUi-target.input--secondary .noUi-target.noUi-connect .noUi-base, .color--secondary .noUi-target.input.noUi-target.noUi-connect .noUi-base,
+.color--secondary .noUi-target.input .noUi-target.noUi-connect .noUi-base {
   background-color: rgba(119, 119, 119, 0.1);
 }
 
-.noUi-target.input--secondary.noUi-background:before,
-.noUi-target.input--secondary .noUi-background:before, .color--secondary .noUi-target.input.noUi-background:before,
+.noUi-target.input--secondary.noUi-target:hover .noUi-connect,
+.noUi-target.input--secondary .noUi-target:hover .noUi-connect, .color--secondary .noUi-target.input.noUi-target:hover .noUi-connect,
+.color--secondary .noUi-target.input .noUi-target:hover .noUi-connect {
+  background-color: rgba(119, 119, 119, 0.3);
+}
+
+.noUi-target.input--secondary:hover.noUi-connect .noUi-base, .color--secondary .noUi-target.input:hover.noUi-connect .noUi-base {
+  background-color: rgba(119, 119, 119, 0.3);
+}
+
+.noUi-target.input--secondary.noUi-target.noUi-background:before, .noUi-target.input--secondary.noUi-background:before,
+.noUi-target.input--secondary .noUi-target.noUi-background:before,
+.noUi-target.input--secondary .noUi-background:before, .color--secondary .noUi-target.input.noUi-target.noUi-background:before, .color--secondary .noUi-target.input.noUi-background:before,
+.color--secondary .noUi-target.input .noUi-target.noUi-background:before,
 .color--secondary .noUi-target.input .noUi-background:before {
+  background-color: rgba(119, 119, 119, 0.1);
+}
+
+.noUi-target.input--secondary.noUi-target:hover.noUi-background:before,
+.noUi-target.input--secondary.noUi-target:hover .noUi-background:before,
+.noUi-target.input--secondary .noUi-target:hover.noUi-background:before,
+.noUi-target.input--secondary .noUi-target:hover .noUi-background:before, .color--secondary .noUi-target.input.noUi-target:hover.noUi-background:before,
+.color--secondary .noUi-target.input.noUi-target:hover .noUi-background:before,
+.color--secondary .noUi-target.input .noUi-target:hover.noUi-background:before,
+.color--secondary .noUi-target.input .noUi-target:hover .noUi-background:before {
   background-color: rgba(119, 119, 119, 0.3);
 }
 
@@ -4178,12 +4260,25 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   background-color: #777;
 }
 
+.noUi-target.input--secondary .noUi-handle:before, .color--secondary .noUi-target.input .noUi-handle:before {
+  background-color: rgba(119, 119, 119, 0.3);
+}
+
 .noUi-target.input--secondary .noUi-handle:hover, .color--secondary .noUi-target.input .noUi-handle:hover {
   background-color: #5e5e5e;
 }
 
-.noUi-target.input--secondary .noUi-handle:before, .color--secondary .noUi-target.input .noUi-handle:before {
-  background-color: rgba(119, 119, 119, 0.3);
+.noUi-target.input--secondary .noUi-active, .color--secondary .noUi-target.input .noUi-active {
+  background-color: #444444 !important;
+  box-shadow: rgba(119, 119, 119, 0.3) 0 6px 9px;
+}
+
+.noUi-target.input--secondary .noUi-active:before, .color--secondary .noUi-target.input .noUi-active:before {
+  background-color: rgba(119, 119, 119, 0.2);
+}
+
+.noUi-target.input--secondary .noUi-active .noUi-handle__value, .color--secondary .noUi-target.input .noUi-active .noUi-handle__value {
+  color: #444444;
 }
 
 .noUi-target.input--secondary .noUi-handle .tooltip, .color--secondary .noUi-target.input .noUi-handle .tooltip {
@@ -4220,19 +4315,6 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   margin-right: -5px;
 }
 
-.noUi-target.input--secondary .noUi-active, .color--secondary .noUi-target.input .noUi-active {
-  background-color: #444444 !important;
-  box-shadow: rgba(119, 119, 119, 0.3) 0 6px 9px;
-}
-
-.noUi-target.input--secondary .noUi-active .noUi-handle__value, .color--secondary .noUi-target.input .noUi-active .noUi-handle__value {
-  color: #444444;
-}
-
-.noUi-target.input--secondary .noUi-active:before, .color--secondary .noUi-target.input .noUi-active:before {
-  background-color: rgba(119, 119, 119, 0.2);
-}
-
 .noUi-target.input--warning, .color--warning .noUi-target.input {
   border-color: rgba(240, 173, 78, 0.1);
   border-bottom-color: rgba(240, 173, 78, 0.3);
@@ -4242,13 +4324,37 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   background-color: rgba(240, 173, 78, 0.1);
 }
 
-.noUi-target.input--warning.noUi-connect .noUi-base, .color--warning .noUi-target.input.noUi-connect .noUi-base {
+.noUi-target.input--warning.noUi-target.noUi-connect .noUi-base,
+.noUi-target.input--warning .noUi-target.noUi-connect .noUi-base, .color--warning .noUi-target.input.noUi-target.noUi-connect .noUi-base,
+.color--warning .noUi-target.input .noUi-target.noUi-connect .noUi-base {
   background-color: rgba(240, 173, 78, 0.1);
 }
 
-.noUi-target.input--warning.noUi-background:before,
-.noUi-target.input--warning .noUi-background:before, .color--warning .noUi-target.input.noUi-background:before,
+.noUi-target.input--warning.noUi-target:hover .noUi-connect,
+.noUi-target.input--warning .noUi-target:hover .noUi-connect, .color--warning .noUi-target.input.noUi-target:hover .noUi-connect,
+.color--warning .noUi-target.input .noUi-target:hover .noUi-connect {
+  background-color: rgba(240, 173, 78, 0.3);
+}
+
+.noUi-target.input--warning:hover.noUi-connect .noUi-base, .color--warning .noUi-target.input:hover.noUi-connect .noUi-base {
+  background-color: rgba(240, 173, 78, 0.3);
+}
+
+.noUi-target.input--warning.noUi-target.noUi-background:before, .noUi-target.input--warning.noUi-background:before,
+.noUi-target.input--warning .noUi-target.noUi-background:before,
+.noUi-target.input--warning .noUi-background:before, .color--warning .noUi-target.input.noUi-target.noUi-background:before, .color--warning .noUi-target.input.noUi-background:before,
+.color--warning .noUi-target.input .noUi-target.noUi-background:before,
 .color--warning .noUi-target.input .noUi-background:before {
+  background-color: rgba(240, 173, 78, 0.1);
+}
+
+.noUi-target.input--warning.noUi-target:hover.noUi-background:before,
+.noUi-target.input--warning.noUi-target:hover .noUi-background:before,
+.noUi-target.input--warning .noUi-target:hover.noUi-background:before,
+.noUi-target.input--warning .noUi-target:hover .noUi-background:before, .color--warning .noUi-target.input.noUi-target:hover.noUi-background:before,
+.color--warning .noUi-target.input.noUi-target:hover .noUi-background:before,
+.color--warning .noUi-target.input .noUi-target:hover.noUi-background:before,
+.color--warning .noUi-target.input .noUi-target:hover .noUi-background:before {
   background-color: rgba(240, 173, 78, 0.3);
 }
 
@@ -4256,12 +4362,25 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   background-color: #f0ad4e;
 }
 
+.noUi-target.input--warning .noUi-handle:before, .color--warning .noUi-target.input .noUi-handle:before {
+  background-color: rgba(240, 173, 78, 0.3);
+}
+
 .noUi-target.input--warning .noUi-handle:hover, .color--warning .noUi-target.input .noUi-handle:hover {
   background-color: #ec971f;
 }
 
-.noUi-target.input--warning .noUi-handle:before, .color--warning .noUi-target.input .noUi-handle:before {
-  background-color: rgba(240, 173, 78, 0.3);
+.noUi-target.input--warning .noUi-active, .color--warning .noUi-target.input .noUi-active {
+  background-color: #c77c11 !important;
+  box-shadow: rgba(240, 173, 78, 0.3) 0 6px 9px;
+}
+
+.noUi-target.input--warning .noUi-active:before, .color--warning .noUi-target.input .noUi-active:before {
+  background-color: rgba(240, 173, 78, 0.2);
+}
+
+.noUi-target.input--warning .noUi-active .noUi-handle__value, .color--warning .noUi-target.input .noUi-active .noUi-handle__value {
+  color: #c77c11;
 }
 
 .noUi-target.input--warning .noUi-handle .tooltip, .color--warning .noUi-target.input .noUi-handle .tooltip {
@@ -4298,19 +4417,6 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   margin-right: -5px;
 }
 
-.noUi-target.input--warning .noUi-active, .color--warning .noUi-target.input .noUi-active {
-  background-color: #c77c11 !important;
-  box-shadow: rgba(240, 173, 78, 0.3) 0 6px 9px;
-}
-
-.noUi-target.input--warning .noUi-active .noUi-handle__value, .color--warning .noUi-target.input .noUi-active .noUi-handle__value {
-  color: #c77c11;
-}
-
-.noUi-target.input--warning .noUi-active:before, .color--warning .noUi-target.input .noUi-active:before {
-  background-color: rgba(240, 173, 78, 0.2);
-}
-
 .noUi-target.input--error, .color--error .noUi-target.input {
   border-color: rgba(217, 83, 79, 0.1);
   border-bottom-color: rgba(217, 83, 79, 0.3);
@@ -4320,13 +4426,37 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   background-color: rgba(217, 83, 79, 0.1);
 }
 
-.noUi-target.input--error.noUi-connect .noUi-base, .color--error .noUi-target.input.noUi-connect .noUi-base {
+.noUi-target.input--error.noUi-target.noUi-connect .noUi-base,
+.noUi-target.input--error .noUi-target.noUi-connect .noUi-base, .color--error .noUi-target.input.noUi-target.noUi-connect .noUi-base,
+.color--error .noUi-target.input .noUi-target.noUi-connect .noUi-base {
   background-color: rgba(217, 83, 79, 0.1);
 }
 
-.noUi-target.input--error.noUi-background:before,
-.noUi-target.input--error .noUi-background:before, .color--error .noUi-target.input.noUi-background:before,
+.noUi-target.input--error.noUi-target:hover .noUi-connect,
+.noUi-target.input--error .noUi-target:hover .noUi-connect, .color--error .noUi-target.input.noUi-target:hover .noUi-connect,
+.color--error .noUi-target.input .noUi-target:hover .noUi-connect {
+  background-color: rgba(217, 83, 79, 0.3);
+}
+
+.noUi-target.input--error:hover.noUi-connect .noUi-base, .color--error .noUi-target.input:hover.noUi-connect .noUi-base {
+  background-color: rgba(217, 83, 79, 0.3);
+}
+
+.noUi-target.input--error.noUi-target.noUi-background:before, .noUi-target.input--error.noUi-background:before,
+.noUi-target.input--error .noUi-target.noUi-background:before,
+.noUi-target.input--error .noUi-background:before, .color--error .noUi-target.input.noUi-target.noUi-background:before, .color--error .noUi-target.input.noUi-background:before,
+.color--error .noUi-target.input .noUi-target.noUi-background:before,
 .color--error .noUi-target.input .noUi-background:before {
+  background-color: rgba(217, 83, 79, 0.1);
+}
+
+.noUi-target.input--error.noUi-target:hover.noUi-background:before,
+.noUi-target.input--error.noUi-target:hover .noUi-background:before,
+.noUi-target.input--error .noUi-target:hover.noUi-background:before,
+.noUi-target.input--error .noUi-target:hover .noUi-background:before, .color--error .noUi-target.input.noUi-target:hover.noUi-background:before,
+.color--error .noUi-target.input.noUi-target:hover .noUi-background:before,
+.color--error .noUi-target.input .noUi-target:hover.noUi-background:before,
+.color--error .noUi-target.input .noUi-target:hover .noUi-background:before {
   background-color: rgba(217, 83, 79, 0.3);
 }
 
@@ -4334,12 +4464,25 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   background-color: #d9534f;
 }
 
+.noUi-target.input--error .noUi-handle:before, .color--error .noUi-target.input .noUi-handle:before {
+  background-color: rgba(217, 83, 79, 0.3);
+}
+
 .noUi-target.input--error .noUi-handle:hover, .color--error .noUi-target.input .noUi-handle:hover {
   background-color: #c9302c;
 }
 
-.noUi-target.input--error .noUi-handle:before, .color--error .noUi-target.input .noUi-handle:before {
-  background-color: rgba(217, 83, 79, 0.3);
+.noUi-target.input--error .noUi-active, .color--error .noUi-target.input .noUi-active {
+  background-color: #a02622 !important;
+  box-shadow: rgba(217, 83, 79, 0.3) 0 6px 9px;
+}
+
+.noUi-target.input--error .noUi-active:before, .color--error .noUi-target.input .noUi-active:before {
+  background-color: rgba(217, 83, 79, 0.2);
+}
+
+.noUi-target.input--error .noUi-active .noUi-handle__value, .color--error .noUi-target.input .noUi-active .noUi-handle__value {
+  color: #a02622;
 }
 
 .noUi-target.input--error .noUi-handle .tooltip, .color--error .noUi-target.input .noUi-handle .tooltip {
@@ -4376,19 +4519,6 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   margin-right: -5px;
 }
 
-.noUi-target.input--error .noUi-active, .color--error .noUi-target.input .noUi-active {
-  background-color: #a02622 !important;
-  box-shadow: rgba(217, 83, 79, 0.3) 0 6px 9px;
-}
-
-.noUi-target.input--error .noUi-active .noUi-handle__value, .color--error .noUi-target.input .noUi-active .noUi-handle__value {
-  color: #a02622;
-}
-
-.noUi-target.input--error .noUi-active:before, .color--error .noUi-target.input .noUi-active:before {
-  background-color: rgba(217, 83, 79, 0.2);
-}
-
 .noUi-target.input--success, .color--success .noUi-target.input {
   border-color: rgba(92, 184, 92, 0.1);
   border-bottom-color: rgba(92, 184, 92, 0.3);
@@ -4398,13 +4528,37 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   background-color: rgba(92, 184, 92, 0.1);
 }
 
-.noUi-target.input--success.noUi-connect .noUi-base, .color--success .noUi-target.input.noUi-connect .noUi-base {
+.noUi-target.input--success.noUi-target.noUi-connect .noUi-base,
+.noUi-target.input--success .noUi-target.noUi-connect .noUi-base, .color--success .noUi-target.input.noUi-target.noUi-connect .noUi-base,
+.color--success .noUi-target.input .noUi-target.noUi-connect .noUi-base {
   background-color: rgba(92, 184, 92, 0.1);
 }
 
-.noUi-target.input--success.noUi-background:before,
-.noUi-target.input--success .noUi-background:before, .color--success .noUi-target.input.noUi-background:before,
+.noUi-target.input--success.noUi-target:hover .noUi-connect,
+.noUi-target.input--success .noUi-target:hover .noUi-connect, .color--success .noUi-target.input.noUi-target:hover .noUi-connect,
+.color--success .noUi-target.input .noUi-target:hover .noUi-connect {
+  background-color: rgba(92, 184, 92, 0.3);
+}
+
+.noUi-target.input--success:hover.noUi-connect .noUi-base, .color--success .noUi-target.input:hover.noUi-connect .noUi-base {
+  background-color: rgba(92, 184, 92, 0.3);
+}
+
+.noUi-target.input--success.noUi-target.noUi-background:before, .noUi-target.input--success.noUi-background:before,
+.noUi-target.input--success .noUi-target.noUi-background:before,
+.noUi-target.input--success .noUi-background:before, .color--success .noUi-target.input.noUi-target.noUi-background:before, .color--success .noUi-target.input.noUi-background:before,
+.color--success .noUi-target.input .noUi-target.noUi-background:before,
 .color--success .noUi-target.input .noUi-background:before {
+  background-color: rgba(92, 184, 92, 0.1);
+}
+
+.noUi-target.input--success.noUi-target:hover.noUi-background:before,
+.noUi-target.input--success.noUi-target:hover .noUi-background:before,
+.noUi-target.input--success .noUi-target:hover.noUi-background:before,
+.noUi-target.input--success .noUi-target:hover .noUi-background:before, .color--success .noUi-target.input.noUi-target:hover.noUi-background:before,
+.color--success .noUi-target.input.noUi-target:hover .noUi-background:before,
+.color--success .noUi-target.input .noUi-target:hover.noUi-background:before,
+.color--success .noUi-target.input .noUi-target:hover .noUi-background:before {
   background-color: rgba(92, 184, 92, 0.3);
 }
 
@@ -4412,12 +4566,25 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   background-color: #5cb85c;
 }
 
+.noUi-target.input--success .noUi-handle:before, .color--success .noUi-target.input .noUi-handle:before {
+  background-color: rgba(92, 184, 92, 0.3);
+}
+
 .noUi-target.input--success .noUi-handle:hover, .color--success .noUi-target.input .noUi-handle:hover {
   background-color: #449d44;
 }
 
-.noUi-target.input--success .noUi-handle:before, .color--success .noUi-target.input .noUi-handle:before {
-  background-color: rgba(92, 184, 92, 0.3);
+.noUi-target.input--success .noUi-active, .color--success .noUi-target.input .noUi-active {
+  background-color: #357935 !important;
+  box-shadow: rgba(92, 184, 92, 0.3) 0 6px 9px;
+}
+
+.noUi-target.input--success .noUi-active:before, .color--success .noUi-target.input .noUi-active:before {
+  background-color: rgba(92, 184, 92, 0.2);
+}
+
+.noUi-target.input--success .noUi-active .noUi-handle__value, .color--success .noUi-target.input .noUi-active .noUi-handle__value {
+  color: #357935;
 }
 
 .noUi-target.input--success .noUi-handle .tooltip, .color--success .noUi-target.input .noUi-handle .tooltip {
@@ -4454,19 +4621,6 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   margin-right: -5px;
 }
 
-.noUi-target.input--success .noUi-active, .color--success .noUi-target.input .noUi-active {
-  background-color: #357935 !important;
-  box-shadow: rgba(92, 184, 92, 0.3) 0 6px 9px;
-}
-
-.noUi-target.input--success .noUi-active .noUi-handle__value, .color--success .noUi-target.input .noUi-active .noUi-handle__value {
-  color: #357935;
-}
-
-.noUi-target.input--success .noUi-active:before, .color--success .noUi-target.input .noUi-active:before {
-  background-color: rgba(92, 184, 92, 0.2);
-}
-
 .noUi-target.input--info, .color--info .noUi-target.input {
   border-color: rgba(33, 153, 232, 0.1);
   border-bottom-color: rgba(33, 153, 232, 0.3);
@@ -4476,13 +4630,37 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   background-color: rgba(33, 153, 232, 0.1);
 }
 
-.noUi-target.input--info.noUi-connect .noUi-base, .color--info .noUi-target.input.noUi-connect .noUi-base {
+.noUi-target.input--info.noUi-target.noUi-connect .noUi-base,
+.noUi-target.input--info .noUi-target.noUi-connect .noUi-base, .color--info .noUi-target.input.noUi-target.noUi-connect .noUi-base,
+.color--info .noUi-target.input .noUi-target.noUi-connect .noUi-base {
   background-color: rgba(33, 153, 232, 0.1);
 }
 
-.noUi-target.input--info.noUi-background:before,
-.noUi-target.input--info .noUi-background:before, .color--info .noUi-target.input.noUi-background:before,
+.noUi-target.input--info.noUi-target:hover .noUi-connect,
+.noUi-target.input--info .noUi-target:hover .noUi-connect, .color--info .noUi-target.input.noUi-target:hover .noUi-connect,
+.color--info .noUi-target.input .noUi-target:hover .noUi-connect {
+  background-color: rgba(33, 153, 232, 0.3);
+}
+
+.noUi-target.input--info:hover.noUi-connect .noUi-base, .color--info .noUi-target.input:hover.noUi-connect .noUi-base {
+  background-color: rgba(33, 153, 232, 0.3);
+}
+
+.noUi-target.input--info.noUi-target.noUi-background:before, .noUi-target.input--info.noUi-background:before,
+.noUi-target.input--info .noUi-target.noUi-background:before,
+.noUi-target.input--info .noUi-background:before, .color--info .noUi-target.input.noUi-target.noUi-background:before, .color--info .noUi-target.input.noUi-background:before,
+.color--info .noUi-target.input .noUi-target.noUi-background:before,
 .color--info .noUi-target.input .noUi-background:before {
+  background-color: rgba(33, 153, 232, 0.1);
+}
+
+.noUi-target.input--info.noUi-target:hover.noUi-background:before,
+.noUi-target.input--info.noUi-target:hover .noUi-background:before,
+.noUi-target.input--info .noUi-target:hover.noUi-background:before,
+.noUi-target.input--info .noUi-target:hover .noUi-background:before, .color--info .noUi-target.input.noUi-target:hover.noUi-background:before,
+.color--info .noUi-target.input.noUi-target:hover .noUi-background:before,
+.color--info .noUi-target.input .noUi-target:hover.noUi-background:before,
+.color--info .noUi-target.input .noUi-target:hover .noUi-background:before {
   background-color: rgba(33, 153, 232, 0.3);
 }
 
@@ -4490,12 +4668,25 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   background-color: #2199e8;
 }
 
+.noUi-target.input--info .noUi-handle:before, .color--info .noUi-target.input .noUi-handle:before {
+  background-color: rgba(33, 153, 232, 0.3);
+}
+
 .noUi-target.input--info .noUi-handle:hover, .color--info .noUi-target.input .noUi-handle:hover {
   background-color: #147dc2;
 }
 
-.noUi-target.input--info .noUi-handle:before, .color--info .noUi-target.input .noUi-handle:before {
-  background-color: rgba(33, 153, 232, 0.3);
+.noUi-target.input--info .noUi-active, .color--info .noUi-target.input .noUi-active {
+  background-color: #0f5f94 !important;
+  box-shadow: rgba(33, 153, 232, 0.3) 0 6px 9px;
+}
+
+.noUi-target.input--info .noUi-active:before, .color--info .noUi-target.input .noUi-active:before {
+  background-color: rgba(33, 153, 232, 0.2);
+}
+
+.noUi-target.input--info .noUi-active .noUi-handle__value, .color--info .noUi-target.input .noUi-active .noUi-handle__value {
+  color: #0f5f94;
 }
 
 .noUi-target.input--info .noUi-handle .tooltip, .color--info .noUi-target.input .noUi-handle .tooltip {
@@ -4530,19 +4721,6 @@ input[s-radiobox][type="radio"]:checked + .s-radiobox:after {
   bottom: -10px;
   right: 50%;
   margin-right: -5px;
-}
-
-.noUi-target.input--info .noUi-active, .color--info .noUi-target.input .noUi-active {
-  background-color: #0f5f94 !important;
-  box-shadow: rgba(33, 153, 232, 0.3) 0 6px 9px;
-}
-
-.noUi-target.input--info .noUi-active .noUi-handle__value, .color--info .noUi-target.input .noUi-active .noUi-handle__value {
-  color: #0f5f94;
-}
-
-.noUi-target.input--info .noUi-active:before, .color--info .noUi-target.input .noUi-active:before {
-  background-color: rgba(33, 153, 232, 0.2);
 }
 
 .s-select {

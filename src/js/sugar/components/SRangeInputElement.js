@@ -37,6 +37,12 @@ class SRangeInputElement extends SComponent {
 			end : 100,
 			min : 0,
 			max : 100,
+			step : null,
+			margin : null,
+			limit : null,
+			orientation : 'horizontal',
+			direction : 'ltr',
+			tooltips : true,
 			connect : true,
 			tooltip : true,
 			value : '@value',
@@ -58,6 +64,7 @@ class SRangeInputElement extends SComponent {
 		// create the container for the slider
 		this.container = document.createElement('div');
 		this.container.className = this.elm.className;
+		this.container.classList.add('clear-transmations'); // do not animate anything at initialisation
 
 		// init new noUiSlider
 		let start = this.settings.start;
@@ -72,14 +79,31 @@ class SRangeInputElement extends SComponent {
 			connect = false;
 		}
 
-		this.slider = noUiSlider.create(this.container, {
+		let args = {
 			start : start,
 			connect : connect,
+			orientation : this.settings.orientation,
+			direction : this.settings.direction,
 			range : {
 				min : this.settings.min,
 				max : this.settings.max
 			}
-		});
+		};
+		if (this.settings.margin) {
+			args.margin = this.settings.margin;
+		}
+		if (this.settings.limit) {
+			args.limit = this.settings.limit;
+		}
+		if (this.settings.step) {
+			args.step = this.settings.step;
+		}
+		this.slider = noUiSlider.create(this.container, args);
+
+		// set the value
+		if (this.attr.value) {
+			this.slider.set(this.attr.value.split(','));
+		}
 
 		// remove the noUi-background class on the main element
 		this.container.classList.remove('noUi-background');
@@ -115,11 +139,34 @@ class SRangeInputElement extends SComponent {
 		// hide the base input
 		this.elm.style.display = 'none';
 
-		// append the slider into the dom
-		this.elm.parentNode.insertBefore(this.container, this.elm);
-
 		// init tooltip
-		this._initTooltip();
+		if (this.settings.tooltips)
+			this._initTooltip();
+
+		this.slider.on('change', (e) => {
+			// set new value in attributes
+			const value = this.slider.get();
+			if (typeof(value) === 'number' || typeof(value) === 'string') {
+				if (this.settings.formater) {
+					this.attr.value = this.settings.formater(value, 'input');
+				} else {
+					this.attr.value = value;
+				}
+			} else {
+				if (this.settings.formater) {
+					this.attr.value = this.slider.get().map((val) => {
+						return this.settings.formater(val, 'input');
+					}).join(',');
+				} else {
+					this.attr.value = this.slider.get().join(',');
+				}
+			}
+		});
+
+		this.watcher.watch(this, 'settings.value', (newVal, oldVal) => {
+			// set the new values to the slider
+			this.slider.set(newVal.split(','));
+		});
 
 		// set values first time
 		this._boundValuesInHtml();
@@ -129,20 +176,13 @@ class SRangeInputElement extends SComponent {
 			// update values
 			this._boundValuesInHtml();
 		});
-		this.slider.on('change', (e) => {
-			// set new value in attributes
-			const value = this.slider.get();
-			if (typeof(value) === 'number' || typeof(value) === 'string') {
-				this.attr.value = value;
-			} else {
-				this.attr.value = this.slider.get().join(',');
-			}
-		});
 
-		this.watcher.watch(this, 'settings.value', (newVal, oldVal) => {
-			// set the new values to the slider
-			this.slider.set(newVal.split(','));
-			console.warn('VALUE!!!', this.elm.getAttribute('value'));
+		// append the slider into the dom
+		this.elm.parentNode.insertBefore(this.container, this.elm);
+
+		// remove the no-transmations class to let animations do their job
+		setTimeout(() => {
+			this.container.classList.remove('clear-transmations');
 		});
 	}
 
@@ -151,30 +191,50 @@ class SRangeInputElement extends SComponent {
 	 */
 	_boundValuesInHtml() {
 
-		const values = this.slider.get();
+		const values = [].concat(this.slider.get());
 
 		// if we have 2 values
 		// we set the width of the .noUi-target.noUi-background:before
 		// to the left percentage of the lower handle
 		if (values.length == 2) {
-			this.backgroundLowerElm.style.right = 100 - parseInt(this.connectElm.style.left) + '%';
+			setTimeout(() => {
+				this.backgroundLowerElm.style.right = 100 - parseInt(this.connectElm.style.left) + '%';
+			});
 		}
 
-
-		if (this.tooltipStartElm && values[0] !== undefined) {
+		// handle values
+		if (this.handleStartValueElm && values[0] !== undefined) {
 			if (this.settings.formater) {
-				this.tooltipStartElm.innerHTML = this.settings.formater(
-					values[0],
-					'tooltip'
-				);
 				this.handleStartValueElm.innerHTML = this.settings.formater(
 					values[0],
 					'handle'
 				);
 
 			} else {
-				this.tooltipStartElm.innerHTML = Math.round(values[0]);
 				this.handleStartValueElm.innerHTML = Math.round(values[0]);
+			}
+		}
+		if (this.handleEndValueElm && values[1] !== undefined) {
+			if (this.settings.formater) {
+				this.handleEndValueElm.innerHTML = this.settings.formater(
+					values[1],
+					'handle'
+				);
+
+			} else {
+				this.handleEndValueElm.innerHTML = Math.round(values[1]);
+			}
+		}
+
+		// set tooltips
+		if (this.tooltipStartElm && values[0] !== undefined) {
+			if (this.settings.formater) {
+				this.tooltipStartElm.innerHTML = this.settings.formater(
+					values[0],
+					'tooltip'
+				);
+			} else {
+				this.tooltipStartElm.innerHTML = Math.round(values[0]);
 			}
 		}
 		if (this.tooltipEndElm && values[1] !== undefined) {
@@ -183,14 +243,8 @@ class SRangeInputElement extends SComponent {
 					values[1],
 					'tooltip'
 				);
-				this.handleEndValueElm.innerHTML = this.settings.formater(
-					values[1],
-					'handle'
-				);
-
 			} else {
 				this.tooltipEndElm.innerHTML = Math.round(values[1]);
-				this.handleEndValueElm.innerHTML = Math.round(values[1]);
 			}
 		}
 	}
@@ -225,8 +279,8 @@ __querySelectorVisibleLiveOnce('input[s-range-input]', (elm) => {
 });
 
 // default formaters
-SRangeInputElement.percentFormater = function(value, destination) {
-	if (destination === 'tooltip') {
+SRangeInputElement.percentFormater = function(value, target) {
+	if (target === 'tooltip') {
 		return Math.round(value) + '%';
 	}
 	return Math.round(value);

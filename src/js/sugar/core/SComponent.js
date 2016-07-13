@@ -97,6 +97,7 @@ export default class SComponent extends SElement {
 		for (let settingName in this.settings) {
 
 			const settingAttrName = this.name_dash + '-' + __uncamelize(settingName);
+			const settingCamelName = this.name + __upperFirst(settingName);
 
 			const setting = this.settings[settingName];
 			if (setting == '@') {
@@ -104,28 +105,36 @@ export default class SComponent extends SElement {
 			} else if (typeof(setting) === 'string' && setting.substr(0,1) === '@') {
 				// set the setting to the attribute value
 				const attrName = setting.substr(1);
+				let attrValue = this.elm.getAttribute(attrName);
+
+				// if the element has not the requested linked attribute, we set it
+				if ( ! attrValue) {
+					const settingValue = this.attr[settingCamelName];
+					this.elm.setAttribute(attrName, settingValue);
+					attrValue = settingValue;
+				}
+
 				// check that the element has the requested attribute
-				if (this.elm.getAttribute(attrName) !== undefined)
+				if (attrValue !== undefined)
 				{
-					this.settings[settingName] = this.elm.getAttribute(attrName);
+					this.attr[attrName] = attrValue;
+					this.settings[settingName] = attrValue;
 
 					// connect the linked setting to the setting attribute
 					// if the attribute exist
 					if (this.elm.getAttribute(this.name_dash + '-' + attrName) !== null) {
-						this.binder.bindObjectPath2ElementAttribute(this, `attr.${this.name + __upperFirst(settingName)}`, this.elm, attrName);
+						this.binder.bindObjectPath2ElementAttribute(this, `attr.${settingCamelName}`, this.elm, attrName);
 					}
-					this.binder.bindObjectPath2ElementAttribute(this, `settings.${settingName}`, this.elm, this.name + __upperFirst(settingName));
+					this.binder.bindObjectPath2ElementAttribute(this, `settings.${settingName}`, this.elm, settingCamelName);
 					this.binder.bindObjectPath2ElementAttribute(this, `settings.${settingName}`, this.elm, attrName);
-					this.binder.bindObjectPath2ElementAttribute(this, `attr.${attrName}`, this.elm, this.name + __upperFirst(settingName));
-
+					this.binder.bindObjectPath2ElementAttribute(this, `attr.${attrName}`, this.elm, settingCamelName);
 				}
 			} else {
 				const settingAttrValue = this.elm.getAttribute(settingAttrName);
 				if (settingAttrValue !== null) {
 					this.settings[settingName] = settingAttrValue;
 				}
-				this.binder.bindObjectPath2ElementAttribute(this, `settings.${settingName}`, this.elm, this.name + __upperFirst(settingName));
-				// this.bind(this.name + __upperFirst(settingName), `settings.${settingName}`);
+				this.binder.bindObjectPath2ElementAttribute(this, `settings.${settingName}`, this.elm, settingCamelName);
 			}
 		}
 

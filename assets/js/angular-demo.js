@@ -2273,6 +2273,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			for (var settingName in _this.settings) {
 
 				var settingAttrName = _this.name_dash + '-' + (0, _uncamelize2.default)(settingName);
+				var settingCamelName = _this.name + (0, _upperFirst2.default)(settingName);
 
 				var setting = _this.settings[settingName];
 				if (setting == '@') {
@@ -2280,26 +2281,35 @@ return /******/ (function(modules) { // webpackBootstrap
 				} else if (typeof setting === 'string' && setting.substr(0, 1) === '@') {
 					// set the setting to the attribute value
 					var attrName = setting.substr(1);
+					var attrValue = _this.elm.getAttribute(attrName);
+
+					// if the element has not the requested linked attribute, we set it
+					if (!attrValue) {
+						var settingValue = _this.attr[settingCamelName];
+						_this.elm.setAttribute(attrName, settingValue);
+						attrValue = settingValue;
+					}
+
 					// check that the element has the requested attribute
-					if (_this.elm.getAttribute(attrName) !== undefined) {
-						_this.settings[settingName] = _this.elm.getAttribute(attrName);
+					if (attrValue !== undefined) {
+						_this.attr[attrName] = attrValue;
+						_this.settings[settingName] = attrValue;
 
 						// connect the linked setting to the setting attribute
 						// if the attribute exist
 						if (_this.elm.getAttribute(_this.name_dash + '-' + attrName) !== null) {
-							_this.binder.bindObjectPath2ElementAttribute(_this, 'attr.' + (_this.name + (0, _upperFirst2.default)(settingName)), _this.elm, attrName);
+							_this.binder.bindObjectPath2ElementAttribute(_this, 'attr.' + settingCamelName, _this.elm, attrName);
 						}
-						_this.binder.bindObjectPath2ElementAttribute(_this, 'settings.' + settingName, _this.elm, _this.name + (0, _upperFirst2.default)(settingName));
+						_this.binder.bindObjectPath2ElementAttribute(_this, 'settings.' + settingName, _this.elm, settingCamelName);
 						_this.binder.bindObjectPath2ElementAttribute(_this, 'settings.' + settingName, _this.elm, attrName);
-						_this.binder.bindObjectPath2ElementAttribute(_this, 'attr.' + attrName, _this.elm, _this.name + (0, _upperFirst2.default)(settingName));
+						_this.binder.bindObjectPath2ElementAttribute(_this, 'attr.' + attrName, _this.elm, settingCamelName);
 					}
 				} else {
 					var settingAttrValue = _this.elm.getAttribute(settingAttrName);
 					if (settingAttrValue !== null) {
 						_this.settings[settingName] = settingAttrValue;
 					}
-					_this.binder.bindObjectPath2ElementAttribute(_this, 'settings.' + settingName, _this.elm, _this.name + (0, _upperFirst2.default)(settingName));
-					// this.bind(this.name + __upperFirst(settingName), `settings.${settingName}`);
+					_this.binder.bindObjectPath2ElementAttribute(_this, 'settings.' + settingName, _this.elm, settingCamelName);
 				}
 			}
 
@@ -22250,6 +22260,12 @@ return /******/ (function(modules) { // webpackBootstrap
 				end: 100,
 				min: 0,
 				max: 100,
+				step: null,
+				margin: null,
+				limit: null,
+				orientation: 'horizontal',
+				direction: 'ltr',
+				tooltips: true,
 				connect: true,
 				tooltip: true,
 				value: '@value',
@@ -22275,6 +22291,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			// create the container for the slider
 			this.container = document.createElement('div');
 			this.container.className = this.elm.className;
+			this.container.classList.add('clear-transmations'); // do not animate anything at initialisation
 
 			// init new noUiSlider
 			var start = this.settings.start;
@@ -22289,14 +22306,31 @@ return /******/ (function(modules) { // webpackBootstrap
 				connect = false;
 			}
 
-			this.slider = _nouislider2.default.create(this.container, {
+			var args = {
 				start: start,
 				connect: connect,
+				orientation: this.settings.orientation,
+				direction: this.settings.direction,
 				range: {
 					min: this.settings.min,
 					max: this.settings.max
 				}
-			});
+			};
+			if (this.settings.margin) {
+				args.margin = this.settings.margin;
+			}
+			if (this.settings.limit) {
+				args.limit = this.settings.limit;
+			}
+			if (this.settings.step) {
+				args.step = this.settings.step;
+			}
+			this.slider = _nouislider2.default.create(this.container, args);
+
+			// set the value
+			if (this.attr.value) {
+				this.slider.set(this.attr.value.split(','));
+			}
 
 			// remove the noUi-background class on the main element
 			this.container.classList.remove('noUi-background');
@@ -22332,11 +22366,33 @@ return /******/ (function(modules) { // webpackBootstrap
 			// hide the base input
 			this.elm.style.display = 'none';
 
-			// append the slider into the dom
-			this.elm.parentNode.insertBefore(this.container, this.elm);
-
 			// init tooltip
-			this._initTooltip();
+			if (this.settings.tooltips) this._initTooltip();
+
+			this.slider.on('change', function (e) {
+				// set new value in attributes
+				var value = _this2.slider.get();
+				if (typeof value === 'number' || typeof value === 'string') {
+					if (_this2.settings.formater) {
+						_this2.attr.value = _this2.settings.formater(value, 'input');
+					} else {
+						_this2.attr.value = value;
+					}
+				} else {
+					if (_this2.settings.formater) {
+						_this2.attr.value = _this2.slider.get().map(function (val) {
+							return _this2.settings.formater(val, 'input');
+						}).join(',');
+					} else {
+						_this2.attr.value = _this2.slider.get().join(',');
+					}
+				}
+			});
+
+			this.watcher.watch(this, 'settings.value', function (newVal, oldVal) {
+				// set the new values to the slider
+				_this2.slider.set(newVal.split(','));
+			});
 
 			// set values first time
 			this._boundValuesInHtml();
@@ -22346,20 +22402,13 @@ return /******/ (function(modules) { // webpackBootstrap
 				// update values
 				_this2._boundValuesInHtml();
 			});
-			this.slider.on('change', function (e) {
-				// set new value in attributes
-				var value = _this2.slider.get();
-				if (typeof value === 'number' || typeof value === 'string') {
-					_this2.attr.value = value;
-				} else {
-					_this2.attr.value = _this2.slider.get().join(',');
-				}
-			});
 
-			this.watcher.watch(this, 'settings.value', function (newVal, oldVal) {
-				// set the new values to the slider
-				_this2.slider.set(newVal.split(','));
-				console.warn('VALUE!!!', _this2.elm.getAttribute('value'));
+			// append the slider into the dom
+			this.elm.parentNode.insertBefore(this.container, this.elm);
+
+			// remove the no-transmations class to let animations do their job
+			setTimeout(function () {
+				_this2.container.classList.remove('clear-transmations');
 			});
 		};
 
@@ -22369,32 +22418,48 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		SRangeInputElement.prototype._boundValuesInHtml = function _boundValuesInHtml() {
+			var _this3 = this;
 
-			var values = this.slider.get();
+			var values = [].concat(this.slider.get());
 
 			// if we have 2 values
 			// we set the width of the .noUi-target.noUi-background:before
 			// to the left percentage of the lower handle
 			if (values.length == 2) {
-				this.backgroundLowerElm.style.right = 100 - parseInt(this.connectElm.style.left) + '%';
+				setTimeout(function () {
+					_this3.backgroundLowerElm.style.right = 100 - parseInt(_this3.connectElm.style.left) + '%';
+				});
 			}
 
+			// handle values
+			if (this.handleStartValueElm && values[0] !== undefined) {
+				if (this.settings.formater) {
+					this.handleStartValueElm.innerHTML = this.settings.formater(values[0], 'handle');
+				} else {
+					this.handleStartValueElm.innerHTML = Math.round(values[0]);
+				}
+			}
+			if (this.handleEndValueElm && values[1] !== undefined) {
+				if (this.settings.formater) {
+					this.handleEndValueElm.innerHTML = this.settings.formater(values[1], 'handle');
+				} else {
+					this.handleEndValueElm.innerHTML = Math.round(values[1]);
+				}
+			}
+
+			// set tooltips
 			if (this.tooltipStartElm && values[0] !== undefined) {
 				if (this.settings.formater) {
 					this.tooltipStartElm.innerHTML = this.settings.formater(values[0], 'tooltip');
-					this.handleStartValueElm.innerHTML = this.settings.formater(values[0], 'handle');
 				} else {
 					this.tooltipStartElm.innerHTML = Math.round(values[0]);
-					this.handleStartValueElm.innerHTML = Math.round(values[0]);
 				}
 			}
 			if (this.tooltipEndElm && values[1] !== undefined) {
 				if (this.settings.formater) {
 					this.tooltipEndElm.innerHTML = this.settings.formater(values[1], 'tooltip');
-					this.handleEndValueElm.innerHTML = this.settings.formater(values[1], 'handle');
 				} else {
 					this.tooltipEndElm.innerHTML = Math.round(values[1]);
-					this.handleEndValueElm.innerHTML = Math.round(values[1]);
 				}
 			}
 		};
@@ -22435,8 +22500,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 
 	// default formaters
-	SRangeInputElement.percentFormater = function (value, destination) {
-		if (destination === 'tooltip') {
+	SRangeInputElement.percentFormater = function (value, target) {
+		if (target === 'tooltip') {
 			return Math.round(value) + '%';
 		}
 		return Math.round(value);

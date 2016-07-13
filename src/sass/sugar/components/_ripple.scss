@@ -29,16 +29,19 @@ $_s-ripple-inited : false;
 	}
 }
 
-@keyframes ripple {
+@mixin s-ripple() {
+	@include s-ripple-bare();
+	@include s-ripple-style();
+}
+
+@keyframes s-ripple {
 	0% {
 		opacity:1;
 		width:0;
-		// transform:scale(0,0) translateX(-50%) translateY(-50%);
 	}
 	100% {
 		opacity:0;
 		width:150%;
-		// transform:scale(1,1) translateX(-50%) translateY(-50%);
 	}
 }
 
@@ -56,18 +59,13 @@ $_s-ripple-inited : false;
 	}
 }
 @mixin s-ripple-style(
-	$colors
 ) {
-	// parse properties
-	@if $_sugar-test-arguments {
-		$colors : s-test-argument('s-formset','colors',map-keys(sugar('settings.colors')),$colors);
-	}
-
 	// pass in the component context
 	@include s-component-context('ripple') {
-
 		.s-ripple {
-			@include s-animation(ripple .3s ease-out);
+			background:rgba(0,0,0,.5);
+			mix-blend-mode: overlay;
+			@include s-animation(s-ripple .3s ease-out);
 		}
 	}
 }
