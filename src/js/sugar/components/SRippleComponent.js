@@ -19,7 +19,7 @@ import __uniqid from '../tools/uniqid'
 import SEvent from '../core/SEvent'
 import __requestAnimationFrame from '../dom/requestAnimationFrame';
 
-import SParticlesSystemElement from './SParticlesSystemElement';
+import SParticlesSystemComponent from './SParticlesSystemComponent';
 import setRecursiveTimeout from '../functions/setRecursiveTimeout';
 
 import debounce from '../functions/debounce';
@@ -78,7 +78,7 @@ class SRippleComponent extends SComponent {
 		const particlesSystemElm = document.createElement('div');
 		particlesSystemElm.classList.add('s-ripple-container');
 
-		const particlesSystem = new SParticlesSystemElement(particlesSystemElm, {
+		const particlesSystem = new SParticlesSystemComponent(particlesSystemElm, {
 			emitterX : e.offsetX + 'px',
 			emitterY : e.offsetY + 'px',
 			amount : this.settings.count,
