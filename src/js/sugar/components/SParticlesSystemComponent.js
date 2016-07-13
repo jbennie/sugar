@@ -1,5 +1,5 @@
 import SComponent from '../core/SComponent';
-import SParticleElement from './SParticleElement';
+import SParticleComponent from './SParticleComponent';
 import setRecursiveTimeout from '../functions/setRecursiveTimeout';
 
 class SParticlesSystemComponent extends SComponent {
@@ -61,7 +61,7 @@ class SParticlesSystemComponent extends SComponent {
 			if (this.settings.particleClass) {
 				particleElm.classList.add(this.settings.particleClass);
 			}
-			const particle = new SParticleElement(particleElm, {
+			const particle = new SParticleComponent(particleElm, {
 				class : cls
 			});
 			// add the particle to the element
