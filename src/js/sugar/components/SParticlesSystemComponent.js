@@ -81,7 +81,7 @@ class SParticlesSystemComponent extends SComponent {
 // initOn
 SParticlesSystemComponent.initOn = function(selector, settings = {}) {
 	// init the select
-	return __querySelectorVisibleLiveOnce(selector, (elm) => {
+	return __querySelectorVisibleLiveOnce(selector).subscribe((elm) => {
 		new SParticlesSystemComponent(elm, settings);
 	});
 };

@@ -162,7 +162,7 @@ class SDrawerComponent extends SComponent {
 // initOn
 SDrawerComponent.initOn = function(selector, settings = {}) {
 	// init the select
-	return __querySelectorVisibleLiveOnce(selector, (elm) => {
+	return __querySelectorVisibleLiveOnce(selector).subscribe((elm) => {
 		new SDrawerComponent(elm, settings);
 	});
 };

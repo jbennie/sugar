@@ -104,7 +104,7 @@ class SRippleComponent extends SComponent {
 // initOn
 SRippleComponent.initOn = function(selector, settings = {}) {
 	// init the select
-	return __querySelectorVisibleLiveOnce(selector, (elm) => {
+	return __querySelectorVisibleLiveOnce(selector).subscribe((elm) => {
 		new SRippleComponent(elm, settings);
 	});
 };

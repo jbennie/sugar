@@ -148,13 +148,13 @@ export default class SComponent extends SElement {
 
 		switch(this.settings.initWhen) {
 			case 'visible':
-				querySelectorVisibleLiveOnce(`[data-s-element-id="${this.uniqid}"]`, cb);
+				querySelectorVisibleLiveOnce(`[data-s-element-id="${this.uniqid}"]`).subscribe(cb);
 			break;
 			case 'viewportVisible':
-				querySelectorViewportVisibleLiveOnce(`[data-s-element-id="${this.uniqid}"]`, cb);
+				querySelectorViewportVisibleLiveOnce(`[data-s-element-id="${this.uniqid}"]`).subscribe(cb);
 			break;
 			case 'added':
-				querySelectorLiveOnce(`[data-s-element-id="${this.uniqid}"]`, cb);
+				querySelectorLiveOnce(`[data-s-element-id="${this.uniqid}"]`).subscribe(cb);
 			break;
 			case 'click':
 				function clickHandler(e) {

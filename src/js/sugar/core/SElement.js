@@ -73,27 +73,21 @@ export default class SElement extends SObject {
 
 		// listen when the element is added to the dom
 		setTimeout(() => {
-			let cbs = [(elm) => {
-				// empty callback just for the onRemove
-				if (this.onAdded) this.onAdded();
-			}];
-			if (typeof(this.onRemoved) == 'function') {
-				cbs.push((elm) => {
-					this.onRemoved(elm);
-				});
-			}
+
 			if (typeof(this.onAdded) == 'function') {
-				querySelectorLiveOnce(`[data-s-element-id="${this.uniqid}"]`, cbs);
+				querySelectorLiveOnce(`[data-s-element-id="${this.uniqid}"]`).subscribe((elm) => {
+					if (this.onAdded) this.onAdded();
+				});
 			}
 			// check if is the onVisible method
 			if (typeof(this.onVisible) == 'function') {
-				querySelectorVisibleLiveOnce(`[data-s-element-id="${this.uniqid}"]`, (elm) => {
+				querySelectorVisibleLiveOnce(`[data-s-element-id="${this.uniqid}"]`).subscribe((elm) => {
 					this.onVisible(elm);
 				});
 			}
 			// check if is the onViewportVisible method
 			if (typeof(this.onViewportVisible) == 'function') {
-				querySelectorViewportVisibleLiveOnce(`[data-s-element-id="${this.uniqid}"]`, (elm) => {
+				querySelectorViewportVisibleLiveOnce(`[data-s-element-id="${this.uniqid}"]`).subscribe((elm) => {
 					this.onViewportVisible(elm);
 				});
 			}

@@ -379,8 +379,7 @@ class SActivateComponent extends SComponent {
 // initOn
 SActivateComponent.initOn = function(selector, settings = {}) {
 	// init the select
-	return __querySelectorVisibleLiveOnce(selector, (elm) => {
-		console.log('NEW ACI');
+	return __querySelectorVisibleLiveOnce(selector).subscribe((elm) => {
 		new SActivateComponent(elm, settings);
 	});
 };

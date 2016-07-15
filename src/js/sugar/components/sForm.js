@@ -2,7 +2,7 @@ import querySelectorVisibleLiveOnce from '../dom/querySelectorVisibleLiveOnce';
 import isVisible from '../dom/isVisible';
 import closestNotVisible from '../dom/closestNotVisible';
 
-querySelectorVisibleLiveOnce('.label--inside', (elm) => {
+querySelectorVisibleLiveOnce('.label--inside').subscribe((elm) => {
 
 	let span = elm.querySelector(':scope > span');
 	if (span) {

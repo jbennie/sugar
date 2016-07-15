@@ -6,12 +6,9 @@ import {Observable} from 'rxjs/Observable'
 import querySelectorLive from './querySelectorLive'
 import whenVisible from './whenVisible'
 
-export default function querySelectorVisibleLiveOnce(selector, settings) {
+export default function querySelectorViewportVisibleLive(selector, settings) {
 	return Observable.create(observer => {
-		querySelectorLive(selector, {
-			...settings,
-			once : true
-		}).subscribe((elm) => {
+		querySelectorLive(selector, settings).subscribe((elm) => {
 			whenVisible(elm).then((elm) => {
 				observer.next(elm);
 			});

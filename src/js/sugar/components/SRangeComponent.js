@@ -291,7 +291,7 @@ window.sugar.SRangeComponent = SRangeComponent;
 // initOn
 SRangeComponent.initOn = function(selector, settings = {}) {
 	// init the select
-	return __querySelectorVisibleLiveOnce(selector, (elm) => {
+	return __querySelectorVisibleLiveOnce(selector).subscribe((elm) => {
 		new SRangeComponent(elm, {
 			formater : SRangeComponent.percentFormater,
 			...settings

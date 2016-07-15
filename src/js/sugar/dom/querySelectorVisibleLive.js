@@ -2,23 +2,16 @@
  * Grab all the visible element
  * And apply the callback when a new item match the selector
  */
+import {Observable} from 'rxjs/Observable'
 import querySelectorLive from './querySelectorLive'
 import whenVisible from './whenVisible'
 
-export default function querySelectorVisibleLive(selector, cb, settings) {
-	querySelectorLive(selector, (elm) => {
-		// check if is array
-		if (elm instanceof Array) {
-			elm.forEach((e) => {
-				whenVisible(e).then((e) => {
-					cb(e);
-				});
-			});
-		} else {
-			// check if is visible
+export default function querySelectorVisibleLive(selector, settings) {
+	return Observable.create(observer => {
+		querySelectorLive(selector, settings).subscribe((elm) => {
 			whenVisible(elm).then((elm) => {
-				cb(elm);
+				observer.next(elm);
 			});
-		}
-	}, settings);
+		});
+	});
 }

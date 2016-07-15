@@ -404,6 +404,7 @@
 					</div>
 
 					<div id="datepicker" s-activate-target>
+						<?php $i = 0; ?>
 						<?php foreach($colors as $color): ?>
 						<?php foreach($sizes as $size): ?>
 
@@ -413,14 +414,14 @@
 										<span>Date</span>
 										<div class="form-group color--<?= $color ?> size--<?= $size ?>">
 											<div class="input-addon">from</div>
-											<input id="s-datepicker-from" class="input input--<?= $color ?>" type="text" s-datepicker -to="#s-datepicker-to" placeholder="gr-9" />
+											<input id="s-datepicker-from-<?= $i ?>" class="input input--<?= $color ?>" type="text" s-datepicker -to="#s-datepicker-to-<?=$i?>" placeholder="gr-9" />
 											<div class="input-addon">to</div>
-											<input id="s-datepicker-to" class="input input--<?= $color ?>" type="text" s-datetimepicker -from="#s-datepicker-from" -number-of-months="3" placeholder="gr-9" />
+											<input id="s-datepicker-to-<?=$i?>" class="input input--<?= $color ?>" type="text" s-datepicker -from="#s-datepicker-from-<?=$i?>" -number-of-months="3" placeholder="gr-9" />
 										</div>
 									</label>
 								</div>
 							</div>
-
+							<?php $i++; ?>
 						<?php endforeach; ?>
 						<?php endforeach; ?>
 					</div>
@@ -432,7 +433,7 @@
 								<div class="gr-12">
 									<label class="label">
 										<span>Range label</span>
-										<input class="input input--<?= $color ?>" type="text" value="<?=rand(1,50)?>,<?=rand(50,100)?>" s-range -init-when="viewportVisible" />
+										<input class="input input--<?= $color ?>" type="text" s-range s-range-init-when="viewportVisible" -value="<?=rand(0,50)?>,<?=rand(50,100)?>" />
 									</label>
 								</div>
 							</div>

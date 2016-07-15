@@ -10,7 +10,6 @@
  */
 import SComponent from '../core/SComponent'
 import __querySelectorLive from '../dom/querySelectorLive'
-import __querySelectorVisibleLiveOnce from '../dom/querySelectorVisibleLiveOnce';
 import __next from '../dom/next'
 import __previous from '../dom/previous'
 import __offset from '../dom/offset'
@@ -54,8 +53,6 @@ class SSelectComponent extends SComponent {
 	 * On added to dom
 	 */
 	init() {
-
-		console.warn('INIT SELECT');
 
 		// utils variables
 		this._openOnFocus = false;
@@ -192,20 +189,16 @@ class SSelectComponent extends SComponent {
 		}
 
 		// listen for new elements in the select
-		__querySelectorLive('[data-s-select="'+this.id+'"] > option, [data-s-select="'+this.id+'"] > optgroup', [
-			(elm) => {
-				// refresh the select
-				this.refresh();
-			}, (elm) => {
-				// refresh the select
+		__querySelectorLive('[data-s-select="'+this.id+'"] > option, [data-s-select="'+this.id+'"] > optgroup', {
+			groupNodes : true,
+			rootNode : this.elm,
+			onNodeRemoved : (nodes) => {
 				this.refresh();
 			}
-		], {
-			rootNode : this.elm,
-			groupedNodes : true
+		}).subscribe((elms) => {
+			// refresh the select
+			this.refresh();
 		});
-
-		// this._appendNew();
 	}
 
 	/**
@@ -822,7 +815,7 @@ class SSelectComponent extends SComponent {
 // initOn
 SSelectComponent.initOn = function(selector, settings = {}) {
 	// init the select
-	return __querySelectorVisibleLiveOnce(selector, (elm) => {
+	return __querySelectorLive(selector).subscribe((elm) => {
 		new SSelectComponent(elm, settings);
 	});
 };

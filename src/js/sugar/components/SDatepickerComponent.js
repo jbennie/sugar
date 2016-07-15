@@ -18,6 +18,10 @@ class SDatepickerComponent extends SComponent {
 	 */
 	constructor(elm, settings = {}, name='sDatepicker') {
 		super(name, elm, {
+			from : null,
+			to : null,
+			numberOfMonths : 1,
+			autoFocus : true
 		}, settings);
 
 		// init
@@ -46,8 +50,11 @@ class SDatepickerComponent extends SComponent {
 		// check if a "from" is specified
 		let from = this.settings.from;
 		if (from) {
+			const fromElm = document.querySelector(from);
+			if ( ! fromElm)
+				throw `SDatepickerComponent => You have specified the "from" setting but no element match the "${from}" selector`;
 			// listen for change on the input
-			document.querySelector(from).addEventListener('change', (e) => {
+			fromElm.addEventListener('change', (e) => {
 				// check if we have the pikaday instance
 				if (e.target.sDatepicker && e.target.sDatepicker.picker) {
 					// get the picker date
@@ -64,8 +71,11 @@ class SDatepickerComponent extends SComponent {
 		// check if a "to" is specified
 		let to = this.settings.to;
 		if (to) {
+			const toElm = document.querySelector(to);
+			if ( ! toElm)
+				throw `SDatepickerComponent => You have specified the "to" setting but no element match the "${to}" selector`;
 			// listen for change on the input
-			document.querySelector(to).addEventListener('change', (e) => {
+			toElm.addEventListener('change', (e) => {
 				// check if we have the pikaday instance
 				if (e.target.sDatepicker && e.target.sDatepicker.picker) {
 					// get the picker date
@@ -75,15 +85,24 @@ class SDatepickerComponent extends SComponent {
 					e.target.sDatepicker.picker.setEndRange(date);
 					e.target.sDatepicker.picker.hide();
 					e.target.sDatepicker.picker.show();
+
 				}
 			});
+			// auto focus
+			if (this.settings.autoFocus) {
+				this.elm.addEventListener('change', (e) => {
+					console.log('e.', e.target);
+					toElm.focus();
+				});
+			}
 		}
 
 		// init the picker
 		this.picker = new Pikaday({...{
 			field : this.elm,
 			showTime : false,
-			theme : theme
+			theme : theme,
+			numberOfMonths : this.settings.numberOfMonths || 1
 		}, ...this.settings});
 	}
 }
@@ -91,7 +110,7 @@ class SDatepickerComponent extends SComponent {
 // initOn
 SDatepickerComponent.initOn = function(selector, settings = {}) {
 	// init the select
-	return __querySelectorVisibleLiveOnce(selector, (elm) => {
+	return __querySelectorVisibleLiveOnce(selector).subscribe((elm) => {
 		new SDatepickerComponent(elm, settings);
 	});
 };
