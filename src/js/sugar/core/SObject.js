@@ -1,11 +1,7 @@
-import SMix from './SMix'
-import SWatchable from '../mixins/SWatchable'
-
-export default class SObject extends SMix(SWatchable).in(class {}) {
+export default class SObject {
 	/**
 	 * Constructor
 	 */
 	constructor() {
-		super(...arguments);
 	}
 }

@@ -42,7 +42,7 @@
 	<i class="fa-bars"></i>
 </label>
 
-<div data-s-drawer="menu" active-class="coco" class="typeset vertical-rhythme">
+<div s-drawer="menu" active-class="coco" class="typeset vertical-rhythme">
 
 	<h3>
 		<strong>SUGAR</strong><span class="c-orange--dark">{.SCSS}</span>
@@ -76,8 +76,8 @@
 
 </div>
 
-<div data-s-drawer="author" class="typeset vertical-rhythme">
-	
+<div s-drawer="author" class="typeset vertical-rhythme">
+
 	<div class="avatar m-b-small" style="width:100px; height:100px"></div>
 
 	<h2 class="h2">
@@ -108,7 +108,8 @@
 
 </div>
 
-	<div data-s-drawer-content>
+
+	<div s-drawer-content>
 
 		<section id="top-bar">
 	
@@ -664,15 +665,11 @@
 
 </section>
 
+		<a id="coco" href="javascript:void(0)" class="btn">
+			Coco
+		</a>
+
 	</div>
-
-	<div style="width:100px;height:3000px;background:red;">
-
-	</div>
-
-	<a id="coco" href="#" class="btn">
-		Coco
-	</a>
 
 	<a href="#" class="top">
 		<i class="fa-arrow-up"></i>

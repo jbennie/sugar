@@ -35,8 +35,6 @@ class SDrawerComponent extends SComponent {
 			handleHash : true
 		}, settings);
 
-		console.log('setings', this.settings);
-
 		// get the name
 		this.name = this.settings.name;
 
@@ -53,10 +51,10 @@ class SDrawerComponent extends SComponent {
 	_init() {
 
 		// try to find the drawer background
-		this.bkg = document.querySelector('[data-s-drawer-bkg="'+this.name+'"]');
+		this.bkg = document.querySelector('[s-drawer-bkg="'+this.name+'"]');
 		if ( ! this.bkg) {
 			this.bkg = document.createElement('div');
-			this.bkg.setAttribute('data-s-drawer-bkg', this.name);
+			this.bkg.setAttribute('s-drawer-bkg', this.name);
 			// insert in the page
 			this.elm.parentElement.insertBefore(this.bkg, this.elm.parentElement.firstChild);
 		}
@@ -68,23 +66,23 @@ class SDrawerComponent extends SComponent {
 		}
 
 		// try to find the drawer overlay
-		this.overlay = document.querySelector('[data-s-drawer-overlay="'+this.name+'"]');
+		this.overlay = document.querySelector('[s-drawer-overlay="'+this.name+'"]');
 		if ( ! this.overlay) {
 			this.overlay = document.createElement('label');
 			this.overlay.setAttribute('for', this.name);
-			this.overlay.setAttribute('data-s-drawer-overlay', this.name);
+			this.overlay.setAttribute('s-drawer-overlay', this.name);
 			// insert in the page
 			this.elm.parentElement.insertBefore(this.overlay, this.elm.parentElement.firstChild);
 		}
 
 		// try to find the toggle
-		this.toggle = document.querySelector('[data-s-drawer-toggle="'+this.name+'"]');
+		this.toggle = document.querySelector('[s-drawer-toggle="'+this.name+'"]');
 		if ( ! this.toggle) {
 			this.toggle = document.createElement('input');
 			this.toggle.setAttribute('name', this.name);
 			this.toggle.setAttribute('id', this.name);
 			this.toggle.setAttribute('type', 'checkbox');
-			this.toggle.setAttribute('data-s-drawer-toggle', this.name);
+			this.toggle.setAttribute('s-drawer-toggle', this.name);
 			// insert into page
 			this.elm.parentElement.insertBefore(this.toggle, this.elm.parentElement.firstChild);
 		}

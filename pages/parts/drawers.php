@@ -6,7 +6,7 @@
 	<i class="fa-bars"></i>
 </label>
 
-<div data-s-drawer="menu" active-class="coco" class="typeset vertical-rhythme">
+<div s-drawer="menu" active-class="coco" class="typeset vertical-rhythme">
 
 	<h3>
 		<strong>SUGAR</strong><span class="c-orange--dark">{.SCSS}</span>
@@ -40,8 +40,8 @@
 
 </div>
 
-<div data-s-drawer="author" class="typeset vertical-rhythme">
-	
+<div s-drawer="author" class="typeset vertical-rhythme">
+
 	<div class="avatar m-b-small" style="width:100px; height:100px"></div>
 
 	<h2 class="h2">

@@ -54,6 +54,8 @@ class SSelectComponent extends SComponent {
 	 */
 	init() {
 
+		console.warn('IIIIINIT');
+
 		// utils variables
 		this._openOnFocus = false;
 		this._currentActiveOption = null; // save the current keyboard selected item

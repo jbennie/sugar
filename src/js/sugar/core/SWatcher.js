@@ -29,20 +29,9 @@ export default class SWatcher {
 		// do not define multiple time the description
 		if (this._watchStack[objPath]) return;
 
-		// const o = obj;
-		// console.warn('_defineProp', o, property, value, objPath);
-
+		// store the current value
 		let val = value;
 		let descriptor = Object.getOwnPropertyDescriptor(obj.prototype || obj, property);
-
-		// get the setter
-		let customSetter;
-		for (let name in SWatcher.setters) {
-			if (__constructorName(obj) === name) {
-				customSetter = SWatcher.setters[name];
-				break;
-			}
-		}
 
 		// custom setter check
 		const _set = (value) => {
@@ -62,17 +51,34 @@ export default class SWatcher {
 			} else {
 				val = value;
 			}
+
+			// apply the proxy for arrays, etc...
+			val = this.applyProxy(val, objPath, (newVal) => {
+				val = newVal;
+			});
 		}
+
+		// get the setter
+		let customSetter;
+		for (let name in SWatcher.setters) {
+			if (__constructorName(obj) === name) {
+				customSetter = SWatcher.setters[name];
+				break;
+			}
+		}
+
+		// set the value
+		_set(value);
 
 		// make sure we have the good descriptor
 		let d = Object.getOwnPropertyDescriptor(obj, property);
 		Object.defineProperty(obj, property, {
 			get : () => {
-				// console.log('get', property);
+				let _val = val;
 				if (descriptor && descriptor.get) {
-					return descriptor.get();
+					_val = descriptor.get();
 				}
-				return val;
+				return _val;
 			},
 			set : (v) => {
 				const oldValue = val;
@@ -85,6 +91,30 @@ export default class SWatcher {
 			enumarable : descriptor && descriptor.enumarable !== undefined ? descriptor.enumarable : true,
 			// writable : descriptor && descriptor.writable !== undefined ? descriptor.writable : true
 		});
+	}
+
+	/**
+	 * Apply a proxy on the variable to detect changes
+	 * on arrays, etc...
+	 */
+	applyProxy(value, objPath, setValueCb) {
+		const _this = this;
+		// if is an array
+		if (value instanceof Array) {
+			const oldVal = value.slice(0);
+			const originalPush = Array.prototype.push;
+			value.push = function() {
+				// apply the push
+				const ret = Array.prototype.push.apply(this,arguments);
+				// set value callback
+				setValueCb(value);
+				// notify
+				_this.notify(objPath, this, oldVal);
+				// return the new value
+				return ret;
+			}
+		}
+		return value;
 	}
 
 	/**

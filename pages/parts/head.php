@@ -36,7 +36,7 @@
 
 	{DRAWERS}
 
-	<div data-s-drawer-content>
+	<div s-drawer-content>
 
 		{TOPBAR}
 

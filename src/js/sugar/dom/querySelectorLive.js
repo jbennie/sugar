@@ -49,7 +49,8 @@ export default function querySelectorLive(selector, settings = {}) {
 				groupNodes : false,
 				once : false,
 				mutationObserverSettings : {
-					childList : true
+					childList : true,
+					subtree : true
 				}
 			}, ...settings};
 
@@ -76,6 +77,21 @@ export default function querySelectorLive(selector, settings = {}) {
 					} else {
 						// notify of new node
 						observer.next(node);
+					}
+				} else {
+					if (node.querySelectorAll !== undefined) {
+						const nodes = node.querySelectorAll(selector);
+						if (nodes.length) {
+							// it's not the element itself that has been added
+							// but we will try to find any elements into the added one
+							if (settings.groupNodes) {
+								observer.next(nodes);
+							} else {
+								[].forEach.call(nodes, (elm) => {
+									observer.next(elm);
+								});
+							}
+						}
 					}
 				}
 			}

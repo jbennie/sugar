@@ -5383,3 +5383,251 @@ button {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
+
+html, body {
+  height: 100%;
+}
+
+[s-drawer-toggle] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+[s-drawer="menu"] {
+  position: fixed;
+  left: 0;
+  height: 100%;
+  width: 450px;
+  top: 0;
+  z-index: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  transition: all, 0.2s, ease-in-out, outline-color 0.000001s linear 0s;
+  outline-color: black;
+}
+
+/* actual page content pane */
+[s-drawer-content] {
+  -webkit-transform: translateX(0) translateY(0) translateZ(0);
+          transform: translateX(0) translateY(0) translateZ(0);
+  width: 100%;
+  min-height: 100vh;
+  transition: all, 0.2s, ease-in-out, outline-color 0.000001s linear 0s;
+  outline-color: black;
+  background-color: white;
+  position: relative;
+  z-index: 3;
+}
+
+[s-drawer-overlay="menu"] {
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(255, 255, 255, 0);
+  opacity: 0;
+  pointer-events: none;
+  -webkit-transform: translateX(0) translateY(0) translateZ(0);
+          transform: translateX(0) translateY(0) translateZ(0);
+  transition: all, 0.2s, ease-in-out, outline-color 0.000001s linear 0s;
+  outline-color: black;
+  z-index: 4;
+}
+
+[s-drawer-bkg="menu"] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  visibility: hidden;
+  transition: all, 0.2s, ease-in-out, outline-color 0.000001s linear 0s;
+  outline-color: black;
+}
+
+[s-drawer-toggle="menu"]:checked ~ [s-drawer-overlay="menu"] {
+  opacity: 1;
+  pointer-events: all;
+  -webkit-transform: translateX(450px) translateY(0) translateZ(0);
+          transform: translateX(450px) translateY(0) translateZ(0);
+  cursor: pointer;
+}
+
+[s-drawer-toggle="menu"]:checked ~ [s-drawer-bkg="menu"] {
+  visibility: visible;
+  z-index: 2;
+  transition: visibility 0s linear 0s, outline-color 0.000001s linear 0s;
+  outline-color: black;
+}
+
+[s-drawer-toggle="menu"]:checked ~ [s-drawer="menu"] {
+  z-index: 3;
+}
+
+[s-drawer-toggle="menu"]:checked ~ [s-drawer-content] {
+  -webkit-transform: translateX(450px) translateY(0) translateZ(0);
+          transform: translateX(450px) translateY(0) translateZ(0);
+  z-index: 3;
+}
+
+html, body {
+  height: 100%;
+}
+
+[s-drawer-toggle] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+[s-drawer="author"] {
+  position: fixed;
+  -webkit-transform: translateX(0) translateY(0) translateZ(0);
+          transform: translateX(0) translateY(0) translateZ(0);
+  left: 100%;
+  height: 100%;
+  width: 500px;
+  top: 0;
+  z-index: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  transition: all, 0.2s, ease-in-out, outline-color 0.000001s linear 0s;
+  outline-color: black;
+}
+
+/* actual page content pane */
+[s-drawer-content] {
+  -webkit-transform: translateX(0) translateY(0) translateZ(0);
+          transform: translateX(0) translateY(0) translateZ(0);
+  width: 100%;
+  min-height: 100vh;
+  transition: all, 0.2s, ease-in-out, outline-color 0.000001s linear 0s;
+  outline-color: black;
+  background-color: white;
+  position: relative;
+  z-index: 3;
+}
+
+[s-drawer-overlay="author"] {
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(255, 255, 255, 0);
+  opacity: 0;
+  pointer-events: none;
+  -webkit-transform: translateX(0) translateY(0) translateZ(0);
+          transform: translateX(0) translateY(0) translateZ(0);
+  transition: all, 0.2s, ease-in-out, outline-color 0.000001s linear 0s;
+  outline-color: black;
+  z-index: 4;
+}
+
+[s-drawer-bkg="author"] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  visibility: hidden;
+  transition: all, 0.2s, ease-in-out, outline-color 0.000001s linear 0s;
+  outline-color: black;
+}
+
+[s-drawer-toggle="author"]:checked ~ [s-drawer-overlay="author"] {
+  opacity: 1;
+  pointer-events: all;
+  -webkit-transform: translateX(-500px) translateY(0) translateZ(0);
+          transform: translateX(-500px) translateY(0) translateZ(0);
+  cursor: pointer;
+}
+
+[s-drawer-toggle="author"]:checked ~ [s-drawer-bkg="author"] {
+  visibility: visible;
+  z-index: 2;
+  transition: visibility 0s linear 0s, outline-color 0.000001s linear 0s;
+  outline-color: black;
+}
+
+[s-drawer-toggle="author"]:checked ~ [s-drawer="author"] {
+  z-index: 3;
+  -webkit-transform: translateX(-500px) translateY(0) translateZ(0);
+          transform: translateX(-500px) translateY(0) translateZ(0);
+}
+
+[s-drawer-toggle="author"]:checked ~ [s-drawer-content] {
+  -webkit-transform: translateX(-500px) translateY(0) translateZ(0);
+          transform: translateX(-500px) translateY(0) translateZ(0);
+  z-index: 3;
+}
+
+[s-drawer-bkg="menu"] {
+  background-size: cover;
+  background-image: url("../img/menu-bkg.jpg");
+}
+
+[s-drawer-bkg="author"] {
+  background-size: cover;
+  background-image: url("../img/author-bkg.jpg");
+}
+
+[s-drawer="menu"],
+[s-drawer="author"] {
+  color: white;
+  padding: 4.61538462rem;
+}
+
+[s-drawer="menu"], [s-drawer="menu"] *,
+[s-drawer="author"],
+[s-drawer="author"] * {
+  text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 5px;
+}
+
+[s-drawer="author"] {
+  padding: 6.15384615rem;
+}
+
+[s-drawer="author"], [s-drawer="author"] * {
+  color: white;
+  text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 5px;
+}
+
+[s-drawer-content] {
+  transition: outline-color 0.000001s linear 0s, -webkit-transform 0.2s ease-in-out;
+  transition: transform 0.2s ease-in-out, outline-color 0.000001s linear 0s;
+  transition: transform 0.2s ease-in-out, outline-color 0.000001s linear 0s, -webkit-transform 0.2s ease-in-out;
+  outline-color: black;
+  overflow-x: hidden;
+}
+
+[s-drawer-toggle="menu"]:checked ~ [s-drawer-content] {
+  overflow-x: hidden;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 0 4px;
+}
+
+[s-drawer-toggle="author"]:checked ~ [s-drawer-content] {
+  -webkit-transform: scaleX(0.9) scaleY(0.9) translateX(-430px);
+      -ms-transform: scaleX(0.9) scaleY(0.9) translateX(-430px);
+          transform: scaleX(0.9) scaleY(0.9) translateX(-430px);
+  box-shadow: rgba(0, 0, 0, 0.3) 0 0 50px;
+}
+
+body.s-drawer-author [data-s-drawer-content] {
+  height: 100%;
+  overflow: hidden;
+}
+
+body[class*="s-drawer-"] {
+  overflow: hidden;
+}

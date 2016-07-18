@@ -89,3 +89,74 @@ $sizes : (small,default,medium,big,bigger);
 @include s-button(
 	$colors : $colors
 );
+
+//
+// Drawer
+//
+@include s-drawer(
+	$name : 'menu',
+	$type : reveal,
+	$side : left,
+	$size : 450px);
+@include s-drawer(
+	$name : 'author',
+	$type : push,
+	$side : right,
+	$size : 500px);
+
+[s-drawer-bkg="menu"] {
+	@include s-background(
+		$url : '../img/menu-bkg.jpg',
+		$size : cover);
+}
+[s-drawer-bkg="author"] {
+	@include s-background(
+		$url : '../img/author-bkg.jpg',
+		$size : cover);
+}
+[s-drawer="menu"],
+[s-drawer="author"]
+ {
+	color: white;
+	padding:s-rem(60px);
+
+	&, * {
+		text-shadow:rgba(0,0,0,.5) 1px 1px 5px;
+	}
+}
+[s-drawer="author"] {
+	padding:s-rem(80px);
+
+	&, * {
+		color: white;
+		text-shadow:rgba(0,0,0,.5) 1px 1px 5px;
+	}
+}
+[s-drawer-content] {
+	@include s-transition(transform);
+	overflow-x: hidden;
+
+	@include s-drawer-opened('menu') {
+		// overflow: hidden;
+		// @include s-transform(-scaleX 0.9 -scaleY 0.9 -translateX 450px);
+		overflow-x: hidden;
+		box-shadow:rgba(0,0,0,.2) 0 0 4px;
+	}
+	@include s-drawer-opened('author') {
+		transform: scaleX(.9) scaleY(.9) translateX(-430px);
+		box-shadow:rgba(0,0,0,.3) 0 0 50px;
+
+		// @include s-media(-max-width 500px) {
+		// 	@include s-transform(-scaleX 0.9 -scaleY 0.9 -translateX -300px);
+		// }
+	}
+}
+body.s-drawer-author {
+	[data-s-drawer-content] {
+		height: 100%;
+		overflow: hidden;
+	}
+}
+body[class*="s-drawer-"] {
+	overflow:hidden;
+}

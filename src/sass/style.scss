@@ -13,79 +13,6 @@
 // animate css
 @include s-animate-css-classes();
 
-.coco {
-	@include s-filter(box-shadow(black 0 0 10px) blur);
-}
-
-// drawer
-@include s-drawer(
-	$name : 'menu',
-	$type : reveal,
-	$side : left,
-	$size : 450px);
-@include s-drawer(
-	$name : 'author',
-	$type : push,
-	$side : right,
-	$size : 500px);
-
-[data-s-drawer-bkg="menu"] {
-	@include s-background(
-		$url : '../img/menu-bkg.jpg',
-		$size : cover);
-}
-[data-s-drawer-bkg="author"] {
-	@include s-background(
-		$url : '../img/author-bkg.jpg',
-		$size : cover);
-}
-[data-s-drawer="menu"],
-[data-s-drawer="author"]
- {
-	color: white;
-	padding:s-rem(60px);
-
-	&, * {
-		text-shadow:rgba(0,0,0,.5) 1px 1px 5px;
-	}
-}
-[data-s-drawer="author"] {
-	padding:s-rem(80px);
-
-	&, * {
-		color: white;
-		text-shadow:rgba(0,0,0,.5) 1px 1px 5px;
-	}
-}
-[data-s-drawer-content] {
-	@include s-transition(transform);
-	overflow-x: hidden;
-
-	@include s-drawer-opened('menu') {
-		// overflow: hidden;
-		// @include s-transform(-scaleX 0.9 -scaleY 0.9 -translateX 450px);
-		overflow-x: hidden;
-		box-shadow:rgba(0,0,0,.2) 0 0 4px;	
-	}
-	@include s-drawer-opened('author') {
-		transform: scaleX(.9) scaleY(.9) translateX(-430px);
-		box-shadow:rgba(0,0,0,.3) 0 0 50px;
-
-		// @include s-media(-max-width 500px) {
-		// 	@include s-transform(-scaleX 0.9 -scaleY 0.9 -translateX -300px);
-		// }
-	}
-}
-body.s-drawer-author {
-	[data-s-drawer-content] {
-		height: 100%;
-		overflow: hidden;
-	}
-}
-body[class*="s-drawer-"] {
-	overflow:hidden;
-}
-
 //
 // Layout
 //
@@ -101,7 +28,7 @@ body {
 	color: white;
 	padding:s-space(big) 0;
 	line-height:1;
-	
+
 	h1, h2 {
 		color : s-color(white);
 	}
@@ -215,7 +142,7 @@ pre > code {
 	@include s-transition();
 
 	&:hover {
-	
+
 		.round-menu__item {
 			&:nth-child(1) {
 				@include s-translate(-70px,-20px);
@@ -235,7 +162,7 @@ pre > code {
 	.round-menu__item {
 		position: absolute;
 		top:10px; left:10px;
-		transition : all .4s cubic-bezier(0.64, 0.57, 0.67, 1.53) !important;		
+		transition : all .4s cubic-bezier(0.64, 0.57, 0.67, 1.53) !important;
 	}
 
 	.round-menu__toggle-button,
@@ -321,7 +248,7 @@ pre > code {
 .motion-box {
 	width:100px; height:100px;
 	background: red;
-	
+
 	background: url(http://graph.facebook.com/622487880/picture?type=large) no-repeat 50% 50%;
 	background-size: cover;
 	position: relative;
@@ -396,7 +323,7 @@ pre > code {
 			float: left;
 			margin: 0 40px 0 0;
 			position:relative;
-			
+
 			width: 600px;
 			@include s-ratio(16/9);
 
@@ -629,7 +556,7 @@ strong {
 		border-width : 2px
 	);
 
-	
+
 
 	&.bubble-top-left {
 		@include s-bubble(map-merge($bubble, (

@@ -63,35 +63,18 @@ export default class SBinder {
 
 			// console.error('_digestsMutation', this._digestsMutation, attrName);
 			if (this._digestsMutation[attrName]) return;
-
-			// console.warn('CHECK value', newVal, oldVal);
-
 			if (newVal === oldVal) return;
-
-			// console.error('path', path, 'has been updated to', newVal)
-			// console.log(this._bindStack.obj2attr);
 
 			// loop on all attributes to update
 			// console.log(`${object._sBinderId}:${path}`, this._bindStack.obj2attr);
 			for (const attrName in this._bindStack.obj2attr[`${object._sBinderId}:${path}`]) {
 				const watch = this._bindStack.obj2attr[`${object._sBinderId}:${path}`][attrName];
 
-				// console.warn('WATCH', attrName, watch);
-
 				if (this._digestsMutation[watch.attrName]) continue;
 				this._digestsMutation[watch.attrName] = true;
 
-				// console.error('try to update the attribute', watch.attrName, 'with value', newVal);
-
-
 				// update the attribute
 				watch.elm.setAttribute(__uncamelize(watch.attrName), newVal);
-
-				// reset the digest process in the next loop
-				// setTimeout(() => {
-				// 	this._digests[attrName] = false;
-				// });
-
 			}
 		});
 	}
@@ -117,11 +100,6 @@ export default class SBinder {
 				// console.warn('mutation', mutation.attributeName);
 
 				this._digestsMutation[mutation.attributeName] = true;
-
-				// if the element has not the attribute yet
-				// if ( this.elm.getAttribute(mutation.attributeName) === undefined) {
-				// 	console.log('new attribute', mutation.attributeName);
-				// }
 
 				// set the value
 				// this.attr[camelName] = mutation.target.getAttribute(mutation.attributeName);
@@ -157,8 +135,6 @@ export default class SBinder {
 			subtree : false,
 			attributeOldValue : true,
 			characterDataOldValue : true
-			// addedNodes: false,
-			// attributeName: true,
 		});
 	}
 

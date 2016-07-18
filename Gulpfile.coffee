@@ -44,7 +44,8 @@ webpackParams =
 
 webpackAppParams = _.extend {}, webpackParams,
 	entry: {
-		'angular-demo': ['./src/js/angular-demo.js']
+		'angular-demo': ['./src/js/angular-demo.js'],
+		'coco': ['./src/js/coco.js']
 	}
 	output:
 		path: require("path").resolve("./assets/js"),

@@ -15,9 +15,9 @@
 @mixin s-drawer-opened(
 	$name
 ) {
-	$drawer-toggle-sel : '[data-s-drawer-toggle]';
+	$drawer-toggle-sel : '[s-drawer-toggle]';
 	@if $name {
-		$drawer-toggle-sel : '[data-s-drawer-toggle="#{$name}"]';
+		$drawer-toggle-sel : '[s-drawer-toggle="#{$name}"]';
 	}
 	#{$drawer-toggle-sel}:checked ~ & {
 		@content;
@@ -34,7 +34,7 @@
 
 	// pass in component context
 	@include s-component-context('drawer') {
-	
+
 		@if $_sugar-test-arguments {
 			$name : s-test-argument('s-drawer','name',string,$name);
 			$size : s-test-argument('s-drawer','size',number,$size);
@@ -46,26 +46,26 @@
 			height: 100%;
 		}
 
-		[data-s-drawer-toggle] {
+		[s-drawer-toggle] {
 			position: fixed;
 			top:0; left:0;
 			opacity: 0;
 		}
 
-		$drawer-sel : '[data-s-drawer]';
-		$drawer-overlay-sel : '[data-s-drawer-overlay]';
-		$drawer-toggle-sel : '[data-s-drawer-toggle]';
-		$drawer-bkg-sel : '[data-s-drawer-bkg]';
+		$drawer-sel : '[s-drawer]';
+		$drawer-overlay-sel : '[s-drawer-overlay]';
+		$drawer-toggle-sel : '[s-drawer-toggle]';
+		$drawer-bkg-sel : '[s-drawer-bkg]';
 		@if $name {
-			$drawer-sel : '[data-s-drawer="#{$name}"]';
-			$drawer-overlay-sel : '[data-s-drawer-overlay="#{$name}"]';
-			$drawer-toggle-sel : '[data-s-drawer-toggle="#{$name}"]';
-			$drawer-bkg-sel : '[data-s-drawer-bkg="#{$name}"]';
+			$drawer-sel : '[s-drawer="#{$name}"]';
+			$drawer-overlay-sel : '[s-drawer-overlay="#{$name}"]';
+			$drawer-toggle-sel : '[s-drawer-toggle="#{$name}"]';
+			$drawer-bkg-sel : '[s-drawer-bkg="#{$name}"]';
 		}
 
 		#{$drawer-sel} {
 			position: fixed;
-			
+
 			@if $side == left {
 				@if $type == push or $type == slide {
 					@if $method == translate {
@@ -127,7 +127,7 @@
 			@include s-transition();
 		}
 		/* actual page content pane */
-		[data-s-drawer-content] {
+		[s-drawer-content] {
 			@include s-translate(0,0);
 			width: 100%; min-height:100vh;
 			@include s-transition();
@@ -239,7 +239,7 @@
 			}
 		}
 
-		#{$drawer-toggle-sel}:checked ~ [data-s-drawer-content] {
+		#{$drawer-toggle-sel}:checked ~ [s-drawer-content] {
 			@if $type != slide {
 				@if $side == left {
 					@if $method == translate {
