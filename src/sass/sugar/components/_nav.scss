@@ -20,8 +20,7 @@ $_s-nav-inited : false;
 	}
 }
 
-@mixin s-nav-inline(
-) {
+@mixin s-nav-inline-bare() {
 	// init nav
 	@include s-nav-init();
 
