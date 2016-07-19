@@ -58,7 +58,7 @@ export default class SElement extends SObject {
 
 		// bind all the attributes
 		[].forEach.call(this.elm.attributes, (attr) => {
-			this.attr[__camelize(attr.name)] = attr.value;
+			this.attr[__camelize(attr.name)] = __autoCast(attr.value);
 			this.binder.bindObjectPath2ElementAttribute(this, `attr.${__camelize(attr.name)}`, this.elm, attr.name);
 		});
 
@@ -105,7 +105,7 @@ export default class SElement extends SObject {
 			case 'select':
 				this.elm.addEventListener('change', (e) => {
 					// set the attribute
-					this.attr.value = e.target.value;
+					this.attr.value = __autoCast(e.target.value);
 				});
 			break;
 		}

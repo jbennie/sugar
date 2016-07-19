@@ -105,7 +105,7 @@ export default class SComponent extends SElement {
 			} else if (typeof(setting) === 'string' && setting.substr(0,1) === '@') {
 				// set the setting to the attribute value
 				const attrName = setting.substr(1);
-				let attrValue = this.elm.getAttribute(attrName);
+				let attrValue = __autoCast(this.elm.getAttribute(attrName));
 
 				// if the element has not the requested linked attribute, we set it
 				if ( ! attrValue) {
@@ -130,7 +130,7 @@ export default class SComponent extends SElement {
 					this.binder.bindObjectPath2ElementAttribute(this, `attr.${attrName}`, this.elm, settingCamelName);
 				}
 			} else {
-				const settingAttrValue = this.elm.getAttribute(settingAttrName);
+				const settingAttrValue = __autoCast(this.elm.getAttribute(settingAttrName));
 				if (settingAttrValue !== null) {
 					this.settings[settingName] = settingAttrValue;
 				}

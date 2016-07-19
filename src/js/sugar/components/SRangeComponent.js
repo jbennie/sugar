@@ -34,9 +34,9 @@ class SRangeComponent extends SComponent {
 	constructor(elm, settings = {}) {
 		super('sRange', elm, {
 			start : 0,
-			end : 100,
-			min : 0,
-			max : 100,
+			end : null,
+			min : null,
+			max : null,
 			step : null,
 			margin : null,
 			limit : null,
@@ -90,10 +90,13 @@ class SRangeComponent extends SComponent {
 			orientation : this.settings.orientation,
 			direction : this.settings.direction,
 			range : {
-				min : this.settings.min,
-				max : this.settings.max
+				min : this.settings.min || this.settings.start || 0,
+				max : this.settings.max || this.settings.end || 100
 			}
 		};
+
+		console.log(args);
+
 		if (this.settings.margin) {
 			args.margin = this.settings.margin;
 		}

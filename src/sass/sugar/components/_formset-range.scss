@@ -391,8 +391,8 @@ $_s-formset-range-inited : false;
 						$border-width : 0,
 						$border-color : null
 					);
-					@include s-depth(3, s-color($color, -opacity .3));
-					color: s-color($color);
+					@include s-depth(3, rgba(0,0,0,.3));
+					color: s-color(text);
 				}
 			}
 		}
