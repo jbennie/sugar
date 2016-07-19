@@ -128,7 +128,7 @@ $_s-formset-advanced-select-inited : false;
 @mixin s-formset-advanced-select-style(
 	$colors : s-setting('components.formset.generate.colors')
 ) {
-	@include s-formset-advanced-select-bare();
+	@include s-formset-advanced-select-init();
 
 	.s-select {
 		background-color: white;

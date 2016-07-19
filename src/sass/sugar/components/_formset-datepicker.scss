@@ -220,16 +220,25 @@ $_s-formset-datepicker-inited : false;
 		}
 	}
 }
-@mixin s-formset-datepicker(
-	$colors : s-setting('components.formset.generate.colors')
-) {
-	@include s-formset-datepicker-init();
 
-	// clear child float (pika-lendar), using the famous micro clearfix hack
-	// http://nicolasgallagher.com/micro-clearfix-hack/
+@mixin s-formset-datepicker(
+	$colors : s-settings('components.formset.generate.colors')
+) {
+	@include s-formset-datepicker-bare();
+	@include s-formset-datepicker-style($colors);
+}
+
+@mixin s-formset-datepicker-bare() {
+	@include s-formset-datepicker-init();
 	.pika-single {
 		@extend %pika-single;
 	}
+}
+
+@mixin s-formset-datepicker-style(
+	$colors : s-setting('components.formset.generate.colors')
+) {
+	@include s-formset-datepicker-init();
 
 	@each $color in $colors {
 

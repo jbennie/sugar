@@ -31,7 +31,7 @@ $_s-formset-fieldset-inited : false;
 
 	@if $_sugar-test-arguments {
 		$sizes : s-test-argument('s-formset-fieldset','sizes',map-keys(sugar('settings.sizes')),$sizes);
-		$colors : s-test-argument('s-formset-fieldset','colors',map-keys(sugar('settings.colors')),$colors);
+		// $colors : s-test-argument('s-formset-fieldset','colors',map-keys(sugar('settings.colors')),$colors);
 	}
 
 	// pass in the component context

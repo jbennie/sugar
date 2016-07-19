@@ -14,7 +14,7 @@ $_s-dropdown-inited : false;
 		$_s-dropdown-inited : true !global;
 		%s-dropdown-bare {
 			position: relative;
-			
+
 			&:hover,
 			&.active,
 			#{s-selector((
@@ -65,7 +65,7 @@ $_s-dropdown-inited : false;
 		}
 
 		%s-dropdown-style {
-			
+
 			#{s-selector((
 				BEM : '.dropdown__menu',
 				SMACCS : '.dropdown-menu'
@@ -125,10 +125,10 @@ $_s-dropdown-inited : false;
 ) {
 	// init dropdown
 	@include s-dropdown-init();
-	
+
 	@if $_sugar-test-arguments {
 		$sizes : s-test-argument('s-nav-tabs','sizes',map-keys(sugar('settings.sizes')),$sizes);
-		$color : s-test-argument('s-nav-tabs','colors',map-keys(sugar('settings.colors')),$colors);
+		// $color : s-test-argument('s-nav-tabs','colors',map-keys(sugar('settings.colors')),$colors);
 		$bare : s-test-argument('s-nav-tabs','bare',boolean,$bare);
 	}
 
@@ -154,7 +154,7 @@ $_s-dropdown-inited : false;
 				}
 			}
 		}
-		
+
 		// generate each sizes
 		@each $size in $sizes {
 			// extend dropdown
@@ -207,14 +207,14 @@ $_s-dropdown-inited : false;
 ) {
 	// init dropdown
 	@include s-dropdown-init();
-		
+
 	@if $_sugar-test-arguments {
 		$sizes : s-test-argument('s-nav-tabs','sizes',map-keys(sugar('settings.sizes')),$sizes);
 	}
 
 	// pass in component context
 	@include s-component-context('dropdown') {
-	
+
 		// base
 		.dropup {
 			@extend %s-dropdown-bare;
@@ -262,6 +262,6 @@ $_s-dropdown-inited : false;
 					padding: s-look-and-feel(padding-vertical, $size) s-look-and-feel(padding-horizontal, $size);
 				}
 			}
-		}	
-	}	
+		}
+	}
 }

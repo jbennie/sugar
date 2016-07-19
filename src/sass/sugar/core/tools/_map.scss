@@ -32,6 +32,23 @@
 	@return $values;
 }
 
+@function map-get-path(
+	$map,
+	$path,
+	$default : null
+) {
+	$parts : _split($path,'.');
+	$value : $map;
+	@each $part in $parts {
+		$newValue : map-get($value, $part);
+		@if not $newValue {
+			@return $default;
+		}
+		$value : $newValue;
+	}
+	@return $value;
+}
+
 //
 // Map get or
 // This will try to get the elements in map by index order

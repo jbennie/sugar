@@ -1,8 +1,7 @@
 @include s-component-setup((
 	button : (
 		generate : (
-			colors : default primary secondary success warning error info,
-			sizes : default
+			colors : default primary secondary success warning error info
 		)
 	)
 ));
@@ -25,23 +24,16 @@ $_s-button-inited : false;
 }
 
 @mixin s-button(
-	$sizes : sugar('settings.components.button.generate.sizes'),
 	$colors : sugar('settings.components.button.generate.colors')
 ) {
-	@include s-button-bare($sizes);
+	@include s-button-bare();
 	@include s-button-style($colors);
 }
 
 @mixin s-button-bare(
-	$sizes : sugar('settings.components.button.generate.sizes')
 ) {
 	// init dropdown
 	@include s-button-init();
-
-	// parse properties
-	@if $_sugar-test-arguments {
-		$sizes : s-test-argument('s-button','sizes',map-keys(sugar('settings.sizes')),$sizes);
-	}
 
 	// pass in component context
 	@include s-component-context('button') {
@@ -80,7 +72,8 @@ $_s-button-inited : false;
 
 	// parse properties
 	@if $_sugar-test-arguments {
-		$colors : s-test-argument('s-button-style','colors',map-keys(sugar('settings.colors')),$colors);
+		// @TODO find a solution to check the colors properties
+		// $colors : s-test-argument('s-button-style','colors',map-keys(sugar('settings.colors')),$colors);
 	}
 
 	// pass in component context

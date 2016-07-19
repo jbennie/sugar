@@ -208,56 +208,27 @@ $_sugar-settings-cache : ();
 	// check in cache
 	$cache : map-get($_sugar-settings-cache, $path);
 	@if $cache {
-		// check if is a number and need a special unit context
-		// @if type-of($cache) == number and not unitless($cache) and s-unit-context() {
-		// 	// @return $cache;
-		// 	@return s-convert($cache, s-unit-context());
-		// } @else {
 		@return $cache;
-		// }
 	}
 
-	// do not have any cache
-	$parts : _split($path, '.');
-	$length : length($parts);
-	$idx : 0;
-	$value : $_sugar-settings;
-	@each $part in $parts {
-		$idx : $idx + 1;
-		$value : map-get($value, $part);
-		// protect
-		@if not $value {
-			// check if a component is specified
-			@if $component {
-				// try to get the non component version of the setting
-				// @debug('not found #{$path}, trying #{$base_path}');
-				$val : s-setting($base_path, default);
-				@return $val;
-			} @else {
-				@return null;
-			}
-		}
+	$value : map-get-path($_sugar-settings, $path);
 
-		@if $idx == $length {
+	@if not $value and $component {
+		// try to get the value from the base component
+		$value : s-setting($base_path, default);
+	}
 
-			// convert to pixels if possible
-			@if type-of($value) == number and not unitless($value) {
-				@if unit($value) == px or unit($value) == pt or unit($value) == rem {
-					$value : s-convert($value);
-				} @else {
-					@return $value;
-				}
-			}
-			$_sugar-settings-cache : map-set($_sugar-settings-cache, $path, $value) !global;
-			@return $value;
-			// check if is a number and need a special unit context
-			// @if type-of($value) == number and not unitless($value) and s-unit-context() {
-			// 	@return s-convert($value, s-unit-context());
-			// } @else {
-			// 	@return $value;
-			// }
+	@if type-of($value) == number and not unitless($value) {
+		@if unit($value) == px or unit($value) == pt or unit($value) == rem {
+			$value : s-convert($value);
 		}
 	}
+
+	// save the value in cache
+	$_sugar-settings-cache : map-set($_sugar-settings-cache, $path, $value) !global;
+
+	// return the value
+	@return $value;
 }
 
 
@@ -273,16 +244,16 @@ $_sugar-settings-cache : ();
 		@return s-color($name, s-dash-to-map($actions));
 	}
 
-	// grab the colors
-	$colors : sugar('settings.colors');
-
 	// test parameters
 	@if $_sugar-test-arguments {
 		$name : s-test-argument('s-color','name','color|string',$name);
 		$actions : s-test-argument('s-color','actions','map|string',$actions);
 	}
 
-	$color : map-get($colors, $name);
+	// grab the colors
+	$colors : sugar('settings.colors');
+	$color : sugar('settings.colors.#{$name}');
+
 	$modifiers : null;
 
 	// check that we have the color

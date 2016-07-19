@@ -109,7 +109,7 @@ $_s-nav-inited : false;
 	@include s-nav-init();
 
 	@if $_sugar-test-arguments {
-		$colors : s-test-argument('s-nav-tabs','colors',map-keys(sugar('settings.colors')),$colors);
+		// $colors : s-test-argument('s-nav-tabs','colors',map-keys(sugar('settings.colors')),$colors);
 	}
 
 	// pass in component context

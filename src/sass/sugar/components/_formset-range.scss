@@ -257,7 +257,7 @@ $_s-formset-range-inited : false;
 
 	// parse properties
 	@if $_sugar-test-arguments {
-		$colors : s-test-argument('s-formset-range-style','colors',map-keys(sugar('settings.colors')),$colors);
+		// $colors : s-test-argument('s-formset-range-style','colors',map-keys(sugar('settings.colors')),$colors);
 	}
 
 	// pass in the component context

@@ -77,7 +77,7 @@ $_s-formset-radiobox-inited : false;
 
 	// parse properties
 	@if $_sugar-test-arguments {
-		$colors : s-test-argument('s-formset-radiobox-style','colors',map-keys(sugar('settings.colors')),$colors);
+		// $colors : s-test-argument('s-formset-radiobox-style','colors',map-keys(sugar('settings.colors')),$colors);
 	}
 
 	// pass in the component context
