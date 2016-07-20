@@ -36,7 +36,7 @@ $_sugar-inited : false;
 		[data-s-activate] {
 			@include s-domnodeinserted();
 		}
-		
+
 		// check settings
 		$base-font-family : sugar('settings.typo.font-family');
 		$fonts : sugar('settings.fonts');
@@ -57,16 +57,16 @@ $_sugar-inited : false;
 		html {
 			$base-font-size : sugar('settings.typo.font-size');
 			$base-font-sizes : sugar('settings.typo.font-sizes');
-			font-size: $base-font-size;
+			font-size: s-Px($base-font-size);
 			@if type-of($base-font-sizes) == map {
 				@each $size, $media in $base-font-sizes {
 					@include s-media($media...) {
-						font-size: $size;
+						font-size: s-Px($size);
 					}
-				} 
+				}
 			}
 			// try to get the font family from fonts
-			@include s-font(sugar('settings.typo.font-family'));	
+			@include s-font(sugar('settings.typo.font-family'));
 		}
 
 		// default color
@@ -103,6 +103,6 @@ $_sugar-inited : false;
 // 	$settings = $_sugar-settings;
 
 // 	// loop on each colors
-	
+
 
 // }
