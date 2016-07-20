@@ -72,8 +72,8 @@ $_s-formset-datepicker-inited : false;
 				margin: 0;
 				padding : s-lnf(padding-horizontal) s-lnf(padding-vertical);
 				//padding: 5px 3px;
-				font-size: s-lnf(font-size);
-				line-height: s-lnf(font-size);
+				font-size: 1em;
+				line-height: 1em;
 				// line-height: 20px;
 				font-weight: bold;
 				color: s-color(text);
@@ -145,8 +145,8 @@ $_s-formset-datepicker-inited : false;
 
 				th {
 					color: s-color(text);
-					font-size: s-lnf(font-size);
-					line-height: s-lnf(font-size) * 2;
+					font-size: 1em;
+					line-height: 2em;
 					// line-height: 25px;
 					font-weight: bold;
 					text-align: center;

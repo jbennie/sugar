@@ -121,7 +121,7 @@ $_s-formset-range-inited : false;
 			display: inline-block;
 			pointer-events:none;
 			font-size:1rem !important;
-			font-size:s-lnf(font-size);
+			// font-size:s-lnf(font-size);
 			padding:s-lnf(padding-horizontal) s-lnf(padding-vertical);
 			border-radius: s-lnf(border-radius);
 		}
@@ -139,7 +139,8 @@ $_s-formset-range-inited : false;
 		}
 
 		@include s-formset-range-style-handle-value() {
-			font-size:s-lnf(font-size) / 2;
+			// font-size:s-lnf(font-size) / 2;
+			font-size: 0.6em;
 		}
 		@include s-formset-range-style-handle-value(active) {
 			font-size:0;

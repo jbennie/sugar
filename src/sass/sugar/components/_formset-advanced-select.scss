@@ -76,7 +76,7 @@ $_s-formset-advanced-select-inited : false;
 	.s-select__search-field {
 		border-radius: s-lnf(border-radius);
 		padding: s-lnf(padding-horizontal) s-lnf(padding-vertical);
-		font-size: s-lnf(font-size);
+		// font-size: s-lnf(font-size);
 	}
 
 	.s-select.input {
@@ -105,7 +105,7 @@ $_s-formset-advanced-select-inited : false;
 		}
 		.s-select__selection-tag {
 			border-radius:s-lnf(border-radius);
-			font-size: s-lnf(font-size) * .8;
+			font-size: 0.8em;
 			margin-right: s-lnf(padding-vertical) / 2;
 			margin-top: $padding / 2;
 			margin-bottom: $padding / 2;

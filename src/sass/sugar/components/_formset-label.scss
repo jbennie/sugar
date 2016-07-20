@@ -63,13 +63,13 @@
 		))} {
 			> span {
 				padding : 0 s-lnf(padding-vertical);
-				line-height: s-lnf(font-size) + s-lnf(padding-horizontal) * 2;
-				height: s-lnf(font-size) + s-lnf(padding-horizontal) * 2;
+				line-height: 1em + s-lnf(padding-horizontal) * 2;
+				height: 1em + s-lnf(padding-horizontal) * 2;
 			}
 		}
 
 		.label {
-			font-size: s-lnf(font-size);
+			// font-size: 1em;
 			display: inline-block;
 			vertical-align: middle;
 			position: relative;

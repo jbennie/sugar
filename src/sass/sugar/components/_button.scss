@@ -46,10 +46,9 @@ $_s-button-inited : false;
 		}
 
 		.btn {
-			font-size : s-lnf(font-size);
 			border-radius: s-lnf(border-radius);
 			padding : s-lnf(padding-horizontal) s-lnf(padding-vertical);
-			height: s-lnf(font-size) + s-lnf(padding-horizontal) * 2;
+			height: 1em + s-lnf(padding-horizontal) * 2;
 		}
 
 		// block

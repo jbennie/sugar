@@ -77,7 +77,7 @@ $_s-nav-inited : false;
 				SMACCS : '.nav-item'
 			))} {
 
-				font-size : s-lnf(font-size);
+				// font-size : s-lnf(font-size);
 				@include s-corner(
 					$top-left : s-lnf(border-radius),
 					$top-right : s-lnf(border-radius)

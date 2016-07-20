@@ -50,8 +50,8 @@ $_s-formset-fieldset-inited : false;
 
 		.legend {
 			// @include s-translate(0 50%);
-			font-size : s-look-and-feel(font-size);
-			padding: s-look-and-feel(padding-horizontal) s-look-and-feel(padding-vertical);
+			// font-size : s-lnf(font-size);
+			padding: s-lnf(padding-horizontal) s-lnf(padding-vertical);
 		}
 
 		// generate each sizes

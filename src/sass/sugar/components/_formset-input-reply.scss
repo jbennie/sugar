@@ -27,12 +27,11 @@
 
 		.input-reply {
 			padding: s-lnf(padding-horizontal) s-lnf(padding-vertical);
-			font-size: s-lnf(font-size);
 
 			@include s-vertical-rhythme {
 				.label .label + &,
 				label label + & {
-					margin-top: round(s-lnf(font-size));
+					margin-top: 1em;
 				}
 			}
 		}
