@@ -15,7 +15,6 @@ $_s-button-inited : false;
 			border: none;
 			cursor: pointer;
 			outline-width:0;
-			@include s-font(sugar('settings.typo.font-family') center);
 			-webkit-appearance: none;
 			line-height: 1;
 			text-decoration: none;
