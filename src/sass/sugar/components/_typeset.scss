@@ -402,34 +402,20 @@
 
 @mixin s-typeset-decorators(
 ) {
+
+	$sizes : sugar('settings.sizes');
+
 	// pass in component context
 	@include s-component-context('typeset') {
 
 		$typeset : sugar('settings.scope-class');
-		.smaller,
-		.#{$typeset} smaller#{s-no-typeset()} {
-			font-size: 0.5em;
-			line-height: 0.5em;
-		}
- 		.small,
-		.#{$typeset} small#{s-no-typeset()} {
-			font-size: 0.75em;
-			line-height: 0.75em;
-		}
-		.medium,
-		.#{$typeset} medium#{s-no-typeset()} {
-			font-size: 1.25em;
-			line-height: 1.25em;
-		}
-		.big,
-		.#{$typeset} big#{s-no-typeset()} {
-			font-size: 1.5em;
-			line-height: 1.5em;
-		}
-		.bigger,
-		.#{$typeset} bigger#{s-no-typeset()} {
-			font-size: 1.75em;
-			line-height: 1.75em;
+
+		// sizes
+		@each $size, $value in $sizes {
+			.#{$size},
+			.#{$typeset} #{$size}#{s-no-typeset()} {
+				font-size: s-lnf(font-size, $size);
+			}
 		}
 		.strong,
 		.#{$typeset} strong#{s-no-typeset()} {
