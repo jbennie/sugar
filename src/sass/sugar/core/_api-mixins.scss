@@ -150,8 +150,8 @@ $_sugar-classes-inited : false;
 		}
 
 		$vertical-rhythme-scope : sugar('settings.vertical-rhythme.scope-class');
-		$spaces : sugar('settings.sizes');
-		@each $name, $space in $spaces {
+		$sizes : sugar('settings.sizes');
+		@each $name, $size in $sizes {
 			$cname : 'm-b-#{$name}';
 			@if $name == 'default' {
 				$cname : 'm-b';
@@ -161,10 +161,6 @@ $_sugar-classes-inited : false;
 				$namespace : 'sugar.margin.bottom.#{$name}'
 			) {
 				margin-bottom : s-space($name);
-				.#{$vertical-rhythme-scope} &:not(.not-#{$vertical-rhythme-scope}),
-				&.#{$vertical-rhythme-scope}:not(.not-#{$vertical-rhythme-scope}) {
-					margin-bottom : round(s-space($name));
-				}
 			}
 			$cname : 'm-t-#{$name}';
 			@if $name == 'default' {
@@ -175,10 +171,6 @@ $_sugar-classes-inited : false;
 				$namespace : 'sugar.margin.top.#{$name}'
 			) {
 				margin-top : s-space($name);
-				.#{$vertical-rhythme-scope} &:not(.not-#{$vertical-rhythme-scope}),
-				&.#{$vertical-rhythme-scope}:not(.not-#{$vertical-rhythme-scope}) {
-					margin-top : round(s-space($name));
-				}
 			}
 			$cname : 'm-l-#{$name}';
 			@if $name == 'default' {
