@@ -18,6 +18,9 @@
 @function s-px($value) {
 	@return s-convert($value, px);
 }
+@function s-Px($value) {
+	@return unquote("#{s-strip-units(s-px($value))}Px");
+}
 @function s-pt($value) {
 	@return s-convert($value, pt);
 }
@@ -35,7 +38,7 @@
 $_s-font-size : null;
 @function s-convert(
 	$value,
-	$convertUnit : null	
+	$convertUnit : null
 ){
 	// get the unit
 	$unit : null;
@@ -144,7 +147,7 @@ $_s-font-size : null;
 		// pt => px
 		} @else if $convertUnit == px {
 			@return $value * 1.3333 + 0px;
-		// pt => pt		
+		// pt => pt
 		} @else if $convertUnit == pt {
 			@return $value + 0pt;
 		} @else {
