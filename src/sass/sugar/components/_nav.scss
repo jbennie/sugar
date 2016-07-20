@@ -20,6 +20,34 @@ $_s-nav-inited : false;
 	}
 }
 
+@mixin s-nav-justify-bar() {
+	// init nav
+	@include s-nav-init();
+
+	@include s-component-context('nav') {
+		#{s-selector((
+			BEM : '.nav.nav--justify',
+			SMACCS : '.nav.nav-justify'
+		))} {
+			@extend %s-nav-bare;
+			display: table;
+			width: 100%;
+
+			> li,
+			> #{s-selector((
+				BEM : '.nav__item',
+				SMACCS : '.nav-item'
+			))} {
+				display: table-cell;
+				vertical-align: middle;
+				padding-left: s-lnf(padding-vertical);
+				padding-right: s-lnf(padding-vertical);
+				text-align: center;
+			}
+		}
+	}
+}
+
 @mixin s-nav-inline-bare() {
 	// init nav
 	@include s-nav-init();
@@ -31,6 +59,7 @@ $_s-nav-inited : false;
 			SMACCS : '.nav.nav-inline'
 		))} {
 			@extend %s-nav-bare;
+			display: block;
 
 			> li,
 			> #{s-selector((
