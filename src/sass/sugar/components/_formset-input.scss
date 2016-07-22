@@ -10,6 +10,22 @@
 	}
 }
 
+@mixin s-formset-input-field-bare() {
+	@include s-formset-init();
+	@extend %s-formset-input-bare;
+	@include s-formset-input-size();
+}
+
+@mixin s-formset-input-field-style(
+	$color : null
+) {
+	@include s-formset-init();
+	@extend %s-formset-input-style;
+	@if ($color) {
+		@include s-formset-input-color();
+	}
+}
+
 @mixin s-formset-input(
 	$colors : sugar('settings.components.formset.generate.colors')
 ) {
