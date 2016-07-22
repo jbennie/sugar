@@ -64,7 +64,7 @@ $not : ':not([type="checkbox"]):not([type="radio"]):not(.noUi-target)';
 		}
 		// textarea styling
 		textarea.input {
-			@include s-formset-textarea-size();
+			@include s-textarea-size();
 
 			// vertical rhythme
 			@include s-vertical-rhythme {
@@ -125,7 +125,7 @@ $not : ':not([type="checkbox"]):not([type="radio"]):not(.noUi-target)';
 					'.color--#{$color} select.input'
 				)
 			))} {
-				@include s-formset-select-color($color);
+				@include s-select-color($color);
 			}
 		}
 	}
