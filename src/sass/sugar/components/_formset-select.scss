@@ -10,7 +10,7 @@
 ) {
 	@include s-formset-init();
 	@extend %s-input-style;
-	@extend %s-select-style;
+	// @extend %s-select-style;
 	@if $color {
 		@include s-input-color($color);
 		@include s-select-color($color);
@@ -23,7 +23,7 @@
 	@include s-formset-init();
 	@extend %s-input-bare;
 	@extend %s-input-style;
-	@extend %s-select-style;
+	// @extend %s-select-style;
 	@include s-input-size();
 	@if ($color) {
 		@include s-input-color($color);
