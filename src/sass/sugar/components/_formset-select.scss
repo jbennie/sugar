@@ -23,7 +23,8 @@
 	@include s-formset-init();
 	@extend %s-input-bare;
 	@extend %s-input-style;
-	// @extend %s-select-style;
+	@extend %s-select-bare;
+	//	 @extend %s-select-style;
 	@include s-input-size();
 	@if ($color) {
 		@include s-input-color($color);
