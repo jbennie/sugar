@@ -1,7 +1,11 @@
 @mixin s-select-bare() {
 	@include s-formset-init();
 	@extend %s-input-bare;
-	@extend %s-select-bare;
+	// @extend %s-select-bare;
+	background-size: 9px 6px;
+	background-position: right center;
+	background-origin: content-box;
+	background-repeat: no-repeat;
 	@include s-input-size();
 }
 
