@@ -2,8 +2,8 @@
 	$color : null
 ) {
 	@include s-formset-init();
-	@extend %s-formset-input-bare;
-	@extend %s-formset-input-style;
+	@extend %s-input-bare;
+	@extend %s-input-style;
 	@include s-input-size();
 	@if ($color) {
 		@include s-input-color($color);
@@ -12,7 +12,7 @@
 
 @mixin s-input-bare() {
 	@include s-formset-init();
-	@extend %s-formset-input-bare;
+	@extend %s-input-bare;
 	@include s-input-size();
 }
 
@@ -20,7 +20,7 @@
 	$color : null
 ) {
 	@include s-formset-init();
-	@extend %s-formset-input-style;
+	@extend %s-input-style;
 	@if ($color) {
 		@include s-input-color();
 	}
@@ -44,7 +44,7 @@ $not : ':not([type="checkbox"]):not([type="radio"]):not(.noUi-target)';
 	@include s-component-context('formset') {
 
 		input.input#{$not} {
-			@extend %s-formset-input-bare;
+			@extend %s-input-bare;
 		}
 		textarea.input {
 			height: auto !important;
@@ -85,10 +85,10 @@ $not : ':not([type="checkbox"]):not([type="radio"]):not(.noUi-target)';
 	@include s-component-context('formset') {
 
 		input.input#{$not} {
-			@extend %s-formset-input-style;
+			@extend %s-input-style;
 		}
 		select.input {
-			@extend %s-formset-select-style;
+			@extend %s-select-style;
 		}
 
 		// generate each colors
