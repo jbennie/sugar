@@ -49,11 +49,12 @@ $_s-formset-inited : false;
 			}
 		}
 		%s-select-style {
+		}
+		%s-select-bare {
 			background-size: 9px 6px;
 			background-position: right center;
 			background-origin: content-box;
 			background-repeat: no-repeat;
-			border-radius: 0;
 		}
 	}
 }

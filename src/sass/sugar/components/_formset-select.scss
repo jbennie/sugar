@@ -1,3 +1,22 @@
+@mixin s-select-bare() {
+	@include s-formset-init();
+	@extend %s-input-bare;
+	@extend %s-select-bare;
+	@include s-input-size();
+}
+
+@mixin s-select-style(
+	$color : null
+) {
+	@include s-formset-init();
+	@extend %s-input-style;
+	@extend %s-select-style;
+	@if $color {
+		@include s-input-color($color);
+		@include s-select-color($color);
+	}
+}
+
 @mixin s-select(
 	$color : default
 ) {
