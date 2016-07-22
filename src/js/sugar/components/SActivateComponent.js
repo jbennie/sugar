@@ -137,6 +137,7 @@ class SActivateComponent extends SComponent {
 
 		// listen for click
 		this.elm.addEventListener(this.settings.trigger, (e) => {
+			if (e.target !== this.elm) return;
 			e.preventDefault();
 			// clear unactivate timeout
 			clearTimeout(this._unactivateSetTimeout);
