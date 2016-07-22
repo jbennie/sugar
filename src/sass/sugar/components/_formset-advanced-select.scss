@@ -99,7 +99,7 @@ $_s-formset-advanced-select-inited : false;
 			padding: s-lnf(padding-horizontal) s-lnf(padding-vertical);
 		}
 		.s-select__search-field {
-			@include s-formset-input-size();
+			@include s-input-size();
 			border-radius: s-lnf(border-radius);
 		}
 		.s-select__selection-tag {
