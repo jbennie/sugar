@@ -51,7 +51,6 @@ class SRangeComponent extends SComponent {
 
 		// init
 		this.initProxy(this._init.bind(this));
-		// this._init();
 	}
 
 	/**

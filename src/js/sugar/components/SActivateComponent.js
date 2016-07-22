@@ -55,16 +55,14 @@ class SActivateComponent extends SComponent {
 		this._tabs = {};
 
 		// init
-		this.init();
+		this.initProxy(this.init.bind(this));
 	}
 
 	/**
 	 * Init
 	 */
 	init() {
-		if (this.inited) {
-			return;
-		}
+		if (this.inited) return;
 		this.inited = true;
 
 		// before init

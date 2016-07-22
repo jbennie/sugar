@@ -42,7 +42,7 @@ class SDrawerComponent extends SComponent {
 		window._sDrawerStack[this.name] = this;
 
 		// init
-		this._init();
+		this.initProxy(this._init.bind(this));
 	}
 
 	/**

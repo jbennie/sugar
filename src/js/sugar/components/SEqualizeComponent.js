@@ -57,13 +57,13 @@ class SEqualizeComponent extends SComponent {
 		}, settings);
 
 		// init
-		this.init();
+		this.initProxy(this._init.bind(this));
 	}
 
 	/**
 	 * Init
 	 */
-	init() {
+	_init() {
 		if (this.inited) return;
 		this.inited = true;
 
