@@ -72,6 +72,7 @@
 			$rhythme-map : map-remove($rhythme-map, scope-class);
 			$rhythme-map : map-remove($rhythme-map, calculate-height);
 			@if $scope-class {
+				&.#{$sc}#{$no-vertical-rhythme-selector},
 				.#{$sc} &#{$no-vertical-rhythme-selector} {
 					@each $prop, $value in $rhythme-map {
 						#{$prop} : $value;
@@ -88,6 +89,7 @@
 			}
 		} @else {
 			@if $scope-class {
+				&.#{$sc}#{$no-vertical-rhythme-selector},
 				.#{$sc} &#{$no-vertical-rhythme-selector} {
 					@content;
 				}
