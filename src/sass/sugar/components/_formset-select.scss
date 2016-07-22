@@ -20,16 +20,8 @@
 @mixin s-select(
 	$color : default
 ) {
-	@include s-formset-init();
-	@extend %s-input-bare;
-	@extend %s-input-style;
-	@extend %s-select-bare;
-	//	 @extend %s-select-style;
-	@include s-input-size();
-	@if ($color) {
-		@include s-input-color($color);
-		@include s-select-color($color);
-	}
+	@include s-select-bare();
+	@include s-select-style($color);
 }
 @mixin s-select-color($color) {
 	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A#{str-replace("#{s-color($color)}","#","%23")}"></polygon></svg>');
