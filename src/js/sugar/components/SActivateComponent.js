@@ -198,7 +198,7 @@ class SActivateComponent extends SComponent {
 		}
 
 		// if the element has the active class
-		if (this.elm.classList.contains('active')) {
+		if (this.elm.classList.contains(this.settings.activeClass)) {
 			this._activate();
 		}
 
@@ -237,7 +237,7 @@ class SActivateComponent extends SComponent {
 	 * Check if is active
 	 */
 	isActive() {
-		return this.elm.classList.contains('active');
+		return this.elm.classList.contains(this.settings.activeClass);
 	}
 
 	/**
@@ -261,12 +261,12 @@ class SActivateComponent extends SComponent {
 		});
 
 		// activate the element
-		this.elm.classList.add('active');
+		this.elm.classList.add(this.settings.activeClass);
 
 		// activate all the targets
 		[].forEach.call(this.targets, (target_elm) => {
 			// remove the active class on target
-			target_elm.classList.add('active');
+			target_elm.classList.add(this.settings.activeClass);
 		});
 
 		// if has a perent, activate it
@@ -334,11 +334,11 @@ class SActivateComponent extends SComponent {
 		this.settings.beforeUnactivate && this.settings.onBeforeUnactivate(this);
 
 		// unactive the item itself
-		this.elm.classList.remove('active');
+		this.elm.classList.remove(this.settings.activeClass);
 
 		// unactive targets
 		[].forEach.call(this.targets, (target) => {
-			target.classList.remove('active');
+			target.classList.remove(this.settings.activeClass);
 		});
 
 		// callback

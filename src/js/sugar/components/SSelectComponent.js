@@ -54,7 +54,7 @@ class SSelectComponent extends SComponent {
 	 */
 	init() {
 
-		console.warn('IIIIINIT');
+		console.warn
 
 		// utils variables
 		this._openOnFocus = false;
