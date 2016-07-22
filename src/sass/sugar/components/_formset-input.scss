@@ -1,28 +1,28 @@
-@mixin s-formset-input-field(
+@mixin s-input(
 	$color : null
 ) {
 	@include s-formset-init();
 	@extend %s-formset-input-bare;
 	@extend %s-formset-input-style;
-	@include s-formset-input-size();
+	@include s-input-size();
 	@if ($color) {
-		@include s-formset-input-color($color);
+		@include s-input-color($color);
 	}
 }
 
-@mixin s-formset-input-field-bare() {
+@mixin s-input-bare() {
 	@include s-formset-init();
 	@extend %s-formset-input-bare;
-	@include s-formset-input-size();
+	@include s-input-size();
 }
 
-@mixin s-formset-input-field-style(
+@mixin s-input-style(
 	$color : null
 ) {
 	@include s-formset-init();
 	@extend %s-formset-input-style;
 	@if ($color) {
-		@include s-formset-input-color();
+		@include s-input-color();
 	}
 }
 
@@ -53,7 +53,7 @@ $not : ':not([type="checkbox"]):not([type="radio"]):not(.noUi-target)';
 		// input styling
 		input.input#{$not} {
 			// set input styling
-			@include s-formset-input-size();
+			@include s-input-size();
 
 			// vertical rhythme
 			&, & ~ span {
@@ -105,7 +105,7 @@ $not : ':not([type="checkbox"]):not([type="radio"]):not(.noUi-target)';
 					'.color-#{$color} input.input#{$not}'
 				)
 			))} {
-				@include s-formset-input-color($color);
+				@include s-input-color($color);
 
 				& ~ .input-reply--#{$color} {
 					display: block;
@@ -130,13 +130,13 @@ $not : ':not([type="checkbox"]):not([type="radio"]):not(.noUi-target)';
 		}
 	}
 }
-@mixin s-formset-input-size() {
+@mixin s-input-size() {
 	// font-size : 1em;
 	// border-radius: s-lnf(border-radius, $size);
 	padding : s-lnf(padding-horizontal) s-lnf(padding-vertical);
 	height: 1em + s-lnf(padding-horizontal) * 2;
 }
-@mixin s-formset-input-color($color) {
+@mixin s-input-color($color) {
 	border-color: s-color($color, -opacity .1);
 	border-bottom-color: s-color($color, -opacity .3);
 

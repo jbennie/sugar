@@ -131,7 +131,7 @@ $_s-formset-advanced-select-inited : false;
 
 	.s-select {
 		background-color: white;
-		@include s-formset-select-field(default);
+		@include s-select(default);
 
 		@include s-vertical-rhythme {
 			margin-bottom:1rem;

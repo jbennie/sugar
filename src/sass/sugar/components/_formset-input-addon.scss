@@ -14,10 +14,10 @@
 
 		// base
 		.input-addon {
-			@extend %s-formset-input-bare;
+			@extend %s-input-bare;
 			pointer-events: none;
 			// set input styling
-			@include s-formset-input-size();
+			@include s-input-size();
 
 			@include s-vertical-rhythme {
 				margin-bottom: 1rem;
@@ -49,7 +49,7 @@
 					'.color-#{$color} .input-addon'
 				)
 			))} {
-				@include s-formset-input-color($color);
+				@include s-input-color($color);
 
 				& ~ .input-reply--#{$color} {
 					display: block;

@@ -14,7 +14,7 @@ $_s-formset-inited : false;
 		$_s-formset-inited : true !global;
 
 		// input
-		%s-formset-input-bare {
+		%s-input-bare {
 			display: inline-block;
 			@include s-font(sugar('settings.typo.font-family'));
 			-webkit-appearance: none;
@@ -25,7 +25,7 @@ $_s-formset-inited : false;
 			outline : none;
 			width:100%;
 		}
-		%s-formset-input-style {
+		%s-input-style {
 			border-width:1px;
 			border-bottom-width : 3px;
 			border-style : solid;
@@ -48,7 +48,7 @@ $_s-formset-inited : false;
 				cursor: not-allowed;
 			}
 		}
-		%s-formset-select-style {
+		%s-select-style {
 			background-size: 9px 6px;
 			background-position: right center;
 			background-origin: content-box;
