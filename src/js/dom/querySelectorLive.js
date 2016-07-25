@@ -63,10 +63,13 @@ export default function querySelectorLive(selector, settings = {}) {
 				// handle once
 				if ( ! node._querySelectorLiveOnceAdd) node._querySelectorLiveOnceAdd = {};
 				if (settings.once && node._querySelectorLiveOnceAdd[selector] === true) return;
+
 				// set the _querySelectorLiveOnceAdd item on the item
 				node._querySelectorLiveOnceAdd[selector] = true;
+
 				// check if the element match the selector
 				if (__matches(node, selector)) {
+
 					if (settings.groupNodes) {
 						groupedNodes.push(node);
 						clearTimeout(groupedNodesTimeout);
@@ -84,13 +87,9 @@ export default function querySelectorLive(selector, settings = {}) {
 						if (nodes.length) {
 							// it's not the element itself that has been added
 							// but we will try to find any elements into the added one
-							if (settings.groupNodes) {
-								observer.next(nodes);
-							} else {
-								[].forEach.call(nodes, (elm) => {
-									observer.next(elm);
-								});
-							}
+							[].forEach.call(nodes, (elm) => {
+								_processAddedNode(elm);
+							});
 						}
 					}
 				}
@@ -147,7 +146,7 @@ export default function querySelectorLive(selector, settings = {}) {
 		return () => {
 			if (mutationSubscription) mutationSubscription.unsubscribe();
 		}
-	});
+	}).share();
 
 	// save the selector and settings
 	currentSelectors.push({

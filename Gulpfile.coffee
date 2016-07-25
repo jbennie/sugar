@@ -25,7 +25,7 @@ named 		 = require 'vinyl-named'
 webpackParams =
 	resolve:
 		alias:
-			sugarcss: __dirname + '/src/js/sugar'
+			sugarcss: __dirname + '/src/js'
 	module :
 		loaders: [{
 			test: /\.coffee$/,
@@ -54,20 +54,20 @@ webpackAppParams = _.extend {}, webpackParams,
 webpackDistParams = _.extend {}, webpackParams,
 	entry: {
 		'drawer': [
-			"./src/js/sugar/components/SDrawerElement.js"
-			"./src/js/sugar/components/sDrawerManager.js"
+			"./src/js/components/SDrawerElement.js"
+			"./src/js/components/sDrawerManager.js"
 		]
-		'gooey': ["./src/js/sugar/filters/SGooeyElement.js"]
-		'motionblur': ["./src/js/sugar/filters/SMotionblurElement.js"]
-		'gradient': ["./src/js/sugar/filters/SGradientElement.js"]
-		'transitionstart': ["./src/js/sugar/events/STransitionStartEventDispatcher.js"]
-		'localStorageFonts': ["./src/js/sugar/fonts/sLocalStorageFonts.js"]
+		'gooey': ["./src/js/filters/SGooeyElement.js"]
+		'motionblur': ["./src/js/filters/SMotionblurElement.js"]
+		'gradient': ["./src/js/filters/SGradientElement.js"]
+		'transitionstart': ["./src/js/events/STransitionStartEventDispatcher.js"]
+		'localStorageFonts': ["./src/js/fonts/sLocalStorageFonts.js"]
 		'activate' : [
-			'./src/js/sugar/components/SActivateElement.js'
-			'./src/js/sugar/components/sActivateManager.js'
+			'./src/js/components/SActivateElement.js'
+			'./src/js/components/sActivateManager.js'
 		]
-		#'form' : ['./src/js/sugar/components/s-form.js']
-		'sugar' : ['./src/js/sugar/sugar.js']
+		#'form' : ['./src/js/components/s-form.js']
+		'sugar' : ['./src/js/sugar.js']
 	},
 	output:
 		path: require("path").resolve("./dist/js"),
@@ -150,7 +150,6 @@ gulp.task 'sass', ->
 gulp.task 'webpack-dist', ['clean-js'], ->
 	gulp.src [
 		'./src/js/sugar/**/*.js'
-		'./src/coffee/sugar/**/*.coffee'
 	]
 	.pipe gulpWebpack webpackDistParams
 	.pipe gulp.dest 'dist/js'
@@ -162,7 +161,6 @@ gulp.task 'webpack-dist', ['clean-js'], ->
 gulp.task 'webpack-app', ['clean-js'], ->
 	gulp.src [
 		'./src/js/*.js'
-		'./src/coffee/*.coffee'
 	]
 	.pipe gulpWebpack webpackAppParams
 	.pipe gulp.dest 'assets/js'
@@ -186,7 +184,6 @@ gulp.task 'tests', ['tests-js-compile'], ->
 gulp.task 'default', ['webpack-app','sass']
 gulp.task 'watch', ['default'], ->
 	# Recompile on change
-	gulp.watch ["src/coffee/**/*.coffee"], ['webpack-app']
 	gulp.watch ['src/js/**/*.js'], ['webpack-app']
 	gulp.watch ["src/sass/**/*.scss"], ['sass']
 	gulp.watch ['pages/**/*.php'], ['tokens']

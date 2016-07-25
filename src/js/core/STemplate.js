@@ -45,8 +45,6 @@ export default class STemplate {
 		this.template = template;
 		this.data = data;
 
-		console.log('TEM');
-
 		// bound the class into the window to be apple to call it into
 		// templates
 		if ( ! window.sTemplateDataObjects) window.sTemplateDataObjects = {};
@@ -54,21 +52,21 @@ export default class STemplate {
 		window.sTemplateDataObjects[this.templateClassId] = this.data;
 
 		// instanciate a watcher
-		// this.watcher = new SWatcher();
-		//
-		// // watch each data
-		// for (let name in this.data) {
-		// 	const value = this.data[name];
-		// 	this.watcher.watch(this.data, name, (newVal, oldVal) => {
-		// 		// make update only once
-		// 		// by waiting next loop
-		// 		clearTimeout(this.updateTimeout);
-		// 		this.updateTimeout = setTimeout(() => {
-		// 			// render the template again
-		// 			this.render();
-		// 		});
-		// 	});
-		// }
+		this.watcher = new SWatcher();
+
+		// watch each data
+		for (let name in this.data) {
+			const value = this.data[name];
+			this.watcher.watch(this.data, name, (newVal, oldVal) => {
+				// make update only once
+				// by waiting next loop
+				clearTimeout(this.updateTimeout);
+				this.updateTimeout = setTimeout(() => {
+					// render the template again
+					this.render();
+				});
+			});
+		}
 
 		// create the container
 		this.dom = document.createElement('div');
@@ -90,18 +88,15 @@ export default class STemplate {
 	 * Render the template
 	 */
 	render() {
-
-		console.log('render!!!');
 		let rendered = mustache.render(this.template, this.data);
-		console.log('references', this.refs);
 		// process rendered template
-		// rendered = this.processOutput(rendered);
+		rendered = this.processOutput(rendered);
 		// set the new html
 		// morphdom(this.dom, rendered.trim());
 		this.dom.innerHTML = rendered;
+		this.dom = this.dom.querySelector(':scope > *:first-child');
 		// update refs
 		this.updateRefs();
-
 	}
 
 	/**
@@ -110,6 +105,9 @@ export default class STemplate {
 	updateRefs() {
 		// reset refs
 		this.refs = {};
+		// save the element itself
+		this.refs.elm = this.dom;
+		// search for name and id's
 		[].forEach.call(this.dom.querySelectorAll('[id],[name]'), (elm) => {
 			// get the id or name
 			const id = elm.id || elm.getAttribute('name');
@@ -119,10 +117,25 @@ export default class STemplate {
 	}
 
 	/**
+	 * Append to
+	 */
+	appendTo(element) {
+		element.appendChild(this.dom);
+	}
+
+	/**
+	 * Remove the template from the dom
+	 */
+	remove() {
+		this.dom.parentNode.removeChild(this.dom);
+	}
+
+	/**
 	 * Process output
 	 */
 	processOutput(renderedTemplate) {
 		let ret = renderedTemplate;
+
 
 		// replace all the this. with the proper window.sTemplateDataObjects reference
 		const thisDotReg = new RegExp('this\\.','g');

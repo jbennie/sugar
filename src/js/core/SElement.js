@@ -112,6 +112,13 @@ export default class SElement extends SObject {
 	}
 
 	/**
+	 * Watch
+	 */
+	watch(path, cb) {
+		this.watcher.watch(this, path, cb);
+	}
+
+	/**
 	 * Get closest not visible element
 	 */
 	closestNotVisible(elm = this.elm) {
