@@ -75,14 +75,14 @@ class SEqualizeComponent extends SComponent {
 		this.equalizerElm = this.elm.querySelector('[s-equalizer],[data-s-equalizer]');
 
 		// listen for all images in the column
-		querySelectorLive('img', (img) => {
+		querySelectorLive('img', {
+			rootNode : this.elm
+		}).once().subscribe((img) => {
 			// when the image is loaded, equalize the columns
 			imageLoaded(img).then(() => {
 				// equalize
 				this.equalize();
 			});
-		}, {
-			rootNode : this.elm
 		});
 
 		// equalize

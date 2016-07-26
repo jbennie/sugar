@@ -10,7 +10,7 @@ function splitIfNeeded(what, separator) {
 
 export default function getAnimationProperties(elm) {
 	// get the animation properties
-	const name = getStyleProperty(elm, 'animation-name');
+	const name = getStyleProperty(elm, 'animation-name') || '';
 	const duration = getStyleProperty(elm, 'animation-duration') || '0s';
 	const timingFunction = getStyleProperty(elm, 'animation-timing-function') || 'linear';
 	const delay = getStyleProperty(elm, 'animation-delay') || '0s';

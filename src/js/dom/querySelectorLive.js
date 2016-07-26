@@ -81,7 +81,6 @@ export default function querySelectorLive(selector, settings = {}) {
 				}
 			}
 
-
 			// subscribe to mutations
 			mutationSubscription = domObservable.subscribe((mutation) => {
 				// check if the mutation match the selector

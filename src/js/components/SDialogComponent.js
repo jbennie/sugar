@@ -85,6 +85,13 @@ class SDialogComponent extends SComponent {
 			openOn : 'click',
 
 			/**
+			 * class
+			 * The class applied in the element iself when the dialog is opened
+			 * @type 	{String}
+			 */
+			class : 's-dialog--opened',
+
+			/**
 			 * bodyClass
 			 * The class applied to the body when the dialog is opened
 			 * @type 	{String}
@@ -188,64 +195,15 @@ class SDialogComponent extends SComponent {
 	}
 
 	/**
-	 * onKeyup
-	 */
-	_onKeyup(e) {
-		// check if is escape key
-		switch(e.keyCode) {
-			case 27: // escape
-				this.close(false);
-			break;
-		}
-	}
-
-	/**
-	 * Close
-	 */
-	close(force = true) {
-
-		// check if is a modal
-		if (this.settings.modal
-			&& ! this._allowModalClose
-			&& ! force) return;
-
-		// add the out class to the dialog
-		this._template.refs.elm.classList.add(this.settings.outClass);
-
-		// get animation properties
-		const animationProperties = __getAnimationProperties(this._template.refs.elm);
-
-		// do not listen for keyup anymore
-		document.removeEventListener('keyup', this._onKeyup);
-
-		// wait end animation to remove the dialog
-		setTimeout(() => {
-
-			// remove the out class
-			this._template.refs.elm.classList.remove(this.settings.outClass);
-
-			// remove the container from the dom
-			this._template.remove();
-
-			// update counter
-			if ( SDialogComponent.counter > 0) {
-				SDialogComponent.counter--;
-			}
-			// if no more dialog opened, remove the body class
-			if (SDialogComponent.counter <= 0) {
-				document.body.classList.remove(this.settings.bodyClass);
-			}
-
-		}, animationProperties.totalDuration);
-	}
-
-	/**
 	 * Real open method that create the DOM content
 	 */
 	_open() {
 
 		// add the body class
 		document.body.classList.add(this.settings.bodyClass);
+
+		// add the class on the element itself
+		this.elm.classList.add(this.settings.class);
 
 		// open counter
 		SDialogComponent.counter++;
@@ -284,13 +242,10 @@ class SDialogComponent extends SComponent {
 		if (okElms.length) {
 			[].forEach.call(okElms, (elm) => {
 				if ( ! elm._SDialogCancelClickListener) {
+					const value = elm.getAttribute('s-dialog-ok');
 					elm._SDialogCancelClickListener = true;
 					elm.addEventListener('click', (e) => {
-						// resolve the promise
-						if (this._resolve)
-							this._resolve();
-						// close by forcing
-						this.close(true);
+						this.ok(value);
 					});
 				}
 			});
@@ -299,14 +254,10 @@ class SDialogComponent extends SComponent {
 		if (cancelElms.length) {
 			[].forEach.call(cancelElms, (elm) => {
 				if ( ! elm._SDialogOkClickListener) {
+					const value = elm.getAttribute('s-dialog-cancel');
 					elm._SDialogOkClickListener = true;
 					elm.addEventListener('click', (e) => {
-						console.log('CANCEL');
-						// reject the promise
-						if (this._reject)
-							this._reject();
-						// close by forcing
-						this.close(true);
+						this.cancel(value);
 					});
 				}
 			});
@@ -315,6 +266,100 @@ class SDialogComponent extends SComponent {
 		// add the dialog to the body
 		this._template.appendTo(document.body);
 
+	}
+
+	/**
+	 * onKeyup
+	 */
+	_onKeyup(e) {
+		e.preventDefault();
+		// check if is escape key
+		switch(e.keyCode) {
+			case 27: // escape
+				if (this.settings.modal) {
+					this.close(false);
+				} else {
+					this.cancel(null);
+				}
+			break;
+		}
+	}
+
+	/**
+	 * Close
+	 */
+	close(force = true) {
+
+		// check if is a modal
+		if (this.settings.modal
+			&& ! this._allowModalClose
+			&& ! force) return;
+
+		// add the out class to the dialog
+		this._template.refs.elm.classList.add(this.settings.outClass);
+
+		// get animation properties
+		const animationProperties = __getAnimationProperties(this._template.refs.elm);
+
+		// do not listen for keyup anymore
+		document.removeEventListener('keyup', this._onKeyup);
+
+		// remove the class on the element itself
+		this.elm.classList.remove(this.settings.class);
+
+		// wait end animation to remove the dialog
+		setTimeout(() => {
+
+			// remove the out class
+			this._template.refs.elm.classList.remove(this.settings.outClass);
+
+			// remove the container from the dom
+			this._template.remove();
+
+			// update counter
+			if ( SDialogComponent.counter > 0) {
+				SDialogComponent.counter--;
+			}
+			// if no more dialog opened, remove the body class
+			if (SDialogComponent.counter <= 0) {
+				document.body.classList.remove(this.settings.bodyClass);
+			}
+
+		}, animationProperties.totalDuration);
+	}
+
+	/**
+	 * Ok
+	 * Validate the modal
+	 */
+	ok(value = null) {
+		if ( ! this.isOpened()) return;
+		// resolve the promise if exist
+		if (this._resolve)
+			this._resolve(value);
+		// close the dialog
+		this.close(true);
+	}
+
+	/**
+	 * Cancel
+	 * Cancel the modal by rejecting the promise
+	 */
+	cancel(value = null) {
+		if ( ! this.isOpened()) return;
+		// reject the promise if exist
+		if (this._reject)
+			this._reject(value);
+		// close the dialog
+		this.close(true);
+	}
+
+	/**
+	 * Check if is opened
+	 * @return 	{Boolean} 	If is opened or not
+	 */
+	isOpened() {
+		return this.elm.classList.contains(this.settings.class);
 	}
 }
 
