@@ -2,9 +2,7 @@ import __uncamelize from '../string/uncamelize'
 import __upperFirst from '../string/upperFirst'
 import __autoCast from '../string/autoCast'
 import SElement from './SElement'
-import querySelectorLiveOnce from '../dom/querySelectorLiveOnce'
-import querySelectorVisibleLiveOnce from '../dom/querySelectorVisibleLiveOnce'
-import querySelectorViewportVisibleLiveOnce from '../dom/querySelectorViewportVisibleLiveOnce'
+import querySelectorLive from '../dom/querySelectorLive'
 
 // store the settings for the different
 // components types
@@ -152,13 +150,13 @@ export default class SComponent extends SElement {
 
 		switch(this.settings.initWhen) {
 			case 'visible':
-				querySelectorVisibleLiveOnce(`[data-s-element-id="${this.uniqid}"]`).subscribe(cb);
+				querySelectorLive(`[data-s-element-id="${this.uniqid}"]`).once().visible().subscribe(cb);
 			break;
 			case 'viewportVisible':
-				querySelectorViewportVisibleLiveOnce(`[data-s-element-id="${this.uniqid}"]`).subscribe(cb);
+				querySelectorLive(`[data-s-element-id="${this.uniqid}"]`).once().inViewport().subscribe(cb);
 			break;
 			case 'added':
-				querySelectorLiveOnce(`[data-s-element-id="${this.uniqid}"]`).subscribe(cb);
+				querySelectorLive(`[data-s-element-id="${this.uniqid}"]`).once().subscribe(cb);
 			break;
 			case 'hover':
 				function clickHandler(e) {

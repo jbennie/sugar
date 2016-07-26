@@ -1,14 +1,14 @@
 /**
  * Make a selector detectable when new element are pushed in the page
  */
-import {Observable} from 'rxjs/Observable'
 import 'rxjs/add/operator/share'
+import {Observable} from 'rxjs/Observable'
 import _isEqual from 'lodash/isEqual'
 import 'mutationobserver-shim'
 import 'classlist.js'
 import '../vendors/queryselector-scope.js'
 import mutationObservable from './mutationObservable'
-import injectOperators from '../rxjs/querySelectorLiveOperators/injectOperators'
+
 
 import __matches from './matches'
 import __domReady from './domReady'
@@ -46,6 +46,8 @@ export default function querySelectorLive(selector, settings = {}) {
 			settings = {...{
 				onNodeRemoved : null,
 				rootNode : document.body,
+				groupNodes : false,
+				once : false,
 				mutationObserverSettings : {
 					childList : true,
 					subtree : true
@@ -55,11 +57,30 @@ export default function querySelectorLive(selector, settings = {}) {
 			// observe the dom
 			const domObservable = mutationObservable(settings.rootNode, settings.mutationObserverSettings);
 
+			let groupedNodes = [];
+			let groupedNodesTimeout = null;
 			function _processAddedNode(node) {
+				// handle once
+				if ( ! node._querySelectorLiveOnceAdd) node._querySelectorLiveOnceAdd = {};
+				if (settings.once && node._querySelectorLiveOnceAdd[selector] === true) return;
+
+				// set the _querySelectorLiveOnceAdd item on the item
+				node._querySelectorLiveOnceAdd[selector] = true;
+
 				// check if the element match the selector
 				if (__matches(node, selector)) {
-					// notify of new node
-					observer.next(node);
+
+					if (settings.groupNodes) {
+						groupedNodes.push(node);
+						clearTimeout(groupedNodesTimeout);
+						groupedNodesTimeout = setTimeout(() => {
+							observer.next(groupedNodes);
+							groupedNodes = [];
+						});
+					} else {
+						// notify of new node
+						observer.next(node);
+					}
 				} else {
 					if (node.querySelectorAll !== undefined) {
 						const nodes = node.querySelectorAll(selector);
@@ -74,10 +95,24 @@ export default function querySelectorLive(selector, settings = {}) {
 				}
 			}
 
+			let groupesNodesRemoved = [];
+			let groupedNodesRemovedTimeout = null;
 			function _processRemovedNode(node) {
+				if ( ! node._querySelectorLiveOnceRemove) node._querySelectorLiveOnceRemove = {};
+				if (settings.once && node._querySelectorLiveOnceRemove[selector] === true) return;
+				node._querySelectorLiveOnceRemove[selector] = true;
 				if (__matches(node, selector)) {
-					// notify of new node
-					settings.onNodeRemoved(node);
+					if (settings.groupNodes) {
+						groupedNodesRemove.push(node);
+						clearTimeout(groupedNodesRemoveTimeout);
+						groupedNodesRemoveTimeout = setTimeout(() => {
+							settings.onNodeRemoved(groupedNodesRemove);
+							groupedNodesRemove = [];
+						});
+					} else {
+						// notify of new node
+						settings.onNodeRemoved(node);
+					}
 				}
 			}
 
@@ -111,18 +146,7 @@ export default function querySelectorLive(selector, settings = {}) {
 		return () => {
 			if (mutationSubscription) mutationSubscription.unsubscribe();
 		}
-	});
-	// share the observable
-	observable.share();
-
-	// inject operators
-	injectOperators(observable);
-
-	// pass down the observable the selector
-	observable._settings = {
-		selector,
-		settings
-	};
+	}).share();
 
 	// save the selector and settings
 	currentSelectors.push({

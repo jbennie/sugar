@@ -2,9 +2,7 @@ import __uniqid from '../tools/uniqid'
 import __camelize from '../string/camelize'
 import __uncamelize from '../string/uncamelize'
 import __autoCast from '../string/autoCast'
-import querySelectorLiveOnce from '../dom/querySelectorLiveOnce'
-import querySelectorVisibleLiveOnce from '../dom/querySelectorVisibleLiveOnce'
-import querySelectorViewportVisibleLiveOnce from '../dom/querySelectorViewportVisibleLiveOnce'
+import querySelectorLive from '../dom/querySelectorLive'
 import __closestNotVisible from '../dom/closestNotVisible'
 import __whenVisible from '../dom/whenVisible'
 import __whenViewportVisible from '../dom/whenViewportVisible'
@@ -75,19 +73,19 @@ export default class SElement extends SObject {
 		setTimeout(() => {
 
 			if (typeof(this.onAdded) == 'function') {
-				querySelectorLiveOnce(`[data-s-element-id="${this.uniqid}"]`).subscribe((elm) => {
+				querySelectorLive(`[data-s-element-id="${this.uniqid}"]`).once().subscribe((elm) => {
 					if (this.onAdded) this.onAdded();
 				});
 			}
 			// check if is the onVisible method
 			if (typeof(this.onVisible) == 'function') {
-				querySelectorVisibleLiveOnce(`[data-s-element-id="${this.uniqid}"]`).subscribe((elm) => {
+				querySelectorLive(`[data-s-element-id="${this.uniqid}"]`).once().visible().subscribe((elm) => {
 					this.onVisible(elm);
 				});
 			}
 			// check if is the onViewportVisible method
 			if (typeof(this.onViewportVisible) == 'function') {
-				querySelectorViewportVisibleLiveOnce(`[data-s-element-id="${this.uniqid}"]`).subscribe((elm) => {
+				querySelectorLive(`[data-s-element-id="${this.uniqid}"]`).once().inViewport().subscribe((elm) => {
 					this.onViewportVisible(elm);
 				});
 			}

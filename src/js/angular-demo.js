@@ -1,24 +1,22 @@
 
 
-// import sugar from './sugar/sugar';
+// import sugar from 'sugarcss/sugar';
 // let angular = require('angular');
 // import angular from 'angular';
-// import { SSelectElement, SActivateElement } from './sugar/index';
+// import { SSelectElement, SActivateElement } from 'sugarcss/index';
 //
 //
 import querySelectorLive from 'sugarcss/dom/querySelectorLive';
-import querySelectorVisibleLiveOnce from 'sugarcss/dom/querySelectorLiveOnce';
-import querySelectorViewportVisibleLiveOnce from 'sugarcss/dom/querySelectorViewportVisibleLiveOnce';
 //
-import sSettings from './sugar/core/sSettings';
+import sSettings from 'sugarcss/core/sSettings';
 //
-import SActivateComponent from './sugar/components/SActivateComponent';
-import sActivateManager from './sugar/components/sActivateManager';
-import SSelectComponent from './sugar/components/SSelectComponent';
-import SDatepickerComponent from './sugar/components/SDatepickerComponent';
-import sLocalStorageFonts from './sugar/fonts/sLocalStorageFonts';
-import SRangeComponent from './sugar/components/SRangeComponent';
-import SRadioboxComponent from './sugar/components/SRadioboxComponent';
+import SActivateComponent from 'sugarcss/components/SActivateComponent';
+import sActivateManager from 'sugarcss/components/sActivateManager';
+import SSelectComponent from 'sugarcss/components/SSelectComponent';
+import SDatepickerComponent from 'sugarcss/components/SDatepickerComponent';
+import sLocalStorageFonts from 'sugarcss/fonts/sLocalStorageFonts';
+import SRangeComponent from 'sugarcss/components/SRangeComponent';
+import SRadioboxComponent from 'sugarcss/components/SRadioboxComponent';
 import sForm from 'sugarcss/components/sForm';
 import SRippleComponent from 'sugarcss/components/SRippleComponent';
 import SDrawerComponent from 'sugarcss/components/SDrawerComponent';
@@ -37,61 +35,13 @@ SRippleComponent.initOn('.btn, .nav > li', {
 	initWhen : 'hover'
 });
 
-class myClass extends SObject {
-	constructor() {
-		super();
-		const stringDOM = `
-		<div id="container">
-			<h1 class="h1">Hello {{name}}</h1>
-			<p class="p">Nam placerat augue risus, pulvinar malesuada quam ultricies id. Integer posuere ultrices ligula, viverra aliquam enim ultricies ut. Praesent faucibus fermentum imperdiet. Nam vel ullamcorper sem. Sed sed gravida nisi.</p>
-			<input type="text" name="youhou" value="hello world" />
-				{{#list}}
-					{{{.}}}
-				{{/list}}
+querySelectorLive('.checker').once().subscribe((elm) => {
+	console.log('CHECKER', elm);
+});
 
-			<select model="this.selected" name="coco" s-select="true">
-				{{#list}}
-					<option value="{{.}}">{{.}}</option>
-				{{/list}}
-			</select>
-		</div>
-		`;
-
-		this.data = {
-			name : 'coco',
-			list : ['hello','world','coco','haha','fwefew'],
-			selected : 'coco',
-			click : this.click.bind(this)
-		};
-		const template = new STemplate(stringDOM, this.data);
-		console.warn('template', template);
-
-		domReady().then(() => {
-
-			document.querySelector('#coco').addEventListener('click', (e) => {
-				// for(let i=0; i<20; i++) {
-				// 	data.name = 'youhou!!!' + i;
-				// }
-				for(let i=0; i<200; i++) {
-					this.data.list.push('<a onclick="this.click($element);" class="btn">Hello</a>');
-					// this.data.list.push('coco ' + Math.random()*999999);
-				}
-			});
-
-			document.querySelector('[s-drawer-content]').appendChild(template.dom);
-		});
-
-	}
-
-	click(word) {
-		console.log(word);
-		this.data.name = 'Héhé';
-	}
-}
-
-new myClass();
-
-
+querySelectorLive('#coco').once().inViewport().subscribe((elm) => {
+	console.log('ONCE CHECKER', elm);
+});
 
 // const app = angular.module('angular-demo', []).run(() => {
 //

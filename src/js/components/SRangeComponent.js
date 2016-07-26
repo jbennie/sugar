@@ -9,7 +9,7 @@
  * @version  1.0.0
  */
 import SComponent from '../core/SComponent'
-import __querySelectorVisibleLiveOnce from '../dom/querySelectorVisibleLiveOnce'
+import querySelectorLive from '../dom/querySelectorLive'
 import __next from '../dom/next'
 import __previous from '../dom/previous'
 import __offset from '../dom/offset'
@@ -57,9 +57,7 @@ class SRangeComponent extends SComponent {
 	 * On added to dom
 	 */
 	_init() {
-		if (this._inited) return;
-		this._inited = true;
-
+		
 		// create the container for the slider
 		this.container = document.createElement('div');
 		this.container.className = this.elm.className;
@@ -293,7 +291,7 @@ window.sugar.SRangeComponent = SRangeComponent;
 // initOn
 SRangeComponent.initOn = function(selector, settings = {}) {
 	// init the select
-	return __querySelectorVisibleLiveOnce(selector).subscribe((elm) => {
+	return querySelectorLive(selector).visible().once().subscribe((elm) => {
 		new SRangeComponent(elm, {
 			formater : SRangeComponent.percentFormater,
 			...settings

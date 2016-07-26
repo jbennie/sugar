@@ -8,7 +8,6 @@
  */
 import SComponent from '../core/SComponent'
 import querySelectorLive from '../dom/querySelectorLive'
-import __querySelectorVisibleLiveOnce from '../dom/querySelectorVisibleLiveOnce'
 import imageLoaded from '../dom/imageLoaded';
 
 class SEqualizeComponent extends SComponent {
@@ -64,9 +63,6 @@ class SEqualizeComponent extends SComponent {
 	 * Init
 	 */
 	_init() {
-		if (this.inited) return;
-		this.inited = true;
-
 		if ( ! SEqualizeComponent.columns[this.settings.group]) {
 			SEqualizeComponent.columns[this.settings.group] = {
 				inProgress : false,
@@ -193,7 +189,7 @@ class SEqualizeComponent extends SComponent {
 // initOn
 SEqualizeComponent.initOn = function(selector, settings = {}) {
 	// init the select
-	return __querySelectorVisibleLiveOnce(selector).subscribe((elm) => {
+	return querySelectorLive(selector).visible().once().subscribe((elm) => {
 		new SEqualizeComponent(elm, settings);
 	});
 };

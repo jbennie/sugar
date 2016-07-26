@@ -9,7 +9,7 @@
  * @version  1.0.0
  */
 import SComponent from '../core/SComponent'
-import __querySelectorLiveOnce from '../dom/querySelectorLiveOnce';
+import __querySelectorLive from '../dom/querySelectorLive';
 import __scrollTop from '../dom/scrollTop'
 import __offset from '../dom/offset'
 import __getAnimationProperties from '../dom/getAnimationProperties'
@@ -322,7 +322,7 @@ class SDialogComponent extends SComponent {
 // initOn
 SDialogComponent.initOn = function(selector, settings = {}) {
 	// init the select
-	return __querySelectorLiveOnce(selector).subscribe((elm) => {
+	return __querySelectorLive(selector).visible().once().subscribe((elm) => {
 		new SDialogComponent(elm, settings);
 	});
 };

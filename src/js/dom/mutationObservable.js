@@ -1,6 +1,7 @@
 import _isEqual from 'lodash/isEqual';
 import 'rxjs/add/operator/share'
 import {Observable} from 'rxjs/Observable'
+import 'babel-polyfill'
 
 const selectorsStack = [];
 

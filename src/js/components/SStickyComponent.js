@@ -9,7 +9,7 @@
  * @version  1.0.0
  */
 import SComponent from '../core/SComponent'
-import __querySelectorVisibleLiveOnce from '../dom/querySelectorVisibleLiveOnce';
+import querySelectorLive from '../dom/querySelectorLive';
 import __scrollTop from '../dom/scrollTop'
 import __offset from '../dom/offset'
 import __getAnimationProperties from '../dom/getAnimationProperties'
@@ -378,7 +378,7 @@ class SStickyComponent extends SComponent {
 // initOn
 SStickyComponent.initOn = function(selector, settings = {}) {
 	// init the select
-	return __querySelectorVisibleLiveOnce(selector).subscribe((elm) => {
+	return querySelectorLive(selector).visible().once().subscribe((elm) => {
 		new SStickyComponent(elm, settings);
 	});
 };

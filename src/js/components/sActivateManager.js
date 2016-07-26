@@ -9,7 +9,6 @@
  * @version  1.0.0
  */
 import SActivateComponent from './SActivateComponent'
-import querySelectorLiveOnce from '../dom/querySelectorLiveOnce'
 
 // save all the activate elements
 if ( ! window._sActivateStack) {

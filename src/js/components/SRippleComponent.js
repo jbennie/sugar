@@ -9,7 +9,7 @@
  * @version  1.0.0
  */
 import SComponent from '../core/SComponent'
-import __querySelectorVisibleLiveOnce from '../dom/querySelectorVisibleLiveOnce'
+import querySelectorLive from '../dom/querySelectorLive'
 import __getAnimationProperties from '../dom/getAnimationProperties';
 import __next from '../dom/next'
 import __previous from '../dom/previous'
@@ -63,9 +63,6 @@ class SRippleComponent extends SComponent {
 	 * On added to dom
 	 */
 	_init() {
-		if (this._inited) return;
-		this._inited = true;
-
 		// listen for click
 		this.elm.addEventListener('click', this.handleClick.bind(this));
 	}
@@ -104,7 +101,7 @@ class SRippleComponent extends SComponent {
 // initOn
 SRippleComponent.initOn = function(selector, settings = {}) {
 	// init the select
-	return __querySelectorVisibleLiveOnce(selector).subscribe((elm) => {
+	return querySelectorLive(selector).visible().once().subscribe((elm) => {
 		new SRippleComponent(elm, settings);
 	});
 };

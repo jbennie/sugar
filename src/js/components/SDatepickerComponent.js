@@ -1,7 +1,7 @@
 import SComponent from '../core/SComponent'
 import Pikaday from 'pikaday-time'
 import sSettings from '../core/sSettings'
-import __querySelectorVisibleLiveOnce from '../dom/querySelectorLive';
+import __querySelectorLive from '../dom/querySelectorLive';
 
 // Date picker
 class SDatepickerComponent extends SComponent {
@@ -110,7 +110,7 @@ class SDatepickerComponent extends SComponent {
 // initOn
 SDatepickerComponent.initOn = function(selector, settings = {}) {
 	// init the select
-	return __querySelectorVisibleLiveOnce(selector).subscribe((elm) => {
+	return __querySelectorLive(selector).visible().once().subscribe((elm) => {
 		new SDatepickerComponent(elm, settings);
 	});
 };

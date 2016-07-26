@@ -9,7 +9,7 @@
  * @version  1.0.0
  */
 import SComponent from '../core/SComponent'
-import __querySelectorVisibleLiveOnce from '../dom/querySelectorVisibleLiveOnce';
+import __querySelectorLive from '../dom/querySelectorLive';
 
 if ( ! window._sDrawerStack) {
 	window._sDrawerStack = {};
@@ -160,7 +160,7 @@ class SDrawerComponent extends SComponent {
 // initOn
 SDrawerComponent.initOn = function(selector, settings = {}) {
 	// init the select
-	return __querySelectorVisibleLiveOnce(selector).subscribe((elm) => {
+	return __querySelectorLive(selector).visible().once().subscribe((elm) => {
 		new SDrawerComponent(elm, settings);
 	});
 };

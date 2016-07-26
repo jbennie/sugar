@@ -11,7 +11,7 @@
 import SComponent from '../core/SComponent'
 import __scrollTop from '../dom/scrollTop'
 import __uniqid from '../tools/uniqid'
-import __querySelectorVisibleLiveOnce from '../dom/querySelectorVisibleLiveOnce';
+import __querySelectorLive from '../dom/querySelectorLive';
 
 // save all the activate elements
 if ( ! window._sActivateStack) {
@@ -62,9 +62,6 @@ class SActivateComponent extends SComponent {
 	 * Init
 	 */
 	init() {
-		if (this.inited) return;
-		this.inited = true;
-
 		// before init
 		this.settings.beforeInit && this.settings.beforeInit(this);
 
@@ -378,7 +375,7 @@ class SActivateComponent extends SComponent {
 // initOn
 SActivateComponent.initOn = function(selector, settings = {}) {
 	// init the select
-	return __querySelectorVisibleLiveOnce(selector).subscribe((elm) => {
+	return __querySelectorLive(selector).visible().once().subscribe((elm) => {
 		new SActivateComponent(elm, settings);
 	});
 };

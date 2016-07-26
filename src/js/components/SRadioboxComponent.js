@@ -1,5 +1,5 @@
 import SComponent from '../core/SComponent'
-import __querySelectorVisibleLiveOnce from '../dom/querySelectorVisibleLiveOnce';
+import querySelectorLive from '../dom/querySelectorLive';
 
 // Actual activate element class
 class SRadioboxComponent extends SComponent {
@@ -51,7 +51,7 @@ class SRadioboxComponent extends SComponent {
 // initOn
 SRadioboxComponent.initOn = function(selector, settings = {}) {
 	// init the select
-	return __querySelectorVisibleLiveOnce(selector).subscribe((elm) => {
+	return querySelectorLive(selector).visible().once().subscribe((elm) => {
 		new SRadioboxComponent(elm, settings);
 	});
 };

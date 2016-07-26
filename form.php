@@ -303,6 +303,10 @@
 		</section>
 
 
+<div class="checker">
+	
+</div>
+
 <section class="section bkg-grey--light" id="typeset">
 
 	<div class="container typeset vertical-rhythme">

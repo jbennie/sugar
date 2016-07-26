@@ -45,7 +45,7 @@ webpackParams =
 webpackAppParams = _.extend {}, webpackParams,
 	entry: {
 		'angular-demo': ['./src/js/angular-demo.js'],
-		'coco': ['./src/js/coco.js']
+		# 'coco': ['./src/js/coco.js']
 	}
 	output:
 		path: require("path").resolve("./assets/js"),
@@ -177,8 +177,7 @@ gulp.task 'tests-js-compile', [], ->
 	.pipe gulp.dest 'tests/phantomjs/js'
 gulp.task 'tests', ['tests-js-compile'], ->
 	gulp.src 'tests/phantomjs/*.html'
-	.pipe mochaPhantom
-		reporter: 'nyan'
+	.pipe mochaPhantom()
 
 # register tasks
 gulp.task 'default', ['webpack-app','sass']

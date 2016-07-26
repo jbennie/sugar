@@ -1,7 +1,7 @@
 import SComponent from '../core/SComponent';
 import SParticleComponent from './SParticleComponent';
 import setRecursiveTimeout from '../functions/setRecursiveTimeout';
-import __querySelectorVisibleLiveOnce from '../dom/querySelectorVisibleLiveOnce';
+import querySelectorLive from '../dom/querySelectorLive';
 
 class SParticlesSystemComponent extends SComponent {
 
@@ -81,7 +81,7 @@ class SParticlesSystemComponent extends SComponent {
 // initOn
 SParticlesSystemComponent.initOn = function(selector, settings = {}) {
 	// init the select
-	return __querySelectorVisibleLiveOnce(selector).subscribe((elm) => {
+	return querySelectorLive(selector).visible().once().subscribe((elm) => {
 		new SParticlesSystemComponent(elm, settings);
 	});
 };
