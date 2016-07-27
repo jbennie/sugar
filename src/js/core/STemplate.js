@@ -1,10 +1,22 @@
 import mustache from 'mustache';
 import SWatcher from './SWatcher';
+import SBinder from './SBinder';
 import uniqid from '../tools/uniqid';
 import morphdom from 'morphdom';
 import domReady from '../dom/domReady';
+import __autoCast from '../string/autoCast';
+import __matches from '../dom/matches';
 
 export default class STemplate {
+
+	/**
+	 * List of elements to never discard on render
+	 */
+	static doNotDiscard = [
+		'.s-range',
+		'.s-select',
+		'.s-radiobox'
+	];
 
 	/**
 	 * templateClassId
@@ -34,15 +46,38 @@ export default class STemplate {
 	 */
 	updateTimeout = null;
 
-	rendered = false;
+	/**
+	 * Settings
+	 */
+	settings = {
+
+		/**
+		 * render
+		 * A render function to process the template
+		 * @type 	{Function}
+		 */
+		render : null
+
+	};
 
 	/**
 	 * Constructor
 	 */
-	constructor(template, data = {}) {
+	constructor(template, data = {}, settings = {}) {
 
-		// save in instance
+		// save settings
+		this.settings = {
+			...this.settings,
+			...settings
+		};
+
+		// check template type
 		this.template = template;
+		if (template.nodeName !== undefined) {
+			const cont = document.createElement('div');
+			cont.appendChild(template.cloneNode(true));
+			this.template = cont.innerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
+		}
 		this.data = data;
 
 		// bound the class into the window to be apple to call it into
@@ -53,6 +88,7 @@ export default class STemplate {
 
 		// instanciate a watcher
 		this.watcher = new SWatcher();
+		this.binder = new SBinder();
 
 		// watch each data
 		for (let name in this.data) {
@@ -63,49 +99,69 @@ export default class STemplate {
 				clearTimeout(this.updateTimeout);
 				this.updateTimeout = setTimeout(() => {
 					// render the template again
-					this.render();
+					this._internalRender();
 				});
 			});
 		}
 
 		// create the container
 		this.dom = document.createElement('div');
-
-		// let dom1 = document.createElement('div');
-		// dom1.className = 'coco';
-		// let dom2 = document.createElement('div');
-		// dom2.className = 'yop';
-		// dom2.appendChild(dom1);
-		//
-		// let coco = morphdom(this.dom, dom2);
-		// console.log(coco);
+		if (template.nodeName !== undefined) {
+			this.dom = template;
+		}
 
 		// render first time
-		this.render();
+		this._internalRender();
 	}
 
 	/**
 	 * Render the template
 	 */
-	render() {
-		let rendered = mustache.render(this.template, this.data);
-		// rendered = rendered.replace(/(\t|\r\n|\n|\r)/gm,"");
-		// process rendered template
-		// rendered = this.processOutput(rendered);
-		// set the new html
-		console.log(rendered.trim());
-		if ( ! this.rendered) {
-			this.dom.innerHTML = rendered;
-			this.rendered = true;
+	render(template, data) {
+		return template;
+	}
+
+	/**
+	 * Render the template
+	 */
+	_internalRender() {
+		// render the template
+		let rendered = '';
+		if (this.settings.render) {
+			rendered = this.settings.render(this.template, this.data);
 		} else {
-			morphdom(this.dom, rendered.trim());
-			//morphdom(rendered.trim(), this.dom);
+			rendered = this.render(this.template, this.data);
 		}
-		console.log('coco', this.dom);
-		//this.dom.innerHTML = rendered;
-		// this.dom = this.dom.querySelector(':scope > *:first-child');
+		// process rendered template
+		rendered = this.processOutput(rendered);
+		// set the new html
+		morphdom(this.dom, rendered.trim(), {
+			onBeforeElChildrenUpdated : (node) => {
+				if (node.hasAttribute('s-template-no-child-update')) return false;
+				return true;
+			},
+			onBeforeElUpdated : (node) => {
+				if (node.hasAttribute('s-template-no-update')) return false;
+				return true;
+			},
+			onBeforeNodeDiscarded : (node) => {
+				// check if the node match one of the element selector
+				// to not discard
+				if (node.hasAttribute('s-template-no-discard')) return false;
+				for(let i=0; i<STemplate.doNotDiscard.length; i++) {
+					if (__matches(node, STemplate.doNotDiscard[i])) {
+						// do not discard the element
+						return false;
+					}
+				}
+				return true;
+			}
+		});
 		// update refs
 		this.updateRefs();
+		// listen for changes of datas in the DOM
+		// through the s-template-model attribute
+		this.listenDataChangesInDom();
 	}
 
 	/**
@@ -122,6 +178,28 @@ export default class STemplate {
 			const id = elm.id || elm.getAttribute('name');
 			// save the reference
 			this.refs[id] = elm;
+		});
+	}
+
+	/**
+	 * Listen for changes of datas in dom
+	 */
+	listenDataChangesInDom() {
+		// find elements that have a data binded into it
+		[].forEach.call(this.dom.querySelectorAll('[s-template-model]'), (elm) => {
+			// check if already binded
+			const model = elm.getAttribute('s-template-model');
+			if ( ! elm._sTemplateBinded) {
+			 	elm._sTemplateBinded = true;
+				elm.addEventListener('change', (e) => {
+					// update the data accordingly
+					this.data[model] = __autoCast(e.target.value);
+				});
+			 }
+
+			 // set the initial value coming from the model
+			 elm.value = this.data[model];
+			 elm.setAttribute('value', this.data[model]);
 		});
 	}
 
@@ -144,7 +222,6 @@ export default class STemplate {
 	 */
 	processOutput(renderedTemplate) {
 		let ret = renderedTemplate;
-
 
 		// replace all the this. with the proper window.sTemplateDataObjects reference
 		const thisDotReg = new RegExp('this\\.','g');

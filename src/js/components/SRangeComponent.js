@@ -15,6 +15,7 @@ import __previous from '../dom/previous'
 import __offset from '../dom/offset'
 import __scrollTop from '../dom/scrollTop'
 import __uniqid from '../tools/uniqid'
+import __throttle from '../functions/throttle'
 import SEvent from '../core/SEvent'
 import noUiSlider from 'nouislider';
 
@@ -46,7 +47,8 @@ class SRangeComponent extends SComponent {
 			connect : true,
 			tooltip : true,
 			value : '@value',
-			formater : null
+			formater : null,
+			updateInterval : null
 		}, settings);
 
 		// init
@@ -57,7 +59,7 @@ class SRangeComponent extends SComponent {
 	 * On added to dom
 	 */
 	_init() {
-		
+
 		// create the container for the slider
 		this.container = document.createElement('div');
 		this.container.className = this.elm.className;
@@ -92,8 +94,6 @@ class SRangeComponent extends SComponent {
 			}
 		};
 
-		console.log(args);
-
 		if (this.settings.margin) {
 			args.margin = this.settings.margin;
 		}
@@ -107,7 +107,7 @@ class SRangeComponent extends SComponent {
 
 		// set the value
 		if (this.attr.value) {
-			this.slider.set(this.attr.value.split(','));
+			this.slider.set(this.attr.value.toString().split(','));
 		}
 
 		// remove the noUi-background class on the main element
@@ -142,44 +142,55 @@ class SRangeComponent extends SComponent {
 		this.baseElm.appendChild(this.backgroundLowerElm);
 
 		// hide the base input
-		this.elm.style.display = 'none';
+		this.elm.style.position = 'absolute';
+		this.elm.style.left = '-4000px';
+		this.elm.style.opacity = 0;
 
 		// init tooltip
 		if (this.settings.tooltips)
 			this._initTooltip();
 
+		// keep track of busy status
+		this.slider.on('start', (e) => {
+			this._busy = true;
+		});
+		this.slider.on('end', (e) => {
+			this._busy = false;
+		});
+
+		// listen when slider has his value updated
+		// the change event will not be fired during the dragging
 		this.slider.on('change', (e) => {
-			// set new value in attributes
-			const value = this.slider.get();
-			if (typeof(value) === 'number' || typeof(value) === 'string') {
-				if (this.settings.formater) {
-					this.attr.value = this.settings.formater(value, 'input');
-				} else {
-					this.attr.value = value;
-				}
-			} else {
-				if (this.settings.formater) {
-					this.attr.value = this.slider.get().map((val) => {
-						return this.settings.formater(val, 'input');
-					}).join(',');
-				} else {
-					this.attr.value = this.slider.get().join(',');
-				}
-			}
+			// update attribute value
+			this._updateAttributeValue();
 		});
 
 		this.watcher.watch(this, 'settings.value', (newVal, oldVal) => {
 			// set the new values to the slider
-			this.slider.set(newVal.split(','));
+			// but this, only if the slider is not
+			// busy, mean that the user is using it
+			if ( ! this._busy) {
+				this.slider.set(newVal.split(','));
+			}
 		});
 
 		// set values first time
 		this._boundValuesInHtml();
 
+		// throttled update
+		let _throttledUpdateFn = null;
+		if (this.settings.updateInterval) {
+			_throttledUpdateFn = __throttle(() => {
+				this._updateAttributeValue();
+			}, this.settings.updateInterval);
+		}
+
 		// listen for update in slider
 		this.slider.on('update', (e) => {
 			// update values
 			this._boundValuesInHtml();
+			// check if need to update
+			if (_throttledUpdateFn) _throttledUpdateFn();
 		});
 
 		// append the slider into the dom
@@ -189,6 +200,29 @@ class SRangeComponent extends SComponent {
 		setTimeout(() => {
 			this.container.classList.remove('clear-transmations');
 		});
+	}
+
+	/**
+	 * Update attribute value
+	 */
+	_updateAttributeValue() {
+		// set new value in attributes
+		const value = this.slider.get();
+		if (typeof(value) === 'number' || typeof(value) === 'string') {
+			if (this.settings.formater) {
+				this.attr.value = this.settings.formater(value, 'input');
+			} else {
+				this.attr.value = value;
+			}
+		} else {
+			if (this.settings.formater) {
+				this.attr.value = this.slider.get().map((val) => {
+					return this.settings.formater(val, 'input');
+				}).join(',');
+			} else {
+				this.attr.value = this.slider.get().join(',');
+			}
+		}
 	}
 
 	/**

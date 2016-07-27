@@ -3,6 +3,7 @@ import __camelize from '../string/camelize';
 import __uncamelize from '../string/uncamelize';
 import __uniqid from '../tools/uniqid';
 import _set from 'lodash/set';
+import __dispatchEvent from '../dom/dispatchEvent';
 
 export default class SBinder {
 
@@ -75,6 +76,12 @@ export default class SBinder {
 
 				// update the attribute
 				watch.elm.setAttribute(__uncamelize(watch.attrName), newVal);
+
+				// if the attribute is the value, trigger a change event
+				if (__uncamelize(watch.attrName) === 'value') {
+					elm.value = newVal;
+					__dispatchEvent(watch.elm, 'change');
+				}
 			}
 		});
 	}
