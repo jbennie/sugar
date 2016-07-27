@@ -18,7 +18,7 @@
     "core-js": "^2.2.2",
     "custom-event": "^1.0.0",
     "lodash": "^4.4.0",
-    "morphdom": "^1.4.6",
+    "morphdom": "^2.0.0",
     "mustache": "^2.2.1",
     "mutationobserver-shim": "^0.3.1",
     "nouislider": "^8.5.1",

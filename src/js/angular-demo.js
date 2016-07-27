@@ -43,6 +43,264 @@ querySelectorLive('#coco').once().inViewport().subscribe((elm) => {
 	console.log('ONCE CHECKER', elm);
 });
 
+domReady().then(() => {
+
+	const data = {
+		title : 'Coco'
+	};
+	const t = new STemplate(`
+		<div class="hello">
+			<h1 class="h1" name="title">
+				{{title}}
+			</h1>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<h1 class="h1" name="title">
+				{{title}}
+			</h1>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<h1 class="h1" name="title">
+				{{title}}
+			</h1>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<h1 class="h1" name="title">
+				{{title}}
+			</h1>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<h1 class="h1" name="title">
+				{{title}}
+			</h1>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<h1 class="h1" name="title">
+				{{title}}
+			</h1>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<h1 class="h1" name="title">
+				{{title}}
+			</h1>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<h1 class="h1" name="title">
+				{{title}}
+			</h1>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<h1 class="h1" name="title">
+				{{title}}
+			</h1>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<h1 class="h1" name="title">
+				{{title}}
+			</h1>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<h1 class="h1" name="title">
+				{{title}}
+			</h1>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<h1 class="h1" name="title">
+				{{title}}
+			</h1>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<h1 class="h1" name="title">
+				{{title}}
+			</h1>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<h1 class="h1" name="title">
+				{{title}}
+			</h1>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<h1 class="h1" name="title">
+				{{title}}
+			</h1>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<h1 class="h1" name="title">
+				{{title}}
+			</h1>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<h1 class="h1" name="title">
+				{{title}}
+			</h1>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<h1 class="h1" name="title">
+				{{title}}
+			</h1>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<h1 class="h1" name="title">
+				{{title}}
+			</h1>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<h1 class="h1" name="title">
+				{{title}}
+			</h1>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+			<p>
+				Phasellus in enim ut mauris accumsan lacinia eget sed risus. Ut diam mi, dictum eu sollicitudin eu, suscipit non mi.
+			</p>
+		</div>
+	`, data);
+	t.appendTo(document.body);
+
+	setTimeout(() => {
+		data.title = 'Youhou!!!';
+	}, 5000);
+
+});
+
+
 // const app = angular.module('angular-demo', []).run(() => {
 //
 // });

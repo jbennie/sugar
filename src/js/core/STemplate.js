@@ -89,12 +89,21 @@ export default class STemplate {
 	 */
 	render() {
 		let rendered = mustache.render(this.template, this.data);
+		// rendered = rendered.replace(/(\t|\r\n|\n|\r)/gm,"");
 		// process rendered template
-		rendered = this.processOutput(rendered);
+		// rendered = this.processOutput(rendered);
 		// set the new html
-		// morphdom(this.dom, rendered.trim());
-		this.dom.innerHTML = rendered;
-		this.dom = this.dom.querySelector(':scope > *:first-child');
+		console.log(rendered.trim());
+		if ( ! this.rendered) {
+			this.dom.innerHTML = rendered;
+			this.rendered = true;
+		} else {
+			morphdom(this.dom, rendered.trim());
+			//morphdom(rendered.trim(), this.dom);
+		}
+		console.log('coco', this.dom);
+		//this.dom.innerHTML = rendered;
+		// this.dom = this.dom.querySelector(':scope > *:first-child');
 		// update refs
 		this.updateRefs();
 	}
