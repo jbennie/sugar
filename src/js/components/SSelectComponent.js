@@ -816,6 +816,7 @@ class SSelectComponent extends SComponent {
 SSelectComponent.initOn = function(selector, settings = {}) {
 	// init the select
 	return querySelectorLive(selector).visible().once().subscribe((elm) => {
+		console.warn('SELECT');
 		new SSelectComponent(elm, settings);
 	});
 };

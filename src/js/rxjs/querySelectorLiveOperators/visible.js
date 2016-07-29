@@ -5,7 +5,8 @@ import injectOperators from './injectOperators'
 export default function() {
 	const observable = Observable.create(subscriber => {
 		const source = this;
-
+		observable._settings = source._settings;
+		
 		// subscribe to the source
 		const subscription = source.subscribe(elm => {
 			try {

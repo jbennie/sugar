@@ -4,6 +4,8 @@
 import SObject from './SObject'
 import SimpleAjax from 'simple-ajax'
 import {Observable} from 'rxjs'
+import strToHtml from '../string/strToHtml'
+import htmlToStr from '../string/htmlToStr'
 
 export default class SAjax extends SObject {
 
@@ -64,19 +66,31 @@ export default class SAjax extends SObject {
 		}
 
 		// create the new simple ajax instance
-		this._simpleAjax = new SimpleAjax(this._requestSettings);
+		const simpleAjax = new SimpleAjax(this._requestSettings);
+		simpleAjax._requestSettings = Object.assign({}, this._requestSettings);
 
 		// listen request states
-		this._simpleAjax.on('success', (e) => {
+		simpleAjax.on('success', (e) => {
+			// grab response
+			let response = e.target.response;
+			// check if the url has an hash
+			const urlParts = simpleAjax._requestSettings.url.toString().split('#');
+			if (urlParts.length >= 2 && document !== undefined && document.querySelector !== undefined) {
+				const html = strToHtml(response);
+				const part = html.querySelector(`#${urlParts[1]}`);
+				if (part) {
+					response = htmlToStr(part);
+				}
+			}
+
 			// push the result into the observer
 			if (this._observer)
-				this._observer.next(e.target.response);
+				this._observer.next(response);
 			// notify Promise
 			if (this._resolve)
-				this._resolve(e.target.response);
+				this._resolve(response);
 		});
-		this._simpleAjax.on('error', (e) => {
-			console.log('error', e);
+		simpleAjax.on('error', (e) => {
 			// error
 			if (this._observer)
 				this._observer.error(e.target.response);
@@ -84,7 +98,7 @@ export default class SAjax extends SObject {
 			if (this._reject)
 				this._reject(e.target.response);
 		});
-		this._simpleAjax.on('complete', (e) => {
+		simpleAjax.on('complete', (e) => {
 			// check the settings to see if we need to do it again
 			// after a certain timeout
 			if (this._requestSettings.sendInterval) {
@@ -104,6 +118,9 @@ export default class SAjax extends SObject {
 				}, this._requestSettings.sendInterval);
 			}
 		});
+
+		// save into instance
+		this._simpleAjax = simpleAjax;
 	}
 
 	/**

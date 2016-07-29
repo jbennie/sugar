@@ -6,6 +6,7 @@ import morphdom from 'morphdom';
 import domReady from '../dom/domReady';
 import __autoCast from '../string/autoCast';
 import __matches from '../dom/matches';
+import __uniqid from '../tools/uniqid';
 
 export default class STemplate {
 
@@ -16,6 +17,21 @@ export default class STemplate {
 		'.s-range',
 		'.s-select',
 		'.s-radiobox'
+	];
+
+	/**
+	 * List of element to never update on render
+	 */
+	static doNotUpdate = [
+		'[data-s-element-id]'
+	];
+
+	/**
+	 * List of element to never update on render
+	 */
+	static doNotUpdateChildren = [
+		'[data-s-element-id]',
+		'[data-s-template-id]'
 	];
 
 	/**
@@ -73,7 +89,11 @@ export default class STemplate {
 
 		// check template type
 		this.template = template;
+		this.originalTemplate = template;
 		if (template.nodeName !== undefined) {
+			// apply a uniq template id
+			template.setAttribute('data-s-template-id',__uniqid());
+			// grab the html
 			const cont = document.createElement('div');
 			cont.appendChild(template.cloneNode(true));
 			this.template = cont.innerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
@@ -137,11 +157,35 @@ export default class STemplate {
 		// set the new html
 		morphdom(this.dom, rendered.trim(), {
 			onBeforeElChildrenUpdated : (node) => {
-				if (node.hasAttribute('s-template-no-child-update')) return false;
+				// if the node is the template itself
+				// we render it as well
+				if (this.originalTemplate.nodeName !== undefined
+					&& this.originalTemplate === node) return true;
+				// check the s-template-no-children-update attribute
+				if (node.hasAttribute('s-template-no-children-update')) return false;
+				// check the elements that we never want to update children
+				for(let i=0; i<STemplate.doNotUpdateChildren.length; i++) {
+					if (__matches(node, STemplate.doNotUpdateChildren[i])) {
+						// do not discard the element
+						return false;
+					}
+				}
 				return true;
 			},
 			onBeforeElUpdated : (node) => {
+				// if the node is the template itself
+				// we render it as well
+				if (this.originalTemplate.nodeName !== undefined
+					&& this.originalTemplate === node) return true;
+				// check the s-template-no-update attribute
 				if (node.hasAttribute('s-template-no-update')) return false;
+				// check the elements that we never want to update
+				for(let i=0; i<STemplate.doNotUpdate.length; i++) {
+					if (__matches(node, STemplate.doNotUpdate[i])) {
+						// do not discard the element
+						return false;
+					}
+				}
 				return true;
 			},
 			onBeforeNodeDiscarded : (node) => {

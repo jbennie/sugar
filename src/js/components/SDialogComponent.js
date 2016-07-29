@@ -150,30 +150,33 @@ class SDialogComponent extends SComponent {
 			this._resolve = resolve;
 			this._reject = reject;
 
-			// if a content is passed as parameter, use it
-			// instead of trying to find it
-			if (content) {
-				this._content = content;
-			}
+			// // if a content is passed as parameter, use it
+			// // instead of trying to find it
+			// if (content) {
+			// 	this._content = content;
+			// }
+			//
+			//
+			content = content || this.settings.content;
 
 			// try to load the content only if not already loaded
 			if ( ! this._content) {
 
 				// try to get the content of the dialog
-				if ( ! this.settings.content) {
+				if ( ! content) {
 					// the content of the dialog is the element itself
 					this._content = this.elm;
 					// open
 					this._open();
-				} else if (this.settings.content.substr(0,1) === '#') {
+				} else if (content.substr(0,1) === '#') {
 					// the content of the dialog is an element in the page
-					this._content = document.querySelector(this.settings.content);
+					this._content = document.querySelector(content);
 					// open
 					this._open();
 				} else {
 					// the content of the dialog is an ajax resource
 					const ajx = new SAjax({
-						url : this.settings.content,
+						url : content,
 						method : 'GET'
 					});
 					ajx.send().then((response) => {

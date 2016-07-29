@@ -163,9 +163,11 @@ class SEqualizeComponent extends SComponent {
 				// loon on each columns
 				[].forEach.call(line.columns, (column) => {
 					// check if an equalizer exist to use it
-					if (this.equalizerElm) {
+					// @TODO : find a way to not query each time in the column for the equalizer
+					const equalizer = column.querySelector('[s-equalizer]');
+					if (equalizer) {
 						// console.log('set equalizerElm', line.height - column.offsetHeight + 'px');
-						column.sEqualize.equalizerElm.style.height = line.height - column.offsetHeight + 'px';
+						equalizer.style.height = line.height - column.offsetHeight + 'px';
 					} else {
 						column.style.minHeight = line.height + 'px';
 						column.style.maxHeight = line.height + 'px';
