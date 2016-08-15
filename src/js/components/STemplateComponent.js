@@ -9,8 +9,9 @@
  * @version  1.0.0
  */
 import SComponent from '../core/SComponent'
-import __querySelectorLive from '../dom/querySelectorLive';
+import __querySelectorLive from '../dom/querySelectorLive'
 import STemplate from '../core/STemplate'
+import __insertAfter from '../dom/insertAfter'
 
 class STemplateComponent extends SComponent {
 
@@ -51,10 +52,34 @@ class STemplateComponent extends SComponent {
 	 * Init
 	 */
 	_init() {
+
+		// template is the element itself
+		let template = this.elm;
+		let container = null;
+
+		// ...but is the element is a script
+		// if it is, create a div after it that
+		// will contain the rendered template
+		if (this.elm.nodeName.toString().toLowerCase() === 'script') {
+			// the template is the script content
+			template = this.elm.innerHTML;
+			// create a div after the script to contain the rendered template
+			container = document.createElement('div');
+			container.classList.add('s-template-container');
+			__insertAfter(container, this.elm);
+			// remove the script element
+			this.elm.parentNode.removeChild(this.elm);
+		}
+
 		// make a template with the dom
-		this._template = new STemplate(this.elm, this.settings.data, {
+		this._template = new STemplate(template, this.settings.data, {
 			render : this.settings.render
 		});
+
+		// if we have a container, append the template into it
+		if (container) {
+			this._template.appendTo(container);
+		}
 	}
 }
 

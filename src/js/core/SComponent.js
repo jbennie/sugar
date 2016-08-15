@@ -152,7 +152,7 @@ export default class SComponent extends SElement {
 			case 'visible':
 				querySelectorLive(`[data-s-element-id="${this.uniqid}"]`).once().visible().subscribe(cb);
 			break;
-			case 'viewportVisible':
+			case 'inViewport':
 				querySelectorLive(`[data-s-element-id="${this.uniqid}"]`).once().inViewport().subscribe(cb);
 			break;
 			case 'added':

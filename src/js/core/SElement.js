@@ -84,9 +84,9 @@ export default class SElement extends SObject {
 				});
 			}
 			// check if is the onViewportVisible method
-			if (typeof(this.onViewportVisible) == 'function') {
+			if (typeof(this.inViewport) == 'function') {
 				querySelectorLive(`[data-s-element-id="${this.uniqid}"]`).once().inViewport().subscribe((elm) => {
-					this.onViewportVisible(elm);
+					this.inViewport(elm);
 				});
 			}
 		});

@@ -34,7 +34,9 @@ class SActivateComponent extends SComponent {
 	constructor(elm, settings = {}, name = 'sActivate') {
 		super(name, elm, {
 			target : '@',
+			id : null,
 			group : null,
+			activeTargetClass : null,
 			activeClass : 'active',
 			history : true,
 			anchor : true,
@@ -42,7 +44,7 @@ class SActivateComponent extends SComponent {
 			trigger : 'click',
 			unactivateTrigger : null,
 			unactivateTimeout : 200,
-			preventScroll : true,
+			preventScroll : false,
 			beforeInit : null,
 			afterInit : null,
 			beforeActivate : null,
@@ -50,10 +52,6 @@ class SActivateComponent extends SComponent {
 			beforeUnactivate : null,
 			afterUnactivate : null
 		}, settings);
-
-		this._inited = true;
-		this._tabs = {};
-
 		// init
 		this.initProxy(this.init.bind(this));
 	}
@@ -66,25 +64,42 @@ class SActivateComponent extends SComponent {
 		this.settings.beforeInit && this.settings.beforeInit(this);
 
 		// get the target
-		this.target = this.settings.target || this.elm.getAttribute('href');
+		if ( ! this.settings.target) {
+			this.settings.target = this.elm.getAttribute('href');
+		}
+		this.target = this.settings.target;
 
-		// set an id
-		this.id = this.target || `${this.name_dash}-${__uniqid()}`;
-		if (this.id.substr(0,1) == '#') this.id = this.id.substr(1);
+		// if the target is an id
+		// and the setting "id" is not set
+		// set the setting with the target id
+		if ( ! this.settings.id
+			&& (typeof(this.target) === 'string' && this.target.substr(0,1) !== '.')
+		) {
+			if (this.target.substr(0,1) === '#') {
+				this.settings.id = this.target.substr(1);
+			} else {
+				this.settings.id = this.target;
+			}
+		} else if ( ! this.settings.id) {
+			this.settings.id = __uniqid();
+		}
 
 		// if don't have any target
 		// mean that it's the element itself
 		// so check if already an id
 		// otherwise, set a new one
 		if ( ! this.target) {
+			const id = `${this.name_dash}-${__uniqid()}`;
 			if (this.elm.getAttribute('id') == null) {
-				this.elm.setAttribute('id', this.id);
+				this.elm.setAttribute('id', id);
 			}
-			this.target = `#${this.id}`;
+			this.target = `#${id}`;
 		}
 
-		// save in stack
-		window._sActivateStack[this.id] = this;
+		// save in stack id an id exist
+		if (this.settings.id) {
+			window._sActivateStack[this.settings.id] = this;
+		}
 
 		// update references
 		this.update();
@@ -94,18 +109,14 @@ class SActivateComponent extends SComponent {
 			this._handleHistory();
 		}
 
-		// managing group
-		if (! this._getGroup(this.elm)) {
+		if ( ! this._getGroup(this.elm)) {
 			[].forEach.call(this.elm.parentNode.childNodes, (sibling) => {
 				if ( ! this._getGroup(this.elm) && sibling.nodeName != '#text' && sibling.nodeName != '#coment') {
-				// if ( ! this.dataset(`${this.name}Group`)) {
 					let target = this._getTarget(sibling);
 					if (target) {
 						let sibling_grp = this._getGroup(sibling);
 						if (sibling_grp && sibling.sActivateGeneratedGroup) {
-							// this._getGroup(this.elm) = sibling_grp;
 							this.elm.setAttribute(this.name_dash+'-group', sibling_grp);
-							// this.dataset(`${this.name}Group`, sibling_grp);
 						}
 					}
 				}
@@ -121,14 +132,7 @@ class SActivateComponent extends SComponent {
 		}
 
 		// check if we are in another s-activate element
-		let closest = this._getClosestActivate();
-
-		if (closest) {
-			// save the closest content reference
-			this.parentActivate = document.body.querySelector(`[data-${this.name_dash}="${closest.id}"],[${this.name_dash}="${closest.id}"],[data-${this.name_dash}][href="#${closest.id}"],[${this.name_dash}][href="#${closest.id}"]`);
-			// this.parentActivate = document.body.querySelector('[data-s-activate="'+closest.id+'"],[s-activate="'+closest.id+'"]');
-			// console.log(this.parentActivate);
-		}
+		this.parentActivateComponent = this._getClosestActivateComponent();
 
 		// listen for click
 		this.elm.addEventListener(this.settings.trigger, (e) => {
@@ -148,7 +152,7 @@ class SActivateComponent extends SComponent {
 				if (this.settings.history) {
 					// simply activate again if the same id that anchor
 					// this can happened when an element has history to false
-					if (document.location.hash && document.location.hash == this.target) {
+					if (document.location.hash && document.location.hash === this.settings.id) {
 						this._activate();
 					} else {
 						// save the scroll position
@@ -157,11 +161,12 @@ class SActivateComponent extends SComponent {
 						// the event listener will take care of activate the
 						// good element
 						if (this.settings.preventScroll) {
-							// document.location.hash = `${this.target}/`;
-							window.history.pushState(null,null,`${document.location.pathname}${this.target}`);
+							window.history.pushState({
+								url : this.settings.id
+							},null,`${document.location.pathname}${this.settings.id}`);
 							this._processHistoryChange();
 						} else {
-							document.location.hash = `${this.target}`;
+							document.location.hash = `${this.settings.id}`;
 						}
 					}
 				} else {
@@ -193,20 +198,24 @@ class SActivateComponent extends SComponent {
 			}
 		}
 
-		// if the element has the active class
-		if (this.elm.classList.contains(this.settings.activeClass)) {
-			this._activate();
-		}
-
-		// if need to handle anchor
-		if (this.settings.anchor) {
-			let hash = document.location.hash;
-			if (hash) {
-				if (hash == this.target) {
+		// wait a loop to activate the element if needed
+		// we wait to be sure all the elements on the pages have
+		// been inited
+		setTimeout(() => {
+			// if the element has the active class
+			if ( ! document.location.hash || ! this.settings.anchor) {
+				if (this.elm.classList.contains(this.settings.activeClass)) {
 					this._activate();
 				}
+			} else if (this.settings.anchor) {
+				let hash = document.location.hash;
+				if (hash) {
+					if (hash.substr(1) === this.settings.id) {
+						this._activate();
+					}
+				}
 			}
-		}
+		});
 
 		// init callback
 		this.settings.afterInit && this.settings.afterInit(this);
@@ -246,10 +255,9 @@ class SActivateComponent extends SComponent {
 
 		// unactive all group elements
 		let grp = this._getGroup(this.elm);
-
 		[].forEach.call(document.body.querySelectorAll(`[data-${this.name_dash}-group="${grp}"],[${this.name_dash}-group="${grp}"]`), (group_elm) => {
 			// get the api
-			let api = group_elm.sActivate;
+			let api = group_elm[this.name];
 			// unactive element
 			if (api) {
 				api.unactivate();
@@ -262,15 +270,12 @@ class SActivateComponent extends SComponent {
 		// activate all the targets
 		[].forEach.call(this.targets, (target_elm) => {
 			// remove the active class on target
-			target_elm.classList.add(this.settings.activeClass);
+			target_elm.classList.add(this.settings.activeTargetClass || this.settings.activeClass);
 		});
 
 		// if has a perent, activate it
-		if (this.parentActivate) {
-			let parent_api = this.parentActivate[this.name];
-			if (parent_api) {
-				parent_api._activate();
-			}
+		if (this.parentActivateComponent) {
+			this.parentActivateComponent._activate();
 		}
 
 		// callback
@@ -298,7 +303,7 @@ class SActivateComponent extends SComponent {
 	_processHistoryChange() {
 		let hash = document.location.hash;
 		if (hash) {
-			if (hash == this.target) {
+			if (hash.substr(1) === this.settings.id) {
 				this._activate();
 			}
 		}
@@ -310,10 +315,10 @@ class SActivateComponent extends SComponent {
 	activate() {
 		if (this.settings.history) {
 			if (this.settings.preventScroll) {
-				window.history.pushState(null,null,`${document.location.pathname}#${this.target}`);
+				window.history.pushState(null,null,`${document.location.pathname}#${this.settings.id}`);
 				this._processHistoryChange();
 			} else {
-				document.location.hash = this.target;
+				document.location.hash = this.settings.id;
 			}
 		} else {
 			// activate simply
@@ -334,7 +339,7 @@ class SActivateComponent extends SComponent {
 
 		// unactive targets
 		[].forEach.call(this.targets, (target) => {
-			target.classList.remove(this.settings.activeClass);
+			target.classList.remove(this.settings.activeTargetClass || this.settings.activeClass);
 		});
 
 		// callback
@@ -345,8 +350,19 @@ class SActivateComponent extends SComponent {
 	 * Update targets, etc...
 	 */
 	update(scope = document.body) {
-		if (this.target) {
-			this.targets = scope.querySelectorAll(this.target);
+		// process target
+		let target = this.target;
+		// if ( typeof(target) === 'string') {
+		// 	if (target.substr(0,1) !== '.'
+		// 		|| target.substr(0,1) !== '#') {
+		// 		target = `[${target}]`;
+		// 	}
+		// }
+		if (target) {
+			this.targets = scope.querySelectorAll(target);
+			[].forEach.call(this.targets, (t) => {
+				t._sActivateTrigger = this.elm;
+			});
 		} else {
 			this.targets = [];
 		}
@@ -355,16 +371,15 @@ class SActivateComponent extends SComponent {
 	/**
 	 * Get closest
 	 */
-	_getClosestActivate() {
-		// process target
-		let t = this.target;
-		if (t.substr(0,1) === '#') {
-			t = t.substr(1);
-		}
+	_getClosestActivateComponent() {
 		let elm = this.elm.parentNode;
 		while(elm && elm != document) {
-			if (elm.id && elm.id !== t && window._sActivateStack[`${elm.id}`]) {
-				return elm;
+			if (
+				elm._sActivateTrigger // if the element is a target of an activate component
+				// && elm._sActivateTrigger[this.name] // and the trigger is the same instance type
+				&& elm._sActivateTrigger !== this.elm
+			) {
+				return elm._sActivateTrigger[this.name];
 			}
 			elm = elm.parentNode;
 		}

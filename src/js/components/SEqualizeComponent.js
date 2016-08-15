@@ -63,6 +63,9 @@ class SEqualizeComponent extends SComponent {
 	 * Init
 	 */
 	_init() {
+
+		console.log('iniot');
+
 		if ( ! SEqualizeComponent.columns[this.settings.group]) {
 			SEqualizeComponent.columns[this.settings.group] = {
 				inProgress : false,

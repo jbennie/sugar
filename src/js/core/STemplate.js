@@ -11,7 +11,7 @@ import __uniqid from '../tools/uniqid';
 export default class STemplate {
 
 	/**
-	 * List of elements to never discard on render
+	 * Array of elements selectors to never discard on render
 	 */
 	static doNotDiscard = [
 		'.s-range',
@@ -20,14 +20,14 @@ export default class STemplate {
 	];
 
 	/**
-	 * List of element to never update on render
+	 * Array of elements selectors to never update on render
 	 */
 	static doNotUpdate = [
 		'[data-s-element-id]'
 	];
 
 	/**
-	 * List of element to never update on render
+	 * Array of elements selectors to never update childs on render
 	 */
 	static doNotUpdateChildren = [
 		'[data-s-element-id]',
@@ -51,6 +51,13 @@ export default class STemplate {
 	 * Store the reference to the created dom structure
 	 */
 	dom = null;
+
+	/**
+	 * data
+	 * Store the data object used to render the template
+	 * @type 	{Object}
+	 */
+	data = {};
 
 	/**
 	 * Links
@@ -155,7 +162,7 @@ export default class STemplate {
 		// process rendered template
 		rendered = this.processOutput(rendered);
 		// set the new html
-		morphdom(this.dom, rendered.trim(), {
+		this.dom = morphdom(this.dom, rendered.trim(), {
 			onBeforeElChildrenUpdated : (node) => {
 				// if the node is the template itself
 				// we render it as well
@@ -234,9 +241,10 @@ export default class STemplate {
 			// check if already binded
 			const model = elm.getAttribute('s-template-model');
 			if ( ! elm._sTemplateBinded) {
-			 	elm._sTemplateBinded = true;
+				elm._sTemplateBinded = true;
 				elm.addEventListener('change', (e) => {
 					// update the data accordingly
+					console.log('value', __autoCast(e.target.value));
 					this.data[model] = __autoCast(e.target.value);
 				});
 			 }

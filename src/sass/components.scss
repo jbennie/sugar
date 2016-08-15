@@ -8,10 +8,11 @@ $sizes : (small,default,medium,big,bigger);
 // Dropdown
 //
 @include s-dropdown(
-	$sizes : $sizes,
 	$colors : $colors
 );
-@include s-dropup();
+@include s-dropup(
+	$colors : $colors
+);
 
 //
 // Activate
