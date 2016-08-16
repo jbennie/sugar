@@ -69,6 +69,13 @@ class STemplateComponent extends SComponent {
 			__insertAfter(container, this.elm);
 			// remove the script element
 			this.elm.parentNode.removeChild(this.elm);
+		} else if (this.elm.nodeName !== undefined) {
+			// apply a uniq template id
+			// template.setAttribute('data-s-template-id',__uniqid());
+			// grab the html
+			const cont = document.createElement('div');
+			cont.appendChild(this.elm.cloneNode(true));
+			template = cont.innerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
 		}
 
 		// make a template with the dom
@@ -80,6 +87,13 @@ class STemplateComponent extends SComponent {
 		if (container) {
 			this._template.appendTo(container);
 		}
+	}
+
+	/**
+	 * Watch shortcut
+	 */
+	watch(what, cb) {
+		this._template.watcher.watch(this.settings.data, what, cb);
 	}
 }
 

@@ -121,6 +121,23 @@ export default class SWatcher {
 	 * Watch something on the element
 	 */
 	watch(object, path, cb) {
+		// split the path by ',' to watch multiple properties
+		if ( typeof(path) === 'string') {
+			path = path.split(',');
+		}
+		if ( ! path instanceof Array) {
+			throw "The 'path' parameter has to be a string or an array...";
+		}
+		// loop on each path to watch
+		path.forEach((p) => {
+			this._watch(object, p.trim(), cb);
+		});
+	}
+
+	/**
+	 * Internal watch
+	 */
+	_watch(object, path, cb) {
 		// check if the path parameter has already a descriptor
 		const split = path.split('.');
 		let obj = object;

@@ -15,8 +15,8 @@ import __previous from '../dom/previous'
 import __offset from '../dom/offset'
 import __scrollTop from '../dom/scrollTop'
 import __uniqid from '../tools/uniqid'
-import __insertAfter from '../dom/insertAfter'
 import SEvent from '../core/SEvent'
+import STemplate from '../core/STemplate'
 
 // Select
 class SSelectComponent extends SComponent {
@@ -55,6 +55,8 @@ class SSelectComponent extends SComponent {
 	 */
 	init() {
 
+
+
 		// utils variables
 		this._openOnFocus = false;
 		this._currentActiveOption = null; // save the current keyboard selected item
@@ -65,7 +67,7 @@ class SSelectComponent extends SComponent {
 		// set the id to the element to
 		// be able to reach it and listen for
 		// new items in it
-		this.elm.setAttribute('data-s-select', this.id);
+		this.elm.setAttribute('s-select-id', this.id);
 
 		// build html structure
 		this._buildHTML();
@@ -78,9 +80,7 @@ class SSelectComponent extends SComponent {
 
 		// make sure when we click that we focus on the search field
 		this.container.addEventListener('click', (e) => {
-			if (this.settings.search) {
-				this.search_field.focus();
-			}
+			this.search_field.focus();
 		});
 
 		// prevent default behavior on click in options container
@@ -90,10 +90,8 @@ class SSelectComponent extends SComponent {
 
 		// open on click
 		this.container.addEventListener('click', (e) => {
-			// do not open when the click is on an option
-			if ( e.target.classList.contains('s-select__option')) return;
 			// open
-			if ( ! this.isOpened()) {
+			if ( ! this.isOpen()) {
 				this.open();
 			}
 		});
@@ -140,22 +138,24 @@ class SSelectComponent extends SComponent {
 		let _onScrollResizeFn = (e) => {
 			this._onScrollResize(e);
 		}
-		let _onDocumentClick = (e) => {
-			this._onDocumentClick(e);
-		}
 		this.elm.addEventListener('open', (e) => {
 			document.addEventListener('keyup', _onKeyUpFn);
 			document.addEventListener('keydown', _onKeyDownFn);
-			document.addEventListener('click', _onDocumentClick);
 			window.addEventListener('scroll', _onScrollResizeFn);
 			window.addEventListener('resize', _onScrollResizeFn);
 		});
 		this.elm.addEventListener('close', (e) => {
 			document.removeEventListener('keyup', _onKeyUpFn);
 			document.removeEventListener('keydown', _onKeyDownFn);
-			document.removeEventListener('click', _onDocumentClick);
 			window.removeEventListener('scroll', _onScrollResizeFn);
 			window.removeEventListener('resize', _onScrollResizeFn);
+		});
+
+		// listen for click outside of the dropdown
+		document.addEventListener('click', (e) => {
+			if ( ! this.container.contains(e.target)) {
+				this.close();
+			}
 		});
 
 		// listen for change on base select
@@ -192,23 +192,16 @@ class SSelectComponent extends SComponent {
 		}
 
 		// listen for new elements in the select
-		querySelectorLive('option, optgroup', {
+		querySelectorLive('[s-select-id="'+this.id+'"] > option, [data-s-select="'+this.id+'"] > optgroup', {
 			groupNodes : true,
 			rootNode : this.elm,
-			onNodeRemoved : (nodes) => {
-				this.refresh();
-			}
+			// onNodeRemoved : (nodes) => {
+			// 	this.refresh();
+			// }
 		}).subscribe((elms) => {
 			console.log('up');
 			// refresh the select
 			this.refresh();
-		});
-
-		// specify what to do after updating the element
-		// with the sTemplate
-		this.elm.addEventListener('sTemplate:updated', (e) => {
-			// hide the real select
-			this.hideRealSelect();
 		});
 	}
 
@@ -255,19 +248,10 @@ class SSelectComponent extends SComponent {
 		// }, 100);
 	}
 
-	/**
-	 * When the user click outside of the select
-	 */
-	_onDocumentClick(e) {
-		if ( ! this.container.contains(e.target)) {
-			this.close();
-		}
-	}
-
 	_onKeyUp(e) {
 		if ((e.keyCode == 9 // tab
 			|| e.keyCode == 27 // escape
-		) && this.isOpened()) {
+			) && this.isOpen()) {
 			if ( ! this._openOnFocus) {
 				this.close();
 			}
@@ -354,41 +338,52 @@ class SSelectComponent extends SComponent {
 		}
 	}
 
+	_appendNew() {
+		let opt = document.createElement('option');
+		opt.innerHTML = 'Coco';
+		this.elm.appendChild(opt);
+		setTimeout(() => {
+			this._appendNew();
+		}, 0 + Math.random() * 1000);
+	}
+
 	/**
 	 * Create html structure
 	 */
 	_buildHTML() {
-		let container = document.createElement('div');
-		container.setAttribute('class',this.elm.getAttribute('class') + ' s-select');
-		container.setAttribute('s-template-do-not-update', true);
-		container.setAttribute('s-template-do-not-children-update', true);
-		container.setAttribute('s-template-do-not-discard', true);
 
-		// multiple class
-		if (this.elm.getAttribute('multiple') != null) {
-			container.classList.add('s-select--multiple');
-		}
 
-		let selection_container = document.createElement('div');
-		selection_container.setAttribute('class', 's-select__selection-container');
+		const template = `
+			<div class="${this.elm.getAttribute('class')} s-select" name="container"
+				<% if (multiple) { %>
+					multiple
+				<% } %}
+			>
+				<div class="s-select__selection-container" name="selection_container">
+					<div class="s-select__selection-aligner"></div>
+				</div>
+				<div class="s-select__dropdown" style="font-size:1rem" name="dropdown">
+					<div class="s-select__search-container" name="search_container">
+						<input type="search" class="s-select__search-field"
+							<% if (searchPlaceholder) { %>
+								placeholder="<%= searchPlaceholder %>"
+							<& } %>
+							name="search_field"
+						/>
+					</div>
+					<div class="s-select__options">
+						<%
+					</div>
+				</div>
+			</div>
+		`;
+		
 
-		let selection_aligner = document.createElement('div');
-		selection_aligner.setAttribute('class', 's-select__selection-aligner');
+		// search_field.setAttribute('type', 'search');
+		// if (search_field.type != 'search') {
+		// 	search_field.type = 'text';
+		// }
 
-		let dropdown = document.createElement('div');
-		dropdown.setAttribute('class', 's-select__dropdown');
-		dropdown.style.fontSize = '1rem';
-
-		// search
-		let search_container = document.createElement('div');
-		search_container.setAttribute('class','s-select__search-container');
-		let search_field = document.createElement('input');
-		search_field.setAttribute('type', 'search');
-		if (search_field.type != 'search') {
-			search_field.type = 'text';
-		}
-		search_field.setAttribute('placeholder', this.settings.searchPlaceholder);
-		search_field.setAttribute('class', 's-select__search-field');
 
 		// options
 		let options_container = document.createElement('div');
@@ -404,11 +399,16 @@ class SSelectComponent extends SComponent {
 		container.appendChild(selection_container);
 		container.appendChild(dropdown);
 
-		// hide the real select
-		this.hideRealSelect();
+		// append the element right before the select
+		this._template = new STemplateComponent(container)
+		this.elm.parentNode.insertBefore(container, this.elm);
 
-		// append the element right after the real select
-		__insertAfter(container, this.elm);
+		// hide element
+		// this.elm.style.position = 'absolute';
+		// this.elm.style.left = '-120vw';
+		// this.elm.style.opacity = 0;
+		// this.elm.tabIndex = -1;
+		// this.elm.style.height = '400px';
 
 		// save into object
 		this.container = container;
@@ -417,16 +417,6 @@ class SSelectComponent extends SComponent {
 		this.selection_container = selection_container;
 		this.search_field = search_field;
 		this.options_container = options_container;
-	}
-
-	/**
-	 * Hide the select
-	 */
-	hideRealSelect() {
-		this.elm.style.position = 'absolute';
-		this.elm.style.left = '-120vw';
-		this.elm.style.opacity = 0;
-		this.elm.tabIndex = -1;
 	}
 
 	/**
@@ -729,7 +719,7 @@ class SSelectComponent extends SComponent {
 		options_parent.appendChild(this.options_container);
 
 		// set position
-		if (this.isOpened()) {
+		if (this.isOpen()) {
 			this._setPosition();
 		}
 	}
@@ -783,13 +773,13 @@ class SSelectComponent extends SComponent {
 	 * Is multiple
 	 */
 	isMultiple() {
-		return this.elm.hasAttribute('multiple');
+		return this.elm.getAttribute('multiple') != null;
 	}
 
 	/**
 	 * Is opened
 	 */
-	isOpened() {
+	isOpen() {
 		return this.container.classList.contains('s-select--opened');
 	}
 
@@ -797,7 +787,6 @@ class SSelectComponent extends SComponent {
 	 * Close
 	 */
 	close() {
-
 		this.container.classList.remove('s-select--opened');
 		// unactivate the option if one exist
 		if (this._currentActiveOption) {

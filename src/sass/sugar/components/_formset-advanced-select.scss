@@ -5,6 +5,11 @@ $_s-formset-advanced-select-inited : false;
 
 		.s-select {
 			position:relative;
+
+			select:disabled + & {
+				opacity:.65;
+				pointer-events:none;
+			}
 		}
 		.s-select__dropdown {
 			opacity:0;
