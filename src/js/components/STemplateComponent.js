@@ -12,6 +12,9 @@ import SComponent from '../core/SComponent'
 import __querySelectorLive from '../dom/querySelectorLive'
 import STemplate from '../core/STemplate'
 import __insertAfter from '../dom/insertAfter'
+import __outerHTML from '../dom/outerHTML'
+import __dispatchEvent from '../dom/dispatchEvent'
+import __closest from '../dom/closest'
 
 class STemplateComponent extends SComponent {
 
@@ -21,6 +24,8 @@ class STemplateComponent extends SComponent {
 	static setup(type, settings, name = 'sTemplate') {
 		SComponent.setup(name, type, settings);
 	}
+
+	templateSettings = null;
 
 	/**
 	 * Constructor
@@ -36,11 +41,18 @@ class STemplateComponent extends SComponent {
 			data : {},
 
 			/**
-			 * render
-			 * The render function to use
+			 * compile
+			 * The compile function to use
 			 * @type 	{Function}
 			 */
-			render : null
+			compile : null,
+
+			/**
+			 * template
+			 * The template to use. If not specified, will be the element itself used as template
+			 * @type 	{String}
+			 */
+			template : null
 
 		}, settings);
 
@@ -53,40 +65,131 @@ class STemplateComponent extends SComponent {
 	 */
 	_init() {
 
-		// template is the element itself
-		let template = this.elm;
-		let container = null;
+		this.elm.setAttribute('s-template-component', true);
+		console.warn('set');
 
-		// ...but is the element is a script
-		// if it is, create a div after it that
-		// will contain the rendered template
-		if (this.elm.nodeName.toString().toLowerCase() === 'script') {
-			// the template is the script content
-			template = this.elm.innerHTML;
-			// create a div after the script to contain the rendered template
-			container = document.createElement('div');
-			container.classList.add('s-template-container');
-			__insertAfter(container, this.elm);
-			// remove the script element
-			this.elm.parentNode.removeChild(this.elm);
-		} else if (this.elm.nodeName !== undefined) {
-			// apply a uniq template id
-			// template.setAttribute('data-s-template-id',__uniqid());
-			// grab the html
-			const cont = document.createElement('div');
-			cont.appendChild(this.elm.cloneNode(true));
-			template = cont.innerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
-		}
+		setTimeout(() => {
+			console.error('GO');
 
-		// make a template with the dom
-		this._template = new STemplate(template, this.settings.data, {
-			render : this.settings.render
+			console.warn(this.elm.getAttribute('data-s-element-id'));
+
+			if ( ! __closest(this.elm, '[s-template-component]')) {
+
+				console.log('TTTT', this.elm);
+
+				// template is the element itself
+				let template = null;
+
+				// manage template settings to make a dom element with it
+				// only once
+				//
+				console.log(typeof(this.settings.template), this.templateSettings);
+				if (this.templateSettings === null && typeof(this.settings.template) === 'string') {
+					const cont = document.createElement('div');
+					cont.innerHTML = this.settings.template;
+					this.templateSettings = cont;
+					console.log('sett temp', this.templateSettings);
+				}
+
+				// ...but is the element is a script
+				// if it is, create a div after it that
+				// will contain the rendered template
+				if (this.elm.nodeName.toString().toLowerCase() === 'script') {
+					// the template is the script content
+					template = `<div>${this.elm.innerHTML}</div>`;
+				} else if (this.elm.nodeName !== undefined) {
+					template = this.elm;
+					// template = __outerHTML(this.elm).replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
+				}
+
+				// if we have any template from settings
+				// we assume that the template in the html are
+				// contents of the setting template
+				if (this.templateSettings && template) {
+
+					let cont = template;
+
+					if (typeof(template) === 'string') {
+						// create a new container to convert the string to html elements
+						const cont = document.createElement('div');
+						cont.innerHTML = template;
+					}
+
+					const yields = cont.querySelectorAll('yield');
+
+					// if some yields, loop on each
+					if (yields.length) {
+						[].forEach.call(yields, (y) => {
+							//  is an id
+							const id = y.id;
+
+							if (id) {
+								// replace the yields
+								const yToReplace = this.templateSettings.querySelector(`yield[for="${id}"]`);
+								if (yToReplace) {
+									__insertAfter(y.innerHTML, yToReplace);
+									yToReplace.parentNode.removeChild(yToReplace);
+								}
+							} else {
+								const yToReplace = this.templateSettings.querySelector('yield');
+								if (yToReplace) {
+									__insertAfter(y.innerHTML, yToReplace);
+									yToReplace.parentNode.removeChild(yToReplace);
+								}
+							}
+
+							// if (id) {
+							// 	// replace the yield id
+							// 	const reg = new RegExp(`<yield for="${id}"\s?\/>`,'g');
+							// 	templateSettings = templateSettings.replace(reg, y.innerHTML);
+							// } else {
+							// 	// common yield
+							// 	templateSettings = templateSettings.replace(/<yield\s?\>/g, y.innerHTML);
+							// }
+						});
+					}
+					template = this.templateSettings;
+				} else if ( this.templateSettings && ! template) {
+					template = this.templateSettings;
+				}
+
+				console.log('template', template);
+
+				// check if no template specified
+				if ( ! template) {
+					throw "You have to specify a template either by setting up the settings.template variable, by initiating this component on a 'script' tag or on any html element like a 'div' or something...";
+				}
+
+				// make a template with the dom
+				this._template = new STemplate(template, this.settings.data, {
+					compile : this.settings.compile
+				});
+
+				// if we have a container, append the template into it
+				if ( ! template.nodeName) {
+					__insertAfter(this._template.dom, this.elm);
+					// remove the element itself
+					this.elm.parentNode.removeChild(this.elm);
+				}
+
+				// render
+				this.render();
+
+			}
+
 		});
 
-		// if we have a container, append the template into it
-		if (container) {
-			this._template.appendTo(container);
-		}
+
+
+	}
+
+	/**
+	 * Render
+	 */
+	render() {
+		console.log('render!!!', this._template.templateId);
+		// render the template
+		this._template.render();
 	}
 
 	/**

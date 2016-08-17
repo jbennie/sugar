@@ -193,13 +193,11 @@ class SSelectComponent extends SComponent {
 
 		// listen for new elements in the select
 		querySelectorLive('option, optgroup', {
-			groupNodes : true,
 			rootNode : this.elm,
 			onNodeRemoved : (nodes) => {
 				this.refresh();
 			}
-		}).subscribe((elms) => {
-			console.log('up');
+		}).group().subscribe((elms) => {
 			// refresh the select
 			this.refresh();
 		});

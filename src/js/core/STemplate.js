@@ -10,6 +10,7 @@ import __autoCast from '../string/autoCast';
 import __matches from '../dom/matches';
 import __uniqid from '../tools/uniqid';
 import querySelectorLive from '../dom/querySelectorLive';
+import __outerHTML from '../dom/outerHTML';
 
 export default class STemplate {
 
@@ -18,7 +19,9 @@ export default class STemplate {
 	 */
 	static doNotDiscard = [
 		'.s-range',
-		'.s-radiobox'
+		'.s-radiobox',
+		'[s-template-id]',
+		'[s-template-component]'
 	];
 
 	/**
@@ -26,6 +29,7 @@ export default class STemplate {
 	 */
 	static doNotUpdate = [
 		'[s-template-id]',
+		'[s-template-component]'
 	];
 
 	/**
@@ -86,10 +90,10 @@ export default class STemplate {
 
 		/**
 		 * render
-		 * A render function to process the template
+		 * A compile function to process the template
 		 * @type 	{Function}
 		 */
-		render : null
+		compile : null
 
 	};
 
@@ -109,7 +113,23 @@ export default class STemplate {
 
 		// wrap the template into a div
 		// with the templateId
-		this.template = `<div s-template-id="${this.templateId}">${template}</div>`;
+		this.template = template;
+
+		// if template is a string
+		if (typeof(this.template) === 'string') {
+			// set the s-template-id attribute in first template node
+			this.template = this.template.replace('>',` s-template-id="${this.templateId}">`);
+			this.template = this.template.replace('s-template-component=""','');
+			this.templateString = this.template;
+			this.dom = document.createElement('div');
+		}
+		// if the template is a node
+		else if (this.template.nodeName) {
+			this.template.setAttribute('s-template-id', this.templateId);
+			this.template.removeAttribute('s-template-component');
+			this.templateString = __outerHTML(this.template).replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
+			this.dom = this.template;
+		}
 
 		// set the data into instance
 		this.data = data;
@@ -152,39 +172,55 @@ export default class STemplate {
 			});
 		}
 
-		// create the container
-		this.dom = document.createElement('div');
-
 		// wait the element is added to the dom to render it first time
-		querySelectorLive(`[s-template-id="${this.templateId}"]`).subscribe((elm) => {
-			// render
-			this._internalRender();
-		});
+		// querySelectorLive(`[s-template-id="${this.templateId}"]`).subscribe((elm) => {
+		// 	console.log('render !!!');
+		// 	// render
+		// 	this._internalRender();
+		// });
 	}
 
 	/**
-	 * Render the template
+	 * Compile the template
 	 */
-	render(template, data) {
+	compile(template, data) {
 		return template;
 	}
 
 	/**
 	 * Render the template
 	 */
-	_internalRender() {
-		// render the template
-		let rendered = '';
-		if (this.settings.render) {
-			rendered = this.settings.render(this.template, this.data);
-		} else {
-			rendered = this.render(this.template, this.data);
+	render() {
+		// check that we are in the dom
+		if ( ! this.dom.parentNode) {
+			throw "Your template has to be in the DOM in order to be rendered...";
 		}
-		// process rendered template
-		rendered = this.processOutput(rendered);
+		// console.warn('render', this.template);
+		// console.log('render', this.templateId, this.data.name);
+		this._internalRender();
+	}
+
+	/**
+	 * Render the template
+	 */
+	_internalRender() {
+		// compile the template
+		let compiled = '';
+		if (this.settings.compile) {
+			compiled = this.settings.compile(this.templateString, this.data);
+		} else {
+			compiled = this.compile(this.templateString, this.data);
+		}
+		// process compiled template
+		compiled = this.processOutput(compiled);
+
+		console.warn('compiled', compiled);
+
 		// set the new html
-		morphdom(this.dom, rendered.trim(), {
+		morphdom(this.dom, compiled.trim(), {
 			onBeforeElChildrenUpdated : (node) => {
+				// update if is the template itself
+				if (this.dom === node) return true;
 				// check the s-template-no-children-update attribute
 				if (node.hasAttribute && node.hasAttribute('s-template-do-not-children-update')) return false;
 				// check the elements that we never want to update children
@@ -329,6 +365,8 @@ export default class STemplate {
 	 */
 	appendTo(element) {
 		element.appendChild(this.dom);
+		// render
+		this._internalRender();
 	}
 
 	/**
