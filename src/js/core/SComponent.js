@@ -135,8 +135,6 @@ export default class SComponent extends SElement {
 				this.binder.bindObjectPath2ElementAttribute(this, `settings.${settingName}`, this.elm, settingCamelName);
 			}
 		}
-
-		// console.log('THIS', this);
 	}
 
 	/**
@@ -150,17 +148,17 @@ export default class SComponent extends SElement {
 
 		switch(this.settings.initWhen) {
 			case 'visible':
-				querySelectorLive(`[data-s-element-id="${this.uniqid}"]`).once().visible().subscribe(cb);
+				querySelectorLive(`[s-element-id="${this.uniqid}"]`).once().visible().subscribe(cb);
 			break;
 			case 'inViewport':
-				querySelectorLive(`[data-s-element-id="${this.uniqid}"]`).once().inViewport().subscribe(cb);
+				querySelectorLive(`[s-element-id="${this.uniqid}"]`).once().inViewport().subscribe(cb);
 			break;
 			case 'added':
-				querySelectorLive(`[data-s-element-id="${this.uniqid}"]`).once().subscribe(cb);
+				querySelectorLive(`[s-element-id="${this.uniqid}"]`).once().subscribe(cb);
 			break;
 			case 'hover':
 				function clickHandler(e) {
-					const id = e.target.getAttribute('data-s-element-id');
+					const id = e.target.getAttribute('s-element-id');
 					if (e.target === this.elm) {
 						cb();
 						document.removeEventListener('mouseover', clickHandler.bind(this));
@@ -170,7 +168,7 @@ export default class SComponent extends SElement {
 			break;
 			case 'click':
 				function clickHandler(e) {
-					const id = e.target.getAttribute('data-s-element-id');
+					const id = e.target.getAttribute('s-element-id');
 					if (e.target === this.elm) {
 						cb();
 						document.removeEventListener('click', clickHandler.bind(this));

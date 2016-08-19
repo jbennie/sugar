@@ -12,6 +12,7 @@ import SComponent from '../core/SComponent'
 import __querySelectorLive from '../dom/querySelectorLive';
 import __scrollTop from '../dom/scrollTop'
 import __offset from '../dom/offset'
+import __strToHtml from '../string/strToHtml'
 import __getAnimationProperties from '../dom/getAnimationProperties'
 import SAjax from '../core/SAjax'
 import STemplate from '../core/STemplate'
@@ -39,11 +40,11 @@ class SDialogComponent extends SComponent {
 	_content = null;
 
 	/**
-	 * _template
-	 * Store the STemplate instance of the dialog
-	 * @type 	{STemplate}
+	 * _html
+	 * Store the html representation of the dialog
+	 * @type 	{HTMLElement}
 	 */
-	_template = null;
+	_html = null;
 
 	/**
 	 * _allowModalClose
@@ -150,13 +151,7 @@ class SDialogComponent extends SComponent {
 			this._resolve = resolve;
 			this._reject = reject;
 
-			// // if a content is passed as parameter, use it
-			// // instead of trying to find it
-			// if (content) {
-			// 	this._content = content;
-			// }
-			//
-			//
+			// get content from passed parameter or settings
 			content = content || this.settings.content;
 
 			// try to load the content only if not already loaded
@@ -213,35 +208,46 @@ class SDialogComponent extends SComponent {
 
 		// create the DOM structure
 		if ( ! this._template) {
-			this._template = new STemplate(`
+
+			this._html = __strToHtml(`
 				<div class="s-dialog" style="display: block; position: fixed; top: 0px; left: 0px; width: 100%; height: 100vh; overflow: auto; text-align: center; white-space: nowrap;">
 					<div name="overlay" class="s-dialog__overlay" style="position:fixed; top:0; left:0; width:100%; height:100%;"></div>
 					<div style="width:0px; height:100%; display:inline-block; vertical-align:middle;"></div>
-					<div name="content" class="s-dialog__content" style="display: inline-block; text-align: left; margin: 0px auto; position: relative; vertical-align: middle; white-space: normal;">
+					<div name="content" class="s-dialog__content" style="display: inline-block; text-align: left; margin: 0px auto; position: relative; vertical-align: middle; white-space: normal;" s-template-do-not-update>
 						<!-- content will be here... -->
 					</div>
 				</div>
 			`);
+
+			console.log('html', this._html);
+
+			this.refs = {
+				elm : this._html,
+				overlay : this._html.querySelector('[name="overlay"]'),
+				content : this._html.querySelector('[name="content"]'),
+			}
+
+
 			// listen for click on the overlay
 			// to close the dialog
-			this._template.refs.overlay.addEventListener('click', (e) => {
+			this.refs.overlay.addEventListener('click', (e) => {
 				this.close(false);
 			});
 			// if not a modal, make the cursor pointer on the overlay
 			if ( ! this.settings.modal) {
-				this._template.refs.overlay.style.cursor = 'pointer';
+				this.refs.overlay.style.cursor = 'pointer';
 			}
 		}
 
 		// set the content into the content of the template
 		if (typeof(this._content) === 'string') {
-			this._template.refs.content.innerHTML = this._content;
+			this.refs.content.innerHTML = this._content;
 		} else if (this._content.nodeName !== undefined) {
-			this._template.refs.content.appendChild(this._content);
+			this.refs.content.appendChild(this._content);
 		}
 
 		// try to find the s-dialog-ok and the s-dialog-cancel elements
-		const okElms = this._template.refs.content.querySelectorAll('[s-dialog-ok]');
+		const okElms = this.refs.content.querySelectorAll('[s-dialog-ok]');
 		if (okElms.length) {
 			[].forEach.call(okElms, (elm) => {
 				if ( ! elm._SDialogCancelClickListener) {
@@ -253,7 +259,7 @@ class SDialogComponent extends SComponent {
 				}
 			});
 		}
-		const cancelElms = this._template.refs.content.querySelectorAll('[s-dialog-cancel]');
+		const cancelElms = this.refs.content.querySelectorAll('[s-dialog-cancel]');
 		if (cancelElms.length) {
 			[].forEach.call(cancelElms, (elm) => {
 				if ( ! elm._SDialogOkClickListener) {
@@ -267,8 +273,7 @@ class SDialogComponent extends SComponent {
 		}
 
 		// add the dialog to the body
-		this._template.appendTo(document.body);
-
+		document.body.appendChild(this._html);
 	}
 
 	/**
@@ -299,10 +304,10 @@ class SDialogComponent extends SComponent {
 			&& ! force) return;
 
 		// add the out class to the dialog
-		this._template.refs.elm.classList.add(this.settings.outClass);
+		this.refs.elm.classList.add(this.settings.outClass);
 
 		// get animation properties
-		const animationProperties = __getAnimationProperties(this._template.refs.elm);
+		const animationProperties = __getAnimationProperties(this.refs.elm);
 
 		// do not listen for keyup anymore
 		document.removeEventListener('keyup', this._onKeyup);
@@ -314,10 +319,10 @@ class SDialogComponent extends SComponent {
 		setTimeout(() => {
 
 			// remove the out class
-			this._template.refs.elm.classList.remove(this.settings.outClass);
+			this.refs.elm.classList.remove(this.settings.outClass);
 
 			// remove the container from the dom
-			this._template.remove();
+			document.body.removeChild(this._html);
 
 			// update counter
 			if ( SDialogComponent.counter > 0) {

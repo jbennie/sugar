@@ -142,9 +142,7 @@ class SRangeComponent extends SComponent {
 		this.baseElm.appendChild(this.backgroundLowerElm);
 
 		// hide the base input
-		this.elm.style.position = 'absolute';
-		this.elm.style.left = '-4000px';
-		this.elm.style.opacity = 0;
+		this.hideRealInput();
 
 		// init tooltip
 		if (this.settings.tooltips)
@@ -200,6 +198,24 @@ class SRangeComponent extends SComponent {
 		setTimeout(() => {
 			this.container.classList.remove('clear-transmations');
 		});
+
+		// specify what to do after updating the element
+		// with the sTemplate
+		this.elm.addEventListener('sTemplate:updated', (e) => {
+			// hide the real input
+			this.hideRealInput();
+		});
+
+	}
+
+	/**
+	 * Hide the base input
+	 */
+	hideRealInput() {
+		// hide the base input
+		this.elm.style.position = 'absolute';
+		this.elm.style.left = '-4000px';
+		this.elm.style.opacity = 0;
 	}
 
 	/**

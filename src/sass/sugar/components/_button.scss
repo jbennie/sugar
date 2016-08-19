@@ -18,6 +18,7 @@ $_s-button-inited : false;
 			-webkit-appearance: none;
 			line-height: 1;
 			text-decoration: none;
+			font-size:1em;
 		}
 	}
 }
@@ -80,6 +81,7 @@ $_s-button-inited : false;
 		// base
 		.btn {
 			@extend %s-button-bare;
+			@include s-transition(fast);
 		}
 		button {
 			line-height: 1 !important;
@@ -106,10 +108,12 @@ $_s-button-inited : false;
 					BEM : '&.btn--active',
 					SMACCS : '&.is-active'
 				))} {
-					background-color : s-color($color, -darken 15%);
-					border-color: s-color($color, -darken 15%);
+					&:not(:disabled) {
+						background-color : s-color($color, -darken 15%);
+						border-color: s-color($color, -darken 15%);
+					}
 				}
-				:checked + & {
+				:checked + &:not(:disabled) {
 					background-color : s-color($color, -darken 25%);
 					border-color: s-color($color, -darken 25%);
 				}
@@ -129,12 +133,14 @@ $_s-button-inited : false;
 						BEM : '&.btn--active',
 						SMACCS : '&.is-active'
 					))} {
-						background-color: s-color($color);
-						border-color: s-color($color);
-						@if lightness(s-color($color)) > 70 {
-							color : s-color($color, -darken 30%);
-						} @else {
-							color : white;
+						&:not(:disabled) {
+							background-color: s-color($color);
+							border-color: s-color($color);
+							@if lightness(s-color($color)) > 70 {
+								color : s-color($color, -darken 30%);
+							} @else {
+								color : white;
+							}
 						}
 					}
 				}

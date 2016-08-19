@@ -3,7 +3,7 @@ export default function strToHtml(string) {
 		const cont = document.createElement('div');
 		cont.innerHTML = string;
 		if (cont.children.length === 1) {
-			return cont.children;
+			return cont.children[0];
 		} else {
 			return cont;
 		}

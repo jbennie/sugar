@@ -67,25 +67,25 @@ export default class SElement extends SObject {
 		this.uniqid = __uniqid();
 
 		// set the uniqid to the element
-		this.elm.setAttribute('data-s-element-id', this.uniqid);
+		this.elm.setAttribute('s-element-id', this.uniqid);
 
 		// listen when the element is added to the dom
 		setTimeout(() => {
 
 			if (typeof(this.onAdded) == 'function') {
-				querySelectorLive(`[data-s-element-id="${this.uniqid}"]`).once().subscribe((elm) => {
+				querySelectorLive(`[s-element-id="${this.uniqid}"]`).once().subscribe((elm) => {
 					if (this.onAdded) this.onAdded();
 				});
 			}
 			// check if is the onVisible method
 			if (typeof(this.onVisible) == 'function') {
-				querySelectorLive(`[data-s-element-id="${this.uniqid}"]`).once().visible().subscribe((elm) => {
+				querySelectorLive(`[s-element-id="${this.uniqid}"]`).once().visible().subscribe((elm) => {
 					this.onVisible(elm);
 				});
 			}
 			// check if is the onViewportVisible method
 			if (typeof(this.inViewport) == 'function') {
-				querySelectorLive(`[data-s-element-id="${this.uniqid}"]`).once().inViewport().subscribe((elm) => {
+				querySelectorLive(`[s-element-id="${this.uniqid}"]`).once().inViewport().subscribe((elm) => {
 					this.inViewport(elm);
 				});
 			}

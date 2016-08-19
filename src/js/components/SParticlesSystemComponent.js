@@ -71,9 +71,9 @@ class SParticlesSystemComponent extends SComponent {
 		}, this.settings.duration / this.settings.amount, this.settings.duration, this.settings.timeoutSpread);
 
 		// detect the end of the particles
-		// setTimeout(() => {
-		// 	if (this.settings.onComplete) this.settings.onComplete();
-		// }, this.settings.duration + 1000 / this.settings.amount);
+		setTimeout(() => {
+			if (this.settings.onComplete) this.settings.onComplete();
+		}, this.settings.duration + 1000 / this.settings.amount);
 
 	}
 }

@@ -132,7 +132,7 @@ class SStickyComponent extends SComponent {
 			 * How long to wait after a window resize before updating sizes etc...
 			 * @type 	{Number}
 			 */
-			resizeTimeout : 200,
+			resizeTimeout : 50,
 
 			/**
 			 * class
@@ -267,8 +267,6 @@ class SStickyComponent extends SComponent {
 			// update
 			this.update();
 
-
-
 		}, this.settings.resizeTimeout);
 	}
 
@@ -324,12 +322,19 @@ class SStickyComponent extends SComponent {
 
 		// element width
 		if ( ! this.settings.width) {
-			this._elmWidth = this.elm.offsetWidth;
+			if ( this.isSticked()) {
+				this._elmWidth = this.elm.parentNode.offsetWidth;
+			} else {
+				this._elmWidth = this.elm.offsetWidth;
+			}
 		} else if (typeof(this.settings.width) === 'string') {
 			this._elmWidth = document.querySelector(this.settings.width).offsetWidth;
 		} else if (typeof(this.settings.width) === 'number') {
 			this._elmWidth = this.settings.width;
 		}
+
+		// set element width
+		this.elm.style.width = this._elmWidth + 'px';
 
 		// reset update counter
 		this._updateCounter = this.settings.updateEvery;

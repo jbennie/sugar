@@ -17,6 +17,9 @@ import __scrollTop from '../dom/scrollTop'
 import __uniqid from '../tools/uniqid'
 import __insertAfter from '../dom/insertAfter'
 import SEvent from '../core/SEvent'
+import __mutationObservable from '../dom/mutationObservable'
+
+require('../rxjs/operators/groupByTimeout');
 
 // Select
 class SSelectComponent extends SComponent {
@@ -46,10 +49,6 @@ class SSelectComponent extends SComponent {
 		this.initProxy(this.init.bind(this));
 	}
 
-	// onVisible() {
-	// 	console.log('VISIBLE');
-	// }
-
 	/**
 	 * On added to dom
 	 */
@@ -65,7 +64,7 @@ class SSelectComponent extends SComponent {
 		// set the id to the element to
 		// be able to reach it and listen for
 		// new items in it
-		this.elm.setAttribute('data-s-select', this.id);
+		this.elm.setAttribute('s-select-id', this.id);
 
 		// build html structure
 		this._buildHTML();
@@ -191,16 +190,28 @@ class SSelectComponent extends SComponent {
 			this.search_field.addEventListener('search', searchFieldFn);
 		}
 
-		// listen for new elements in the select
-		querySelectorLive('option, optgroup', {
-			rootNode : this.elm,
-			onNodeRemoved : (nodes) => {
-				this.refresh();
-			}
-		}).group().subscribe((elms) => {
-			// refresh the select
+		__mutationObservable(this.elm, {
+			childList : true,
+			attributes : true,
+			characterData : true,
+			subtree : true
+		}).groupByTimeout().subscribe((mutation) => {
 			this.refresh();
 		});
+
+		// first refresh
+		this.refresh();
+
+		// listen for new elements in the select
+		// querySelectorLive(`[s-select-id="${this.id}"] > option, [s-select-id="${this.id}"] > optgroup`, {
+		// 	rootNode : this.elm,
+		// 	onNodeRemoved : (nodes) => {
+		// 		this.refresh();
+		// 	}
+		// }).group().subscribe((elms) => {
+		// 	// refresh the select
+		// 	// this.refresh();
+		// });
 
 		// specify what to do after updating the element
 		// with the sTemplate
@@ -246,11 +257,7 @@ class SSelectComponent extends SComponent {
 	 * On scroll or resize
 	 */
 	_onScrollResize(e) {
-		// clearTimeout(this._scrollResizeTimeout);
-		// this._scrollResizeTimeout = setTimeout(() => {
-			// console.log('set POSITION');
-			this._setPosition();
-		// }, 100);
+		this._setPosition();
 	}
 
 	/**
@@ -835,7 +842,6 @@ class SSelectComponent extends SComponent {
 SSelectComponent.initOn = function(selector, settings = {}) {
 	// init the select
 	return querySelectorLive(selector).visible().once().subscribe((elm) => {
-		console.warn('SELECT');
 		new SSelectComponent(elm, settings);
 	});
 };

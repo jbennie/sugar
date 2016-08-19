@@ -109,7 +109,7 @@ export default class STemplate {
 		};
 
 		// generate a uniqid for the template
-		this.templateId = `s-template-${uniqid()}`;
+		this.templateId = uniqid();
 
 		// wrap the template into a div
 		// with the templateId
@@ -119,15 +119,22 @@ export default class STemplate {
 		if (typeof(this.template) === 'string') {
 			// set the s-template-id attribute in first template node
 			this.template = this.template.replace('>',` s-template-id="${this.templateId}">`);
-			this.template = this.template.replace('s-template-component=""','');
 			this.templateString = this.template;
 			this.dom = document.createElement('div');
 		}
 		// if the template is a node
 		else if (this.template.nodeName) {
 			this.template.setAttribute('s-template-id', this.templateId);
-			this.template.removeAttribute('s-template-component');
-			this.templateString = __outerHTML(this.template).replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
+
+			// clone the template to remove all the templates contents
+			// cause each template has to care only about his scope and not
+			// about the scope of nested onces...
+			const clone = this.template.cloneNode(true);
+			[].forEach.call(clone.querySelectorAll('[s-template-component]'), (nestedTemplate) => {
+				nestedTemplate.innerHTML = '';
+			});
+
+			this.templateString = __outerHTML(clone).replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
 			this.dom = this.template;
 		}
 
@@ -171,13 +178,6 @@ export default class STemplate {
 				});
 			});
 		}
-
-		// wait the element is added to the dom to render it first time
-		// querySelectorLive(`[s-template-id="${this.templateId}"]`).subscribe((elm) => {
-		// 	console.log('render !!!');
-		// 	// render
-		// 	this._internalRender();
-		// });
 	}
 
 	/**
@@ -192,9 +192,9 @@ export default class STemplate {
 	 */
 	render() {
 		// check that we are in the dom
-		if ( ! this.dom.parentNode) {
-			throw "Your template has to be in the DOM in order to be rendered...";
-		}
+		// if ( ! this.dom.parentNode) {
+		// 	throw "Your template has to be in the DOM in order to be rendered...";
+		// }
 		// console.warn('render', this.template);
 		// console.log('render', this.templateId, this.data.name);
 		this._internalRender();
@@ -214,13 +214,15 @@ export default class STemplate {
 		// process compiled template
 		compiled = this.processOutput(compiled);
 
-		console.warn('compiled', compiled);
-
 		// set the new html
-		morphdom(this.dom, compiled.trim(), {
+		this.dom = morphdom(this.dom, compiled.trim(), {
 			onBeforeElChildrenUpdated : (node) => {
 				// update if is the template itself
-				if (this.dom === node) return true;
+				if (this.dom === node) {
+					// emit an event to tell that the element children will be updated
+					__dispatchEvent(node, 'sTemplate:beforeChildrenUpdate');
+					return true;
+				}
 				// check the s-template-no-children-update attribute
 				if (node.hasAttribute && node.hasAttribute('s-template-do-not-children-update')) return false;
 				// check the elements that we never want to update children
@@ -232,11 +234,23 @@ export default class STemplate {
 				}
 				// emit an event to tell that the element children will be updated
 				__dispatchEvent(node, 'sTemplate:beforeChildrenUpdate');
+				// update the childs
 				return true;
 			},
 			onBeforeElUpdated : (node) => {
 				// update if is the template itself
-				if (this.dom === node) return true;
+				if (this.dom === node) {
+					// emit an event to tell that the element will been updated
+					__dispatchEvent(node, 'sTemplate:beforeUpdate');
+					return true;
+				}
+				// check if is a template component
+				// in case we need to render it
+				if (node.sTemplateComponent) {
+					if (node.hasAttribute('s-template-component')) {
+						node.sTemplateComponent._internalRender();
+					}
+				}
 				// check the s-template-no-update attribute
 				if (node.hasAttribute && node.hasAttribute('s-template-do-not-update')) return false;
 				// check the elements that we never want to update
@@ -248,6 +262,7 @@ export default class STemplate {
 				}
 				// emit an event to tell that the element will been updated
 				__dispatchEvent(node, 'sTemplate:beforeUpdate');
+				// update the element
 				return true;
 			},
 			onElUpdated : (node) => {
@@ -265,7 +280,8 @@ export default class STemplate {
 					}
 				}
 				// emit an event to tell that the element will be discarded
-				__dispatchEvent(node, 'sTemplate:updated');
+				__dispatchEvent(node, 'sTemplate:beforeDiscard');
+				// discard the element
 				return true;
 			},
 			onElDiscarded : (node) => {
@@ -274,7 +290,7 @@ export default class STemplate {
 			},
 		});
 		// grab the dom node again
-		this.dom = document.querySelector(`[s-template-id="${this.templateId}"]`);
+		// this.dom = document.querySelector(`[s-template-id="${this.templateId}"]`);
 		// update refs
 		this.updateRefs();
 		// listen for changes of datas in the DOM
