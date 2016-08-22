@@ -11,6 +11,7 @@ import __matches from '../dom/matches';
 import __uniqid from '../tools/uniqid';
 import querySelectorLive from '../dom/querySelectorLive';
 import __outerHTML from '../dom/outerHTML';
+import __sPropertyProxy from '../core/sPropertyProxy';
 
 export default class STemplate {
 
@@ -168,6 +169,16 @@ export default class STemplate {
 		// watch each data
 		for (let name in this.data) {
 			const value = this.data[name];
+
+			__sPropertyProxy(this.data, name, {
+				set : (value) => {
+					console.log('SETTTTT', value);
+					return value;
+				}
+			});
+
+			console.log('DATA', this.data);
+
 			this.watcher.watch(this.data, name, (newVal, oldVal) => {
 				// make update only once
 				// by waiting next loop

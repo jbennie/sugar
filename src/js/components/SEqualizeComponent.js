@@ -64,8 +64,6 @@ class SEqualizeComponent extends SComponent {
 	 */
 	_init() {
 
-		console.log('iniot');
-
 		if ( ! SEqualizeComponent.columns[this.settings.group]) {
 			SEqualizeComponent.columns[this.settings.group] = {
 				inProgress : false,
@@ -102,7 +100,6 @@ class SEqualizeComponent extends SComponent {
 				this.equalize();
 			},this.settings.resizeTimeout);
 		});
-
 	}
 
 	/**

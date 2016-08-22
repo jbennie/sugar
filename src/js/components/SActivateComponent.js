@@ -138,6 +138,7 @@ class SActivateComponent extends SComponent {
 		this.elm.addEventListener(this.settings.trigger, (e) => {
 			if (e.target !== this.elm) return;
 			e.preventDefault();
+			console.log('HOVER');
 			// clear unactivate timeout
 			clearTimeout(this._unactivateSetTimeout);
 			// if toggle
@@ -186,10 +187,12 @@ class SActivateComponent extends SComponent {
 			if (unactivate_trigger == 'mouseleave' || unactivate_trigger == 'mouseout') {
 				[].forEach.call(this.targets, (target) => {
 					target.addEventListener('mouseenter', (e) => {
+						console.log('ENT');
 						// clear the unactivate timeout
 						clearTimeout(this._unactivateSetTimeout);
 					});
 					target.addEventListener(unactivate_trigger, (e) => {
+						console.warn('TTT');
 						this._unactivateSetTimeout = setTimeout(() => {
 							this.unactivate();
 						}, this.settings.unactivateTimeout);
@@ -202,12 +205,12 @@ class SActivateComponent extends SComponent {
 		// we wait to be sure all the elements on the pages have
 		// been inited
 		setTimeout(() => {
-			// if the element has the active class
-			if ( ! document.location.hash || ! this.settings.anchor) {
-				if (this.elm.classList.contains(this.settings.activeClass)) {
-					this._activate();
-				}
-			} else if (this.settings.anchor) {
+			// manage the active class
+			if (this.elm.classList.contains(this.settings.activeClass)) {
+				this._activate();
+			}
+			// check with anchor if need to activate the element
+			if (this.settings.anchor) {
 				let hash = document.location.hash;
 				if (hash) {
 					if (hash.substr(1) === this.settings.id) {

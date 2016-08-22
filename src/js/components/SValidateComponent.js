@@ -95,6 +95,7 @@ class SValidateComponent extends SComponent {
 			/**
 			 * validators
 			 * Store the specific validators settings for this particular instance
+			 * @type 	{Object}
 			 */
 			validators : {},
 

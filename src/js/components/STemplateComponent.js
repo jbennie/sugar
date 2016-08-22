@@ -69,12 +69,14 @@ class STemplateComponent extends SComponent {
 	 */
 	_init() {
 
+		if (this.elm.hasAttribute('s-pagination')) {
+			console.warn('PAG temp', this);
+		}
+
 		document.createElement('yield');
 
 		const id = __uniqid();
 		this.elm.setAttribute('s-template-component', id);
-
-		console.warn('set');
 
 		setTimeout(() => {
 			// init the template only if it is not nested in
@@ -90,6 +92,9 @@ class STemplateComponent extends SComponent {
 	 */
 	_internalRender() {
 
+		// if the element has already been rendered once,
+		// no need to initiate it completely
+		// just render the template
 		if (this.elm.sTemplateInited) {
 			this.render();
 			return;
@@ -115,7 +120,6 @@ class STemplateComponent extends SComponent {
 			template = `<div>${this.elm.innerHTML}</div>`;
 		} else if (this.elm.nodeName !== undefined) {
 			template = this.elm;
-			// template = __outerHTML(this.elm).replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
 		}
 
 		// if we have any template from settings
