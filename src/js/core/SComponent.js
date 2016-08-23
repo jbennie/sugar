@@ -1,5 +1,7 @@
 import __uncamelize from '../string/uncamelize'
 import __upperFirst from '../string/upperFirst'
+import __lowerFirst from '../string/lowerFirst'
+import __uniqid from '../tools/uniqid'
 import __autoCast from '../string/autoCast'
 import SElement from './SElement'
 import querySelectorLive from '../dom/querySelectorLive'
@@ -26,19 +28,12 @@ export default class SComponent extends SElement {
 	};
 
 	/**
-	 * Settings values
-	 */
-	_settingsValues = {};
-
-	/**
-	 * Old settings values
-	 */
-	_previousSettingsValues = {};
-
-	/**
 	 * Constructor
 	 */
 	constructor(name, elm, default_settings = {}, settings = {}) {
+
+		// set a uniq component id
+		elm.setAttribute('s-component-id', __uniqid());
 
 		// process shortcuts attributes
 		// before init parent class
@@ -67,7 +62,6 @@ export default class SComponent extends SElement {
 		attrsToRemove.forEach((attrName) => {
 			elm.removeAttribute(attrName);
 		});
-
 
 		// init parent
 		super(elm);
@@ -117,22 +111,39 @@ export default class SComponent extends SElement {
 				{
 					this.attr[attrName] = attrValue;
 					this.settings[settingName] = attrValue;
-
-					// connect the linked setting to the setting attribute
-					// if the attribute exist
-					if (this.elm.getAttribute(this.name_dash + '-' + attrName) !== null) {
-						this.binder.bindObjectPath2ElementAttribute(this, `attr.${settingCamelName}`, this.elm, attrName);
-					}
-					this.binder.bindObjectPath2ElementAttribute(this, `settings.${settingName}`, this.elm, settingCamelName);
-					this.binder.bindObjectPath2ElementAttribute(this, `settings.${settingName}`, this.elm, attrName);
-					this.binder.bindObjectPath2ElementAttribute(this, `attr.${attrName}`, this.elm, settingCamelName);
 				}
 			} else {
+				// get the setting from the element attributes
 				const settingAttrValue = __autoCast(this.elm.getAttribute(settingAttrName));
 				if (settingAttrValue !== null) {
 					this.settings[settingName] = settingAttrValue;
 				}
-				this.binder.bindObjectPath2ElementAttribute(this, `settings.${settingName}`, this.elm, settingCamelName);
+			}
+		}
+
+		// init bindings AFTER all the settings and attributes are correctly
+		// inited
+		this._initBindings();
+	}
+
+	/**
+	 * Init bindings
+	 */
+	_initBindings() {
+		// init bindings on SElement
+		super._initBindings();
+
+		// for (let settingName in this.settings) {
+		// 	// bind the settings to the attributes
+		// 	this._binder.bindObjectPath2ObjectPath(this, `settings.${settingName}`, this, `attr.${settingName}`);
+		// }
+
+		for (let attrName in this.attr) {
+			// bind the attribute to the settings if needed
+			//
+			if (attrName.indexOf(this.name) === 0) {
+				const settingName = __lowerFirst(attrName.substr(this.name.length));
+				this._binder.bindObjectPath2ObjectPath(this, `attr.${attrName}`, this, `settings.${settingName}`);
 			}
 		}
 	}

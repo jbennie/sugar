@@ -139,7 +139,7 @@ class SStickyComponent extends SComponent {
 			 * THe class to apply on the element itself when it is sticked
 			 * @type 	{String}
 			 */
-			class : 's-sticky--sticked',
+			cls : 's-sticky--sticked',
 
 			/**
 			 * dirtyClass
@@ -223,7 +223,7 @@ class SStickyComponent extends SComponent {
 				this.elm.style.position = 'absolute';
 				this.elm.style.bottom = this.settings.offsetBottom + 'px';
 				this.elm.style.top = 'auto';
-				this.elm.classList.add(this.settings.class);
+				this.elm.classList.add(this.settings.cls);
 			}
 			// handle placeholder if needed
 			if (this.settings.placeholder) {
@@ -242,7 +242,7 @@ class SStickyComponent extends SComponent {
 			this.elm.style.top = this.settings.offsetTop + 'px';
 			this.elm.style.bottom = 'auto';
 			this.elm.style.width = this._elmWidth + 'px';
-			this.elm.classList.add(this.settings.class);
+			this.elm.classList.add(this.settings.cls);
 			// handle placeholder if needed
 			if (this.settings.placeholder) {
 				this._addPlaceholder();
@@ -361,7 +361,7 @@ class SStickyComponent extends SComponent {
 			this.elm.style.bottom = '';
 			this.elm.style.width = '';
 			// remove the sticked class
-			this.elm.classList.remove(this.settings.class);
+			this.elm.classList.remove(this.settings.cls);
 			// remove the out class
 			this.elm.classList.remove(this.settings.outClass);
 			// remove the placeholder if exist
@@ -375,7 +375,7 @@ class SStickyComponent extends SComponent {
 	 * Check if is sticked
 	 */
 	isSticked() {
-		return this.elm.classList.contains(this.settings.class);
+		return this.elm.classList.contains(this.settings.cls);
 	}
 }
 

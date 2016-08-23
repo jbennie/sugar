@@ -12,18 +12,29 @@ class SPaginationComponent extends STemplateComponent {
 
 			onchange : null,
 
+			pages : 0,
+
+			current : 1,
+
 			/**
 			 * data
 			 * The data used by the template
 			 * @type 	{Object}
 			 */
 			data : {
-				total : 10,
-				current : 1
+				pages : '@settings.pages',
+				current : '@settings.current',
+				onchange : '@settings.onchange'
 			},
 
+			/**
+			 * compile
+			 * The compile method
+			 * @param  {String} template The template to compile
+			 * @param  {Object} data     The data object to use to compile
+			 * @return {String}          The compiled template
+			 */
 			compile : (template, data) => {
-				console.log('CPOMPILE');
 				const tmp = _template(template, {
 					evaluate : /<!?-?-?%([\s\S]+?)%-?-?>/g,
 					interpolate : /<!?-?-?%=([\s\S]+?)%-?-?>/g,
@@ -39,9 +50,9 @@ class SPaginationComponent extends STemplateComponent {
 			 * @type 	{String}
 			 */
 			template : `
-				<ol class="pagination">
-					<!--% for(i=0; i<total; i++) { %-->
-						<li onclick="<%= onchange %>"><%= (i + 1) %></li>
+				<ol class="s-pagination">
+					<!--% for(i=0; i<pages; i++) { %-->
+						<li class="s-pagination__item s-pagination-item <% if ((i + 1) === current) { %> active <% } %>" onclick="this.onchange(<%= (i + 1) %>)"><%= (i + 1) %></li>
 					<!--% } %-->
 				</ol>
 			`,
@@ -49,18 +60,7 @@ class SPaginationComponent extends STemplateComponent {
 			// extend with passed settings
 			...settings
 		}, name);
-
-		console.log('SSSSSS', this.settings);
-
 	}
-
-	/**
-	 * Compile overrided method
-	 */
-	// compile(template, data) {
-	//
-	// }
-
 }
 
 // initOn

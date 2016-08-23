@@ -29,14 +29,15 @@ export default class STemplate {
 	 * Array of elements selectors to never update on render
 	 */
 	static doNotUpdate = [
-		'[s-template-id]',
-		'[s-template-component]'
+
 	];
 
 	/**
 	 * Array of elements selectors to never update childs on render
 	 */
 	static doNotUpdateChildren = [
+		'[s-template-id]',
+		'[s-template-component]'
 	];
 
 	/**
@@ -94,7 +95,12 @@ export default class STemplate {
 		 * A compile function to process the template
 		 * @type 	{Function}
 		 */
-		compile : null
+		compile : null,
+
+		/**
+		 * onBeforeElUpdated
+		 */
+		onBeforeElUpdated : null
 
 	};
 
@@ -169,16 +175,6 @@ export default class STemplate {
 		// watch each data
 		for (let name in this.data) {
 			const value = this.data[name];
-
-			__sPropertyProxy(this.data, name, {
-				set : (value) => {
-					console.log('SETTTTT', value);
-					return value;
-				}
-			});
-
-			console.log('DATA', this.data);
-
 			this.watcher.watch(this.data, name, (newVal, oldVal) => {
 				// make update only once
 				// by waiting next loop
@@ -255,13 +251,15 @@ export default class STemplate {
 					__dispatchEvent(node, 'sTemplate:beforeUpdate');
 					return true;
 				}
-				// check if is a template component
-				// in case we need to render it
-				if (node.sTemplateComponent) {
-					if (node.hasAttribute('s-template-component')) {
-						node.sTemplateComponent._internalRender();
+
+				// check if an onBeforeElUpdated is present in the settings
+				if (this.settings.onBeforeElUpdated) {
+					const res = this.settings.onBeforeElUpdated(node);
+					if (res === true || res === false) {
+						return res;
 					}
 				}
+
 				// check the s-template-no-update attribute
 				if (node.hasAttribute && node.hasAttribute('s-template-do-not-update')) return false;
 				// check the elements that we never want to update
@@ -277,6 +275,15 @@ export default class STemplate {
 				return true;
 			},
 			onElUpdated : (node) => {
+
+				// check if an onBeforeElUpdated is present in the settings
+				if (this.settings.onElUpdated) {
+					const res = this.settings.onElUpdated(node);
+					if (res === true || res === false) {
+						return res;
+					}
+				}
+
 				// emit an event to tell that the element has been updated
 				__dispatchEvent(node, 'sTemplate:updated');
 			},

@@ -51,14 +51,8 @@ export default class SElement extends SObject {
 		this.elm = elm;
 
 		// new watcher and binder
-		this.watcher = new SWatcher();
-		this.binder = new SBinder();
-
-		// bind all the attributes
-		[].forEach.call(this.elm.attributes, (attr) => {
-			this.attr[__camelize(attr.name)] = __autoCast(attr.value);
-			this.binder.bindObjectPath2ElementAttribute(this, `attr.${__camelize(attr.name)}`, this.elm, attr.name);
-		});
+		this._watcher = new SWatcher();
+		this._binder = new SBinder();
 
 		// listen for changes in some html tags
 		this._listenChangesOnElement();
@@ -90,6 +84,11 @@ export default class SElement extends SObject {
 				});
 			}
 		});
+
+		// init bindings if not a component
+		if ( ! elm.hasAttribute('s-component-id')) {
+			this._initBindings();
+		}
 	}
 
 	/**
@@ -110,10 +109,22 @@ export default class SElement extends SObject {
 	}
 
 	/**
+	 * Bind the attrbutes
+	 */
+	_initBindings() {
+		// bind all the attributes
+		[].forEach.call(this.elm.attributes, (attr) => {
+			this.attr[__camelize(attr.name)] = __autoCast(attr.value);
+			this._binder.bindObjectPath2ElementAttribute(this, `attr.${__camelize(attr.name)}`, this.elm, attr.name);
+			this._binder.bindElementAttribute2ObjectPath(this.elm, attr.name, this, `attr.${__camelize(attr.name)}`);
+		});
+	}
+
+	/**
 	 * Watch
 	 */
 	watch(path, cb) {
-		this.watcher.watch(this, path, cb);
+		this._watcher.watch(this, path, cb);
 	}
 
 	/**

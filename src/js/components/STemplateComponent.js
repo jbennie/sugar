@@ -17,6 +17,7 @@ import __dispatchEvent from '../dom/dispatchEvent'
 import __closest from '../dom/closest'
 import __matches from '../dom/matches'
 import __uniqid from '../tools/uniqid'
+import _get from 'lodash/get'
 
 class STemplateComponent extends SComponent {
 
@@ -33,6 +34,8 @@ class STemplateComponent extends SComponent {
 	 * Constructor
 	 */
 	constructor(elm, settings = {}, name = 'sTemplate') {
+
+		// init the component
 		super(name, elm, {
 
 			/**
@@ -58,6 +61,24 @@ class STemplateComponent extends SComponent {
 
 		}, settings);
 
+		// process the data to allow some features
+		// like the mapping of instance property with @,
+		// etc...
+		for(let key in this.settings.data) {
+			// map the data to an instance variable
+			if (typeof(this.settings.data[key]) === 'string'
+				&& this.settings.data[key].substr(0,1) === '@') {
+				const watchKey = this.settings.data[key].substr(1);
+				// set the initial value
+				this.settings.data[key] = _get(this, watchKey);
+				// bind the value to the data value
+				this._binder.bindObjectPath2ObjectPath(this, watchKey, this, `settings.data.${key}`);
+			}
+		}
+
+		// save the instance into the dom element
+		// so the template class can know that
+		// this node is a templateComponent and re-render it
 		this.elm.sTemplateComponent = this;
 
 		// init
@@ -72,8 +93,6 @@ class STemplateComponent extends SComponent {
 		if (this.elm.hasAttribute('s-pagination')) {
 			console.warn('PAG temp', this);
 		}
-
-		document.createElement('yield');
 
 		const id = __uniqid();
 		this.elm.setAttribute('s-template-component', id);
@@ -100,6 +119,17 @@ class STemplateComponent extends SComponent {
 			return;
 		}
 		this.elm.sTemplateInited = true;
+
+		// process the data
+		if (this.elm.sTemplateComponentParent) {
+			for (let key in this.data) {
+				if (typeof(this.data[key]) === 'string') {
+					if (typeof(this.elm.sTemplateComponentParent.data[this.data[key]]) === 'function') {
+						this.data[key] = this.elm.sTemplateComponentParent.data[this.data[key]].bind(this.elm.sTemplateComponentParent);
+					}
+				}
+			}
+		}
 
 		// template is the element itself
 		let template = null;
@@ -170,20 +200,44 @@ class STemplateComponent extends SComponent {
 
 		// make a template with the dom
 		this._template = new STemplate(template, this.settings.data, {
-			compile : this.settings.compile
+			compile : this.settings.compile,
+			onBeforeElUpdated : this._onElUpdated.bind(this)
 		});
 
 		// if we have a container, append the template into it
 		if ( ! template.nodeName || ! template.parentNode) {
-			__insertAfter(this._template.dom, this.elm);
-			// remove the element itself
-			this.elm.parentNode.removeChild(this.elm);
+
+			// insert into if possible
+			if (this.elm.nodeName.toLowerCase() === 'script') {
+				// insert the element after the script
+				__insertAfter(this._template.dom, this.elm);
+			} else {
+				// empty the element and add the template into it
+				this.elm.innerHTML = '';
+				this.elm.appendChild(this._template.dom);
+			}
 		}
 
 		// render
 		this.render();
 	}
 
+	/**
+	 * _onBeforeElUpdated
+	 */
+	_onElUpdated(node) {
+		// check if is a template component
+		// in case we need to render it
+		if (node.sTemplateComponent
+			&& node.sTemplateComponent !== this) {
+			// inject the current template datas into the
+			// node to be able to access them
+			// in attributes like onclick, etc...
+			node.sTemplateComponentParent = this;
+			// render the node if needed
+			node.sTemplateComponent._internalRender();
+		}
+	}
 
 	/**
 	 * Render
@@ -194,12 +248,10 @@ class STemplateComponent extends SComponent {
 	}
 
 	/**
-	 * Watch shortcut
+	 * Data accessor
 	 */
-	watch(what, cb) {
-		setTimeout(() => {
-			this._template.watcher.watch(this.settings.data, what, cb);
-		});
+	get data() {
+		return this.settings.data;
 	}
 }
 

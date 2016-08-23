@@ -53,6 +53,8 @@ class SRangeComponent extends SComponent {
 
 		// init
 		this.initProxy(this._init.bind(this));
+
+		console.warn('RANGE', this);
 	}
 
 	/**
@@ -163,12 +165,13 @@ class SRangeComponent extends SComponent {
 			this._updateAttributeValue();
 		});
 
-		this.watcher.watch(this, 'settings.value', (newVal, oldVal) => {
+		this.watch('settings.value', (newVal, oldVal) => {
 			// set the new values to the slider
 			// but this, only if the slider is not
 			// busy, mean that the user is using it
+			console.warn('new value', newVal, oldVal);
 			if ( ! this._busy) {
-				this.slider.set(newVal.split(','));
+				this.slider.set(newVal.toString().split(','));
 			}
 		});
 
@@ -213,9 +216,9 @@ class SRangeComponent extends SComponent {
 	 */
 	hideRealInput() {
 		// hide the base input
-		this.elm.style.position = 'absolute';
-		this.elm.style.left = '-4000px';
-		this.elm.style.opacity = 0;
+		// this.elm.style.position = 'absolute';
+		// this.elm.style.left = '-4000px';
+		// this.elm.style.opacity = 0;
 	}
 
 	/**

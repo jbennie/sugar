@@ -1,6 +1,7 @@
 import SWatcher from './SWatcher';
 import __camelize from '../string/camelize';
 import __uncamelize from '../string/uncamelize';
+import __autoCast from '../string/autoCast'
 import __uniqid from '../tools/uniqid';
 import _set from 'lodash/set';
 import __dispatchEvent from '../dom/dispatchEvent';
@@ -31,54 +32,86 @@ export default class SBinder {
 	}
 
 	/**
-	 * Bind
+	 * Bind object path 2 object path
 	 */
-	bindObjectPath2ElementAttribute(object, path, elm, attrName) {
+	bindObjectPath2ObjectPath(object1, path1, object2, path2) {
 
-		// observe the element
-		this._observeDomElement(elm);
+		if (path1 === 'settings.pages') {
+			console.warn('Bind object', object1, path1, object2, path2);
+		}
+
+		// watch the path to update the attribute accordingly
+		this.watcher.watch(object1, path1, (newVal, oldVal) => {
+			// do nothing is no
+			if (newVal === oldVal) return;
+
+			// set the new value
+			_set(object2, path2, newVal);
+		});
+
+	}
+
+	/**
+	 * Bind element attribute to object path
+	 */
+	bindElementAttribute2ObjectPath(elm, attribute, object, path) {
 
 		// generate an bindId in the object if not already exist
 		if ( ! object._sBinderId) object._sBinderId = `s-binder-${__uniqid()}`;
 
+		// observe the element
+		this._observeDomElement(elm);
+
 		// attr2obj
-		if ( ! this._bindStack.attr2obj[attrName]) this._bindStack.attr2obj[attrName] = {};
-		if ( ! this._bindStack.attr2obj[attrName][`${object._sBinderId}:${path}`])
-			this._bindStack.attr2obj[attrName][`${object._sBinderId}:${path}`] = {
+		if ( ! this._bindStack.attr2obj[attribute]) this._bindStack.attr2obj[attribute] = {};
+		if ( ! this._bindStack.attr2obj[attribute][`${object._sBinderId}:${path}`]) {
+			this._bindStack.attr2obj[attribute][`${object._sBinderId}:${path}`] = {
 				object : object,
 				path : path
 			};
+		}
+
+	}
+
+	/**
+	 * Bind object path to element attribute
+	 */
+	bindObjectPath2ElementAttribute(object, path, elm, attribute) {
+
+		// generate an bindId in the object if not already exist
+		if ( ! object._sBinderId) object._sBinderId = `s-binder-${__uniqid()}`;
 
 		// obj2attr
 		if ( ! this._bindStack.obj2attr[`${object._sBinderId}:${path}`]) this._bindStack.obj2attr[`${object._sBinderId}:${path}`] = {};
-		if ( ! this._bindStack.obj2attr[`${object._sBinderId}:${path}`][attrName])
-			this._bindStack.obj2attr[`${object._sBinderId}:${path}`][attrName] = {
+		if ( ! this._bindStack.obj2attr[`${object._sBinderId}:${path}`][attribute]) {
+			this._bindStack.obj2attr[`${object._sBinderId}:${path}`][attribute] = {
 				elm : elm,
-				attrName : attrName
+				attribute : attribute
 			};
+		}
 
 		// watch the path to update the attribute accordingly
 		this.watcher.watch(object, path, (newVal, oldVal) => {
 			// do nothing if a digest is in progress
 			// if (this._digest) return;
 
-			// console.error('_digestsMutation', this._digestsMutation, attrName);
-			if (this._digestsMutation[attrName]) return;
+			// console.error('_digestsMutation', this._digestsMutation, attribute);
+			if (this._digestsMutation[attribute]) return;
 			if (newVal === oldVal) return;
 
 			// loop on all attributes to update
 			// console.log(`${object._sBinderId}:${path}`, this._bindStack.obj2attr);
-			for (const attrName in this._bindStack.obj2attr[`${object._sBinderId}:${path}`]) {
-				const watch = this._bindStack.obj2attr[`${object._sBinderId}:${path}`][attrName];
+			for (const attribute in this._bindStack.obj2attr[`${object._sBinderId}:${path}`]) {
+				const watch = this._bindStack.obj2attr[`${object._sBinderId}:${path}`][attribute];
 
-				if (this._digestsMutation[watch.attrName]) continue;
-				this._digestsMutation[watch.attrName] = true;
+				if (this._digestsMutation[watch.attribute]) continue;
+				this._digestsMutation[watch.attribute] = true;
 
 				// update the attribute
-				watch.elm.setAttribute(__uncamelize(watch.attrName), newVal);
+				watch.elm.setAttribute(__uncamelize(watch.attribute), newVal);
 
 				// if the attribute is the value, trigger a change event
-				if (__uncamelize(watch.attrName) === 'value') {
+				if (__uncamelize(watch.attribute) === 'value') {
 					elm.value = newVal;
 					__dispatchEvent(watch.elm, 'change');
 				}
@@ -100,7 +133,7 @@ export default class SBinder {
 			// loop on mutations
 			mutations.forEach((mutation) => {
 				// update the attr property
-				let val = elm.getAttribute(mutation.attributeName);
+				let val = __autoCast(elm.getAttribute(mutation.attributeName));
 				// make a new attribute
 				let camelName = __camelize(mutation.attributeName);
 				// let camelName = this._newAttribute(mutation.attributeName);
