@@ -140,7 +140,23 @@ export default class STemplate {
 			[].forEach.call(clone.querySelectorAll('[s-template-component]'), (nestedTemplate) => {
 				nestedTemplate.innerHTML = '';
 			});
+			// remove all the element that has not to be touched
+			[].forEach.call(clone.querySelectorAll('[s-template-exclude]'), (elm) => {
+				elm.parentNode.removeChild(elm);
+			});
 
+			// replace all the s-element with their original versions
+			[].forEach.call(clone.querySelectorAll('[s-element]'), (elm) => {
+				const sElement = window.sElements[elm.getAttribute('s-element')];
+				if (sElement && sElement._originalElement) {
+					elm = morphdom(elm, sElement._originalElement, {
+						onBeforeElChildrenUpdated : (node) => {
+							// do not update children at all
+							return false;
+						}
+					});
+				}
+			});
 			this.templateString = __outerHTML(clone).replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
 			this.dom = this.template;
 		}
@@ -221,6 +237,11 @@ export default class STemplate {
 		// process compiled template
 		compiled = this.processOutput(compiled);
 
+		// remove all the elements that need to be fully refreshed
+		[].forEach.call(this.dom.querySelectorAll('[s-template-refresh]'), (elm) => {
+			elm.parentNode.removeChild(elm);
+		});
+
 		// set the new html
 		this.dom = morphdom(this.dom, compiled.trim(), {
 			onBeforeElChildrenUpdated : (node) => {
@@ -231,7 +252,12 @@ export default class STemplate {
 					return true;
 				}
 				// check the s-template-no-children-update attribute
-				if (node.hasAttribute && node.hasAttribute('s-template-do-not-children-update')) return false;
+				if (node.hasAttribute
+					&& (
+						node.hasAttribute('s-template-do-not-children-update')
+						|| node.hasAttribute('s-template-exclude')
+					)
+				) return false;
 				// check the elements that we never want to update children
 				for(let i=0; i<STemplate.doNotUpdateChildren.length; i++) {
 					if (__matches(node, STemplate.doNotUpdateChildren[i])) {
@@ -261,7 +287,12 @@ export default class STemplate {
 				}
 
 				// check the s-template-no-update attribute
-				if (node.hasAttribute && node.hasAttribute('s-template-do-not-update')) return false;
+				if (node.hasAttribute
+					&& (
+						node.hasAttribute('s-template-do-not-update')
+						|| node.hasAttribute('s-template-exclude')
+					)
+				) return false;
 				// check the elements that we never want to update
 				for(let i=0; i<STemplate.doNotUpdate.length; i++) {
 					if (__matches(node, STemplate.doNotUpdate[i])) {
@@ -290,7 +321,12 @@ export default class STemplate {
 			onBeforeNodeDiscarded : (node) => {
 				// check if the node match one of the element selector
 				// to not discard
-				if (node.hasAttribute && node.hasAttribute('s-template-do-not-discard')) return false;
+				if (node.hasAttribute
+					&& (
+						node.hasAttribute('s-template-do-not-discard')
+						|| node.hasAttribute('s-template-exclude')
+					)
+				) return false;
 				for(let i=0; i<STemplate.doNotDiscard.length; i++) {
 					if (__matches(node, STemplate.doNotDiscard[i])) {
 						// do not discard the element
@@ -415,6 +451,10 @@ export default class STemplate {
 	 */
 	processOutput(renderedTemplate) {
 		let ret = renderedTemplate;
+
+		if (this.settings.afterCompile) {
+			ret = this.settings.afterCompile(ret);
+		}
 
 		// replace all the this. with the proper window.sTemplateDataObjects reference
 		const thisDotReg = new RegExp('this\\.','g');

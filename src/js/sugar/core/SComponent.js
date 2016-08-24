@@ -152,17 +152,17 @@ export default class SComponent extends SElement {
 
 		switch(this.settings.initWhen) {
 			case 'visible':
-				querySelectorVisibleLiveOnce(`[s-element-id="${this.uniqid}"]`).subscribe(cb);
+				querySelectorVisibleLiveOnce(`[s-element="${this.uniqid}"]`).subscribe(cb);
 			break;
 			case 'viewportVisible':
-				querySelectorViewportVisibleLiveOnce(`[s-element-id="${this.uniqid}"]`).subscribe(cb);
+				querySelectorViewportVisibleLiveOnce(`[s-element="${this.uniqid}"]`).subscribe(cb);
 			break;
 			case 'added':
-				querySelectorLiveOnce(`[s-element-id="${this.uniqid}"]`).subscribe(cb);
+				querySelectorLiveOnce(`[s-element="${this.uniqid}"]`).subscribe(cb);
 			break;
 			case 'hover':
 				function clickHandler(e) {
-					const id = e.target.getAttribute('s-element-id');
+					const id = e.target.getAttribute('s-element');
 					if (e.target === this.elm) {
 						cb();
 						document.removeEventListener('mouseover', clickHandler.bind(this));
@@ -172,7 +172,7 @@ export default class SComponent extends SElement {
 			break;
 			case 'click':
 				function clickHandler(e) {
-					const id = e.target.getAttribute('s-element-id');
+					const id = e.target.getAttribute('s-element');
 					if (e.target === this.elm) {
 						cb();
 						document.removeEventListener('click', clickHandler.bind(this));

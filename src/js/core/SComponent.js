@@ -33,7 +33,7 @@ export default class SComponent extends SElement {
 	constructor(name, elm, default_settings = {}, settings = {}) {
 
 		// set a uniq component id
-		elm.setAttribute('s-component-id', __uniqid());
+		elm.setAttribute('s-component', __uniqid());
 
 		// process shortcuts attributes
 		// before init parent class
@@ -124,7 +124,15 @@ export default class SComponent extends SElement {
 		// init bindings AFTER all the settings and attributes are correctly
 		// inited
 		this._initBindings();
+
+		// init proxy
+		this._initProxy();
 	}
+
+	/**
+	 * Init component
+	 */
+	init() {}
 
 	/**
 	 * Init bindings
@@ -132,11 +140,6 @@ export default class SComponent extends SElement {
 	_initBindings() {
 		// init bindings on SElement
 		super._initBindings();
-
-		// for (let settingName in this.settings) {
-		// 	// bind the settings to the attributes
-		// 	this._binder.bindObjectPath2ObjectPath(this, `settings.${settingName}`, this, `attr.${settingName}`);
-		// }
 
 		for (let attrName in this.attr) {
 			// bind the attribute to the settings if needed
@@ -151,25 +154,28 @@ export default class SComponent extends SElement {
 	/**
 	 * Init proxy
 	 */
-	initProxy(cb) {
+	_initProxy() {
 
 		// protect multiple init
 		if (this.inited) return;
 		this.inited = true;
 
+		// init callback
+		const cb = this.init.bind(this);
+
 		switch(this.settings.initWhen) {
 			case 'visible':
-				querySelectorLive(`[s-element-id="${this.uniqid}"]`).once().visible().subscribe(cb);
+				querySelectorLive(`[s-element="${this.uniqid}"]`).once().visible().subscribe(cb);
 			break;
 			case 'inViewport':
-				querySelectorLive(`[s-element-id="${this.uniqid}"]`).once().inViewport().subscribe(cb);
+				querySelectorLive(`[s-element="${this.uniqid}"]`).once().inViewport().subscribe(cb);
 			break;
 			case 'added':
-				querySelectorLive(`[s-element-id="${this.uniqid}"]`).once().subscribe(cb);
+				querySelectorLive(`[s-element="${this.uniqid}"]`).once().subscribe(cb);
 			break;
 			case 'hover':
 				function clickHandler(e) {
-					const id = e.target.getAttribute('s-element-id');
+					const id = e.target.getAttribute('s-element');
 					if (e.target === this.elm) {
 						cb();
 						document.removeEventListener('mouseover', clickHandler.bind(this));
@@ -179,7 +185,7 @@ export default class SComponent extends SElement {
 			break;
 			case 'click':
 				function clickHandler(e) {
-					const id = e.target.getAttribute('s-element-id');
+					const id = e.target.getAttribute('s-element');
 					if (e.target === this.elm) {
 						cb();
 						document.removeEventListener('click', clickHandler.bind(this));
@@ -188,7 +194,7 @@ export default class SComponent extends SElement {
 				document.addEventListener('click', clickHandler.bind(this));
 			break;
 			default:
-				cb();
+				setTimeout(() => { cb(); });
 			break;
 		}
 	}

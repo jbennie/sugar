@@ -107,15 +107,15 @@ class SDialogComponent extends SComponent {
 			outClass : 's-dialog--out'
 
 		}, settings);
-
-		// init
-		this.initProxy(this._init.bind(this));
 	}
 
 	/**
 	 * Init
 	 */
-	_init() {
+	init() {
+		// init component
+		super.init();
+
 		// get the content string
 		this.settings.content = this.settings.content || this.elm.getAttribute('href');
 

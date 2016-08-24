@@ -35,11 +35,6 @@ export default class SBinder {
 	 * Bind object path 2 object path
 	 */
 	bindObjectPath2ObjectPath(object1, path1, object2, path2) {
-
-		if (path1 === 'settings.pages') {
-			console.warn('Bind object', object1, path1, object2, path2);
-		}
-
 		// watch the path to update the attribute accordingly
 		this.watcher.watch(object1, path1, (newVal, oldVal) => {
 			// do nothing is no
@@ -48,7 +43,6 @@ export default class SBinder {
 			// set the new value
 			_set(object2, path2, newVal);
 		});
-
 	}
 
 	/**

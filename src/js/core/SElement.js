@@ -20,6 +20,9 @@ import SBinder from './SBinder';
 // components types
 let _sugarTypesSettings = {};
 
+// init a stack into the window
+window.sElements = {};
+
 export default class SElement extends SObject {
 
 	/**
@@ -47,8 +50,23 @@ export default class SElement extends SObject {
 
 		// init parent
 		super();
+
 		// save the element reference
 		this.elm = elm;
+
+		// create a uniqid for the element
+		this.uniqid = __uniqid();
+
+		// save the initial not processed html element
+		this._originalElement = this.elm.cloneNode(false);
+		this._originalElement.removeAttribute('s-component');
+
+		// save the instance into the node
+		this.elm._sElement = this;
+
+		// save the element into the window to be
+		// able to target it from outside
+		window.sElements[this.uniqid] = this;
 
 		// new watcher and binder
 		this._watcher = new SWatcher();
@@ -57,38 +75,27 @@ export default class SElement extends SObject {
 		// listen for changes in some html tags
 		this._listenChangesOnElement();
 
-		// create a uniqid for the element
-		this.uniqid = __uniqid();
-
 		// set the uniqid to the element
-		this.elm.setAttribute('s-element-id', this.uniqid);
-
-		// listen when the element is added to the dom
-		setTimeout(() => {
-
-			if (typeof(this.onAdded) == 'function') {
-				querySelectorLive(`[s-element-id="${this.uniqid}"]`).once().subscribe((elm) => {
-					if (this.onAdded) this.onAdded();
-				});
-			}
-			// check if is the onVisible method
-			if (typeof(this.onVisible) == 'function') {
-				querySelectorLive(`[s-element-id="${this.uniqid}"]`).once().visible().subscribe((elm) => {
-					this.onVisible(elm);
-				});
-			}
-			// check if is the onViewportVisible method
-			if (typeof(this.inViewport) == 'function') {
-				querySelectorLive(`[s-element-id="${this.uniqid}"]`).once().inViewport().subscribe((elm) => {
-					this.inViewport(elm);
-				});
-			}
-		});
+		this.elm.setAttribute('s-element', this.uniqid);
 
 		// init bindings if not a component
-		if ( ! elm.hasAttribute('s-component-id')) {
+		if ( ! elm.hasAttribute('s-component')) {
 			this._initBindings();
 		}
+
+		// listen when the element is removed
+		this._addRemoveObserver = querySelectorLive(`[s-element="${this.uniqid}"]`, {
+			onNodeRemoved : (node) => {
+				if (this.onRemoved) {
+					this.onRemoved();
+				}
+			}
+		}).subscribe((elm) => {
+			// the node has been added
+			if (this.onAdded) {
+				this.onAdded();
+			}
+		});
 	}
 
 	/**
@@ -118,6 +125,35 @@ export default class SElement extends SObject {
 			this._binder.bindObjectPath2ElementAttribute(this, `attr.${__camelize(attr.name)}`, this.elm, attr.name);
 			this._binder.bindElementAttribute2ObjectPath(this.elm, attr.name, this, `attr.${__camelize(attr.name)}`);
 		});
+	}
+
+	/**
+	 * onRemoved
+	 */
+	onRemoved() {
+	}
+
+	/**
+	 * On added
+	 */
+	onAdded() {
+	}
+
+	/**
+	 * Destroy
+	 */
+	destroy() {
+		console.error('DEST');
+		// do not listen for add or remove anymore
+		this._addRemoveObserver.unsubscribe();
+		// onRemoved
+		this.onRemoved && this.onRemoved();
+		// delete the reference of the element into the window.sElements stack
+		delete window.sElements[this.uniqid];
+		// remove the element from the dom
+		if (this.elm.parentNode) {
+			this.elm.parentNode.removeChild(this.elm);
+		}
 	}
 
 	/**

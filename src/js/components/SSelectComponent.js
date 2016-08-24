@@ -45,14 +45,17 @@ class SSelectComponent extends SComponent {
 			screenMargin : 50
 		}, settings);
 
-		// init
-		this.initProxy(this.init.bind(this));
+		setTimeout(() => {
+			this.destroy();
+		}, 4000);
 	}
 
 	/**
 	 * On added to dom
 	 */
 	init() {
+		// init component
+		super.init();
 
 		// utils variables
 		this._openOnFocus = false;
@@ -60,11 +63,6 @@ class SSelectComponent extends SComponent {
 
 		// generate a custom id
 		this.id = __uniqid();
-
-		// set the id to the element to
-		// be able to reach it and listen for
-		// new items in it
-		this.elm.setAttribute('s-select-id', this.id);
 
 		// build html structure
 		this._buildHTML();
@@ -202,23 +200,25 @@ class SSelectComponent extends SComponent {
 		// first refresh
 		this.refresh();
 
-		// listen for new elements in the select
-		// querySelectorLive(`[s-select-id="${this.id}"] > option, [s-select-id="${this.id}"] > optgroup`, {
-		// 	rootNode : this.elm,
-		// 	onNodeRemoved : (nodes) => {
-		// 		this.refresh();
-		// 	}
-		// }).group().subscribe((elms) => {
-		// 	// refresh the select
-		// 	// this.refresh();
-		// });
-
 		// specify what to do after updating the element
 		// with the sTemplate
 		this.elm.addEventListener('sTemplate:updated', (e) => {
 			// hide the real select
 			this.hideRealSelect();
 		});
+	}
+
+	/**
+	 * onRemoved
+	 */
+	onRemoved() {
+		// parent method
+		super.onRemoved();
+		console.warn('RRRRRRRRRRRRR', this.container, this);
+		// remove the container from the dom
+		if (this.container.parentNode) {
+			this.container.parentNode.removeChild(this.container);
+		}
 	}
 
 	/**
@@ -365,9 +365,7 @@ class SSelectComponent extends SComponent {
 	_buildHTML() {
 		let container = document.createElement('div');
 		container.setAttribute('class',this.elm.getAttribute('class') + ' s-select');
-		container.setAttribute('s-template-do-not-update', true);
-		container.setAttribute('s-template-do-not-children-update', true);
-		container.setAttribute('s-template-do-not-discard', true);
+		container.setAttribute('s-template-exclude', true);
 
 		// multiple class
 		if (this.elm.getAttribute('multiple') != null) {

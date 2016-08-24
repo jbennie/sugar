@@ -50,15 +50,15 @@ class SRippleComponent extends SComponent {
 			spread : 0, // spread distance for each ripple
 			class : 's-ripple' // the class that will be applied on each ripples
 		}, settings);
-
-		// init
-		this.initProxy(this._init.bind(this));
 	}
 
 	/**
 	 * On added to dom
 	 */
-	_init() {
+	init() {
+		// init component
+		super.init();
+
 		// listen for click
 		this.elm.addEventListener('click', this.handleClick.bind(this));
 	}

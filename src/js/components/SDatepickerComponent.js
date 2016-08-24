@@ -23,15 +23,16 @@ class SDatepickerComponent extends SComponent {
 			numberOfMonths : 1,
 			autoFocus : true
 		}, settings);
-
-		// init
-		this.initProxy(this._init.bind(this));
 	}
 
 	/**
 	 * Init
 	 */
-	_init() {
+	init() {
+
+		// init component
+		super.init();
+
 		// try to get the theme automatically
 		let theme = null;
 		// console.warn('settings', sSettings);

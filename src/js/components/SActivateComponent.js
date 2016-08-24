@@ -52,14 +52,16 @@ class SActivateComponent extends SComponent {
 			beforeUnactivate : null,
 			afterUnactivate : null
 		}, settings);
-		// init
-		this.initProxy(this.init.bind(this));
 	}
 
 	/**
 	 * Init
 	 */
 	init() {
+
+		// init component
+		super.init();
+
 		// before init
 		this.settings.beforeInit && this.settings.beforeInit(this);
 

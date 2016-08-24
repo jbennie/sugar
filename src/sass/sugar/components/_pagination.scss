@@ -56,6 +56,7 @@ $_s-pagination-inited : false;
 	@include s-component-context('pagination') {
 		.s-pagination {
 			display:inline-block;
+			user-select:none;
 		}
 		#{s-selector((
 			BEM : '.s-pagination__item',
@@ -72,6 +73,13 @@ $_s-pagination-inited : false;
 			&:last-of-type() {
 				margin-right:0;
 			}
+		}
+		#{s-selector((
+			BEM : '.s-pagination__item--disabled',
+			SMACCS : '.s-pagination-item.is-disabled'
+		))} {
+			opacity: .3;
+			pointer-events: none;
 		}
 	}
 }

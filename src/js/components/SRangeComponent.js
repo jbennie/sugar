@@ -50,17 +50,14 @@ class SRangeComponent extends SComponent {
 			formater : null,
 			updateInterval : null
 		}, settings);
-
-		// init
-		this.initProxy(this._init.bind(this));
-
-		console.warn('RANGE', this);
 	}
 
 	/**
 	 * On added to dom
 	 */
-	_init() {
+	init() {
+		// init component
+		super.init();
 
 		// create the container for the slider
 		this.container = document.createElement('div');
@@ -114,6 +111,9 @@ class SRangeComponent extends SComponent {
 
 		// remove the noUi-background class on the main element
 		this.rangeElm.classList.remove('noUi-background');
+
+		// exclude the range element from template
+		this.rangeElm.setAttribute('s-template-exclude', true);
 
 		// query references
 		this.handleStartElm = this.container.querySelector('.noUi-origin:first-of-type .noUi-handle');
@@ -216,9 +216,9 @@ class SRangeComponent extends SComponent {
 	 */
 	hideRealInput() {
 		// hide the base input
-		// this.elm.style.position = 'absolute';
-		// this.elm.style.left = '-4000px';
-		// this.elm.style.opacity = 0;
+		this.elm.style.position = 'absolute';
+		this.elm.style.left = '-4000px';
+		this.elm.style.opacity = 0;
 	}
 
 	/**

@@ -54,15 +54,14 @@ class SEqualizeComponent extends SComponent {
 			group : '@',
 			resizeTimeout : 200
 		}, settings);
-
-		// init
-		this.initProxy(this._init.bind(this));
 	}
 
 	/**
 	 * Init
 	 */
-	_init() {
+	init() {
+		// init component
+		super.init();
 
 		if ( ! SEqualizeComponent.columns[this.settings.group]) {
 			SEqualizeComponent.columns[this.settings.group] = {

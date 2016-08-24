@@ -17,15 +17,14 @@ class SRadioboxComponent extends SComponent {
 	constructor(elm, settings = {}, name = 'sRadiobox') {
 		super(name, elm, {
 		}, settings);
-
-		// init
-		this.initProxy(this._init.bind(this));
 	}
 
 	/**
 	 * Init
 	 */
-	_init() {
+	init() {
+		// init component
+		super.init();
 
 		// try to get the id or name of the input
 		let input_for = this.elm.id || this.elm.name;

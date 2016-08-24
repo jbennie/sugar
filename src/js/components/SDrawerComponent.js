@@ -40,15 +40,14 @@ class SDrawerComponent extends SComponent {
 
 		// add the class into the stack
 		window._sDrawerStack[this.name] = this;
-
-		// init
-		this.initProxy(this._init.bind(this));
 	}
 
 	/**
 	 * Init
 	 */
-	_init() {
+	init() {
+		// init component
+		super.init();
 
 		// try to find the drawer background
 		this.bkg = document.querySelector('[s-drawer-bkg="'+this.name+'"]');

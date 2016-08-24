@@ -16,6 +16,11 @@ class SPaginationComponent extends STemplateComponent {
 
 			current : 1,
 
+			showFirst : true,
+			showLast : true,
+			showPrevious : true,
+			showNext : true,
+
 			/**
 			 * data
 			 * The data used by the template
@@ -24,7 +29,15 @@ class SPaginationComponent extends STemplateComponent {
 			data : {
 				pages : '@settings.pages',
 				current : '@settings.current',
-				onchange : '@settings.onchange'
+				onchange : '@settings.onchange',
+				first : '@first',
+				last : '@last',
+				previous : '@previous',
+				next : '@next',
+				showFirst : '@settings.showFirst',
+				showLast : '@settings.showLast',
+				showPrevious : '@settings.showPrevious',
+				showNext : '@settings.showNext'
 			},
 
 			/**
@@ -50,9 +63,41 @@ class SPaginationComponent extends STemplateComponent {
 			 * @type 	{String}
 			 */
 			template : `
+
+				<%
+					var disableFirst = '';
+					if (current === 1) {
+						disableFirst = 's-pagination__item--disabled is-disabled';
+					}
+					var disableLast = '';
+					if (current === pages) {
+						disableLast = 's-pagination__item--disabled is-disabled';
+					}
+				%>
+
 				<ol class="s-pagination">
+					<!--% if (showFirst) { %-->
+						<li class="s-pagination__item <%= disableFirst %>" onclick="this.first()">
+							«
+						</li>
+					<!--% } %-->
+					<!--% if (showPrevious) { %-->
+						<li class="s-pagination__item <%= disableFirst %>" onclick="this.previous()">
+							‹
+						</li>
+					<!--% } %-->
 					<!--% for(i=0; i<pages; i++) { %-->
-						<li class="s-pagination__item s-pagination-item <% if ((i + 1) === current) { %> active <% } %>" onclick="this.onchange(<%= (i + 1) %>)"><%= (i + 1) %></li>
+						<li class="s-pagination__item s-pagination-item <% if ((i + 1) === current) { %> active <% } %>" onclick="this.data.onchange(<%= (i + 1) %>)"><%= (i + 1) %></li>
+					<!--% } %-->
+					<!--% if (showNext) { %-->
+						<li class="s-pagination__item <%= disableLast %>" onclick="this.next()">
+							›
+						</li>
+					<!--% } %-->
+					<!--% if (showLast) { %-->
+						<li class="s-pagination__item <%= disableLast %>" onclick="this.last()">
+							»
+						</li>
 					<!--% } %-->
 				</ol>
 			`,
@@ -60,6 +105,41 @@ class SPaginationComponent extends STemplateComponent {
 			// extend with passed settings
 			...settings
 		}, name);
+
+	}
+
+	/**
+	 * Init
+	 */
+	init() {
+		// init component
+		super.init();
+
+		// watch some items
+		this.watch('data.current', (newVal, oldVal) => {
+			if (newVal === oldVal) return;
+			if (this.data.onchange) {
+				this.data.onchange(this.data.current);
+			}
+		});
+	}
+
+	first() {
+		this.data.current = 1;
+	}
+	last() {
+		this.data.current = this.data.pages;
+	}
+	next() {
+		const current = this.data.current;
+		if (current + 1 <= this.data.pages) {
+			this.data.current += 1;
+		}
+	}
+	previous() {
+		if (this.data.current > 1) {
+			this.data.current -= 1;
+		}
 	}
 }
 

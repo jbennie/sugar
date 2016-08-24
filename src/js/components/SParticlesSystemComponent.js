@@ -27,15 +27,14 @@ class SParticlesSystemComponent extends SComponent {
 			particleClassSelection : 'random',
 			onComplete : null
 		}, settings);
-
-		// init
-		this.initProxy(this._init.bind(this));
 	}
 
 	/**
 	 * Init
 	 */
-	_init() {
+	init() {
+		// init component
+		super.init();
 
 		let particleClsIdx = 0;
 

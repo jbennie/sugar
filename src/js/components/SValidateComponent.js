@@ -143,15 +143,14 @@ class SValidateComponent extends SComponent {
 
 
 		}, settings);
-
-		// init
-		this.initProxy(this._init.bind(this));
 	}
 
 	/**
 	 * Init
 	 */
-	_init() {
+	init() {
+		// init component
+		super.init();
 
 		// extend messages with the static ones
 		this._messages = {

@@ -156,15 +156,15 @@ class SStickyComponent extends SComponent {
 			 */
 			outClass : 's-sticky--out'
 		}, settings);
-
-		// init
-		this.initProxy(this._init.bind(this));
 	}
 
 	/**
 	 * Init
 	 */
-	_init() {
+	init() {
+		// init component
+		super.init();
+
 		// save initial element setup
 		this.base_position = this.elm.style.position;
 		this.base_top = parseInt(this.elm.style.top) || 0;
