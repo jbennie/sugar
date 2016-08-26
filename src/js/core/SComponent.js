@@ -28,12 +28,20 @@ export default class SComponent extends SElement {
 	};
 
 	/**
+	 * _enabled
+	 * Track if the component is enabled or not
+	 * @type 	{Boolean}
+	 */
+	_enabled = true;
+
+	/**
 	 * Constructor
 	 */
 	constructor(name, elm, default_settings = {}, settings = {}) {
 
 		// set a uniq component id
-		elm.setAttribute('s-component', __uniqid());
+		const id = elm.getAttribute('s-component') || __uniqid();
+		elm.setAttribute('s-component', id);
 
 		// process shortcuts attributes
 		// before init parent class
@@ -66,8 +74,12 @@ export default class SComponent extends SElement {
 		// init parent
 		super(elm);
 
+		// add the instance of this component into the window.sElements stack
+		if (this.elementId) {
+			window.sElements[this.elementId].components[name] = this;
+		}
+
 		// save element reference
-		this.elm = elm;
 		this.name = name;
 		this.name_dash = nameDash;
 
@@ -76,6 +88,16 @@ export default class SComponent extends SElement {
 
 		// extend settings values
 		this.settings = { ...this.settings, ...default_settings, ...settings };
+
+		// watch the enable status
+		this.watch('_enabled', (newVal, oldVal) => {
+			if (newVal === oldVal) return;
+			if ( newVal === true) {
+				this._onEnable();
+			} else if (newVal === false) {
+				this._onDisable();
+			}
+		});
 
 		// check if the main data attribute is an object to extend the settings
 		let set = __autoCast(this.elm.getAttribute('data-' + this.name_dash) || this.elm.getAttribute(this.name_dash));
@@ -132,7 +154,52 @@ export default class SComponent extends SElement {
 	/**
 	 * Init component
 	 */
-	init() {}
+	_init() {
+		setTimeout(() => {
+			// init element
+			super._init();
+		});
+	}
+
+	/**
+	 * onEnable
+	 * When the component is enabled
+	 */
+	_onEnable() {}
+
+	/**
+	 * onDisable
+	 * When the component is disabled
+	 */
+	_onDisable() {}
+
+	/**
+	 * disable
+	 */
+	disable() {
+		this._enabled = false;
+	}
+
+	/**
+	 * enable
+	 * Enable the element
+	 */
+	enable() {
+		this._enabled = true;
+	}
+
+	/**
+	 * Destroy routine
+	 */
+	destroy() {
+		if (this._initObserver) {
+			this._initObserver.unsubscribe();
+		}
+		// remove component from the window.sElements stack
+		delete window.sElements[this.elementId].components[this.name]
+		// destroy in parent
+		super.destroy();
+	}
 
 	/**
 	 * Init bindings
@@ -161,17 +228,17 @@ export default class SComponent extends SElement {
 		this.inited = true;
 
 		// init callback
-		const cb = this.init.bind(this);
+		const cb = this._init.bind(this);
 
 		switch(this.settings.initWhen) {
 			case 'visible':
-				querySelectorLive(`[s-element="${this.uniqid}"]`).once().visible().subscribe(cb);
+				this._initObserver = querySelectorLive(`[s-element="${this.elementId}"]`).once().visible().subscribe(cb);
 			break;
 			case 'inViewport':
-				querySelectorLive(`[s-element="${this.uniqid}"]`).once().inViewport().subscribe(cb);
+				this._initObserver = querySelectorLive(`[s-element="${this.elementId}"]`).once().inViewport().subscribe(cb);
 			break;
 			case 'added':
-				querySelectorLive(`[s-element="${this.uniqid}"]`).once().subscribe(cb);
+				this._initObserver = querySelectorLive(`[s-element="${this.elementId}"]`).once().subscribe(cb);
 			break;
 			case 'hover':
 				function clickHandler(e) {
@@ -197,5 +264,23 @@ export default class SComponent extends SElement {
 				setTimeout(() => { cb(); });
 			break;
 		}
+	}
+
+	/**
+	 * isDisabled
+	 * Return if the component is disabled
+	 * @return 	{Boolean}		disable status
+	 */
+	isDisabled() {
+		return ! this._enabled;
+	}
+
+	/**
+	 * isEnabled
+	 * Return is the component is enabled
+	 * @return 	{Boolean} 		enable status
+	 */
+	isEnabled() {
+		return this._enabled;
 	}
 }

@@ -94,25 +94,40 @@ export default class SWatcher {
 	}
 
 	/**
-	 * Apply a proxy on the variable to detect changes
-	 * on arrays, etc...
+	 * overrideArrayMethod
 	 */
-	applyProxy(value, objPath, setValueCb) {
+	_overrideArrayMethod(array, methods, objPath, setValueCb) {
 		const _this = this;
-		// if is an array
-		if (value instanceof Array) {
-			const oldVal = value.slice(0);
-			const originalPush = Array.prototype.push;
-			value.push = function() {
+
+		// grab the old value
+		const oldVal = array.slice(0);
+
+		// loop on each methods to override
+		methods.forEach((method) => {
+			array[method] = function() {
 				// apply the push
-				const ret = Array.prototype.push.apply(this,arguments);
+				const ret = Array.prototype[method].apply(this,arguments);
 				// set value callback
-				setValueCb(value);
+				setValueCb(this);
 				// notify
 				_this.notify(objPath, this, oldVal);
 				// return the new value
 				return ret;
 			}
+		});
+	}
+
+	/**
+	 * Apply a proxy on the variable to detect changes
+	 * on arrays, etc...
+	 */
+	applyProxy(value, objPath, setValueCb) {
+		// if is an array
+		if (value instanceof Array) {
+			// override methods
+			this._overrideArrayMethod(value, [
+				'push','splice','pop','shift','unshift','reverse','sort'
+			], objPath, setValueCb);
 		}
 		return value;
 	}

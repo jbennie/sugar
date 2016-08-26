@@ -28,10 +28,10 @@ class SDatepickerComponent extends SComponent {
 	/**
 	 * Init
 	 */
-	init() {
+	_init() {
 
 		// init component
-		super.init();
+		super._init();
 
 		// try to get the theme automatically
 		let theme = null;

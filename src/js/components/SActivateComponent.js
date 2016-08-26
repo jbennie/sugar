@@ -57,10 +57,10 @@ class SActivateComponent extends SComponent {
 	/**
 	 * Init
 	 */
-	init() {
+	_init() {
 
 		// init component
-		super.init();
+		super._init();
 
 		// before init
 		this.settings.beforeInit && this.settings.beforeInit(this);
@@ -140,7 +140,6 @@ class SActivateComponent extends SComponent {
 		this.elm.addEventListener(this.settings.trigger, (e) => {
 			if (e.target !== this.elm) return;
 			e.preventDefault();
-			console.log('HOVER');
 			// clear unactivate timeout
 			clearTimeout(this._unactivateSetTimeout);
 			// if toggle
@@ -178,30 +177,6 @@ class SActivateComponent extends SComponent {
 				}
 			}
 		});
-		// check if has an unactivate trigger
-		let unactivate_trigger = this.settings.unactivateTrigger;
-		if (unactivate_trigger) {
-			this.elm.addEventListener(unactivate_trigger, (e) => {
-				this._unactivateSetTimeout = setTimeout(() => {
-					this.unactivate();
-				}, this.settings.unactivateTimeout);
-			});
-			if (unactivate_trigger == 'mouseleave' || unactivate_trigger == 'mouseout') {
-				[].forEach.call(this.targets, (target) => {
-					target.addEventListener('mouseenter', (e) => {
-						console.log('ENT');
-						// clear the unactivate timeout
-						clearTimeout(this._unactivateSetTimeout);
-					});
-					target.addEventListener(unactivate_trigger, (e) => {
-						console.warn('TTT');
-						this._unactivateSetTimeout = setTimeout(() => {
-							this.unactivate();
-						}, this.settings.unactivateTimeout);
-					});
-				});
-			}
-		}
 
 		// wait a loop to activate the element if needed
 		// we wait to be sure all the elements on the pages have
@@ -224,6 +199,72 @@ class SActivateComponent extends SComponent {
 
 		// init callback
 		this.settings.afterInit && this.settings.afterInit(this);
+	}
+
+	/**
+	 * When the element is added to the dom
+	 */
+	_onAdded() {
+		super._onAdded();
+		// check if has an unactivate trigger
+		let unactivate_trigger = this.settings.unactivateTrigger;
+		if (unactivate_trigger) {
+			this.elm.addEventListener(unactivate_trigger, this._onElmUnactivate.bind(this));
+			if (unactivate_trigger == 'mouseleave' || unactivate_trigger == 'mouseout') {
+				[].forEach.call(this.targets, (target) => {
+					target.addEventListener('mouseenter', this._onTargetMouseEnter.bind(this));
+					target.addEventListener(unactivate_trigger, this._onTargetUnactivate.bind(this));
+				});
+			}
+		}
+	}
+
+	/**
+	 * When the element is removed from dom
+	 */
+	_onRemoved() {
+		if (this.settings.unactivateTrigger) {
+			this.elm.removeEventListener(this.settings.unactivateTrigger, this._onElmUnactivate);
+			[].forEach.call(this.targets, (target) => {
+				target.removeEventListener('mouseenter', this._onTargetMouseEnter);
+				target.removeEventListener(this.settings.unactivateTrigger, this._onTargetUnactivate);
+			});
+		}
+		super._onRemoved();
+	}
+
+	/**
+	 * Destroy routine
+	 */
+	destroy() {
+		delete window._sActivateStack[this.settings.id];
+		super.destroy();
+	}
+
+	/**
+	 * Element unactivate
+	 */
+	_onElmUnactivate(e) {
+		this._unactivateSetTimeout = setTimeout(() => {
+			this.unactivate();
+		}, this.settings.unactivateTimeout);
+	}
+
+	/**
+	 * Targer mouseenter callback
+	 */
+	_onTargetMouseEnter(e) {
+		// clear the unactivate timeout
+		clearTimeout(this._unactivateSetTimeout);
+	}
+
+	/**
+	 * Target uncactivate callback
+	 */
+	_onTargetUnactivate(e) {
+		this._unactivateSetTimeout = setTimeout(() => {
+			this.unactivate();
+		}, this.settings.unactivateTimeout);
 	}
 
 	/**

@@ -45,9 +45,9 @@ class SDrawerComponent extends SComponent {
 	/**
 	 * Init
 	 */
-	init() {
+	_init() {
 		// init component
-		super.init();
+		super._init();
 
 		// try to find the drawer background
 		this.bkg = document.querySelector('[s-drawer-bkg="'+this.name+'"]');

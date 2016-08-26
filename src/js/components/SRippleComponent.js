@@ -55,9 +55,9 @@ class SRippleComponent extends SComponent {
 	/**
 	 * On added to dom
 	 */
-	init() {
+	_init() {
 		// init component
-		super.init();
+		super._init();
 
 		// listen for click
 		this.elm.addEventListener('click', this.handleClick.bind(this));

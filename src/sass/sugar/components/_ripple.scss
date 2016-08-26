@@ -63,8 +63,8 @@ $_s-ripple-inited : false;
 	// pass in the component context
 	@include s-component-context('ripple') {
 		.s-ripple {
-			background:rgba(0,0,0,.5);
-			mix-blend-mode: overlay;
+			background:rgba(0,0,0,.3);
+			// mix-blend-mode: overlay;
 			@include s-animation(s-ripple .3s ease-out);
 		}
 	}

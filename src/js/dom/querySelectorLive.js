@@ -35,22 +35,30 @@ export default function querySelectorLive(selector, settings = {}) {
 		currentSelectors = [];
 	}
 
+	// process onNodeRemoved setting
+	// to ensure that it's an array
+	if (settings.onNodeRemoved
+		&& typeof(settings.onNodeRemoved) === 'function') {
+		settings.onNodeRemoved = [settings.onNodeRemoved];
+	}
+
+	// extend settings
+	settings = {
+		onNodeRemoved : [],
+		rootNode : document.body,
+		mutationObserverSettings : {
+			childList : true,
+			subtree : true
+		},
+		...settings
+	};
+
 	const observable = Observable.create(observer => {
 
 		let mutationSubscription = null;
 
 		// make a query on existing elements
 		__domReady(() => {
-
-			// extend settings
-			settings = {...{
-				onNodeRemoved : null,
-				rootNode : document.body,
-				mutationObserverSettings : {
-					childList : true,
-					subtree : true
-				}
-			}, ...settings};
 
 			// observe the dom
 			const domObservable = mutationObservable(settings.rootNode, settings.mutationObserverSettings);
@@ -76,8 +84,10 @@ export default function querySelectorLive(selector, settings = {}) {
 
 			function _processRemovedNode(node) {
 				if (__matches(node, selector)) {
-					// notify of new node
-					settings.onNodeRemoved(node);
+					// loop on each onNodeRemoved callbacks
+					settings.onNodeRemoved.forEach((cb) => {
+						cb(node);
+					});
 				}
 			}
 

@@ -148,8 +148,8 @@ export default class STemplate {
 			// replace all the s-element with their original versions
 			[].forEach.call(clone.querySelectorAll('[s-element]'), (elm) => {
 				const sElement = window.sElements[elm.getAttribute('s-element')];
-				if (sElement && sElement._originalElement) {
-					elm = morphdom(elm, sElement._originalElement, {
+				if (sElement && sElement.originalElement) {
+					elm = morphdom(elm, sElement.originalElement, {
 						onBeforeElChildrenUpdated : (node) => {
 							// do not update children at all
 							return false;

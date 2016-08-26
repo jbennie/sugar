@@ -9,6 +9,7 @@ import __whenViewportVisible from '../dom/whenViewportVisible'
 import __isVisible from '../dom/isVisible'
 import __isInViewport from '../dom/isInViewport'
 import __dataset from '../dom/dataset'
+import __dispatchEvent from '../dom/dispatchEvent'
 import _set from 'lodash/set';
 import _get from 'lodash/get';
 
@@ -55,18 +56,23 @@ export default class SElement extends SObject {
 		this.elm = elm;
 
 		// create a uniqid for the element
-		this.uniqid = __uniqid();
-
-		// save the initial not processed html element
-		this._originalElement = this.elm.cloneNode(false);
-		this._originalElement.removeAttribute('s-component');
-
-		// save the instance into the node
-		this.elm._sElement = this;
+		this.elementId = this.elm.getAttribute('s-element') || __uniqid();
 
 		// save the element into the window to be
 		// able to target it from outside
-		window.sElements[this.uniqid] = this;
+		if ( ! window.sElements[this.elementId]) {
+			const originalElement = this.elm.cloneNode(false);
+			originalElement.removeAttribute('s-component');
+			// save into window to be able to access it from outside
+			window.sElements[this.elementId] = {
+				element : this.elm,
+				originalElement : originalElement,
+				components : {},
+				count : 1
+			};
+		} else {
+			window.sElements[this.elementId].count++;
+		}
 
 		// new watcher and binder
 		this._watcher = new SWatcher();
@@ -76,24 +82,30 @@ export default class SElement extends SObject {
 		this._listenChangesOnElement();
 
 		// set the uniqid to the element
-		this.elm.setAttribute('s-element', this.uniqid);
+		this.elm.setAttribute('s-element', this.elementId);
 
 		// init bindings if not a component
 		if ( ! elm.hasAttribute('s-component')) {
 			this._initBindings();
+			this._init();
 		}
+	}
 
+	/**
+	 * Init
+	 */
+	_init() {
 		// listen when the element is removed
-		this._addRemoveObserver = querySelectorLive(`[s-element="${this.uniqid}"]`, {
+		this._addRemoveObserver = querySelectorLive(`[s-element="${this.elementId}"]`, {
 			onNodeRemoved : (node) => {
-				if (this.onRemoved) {
-					this.onRemoved();
+				if (this._onRemoved) {
+					this._onRemoved();
 				}
 			}
 		}).subscribe((elm) => {
 			// the node has been added
-			if (this.onAdded) {
-				this.onAdded();
+			if (this._onAdded) {
+				this._onAdded();
 			}
 		});
 	}
@@ -130,30 +142,53 @@ export default class SElement extends SObject {
 	/**
 	 * onRemoved
 	 */
-	onRemoved() {
-	}
+	_onRemoved() {}
 
 	/**
 	 * On added
 	 */
-	onAdded() {
-	}
+	_onAdded() {}
 
 	/**
 	 * Destroy
 	 */
 	destroy() {
-		console.error('DEST');
+
 		// do not listen for add or remove anymore
-		this._addRemoveObserver.unsubscribe();
+		if (this._addRemoveObserver) {
+			this._addRemoveObserver.unsubscribe();
+		}
+
 		// onRemoved
 		this.onRemoved && this.onRemoved();
-		// delete the reference of the element into the window.sElements stack
-		delete window.sElements[this.uniqid];
+
+		// manage window.sElements
+		window.sElements[this.elementId].count--;
+		if (window.sElements[this.elementId].count <= 0) {
+			delete window.sElements[this.elementId]
+		}
+
 		// remove the element from the dom
 		if (this.elm.parentNode) {
 			this.elm.parentNode.removeChild(this.elm);
 		}
+
+		// keep destroying components until theirs no more
+		if (window.sElements[this.elementId]) {
+			const components = Object.keys(window.sElements[this.elementId].components);
+			if (components.length) {
+				// destroy the next element
+				window.sElements[this.elementId].components[components[0]].destroy();
+			}
+		}
+	}
+
+	/**
+	 * originalElement
+	 * Original element property
+	 */
+	get originalElement() {
+		return window.sOriginalElements[this.elementId].originalElement;
 	}
 
 	/**

@@ -44,18 +44,14 @@ class SSelectComponent extends SComponent {
 			minCharactersForSearch : 3,
 			screenMargin : 50
 		}, settings);
-
-		setTimeout(() => {
-			this.destroy();
-		}, 4000);
 	}
 
 	/**
-	 * On added to dom
+	 * Init the component
 	 */
-	init() {
+	_init() {
 		// init component
-		super.init();
+		super._init();
 
 		// utils variables
 		this._openOnFocus = false;
@@ -122,10 +118,6 @@ class SSelectComponent extends SComponent {
 				prevent();
 			}
 		});
-		// this.dropdown.addEventListener('DOMMouseScroll', (e) => {
-		// 	e.preventDefault();
-		// 	e.stopPropagation();
-		// });
 
 		// manage the keyup event
 		let _onKeyUpFn = (e) => {
@@ -188,7 +180,9 @@ class SSelectComponent extends SComponent {
 			this.search_field.addEventListener('search', searchFieldFn);
 		}
 
-		__mutationObservable(this.elm, {
+		// observe all changes into the select
+		// to refresh our custom one
+		this._refreshObserver = __mutationObservable(this.elm, {
 			childList : true,
 			attributes : true,
 			characterData : true,
@@ -204,21 +198,69 @@ class SSelectComponent extends SComponent {
 		// with the sTemplate
 		this.elm.addEventListener('sTemplate:updated', (e) => {
 			// hide the real select
-			this.hideRealSelect();
+			this._hideRealSelect();
 		});
+	}
+
+	/**
+	 * Destroy
+	 */
+	destroy() {
+		if (this._refreshObserver) {
+			this._refreshObserver.unsubscribe();
+		}
+		super.destroy();
+	}
+
+	/**
+	 * onDisable
+	 * When the component is disabled
+	 */
+	_onDisable() {
+		// disable in parent class
+		super._onDisable();
+		// show the select
+		this._showRealSelect();
+		// remove the container
+		if (this.container.parentNode) {
+			this.container.parentNode.removeChild(this.container);
+		}
+	}
+
+	/**
+	 * onEnable
+	 * When the component is enabled
+	 */
+	_onEnable() {
+		// enable in parent class
+		super._onEnable();
+		// hide the select
+		this._hideRealSelect();
+		// append the element right after the real select
+		__insertAfter(this.container, this.elm);
 	}
 
 	/**
 	 * onRemoved
 	 */
-	onRemoved() {
-		// parent method
-		super.onRemoved();
-		console.warn('RRRRRRRRRRRRR', this.container, this);
+	_onRemoved() {
 		// remove the container from the dom
 		if (this.container.parentNode) {
 			this.container.parentNode.removeChild(this.container);
 		}
+		// parent method
+		super._onRemoved();
+	}
+
+	/**
+	 * onAdded
+	 */
+	_onAdded() {
+		// parent method
+		super._onAdded();
+
+		// append the element right after the real select
+		__insertAfter(this.container, this.elm);
 	}
 
 	/**
@@ -363,6 +405,7 @@ class SSelectComponent extends SComponent {
 	 * Create html structure
 	 */
 	_buildHTML() {
+
 		let container = document.createElement('div');
 		container.setAttribute('class',this.elm.getAttribute('class') + ' s-select');
 		container.setAttribute('s-template-exclude', true);
@@ -408,10 +451,7 @@ class SSelectComponent extends SComponent {
 		container.appendChild(dropdown);
 
 		// hide the real select
-		this.hideRealSelect();
-
-		// append the element right after the real select
-		__insertAfter(container, this.elm);
+		this._hideRealSelect();
 
 		// save into object
 		this.container = container;
@@ -425,11 +465,21 @@ class SSelectComponent extends SComponent {
 	/**
 	 * Hide the select
 	 */
-	hideRealSelect() {
+	_hideRealSelect() {
 		this.elm.style.position = 'absolute';
 		this.elm.style.left = '-120vw';
 		this.elm.style.opacity = 0;
 		this.elm.tabIndex = -1;
+	}
+
+	/**
+	 * Show the select
+	 */
+	_showRealSelect() {
+		this.elm.style.position = null;
+		this.elm.style.left = null;
+		this.elm.style.opacity = 1;
+		this.elm.tabIndex = null;
 	}
 
 	/**
@@ -839,7 +889,7 @@ class SSelectComponent extends SComponent {
 // initOn
 SSelectComponent.initOn = function(selector, settings = {}) {
 	// init the select
-	return querySelectorLive(selector).visible().once().subscribe((elm) => {
+	return querySelectorLive(selector).once().inViewport().subscribe((elm) => {
 		new SSelectComponent(elm, settings);
 	});
 };

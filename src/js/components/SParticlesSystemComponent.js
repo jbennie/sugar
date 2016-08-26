@@ -32,9 +32,9 @@ class SParticlesSystemComponent extends SComponent {
 	/**
 	 * Init
 	 */
-	init() {
+	_init() {
 		// init component
-		super.init();
+		super._init();
 
 		let particleClsIdx = 0;
 

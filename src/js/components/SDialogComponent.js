@@ -112,9 +112,9 @@ class SDialogComponent extends SComponent {
 	/**
 	 * Init
 	 */
-	init() {
+	_init() {
 		// init component
-		super.init();
+		super._init();
 
 		// get the content string
 		this.settings.content = this.settings.content || this.elm.getAttribute('href');

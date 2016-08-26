@@ -161,9 +161,9 @@ class SStickyComponent extends SComponent {
 	/**
 	 * Init
 	 */
-	init() {
+	_init() {
 		// init component
-		super.init();
+		super._init();
 
 		// save initial element setup
 		this.base_position = this.elm.style.position;
@@ -203,7 +203,7 @@ class SStickyComponent extends SComponent {
 		// manage recalc
 		this._updateCounter -= 1;
 		if (this._updateCounter <= 0) {
-			this.update();
+			this._update();
 		}
 
 		// scrollTop
@@ -265,7 +265,7 @@ class SStickyComponent extends SComponent {
 		this.resizeTimeout = setTimeout(() => {
 
 			// update
-			this.update();
+			this._update();
 
 		}, this.settings.resizeTimeout);
 	}
@@ -291,7 +291,7 @@ class SStickyComponent extends SComponent {
 	/**
 	 * Update sizes, etc...
 	 */
-	update() {
+	_update() {
 
 		// bottom
 		let bottom = this.settings.bottom;

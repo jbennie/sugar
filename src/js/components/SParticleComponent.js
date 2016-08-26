@@ -28,7 +28,7 @@ class SParticleComponent extends SComponent {
 	/**
 	 * When added
 	 */
-	onAdded() {
+	_onAdded() {
 
 		// get the animation properties
 		const animation = __getAnimationProperties(this.elm);

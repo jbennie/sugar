@@ -55,9 +55,9 @@ class SRangeComponent extends SComponent {
 	/**
 	 * On added to dom
 	 */
-	init() {
+	_init() {
 		// init component
-		super.init();
+		super._init();
 
 		// create the container for the slider
 		this.container = document.createElement('div');

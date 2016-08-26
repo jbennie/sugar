@@ -111,9 +111,9 @@ class SPaginationComponent extends STemplateComponent {
 	/**
 	 * Init
 	 */
-	init() {
+	_init() {
 		// init component
-		super.init();
+		super._init();
 
 		// watch some items
 		this.watch('data.current', (newVal, oldVal) => {

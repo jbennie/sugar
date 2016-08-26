@@ -59,9 +59,9 @@ class SEqualizeComponent extends SComponent {
 	/**
 	 * Init
 	 */
-	init() {
+	_init() {
 		// init component
-		super.init();
+		super._init();
 
 		if ( ! SEqualizeComponent.columns[this.settings.group]) {
 			SEqualizeComponent.columns[this.settings.group] = {

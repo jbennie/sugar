@@ -148,9 +148,9 @@ class SValidateComponent extends SComponent {
 	/**
 	 * Init
 	 */
-	init() {
+	_init() {
 		// init component
-		super.init();
+		super._init();
 
 		// extend messages with the static ones
 		this._messages = {

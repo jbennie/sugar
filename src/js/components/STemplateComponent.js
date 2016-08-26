@@ -80,9 +80,9 @@ class STemplateComponent extends SComponent {
 	/**
 	 * Init
 	 */
-	init() {
+	_init() {
 		// init component
-		super.init();
+		super._init();
 
 		// save the instance into the dom element
 		// so the template class can know that
