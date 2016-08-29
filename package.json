@@ -28,6 +28,7 @@
     "promise-polyfill": "^4.0.3",
     "rxjs": "^5.0.0-beta.10",
     "simple-ajax": "^2.6.0",
+    "tocca": "^1.0.1",
     "underscore-observe": "git+https://github.com/mennovanslooten/underscore-observe.git"
   },
   "devDependencies": {

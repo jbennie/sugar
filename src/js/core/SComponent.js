@@ -89,16 +89,6 @@ export default class SComponent extends SElement {
 		// extend settings values
 		this.settings = { ...this.settings, ...default_settings, ...settings };
 
-		// watch the enable status
-		this.watch('_enabled', (newVal, oldVal) => {
-			if (newVal === oldVal) return;
-			if ( newVal === true) {
-				this._onEnable();
-			} else if (newVal === false) {
-				this._onDisable();
-			}
-		});
-
 		// check if the main data attribute is an object to extend the settings
 		let set = __autoCast(this.elm.getAttribute('data-' + this.name_dash) || this.elm.getAttribute(this.name_dash));
 		if (set && typeof(set) == 'object') {
@@ -160,18 +150,6 @@ export default class SComponent extends SElement {
 			super._init();
 		});
 	}
-
-	/**
-	 * onEnable
-	 * When the component is enabled
-	 */
-	_onEnable() {}
-
-	/**
-	 * onDisable
-	 * When the component is disabled
-	 */
-	_onDisable() {}
 
 	/**
 	 * disable

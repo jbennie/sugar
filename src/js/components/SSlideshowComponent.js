@@ -8,8 +8,11 @@
  * @updated  20.01.16
  * @version  1.0.0
  */
+require('tocca');
 import SComponent from '../core/SComponent'
 import querySelectorLive from '../dom/querySelectorLive'
+import __isInViewport from '../dom/isInViewport'
+import __autoCast from '../string/autoCast'
 import __next from '../dom/next'
 import __previous from '../dom/previous'
 import __offset from '../dom/offset'
@@ -38,18 +41,25 @@ class SSlideshowComponent extends SComponent {
 	_slides = [];
 
 	/**
-	 * isPaused
+	 * isPause
 	 * Store the pause status
 	 * @type 	{Boolean}
 	 */
-	_isPaused = false;
+	_isPause = false;
 
 	/**
-	 * isPlayed
+	 * _isPlay
 	 * Store the play status
 	 * @type 	{Boolean}
 	 */
-	_isPlayed = false;
+	_isPlay = false;
+
+	/**
+	 * _isForward
+	 * Store the forward status
+	 * @type 	{Boolean}
+	 */
+	_isForward = true;
 
 	/**
 	 * _activeSlide
@@ -66,10 +76,73 @@ class SSlideshowComponent extends SComponent {
 	_timer = null;
 
 	/**
+	 * _slidesObserver
+	 * Store the observer of the slides
+	 * @type 	{Observer}
+	 */
+	_slidesObserver = null;
+
+	/**
+	 * _refs
+	 * Store the elements references like navigation, etc...
+	 * @type 	{Object}
+	 */
+	_refs = {
+		next : null, 				// the next button
+		previous : null,			// the previous button
+		totals : [],				// all the totals tokens
+		currents : [], 				// all the currents tokens
+		goTos : [] 					// all the goto elements
+	};
+
+	/**
 	 * Constructor
 	 */
 	constructor(elm, settings = {}) {
 		super('sSlideshow', elm, {
+
+			/**
+			 * slideClass
+			 * Set the class applied on the slideshow that specify the active slide idx
+			 * The token '%idx' will be replaced with the slide idx
+			 * @type 	{String}
+			 */
+			slideClass : 'slide-%idx',
+
+			/**
+			 * forwardClass
+			 * Set the class applied on the slideshow when it goes forward
+			 * @type 	{String}
+			 */
+			forwardClass : 'forward',
+
+			/**
+			 * backwardClass
+			 * Set the class applied on the slideshow when it goes backward
+			 * @type 	{String}
+			 */
+			backwardClass : 'forward',
+
+			/**
+			 * playClass
+			 * Set the class applied on the slideshow when it is in play mode
+			 * @type 	{String}
+			 */
+			playClass : 'play',
+
+			/**
+			 * pauseClass
+			 * Set the class applied on the slideshow when it is in pause mode
+			 * @type 	{String}
+			 */
+			pauseClass : 'pause',
+
+			/**
+			 * stopClass
+			 * Set the class applied on the slideshow when it is in stop mode
+			 * @type 	{String}
+			 */
+			stopClass : 'stop',
 
 			/**
 			 * activeClass
@@ -77,6 +150,48 @@ class SSlideshowComponent extends SComponent {
 			 * @type 	{String}
 			 */
 			activeClass : 'active',
+
+			/**
+			 * nextClass
+			 * Set the class applied on the next slide
+			 * @type 	{String}
+			 */
+			nextClass : 'next',
+
+			/**
+			 * previousClass
+			 * Set the class applied on the next slide
+			 * @type 	{String}
+			 */
+			previousClass : 'previous',
+
+			/**
+			 * beforeActiveClass
+			 * Set the class applied on all the slides that are before the active one
+			 * @type 	{String}
+			 */
+			beforeActiveClass : 'before-active',
+
+			/**
+			 * afterActiveClass
+			 * Set the class applied on all the slides that are after the active one
+			 * @type 	{String}
+			 */
+			afterActiveClass : 'after-active',
+
+			/**
+			 * firstClass
+			 * Set the class applied on the first slide
+			 * @type 	{String}
+			 */
+			firstClass : 'first',
+
+			/**
+			 * lastClass
+			 * Set the class applied on the last slide
+			 * @type 	{String}
+			 */
+			lastClass : 'last',
 
 			/**
 			 * timeout
@@ -185,11 +300,11 @@ class SSlideshowComponent extends SComponent {
 			onPlay : null,
 
 			/**
-			 * onResume
-			 * Callback when the slideshow resume after a pause
+			 * onStop
+			 * Callback when the slideshow stops
 			 * @type 	{Function}
 			 */
-			onResume : null
+			onStop : null
 
 		}, settings);
 	}
@@ -205,23 +320,37 @@ class SSlideshowComponent extends SComponent {
 		this._updateReferences();
 
 		// grab the slides and maintain stack up to date
-		querySelectorLive(`[${this.name_dash}-slide], ${this.name_dash}-slide`, {
+		this._slidesObserver = querySelectorLive(`[${this.name_dash}-slide], ${this.name_dash}-slide`, {
 			rootNode : this.elm
 		}).stack(this._slides).subscribe((elm) => {
 			// init new slide
 			this._initSlide(elm);
 		});
 
-		// first next
-		this.next();
+		// listen for click on element
+		this.elm.addEventListener('click', this._onClick.bind(this));
 
-		// check if need to go next on click
-		if (this.settings.nextOnClick) {
-			this.elm.addEventListener('click', (e) => {
-				// go next
-				this.next();
-			});
+		// pauseOnHover
+		if (this.settings.pauseOnHover) {
+			this.elm.addEventListener('mouseenter', this._onMouseover.bind(this));
+			this.elm.addEventListener('mouseleave', this._onMouseout.bind(this));
 		}
+
+		// keyboardEnabled
+		if (this.settings.keyboardEnabled) {
+			this._initKeyboardNavigation();
+		}
+
+		// touchenabled
+		if (this.settings.touchEnabled) {
+			this._initTouchNavigation();
+		}
+
+		// init next and previous buttons
+		this._initPreviousAndNextButtons();
+
+		// listen blur and focus
+		this._listenBlurAndFocus();
 
 		// create the timer
 		this._timer = new STimer(this.settings.timeout, {
@@ -234,15 +363,265 @@ class SSlideshowComponent extends SComponent {
 			this.next();
 		});
 
+		// onInit callback
+		this.settings.onInit && this.settings.onInit(this);
+
+		// watch the _isPlay
+		this.watch('_isPlay', (newVal, oldVal) => {
+			// refresh classes
+			this._refreshClasses();
+		});
+	}
+
+	/**
+	 * _onAdded
+	 * When the element is added to the dom
+	 * @return 	{void}
+	 */
+	_onAdded() {
+		// first next
+		this.next();
+
 		// if autoplay
 		if (this.settings.autoplay) {
 			this.play();
 		}
+	}
 
-		// pauseOnHover
-		if (this.settings.pauseOnHover) {
-			this.elm.addEventListener('mouseenter', this._onMouseover.bind(this));
-			this.elm.addEventListener('mouseleave', this._onMouseout.bind(this));
+	/**
+	 * _onRemoved
+	 * When the element is remved from the dom
+	 * @return 	{void}
+	 */
+	_onRemoved() {
+		// stop the slideshow
+		this.stop();
+	}
+
+	/**
+	 * _listenBlurAndFocus
+	 * Listen when the window is active and unactivate
+	 * @return 	{void}
+	 */
+	_listenBlurAndFocus() {
+		// listen for blur and focus event on window
+		window.addEventListener('blur', this._onWindowBlur.bind(this));
+		window.addEventListener('focus', this._onWindowFocus.bind(this));
+	}
+
+	/**
+	 * _onClick
+	 * When the user click on the slideshow
+	 * @param 	{Event} 	e 	The event
+	 * @return 	{void}
+	 */
+	_onClick(e) {
+		// check if we click on a goto element
+		const goTo = e.target.getAttribute(`${this.name_dash}-goto`);
+		if (goTo) {
+			// go to wanted slide
+			this.goTo(__autoCast(goTo));
+		} else {
+			if (this.settings.nextOnClick) {
+				this.next();
+			}
+		}
+	}
+
+	/**
+	 * _onNextClick
+	 * When the user has clicked on the next button
+	 * @param 	{Event} 	e 	The event
+	 * @return 	{void}
+	 */
+	_onNextClick(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		this.next();
+	}
+
+	/**
+	 * _onPreviousClick
+	 * When the user has clicked on the previous button
+	 * @param 	{Event} 	e 	The event
+	 * @return 	{void}
+	 */
+	_onPreviousClick(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		this.previous();
+	}
+
+	/**
+	 * _onWindowBlur
+	 * Called when the user does not have the window active anymore
+	 * @param 	{Event} 	e 	The event
+	 * @return 	{void}
+	 */
+	_onWindowBlur(e) {
+		// pause the slideshow
+		if (this.isPlay()) {
+			this._wasPlayed = true;
+			this.pause();
+		} else {
+			this._wasPlayed = false;
+		}
+	}
+
+	/**
+	 * _onWindowFocus
+	 * Called when the user does not have the window active anymore
+	 * @param 	{Event} 	e 	The event
+	 * @return 	{void}
+	 */
+	_onWindowFocus(e) {
+		// pause the slideshow
+		if (this._wasPlayed) {
+			this.play();
+			this._wasPlayed = null;
+		}
+	}
+
+	/**
+	 * enable
+	 * When the element is enabled
+	 * @return 	{void}
+	 */
+	enable() {
+		// add all classes
+		this._applyClasses();
+		// enable keyboard navigation
+		if (this.settings.keyboardEnabled) {
+			this._initKeyboardNavigation();
+		}
+		// enable touch navigation
+		if (this.settings.touchEnabled) {
+			this._initTouchNavigation();
+		}
+		// listen for blur and focus
+		this._listenBlurAndFocus();
+		// init the previous and next navigation
+		this._initPreviousAndNextButtons();
+		// if autoplay
+		if (this.settings.autoplay) {
+			this.play();
+		}
+		// parent
+		super.enable();
+	}
+
+	/**
+	 * disable
+	 * When the element is disabled
+	 * @return 	{void}
+	 */
+	disable() {
+		// disable keyboard navigation
+		document.removeEventListener('keyup', this._onKeyup);
+		// disable touch navigation
+		this.elm.removeEventListener('swipeleft', this._onSwipe);
+		this.elm.removeEventListener('swiperight', this._onSwipe);
+		// do not listen for focus and blur anymore
+		window.removeEventListener('blur', this._onWindowBlur);
+		window.removeEventListener('focus', this._onWindowFocus);
+		// do not listen for previous and next click
+		this._refs.previous && this._refs.previous.removeEventListener('click', this._onPreviousClick);
+		this._refs.next && this._refs.next.removeEventListener('click', this._onNextClick);
+		// stop
+		this.stop();
+		// remove all classes
+		this._unapplyClasses();
+		// parent
+		super.disable();
+	}
+
+	/**
+	 * destroy
+	 * When the element is destroyed
+	 * @return 	{void}
+	 */
+	destroy() {
+		// disable the element first
+		this.disable();
+		// destroy all element in slideshow that need to be destroyed
+		this._slidesObserver.unsubscribe();
+		// destroy parent
+		super.destroy();
+	}
+
+	/**
+	 * _initPreviousAndNextButtons
+	 * Init the previous and next buttons
+	 * @return 	{void}
+	 */
+	_initPreviousAndNextButtons() {
+		// if the next element exist
+		if (this._refs.next) {
+			this._refs.next.addEventListener('click', this._onNextClick.bind(this));
+		}
+		// if the previous element exist
+		if (this._refs.previous) {
+			this._refs.previous.addEventListener('click', this._onPreviousClick.bind(this));
+		}
+	}
+
+	/**
+	 * _initKeyboardNavigation
+	 * Init the keyboard navigation
+	 * @return 	{void}
+	 */
+	_initKeyboardNavigation() {
+		// listen for keyup event
+		document.addEventListener('keyup', this._onKeyup.bind(this));
+	}
+
+	/**
+	 * _initTouchNavigation
+	 * Init the touch navigation
+	 * @return 	{void}
+	 */
+	_initTouchNavigation() {
+		// listen for swiped
+		this.elm.addEventListener('swipeleft', this._onSwipe.bind(this));
+		this.elm.addEventListener('swiperight', this._onSwipe.bind(this));
+	}
+
+	/**
+	 * _onSwipe
+	 * When the user has swiped on the slideshow
+	 * @param 	{Event} 	e 	The event
+	 * @return 	{void}
+	 */
+	_onSwipe(e) {
+		// check the swipe direction
+		switch(e.type) {
+			case 'swipeleft':
+				this.next();
+			break;
+			case 'swiperight':
+				this.previous();
+			break;
+		}
+	}
+
+	/**
+	 * _onKeyup
+	 * When the user has released a keyboard key
+	 * @param 	{Event} 	e 	The event
+	 * @return 	{void}
+	 */
+	_onKeyup(e) {
+		// do nothing if the slideshow is not in viewport
+		if ( ! __isInViewport(this.elm)) return;
+
+		// check the key
+		switch(e.keyCode) {
+			case 39: // right arrow
+				this.next();
+			break;
+			case 37: // left arrow
+				this.previous();
+			break;
 		}
 	}
 
@@ -253,9 +632,8 @@ class SSlideshowComponent extends SComponent {
 	 * @return 	{void}
 	 */
 	_onMouseover(e) {
-		console.warn('over');
 		// pause the timer
-		this._timer.pause();
+		this.pause()
 	}
 
 	/**
@@ -265,9 +643,8 @@ class SSlideshowComponent extends SComponent {
 	 * @return 	{void}
 	 */
 	_onMouseout(e) {
-		console.warn('mouseout');
 		// resume the timer
-		this._timer.start();
+		this.play();
 	}
 
 	/**
@@ -276,8 +653,146 @@ class SSlideshowComponent extends SComponent {
 	 * @return 	{void}
 	 */
 	_initSlide(slide) {
-		slide.classList.add('s-slideshow__slide');
-		slide.classList.add('s-slideshow-slide');
+	}
+
+	/**
+	 * _setTimerDurationForCurrentSlide
+	 * Set the timer duration for the current slide
+	 * @return 	{void}
+	 */
+	_setTimerDurationForCurrentSlide() {
+		// check if the current slide has a special timer defined
+		const slideTime = this.getActiveSlide().getAttribute(`${this.name_dash}-slide-time`);
+		if (slideTime) {
+			this._timer.duration(__autoCast(slideTime));
+		} else {
+			this._timer.duration(this.settings.timeout);
+		}
+	}
+
+	/**
+	 * _refreshClasses
+	 * Refresh the classes of the component
+	 * @return 	{void}
+	 */
+	_refreshClasses() {
+		this._unapplyClasses();
+		this._applyClasses();
+	}
+
+	/**
+	 * _unapplyClasses
+	 * Remove the classes from the elements
+	 * @return 	{void}
+	 */
+	_unapplyClasses() {
+		// unactivate all the slides
+		this._slides.forEach((slide) => {
+			slide.classList.remove(this.settings.activeClass);
+			slide.classList.remove(this.settings.beforeActiveClass);
+			slide.classList.remove(this.settings.afterActiveClass);
+		});
+		// remove the active class on all goto
+		[].forEach.call(this._refs.goTos, (goTo) => {
+			goTo.classList.remove(this.settings.activeClass);
+		});
+		// remove the slide class
+		this.elm.classList.remove(this.settings.slideClass.replace('%idx', this.getActiveSlideIndex()));
+		// remove the previous and next classes
+		this.getPreviousSlide().classList.remove(this.settings.previousClass);
+		this.getNextSlide().classList.remove(this.settings.nextClass);
+		// unapply the backward and forward classes
+		this.elm.classList.remove(this.settings.forwardClass);
+		this.elm.classList.remove(this.settings.backwardClass);
+		// play, pause and stop class
+		this.elm.classList.remove(this.settings.playClass);
+		this.elm.classList.remove(this.settings.pauseClass);
+		this.elm.classList.remove(this.settings.stopClass);
+		// unapply the first and last classes
+		this.getFirstSlide().classList.remove(this.settings.firstClass);
+		this.getLastSlide().classList.remove(this.settings.lastClass);
+	}
+
+	/**
+	 * _applyClasses
+	 * Apply the good classes to the elements
+	 * @return 	{void}
+	 */
+	_applyClasses() {
+		// activate the current slide
+		this._activeSlide.classList.add(this.settings.activeClass);
+		// goto classes
+		[].forEach.call(this._refs.goTos, (goTo) => {
+			const idx = goTo.getAttribute(`${this.name_dash}-goto`);
+			if (idx && __autoCast(idx) === this.getActiveSlideIndex()) {
+				goTo.classList.add(this.settings.activeClass);
+			}
+		});
+		// remove the slide class
+		this.elm.classList.add(this.settings.slideClass.replace('%idx', this.getActiveSlideIndex()));
+		// add the next and previous classes
+		this.getPreviousSlide().classList.add(this.settings.previousClass);
+		this.getNextSlide().classList.add(this.settings.nextClass);
+		// forward and backward classes
+		if (this._isForward) {
+			this.elm.classList.add(this.settings.forwardClass);
+		} else {
+			this.elm.classList.add(this.settings.backwardClass);
+		}
+		// play, pause and stop class
+		if (this.isPlay()) {
+			this.elm.classList.add(this.settings.playClass);
+		} else if (this.isPause()) {
+			this.elm.classList.add(this.settings.pauseClass);
+		} else {
+			this.elm.classList.add(this.settings.stopClass);
+		}
+		// apply the first and last classes
+		this.getFirstSlide().classList.add(this.settings.firstClass);
+		this.getLastSlide().classList.add(this.settings.lastClass);
+		// apply the beforeActiveClass
+		this.getBeforeActiveSlides().forEach((slide) => {
+			slide.classList.add(this.settings.beforeActiveClass);
+		});
+		// apply the afterActiveClass
+		this.getAfterActiveSlides().forEach((slide) => {
+			slide.classList.add(this.settings.afterActiveClass);
+		});
+	}
+
+	/**
+	 * _applyTokens
+	 * Apply the differents tokens available to use in the html template
+	 * @return 	{void}
+	 */
+	_applyTokens() {
+		// apply current
+		if (this._refs.currents) {
+			[].forEach.call(this._refs.currents, (current) => {
+				current.innerHTML = this.getActiveSlideIndex() + 1;
+			});
+		}
+		// apply total
+		if (this._refs.totals) {
+			[].forEach.call(this._refs.totals, (total) => {
+				total.innerHTML = this._slides.length;
+			});
+		}
+	}
+
+	/**
+	 * _findActiveSlideByClass
+	 * Loop on slides to find the first one that has the active class
+	 * @return 	{HTMLElement} 	The first active class
+	 */
+	_findActiveSlideByClass() {
+		for(let i=0; i<this._slides.length; i++) {
+			const slide = this._slides[i];
+			if (slide.classList.contains(this.settings.activeClass)) {
+				return slide;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -286,22 +801,36 @@ class SSlideshowComponent extends SComponent {
 	 * @return 	{SSlideshowComponent}
 	 */
 	next() {
-		// set the active slide
+
+		// stop if the document is hidden
+		if (document.hidden) return;
+
+		// check if is in viewport
+		if ( ! __isInViewport(this.elm) && this.getActiveSlideIndex() !== -1) return;
+
+		// get the current active slide index
 		const idx = this.getActiveSlideIndex();
-		if (idx + 1 < this._slides.length) {
-			this._activeSlide = this._slides[idx+1];
-		} else if (this.settings.loop) {
-			this._activeSlide = this._slides[0];
-		} else {
-			// stop here
-			return this;
+
+		// if the slideshow is at his first time
+		let activeSlideIndex = 0;
+		if (idx === -1) {
+			// try to find a slide that has the active class
+			const activeSlide = this._findActiveSlideByClass();
+			if (activeSlide) {
+				activeSlideIndex = this._slides.indexOf(activeSlide);
+			} else {
+				activeSlideIndex = 0;
+			}
+		} else if (idx + 1 < this._slides.length) {
+			activeSlideIndex = idx+1;
 		}
-		// unactivate the previous slide
-		if (idx !== -1) {
-			this._slides[idx].classList.remove(this.settings.activeClass);
-		}
-		// activate the current slide
-		this._activeSlide.classList.add(this.settings.activeClass);
+
+		// go to the new slide
+		this.goTo(activeSlideIndex);
+
+		// onNext callback
+		this.settings.onNext && this.settings.onNext(this);
+
 		// maintain chainability
 		return this;
 	}
@@ -312,22 +841,81 @@ class SSlideshowComponent extends SComponent {
 	 * @return 	{SSlideshowComponent}
 	 */
 	previous() {
-		// set the active slide
+
+		// stop if the document is hidden
+		if (document.hidden) return;
+
+		// check if is in viewport
+		if ( ! __isInViewport(this.elm) && this.getActiveSlideIndex() !== -1) return;
+
+		// get the current active slide index
 		const idx = this.getActiveSlideIndex();
-		if (idx - 1 >= 0) {
-			this._activeSlide = this._slides[idx-1];
+
+		// if the slideshow is at his first time
+		let activeSlideIndex = 0;
+		if (idx === -1) {
+			// try to find a slide that has the active class
+			const activeSlide = this._findActiveSlideByClass();
+			if (activeSlide) {
+				activeSlideIndex = this._slides.indexOf(activeSlide);
+			} else {
+				activeSlideIndex = 0;
+			}
+		} else if (idx - 1 >= 0) {
+			activeSlideIndex = idx-1;
 		} else if (this.settings.loop) {
-			this._activeSlide = this._slides[this._slides.length-1];
-		} else {
-			// stop here
-			return this;
+			activeSlideIndex = this._slides.length-1;
 		}
-		// unactivate the previous slide
-		if (idx !== -1) {
-			this._slides[idx].classList.remove(this.settings.activeClass);
+
+		// go to the new slide
+		this.goTo(activeSlideIndex);
+
+		// onPrevious callback
+		this.settings.onPrevious && this.settings.onPrevious(this);
+
+		// maintain chainability
+		return this;
+	}
+
+	/**
+	 * goTo
+	 * Go to a specific slide
+	 * @param 	{Integer} 	slideIndex 	The slide index to go to
+	 * @return 	{SSlideshowComponent} 	The instance itself
+	 */
+	goTo(slideIndex) {
+		// check the slide index
+		if ( slideIndex >= this._slides.length) {
+			throw `The slide ${slideIndex} does not exist...`;
 		}
-		// activate the current slide
-		this._activeSlide.classList.add(this.settings.activeClass);
+
+		// beforeChange callback
+		this.settings.beforeChange && this.settings.beforeChange(this);
+
+		// unapply classes
+		this._unapplyClasses();
+
+		// reset the timer and start it again if needed
+		this._timer.reset(this.isPlay());
+
+		// active the good slide
+		this._activeSlide = this._slides[slideIndex];
+
+		// apply total and current tokens
+		this._applyTokens();
+
+		// onChange callback
+		this.settings.onChange && this.settings.onChange(this);
+
+		// apply classes
+		this._applyClasses();
+
+		// set the timer duration
+		this._setTimerDurationForCurrentSlide();
+
+		// afterChange callback
+		this.settings.afterChange && this.settings.afterChange(this);
+
 		// maintain chainability
 		return this;
 	}
@@ -338,9 +926,14 @@ class SSlideshowComponent extends SComponent {
 	 * @return 	{SSlideshowComponent}
 	 */
 	play() {
+		// update status
+		this._isPause = false;
+		this._isPlay = true;
 		// start the timer
 		this._timer.start();
-
+		// onPlay callback
+		this.settings.onPlay && this.settings.onPlay(this);
+		// maintain chainability
 		return this;
 	}
 
@@ -350,6 +943,14 @@ class SSlideshowComponent extends SComponent {
 	 * @return 	{SSlideshowComponent}
 	 */
 	pause() {
+		// update status
+		this._isPause = true;
+		this._isPlay = false;
+		// pause the timer
+		this._timer.pause();
+		// onPause callback
+		this.settings.onPause && this.settings.onPause(this);
+		// maintain chainability
 		return this;
 	}
 
@@ -359,7 +960,39 @@ class SSlideshowComponent extends SComponent {
 	 * @return 	{SSlideshowComponent}
 	 */
 	stop() {
+		// update status
+		this._isPause = false;
+		this._isPlay = false;
+		// stop the timer
+		this._timer.stop();
+		// onStop callback
+		this.settings.onStop && this.settings.onStop(this);
+		// maintain chainability
 		return this;
+	}
+
+	/**
+	 * getBeforeActiveSlides
+	 * Return all the slides that are before the active one
+	 * @return 	{Array} 	The array of slides that are before the active one
+	 */
+	getBeforeActiveSlides() {
+		const activeIdx = this.getActiveSlideIndex();
+		const newArray = this._slides.slice(0);
+		newArray.splice(activeIdx, 1000);
+		return newArray;
+	}
+
+	/**
+	 * getAfterActiveSlides
+	 * Return all the slides that are before the active one
+	 * @return 	{Array} 	The array of slides that are before the active one
+	 */
+	getAfterActiveSlides() {
+		const activeIdx = this.getActiveSlideIndex();
+		const newArray = this._slides.slice(0);
+		newArray.splice(0, activeIdx + 1);
+		return newArray;
 	}
 
 	/**
@@ -381,30 +1014,94 @@ class SSlideshowComponent extends SComponent {
 	}
 
 	/**
-	 * isPlayed
+	 * getFirstSlide
+	 * Return the first slide element
+	 * @return 	{HTMLElement} 	The first slide
+	 */
+	getFirstSlide() {
+		return this._slides[0];
+	}
+
+	/**
+	 * getLastSlide
+	 * Return the last slide element
+	 * @return 	{HTMLElement} 	The last slide
+	 */
+	getLastSlide() {
+		return this._slides[this._slides.length - 1];
+	}
+
+	/**
+	 * getNextSlideIndex
+	 * Return the next slide index
+	 * @return 	{Integer} 	The next slide index
+	 */
+	getNextSlideIndex() {
+		const activeSlideIndex = this.getActiveSlideIndex();
+		if (activeSlideIndex + 1 < this._slides.length) {
+			return activeSlideIndex + 1;
+		} else {
+			return 0;
+		}
+	}
+
+ 	/**
+	 * getNextSlide
+	 * Return the previous slide element
+	 * @return 	{HTMLElement} 	The previous slide
+	 */
+	getNextSlide() {
+		return this._slides[this.getNextSlideIndex()];
+	}
+
+	/**
+	 * getPreviousSlideIndex
+	 * Return the previous slide index
+	 * @return 	{Integer} 	The previous slide index
+	 */
+	getPreviousSlideIndex() {
+		const activeSlideIndex = this.getActiveSlideIndex();
+		if (activeSlideIndex > 0) {
+			return activeSlideIndex - 1;
+		} else {
+			return this._slides.length - 1;
+		}
+	}
+
+ 	/**
+	 * getPreviousSlide
+	 * Return the previous slide element
+	 * @return 	{HTMLElement} 	The previous slide
+	 */
+	getPreviousSlide() {
+		return this._slides[this.getPreviousSlideIndex()];
+	}
+
+	/**
+	 * isPlay
 	 * Return if the slideshow is played or not
 	 * @return 	{Boolean} 	The played status
 	 */
-	isPlayed() {
-		return this._isPlayed;
+	isPlay() {
+		return this._isPlay;
 	}
 
 	/**
-	 * isPaused
+	 * isPause
 	 * Return if the slideshow is paused or not
 	 * @return 	{Boolean} 	The paused status
 	 */
-	isPaused() {
-		return this._isPaused;
+	isPause() {
+		return this._isPause;
 	}
 
 	/**
-	 * isStoped
+	 * isStop
 	 * Return if the slideshow is stoped or not
 	 * @return 	{Boolean} 	The stoped status
 	 */
-	isStoped() {
-		return ! this._isPlayed && ! this._isPaused;
+	isStop() {
+		return ! this._isPlay && ! this._isPause;
 	}
 
 	/**
@@ -440,7 +1137,16 @@ class SSlideshowComponent extends SComponent {
      * @return 	{void}
 	 */
 	_updateReferences() {
-
+		// grab the navigation
+		this._refs.navigation = this.elm.querySelector(`[${this.name_dash}-navigation]`);
+		// grab the next and previous element
+		this._refs.next = this.elm.querySelector(`[${this.name_dash}-next]`);
+		this._refs.previous = this.elm.querySelector(`[${this.name_dash}-previous]`);
+		// grab the total and current token handler
+		this._refs.totals = this.elm.querySelectorAll(`[${this.name_dash}-total]`);
+		this._refs.currents = this.elm.querySelectorAll(`[${this.name_dash}-current]`);
+		// grab all the goto elements
+		this._refs.goTos = this.elm.querySelectorAll(`[${this.name_dash}-goto]`);
 	}
 
 }
@@ -448,14 +1154,6 @@ class SSlideshowComponent extends SComponent {
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }
 window.sugar.SSlideshowComponent = SSlideshowComponent;
-
-// initOn
-SSlideshowComponent.initOn = function(selector, settings = {}) {
-	// init the select
-	return querySelectorLive(selector).visible().once().subscribe((elm) => {
-		new SSlideshowComponent(elm);
-	});
-};
 
 // export modules
 export default SSlideshowComponent;

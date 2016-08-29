@@ -186,7 +186,7 @@ export default class SWatcher {
 	 * Tell that something has changed
 	 */
 	notify(path, newValue, oldValue) {
-		if (this._watchStack[path] && newValue !== oldValue) {
+		if (this._watchStack[path] !== undefined && newValue !== oldValue) {
 			this._watchStack[path].forEach((cb) => {
 				cb(newValue, oldValue);
 			});

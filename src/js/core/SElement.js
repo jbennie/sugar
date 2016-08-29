@@ -192,6 +192,44 @@ export default class SElement extends SObject {
 	}
 
 	/**
+	 * remove
+	 * Remove the element from the dom
+	 * @return 	{SElement} 	The instance itself to maintain chainability
+	 */
+	remove() {
+		// save the next sibling
+		this._nextSibling = this.elm.nextSibling;
+
+		// remove the element
+		if (this.elm.parentNode) {
+			this._parent = this.elm.parentNode;
+			this.elm.parentNode.removeChild(this.elm);
+		}
+		// maintain chainability
+		return this;
+	}
+
+	/**
+	 * append
+	 * Append the element into the dom
+	 * @param 	{HTMLElement} 	to 		The container in which to append the element
+	 * @return 	{SElement} 				The instance itself to maintain chainability
+	 */
+	append(to = null) {
+		if ( ! to && this._nextSibling && this._nextSibling.parentNode) {
+			this._nextSibling.parentNode.insertBefore(this.elm, this._nextSibling);
+		} else if (this._parent) {
+			this._parent.appendChild(this.elm);
+		} else if (to && to.parentNode) {
+			to.parentNode.appendChild(this.elm);
+		} else {
+			throw 'In order to append this element, you need to specify a "to" parameter';
+		}
+		// maintain chainability
+		return this;
+	}
+
+	/**
 	 * Watch
 	 */
 	watch(path, cb) {

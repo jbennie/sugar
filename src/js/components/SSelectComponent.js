@@ -213,12 +213,12 @@ class SSelectComponent extends SComponent {
 	}
 
 	/**
-	 * onDisable
+	 * disable
 	 * When the component is disabled
 	 */
-	_onDisable() {
+	disable() {
 		// disable in parent class
-		super._onDisable();
+		super.disable();
 		// show the select
 		this._showRealSelect();
 		// remove the container
@@ -228,12 +228,12 @@ class SSelectComponent extends SComponent {
 	}
 
 	/**
-	 * onEnable
+	 * enable
 	 * When the component is enabled
 	 */
-	_onEnable() {
+	enable() {
 		// enable in parent class
-		super._onEnable();
+		super.enable();
 		// hide the select
 		this._hideRealSelect();
 		// append the element right after the real select
