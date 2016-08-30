@@ -78,11 +78,13 @@ export default class SElement extends SObject {
 		this._watcher = new SWatcher();
 		this._binder = new SBinder();
 
-		// listen for changes in some html tags
-		this._listenChangesOnElement();
-
 		// set the uniqid to the element
 		this.elm.setAttribute('s-element', this.elementId);
+
+		// set all attribute in the this.attr stack
+		[].forEach.call(this.elm.attributes, (attr) => {
+			this.attr[__camelize(attr.name)] = __autoCast(attr.value);
+		});
 
 		// init bindings if not a component
 		if ( ! elm.hasAttribute('s-component')) {
@@ -95,6 +97,8 @@ export default class SElement extends SObject {
 	 * Init
 	 */
 	_init() {
+		// listen for changes in some html tags
+		this._listenChangesOnElement();
 		// listen when the element is removed
 		this._addRemoveObserver = querySelectorLive(`[s-element="${this.elementId}"]`, {
 			onNodeRemoved : (node) => {

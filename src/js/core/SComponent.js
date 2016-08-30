@@ -1,4 +1,5 @@
 import __uncamelize from '../string/uncamelize'
+import __camelize from '../string/camelize'
 import __upperFirst from '../string/upperFirst'
 import __lowerFirst from '../string/lowerFirst'
 import __uniqid from '../tools/uniqid'
@@ -96,8 +97,6 @@ export default class SComponent extends SElement {
 		}
 
 		// try to find the setting with the @ sign as value
-		let connectSettingToAttribute = {};
-		let connectAttributeToAttribute = {};
 		for (let settingName in this.settings) {
 
 			const settingAttrName = this.name_dash + '-' + __uncamelize(settingName);
@@ -129,6 +128,18 @@ export default class SComponent extends SElement {
 				const settingAttrValue = __autoCast(this.elm.getAttribute(settingAttrName));
 				if (settingAttrValue !== null) {
 					this.settings[settingName] = settingAttrValue;
+				}
+			}
+		}
+
+		// loop on attributes to check is theirs some that are settings
+		for (let key in this.attr) {
+			if (key.indexOf(this.name) === 0) {
+				// get setting name
+				const settingName = __camelize(key.substr(this.name.length));
+				// if is a setting that does not exist, create it
+				if ( ! this.settings[settingName]) {
+					this.settings[settingName] = this.attr[key];
 				}
 			}
 		}
@@ -201,6 +212,18 @@ export default class SComponent extends SElement {
 	 */
 	_initProxy() {
 
+		// resolve all the init dependencies
+		if (this._initDependencies
+			&& ! this._initDependenciesResolved) {
+			Promise.all(this._initDependencies()).then(() => {
+				// set that the dependencies are resolved
+				this._initDependenciesResolved = true;
+				// relaunch the init proxy
+				this._initProxy()
+			});
+			return;
+		}
+
 		// protect multiple init
 		if (this.inited) return;
 		this.inited = true;
@@ -241,6 +264,41 @@ export default class SComponent extends SElement {
 			default:
 				setTimeout(() => { cb(); });
 			break;
+		}
+	}
+
+	/**
+	 * watchSettings
+	 * Watch all settings
+	 * @param 	{Function} 	callback	The callback to launch when a setting has changed
+	 * @return 	{void}
+	 */
+	watchSettings(cb) {
+		let timeout = null;
+		let updated = {};
+		let oldSettings = null;
+
+		const _watch = (key) => {
+			this.watch(`settings.${key}`, (newVal, oldVal) => {
+				// add setting to updated stack
+				updated[key] = {
+					newVal : newVal,
+					oldVal, oldVal
+				};
+				if ( ! oldSettings) {
+					oldSettings = Object.assign({}, this.settings);
+				}
+				clearTimeout(timeout);
+				timeout = setTimeout(() => {
+					cb(this.settings, oldSettings, Object.assign({}, updated));
+					updated = {};
+					oldSettings = null;
+				});
+			});
+		}
+		// loop on each settings to watch them
+		for(let key in this.settings) {
+			_watch(key);
 		}
 	}
 

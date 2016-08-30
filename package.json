@@ -17,6 +17,7 @@
     "classlist.js": "^1.1.20150312",
     "core-js": "^2.2.2",
     "custom-event": "^1.0.0",
+    "google-maps": "^3.2.1",
     "handlebars": "^4.0.5",
     "lodash": "^4.4.0",
     "morphdom": "^2.0.0",

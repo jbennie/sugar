@@ -1,0 +1,100 @@
+import SGoogleComponent from '../core/SGoogleComponent';
+import GoogleMapsLoader from 'google-maps'
+
+class SGoogleMapMarkerComponent extends SGoogleComponent {
+
+	/**
+	 * Setup
+	 */
+	static setup(type, settings) {
+		SComponent.setup('sGoogleMapMarker', type, settings);
+	}
+
+	/**
+	 * _marker
+	 * Store the marker instance in which to attach the marker
+	 * @type 	{Map}
+	 */
+	_marker = null;
+
+	/**
+	 * Constructor
+	 */
+	constructor(elm, settings = {}, name = 'sGoogleMapMarker') {
+
+		// init component
+		super(name, elm, {
+
+			/**
+			 * The settings of this component are the exact same as the
+			 * google map marker options
+			 */
+
+		}, settings);
+	}
+
+	/**
+	 * Init
+	 */
+	_init() {
+		// init component
+		super._init();
+
+		// watch settings to set new map options
+		this.watchSettings((newVal, oldVal, updated) => {
+			// set marker options
+			this._setMarkerOptions(newVal);
+		});
+	}
+
+	/**
+	 * _onAdded
+	 * When the element is added to the dom
+	 * @return 	{void}
+	 */
+	_onAdded() {
+		// load the map api
+		if ( ! this._marker) {
+			this._initMarker();
+		} else {
+			this._marker.setMap(this.settings.map);
+		}
+		super._onAdded();
+	}
+
+	/**
+	 * _onRemoved
+	 * When the element is removed from the dom
+	 * @return 	{void}
+	 */
+	_onRemoved() {
+		// remove the marker from the map
+		this._marker.setMap(null);
+		super._onRemoved();
+	}
+
+	/**
+	 * _initMarker
+	 * @return {void}
+	 */
+	_initMarker() {
+		this._marker = new this._google.maps.Marker(this.settings);
+	}
+
+	/**
+	 * _setMarkerOptions
+	 * @param 	{Object} 	options 	The new marker options
+	 * @return	{void}
+	 */
+	_setMarkerOptions(options) {
+		if ( ! this._marker) return;
+		this._marker.setOptions(options);
+	}
+}
+
+// expose in window.sugar
+if (window.sugar == null) { window.sugar = {}; }
+window.sugar.SGoogleMapMarkerComponent = SGoogleMapMarkerComponent;
+
+// export modules
+export default SGoogleMapMarkerComponent;
