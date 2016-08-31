@@ -1,10 +1,10 @@
 /**
  * Detect when an image is loaded
  */
-import Pro from 'promise-polyfill'
-if ( ! window.Promise) {
-	window.Promise = Pro;
-}
+// import Pro from 'promise-polyfill'
+// if ( ! window.Promise) {
+// 	window.Promise = Pro;
+// }
 export default function imageLoaded(img, callback = null) {
 	return new Promise((resolve, reject) => {
 		// check if image is already loaded

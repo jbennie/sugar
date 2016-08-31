@@ -2,10 +2,10 @@
  * Dom ready
  */
 import stylesheetsReady from '../dom/stylesheetsReady';
-import Pro from 'promise-polyfill'
-if ( ! window.Promise) {
-	window.Promise = Pro;
-}
+// import Pro from 'promise-polyfill'
+// if ( ! window.Promise) {
+// 	window.Promise = Pro;
+// }
 
 let neededStylesheetsStack = null;
 

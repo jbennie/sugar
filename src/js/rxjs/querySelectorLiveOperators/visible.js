@@ -1,9 +1,9 @@
-import {Observable} from 'rxjs'
+import {Observable} from 'rxjs/Observable'
 import whenVisible from '../../dom/whenVisible'
 import injectOperators from './injectOperators'
 
 export default function() {
-	const observable = Observable.create(subscriber => {
+	const observable = new Observable(subscriber => {
 		const source = this;
 		observable._settings = source._settings;
 

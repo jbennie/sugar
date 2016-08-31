@@ -1,7 +1,7 @@
 import {Observable} from 'rxjs/Observable'
 
 Observable.prototype.groupByTimeout = function(properties) {
-	const observable = Observable.create(subscriber => {
+	const observable = new Observable(subscriber => {
 		const source = this;
 		let timeout = null;
 		let stack = [];

@@ -36,6 +36,13 @@ export default class SComponent extends SElement {
 	_enabled = true;
 
 	/**
+	 * _enabledBeforeRemoved
+	 * Track if the component was enabled before remove from the dom
+	 * @type 	{Boolean}
+	 */
+	_enabledBeforeRemoved = true;
+
+	/**
 	 * Constructor
 	 */
 	constructor(name, elm, default_settings = {}, settings = {}) {
@@ -163,10 +170,40 @@ export default class SComponent extends SElement {
 	}
 
 	/**
+	 * _onAdded
+	 * When the component is added to the dom
+	 * @return 	{void}
+	 */
+	_onAdded() {
+		// super added
+		super._onAdded();
+		// enable the component if it was not disabled
+		if (this._enabledBeforeRemoved) {
+			this.enable();
+		}
+	}
+
+	/**
+	 * _onRemoved
+	 * When the component is removed from the dom
+	 * @return 	{void}
+	 */
+	_onRemoved() {
+		// track the enable status before removing the element
+		this._enabledBeforeRemoved = this._enabled;
+		// super onRemoved
+		super._onRemoved();
+		// disable the component
+		this.disable();
+	}
+
+	/**
 	 * disable
 	 */
 	disable() {
 		this._enabled = false;
+		// maintain chainability
+		return this;
 	}
 
 	/**
@@ -175,6 +212,8 @@ export default class SComponent extends SElement {
 	 */
 	enable() {
 		this._enabled = true;
+		// maintain chainability
+		return this;
 	}
 
 	/**
@@ -186,6 +225,8 @@ export default class SComponent extends SElement {
 		}
 		// remove component from the window.sElements stack
 		delete window.sElements[this.elementId].components[this.name]
+		// disable
+		this.disable();
 		// destroy in parent
 		super.destroy();
 	}

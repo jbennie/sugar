@@ -49,10 +49,6 @@ class SGoogleComponent extends SComponent {
 	 * Constructor
 	 */
 	constructor(name, elm, default_settings, settings) {
-
-		// do not update children in a sTemplate
-		elm.setAttribute('s-template-do-not-children-update', true);
-
 		// init component
 		super(name, elm, default_settings, settings);
 	}

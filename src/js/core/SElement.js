@@ -200,14 +200,14 @@ export default class SElement extends SObject {
 	 * Remove the element from the dom
 	 * @return 	{SElement} 	The instance itself to maintain chainability
 	 */
-	remove() {
+	remove(elm = this.elm) {
 		// save the next sibling
-		this._nextSibling = this.elm.nextSibling;
+		elm._sNextSibling = elm.nextSibling;
 
 		// remove the element
-		if (this.elm.parentNode) {
-			this._parent = this.elm.parentNode;
-			this.elm.parentNode.removeChild(this.elm);
+		if (elm.parentNode) {
+			elm._sParent = elm.parentNode;
+			elm.parentNode.removeChild(elm);
 		}
 		// maintain chainability
 		return this;
@@ -219,14 +219,16 @@ export default class SElement extends SObject {
 	 * @param 	{HTMLElement} 	to 		The container in which to append the element
 	 * @return 	{SElement} 				The instance itself to maintain chainability
 	 */
-	append(to = null) {
-		if ( ! to && this._nextSibling && this._nextSibling.parentNode) {
-			this._nextSibling.parentNode.insertBefore(this.elm, this._nextSibling);
-		} else if (this._parent) {
-			this._parent.appendChild(this.elm);
+	append(elm = this.elm, to = null) {
+		if ( ! to && elm._sNextSibling && elm._sNextSibling.parentNode) {
+			elm._sNextSibling.parentNode.insertBefore(elm, elm._sNextSibling);
+		} else if (elm._sParent) {
+			elm._sParent.appendChild(elm);
 		} else if (to && to.parentNode) {
-			to.parentNode.appendChild(this.elm);
-		} else {
+			to.parentNode.appendChild(elm);
+		} else if (elm !== this.elm) {
+			this.elm.appendChild(elm);
+		} else {
 			throw 'In order to append this element, you need to specify a "to" parameter';
 		}
 		// maintain chainability

@@ -13,14 +13,6 @@ import SComponent from '../core/SComponent'
 import querySelectorLive from '../dom/querySelectorLive'
 import __isInViewport from '../dom/isInViewport'
 import __autoCast from '../string/autoCast'
-import __next from '../dom/next'
-import __previous from '../dom/previous'
-import __offset from '../dom/offset'
-import __scrollTop from '../dom/scrollTop'
-import __uniqid from '../tools/uniqid'
-import __throttle from '../functions/throttle'
-import SEvent from '../core/SEvent'
-import noUiSlider from 'nouislider'
 import STimer from '../core/STimer'
 
 // class
@@ -485,7 +477,7 @@ class SSlideshowComponent extends SComponent {
 	/**
 	 * enable
 	 * When the element is enabled
-	 * @return 	{void}
+	 * @return 	{SSlideshowComponent}
 	 */
 	enable() {
 		// add all classes
@@ -508,12 +500,14 @@ class SSlideshowComponent extends SComponent {
 		}
 		// parent
 		super.enable();
+		// maintain chainability
+		return this;
 	}
 
 	/**
 	 * disable
 	 * When the element is disabled
-	 * @return 	{void}
+	 * @return 	{SSlideshowComponent}
 	 */
 	disable() {
 		// disable keyboard navigation
@@ -533,6 +527,8 @@ class SSlideshowComponent extends SComponent {
 		this._unapplyClasses();
 		// parent
 		super.disable();
+		// maintain chainability
+		return this;
 	}
 
 	/**
@@ -541,12 +537,10 @@ class SSlideshowComponent extends SComponent {
 	 * @return 	{void}
 	 */
 	destroy() {
-		// disable the element first
-		this.disable();
-		// destroy all element in slideshow that need to be destroyed
-		this._slidesObserver.unsubscribe();
 		// destroy parent
 		super.destroy();
+		// destroy all element in slideshow that need to be destroyed
+		this._slidesObserver.unsubscribe();
 	}
 
 	/**

@@ -1,8 +1,8 @@
 import linkLoaded from './linkLoaded';
-import Pro from 'promise-polyfill'
-if ( ! window.Promise) {
-	window.Promise = Pro;
-}
+// import Pro from 'promise-polyfill'
+// if ( ! window.Promise) {
+// 	window.Promise = Pro;
+// }
 
 export default function stylesheetsReady(links, cb = null) {
 

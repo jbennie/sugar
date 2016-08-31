@@ -2,10 +2,10 @@
  * Get the element once
  */
 import querySelectorLive from './querySelectorLive'
-import {Observable} from 'rxjs'
+import {Observable} from 'rxjs/Observable'
 
 export default function querySelectorLiveOnce(selector, settings = {}) {
-	return Observable.create(observer => {
+	return new Observable(observer => {
 		querySelectorLive(selector, {
 			...settings,
 			once : true

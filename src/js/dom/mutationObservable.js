@@ -1,7 +1,6 @@
 import _isEqual from 'lodash/isEqual';
 import 'rxjs/add/operator/share'
 import {Observable} from 'rxjs/Observable'
-import 'babel-polyfill'
 
 const selectorsStack = [];
 
@@ -27,7 +26,7 @@ export default function mutationObservable(target, settings = {}) {
 
 	// we don't have any observer for now
 	// so create it
-	const observable = Observable.create(observer => {
+	const observable = new Observable(observer => {
 
 		// create a new observer
 		const mutationObserver = new MutationObserver((mutations) => {

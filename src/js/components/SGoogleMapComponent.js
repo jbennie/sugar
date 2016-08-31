@@ -59,12 +59,12 @@ class SGoogleMapComponent extends SGoogleComponent {
 		// create the map container
 		this._mapElm = document.createElement('div');
 		this._mapElm.setAttribute('s-google-map-map', true);
+		this._mapElm.setAttribute('s-template-exclude', true);
 		this._mapElm.style.position = 'absolute';
 		this._mapElm.style.top = 0;
 		this._mapElm.style.left = 0;
 		this._mapElm.style.width = '100%';
 		this._mapElm.style.height = '100%';
-		this.elm.appendChild(this._mapElm);
 
 		// init the map
 		this._initMap();
@@ -82,6 +82,7 @@ class SGoogleMapComponent extends SGoogleComponent {
 				console.warn('removed', node, this._markers);
 			}
 		}).once().subscribe((elm) => {
+			console.warn('new marker', elm);
 			this._markers.push(new SGoogleMapMarkerComponent(elm, {
 				map : this._map
 			}, __camelize(`${this.name_dash}-marker`)));
@@ -92,6 +93,30 @@ class SGoogleMapComponent extends SGoogleComponent {
 			// set map options
 			this._setMapOptions(newVal);
 		});
+	}
+
+	/**
+	 * enable
+	 * Enable the component
+	 * @return 	{SGoogleMapComponent}
+	 */
+	enable() {
+		// append the map element
+		this.append(this._mapElm);
+		// maintain chainability
+		return this;
+	}
+
+	/**
+	 * disable
+	 * Disable the component
+	 * @return 	{SGoogleMapComponent}
+	 */
+	disable() {
+		// remove the map
+		this.remove(this._mapElm);
+		// maintain chainability
+		return this;
 	}
 
 	/**

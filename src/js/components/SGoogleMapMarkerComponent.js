@@ -48,29 +48,32 @@ class SGoogleMapMarkerComponent extends SGoogleComponent {
 	}
 
 	/**
-	 * _onAdded
-	 * When the element is added to the dom
-	 * @return 	{void}
+	 * enable
+	 * Enable the component
+	 * @return 	{SGoogleMapMarkerComponent}
 	 */
-	_onAdded() {
+	enable() {
+		// add the marker to the map
 		// load the map api
 		if ( ! this._marker) {
 			this._initMarker();
 		} else {
 			this._marker.setMap(this.settings.map);
 		}
-		super._onAdded();
+		super.enable();
+		return this;
 	}
 
 	/**
-	 * _onRemoved
-	 * When the element is removed from the dom
-	 * @return 	{void}
+	 * disable
+	 * Disable the component
+	 * @return 	{SGoogleMapMarkerComponent}
 	 */
-	_onRemoved() {
-		// remove the marker from the map
+	disable() {
+		// remove the marker
 		this._marker.setMap(null);
-		super._onRemoved();
+		super.disable();
+		return this;
 	}
 
 	/**

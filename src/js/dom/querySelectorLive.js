@@ -9,7 +9,6 @@ import 'classlist.js'
 import '../vendors/queryselector-scope.js'
 import mutationObservable from './mutationObservable'
 import injectOperators from '../rxjs/querySelectorLiveOperators/injectOperators'
-
 import __matches from './matches'
 import __domReady from './domReady'
 
@@ -53,7 +52,7 @@ export default function querySelectorLive(selector, settings = {}) {
 		...settings
 	};
 
-	const observable = Observable.create(observer => {
+	const observable = new Observable(observer => {
 
 		let mutationSubscription = null;
 

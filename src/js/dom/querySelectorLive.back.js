@@ -35,7 +35,7 @@ export default function querySelectorLive(selector, settings = {}) {
 		currentSelectors = [];
 	}
 
-	const observable = Observable.create(observer => {
+	const observable = new Observable(observer => {
 
 		let mutationSubscription = null;
 

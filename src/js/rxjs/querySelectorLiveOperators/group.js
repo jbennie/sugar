@@ -3,7 +3,7 @@ import injectOperators from './injectOperators'
 import whenInViewport from '../../dom/whenInViewport'
 
 export default function() {
-	const observable = Observable.create(subscriber => {
+	const observable = new Observable(subscriber => {
 		const source = this;
 		observable._settings = source._settings;
 		let timeout = null;

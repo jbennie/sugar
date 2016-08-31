@@ -54,8 +54,6 @@ class SGoogleStreetViewComponent extends SGoogleComponent {
 		this._viewElm.style.left = 0;
 		this._viewElm.style.width = '100%';
 		this._viewElm.style.height = '100%';
-		this.elm.appendChild(this._viewElm);
-
 		// append a div to prevent the scroll zoom
 		this._overlayElm = document.createElement('div');
 		this._overlayElm.setAttribute('s-google-street-view-overlay', true);
@@ -65,14 +63,8 @@ class SGoogleStreetViewComponent extends SGoogleComponent {
 		this._overlayElm.style.width = '100%';
 		this._overlayElm.style.height = '100%';
 		this._overlayElm.style.zIndex = 1;
-		this._overlayElm.style.background = 'transparent';
 		this._overlayElm.style.cursor = 'pointer';
-		this.elm.appendChild(this._overlayElm);
-		this._overlayElm.addEventListener('click', this._onOverlayClick.bind(this));
-
-		this.elm.addEventListener('mouseleave', (e) => {
-			this._overlayElm.style.pointerEvents = 'all';
-		});
+		this._overlayElm.style.background = 'transparent';
 
 		// search a view
 		this._initView();
@@ -82,6 +74,52 @@ class SGoogleStreetViewComponent extends SGoogleComponent {
 			// set map options
 			this._setVIewOptions(newVal);
 		});
+	}
+
+	/**
+	 * enable
+	 * Enable the component
+	 * @return 	{SGoogleMapComponent}
+	 */
+	enable() {
+		// set the overlay pointer events to all
+		this._overlayElm.style.pointerEvents = 'all';
+		// listen for mouse leaving the view
+		this.elm.addEventListener('mouseleave', this._onMouseLeave.bind(this));
+		// listen for click on overlay
+		this._overlayElm.addEventListener('click', this._onOverlayClick.bind(this));
+		// append the map element
+		this.append(this._viewElm);
+		this.append(this._overlayElm);
+		// maintain chainability
+		return this;
+	}
+
+	/**
+	 * disable
+	 * Disable the component
+	 * @return 	{SGoogleMapComponent}
+	 */
+	disable() {
+		// do not listen for mouse leaving the view anymore
+		this.elm.removeEventListener('mouseleave', this._onMouseLeave);
+		// strop listening for click on overlay
+		this._overlayElm.removeEventListener('click', this._onOverlayClick);
+		// remove the map
+		this.remove(this._viewElm);
+		this.remove(this._overlayElm);
+		// maintain chainability
+		return this;
+	}
+
+	/**
+	 * _onMouseLeave
+	 * When the mouse leave the streetview
+	 * @param 	{Event} 	e 	The mouse event
+	 * @return 	{void}
+	 */
+	_onMouseLeave(e) {
+		this._overlayElm.style.pointerEvents = 'all';
 	}
 
 	/**

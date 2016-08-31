@@ -3,7 +3,7 @@ import injectOperators from './injectOperators'
 import closest from '../../dom/closest'
 
 export default function(selector) {
-	const observable = Observable.create(subscriber => {
+	const observable = new Observable(subscriber => {
 		const source = this;
 		observable._settings = source._settings;
 

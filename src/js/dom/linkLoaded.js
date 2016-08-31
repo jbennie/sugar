@@ -1,10 +1,10 @@
 /**
  * Detect when an image is loaded
  */
-import Pro from 'promise-polyfill'
-if ( ! window.Promise) {
-	window.Promise = Pro;
-}
+// import Pro from 'promise-polyfill'
+// if ( ! window.Promise) {
+// 	window.Promise = Pro;
+// }
 
 function alreadyLoaded(link) {
 	const href = link.href;

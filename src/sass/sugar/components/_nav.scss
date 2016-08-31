@@ -16,6 +16,13 @@ $_s-nav-inited : false;
 			padding: 0;
 			margin: 0;
 			user-select:none;
+
+			#{s-selector((
+				BEM : '.nav__item',
+				SMACCS : '.nav-item'
+			))} {
+				position:relative;
+			}
 		}
 	}
 }

@@ -3,7 +3,7 @@
  */
 import SObject from './SObject'
 import SimpleAjax from 'simple-ajax'
-import {Observable} from 'rxjs'
+import {Observable} from 'rxjs/Observable'
 import strToHtml from '../string/strToHtml'
 import htmlToStr from '../string/htmlToStr'
 
@@ -49,7 +49,7 @@ export default class SAjax extends SObject {
 		this._requestSettings = request;
 
 		// create the observable property
-		this.observable = Observable.create(observer => {
+		this.observable = new Observable(observer => {
 			// store the observer into the instance
 			this._observer = observer;
 		});

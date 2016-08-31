@@ -2,7 +2,7 @@ import __mutationObservable from './mutationObservable'
 
 export default function(target, settings = {}) {
 
-	const observable = Observable.create(observer => {
+	const observable = new Observable(observer => {
 
 		// create a new observer
 		const mutationObserver = new MutationObserver((mutations) => {
