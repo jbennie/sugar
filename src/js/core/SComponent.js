@@ -29,6 +29,13 @@ export default class SComponent extends SElement {
 	};
 
 	/**
+	 * _appliedComponentAsTag
+	 * Store if the component is applied as a tag
+	 * @type 	{Boolean}
+	 */
+	_appliedComponentAsTag = false;
+
+	/**
 	 * _enabled
 	 * Track if the component is enabled or not
 	 * @type 	{Boolean}
@@ -51,11 +58,17 @@ export default class SComponent extends SElement {
 		const id = elm.getAttribute('s-component') || __uniqid();
 		elm.setAttribute('s-component', id);
 
+		// get the dash name
+		let nameDash = __uncamelize(name,'-');
+
+		// check if the component is inited as a tag
+		// or as an attribute
+		const asTag = elm.tagName.toLowerCase() === nameDash;
+
 		// process shortcuts attributes
 		// before init parent class
 		// cause the parent class process
 		// the attributes
-		let nameDash = __uncamelize(name,'-');
 		let isCurrentComponentSetting = false;
 		let attrsToRemove = [];
 		[].forEach.call(elm.attributes, (attr) => {
@@ -81,6 +94,9 @@ export default class SComponent extends SElement {
 
 		// init parent
 		super(elm);
+
+		// save some variables
+		this._appliedComponentAsTag = asTag;
 
 		// add the instance of this component into the window.sElements stack
 		if (this.elementId) {

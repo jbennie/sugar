@@ -6,13 +6,13 @@ function splitIfNeeded(what, separator) {
 	if (what.indexOf(separator) !== -1) {
 		return what.split(separator).map((item) => item.trim());
 	}
-	return what;
+	return [what];
 }
 
 export default function getTransitionProperties(elm) {
 	// get the transition properties
 	const property = getStyleProperty(elm, 'transition-property');
-	const duration = getStyleProperty(elm, 'transition-duration');
+	const duration = getStyleProperty(elm, 'transition-duration') || 0;
 	const timingFunction = getStyleProperty(elm, 'transition-timing-function');
 	const delay = getStyleProperty(elm, 'transition-delay');
 
@@ -30,6 +30,7 @@ export default function getTransitionProperties(elm) {
 		if (val + delays[i] > totalDuration) {
 			totalDuration = val + delays[i];
 		}
+		i++;
 	});
 	props.totalDuration = totalDuration;
 	return props;

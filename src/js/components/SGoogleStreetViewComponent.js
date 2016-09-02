@@ -87,7 +87,7 @@ class SGoogleStreetViewComponent extends SGoogleComponent {
 		// listen for mouse leaving the view
 		this.elm.addEventListener('mouseleave', this._onMouseLeave.bind(this));
 		// listen for click on overlay
-		this._overlayElm.addEventListener('click', this._onOverlayClick.bind(this));
+		this._overlayElm.addEventListener('mousedown', this._onOverlayClick.bind(this));
 		// append the map element
 		this.append(this._viewElm);
 		this.append(this._overlayElm);

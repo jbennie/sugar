@@ -119,7 +119,75 @@
 			}
 		}
 
-		// if want the inside style
+		// material
+		#{s-selector((
+			BEM : '.label--material',
+			SMACCS : '.label-material'
+		))} {
+			> input {
+				@include s-transition(fast);
+				padding-left:0;
+				border-left: none !important;
+				border-right: none !important;
+				border-top: none !important;
+			}
+			> span {
+				display:inline-block;
+				padding: s-lnf(padding-horizontal) s-lnf(padding-vertical);
+				padding-left: 0;
+				height: 1em + s-lnf(padding-horizontal) * 2;
+				position:absolute;
+				top:0; left:0;
+				white-space: nowrap;
+				pointer-events: none;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				@include s-translate(0,0);
+				@include s-transition(fast padding, fast font-size);
+			}
+			> input[value] ~ span,
+			> input:focus ~ span {
+				font-size: 0.7em;
+				padding: 0;
+			}
+			> input[value],
+			> input:focus {
+				padding-left: 0 !important;
+				padding-top: s-lnf(padding-horizontal) * 1.33 !important;
+				padding-bottom : s-lnf(padding-horizontal) - s-lnf(padding-horizontal) / 3 !important;
+			}
+		}
+
+		// push
+		#{s-selector((
+			BEM : '.label--push',
+			SMACCS : '.label-push'
+		))} {
+			> input {
+				@include s-transition(fast);
+			}
+			> span {
+				display:inline-block;
+				padding: s-lnf(padding-horizontal) s-lnf(padding-vertical);
+				height: 1em + s-lnf(padding-horizontal) * 2;
+				position:absolute;
+				top:0; left:0;
+				white-space: nowrap;
+				pointer-events: none;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				@include s-translate(0,0);
+				@include s-transition(fast left, fast transform, fast opacity);
+			}
+			> input[placeholder] ~ span,
+			> input[value] ~ span,
+			> input:focus ~ span {
+				left:100%;
+				@include s-translate(-100%,0);
+			}
+		}
+
+		// inside
 		#{s-selector((
 			BEM : '.label--inside',
 			SMACCS : '.label-inside'
@@ -182,22 +250,5 @@
 				}
 			}
 		}
-
-		// if want the inside style
-		#{s-selector((
-			BEM : '.label--inside',
-			SMACCS : '.label-inside'
-		))} {
-			> .input {
-
-				&:focus ~ span {
-					left: 5px;
-				}
-			}
-			> span {
-				@include s-transition(fast);
-			}
-		}
-
 	}
 }

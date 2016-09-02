@@ -202,11 +202,9 @@ class SValidateComponent extends SComponent {
 	 */
 	validate() {
 
-		// unapply
-		if ( this._unApply) {
-			this._unApply();
-			this._unApply = null;
-		}
+		let invalidType = null;
+		let applyFn = null;
+		let message = null;
 
 		// add the dirty class
 		this.elm.classList.add(this.settings.dirtyClass);
@@ -222,26 +220,49 @@ class SValidateComponent extends SComponent {
 
 			// process to validation
 			if (this._validators[name] && ! this._validators[name].validate(this)) {
+
+				// set the invalid type
+				invalidType = name;
+
 				// set the invalid class on the element itself
 				this.elm.classList.add(this.settings.invalidClass);
 				this.elm.classList.remove(this.settings.validClass);
 				// get the message
-				let message = this._validators[name].message;
+				message = this._validators[name].message;
 				if (typeof(message) === 'function') message = message(this, this._messages[name]);
 				else message = this._messages[name];
 				// apply the error message
-				let applyFn = this.settings.apply[name] || this.settings.apply['default'];
-				if (applyFn) {
-					this._unApply = applyFn(this.elm, message);
-				}
+				applyFn = this.settings.apply[name] || this.settings.apply['default'];
 				// stop the loop
-				return false;
+				break;
+				// return false;
 			}
 		}
 
-		// set the valid class on the element itself
-		this.elm.classList.add(this.settings.validClass);
-		this.elm.classList.remove(this.settings.invalidClass);
+		// if it's the same invalid type
+		// do nothing
+		if (this._invalidType === invalidType) {
+			return;
+		} else {
+			// save the invalid type
+			this._invalidType = invalidType;
+		}
+
+		// unapply
+		if ( this._unApply) {
+			this._unApply();
+			this._unApply = null;
+		}
+
+		if (applyFn) {
+			this._unApply = applyFn(this.elm, message);
+		}
+
+		if ( ! invalidType) {
+			// set the valid class on the element itself
+			this.elm.classList.add(this.settings.validClass);
+			this.elm.classList.remove(this.settings.invalidClass);
+		}
 
 		// the input is valid
 		return true;
