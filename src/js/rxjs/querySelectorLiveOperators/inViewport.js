@@ -2,7 +2,7 @@ import {Observable} from 'rxjs/Observable'
 import injectOperators from './injectOperators'
 import whenInViewport from '../../dom/whenInViewport'
 
-export default function() {
+export default function(cb = null) {
 	const observable = new Observable(subscriber => {
 		const source = this;
 		observable._settings = source._settings;
@@ -10,9 +10,25 @@ export default function() {
 		// subscribe to the source
 		const subscription = source.subscribe(elm => {
 			try {
+
+				// if is a callback,
+				// mean that we do not touch
+				// the current stream
+				if (cb) {
+					// pass the element downward directly
+					subscriber.next(elm);
+				}
+
 				// wait until the element is visible
 				whenInViewport(elm).then(() => {
-					subscriber.next(elm);
+					// if is a callback
+					// use it
+					if (cb) {
+						cb(elm);
+					} else {
+						// pass the element downward
+						subscriber.next(elm);
+					}
 				});
 			} catch(e) {
 				subscriber.error(e);

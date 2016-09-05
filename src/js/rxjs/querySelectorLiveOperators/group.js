@@ -2,7 +2,7 @@ import {Observable} from 'rxjs/Observable'
 import injectOperators from './injectOperators'
 import whenInViewport from '../../dom/whenInViewport'
 
-export default function() {
+export default function(cb = null) {
 	const observable = new Observable(subscriber => {
 		const source = this;
 		observable._settings = source._settings;
@@ -11,6 +11,15 @@ export default function() {
 
 		// subscribe to the source
 		const subscription = source.subscribe(elm => {
+
+			// if is a callback,
+			// mean that we do not touch
+			// the current stream
+			if (cb) {
+				// pass the element downward directly
+				subscriber.next(elm);
+			}
+
 			// add the element to stack
 			stack.push(elm);
 			// clear the timeout
@@ -18,8 +27,14 @@ export default function() {
 			// set a new timeout to wait next loop to
 			// send the elements into the stream
 			timeout = setTimeout(() => {
-				// send the stack downward
-				subscriber.next(stack);
+				// if is a callback
+				// use it
+				if (cb) {
+					cb(stack);
+				} else {
+					// send the stack downward
+					subscriber.next(stack);
+				}
 				// clean stack
 				stack = [];
 			});

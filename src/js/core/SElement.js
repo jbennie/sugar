@@ -5,7 +5,6 @@ import __autoCast from '../string/autoCast'
 import querySelectorLive from '../dom/querySelectorLive'
 import __closestNotVisible from '../dom/closestNotVisible'
 import __whenVisible from '../dom/whenVisible'
-import __whenViewportVisible from '../dom/whenViewportVisible'
 import __isVisible from '../dom/isVisible'
 import __isInViewport from '../dom/isInViewport'
 import __dataset from '../dom/dataset'
@@ -220,6 +219,12 @@ export default class SElement extends SObject {
 	 * @return 	{SElement} 				The instance itself to maintain chainability
 	 */
 	append(elm = this.elm, to = null) {
+
+		// remove if has a parent
+		if (elm.parentNode) {
+			this.remove(elm);
+		}
+
 		if ( ! to && elm._sNextSibling && elm._sNextSibling.parentNode) {
 			elm._sNextSibling.parentNode.insertBefore(elm, elm._sNextSibling);
 		} else if (elm._sParent) {

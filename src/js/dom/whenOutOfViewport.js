@@ -4,15 +4,13 @@
  * @param  {Function} cb  The callback to launch
  * @return {[type]}       [description]
  */
-import whenVisible from './whenVisible'
 import __isInViewport from './isInViewport'
 
-export default function whenViewportVisible(elm, cb = null) {
+export default function whenOutOfViewport(elm, cb = null) {
 	return new Promise((resolve, reject) => {
-		let isInViewport = false,
-			isVisible = false,
+		let isInViewport = true,
 			_cb = () => {
-				if (isVisible && isInViewport) {
+				if ( ! isInViewport) {
 					document.removeEventListener('scroll', checkViewport);
 					window.removeEventListener('resize', checkViewport);
 					if (cb)	cb(elm);
@@ -23,12 +21,6 @@ export default function whenViewportVisible(elm, cb = null) {
 			isInViewport = __isInViewport(elm, { top:50, right:50, bottom:50, left:50 });
 			_cb();
 		};
-
-		// detect when visible
-		whenVisible(elm).then((elm) => {
-			isVisible = true;
-			_cb();
-		});
 
 		// listen for resize
 		document.addEventListener('scroll', checkViewport);

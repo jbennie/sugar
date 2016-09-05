@@ -2,7 +2,7 @@ import {Observable} from 'rxjs/Observable'
 import injectOperators from './injectOperators'
 import whenInViewport from '../../dom/whenInViewport'
 
-export default function() {
+export default function(cb = null) {
 	const observable = new Observable(subscriber => {
 		const source = this;
 		observable._settings = source._settings;
@@ -10,9 +10,23 @@ export default function() {
 		// subscribe to the source
 		const subscription = source.subscribe(elm => {
 
-			const onMouseOver = (e) => {
-				// send the stack downward
+			// if is a callback,
+			// mean that we do not touch
+			// the current stream
+			if (cb) {
+				// pass the element downward directly
 				subscriber.next(elm);
+			}
+
+			const onMouseOver = (e) => {
+				// is is a callback
+				// use it
+				if (cb) {
+					cb(elm);
+				} else {
+					// send the stack downward
+					subscriber.next(elm);
+				}
 				// remove the listener
 				elm.removeEventListener('mouseover', onMouseOver);
 			};
