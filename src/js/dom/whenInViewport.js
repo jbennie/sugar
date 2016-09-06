@@ -6,6 +6,7 @@
  */
 import whenVisible from './whenVisible'
 import __isInViewport from './isInViewport'
+import __throttle from '../functions/throttle'
 
 export default function whenInViewport(elm, cb = null) {
 	return new Promise((resolve, reject) => {
@@ -19,10 +20,10 @@ export default function whenInViewport(elm, cb = null) {
 					resolve(elm);
 				}
 			}
-		let checkViewport = (e) => {
+		let checkViewport = __throttle((e) => {
 			isInViewport = __isInViewport(elm, { top:50, right:50, bottom:50, left:50 });
 			_cb();
-		};
+		},100);
 
 		// detect when visible
 		whenVisible(elm).then((elm) => {
