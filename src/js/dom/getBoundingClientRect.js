@@ -1,21 +1,25 @@
-let invalidate = false;
-let invalidateTimeout = null;
+let elmStack = [];
+document.addEventListener('scroll', invalidate);
+document.addEventListener('resize', invalidate);
 
-// invalidate the client bounding on scroll and resize
-function _invalidate() {
-	invalidate = true;
-	clearTimeout(invalidateTimeout);
-	invalidateTimeout = setTimeout(() => {
-		invalidate = false;
+function invalidate() {
+	elmStack.forEach((elm) => {
+		// check if the element is not in the dom anymore
+		if ( ! elm || ! elm.parentNode) {
+			// remove the element from the stack
+			elmStack.splice(elmStack.indexOf(elm),1);
+		} else {
+			elm._sBoundingClientRect = null;
+		}
 	});
 }
-document.addEventListener('scroll', _invalidate);
-document.addEventListener('resize', _invalidate);
 
 // export the function
-export default function getBoundingClientRect(elm) {	
-	if (invalidate) {
-		elm._sBoundingClientRect = null;
+export default function getBoundingClientRect(elm) {
+
+	// add the element to the stack
+	if (elmStack.indexOf(elm) === -1) {
+		elmStack.push(elm);
 	}
 	if ( ! elm._sBoundingClientRect) {
 		elm._sBoundingClientRect = elm.getBoundingClientRect();

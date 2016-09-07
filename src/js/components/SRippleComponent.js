@@ -71,7 +71,6 @@ class SRippleComponent extends SComponent {
 		const particlesSystemElm = document.createElement('div');
 		particlesSystemElm.classList.add('s-ripple-container');
 		const elmOffset = __offset(this.elm);
-
 		const particlesSystem = new SParticlesSystemComponent(particlesSystemElm, {
 			emitterX : (e.pageX - elmOffset.left) + 'px',
 			emitterY : (e.pageY - elmOffset.top) + 'px',

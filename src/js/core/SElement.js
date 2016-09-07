@@ -44,6 +44,21 @@ export default class SElement extends SObject {
 	attr = {};
 
 	/**
+	 * _added
+	 * Store if the element has been added to the dom
+	 * @type 	{Boolean}
+	 */
+	_added = false;
+
+	/**
+	 * _attached
+	 * Store if the element is attached in another dom element
+	 * and this, even if the parent dom is only in memory
+	 * @type 	{Boolean}
+	 */
+	_attached = false;
+
+	/**
 	 * Constructor
 	 */
 	constructor(elm) {
@@ -96,21 +111,51 @@ export default class SElement extends SObject {
 	 * Init
 	 */
 	_init() {
+		let onAddedTimeout = null;
+		let onRemovedTimeout = null;
 		// listen for changes in some html tags
 		this._listenChangesOnElement();
+
+		// listen when the element is detached from the dom
+		this.elm.addEventListener('detached', this._onDetachedEvent.bind(this), true);
+
 		// listen when the element is removed
 		this._addRemoveObserver = querySelectorLive(`[s-element="${this.elementId}"]`, {
 			onNodeRemoved : (node) => {
 				if (this._onRemoved) {
-					this._onRemoved();
+					clearTimeout(onAddedTimeout);
+					clearTimeout(onRemovedTimeout);
+					onRemovedTimeout = setTimeout(() => {
+						this._onRemoved();
+					});
 				}
 			}
 		}).subscribe((elm) => {
 			// the node has been added
 			if (this._onAdded) {
-				this._onAdded();
+				clearTimeout(onRemovedTimeout);
+				clearTimeout(onAddedTimeout);
+				onAddedTimeout = setTimeout(() => {
+					if ( ! this._added) {
+						this._onAdded();
+					} else {
+						this._onAttached();
+					}
+				});
 			}
 		});
+	}
+
+	/**
+	 * _onDetachedEvent
+	 * When the element has been detached from the current dom
+	 * It can still be in another dom element in the memory
+	 * @return {void}
+	 */
+	_onDetachedEvent(e) {
+		if (e.target === this.elm && this._attached) {
+			this._onDetached();
+		}
 	}
 
 	/**
@@ -145,12 +190,45 @@ export default class SElement extends SObject {
 	/**
 	 * onRemoved
 	 */
-	_onRemoved() {}
+	_onRemoved() {
+		// if removed, it is detached also
+		this._attached = false;
+		// track added status
+		this._added = false;
+	}
 
 	/**
 	 * On added
 	 */
-	_onAdded() {}
+	_onAdded() {
+		// track attached status
+		this._attached = true;
+		// track added status
+		this._added = true;
+	}
+
+	/**
+	 * _onAttached
+	 * When the element is added to the dom but was living
+	 * in another element in memory and that the _onAdded method
+	 * has already been trigerred
+	 * @return 	{void}
+	 */
+	_onAttached() {
+		// track the attached status
+		this._attached = true;
+	}
+
+	/**
+	 * _onDetached
+	 * When the element is not anymore in the current page
+	 * but still lives in another element in memory
+	 * @return 	{void}
+	 */
+	_onDetached() {
+		// track the attached status
+		this._attached = false;
+	}
 
 	/**
 	 * Destroy
@@ -162,8 +240,20 @@ export default class SElement extends SObject {
 			this._addRemoveObserver.unsubscribe();
 		}
 
+		// do not listen for detached event anymore
+		this.elm.removeEventListener('detached', this._onDetachedEvent, true);
+
+		// stop watchers
+		this._watcher.destroy();
+
+		// stop binder
+		this._binder.destroy();
+
 		// onRemoved
 		this.onRemoved && this.onRemoved();
+
+		// remove the s-element attribute
+		this.elm.removeAttribute('s-element');
 
 		// manage window.sElements
 		window.sElements[this.elementId].count--;
@@ -172,9 +262,9 @@ export default class SElement extends SObject {
 		}
 
 		// remove the element from the dom
-		if (this.elm.parentNode) {
-			this.elm.parentNode.removeChild(this.elm);
-		}
+		// if (this.elm.parentNode) {
+		// 	this.elm.parentNode.removeChild(this.elm);
+		// }
 
 		// keep destroying components until theirs no more
 		if (window.sElements[this.elementId]) {

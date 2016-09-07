@@ -27,9 +27,11 @@ export default function whenVisible(elm, cb = null) {
 				elm.removeEventListener('animationstart', _eventCb);
 				elm.removeEventListener('animationend', _eventCb);
 				// remove the event listeners
-				closestNotVisible.removeEventListener('transitionend', _eventCb);
-				closestNotVisible.removeEventListener('animationstart', _eventCb);
-				closestNotVisible.removeEventListener('animationend', _eventCb);
+				if (closestNotVisible) {
+					closestNotVisible.removeEventListener('transitionend', _eventCb);
+					closestNotVisible.removeEventListener('animationstart', _eventCb);
+					closestNotVisible.removeEventListener('animationend', _eventCb);
+				}
 			}
 		};
 

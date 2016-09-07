@@ -25,7 +25,7 @@
 			ease : string,
 			parallel : true
 		));
-	
+
 		$name : map-get-or($animation, name);
 		$duration : map-get-or($animation, duration, 1s);
 		$delay : map-get-or($animation, delay, 0s);
@@ -34,16 +34,16 @@
 		$direction : map-get-or($animation, direction, normal);
 		$fill-mode : map-get-or($animation, fill-mode, forwards);
 		$parallel : map-get-or($animation, parallel, false);
-		
+
 		// update delay
 		$current_delay : $current_delay + $delay;
 
 		// extend the animation if exist
 		@extend %#{$name} !optional;
-		
-		// create the animations list	
+
+		// create the animations list
 		$anims : append($anims, $name $duration $current_delay $ease $iteration $direction $fill-mode, comma);
-		
+
 		// manage if animation is parallel with next one
 		@if type-of($iteration) == number {
 			@if $parallel == false {
@@ -51,7 +51,7 @@
 			}
 		}
 	}
-	
+
 	// set animation
 	animation: $anims;
 }
@@ -160,7 +160,7 @@ $_s-default-transition-map : null;
 }
 @mixin s-DOMNodeInserted() {
 	@include s-animation(s-domnodeinserted());
-}	
+}
 @mixin s-domnodeinserted() {
 	@include s-DOMNodeInserted();
 }

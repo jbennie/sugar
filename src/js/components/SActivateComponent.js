@@ -65,43 +65,10 @@ class SActivateComponent extends SComponent {
 		// before init
 		this.settings.beforeInit && this.settings.beforeInit(this);
 
-		// get the target
-		if ( ! this.settings.target) {
-			this.settings.target = this.elm.getAttribute('href');
-		}
-		this.target = this.settings.target;
-
-		// if the target is an id
-		// and the setting "id" is not set
-		// set the setting with the target id
-		if ( ! this.settings.id
-			&& (typeof(this.target) === 'string' && this.target.substr(0,1) !== '.')
-		) {
-			if (this.target.substr(0,1) === '#') {
-				this.settings.id = this.target.substr(1);
-			} else {
-				this.settings.id = this.target;
-			}
-		} else if ( ! this.settings.id) {
-			this.settings.id = __uniqid();
-		}
-
-		// if don't have any target
-		// mean that it's the element itself
-		// so check if already an id
-		// otherwise, set a new one
-		if ( ! this.target) {
-			const id = `${this.name_dash}-${__uniqid()}`;
-			if (this.elm.getAttribute('id') == null) {
-				this.elm.setAttribute('id', id);
-			}
-			this.target = `#${id}`;
-		}
-
-		// save in stack id an id exist
-		if (this.settings.id) {
-			window._sActivateStack[this.settings.id] = this;
-		}
+		// watch some attributes
+		this.watch(`attr.href,attr.${this.name},attr.${this.name}Target`, (newVal, oldVal) => {
+			this.update();
+		});
 
 		// update references
 		this.update();
@@ -138,7 +105,7 @@ class SActivateComponent extends SComponent {
 
 		// listen for click
 		this.elm.addEventListener(this.settings.trigger, (e) => {
-			if (e.target !== this.elm) return;
+			// if (e.target !== this.elm) return;
 			e.preventDefault();
 			// clear unactivate timeout
 			clearTimeout(this._unactivateSetTimeout);
@@ -199,6 +166,26 @@ class SActivateComponent extends SComponent {
 
 		// init callback
 		this.settings.afterInit && this.settings.afterInit(this);
+	}
+
+	/**
+	 * enable
+	 * Enable the component
+	 * Called automatically by the _onAdded method
+	 * @return 	{SActivateComponent}
+	 */
+	enable() {
+		super.enable();
+	}
+
+	/**
+	 * disable
+	 * Disable the component
+	 * Called automatically by the _onRemoved method
+	 * @return 	{SActivateComponent}
+	 */
+	disable() {
+		super.disable();
 	}
 
 	/**
@@ -396,16 +383,45 @@ class SActivateComponent extends SComponent {
 	 * Update targets, etc...
 	 */
 	update(scope = document.body) {
-		// process target
-		let target = this.target;
-		// if ( typeof(target) === 'string') {
-		// 	if (target.substr(0,1) !== '.'
-		// 		|| target.substr(0,1) !== '#') {
-		// 		target = `[${target}]`;
-		// 	}
-		// }
-		if (target) {
-			this.targets = scope.querySelectorAll(target);
+
+		// get the target
+		this.target = this.attr[this.name] || this.attr.href;
+
+		// if the target is an id
+		// and the setting "id" is not set
+		// set the setting with the target id
+		if ( ! this.settings.id
+			&& (typeof(this.target) === 'string' && this.target.substr(0,1) !== '.')
+		) {
+			if (this.target.substr(0,1) === '#') {
+				this.settings.id = this.target.substr(1);
+			} else {
+				this.settings.id = this.target;
+			}
+		} else if ( ! this.settings.id) {
+			this.settings.id = __uniqid();
+		}
+
+		// if don't have any target
+		// mean that it's the element itself
+		// so check if already an id
+		// otherwise, set a new one
+		if ( ! this.target) {
+			const id = `${this.name_dash}-${__uniqid()}`;
+			if (this.elm.getAttribute('id') == null) {
+				this.elm.setAttribute('id', id);
+			}
+			this.target = `#${id}`;
+		}
+
+		// save in stack id an id exist
+		if (this.settings.id) {
+			window._sActivateStack[this.settings.id] = this;
+		}
+
+		// update the targets array
+		if (this.target) {
+			this.targets = document.querySelectorAll(this.target);
 			[].forEach.call(this.targets, (t) => {
 				t._sActivateTrigger = this.elm;
 			});

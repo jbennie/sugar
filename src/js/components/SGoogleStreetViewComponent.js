@@ -1,4 +1,5 @@
 import SGoogleComponent from '../core/SGoogleComponent';
+import __style from '../dom/style'
 
 class SGoogleStreetViewComponent extends SGoogleComponent {
 
@@ -36,6 +37,13 @@ class SGoogleStreetViewComponent extends SGoogleComponent {
 			 * google streetview options
 			 */
 
+			/**
+ 			 * initOn
+ 			 * Set when to init the streetview if the placeholder setting is used
+ 			 * @type 	{String}
+ 			 */
+ 			initOn : 'click'
+
 		}, settings);
 	}
 
@@ -49,31 +57,38 @@ class SGoogleStreetViewComponent extends SGoogleComponent {
 		// create the map container
 		this._viewElm = document.createElement('div');
 		this._viewElm.setAttribute('s-google-street-view-view', true);
-		this._viewElm.style.position = 'absolute';
-		this._viewElm.style.top = 0;
-		this._viewElm.style.left = 0;
-		this._viewElm.style.width = '100%';
-		this._viewElm.style.height = '100%';
+		__style(this._viewElm, {
+			position : 'absolute',
+			top : 0,
+			left : 0,
+			width : '100%',
+			height : '100%'
+		});
+
 		// append a div to prevent the scroll zoom
 		this._overlayElm = document.createElement('div');
 		this._overlayElm.setAttribute('s-google-street-view-overlay', true);
-		this._overlayElm.style.position = 'absolute';
-		this._overlayElm.style.top = 0;
-		this._overlayElm.style.left = 0;
-		this._overlayElm.style.width = '100%';
-		this._overlayElm.style.height = '100%';
-		this._overlayElm.style.zIndex = 1;
-		this._overlayElm.style.cursor = 'pointer';
-		this._overlayElm.style.background = 'transparent';
-
-		// search a view
-		this._initView();
-
-		// watch settings to set new map options
-		this.watchSettings((newVal, oldVal, updated) => {
-			// set map options
-			this._setVIewOptions(newVal);
+		__style(this._overlayElm, {
+			position : 'absolute',
+			top : 0,
+			left : 0,
+			width : '100%',
+			height : '100%',
+			zIndex : 1,
+			cursor : 'pointer',
+			backgroundColor : 'transparent'
 		});
+
+		// try to get the placeholder
+		this._placeholder = this.elm.querySelector(`[${this.name_dash}-placeholder]`);
+
+		// manage placeholder
+		if (this._placeholder) {
+			this._handlePlaceholder();
+		} else {
+			// init directly
+			this._internalInit();
+		}
 	}
 
 	/**
@@ -82,12 +97,15 @@ class SGoogleStreetViewComponent extends SGoogleComponent {
 	 * @return 	{SGoogleMapComponent}
 	 */
 	enable() {
+		// listen for document scroll to unactivate the scroll wheel
+		// on the streetview
+		document.addEventListener('scroll', this._onDocumentScroll.bind(this));
 		// set the overlay pointer events to all
-		this._overlayElm.style.pointerEvents = 'all';
+		this._overlayElm.style.pointerEvents = 'none';
 		// listen for mouse leaving the view
-		this.elm.addEventListener('mouseleave', this._onMouseLeave.bind(this));
+		// this.elm.addEventListener('mouseleave', this._onMouseLeave.bind(this));
 		// listen for click on overlay
-		this._overlayElm.addEventListener('mousedown', this._onOverlayClick.bind(this));
+		// this._overlayElm.addEventListener('mousemove', this._onOverlayClick.bind(this));
 		// append the map element
 		this.append(this._viewElm);
 		this.append(this._overlayElm);
@@ -101,15 +119,83 @@ class SGoogleStreetViewComponent extends SGoogleComponent {
 	 * @return 	{SGoogleMapComponent}
 	 */
 	disable() {
+		// stop listening for document scroll
+		document.removeEventListener('scroll', this._onScroll);
 		// do not listen for mouse leaving the view anymore
-		this.elm.removeEventListener('mouseleave', this._onMouseLeave);
+		// this.elm.removeEventListener('mouseleave', this._onMouseLeave);
 		// strop listening for click on overlay
-		this._overlayElm.removeEventListener('click', this._onOverlayClick);
+		// this._overlayElm.removeEventListener('mousemove', this._onOverlayClick);
 		// remove the map
 		this.remove(this._viewElm);
 		this.remove(this._overlayElm);
 		// maintain chainability
 		return this;
+	}
+
+	/**
+	 * _onDocumentScroll
+	 * When the document scroll
+	 * @return 	{void}
+	 */
+	_onDocumentScroll() {
+		// activate the overlay to avoid scroll into street view
+		this._overlayElm.style.pointerEvents = 'all';
+		// update the timeout
+		clearTimeout(this._scrollTimeout);
+		this._scrollTimeout = setTimeout(() => {
+			this._overlayElm.style.pointerEvents = 'none';
+		}, 250);
+	}
+
+	/**
+	 * _handlePlaceholder
+	 * Handle the placeholder setting
+	 * @return 	{void}
+	 */
+	_handlePlaceholder() {
+
+		// set style
+		__style(this._placeholder, {
+			position : 'absolute',
+			top : 0,
+			left : 0,
+			width : '100%',
+			height : '100%',
+			cursor : 'pointer',
+			zIndex : 2
+		});
+
+		// listen to init the map
+		this._placeholder.addEventListener(this.settings.initOn, this._onPlaceholderInit.bind(this));
+	}
+
+	/**
+	 * _onPlaceholderInit
+	 * Proxy function of placeholder init listener
+	 * @return 	{void}
+	 */
+	_onPlaceholderInit() {
+		// remove the placeholder
+		this.remove(this._placeholder);
+		// stop listening for init on placeholder
+		this._placeholder.removeEventListener(this.settings.initOn, this._onPlaceholderInit);
+		// internal init
+		this._internalInit();
+	}
+
+	/**
+	 * _internalInit
+	 * @return 	{void}
+	 */
+	_internalInit() {
+		// search a view
+		this._initView();
+
+		// watch settings to set new map options
+		this.watchSettings((newVal, oldVal, updated) => {
+			// set map options
+			this._setVIewOptions(newVal);
+		});
 	}
 
 	/**
@@ -130,7 +216,9 @@ class SGoogleStreetViewComponent extends SGoogleComponent {
 	 */
 	_onOverlayClick(e) {
 		// disable the overlay
-		e.target.style.pointerEvents = 'none';
+		this._overlayElm.style.pointerEvents = 'none';
+		// do not listen for overlay move
+		this._overlayElm.removeEventListener('mousemove', this._onOverlayClick);
 	}
 
 	/**

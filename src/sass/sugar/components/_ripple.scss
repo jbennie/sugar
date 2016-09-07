@@ -20,10 +20,9 @@ $_s-ripple-inited : false;
 		%s-ripple-bare {
 			top:50%; left:50%;
 			@include s-translate(-50%,-50%);
-			transform-origin: 50% 50%;
 			@include s-ratio(1);
 			position:absolute;
-			width:100%;
+			width:150%;
 			border-radius: 50%;
 		}
 	}
@@ -37,11 +36,11 @@ $_s-ripple-inited : false;
 @keyframes s-ripple {
 	0% {
 		opacity:1;
-		width:0;
+		transform:translateX(-50%) translateY(-50%) scale(0,0);
 	}
 	100% {
 		opacity:0;
-		width:150%;
+		transform:translateX(-50%) translateY(-50%) scale(1,1);
 	}
 }
 

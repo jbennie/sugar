@@ -11,6 +11,7 @@ import mutationObservable from './mutationObservable'
 import injectOperators from '../rxjs/querySelectorLiveOperators/injectOperators'
 import __matches from './matches'
 import __domReady from './domReady'
+import SEvent from '../core/SEvent'
 
 // store all the selectors with their settings
 // '{selector}' : {
@@ -82,6 +83,27 @@ export default function querySelectorLive(selector, settings = {}) {
 			}
 
 			function _processRemovedNode(node) {
+
+				// emit the detached event
+				// that will be captured by
+				// any children that need this
+				if ( ! node._removedEventDispatched) {
+					if (node.querySelectorAll) {
+						[].forEach.call(node.querySelectorAll('[s-component]'), (elm) => {
+							const e = new SEvent('detached', {
+								bubbles : false
+							});
+							elm.dispatchEvent(e);
+						});
+						node._removedEventDispatched = true;
+						setTimeout(() => {
+							node._removedEventDispatched = false;
+						});
+					}
+				}
+
+				// check if the element removed is the one that
+				// we are interested in
 				if (__matches(node, selector)) {
 					// loop on each onNodeRemoved callbacks
 					settings.onNodeRemoved.forEach((cb) => {

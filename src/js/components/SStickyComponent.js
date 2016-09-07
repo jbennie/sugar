@@ -355,19 +355,22 @@ class SStickyComponent extends SComponent {
 
 		clearTimeout(this._resetTimeout);
 		this._resetTimeout = setTimeout(() => {
+
 			// reset the element style
 			this.elm.style.position = '';
 			this.elm.style.top = '';
 			this.elm.style.bottom = '';
 			this.elm.style.width = '';
-			// remove the sticked class
-			this.elm.classList.remove(this.settings.cls);
-			// remove the out class
-			this.elm.classList.remove(this.settings.outClass);
+
 			// remove the placeholder if exist
 			if (this.placeholderElm && this.placeholderElm.parentNode) {
 				this.placeholderElm.parentNode.removeChild(this.placeholderElm);
 			}
+
+			// remove the out class
+			this.elm.classList.remove(this.settings.outClass);
+			// remove the sticked class
+			this.elm.classList.remove(this.settings.cls);
 		}, animationProperties.totalDuration);
 	}
 

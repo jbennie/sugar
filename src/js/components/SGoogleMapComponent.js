@@ -1,7 +1,8 @@
 import SGoogleComponent from '../core/SGoogleComponent';
 import querySelectorLive from './../dom/querySelectorLive'
 import SGoogleMapMarkerComponent from './SGoogleMapMarkerComponent'
-import __camelize from './../string/camelize'
+import __camelize from '../string/camelize'
+import __style from '../dom/style'
 
 class SGoogleMapComponent extends SGoogleComponent {
 
@@ -44,7 +45,14 @@ class SGoogleMapComponent extends SGoogleComponent {
 			 * Set the initial zoom of the map
 			 * @type 	{integer}
 			 */
-			zoom : 4
+			zoom : 4,
+
+			/**
+			 * initOn
+			 * Set when to init the map if the placeholder setting is used
+			 * @type 	{String}
+			 */
+			initOn : 'click'
 
 		}, settings);
 	}
@@ -60,39 +68,27 @@ class SGoogleMapComponent extends SGoogleComponent {
 		this._mapElm = document.createElement('div');
 		this._mapElm.setAttribute('s-google-map-map', true);
 		this._mapElm.setAttribute('s-template-exclude', true);
-		this._mapElm.style.position = 'absolute';
-		this._mapElm.style.top = 0;
-		this._mapElm.style.left = 0;
-		this._mapElm.style.width = '100%';
-		this._mapElm.style.height = '100%';
 
-		// init the map
-		this._initMap();
-
-		// listen for markers
-		querySelectorLive(`[${this.name_dash}-marker]`, {
-			rootNode : this.elm,
-			onNodeRemoved : (node) => {
-				// remove the marker from the stack
-				this._markers.forEach((marker, index) => {
-					if (marker.elm === node) {
-						this._markers.splice(index, 1);
-					}
-				});
-				console.warn('removed', node, this._markers);
-			}
-		}).once().subscribe((elm) => {
-			console.warn('new marker', elm);
-			this._markers.push(new SGoogleMapMarkerComponent(elm, {
-				map : this._map
-			}, __camelize(`${this.name_dash}-marker`)));
+		// set the style to the map elm
+		__style(this._mapElm, {
+			position : 'absolute',
+			top : 0,
+			left : 0,
+			width : '100%',
+			height : '100%'
 		});
 
-		// watch settings to set new map options
-		this.watchSettings((newVal, oldVal, updated) => {
-			// set map options
-			this._setMapOptions(newVal);
-		});
+		// try to get the placeholder
+		this._placeholder = this.elm.querySelector(`[${this.name_dash}-placeholder]`);
+
+		// manage placeholder
+		if (this._placeholder) {
+			this._handlePlaceholder();
+		} else {
+			// init directly
+			this._internalInit();
+		}
+
 	}
 
 	/**
@@ -117,6 +113,79 @@ class SGoogleMapComponent extends SGoogleComponent {
 		this.remove(this._mapElm);
 		// maintain chainability
 		return this;
+	}
+
+	/**
+	 * _handlePlaceholder
+	 * Handle the placeholder setting
+	 * @return 	{void}
+	 */
+	_handlePlaceholder() {
+
+
+
+		// set style
+		__style(this._placeholder, {
+			position : 'absolute',
+			top : 0,
+			left : 0,
+			width : '100%',
+			height : '100%',
+			cursor : 'pointer',
+			zIndex : 1
+		});
+
+		// listen to init the map
+		this._placeholder.addEventListener(this.settings.initOn, this._onPlaceholderInit.bind(this));
+	}
+
+	/**
+	 * _onPlaceholderInit
+	 * Proxy function of placeholder init listener
+	 * @return 	{void}
+	 */
+	_onPlaceholderInit() {
+		console.warn('INIT');
+		// remove the placeholder
+		this.remove(this._placeholder);
+		// stop listening for init on placeholder
+		this._placeholder.removeEventListener(this.settings.initOn, this._onPlaceholderInit);
+		// internal init
+		this._internalInit();
+	}
+
+	/**
+	 * _internalInit
+	 * @return {void}
+	 */
+	_internalInit() {
+
+		// init the map
+		this._initMap();
+
+		// listen for markers
+		querySelectorLive(`[${this.name_dash}-marker]`, {
+			rootNode : this.elm,
+			onNodeRemoved : (node) => {
+				// remove the marker from the stack
+				this._markers.forEach((marker, index) => {
+					if (marker.elm === node) {
+						this._markers.splice(index, 1);
+					}
+				});
+			}
+		}).once().subscribe((elm) => {
+			this._markers.push(new SGoogleMapMarkerComponent(elm, {
+				map : this._map
+			}, __camelize(`${this.name_dash}-marker`)));
+		});
+
+		// watch settings to set new map options
+		this.watchSettings((newVal, oldVal, updated) => {
+			// set map options
+			this._setMapOptions(newVal);
+		});
+
 	}
 
 	/**

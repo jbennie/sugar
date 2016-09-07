@@ -8,7 +8,9 @@
  * @updated  20.01.16
  * @version  1.0.0
  */
+import __offset from '../dom/offset'
 import SSvgFilter from './SSvgFilter'
+require('../events/sTransitionStartEventDispatcher');
 
 // motionblur filter
 class SMotionblurSvgFilter extends SSvgFilter {
@@ -24,7 +26,7 @@ class SMotionblurSvgFilter extends SSvgFilter {
 		// settings
 		this._notMovingStepsBeforeStop = 10;
 		this._currentStep = 0;
-		this._amount = parseInt(amount);
+		this._amount = parseFloat(amount);
 
 		// variables
 		this._animationFrame = null;
@@ -40,10 +42,29 @@ class SMotionblurSvgFilter extends SSvgFilter {
 		// call parent method
 		super.applyTo(elm);
 		// listen to animation, transitionstart and move event
-		elm.addEventListener('animationiteration', (e) => { this._handleFilter(); });
-		elm.addEventListener('transitionstart', (e) => { this._handleFilter(); });
-		elm.addEventListener('move', (e) => { this._handleFilter(); });
-		this._lastPos = sDom.offset(this.elms[0]);
+		elm.addEventListener('animationiteration', this._handleFilter.bind(this));
+		elm.addEventListener('transitionstart', this._handleFilter.bind(this));
+		elm.addEventListener('transitionend', this._handleFilter.bind(this));
+		elm.addEventListener('animationend', this._handleFilter.bind(this));
+		elm.addEventListener('move', this._handleFilter.bind(this));
+		this._lastPos = __offset(this.elms[0]);
+	}
+
+	/**
+	 * unapplyFrom
+	 * Remove the effect
+	 * @param 	{HTMLElement} 	elm 	The element to unapply the effect
+	 * @return 	{void}
+	 */
+	unapplyFrom(elm) {
+		// remove event listeners
+		elm.removeEventListener('animationiteration', this._handleFilter);
+		elm.removeEventListener('transitionstart', this._handleFilter);
+		elm.removeEventListener('transitionend', this._handleFilter);
+		elm.removeEventListener('animationend', this._handleFilter);
+		elm.removeEventListener('move', this._handleFilter);
+		// call parent
+		super.unapplyFrom(elm);
 	}
 
 	/**
@@ -76,7 +97,8 @@ class SMotionblurSvgFilter extends SSvgFilter {
 	 * Set motion blur
 	 */
 	_setMotionBlur() {
-		this._currentPos = sDom.offset(this.elms[0]);
+
+		this._currentPos = __offset(this.elms[0]);
 		let xDiff = Math.abs(this._currentPos.left - this._lastPos.left) * this._amount;
 		let yDiff = Math.abs(this._currentPos.top - this._lastPos.top) * this._amount;
 
@@ -84,13 +106,23 @@ class SMotionblurSvgFilter extends SSvgFilter {
 		this._blur.setAttribute('stdDeviation', xDiff+','+yDiff);
 
 		// update lastPos
-		this._lastPos = sDom.offset(this.elms[0]);
+		this._lastPos = __offset(this.elms[0]);
 
 		// return the diff
 		return {
 			x : xDiff,
 			y : yDiff
 		};
+	}
+
+	/**
+	 * destroy
+	 * Destroy the filter
+	 * @return 	{void}
+	 */
+	destroy() {
+		cancelAnimationFrame(this._animationFrame);
+		super.destroy();
 	}
 }
 

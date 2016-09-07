@@ -25,7 +25,24 @@ export default class SComponent extends SElement {
 	 * Settings
 	 */
 	settings = {
-		initWhen : null
+
+		/**
+		 * initWhen
+		 * Define when the component has to be
+		 * initiated. It can be 'visible', 'inViewport', 'added', 'hover', 'click'
+		 * @type {String}
+		 */
+		initWhen : null,
+
+		/**
+		 * autoDestroyTimeout
+		 * Define after how many time the component has to destroy itself
+		 * That starts when the component is not in the
+		 * dom of has been detached
+		 * -1 meand no auto destroy
+		 * @type 	{Number}
+		 */
+		autoDestroyTimeout : 5000
 	};
 
 	/**
@@ -179,10 +196,10 @@ export default class SComponent extends SElement {
 	 * Init component
 	 */
 	_init() {
-		setTimeout(() => {
+		// setTimeout(() => {
 			// init element
 			super._init();
-		});
+		// });
 	}
 
 	/**
@@ -211,6 +228,61 @@ export default class SComponent extends SElement {
 		super._onRemoved();
 		// disable the component
 		this.disable();
+		// autoDestroy
+		this._autoDestroy();
+	}
+
+	/**
+	 * _onAttached
+	 * When the element is added to the dom but was living
+	 * in another element in memory and that the _onAdded method
+	 * has already been trigerred
+	 * @return 	{void}
+	 */
+	_onAttached() {
+		// if the element has not been already
+		// added to the DOM, or that it has been
+		// removed and not live anymore in any other DOM elements
+		// stop here
+		if ( ! this._added) return;
+		// super _onAttached
+		super._onAttached();
+		// enable the component
+		if (this._enabledBeforeDetached) {
+			this.enable();
+		}
+	}
+
+	/**
+	 * _onDetached
+	 * When the element is not anymore in the current page
+	 * but still lives in another element in memory
+	 * @return 	{void}
+	 */
+	_onDetached() {
+		// track the enable status before removing the element
+		this._enabledBeforeDetached = this._enabled;
+		// super onDetached
+		super._onDetached();
+		// disable the component
+		this.disable();
+		// autoDestroy
+		this._autoDestroy();
+	}
+
+	/**
+	 * _autoDestroy
+	 * Destroy the component after a certain time
+	 * that it's not anymore in the dom
+	 * @return 	{void}
+	 */
+	_autoDestroy() {
+		if (this.settings.autoDestroyTimeout === -1) return;
+		// clean the timeout
+		clearTimeout(this._autoDestroyTimeout);
+		this._autoDestroyTimeout = setTimeout(() => {
+			this.destroy();
+		}, this.settings.autoDestroyTimeout);
 	}
 
 	/**
@@ -239,6 +311,8 @@ export default class SComponent extends SElement {
 		if (this._initObserver) {
 			this._initObserver.unsubscribe();
 		}
+		// remove the s-component attribute
+		this.elm.removeAttribute('s-component');
 		// remove component from the window.sElements stack
 		delete window.sElements[this.elementId].components[this.name]
 		// disable
@@ -256,7 +330,6 @@ export default class SComponent extends SElement {
 
 		for (let attrName in this.attr) {
 			// bind the attribute to the settings if needed
-			//
 			if (attrName.indexOf(this.name) === 0) {
 				const settingName = __lowerFirst(attrName.substr(this.name.length));
 				this._binder.bindObjectPath2ObjectPath(this, `attr.${attrName}`, this, `settings.${settingName}`);

@@ -38,14 +38,7 @@ class SResponsiveImageComponent extends SComponent {
 			 * Store the available widths for this image
 			 * @type 	{String|Array}
 			 */
-			widths : [],
-
-			/**
-			 * pixelRatios
-			 * Store the available pixel ratios for this image
-			 * @type 	{String|Array}
-			 */
-			pixelRatios : []
+			widths : []
 
 		}, settings);
 	}
@@ -54,8 +47,6 @@ class SResponsiveImageComponent extends SComponent {
 	 * Init
 	 */
 	_init() {
-		// add items for s-template
-		this.elm.setAttribute('s-template-refresh',true);
 
 		// get the original src
 		this._originalSrc = this.elm.getAttribute('src') || this.elm.getAttribute('data-src');
@@ -77,9 +68,9 @@ class SResponsiveImageComponent extends SComponent {
 		super.enable();
 
 		// set the placeholder image if needed
-		if ( ! this.elm.src) {
-			this.elm.setAttribute('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
-		}
+		// if ( ! this.elm.src) {
+		// 	this.elm.setAttribute('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
+		// }
 
 		// throttle the window resize function to avoid to much
 		// calls
@@ -147,14 +138,18 @@ class SResponsiveImageComponent extends SComponent {
 			appliedWidth.name = appliedWidth.width.toString();
 		}
 
+		// check pixel ratios
+		if (window.devicePixelRatio && appliedWidth.pixelRatios) {
+			if (appliedWidth.pixelRatios.indexOf(window.devicePixelRatio) !== -1) {
+				appliedWidth.pixelRatio = window.devicePixelRatio;
+			}
+		}
+
 		// conpute the src
 		let src = this._computeSrc(appliedWidth)
 
 		// load and set the src
 		this._loadAndSetSrc(src);
-
-		// listen for image loaded
-
 	}
 
 	/**

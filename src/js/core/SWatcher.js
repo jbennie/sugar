@@ -1,5 +1,5 @@
 import __constructorName from '../tools/constructorName'
-let _get = require('lodash/get');
+import _get from 'lodash/get';
 import _set from 'lodash/set';
 
 export default class SWatcher {
@@ -22,6 +22,15 @@ export default class SWatcher {
 	 * Constructor
 	 */
 	constructor() {
+	}
+
+	/**
+	 * destroy
+	 * Destroy the watcher
+	 * @return 	{void}
+	 */
+	destroy() {
+		// @TODO watcher destroy implementation
 	}
 
 	_defineProp(obj, property, value, objPath) {
@@ -166,10 +175,11 @@ export default class SWatcher {
 		let currentValue = null;
 		currentValue = _get(object, path);
 
-		// if is undefined, throw an error
+		// if is undefined, create the value at null
 		if ( obj === undefined || currentValue === undefined) {
+			_set(obj, path, null);
 			// _set(this, split.join('.'),null);
-			throw `It's not possible to watch the property ${path} cause it does not exist...`;
+			// throw `It's not possible to watch the property ${path} cause it does not exist...`;
 		};
 
 		// define the property proxy

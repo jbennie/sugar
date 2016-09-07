@@ -56,8 +56,9 @@ $_s-slideshow-inited : false;
 
 		}
 		[#{$name}-slide] {
-			@include s-transition(transform .2s cubic-bezier(0.810, 0.005, 0.735, 1.000));
+			@include s-transition(transform .4s cubic-bezier(0.810, 0.005, 0.735, 1.000));
 			@include s-translate(-100%,0);
+			overflow: hidden;
 
 			.active ~ & {
 				@include s-translate(100%,0);
@@ -65,6 +66,7 @@ $_s-slideshow-inited : false;
 
 			&.active {
 				@include s-translate(0,0);
+				@include s-transitionstart();
 			}
 		}
 	}

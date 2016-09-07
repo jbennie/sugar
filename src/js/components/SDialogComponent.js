@@ -14,6 +14,7 @@ import __scrollTop from '../dom/scrollTop'
 import __offset from '../dom/offset'
 import __strToHtml from '../string/strToHtml'
 import __getAnimationProperties from '../dom/getAnimationProperties'
+import __style from '../dom/style'
 import SAjax from '../core/SAjax'
 import STemplate from '../core/STemplate'
 
@@ -76,6 +77,13 @@ class SDialogComponent extends SComponent {
 			 * @type 	{Boolean}
 			 */
 			modal : false,
+
+			/**
+			 * onOpen
+			 * Callback when the modal opens
+			 * @type 	{Function}
+			 */
+			onOpen : null,
 
 			/**
 			 * openOn
@@ -219,8 +227,6 @@ class SDialogComponent extends SComponent {
 				</div>
 			`);
 
-			console.log('html', this._html);
-
 			this.refs = {
 				elm : this._html,
 				overlay : this._html.querySelector('[name="overlay"]'),
@@ -235,7 +241,9 @@ class SDialogComponent extends SComponent {
 			});
 			// if not a modal, make the cursor pointer on the overlay
 			if ( ! this.settings.modal) {
-				this.refs.overlay.style.cursor = 'pointer';
+				__style(this.refs.overlay, {
+					cursor : 'pointer'
+				});
 			}
 		}
 
@@ -274,6 +282,9 @@ class SDialogComponent extends SComponent {
 
 		// add the dialog to the body
 		document.body.appendChild(this._html);
+
+		this.settings.onOpen && this.settings.onOpen(this);
+
 	}
 
 	/**

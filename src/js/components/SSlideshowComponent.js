@@ -366,31 +366,6 @@ class SSlideshowComponent extends SComponent {
 	}
 
 	/**
-	 * _onAdded
-	 * When the element is added to the dom
-	 * @return 	{void}
-	 */
-	_onAdded() {
-		// first next
-		this.next();
-
-		// if autoplay
-		if (this.settings.autoplay) {
-			this.play();
-		}
-	}
-
-	/**
-	 * _onRemoved
-	 * When the element is remved from the dom
-	 * @return 	{void}
-	 */
-	_onRemoved() {
-		// stop the slideshow
-		this.stop();
-	}
-
-	/**
 	 * _listenBlurAndFocus
 	 * Listen when the window is active and unactivate
 	 * @return 	{void}
@@ -480,6 +455,8 @@ class SSlideshowComponent extends SComponent {
 	 * @return 	{SSlideshowComponent}
 	 */
 	enable() {
+		// next
+		this.next();
 		// add all classes
 		this._applyClasses();
 		// enable keyboard navigation
@@ -537,10 +514,10 @@ class SSlideshowComponent extends SComponent {
 	 * @return 	{void}
 	 */
 	destroy() {
-		// destroy parent
-		super.destroy();
 		// destroy all element in slideshow that need to be destroyed
 		this._slidesObserver.unsubscribe();
+		// destroy parent
+		super.destroy();
 	}
 
 	/**
@@ -693,8 +670,12 @@ class SSlideshowComponent extends SComponent {
 		// remove the slide class
 		this.elm.classList.remove(this.settings.slideClass.replace('%idx', this.getActiveSlideIndex()));
 		// remove the previous and next classes
-		this.getPreviousSlide().classList.remove(this.settings.previousClass);
-		this.getNextSlide().classList.remove(this.settings.nextClass);
+		if (this.getPreviousSlide()) {
+			this.getPreviousSlide().classList.remove(this.settings.previousClass);
+		}
+		if (this.getNextSlide()) {
+			this.getNextSlide().classList.remove(this.settings.nextClass);
+		}
 		// unapply the backward and forward classes
 		this.elm.classList.remove(this.settings.forwardClass);
 		this.elm.classList.remove(this.settings.backwardClass);
@@ -703,8 +684,12 @@ class SSlideshowComponent extends SComponent {
 		this.elm.classList.remove(this.settings.pauseClass);
 		this.elm.classList.remove(this.settings.stopClass);
 		// unapply the first and last classes
-		this.getFirstSlide().classList.remove(this.settings.firstClass);
-		this.getLastSlide().classList.remove(this.settings.lastClass);
+		if (this.getFirstSlide()) {
+			this.getFirstSlide().classList.remove(this.settings.firstClass);
+		}
+		if (this.getLastSlide()) {
+			this.getLastSlide().classList.remove(this.settings.lastClass);
+		}
 	}
 
 	/**
@@ -725,8 +710,12 @@ class SSlideshowComponent extends SComponent {
 		// remove the slide class
 		this.elm.classList.add(this.settings.slideClass.replace('%idx', this.getActiveSlideIndex()));
 		// add the next and previous classes
-		this.getPreviousSlide().classList.add(this.settings.previousClass);
-		this.getNextSlide().classList.add(this.settings.nextClass);
+		if (this.getPreviousSlide()) {
+			this.getPreviousSlide().classList.add(this.settings.previousClass);
+		}
+		if (this.getNextSlide()) {
+			this.getNextSlide().classList.add(this.settings.nextClass);
+		}
 		// forward and backward classes
 		if (this._isForward) {
 			this.elm.classList.add(this.settings.forwardClass);
@@ -742,8 +731,12 @@ class SSlideshowComponent extends SComponent {
 			this.elm.classList.add(this.settings.stopClass);
 		}
 		// apply the first and last classes
-		this.getFirstSlide().classList.add(this.settings.firstClass);
-		this.getLastSlide().classList.add(this.settings.lastClass);
+		if (this.getFirstSlide()) {
+			this.getFirstSlide().classList.add(this.settings.firstClass);
+		}
+		if (this.getLastSlide()) {
+			this.getLastSlide().classList.add(this.settings.lastClass);
+		}
 		// apply the beforeActiveClass
 		this.getBeforeActiveSlides().forEach((slide) => {
 			slide.classList.add(this.settings.beforeActiveClass);

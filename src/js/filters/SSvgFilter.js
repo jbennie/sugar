@@ -79,7 +79,7 @@ export default class SSvgFilter {
 			this.unapplyFrom(elm);
 		});
 		// remove the filter from the html
-		this.filter.parent.removeChild(this.filter);
+		this.svg.parentNode.removeChild(this.svg);
 	}
 
 	/**

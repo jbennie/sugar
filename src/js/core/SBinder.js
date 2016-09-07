@@ -68,6 +68,15 @@ export default class SBinder {
 	}
 
 	/**
+	 * destroy
+	 * Destroy the binder
+	 * @return 	{void}
+	 */
+	destroy() {
+		// @TODO binder destroy implementation
+	}
+
+	/**
 	 * Bind object path to element attribute
 	 */
 	bindObjectPath2ElementAttribute(object, path, elm, attribute) {
