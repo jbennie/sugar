@@ -122,8 +122,6 @@ class SGoogleMapComponent extends SGoogleComponent {
 	 */
 	_handlePlaceholder() {
 
-
-
 		// set style
 		__style(this._placeholder, {
 			position : 'absolute',
