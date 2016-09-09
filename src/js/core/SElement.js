@@ -12,6 +12,8 @@ import __dispatchEvent from '../dom/dispatchEvent'
 import _set from 'lodash/set';
 import _get from 'lodash/get';
 
+import sElementsManager from './sElementsManager'
+
 import SObject from './SObject'
 import SWatcher from './SWatcher';
 import SBinder from './SBinder';
@@ -21,7 +23,9 @@ import SBinder from './SBinder';
 let _sugarTypesSettings = {};
 
 // init a stack into the window
-window.sElements = {};
+if ( ! window.sugar) window.sugar = {};
+window.sugar._elements = new Map();
+// window.sugar._originalElements = new Map();
 
 export default class SElement extends SObject {
 
@@ -44,19 +48,33 @@ export default class SElement extends SObject {
 	attr = {};
 
 	/**
-	 * _added
+	 * _watcher
+	 * Store the watcher instance
+	 * @type 	{SWatcher}
+	 */
+	_watcher = null;
+
+	/**
+	 * _binder
+	 * Store the binder instance
+	 * @type 	{SBinder}
+	 */
+	_binder = null;
+
+	/**
+	 * _elementAdded
 	 * Store if the element has been added to the dom
 	 * @type 	{Boolean}
 	 */
-	_added = false;
+	_elementAdded = false;
 
 	/**
-	 * _attached
+	 * _elementAttached
 	 * Store if the element is attached in another dom element
 	 * and this, even if the parent dom is only in memory
 	 * @type 	{Boolean}
 	 */
-	_attached = false;
+	_elementAttached = false;
 
 	/**
 	 * Constructor
@@ -74,19 +92,37 @@ export default class SElement extends SObject {
 
 		// save the element into the window to be
 		// able to target it from outside
-		if ( ! window.sElements[this.elementId]) {
-			const originalElement = this.elm.cloneNode(false);
-			originalElement.removeAttribute('s-component');
-			// save into window to be able to access it from outside
-			window.sElements[this.elementId] = {
-				element : this.elm,
-				originalElement : originalElement,
-				components : {},
-				count : 1
-			};
-		} else {
-			window.sElements[this.elementId].count++;
-		}
+		sElementsManager.registerElement(this.elm, this);
+
+
+		// const inStackElement = window.sugar._elements.get(this.elm);
+		// if ( ! inStackElement) {
+		// 	const originalElement = this.elm.cloneNode(false);
+		// 	originalElement.removeAttribute('s-component');
+		// 	// save into window to be able to access it from outside
+		// 	window.sugar._elements.set(this.elm, {
+		// 		element : this.elm,
+		// 		originalElement : originalElement,
+		// 		components : {},
+		// 		count : 1
+		// 	});
+		// } else {
+		// 	inStackElement.count++;
+		// }
+
+		// if ( ! window.sugar._elements[this.elementId]) {
+		// 	const originalElement = this.elm.cloneNode(false);
+		// 	originalElement.removeAttribute('s-component');
+		// 	// save into window to be able to access it from outside
+		// 	window.sugar._elements[this.elementId] = {
+		// 		element : this.elm,
+		// 		originalElement : originalElement,
+		// 		components : {},
+		// 		count : 1
+		// 	};
+		// } else {
+		// 	window.sugar._elements[this.elementId].count++;
+		// }
 
 		// new watcher and binder
 		this._watcher = new SWatcher();
@@ -136,7 +172,7 @@ export default class SElement extends SObject {
 				clearTimeout(onRemovedTimeout);
 				clearTimeout(onAddedTimeout);
 				onAddedTimeout = setTimeout(() => {
-					if ( ! this._added) {
+					if ( ! this._elementAdded) {
 						this._onAdded();
 					} else {
 						this._onAttached();
@@ -153,7 +189,7 @@ export default class SElement extends SObject {
 	 * @return {void}
 	 */
 	_onDetachedEvent(e) {
-		if (e.target === this.elm && this._attached) {
+		if (e.target === this.elm && this._elementAttached) {
 			this._onDetached();
 		}
 	}
@@ -192,9 +228,9 @@ export default class SElement extends SObject {
 	 */
 	_onRemoved() {
 		// if removed, it is detached also
-		this._attached = false;
+		this._elementAttached = false;
 		// track added status
-		this._added = false;
+		this._elementAdded = false;
 	}
 
 	/**
@@ -202,9 +238,13 @@ export default class SElement extends SObject {
 	 */
 	_onAdded() {
 		// track attached status
-		this._attached = true;
+		this._elementAttached = true;
 		// track added status
-		this._added = true;
+		this._elementAdded = true;
+		// render the component
+		if ( ! this.componentName) {
+			this._render();
+		}
 	}
 
 	/**
@@ -216,7 +256,11 @@ export default class SElement extends SObject {
 	 */
 	_onAttached() {
 		// track the attached status
-		this._attached = true;
+		this._elementAttached = true;
+		// render the component
+		if ( ! this.componentName) {
+			this._render();
+		}
 	}
 
 	/**
@@ -227,7 +271,15 @@ export default class SElement extends SObject {
 	 */
 	_onDetached() {
 		// track the attached status
-		this._attached = false;
+		this._elementAttached = false;
+	}
+
+	/**
+	 * _render
+	 * Render the element
+	 */
+	_render() {
+		this.elm.setAttribute('s-element', this.elementId);
 	}
 
 	/**
@@ -245,35 +297,35 @@ export default class SElement extends SObject {
 
 		// stop watchers
 		this._watcher.destroy();
+		this._watcher = null;
 
 		// stop binder
 		this._binder.destroy();
+		this._binder = null;
 
 		// onRemoved
 		this.onRemoved && this.onRemoved();
 
-		// remove the s-element attribute
-		this.elm.removeAttribute('s-element');
+		// unregister element instance
+		sElementsManager.unregisterElement(this.elm, this);
 
-		// manage window.sElements
-		window.sElements[this.elementId].count--;
-		if (window.sElements[this.elementId].count <= 0) {
-			delete window.sElements[this.elementId]
-		}
-
-		// remove the element from the dom
-		// if (this.elm.parentNode) {
-		// 	this.elm.parentNode.removeChild(this.elm);
+		// destroy all components
+		// const components = sElementsManager.getComponents(this.elm);
+		// if (components) {
+		// 	const componentsKeys = Object.keys(components);
+		// 	if (componentsKeys.length) {
+		// 		// destroy the next element
+		// 		components[componentsKeys[0]].destroy();
+		// 	}
 		// }
 
-		// keep destroying components until theirs no more
-		if (window.sElements[this.elementId]) {
-			const components = Object.keys(window.sElements[this.elementId].components);
-			if (components.length) {
-				// destroy the next element
-				window.sElements[this.elementId].components[components[0]].destroy();
-			}
-		}
+		// if (window.sugar._elements[this.elementId]) {
+		// 	const components = Object.keys(window.sugar._elements[this.elementId].components);
+		// 	if (components.length) {
+		// 		// destroy the next element
+		// 		window.sugar._elements[this.elementId].components[components[0]].destroy();
+		// 	}
+		// }
 	}
 
 	/**
@@ -281,7 +333,8 @@ export default class SElement extends SObject {
 	 * Original element property
 	 */
 	get originalElement() {
-		return window.sOriginalElements[this.elementId].originalElement;
+		return window.sugar._elements.get(this.elm).originalElement;
+		// return window.sugar._originalElements[this.elementId].originalElement;
 	}
 
 	/**

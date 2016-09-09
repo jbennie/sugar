@@ -66,6 +66,20 @@ class SValidateComponent extends SComponent {
 	}
 
 	/**
+	 * _isValid
+	 * Store if the field is valid or not
+	 * @type 	{Boolean}
+	 */
+	_isValid = true;
+
+	/**
+	 * _isDirty
+	 * Store if the field is dirty or not
+	 * @type 	{Boolean}
+	 */
+	_isDirty = false;
+
+	/**
 	 * Constructor
 	 */
 	constructor(elm, settings = {}, name = 'sValidate') {
@@ -198,6 +212,28 @@ class SValidateComponent extends SComponent {
 	}
 
 	/**
+	 * _render
+	 * Render the component
+	 * @return 	{void}
+	 */
+	_render() {
+		// render component
+		super._render();
+		// if is dirty
+		if (this._isDirty) {
+			this.elm.classList.add(this.settings.dirtyClass);
+
+			if (this._isValid) {
+				this.elm.classList.remove(this.settings.invalidClass);
+				this.elm.classList.add(this.settings.validClass);
+			} else {
+				this.elm.classList.add(this.settings.invalidClass);
+				this.elm.classList.remove(this.settings.validClass);
+			}
+		}
+	}
+
+	/**
 	 * Apply the validation
 	 */
 	validate() {
@@ -206,8 +242,8 @@ class SValidateComponent extends SComponent {
 		let applyFn = null;
 		let message = null;
 
-		// add the dirty class
-		this.elm.classList.add(this.settings.dirtyClass);
+		// set that is dirty
+		this._isDirty = true;
 
 		// loop on each validators and launch them
 		const validators = this.settings.validate.split(',');
@@ -225,8 +261,8 @@ class SValidateComponent extends SComponent {
 				invalidType = name;
 
 				// set the invalid class on the element itself
-				this.elm.classList.add(this.settings.invalidClass);
-				this.elm.classList.remove(this.settings.validClass);
+				this._isValid = false;
+
 				// get the message
 				message = this._validators[name].message;
 				if (typeof(message) === 'function') message = message(this, this._messages[name]);
@@ -235,7 +271,6 @@ class SValidateComponent extends SComponent {
 				applyFn = this.settings.apply[name] || this.settings.apply['default'];
 				// stop the loop
 				break;
-				// return false;
 			}
 		}
 
@@ -259,10 +294,11 @@ class SValidateComponent extends SComponent {
 		}
 
 		if ( ! invalidType) {
-			// set the valid class on the element itself
-			this.elm.classList.add(this.settings.validClass);
-			this.elm.classList.remove(this.settings.invalidClass);
+			this._isValid = true;
 		}
+
+		// render
+		this._render();
 
 		// the input is valid
 		return true;

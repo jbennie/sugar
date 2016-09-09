@@ -312,7 +312,7 @@ class SSlideshowComponent extends SComponent {
 		this._updateReferences();
 
 		// grab the slides and maintain stack up to date
-		this._slidesObserver = querySelectorLive(`[${this.name_dash}-slide], ${this.name_dash}-slide`, {
+		this._slidesObserver = querySelectorLive(`[${this.componentNameDash}-slide], ${this.componentNameDash}-slide`, {
 			rootNode : this.elm
 		}).stack(this._slides).subscribe((elm) => {
 			// init new slide
@@ -384,7 +384,7 @@ class SSlideshowComponent extends SComponent {
 	 */
 	_onClick(e) {
 		// check if we click on a goto element
-		const goTo = e.target.getAttribute(`${this.name_dash}-goto`);
+		const goTo = e.target.getAttribute(`${this.componentNameDash}-goto`);
 		if (goTo) {
 			// go to wanted slide
 			this.goTo(__autoCast(goTo));
@@ -633,7 +633,7 @@ class SSlideshowComponent extends SComponent {
 	 */
 	_setTimerDurationForCurrentSlide() {
 		// check if the current slide has a special timer defined
-		const slideTime = this.getActiveSlide().getAttribute(`${this.name_dash}-slide-time`);
+		const slideTime = this.getActiveSlide().getAttribute(`${this.componentNameDash}-slide-time`);
 		if (slideTime) {
 			this._timer.duration(__autoCast(slideTime));
 		} else {
@@ -702,7 +702,7 @@ class SSlideshowComponent extends SComponent {
 		this._activeSlide.classList.add(this.settings.activeClass);
 		// goto classes
 		[].forEach.call(this._refs.goTos, (goTo) => {
-			const idx = goTo.getAttribute(`${this.name_dash}-goto`);
+			const idx = goTo.getAttribute(`${this.componentNameDash}-goto`);
 			if (idx && __autoCast(idx) === this.getActiveSlideIndex()) {
 				goTo.classList.add(this.settings.activeClass);
 			}
@@ -1125,15 +1125,15 @@ class SSlideshowComponent extends SComponent {
 	 */
 	_updateReferences() {
 		// grab the navigation
-		this._refs.navigation = this.elm.querySelector(`[${this.name_dash}-navigation]`);
+		this._refs.navigation = this.elm.querySelector(`[${this.componentNameDash}-navigation]`);
 		// grab the next and previous element
-		this._refs.next = this.elm.querySelector(`[${this.name_dash}-next]`);
-		this._refs.previous = this.elm.querySelector(`[${this.name_dash}-previous]`);
+		this._refs.next = this.elm.querySelector(`[${this.componentNameDash}-next]`);
+		this._refs.previous = this.elm.querySelector(`[${this.componentNameDash}-previous]`);
 		// grab the total and current token handler
-		this._refs.totals = this.elm.querySelectorAll(`[${this.name_dash}-total]`);
-		this._refs.currents = this.elm.querySelectorAll(`[${this.name_dash}-current]`);
+		this._refs.totals = this.elm.querySelectorAll(`[${this.componentNameDash}-total]`);
+		this._refs.currents = this.elm.querySelectorAll(`[${this.componentNameDash}-current]`);
 		// grab all the goto elements
-		this._refs.goTos = this.elm.querySelectorAll(`[${this.name_dash}-goto]`);
+		this._refs.goTos = this.elm.querySelectorAll(`[${this.componentNameDash}-goto]`);
 	}
 
 }

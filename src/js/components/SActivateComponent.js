@@ -66,7 +66,7 @@ class SActivateComponent extends SComponent {
 		this.settings.beforeInit && this.settings.beforeInit(this);
 
 		// watch some attributes
-		this.watch(`attr.href,attr.${this.name},attr.${this.name}Target`, (newVal, oldVal) => {
+		this.watch(`attr.href,attr.${this.componentName},attr.${this.componentName}Target`, (newVal, oldVal) => {
 			this.update();
 		});
 
@@ -85,7 +85,7 @@ class SActivateComponent extends SComponent {
 					if (target) {
 						let sibling_grp = this._getGroup(sibling);
 						if (sibling_grp && sibling.sActivateGeneratedGroup) {
-							this.elm.setAttribute(this.name_dash+'-group', sibling_grp);
+							this.elm.setAttribute(this.componentNameDash+'-group', sibling_grp);
 						}
 					}
 				}
@@ -93,9 +93,9 @@ class SActivateComponent extends SComponent {
 
 			// if we don't have any group yet
 			if ( ! this._getGroup(this.elm)) {
-			// if ( ! this.dataset(`${this.name}Group`)) {
-				this.elm.setAttribute(this.name_dash+'-group','group-'+Math.round(Math.random()*99999999));
-				// this.dataset(`${this.name}Group`, 'group-'+Math.round(Math.random()*99999999));
+			// if ( ! this.dataset(`${this.componentName}Group`)) {
+				this.elm.setAttribute(this.componentNameDash+'-group','group-'+Math.round(Math.random()*99999999));
+				// this.dataset(`${this.componentName}Group`, 'group-'+Math.round(Math.random()*99999999));
 				this.elm.sActivateGeneratedGroup = true;
 			}
 		}
@@ -258,17 +258,17 @@ class SActivateComponent extends SComponent {
 	 * Get target
 	 */
 	_getTarget(elm) {
-		if (elm[this.name]) {
-			return elm[this.name].target;
+		if (elm[this.componentName]) {
+			return elm[this.componentName].target;
 		}
-		return elm.getAttribute(`data-${this.name_dash}`) || elm.getAttribute(this.name_dash) || elm.getAttribute('href');
+		return elm.getAttribute(`data-${this.componentNameDash}`) || elm.getAttribute(this.componentNameDash) || elm.getAttribute('href');
 	}
 
 	/**
 	 * Get group
 	 */
 	_getGroup(elm) {
-		return elm.getAttribute(this.name_dash+'-group') || elm.getAttribute('data-'+this.name_dash+'-group');
+		return elm.getAttribute(this.componentNameDash+'-group') || elm.getAttribute('data-'+this.componentNameDash+'-group');
 	}
 
 	/**
@@ -288,9 +288,9 @@ class SActivateComponent extends SComponent {
 
 		// unactive all group elements
 		let grp = this._getGroup(this.elm);
-		[].forEach.call(document.body.querySelectorAll(`[data-${this.name_dash}-group="${grp}"],[${this.name_dash}-group="${grp}"]`), (group_elm) => {
+		[].forEach.call(document.body.querySelectorAll(`[data-${this.componentNameDash}-group="${grp}"],[${this.componentNameDash}-group="${grp}"]`), (group_elm) => {
 			// get the api
-			let api = group_elm[this.name];
+			let api = group_elm[this.componentName];
 			// unactive element
 			if (api) {
 				api.unactivate();
@@ -385,7 +385,7 @@ class SActivateComponent extends SComponent {
 	update(scope = document.body) {
 
 		// get the target
-		this.target = this.attr[this.name] || this.attr.href;
+		this.target = this.attr[this.componentName] || this.attr.href;
 
 		// if the target is an id
 		// and the setting "id" is not set
@@ -407,7 +407,7 @@ class SActivateComponent extends SComponent {
 		// so check if already an id
 		// otherwise, set a new one
 		if ( ! this.target) {
-			const id = `${this.name_dash}-${__uniqid()}`;
+			const id = `${this.componentNameDash}-${__uniqid()}`;
 			if (this.elm.getAttribute('id') == null) {
 				this.elm.setAttribute('id', id);
 			}
@@ -438,10 +438,10 @@ class SActivateComponent extends SComponent {
 		while(elm && elm != document) {
 			if (
 				elm._sActivateTrigger // if the element is a target of an activate component
-				// && elm._sActivateTrigger[this.name] // and the trigger is the same instance type
+				// && elm._sActivateTrigger[this.componentName] // and the trigger is the same instance type
 				&& elm._sActivateTrigger !== this.elm
 			) {
-				return elm._sActivateTrigger[this.name];
+				return elm._sActivateTrigger[this.componentName];
 			}
 			elm = elm.parentNode;
 		}

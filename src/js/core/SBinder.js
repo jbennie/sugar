@@ -28,7 +28,7 @@ export default class SBinder {
 	 */
 	constructor() {
 		// init new watcher
-		this.watcher = new SWatcher();
+		this._watcher = new SWatcher();
 	}
 
 	/**
@@ -36,7 +36,7 @@ export default class SBinder {
 	 */
 	bindObjectPath2ObjectPath(object1, path1, object2, path2) {
 		// watch the path to update the attribute accordingly
-		this.watcher.watch(object1, path1, (newVal, oldVal) => {
+		this._watcher.watch(object1, path1, (newVal, oldVal) => {
 			// do nothing is no
 			if (newVal === oldVal) return;
 
@@ -51,15 +51,15 @@ export default class SBinder {
 	bindElementAttribute2ObjectPath(elm, attribute, object, path) {
 
 		// generate an bindId in the object if not already exist
-		if ( ! object._sBinderId) object._sBinderId = `s-binder-${__uniqid()}`;
+		if ( ! object._binderId) object._binderId = `s-binder-${__uniqid()}`;
 
 		// observe the element
 		this._observeDomElement(elm);
 
 		// attr2obj
 		if ( ! this._bindStack.attr2obj[attribute]) this._bindStack.attr2obj[attribute] = {};
-		if ( ! this._bindStack.attr2obj[attribute][`${object._sBinderId}:${path}`]) {
-			this._bindStack.attr2obj[attribute][`${object._sBinderId}:${path}`] = {
+		if ( ! this._bindStack.attr2obj[attribute][`${object._binderId}:${path}`]) {
+			this._bindStack.attr2obj[attribute][`${object._binderId}:${path}`] = {
 				object : object,
 				path : path
 			};
@@ -82,19 +82,19 @@ export default class SBinder {
 	bindObjectPath2ElementAttribute(object, path, elm, attribute) {
 
 		// generate an bindId in the object if not already exist
-		if ( ! object._sBinderId) object._sBinderId = `s-binder-${__uniqid()}`;
+		if ( ! object._binderId) object._binderId = `s-binder-${__uniqid()}`;
 
 		// obj2attr
-		if ( ! this._bindStack.obj2attr[`${object._sBinderId}:${path}`]) this._bindStack.obj2attr[`${object._sBinderId}:${path}`] = {};
-		if ( ! this._bindStack.obj2attr[`${object._sBinderId}:${path}`][attribute]) {
-			this._bindStack.obj2attr[`${object._sBinderId}:${path}`][attribute] = {
+		if ( ! this._bindStack.obj2attr[`${object._binderId}:${path}`]) this._bindStack.obj2attr[`${object._binderId}:${path}`] = {};
+		if ( ! this._bindStack.obj2attr[`${object._binderId}:${path}`][attribute]) {
+			this._bindStack.obj2attr[`${object._binderId}:${path}`][attribute] = {
 				elm : elm,
 				attribute : attribute
 			};
 		}
 
 		// watch the path to update the attribute accordingly
-		this.watcher.watch(object, path, (newVal, oldVal) => {
+		this._watcher.watch(object, path, (newVal, oldVal) => {
 			// do nothing if a digest is in progress
 			// if (this._digest) return;
 
@@ -103,9 +103,9 @@ export default class SBinder {
 			if (newVal === oldVal) return;
 
 			// loop on all attributes to update
-			// console.log(`${object._sBinderId}:${path}`, this._bindStack.obj2attr);
-			for (const attribute in this._bindStack.obj2attr[`${object._sBinderId}:${path}`]) {
-				const watch = this._bindStack.obj2attr[`${object._sBinderId}:${path}`][attribute];
+			// console.log(`${object._binderId}:${path}`, this._bindStack.obj2attr);
+			for (const attribute in this._bindStack.obj2attr[`${object._binderId}:${path}`]) {
+				const watch = this._bindStack.obj2attr[`${object._binderId}:${path}`][attribute];
 
 				if (this._digestsMutation[watch.attribute]) continue;
 				this._digestsMutation[watch.attribute] = true;

@@ -36,10 +36,10 @@ class SDrawerComponent extends SComponent {
 		}, settings);
 
 		// get the name
-		this.name = this.settings.name;
+		this.componentName = this.settings.name;
 
 		// add the class into the stack
-		window._sDrawerStack[this.name] = this;
+		window._sDrawerStack[this.componentName] = this;
 	}
 
 	/**
@@ -50,10 +50,10 @@ class SDrawerComponent extends SComponent {
 		super._init();
 
 		// try to find the drawer background
-		this.bkg = document.querySelector('[s-drawer-bkg="'+this.name+'"]');
+		this.bkg = document.querySelector('[s-drawer-bkg="'+this.componentName+'"]');
 		if ( ! this.bkg) {
 			this.bkg = document.createElement('div');
-			this.bkg.setAttribute('s-drawer-bkg', this.name);
+			this.bkg.setAttribute('s-drawer-bkg', this.componentName);
 			// insert in the page
 			this.elm.parentElement.insertBefore(this.bkg, this.elm.parentElement.firstChild);
 		}
@@ -65,23 +65,23 @@ class SDrawerComponent extends SComponent {
 		}
 
 		// try to find the drawer overlay
-		this.overlay = document.querySelector('[s-drawer-overlay="'+this.name+'"]');
+		this.overlay = document.querySelector('[s-drawer-overlay="'+this.componentName+'"]');
 		if ( ! this.overlay) {
 			this.overlay = document.createElement('label');
-			this.overlay.setAttribute('for', this.name);
-			this.overlay.setAttribute('s-drawer-overlay', this.name);
+			this.overlay.setAttribute('for', this.componentName);
+			this.overlay.setAttribute('s-drawer-overlay', this.componentName);
 			// insert in the page
 			this.elm.parentElement.insertBefore(this.overlay, this.elm.parentElement.firstChild);
 		}
 
 		// try to find the toggle
-		this.toggle = document.querySelector('[s-drawer-toggle="'+this.name+'"]');
+		this.toggle = document.querySelector('[s-drawer-toggle="'+this.componentName+'"]');
 		if ( ! this.toggle) {
 			this.toggle = document.createElement('input');
-			this.toggle.setAttribute('name', this.name);
-			this.toggle.setAttribute('id', this.name);
+			this.toggle.setAttribute('name', this.componentName);
+			this.toggle.setAttribute('id', this.componentName);
 			this.toggle.setAttribute('type', 'checkbox');
-			this.toggle.setAttribute('s-drawer-toggle', this.name);
+			this.toggle.setAttribute('s-drawer-toggle', this.componentName);
 			// insert into page
 			this.elm.parentElement.insertBefore(this.toggle, this.elm.parentElement.firstChild);
 		}
@@ -90,9 +90,9 @@ class SDrawerComponent extends SComponent {
 		this.toggle.addEventListener('change', (e) => {
 			let name = e.target.name;
 			if (e.target.checked) {
-				document.body.classList.add('s-drawer-'+this.name)
+				document.body.classList.add('s-drawer-'+this.componentName)
 			} else {
-				document.body.classList.remove('s-drawer-'+this.name);
+				document.body.classList.remove('s-drawer-'+this.componentName);
 			}
 		});
 
@@ -100,7 +100,7 @@ class SDrawerComponent extends SComponent {
 		if (this._transitionned) {
 			this.elm.addEventListener('transitionend', (e) => {
 				if (this.toggle.checked == false) {
-					document.body.classList.remove('s-drawer-'+this.name);
+					document.body.classList.remove('s-drawer-'+this.componentName);
 				}
 			});
 		}
@@ -119,7 +119,7 @@ class SDrawerComponent extends SComponent {
 		if (this.settings.handleHash) {
 			if (document.location.hash) {
 				let hash = document.location.hash.substr(1);
-				if (hash == this.name) {
+				if (hash == this.componentName) {
 					this.open();
 				}
 			}
@@ -132,7 +132,7 @@ class SDrawerComponent extends SComponent {
 	open() {
 		// check the toggle
 		this.toggle.setAttribute('checked', true);
-		document.body.add('s-drawer-'+this.name);
+		document.body.add('s-drawer-'+this.componentName);
 		return this;
 	}
 
@@ -143,7 +143,7 @@ class SDrawerComponent extends SComponent {
 		// uncheck the toggle
 		this.toggle.removeAttribute('checked');
 		if ( ! this._transitionned) {
-			document.body.classList.remove('s-drawer-'+this.name);
+			document.body.classList.remove('s-drawer-'+this.componentName);
 		}
 		return this;
 	}

@@ -17,6 +17,7 @@ import __offset from '../dom/offset'
 import __scrollTop from '../dom/scrollTop'
 import __uniqid from '../tools/uniqid'
 import SEvent from '../core/SEvent'
+import __style from '../dom/style'
 
 import __textWidth from '../dom/textWidth'
 import __getStyleProperty from '../dom/getStyleProperty'
@@ -53,9 +54,13 @@ class SLabelPushComponent extends SComponent {
 		this._inputPaddingRight = parseInt(__getStyleProperty(this._input, 'paddingRight'));
 		this._inputPaddingLeft = parseInt(__getStyleProperty(this._input, 'paddingLeft'));
 
+		this._input.addEventListener('sTemplate:updated', this._setInputPadding.bind(this));
+
 		// calculate the label width
 		this._label = this.elm.querySelector(':scope > span');
 		this._labelWidth = this._label.offsetWidth;
+
+		this._label.addEventListener('sTemplate:updated', this._setLabelSize.bind(this));
 
 		// get the paddings
 		this._labelPaddingLeft = parseInt(__getStyleProperty(this._label, 'paddingLeft'));
@@ -103,12 +108,16 @@ class SLabelPushComponent extends SComponent {
 	 */
 	_setInputPadding(e) {
 		if (this._input.hasAttribute('placeholder')) {
-			this._input.style.paddingLeft = '';
+			__style(this._input, {
+				paddingLeft : ''
+			});
 			return;
 		}
 		if (e.type === 'focus') {
 			// set the padding
-			this._input.style.paddingLeft = '';
+			__style(this._input, {
+				paddingLeft : ''
+			});
 		} else if (e.type === 'blur') {
 			if ( ! this._input.value) {
 				// set the padding
@@ -116,7 +125,9 @@ class SLabelPushComponent extends SComponent {
 				if (this._labelBackground) {
 					paddingLeft += this._inputPaddingLeft;
 				}
-				this._input.style.paddingLeft = paddingLeft + 'px';
+				__style(this._input, {
+					paddingLeft : paddingLeft + 'px'
+				});
 			}
 		}
 	}
@@ -137,8 +148,10 @@ class SLabelPushComponent extends SComponent {
 		// if no value in input
 		if ( ! this._input.value) {
 			// reset the label size
-			this._label.style.opacity = 1;
-			this._label.style.width = '';
+			__style(this._label, {
+				opacity : 1,
+				width : ''
+			});
 			return;
 		}
 		// get the content width
@@ -153,10 +166,15 @@ class SLabelPushComponent extends SComponent {
 		// set the label size
 		if (diff <= this._labelPaddingLeft + this._labelPaddingRight + 10) {
 			// hide the label
-			this._label.style.opacity = 0;
+			__style(this._label, {
+				opacity : 0
+			});
+			// this._label.style.opacity = 0;
 		} else if (diff <= this._labelWidth) {
-			this._label.style.opacity = 1;
-			this._label.style.width = diff + 'px';
+			__style(this._label, {
+				opacity : 1,
+				width : diff + 'px'
+			});
 		}
 	}
 }

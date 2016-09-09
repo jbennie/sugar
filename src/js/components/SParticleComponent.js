@@ -29,7 +29,6 @@ class SParticleComponent extends SComponent {
 	 * When added
 	 */
 	_onAdded() {
-
 		// get the animation properties
 		const animation = __getAnimationProperties(this.elm);
 
@@ -37,6 +36,16 @@ class SParticleComponent extends SComponent {
 		setTimeout(() => {
 			this.elm.parentNode.removeChild(this.elm);
 		}, animation.totalDuration);
+	}
+
+	/**
+	 * _onRemoved
+	 * When removed
+	 * @return 	{void}
+	 */
+	_onRemoved() {
+		// destroy
+		this.destroy();
 	}
 
 }

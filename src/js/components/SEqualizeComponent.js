@@ -69,7 +69,7 @@ class SEqualizeComponent extends SComponent {
 				columns : []
 			}
 		}
-		SEqualizeComponent.columns[this.settings.group].columns = document.querySelectorAll(`[${this.name_dash}="${this.settings.group}"]`);
+		SEqualizeComponent.columns[this.settings.group].columns = document.querySelectorAll(`[${this.componentNameDash}="${this.settings.group}"]`);
 
 		// try to get an equalizer element inside the column
 		this.equalizerElm = this.elm.querySelector('[s-equalizer],[data-s-equalizer]');

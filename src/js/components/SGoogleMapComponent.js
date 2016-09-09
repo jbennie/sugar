@@ -79,7 +79,7 @@ class SGoogleMapComponent extends SGoogleComponent {
 		});
 
 		// try to get the placeholder
-		this._placeholder = this.elm.querySelector(`[${this.name_dash}-placeholder]`);
+		this._placeholder = this.elm.querySelector(`[${this.componentNameDash}-placeholder]`);
 
 		// manage placeholder
 		if (this._placeholder) {
@@ -97,6 +97,8 @@ class SGoogleMapComponent extends SGoogleComponent {
 	 * @return 	{SGoogleMapComponent}
 	 */
 	enable() {
+		// enable parent
+		super.enable();
 		// append the map element
 		this.append(this._mapElm);
 		// maintain chainability
@@ -109,6 +111,8 @@ class SGoogleMapComponent extends SGoogleComponent {
 	 * @return 	{SGoogleMapComponent}
 	 */
 	disable() {
+		// disable parent
+		super.disable();
 		// remove the map
 		this.remove(this._mapElm);
 		// maintain chainability
@@ -162,7 +166,7 @@ class SGoogleMapComponent extends SGoogleComponent {
 		this._initMap();
 
 		// listen for markers
-		querySelectorLive(`[${this.name_dash}-marker]`, {
+		querySelectorLive(`[${this.componentNameDash}-marker]`, {
 			rootNode : this.elm,
 			onNodeRemoved : (node) => {
 				// remove the marker from the stack
@@ -175,7 +179,7 @@ class SGoogleMapComponent extends SGoogleComponent {
 		}).once().subscribe((elm) => {
 			this._markers.push(new SGoogleMapMarkerComponent(elm, {
 				map : this._map
-			}, __camelize(`${this.name_dash}-marker`)));
+			}, __camelize(`${this.componentNameDash}-marker`)));
 		});
 
 		// watch settings to set new map options

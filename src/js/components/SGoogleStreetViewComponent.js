@@ -80,7 +80,7 @@ class SGoogleStreetViewComponent extends SGoogleComponent {
 		});
 
 		// try to get the placeholder
-		this._placeholder = this.elm.querySelector(`[${this.name_dash}-placeholder]`);
+		this._placeholder = this.elm.querySelector(`[${this.componentNameDash}-placeholder]`);
 
 		// manage placeholder
 		if (this._placeholder) {
@@ -97,6 +97,8 @@ class SGoogleStreetViewComponent extends SGoogleComponent {
 	 * @return 	{SGoogleMapComponent}
 	 */
 	enable() {
+		// enable parent
+		super.enable();
 		// listen for document scroll to unactivate the scroll wheel
 		// on the streetview
 		document.addEventListener('scroll', this._onDocumentScroll.bind(this));
@@ -128,6 +130,8 @@ class SGoogleStreetViewComponent extends SGoogleComponent {
 		// remove the map
 		this.remove(this._viewElm);
 		this.remove(this._overlayElm);
+		// enable parent
+		super.enable();
 		// maintain chainability
 		return this;
 	}

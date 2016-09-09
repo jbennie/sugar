@@ -83,6 +83,13 @@ export default class SAjax extends SObject {
 				}
 			}
 
+			// auto convert JSON response
+			if (simpleAjax._requestSettings.dataType
+				&& simpleAjax._requestSettings.dataType.toLowerCase() === 'json'
+			) {
+				response = JSON.parse(response);
+			}
+
 			// push the result into the observer
 			if (this._observer)
 				this._observer.next(response);

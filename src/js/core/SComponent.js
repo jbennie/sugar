@@ -7,9 +7,14 @@ import __autoCast from '../string/autoCast'
 import SElement from './SElement'
 import querySelectorLive from '../dom/querySelectorLive'
 
+import sElementsManager from './sElementsManager'
+
 // store the settings for the different
 // components types
 let _sugarTypesSettings = {};
+
+// create the _components stack in sugar global variable
+window.sugar._components = {};
 
 export default class SComponent extends SElement {
 
@@ -46,34 +51,68 @@ export default class SComponent extends SElement {
 	};
 
 	/**
-	 * _appliedComponentAsTag
+	 * componentId
+	 * Store the component uniqid
+	 * @type 	{String}
+	 */
+	componentId = null;
+
+	/**
+	 * componentName
+	 * Store the name of the component in camelcase format
+	 * @type 	{String}
+	 */
+	componentName = null;
+
+	/**
+	 * componentNameDash
+	 * Store the name of the component in dash format 's-date-...'
+	 * @type 	{String}
+	 */
+	componentNameDash = null;
+
+	/**
+	 * _componentAutoDestroyTimeout
+	 * Store the auto destroy timeout
+	 * @type 	{Number}
+	 */
+	_componentAutoDestroyTimeout = null;
+
+	/**
+	 * _componentAppliedComponentAsTag
 	 * Store if the component is applied as a tag
 	 * @type 	{Boolean}
 	 */
-	_appliedComponentAsTag = false;
+	_componentAppliedComponentAsTag = false;
 
 	/**
-	 * _enabled
+	 * _componentInited
+	 * Track if the component is already inited or not
+	 * @type 	{Boolean}
+	 */
+	_componentInited = false;
+
+	/**
+	 * _componentEnabled
 	 * Track if the component is enabled or not
 	 * @type 	{Boolean}
 	 */
-	_enabled = true;
+	_componentEnabled = true;
 
 	/**
-	 * _enabledBeforeRemoved
+	 * _componentEnabledBeforeRemoved
 	 * Track if the component was enabled before remove from the dom
 	 * @type 	{Boolean}
 	 */
-	_enabledBeforeRemoved = true;
+	_componentEnabledBeforeRemoved = true;
 
 	/**
 	 * Constructor
 	 */
 	constructor(name, elm, default_settings = {}, settings = {}) {
 
-		// set a uniq component id
-		const id = elm.getAttribute('s-component') || __uniqid();
-		elm.setAttribute('s-component', id);
+		// set on the element that it is now a component
+		elm.setAttribute('s-component', true);
 
 		// get the dash name
 		let nameDash = __uncamelize(name,'-');
@@ -112,26 +151,37 @@ export default class SComponent extends SElement {
 		// init parent
 		super(elm);
 
-		// save some variables
-		this._appliedComponentAsTag = asTag;
 
-		// add the instance of this component into the window.sElements stack
-		if (this.elementId) {
-			window.sElements[this.elementId].components[name] = this;
-		}
+
+		// set a uniq component id
+		this.componentId = __uniqid();
+
+		// save some variables
+		this._componentAppliedComponentAsTag = asTag;
+
+		// // add the instance in the sugar._components stack
+		// const inStackComponent = window.sugar._components.get(this.elm);
+		// if ( ! inStackComponent) {
+		// 	inStackComponent = {};
+		// }
+		// // save into component
+		// inStackComponent[this.name] = this;
 
 		// save element reference
-		this.name = name;
-		this.name_dash = nameDash;
+		this.componentName = name;
+		this.componentNameDash = nameDash;
+
+		// register a component
+		sElementsManager.registerComponent(this.elm, this);
 
 		// set the api in the dom element
-		this.elm[this.name] = this;
+		this.elm[this.componentName] = this;
 
 		// extend settings values
 		this.settings = { ...this.settings, ...default_settings, ...settings };
 
 		// check if the main data attribute is an object to extend the settings
-		let set = __autoCast(this.elm.getAttribute('data-' + this.name_dash) || this.elm.getAttribute(this.name_dash));
+		let set = __autoCast(this.elm.getAttribute('data-' + this.componentNameDash) || this.elm.getAttribute(this.componentNameDash));
 		if (set && typeof(set) == 'object') {
 			this.settings = {...this.settings, ...set};
 		}
@@ -139,8 +189,8 @@ export default class SComponent extends SElement {
 		// try to find the setting with the @ sign as value
 		for (let settingName in this.settings) {
 
-			const settingAttrName = this.name_dash + '-' + __uncamelize(settingName);
-			const settingCamelName = this.name + __upperFirst(settingName);
+			const settingAttrName = this.componentNameDash + '-' + __uncamelize(settingName);
+			const settingCamelName = this.componentName + __upperFirst(settingName);
 
 			const setting = this.settings[settingName];
 			if (setting == '@') {
@@ -174,9 +224,9 @@ export default class SComponent extends SElement {
 
 		// loop on attributes to check is theirs some that are settings
 		for (let key in this.attr) {
-			if (key.indexOf(this.name) === 0) {
+			if (key.indexOf(this.componentName) === 0) {
 				// get setting name
-				const settingName = __camelize(key.substr(this.name.length));
+				const settingName = __camelize(key.substr(this.componentName.length));
 				// if is a setting that does not exist, create it
 				if ( ! this.settings[settingName]) {
 					this.settings[settingName] = this.attr[key];
@@ -196,10 +246,19 @@ export default class SComponent extends SElement {
 	 * Init component
 	 */
 	_init() {
-		// setTimeout(() => {
-			// init element
-			super._init();
-		// });
+		// init element
+		super._init();
+	}
+
+	/**
+	 * _render
+	 * Render the html element
+	 */
+	_render() {
+		this.elm.setAttribute('s-component', true);
+		if (this.elementId) {
+			this.elm.setAttribute('s-element', this.elementId);
+		}
 	}
 
 	/**
@@ -210,10 +269,14 @@ export default class SComponent extends SElement {
 	_onAdded() {
 		// super added
 		super._onAdded();
+		// clear the destroy timeout
+		clearTimeout(this._componentAutoDestroyTimeout);
 		// enable the component if it was not disabled
-		if (this._enabledBeforeRemoved) {
+		if (this._componentEnabledBeforeRemoved) {
 			this.enable();
 		}
+		// render
+		this._render();
 	}
 
 	/**
@@ -223,7 +286,7 @@ export default class SComponent extends SElement {
 	 */
 	_onRemoved() {
 		// track the enable status before removing the element
-		this._enabledBeforeRemoved = this._enabled;
+		this._componentEnabledBeforeRemoved = this._componentEnabled;
 		// super onRemoved
 		super._onRemoved();
 		// disable the component
@@ -245,12 +308,16 @@ export default class SComponent extends SElement {
 		// removed and not live anymore in any other DOM elements
 		// stop here
 		if ( ! this._added) return;
+		// clear the destroy timeout
+		clearTimeout(this._componentAutoDestroyTimeout);
 		// super _onAttached
 		super._onAttached();
 		// enable the component
-		if (this._enabledBeforeDetached) {
+		if (this._componentEnabledBeforeDetached) {
 			this.enable();
 		}
+		// render
+		this._render();
 	}
 
 	/**
@@ -261,7 +328,7 @@ export default class SComponent extends SElement {
 	 */
 	_onDetached() {
 		// track the enable status before removing the element
-		this._enabledBeforeDetached = this._enabled;
+		this._componentEnabledBeforeDetached = this._componentEnabled;
 		// super onDetached
 		super._onDetached();
 		// disable the component
@@ -279,8 +346,8 @@ export default class SComponent extends SElement {
 	_autoDestroy() {
 		if (this.settings.autoDestroyTimeout === -1) return;
 		// clean the timeout
-		clearTimeout(this._autoDestroyTimeout);
-		this._autoDestroyTimeout = setTimeout(() => {
+		clearTimeout(this._componentAutoDestroyTimeout);
+		this._componentAutoDestroyTimeout = setTimeout(() => {
 			this.destroy();
 		}, this.settings.autoDestroyTimeout);
 	}
@@ -289,7 +356,7 @@ export default class SComponent extends SElement {
 	 * disable
 	 */
 	disable() {
-		this._enabled = false;
+		this._componentEnabled = false;
 		// maintain chainability
 		return this;
 	}
@@ -299,7 +366,7 @@ export default class SComponent extends SElement {
 	 * Enable the element
 	 */
 	enable() {
-		this._enabled = true;
+		this._componentEnabled = true;
 		// maintain chainability
 		return this;
 	}
@@ -308,13 +375,18 @@ export default class SComponent extends SElement {
 	 * Destroy routine
 	 */
 	destroy() {
+
+		console.warn('destroy', this);
+
 		if (this._initObserver) {
 			this._initObserver.unsubscribe();
 		}
-		// remove the s-component attribute
-		this.elm.removeAttribute('s-component');
-		// remove component from the window.sElements stack
-		delete window.sElements[this.elementId].components[this.name]
+		// clear the timeout
+		clearTimeout(this._componentAutoDestroyTimeout);
+
+		// unregister the component from element
+		sElementsManager.unregisterComponent(this.elm, this);
+
 		// disable
 		this.disable();
 		// destroy in parent
@@ -330,8 +402,8 @@ export default class SComponent extends SElement {
 
 		for (let attrName in this.attr) {
 			// bind the attribute to the settings if needed
-			if (attrName.indexOf(this.name) === 0) {
-				const settingName = __lowerFirst(attrName.substr(this.name.length));
+			if (attrName.indexOf(this.componentName) === 0) {
+				const settingName = __lowerFirst(attrName.substr(this.componentName.length));
 				this._binder.bindObjectPath2ObjectPath(this, `attr.${attrName}`, this, `settings.${settingName}`);
 			}
 		}
@@ -355,8 +427,8 @@ export default class SComponent extends SElement {
 		}
 
 		// protect multiple init
-		if (this.inited) return;
-		this.inited = true;
+		if (this._componentInited) return;
+		this._componentInited = true;
 
 		// init callback
 		const cb = this._init.bind(this);
@@ -438,7 +510,7 @@ export default class SComponent extends SElement {
 	 * @return 	{Boolean}		disable status
 	 */
 	isDisabled() {
-		return ! this._enabled;
+		return ! this._componentEnabled;
 	}
 
 	/**
@@ -447,6 +519,6 @@ export default class SComponent extends SElement {
 	 * @return 	{Boolean} 		enable status
 	 */
 	isEnabled() {
-		return this._enabled;
+		return this._componentEnabled;
 	}
 }

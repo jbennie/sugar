@@ -11,7 +11,8 @@ import __matches from '../dom/matches';
 import __uniqid from '../tools/uniqid';
 import querySelectorLive from '../dom/querySelectorLive';
 import __outerHTML from '../dom/outerHTML';
-import __sPropertyProxy from '../core/sPropertyProxy';
+
+import sElementsManager from './sElementsManager';
 
 export default class STemplate {
 
@@ -147,9 +148,10 @@ export default class STemplate {
 
 			// replace all the s-element with their original versions
 			[].forEach.call(clone.querySelectorAll('[s-element]'), (elm) => {
-				const sElement = window.sElements[elm.getAttribute('s-element')];
-				if (sElement && sElement.originalElement) {
-					elm = morphdom(elm, sElement.originalElement, {
+				const originalElement = sElementsManager.getOriginalElement(elm);
+				console.log('originalElement', originalElement);
+				if (originalElement) {
+					elm = morphdom(elm, originalElement, {
 						onBeforeElChildrenUpdated : (node) => {
 							// do not update children at all
 							return false;
@@ -244,64 +246,81 @@ export default class STemplate {
 
 		// set the new html
 		this.dom = morphdom(this.dom, compiled.trim(), {
-			onBeforeElChildrenUpdated : (node) => {
+			onBeforeElChildrenUpdated : (fromNode, toNode) => {
 				// update if is the template itself
-				if (this.dom === node) {
+				if (this.dom === fromNode) {
 					// emit an event to tell that the element children will be updated
-					__dispatchEvent(node, 'sTemplate:beforeChildrenUpdate');
+					__dispatchEvent(fromNode, 'sTemplate:beforeChildrenUpdate');
 					return true;
 				}
 				// check the s-template-no-children-update attribute
-				if (node.hasAttribute
+				if (fromNode.hasAttribute
 					&& (
-						node.hasAttribute('s-template-do-not-children-update')
-						|| node.hasAttribute('s-template-exclude')
+						fromNode.hasAttribute('s-template-do-not-children-update')
+						|| fromNode.hasAttribute('s-template-exclude')
 					)
 				) return false;
 				// check the elements that we never want to update children
 				for(let i=0; i<STemplate.doNotUpdateChildren.length; i++) {
-					if (__matches(node, STemplate.doNotUpdateChildren[i])) {
+					if (__matches(fromNode, STemplate.doNotUpdateChildren[i])) {
 						// do not discard the element
 						return false;
 					}
 				}
 				// emit an event to tell that the element children will be updated
-				__dispatchEvent(node, 'sTemplate:beforeChildrenUpdate');
+				__dispatchEvent(fromNode, 'sTemplate:beforeChildrenUpdate');
 				// update the childs
 				return true;
 			},
-			onBeforeElUpdated : (node) => {
+			onBeforeElUpdated : (fromNode, toNode) => {
+
+				// handle the sTemplateKeepAttr attribute
+				if (fromNode.hasAttribute('s-template-keep')) {
+					let keep = fromNode.getAttribute('s-template-keep');
+					keep = keep.split(',');
+					// loop on each attribute to keep
+					keep.forEach((key) => {
+						toNode.setAttribute(key, fromNode.getAttribute(key));
+					});
+				}
+
+				// handle value
+				if (fromNode.value) {
+					toNode.value = fromNode.value;
+					toNode.setAttribute('value', fromNode.value);
+				}
+
 				// update if is the template itself
-				if (this.dom === node) {
+				if (this.dom === fromNode) {
 					// emit an event to tell that the element will been updated
-					__dispatchEvent(node, 'sTemplate:beforeUpdate');
+					__dispatchEvent(fromNode, 'sTemplate:beforeUpdate');
 					return true;
 				}
 
 				// check if an onBeforeElUpdated is present in the settings
 				if (this.settings.onBeforeElUpdated) {
-					const res = this.settings.onBeforeElUpdated(node);
+					const res = this.settings.onBeforeElUpdated(fromNode);
 					if (res === true || res === false) {
 						return res;
 					}
 				}
 
 				// check the s-template-no-update attribute
-				if (node.hasAttribute
+				if (fromNode.hasAttribute
 					&& (
-						node.hasAttribute('s-template-do-not-update')
-						|| node.hasAttribute('s-template-exclude')
+						fromNode.hasAttribute('s-template-do-not-update')
+						|| fromNode.hasAttribute('s-template-exclude')
 					)
 				) return false;
 				// check the elements that we never want to update
 				for(let i=0; i<STemplate.doNotUpdate.length; i++) {
-					if (__matches(node, STemplate.doNotUpdate[i])) {
+					if (__matches(fromNode, STemplate.doNotUpdate[i])) {
 						// do not discard the element
 						return false;
 					}
 				}
 				// emit an event to tell that the element will been updated
-				__dispatchEvent(node, 'sTemplate:beforeUpdate');
+				__dispatchEvent(fromNode, 'sTemplate:beforeUpdate');
 				// update the element
 				return true;
 			},
@@ -314,6 +333,31 @@ export default class STemplate {
 						return res;
 					}
 				}
+
+				// check if is a component to render it
+				const sElementInStack = window.sugar._elements.get(node);
+				if (sElementInStack) {
+					// loop on each components to render themself
+					for (let name in sElementInStack.components) {
+						const component = sElementInStack.components[name];
+						if (component._render) {
+							component._render();
+						}
+					}
+				}
+
+				// if (node.hasAttribute('s-element')) {
+				// 	const elementId = node.getAttribute('s-element');
+				// 	if (window.sugar._elements[elementId]) {
+				// 		// loop on each components to render themself
+				// 		for (let name in window.sugar._elements[elementId].components) {
+				// 			const component = window.sugar._elements[elementId].components[name];
+				// 			if (component._render) {
+				// 				component._render();
+				// 			}
+				// 		}
+				// 	}
+				// }
 
 				// emit an event to tell that the element has been updated
 				__dispatchEvent(node, 'sTemplate:updated');
@@ -370,6 +414,32 @@ export default class STemplate {
 	}
 
 	/**
+	 * _updateDataModelFromElement
+	 * Update the data model from an s-template-model element
+	 * @param 	{HTMLElement} 	element 	The s-template-model element
+	 */
+	_updateDataModelFromElement(element) {
+
+		// get the model from the element
+		const model = element.getAttribute('s-template-model');
+
+		// try to get into data
+		const val = _get(this.data, element.value);
+
+		// if has a value into data
+		// take that as value to set into model
+		if (val) {
+			this.data[model] = val;
+		} else if (element.value.substr(0,7) === 'object:') {
+			const split = element.value.split(':');
+			const idx = split[1];
+			this.data[model] = this.modelValuesStack[idx];
+		} else {
+			this.data[model] = __autoCast(element.value);
+		}
+	}
+
+	/**
 	 * Listen for changes of datas in dom
 	 */
 	listenDataChangesInDom() {
@@ -381,20 +451,17 @@ export default class STemplate {
 			if ( ! elm._sTemplateBinded) {
 				elm._sTemplateBinded = true;
 				elm.addEventListener('change', (e) => {
-					// try to get into data
-					const val = _get(this.data, e.target.value);
+					// update the model from the element
+					this._updateDataModelFromElement(e.target);
+				});
+				let keyUpTimeout = null;
+				elm.addEventListener('keyup', (e) => {
 
-					// if has a value into data
-					// take that as value to set into model
-					if (val) {
-						this.data[model] = val;
-					} else if (e.target.value.substr(0,7) === 'object:') {
-						const split = e.target.value.split(':');
-						const idx = split[1];
-						this.data[model] = this.modelValuesStack[idx];
-					} else {
-						this.data[model] = __autoCast(e.target.value);
-					}
+					clearTimeout(keyUpTimeout);
+					keyUpTimeout = setTimeout(() => {
+						// update the model from the element
+						this._updateDataModelFromElement(e.target);
+					}, 1000);
 				});
 			}
 
@@ -403,8 +470,11 @@ export default class STemplate {
 			// if the model value is not something like a string,
 			// a number, etc, we build a stack to map actual model value
 			// with a string identifier
-			if (typeof(this.data[model]) === 'object'
-				|| this.data[model] instanceof Array) {
+			if (this.data[model]
+				&& (typeof(this.data[model]) === 'object'
+					|| this.data[model] instanceof Array
+				)
+			) {
 				// try to find the model into the stack
 				const idx = this.modelValuesStack.indexOf(this.data[model]);
 				// if we already have the value into the stack
@@ -421,11 +491,13 @@ export default class STemplate {
 				}
 			}
 
-			// console.log('modelValuesStack', this.data);
-
 			// set the initial value coming from the model
 			elm.value = htmlVal;
-			elm.setAttribute('value', htmlVal);
+			if (htmlVal === null || htmlVal === undefined) {
+				elm.removeAttribute('value');
+			} else {
+				elm.setAttribute('value', htmlVal);
+			}
 		});
 
 	}
