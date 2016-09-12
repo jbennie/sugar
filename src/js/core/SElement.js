@@ -3,6 +3,7 @@ import __camelize from '../string/camelize'
 import __uncamelize from '../string/uncamelize'
 import __autoCast from '../string/autoCast'
 import querySelectorLive from '../dom/querySelectorLive'
+import __matches from '../dom/matches'
 import __closestNotVisible from '../dom/closestNotVisible'
 import __whenVisible from '../dom/whenVisible'
 import __isVisible from '../dom/isVisible'
@@ -13,6 +14,7 @@ import _set from 'lodash/set';
 import _get from 'lodash/get';
 
 import sElementsManager from './sElementsManager'
+import sDebug from '../tools/sDebug'
 
 import SObject from './SObject'
 import SWatcher from './SWatcher';
@@ -21,11 +23,6 @@ import SBinder from './SBinder';
 // store the settings for the different
 // components types
 let _sugarTypesSettings = {};
-
-// init a stack into the window
-if ( ! window.sugar) window.sugar = {};
-window.sugar._elements = new Map();
-// window.sugar._originalElements = new Map();
 
 export default class SElement extends SObject {
 
@@ -38,12 +35,18 @@ export default class SElement extends SObject {
 	}
 
 	/**
-	 * The dom element reference
+	 * elm
+	 * Store the actual DOM element that the SElement instance manage
+	 * @type 	{HTMLElement}
 	 */
 	elm = null;
 
 	/**
-	 * Store the attributes
+	 * attr
+	 * Store the element attributes in object format
+	 * This object will reflect the HTML state into the dom
+	 * and will keep updated until the SElement instance has been destroyed
+	 * @type 	{Object}
 	 */
 	attr = {};
 
@@ -90,46 +93,18 @@ export default class SElement extends SObject {
 		// create a uniqid for the element
 		this.elementId = this.elm.getAttribute('s-element') || __uniqid();
 
-		// save the element into the window to be
-		// able to target it from outside
-		sElementsManager.registerElement(this.elm, this);
-
-
-		// const inStackElement = window.sugar._elements.get(this.elm);
-		// if ( ! inStackElement) {
-		// 	const originalElement = this.elm.cloneNode(false);
-		// 	originalElement.removeAttribute('s-component');
-		// 	// save into window to be able to access it from outside
-		// 	window.sugar._elements.set(this.elm, {
-		// 		element : this.elm,
-		// 		originalElement : originalElement,
-		// 		components : {},
-		// 		count : 1
-		// 	});
-		// } else {
-		// 	inStackElement.count++;
-		// }
-
-		// if ( ! window.sugar._elements[this.elementId]) {
-		// 	const originalElement = this.elm.cloneNode(false);
-		// 	originalElement.removeAttribute('s-component');
-		// 	// save into window to be able to access it from outside
-		// 	window.sugar._elements[this.elementId] = {
-		// 		element : this.elm,
-		// 		originalElement : originalElement,
-		// 		components : {},
-		// 		count : 1
-		// 	};
-		// } else {
-		// 	window.sugar._elements[this.elementId].count++;
-		// }
-
 		// new watcher and binder
 		this._watcher = new SWatcher();
 		this._binder = new SBinder();
 
 		// set the uniqid to the element
 		this.elm.setAttribute('s-element', this.elementId);
+
+		// save the element into the window to be
+		// able to target it from outside
+		// ! register AFTER having set the s-element attribute
+		// cause the manager will handle only s-element elements
+		sElementsManager.registerElement(this.elm, this);
 
 		// set all attribute in the this.attr stack
 		[].forEach.call(this.elm.attributes, (attr) => {
@@ -153,32 +128,32 @@ export default class SElement extends SObject {
 		this._listenChangesOnElement();
 
 		// listen when the element is detached from the dom
-		this.elm.addEventListener('detached', this._onDetachedEvent.bind(this), true);
+		this.elm.addEventListener('detached', this._onDetachedEvent.bind(this));
 
 		// listen when the element is removed
 		this._addRemoveObserver = querySelectorLive(`[s-element="${this.elementId}"]`, {
 			onNodeRemoved : (node) => {
-				if (this._onRemoved) {
-					clearTimeout(onAddedTimeout);
-					clearTimeout(onRemovedTimeout);
-					onRemovedTimeout = setTimeout(() => {
-						this._onRemoved();
-					});
-				}
-			}
-		}).subscribe((elm) => {
-			// the node has been added
-			if (this._onAdded) {
-				clearTimeout(onRemovedTimeout);
 				clearTimeout(onAddedTimeout);
-				onAddedTimeout = setTimeout(() => {
-					if ( ! this._elementAdded) {
-						this._onAdded();
-					} else {
-						this._onAttached();
-					}
+				clearTimeout(onRemovedTimeout);
+				onRemovedTimeout = setTimeout(() => {
+					this._onRemoved();
 				});
 			}
+		}).subscribe((elm) => {
+			clearTimeout(onRemovedTimeout);
+			clearTimeout(onAddedTimeout);
+			onAddedTimeout = setTimeout(() => {
+				// check if the element is into a template
+				this._isInTemplate = __matches(this.elm, `[s-template-id] [s-element="${this.elementId}"],[s-template-component] [s-element="${this.elementId}"]`);
+
+				// call either the onAdded or onAttached method
+				// depending on the added state
+				if ( ! this._elementAdded) {
+					this._onAdded();
+				} else {
+					this._onAttached();
+				}
+			});
 		});
 	}
 
@@ -242,8 +217,9 @@ export default class SElement extends SObject {
 		// track added status
 		this._elementAdded = true;
 		// render the component
-		if ( ! this.componentName) {
-			this._render();
+		if ( ! this.componentName
+			&& ! this._isInTemplate) {
+			this.render();
 		}
 	}
 
@@ -258,8 +234,9 @@ export default class SElement extends SObject {
 		// track the attached status
 		this._elementAttached = true;
 		// render the component
-		if ( ! this.componentName) {
-			this._render();
+		if ( ! this.componentName
+			&& ! this._isInTemplate) {
+			this.render();
 		}
 	}
 
@@ -275,10 +252,10 @@ export default class SElement extends SObject {
 	}
 
 	/**
-	 * _render
+	 * render
 	 * Render the element
 	 */
-	_render() {
+	render() {
 		this.elm.setAttribute('s-element', this.elementId);
 	}
 
@@ -293,7 +270,7 @@ export default class SElement extends SObject {
 		}
 
 		// do not listen for detached event anymore
-		this.elm.removeEventListener('detached', this._onDetachedEvent, true);
+		this.elm.removeEventListener('detached', this._onDetachedEvent);
 
 		// stop watchers
 		this._watcher.destroy();
@@ -308,24 +285,6 @@ export default class SElement extends SObject {
 
 		// unregister element instance
 		sElementsManager.unregisterElement(this.elm, this);
-
-		// destroy all components
-		// const components = sElementsManager.getComponents(this.elm);
-		// if (components) {
-		// 	const componentsKeys = Object.keys(components);
-		// 	if (componentsKeys.length) {
-		// 		// destroy the next element
-		// 		components[componentsKeys[0]].destroy();
-		// 	}
-		// }
-
-		// if (window.sugar._elements[this.elementId]) {
-		// 	const components = Object.keys(window.sugar._elements[this.elementId].components);
-		// 	if (components.length) {
-		// 		// destroy the next element
-		// 		window.sugar._elements[this.elementId].components[components[0]].destroy();
-		// 	}
-		// }
 	}
 
 	/**
@@ -333,8 +292,7 @@ export default class SElement extends SObject {
 	 * Original element property
 	 */
 	get originalElement() {
-		return window.sugar._elements.get(this.elm).originalElement;
-		// return window.sugar._originalElements[this.elementId].originalElement;
+		return sElementsManager.getOriginalElement(this.elementId);
 	}
 
 	/**
@@ -388,6 +346,29 @@ export default class SElement extends SObject {
 	 */
 	watch(path, cb) {
 		this._watcher.watch(this, path, cb);
+	}
+
+	/**
+	 * isElementAttached
+	 * Return if the element is attached into the dom or not
+	 * This mean that the element live into the DOM document. It this is false,
+	 * that mean that the element live into another HTML element into the memory
+	 * @return 		{Boolean} 	the attached status
+	 */
+	isElementAttached() {
+		return this._elementAttached;
+	}
+
+	/**
+	 * isElementAdded
+	 * Return if the element is added into the dom or not
+	 * This mean that the element is has been added into the dom
+	 * but it can live into another HTML element in memory and not
+	 * in the document
+	 * @return 		{Boolean} 	the attached status
+	 */
+	isElementAdded() {
+		return this._elementAdded;
 	}
 
 	/**

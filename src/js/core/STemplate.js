@@ -11,6 +11,8 @@ import __matches from '../dom/matches';
 import __uniqid from '../tools/uniqid';
 import querySelectorLive from '../dom/querySelectorLive';
 import __outerHTML from '../dom/outerHTML';
+import __strToHtml from '../string/strToHtml'
+import __constructorName from '../tools/constructorName'
 
 import sElementsManager from './sElementsManager';
 
@@ -25,6 +27,68 @@ export default class STemplate {
 		'[s-template-id]',
 		'[s-template-component]'
 	];
+
+	static componentsIntegrationFnStack = {};
+
+	/**
+	 * registerComponentIntegration
+	 * Register a component integration function
+	 * @param 	{Function} 		integrationFn 	The function used to set the integration attributes, etc into the component elements
+	 * @return 	{void}
+	 */
+	static registerComponentIntegration = function(componentClassName, fn) {
+		STemplate.componentsIntegrationFnStack[componentClassName] = fn;
+	}
+
+	/**
+	 * keepAttribute
+	 * Set an attribute to keep
+	 * @param 	{HTMLElement} 	elm 	The element on which to keep an attribute
+	 * @param 	{String} 		attr 	The attribute name to keep
+	 */
+	static keepAttribute = function(elm, attr) {
+		const keep = elm.getAttribute('s-template-keep');
+		if (keep) {
+			const keeps = keep.split(',');
+			if (keeps.indexOf(attr) === -1) {
+				keeps.push(attr);
+			}
+			elm.setAttribute('s-template-keep', keeps.join(','));
+		} else {
+			elm.setAttribute('s-template-keep', attr);
+		}
+		return STemplate;
+	}
+
+	/**
+	 * doNotDiscard
+	 * Set an element to not discard
+	 * @param 	{HTMLElement} 	elm 	The element to not discard
+	 */
+	static doNotDiscard(elm) {
+		elm.setAttribute('s-template-do-not-discard',true);
+		return STemplate;
+	}
+
+	/**
+	 * exclude
+	 * Set an element to exclude completely from the STemplate engine
+	 * @param 	{HTMLElement} 	elm 	The element to exclude
+	 */
+	static exclude(elm) {
+		elm.setAttribute('s-template-exclude',true);
+		return STemplate;
+	}
+
+	/**
+	 * refresh
+	 * Set an element to refresh completely when the STemplate handle it
+	 * @param 	{HTMLElement} 	elm 	The element to refresh
+	 */
+	static refresh(elm) {
+		elm.setAttribute('s-template-refresh',true);
+		return STemplate;
+	}
 
 	/**
 	 * Array of elements selectors to never update on render
@@ -134,10 +198,13 @@ export default class STemplate {
 		else if (this.template.nodeName) {
 			this.template.setAttribute('s-template-id', this.templateId);
 
+			// window.sugar.debug.start();
+			// const clone = this.template.cloneNode(true);
+			const clone = __strToHtml(this.template.outerHTML);
+
 			// clone the template to remove all the templates contents
 			// cause each template has to care only about his scope and not
 			// about the scope of nested onces...
-			const clone = this.template.cloneNode(true);
 			[].forEach.call(clone.querySelectorAll('[s-template-component]'), (nestedTemplate) => {
 				nestedTemplate.innerHTML = '';
 			});
@@ -148,8 +215,8 @@ export default class STemplate {
 
 			// replace all the s-element with their original versions
 			[].forEach.call(clone.querySelectorAll('[s-element]'), (elm) => {
-				const originalElement = sElementsManager.getOriginalElement(elm);
-				console.log('originalElement', originalElement);
+				const elementId = elm.getAttribute('s-element');
+				const originalElement = sElementsManager.getOriginalElement(elementId);
 				if (originalElement) {
 					elm = morphdom(elm, originalElement, {
 						onBeforeElChildrenUpdated : (node) => {
@@ -159,7 +226,7 @@ export default class STemplate {
 					});
 				}
 			});
-			this.templateString = __outerHTML(clone).replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
+			this.templateString = clone.outerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
 			this.dom = this.template;
 		}
 
@@ -274,10 +341,49 @@ export default class STemplate {
 			},
 			onBeforeElUpdated : (fromNode, toNode) => {
 
+				// check if is a component to render it
+				const components = sElementsManager.getComponents(fromNode);
+				if (components) {
+					// loop on each components to render themself
+					for (let name in components) {
+						const component = components[name];
+
+						// if already integrated
+						// do not launch the integration function
+						if (component._sTemplateIntegrated !== true) {
+							const constructorName = __constructorName(component);
+							const integrationFn = STemplate.componentsIntegrationFnStack[constructorName];
+							if (integrationFn) {
+								integrationFn(component);
+								component._sTemplateIntegrated = true;
+							}
+						}
+
+						// render the component
+						if (component.render) {
+							component.render();
+						}
+					}
+				}
+
+				// handle integration attributes
+				['s-template-keep',
+				 's-template-exclude',
+				 's-template-refresh',
+				 's-template-do-not-update',
+			 	 's-template-do-not-discard',
+			 	 's-template-do-not-children-update'].forEach((attr) => {
+					if (fromNode.hasAttribute(attr)
+				 		&& ! toNode.hasAttribute(attr)
+					) {
+						toNode.setAttribute(attr, fromNode.getAttribute(attr));
+					}
+				});
+
 				// handle the sTemplateKeepAttr attribute
 				if (fromNode.hasAttribute('s-template-keep')) {
 					let keep = fromNode.getAttribute('s-template-keep');
-					keep = keep.split(',');
+					keep = keep.replace(/\s/g,'').split(',');
 					// loop on each attribute to keep
 					keep.forEach((key) => {
 						toNode.setAttribute(key, fromNode.getAttribute(key));
@@ -325,7 +431,6 @@ export default class STemplate {
 				return true;
 			},
 			onElUpdated : (node) => {
-
 				// check if an onBeforeElUpdated is present in the settings
 				if (this.settings.onElUpdated) {
 					const res = this.settings.onElUpdated(node);
@@ -333,31 +438,6 @@ export default class STemplate {
 						return res;
 					}
 				}
-
-				// check if is a component to render it
-				const sElementInStack = window.sugar._elements.get(node);
-				if (sElementInStack) {
-					// loop on each components to render themself
-					for (let name in sElementInStack.components) {
-						const component = sElementInStack.components[name];
-						if (component._render) {
-							component._render();
-						}
-					}
-				}
-
-				// if (node.hasAttribute('s-element')) {
-				// 	const elementId = node.getAttribute('s-element');
-				// 	if (window.sugar._elements[elementId]) {
-				// 		// loop on each components to render themself
-				// 		for (let name in window.sugar._elements[elementId].components) {
-				// 			const component = window.sugar._elements[elementId].components[name];
-				// 			if (component._render) {
-				// 				component._render();
-				// 			}
-				// 		}
-				// 	}
-				// }
 
 				// emit an event to tell that the element has been updated
 				__dispatchEvent(node, 'sTemplate:updated');
@@ -454,11 +534,10 @@ export default class STemplate {
 					// update the model from the element
 					this._updateDataModelFromElement(e.target);
 				});
-				let keyUpTimeout = null;
 				elm.addEventListener('keyup', (e) => {
 
-					clearTimeout(keyUpTimeout);
-					keyUpTimeout = setTimeout(() => {
+					clearTimeout(this._keyUpTimeout);
+					this._keyUpTimeout = setTimeout(() => {
 						// update the model from the element
 						this._updateDataModelFromElement(e.target);
 					}, 1000);

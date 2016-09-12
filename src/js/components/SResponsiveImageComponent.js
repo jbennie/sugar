@@ -10,6 +10,7 @@
  */
 import SComponent from '../core/SComponent'
 import __debounce from '../functions/debounce'
+import STemplate from '../core/STemplate'
 
 class SResponsiveImageComponent extends SComponent {
 
@@ -56,6 +57,12 @@ class SResponsiveImageComponent extends SComponent {
 
 		// init component
 		super._init();
+
+		// set the width if not specified
+		const width = this.elm.style.width;
+		if ( ! width) {
+			this.elm.setAttribute('width', '100%');
+		}
 	}
 
 	/**
@@ -206,6 +213,10 @@ class SResponsiveImageComponent extends SComponent {
 		this._applySrc();
 	}
 }
+
+STemplate.registerComponentIntegration('SResponsiveImageComponent', (component) => {
+	STemplate.keepAttribute(component.elm, 'width');
+});
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }

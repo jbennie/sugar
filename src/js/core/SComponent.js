@@ -6,6 +6,7 @@ import __uniqid from '../tools/uniqid'
 import __autoCast from '../string/autoCast'
 import SElement from './SElement'
 import querySelectorLive from '../dom/querySelectorLive'
+import __constructorName from '../tools/constructorName'
 
 import sElementsManager from './sElementsManager'
 
@@ -47,7 +48,91 @@ export default class SComponent extends SElement {
 		 * -1 meand no auto destroy
 		 * @type 	{Number}
 		 */
-		autoDestroyTimeout : 5000
+		autoDestroyTimeout : 5000,
+
+		/**
+		 * beforeInit
+		 * Callback before the component initialisation
+		 * @type 	{Function}
+		 */
+		beforeInit : null,
+
+		/**
+		 * afterInit
+		 * Callback after the component initialisation
+		 * @type 	{Function}
+		 */
+		afterInit : null,
+
+		/**
+		 * beforeDestroy
+		 * Callback before the component is destroyed
+		 * @type 	{Function}
+		 */
+		beforeDestroy : null,
+
+		/**
+		 * afterDestroy
+		 * Callback after the component has been destroyed
+		 * @type 	{Function}
+		 */
+		afterDestroy : null,
+
+		/**
+		 * onAdded
+		 * Callback when the element is added to the dom
+		 * @type 	{Function}
+		 */
+		onAdded : null,
+
+		/**
+		 * onRemoved
+		 * Callback when the element is removed from the dom
+		 * @type 	{Function}
+		 */
+		onRemoved : null,
+
+		/**
+		 * onAttached
+		 * Callback when the element is attached to the dom
+		 * @type 	{Function}
+		 */
+		onAttached : null,
+
+		/**
+		 * onDetached
+		 * Callback when the element is detached from the dom
+		 * @type 	{Function}
+		 */
+		onDetached : null,
+
+		/**
+		 * onEnabled
+		 * Callback when the element has just been enabled
+		 * @type 	{Function}
+		 */
+		onEnabled : null,
+
+		/**
+		 * onDisabled
+		 * Callback when the element has just been disabled
+		 * @type 	{Function}
+		 */
+		onDisabled : null,
+
+		/**
+		 * beforeRender
+		 * Callback before the render happens
+		 * @type 	{Function}
+		 */
+		beforeRender : null,
+
+		/**
+		 * afterRender
+		 * Callback after the render has appened
+		 * @type 	{Function}
+		 */
+		afterRender : null
 	};
 
 	/**
@@ -107,6 +192,13 @@ export default class SComponent extends SElement {
 	_componentEnabledBeforeRemoved = true;
 
 	/**
+	 * _componentDestroyed
+	 * Track if the component has been destroyed
+	 * @type 	{Boolean}
+	 */
+	_componentDestroyed = false;
+
+	/**
 	 * Constructor
 	 */
 	constructor(name, elm, default_settings = {}, settings = {}) {
@@ -151,21 +243,11 @@ export default class SComponent extends SElement {
 		// init parent
 		super(elm);
 
-
-
 		// set a uniq component id
 		this.componentId = __uniqid();
 
 		// save some variables
 		this._componentAppliedComponentAsTag = asTag;
-
-		// // add the instance in the sugar._components stack
-		// const inStackComponent = window.sugar._components.get(this.elm);
-		// if ( ! inStackComponent) {
-		// 	inStackComponent = {};
-		// }
-		// // save into component
-		// inStackComponent[this.name] = this;
 
 		// save element reference
 		this.componentName = name;
@@ -175,6 +257,7 @@ export default class SComponent extends SElement {
 		sElementsManager.registerComponent(this.elm, this);
 
 		// set the api in the dom element
+		// #FIXME check if need this or not...
 		this.elm[this.componentName] = this;
 
 		// extend settings values
@@ -246,19 +329,21 @@ export default class SComponent extends SElement {
 	 * Init component
 	 */
 	_init() {
+		this.settings.beforeInit && this.settings.beforeInit(this);
 		// init element
 		super._init();
+		this.settings.afterInit && this.settings.afterInit(this);
 	}
 
 	/**
-	 * _render
+	 * render
 	 * Render the html element
 	 */
-	_render() {
+	render() {
+		this.settings.beforeRender && this.settings.beforeRender(this);
+		super.render();
 		this.elm.setAttribute('s-component', true);
-		if (this.elementId) {
-			this.elm.setAttribute('s-element', this.elementId);
-		}
+		this.settings.afterRender && this.settings.afterRender(this);
 	}
 
 	/**
@@ -271,12 +356,16 @@ export default class SComponent extends SElement {
 		super._onAdded();
 		// clear the destroy timeout
 		clearTimeout(this._componentAutoDestroyTimeout);
+		// onAdded callback
+		this.settings.onAdded && this.settings.onAdded(this);
 		// enable the component if it was not disabled
 		if (this._componentEnabledBeforeRemoved) {
 			this.enable();
 		}
 		// render
-		this._render();
+		if ( ! this._isInTemplate) {
+			this.render();
+		}
 	}
 
 	/**
@@ -289,6 +378,8 @@ export default class SComponent extends SElement {
 		this._componentEnabledBeforeRemoved = this._componentEnabled;
 		// super onRemoved
 		super._onRemoved();
+		// onRemoved callback
+		this.settings.onRemoved && this.settings.onRemoved(this);
 		// disable the component
 		this.disable();
 		// autoDestroy
@@ -312,12 +403,16 @@ export default class SComponent extends SElement {
 		clearTimeout(this._componentAutoDestroyTimeout);
 		// super _onAttached
 		super._onAttached();
+		// onAttached callback
+		this.settings.onAttached && this.settings.onAttached(this);
 		// enable the component
 		if (this._componentEnabledBeforeDetached) {
 			this.enable();
 		}
 		// render
-		this._render();
+		if ( ! this._isInTemplate) {
+			this.render();
+		}
 	}
 
 	/**
@@ -331,6 +426,8 @@ export default class SComponent extends SElement {
 		this._componentEnabledBeforeDetached = this._componentEnabled;
 		// super onDetached
 		super._onDetached();
+		// onDetached callback
+		this.settings.onDetached && this.settings.onDetached(this);
 		// disable the component
 		this.disable();
 		// autoDestroy
@@ -357,6 +454,8 @@ export default class SComponent extends SElement {
 	 */
 	disable() {
 		this._componentEnabled = false;
+		// onDisabled callback
+		this.settings.onDisabled && this.settings.onDisabled(this);
 		// maintain chainability
 		return this;
 	}
@@ -367,6 +466,8 @@ export default class SComponent extends SElement {
 	 */
 	enable() {
 		this._componentEnabled = true;
+		// onEnabled callback
+		this.settings.onEnabled && this.settings.onEnabled(this);
 		// maintain chainability
 		return this;
 	}
@@ -375,9 +476,7 @@ export default class SComponent extends SElement {
 	 * Destroy routine
 	 */
 	destroy() {
-
-		console.warn('destroy', this);
-
+		// stop listening for element add and remove
 		if (this._initObserver) {
 			this._initObserver.unsubscribe();
 		}
@@ -389,8 +488,12 @@ export default class SComponent extends SElement {
 
 		// disable
 		this.disable();
+
 		// destroy in parent
 		super.destroy();
+
+		// track the destroyed status
+		this._componentDestroyed = true;
 	}
 
 	/**
@@ -464,7 +567,7 @@ export default class SComponent extends SElement {
 				document.addEventListener('click', clickHandler.bind(this));
 			break;
 			default:
-				setTimeout(() => { cb(); });
+				setTimeout(cb.bind(this));
 			break;
 		}
 	}
@@ -502,6 +605,15 @@ export default class SComponent extends SElement {
 		for(let key in this.settings) {
 			_watch(key);
 		}
+	}
+
+	/**
+	 * isDestroyed
+	 * Return if the component has been destroyed
+	 * @return 	{Boolean} 		destroyed status
+	 */
+	isDestroyed() {
+		return this._componentDestroyed;
 	}
 
 	/**

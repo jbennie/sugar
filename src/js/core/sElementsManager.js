@@ -1,3 +1,8 @@
+// init a stack into the window
+if ( ! window.sugar) window.sugar = {};
+window.sugar._elements = new Map();
+window.sugar._elementsById = {};
+
 class SElementsManager {
 
 	/**
@@ -7,14 +12,20 @@ class SElementsManager {
 	 * @return 	{Object} 				The internal stack of the element
 	 */
 	_getElementStack(elm) {
-		let inStackElement = window.sugar._elements.get(elm);
-		if ( ! inStackElement) {
+		let inStackElement = null;
+		if (typeof(elm) === 'string') {
+			inStackElement = window.sugar._elementsById[elm];
+		} else {
+			inStackElement = window.sugar._elements.get(elm);
+		}
+		if ( ! inStackElement && elm.hasAttribute('s-element')) {
 			inStackElement = {
 				elements : {},
 				components : {},
 				originalElement : null
 			};
 			window.sugar._elements.set(elm, inStackElement);
+			window.sugar._elementsById[elm.getAttribute('s-element')] = inStackElement;
 		}
 		return inStackElement;
 	}
@@ -56,9 +67,18 @@ class SElementsManager {
 	 */
 	registerElement(elm, sElement) {
 		const inStackElement = this._getElementStack(elm);
+		// add the element into the element stack
 		inStackElement.elements[sElement.elementId] = sElement;
+		// save the element into the stacj
+		inStackElement.elm = elm;
+		// save the original element is is the first time
+		// that this element is grabed from the DOM
 		if ( ! inStackElement.originalElement) {
-			inStackElement.originalElement = elm.cloneNode(false);
+			const originalElement = elm.cloneNode(false);
+			// remove the sugar component and element attribute
+			originalElement.removeAttribute('s-element');
+			originalElement.removeAttribute('s-component');
+			inStackElement.originalElement = originalElement;
 		}
 	}
 
@@ -72,9 +92,12 @@ class SElementsManager {
 	unregisterElement(elm, sElement) {
 		const inStackElement = this._getElementStack(elm);
 		delete inStackElement.elements[sElement.elementId];
+		// remove from the elementsById stack
+		delete window.sugar._elementsById[sElement.elementId];
 		// remove the s-component attribute if no more components
 		if (Object.keys(inStackElement.elements).length <= 0) {
 			elm.removeAttribute('s-element');
+			window.sugar._elements.delete(elm);
 		}
 	}
 
@@ -112,16 +135,6 @@ class SElementsManager {
 		const inStackElement = this._getElementStack(elm);
 		if ( ! inStackElement) return 0;
 		return Object.keys(inStackElement.elements).length;
-	}
-
-	/**
-	 * getElementById
-	 * Return the SElement instance by id
-	 * @param 	{String} 	id 		The id of the instance to get
-	 * @return 	{SElement} 			The SElement instance
-	 */
-	getElementById(id) {
-		return null;
 	}
 };
 

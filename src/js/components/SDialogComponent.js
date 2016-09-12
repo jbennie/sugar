@@ -15,6 +15,7 @@ import __offset from '../dom/offset'
 import __strToHtml from '../string/strToHtml'
 import __getAnimationProperties from '../dom/getAnimationProperties'
 import __style from '../dom/style'
+import __insertAfter from '../dom/insertAfter'
 import SAjax from '../core/SAjax'
 import STemplate from '../core/STemplate'
 
@@ -233,7 +234,6 @@ class SDialogComponent extends SComponent {
 				content : this._html.querySelector('[name="content"]'),
 			}
 
-
 			// listen for click on the overlay
 			// to close the dialog
 			this.refs.overlay.addEventListener('click', (e) => {
@@ -251,6 +251,15 @@ class SDialogComponent extends SComponent {
 		if (typeof(this._content) === 'string') {
 			this.refs.content.innerHTML = this._content;
 		} else if (this._content.nodeName !== undefined) {
+
+			// try to save the position into dom to restore it on close
+			if (this._content.parentNode) {
+				this._domRestorePlaceholder = document.createElement('div');
+				this._domRestorePlaceholder.setAttribute('s-dialog-restore-placeholder',true);
+				__insertAfter(this._domRestorePlaceholder, this._content);
+			}
+
+			// append the content into the dialog
 			this.refs.content.appendChild(this._content);
 		}
 
@@ -328,6 +337,13 @@ class SDialogComponent extends SComponent {
 
 		// wait end animation to remove the dialog
 		setTimeout(() => {
+
+			// restore the place of the content if is a placeholder
+			if (this._domRestorePlaceholder
+				&& this._content.nodeName) {
+				__insertAfter(this._content, this._domRestorePlaceholder);
+				this._domRestorePlaceholder.parentNode.removeChild(this._domRestorePlaceholder);
+			}
 
 			// remove the out class
 			this.refs.elm.classList.remove(this.settings.outClass);

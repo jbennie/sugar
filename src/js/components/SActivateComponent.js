@@ -29,6 +29,21 @@ class SActivateComponent extends SComponent {
 	}
 
 	/**
+	 * targets
+	 * Store all the targets of the component
+	 * @type 	[Array]
+	 */
+	targets = [];
+
+	/**
+	 * _parentActivateComponent
+	 * Store the parent activate component instance
+	 * to activate it when this component is activated
+	 * @type 	{SActivateComponent}
+	 */
+	_parentActivateComponent = null;
+
+	/**
 	 * Constructor
 	 */
 	constructor(elm, settings = {}, name = 'sActivate') {
@@ -45,8 +60,6 @@ class SActivateComponent extends SComponent {
 			unactivateTrigger : null,
 			unactivateTimeout : 200,
 			preventScroll : false,
-			beforeInit : null,
-			afterInit : null,
 			beforeActivate : null,
 			afterActivate : null,
 			beforeUnactivate : null,
@@ -61,9 +74,6 @@ class SActivateComponent extends SComponent {
 
 		// init component
 		super._init();
-
-		// before init
-		this.settings.beforeInit && this.settings.beforeInit(this);
 
 		// watch some attributes
 		this.watch(`attr.href,attr.${this.componentName},attr.${this.componentName}Target`, (newVal, oldVal) => {
@@ -101,7 +111,7 @@ class SActivateComponent extends SComponent {
 		}
 
 		// check if we are in another s-activate element
-		this.parentActivateComponent = this._getClosestActivateComponent();
+		this._parentActivateComponent = this._getClosestActivateComponent();
 
 		// listen for click
 		this.elm.addEventListener(this.settings.trigger, (e) => {
@@ -163,9 +173,6 @@ class SActivateComponent extends SComponent {
 				}
 			}
 		});
-
-		// init callback
-		this.settings.afterInit && this.settings.afterInit(this);
 	}
 
 	/**
@@ -307,8 +314,8 @@ class SActivateComponent extends SComponent {
 		});
 
 		// if has a perent, activate it
-		if (this.parentActivateComponent) {
-			this.parentActivateComponent._activate();
+		if (this._parentActivateComponent) {
+			this._parentActivateComponent._activate();
 		}
 
 		// callback

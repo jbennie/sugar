@@ -113,6 +113,16 @@ class STemplateComponent extends SComponent {
 	}
 
 	/**
+	 * render
+	 * Render the state to the html element
+	 * @return 	{void}
+	 */
+	render() {
+		super.render();
+		this.elm.setAttribute('s-template-component', this._componentId);
+	}
+
+	/**
 	 * Internal render
 	 */
 	_internalRender(fromTemplate = false) {
@@ -130,7 +140,7 @@ class STemplateComponent extends SComponent {
 		// no need to initiate it completely
 		// just render the template
 		if (this.elm.sTemplateInited) {
-			this.render();
+			this.renderTemplate();
 			return;
 		}
 		this.elm.sTemplateInited = true;
@@ -226,7 +236,7 @@ class STemplateComponent extends SComponent {
 		}
 
 		// render
-		this.render();
+		this.renderTemplate();
 	}
 
 	/**
@@ -258,9 +268,9 @@ class STemplateComponent extends SComponent {
 	}
 
 	/**
-	 * Render
+	 * renderTemplate
 	 */
-	render() {
+	renderTemplate() {
 		// process data
 		this._processData();
 

@@ -17,6 +17,7 @@ import __isEmail from '../is/email'
 import __isUrl from '../is/url'
 import __isNumber from '../is/number'
 import __isInteger from '../is/integer'
+import STemplate from '../core/STemplate'
 
 class SValidateComponent extends SComponent {
 
@@ -212,13 +213,13 @@ class SValidateComponent extends SComponent {
 	}
 
 	/**
-	 * _render
+	 * render
 	 * Render the component
 	 * @return 	{void}
 	 */
-	_render() {
+	render() {
 		// render component
-		super._render();
+		super.render();
 		// if is dirty
 		if (this._isDirty) {
 			this.elm.classList.add(this.settings.dirtyClass);
@@ -298,7 +299,7 @@ class SValidateComponent extends SComponent {
 		}
 
 		// render
-		this._render();
+		this.render();
 
 		// the input is valid
 		return true;
@@ -472,6 +473,12 @@ SValidateComponent.registerValidator('url', {
 		return __isUrl(api.getValue());
 	}
 });
+
+
+STemplate.registerComponentIntegration('SValidateComponent', (component) => {
+	STemplate.keepAttribute(component.elm, 'class');
+});
+
 
 // initOn
 SValidateComponent.initOn = function(selector, settings = {}) {

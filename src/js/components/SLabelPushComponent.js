@@ -22,7 +22,11 @@ import __style from '../dom/style'
 import __textWidth from '../dom/textWidth'
 import __getStyleProperty from '../dom/getStyleProperty'
 
+import sElementsManager from '../core/sElementsManager'
+
 import SParticlesSystemComponent from './SParticlesSystemComponent';
+
+import STemplate from '../core/STemplate'
 
 // class
 class SLabelPushComponent extends SComponent {
@@ -54,13 +58,10 @@ class SLabelPushComponent extends SComponent {
 		this._inputPaddingRight = parseInt(__getStyleProperty(this._input, 'paddingRight'));
 		this._inputPaddingLeft = parseInt(__getStyleProperty(this._input, 'paddingLeft'));
 
-		this._input.addEventListener('sTemplate:updated', this._setInputPadding.bind(this));
-
 		// calculate the label width
 		this._label = this.elm.querySelector(':scope > span');
 		this._labelWidth = this._label.offsetWidth;
-
-		this._label.addEventListener('sTemplate:updated', this._setLabelSize.bind(this));
+		this._label.setAttribute('s-template-keep', 'style');
 
 		// get the paddings
 		this._labelPaddingLeft = parseInt(__getStyleProperty(this._label, 'paddingLeft'));
@@ -70,15 +71,10 @@ class SLabelPushComponent extends SComponent {
 		const labelBackgroundImage = this._label.style.backgroundImage;
 		this._labelBackground = labelBackgroundColor || labelBackgroundImage;
 
-		// set the padding to the input
-		this._setInputPadding({
-			type : 'blur'
-		});
-
 		// listen for focus in field
-		this._input.addEventListener('focus', this._setInputPadding.bind(this));
-		this._input.addEventListener('blur', this._setInputPadding.bind(this));
-		this._input.addEventListener('keyup', this._setLabelSize.bind(this));
+		this._input.addEventListener('focus', this.render.bind(this));
+		this._input.addEventListener('blur', this.render.bind(this));
+		this._input.addEventListener('keyup', this.render.bind(this));
 	}
 
 	/**
@@ -87,6 +83,7 @@ class SLabelPushComponent extends SComponent {
 	 * @return 	{SLabelPushComponent}
 	 */
 	enable() {
+		super.enable();
 		// maintain chainability
 		return this;
 	}
@@ -97,8 +94,27 @@ class SLabelPushComponent extends SComponent {
 	 * @return 	{SLabelPushComponent}
 	 */
 	disable() {
+		super.disable();
 		// maintain chainability
 		return this;
+	}
+
+	/**
+	 * render
+	 * Render the component
+	 * @return 	{void}
+	 */
+	render(e = null) {
+		if (e) {
+			if (e.type === 'focus') {
+				this._isFocus = true;
+			} else if (e.type === 'blur') {
+				this._isFocus = false;
+			}
+		}
+		super.render();
+		this._setInputPadding();
+		this._setLabelSize();
 	}
 
 	/**
@@ -106,19 +122,21 @@ class SLabelPushComponent extends SComponent {
 	 * Set the input correct padding depending on the label size
 	 * @return 	{void}
 	 */
-	_setInputPadding(e) {
+	_setInputPadding() {
+
 		if (this._input.hasAttribute('placeholder')) {
 			__style(this._input, {
-				paddingLeft : ''
+				paddingLeft : this._inputPaddingLeft
 			});
 			return;
 		}
-		if (e.type === 'focus') {
+
+		if (this._isFocus) {
 			// set the padding
 			__style(this._input, {
-				paddingLeft : ''
+				paddingLeft : this._inputPaddingLeft
 			});
-		} else if (e.type === 'blur') {
+		} else {
 			if ( ! this._input.value) {
 				// set the padding
 				let paddingLeft = this._labelWidth;
@@ -137,13 +155,7 @@ class SLabelPushComponent extends SComponent {
 	 * Set the label width depending on the input text width
 	 * @return 	{void}
 	 */
-	_setLabelSize(e) {
-
-		if (this._input.value) {
-			this._input.setAttribute('value', this._input.value);
-		} else {
-			this._input.removeAttribute('value');
-		}
+	_setLabelSize() {
 
 		// if no value in input
 		if ( ! this._input.value) {
@@ -158,6 +170,7 @@ class SLabelPushComponent extends SComponent {
 		const width = __textWidth(this._input);
 		// calculate the difference
 		let diff = this._input.offsetWidth - width - this._labelPaddingLeft;
+
 		// add the padding right if is a background
 		if (this._labelBackground) {
 			diff -= this._inputPaddingRight;
@@ -175,9 +188,15 @@ class SLabelPushComponent extends SComponent {
 				opacity : 1,
 				width : diff + 'px'
 			});
+
 		}
 	}
 }
+
+STemplate.registerComponentIntegration('SLabelPushComponent', (component) => {
+	STemplate.keepAttribute(component._input, 'style')
+			 .keepAttribute(component._label, 'style');
+});
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }
