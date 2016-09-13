@@ -172,6 +172,11 @@ class SDialogComponent extends SComponent {
 					this._content = this.elm;
 					// open
 					this._open();
+				} else if (content.nodeName) {
+					// the content if an HTMLElement
+					this._content = content;
+					// open
+					this._open();
 				} else if (content.substr(0,1) === '#') {
 					// the content of the dialog is an element in the page
 					this._content = document.querySelector(content);
@@ -397,15 +402,6 @@ class SDialogComponent extends SComponent {
 		return this.elm.classList.contains(this.settings.class);
 	}
 }
-
-
-// initOn
-SDialogComponent.initOn = function(selector, settings = {}) {
-	// init the select
-	return __querySelectorLive(selector).visible().once().subscribe((elm) => {
-		new SDialogComponent(elm, settings);
-	});
-};
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }

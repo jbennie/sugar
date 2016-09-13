@@ -75,15 +75,15 @@ class SEqualizeComponent extends SComponent {
 		this.equalizerElm = this.elm.querySelector('[s-equalizer],[data-s-equalizer]');
 
 		// listen for all images in the column
-		querySelectorLive('img', {
-			rootNode : this.elm
-		}).once().subscribe((img) => {
-			// when the image is loaded, equalize the columns
-			imageLoaded(img).then(() => {
-				// equalize
-				this.equalize();
-			});
-		});
+		// querySelectorLive('img', {
+		// 	rootNode : this.elm
+		// }).once().subscribe((img) => {
+		// 	// when the image is loaded, equalize the columns
+		// 	imageLoaded(img).then(() => {
+		// 		// equalize
+		// 		this.equalize();
+		// 	});
+		// });
 
 		// equalize
 		if (this.elm === SEqualizeComponent.columns[this.settings.group].columns[SEqualizeComponent.columns[this.settings.group].columns.length - 1])
@@ -186,14 +186,6 @@ class SEqualizeComponent extends SComponent {
 
 	}
 }
-
-// initOn
-SEqualizeComponent.initOn = function(selector, settings = {}) {
-	// init the select
-	return querySelectorLive(selector).visible().once().subscribe((elm) => {
-		new SEqualizeComponent(elm, settings);
-	});
-};
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }

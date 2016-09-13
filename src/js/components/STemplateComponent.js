@@ -305,15 +305,6 @@ class STemplateComponent extends SComponent {
 	}
 }
 
-
-// initOn
-STemplateComponent.initOn = function(selector, settings = {}) {
-	// init the select
-	return __querySelectorLive(selector).visible().once().subscribe((elm) => {
-		new STemplateComponent(elm, settings);
-	});
-};
-
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }
 window.sugar.STemplateComponent = STemplateComponent;

@@ -108,14 +108,6 @@ class SDatepickerComponent extends SComponent {
 	}
 }
 
-// initOn
-SDatepickerComponent.initOn = function(selector, settings = {}) {
-	// init the select
-	return __querySelectorLive(selector).visible().once().subscribe((elm) => {
-		new SDatepickerComponent(elm, settings);
-	});
-};
-
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }

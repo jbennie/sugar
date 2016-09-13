@@ -382,15 +382,6 @@ class SStickyComponent extends SComponent {
 	}
 }
 
-
-// initOn
-SStickyComponent.initOn = function(selector, settings = {}) {
-	// init the select
-	return querySelectorLive(selector).visible().once().subscribe((elm) => {
-		new SStickyComponent(elm, settings);
-	});
-};
-
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }
 window.sugar.SStickyComponent = SStickyComponent;

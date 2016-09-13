@@ -2,9 +2,9 @@ class SDebug {
 	start() {
 		this._startTime = performance.now();
 	}
-	stop() {
+	stop(msg = null) {
 		this._stopTime = performance.now();
-		console.warn('PERFORMANCE', this._stopTime - this._startTime + 'ms');
+		console.warn(msg || 'PERFORMANCE', this._stopTime - this._startTime + 'ms');
 	}
 }
 

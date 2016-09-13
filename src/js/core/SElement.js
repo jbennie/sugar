@@ -143,6 +143,7 @@ export default class SElement extends SObject {
 			clearTimeout(onRemovedTimeout);
 			clearTimeout(onAddedTimeout);
 			onAddedTimeout = setTimeout(() => {
+
 				// check if the element is into a template
 				this._isInTemplate = __matches(this.elm, `[s-template-id] [s-element="${this.elementId}"],[s-template-component] [s-element="${this.elementId}"]`);
 

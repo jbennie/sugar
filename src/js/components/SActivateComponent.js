@@ -456,14 +456,6 @@ class SActivateComponent extends SComponent {
 	}
 }
 
-// initOn
-SActivateComponent.initOn = function(selector, settings = {}) {
-	// init the select
-	return __querySelectorLive(selector).visible().once().subscribe((elm) => {
-		new SActivateComponent(elm, settings);
-	});
-};
-
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }
 window.sugar.SActivateComponent = SActivateComponent;

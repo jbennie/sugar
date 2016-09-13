@@ -198,6 +198,12 @@ export default class STemplate {
 		else if (this.template.nodeName) {
 			this.template.setAttribute('s-template-id', this.templateId);
 
+			// apply the integration in components
+			// without rendering it
+			[].forEach.call(this.template.querySelectorAll('[s-component]'), (componentNode) => {
+				this._applyIntegrationOnNode(componentNode, false);
+			});
+
 			// window.sugar.debug.start();
 			// const clone = this.template.cloneNode(true);
 			const clone = __strToHtml(this.template.outerHTML);
@@ -283,12 +289,6 @@ export default class STemplate {
 	 * Render the template
 	 */
 	render() {
-		// check that we are in the dom
-		// if ( ! this.dom.parentNode) {
-		// 	throw "Your template has to be in the DOM in order to be rendered...";
-		// }
-		// console.warn('render', this.template);
-		// console.log('render', this.templateId, this.data.name);
 		this._internalRender();
 	}
 
@@ -296,6 +296,7 @@ export default class STemplate {
 	 * Render the template
 	 */
 	_internalRender() {
+
 		// compile the template
 		let compiled = '';
 		if (this.settings.compile) {
@@ -315,11 +316,11 @@ export default class STemplate {
 		this.dom = morphdom(this.dom, compiled.trim(), {
 			onBeforeElChildrenUpdated : (fromNode, toNode) => {
 				// update if is the template itself
-				if (this.dom === fromNode) {
-					// emit an event to tell that the element children will be updated
-					__dispatchEvent(fromNode, 'sTemplate:beforeChildrenUpdate');
-					return true;
-				}
+				// if (this.dom === fromNode) {
+				// 	// emit an event to tell that the element children will be updated
+				// 	__dispatchEvent(fromNode, 'sTemplate:beforeChildrenUpdate');
+				// 	return true;
+				// }
 				// check the s-template-no-children-update attribute
 				if (fromNode.hasAttribute
 					&& (
@@ -328,51 +329,28 @@ export default class STemplate {
 					)
 				) return false;
 				// check the elements that we never want to update children
-				for(let i=0; i<STemplate.doNotUpdateChildren.length; i++) {
-					if (__matches(fromNode, STemplate.doNotUpdateChildren[i])) {
-						// do not discard the element
-						return false;
-					}
-				}
+				// for(let i=0; i<STemplate.doNotUpdateChildren.length; i++) {
+				// 	if (__matches(fromNode, STemplate.doNotUpdateChildren[i])) {
+				// 		// do not discard the element
+				// 		return false;
+				// 	}
+				// }
 				// emit an event to tell that the element children will be updated
-				__dispatchEvent(fromNode, 'sTemplate:beforeChildrenUpdate');
 				// update the childs
 				return true;
 			},
 			onBeforeElUpdated : (fromNode, toNode) => {
-
-				// check if is a component to render it
-				const components = sElementsManager.getComponents(fromNode);
-				if (components) {
-					// loop on each components to render themself
-					for (let name in components) {
-						const component = components[name];
-
-						// if already integrated
-						// do not launch the integration function
-						if (component._sTemplateIntegrated !== true) {
-							const constructorName = __constructorName(component);
-							const integrationFn = STemplate.componentsIntegrationFnStack[constructorName];
-							if (integrationFn) {
-								integrationFn(component);
-								component._sTemplateIntegrated = true;
-							}
-						}
-
-						// render the component
-						if (component.render) {
-							component.render();
-						}
-					}
-				}
+				// apply integration on component
+				this._applyIntegrationOnNode(fromNode, true);
 
 				// handle integration attributes
 				['s-template-keep',
 				 's-template-exclude',
 				 's-template-refresh',
 				 's-template-do-not-update',
-			 	 's-template-do-not-discard',
-			 	 's-template-do-not-children-update'].forEach((attr) => {
+				 's-template-do-not-discard',
+				 's-template-do-not-children-update']
+				.forEach((attr) => {
 					if (fromNode.hasAttribute(attr)
 				 		&& ! toNode.hasAttribute(attr)
 					) {
@@ -397,11 +375,11 @@ export default class STemplate {
 				}
 
 				// update if is the template itself
-				if (this.dom === fromNode) {
-					// emit an event to tell that the element will been updated
-					__dispatchEvent(fromNode, 'sTemplate:beforeUpdate');
-					return true;
-				}
+				// if (this.dom === fromNode) {
+				// 	// emit an event to tell that the element will been updated
+				// 	__dispatchEvent(fromNode, 'sTemplate:beforeUpdate');
+				// 	return true;
+				// }
 
 				// check if an onBeforeElUpdated is present in the settings
 				if (this.settings.onBeforeElUpdated) {
@@ -419,28 +397,20 @@ export default class STemplate {
 					)
 				) return false;
 				// check the elements that we never want to update
-				for(let i=0; i<STemplate.doNotUpdate.length; i++) {
-					if (__matches(fromNode, STemplate.doNotUpdate[i])) {
-						// do not discard the element
-						return false;
-					}
-				}
-				// emit an event to tell that the element will been updated
-				__dispatchEvent(fromNode, 'sTemplate:beforeUpdate');
+				// for(let i=0; i<STemplate.doNotUpdate.length; i++) {
+				// 	if (__matches(fromNode, STemplate.doNotUpdate[i])) {
+				// 		// do not discard the element
+				// 		return false;
+				// 	}
+				// }
 				// update the element
 				return true;
 			},
 			onElUpdated : (node) => {
 				// check if an onBeforeElUpdated is present in the settings
 				if (this.settings.onElUpdated) {
-					const res = this.settings.onElUpdated(node);
-					if (res === true || res === false) {
-						return res;
-					}
+					this.settings.onElUpdated(node);
 				}
-
-				// emit an event to tell that the element has been updated
-				__dispatchEvent(node, 'sTemplate:updated');
 			},
 			onBeforeNodeDiscarded : (node) => {
 				// check if the node match one of the element selector
@@ -451,20 +421,16 @@ export default class STemplate {
 						|| node.hasAttribute('s-template-exclude')
 					)
 				) return false;
-				for(let i=0; i<STemplate.doNotDiscard.length; i++) {
-					if (__matches(node, STemplate.doNotDiscard[i])) {
-						// do not discard the element
-						return false;
-					}
-				}
-				// emit an event to tell that the element will be discarded
-				__dispatchEvent(node, 'sTemplate:beforeDiscard');
 				// discard the element
 				return true;
 			},
 			onElDiscarded : (node) => {
+				// check if an onBeforeElUpdated is present in the settings
+				if (this.settings.onElDiscarded) {
+					this.settings.onElDiscarded(node);
+				}
 				// emit an event to tell that the element has been discarded
-				__dispatchEvent(node, 'sTemplate:discarded');
+				// __dispatchEvent(node, 'sTemplate:discarded');
 			},
 		});
 		// grab the dom node again
@@ -491,6 +457,37 @@ export default class STemplate {
 			// save the reference
 			this.refs[id] = elm;
 		});
+	}
+
+	/**
+	 * _applyIntegrationOnNode
+	 * Apply the STemplate integration on a node that has
+	 * some components on it
+	 */
+	_applyIntegrationOnNode(node, render = false) {
+		// check if is a component to render it
+		const components = sElementsManager.getComponents(node);
+		if (components) {
+			// loop on each components to render themself
+			for (let name in components) {
+				const component = components[name];
+
+				// if already integrated
+				// do not launch the integration function
+				if (component._sTemplateIntegrated !== true) {
+					const constructorName = __constructorName(component);
+					const integrationFn = STemplate.componentsIntegrationFnStack[constructorName];
+					if (integrationFn) {
+						integrationFn(component);
+						component._sTemplateIntegrated = true;
+					}
+				}
+				// render the component
+				if (component.render && render) {
+					component.render();
+				}
+			}
+		}
 	}
 
 	/**

@@ -50,14 +50,6 @@ class SParticleComponent extends SComponent {
 
 }
 
-// initOn
-SParticleComponent.initOn = function(selector, settings = {}) {
-	// init the select
-	return querySelectorLive(selector).visible().once().subscribe((elm) => {
-		new SParticleComponent(elm, settings);
-	});
-};
-
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }
 window.sugar.SParticleComponent = SParticleComponent;

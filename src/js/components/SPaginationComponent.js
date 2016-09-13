@@ -143,14 +143,6 @@ class SPaginationComponent extends STemplateComponent {
 	}
 }
 
-// initOn
-SPaginationComponent.initOn = function(selector, settings = {}) {
-	// init the select
-	return querySelectorLive(selector).visible().once().subscribe((elm) => {
-		new SPaginationComponent(elm, settings);
-	});
-};
-
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }
 window.sugar.SPaginationComponent = SPaginationComponent;

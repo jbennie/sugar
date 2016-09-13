@@ -341,16 +341,5 @@ SRangeComponent.percentFormater = function(value, target) {
 if (window.sugar == null) { window.sugar = {}; }
 window.sugar.SRangeComponent = SRangeComponent;
 
-// initOn
-SRangeComponent.initOn = function(selector, settings = {}) {
-	// init the select
-	return querySelectorLive(selector).visible().once().subscribe((elm) => {
-		new SRangeComponent(elm, {
-			formater : SRangeComponent.percentFormater,
-			...settings
-		});
-	});
-};
-
 // export modules
 export default SRangeComponent;

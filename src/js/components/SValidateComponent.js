@@ -474,19 +474,10 @@ SValidateComponent.registerValidator('url', {
 	}
 });
 
-
+// STemplate integration
 STemplate.registerComponentIntegration('SValidateComponent', (component) => {
 	STemplate.keepAttribute(component.elm, 'class');
 });
-
-
-// initOn
-SValidateComponent.initOn = function(selector, settings = {}) {
-	// init the select
-	return __querySelectorLive(selector).visible().once().subscribe((elm) => {
-		new SValidateComponent(elm, settings);
-	});
-};
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }

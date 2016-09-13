@@ -18,6 +18,7 @@ import __uniqid from '../tools/uniqid'
 import __insertAfter from '../dom/insertAfter'
 import SEvent from '../core/SEvent'
 import __mutationObservable from '../dom/mutationObservable'
+import STemplate from '../core/STemplate'
 
 require('../rxjs/operators/groupByTimeout');
 
@@ -408,7 +409,6 @@ class SSelectComponent extends SComponent {
 
 		let container = document.createElement('div');
 		container.setAttribute('class',this.elm.getAttribute('class') + ' s-select');
-		container.setAttribute('s-template-exclude', true);
 
 		// multiple class
 		if (this.elm.getAttribute('multiple') != null) {
@@ -886,13 +886,11 @@ class SSelectComponent extends SComponent {
 
 }
 
-// initOn
-SSelectComponent.initOn = function(selector, settings = {}) {
-	// init the select
-	return querySelectorLive(selector).once().inViewport().subscribe((elm) => {
-		new SSelectComponent(elm, settings);
-	});
-};
+// STemplate integration
+STemplate.registerComponentIntegration('SSelectComponent', (component) => {
+	STemplate.keepAttribute(component.elm, 'style')
+			 .exclude(component.container);
+});
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }

@@ -2,9 +2,7 @@
  * Auto cast the string into the correct variable type
  */
 export default function autoCast(string) {
-	if (string === "" || ! string) {
-		return null;
-	} else if (string == 'false'
+	if (string == 'false'
 		|| string == 'true'
 		|| (typeof(string) == 'string' && string.substr(0,1) == '[')
 		|| ! isNaN(string)) {

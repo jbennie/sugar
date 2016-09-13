@@ -198,10 +198,18 @@ export default class SComponent extends SElement {
 	 */
 	_componentDestroyed = false;
 
+	_settings2AttributesBindings = {};
+
 	/**
 	 * Constructor
 	 */
 	constructor(name, elm, default_settings = {}, settings = {}) {
+
+		// check arguments
+		if ( ! elm.nodeName) {
+			console.error('Passed "elm" argument', elm);
+			throw `The "elm" argument has to be an HTMLElement but a ${typeof(elm)} has been passed`
+		}
 
 		// set on the element that it is now a component
 		elm.setAttribute('s-component', true);
@@ -283,11 +291,16 @@ export default class SComponent extends SElement {
 				const attrName = setting.substr(1);
 				let attrValue = __autoCast(this.elm.getAttribute(attrName));
 
+				// set that we want to bind this attribute to the setting object property
+				this._settings2AttributesBindings[settingName] = attrName;
+
 				// if the element has not the requested linked attribute, we set it
-				if ( ! attrValue) {
+				if (attrValue === null) {
 					const settingValue = this.attr[settingCamelName];
-					this.elm.setAttribute(attrName, settingValue);
-					attrValue = settingValue;
+					if (settingValue) {
+						this.elm.setAttribute(attrName, settingValue);
+						attrValue = settingValue;
+					}
 				}
 
 				// check that the element has the requested attribute
@@ -503,12 +516,19 @@ export default class SComponent extends SElement {
 		// init bindings on SElement
 		super._initBindings();
 
+		// bind the attribute to the settings if needed
 		for (let attrName in this.attr) {
-			// bind the attribute to the settings if needed
 			if (attrName.indexOf(this.componentName) === 0) {
 				const settingName = __lowerFirst(attrName.substr(this.componentName.length));
 				this._binder.bindObjectPath2ObjectPath(this, `attr.${attrName}`, this, `settings.${settingName}`);
 			}
+		}
+
+		// handle the settings that are connected to another
+		// attribute through the @attrName notation
+		for(let key in this._settings2AttributesBindings) {
+			const attrName = this._settings2AttributesBindings[key];
+			this._binder.bindObjectPath2ObjectPath(this, `attr.${attrName}`, this, `settings.${key}`);
 		}
 	}
 

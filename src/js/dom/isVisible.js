@@ -11,7 +11,7 @@ export default function isVisible(elm) {
 	// if (elm.offsetParent === null) return false;
 
 	// get style
-	const style = document.defaultView.getComputedStyle(elm, null),
+	const style = window.getComputedStyle(elm, null),
 		  opacity = style['opacity'],
 		  visibility = style['visibility'],
 		  display = style['display'];

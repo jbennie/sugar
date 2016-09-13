@@ -15,7 +15,7 @@ export default function getStyleProperty(elm, name) {
 	for (let i=0; i<prefixes.length; i++) {
 		const prefix = prefixes[i];
 		const value = computed[camelize(`${prefix}${name}`)];
-		if (value.trim() !== '') return autoCast(value);
+		if (value && value.trim() !== '') return autoCast(value);
 	}
 	return null;
 }

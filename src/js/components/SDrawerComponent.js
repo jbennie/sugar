@@ -10,6 +10,7 @@
  */
 import SComponent from '../core/SComponent'
 import __querySelectorLive from '../dom/querySelectorLive';
+import __getTransitionProperties from '../dom/getTransitionProperties'
 
 if ( ! window._sDrawerStack) {
 	window._sDrawerStack = {};
@@ -58,12 +59,6 @@ class SDrawerComponent extends SComponent {
 			this.elm.parentElement.insertBefore(this.bkg, this.elm.parentElement.firstChild);
 		}
 
-		// determine if has a transition
-		let cs = window.getComputedStyle(this.elm);
-		if (cs.transitionProperty != undefined && cs.transitionProperty != '') {
-			this._transitionned = true;
-		}
-
 		// try to find the drawer overlay
 		this.overlay = document.querySelector('[s-drawer-overlay="'+this.componentName+'"]');
 		if ( ! this.overlay) {
@@ -95,15 +90,6 @@ class SDrawerComponent extends SComponent {
 				document.body.classList.remove('s-drawer-'+this.componentName);
 			}
 		});
-
-		// listen for transitionend
-		if (this._transitionned) {
-			this.elm.addEventListener('transitionend', (e) => {
-				if (this.toggle.checked == false) {
-					document.body.classList.remove('s-drawer-'+this.componentName);
-				}
-			});
-		}
 
 		// listen for click on links into the drawer to close it
 		if (this.settings.closeOnClick) {
@@ -142,9 +128,10 @@ class SDrawerComponent extends SComponent {
 	close() {
 		// uncheck the toggle
 		this.toggle.removeAttribute('checked');
-		if ( ! this._transitionned) {
+		const transition = __getTransitionProperties(this.elm);
+		setTimeout(() => {
 			document.body.classList.remove('s-drawer-'+this.componentName);
-		}
+		}, transition.totalDuration);
 		return this;
 	}
 
@@ -155,14 +142,6 @@ class SDrawerComponent extends SComponent {
 		return (this.toggle.checked);
 	}
 }
-
-// initOn
-SDrawerComponent.initOn = function(selector, settings = {}) {
-	// init the select
-	return __querySelectorLive(selector).visible().once().subscribe((elm) => {
-		new SDrawerComponent(elm, settings);
-	});
-};
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }

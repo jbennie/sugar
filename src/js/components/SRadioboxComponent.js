@@ -47,15 +47,6 @@ class SRadioboxComponent extends SComponent {
 	}
 }
 
-// initOn
-SRadioboxComponent.initOn = function(selector, settings = {}) {
-	// init the select
-	return querySelectorLive(selector).visible().once().subscribe((elm) => {
-		new SRadioboxComponent(elm, settings);
-	});
-};
-
-
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }
 window.sugar.SRadioboxComponent = SRadioboxComponent;
