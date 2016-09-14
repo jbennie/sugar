@@ -19,6 +19,8 @@ import __throttle from '../functions/throttle'
 import SEvent from '../core/SEvent'
 import noUiSlider from 'nouislider';
 
+import STemplate from '../core/STemplate'
+
 // class
 class SRangeComponent extends SComponent {
 
@@ -28,6 +30,30 @@ class SRangeComponent extends SComponent {
 	static setup(type, settings) {
 		SComponent.setup('sRange', type, settings);
 	}
+
+	/**
+	 * formaters
+	 * Store the formaters functions
+	 * @type 	{Object}
+	 */
+	static formaters = {
+
+		// round the value
+		rounded : (value, target, api) => {
+			return Math.round(value);
+		}
+
+	};
+
+	/**
+	 * _formater
+	 * Store the formater function that will be used to bound
+	 * the value into the html
+	 * @type 	{Function}
+	 */
+	_formater = (value, destination, api) => {
+		return value;
+	};
 
 	/**
 	 * Constructor
@@ -58,6 +84,18 @@ class SRangeComponent extends SComponent {
 	_init() {
 		// init component
 		super._init();
+
+		// manage the formater setting
+		if (this.settings.formater) {
+			if (typeof(this.settings.formater) === 'string') {
+				if ( ! SRangeComponent.formaters[this.settings.formater]) {
+					throw `The formater "${this.settings.formater}" does not exist. Make sure to register if through the static method SRangeComponent.registerFormater`;
+				}
+				this._formater = SRangeComponent.formaters[this.settings.formater];
+			} else if (typeof(this.settings.formater) === 'function') {
+				this._formater = this.settings.formater;
+			}
+		}
 
 		// create the container for the slider
 		this.container = document.createElement('div');
@@ -228,19 +266,11 @@ class SRangeComponent extends SComponent {
 		// set new value in attributes
 		const value = this.slider.get();
 		if (typeof(value) === 'number' || typeof(value) === 'string') {
-			if (this.settings.formater) {
-				this.attr.value = this.settings.formater(value, 'input');
-			} else {
-				this.attr.value = value;
-			}
+			this.attr.value = this._formater(value, 'input', this);
 		} else {
-			if (this.settings.formater) {
-				this.attr.value = this.slider.get().map((val) => {
-					return this.settings.formater(val, 'input');
-				}).join(',');
-			} else {
-				this.attr.value = this.slider.get().join(',');
-			}
+			this.attr.value = this.slider.get().map((val) => {
+				return this._formater(val, 'input', this);
+			}).join(',');
 		}
 	}
 
@@ -262,48 +292,34 @@ class SRangeComponent extends SComponent {
 
 		// handle values
 		if (this.handleStartValueElm && values[0] !== undefined) {
-			if (this.settings.formater) {
-				this.handleStartValueElm.innerHTML = this.settings.formater(
-					values[0],
-					'handle'
-				);
-
-			} else {
-				this.handleStartValueElm.innerHTML = Math.round(values[0]);
-			}
+			this.handleStartValueElm.innerHTML = this._formater(
+				values[0],
+				'handle',
+				this
+			);
 		}
 		if (this.handleEndValueElm && values[1] !== undefined) {
-			if (this.settings.formater) {
-				this.handleEndValueElm.innerHTML = this.settings.formater(
-					values[1],
-					'handle'
-				);
-
-			} else {
-				this.handleEndValueElm.innerHTML = Math.round(values[1]);
-			}
+			this.handleEndValueElm.innerHTML = this._formater(
+				values[1],
+				'handle',
+				this
+			);
 		}
 
 		// set tooltips
 		if (this.tooltipStartElm && values[0] !== undefined) {
-			if (this.settings.formater) {
-				this.tooltipStartElm.innerHTML = this.settings.formater(
-					values[0],
-					'tooltip'
-				);
-			} else {
-				this.tooltipStartElm.innerHTML = Math.round(values[0]);
-			}
+			this.tooltipStartElm.innerHTML = this._formater(
+				values[0],
+				'tooltip',
+				this
+			);
 		}
 		if (this.tooltipEndElm && values[1] !== undefined) {
-			if (this.settings.formater) {
-				this.tooltipEndElm.innerHTML = this.settings.formater(
-					values[1],
-					'tooltip'
-				);
-			} else {
-				this.tooltipEndElm.innerHTML = Math.round(values[1]);
-			}
+			this.tooltipEndElm.innerHTML = this._formater(
+				values[1],
+				'tooltip',
+				this
+			);
 		}
 	}
 
@@ -329,13 +345,11 @@ class SRangeComponent extends SComponent {
 	}
 }
 
-// default formaters
-SRangeComponent.percentFormater = function(value, target) {
-	if (target === 'tooltip') {
-		return Math.round(value) + '%';
-	}
-	return Math.round(value);
-};
+// STemplate integration
+STemplate.registerComponentIntegration('SRangeComponent', (component) => {
+	STemplate.keepAttribute(component.elm, 'style')
+			 .exclude(component.rangeElm);
+});
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }

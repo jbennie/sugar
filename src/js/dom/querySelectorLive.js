@@ -57,16 +57,16 @@ __domReady(() => {
 						if (__matches(addedNode, observe.selector)) {
 							observe.observer.next(addedNode);
 						} else {
-							// if (addedNode.querySelectorAll !== undefined) {
-							// 	const nodes = addedNode.querySelectorAll(observe.selector);
-							// 	if (nodes.length) {
-							// 		// it's not the element itself that has been added
-							// 		// but we will try to find any elements into the added one
-							// 		[].forEach.call(nodes, (elm) => {
-							// 			observe.observer(elm);
-							// 		});
-							// 	}
-							// }
+							if (addedNode.querySelectorAll !== undefined) {
+								const nodes = addedNode.querySelectorAll(observe.selector);
+								if (nodes.length) {
+									// it's not the element itself that has been added
+									// but we will try to find any elements into the added one
+									[].forEach.call(nodes, (elm) => {
+										observe.observer.next(elm);
+									});
+								}
+							}
 						}
 					}
 				}

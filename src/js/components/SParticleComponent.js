@@ -34,7 +34,9 @@ class SParticleComponent extends SComponent {
 
 		// wait till the animation is finished to remove the particle from DOM
 		setTimeout(() => {
-			this.elm.parentNode.removeChild(this.elm);
+			if (this.elm.parentNode) {
+				this.elm.parentNode.removeChild(this.elm);
+			}
 		}, animation.totalDuration);
 	}
 

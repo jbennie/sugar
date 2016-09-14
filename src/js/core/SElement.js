@@ -20,11 +20,13 @@ import SObject from './SObject'
 import SWatcher from './SWatcher';
 import SBinder from './SBinder';
 
+import STemplate from './STemplate'
+
 // store the settings for the different
 // components types
 let _sugarTypesSettings = {};
 
-export default class SElement extends SObject {
+class SElement extends SObject {
 
 	/**
 	 * Setup
@@ -407,3 +409,15 @@ export default class SElement extends SObject {
 		return __dataset(elm, key, value);
 	}
 }
+
+// STemplate integration
+STemplate.registerComponentIntegration('SElement', (component) => {
+	STemplate.keepAttribute(component.elm, 's-element');
+});
+
+// expose in window.sugar
+if (window.sugar == null) { window.sugar = {}; }
+window.sugar.SElement = SElement;
+
+// export modules
+export default SElement;

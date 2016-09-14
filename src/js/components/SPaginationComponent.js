@@ -9,13 +9,9 @@ class SPaginationComponent extends STemplateComponent {
 	 */
 	constructor(elm, settings = {}, name = 'sPagination') {
 		super(elm, {
-
 			onchange : null,
-
 			pages : 0,
-
 			current : 1,
-
 			showFirst : true,
 			showLast : true,
 			showPrevious : true,
@@ -63,7 +59,6 @@ class SPaginationComponent extends STemplateComponent {
 			 * @type 	{String}
 			 */
 			template : `
-
 				<%
 					var disableFirst = '';
 					if (current === 1) {
@@ -87,7 +82,7 @@ class SPaginationComponent extends STemplateComponent {
 						</li>
 					<!--% } %-->
 					<!--% for(i=0; i<pages; i++) { %-->
-						<li class="s-pagination__item s-pagination-item <% if ((i + 1) === current) { %> active <% } %>" onclick="this.data.onchange(<%= (i + 1) %>)"><%= (i + 1) %></li>
+						<li class="s-pagination__item s-pagination-item <% if ((i + 1) === current) { %> active <% } %>" onclick="this.onchange(<%= (i + 1) %>)"><%= (i + 1) %></li>
 					<!--% } %-->
 					<!--% if (showNext) { %-->
 						<li class="s-pagination__item <%= disableLast %>" onclick="this.next()">

@@ -10,14 +10,13 @@ import __constructorName from '../tools/constructorName'
 
 import sElementsManager from './sElementsManager'
 
+import STemplate from './STemplate'
+
 // store the settings for the different
 // components types
 let _sugarTypesSettings = {};
 
-// create the _components stack in sugar global variable
-window.sugar._components = {};
-
-export default class SComponent extends SElement {
+class SComponent extends SElement {
 
 	/**
 	 * Setup
@@ -526,10 +525,10 @@ export default class SComponent extends SElement {
 
 		// handle the settings that are connected to another
 		// attribute through the @attrName notation
-		for(let key in this._settings2AttributesBindings) {
-			const attrName = this._settings2AttributesBindings[key];
-			this._binder.bindObjectPath2ObjectPath(this, `attr.${attrName}`, this, `settings.${key}`);
-		}
+		// for(let key in this._settings2AttributesBindings) {
+		// 	const attrName = this._settings2AttributesBindings[key];
+		// 	this._binder.bindObjectPath2ObjectPath(this, `attr.${attrName}`, this, `settings.${key}`);
+		// }
 	}
 
 	/**
@@ -654,3 +653,15 @@ export default class SComponent extends SElement {
 		return this._componentEnabled;
 	}
 }
+
+// STemplate integration
+STemplate.registerComponentIntegration('SComponent', (component) => {
+	STemplate.keepAttribute(component.elm, 's-component');
+});
+
+// expose in window.sugar
+if (window.sugar == null) { window.sugar = {}; }
+window.sugar.SComponent = SComponent;
+
+// export modules
+export default SComponent;
