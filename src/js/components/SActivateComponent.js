@@ -13,6 +13,8 @@ import __scrollTop from '../dom/scrollTop'
 import __uniqid from '../tools/uniqid'
 import __querySelectorLive from '../dom/querySelectorLive';
 
+import STemplate from '../core/STemplate'
+
 // save all the activate elements
 if ( ! window._sActivateStack) {
 	window._sActivateStack = {};
@@ -455,6 +457,12 @@ class SActivateComponent extends SComponent {
 		return false;
 	}
 }
+
+// STemplate integration
+STemplate.registerComponentIntegration('SActivateComponent', (component) => {
+	// console.error('integrate', component);
+	// STemplate.refresh(component.elm);
+});
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }

@@ -1,4 +1,4 @@
-import __mutationObservable from './mutationObservable'
+import {Observable} from 'rxjs/Observable'
 
 export default function(target, settings = {}) {
 

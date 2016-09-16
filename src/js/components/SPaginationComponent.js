@@ -1,6 +1,8 @@
 import STemplateComponent from './STemplateComponent'
 import querySelectorLive from '../dom/querySelectorLive'
 import _template from 'lodash/template'
+import __whenAttribute from '../dom/whenAttribute'
+import __whenProperty from '../objects/whenProperty'
 
 class SPaginationComponent extends STemplateComponent {
 
@@ -101,6 +103,8 @@ class SPaginationComponent extends STemplateComponent {
 			...settings
 		}, name);
 
+		elm.style.display = 'none';
+
 	}
 
 	/**
@@ -110,6 +114,8 @@ class SPaginationComponent extends STemplateComponent {
 		// init component
 		super._init();
 
+		this.elm.style.display = 'block';
+
 		// watch some items
 		this.watch('data.current', (newVal, oldVal) => {
 			if (newVal === oldVal) return;
@@ -117,6 +123,22 @@ class SPaginationComponent extends STemplateComponent {
 				this.data.onchange(this.data.current);
 			}
 		});
+	}
+
+	/**
+	 * _initDependencies
+	 * Check some things before init the component
+	 * @return 	{Array} 	An array of promises
+	 */
+	_initDependencies() {
+		return [
+			__whenProperty(this.data, 'pages', (newVal, oldVal) => {
+				return (typeof(newVal) === 'number');
+			}),
+			__whenProperty(this.data, 'current', (newVal, oldVal) => {
+				return (typeof(newVal) === 'number');
+			})
+		];
 	}
 
 	first() {

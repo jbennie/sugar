@@ -195,9 +195,9 @@ export default class STemplate {
 
 			// apply the integration in components
 			// without rendering it
-			this._applyIntegrationOnNode(this.template, false);
+			this._applyIntegrationOnNode(this.template);
 			[].forEach.call(this.template.querySelectorAll('[s-component]'), (componentNode) => {
-				this._applyIntegrationOnNode(componentNode, false);
+				this._applyIntegrationOnNode(componentNode);
 			});
 
 			// window.sugar.debug.start();
@@ -217,10 +217,27 @@ export default class STemplate {
 
 			// replace all the s-element with their original versions
 			[].forEach.call(clone.querySelectorAll('[s-element]'), (elm) => {
+				// console.log('element', elm);
 				const elementId = elm.getAttribute('s-element');
 				const originalElement = sElementsManager.getOriginalElement(elementId);
 				if (originalElement) {
 					elm = morphdom(elm, originalElement, {
+						onBeforeElUpdated : (fromNode, toNode) => {
+							['s-template-keep',
+							 's-template-exclude',
+							 's-template-refresh',
+							 's-template-do-not-update',
+							 's-template-do-not-discard',
+							 's-template-do-not-children-update']
+							.forEach((attr) => {
+								if (fromNode.hasAttribute(attr)
+							 		&& ! toNode.hasAttribute(attr)
+								) {
+									toNode.setAttribute(attr, fromNode.getAttribute(attr));
+								}
+							});
+							return true;
+						},
 						onBeforeElChildrenUpdated : (node) => {
 							// do not update children at all
 							return false;
@@ -245,13 +262,11 @@ export default class STemplate {
 				if (idx !== -1) {
 					return `object:${idx}`;
 				} else {
-					console.log('add', of);
 					this.modelValuesStack.push(of);
 					const newIdx = this.modelValuesStack.length - 1;
-					console.log(`object:${newIdx}`);
 					return `object:${newIdx}`;
 				}
-				// return of;
+				return of;
 			}
 		};
 
@@ -363,7 +378,7 @@ export default class STemplate {
 	 */
 	_internalRender() {
 
-		console.log('internal render', Object.assign({}, this.data));
+		// console.error('_internalRender', this.data);
 
 		// compile the template
 		let compiled = '';
@@ -377,6 +392,7 @@ export default class STemplate {
 
 		// remove all the elements that need to be fully refreshed
 		[].forEach.call(this.dom.querySelectorAll('[s-template-refresh]'), (elm) => {
+			// console.log('refresh', elm)
 			elm.parentNode.removeChild(elm);
 		});
 
@@ -413,7 +429,7 @@ export default class STemplate {
 				if ( ! fromNode.hasAttribute) return false;
 
 				// apply integration on component
-				this._applyIntegrationOnNode(fromNode, true);
+				this._applyIntegrationOnNode(fromNode);
 
 				// handle integration attributes
 				['s-template-keep',
@@ -436,14 +452,11 @@ export default class STemplate {
 					keep = keep.replace(/\s/g,'').split(',');
 					// loop on each attribute to keep
 					keep.forEach((key) => {
-						toNode.setAttribute(key, fromNode.getAttribute(key));
+						if (fromNode.hasAttribute(key)
+							&& ! toNode.hasAttribute(key)) {
+							toNode.setAttribute(key, fromNode.getAttribute(key));
+						}
 					});
-				}
-
-				// handle value
-				if (fromNode.value) {
-					toNode.value = fromNode.value;
-					toNode.setAttribute('value', fromNode.value);
 				}
 
 				// update if is the template itself
@@ -458,7 +471,7 @@ export default class STemplate {
 
 				// check if an onBeforeElUpdated is present in the settings
 				if (this.settings.onBeforeElUpdated) {
-					const res = this.settings.onBeforeElUpdated(fromNode);
+					const res = this.settings.onBeforeElUpdated(fromNode, toNode);
 					if (res === true || res === false) {
 						return res;
 					}
@@ -525,7 +538,7 @@ export default class STemplate {
 	 * Apply the STemplate integration on a node that has
 	 * some components on it
 	 */
-	_applyIntegrationOnNode(node, render = false) {
+	_applyIntegrationOnNode(node) {
 		// check if is a component to render it
 		const components = sElementsManager.getComponents(node);
 		if (components) {
@@ -553,10 +566,6 @@ export default class STemplate {
 						proto = Object.getPrototypeOf(proto);
 					}
 				}
-				// render the component
-				// if (component.render && render) {
-				// 	component.render();
-				// }
 			}
 		}
 	}
@@ -669,18 +678,25 @@ export default class STemplate {
 	processOutput(renderedTemplate) {
 		let ret = renderedTemplate;
 
+		// after compile callback
+		// to have a chance to process the template
+		// from outside
 		if (this.settings.afterCompile) {
 			ret = this.settings.afterCompile(ret);
 		}
 
+		// replace the parent.
+		// if we have a parent template
 		if (this._parentTemplate) {
 			// replace all the this. with the proper window.sTemplateDataObjects reference
 			const parentDotReg = new RegExp('parent\\.','g');
 			ret = ret.replace(parentDotReg, `window.sugar._sTemplateData.${this._parentTemplate.templateId}.`);
 		}
+
 		// replace all the this. with the proper window.sTemplateDataObjects reference
 		const thisDotReg = new RegExp('this\\.','g');
 		ret = ret.replace(thisDotReg, `window.sugar._sTemplateData.${this.templateId}.`);
+
 		// element regexp
 		const dollarElementReg = new RegExp('\\$element','g');
 		ret = ret.replace(dollarElementReg, 'this');
