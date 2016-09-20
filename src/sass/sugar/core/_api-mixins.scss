@@ -280,40 +280,40 @@ $_sugar-classes-inited : false;
 		// Paddings
 		//
 		@include s-register-class(no-p-t,'sugar.padding.no.top') {
-			padding-top: 0;
+			padding-top: 0 !important;
 		}
 		@include s-register-class(no-p-r,'sugar.padding.no.right') {
-			padding-right: 0;
+			padding-right: 0 !important;
 		}
 		@include s-register-class(no-p-b,'sugar.padding.no.bottom') {
-			padding-bottom: 0;
+			padding-bottom: 0 !important;
 		}
 		@include s-register-class(no-p-l,'sugar.padding.no.left') {
-			padding-left: 0;
+			padding-left: 0 !important;
 		}
 		@include s-register-class(no-p-s,'sugar.padding.no.side') {
-			padding-left: 0;
-			padding-right: 0;
+			padding-left: 0 !important;
+			padding-right: 0 !important;
 		}
 
 		//
 		// Margins
 		//
 		@include s-register-class(no-m-t,'sugar.margin.no.top') {
-			margin-top: 0;
+			margin-top: 0 !important;
 		}
 		@include s-register-class(no-m-r,'sugar.margin.no.right') {
-			margin-right: 0;
+			margin-right: 0 !important;
 		}
 		@include s-register-class(no-m-b,'sugar.margin.no.bottom') {
-			margin-bottom: 0;
+			margin-bottom: 0 !important;
 		}
 		@include s-register-class(no-m-l,'sugar.margin.no.left') {
-			margin-left: 0;
+			margin-left: 0 !important;
 		}
 		@include s-register-class(no-m-s,'sugar.margin.no.side') {
-			margin-left: 0;
-			margin-right: 0;
+			margin-left: 0 !important;
+			margin-right: 0 !important;
 		}
 
 		// colors

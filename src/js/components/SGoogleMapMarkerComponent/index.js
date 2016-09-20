@@ -1,0 +1,2 @@
+import SGoogleMapMarkerComponent from './SGoogleMapMarkerComponent'
+export default SGoogleMapMarkerComponent

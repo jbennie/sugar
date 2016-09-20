@@ -1,0 +1,2 @@
+import SResponsiveImageComponent from './SResponsiveImageComponent'
+export default SResponsiveImageComponent

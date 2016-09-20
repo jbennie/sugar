@@ -21,6 +21,7 @@
     "google-search": "0.0.4",
     "handlebars": "^4.0.5",
     "lodash": "^4.15.0",
+    "maquette": "^2.3.5",
     "morphdom": "^2.1.0",
     "mustache": "^2.2.1",
     "mutationobserver-shim": "^0.3.1",

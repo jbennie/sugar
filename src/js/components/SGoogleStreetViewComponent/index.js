@@ -1,0 +1,2 @@
+import SGoogleStreetViewComponent from './SGoogleStreetViewComponent'
+export default SGoogleStreetViewComponent

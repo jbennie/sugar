@@ -1,0 +1,2 @@
+import SParticlesSystemComponent from './SParticlesSystemComponent'
+export default SParticlesSystemComponent

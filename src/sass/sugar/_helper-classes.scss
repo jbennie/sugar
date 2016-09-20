@@ -129,7 +129,7 @@
 }
 @include s-register-class(clear-transitions, 'sugar.clear-transitions') {
 	&, &:before, &:after,
-	*, *:before, *:after {
+	& *, & *:before, & *:after {
 		transition: none !important;
 	}
 }
@@ -140,7 +140,7 @@
 }
 @include s-register-class(clear-animations, 'sugar.clear-animations') {
 	&, &:before, &:after,
-	*, *:before, *:after {
+	& *, & *:before, & *:after {
 		animation: none !important;
 	}
 }
@@ -152,7 +152,7 @@
 }
 @include s-register-class(clear-transmations, 'sugar.clear-transmations') {
 	&, &:before, &:after,
-	*, *:before, *:after {
+	& *, & *:before, & *:after {
 		transition: none !important;
 		animation: none !important;
 	}
