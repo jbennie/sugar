@@ -1,0 +1,8 @@
+//
+// Hide text
+//
+@mixin s-hide-text() {
+	overflow:hidden;
+    text-indent:-9000px;
+    display:block;
+}

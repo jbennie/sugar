@@ -1,0 +1,33 @@
+//
+// Columns
+//
+@mixin s-columns(
+	$count : null,
+	$gap : null,
+	$fill : null,
+	$width : null,
+	$span : null,
+	$rule : null,
+	$rule-style : null,
+	$rule-color : null,
+	$rule-width : null
+
+) {
+	// get columns props
+	$columns : s-columns(
+		$count : $count,
+		$gap : $gap,
+		$fill : $fill,
+		$width : $width,
+		$span : $span,
+		$rule : $rule,
+		$rule-style : $rule-style,
+		$rule-color : $rule-color,
+		$rule-width : $rule-width
+	);
+
+	// set props
+	@each $prop, $value in $columns {
+		#{$prop} : $value;
+	}
+}

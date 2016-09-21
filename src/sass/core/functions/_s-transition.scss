@@ -1,0 +1,19 @@
+@function s-transition(
+	$transitions...
+) {
+	$trans : ();
+	$available-transitions : map-keys(sugar('settings.transitions'));
+	@if length($transitions) == 0 {
+		$trans : sugar('settings.transitions.default');
+	} @else {
+		$transitions-settings : sugar('settings.transitions');
+		@each $transition in $transitions {
+			// get the transition map
+			$t-map : s-transition-map($transition);
+			// add the transition into list
+			$trans : append($trans, map-get($t-map,property) map-get($t-map,duration) map-get($t-map,ease) map-get($t-map,delay), comma);
+		}
+	}
+	// return the transitions
+	@return $trans;
+}

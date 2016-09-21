@@ -1,0 +1,53 @@
+//
+// Interpolate
+//
+@function s-interpolate(
+	$stack,
+	$size
+) {
+	@if not $stack or type-of($stack) != string {
+		@error('The value "#{$stack}" is not a settings path');
+	}
+
+	// get the value
+	$value : sugar('#{$stack}.#{$size}');
+
+	// if we have a value with units, return
+	@if $value and not unitless($value) {
+		@return $value;
+	}
+
+	// get what we need to interpolate the value
+	$ratio : sugar('settings.sizes.#{$size}');
+	$default-size : sugar('#{$stack}.default');
+
+	// if the getted value is a unitless one, mean that it's the ratio to use
+	// to interpolate the default stack value
+	@if $value and unitless($value) {
+		$ratio : $value;
+	}
+
+	// protect
+	@if not $default-size {
+		@error("You need to specify a #{$stack}.default setting...");
+	}
+	@if not unit($default-size) {
+		@error("Your #{$stack}.default has to have a unit like rem, px, etc...");
+	}
+	@if not $ratio {
+		@error("You need to have the sizes.#{$size} specified in order to interpolate the value to this size...");
+	}
+
+	// if no value, interpolate the default one with the size ratio
+	@if not $value or unitless($value) {
+		@return $default-size * $ratio;
+	}
+
+	// if not number
+	@if type-of($value) != number {
+		@error('You cannot interpolate the value "#{$value}" cause it is not a number...');
+	}
+
+	// default return the value
+	@return $value;
+}

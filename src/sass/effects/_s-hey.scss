@@ -1,0 +1,107 @@
+//
+// Hey
+//
+@mixin s-hey(
+	$vertical-align : top,
+	$align : left,
+	$size : 20px,
+	$color : gold,
+	$margin-left : 0,
+	$margin-right : 0,
+	$margin-top : 0,
+	$margin-bottom : 0
+) {
+	@if $_sugar-test-arguments {
+		$t : s-test-argument('s-hey','vertical-align',(top,middle,bottom),$vertical-align);
+		$t : s-test-argument('s-hey','align',(left,center,right),$align);
+		$t : s-test-argument('s-hey','size',number,$size);
+		$t : s-test-argument('s-hey','color',color,$color);
+		$t : s-test-argument('s-hey','margin-left',number,$margin-left);
+		$t : s-test-argument('s-hey','margin-top',number,$margin-top);
+		$t : s-test-argument('s-hey','margin-bottom',number,$margin-bottom);
+		$t : s-test-argument('s-hey','margin-right',number,$margin-right);
+	}
+
+	$position : s-position(
+		$vertical-align : $vertical-align,
+		$align : $align
+	);
+
+	@keyframes s-hey {
+		from {
+			opacity: 1;
+		}
+		to {
+			opacity: 0;
+		}
+	}
+
+	position: relative;
+	&:before {
+		$ratio : 2;
+		$s : round($size / $ratio);
+		content: '';
+		position: absolute;
+		// top : ($size / 2 - $s / 2) + $top;
+		// right : ($size / 2 - $s / 2) + $right;
+		height: $s; width: $s;
+		@include s-corner($s);
+		background-color: $color;
+
+		@each $prop, $value in $position {
+			@if $prop == top or $prop == bottom or $prop == left or $prop == right {
+				@if $prop == top and $value > 0%
+					or $prop == left and $value > 0% {
+					$value : "#{$value} - #{($size / 2 - $s / 2)}";
+				} @else {
+					$value : "#{$value} + #{($size / 2 - $s / 2)}";
+				}
+				@if $prop == top {
+					$value : "#{$value} + #{$margin-top} - #{$margin-bottom}";
+				} @else if $prop == right {
+					$value : "#{$value} + #{$margin-right} - #{$margin-left}";
+				} @else if $prop == bottom {
+					$value : "#{$value} + #{$margin-bottom} - #{$margin-top}";
+				} @else if $prop == left {
+					$value : "#{$value} + #{$margin-left} - #{$margin-right}";
+				}
+				@if $prop != position or $prop != transform {
+					#{$prop} : calc(#{$value});
+				}
+			}
+		}
+
+	}
+	&:after {
+		$border-width : floor(($size - $size / 2) / 3.5);
+		content: '';
+		position: absolute;
+		// top: $top; right: $right;
+		height: $size - $border-width * 2; width: $size - $border-width * 2;
+		@include s-corner($size / 2);
+		background-color: transparent;
+		border: solid $color;
+		border-width: $border-width; // animates
+		boz-sizing: border-box;
+		@include s-animation(s-hey infinite);
+
+		@each $prop, $value in $position {
+			@if $prop == top {
+				$value : "#{$value} + #{$margin-top} - #{$margin-bottom}";
+			} @else if $prop == right {
+				$value : "#{$value} + #{$margin-right} - #{$margin-left}";
+			} @else if $prop == bottom {
+				$value : "#{$value} + #{$margin-bottom} - #{$margin-top}";
+			} @else if $prop == left {
+				$value : "#{$value} + #{$margin-left} - #{$margin-right}";
+			}
+			@if $prop != position or $prop != transform {
+				#{$prop} : calc(#{$value});
+			}
+		}
+	}
+
+	@include s-handle-nested(hey) {
+		@content;
+	}
+}

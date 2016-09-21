@@ -1,0 +1,28 @@
+//
+// Replace tokens
+//
+@function s-replace-tokens(
+	$in
+) {
+	@if type-of($in) == list {
+		$idx : 1;
+		@each $item in $in {
+			$in : set-nth($in, $idx, s-replace-tokens($item));
+			$idx : $idx + 1;
+		}
+	} @else if type-of($in) == map {
+		@each $idx, $item in $in {
+			$in : map-set($in, $idx, s-replace-tokens($item));
+		}
+	} @else if type-of($in) == string and str-slice($in,1,1) == '#' {
+		$color : str-slice($in,2);
+		$mod-idx : str-index($color,'--');
+		$mod : null;
+		@if $mod-idx {
+			$mod : str-slice($color,$mod-idx + 2);
+			$color : str-slice($color,1,$mod-idx - 1);
+		}
+		$in : s-color($color, $mod);
+	}
+	@return $in;
+}

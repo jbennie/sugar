@@ -1,0 +1,15 @@
+//
+// Make a number even
+//
+@function s-even($value) {
+	$d : s-strip-units($value % 2);
+	$value : round($value);
+	@if s-strip-units($value) % 2 != 0 {
+		@if $d >= 1 {
+			$value : $value + 1;
+		} @else {
+			$value : $value - 1;
+		}
+	}
+	@return $value;
+}

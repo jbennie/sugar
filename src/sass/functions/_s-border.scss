@@ -1,0 +1,10 @@
+@function s-border(
+	$border
+) {
+	$border : s-parse-properties($border, (
+		width : number,
+		color : color,
+		style : none hidden dotted dashed solid double groove ridge inset outset initial inherit
+	));
+	@return $border;
+}

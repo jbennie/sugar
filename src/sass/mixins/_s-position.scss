@@ -1,0 +1,30 @@
+//
+// Position
+//
+@mixin s-position(
+	$position,
+	$vertical-align : top,
+	$align : left,
+	$top : null,
+	$right : null,
+	$bottom : null,
+	$left : null,
+	$z : null
+) {
+	// get map
+	$map : s-position(
+		$position : $position,
+		$vertical-align : $vertical-align,
+		$align : $align,
+		$top : $top,
+		$right : $right,
+		$bottom : $bottom,
+		$left : $left,
+		$z : $z
+	);
+
+	// get map
+	@each $prop, $value in $map {
+		#{$prop} : $value;
+	}
+}

@@ -1,0 +1,100 @@
+@mixin s-vertical-rhythme(
+	$font-size : null,
+	$font-family : sugar('settings.typo.font-family'),
+	$line-height : null,
+	$margin-top : 0,
+	$margin-bottom : 0,
+	$padding-top : 0,
+	$padding-bottom : 0,
+	$margin : null,
+	$padding : null,
+	$border-bottom : null,
+	$border-top : null,
+	$border-bottom-width : 0,
+	$border-top-width : 0,
+	$border : null,
+	$cap-height : null,
+	$scope-class : true,
+	$calculate-height : false
+) {
+
+	@if sugar('settings.vertical-rhythme.enabled') {
+
+		// get if need the no-vertical-rhythme or not
+		$no-vertical-rhythme-class : sugar('settings.vertical-rhythme.no-vertical-rhythme-class');
+		$no-vertical-rhythme-selector : ':not(.#{$no-vertical-rhythme-class})';
+		@if not $no-vertical-rhythme-class {
+			$no-vertical-rhythme-selector : '';
+		}
+
+		// prevent from adding 2 times the scope class
+		@if str-index("#{&}", s-vertical-rhythme-scope-class()) {
+			$scope-class : false;
+		}
+
+		$sc : sugar('settings.vertical-rhythme.scope-class');
+		@if type-of($scope-class) == string {
+			$sc : $scope-class;
+		}
+
+		// check if we have some arguments
+		// mean that we want the vertical rhythme css properties
+		// otherwise we just need to wrap content in vertical-align scope
+		@if $font-size {
+
+			// get the rhythme
+			$rhythme-map : s-vertical-rhythme(
+				$font-size : $font-size,
+				$line-height : $line-height,
+				$margin : $margin,
+				$margin-top : $margin-top,
+				$margin-bottom : $margin-bottom,
+				$padding : $padding,
+				$padding-top : $padding-top,
+				$padding-bottom : $padding-bottom,
+				$border-top-width : $border-top-width,
+				$border-top : $border-top,
+				$border-bottom-width : $border-bottom-width,
+				$border-bottom : $border-bottom,
+				$cap-height : $cap-height,
+				$calculate-height : $calculate-height
+			);
+			// remove margin-top cause it's done by top and margin-bottom compensation
+			@if map-get($rhythme-map, top) {
+				$rhythme-map : map-remove($rhythme-map, margin-top);
+			}
+
+			// set values
+			$rhythme-map : map-remove($rhythme-map, cap-height);
+			$rhythme-map : map-remove($rhythme-map, scope-class);
+			$rhythme-map : map-remove($rhythme-map, calculate-height);
+			@if $scope-class {
+				&.#{$sc}#{$no-vertical-rhythme-selector},
+				.#{$sc} &#{$no-vertical-rhythme-selector} {
+					@each $prop, $value in $rhythme-map {
+						#{$prop} : $value;
+					}
+					@content;
+				}
+			} @else {
+				&#{$no-vertical-rhythme-selector} {
+					@each $prop, $value in $rhythme-map {
+						#{$prop} : $value;
+					}
+					@content;
+				}
+			}
+		} @else {
+			@if $scope-class {
+				&.#{$sc}#{$no-vertical-rhythme-selector},
+				.#{$sc} &#{$no-vertical-rhythme-selector} {
+					@content;
+				}
+			} @else {
+				&#{$no-vertical-rhythme-selector} {
+					@content;
+				}
+			}
+		}
+	}
+}

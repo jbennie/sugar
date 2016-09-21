@@ -1,0 +1,44 @@
+@mixin s-font(
+	$family : null,
+	$color : null,
+	$size : null,
+	$style : null,
+	$variant : null,
+	$weight : null,
+	$decoration : null,
+	$align : null,
+	$transform : null,
+	$stretch : null,
+	$white-space : null,
+	$height : null,
+	$spacing : null,
+	$indent : null,
+	$break : null,
+	$wrap : null
+) {
+	$font-map : s-font(
+		$family : $family,
+		$color : $color,
+		$size : $size,
+		$style : $style,
+		$variant : $variant,
+		$weight : $weight,
+		$decoration : $decoration,
+		$align : $align,
+		$transform : $transform,
+		$stretch : $stretch,
+		$white-space : $white-space,
+		$height : $height,
+		$spacing : $spacing,
+		$indent : $indent,
+		$break : $break,
+		$wrap : $wrap
+	);
+
+	// set values
+	@each $prop, $value in $font-map {
+		@if $prop != cap-height {
+			#{$prop} : $value;
+		}
+	}
+}

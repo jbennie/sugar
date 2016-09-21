@@ -1,0 +1,21 @@
+//
+// Ratio
+//
+@mixin s-ratio(
+	$ratio : null,
+	$type : before
+) {
+	@if $_sugar-test-arguments {
+		$type : s-test-argument('s-ratio','type',(before,after),$type);
+		$ratio : s-test-argument('s-ratio','ratio',number,$ratio);
+	}
+
+	position: relative;
+	overflow: hidden;
+	&:#{$type} {
+		content:'';
+		display: block;
+		height: 0;
+		padding-top: percentage(1 / $ratio);
+	}
+}

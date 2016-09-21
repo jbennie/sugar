@@ -1,0 +1,100 @@
+//
+// List item
+//
+@mixin s-list-bullet(
+	$type : null,
+	$image : null,
+	$icon : null,
+	$color : s-color(default),
+	$size : null,
+	$offset : null,
+	$font : null,
+	$space  : null
+) {
+	@if $_sugar-test-arguments {
+		$type : s-test-argument('s-list-bullet','type',(disc,circle,square,decimal,decimal-leading-zero,lower-roman,upper-roman,lower-greek,lower-latin,upper-latin,armenian,georgian,lower-alpha,upper-alpha,none),$type);
+		$image : s-test-argument('s-list-bullet','image',url,$image);
+		$icon : s-test-argument('s-list-bullet','icon',string,$icon);
+		$color : s-test-argument('s-list-bullet','color',color,$color);
+		$size : s-test-argument('s-list-bullet','size','list-number|number',$size);
+		$offset : s-test-argument('s-list-bullet','offset','list-number|number',$offset);
+		$font : s-test-argument('s-list-bullet','font',map,$font);
+		$space  : s-test-argument('s-list-bullet','space ',number,$space );
+	}
+
+	// padding
+	@if $space  {
+		padding-left : $space;
+	}
+
+	// style type
+	@if $type {
+		&:before {
+			content: counter(s-list, $type);
+			counter-increment: s-list;
+		}
+	}
+
+	&:before {
+		@if $offset {
+			$left : 0;
+			$top : 0;
+			@if length($offset) == 2 {
+				$left : nth($offset,2);
+				$top : nth($offset,1);
+			} @else if type-of($offset) == number {
+				$top : $offset;
+			}
+			left : $left;
+			top : $top;
+		} @else {
+			left : 0;
+		}
+		@if $color {
+			color : $color !important;
+		}
+		@if $size {
+			@if $image and type-of($size) == list and length($size) == 2 {
+				background-size : nth($size,1) nth($size,2);
+			} @else if type-of($size) == number {
+				font-size: $size !important;
+			}
+		}
+		@if $font {
+			@include s-font($font...);
+		}
+	}
+
+	// before
+	position: relative;
+	&:before {
+		position: absolute;
+		display: block;
+	}
+
+	// style image
+	@if $image {
+		position: relative;
+		&:before {
+			content:'';
+			display: block;
+			width: 1ex; height:1em;
+			background-image: url($image);
+			background-repeat: no-repeat;
+			background-size: 100% 100%;
+			background-position: 50% 50%;
+		}
+
+	} @else if $icon {
+		position: relative;
+		@include s-icon($icon);
+	}
+
+	// reset margin-left for nested lists
+	> ul,
+	> ol,
+	> dl, {
+		margin-left: 0;
+		margin-bottom: 0;
+	}
+}

@@ -1,0 +1,7 @@
+//
+// Round a value to match a round px render => even
+//
+@function s-render-round-even($value) {
+	$value : call('s-#{unit($value)}',s-even(s-px($value)));
+	@return $value;
+}

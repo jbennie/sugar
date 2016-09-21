@@ -1,0 +1,5 @@
+@function s-font-family(
+	$name
+) {
+	@return map-get(s-font($name), font-family);
+}

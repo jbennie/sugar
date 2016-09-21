@@ -1,0 +1,43 @@
+//
+// Get a configuration
+//
+$_sugar-settings-cache : ();
+@function s-setting(
+	$path,
+	$component : $_sugar-current-component
+) {
+	$base_path : $path;
+	@if $component == default {
+		$component : null;
+	}
+
+	// check if has a component
+	@if $component {
+		$path : 'components.#{$component}.#{$path}';
+	}
+
+	// check in cache
+	$cache : map-get($_sugar-settings-cache, $path);
+	@if $cache {
+		@return $cache;
+	}
+
+	$value : map-get-path($_sugar-settings, $path);
+
+	@if not $value and $component {
+		// try to get the value from the base component
+		$value : s-setting($base_path, default);
+	}
+
+	@if type-of($value) == number and not unitless($value) {
+		@if unit($value) == px or unit($value) == pt or unit($value) == rem {
+			$value : s-convert($value);
+		}
+	}
+
+	// save the value in cache
+	$_sugar-settings-cache : map-set($_sugar-settings-cache, $path, $value) !global;
+
+	// return the value
+	@return $value;
+}

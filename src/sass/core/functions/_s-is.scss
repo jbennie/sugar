@@ -1,0 +1,102 @@
+//
+// Check a variable type
+//
+@function s-is(
+	$value,
+	$type
+) {
+
+	@if type-of($type) == string and str-index($type,'|') {
+		$type : _split($type,'|');
+	}
+
+	@if type-of($type) == list {
+		$ok : false;
+		@each $t in $type {
+			@if s-is($value, $t) {
+				$ok : true;
+			}
+		}
+		@return $ok;
+	} @else {
+
+		@if $type == mixed {
+			@return true;
+		} @else if $type == null or $type == 'null' {
+			@return _is-null($value);
+		} @else if $type == url {
+			@return str-is-url($value);
+		} @else if str-index($type, 'map-') {
+			$idx : str-index($type, '-');
+			$type : str-slice($type, $idx + 1);
+			@each $prop, $val in $value {
+				@if $val and not s-is($val, $type) {
+					@return false;
+				}
+			}
+			@return true;
+		} @else if str-index($type, 'list-') {
+			$idx : str-index($type, '-');
+			$type : str-slice($type, $idx + 1);
+			@each $item in $value {
+				@if $item and not s-is($item, $type) {
+					@return false;
+				}
+			}
+			@return true;
+		} @else if $type == px {
+			@return type-of($value) == number and not unitless($value) and unit($value) == px;
+		} @else if $type == rem {
+			@return type-of($value) == number and not unitless($value) and unit($value) == rem;
+		} @else if $type == em {
+			@return type-of($value) == number and not unitless($value) and unit($value) == em;
+		} @else if $type == pt {
+			@return type-of($value) == number and not unitless($value) and unit($value) == pt;
+		} @else if $type == percent or $type == '%' {
+			@return type-of($value) == number and not unitless($value) and unit($value) == '%';
+		} @else if $type == vw {
+			@return type-of($value) == number and not unitless($value) and unit($value) == vw;
+		} @else if $type == vh {
+			@return type-of($value) == number and not unitless($value) and unit($value) == vh;
+		} @else if $type == ex {
+			@return type-of($value) == number and not unitless($value) and unit($value) == ex;
+		} @else if $type == ch {
+			@return type-of($value) == number and not unitless($value) and unit($value) == ch;
+		} @else if $type == cm {
+			@return type-of($value) == number and not unitless($value) and unit($value) == cm;
+		} @else if $type == mm {
+			@return type-of($value) == number and not unitless($value) and unit($value) == mm;
+		} @else if $type == in {
+			@return type-of($value) == number and not unitless($value) and unit($value) == in;
+		} @else if $type == pc {
+			@return type-of($value) == number and not unitless($value) and unit($value) == pc;
+		} @else if $type == s or $type == second {
+			@return type-of($value) == number and not unitless($value) and unit($value) == s;
+		} @else if $type == boolean or $type == bool {
+			@return _is-boolean($value);
+		} @else if $type == function {
+			@return _is-function($value);
+		} @else if $type == null {
+			@return _is-null($value);
+		} @else if $type == number {
+			@return type-of($value) == number;
+		} @else if $type == integer or $type == int {
+			@if type-of($value) != number {
+				@return false;
+			}
+			@return round($value) == $value;
+		} @else if $type == string {
+			@return type-of($value) == string;
+		} @else if $type == color {
+			@return type-of($value) == color;
+		} @else if $type == list {
+			@return type-of($value) == list;
+		} @else if $type == map {
+			@return type-of($value) == map;
+		} @else if $type == degree or $type == deg {
+			@return unit($value) == deg;
+		}
+	}
+	// default return
+	@return false;
+}

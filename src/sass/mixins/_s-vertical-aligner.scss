@@ -1,0 +1,17 @@
+//
+// Vertical aligner
+//
+@mixin s-vertical-aligner(
+) {
+	&:before {
+		content: '';
+		display: inline-block;
+		vertical-align: middle;
+		height: 100%; width: .1px;
+	}
+
+	> * {
+		display: inline-block;
+		vertical-align: middle;
+	}
+}

@@ -1,0 +1,5 @@
+@function s(
+	$what
+) {
+	@return sugar($what);
+}

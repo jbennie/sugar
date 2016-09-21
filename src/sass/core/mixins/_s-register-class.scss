@@ -1,0 +1,21 @@
+//
+// Register helper class
+//
+$_sugar-classes : () !default;
+$_sugar-test-arguments : true !default;
+@mixin s-register-class(
+	$classname,
+	$namespace
+) {
+	@if $_sugar-test-arguments {
+		$classname : s-test-argument('s-register-class','classname',string,$classname);
+		$namespace : s-test-argument('s-register-class','namespace',string,$namespace);
+	}
+
+	// register the class
+	$split : _split($namespace, '.');
+	$_sugar-classes : _set($_sugar-classes, $split, $classname) !global;
+	%#{$classname} {
+		@content;
+	}
+}

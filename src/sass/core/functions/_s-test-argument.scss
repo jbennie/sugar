@@ -1,0 +1,76 @@
+@function s-test-argument(
+	$method,
+	$property,
+	$type,
+	$value,
+	$check-only : false
+) {
+	// check if not value
+	@if not $value {
+		@return $value;
+	}
+	// check explicit values
+	@if type-of($type) == string {
+		// check the type
+		@if not s-is($value, $type) {
+			@if $check-only {
+				@return false;
+			}
+			@error('The property "#{$property}" of the mixin/function "#{$method}" need to be a "#{$type}" but it seems that you pass a "#{type-of($value)}" : #{$value}');
+		}
+		@return $value;
+	} @else if type-of($type) == list {
+		// check if the passed value exist in possible values
+		@if type-of($value) == list and index($type, length) {
+			@return $value;
+		} @else if type-of($value) == number and index($type, number) {
+			@return $value;
+		} @else {
+			// if its a list of values, check each values
+			@if type-of($value) == list {
+				@each $v in $value {
+					@if not _s-check-property($property, $type, $v, true) {
+						@return false;
+					}
+				}
+				@return $value;
+			} @else {
+				$idx : index($type, $value);
+				@if not $idx {
+					@if not $check-only {
+						@error('The property "#{$property}" or the mixin/function "#{$method}" has to be one of these values "#{$type}" and not "#{$value}"');
+					}
+					@return false;
+				}
+				$v : nth($type, $idx);
+				@if type-of($v) == type-of($value) {
+					@if type-of($v) == number {
+						@if unit($v) == unit($value) {
+							@if not $check-only {
+								@error('The property "#{$property}" or the mixin/function "#{$method}" has to be one of these values "#{$type}" and not "#{$value}"');
+							}
+							@return $value;
+						} @else {
+							@return false;
+						}
+					} @else {
+						@return $value;
+					}
+				} @else {
+					@if not $check-only {
+						@error('The property "#{$property}" or the mixin/function "#{$method}" has to be one of these values "#{$type}" and not "#{$value}"');
+					}
+					@return false;
+				}
+				@return $value;
+			}
+		}
+	} @else {
+		@return $value;
+	}
+	@if not $check-only {
+		@error('The property "#{$property}" or the mixin/function "#{$method}" is wrong');
+	}
+	@return false;
+
+}

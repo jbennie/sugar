@@ -1,0 +1,26 @@
+@function s-margin(
+	$margin
+) {
+	@if type-of($margin) == number {
+		@return (
+			top : $margin,
+			right : $margin,
+			bottom : $margin,
+			left : $margin
+		);
+	} @else if type-of($margin) == list and length($margin) == 2 {
+		@return (
+			top : nth($margin,1),
+			bottom : nth($margin,1),
+			left : nth($margin,2),
+			right : nth($margin,2)
+		);
+	} @else if type-of($margin) == list and length($margin) == 4 {
+		@return (
+			top : nth($margin,1),
+			right : nth($margin,2),
+			bottom : nth($margin,3),
+			left : nth($margin,4)
+		);
+	}
+}

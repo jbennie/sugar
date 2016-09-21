@@ -1,0 +1,11 @@
+@function s-filter(
+	$filter
+) {
+	$filter-map : s-filter-map($filter);
+	$res : ();
+	@each $name, $value in $filter-map {
+		$res : append($res, unquote("#{$name}(#{$value})"));
+	}
+	@return $res;
+
+}

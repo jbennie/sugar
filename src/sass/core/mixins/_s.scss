@@ -1,0 +1,5 @@
+@mixin s(
+	$what...
+) {
+	@include sugar($what...);
+}

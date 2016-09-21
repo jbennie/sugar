@@ -1,0 +1,29 @@
+//
+// Round
+//
+@mixin s-round(
+	$width : null,
+	$height : null,
+	$color : null
+) {
+	@if $_sugar-test-arguments {
+		$width : s-test-argument('s-round','width',number,$width);
+		$height : s-test-argument('s-round','height',number,$height);
+		$color : s-test-argument('s-round','color',color,$color);
+	}
+	@if $width {
+		width : $width;
+	}
+	@if $height {
+		height : $height;
+	}
+	@if $color {
+		background-color : $color;
+	}
+	border-radius:50%;
+	overflow: hidden;
+	> img {
+		border-radius:50%;
+		overflow: hidden;
+	}
+}

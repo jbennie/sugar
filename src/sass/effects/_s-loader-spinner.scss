@@ -1,0 +1,220 @@
+@mixin s-loader-spinner(
+	$type : linear,
+	$size : 1em,
+	$width : 0.3em,
+	$color : s-color(primary),
+	$bgcolor : inherit,
+	$length : 3/4,
+	$a-duration : 1s,
+	$a-ease : null
+) {
+	@if $_sugar-test-arguments {
+		$type : s-test-argument('s-loader-spinner','type',(elastic,linear,fade-in,fade-out,fade-in-out),$type);
+		$size : s-test-argument('s-loader-spinner','size',number,$size);
+		$width : s-test-argument('s-loader-spinner','width',number,$width);
+		$color : s-test-argument('s-loader-spinner','color',color,$color);
+		@if $bgcolor != inherit {
+			$bgcolor : s-test-argument('s-loader-spinner','bgcolor',color,$bgcolor);
+		}
+		$length : s-test-argument('s-loader-spinner','length',number,$length);
+		$a-duration : s-test-argument('s-loader-spinner','a-duration',second,$a-duration);
+		$a-ease : s-test-argument('s-loader-spinner','a-ease',string,$a-ease);
+	}
+
+	@if $type == elastic and not $a-ease {
+		$a-ease : ease;
+	} @else if not $a-ease {
+		$a-ease : linear;
+	}
+
+	$a-name : unquote("spinner-#{unique-id()}");
+	$p-step : 1 / $a-duration;
+
+	@if $type == linear {
+		& {
+			font-size:$size;
+			position:relative;
+			text-indent:-9999em;
+			border-top:$width solid transparentize($color,.8);
+			border-right:$width solid transparentize($color,.8);
+			border-bottom:$width solid transparentize($color,.8);
+			border-left:$width solid transparentize($color,0);
+			transform: translateZ(0);
+			animation: $a-name $a-duration $a-ease 0s infinite;
+		}
+		&,&:after {
+			border-radius:50%;
+			width:1em;
+			height:1em;
+		}
+		@keyframes #{$a-name} {
+			0% {
+				transform:rotate(0deg);
+			}
+			100% {
+				transform:rotate(360deg);
+			}
+		}
+	} @else if $type == elastic {
+		background: inherit;
+		&,&:before,&:after {
+			border-radius:50%;
+		}
+		&:before,&:after {
+			position:absolute;
+			content:'';
+		}
+		&:before {
+			width:5.2em;
+			height:10.2em;
+			background: $bgcolor;
+			border-radius: 10.2em 0 0 10.2em;
+			top:-0.1em;
+			left:-0.1em;
+			transform-origin:5.2em 5.1em;
+			animation:$a-name $a-duration infinite $a-ease $a-duration * $length;
+		}
+		& {
+			font-size:$size / 10;
+			text-indent:-99999em;
+			position:relative;
+			width:10em;
+			height:10em;
+			box-shadow: inset 0 0 0 $width $color;
+			transform: translateZ(0);
+		}
+		&:after {
+			width:5.2em;
+			height:10.2em;
+			background: $bgcolor;
+			border-radius: 0 10.2em 10.2em 0;
+			top:-0.1em;
+			left:5.1em;
+			transform-origin:0px 5.1em;
+			animation:$a-name $a-duration infinite ease;
+		}
+		@keyframes #{$a-name} {
+			0% {
+				transform:rotate(0deg);
+			}
+			100% {
+				transform:rotate(360deg);
+			}
+		}
+	} @else if $type == fade-out {
+		& {
+			font-size:$size;
+			text-indent:-9999em;
+			width:1em;
+			height:1em;
+			border-radius:50%;
+			background: $color;
+			background: linear-gradient(to right, transparentize($color,0) 10%, transparentize($color,1) 42%);
+			position: relative;
+			animation: $a-name $a-duration $a-ease 0s infinite;
+			transform: translateZ(0);
+		}
+		&:before {
+			width:50%;
+			height:50%;
+			background: $color;
+			border-radius: 100% 0 0 0;
+			position:absolute;
+			top:0;
+			left:0;
+			content:'';
+		}
+		$width : $size - $width * 2;
+		&:after {
+			background:$bgcolor;
+			width: $width;
+			height: $width;
+			border-radius:50%;
+			content:'';
+			margin:auto;
+			position: absolute;
+			top: 0; left: 0; bottom: 0; right: 0;
+		}
+		@keyframes #{$a-name} {
+			0% {
+				transform:rotate(0deg);
+			}
+			100% {
+				transform:rotate(360deg);
+			}
+		}
+	} @else if $type == fade-in {
+		& {
+			font-size:$size;
+			text-indent:-9999em;
+			width:1em;
+			height:1em;
+			border-radius:50%;
+			background: $color;
+			background: linear-gradient(to left, transparentize($color,1) 52%, transparentize($color,0) 90%);
+			position: relative;
+			animation: $a-name $a-duration $a-ease 0s infinite;
+			transform: translateZ(0);
+		}
+		&:before {
+			width:50%;
+			height:50%;
+			background: $color;
+			border-radius: 0 0 0 100%;
+			position:absolute;
+			bottom:0;
+			left:0;
+			content:'';
+		}
+		$width : $size - $width * 2;
+		&:after {
+			background:$bgcolor;
+			width: $width;
+			height: $width;
+			border-radius:50%;
+			content:'';
+			margin:auto;
+			position: absolute;
+			top: 0; left: 0; bottom: 0; right: 0;
+		}
+		@keyframes #{$a-name} {
+			0% {
+				transform:rotate(0deg);
+			}
+			100% {
+				transform:rotate(360deg);
+			}
+		}
+	} @else if $type == fade-in-out {
+		font-size: $size;
+		width: 1em;
+		height: 1em;
+		border-radius: 50%;
+		//overflow: hidden;
+		&:before {
+			content: "";
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			border-radius: 50%;
+			background: linear-gradient($color, transparentize($color,1) 60%);
+			animation: $a-name $a-duration infinite linear;
+		}
+		$width : $size - $width * 2;
+		&:after {
+			background:$bgcolor;
+			width: $width;
+			height: $width;
+			border-radius:50%;
+			content:'';
+			margin:auto;
+			position: absolute;
+			top: 0; left: 0; bottom: 0; right: 0;
+		}
+		@keyframes #{$a-name} {
+			to {
+				transform: rotate(360deg);
+			}
+		}
+	}
+}

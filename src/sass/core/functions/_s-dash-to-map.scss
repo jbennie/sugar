@@ -1,0 +1,42 @@
+/**
+ * Transform -var value -var value value to map
+ */
+@function s-dash-to-map(
+	$dash
+) {
+	$prop : null;
+	$values : ();
+	$map : ();
+	// protect
+	@if type-of($dash) != list or str-slice(nth($dash,1),1,1) != '-' {
+		@return $dash;
+	}
+	// loop on each properties
+	@each $d in $dash {
+		@if type-of($d) == string and str-slice($d,1,1) == '-' {
+			// check if a prop exist and if values exists
+			@if $prop and length($values) > 0 {
+				@if length($values) == 1 {
+					$values : nth($values,1);
+				}
+				$map : map-set($map, $prop, $values);
+				$values : ();
+			}
+			// set new prop
+			$prop : str-slice($d,2);
+			// check if
+		} @else {
+			// append values
+			$values : append($values,$d);
+		}
+	}
+	// check if a prop exist and if values exists
+	@if $prop and length($values) > 0 {
+		@if length($values) == 1 {
+			$values : nth($values,1);
+		}
+		$map : map-set($map, $prop, $values);
+	}
+	// return the map
+	@return $map;
+}

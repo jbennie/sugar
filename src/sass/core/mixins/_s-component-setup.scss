@@ -1,0 +1,28 @@
+//
+// Component setup
+//
+@mixin s-component-setup(
+	$settings
+) {
+	// check if we have already some settings for this components
+	$keys : map-keys($settings);
+	@if length($keys) != 1 {
+		@error("A components need to be setting up with a unique key map...");
+	}
+	$name : nth($keys,1);
+	$settings : map-get($settings, $name);
+
+	// get component
+	$components : map-get($_sugar-settings, components);
+	@if not $components {
+		$components : ();
+	}
+	$current-settings : map-get($components, $name);
+	@if $current-settings {
+		$new-settings : map-extend($settings, $current-settings);
+		$components : map-set($components, $name, $new-settings);
+	} @else {
+		$components : map-set($components, $name, $settings);
+	}
+	$_sugar-settings : map-set($_sugar-settings, components, $components) !global;
+}

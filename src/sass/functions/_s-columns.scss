@@ -1,0 +1,57 @@
+@function s-columns(
+	$count : null,
+	$gap : null,
+	$fill : null,
+	$width : null,
+	$span : null,
+	$rule : null,
+	$rule-style : null,
+	$rule-color : null,
+	$rule-width : null
+) {
+	@if $_sugar-test-arguments {
+		$fill : s-test-argument('s-columns','fill',(balance,auto,initial,inherit),$fill);
+		$rule-style : s-test-argument('s-columns','rule-style',(none,hidden,dotted,dashed,solid,double,groove,ridge,inset,outset,initial,inherit),$rule-style);
+		$count : s-test-argument('s-columns','count',integer,$count);
+		$gap : s-test-argument('s-columns','gap',number,$gap);
+		$width : s-test-argument('s-columns','width',number,$width);
+		$span : s-test-argument('s-columns','span',number,$span);
+		$rule-color : s-test-argument('s-columns','rule-color',color,$rule-color);
+		$rule-width : s-test-argument('s-columns','rule-width',number,$rule-width);
+		$rule : s-test-argument('s-columns','rule',mixed,$rule);
+	}
+
+	$return : ();
+
+	@if $count {
+		$return : map-set($return, column-count, $count);
+	}
+	@if $width {
+		$return : map-set($return, column-width, $width);
+	}
+	@if $rule {
+		$return : map-set($return, column-rule, $rule);
+	} @else {
+		@if $rule-style {
+			$return : map-set($return, column-rule-style, $rule-style);
+		}
+		@if $rule-color {
+			$return : map-set($return, column-rule-color, $rule-color);
+		}
+		@if $rule-width {
+			$return : map-set($return, column-rule-width, $rule-width);
+		}
+	}
+	@if $gap {
+		$return : map-set($return, column-gap, $gap);
+	}
+	@if $fill {
+		$return : map-set($return, column-fill, $fill);
+	}
+	@if $span {
+		$return : map-set($return, column-span, $span);
+	}
+
+	// return
+	@return $return;
+}

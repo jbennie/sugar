@@ -1,0 +1,3 @@
+@function s-percent($value) {
+	@return s-convert($value, '%');
+}

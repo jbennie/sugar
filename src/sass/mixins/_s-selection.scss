@@ -1,0 +1,7 @@
+//
+// Selection
+//
+@mixin s-selection {
+	::-moz-selection { @content; }
+	::selection { @content; }
+}

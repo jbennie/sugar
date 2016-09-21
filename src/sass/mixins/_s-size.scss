@@ -1,0 +1,42 @@
+//
+// Size
+//
+@mixin s-size(
+	$size-width,
+	$height : null,
+	$position : absolute
+) {
+	@if $_sugar-test-arguments {
+		@if type-of($size-width) != number {
+			$size-width : s-test-argument('s-size','size-width',(cover,contain),$size-width);
+		} @else {
+			$size-width : s-test-argument('s-size','size-width',number,$size-width);
+		}
+		$height : s-test-argument('s-size','height','number|null',$height);
+		$position : s-test-argument('s-size','position',(relative,absolute),$position);
+	}
+
+	// apply values
+	@if type-of($size-width) == string {
+		position: $position;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		@if $size-width == cover {
+			min-width: 100%;
+			min-height: 100%;
+		} @else if $size-width == contain {
+			max-width:100%;
+			max-height:100%;
+		}
+	} @else if type-of($size-width) == number and unitless($size-width) and $size-width < 1 {
+		@include s-ratio($size-width);
+	} @else {
+		@if $size-width {
+			width : $size-width;
+		}
+		@if $height {
+			height : $height;
+		}
+	}
+}

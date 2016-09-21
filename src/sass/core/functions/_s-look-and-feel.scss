@@ -1,0 +1,31 @@
+//
+// Get a look and feel value
+//
+@function s-look-and-feel(
+	$name,
+	$size : default
+) {
+	// protect
+	@if not s-is($name, string) {
+		@error("the s-look-and-feel name parameter has to be a string corresponding to a look and feel setting...");
+	}
+
+	// initial value
+	$value : sugar('settings.look-and-feel.#{$name}.#{$size}');
+
+	// make sure value is in em unit
+	@if type-of($value) == number and unit($value) != em {
+		@error('Your look-and-feel value "#{$name}" setted to "#{$value}" need to be in "em"');
+	}
+
+	// if we have a non number value, return it
+	@if $value and type-of($value) != number {
+		@return s-replace-tokens(s-render-round($value));
+	}
+
+	// if we have a number value, return the interpolated version
+	@return s-render-round(s-interpolate('settings.look-and-feel.#{$name}', $size));
+
+	// we don't have anything...
+	@return null;
+}

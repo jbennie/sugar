@@ -1,0 +1,12 @@
+//
+// Placeholder
+//
+@mixin s-placeholder {
+	&::-webkit-input-placeholder {@content}
+	&:-moz-placeholder           {@content}
+	&::-moz-placeholder          {@content}
+	&:-ms-input-placeholder      {@content}
+	@at-root {
+		.input--placeholder {@content}
+	}
+}

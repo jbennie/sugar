@@ -1,0 +1,28 @@
+@function s-translate(
+	$x : 0,
+	$y : 0,
+	$z : 0
+) {
+	@if $_sugar-test-arguments {
+		$x : s-test-argument('s-translate','x',number,$x);
+		$y : s-test-argument('s-translate','y',number,$y);
+		$z : s-test-argument('s-translate','z',number,$z);
+	}
+
+	// build translate
+	$translates : ();
+	@if $x {
+		$translates : append($translates, translateX($x));
+	}
+	@if $y {
+		$translates : append($translates, translateY($y));
+	}
+	@if $z {
+		$translates : append($translates, translateZ($z));
+	}
+
+	// return translate
+	@return (
+		transform : $translates
+	);
+}

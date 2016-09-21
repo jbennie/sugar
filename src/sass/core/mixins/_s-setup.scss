@@ -1,0 +1,5 @@
+@mixin s-setup(
+	$settings
+) {
+	$_sugar-settings : map-extend($_sugar-settings, $settings, true) !global;
+}

@@ -9,7 +9,8 @@ if [[ $PWD == *"/node_modules/sugarcss"* ]]
 then
 	# move src
 	mv src/js/ js/
-	mv src/sass/sugar/ sass/
+	mv src/sass/ sass/
+	mv src/components/ components/
 
 	# clean repo
 	rm -rf src

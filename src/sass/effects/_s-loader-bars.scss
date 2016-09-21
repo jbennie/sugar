@@ -1,0 +1,219 @@
+@mixin s-loader-bars(
+	$shape : rect,
+	$color : s-color(primary),
+	$width : 0.5em,
+	$height : 2em,
+	$count : 5,
+	$gap : 0.5em,
+	$opacity : 1,
+	$a-opacity : null,
+	$a-duration : 1s,
+	$a-delay : 0s,
+	$a-near : 1,
+	$a-ease : ease-in-out,
+	$a-spread : null,
+	$a-direction : both,
+	$a-continuous : true
+) {
+	@if $_sugar-test-arguments {
+		$shape : s-test-argument('s-loader-bars','shape',(circle,rect),$shape);
+		$color : s-test-argument('s-loader-bars','color','color|list-color',$color);
+		$width : s-test-argument('s-loader-bars','width',number,$width);
+		$height : s-test-argument('s-loader-bars','height',number,$height);
+		$count : s-test-argument('s-loader-bars','count',integer,$count);
+		$gap : s-test-argument('s-loader-bars','gap',number,$gap);
+		$opacity : s-test-argument('s-loader-bars','opacity',number,$opacity);
+		$a-opacity : s-test-argument('s-loader-bars','a-opacity',number,$a-opacity);
+		$a-duration : s-test-argument('s-loader-bars','a-duration',second,$a-duration);
+		$a-delay : s-test-argument('s-loader-bars','a-delay',second,$a-delay);
+		$a-near : s-test-argument('s-loader-bars','a-near',integer,$a-near);
+		$a-ease : s-test-argument('s-loader-bars','a-ease',string,$a-ease);
+		$a-direction : s-test-argument('s-loader-bars','a-direction',(up,down,both),$a-direction);
+		$a-continuous : s-test-argument('s-loader-bars','a-continuous',boolean,$a-continuous);
+	}
+
+	// handle colors
+	$colors : null;
+	@if s-is($color,list-color) and length($color) > 1 {
+		$colors : $color;
+	}
+
+	// manage duration
+	$a-duration : $a-duration + $a-delay;
+	@if $a-delay > 0 {
+		$a-continuous : false;
+	}
+
+	// manage direction
+	@if not $a-spread or $a-spread <= 0 {
+		$a-direction : up;
+	}
+
+	$offset : $width;
+
+	// position grid
+	$_width : $width * ($count - 1) + $gap * ($count - 1);
+
+	$a-name : unquote("bars-#{unique-id()}");
+
+	// calculate box shadows
+	$shadows : ();
+
+	@if $a-direction == both or $a-direction == up {
+		@for $i from 0 through $count - 1 {
+			$x : ($width * $i + $gap * $i) + $width + $gap + $offset;
+			$y : $height / 2 + $offset;
+			$c : $color;
+			@if $colors {
+				$c : nth($colors, $i + 1);
+			}
+			@if $a-opacity {
+				$c : transparentize($color, 1 - $opacity);
+			}
+			$shadows : append($shadows, $c $x $y 0 0, comma);
+		}
+	}
+	@if $a-direction == both or $a-direction == down {
+		@for $i from 0 through $count - 1 {
+			$x : ($width * $i + $gap * $i) + $width + $gap + $offset;
+			$y : $height / 2 + $offset;
+			$c : $color;
+			@if $colors {
+				$c : nth($colors, $i + 1);
+			}
+			@if $a-opacity {
+				$c : transparentize($color, 1 - $opacity);
+			}
+			$shadows : append($shadows, $c $x $y 0 0, comma);
+		}
+	}
+	$base-shadows : $shadows;
+
+	&:before {
+		@if $shape == circle {
+			border-radius: 50%;
+		}
+		width: $width;
+		height: $height;
+		content: '';
+		display: block;
+		animation : $a-name $a-duration $a-ease 0s infinite;
+		box-shadow : $shadows;
+		@include s-translate((-$_width / 2 - $width - $gap - $offset), (-$height / 2 - $offset));
+		transform-origin: ($offset + $_width / 2 + $gap + $width) ($offset + $height / 2);
+	}
+
+	// calculate percentage of delay
+	$p-delay : 0;
+	$p-step : 1 / $count;
+	@if $a-delay > 0 {
+		$p-delay : 1 / $a-duration * $a-delay;
+		$p-step : (1 - $p-delay) / ($count + 1);
+	}
+	// animation
+	$step : 1 / $count;
+	@keyframes #{$a-name} {
+		@for $j from 0 through $count {
+			$p : percentage($j * $p-step);
+			@if $a-delay > 0 {
+				$p : percentage($j * $p-step) + percentage($p-step);
+			}
+			#{$p} {
+				// loop on each box shadows
+				$shadows : ();
+
+				@if $a-direction == both or $a-direction == up {
+					@for $i from 0 through $count - 1 {
+						$x : ($width * $i + $gap * $i) + $width + $gap + $offset;
+						$y : $height / 2 + $offset;
+
+						$diff : abs($j - $i);
+
+						@if $a-continuous {
+							@if $j + $a-near > $count and $i - $a-near < 0 {
+								$diff : abs($i - ($j - $count));
+							} @else if $j - $a-near < 0 and $i + $a-near > $count {
+								$diff : abs($j + ($count - $i));
+							}
+						}
+
+						@if $a-spread {
+							@if $diff < $a-near {
+								$y : $y - ($a-spread - ($a-spread / $a-near * $diff));
+							} @else if $i == $j {
+								$y : $y - $a-spread;
+							}
+						}
+
+						$c : $color;
+						@if $colors {
+							$c : nth($colors, $i + 1);
+						}
+						$_opacity : 1;
+						@if $a-opacity {
+							@if $diff < $a-near {
+								$_opacity : ($a-opacity - $opacity) / $a-near * ($a-near - $diff);
+								$o : $opacity + $_opacity;
+								// $transparentize : $_opacity;
+								$c : transparentize($c, 1 - $o);
+							} @else if $opacity {
+								$c : transparentize($c, 1 - $opacity);
+							}
+						} @else if $opacity {
+							$c : transparentize($c, 1 - $opacity);
+						}
+						$shadows : append($shadows, $c $x $y 0 0, comma);
+					}
+				}
+
+				@if $a-direction == both or $a-direction == down {
+					@for $i from 0 through $count - 1 {
+						$x : ($width * $i + $gap * $i) + $width + $gap + $offset;
+						$y : $height / 2 + $offset;
+
+						$diff : abs($j - $i);
+						@if $a-continuous {
+							@if $j + $a-near > $count and $i - $a-near < 0 {
+								$diff : abs($i - ($j - $count));
+							} @else if $j - $a-near < 0 and $i + $a-near > $count {
+								$diff : abs($j + ($count - $i));
+							}
+						}
+
+						@if $diff < $a-near {
+							$y : $y + ($a-spread - ($a-spread / $a-near * $diff));
+						} @else if $i == $j {
+							$y : $y + $a-spread;
+						}
+						$c : $color;
+						@if $colors {
+							$c : nth($colors, $i + 1);
+						}
+						$_opacity : 1;
+						@if $a-opacity {
+							@if $diff < $a-near {
+								$_opacity : ($a-opacity - $opacity) / $a-near * ($a-near - $diff);
+								$o : $opacity + $_opacity;
+								// $transparentize : $_opacity;
+								$c : transparentize($c, 1 - $o);
+							} @else if $opacity {
+								$c : transparentize($c, 1 - $opacity);
+							}
+						} @else if $opacity {
+							$c : transparentize($c, 1 - $opacity);
+						}
+						$shadows : append($shadows, $c $x $y 0 0, comma);
+					}
+				}
+
+				// apply shadows
+				box-shadow: $shadows;
+			}
+		}
+		@if $a-delay > 0 and percentage($count * $p-step) + percentage($p-step) < 100 {
+			#{percentage($count * $p-step) + percentage($p-step) * 2} {
+				box-shadow: $base-shadows;
+			}
+		}
+	}
+}

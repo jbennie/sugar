@@ -1,0 +1,10 @@
+//
+// Set rhythme max-width
+//
+@mixin s-rhythme-width(
+	$letters-count : sugar('settings.typo.line-letters-count')
+) {
+	@each $prop, $value in s-rhythme-width($letters-count) {
+		#{$prop} : $value;
+	}
+}

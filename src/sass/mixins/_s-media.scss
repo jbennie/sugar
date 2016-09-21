@@ -1,0 +1,158 @@
+//
+// Media queries specific
+//
+
+//
+// Universal media mixin
+//
+$media-keywords : (
+	gecko : '.ua-gecko',
+	webkit : '.ua-webkit',
+	trident : 'ua-trident',
+	blink : 'ua-blink',
+	presto : 'ua-presto',
+
+	chrome : '.ua-chrome',
+	safari : '.ua-safari',
+	firefox : '.ua-firefox',
+	opera : '.ua-opera',
+	ie : '.ua-ie',
+
+	mobile : '.ua-mobile',
+	tablet : '.ua-tablet',
+	desktop : '.ua-desktop',
+	iphone : '.ua-mobile-iphone',
+	ipad : '.ua-mobile-ipad',
+
+	ios : '.ua-ios',
+	osx : '.ua-mac_os_x',
+	windows : '.ua-windows',
+	linux : '.ua-linux',
+	android : '.ua-android',
+	webos : '.ua-webos',
+	blackberry : '.ua-blackberry',
+
+	x2 : '(-webkit-min-device-pixel-ratio: 2), (min-resolution: 320dpi)',
+	x3 : '(-webkit-min-device-pixel-ratio: 3), (min-resolution: 480dpi)',
+	x4 : '(-webkit-min-device-pixel-ratio: 4), (min-resolution: 640dpi)'
+);
+@for $idx from 6 through 20 {
+	$media-keywords : map-set($media-keywords, 'ie#{$idx}', '.ua-ie-#{$idx}');
+}
+@mixin s-media(
+	$screen : null,
+	$min-width : null,
+	$max-width : null,
+	$min-height : null,
+	$max-height : null,
+	$orientation : null,
+	$resolution : null,
+	$engine : null,
+	$device : null,
+	$browser : null,
+	$system : null
+) {
+	@if $_sugar-test-arguments {
+		$screen : s-test-argument('s-media','screen',(screen,handheld,print,aural,braille,embossed,projection,tty,tv,all),$screen);
+		$min-width : s-test-argument('s-media','min-width',number,$min-width);
+		$max-width : s-test-argument('s-media','max-width',number,$max-width);
+		$min-height : s-test-argument('s-media','min-height',number,$min-height);
+		$max-height : s-test-argument('s-media','max-height',number,$max-height);
+		$orientation : s-test-argument('s-media','orientation',(landscape,portrait),$orientation);
+		$resolution : s-test-argument('s-media','resolution','string|list-string',$resolution);
+		$engine : s-test-argument('s-media','engine','string|list-string',$engine);
+		$device : s-test-argument('s-media','device','string|list-string',$device);
+		$browser : s-test-argument('s-media','browser','string|list-string',$browser);
+		$system : s-test-argument('s-media','system','string|list-string',$system);
+	}
+
+	$media : ();
+	@if $screen {
+		$media : append($media, $screen);
+	}
+	@if $orientation {
+		$media : append($media, '(orientation : #{$orientation})');
+	}
+	@if $min-width {
+		$media : append($media, '(min-width : #{$min-width})');
+	}
+	@if $max-width {
+		$media : append($media, '(max-width : #{$max-width})');
+	}
+	@if $min-height {
+		$media : append($media, '(min-height : #{$min-height})');
+	}
+	@if $max-height {
+		$media : append($media, '(max-height : #{$max-height})');
+	}
+
+	// resolution
+	@if $resolution {
+		$res : ();
+		$resolutions : (x2,x3,x4);
+		@each $m in $resolution {
+			@if index($resolutions,$m) {
+				$res : append($res, map-get($media-keywords,$m));
+			}
+		}
+		$media : append($media, _join($res,','));
+	}
+
+	// construct media querie
+	$med : _join($media,' and ');
+	$this : "#{&}";
+
+	// construct refine
+	$refine : ();
+	@if $engine {
+		$engines : (blink,gecko,trident,webkit,presto);
+		@each $e in $engine {
+			@if index($engines,$e) {
+				$refine : append($refine, map-get($media-keywords,$e));
+			}
+		}
+	}
+	@if $browser {
+		$browsers : (chrome,safari,opera,firefox,ie);
+		@for $idx from 6 through 20 {
+			$browsers : append($browsers, 'ie#{$idx}');
+		}
+		@each $b in $browser {
+			@if index($browsers,$b) {
+				$refine : append($refine, map-get($media-keywords,$b));
+			}
+		}
+	}
+	@if $device {
+		$devices : (mobile,tablet,desktop,iphone,ipad);
+		@each $d in $device {
+			@if index($devices,$d) {
+				$refine : append($refine, map-get($media-keywords,$d));
+			}
+		}
+	}
+	@if $system {
+		$systems : (ios,android,blackberry,windows,osx,linux,webos);
+		@each $s in $system {
+			@if index($systems,$s) {
+				$refine : append($refine, map-get($media-keywords,$s));
+			}
+		}
+	}
+
+	@media #{$med} {
+		@if length($refine) >= 1 {
+			@if $this != '' {
+				#{unquote(_join($refine,''))} & {
+					@content;
+				}
+			} @else {
+				#{unquote(_join($refine,''))} {
+					@content;
+				}
+			}
+		} @else {
+			@content;
+		}
+	}
+}

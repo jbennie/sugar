@@ -1,0 +1,189 @@
+@mixin s-loader-radial(
+	$shape : circle,
+	$size : 1em,
+	$width : 0.2em,
+	$style : solid,
+	$color : s-color(primary),
+	$a-duration : 2s,
+	$a-delay : 0s,
+	$a-count : 2,
+	$a-spread : 0,
+	$a-ease : linear
+) {
+	@if $_sugar-test-arguments {
+		$shape : s-test-argument('s-loader-radial','shape',(circle,rect),$shape);
+		$size : s-test-argument('s-loader-radial','size',number,$size);
+		$width : s-test-argument('s-loader-radial','width',number,$width);
+		$style : s-test-argument('s-loader-radial','style',(none,hidden,dotted,dashed,solid,double,groove,ridge,inset,outset,initial,inherit),$style);
+		$color : s-test-argument('s-loader-radial','color','color|list-color',$color);
+		$a-duration : s-test-argument('s-loader-radial','a-duration',second,$a-duration);
+		$a-delay : s-test-argument('s-loader-radial','a-delay',second,$a-delay);
+		$a-count : s-test-argument('s-loader-radial','a-count',integer,$a-count);
+		$a-spread : s-test-argument('s-loader-radial','a-spread',number,$a-spread);
+		$a-ease : s-test-argument('s-loader-radial','a-ease',string,$a-ease);
+	}
+
+	// handle colors
+	$colors : null;
+	@if s-is($color,list-color) and length($color) > 1 {
+		$colors : $color;
+	}
+
+	// manage duration
+	$a-duration : $a-duration + $a-delay;
+
+	// calculate percentage of delay
+	$p-delay : 1;
+	@if $a-delay > 0 {
+		$p-delay : 1 - 1 / $a-duration * $a-delay;
+	}
+
+	$a-name : unquote("radial-#{unique-id()}");
+	$step : percentage($p-delay / $a-count);
+	$current : 0%;
+	$current-idx : 1;
+	@keyframes #{$a-name}-b {
+		@for $i from 0 through $a-count - 1 {
+			@if $current < 100 {
+				#{$current} {
+					transform:translateX(-50%) translateY(-50%) scaleX(0) scaleY(0);
+					opacity:0;
+					top : 0;
+					left : 0;
+					@if $colors and length($colors) == $a-count * 2 {
+						$c : nth($colors, $current-idx);
+						border-color: $c;
+						// background: radial-gradient(transparentize($c, 1) 30%, $c 50%, transparentize($c, 1) 70%);
+					}
+				}
+				#{$current + $step / 2 - 0.0001%} {
+					transform: translateX(-50%) translateY(-50%) scaleX(0.5) scaleY(0.5);
+					opacity:1;
+					@if $colors and length($colors) == $a-count * 2 {
+						$c : nth($colors, $current-idx);
+						border-color: $c;
+						// background: radial-gradient(transparentize($c, 1) 30%, $c 50%, transparentize($c, 1) 70%);
+					}
+				}
+				#{$current + $step - 0.0001%} {
+					transform: translateX(-50%) translateY(-50%) scaleX(1) scaleY(1);
+					opacity:0;
+					@if $a-spread > 0 {
+						$randX : random(round($a-spread));
+						@if random(10) < 5 {
+							$randX : $randX * -1;
+						}
+						$randY : random(round($a-spread));
+						@if random(10) < 5 {
+							$randY : $randY * -1;
+						}
+						top : $randY + unquote(unit($a-spread));
+						left : $randX + unquote(unit($a-spread));
+					}
+					@if $colors and length($colors) == $a-count * 2 {
+						$c : nth($colors, $current-idx);
+						border-color: $c;
+						// background: radial-gradient(transparentize($c, 1) 30%, $c 50%, transparentize($c, 1) 70%);
+					}
+				}
+				#{$current + $step} {
+					transform : translateX(-50%) translateY(-50%) scaleX(0) scaleY(0);
+					top: 0;
+					left: 0;
+				}
+			}
+			$current : $current + $step;
+			$current-idx : $current-idx + 2;
+		}
+	}
+	$current : 0%;
+	$current-idx : 2;
+	@keyframes #{$a-name}-a {
+		@for $i from 0 through $a-count - 1 {
+			@if $current < 100 {
+				#{$current} {
+					transform : translateX(-50%) translateY(-50%) scaleX(0) scaleY(0);
+					opacity:0;
+					top : 0;
+					left : 0;
+					@if $colors and length($colors) == $a-count * 2 {
+						$c : nth($colors, $current-idx);
+						border-color: $c;
+						//background: radial-gradient(transparentize($c, 1) 30%, $c 50%, transparentize($c, 1) 70%);
+					}
+				}
+				#{$current + $step / 2 - 0.0001%} {
+					transform : translateX(-50%) translateY(-50%) scaleX(0.5) scaleY(0.5);
+					opacity:1;
+					@if $colors and length($colors) == $a-count * 2 {
+						$c : nth($colors, $current-idx);
+						border-color: $c;
+						// background: radial-gradient(transparentize($c, 1) 30%, $c 50%, transparentize($c, 1) 70%);
+					}
+				}
+				#{$current + $step - 0.0001%} {
+					transform : translateX(-50%) translateY(-50%) scaleX(1) scaleY(1);
+					opacity:0;
+					@if $a-spread > 0 {
+						$randX : random(round($a-spread));
+						@if random(10) < 5 {
+							$randX : $randX * -1;
+						}
+						$randY : random(round($a-spread));
+						@if random(10) < 5 {
+							$randY : $randY * -1;
+						}
+						top : $randY + unquote(unit($a-spread));
+						left : $randX + unquote(unit($a-spread));
+					}
+					@if $colors and length($colors) == $a-count * 2 {
+						$c : nth($colors, $current-idx);
+						// background: radial-gradient(transparentize($c, 1) 30%, $c 50%, transparentize($c, 1) 70%);
+						border-color : $c;
+					}
+				}
+				#{$current + $step} {
+					transform : translateX(-50%) translateY(-50%) scaleX(0) scaleY(0);
+					top: 0;
+					left: 0;
+				}
+			}
+			$current : $current + $step;
+			$current-idx : $current-idx + 2;
+		}
+	}
+
+	position: relative;
+	&:before,
+	&:after {
+		content:'';
+		display: block;
+		width:$size;
+		height:$size;
+		position: absolute;
+		top:0; left:0;
+		@include s-translate(-50%, -50%);
+		opacity:0;
+		@if $shape == circle {
+			border-radius:50%;
+		}
+	}
+	// cubic-bezier(1,.01,0,1)
+	$c : $color;
+	@if $colors and length($colors) >= 2 {
+		$c : nth($colors, 1);
+	}
+	&:before {
+		border:$width $style $c;
+		// background: radial-gradient(transparentize($c, 1) 30%, $c 50%, transparentize($c, 1) 70%);
+		animation: #{$a-name}-b $a-duration $a-ease 0s infinite;
+	}
+	@if $colors and length($colors) >= 2 {
+		$c : nth($colors, 2);
+	}
+	&:after {
+		border: $width $style $c;
+		// background: radial-gradient(transparentize($c, 1) 30%, $c 50%, transparentize($c, 1) 70%);
+		animation: #{$a-name}-a $a-duration $a-ease ($a-duration - $a-delay) / $a-count / 2 infinite;
+	}
+}

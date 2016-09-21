@@ -1,0 +1,3 @@
+@function s-rem($value) {
+	@return s-convert($value, rem);
+}

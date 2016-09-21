@@ -1,0 +1,145 @@
+//
+// s-font
+//
+@function s-font(
+	$family : null,
+	$color : null,
+	$size : null,
+	$style : null,
+	$variant : null,
+	$weight : null,
+	$decoration : null,
+	$align : null,
+	$transform : null,
+	$stretch : null,
+	$white-space : null,
+	$height : null,
+	$spacing : null,
+	$indent : null,
+	$break : null,
+	$wrap : null
+) {
+	@if $_sugar-test-arguments {
+		$family : s-test-argument('s-font','family',map-keys(sugar('settings.fonts')),$family);
+		$color : s-test-truncate('s-font','color',color,$color);
+		$size : s-test-argument('s-font','size',number,$size);
+		$style : s-test-argument('s-font','style',(normal,italic,oblique,initial,inherit),$style);
+		$variant : s-test-argument('s-font','variant',(normal,small-caps,initial,inherit),$variant);
+		$weight : s-test-argument('s-font','weight','string|number',$weight);
+		$decoration : s-test-argument('s-font','decoration',(none,underline,overline,line-through,initial,inherit),$decoration);
+		$align : s-test-argument('s-font','align',(left,right,center,justify,initial,inherit),$align);
+		$transform : s-test-argument('s-font','transform',(none,capitalize,uppercase,lowercase,initial,inherit),$transform);
+		$stretch : s-test-argument('s-font','stretch',(ultra-condensed,extra-condensed,condensed,semi-condensed,normal,semi-expanded,expanded,extra-expanded,ultra-expanded,initial,inherit),$stretch);
+		$white-space : s-test-argument('s-font','white-space',(normal,nowrap,pre,pre-line,pre-wrap,initial,inherit),$white-space);
+		$height : s-test-argument('s-font','height',number,$height);
+		$spacing : s-test-argument('s-font','spacing',number,$spacing);
+		$indent : s-test-argument('s-font','indent',number,$indent);
+		$break : s-test-argument('s-font','break',(normal,break-all,keep-all,initial,inherit),$break);
+		$wrap : s-test-argument('s-font','wrap',(normal,break-word,initial,inherit),$wrap);
+	}
+
+	// get the font object
+	$fonts : sugar('settings.fonts');
+	$f : map-get($fonts, sugar('settings.typo.font-family'));
+	@if type-of($f) == string {
+		$f : map-get($fonts, $f);
+	}
+	$cap-height : map-get-or($f, cap-height, 0);
+
+	// if a font family is passed
+	@if $family {
+		@if map-get($fonts, $family) {
+			$f : map-get($fonts, $family);
+			@if type-of($f) == string {
+				$f : map-get($fonts, $f);
+			}
+			$cap-height : map-get-or($f, cap-height, 0);
+			$family : map-get-or($f, font-family, $family);
+			@if not $style {
+				$style : map-get($f, font-style);
+			}
+			@if not $weight {
+				$weight : map-get($f, font-weight);
+			}
+		}
+	}
+
+	// init object to return
+	$return : (
+		cap-height : $cap-height
+	);
+
+	// set the font
+	@if $family {
+		$return : map-set($return, font-family, $family);
+	}
+
+	// color
+	@if $color {
+		$return : map-set($return, color, $color);
+	}
+
+	// font-size
+	@if $size {
+		@if unitless($size) or unit($size) == px {
+			$size : s-rem($size);
+		}
+		$return : map-set($return, font-size, $size);
+	}
+
+	@if $height {
+		$return : map-set($return, line-height, s-rem($height));
+	}
+
+	// font-style
+	@if $style {
+		$return : map-set($return, font-style, $style);
+	}
+	// font-variant
+	@if $variant {
+		$return : map-set($return, font-variant, $variant);
+	}
+	// font-weight
+	@if $weight {
+		$return : map-set($return, font-weight, $weight);
+	}
+	// text-decoration
+	@if $decoration {
+		$return : map-set($return, text-decoration, $decoration);
+	}
+	// text-align
+	@if $align {
+		$return : map-set($return, text-align, $align);
+	}
+	// text-transform
+	@if $transform {
+		$return : map-set($return, text-transform, $transform);
+	}
+	// font-stretch
+	@if $stretch {
+		$return : map-set($return, font-stretch, $stretch);
+	}
+	// white-space
+	@if $white-space {
+		$return : map-set($return, white-space, $white-space);
+	}
+	// letter spacing
+	@if $spacing {
+		$return : map-set($return, letter-spacing, $spacing);
+	}
+	// text-indent
+	@if $indent {
+		$return : map-set($return, text-indent, $indent);
+	}
+	// word break
+	@if $break {
+		$return : map-set($return, word-break, $break);
+	}
+	// word wrap
+	@if $wrap {
+		$return : map-set($return, word-wrap, $wrap);
+	}
+
+	// return the map
+	@return $return;
+}

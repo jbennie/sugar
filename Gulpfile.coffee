@@ -44,7 +44,7 @@ webpackParams =
 
 webpackAppParams = _.extend {}, webpackParams,
 	entry: {
-		'angular-demo': ['./src/js/angular-demo.js'],
+		# 'angular-demo': ['./src/js/angular-demo.js'],
 		# 'coco': ['./src/js/coco.js']
 	}
 	output:
@@ -52,23 +52,23 @@ webpackAppParams = _.extend {}, webpackParams,
 		filename: '[name].js',
 		libraryTarget: 'umd'
 webpackDistParams = _.extend {}, webpackParams,
-	entry: {
-		'drawer': [
-			"./src/js/components/SDrawerElement.js"
-			"./src/js/components/sDrawerManager.js"
-		]
-		'gooey': ["./src/js/filters/SGooeyElement.js"]
-		'motionblur': ["./src/js/filters/SMotionblurElement.js"]
-		'gradient': ["./src/js/filters/SGradientElement.js"]
-		'transitionstart': ["./src/js/events/STransitionStartEventDispatcher.js"]
-		'localStorageFonts': ["./src/js/fonts/sLocalStorageFonts.js"]
-		'activate' : [
-			'./src/js/components/SActivateElement.js'
-			'./src/js/components/sActivateManager.js'
-		]
-		#'form' : ['./src/js/components/s-form.js']
-		'sugar' : ['./src/js/sugar.js']
-	},
+	# entry: {
+	# 	'drawer': [
+	# 		"./src/js/components/SDrawerElement.js"
+	# 		"./src/js/components/sDrawerManager.js"
+	# 	]
+	# 	'gooey': ["./src/js/filters/SGooeyElement.js"]
+	# 	'motionblur': ["./src/js/filters/SMotionblurElement.js"]
+	# 	'gradient': ["./src/js/filters/SGradientElement.js"]
+	# 	'transitionstart': ["./src/js/events/STransitionStartEventDispatcher.js"]
+	# 	'localStorageFonts': ["./src/js/fonts/sLocalStorageFonts.js"]
+	# 	'activate' : [
+	# 		'./src/js/components/SActivateElement.js'
+	# 		'./src/js/components/sActivateManager.js'
+	# 	]
+	# 	#'form' : ['./src/js/components/s-form.js']
+	# 	'sugar' : ['./src/js/sugar.js']
+	# },
 	output:
 		path: require("path").resolve("./dist/js"),
 		filename: '[name].js'
@@ -102,37 +102,22 @@ gulp.task 'clean-js', ->
 	.pipe clean()
 gulp.task 'clean-css', ->
 	gulp.src [
-		'assets/css/'
+		'dist/css/',
+		'assets/css'
 	]
 	.pipe clean()
 
-# coffee
-gulp.task 'coffee', ['clean-js'], ->
-	gulp.src './src/coffee/*.coffee'
-	.pipr cached('coffee')
-	.pipe coffee()
-	.pipe gulp.dest 'assets/js'
-
 # compass
-gulp.task 'compass', ->
-	gulp.src './src/sass/**/*.scss'
-	.pipe cached('compass')
-	.pipe compass
-		config_file: './config.rb'
-		css: 'assets/css'
-		sass: 'src/sass'
-	.pipe autoprefixer
-		browsers: ['last 5 versions']
-	.pipe gulp.dest 'assets/css'
-
-# typescript
-gulp.task 'ts', [], ->
-	gulp.src './src/js/**/*.ts'
-	.pipe ts
-		# moduleResolution: 'Node'
-		# target: 'es5'
-		# module: 'umd'
-	.pipe gulp.dest 'assets/js'
+# gulp.task 'compass', ->
+# 	gulp.src './src/sass/**/*.scss'
+# 	.pipe cached('compass')
+# 	.pipe compass
+# 		config_file: './config.rb'
+# 		css: 'assets/css'
+# 		sass: 'src/sass'
+# 	.pipe autoprefixer
+# 		browsers: ['last 5 versions']
+# 	.pipe gulp.dest 'assets/css'
 
 # sass
 gulp.task 'sass', ->
@@ -149,7 +134,7 @@ gulp.task 'sass', ->
 # build the package
 gulp.task 'webpack-dist', ['clean-js'], ->
 	gulp.src [
-		'./src/js/sugar/**/*.js'
+		'./src/components/**/*.js'
 	]
 	.pipe gulpWebpack webpackDistParams
 	.pipe gulp.dest 'dist/js'
@@ -160,7 +145,7 @@ gulp.task 'webpack-dist', ['clean-js'], ->
 
 gulp.task 'webpack-app', ['clean-js'], ->
 	gulp.src [
-		'./src/js/*.js'
+		'./src/js/demo/*.js'
 	]
 	.pipe gulpWebpack webpackAppParams
 	.pipe gulp.dest 'assets/js'

@@ -1,0 +1,18 @@
+//
+// Unit context
+//
+$_s-unit-context : null;
+@mixin s-unit-context(
+	$unit
+) {
+	// check params
+	@if $_sugar-test-arguments {
+		$unit : s-test-argument('s-unit-context','unit',(px,rem,em,percent,'%',pt),$unit);
+	}
+	// set the new unit context
+	$_s-unit-context : $unit !global;
+	// execute the content
+	@content;
+	// restore the unit context to null
+	$_s-unit-context : null !global;
+}

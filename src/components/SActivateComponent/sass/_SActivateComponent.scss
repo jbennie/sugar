@@ -1,0 +1,15 @@
+@include s-component-setup((
+	s-activate : ()
+));
+
+@mixin s-activate-component(
+	$componentName : 's-activate'
+) {
+	[#{$componentName}-target] {
+		display: none;
+	}
+	[#{$componentName}-target]:target,
+	[#{$componentName}-target].active {
+		display: block;
+	}
+}

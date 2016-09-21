@@ -1,0 +1,82 @@
+//
+// Side lined
+//
+@mixin s-side-lined(
+	$style : solid,
+	$side : both,
+	$height : 1px,
+	$width : 50%,
+	$color : black,
+	$padding : 0,
+	$margin-top : null
+) {
+	@if $_sugar-test-arguments {
+		$style : s-test-argument('s-side-lined','style',none hidden dotted dashed solid double groove ridge inset outset initial inherit,$style);
+		$side : s-test-argument('s-side-lined','side',left right both,$side);
+		$height : s-test-argument('s-side-lined','height',number,$height);
+		$width : s-test-argument('s-side-lined','width',number,$width);
+		$color : s-test-argument('s-side-lined','color',color,$color);
+		$padding : s-test-argument('s-side-lined','padding',number,$padding);
+		$margin-top : s-test-argument('s-side-lined','margin-top',number,$margin-top);
+	}
+
+	display: block;
+	overflow: hidden;
+	min-height : 1.2em;
+
+	@if $side == both {
+		text-align: center;
+	} @else if $side == left {
+		text-align: right;
+	} @else if $side == right {
+		text-align: left;
+	}
+
+	$sel : '&:before, &:after';
+	@if $side == left {
+		$sel : '&:before';
+	} @else if $side == right {
+		$sel : '&:after';
+	}
+
+	#{$sel} {
+		content: "";
+		display: inline-block;
+		vertical-align: middle;
+		position: relative;
+		width: $width;
+
+		border-top-style: $style;
+		border-top-width: $height;
+
+		@if $color != inherit {
+			border-top-color: $color;
+    	}
+
+		@if $style == double {
+			height : $height * 2;
+			border-bottom-style: solid;
+			border-bottom-width: $height;
+			border-bottom-color: $color;
+		}
+
+    	@if $margin-top {
+			bottom: $margin-top;
+    	} @else {
+    		bottom : 0.05em;
+    	}
+	}
+
+	@if $side == left or $side == both {
+		&:before {
+			right: $padding;
+			margin-left: -50%;
+		}
+	}
+	@if $side == right or $side == both {
+		&:after {
+			left: $padding;
+			margin-right: -50%;
+		}
+	}
+}

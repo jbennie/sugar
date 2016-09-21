@@ -1,0 +1,23 @@
+@mixin s-border-radius(
+	$radius : null,
+	$top : null,
+	$right : null,
+	$bottom : null,
+	$left : null,
+	$top-left : null,
+	$top-right : null,
+	$bottom-left : null,
+	$bottom-right : null
+) {
+	@include s-corner(
+		$radius : $radius,
+		$top : $top,
+		$right : $right,
+		$bottom : $bottom,
+		$left : $left,
+		$top-left : $top-left,
+		$top-right : $top-right,
+		$bottom-left : $bottom-left,
+		$bottom-right : $bottom-right
+	);
+}

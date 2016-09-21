@@ -1,0 +1,3 @@
+@function s-em($value) {
+	@return s-convert($value, em);
+}

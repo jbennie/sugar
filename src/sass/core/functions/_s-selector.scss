@@ -1,0 +1,40 @@
+//
+// Declare multiple selectors for BEM, SMACCS, and maybe others
+// syntax in the futur
+//
+@function s-selector(
+	$sel,
+	$vertical-rhythme-scope : false
+) {
+	$method : sugar('settings.selector.method');
+	@if type-of($sel) == 'map' {
+		$sel : map-get($sel,$method);
+	}
+	@if not $sel {
+		@error("The method #{$method} is not available in the passed selector map : #{inspect($map)}");
+	}
+	// join the map if needed
+	@if type-of($sel) == list {
+		$sel : _join($sel, ',');
+	}
+	// check if need to scope vertical rhythme
+	@if $vertical-rhythme-scope {
+		// split
+		$sels : _split($sel,',');
+		$new_sels : ();
+		@each $s in $sels {
+			$s : #{s-vertical-rhythme-scope-class()}#{$s};
+			$new_sels : append($new_sels, $s);
+		}
+		$sel : _join($new_sels,',');
+	}
+	// replace the --default in selector
+	@if $method == BEM {
+		$sel : str-replace($sel,'--default','');
+	} @else if $method == SMACCS {
+		$sel : str-replace($sel,'-default','');
+	}
+	$sel : str-replace($sel,'.default','');
+	// return the selector
+	@return unquote($sel);
+}

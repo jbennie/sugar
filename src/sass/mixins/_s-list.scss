@@ -1,0 +1,11 @@
+//
+// Lists specific
+//
+@mixin s-list(
+	$counter-reset : s-list
+) {
+	@if $_sugar-test-arguments {
+		$counter-reset : s-test-argument('s-list','counter-reset',string,$counter-reset);
+	}
+	counter-reset : $counter-reset;
+}

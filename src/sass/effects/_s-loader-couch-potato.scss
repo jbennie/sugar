@@ -1,0 +1,77 @@
+
+
+@mixin s-loader-couch-potato(
+	$size : 1em,
+	$color : s-color(primary),
+	$a-duration : 1s,
+	$a-delay : 0s,
+	$a-ease : ease-in-out,
+	$a-rotate : 360deg,
+	$a-scale : 0.7
+) {
+	@if $_sugar-test-arguments {
+		$size : s-test-argument('s-loader-couch-potato','size',number,$size);
+		$color : s-test-argument('s-loader-couch-potato','color','color|list-color',$color);
+		$a-duration : s-test-argument('s-loader-couch-potato','a-duration',second,$a-duration);
+		$a-delay : s-test-argument('s-loader-couch-potato','a-delay',second,$a-delay);
+		$a-ease : s-test-argument('s-loader-couch-potato','a-ease',string,$a-ease);
+		$a-rotate : s-test-argument('s-loader-couch-potato','a-rotate',degree,$a-rotate);
+		$a-scale : s-test-argument('s-loader-couch-potato','a-scale',number,$a-scale);
+	}
+
+	// handle colors
+	$colors : null;
+	@if s-is($color,list-color) and length($color) > 1 {
+		$colors : $color;
+	}
+
+	$a-duration : $a-duration + $a-delay;
+
+	$a-name : unquote("couch-potato-#{unique-id()}");
+
+	$c : $color;
+	@if $colors and length($colors) == 2 {
+		$c : nth($colors, 1);
+	}
+	&:before {
+		display: block;
+		width : $size;
+		height: $size;
+		content:'';
+		@include s-translate(-50%, -50%);
+		background: $c;
+		transform-origin: $size/2 $size/2;
+		animation: $a-name $a-duration $a-ease 0s infinite;
+	}
+
+	$p-delay : 0;
+	@if $a-delay > 0 {
+		$p-delay : 1 / $a-duration * $a-delay;
+	}
+	@keyframes #{$a-name} {
+		0% {
+			border-radius:0;
+			transform : rotate(0deg) scale(1);
+		}
+		#{(100% - percentage($p-delay)) / 2} {
+			border-radius:50%;
+			transform : rotate($a-rotate / 2) scale($a-scale);
+			@if $colors and length($colors) == 2 {
+				$c : nth($colors, 2);
+			}
+			background: $c;
+		}
+		#{100% - percentage($p-delay)} {
+			border-radius:0;
+			transform : rotate($a-rotate) scale(1);
+			@if $colors and length($colors) == 2 {
+				$c : nth($colors, 1);
+			}
+			background: $c;
+		}
+		100% {
+			border-radius:0;
+			transform : rotate($a-rotate) scale(1);
+		}
+	}
+}

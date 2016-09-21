@@ -1,0 +1,9 @@
+//
+// Depth
+//
+@mixin s-depth(
+	$depth,
+	$color : rgba(0,0,0,.2)
+) {
+	@include s-filter(box-shadow(#{$color} 0 #{$depth * 2px} #{$depth * 3px} ));
+}

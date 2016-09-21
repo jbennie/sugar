@@ -1,0 +1,18 @@
+//
+// Get rhythme max-width
+//
+@function s-rhythme-width(
+	$letters-count : sugar('settings.typo.line-letters-count')
+) {
+	@if unitless($letters-count) {
+		@return (
+			display: block,
+			max-width : $letters-count + ex
+		);
+	} @else {
+		@return (
+			display: block,
+			max-width : $letters-count
+		);
+	}
+}

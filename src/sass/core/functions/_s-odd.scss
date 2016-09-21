@@ -1,0 +1,16 @@
+
+//
+// Make a number odd
+//
+@function s-odd($value) {
+	$dec : s-strip-units($value % 2);
+	$value : round($value);
+	@if s-strip-units($value) % 2 == 0 {
+		@if $dec >= 1 {
+			$value : $value + 1;
+		} @else {
+			$value : $value - 1;
+		}
+	}
+	@return $value;
+}

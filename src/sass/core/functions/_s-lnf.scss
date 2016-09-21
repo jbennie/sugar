@@ -1,0 +1,6 @@
+@function s-lnf(
+	$name,
+	$size : default
+) {
+	@return s-look-and-feel($name, $size);
+}

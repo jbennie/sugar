@@ -1,0 +1,7 @@
+//
+// Round a value to match a round px render
+//
+@function s-render-round($value) {
+	$value : call('s-#{unit($value)}',round(s-px($value)));
+	@return $value;
+}

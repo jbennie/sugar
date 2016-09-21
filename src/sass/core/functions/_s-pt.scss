@@ -1,0 +1,3 @@
+@function s-pt($value) {
+	@return s-convert($value, pt);
+}

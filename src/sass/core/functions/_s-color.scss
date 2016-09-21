@@ -1,0 +1,137 @@
+//
+// Color
+//
+@function s-color(
+	$name,
+	$actions : null
+) {
+	// dash syntax
+	@if $actions and type-of($actions) == list {
+		@return s-color($name, s-dash-to-map($actions));
+	}
+
+	// test parameters
+	@if $_sugar-test-arguments {
+		$name : s-test-argument('s-color','name','color|string',$name);
+		$actions : s-test-argument('s-color','actions','map|string',$actions);
+	}
+
+	// grab the colors
+	$colors : sugar('settings.colors');
+	$color : sugar('settings.colors.#{$name}');
+
+	$modifiers : null;
+
+	// check that we have the color
+	@if $color == null {
+		@if s-is($name, color) {
+			$color : $name;
+		} @else {
+			@error('The color "#{$name}" does not exist...');
+		}
+	}
+
+	// check if is a map
+	@if type-of($color) == map {
+		$modifiers : map-get($color, modifiers);
+		$color : map-get($color, color);
+	}
+
+	// if the color is a string
+	@if s-is($color, string) or s-is($color, color) {
+		@if $color != $name and index(map-keys($colors),$color) {
+			@return s-color($color, $actions);
+		}
+	}
+
+	// check if action is a string to check if is a modifier
+	@if type-of($actions) == string and $modifiers and map-get($modifiers, $actions) {
+		$mod : map-get($modifiers, $actions);
+		@if type-of($mod) == color {
+			$color : $mod;
+			$actions : null;
+		} @else if type-of($mod) == list {
+			$actions : s-dash-to-map($mod);
+		} @else if type-of($mod) == map {
+			$actions : $mod;
+		} @else {
+			@error('The color "#{$name}" "actions" parameter set as "#{$actions}" for the "s-color" function is not valid');
+		}
+	}
+
+	// check action to do
+	@if $actions {
+		// check arguments
+		@if $_sugar-test-arguments {
+			@if type-of($actions) == map {
+				$hue : s-test-argument('s-color','actions.hue',number,map-get($actions,hue));
+				$lighten : s-test-argument('s-color','actions.lighten',number,map-get($actions,lighten));
+				$darken : s-test-argument('s-color','actions.darken',number,map-get($actions,darken));
+				$saturate : s-test-argument('s-color','actions.saturate',number,map-get($actions,saturate));
+				$desaturate : s-test-argument('s-color','actions.desaturate',number,map-get($actions,desaturate));
+				$grayscale : s-test-argument('s-color','actions.grayscale',boolean,map-get($actions,grayscale));
+				$complement : s-test-argument('s-color','actions.complement',boolean,map-get($actions,complement));
+				$invert : s-test-argument('s-color','actions.invert',boolean,map-get($actions,invert));
+				$opacity : s-test-argument('s-color','actions.opacity',number,map-get($actions,opacity));
+				$mix : s-test-argument('s-color','actions.mix',color,map-get($actions,mix));
+			} @else if type-of($actions) == string {
+				$modifiers : sugar('settings.colors.#{$name}.modifiers');
+				@if not $modifiers {
+					@error('The color "#{$name} does not have any "#{$actions}" modifier...');
+				}
+				$actions : s-test-argument('s-color','actions',map-keys(sugar('settings.colors.#{$name}.modifiers')),$actions);
+			}
+		}
+
+		// loop on each action to process to keep order
+		@each $action, $value in $actions {
+			// hue
+			@if $action == hue {
+				$color : adjust-hue($color, $value);
+			}
+			// lighten
+			@if $action == lighten {
+				$color : lighten($color, $value);
+			}
+			// darken
+			@if $action == darken {
+				$color : darken($color, $value);
+			}
+			// saturate
+			@if $action == saturate {
+				$color : saturate($color, $value);
+			}
+			// desaturate
+			@if $action == desaturate {
+				$color : desaturate($color, $value);
+			}
+			// grayscale
+			@if $action == grayscale and $value == true {
+				$color : grayscale($color);
+			}
+			// complement
+			@if $action == complement and $value == true {
+				$color : complement($color);
+			}
+			// invert
+			@if $action == invert and $value == true {
+				$color : invert($color);
+			}
+			// opacity
+			@if $action == opacity and type-of($value) == number {
+
+				$transparentize : 1 - s-strip-units($value);
+				@if unit($value) == '%' {
+					$transparentize : (100 - s-strip-units($value)) / 100;
+				}
+				$color : transparentize($color, $transparentize);
+			}
+			// mix
+			@if $action == mix and type-of($value) == color {
+				$color : mix($color, $value);
+			}
+		}
+	}
+	// return the color
+	@return $color;
+}

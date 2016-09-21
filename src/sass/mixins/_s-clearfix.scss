@@ -1,0 +1,56 @@
+/* # CLEARFIX
+	More infos to come..
+
+	https://github.com/stubbornella/oocss/blob/master/oocss/src/components/utils/_clearfix-me.scss
+
+	clearfix   used project wide to clear floats and create a new formatting context
+
+	usage      @include clearfix-me(<empty|overflow|facebook|micro|stubborn>)
+
+	$clearfix-method sets default method
+*/
+
+// set default clearfix method to overflow
+$clearfix-method: overflow !default;
+// can be one of: overflow,facebook,micro,stubborn
+
+// create stub classes for each of the four clearfix methods
+
+%clearfix-overflow {
+	overflow: hidden;
+}
+
+%clearfix-facebook {
+	display: table-cell;
+	vertical-align: top;
+	width: 10000px !important;
+}
+
+%clearfix-float {
+	float: left;
+	width: 100%;
+}
+
+%clearfix-micro {
+	zoom: 1;
+	&:before,
+	&:after {
+		content: " ";
+		display: table;
+	}
+	&:after {
+		clear: both;
+	}
+}
+
+// extends so the output will be smaller
+
+@mixin s-clearfix($method: $clearfix-method) {
+	@if $method != overflow and $method != facebook and $method != micro and $method != float {
+		@warn "The clearfix method #{$method} is unkown";
+		@include s-clearfix(micro);
+	}
+	@else {
+		@extend %clearfix-#{$method};
+	}
+}

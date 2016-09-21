@@ -1,0 +1,3 @@
+@function s-vertical-rhythme-scope-class() {
+	@return unquote(".#{sugar('settings.vertical-rhythme.scope-class')}");
+}

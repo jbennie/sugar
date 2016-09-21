@@ -1,0 +1,6 @@
+@function s-px($value) {
+	@return s-convert($value, px);
+}
+@function s-Px($value) {
+	@return unquote("#{s-strip-units(s-px($value))}Px");
+}

@@ -1,0 +1,6 @@
+//
+// Get the current unit context
+//
+@function s-unit-context() {
+	@return $_s-unit-context;
+}

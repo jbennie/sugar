@@ -1,0 +1,57 @@
+//
+// Font face
+//
+@mixin s-font-face(
+	$font-family,
+	$src,
+	$extensions : woff2,
+	$font-weight : normal,
+	$font-style : normal
+) {
+	@if $_sugar-test-arguments {
+		$font-family : s-test-argument('s-font-face','font-family',string,$font-family);
+		// $src : s-test-argument('s-font-face','src',mixed,$src);
+		$extensions : s-test-argument('s-font-face','extensions','string|list',$extensions);
+		$font-weight : s-test-argument('s-font-face','font-weight',(normal,bold,bolder,lighter,number,initial,inherit),$font-weight);
+		$font-style : s-test-argument('s-font-face','font-style',(normal,italic,oblique,initial,inherit),$font-style);
+	}
+
+	// get font format from settings
+	$font-format : sugar('settings.typo.font-format');
+
+	// if the src is a string
+	// mean that's a url
+	$srcs : $src;
+	@if type-of($src) == 'string' {
+		// process url
+		$split : _split($src, '.');
+		$e : last-nth($split);
+		$split : list-pop($split);
+		$path : list-implode($split, '.');
+
+		// add extention in list
+		@if index($extensions, $e) == null {
+			$extensions : append($extensions, $e);
+		}
+
+		// loop on each extensions
+		$srcs : ();
+		@each $e in $extensions {
+			// get the format
+			$format : map-get($font-format, $e);
+			$srcs : append($srcs, url('#{$path}.#{$e}') format('#{$format}'), comma);
+		}
+	}
+
+	// declare font
+	@font-face {
+		font-family: "#{$font-family}";
+		src : $srcs;
+		@if $font-style {
+			font-style : $font-style;
+		}
+		@if $font-weight {
+			font-weight : $font-weight;
+		}
+	}
+}

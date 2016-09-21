@@ -3,20 +3,20 @@ module.exports = (grunt) ->
 	# Configuration
 	# =============
 	grunt.initConfig
-		
+
 		pkg: grunt.file.readJSON 'package.json'
 
 		concat:
 			animatecss:
-				src : 'src/sass/sugar/vendors/animatecss/*/*.scss'
-				dest : 'src/sass/sugar/vendors/animatecss/_animate.scss'
-		
+				src : 'src/sass/vendors/animatecss/*/*.scss'
+				dest : 'src/sass/vendors/animatecss/_animate.scss'
+
 		copy:
 			fontawesome:
 				expand: true,
 				cwd: 'bower_components/font-awesome/css/',
 				src: 'font-awesome.css',
-				dest: 'src/sass/sugar/vendors/fontawesome/',
+				dest: 'src/sass/vendors/fontawesome/',
 				filter: 'isFile'
 				rename: (dest, src) ->
 					dest + '_' + src.replace '.css', '.scss'
@@ -29,19 +29,19 @@ module.exports = (grunt) ->
 				expand: true,
 				cwd: 'node_modules/sassyjson/stylesheets/',
 				src: '**',
-				dest: 'src/sass/sugar/vendors/sassyjson/',
+				dest: 'src/sass/vendors/sassyjson/',
 				filter: 'isFile'
 			modularscale:
 				expand: true,
 				cwd: 'bower_components/modular-scale/stylesheets/',
 				src: '**',
-				dest: 'src/sass/sugar/vendors/modularscale/',
+				dest: 'src/sass/vendors/modularscale/',
 				filter: 'isFile'
 			animatecss:
 				expand: true,
 				cwd: 'bower_components/animate.css/source',
 				src: '**',
-				dest: 'src/sass/sugar/vendors/animatecss/',
+				dest: 'src/sass/vendors/animatecss/',
 				filter: 'isFile'
 				rename: (dest, src) ->
 					src = src.replace 'css', 'scss'
@@ -66,9 +66,9 @@ module.exports = (grunt) ->
 						content
 			animatecss_mixin:
 				expand: true,
-				cwd: 'src/sass/sugar/vendors/animatecss/',
+				cwd: 'src/sass/vendors/animatecss/',
 				src: '_animate.scss',
-				dest: 'src/sass/sugar/vendors/animatecss/',
+				dest: 'src/sass/vendors/animatecss/',
 				filter: 'isFile'
 				options:
 					process: (content, srcpath) ->
@@ -78,13 +78,13 @@ module.exports = (grunt) ->
 				expand: true,
 				cwd: 'bower_components/sassdash/scss/',
 				src: '**',
-				dest: 'src/sass/sugar/vendors/sassdash/',
+				dest: 'src/sass/vendors/sassdash/',
 				filter: 'isFile'
 			cssgram:
 				expand: true,
 				cwd: 'bower_components/cssgram/source/scss/',
 				src: '**',
-				dest: 'src/sass/sugar/vendors/cssgram/',
+				dest: 'src/sass/vendors/cssgram/',
 				filter: 'isFile'
 				rename: (dest, src) ->
 					return dest + '_' + src if src.substring(0,1) != '_'
@@ -107,12 +107,12 @@ module.exports = (grunt) ->
 				files: [{
 					expand: true
 					flatten: true
-					src: ['src/sass/sugar/vendors/animatecss/animate.scss'],
-					dest: 'src/sass/sugar/vendors/animatecss/'
+					src: ['src/sass/vendors/animatecss/animate.scss'],
+					dest: 'src/sass/vendors/animatecss/'
 				}]
 
 		clean: [
-			'src/sass/sugar/vendors'
+			'src/sass/vendors'
 		]
 
 		notify:
@@ -128,7 +128,7 @@ module.exports = (grunt) ->
 				options:
 					title:'Grunt watcher'
 					message: 'Coffee files where processed'
-		
+
 
 	grunt.loadNpmTasks 'grunt-notify'
 	grunt.loadNpmTasks 'grunt-contrib-concat'

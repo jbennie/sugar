@@ -1,0 +1,9 @@
+@function s-component-name(
+	$default : null
+) {
+	@if not $_sugar-component-name {
+		@return $default;
+	} @else {
+		@return $_sugar-component-name;
+	}
+}

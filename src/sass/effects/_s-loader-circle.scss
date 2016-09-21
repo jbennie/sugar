@@ -1,0 +1,169 @@
+@mixin s-loader-circle(
+	$color : s-color(primary),
+	$size : 10px,
+	$radius : 30px,
+	$count : 8,
+	$opacity : 1,
+	$a-spread : null,
+	$a-rotate : null,
+	$a-scale : null,
+	$a-opacity : null,
+	$a-near : null,
+	$a-ease : ease-in-out,
+	$a-duration : 1s,
+	$a-delay : 0s
+) {
+	@if $_sugar-test-arguments {
+		$color : s-test-argument('s-loader-circle','color','color|list-color',$color);
+		$size : s-test-argument('s-loader-circle','size',number,$size);
+		$radius : s-test-argument('s-loader-circle','radius',number,$radius);
+		$count : s-test-argument('s-loader-circle','count',integer,$count);
+		$opacity : s-test-argument('s-loader-circle','opacity',number,$opacity);
+		$a-spread : s-test-argument('s-loader-circle','a-spread',number,$a-spread);
+		$a-rotate : s-test-argument('s-loader-circle','a-rotate',degree,$a-rotate);
+		$a-scale : s-test-argument('s-loader-circle','a-scale',number,$a-scale);
+		$a-opacity : s-test-argument('s-loader-circle','a-opacity',number,$a-opacity);
+		$a-near : s-test-argument('s-loader-circle','a-near',number,$a-near);
+		$a-ease : s-test-argument('s-loader-circle','a-ease',string,$a-ease);
+		$a-duration : s-test-argument('s-loader-circle','a-duration',second,$a-duration);
+		$a-delay : s-test-argument('s-loader-circle','a-delay',second,$a-delay);
+	}
+
+	// handle colors
+	$colors : null;
+	@if s-is($color,list-color) and length($color) > 1 {
+		$colors : $color;
+	}
+
+	// manage near
+	@if not $a-near {
+		$a-near : $count / 2;
+	}
+
+	$a-name : unquote("circle-#{unique-id()}");
+	// manage duration
+	$a-duration : $a-duration + $a-delay;
+
+	$base-shadows : ();
+	@for $i from 0 through $count {
+		$x : $radius * s-cos(360deg / $count * $i);
+		$y : $radius * s-sin(360deg / $count * $i);
+		$c : $color;
+		@if $colors {
+			$c : nth($colors, $i + 1);
+		}
+		@if $opacity {
+			$c : transparentize($c, 1 - $opacity);
+		}
+		$base-shadows : append($base-shadows, $c $x $y 0 0, comma);
+	}
+
+	$spread-map : ();
+	// calculate percentage of delay
+	$p-delay : 0;
+	$p-step : 1 / $count;
+	@if $a-delay > 0 {
+		$p-delay : 1 / $a-duration * $a-delay;
+		$p-step : (1 - $p-delay) / ($count + 1);
+	}
+	// animation
+	@keyframes #{$a-name} {
+		@for $step-idx from 0 through $count {
+			$p : percentage($step-idx * $p-step);
+			@if $a-delay > 0 {
+				$p : percentage($step-idx * $p-step) + percentage($p-step);
+			}
+			#{$p} {
+				$shadows : ();
+				@for $count-idx from 0 through $count {
+					$x : $radius * s-cos(360deg / $count * $count-idx);
+					$y : $radius * s-sin(360deg / $count * $count-idx);
+
+					$diff : abs($step-idx - $count-idx);
+					@if $step-idx + $a-near > $count and $count-idx - $a-near < 0 {
+						$diff : abs($count-idx - ($step-idx - $count));
+					} @else if $step-idx - $a-near < 0 and $count-idx + $a-near > $count {
+						$diff : abs($step-idx + ($count - $count-idx));
+					}
+
+					$c : $color;
+					@if $colors {
+						$c : nth($colors, $count-idx + 1);
+					}
+					$_opacity : 1;
+					@if $a-opacity {
+						@if $diff < $a-near {
+							$_opacity : ($a-opacity - $opacity) / $a-near * ($a-near - $diff);
+							$o : $opacity + $_opacity;
+							// $transparentize : $_opacity;
+							$c : transparentize($c, 1 - $o);
+						} @else if $opacity {
+							$c : transparentize($c, 1 - $opacity);
+						}
+					} @else if $opacity {
+						$c : transparentize($c, 1 - $opacity);
+					}
+					$scale : $size;
+					@if $a-scale {
+						@if $diff == 0 {
+							$scale : $a-scale;
+						} @else if $diff <= $a-near {
+							$s : $a-scale - $size;
+							$scale : $size + $s - $s / $a-near * $diff;
+						}
+					}
+					@if $a-spread and $diff < $a-near {
+						$randX : random(round($a-spread / 2));
+						$randY : random(round($a-spread / 2));
+						@if random(10) < 5 {
+							$randX : $randX * -1;
+						}
+						@if random(10) < 5 {
+							$randY : $randY * -1;
+						}
+						@if $step-idx == 0 {
+							$s : (
+								x : $randX,
+								y : $randY
+							);
+							$spread-map : map-set($spread-map, $count-idx, $s);
+						}
+						@if $step-idx == $count {
+							$map : map-get($spread-map, $count-idx);
+							@if $map {
+								$randX : map-get($map, x);
+								$randY : map-get($map, y);
+							} @else {
+								$randX : 0;
+								$randY : 0;
+							}
+						}
+						$x : $x + $randX;
+						$y : $y + $randY;
+					}
+					@if $count-idx < $count {
+						$shadows : append($shadows, $x $y 0 ($scale - $size) $c, comma);
+					}
+				}
+				box-shadow : $shadows;
+			}
+		}
+		@if $a-delay > 0 and percentage($count * $p-step) + percentage($p-step) < 100 {
+			#{percentage($count * $p-step) + percentage($p-step) * 2} {
+				box-shadow: $base-shadows;
+			}
+		}
+	}
+	&:after {
+		border-radius:50%;
+		width : $size;
+		height : $size;
+		display : block;
+		content : '';
+		box-shadow: $base-shadows;
+		animation : $a-name $a-duration $a-ease 0s infinite;
+	}
+	// @include s-translate(-50% -50%);
+	// transform: rotate(- 360deg / $count / 2);
+	transform : translateX(-50%) translateY(-50%) rotate(-90deg);
+}

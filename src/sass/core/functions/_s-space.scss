@@ -1,0 +1,8 @@
+//
+// Space
+//
+@function s-space(
+	$size
+) {
+	@return s-render-round(s-interpolate('settings.spaces', $size));
+}
