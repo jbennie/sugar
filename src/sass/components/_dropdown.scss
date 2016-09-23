@@ -1,60 +1,76 @@
-@include s-component-setup((
-	dropdown : (
-		generate : (
-			colors : default
-		)
-	)
-));
-
 $_s-dropdown-inited : false;
 @mixin s-dropdown-init() {
 	@if not $_s-dropdown-inited {
 		$_s-dropdown-inited : true !global;
 
-		@include s-component-context('dropdown') {
+		%s-dropdown-bare {
+			position: relative;
 
-			%s-dropdown-bare {
-				position: relative;
-
-				&:hover,
-				&.active,
-				#{s-selector((
-					BEM : '&.dropdown--active',
-					SMACCS : '&.is-active'
-				))} {
-					z-index:1;
-
-					#{s-selector((
-						BEM : '.dropdown__menu',
-						SMACCS : '.dropdown-menu'
-					))} {
-						visibility: visible;
-						opacity: 1;
-						pointer-events: all;
-					}
-				}
+			&:hover,
+			&.active,
+			#{s-selector((
+				BEM : '&.dropdown--active',
+				SMACCS : '&.is-active'
+			))} {
+				z-index:1;
 
 				#{s-selector((
 					BEM : '.dropdown__menu',
 					SMACCS : '.dropdown-menu'
 				))} {
-					visibility: hidden;
-					opacity: 0;
-					position: absolute;
-					top: 100%;
-					pointer-events: none;
-					@include s-transition();
+					visibility: visible;
+					opacity: 1;
+					pointer-events: all;
 				}
-				#{s-selector((
-					BEM : '.dropdown__item',
-					SMACCS : '.dropdown-item'
-				))} {
-					white-space: nowrap;
+			}
 
-					> a {
-						padding: s-lnf(padding-horizontal) s-lnf(padding-vertical);
-						display: block;
-					}
+			#{s-selector((
+				BEM : '.dropdown__menu',
+				SMACCS : '.dropdown-menu'
+			))} {
+				visibility: hidden;
+				opacity: 0;
+				position: absolute;
+				top: 100%;
+				pointer-events: none;
+				@include s-transition();
+			}
+			#{s-selector((
+				BEM : '.dropdown__item',
+				SMACCS : '.dropdown-item'
+			))} {
+				white-space: nowrap;
+
+				> a {
+					padding: s-lnf(padding-horizontal) s-lnf(padding-vertical);
+					display: block;
+				}
+			}
+
+			&:hover,
+			&.active,
+			#{s-selector((
+				BEM : '&.dropdown--active',
+				SMACCS : '&.is-active'
+			))} {
+				#{s-selector((
+					BEM : '.dropdown__menu',
+					SMACCS : '.dropdown-menu'
+				))} {
+					top: 100%;
+				}
+			}
+
+			#{s-selector((
+				BEM : '&.dropdown--up',
+				SMACCS : '&.dropdown-up'
+			))} {
+				#{s-selector((
+					BEM : '.dropdown__menu',
+					SMACCS : '.dropdown-menu'
+				))} {
+					top: auto;
+					bottom: 100%;
 				}
 
 				&:hover,
@@ -62,18 +78,6 @@ $_s-dropdown-inited : false;
 				#{s-selector((
 					BEM : '&.dropdown--active',
 					SMACCS : '&.is-active'
-				))} {
-					#{s-selector((
-						BEM : '.dropdown__menu',
-						SMACCS : '.dropdown-menu'
-					))} {
-						top: 100%;
-					}
-				}
-
-				#{s-selector((
-					BEM : '&.dropdown--up',
-					SMACCS : '&.dropdown-up'
 				))} {
 					#{s-selector((
 						BEM : '.dropdown__menu',
@@ -82,61 +86,46 @@ $_s-dropdown-inited : false;
 						top: auto;
 						bottom: 100%;
 					}
-
-					&:hover,
-					&.active,
-					#{s-selector((
-						BEM : '&.dropdown--active',
-						SMACCS : '&.is-active'
-					))} {
-						#{s-selector((
-							BEM : '.dropdown__menu',
-							SMACCS : '.dropdown-menu'
-						))} {
-							top: auto;
-							bottom: 100%;
-						}
-					}
 				}
 			}
+		}
 
-			%s-dropdown-style {
+		%s-dropdown-style {
 
+			#{s-selector((
+				BEM : '.dropdown__menu',
+				SMACCS : '.dropdown-menu'
+			))} {
+				background: s-color(default);
+				@include s-depth(2);
+				@include s-transition(fast);
+				overflow: hidden;
+			}
+
+			#{s-selector((
+				BEM : '.dropdown__item',
+				SMACCS : '.dropdown-item'
+			))} {
+				border-top: solid 1px s-color(default, -opacity .2);
+				@include s-transition(all .1s ease-in-out);
+				background-color:white;
+				left:0;
+				position:relative;
+				@include s-transition(fast left);
+
+				&:hover,
+				&.active,
 				#{s-selector((
-					BEM : '.dropdown__menu',
-					SMACCS : '.dropdown-menu'
+					BEM : '&.dropdown__item--active',
+					SMACCS : '&.is-active'
 				))} {
-					background: s-color(default);
-					@include s-depth(2);
-					@include s-transition(fast);
-					overflow: hidden;
+					left:5px;
 				}
 
-				#{s-selector((
-					BEM : '.dropdown__item',
-					SMACCS : '.dropdown-item'
-				))} {
-					border-top: solid 1px s-color(default, -opacity .2);
-					@include s-transition(all .1s ease-in-out);
-					background-color:white;
-					left:0;
-					position:relative;
-					@include s-transition(fast left);
-
-					&:hover,
-					&.active,
-					#{s-selector((
-						BEM : '&.dropdown__item--active',
-						SMACCS : '&.is-active'
-					))} {
-						left:5px;
-					}
-
-					> a {
-						color : s-color(link) !important;
-						display: block;
-						width: 100%;
-					}
+				> a {
+					color : s-color(link) !important;
+					display: block;
+					width: 100%;
 				}
 			}
 		}
@@ -157,44 +146,35 @@ $_s-dropdown-inited : false;
 	// init dropdown
 	@include s-dropdown-init();
 
-	// pass in component context
-	@include s-component-context('dropdown') {
-
-		.dropdown {
-			@extend %s-dropdown-bare;
-		}
+	.dropdown {
+		@extend %s-dropdown-bare;
 	}
 }
 
 @mixin s-dropdown-style(
-	$colors : sugar('settings.components.dropdown.generate.colors')
+	$colors : default primary secondary
 ) {
 	// init dropdown
 	@include s-dropdown-init();
 
-	// pass in component context
-	@include s-component-context('dropdown') {
+	// extend style
+	.dropdown {
+		@extend %s-dropdown-style;
+	}
 
-		// extend style
-		.dropdown {
-			@extend %s-dropdown-style;
-		}
+	@each $color in $colors {
+		// extend dropdown
+		#{s-selector((
+			BEM : '.dropdown--#{$color}',
+			SMACCS : '.dropdown-#{$color}'
+		))} {
 
-		@each $color in $colors {
-			// extend dropdown
 			#{s-selector((
-				BEM : '.dropdown--#{$color}',
-				SMACCS : '.dropdown-#{$color}'
+				BEM : '.dropdown__menu',
+				SMACCS : '.dropdown-menu'
 			))} {
-
-				#{s-selector((
-					BEM : '.dropdown__menu',
-					SMACCS : '.dropdown-menu'
-				))} {
-					background-color: s-color($color);
-				}
+				background-color: s-color($color);
 			}
 		}
-
 	}
 }

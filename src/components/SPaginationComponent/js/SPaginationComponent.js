@@ -25,6 +25,7 @@ class SPaginationComponent extends STemplateComponent {
 			 * @type 	{Object}
 			 */
 			data : {
+				_componentNameDash : '@componentNameDash',
 				pages : '@settings.pages',
 				current : '@settings.current',
 				onchange : '@settings.onchange',
@@ -62,39 +63,60 @@ class SPaginationComponent extends STemplateComponent {
 			 */
 			template : `
 				<%
-					var disableFirst = '';
-					if (current === 1) {
-						disableFirst = 's-pagination__item--disabled is-disabled';
-					}
-					var disableLast = '';
-					if (current === pages) {
-						disableLast = 's-pagination__item--disabled is-disabled';
-					}
+					var itemAttr = _componentNameDash + '-item';
 				%>
 
-				<ol class="s-pagination">
+				<ol class="<%= _componentNameDash %>">
 					<!--% if (showFirst) { %-->
-						<li class="s-pagination__item <%= disableFirst %>" onclick="this.first()">
-							«
-						</li>
+						<!--% if (current === 1) { %-->
+							<li {{component_item}} {{disabled_item}} onclick="this.first()">
+								«
+							</li>
+						<!--% } else { %-->
+							<li {{component_item}} onclick="this.first()">
+								«
+							</li>
+						<!--% } %-->
 					<!--% } %-->
+
 					<!--% if (showPrevious) { %-->
-						<li class="s-pagination__item <%= disableFirst %>" onclick="this.previous()">
-							‹
-						</li>
+						<!--% if (current === 1) { %-->
+							<li {{component_item}} {{disabled_item}} onclick="this.previous()">
+								‹
+							</li>
+						<!--% } else { %-->
+							<li {{component_item}} onclick="this.previous()">
+								‹
+							</li>
+						<!--% } %-->
 					<!--% } %-->
+
 					<!--% for(i=0; i<pages; i++) { %-->
-						<li class="s-pagination__item s-pagination-item <% if ((i + 1) === current) { %> active <% } %>" onclick="this.onchange(<%= (i + 1) %>)"><%= (i + 1) %></li>
+						<li {{component_item}} class="<% if ((i + 1) === current) { %> active <% } %>" onclick="this.onchange(<%= (i + 1) %>)"><%= (i + 1) %></li>
 					<!--% } %-->
+
 					<!--% if (showNext) { %-->
-						<li class="s-pagination__item <%= disableLast %>" onclick="this.next()">
-							›
-						</li>
+						<!--% if (current === pages) { %-->
+							<li {{component_item}} {{disabled_item}} onclick="this.next()">
+								›
+							</li>
+						<!--% } else { %-->
+							<li {{component_item}} onclick="this.next()">
+								›
+							</li>
+						<!--% } %-->
 					<!--% } %-->
+
 					<!--% if (showLast) { %-->
-						<li class="s-pagination__item <%= disableLast %>" onclick="this.last()">
-							»
-						</li>
+						<!--% if (current === pages) { %-->
+							<li {{component_item}} {{disabled_item}} onclick="this.last()">
+								»
+							</li>
+						<!--% } else { %-->
+							<li {{component_item}} onclick="this.last()">
+								»
+							</li>
+						<!--% } %-->
 					<!--% } %-->
 				</ol>
 			`,
@@ -139,6 +161,17 @@ class SPaginationComponent extends STemplateComponent {
 				return (typeof(newVal) === 'number');
 			})
 		];
+	}
+
+	/**
+	 * _afterCompile
+	 * Process the tempalate
+	 */
+	_afterCompile(template) {
+		template = super._afterCompile(template);
+		template = template.replace(/\{\{component_item\}\}/g, this.componentItemAttributeName('item'));
+		template = template.replace(/\{\{disabled_item\}\}/g, this.componentItemAttributeName('item-disabled'));
+		return template;
 	}
 
 	first() {

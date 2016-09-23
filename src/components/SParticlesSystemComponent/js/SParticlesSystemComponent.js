@@ -24,6 +24,7 @@ class SParticlesSystemComponent extends SComponent {
 			timeoutSpread : 0,
 			duration : null,
 			particleClass : null,
+			particleElm : null,
 			particleClassSelection : 'random',
 			onComplete : null
 		}, settings);
@@ -41,13 +42,18 @@ class SParticlesSystemComponent extends SComponent {
 		// init the particle creation system
 		setRecursiveTimeout((idx) => {
 			// create new particle
-			const particleElm = document.createElement('div');
+			let particleElm = document.createElement('div');
+			if (this.settings.particleElm) {
+				particleElm = this.settings.particleElm.cloneNode(true);
+			}
 
 			// set particle position
 			particleElm.style.top = this.settings.emitterY;
 			particleElm.style.left = this.settings.emitterX;
 			particleElm.style.marginLeft = (- this.settings.spread + Math.round(Math.random() * this.settings.spread * 2)) + 'px';
 			particleElm.style.marginRight = (- this.settings.spread + Math.round(Math.random() * this.settings.spread * 2)) + 'px';
+
+			// add attributes to particle if needed
 
 			let cls = this.settings.particleClass;
 			if (cls instanceof Array) {

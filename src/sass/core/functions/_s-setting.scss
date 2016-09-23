@@ -4,16 +4,16 @@
 $_sugar-settings-cache : ();
 @function s-setting(
 	$path,
-	$component : $_sugar-current-component
+	$context : $_sugar-current-context
 ) {
 	$base_path : $path;
-	@if $component == default {
-		$component : null;
+	@if $context == default {
+		$context : null;
 	}
 
 	// check if has a component
-	@if $component {
-		$path : 'components.#{$component}.#{$path}';
+	@if $context {
+		$path : 'contexts.#{$context}.#{$path}';
 	}
 
 	// check in cache
@@ -24,7 +24,7 @@ $_sugar-settings-cache : ();
 
 	$value : map-get-path($_sugar-settings, $path);
 
-	@if not $value and $component {
+	@if not $value and $context {
 		// try to get the value from the base component
 		$value : s-setting($base_path, default);
 	}

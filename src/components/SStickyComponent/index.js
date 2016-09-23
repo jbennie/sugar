@@ -1,2 +1,2 @@
-import SStickyComponent from './SStickyComponent'
+import SStickyComponent from './js/SStickyComponent'
 export default SStickyComponent

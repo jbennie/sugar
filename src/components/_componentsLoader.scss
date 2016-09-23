@@ -2,9 +2,21 @@
  * Load all components
  */
 @import 'SActivateComponent/index',
+		'SButtonComponent/index',
+		'SCornerBadge/index',
 		'SDatepickerComponent/index',
 		'SDrawerComponent/index',
+		'SDropdownComponent/index',
+		'SInputComponent/index',
+		'SFieldsetComponent/index',
+		'SFormComponent/index',
 		'SLabelPushComponent/index',
+		'SNavComponent/index',
 		'SPaginationComponent/index',
 		'SRadioboxComponent/index',
-		'SRangeComponent/index';
+		'SRangeComponent/index',
+		'SRippleComponent/index',
+		'SSelectComponent/index',
+		'SSlideshowComponent/index',
+		'STableComponent/index',
+		'STooltipComponent/index';

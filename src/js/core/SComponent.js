@@ -509,6 +509,54 @@ class SComponent extends SElement {
 	}
 
 	/**
+	 * componentItemSelector
+	 * Return the correct selector for the component item wanted
+	 * @param 	{String} 	itemName 		The item name to get
+	 * @return 	{String} 					The component item selector
+	 */
+	componentItemSelector(itemName) {
+		return `[${this.componentNameDash}-${__uncamelize(itemName)}]`;
+	}
+
+	/**
+	 * componentItemAttributeName
+	 * Return the correct attribute for the component item wanted
+	 * @param 	{String} 	itemName 		The item name to get
+	 * @return 	{String} 					The component attribute iten name
+	 */
+	componentItemAttributeName(itemName) {
+		return `${this.componentNameDash}-${__uncamelize(itemName)}`;
+	}
+
+	/**
+	 * setComponentItemName
+	 * Set the item name to an element
+	 * @param 	{HTMLElement} 	elm 		The element to process
+	 * @param 	{String} 		name 		The name
+	 * @return 	{HTMLElement} 				The element
+	 */
+	setComponentItemName(elm, name) {
+		const attrName = `${this.componentNameDash}-${__uncamelize(name)}`;
+		if ( elm.hasAttribute(attrName)) return elm;
+		elm.setAttribute(attrName,true);
+		return elm;
+	}
+
+	/**
+	 * removeComponentItemName
+	 * Remote the item name from an element
+	 * @param 	{HTMLElement} 	elm 		The element to process
+	 * @param 	{String} 		name 		The name
+	 * @return 	{HTMLElement} 				The element
+	 */
+	removeComponentItemName(elm, name) {
+		const attrName = `${this.componentNameDash}-${__uncamelize(name)}`;
+		if ( ! elm.hasAttribute(attrName)) return elm;
+		elm.removeAttribute(attrName);
+		return elm;
+	}
+
+	/**
 	 * Init bindings
 	 */
 	_initBindings() {

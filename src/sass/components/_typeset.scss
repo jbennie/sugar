@@ -1,110 +1,38 @@
-@include s-component-setup((
-	typeset : (
-		scope-class : 'typeset',
-		titles : (
-			default : (
-				margin-bottom : 2rem
-			),
-			h1 : (
-				font-size : 57px
-			),
-			h2 : (
-				font-size : 50px
-			),
-			h3 : (
-				font-size : 36px
-			),
-			h4 : (
-				font-size : 26px
-			),
-			h5 : (
-				font-size : 20px
-			),
-			h6 : (
-				font-size : 1rem
-			)
-		),
-		paragraphs : (
-			default : (
-				font-size : 16px,
-				margin-bottom : 2rem
-			),
-			lead : (
-				font-size : 22px
-			)
-		),
-		lists : (
-			default : (
-				font-size : 16px,
-				margin-bottom : 2rem
-			),
-			ul : (),
-			ol : (),
-			dl : ()
-		),
-		tables : (
-			default : (
-				margin-bottom : 2rem
-			)
-		)
-	)
-));
-
 //
 // typeset base
 //
 @mixin s-no-typeset() {
-	$typeset : sugar('settings.components.typeset.scope-class');
-	&:not(.no-#{$typeset}) {
+	&:not(.no-typeset) {
 		@content;
 	}
 }
 @function s-no-typeset() {
-	$typeset : sugar('settings.components.typeset.scope-class');
-	@return unquote(':not(.no-#{$typeset})');
+	@return unquote(':not(.no-typeset)');
 }
 
-
-
 @mixin s-typeset-titles(
-	$count : 6,
-	$color : null
+	$sizes : (
+		h1 : 57px,
+		h2 : 50px,
+		h3 : 36px,
+		h4 : 26px,
+		h5 : 20px,
+		h6 : 16px
+	)
 ) {
-	// pass in component context
-	@include s-component-context('typeset') {
+	@if $_sugar-test-arguments {
+		$sizes : s-test-argument('s-typeset-titles','sizes',map-numbem,$sizes);
+	}
 
-		@if $_sugar-test-arguments {
-			$count : s-test-argument('s-typeset-titles','count',integer,$count);
-			$color : s-test-argument('s-typeset-titles','color|list-color',color,$color);
-		}
+	@each $name, $size in $sizes {
 
-		$typeset : sugar('settings.scope-class');
-
-		@for $i from 1 through $count {
-			// merge with default
-			$s : sugar('settings.titles.h#{$i}');
-			$s : map-extend(sugar('settings.titles.default'), $s);
-
-			// vertical rhythme
-			#{s-vertical-rhythme-scope-class()} .h#{$i},
-			#{s-vertical-rhythme-scope-class()}.#{$typeset} h#{$i}#{s-no-typeset()} {
-				@include s-vertical-rhythme(
-					$font-size : map-get($s, font-size),
-					$margin-bottom : map-get($s, margin-bottom)
-				);
-			}
-
-			.h#{$i},
-			.#{$typeset} h#{$i}#{s-no-typeset()} {
-				@each $prop, $value in $s {
-					@include s-property-proxy($prop, $value);
-				}
-				@if type-of($color) == list and nth($color,$i) {
-					color : nth($color,$i);
-				} @else if $color {
-					color : $color;
-				}
-			}
+		// vertical rhythme
+		#{s-vertical-rhythme-scope-class()} .#{$name},
+		#{s-vertical-rhythme-scope-class()}.#{$typeset} #{$name}#{s-no-typeset()} {
+			@include s-vertical-rhythme(
+				$font-size : $size,
+				$margin-bottom : round(s-rem($size))
+			);
 		}
 	}
 }
@@ -112,57 +40,53 @@
 @mixin s-typeset-paragraphs(
 	$color : null
 ) {
-	// pass in component context
-	@include s-component-context('typeset') {
 
-		@if $_sugar-test-arguments {
-			$color : s-test-argument('s-typeset-paragraphs','color|map-color',color,$color);
+	@if $_sugar-test-arguments {
+		$color : s-test-argument('s-typeset-paragraphs','color|map-color',color,$color);
+	}
+
+	$typeset : sugar('settings.scope-class');
+
+	$paragraphs : sugar('settings.paragraphs');
+	@each $name, $s in $paragraphs {
+
+		$sel : 'p.#{$name}';
+		$sel-class : '.p-#{$name}';
+		@if $name == default {
+			$sel : 'p';
+			$sel-class : '.p';
 		}
 
-		$typeset : sugar('settings.scope-class');
+		// extend
+		$s : map-extend(sugar('settings.paragraphs.default'), $s);
 
-		$paragraphs : sugar('settings.paragraphs');
-		@each $name, $s in $paragraphs {
+		// vertical rhythme
+		#{s-selector((
+			BEM : '.#{$typeset} p.#{$name}#{s-no-typeset()}, .p--#{$name}',
+			SMACCS : '.#{$typeset} p.#{$name}#{s-no-typeset()}, .p-#{$name}'
+		), $vertical-rhythme-scope : true)} {
+			@include s-vertical-rhythme(
+				$font-size : map-get($s, font-size),
+				$margin-bottom : map-get($s, margin-bottom)
+			);
+		}
 
+		// delete used properties
+		$s : map-remove($s, font-size);
+		$s : map-remove($s, margin-bottom);
 
-			$sel : 'p.#{$name}';
-			$sel-class : '.p-#{$name}';
-			@if $name == default {
-				$sel : 'p';
-				$sel-class : '.p';
+		// vertical rhythme
+		#{s-selector((
+			BEM : '.#{$typeset} p.#{$name}#{s-no-typeset()}, .p--#{$name}',
+			SMACCS : '.#{$typeset} p.#{$name}#{s-no-typeset()}, .p-#{$name}'
+		))} {
+			@each $prop, $value in $s {
+				@include s-property-proxy($prop, $value);
 			}
-
-			// extend
-			$s : map-extend(sugar('settings.paragraphs.default'), $s);
-
-			// vertical rhythme
-			#{s-selector((
-				BEM : '.#{$typeset} p.#{$name}#{s-no-typeset()}, .p--#{$name}',
-				SMACCS : '.#{$typeset} p.#{$name}#{s-no-typeset()}, .p-#{$name}'
-			), $vertical-rhythme-scope : true)} {
-				@include s-vertical-rhythme(
-					$font-size : map-get($s, font-size),
-					$margin-bottom : map-get($s, margin-bottom)
-				);
-			}
-
-			// delete used properties
-			$s : map-remove($s, font-size);
-			$s : map-remove($s, margin-bottom);
-
-			// vertical rhythme
-			#{s-selector((
-				BEM : '.#{$typeset} p.#{$name}#{s-no-typeset()}, .p--#{$name}',
-				SMACCS : '.#{$typeset} p.#{$name}#{s-no-typeset()}, .p-#{$name}'
-			))} {
-				@each $prop, $value in $s {
-					@include s-property-proxy($prop, $value);
-				}
-				@if type-of($color) == map and map-get($color, $name) {
-					color : map-get($color,$name);
-				} @else if $color {
-					color : $color;
-				}
+			@if type-of($color) == map and map-get($color, $name) {
+				color : map-get($color,$name);
+			} @else if $color {
+				color : $color;
 			}
 		}
 	}

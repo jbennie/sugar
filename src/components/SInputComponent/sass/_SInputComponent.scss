@@ -1,0 +1,243 @@
+$_s-input-component-inited : false;
+@mixin s-input-component-init() {
+	@if not $_s-input-component-inited {
+		$_s-input-component-inited : true !global;
+
+		// input
+		%s-input-component-field-bare {
+			display: inline-block;
+			@include s-font(sugar('settings.typo.font-family'));
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			&:not(.input-addon) {
+				line-height: 1 !important;
+			}
+			outline : none;
+			width:100%;
+			font-size:1em;
+		}
+		%s-input-component-field-style {
+			border-width:1px;
+			border-bottom-width : 3px;
+			border-style : solid;
+			background-color: white;
+			color: s-color(text);
+			@include s-transition(fast);
+			@include s-placeholder() {
+				color: s-color(text, -opacity .4);
+			}
+			[data-input-activator]:focus ~ &,
+			&:focus {
+				border-left-width : 5px;
+			}
+			&:disabled {
+				opacity : .65;
+				cursor: not-allowed;
+			}
+		}
+		%s-input-component-select-field-style {
+		}
+		%s-input-component-select-field-bare {
+			background-size: 9px 6px;
+			background-position: right center;
+			background-origin: content-box;
+			background-repeat: no-repeat;
+		}
+	}
+}
+
+
+@mixin s-input-component-field(
+	$color : null
+) {
+	@include s-input-component-init();
+	@extend %s-input-component-field-bare;
+	@extend %s-input-component-field-style;
+	@include s-input-component-field-size();
+	@if ($color) {
+		@include s-input-component-field-color($color);
+	}
+}
+
+@mixin s-input-component-field-bare() {
+	@include s-input-component-init();
+	@extend %s-input-component-field-bare;
+	@include s-input-component-field-size();
+}
+
+@mixin s-input-component-field-style(
+	$color : null
+) {
+	@include s-input-component-init();
+	@extend %s-input-component-field-style;
+	@if ($color) {
+		@include s-input-component-field-color($color);
+	}
+}
+
+@mixin s-input-component(
+	$colors : null
+) {
+	@include s-input-component-bare();
+	@include s-
+	@if $colors {
+		@include s-input-component-style($colors);
+	}
+}
+
+// what to exclude from styling
+$not : ':not([type="checkbox"]):not([type="radio"]):not(.noUi-target)';
+
+@mixin s-input-component-bare(
+) {
+	@include s-input-component-init();
+	$componentName : s-component('s-input');
+
+	input#{s-selector($componentName)}#{$not} {
+		@extend %s-input-component-field-bare;
+		// set input styling
+		@include s-input-component-field-size();
+
+		// vertical rhythme
+		&, & ~ span {
+			@include s-vertical-rhythme {
+				margin-bottom: 1rem;
+			}
+		}
+	}
+	textarea#{s-selector($componentName)} {
+		height: auto !important;
+
+		@include s-input-component-textarea-field-size();
+
+		// vertical rhythme
+		@include s-vertical-rhythme {
+			margin-bottom:1rem;
+		}
+	}
+}
+@mixin s-formset-input-style(
+	$colors : default primary secondary
+) {
+	// parse properties
+	@if $_sugar-test-arguments {
+		// $colors : s-test-argument('s-formset','colors',map-keys(sugar('settings.colors')),$colors);
+	}
+	$componentName : s-component('s-input');
+
+	input#{s-selector($componentName)}#{$not} {
+		@extend %s-input-component-field-style;
+	}
+	select#{s-selector($componentName)} {
+		@extend %s-input-component-select-field-style;
+	}
+
+	// generate each colors
+	@each $color in $colors {
+
+		// input styling
+		input#{s-selector($componentName, null, $color)}#{$not} {
+			@include s-input-component-field-color($color);
+
+			// & ~ #{s-selector(#{s-selector($componentName)}-reply}, null, $color) {
+			// 	display: block;
+			// }
+		}
+
+		// select styling
+		select#{s-selector($componentName, null, $color)} {
+			@include s-input-component-select-field-color($color);
+		}
+	}
+}
+@mixin s-input-component-field-size() {
+	border-radius: s-lnf(border-radius);
+	padding : s-lnf(padding-horizontal) s-lnf(padding-vertical);
+	height: 1em + s-lnf(padding-horizontal) * 2;
+}
+@mixin s-input-component-field-color($color) {
+	border-color: s-color($color, -opacity .1);
+	border-bottom-color: s-color($color, -opacity .3);
+
+	[data-input-activator]:focus ~ &,
+	[data-input-activator]:checked ~ &,
+	&:hover:not(:disabled):not(.input--disabled):not(.is-disabled),
+	&:focus:not(:disabled):not(.input--disabled):not(.is-disabled),
+	&.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+		border-bottom-color: s-color($color, -opacity .6);
+		@include s-depth(3, s-color($color, -opacity .3));
+	}
+	[data-input-activator]:focus ~ &,
+	[data-input-activator]:checked ~ &,
+	&:focus:not(:disabled):not(.input--disabled):not(.is-disabled),
+	&.active:not(:disabled):not(.input--disabled):not(.is-disabled) {
+		border-left-color: s-color($color, -opacity .6);
+	}
+}
+
+@mixin s-input-component-textarea-field(
+	$color : null
+) {
+	@include s-input-component-init();
+	@extend %s-input-component-field-bare;
+	@include s-input-component-textarea-field-size();
+	@if $color {
+		@include s-input-component-field-color($color);
+	}
+}
+
+@mixin s-input-component-textarea-field-bare() {
+	@include s-input-component-init();
+	@extend %s-input-component-field-bare;
+	@include s-input-component-textarea-field-size();
+}
+
+@mixin s-input-component-textarea-field-style(
+	$color : null
+) {
+	@include s-input-component-init();
+	@extend %s-input-component-field-style;
+	@if ($color) {
+		@include s-input-component-field-color($color);
+	}
+}
+
+@mixin s-input-component-textarea-field-size() {
+	padding : s-lnf(padding-horizontal) s-lnf(padding-vertical);
+	display: inline-block;
+}
+
+
+@mixin s-input-component-select-field-bare() {
+	@include s-input-component-init();
+	@extend %s-input-component-field-bare;
+	// @extend %s-select-bare;
+	background-size: 9px 6px;
+	background-position: right center;
+	background-origin: content-box;
+	background-repeat: no-repeat;
+	@include s-input-component-field-size();
+}
+
+@mixin s-input-component-select-field-style(
+	$color : default primary secondary
+) {
+	@include s-input-component-init();
+	@extend %s-input-component-field-style;
+	@if $color {
+		@include s-input-component-field-color($color);
+		@include s-input-component-select-field-color($color);
+	}
+}
+
+@mixin s-input-component-select-field(
+	$color : null
+) {
+	@include s-input-component-select-field-bare();
+	@if $color {
+		@include s-input-component-select-field-style($color);
+	}
+}
+@mixin s-input-component-select-field-color($color) {
+	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A#{str-replace("#{s-color($color)}","#","%23")}"></polygon></svg>');
+}

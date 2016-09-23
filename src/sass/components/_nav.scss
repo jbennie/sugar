@@ -1,12 +1,3 @@
-@include s-component-setup((
-	nav : (
-		generate : (
-			colors : default primary secondary success warning error info
-		)
-	)
-));
-
-
 $_s-nav-inited : false;
 @mixin s-nav-init() {
 	@if not $_s-nav-inited {
@@ -31,26 +22,24 @@ $_s-nav-inited : false;
 	// init nav
 	@include s-nav-init();
 
-	@include s-component-context('nav') {
-		#{s-selector((
-			BEM : '.nav.nav--justify',
-			SMACCS : '.nav.nav-justify'
-		))} {
-			@extend %s-nav-bare;
-			display: table;
-			width: 100%;
+	#{s-selector((
+		BEM : '.nav.nav--justify',
+		SMACCS : '.nav.nav-justify'
+	))} {
+		@extend %s-nav-bare;
+		display: table;
+		width: 100%;
 
-			> li,
-			> #{s-selector((
-				BEM : '.nav__item',
-				SMACCS : '.nav-item'
-			))} {
-				display: table-cell;
-				vertical-align: middle;
-				padding-left: s-lnf(padding-vertical);
-				padding-right: s-lnf(padding-vertical);
-				text-align: center;
-			}
+		> li,
+		> #{s-selector((
+			BEM : '.nav__item',
+			SMACCS : '.nav-item'
+		))} {
+			display: table-cell;
+			vertical-align: middle;
+			padding-left: s-lnf(padding-vertical);
+			padding-right: s-lnf(padding-vertical);
+			text-align: center;
 		}
 	}
 }
@@ -59,87 +48,82 @@ $_s-nav-inited : false;
 	// init nav
 	@include s-nav-init();
 
-	// pass in component context
-	@include s-component-context('nav') {
-		#{s-selector((
-			BEM : '.nav.nav--inline',
-			SMACCS : '.nav.nav-inline'
+	#{s-selector((
+		BEM : '.nav.nav--inline',
+		SMACCS : '.nav.nav-inline'
+	))} {
+		@extend %s-nav-bare;
+		display: block;
+
+		> li,
+		> #{s-selector((
+			BEM : '.nav__item',
+			SMACCS : '.nav-item'
 		))} {
-			@extend %s-nav-bare;
-			display: block;
+			display: inline-block;
+			padding-left : s-lnf(padding-horizontal);
+			padding-right : s-lnf(padding-horizontal);
 
-			> li,
-			> #{s-selector((
-				BEM : '.nav__item',
-				SMACCS : '.nav-item'
-			))} {
-				display: inline-block;
-				padding-left : s-lnf(padding-horizontal);
-				padding-right : s-lnf(padding-horizontal);
-
-				&:last-of-type {
-					padding-right: 0 !important;
-				}
-				&:first-of-type {
-					padding-left: 0 !important;
-				}
+			&:last-of-type {
+				padding-right: 0 !important;
+			}
+			&:first-of-type {
+				padding-left: 0 !important;
 			}
 		}
 	}
 }
 
 @mixin s-nav-tabs(
-	$colors : sugar('settings.components.nav.generate.colors')
+	$colors : null
 ) {
 	@include s-nav-tabs-bare();
-	@include s-nav-tabs-style($colors);
+	@if $colors {
+		@include s-nav-tabs-style($colors);
+	}
 }
 
 @mixin s-nav-tabs-bare() {
 	@include s-nav-init();
 
-	@include s-component-context('nav') {
+	// base
+	#{s-selector((
+		BEM : '.nav.nav--tabs',
+		SMACCS : '.nav.nav-tabs'
+	))} {
+		@extend %s-nav-bare;
 
-		// base
-		#{s-selector((
-			BEM : '.nav.nav--tabs',
-			SMACCS : '.nav.nav-tabs'
+		> li,
+		> #{s-selector((
+			BEM : '.nav__item',
+			SMACCS : '.nav-item'
 		))} {
-			@extend %s-nav-bare;
 
-			> li,
-			> #{s-selector((
-				BEM : '.nav__item',
-				SMACCS : '.nav-item'
+			// font-size : s-lnf(font-size);
+			@include s-corner(
+				$top-left : s-lnf(border-radius),
+				$top-right : s-lnf(border-radius)
+			);
+			// margin-right: s-space(smaller);
+			padding : s-lnf(padding-vertical) s-lnf(padding-horizontal);
+			float: left;
+			cursor: pointer;
+
+			&.disabled,
+			#{s-selector((
+				BEM : '&.nav__item--disabled',
+				SMACCS : '&.is-disabled'
 			))} {
-
-				// font-size : s-lnf(font-size);
-				@include s-corner(
-					$top-left : s-lnf(border-radius),
-					$top-right : s-lnf(border-radius)
-				);
-				// margin-right: s-space(smaller);
-				padding : s-lnf(padding-vertical) s-lnf(padding-horizontal);
-				float: left;
-				cursor: pointer;
-
-				&.disabled,
-				#{s-selector((
-					BEM : '&.nav__item--disabled',
-					SMACCS : '&.is-disabled'
-				))} {
-					pointer-events: none;
-					opacity: .5;
-					cursor: not-allowed;
-				}
+				pointer-events: none;
+				opacity: .5;
+				cursor: not-allowed;
 			}
 		}
-
 	}
 }
 
 @mixin s-nav-tabs-style(
-	$colors : sugar('settings.components.nav.generate.colors')
+	$colors : default primary secondary
 ) {
 	// init nav
 	@include s-nav-init();
@@ -148,61 +132,57 @@ $_s-nav-inited : false;
 		// $colors : s-test-argument('s-nav-tabs','colors',map-keys(sugar('settings.colors')),$colors);
 	}
 
-	// pass in component context
-	@include s-component-context('nav') {
+	// base
+	#{s-selector((
+		BEM : '.nav.nav--tabs',
+		SMACCS : '.nav.nav-tabs'
+	))} {
+		@extend %s-nav-bare;
 
-		// base
-		#{s-selector((
-			BEM : '.nav.nav--tabs',
-			SMACCS : '.nav.nav-tabs'
+		> li,
+		> #{s-selector((
+			BEM : '.nav__item',
+			SMACCS : '.nav-item'
 		))} {
-			@extend %s-nav-bare;
+			margin-bottom: -1px;
+		}
+	}
+
+	// generate each colors
+	@each $color in $colors {
+
+		#{s-selector((
+			BEM : '.nav--tabs.nav--#{$color}',
+			SMACCS : '.nav--tabs.nav-#{$color}'
+		))} {
+			border-bottom: 1px solid s-color($color, -opacity .2);
+			@include s-clearfix;
 
 			> li,
 			> #{s-selector((
 				BEM : '.nav__item',
 				SMACCS : '.nav-item'
 			))} {
-				margin-bottom: -1px;
-			}
-		}
+				border: 1px solid s-color($color, -opacity .1);
+				color : s-color($color);
 
-		// generate each colors
-		@each $color in $colors {
-
-			#{s-selector((
-				BEM : '.nav--tabs.nav--#{$color}',
-				SMACCS : '.nav--tabs.nav-#{$color}'
-			))} {
-				border-bottom: 1px solid s-color($color, -opacity .2);
-				@include s-clearfix;
-
-				> li,
-				> #{s-selector((
-					BEM : '.nav__item',
-					SMACCS : '.nav-item'
+				#{s-selector((
+					BEM : '&.hover',
+					SMACCS : '&.is-hover'
+				))},
+				&:hover {
+					background-color : s-color($color, -opacity .1);
+				}
+				#{s-selector((
+					BEM : '&.active',
+					SMACCS : '&.is-active'
 				))} {
-					border: 1px solid s-color($color, -opacity .1);
-					color : s-color($color);
-
-					#{s-selector((
-						BEM : '&.hover',
-						SMACCS : '&.is-hover'
-					))},
-					&:hover {
-						background-color : s-color($color, -opacity .1);
-					}
-					#{s-selector((
-						BEM : '&.active',
-						SMACCS : '&.is-active'
-					))} {
-						background-color : s-color($color);
-						border-color: s-color($color);
-						@if lightness(s-color($color)) > 70 {
-							color : s-color($color, -darken 30%);
-						} @else {
-							color : white;
-						}
+					background-color : s-color($color);
+					border-color: s-color($color);
+					@if lightness(s-color($color)) > 70 {
+						color : s-color($color, -darken 30%);
+					} @else {
+						color : white;
 					}
 				}
 			}

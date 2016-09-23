@@ -1,0 +1,135 @@
+$_s-dropdown-component-inited : false;
+@mixin s-dropdown-component-init() {
+	@if not $_s-dropdown-component-inited {
+		$_s-dropdown-component-inited : true !global;
+
+		%s-dropdown-menu {
+			visibility: hidden;
+			opacity: 0;
+			position: absolute;
+			top: 100%;
+			pointer-events: none;
+		}
+		%s-dropdown-menu-active {
+			visibility: visible;
+			opacity: 1;
+			pointer-events: all;
+		}
+	}
+}
+
+@mixin s-dropdown-component(
+	$colors : null
+) {
+	@include s-dropdown-component-bare();
+	@if $colors {
+		@include s-dropdown-component-style($colors);
+	}
+}
+
+@mixin s-dropdown-component-bare() {
+
+	// init dropdown
+	@include s-dropdown-component-init();
+	$componentName : s-component('s-dropdown');
+
+	#{s-selector($componentName)} {
+		&:hover,
+		&.active,
+		&#{s-selector($componentName, null, 'active')} {
+			z-index:1;
+
+			#{s-selector($componentName, 'menu')} {
+				@extend %s-dropdown-menu-active;
+			}
+		}
+
+		&:hover,
+		&.active,
+		&#{s-selector($componentName, null, 'active')} {
+			#{s-selector($componentName, 'menu')} {
+				top: 100%;
+			}
+		}
+
+		&#{s-selector($componentName, null, 'up')} {
+			#{s-selector($componentName, 'menu')} {
+				top: auto;
+				bottom: 100%;
+			}
+
+			&:hover,
+			&.active,
+			&#{s-selector($componentName, null, 'active')} {
+				#{s-selector($componentName, 'menu')} {
+					top: auto;
+					bottom: 100%;
+				}
+			}
+		}
+	}
+
+	#{s-selector($componentName, 'menu')} {
+		@extend %s-dropdown-menu;
+		@include s-transition();
+	}
+
+	#{s-selector($componentName, 'item')} {
+		white-space: nowrap;
+
+		> a {
+			padding: s-lnf(padding-horizontal) s-lnf(padding-vertical);
+			display: block;
+		}
+	}
+}
+
+@mixin s-dropdown-component-style(
+	$colors : default primary secondary
+) {
+	// init dropdown
+	@include s-dropdown-component-init();
+	$componentName : s-component('s-dropdown');
+
+	// #{s-selector($componentName)} {
+	// }
+	//
+
+	#{s-selector($componentName, 'menu')} {
+		background: s-color(default);
+		@include s-depth(2);
+		@include s-transition(fast);
+		overflow: hidden;
+	}
+
+	#{s-selector($componentName, 'item')} {
+		border-top: solid 1px s-color(default, -opacity .2);
+		@include s-transition(all .1s ease-in-out);
+		background-color:white;
+		left:0;
+		position:relative;
+		@include s-transition(fast left);
+
+		&:hover,
+		&.active,
+		&#{s-selector($componentName, 'item', 'active')} {
+			left:5px;
+		}
+
+		> a {
+			color : s-color(link) !important;
+			display: block;
+			width: 100%;
+		}
+	}
+
+
+	@each $color in $colors {
+		// extend dropdown
+		#{s-selector($componentName, null, $color)} {
+			#{s-selector($componentName, 'menu')} {
+				background-color: s-color($color);
+			}
+		}
+	}
+}

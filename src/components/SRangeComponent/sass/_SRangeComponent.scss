@@ -1,6 +1,3 @@
-@include s-component-setup((
-	s-range : ()
-));
 $_s-range-component-inited : false;
 @mixin s-range-component-init() {
 	@if not $_s-range-component-inited {
@@ -98,65 +95,57 @@ $_s-range-component-inited : false;
 @mixin s-range-component-bare() {
 	@include s-range-component-init();
 
-	$componentName : s-component-name('s-range');
+	$componentName : s-component('s-range');
 
 	$h : 1em;
 
-	@include s-component-name($componentName) {
+	@include s-component($componentName) {
 
-		// pass in the component context
-		$context : 'formset';
-		@if sugar('settings.components.#{$componentName}') {
-			$context : $componentName;
+		.#{$componentName} {
+			padding-top:.5em;
+			padding-bottom:.5em;
 		}
-		@include s-component-context($context) {
 
-			.#{$componentName} {
-				padding-top:.5em;
-				padding-bottom:.5em;
-			}
+		@include s-range-component-style-container() {
+			margin-left: $h;
+			margin-right: $h;
+			cursor:pointer;
 
-			@include s-range-component-style-container() {
-				margin-left: $h;
-				margin-right: $h;
-				cursor:pointer;
+			&.noUi-horizontal {
+				height : $h;
+			}
+			&.noUi-vertical {
+				width : $h;
+			}
+		}
 
-				&.noUi-horizontal {
-					height : $h;
-				}
-				&.noUi-vertical {
-					width : $h;
-				}
-			}
+		@include s-range-component-style-tooltip() {
+			display: inline-block;
+			pointer-events:none;
+			font-size:1rem !important;
+			// font-size:s-lnf(font-size);
+			padding:s-lnf(padding-horizontal) s-lnf(padding-vertical);
+			border-radius: s-lnf(border-radius);
+		}
 
-			@include s-range-component-style-tooltip() {
-				display: inline-block;
-				pointer-events:none;
-				font-size:1rem !important;
-				// font-size:s-lnf(font-size);
-				padding:s-lnf(padding-horizontal) s-lnf(padding-vertical);
-				border-radius: s-lnf(border-radius);
-			}
+		@include s-range-component-style-handle() {
+			width : $h * 2;
+			height : $h * 2;
+			border-radius: 50%;
+			@include s-translate(-50%, -25%);
+		}
+		@include s-range-component-style-handle(active) {
+			width: $h;
+			height: $h;
+			@include s-translate(-50%, 0);
+		}
 
-			@include s-range-component-style-handle() {
-				width : $h * 2;
-				height : $h * 2;
-				border-radius: 50%;
-				@include s-translate(-50%, -25%);
-			}
-			@include s-range-component-style-handle(active) {
-				width: $h;
-				height: $h;
-				@include s-translate(-50%, 0);
-			}
-
-			@include s-range-component-style-handle-value() {
-				// font-size:s-lnf(font-size) / 2;
-				font-size: 0.6em;
-			}
-			@include s-range-component-style-handle-value(active) {
-				font-size:0;
-			}
+		@include s-range-component-style-handle-value() {
+			// font-size:s-lnf(font-size) / 2;
+			font-size: 0.6em;
+		}
+		@include s-range-component-style-handle-value(active) {
+			font-size:0;
 		}
 	}
 }
@@ -166,7 +155,7 @@ $_s-range-component-inited : false;
 	$componentNameNest : true
 ) {
 	@if $componentNameNest {
-		.#{s-component-name('s-range')} {
+		.#{s-component('s-range')} {
 			@include _s-range-component-style-container($state) {
 				@content;
 			}
@@ -196,7 +185,7 @@ $_s-range-component-inited : false;
 	$componentNameNest : true
 ) {
 	@if $componentNameNest {
-		.#{s-component-name('s-range')} {
+		.#{s-component('s-range')} {
 			@include _s-range-component-style-connect($state) {
 				@content;
 			}
@@ -236,7 +225,7 @@ $_s-range-component-inited : false;
 	$componentNameNest : true
 ) {
 	@if $componentNameNest {
-		.#{s-component-name('s-range')} {
+		.#{s-component('s-range')} {
 			@include _s-range-component-style-handle($state) {
 				@content;
 			}
@@ -270,7 +259,7 @@ $_s-range-component-inited : false;
 	$componentNameNest : true
 ) {
 	@if $componentNameNest {
-		.#{s-component-name('s-range')} {
+		.#{s-component('s-range')} {
 			@include _s-range-component-style-handle-value($state) {
 				@content;
 			}
@@ -304,7 +293,7 @@ $_s-range-component-inited : false;
 	$componentNameNest : true
 ) {
 	@if $componentNameNest {
-		.#{s-component-name('s-range')} {
+		.#{s-component('s-range')} {
 			@include _s-range-component-style-base($state) {
 				@content;
 			}
@@ -336,7 +325,7 @@ $_s-range-component-inited : false;
 	$componentNameNest : true
 ) {
 	@if $componentNameNest {
-		.#{s-component-name('s-range')} {
+		.#{s-component('s-range')} {
 			@include _s-range-component-style-tooltip($state) {
 				@content;
 			}
@@ -369,177 +358,159 @@ $_s-range-component-inited : false;
 	$colors : sugar('settings.components.formset.generate.colors')
 ) {
 	@include s-range-component-init();
-
-	$componentName : s-component-name('s-range');
+	$componentName : s-component('s-range');
 
 	// parse properties
 	@if $_sugar-test-arguments {
 		// $colors : s-test-argument('s-range-component-style','colors',map-keys(sugar('settings.colors')),$colors);
 	}
 
-	@include s-component-name($componentName) {
+	@include s-component($componentName) {
 
-		// pass in the component context
-		$context : 'formset';
-		@if sugar('settings.components.#{$componentName}') {
-			$context : $componentName;
-		}
-		@include s-component-context($context) {
-
-			@include s-range-component-style-base() {
-				background:white;
-				&:before {
-					@include s-transition(fast background-color);
-				}
-			}
-
-			@include s-range-component-style-connect() {
+		@include s-range-component-style-base() {
+			background:white;
+			&:before {
 				@include s-transition(fast background-color);
 			}
+		}
 
-			@include s-range-component-style-handle() {
-				@include s-transition(fast);
+		@include s-range-component-style-connect() {
+			@include s-transition(fast background-color);
+		}
 
-				&:before {
-					content:'';
-					display:block;
-					width:100%;
-					height:100%;
-					position:absolute;
-					top:50%; left:50%;
-					@include s-translate(-50%,-50%);
-					border-radius: 50%;
-					@include s-transition(fast);
-				}
-			}
-			@include s-range-component-style-handle(hover) {
-				&:before {
-					width:150%;
-					height:150%;
-				}
-			}
-			@include s-range-component-style-handle(active) {
-				&:before {
-					width:400% !important;
-					height:400% !important;
-				}
-			}
+		@include s-range-component-style-handle() {
+			@include s-transition(fast);
 
-			@include s-range-component-style-handle-value() {
-				text-align:center;
-				font-weight:bold;
-				color:white;
-				position:relative;
+			&:before {
+				content:'';
+				display:block;
+				width:100%;
+				height:100%;
+				position:absolute;
+				top:50%; left:50%;
+				@include s-translate(-50%,-50%);
+				border-radius: 50%;
 				@include s-transition(fast);
 			}
-
-			@include s-range-component-style-tooltip() {
-				color: white;
-				position: absolute !important;
-				top:0; left:50%;
-				@include s-translate(-50%,-100%);
-				opacity: 0;
-				@include s-transition(fast);
+		}
+		@include s-range-component-style-handle(hover) {
+			&:before {
+				width:150%;
+				height:150%;
 			}
-			@include s-range-component-style-tooltip(active) {
-				opacity:1;
-				top:-15px;
+		}
+		@include s-range-component-style-handle(active) {
+			&:before {
+				width:400% !important;
+				height:400% !important;
 			}
+		}
 
-			.noUi-state-tap .noUi-origin {
-				@include s-transition(left fast, top fast);
-			}
+		@include s-range-component-style-handle-value() {
+			text-align:center;
+			font-weight:bold;
+			color:white;
+			position:relative;
+			@include s-transition(fast);
+		}
 
-			@each $color in $colors {
+		@include s-range-component-style-tooltip() {
+			color: white;
+			position: absolute !important;
+			top:0; left:50%;
+			@include s-translate(-50%,-100%);
+			opacity: 0;
+			@include s-transition(fast);
+		}
+		@include s-range-component-style-tooltip(active) {
+			opacity:1;
+			top:-15px;
+		}
 
-				#{s-selector((
-					BEM : (
-						'.#{$componentName}.input--#{$color}',
-						'.color--#{$color} .#{$componentName}.input'
-					),
-					SMACCS : (
-						'.#{$componentName}.input-#{$color}',
-						'.color-#{$color} .#{$componentName}.input'
-					)
-				))} {
+		.noUi-state-tap .noUi-origin {
+			@include s-transition(left fast, top fast);
+		}
 
-					@include s-range-component-style-connect(
-						$componentNameNest : false
-					) {
+		@each $color in $colors {
+
+			#{s-selector($componentName, null, $color)} {
+
+				@include s-range-component-style-connect(
+					$componentNameNest : false
+				) {
+					background-color: s-color($color, -opacity .1);
+				}
+				@include s-range-component-style-connect(
+					$state : hover,
+					$componentNameNest : false
+				) {
+					background-color: s-color($color, -opacity .3);
+				}
+
+				@include s-range-component-style-base(
+					$componentNameNest : false
+				) {
+					&:before {
 						background-color: s-color($color, -opacity .1);
 					}
-					@include s-range-component-style-connect(
-						$state : hover,
-						$componentNameNest : false
-					) {
+				}
+				@include s-range-component-style-base(
+					$state : hover,
+					$componentNameNest : false
+				) {
+					&:before {
 						background-color: s-color($color, -opacity .3);
 					}
+				}
 
-					@include s-range-component-style-base(
-						$componentNameNest : false
-					) {
-						&:before {
-							background-color: s-color($color, -opacity .1);
-						}
-					}
-					@include s-range-component-style-base(
-						$state : hover,
-						$componentNameNest : false
-					) {
-						&:before {
-							background-color: s-color($color, -opacity .3);
-						}
-					}
+				@include s-range-component-style-handle(
+					$componentNameNest : false
+				) {
+					background-color: s-color($color);
 
-					@include s-range-component-style-handle(
-						$componentNameNest : false
-					) {
-						background-color: s-color($color);
+					&:before {
+						background-color: s-color($color, -opacity .3);
+					}
+				}
+				@include s-range-component-style-handle(
+					$state : hover,
+					$componentNameNest : false
+				) {
+					background-color: s-color($color, -darken 10%);
+				}
+				@include s-range-component-style-handle(
+					$state : active,
+					$componentNameNest : false
+				) {
+					background-color: s-color($color, -darken 20%) !important;
+					@include s-depth(3, s-color($color, -opacity .3));
 
-						&:before {
-							background-color: s-color($color, -opacity .3);
-						}
+					&:before {
+						background-color: s-color($color, -opacity .2);
 					}
-					@include s-range-component-style-handle(
-						$state : hover,
-						$componentNameNest : false
-					) {
-						background-color: s-color($color, -darken 10%);
-					}
-					@include s-range-component-style-handle(
-						$state : active,
-						$componentNameNest : false
-					) {
-						background-color: s-color($color, -darken 20%) !important;
-						@include s-depth(3, s-color($color, -opacity .3));
+				}
 
-						&:before {
-							background-color: s-color($color, -opacity .2);
-						}
-					}
+				@include s-range-component-style-handle-value(
+					$state : active,
+					$componentNameNest : false
+				) {
+					color: s-color($color, -darken 20%);
+				}
 
-					@include s-range-component-style-handle-value(
-						$state : active,
-						$componentNameNest : false
-					) {
-						color: s-color($color, -darken 20%);
-					}
-
-					@include s-range-component-style-tooltip(
-						$componentNameNest : false
-					) {
-						@include s-bubble(
-							$side : bottom,
-							$align : center,
-							$size : 5px,
-							$color : #fff,
-							$arrow-offset : 0,
-							$border-width : 0,
-							$border-color : null
-						);
-						@include s-depth(3, rgba(0,0,0,.3));
-						color: s-color(text);
-					}
+				@include s-range-component-style-tooltip(
+					$componentNameNest : false
+				) {
+					@include s-bubble(
+						$side : bottom,
+						$align : center,
+						$size : 5px,
+						$color : #fff,
+						$arrow-offset : 0,
+						$border-width : 0,
+						$border-color : null
+					);
+					@include s-depth(3, rgba(0,0,0,.3));
+					color: s-color(text);
 				}
 			}
 		}

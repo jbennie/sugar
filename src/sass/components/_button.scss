@@ -1,11 +1,3 @@
-@include s-component-setup((
-	button : (
-		generate : (
-			colors : default primary secondary success warning error info
-		)
-	)
-));
-
 $_s-button-inited : false;
 @mixin s-button-init() {
 	@if not $_s-button-inited {
@@ -28,10 +20,12 @@ $_s-button-inited : false;
 }
 
 @mixin s-button(
-	$colors : sugar('settings.components.button.generate.colors')
+	$colors : null
 ) {
 	@include s-button-bare();
-	@include s-button-style($colors);
+	@if $colors {
+		@include s-button-style($colors);
+	}
 }
 
 @mixin s-button-bare(
@@ -39,36 +33,32 @@ $_s-button-inited : false;
 	// init dropdown
 	@include s-button-init();
 
-	// pass in component context
-	@include s-component-context('button') {
+	// base
+	.btn {
+		@extend %s-button-bare;
+	}
+	button {
+		line-height: 1 !important;
+	}
 
-		// base
-		.btn {
-			@extend %s-button-bare;
-		}
-		button {
-			line-height: 1 !important;
-		}
+	.btn {
+		border-radius: s-lnf(border-radius);
+		padding : s-lnf(padding-horizontal) s-lnf(padding-vertical);
+		height: 1em + s-lnf(padding-horizontal) * 2;
+	}
 
-		.btn {
-			border-radius: s-lnf(border-radius);
-			padding : s-lnf(padding-horizontal) s-lnf(padding-vertical);
-			height: 1em + s-lnf(padding-horizontal) * 2;
-		}
-
-		// block
-		#{s-selector((
-			BEM : '.btn--block',
-			SMACCS : '.btn-block'
-		))} {
-			display: block;
-			width: 100%;
-		}
+	// block
+	#{s-selector((
+		BEM : '.btn--block',
+		SMACCS : '.btn-block'
+	))} {
+		display: block;
+		width: 100%;
 	}
 }
 
 @mixin s-button-style(
-	$colors : sugar('settings.components.button.generate.colors')
+	$colors : default primary secondary
 ) {
 	// init dropdown
 	@include s-button-init();
@@ -79,126 +69,123 @@ $_s-button-inited : false;
 		// $colors : s-test-argument('s-button-style','colors',map-keys(sugar('settings.colors')),$colors);
 	}
 
-	// pass in component context
-	@include s-component-context('button') {
 
-		// base
-		.btn {
-			@extend %s-button-bare;
-			@include s-transition(fast);
-		}
-		button {
-			line-height: 1 !important;
-		}
+	// base
+	.btn {
+		@extend %s-button-bare;
+		@include s-transition(fast);
+	}
+	button {
+		line-height: 1 !important;
+	}
 
-		// generate each colors
-		@each $color in $colors {
+	// generate each colors
+	@each $color in $colors {
+		#{s-selector((
+			BEM : '.btn--#{$color}',
+			SMACCS : '.btn-#{$color}'
+		))} {
+			background-color: s-color($color);
+			border: 1px solid s-color($color);
+			@if lightness(s-color($color)) > 70 {
+				color : s-color($color, -darken 30%);
+			} @else {
+				color : white;
+			}
+
+			&:active,
+			&:hover,
+			&.active,
 			#{s-selector((
-				BEM : '.btn--#{$color}',
-				SMACCS : '.btn-#{$color}'
+				BEM : '&.btn--active',
+				SMACCS : '&.is-active'
 			))} {
-				background-color: s-color($color);
-				border: 1px solid s-color($color);
-				@if lightness(s-color($color)) > 70 {
-					color : s-color($color, -darken 30%);
-				} @else {
-					color : white;
+				&:not(:disabled) {
+					background-color : s-color($color, -darken 15%);
+					border-color: s-color($color, -darken 15%);
 				}
+			}
+			:checked + &:not(:disabled) {
+				background-color : s-color($color, -darken 25%);
+				border-color: s-color($color, -darken 25%);
+			}
+
+			// outline
+			#{s-selector((
+				BEM : '&.btn--outline',
+				SMACCS : '&.btn-outline'
+			))} {
+				color: s-color($color);
 
 				&:active,
 				&:hover,
 				&.active,
+				:checked + &,
 				#{s-selector((
 					BEM : '&.btn--active',
 					SMACCS : '&.is-active'
 				))} {
 					&:not(:disabled) {
-						background-color : s-color($color, -darken 15%);
-						border-color: s-color($color, -darken 15%);
-					}
-				}
-				:checked + &:not(:disabled) {
-					background-color : s-color($color, -darken 25%);
-					border-color: s-color($color, -darken 25%);
-				}
-
-				// outline
-				#{s-selector((
-					BEM : '&.btn--outline',
-					SMACCS : '&.btn-outline'
-				))} {
-					color: s-color($color);
-
-					&:active,
-					&:hover,
-					&.active,
-					:checked + &,
-					#{s-selector((
-						BEM : '&.btn--active',
-						SMACCS : '&.is-active'
-					))} {
-						&:not(:disabled) {
-							background-color: s-color($color);
-							border-color: s-color($color);
-							@if lightness(s-color($color)) > 70 {
-								color : s-color($color, -darken 30%);
-							} @else {
-								color : white;
-							}
+						background-color: s-color($color);
+						border-color: s-color($color);
+						@if lightness(s-color($color)) > 70 {
+							color : s-color($color, -darken 30%);
+						} @else {
+							color : white;
 						}
 					}
 				}
 			}
 		}
-		// link button
-		#{s-selector((
-			BEM : '.btn--link',
-			SMACCS : '.btn-link'
-		))} {
-			background: transparent !important;
-			color: s-color(link) !important;
-			border: none !important;
-		}
-		// outline
-		#{s-selector((
-			BEM : '.btn--outline',
-			SMACCS : '.btn-outline'
-		))} {
-			background-color: transparent;
-		}
-		// disabled
-		.btn[disabled],
-		#{s-selector((
-			BEM : '.btn--disabled',
-			SMACCS : '.btn-disabled'
-		))} {
-			opacity: 0.65;
-			cursor: not-allowed !important;
+	}
+	// link button
+	#{s-selector((
+		BEM : '.btn--link',
+		SMACCS : '.btn-link'
+	))} {
+		background: transparent !important;
+		color: s-color(link) !important;
+		border: none !important;
+	}
+	// outline
+	#{s-selector((
+		BEM : '.btn--outline',
+		SMACCS : '.btn-outline'
+	))} {
+		background-color: transparent;
+	}
+	// disabled
+	.btn[disabled],
+	#{s-selector((
+		BEM : '.btn--disabled',
+		SMACCS : '.btn-disabled'
+	))} {
+		opacity: 0.65;
+		cursor: not-allowed !important;
+	}
+
+	// button group
+	.btn-group {
+		@include s-clearfix();
+
+		> input[type="checkbox"],
+		> input[type="radio"] {
+			display: none;
 		}
 
-		// button group
-		.btn-group {
-			@include s-clearfix();
+		.btn {
+			float: left;
 
-			> input[type="checkbox"],
-			> input[type="radio"] {
-				display: none;
+			&:not(:first-of-type):not(:last-of-type) {
+				border-radius: 0;
 			}
-
-			.btn {
-				float: left;
-
-				&:not(:first-of-type):not(:last-of-type) {
-					border-radius: 0;
-				}
-				&:first-of-type {
-					border-top-right-radius:0;
-					border-bottom-right-radius:0;
-				}
-				&:last-of-type {
-					border-top-left-radius:0;
-					border-bottom-left-radius:0;
-				}
+			&:first-of-type {
+				border-top-right-radius:0;
+				border-bottom-right-radius:0;
+			}
+			&:last-of-type {
+				border-top-left-radius:0;
+				border-bottom-left-radius:0;
 			}
 		}
 	}

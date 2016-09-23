@@ -1,0 +1,18 @@
+//
+// Component setup
+//
+@mixin s-context-setup(
+	$contextName,
+	$settings
+) {
+	$current-settings : map-get($settings, $contextName);
+	@if $current-settings {
+		$settings : map-extend($current-settings, $settings);
+	}
+	@if not map-get($_sugar-settings, contexts) {
+		$_sugar-settings : map-set($_sugar-settings, contexts, ()) !global;
+	}
+	$contexts : map-get($_sugar-settings, contexts);
+	$contexts : map-set($contexts, $contextName, $settings);
+	$_sugar-settings : map-set($_sugar-settings, contexts, $contexts) !global;
+}

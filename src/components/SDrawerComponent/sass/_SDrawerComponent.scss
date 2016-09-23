@@ -1,68 +1,58 @@
 //
 // Sugar drawer component
 //
-
-// settings
-@include s-component-setup((
-	s-drawer  					: ( 				// store all the drawer settings
-		method 						: translate, 		// can be translate or position
-		size  						: 400px, 			// drawer width
-		side 						: left,			// the side of the drawer
-		type 						: push, 			// can be reveal, push or slide
-								)
-));
-
 @mixin s-drawer-component-opened(
-	$name,
-	$selector : 's-drawer'
+	$name
 ) {
-	$drawer-toggle-sel : '[#{$selector}-toggle]';
-	@if $name {
-		$drawer-toggle-sel : '[#{$selector}-toggle="#{$name}"]';
-	}
-	#{$drawer-toggle-sel}:checked ~ & {
-		@content;
+	$componentName : s-component('s-drawer');
+	@include s-component($componentName) {
+		$drawer-toggle-sel : s-component-item('toggle');
+		@if $name {
+			$drawer-toggle-sel : s-component-item('toggle', $name);
+		}
+		#{$drawer-toggle-sel}:checked ~ & {
+			@content;
+		}
 	}
 }
 
 @mixin s-drawer-component(
 	$name,
-	$selector : 's-drawer',
-	$size : sugar('settings.components.s-drawer.size'),
-	$side : sugar('settings.components.s-drawer.side'),
-	$type : sugar('settings.components.s-drawer.type'),
-	$method : sugar('settings.components.s-drawer.method')
+	$size : 400px,
+	$side : left,
+	$type : push,
+	$method : translate
 ) {
 
-	// pass in component context
-	@include s-component-context('s-drawer') {
+	@if $_sugar-test-arguments {
+		$name : s-test-argument('s-drawer-component','name',string,$name);
+		$size : s-test-argument('s-drawer-component','size',number,$size);
+		$side : s-test-argument('s-drawer-component','side',(top,right,bottom,left),$side);
+		$type : s-test-argument('s-drawer-component','type',(reveal,slide,push),$type);
+		$method : s-test-argument('s-drawer-component','method',(position,translate),$method);
+	}
+	$componentName : s-component('s-drawer');
+	@include s-component($componentName) {
 
-		@if $_sugar-test-arguments {
-			$name : s-test-argument('s-drawer-component','name',string,$name);
-			$size : s-test-argument('s-drawer-component','size',number,$size);
-			$side : s-test-argument('s-drawer-component','side',(top,right,bottom,left),$side);
-			$type : s-test-argument('s-drawer-component','type',(reveal,slide,push),$type);
-			$method : s-test-argument('s-drawer-component','method',(position,translate),$method);
-		}
 		html, body {
 			height: 100%;
 		}
 
-		[#{$selector}-toggle] {
+		#{s-component-item('toggle')} {
 			position: fixed;
 			top:0; left:0;
 			opacity: 0;
 		}
 
-		$drawer-sel : '[#{$selector}]';
-		$drawer-overlay-sel : '[#{$selector}-overlay]';
-		$drawer-toggle-sel : '[#{$selector}-toggle]';
-		$drawer-bkg-sel : '[#{$selector}-bkg]';
+		$drawer-sel : '[#{$componentName}]';
+		$drawer-overlay-sel : s-component-item('overlay');
+		$drawer-toggle-sel : s-component-item('toggle');
+		$drawer-bkg-sel : s-component-item('bkg');
 		@if $name {
-			$drawer-sel : '[#{$selector}="#{$name}"]';
-			$drawer-overlay-sel : '[#{$selector}-overlay="#{$name}"]';
-			$drawer-toggle-sel : '[#{$selector}-toggle="#{$name}"]';
-			$drawer-bkg-sel : '[#{$selector}-bkg="#{$name}"]';
+			$drawer-sel : '[#{$componentName}="#{$name}"]';
+			$drawer-overlay-sel : s-component-item('overlay', $name);
+			$drawer-toggle-sel : s-component-item('toggle', $name);
+			$drawer-bkg-sel : s-component-item('bkg', $name);
 		}
 
 		#{$drawer-sel} {
@@ -133,7 +123,7 @@
 			@include s-transition();
 		}
 		/* actual page content pane */
-		[#{$selector}-content] {
+		#{s-component-item('content')} {
 			@include s-translate(0,0);
 			width: 100%; min-height:100vh;
 			@include s-transition();
@@ -257,7 +247,7 @@
 			}
 		}
 
-		#{$drawer-toggle-sel}:checked ~ [#{$selector}-content] {
+		#{$drawer-toggle-sel}:checked ~ #{s-component-item('content')} {
 			@if $type != slide {
 				@if $side == left {
 					@if $method == translate {
@@ -295,5 +285,4 @@
 
 		@content;
 	}
-
 }

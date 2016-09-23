@@ -1,9 +1,9 @@
 // Drawer
-// 
+//
 export {
 	uncamelize
 } from './core/s-string'
-// 
+//
 // export * from './components/s-drawer-element';
 // export * from './components/s-drawer-manager';
 

@@ -1,0 +1,9 @@
+@function s-context(
+	$default : null
+) {
+	@if not $_sugar-current-context {
+		@return $default;
+	} @else {
+		@return $_sugar-current-context;
+	}
+}

@@ -1,2 +1,2 @@
-import SResponsiveImageComponent from './SResponsiveImageComponent'
+import SResponsiveImageComponent from './js/SResponsiveImageComponent'
 export default SResponsiveImageComponent

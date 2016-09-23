@@ -2,9 +2,48 @@
 // Declare multiple selectors for BEM, SMACCS, and maybe others
 // syntax in the futur
 //
+//
 @function s-selector(
-	$sel,
-	$vertical-rhythme-scope : false
+	$base,
+	$item : null,
+	$modifier : null
+) {
+	$method : sugar('settings.selector.method');
+
+	// @if type-of($base) == map andd not $item and not $modifier {
+	// 	@return _s-selector-legacy($base);
+	// }
+
+	$sel : $base;
+	@if $item {
+		@if $method == BEM {
+			$sel : "#{$sel}__#{$item}";
+		} @else if $method == SMACCS {
+			$sel : "#{$sel}-#{$item}";
+		}
+	}
+	@if $modifier {
+		@if $method == BEM {
+			$sel : "#{$sel}--#{$modifier}";
+		} @else if $method == SMACCS {
+			$sel : "#{$sel}.is-#{$modifier}";
+		}
+	}
+
+	// replace the default keyword
+	@if $method == BEM {
+		$sel : str-replace($sel,'--default','');
+	} @else if $method == SMACCS {
+		$sel : str-replace($sel,'-default','');
+	}
+	$sel : str-replace($sel,'.default','');
+
+	// return the selector
+	@return unquote(".#{$sel}");
+}
+
+@function _s-selector-legacy(
+	$sel
 ) {
 	$method : sugar('settings.selector.method');
 	@if type-of($sel) == 'map' {
@@ -18,16 +57,16 @@
 		$sel : _join($sel, ',');
 	}
 	// check if need to scope vertical rhythme
-	@if $vertical-rhythme-scope {
-		// split
-		$sels : _split($sel,',');
-		$new_sels : ();
-		@each $s in $sels {
-			$s : #{s-vertical-rhythme-scope-class()}#{$s};
-			$new_sels : append($new_sels, $s);
-		}
-		$sel : _join($new_sels,',');
-	}
+	// @if $vertical-rhythme-scope {
+	// 	// split
+	// 	$sels : _split($sel,',');
+	// 	$new_sels : ();
+	// 	@each $s in $sels {
+	// 		$s : #{s-vertical-rhythme-scope-class()}#{$s};
+	// 		$new_sels : append($new_sels, $s);
+	// 	}
+	// 	$sel : _join($new_sels,',');
+	// }
 	// replace the --default in selector
 	@if $method == BEM {
 		$sel : str-replace($sel,'--default','');

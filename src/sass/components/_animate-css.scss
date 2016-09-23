@@ -1,17 +1,8 @@
-@include s-component-setup((
-	animate-css 				: ( 				// store the animatecss settings
-		duration 					: 1s, 				// default animatecss duration
-		ease 						: ease-in-out, 		// default animatecss ease
-		fill-mode					: both, 			// defaull animatecss fill mode
-		animations 					: ()
-	)			
-));
-
 $_sugar-animate-css-inited : false;
 @mixin s-animate-css-init() {
 	@if not $_sugar-animate-css-inited {
 		$_sugar-animate-css-inited : true !global;
-			
+
 		// animate css
 		@include _s-animatecss-init();
 
@@ -39,7 +30,7 @@ $_sugar-animate-css-inited : false;
 ) {
 	// init
 	@include s-animate-css-init();
-	
+
 	// generate each classes
 	@each $anim in $animations {
 		.#{$anim} {

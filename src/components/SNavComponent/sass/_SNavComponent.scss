@@ -1,0 +1,151 @@
+$_s-nav-component-inited : false;
+@mixin s-nav-component-init() {
+	@if not $_s-nav-component-inited {
+		$_s-nav-component-inited : true !global;
+		%s-nav-component-bare {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+			user-select:none;
+		}
+	}
+}
+
+@mixin s-nav-component-justify-bare() {
+	// init nav
+	@include s-nav-component-init();
+	$componentName : s-component('s-nav');
+
+	#{s-selector($componentName, null, 'justify')} {
+		@extend %s-nav-component-bare;
+		display: table;
+		width: 100%;
+
+		> li,
+		> #{s-selector($componentName, 'item')} {
+			display: table-cell;
+			vertical-align: middle;
+			padding-left: s-lnf(padding-vertical);
+			padding-right: s-lnf(padding-vertical);
+			text-align: center;
+		}
+	}
+}
+
+@mixin s-nav-component-inline-bare() {
+	// init nav
+	@include s-nav-component-init();
+	$componentName : s-component('s-nav');
+
+	#{s-selector($componentName, null, 'inline')} {
+		@extend %s-nav-component-bare;
+		display: block;
+
+		> li,
+		> #{s-selector($componentName, 'item')} {
+			position:relative;
+			display: inline-block;
+			padding-left : s-lnf(padding-horizontal);
+			padding-right : s-lnf(padding-horizontal);
+
+			&:last-of-type {
+				padding-right: 0 !important;
+			}
+			&:first-of-type {
+				padding-left: 0 !important;
+			}
+		}
+	}
+}
+
+@mixin s-nav-component-tabs(
+	$colors : null
+) {
+	@include s-nav-component-tabs-bare();
+	@if $colors {
+		@include s-nav-component-tabs-style($colors);
+	}
+}
+
+@mixin s-nav-component-tabs-bare() {
+	@include s-nav-component-init();
+	$componentName : s-component('s-nav');
+
+	#{s-selector($componentName, null, 'tabs')} {
+		@extend %s-nav-component-bare;
+
+		> li,
+		> #{s-selector($componentName, 'item')} {
+
+			// font-size : s-lnf(font-size);
+			@include s-corner(
+				$top-left : s-lnf(border-radius),
+				$top-right : s-lnf(border-radius)
+			);
+			position:relative;
+			// margin-right: s-space(smaller);
+			padding : s-lnf(padding-vertical) s-lnf(padding-horizontal);
+			float: left;
+			cursor: pointer;
+
+			&.disabled,
+			&#{s-selector($componentName, 'item','disabled')} {
+				pointer-events: none;
+				opacity: .5;
+				cursor: not-allowed;
+			}
+		}
+	}
+}
+
+@mixin s-nav-component-tabs-style(
+	$colors : default primary secondary
+) {
+	// init nav
+	@include s-nav-component-init();
+
+	@if $_sugar-test-arguments {
+		// $colors : s-test-argument('s-nav-component-tabs','colors',map-keys(sugar('settings.colors')),$colors);
+	}
+
+	$componentName : s-component('s-nav');
+
+	#{s-selector($componentName, null, 'tabs')} {
+		@extend %s-nav-component-bare;
+
+		> li,
+		> #{s-selector($componentName, 'item')} {
+			position:relative;
+			margin-bottom: -1px;
+		}
+
+		// generate each colors
+		@each $color in $colors {
+
+			&#{s-selector($componentName, null, $color)} {
+				border-bottom: 1px solid s-color($color, -opacity .2);
+				@include s-clearfix;
+
+				> li,
+				> #{s-selector($componentName, 'item')} {
+					border: 1px solid s-color($color, -opacity .1);
+					color : s-color($color);
+
+					&#{s-selector($componentName, null, 'hover')},
+					&:hover {
+						background-color : s-color($color, -opacity .1);
+					}
+					&#{s-selector($componentName, null, 'active')} {
+						background-color : s-color($color);
+						border-color: s-color($color);
+						@if lightness(s-color($color)) > 70 {
+							color : s-color($color, -darken 30%);
+						} @else {
+							color : white;
+						}
+					}
+				}
+			}
+		}
+	}
+}

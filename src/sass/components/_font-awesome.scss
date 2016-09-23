@@ -1,16 +1,8 @@
-@include s-component-setup((
-	font-awesome : (
-		font-path 					: '../fonts/font-awesome', 		// path to dont without trailing slash
-		version 					: 4.4.0, 						// font-awesome version
-		icons 						: null, 						// list of icons to generate
-	)
-));
-
 $_sugar-font-awesome-inited : false;
 @mixin s-font-awesome-init() {
 	@if not $_sugar-font-awesome-inited {
 		$_sugar-font-awesome-inited : true !global;
-		
+
 		// font-awesome
 		$font-path : sugar('settings.components.font-awesome.font-path');
 		@include s-font-face(

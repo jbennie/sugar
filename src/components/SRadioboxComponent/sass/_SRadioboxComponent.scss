@@ -1,7 +1,3 @@
-@include s-component-setup((
-	s-radiobox : ()
-));
-
 $_s-formset-radiobox-component-inited : false;
 @mixin s-radiobox-component-init() {
 	@if not $_s-formset-radiobox-component-inited {
@@ -11,15 +7,11 @@ $_s-formset-radiobox-component-inited : false;
 
 @mixin s-radiobox-component(
 	$colors : null,
-	$animations : true,
-	$componentName : 's-radiobox'
+	$animations : true
 ) {
-	@include s-radiobox-component-bare(
-		$componentName : $componentName
-	);
+	@include s-radiobox-component-bare();
 	@if $colors {
 		@include s-radiobox-component-style(
-			$componentName : $componentName,
 			$animations : $animations,
 			$colors : $colors
 		);
@@ -27,23 +19,17 @@ $_s-formset-radiobox-component-inited : false;
 }
 
 @mixin s-radiobox-component-bare(
-	$componentName : 's-radiobox'
 ) {
 
 	// init form
 	@include s-radiobox-component-init();
+	$componentName : s-component('s-radiobox');
+	@include s-component($componentName) {
 
-	// parse properties
-	@if $_sugar-test-arguments {
-		// $colors : s-test-argument('s-formset-radiobox-style','colors',map-keys(sugar('settings.colors')),$colors);
-	}
-
-	// pass in the component context
-	$context : 'formset';
-	@if sugar('settings.components.#{$componentName}') {
-		$context : $componentName;
-	}
-	@include s-component-context($componentName) {
+		// parse properties
+		@if $_sugar-test-arguments {
+			// $colors : s-test-argument('s-formset-radiobox-style','colors',map-keys(sugar('settings.colors')),$colors);
+		}
 
 		// base
 		%#{$componentName}-checkbox-bare,
@@ -100,33 +86,25 @@ $_s-formset-radiobox-component-inited : false;
 		))} {
 			margin-top:1rem;
 		}
-
 	}
 }
 
 @mixin s-radiobox-component-style(
 	$colors : null,
-	$animations : true,
-	$componentName : 's-radiobox'
+	$animations : true
 ) {
 
 	// init form
 	@include s-radiobox-component-init();
+	$componentName : s-component('s-radiobox');
+	@include s-component($componentName) {
+		// parse properties
+		@if $_sugar-test-arguments {
+			// $colors : s-test-argument('s-formset-radiobox-style','colors',map-keys(sugar('settings.colors')),$colors);
+		}
 
-	// parse properties
-	@if $_sugar-test-arguments {
-		// $colors : s-test-argument('s-formset-radiobox-style','colors',map-keys(sugar('settings.colors')),$colors);
-	}
-
-	// pass in the component context
-	$context : 'formset';
-	@if sugar('settings.components.#{$componentName}') {
-		$context : $componentName;
-	}
-	@include s-component-context($componentName) {
-
-        // colors
-        @if ($colors) {
+	    // colors
+	    @if ($colors) {
 			@each $color in $colors {
 
 				#{s-selector((

@@ -1,3 +1,5 @@
+// @TODO : handle componentName in datepicker component
+
 $_s-datepicker-component-inited : false;
 @mixin s-datepicker-component-init() {
 	@if not $_s-datepicker-component-inited {

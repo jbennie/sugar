@@ -1,33 +1,22 @@
 @mixin s-label-push-component(
-	$componentName : 's-label-push',
 	$colors : null
 ) {
 	@include s-label-push-component-bare(
-		$componentName : $componentName
 	);
 	@if $colors {
 		@include s-label-push-component-style(
-			$colors : $colors,
-			$componentName : $componentName
+			$colors : $colors
 		);
 	}
 }
 
 @mixin s-label-push-component-bare(
-	$componentName : 's-label-push'
 ) {
-	@include s-formset-init();
-
-	// pass in the component context
-	$context : 'formset';
-	@if sugar('settings.components.#{$componentName}') {
-		$context : $componentName;
-	}
-	@include s-component-context($context) {
-
+	@include s-input-component-init();
+	$componentName : s-component('s-label-push');
+	@include s-component($componentName) {
 		// push
-		.#{$componentName},
-		[#{$componentName}] {
+		#{s-component-item()} {
 			> input {
 				@include s-transition(fast);
 			}
@@ -55,41 +44,26 @@
 }
 
 @mixin s-label-push-component-style(
-	$colors : sugar('settings.components.formset.generate.colors'),
-	$componentName : 's-label-push'
+	$colors : default primary secondary
 ) {
 	// parse properties
 	@if $_sugar-test-arguments {
 		// $colors : s-test-argument('s-formset','colors',map-keys(sugar('settings.colors')),$colors);
 	}
-
-	// pass in the component context
-	$context : 'formset';
-	@if sugar('settings.components.#{$componentName}') {
-		$_c : sugar('settings.components.#{$componentName}.generate.colors');
-		@if $_c {
-			$colors : $_c;
-		}
-		$context : $componentName;
-	}
-	@include s-component-context($context) {
-
+	$componentName : s-component('s-label-push');
+	@include s-component($componentName) {
 		// generate each colors
 		@each $color in $colors {
 
 			// label styling
 			#{s-selector((
 				BEM : (
-					'[#{$componentName}] > .input--#{$color}:not([type="checkbox"]):not([type="radio"])',
-					'.#{$componentName} > .input--#{$color}:not([type="checkbox"]):not([type="radio"])',
-					'.color--#{$color} [#{$componentName}] > .input:not([type="checkbox"]):not([type="radio"])',
-					'.color--#{$color} .#{$componentName} > .input:not([type="checkbox"]):not([type="radio"])'
+					'#{s-component-item()} > .input--#{$color}:not([type="checkbox"]):not([type="radio"])',
+					'.color--#{$color} #{s-component-item()} > .input:not([type="checkbox"]):not([type="radio"])'
 				),
 				SMACCS : (
-					'[#{$componentName}] > .input-#{$color}:not([type="checkbox"]):not([type="radio"])',
-					'.#{$componentName} > .input-#{$color}:not([type="checkbox"]):not([type="radio"])',
-					'.color-#{$color} [#{$componentName}] > .input:not([type="checkbox"]):not([type="radio"])',
-					'.color-#{$color} .#{$componentName} > .input:not([type="checkbox"]):not([type="radio"])'
+					'#{s-component-item()} > .input-#{$color}:not([type="checkbox"]):not([type="radio"])',
+					'.color-#{$color} #{s-component-item()} > .input:not([type="checkbox"]):not([type="radio"])'
 				)
 			))} {
 				& ~ span {

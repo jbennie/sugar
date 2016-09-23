@@ -1,2 +1,2 @@
-import SSelectComponent from './SSelectComponent'
+import SSelectComponent from './js/SSelectComponent'
 export default SSelectComponent

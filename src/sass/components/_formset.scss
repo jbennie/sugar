@@ -1,13 +1,3 @@
-@include s-component-setup((
-	formset : (
-		scope-class : 'formset',
-		generate : (
-			colors : default primary secondary success warning error info,
-			styles : inline inside
-		)
-	)
-));
-
 $_s-formset-inited : false;
 @mixin s-formset-init() {
 	@if not $_s-formset-inited {

@@ -1,0 +1,28 @@
+//
+// Component definition
+//
+$_sugar-current-context : null;
+@mixin s-context(
+	$name-or-map
+) {
+	$name : $name-or-map;
+
+	// if the passes argument is a context map
+	// register this context as new one
+	@if type-of($name-or-map) == 'map' {
+		$name : unique-id();
+		@include s-context-setup($name, $name-or-map);
+	}
+
+	// check if the context exist
+	$cont : map-get($_sugar-settings, contexts);
+	$cont : map-get($cont, $name);
+	@if not $cont {
+		@error("The context #{$name} does not exist. Please use the s-context-setup mixin to register your new context or pass directly a context map to this mixin...");
+	}
+	// $_sugar-previous-context : $_sugar-current-context !global;
+	$previous-context : $_sugar-current-context;
+	$_sugar-current-context : $name !global;
+	@content;
+	$_sugar-current-context : $previous-context !global;
+}

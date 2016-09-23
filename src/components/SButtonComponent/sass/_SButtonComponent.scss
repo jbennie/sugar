@@ -1,0 +1,167 @@
+$_s-button-component-inited : false;
+@mixin s-button-component-init() {
+	@if not $_s-button-component-inited {
+		$_s-button-component-inited : true !global;
+		%s-button-component-bare {
+			display: inline-block;
+			border: none;
+			cursor: pointer;
+			outline-width:0;
+			-webkit-appearance: none;
+			line-height: 1;
+			text-decoration: none;
+			font-size:1em;
+
+			> * {
+				vertical-align: middle;
+			}
+		}
+	}
+}
+
+@mixin s-button-component(
+	$colors : null
+) {
+	@include s-button-component-bare();
+	@if $colors {
+		@include s-button-component-style($colors);
+	}
+}
+
+@mixin s-button-component-bare(
+) {
+	// init dropdown
+	@include s-button-component-init();
+	$componentName : s-component('s-button');
+
+	// base
+	#{s-selector($componentName)} {
+		@extend %s-button-component-bare;
+		border-radius: s-lnf(border-radius);
+		padding : s-lnf(padding-horizontal) s-lnf(padding-vertical);
+		height: 1em + s-lnf(padding-horizontal) * 2;
+	}
+	button {
+		line-height: 1 !important;
+	}
+
+	// block
+	#{s-selector($componentName, null, 'block')} {
+		display: block;
+		width: 100%;
+	}
+}
+
+@mixin s-button-component-style(
+	$colors : default primary secondary
+) {
+	// init dropdown
+	@include s-button-component-init();
+	$componentName : s-component('s-button');
+
+	// parse properties
+	@if $_sugar-test-arguments {
+		// @TODO find a solution to check the colors properties
+		// $colors : s-test-argument('s-button-component-style','colors',map-keys(sugar('settings.colors')),$colors);
+	}
+
+
+	// base
+	#{s-selector($componentName)} {
+		@extend %s-button-component-bare;
+		@include s-transition(fast);
+	}
+	button {
+		line-height: 1 !important;
+	}
+
+	// generate each colors
+	@each $color in $colors {
+		#{s-selector($componentName, null, $color)} {
+			background-color: s-color($color);
+			border: 1px solid s-color($color);
+			@if lightness(s-color($color)) > 70 {
+				color : s-color($color, -darken 30%);
+			} @else {
+				color : white;
+			}
+
+			&:active,
+			&:hover,
+			&.active,
+			&#{s-selector($componentName, null, 'active')} {
+				&:not(:disabled) {
+					background-color : s-color($color, -darken 15%);
+					border-color: s-color($color, -darken 15%);
+				}
+			}
+			:checked + &:not(:disabled) {
+				background-color : s-color($color, -darken 25%);
+				border-color: s-color($color, -darken 25%);
+			}
+
+			// outline
+			&#{s-selector($componentName, null, 'outline')} {
+				color: s-color($color);
+
+				&:active,
+				&:hover,
+				&.active,
+				:checked + &,
+				#{s-selector($componentName, null, 'active')} {
+					&:not(:disabled) {
+						background-color: s-color($color);
+						border-color: s-color($color);
+						@if lightness(s-color($color)) > 70 {
+							color : s-color($color, -darken 30%);
+						} @else {
+							color : white;
+						}
+					}
+				}
+			}
+		}
+	}
+	// link button
+	#{s-selector($componentName, null, 'link')} {
+		background: transparent !important;
+		color: s-color(link) !important;
+		border: none !important;
+	}
+	// outline
+	#{s-selector($componentName, null, 'outline')} {
+		background-color: transparent;
+	}
+	// disabled
+	#{s-selector($componentName)}[disabled],
+	#{s-selector($componentName, null, 'disabled')} {
+		opacity: 0.65;
+		cursor: not-allowed !important;
+	}
+
+	// button group
+	#{s-selector($componentName)}-group {
+		@include s-clearfix();
+
+		> input[type="checkbox"],
+		> input[type="radio"] {
+			display: none;
+		}
+
+		#{s-selector($componentName)} {
+			float: left;
+
+			&:not(:first-of-type):not(:last-of-type) {
+				border-radius: 0;
+			}
+			&:first-of-type {
+				border-top-right-radius:0;
+				border-bottom-right-radius:0;
+			}
+			&:last-of-type {
+				border-top-left-radius:0;
+				border-bottom-left-radius:0;
+			}
+		}
+	}
+}

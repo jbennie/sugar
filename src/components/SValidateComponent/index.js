@@ -1,2 +1,2 @@
-import SValidateComponent from './SValidateComponent'
+import SValidateComponent from './js/SValidateComponent'
 export default SValidateComponent
