@@ -14,6 +14,7 @@ import querySelectorLive from '../../../js/dom/querySelectorLive'
 import __isInViewport from '../../../js/dom/isInViewport'
 import __autoCast from '../../../js/string/autoCast'
 import STimer from '../../../js/core/STimer'
+import STemplate from '../../../js/core/STemplate'
 
 // class
 class SSlideshowComponent extends SComponent {
@@ -33,7 +34,14 @@ class SSlideshowComponent extends SComponent {
 	_slides = [];
 
 	/**
-	 * isPause
+	 * _slidesIniter
+	 * Store all the slides initer functions
+	 * @type 	{Array}
+	 */
+	_slidesIniter = [];
+
+	/**
+	 * _isPause
 	 * Store the pause status
 	 * @type 	{Boolean}
 	 */
@@ -296,7 +304,14 @@ class SSlideshowComponent extends SComponent {
 			 * Callback when the slideshow stops
 			 * @type 	{Function}
 			 */
-			onStop : null
+			onStop : null,
+
+			/**
+			 * initSlide
+			 * Callback used to init a new slide
+			 * @type 	{Function}
+			 */
+			initSlide : null
 
 		}, settings);
 	}
@@ -312,7 +327,7 @@ class SSlideshowComponent extends SComponent {
 		this._updateReferences();
 
 		// grab the slides and maintain stack up to date
-		this._slidesObserver = querySelectorLive(`[${this.componentNameDash}-slide], ${this.componentNameDash}-slide`, {
+		this._slidesObserver = querySelectorLive(`[${this.componentNameDash}-slide]`, {
 			rootNode : this.elm
 		}).stack(this._slides).subscribe((elm) => {
 			// init new slide
@@ -624,6 +639,12 @@ class SSlideshowComponent extends SComponent {
 	 * @return 	{void}
 	 */
 	_initSlide(slide) {
+		// callback if exist
+		this.settings.initSlide && this.settings.initSlide(slide);
+		// slides initer
+		this._slidesIniter.forEach((initer) => {
+			initer(slide);
+		});
 	}
 
 	/**
@@ -657,11 +678,30 @@ class SSlideshowComponent extends SComponent {
 	 * @return 	{void}
 	 */
 	_unapplyClasses() {
+
+		this.removeComponentClass(this.elm);
+		if (this._refs.navigation) {
+			this.removeComponentClass(this._refs.navigation, 'navigation');
+		}
+		if (this._refs.next) {
+			this.removeComponentClass(this._refs.next, 'next');
+		}
+		if (this._refs.previous) {
+			this.removeComponentClass(this._refs.previous, 'previous');
+		}
+		if (this._refs.current) {
+			this.removeComponentClass(this._refs.current, 'current');
+		}
+		if (this._refs.total) {
+			this.removeComponentClass(this._refs.total, 'total');
+		}
+
 		// unactivate all the slides
 		this._slides.forEach((slide) => {
 			slide.classList.remove(this.settings.activeClass);
 			slide.classList.remove(this.settings.beforeActiveClass);
 			slide.classList.remove(this.settings.afterActiveClass);
+			this.removeComponentClass(slide, 'slide');
 		});
 		// remove the active class on all goto
 		[].forEach.call(this._refs.goTos, (goTo) => {
@@ -698,6 +738,28 @@ class SSlideshowComponent extends SComponent {
 	 * @return 	{void}
 	 */
 	_applyClasses() {
+
+		this.addComponentClass(this.elm);
+		if (this._refs.navigation) {
+			this.addComponentClass(this._refs.navigation, 'navigation');
+		}
+		if (this._refs.next) {
+			this.addComponentClass(this._refs.next, 'next');
+		}
+		if (this._refs.previous) {
+			this.addComponentClass(this._refs.previous, 'previous');
+		}
+		if (this._refs.current) {
+			this.addComponentClass(this._refs.current, 'current');
+		}
+		if (this._refs.total) {
+			this.addComponentClass(this._refs.total, 'total');
+		}
+
+		this._slides.forEach((slide) => {
+			this.addComponentClass(slide, 'slide');
+		});
+
 		// activate the current slide
 		this._activeSlide.classList.add(this.settings.activeClass);
 		// goto classes
@@ -754,14 +816,14 @@ class SSlideshowComponent extends SComponent {
 	 */
 	_applyTokens() {
 		// apply current
-		if (this._refs.currents) {
-			[].forEach.call(this._refs.currents, (current) => {
+		if (this._refs.current) {
+			[].forEach.call(this._refs.current, (current) => {
 				current.innerHTML = this.getActiveSlideIndex() + 1;
 			});
 		}
 		// apply total
-		if (this._refs.totals) {
-			[].forEach.call(this._refs.totals, (total) => {
+		if (this._refs.total) {
+			[].forEach.call(this._refs.total, (total) => {
 				total.innerHTML = this._slides.length;
 			});
 		}
@@ -905,6 +967,18 @@ class SSlideshowComponent extends SComponent {
 
 		// maintain chainability
 		return this;
+	}
+
+	/**
+	 * onNewSlide
+	 * Register a function to init a new slide
+	 * @param 	{Function} 	initer 	The initer function
+	 * @return 	{SSlideshowComponent}
+	 */
+	onNewSlide(callback) {
+		if (this._slidesIniter.indexOf(callback) === -1) {
+			this._slidesIniter.push(callback);
+		}
 	}
 
 	/**
@@ -1130,13 +1204,36 @@ class SSlideshowComponent extends SComponent {
 		this._refs.next = this.elm.querySelector(`[${this.componentNameDash}-next]`);
 		this._refs.previous = this.elm.querySelector(`[${this.componentNameDash}-previous]`);
 		// grab the total and current token handler
-		this._refs.totals = this.elm.querySelectorAll(`[${this.componentNameDash}-total]`);
-		this._refs.currents = this.elm.querySelectorAll(`[${this.componentNameDash}-current]`);
+		this._refs.total = this.elm.querySelectorAll(`[${this.componentNameDash}-total]`);
+		this._refs.current = this.elm.querySelectorAll(`[${this.componentNameDash}-current]`);
 		// grab all the goto elements
 		this._refs.goTos = this.elm.querySelectorAll(`[${this.componentNameDash}-goto]`);
 	}
 
 }
+
+// STemplate integration
+STemplate.registerComponentIntegration('SSlideshowComponent', (component) => {
+	STemplate.keepAttribute(component.elm, 'class');
+	component.onNewSlide((slide) => {
+		STemplate.keepAttribute(slide, 'class');
+	});
+	if (component._refs.navigation) {
+		STemplate.keepAttribute(component._refs.navigation, 'class');
+	}
+	if (component._refs.next) {
+		STemplate.keepAttribute(component._refs.next, 'class');
+	}
+	if (component._refs.previous) {
+		STemplate.keepAttribute(component._refs.previous, 'class');
+	}
+	if (component._refs.total) {
+		STemplate.keepAttribute(component._refs.total, 'class');
+	}
+	if (component._refs.current) {
+		STemplate.keepAttribute(component._refs.current, 'class');
+	}
+});
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }

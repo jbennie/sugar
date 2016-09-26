@@ -23,8 +23,7 @@ $_s-formset-radiobox-component-inited : false;
 
 	// init form
 	@include s-radiobox-component-init();
-	$componentName : s-component('s-radiobox');
-	@include s-component($componentName) {
+	@include s-component('s-radiobox') {
 
 		// parse properties
 		@if $_sugar-test-arguments {
@@ -32,12 +31,12 @@ $_s-formset-radiobox-component-inited : false;
 		}
 
 		// base
-		%#{$componentName}-checkbox-bare,
-		input[#{$componentName}][type="checkbox"] {
+		%#{s-component()}-checkbox-bare,
+		input[#{s-component()}][type="checkbox"] {
 			position: absolute;
 			left : -999999px;
 
-			& + .#{$componentName} {
+			& + #{s-component-selector()} {
 				display: inline-block;
 				position: relative;
 				cursor: pointer;
@@ -63,11 +62,11 @@ $_s-formset-radiobox-component-inited : false;
 				}
 			}
 		}
-		input[#{$componentName}][type="radio"] {
-			@extend %#{$componentName}-checkbox-bare;
+		input[#{s-component()}][type="radio"] {
+			@extend %#{s-component()}-checkbox-bare;
 			border-radius: 50% !important;
 
-			& + .#{$componentName} {
+			& + #{s-component-selector()} {
 				&,
 				&:after,
 				&:before {
@@ -76,14 +75,8 @@ $_s-formset-radiobox-component-inited : false;
 			}
 		}
 
-		#{s-selector((
-			BEM : (
-				'.label .label .#{$componentName}'
-			),
-			SMACCS : (
-				'.label .label .#{$componentName}'
-			)
-		))} {
+		// @TODO : found another way to handle that property
+		.label .label #{s-component-selector()} {
 			margin-top:1rem;
 		}
 	}
@@ -96,8 +89,7 @@ $_s-formset-radiobox-component-inited : false;
 
 	// init form
 	@include s-radiobox-component-init();
-	$componentName : s-component('s-radiobox');
-	@include s-component($componentName) {
+	@include s-component('s-radiobox') {
 		// parse properties
 		@if $_sugar-test-arguments {
 			// $colors : s-test-argument('s-formset-radiobox-style','colors',map-keys(sugar('settings.colors')),$colors);
@@ -107,39 +99,22 @@ $_s-formset-radiobox-component-inited : false;
 	    @if ($colors) {
 			@each $color in $colors {
 
-				#{s-selector((
-					BEM : (
-						'input[#{$componentName}].input--#{$color}',
-						'input.#{$componentName}.input--#{$color}'
-					),
-					SMACCS : (
-						'input[#{$componentName}].input-#{$color}',
-						'input#{$componentName}.input-#{$color}'
-					)
-				))} {
-					& + .#{$componentName} {
+				input#{s-component-selector(null, $color)} {
+					& + #{s-component-selector()} {
 						&:before {
 							background-color: s-color($color, -opacity .1);
 							border:1px solid s-color($color, -opacity .1);
 						}
 					}
 
-					& + .#{$componentName}:after {
+					& + #{s-component-selector()}:after {
 						background-color : s-color($color, -opacity .3);
 						background-color: white;
 					}
 
-					#{s-selector((
-						BEM : (
-							'&.input--hover',
-							'&.input--active'
-						),
-						SMACCS : (
-							'&.is-hover',
-							'&.is-active'
-						)
-					))} {
-						& + .#{$componentName} {
+					&#{s-component-selector(null, null, 'hover')},
+					&#{s-component-selector(null, null, 'active')} {
+						& + #{s-component-selector()} {
 							&:after {
 								background-color: s-color($color, -opacity .15);
 								width:60%;
@@ -152,7 +127,7 @@ $_s-formset-radiobox-component-inited : false;
 						}
 					}
 
-					& + .#{$componentName}:hover {
+					& + #{s-component-selector()}:hover {
 						&:after {
 							background-color: s-color($color, -opacity .15);
 							@include s-depth(3, s-color($color, -opacity .3));
@@ -164,7 +139,7 @@ $_s-formset-radiobox-component-inited : false;
 						}
 					}
 					&:checked {
-						& + .#{$componentName} {
+						& + #{s-component-selector()} {
 							&:after {
 								background-color: s-color($color);
 								@include s-depth(3, s-color($color, -opacity .3));
@@ -175,8 +150,7 @@ $_s-formset-radiobox-component-inited : false;
 			}
 		}
 
-		.input.#{$componentName},
-		.input[#{$componentName}] {
+		.input.#{s-component-selector()} {
 
 			$br : s-lnf(border-radius);
 			$fs : 1em * 1.3;
@@ -191,18 +165,10 @@ $_s-formset-radiobox-component-inited : false;
 				}
 			}
 
-			#{s-selector((
-				BEM : (
-					'&.input--hover',
-					'&.input--active'
-				),
-				SMACCS : (
-					'&.is-hover',
-					'&.is-active'
-				)
-			))},
+			#{s-component-selector(null, null, 'hover')},
+			#{s-component-selector(null, null, 'active')},
 			&:hover {
-				& + .#{$componentName} {
+				& + #{s-component-selector()} {
 					&:before,
 					&:after {
 						border-radius: $br / 100 * 60
@@ -210,7 +176,7 @@ $_s-formset-radiobox-component-inited : false;
 				}
 			}
 			&:checked {
-				& + .#{$componentName} {
+				& + #{s-component-selector()} {
 					&:after {
 						border-radius: $br / 100 * 60
 					}
@@ -220,18 +186,16 @@ $_s-formset-radiobox-component-inited : false;
 
 		// animations
 		@if ($animations) {
-			input.#{$componentName}[type="checkbox"],
-			input[#{$componentName}][type="checkbox"],
-			input.#{$componentName}[type="radio"]
-			input[#{$componentName}][type="radio"] {
-				& + .#{$componentName} {
+			input#{s-component-selector()}[type="checkbox"],
+			input#{s-component-selector()}[type="radio"] {
+				& + #{s-component-selector()} {
 					&,
 					&:before,
 					&:after {
 						@include s-transition(fast);
 					}
 				}
-				&:checked + .#{$componentName}:after {
+				&:checked + #{s-component-selector()}:after {
 					width:40%; height:40%;
 				}
 			}

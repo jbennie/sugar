@@ -222,14 +222,13 @@ class SValidateComponent extends SComponent {
 		super.render();
 		// if is dirty
 		if (this._isDirty) {
-			this.elm.classList.add(this.settings.dirtyClass);
-
+			this.addComponentClass(this.elm, null, null, 'dirty');
 			if (this._isValid) {
-				this.elm.classList.remove(this.settings.invalidClass);
-				this.elm.classList.add(this.settings.validClass);
+				this.removeComponentClass(this.elm, null, null, 'invalid');
+				this.addComponentClass(this.elm, null, null, 'valid');
 			} else {
-				this.elm.classList.add(this.settings.invalidClass);
-				this.elm.classList.remove(this.settings.validClass);
+				this.addComponentClass(this.elm, null, null, 'invalid');
+				this.removeComponentClass(this.elm, null, null, 'valid');
 			}
 		}
 	}

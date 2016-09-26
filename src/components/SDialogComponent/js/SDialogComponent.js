@@ -92,28 +92,7 @@ class SDialogComponent extends SComponent {
 			 * This can be 'click'|'hover'|'init'
 			 * @type 	{String}
 			 */
-			openOn : 'click',
-
-			/**
-			 * class
-			 * The class applied in the element iself when the dialog is opened
-			 * @type 	{String}
-			 */
-			class : 's-dialog--opened',
-
-			/**
-			 * bodyClass
-			 * The class applied to the body when the dialog is opened
-			 * @type 	{String}
-			 */
-			bodyClass : 's-dialog--opened',
-
-			/**
-			 * outClass
-			 * The class applied on the dialog container during close animation
-			 * @type 	{String}
-			 */
-			outClass : 's-dialog--out'
+			openOn : 'click'
 
 		}, settings);
 	}
@@ -212,10 +191,10 @@ class SDialogComponent extends SComponent {
 	_open() {
 
 		// add the body class
-		document.body.classList.add(this.settings.bodyClass);
+		this.addComponentClass(document.body, null, null, 'opened');
 
-		// add the class on the element itself
-		this.elm.classList.add(this.settings.class);
+		// add the class on the element itself¨
+		this.addComponentClass(this.elm, null, null, 'opened');
 
 		// open counter
 		SDialogComponent.counter++;
@@ -224,10 +203,10 @@ class SDialogComponent extends SComponent {
 		if ( ! this._template) {
 
 			this._html = __strToHtml(`
-				<div class="s-dialog" style="display: block; position: fixed; top: 0px; left: 0px; width: 100%; height: 100vh; overflow: auto; text-align: center; white-space: nowrap;">
-					<div name="overlay" class="s-dialog__overlay" style="position:fixed; top:0; left:0; width:100%; height:100%;"></div>
+				<div class="${this.componentClassName()}" style="display: block; position: fixed; top: 0px; left: 0px; width: 100%; height: 100vh; overflow: auto; text-align: center; white-space: nowrap;">
+					<div name="overlay" class="${this.componentClassName('overlay')}" style="position:fixed; top:0; left:0; width:100%; height:100%;"></div>
 					<div style="width:0px; height:100%; display:inline-block; vertical-align:middle;"></div>
-					<div name="content" class="s-dialog__content" style="display: inline-block; text-align: left; margin: 0px auto; position: relative; vertical-align: middle; white-space: normal;" s-template-do-not-update>
+					<div name="content" class="${this.componentClassName('content')}" style="display: inline-block; text-align: left; margin: 0px auto; position: relative; vertical-align: middle; white-space: normal;" s-template-do-not-update>
 						<!-- content will be here... -->
 					</div>
 				</div>
@@ -269,11 +248,11 @@ class SDialogComponent extends SComponent {
 		}
 
 		// try to find the s-dialog-ok and the s-dialog-cancel elements
-		const okElms = this.refs.content.querySelectorAll('[s-dialog-ok]');
+		const okElms = this.refs.content.querySelectorAll(`[${this.componentNameDash}-ok]`);
 		if (okElms.length) {
 			[].forEach.call(okElms, (elm) => {
 				if ( ! elm._SDialogCancelClickListener) {
-					const value = elm.getAttribute('s-dialog-ok');
+					const value = elm.getAttribute(`${this.componentNameDash}-ok`);
 					elm._SDialogCancelClickListener = true;
 					elm.addEventListener('click', (e) => {
 						this.ok(value);
@@ -281,11 +260,11 @@ class SDialogComponent extends SComponent {
 				}
 			});
 		}
-		const cancelElms = this.refs.content.querySelectorAll('[s-dialog-cancel]');
+		const cancelElms = this.refs.content.querySelectorAll(`[${this.componentNameDash}-cancel]`);
 		if (cancelElms.length) {
 			[].forEach.call(cancelElms, (elm) => {
 				if ( ! elm._SDialogOkClickListener) {
-					const value = elm.getAttribute('s-dialog-cancel');
+					const value = elm.getAttribute(`${this.componentNameDash}-cancel`);
 					elm._SDialogOkClickListener = true;
 					elm.addEventListener('click', (e) => {
 						this.cancel(value);
@@ -329,7 +308,7 @@ class SDialogComponent extends SComponent {
 			&& ! force) return;
 
 		// add the out class to the dialog
-		this.refs.elm.classList.add(this.settings.outClass);
+		this.addComponentClass(this.refs.elm, null, null, 'out');
 
 		// get animation properties
 		const animationProperties = __getAnimationProperties(this.refs.elm);
@@ -338,7 +317,7 @@ class SDialogComponent extends SComponent {
 		document.removeEventListener('keyup', this._onKeyup);
 
 		// remove the class on the element itself
-		this.elm.classList.remove(this.settings.class);
+		this.removeComponentClass(this.elm, null, null, 'opened');
 
 		// wait end animation to remove the dialog
 		setTimeout(() => {
@@ -351,7 +330,7 @@ class SDialogComponent extends SComponent {
 			}
 
 			// remove the out class
-			this.refs.elm.classList.remove(this.settings.outClass);
+			this.removeComponentClass(this.refs.elm, null, null, 'out');
 
 			// remove the container from the dom
 			document.body.removeChild(this._html);
@@ -362,7 +341,7 @@ class SDialogComponent extends SComponent {
 			}
 			// if no more dialog opened, remove the body class
 			if (SDialogComponent.counter <= 0) {
-				document.body.classList.remove(this.settings.bodyClass);
+				this.removeComponentClass(document.body, null, null, 'opened');
 			}
 
 		}, animationProperties.totalDuration);
@@ -399,7 +378,7 @@ class SDialogComponent extends SComponent {
 	 * @return 	{Boolean} 	If is opened or not
 	 */
 	isOpened() {
-		return this.elm.classList.contains(this.settings.class);
+		return this.hasComponentClass(this.elm, null, null, 'opened');
 	}
 }
 

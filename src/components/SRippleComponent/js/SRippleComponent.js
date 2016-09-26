@@ -39,8 +39,7 @@ class SRippleComponent extends SComponent {
 		super(name, elm, {
 			delay : 130, // delay in ms between each ripple
 			count : 1, // number of ripple to trigger on click
-			spread : 0, // spread distance for each ripple
-			class : 's-ripple' // the class that will be applied on each ripples
+			spread : 0 // spread distance for each ripple
 		}, settings);
 	}
 
@@ -61,9 +60,9 @@ class SRippleComponent extends SComponent {
 	handleClick(e) {
 		// create new particle system
 		const particlesSystemElm = document.createElement('div');
-		particlesSystemElm.setAttribute(`${this.componentNameDash}-container`,true);
+		this.addComponentClass(particlesSystemElm, 'container');
 		const particleElm = document.createElement('div');
-		particleElm.setAttribute(`${this.componentNameDash}-particle`, true);
+		this.addComponentClass(particleElm, 'particle');
 		const elmOffset = __offset(this.elm);
 		const particlesSystem = new SParticlesSystemComponent(particlesSystemElm, {
 			emitterX : (e.pageX - elmOffset.left) + 'px',

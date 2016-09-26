@@ -91,28 +91,29 @@ $not : ':not([type="checkbox"]):not([type="radio"]):not(.noUi-target)';
 @mixin s-input-component-bare(
 ) {
 	@include s-input-component-init();
-	$componentName : s-component('s-input');
+	@include s-component('s-input') {
 
-	input#{s-selector($componentName)}#{$not} {
-		@extend %s-input-component-field-bare;
-		// set input styling
-		@include s-input-component-field-size();
+		input#{s-component-selector()}#{$not} {
+			@extend %s-input-component-field-bare;
+			// set input styling
+			@include s-input-component-field-size();
 
-		// vertical rhythme
-		&, & ~ span {
-			@include s-vertical-rhythme {
-				margin-bottom: 1rem;
+			// vertical rhythme
+			&, & ~ span {
+				@include s-vertical-rhythme {
+					margin-bottom: 1rem;
+				}
 			}
 		}
-	}
-	textarea#{s-selector($componentName)} {
-		height: auto !important;
+		textarea#{s-component-selector()} {
+			height: auto !important;
 
-		@include s-input-component-textarea-field-size();
+			@include s-input-component-textarea-field-size();
 
-		// vertical rhythme
-		@include s-vertical-rhythme {
-			margin-bottom:1rem;
+			// vertical rhythme
+			@include s-vertical-rhythme {
+				margin-bottom:1rem;
+			}
 		}
 	}
 }
@@ -123,30 +124,31 @@ $not : ':not([type="checkbox"]):not([type="radio"]):not(.noUi-target)';
 	@if $_sugar-test-arguments {
 		// $colors : s-test-argument('s-formset','colors',map-keys(sugar('settings.colors')),$colors);
 	}
-	$componentName : s-component('s-input');
+	@include s-component('s-input') {
 
-	input#{s-selector($componentName)}#{$not} {
-		@extend %s-input-component-field-style;
-	}
-	select#{s-selector($componentName)} {
-		@extend %s-input-component-select-field-style;
-	}
-
-	// generate each colors
-	@each $color in $colors {
-
-		// input styling
-		input#{s-selector($componentName, null, $color)}#{$not} {
-			@include s-input-component-field-color($color);
-
-			// & ~ #{s-selector(#{s-selector($componentName)}-reply}, null, $color) {
-			// 	display: block;
-			// }
+		input#{s-component-selector()}#{$not} {
+			@extend %s-input-component-field-style;
+		}
+		select#{s-component-selector()} {
+			@extend %s-input-component-select-field-style;
 		}
 
-		// select styling
-		select#{s-selector($componentName, null, $color)} {
-			@include s-input-component-select-field-color($color);
+		// generate each colors
+		@each $color in $colors {
+
+			// input styling
+			input#{s-component-selector(null, $color)}#{$not} {
+				@include s-input-component-field-color($color);
+
+				// & ~ #{s-selector(#{s-component-selector()}-reply}, null, $color) {
+				// 	display: block;
+				// }
+			}
+
+			// select styling
+			select#{s-component-selector(null, $color)} {
+				@include s-input-component-select-field-color($color);
+			}
 		}
 	}
 }

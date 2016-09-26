@@ -95,13 +95,11 @@ $_s-range-component-inited : false;
 @mixin s-range-component-bare() {
 	@include s-range-component-init();
 
-	$componentName : s-component('s-range');
-
 	$h : 1em;
 
-	@include s-component($componentName) {
+	@include s-component('s-range') {
 
-		.#{$componentName} {
+		#{s-component-selector()} {
 			padding-top:.5em;
 			padding-bottom:.5em;
 		}
@@ -155,7 +153,7 @@ $_s-range-component-inited : false;
 	$componentNameNest : true
 ) {
 	@if $componentNameNest {
-		.#{s-component('s-range')} {
+		#{s-component-selector()} {
 			@include _s-range-component-style-container($state) {
 				@content;
 			}
@@ -185,7 +183,7 @@ $_s-range-component-inited : false;
 	$componentNameNest : true
 ) {
 	@if $componentNameNest {
-		.#{s-component('s-range')} {
+		#{s-component-selector()} {
 			@include _s-range-component-style-connect($state) {
 				@content;
 			}
@@ -225,7 +223,7 @@ $_s-range-component-inited : false;
 	$componentNameNest : true
 ) {
 	@if $componentNameNest {
-		.#{s-component('s-range')} {
+		#{s-component-selector()} {
 			@include _s-range-component-style-handle($state) {
 				@content;
 			}
@@ -259,7 +257,7 @@ $_s-range-component-inited : false;
 	$componentNameNest : true
 ) {
 	@if $componentNameNest {
-		.#{s-component('s-range')} {
+		#{s-component-selector()} {
 			@include _s-range-component-style-handle-value($state) {
 				@content;
 			}
@@ -293,7 +291,7 @@ $_s-range-component-inited : false;
 	$componentNameNest : true
 ) {
 	@if $componentNameNest {
-		.#{s-component('s-range')} {
+		#{s-component-selector()} {
 			@include _s-range-component-style-base($state) {
 				@content;
 			}
@@ -325,7 +323,7 @@ $_s-range-component-inited : false;
 	$componentNameNest : true
 ) {
 	@if $componentNameNest {
-		.#{s-component('s-range')} {
+		#{s-component-selector()} {
 			@include _s-range-component-style-tooltip($state) {
 				@content;
 			}
@@ -358,14 +356,13 @@ $_s-range-component-inited : false;
 	$colors : sugar('settings.components.formset.generate.colors')
 ) {
 	@include s-range-component-init();
-	$componentName : s-component('s-range');
 
 	// parse properties
 	@if $_sugar-test-arguments {
 		// $colors : s-test-argument('s-range-component-style','colors',map-keys(sugar('settings.colors')),$colors);
 	}
 
-	@include s-component($componentName) {
+	@include s-component('s-range') {
 
 		@include s-range-component-style-base() {
 			background:white;
@@ -433,7 +430,7 @@ $_s-range-component-inited : false;
 
 		@each $color in $colors {
 
-			#{s-selector($componentName, null, $color)} {
+			#{s-component-selector(null, $color)} {
 
 				@include s-range-component-style-connect(
 					$componentNameNest : false

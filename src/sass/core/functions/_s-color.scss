@@ -19,7 +19,6 @@
 	// grab the colors
 	$colors : sugar('settings.colors');
 	$color : sugar('settings.colors.#{$name}');
-
 	$modifiers : null;
 
 	// check that we have the color
@@ -39,7 +38,7 @@
 
 	// if the color is a string
 	@if s-is($color, string) or s-is($color, color) {
-		@if $color != $name and index(map-keys($colors),$color) {
+		@if $color != $name and sugar('settings.colors.#{$color}') {
 			@return s-color($color, $actions);
 		}
 	}

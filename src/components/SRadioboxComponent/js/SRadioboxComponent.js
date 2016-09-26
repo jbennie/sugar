@@ -30,7 +30,7 @@ class SRadioboxComponent extends SComponent {
 		let input_for = this.elm.id || this.elm.name;
 
 		// stop if already the s-radiobox div
-		if (this.elm.nextSibling && this.elm.nextSibling.nodeName != '#text' && this.elm.nextSibling.classList.contains('s-radiobox')) return;
+		if (this.elm.nextSibling && this.elm.nextSibling.nodeName != '#text' && this.elm.nextSibling.classList.contains(this.componentClassName())) return;
 
 		// append an empty element after the input to style it
 		let nodeType = 'div';
@@ -38,7 +38,7 @@ class SRadioboxComponent extends SComponent {
 			nodeType = 'label';
 		}
 		let styleNode = document.createElement(nodeType);
-		styleNode.className = 's-radiobox';
+		this.addComponentClass(styleNode);
 		if (nodeType == 'label' && input_for) {
 			styleNode.setAttribute('for', input_for);
 		}

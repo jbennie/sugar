@@ -1,0 +1,11 @@
+@function s-component-selector(
+	$element : null,
+	$modifier : null,
+	$state : null
+) {
+	$component : s-component();
+	@if not $component {
+		@error('To use the function s-component-selector, you need to be in a component by using the s-component mixin...');
+	}
+	@return s-selector($component, $element, $modifier, $state);
+}

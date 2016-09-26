@@ -1,27 +1,29 @@
 @mixin s-form-component-group(
 ) {
-	$componentName : s-component('s-form');
 
-	// form group
-	#{s-selector($componentName)}-group {
-		// make form group flex
-		display: flex !important;
-		flex: 1 !important;
+	@include s-component('s-form') {
 
-		#{s-selector($componentName)}-addon {
-			flex:0;
-		}
-
-		// remove margin-top from input that are in a form-group
-		> * {
-			margin-top: 0 !important;
-		}
-
-		// make input flex
-		> input:not([type="checkbox"]):not([type="radio"]),
-		> label {
+		// form group
+		#{s-component-selector()}-group {
+			// make form group flex
+			display: flex !important;
 			flex: 1 !important;
-			margin-top: 0 !important;
+
+			#{s-component-selector()}-addon {
+				flex:0;
+			}
+
+			// remove margin-top from input that are in a form-group
+			> * {
+				margin-top: 0 !important;
+			}
+
+			// make input flex
+			> input:not([type="checkbox"]):not([type="radio"]),
+			> label {
+				flex: 1 !important;
+				margin-top: 0 !important;
+			}
 		}
 	}
 }
@@ -38,17 +40,18 @@
 @mixin s-form-component-addon-bare(
 ) {
 	@include s-input-component-init();
-	$componentName : s-component('s-form');
+	@include s-component('s-form') {
 
-	// base
-	#{s-selector($componentName)}-addon {
-		@extend %s-input-component-field-bare;
-		pointer-events: none;
-		// set input styling
-		@include s-input-component-field-size();
+		// base
+		#{s-component-selector()}-addon {
+			@extend %s-input-component-field-bare;
+			pointer-events: none;
+			// set input styling
+			@include s-input-component-field-size();
 
-		@include s-vertical-rhythme {
-			margin-bottom: 1rem;
+			@include s-vertical-rhythme {
+				margin-bottom: 1rem;
+			}
 		}
 	}
 }
@@ -60,20 +63,21 @@
 	@if $_sugar-test-arguments {
 		// $colors : s-test-argument('s-formset','colors',map-keys(sugar('settings.colors')),$colors);
 	}
-	$componentName : s-component('s-form');
+	@include s-component('s-form') {
 
-	@each $color in $colors {
+		@each $color in $colors {
 
-		#{s-selector( #{s-selector($componentName)-addon}, null, $color )} {
-			@include s-input-component-field-color($color);
+			#{s-selector( #{s-component-selector()-addon}, null, $color )} {
+				@include s-input-component-field-color($color);
 
-			// & ~ .input-reply--#{$color} {
-			// 	display: block;
-			// }
-		}
-		#{s-selector( #{s-selector($componentName)-addon}, null, $color )} {
-			background-color: s-color($color, -opacity .08);
-			color : s-color($color, -darken 20%);
+				// & ~ .input-reply--#{$color} {
+				// 	display: block;
+				// }
+			}
+			#{s-selector( #{s-component-selector()-addon}, null, $color )} {
+				background-color: s-color($color, -opacity .08);
+				color : s-color($color, -darken 20%);
+			}
 		}
 	}
 }

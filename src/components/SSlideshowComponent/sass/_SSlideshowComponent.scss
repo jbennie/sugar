@@ -24,12 +24,11 @@ $_s-slideshow-component-inited : false;
 @mixin s-slideshow-component-bare(
 ) {
 	@include s-slideshow-component-init();
-	$componentName : s-component('s-slideshow');
-	@include s-component($componentName) {
-		[#{$componentName}] {
+	@include s-component('s-slideshow') {
+		#{s-component-selector()} {
 			@extend %s-slideshow-component-bare;
 		}
-		[#{$componentName}-slide] {
+		#{s-component-selector('slide')} {
 			@extend %s-slideshow-component-slide-bare;
 		}
 	}
@@ -37,11 +36,10 @@ $_s-slideshow-component-inited : false;
 @mixin s-slideshow-component-style(
 ) {
 	// pass in the component context
-	$componentName : s-component('s-slideshow');
-	@include s-component($componentName) {
+	@include s-component('s-slideshow') {
 		// [#{$componentName}] {
 		// }
-		[#{$componentName}-slide] {
+		#{s-component-selector('slide')} {
 			@include s-transition(transform .4s cubic-bezier(0.810, 0.005, 0.735, 1.000));
 			@include s-translate(-100%,0);
 			overflow: hidden;

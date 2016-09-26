@@ -40,21 +40,19 @@ $_s-ripple-component-inited : false;
 
 @mixin s-ripple-component-bare() {
 	@include s-ripple-component-init();
-	$componentName : s-component('s-ripple');
-	@include s-component($componentName) {
-		[#{$componentName}-container] {
+	@include s-component('s-ripple') {
+		#{s-component-selector('container')} {
 			@extend %s-ripple-container-bare;
 		}
-		[#{$componentName}-particle] {
+		#{s-component-selector('particle')} {
 			@extend %s-ripple-component-bare;
 		}
 	}
 }
 @mixin s-ripple-component-style(
 ) {
-	$componentName : s-component('s-ripple');
-	@include s-component($componentName) {
-		[#{$componentName}-particle] {
+	@include s-component('s-ripple') {
+		#{s-component-selector('particle')} {
 			background:rgba(0,0,0,.3);
 			// mix-blend-mode: overlay;
 			@include s-animation(s-ripple .3s ease-out);

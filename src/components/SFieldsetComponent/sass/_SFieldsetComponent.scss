@@ -27,45 +27,46 @@ $_s-fieldset-component-inited : false;
 ) {
 	// init form
 	@include s-fieldset-component-init();
-	$componentName : s-component('s-fieldset');
+	@include s-component('s-fieldset') {
 
-	@if $_sugar-test-arguments {
-		// $colors : s-test-argument('s-fieldset-component','colors',map-keys(sugar('settings.colors')),$colors);
-	}
-
-
-	#{s-selector($componentName)} {
-		@extend %s-fieldset-component-bare;
-
-		@include s-vertical-rhythme() {
-			margin-bottom: 2rem;
+		@if $_sugar-test-arguments {
+			// $colors : s-test-argument('s-fieldset-component','colors',map-keys(sugar('settings.colors')),$colors);
 		}
-	}
 
-	#{s-selector($componentName)} > legend {
-		padding: s-lnf(padding-horizontal) s-lnf(padding-vertical);
-	}
 
-	// generate each colors
-	@each $color in $colors {
+		#{s-component-selector()} {
+			@extend %s-fieldset-component-bare;
 
-		#{s-selector($componentName, null, $color)} {
-			border-color: s-color($color, -opacity .1);
+			@include s-vertical-rhythme() {
+				margin-bottom: 2rem;
+			}
+		}
 
-			&#{s-selector($component, null, 'hover')},
-			&#{s-selector($component, null, 'active')},
-			&:hover,
-			&.active {
-				border-color: s-color($color, -opacity .2);
+		#{s-component-selector()} > legend {
+			padding: s-lnf(padding-horizontal) s-lnf(padding-vertical);
+		}
+
+		// generate each colors
+		@each $color in $colors {
+
+			#{s-component-selector(null, $color)} {
+				border-color: s-color($color, -opacity .1);
+
+				&#{s-component-selector(null, null, 'hover')},
+				&#{s-component-selector(null, null, 'active')},
+				&:hover,
+				&.active {
+					border-color: s-color($color, -opacity .2);
+
+					> legend {
+						border-color: s-color($color, -opacity .2);
+					}
+				}
 
 				> legend {
-					border-color: s-color($color, -opacity .2);
+					color: s-color($color);
+					border-color: s-color($color, -opacity .1);
 				}
-			}
-
-			> legend {
-				color: s-color($color);
-				border-color: s-color($color, -opacity .1);
 			}
 		}
 	}

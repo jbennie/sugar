@@ -132,29 +132,7 @@ class SStickyComponent extends SComponent {
 			 * How long to wait after a window resize before updating sizes etc...
 			 * @type 	{Number}
 			 */
-			resizeTimeout : 50,
-
-			/**
-			 * class
-			 * THe class to apply on the element itself when it is sticked
-			 * @type 	{String}
-			 */
-			cls : 's-sticky--sticked',
-
-			/**
-			 * dirtyClass
-			 * The class to apply on the element itself after the first sticky process
-			 * @type 	{String}
-			 */
-			dirtyClass : 's-sticky--dirty',
-
-			/**
-			 * outClass
-			 * The class to apply on the element itself during the out sticky process
-			 * This class is automatically removes when the css animation is completed
-			 * @type 	{String}
-			 */
-			outClass : 's-sticky--out'
+			resizeTimeout : 50
 		}, settings);
 	}
 
@@ -228,14 +206,14 @@ class SStickyComponent extends SComponent {
 				this.elm.style.position = 'absolute';
 				this.elm.style.bottom = this.settings.offsetBottom + 'px';
 				this.elm.style.top = 'auto';
-				this.elm.classList.add(this.settings.cls);
+				this.addComponentClass(this.elm, null, null, 'sticked');
 			}
 			// handle placeholder if needed
 			if (this.settings.placeholder) {
 				this._addPlaceholder();
 			}
 			// add dirty class
-			this.elm.classList.add(this.settings.dirtyClass);
+			this.addComponentClass(this.elm, null, null, 'dirty');
 		} else if (scrollTop - offsetTopDetection > this.boundary.top) {
 			// update needReset status
 			this.needReset = true;
@@ -247,13 +225,13 @@ class SStickyComponent extends SComponent {
 			this.elm.style.top = this.settings.offsetTop + 'px';
 			this.elm.style.bottom = 'auto';
 			this.elm.style.width = this._elmWidth + 'px';
-			this.elm.classList.add(this.settings.cls);
+			this.addComponentClass(this.elm, null, null, 'sticked');
 			// handle placeholder if needed
 			if (this.settings.placeholder) {
 				this._addPlaceholder();
 			}
 			// add dirty class
-			this.elm.classList.add(this.settings.dirtyClass);
+			this.addComponentClass(this.elm, null, null, 'dirty');
 		} else {
 			// no more sticked
 			this.reset();
@@ -282,7 +260,7 @@ class SStickyComponent extends SComponent {
 		// create if needed
 		if ( ! this.placeholderElm) {
 			this.placeholderElm = document.createElement('div');
-			this.placeholderElm.classList.add('s-sticked-placeholder');
+			this.addComponentClass(this.placeholderElm, 'placeholder');
 		}
 		this.placeholderElm.style.width = this._elmWidth + 'px';
 		this.placeholderElm.style.height = this.base_height + 'px';
@@ -353,7 +331,7 @@ class SStickyComponent extends SComponent {
 		this.needReset = false;
 
 		// add the out class
-		this.elm.classList.add(this.settings.outClass);
+		this.addComponentClass(this.elm, null, null, 'out');
 
 		// get animation properties to wait if needed
 		let animationProperties = __getAnimationProperties(this.elm);
@@ -373,9 +351,9 @@ class SStickyComponent extends SComponent {
 			}
 
 			// remove the out class
-			this.elm.classList.remove(this.settings.outClass);
+			this.removeComponentClass(this.elm, null, null, 'out');
 			// remove the sticked class
-			this.elm.classList.remove(this.settings.cls);
+			this.removeComponentClass(this.elm, null, null, 'sticked');
 		}, animationProperties.totalDuration);
 	}
 
@@ -383,7 +361,7 @@ class SStickyComponent extends SComponent {
 	 * Check if is sticked
 	 */
 	isSticked() {
-		return this.elm.classList.contains(this.settings.cls);
+		return this.hasComponentClass(this.elm, null, null, 'sticked');
 	}
 }
 

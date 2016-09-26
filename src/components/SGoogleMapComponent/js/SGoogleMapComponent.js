@@ -147,7 +147,6 @@ class SGoogleMapComponent extends SGoogleComponent {
 	 * @return 	{void}
 	 */
 	_onPlaceholderInit() {
-		console.warn('INIT');
 		// remove the placeholder
 		this.remove(this._placeholder);
 		// stop listening for init on placeholder

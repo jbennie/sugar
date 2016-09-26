@@ -48,8 +48,7 @@ $_s-pagination-component-inited : false;
 @mixin s-pagination-component-bare(
 ) {
 	@include s-pagination-component-init();
-	$componentName : s-component('s-pagination');
-	@include s-component($componentName) {
+	@include s-component('s-pagination') {
 		#{s-component-item()} {
 			display:inline-block;
 			user-select:none;
@@ -76,8 +75,7 @@ $_s-pagination-component-inited : false;
 @mixin s-pagination-style(
 	$colors
 ) {
-	$componentName : s-component('s-pagination');
-	@include s-component($componentName) {
+	@include s-component('s-pagination') {
 		@each $color in $colors {
 			#{s-component-item()}.color-#{$color},
 			.color-#{$color} #{s-component-item()} {

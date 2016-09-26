@@ -92,7 +92,7 @@ class SRangeComponent extends SComponent {
 		// create the container for the slider
 		this.container = document.createElement('div');
 		this.container.className = this.elm.className;
-		this.container.classList.add(this.componentNameDash);
+		this.addComponentClass(this.elm);
 		this.container.classList.add('clear-transmations'); // do not animate anything at initialisation
 
 		// range element

@@ -1,10 +1,15 @@
 $_sugar-component-name : null;
 @mixin s-component(
-	$name,
+	$name : null,
 	$context : null
 ) {
-	$previous-component-name : s-component();
-	$_sugar-component-name : $name !global;
+	$is-root : true;
+	@if $_sugar-component-name {
+		$is-root : false;
+	} @else if $name {
+		$_sugar-component-name : $name !global;
+	}
+	
 	@if $context {
 		@include s-context($context) {
 			@content;
@@ -12,5 +17,8 @@ $_sugar-component-name : null;
 	} @else {
 		@content;
 	}
-	$_sugar-component-name : $previous-component-name !global;
+
+	@if $is-root {
+		$_sugar-component-name : null !global;
+	}
 }

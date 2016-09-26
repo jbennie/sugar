@@ -2,169 +2,170 @@
 @mixin s-table-component-style(
     $colors : default primary secondary
 ) {
-    $componentName : s-component('s-table');
+    @include s-component('s-table') {
 
-	#{s-selector($componentName)} {
+    	#{s-component-selector()} {
 
-        // shadowed
-		&#{s-selector($componentName, null, 'shadowed')} {
-			@include s-transition();
-			#{s-selector($componentName, null, 'hover')},
-			&:hover {
-				@include s-filter(shadow);
-			}
-		}
+            // shadowed
+    		&#{s-component-selector(null, 'shadowed')} {
+    			@include s-transition();
+    			#{s-component-selector(null, 'hover')},
+    			&:hover {
+    				@include s-filter(shadow);
+    			}
+    		}
 
-        // hover
-        &#{s-selector($componentName, null, 'hover')} {
-            > tbody > .tr:hover,
-            > tbody > tr:hover {
-                td,.td,
-                th,.th {
-                    &:before {
-                        height:100%;
-                    }
-                }
-            }
-        }
-
-        @each $color in $colors {
-
-			&#{s-selector($componentName, null, $color)} {
-
-     			// stripped
-     			&#{s-selector($componentName, null, 'striped')} {
-                    > thead > .tr:nth-of-type(odd),
-     				> thead > tr:nth-of-type(odd) {
-     					background-color : s-color($color);
-     				}
-                    > tbody > .tr:nth-of-type(even),
-     				> tbody > tr:nth-of-type(even) {
-     					background-color : s-color($color, -opacity .6);
-     				}
-     			}
-
-     			// bordered
-     			&#{s-selector($componentName, null, 'bordered')} {
-     				border: 1px solid s-color($color);
-
-     				td,
-     				th {
-     					border-right: 1px solid s-color($color, -opacity .8);
-     				}
-     			}
-
-     			// hover
-                &#{s-selector($componentName, null, 'hover')} {
+            // hover
+            &#{s-component-selector(null, 'hover')} {
+                > tbody > .tr:hover,
+                > tbody > tr:hover {
                     td,.td,
                     th,.th {
                         &:before {
-                            background-color: s-color($color, -darken 5%);
+                            height:100%;
                         }
                     }
                 }
-    			&#{s-selector($componentName, null, 'hover')} {
-                    > tbody > .tr,
-                    > tbody > tr {
-                        transform:scale(1,1);
+            }
+
+            @each $color in $colors {
+
+    			&#{s-component-selector(null, $color)} {
+
+         			// stripped
+         			&#{s-component-selector(null, 'striped')} {
+                        > thead > .tr:nth-of-type(odd),
+         				> thead > tr:nth-of-type(odd) {
+         					background-color : s-color($color);
+         				}
+                        > tbody > .tr:nth-of-type(even),
+         				> tbody > tr:nth-of-type(even) {
+         					background-color : s-color($color, -opacity .6);
+         				}
+         			}
+
+         			// bordered
+         			&#{s-component-selector(null, 'bordered')} {
+         				border: 1px solid s-color($color);
+
+         				td,
+         				th {
+         					border-right: 1px solid s-color($color, -opacity .8);
+         				}
+         			}
+
+         			// hover
+                    &#{s-component-selector(null, 'hover')} {
+                        td,.td,
+                        th,.th {
+                            &:before {
+                                background-color: s-color($color, -darken 5%);
+                            }
+                        }
                     }
-    				> tbody > .tr:hover,
-     				> tbody > tr:hover {
-     					background-color: s-color($color);
-                        transform:scale(1.01,1.01);
-                        @include s-transition(fast);
-     				}
-     			}
-     		}
+        			&#{s-component-selector(null, 'hover')} {
+                        > tbody > .tr,
+                        > tbody > tr {
+                            transform:scale(1,1);
+                        }
+        				> tbody > .tr:hover,
+         				> tbody > tr:hover {
+         					background-color: s-color($color);
+                            transform:scale(1.01,1.01);
+                            @include s-transition(fast);
+         				}
+         			}
+         		}
+            }
         }
     }
 }
 
 @mixin s-table-component-bare(
 ) {
-	$componentName : s-component('s-table');
+	@include s-component('s-table') {
+    	#{s-component-selector(null, 'responsive')} {
+    		min-height: 0.01%;
+    		overflow-x: auto;
+    		width: 100%;
+    		overflow-y: hidden;
+    	}
 
-	#{s-selector($componentName, null, 'responsive')} {
-		min-height: 0.01%;
-		overflow-x: auto;
-		width: 100%;
-		overflow-y: hidden;
-	}
-
-	#{s-selector($componentName, null, 'center')} {
-		td,.td,
-        th,.th {
-            text-align: center;
-        }
-	}
-	#{s-selector($componentName, null, 'middle')} {
-		td,.td,
-        th,.th {
-            vertical-align: middle;
-        }
-	}
-
-	#{s-selector($componentName)} {
-		width: 100%;
-
-        .th,th {
-            text-align: left;
-        }
-
-		.th,th,
-		.td,td {
-			padding: s-lnf(padding-horizontal) s-lnf(padding-vertical);
-            position:relative;
-
-			&:last-child {
-				border-right : none;
-			}
-
-            &:before {
-                content:'';
-                display:block;
-                position:absolute;
-                top:50%; left:0;
-                @include s-translate(0,-50%);
-                width:100%; height:0;
-                @include s-transition(fast);
-                mix-blend-mode:darken;
-                pointer-events:none;
+    	#{s-component-selector(null, 'center')} {
+    		td,.td,
+            th,.th {
+                text-align: center;
             }
-		}
-		.th,th {
-			font-weight:bold;
-            position:relative;
-		}
-		.tr:last-child .td,
-		tr:last-child td,
-		.tr:last-child:not(:first-child) .th,
-		tr:last-child:not(:first-child) th {
-			border-bottom: none !important;
-		}
+    	}
+    	#{s-component-selector(null, 'middle')} {
+    		td,.td,
+            th,.th {
+                vertical-align: middle;
+            }
+    	}
 
-		// caption
-		.caption,
-		caption {
-			@include s-font(italic left);
-			&:before {
-				content : "\2014 \00A0";
-			}
-		}
+    	#{s-component-selector()} {
+    		width: 100%;
 
-		// adapt and grow
-		.td.adapt,
-		td.adapt,
-		.th.adapt,
-		th.adapt {
-			width:1px;
-			white-space: nowrap;
-		}
-		.td.grow,
-		td.grow,
-		.th.grow,
-		th.grow {
-			width:9999999px;
-		}
-	}
+            .th,th {
+                text-align: left;
+            }
+
+    		.th,th,
+    		.td,td {
+    			padding: s-lnf(padding-horizontal) s-lnf(padding-vertical);
+                position:relative;
+
+    			&:last-child {
+    				border-right : none;
+    			}
+
+                &:before {
+                    content:'';
+                    display:block;
+                    position:absolute;
+                    top:50%; left:0;
+                    @include s-translate(0,-50%);
+                    width:100%; height:0;
+                    @include s-transition(fast);
+                    mix-blend-mode:darken;
+                    pointer-events:none;
+                }
+    		}
+    		.th,th {
+    			font-weight:bold;
+                position:relative;
+    		}
+    		.tr:last-child .td,
+    		tr:last-child td,
+    		.tr:last-child:not(:first-child) .th,
+    		tr:last-child:not(:first-child) th {
+    			border-bottom: none !important;
+    		}
+
+    		// caption
+    		.caption,
+    		caption {
+    			@include s-font(italic left);
+    			&:before {
+    				content : "\2014 \00A0";
+    			}
+    		}
+
+    		// adapt and grow
+    		.td.adapt,
+    		td.adapt,
+    		.th.adapt,
+    		th.adapt {
+    			width:1px;
+    			white-space: nowrap;
+    		}
+    		.td.grow,
+    		td.grow,
+    		.th.grow,
+    		th.grow {
+    			width:9999999px;
+    		}
+    	}
+    }
 }

@@ -84,7 +84,7 @@ class SSelectComponent extends SComponent {
 		// open on click
 		this.container.addEventListener('click', (e) => {
 			// do not open when the click is on an option
-			if (e.target.hasAttribute(this.componentItemAttributeName('option'))) return;
+			if (this.hasComponentClass(e.target, 'option')) return;
 			// open
 			if ( ! this.isOpened()) {
 				this.open();
@@ -261,13 +261,13 @@ class SSelectComponent extends SComponent {
 	 */
 	_search() {
 		// loop on each options
-		[].forEach.call(this.options_container.querySelectorAll(`${this.componentItemSelector('option')}`), (option) => {
+		[].forEach.call(this.options_container.querySelectorAll(this.componentSelector('option')), (option) => {
 			// check if is a value in the search field
 			if (this.search_field.value && this.search_field.value.length >= this.settings.minCharactersForSearch) {
 				// check if we find the text in the option
 				let regexp = new RegExp("(" + this.search_field.value + ")(?!([^<]+)?>)",'gi');
 				// search the tokens in html
-				let replace = option._s_innerHTML.replace(regexp, `<span ${this.componentItemAttributeName('searchResult')}>$1</span>`);
+				let replace = option._s_innerHTML.replace(regexp, `<span class="${this.componentClassName('search-result')}">$1</span>`);
 				if (option._s_innerHTML.match(regexp)) {
 					option.innerHTML = replace;
 				} else {
@@ -275,11 +275,11 @@ class SSelectComponent extends SComponent {
 					if (option == this._currentActiveOption) {
 						this._currentActiveOption = null;
 					}
-					this.setComponentItemName(option, 'optionHidden');
+					this.addComponentClass(option, 'option', null, 'hidden');
 				}
 			} else {
 				option.innerHTML = option._s_innerHTML;
-				this.removeComponentItemName(option, 'optionHidden');
+				this.removeComponentClass(option, 'option', null, 'hidden');
 			}
 		});
 
@@ -346,18 +346,20 @@ class SSelectComponent extends SComponent {
 	_activateNext() {
 		// remove active class if exist
 		if (this._currentActiveOption) {
-			this.removeComponentItemName(this._currentActiveOption, 'optionActive');
+			this.removeComponentClass(this._currentActiveOption, 'option', null, 'active');
+			this._currentActiveOption.classList.remove('active');
 		}
 		// check if already an item is selected
 		if ( ! this._currentActiveOption) {
-			this._currentActiveOption = this.options_container.querySelector(`${this.componentItemSelector('option')}:not(${this.componentItemSelector('optionDisabled')}:not(${this.componentItemSelector('optionHidden')}):first-child`);
+			this._currentActiveOption = this.options_container.querySelector(`${this.componentSelector('option')}:not(${this.componentSelector('option', 'disabled')}):not(${this.componentSelector('option', 'hidden')}):first-child`);
 		} else {
 			// try to get the next sibling
-			this._currentActiveOption = __next(this._currentActiveOption, `${this.componentItemSelector('option')}:not(${this.componentItemSelector('optionDisabled')}:not(${this.componentItemSelector('optionHidden')})`);
+			this._currentActiveOption = __next(this._currentActiveOption, `${this.componentSelector('option')}:not(${this.componentSelector('option', 'disabled')}):not(${this.componentSelector('option', 'hidden')})`);
 		}
 		// activate the element
 		if (this._currentActiveOption) {
-			this.setComponentItemName(this._currentActiveOption, 'optionActive');
+			this.addComponentClass(this._currentActiveOption, 'option', null, 'active');
+			this._currentActiveOption.classList.add('active');
 		}
 	}
 
@@ -367,17 +369,19 @@ class SSelectComponent extends SComponent {
 	_activatePrevious() {
 		// remove active class if exist
 		if (this._currentActiveOption) {
+			this.removeComponentClass(this._currentActiveOption, 'option', null, 'active');
 			this._currentActiveOption.classList.remove('active');
 		}
 		// check if already an item is selected
 		if ( ! this._currentActiveOption) {
-			this._currentActiveOption = this.options_container.querySelector(`${this.componentItemSelector('option')}:not(${this.componentItemSelector('optionDisabled')}):not(${this.componentItemSelector('optionHidden')}):last-child`);
+			this._currentActiveOption = this.options_container.querySelector(`${this.componentSelector('option')}:not(${this.componentSelector('option', 'disabled')}):not(${this.componentSelector('option', 'hidden')}):last-child`);
 		} else {
 			// try to get the next sibling
-			this._currentActiveOption = __previous(this._currentActiveOption, `${this.componentItemSelector('option')}:not(${this.componentItemSelector('optionDisabled')}):not(${this.componentItemSelector('optionHidden')})`);
+			this._currentActiveOption = __previous(this._currentActiveOption, `${this.componentSelector('option')}:not(${this.componentSelector('option', 'disabled')}):not(${this.componentSelector('option', 'hidden')})`);
 		}
 		// activate the element
 		if (this._currentActiveOption) {
+			this.addComponentClass(this._currentActiveOption, 'option', null, 'active');
 			this._currentActiveOption.classList.add('active');
 		}
 	}
@@ -399,26 +403,26 @@ class SSelectComponent extends SComponent {
 
 		let container = document.createElement('div');
 		container.setAttribute('class', this.elm.getAttribute('class'));
-		this.setComponentItemName(container, 'container');
+		this.addComponentClass(container);
 
 		// multiple class
 		if (this.elm.getAttribute('multiple') != null) {
-			this.setComponentItemName(container, 'multiple');
+			this.addComponentClass(container, null, 'multiple');
 		}
 
 		let selection_container = document.createElement('div');
-		this.setComponentItemName(selection_container, 'selectionContainer');
+		this.addComponentClass(selection_container, 'selection-container');
 
 		let selection_aligner = document.createElement('div');
-		this.setComponentItemName(selection_aligner, 'selectionAligner');
+		this.addComponentClass(selection_aligner, 'selection-aligner');
 
 		let dropdown = document.createElement('div');
-		this.setComponentItemName(dropdown, 'dropdown');
+		this.addComponentClass(dropdown, 'dropdown');
 		dropdown.style.fontSize = '1rem';
 
 		// search
 		let search_container = document.createElement('div');
-		this.setComponentItemName(search_container, 'searchContainer');
+		this.addComponentClass(search_container, 'search-container');
 
 		// search field
 		let search_field = document.createElement('input');
@@ -427,11 +431,11 @@ class SSelectComponent extends SComponent {
 			search_field.type = 'text';
 		}
 		search_field.setAttribute('placeholder', this.settings.searchPlaceholder);
-		this.setComponentItemName(search_field, 'searchField');
+		this.addComponentClass(search_field, 'search-field');
 
 		// options
 		let options_container = document.createElement('div');
-		this.setComponentItemName(options_container, 'options');
+		this.addComponentClass(options_container, 'options');
 
 		// append to document
 		search_container.appendChild(search_field);
@@ -553,9 +557,9 @@ class SSelectComponent extends SComponent {
 	 				if (option.innerHTML != '') {
 	 					areSomeSelectedItems = true;
 	 				}
-					this.setComponentItemName(option, 'optionSelected');
+					this.addComponentClass(option, 'option', null, 'selected');
 	 			} else {
-					this.removeComponentItemName(option, 'optionSelected');
+					this.removeComponentItemName(option, 'option', null, 'selected');
 	 			}
 	 		}
 	 	});
@@ -569,10 +573,10 @@ class SSelectComponent extends SComponent {
 	 				let content = option.innerHTML;
 	 				// create the tag
 	 				let tag = document.createElement('div');
-					this.setComponentItemName(tag, 'selectionTag');
+					this.addComponentClass(tag, 'selection-tag');
 	 				tag.innerHTML = content;
 	 				let close = document.createElement('span');
-					this.setComponentItemName(close, 'selectionTagClose');
+					this.addComponentClass(close, 'selection-tag-close');
 	 				close.addEventListener('click', (e) => {
 	 					option.selected = false;
 	 					// trigger change event
@@ -595,7 +599,7 @@ class SSelectComponent extends SComponent {
 	 		if (selected_idx != -1) {
 	 			// set the selected
 	 			let selection = document.createElement('div');
-				this.setComponentItemName(selection, 'selection');
+				this.addComponentClass(selection, 'selection');
 	 			selection.innerHTML = this.elm.options[selected_idx].innerHTML;
 	 			this.selection_container.appendChild(selection);
 	 		}
@@ -605,14 +609,14 @@ class SSelectComponent extends SComponent {
 	 		let placeholder = this.elm.getAttribute('placeholder');
 	 		if (placeholder) {
 	 			let selection = document.createElement('div');
-				this.setComponentItemName(selection, 'selection');
+				this.addComponentClass(selection, 'selection');
 	 			selection.classList.add('input--placeholder');
 	 			selection.innerHTML = placeholder;
-				this.setComponentItemName(this.container, 'hasPlaceholder');
+				this.addComponentClass(this.container, null, 'placeholder');
 	 			this.selection_container.appendChild(selection);
 	 		}
 	 	} else {
-			this.removeComponentItemName(this.container, 'hasPlaceholder');
+			this.removeComponentClass(this.container, null, 'placeholder');
 	 	}
 	 }
 
@@ -633,7 +637,7 @@ class SSelectComponent extends SComponent {
 		// check if the min-height has been reached
 		if ( containerTop + this.container.offsetHeight + this.search_container.offsetHeight + optionsMinHeight + screenMargin > window.innerHeight) {
 		// if (optionsHeight < optionsFullHeight && optionsHeight <= optionsMinHeight ) {
-			this.setComponentItemName(this.container, 'dropup');
+			this.addComponentClass(this.container, null, 'dropup');
 			// console.log(top + h, window.innerHeight);
 			if (containerTop - dropdownFullHeight - screenMargin < 0) {
 				this.options_container.style.height = window.innerHeight - (window.innerHeight - containerTop) - this.search_container.offsetHeight - screenMargin + 'px';
@@ -641,7 +645,7 @@ class SSelectComponent extends SComponent {
 				this.options_container.style.height = 'auto';
 			}
 		} else {
-			this.removeComponentItemName(this.container, 'dropup');
+			this.removeComponentClass(this.container, null, 'dropup');
 			// console.log(top + h, window.innerHeight);
 			if (dropdownTop + dropdownFullHeight + screenMargin > window.innerHeight) {
 				this.options_container.style.height = window.innerHeight - dropdownTop - this.search_container.offsetHeight - screenMargin + 'px';
@@ -657,7 +661,7 @@ class SSelectComponent extends SComponent {
 	_handleOptgroup(_optgroup) {
 		// create the choice
 		let option = document.createElement('div');
-		this.setComponentItemName(option, 'optgroup');
+		this.addComponentClass(option, 'optgroup');
 
 		// get the content
 		let content = _optgroup.getAttribute('label');
@@ -669,7 +673,7 @@ class SSelectComponent extends SComponent {
 			source = document.querySelector(source);
 			if (source) {
 				option.appendChild(source);
-				this.setComponentItemName(option, 'optgroupCustom');
+				this.addComponentClass(option, 'optgroup', 'custom');
 			} else {
 				option.innerHTML = content;
 			}
@@ -697,16 +701,16 @@ class SSelectComponent extends SComponent {
 
 		// create the choice
 		let option = document.createElement('div');
-		this.setComponentItemName(option, 'option');
+		this.addComponentClass(option, 'option');
 
 		// check if in optgroup
 		if (in_optgroup) {
-			this.setComponentItemName(option, 'optionInOptgroup');
+			this.addComponentClass(option, 'option', 'in-optgroup');
 		}
 
 		// check if disabled
 		if (_option.disabled) {
-			this.setComponentItemName(option, 'optionDisabled');
+			this.addComponentClass(option, 'option', null, 'disabled');
 		}
 
 		// save the option reference into html element
@@ -727,7 +731,7 @@ class SSelectComponent extends SComponent {
 			source = document.querySelector(source);
 			if (source) {
 				option.appendChild(source);
-				this.setComponentItemName(option, 'optionCustom');
+				this.addComponentClass(option, 'option', 'custom');
 			} else {
 				option.innerHTML = content;
 			}
@@ -836,22 +840,22 @@ class SSelectComponent extends SComponent {
 	 * Is opened
 	 */
 	isOpened() {
-		return this.container.hasAttribute(this.componentItemAttributeName('opened'));
+		return this.hasComponentClass(this.container, null, null, 'opened');
 	}
 
 	/**
 	 * Close
 	 */
 	close() {
-		this.removeComponentItemName(this.container, 'opened');
+		this.removeComponentClass(this.container, null, null, 'opened');
 
 		// unactivate the option if one exist
 		if (this._currentActiveOption) {
-			this.removeComponentItemName(this._currentActiveOption, 'optionActive');
+			this.removeComponentClass(this._currentActiveOption, 'option', null, 'active');
 		}
 		// remove the dropup class
 		this._clearDropupTimeout = setTimeout(() => {
-			this.removeComponentItemName(this.container, 'dropup');
+			this.removeComponentClass(this.container, null, 'dropup');
 		},500);
 		// dispatch close event
 		let event = new SEvent('close');
@@ -865,7 +869,7 @@ class SSelectComponent extends SComponent {
 	 * Close
 	 */
 	open() {
-		this.setComponentItemName(this.container, 'opened');
+		this.addComponentClass(this.container, null, null, 'opened');
 		// set position
 		clearTimeout(this._clearDropupTimeout);
 		this._setPosition();

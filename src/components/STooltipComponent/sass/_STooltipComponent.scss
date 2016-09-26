@@ -36,283 +36,285 @@ $_s-tooltip-component-inited : false;
 @mixin s-tooltip-component-bare(
 ) {
 	@include s-tooltip-component-init();
-	$componentName : s-component('s-tooltip');
+	@include s-component('s-tooltip') {
 
-	#{s-selector($componentName)} {
-		@extend %s-tooltip-component-bare;
+		#{s-component-selector()} {
+			@extend %s-tooltip-component-bare;
+		}
 	}
 }
 @mixin s-tooltip-component-style(
 	$colors : default primary secondary,
 	$sides : tl t tr l r bl b br c
 ) {
-	$componentName : s-component('s-tooltip');
+	@include s-component('s-tooltip') {
 
-	#{s-selector($componentName)} {
-		@include s-depth(5);
-	}
+		#{s-component-selector()} {
+			@include s-depth(5);
+		}
 
-	@keyframes s-tooltip-component {
-		0% {
-			transform: scale(0.9,0.9);
-		}
-		100% {
-			transform: scale(1,1);
-		}
-	}
-	@if index($sides, c) {
-		@keyframes s-tooltip-component--c {
+		@keyframes s-tooltip-component {
 			0% {
-				transform: scale(0.9,0.9) translateX(-50%) translateY(-50%);
+				transform: scale(0.9,0.9);
 			}
 			100% {
-				transform: scale(1,1) translateX(-50%) translateY(-50%);
+				transform: scale(1,1);
 			}
 		}
-	}
-	@if index($sides, b) {
-		@keyframes s-tooltip-component--b {
-			0% {
-				transform: scale(0.9,0.9) translateX(-50%);
-			}
-			100% {
-				transform: scale(1,1) translateX(-50%);
+		@if index($sides, c) {
+			@keyframes s-tooltip-component--c {
+				0% {
+					transform: scale(0.9,0.9) translateX(-50%) translateY(-50%);
+				}
+				100% {
+					transform: scale(1,1) translateX(-50%) translateY(-50%);
+				}
 			}
 		}
-	}
-	@if index($sides, t) {
-		@keyframes s-tooltip-component--t {
-			0% {
-				transform: scale(0.9,0.9) translateX(-50%);
-			}
-			100% {
-				transform: scale(1,1) translateX(-50%);
+		@if index($sides, b) {
+			@keyframes s-tooltip-component--b {
+				0% {
+					transform: scale(0.9,0.9) translateX(-50%);
+				}
+				100% {
+					transform: scale(1,1) translateX(-50%);
+				}
 			}
 		}
-	}
-	@if index($sides, l) {
-		@keyframes s-tooltip-component--l {
-			0% {
-				transform: scale(0.9,0.9) translateY(-50%);
-			}
-			100% {
-				transform: scale(1,1) translateY(-50%);
+		@if index($sides, t) {
+			@keyframes s-tooltip-component--t {
+				0% {
+					transform: scale(0.9,0.9) translateX(-50%);
+				}
+				100% {
+					transform: scale(1,1) translateX(-50%);
+				}
 			}
 		}
-	}
-	@if index($sides, r) {
-		@keyframes s-tooltip-component--r {
-			0% {
-				transform: scale(0.9,0.9) translateY(-50%);
-			}
-			100% {
-				transform: scale(1,1) translateY(-50%);
+		@if index($sides, l) {
+			@keyframes s-tooltip-component--l {
+				0% {
+					transform: scale(0.9,0.9) translateY(-50%);
+				}
+				100% {
+					transform: scale(1,1) translateY(-50%);
+				}
 			}
 		}
-	}
-
-	@each $color in $colors {
-		#{s-selector($componentName, null, $color)} {
-			background-color: s-color($color);
-			@if lightness(s-color($color)) > 70 {
-				color : s-color($color, -darken 30%);
-			} @else {
-				color : white;
-			}
-
-			@if index($sides, c) {
-				#{s-selector($componentName, null, 'c')} {
-					left:50%; top:50%;
-					transform-origin: 0 0;
-					@include s-translate(-50%,-50%);
-
-					#{s-selector($componentName, null, 'active')} > &,
-					#{s-selector($componentName, null, 'hover')} > &,
-					.active > &,
-					:hover > & {
-						@include s-animation(s-tooltip-component--c .1s);
-					}
+		@if index($sides, r) {
+			@keyframes s-tooltip-component--r {
+				0% {
+					transform: scale(0.9,0.9) translateY(-50%);
+				}
+				100% {
+					transform: scale(1,1) translateY(-50%);
 				}
 			}
+		}
 
-			@if index($sides, t) {
-				#{s-selector($componentName, null, 't')} {
-					transform-origin:0 calc(100% + 0.5em);
-					left:50%; bottom:calc(100% + 1em);
-					@include s-translate(-50%,0);
-					@include s-bubble(
-						$side : bottom,
-						$align : center,
-						$size : .5em,
-						$color : s-color($color),
-						$arrow-offset : .5em,
-						$border-width : 0,
-						$border-color : null
-					);
+		@each $color in $colors {
+			#{s-component-selector(null, $color)} {
+				background-color: s-color($color);
+				@if lightness(s-color($color)) > 70 {
+					color : s-color($color, -darken 30%);
+				} @else {
+					color : white;
+				}
 
-					#{s-selector($componentName, null, 'active')} > &,
-					#{s-selector($componentName, null, 'hover')} > &,
-					.active > &,
-					:hover > & {
-						@include s-animation(s-tooltip-component--t .1s);
+				@if index($sides, c) {
+					&#{s-component-selector(null, 'c')} {
+						left:50%; top:50%;
+						transform-origin: 0 0;
+						@include s-translate(-50%,-50%);
+
+						#{s-component-selector(null, null, 'active')} > &,
+						#{s-component-selector(null, null, 'hover')} > &,
+						.active > &,
+						:hover > & {
+							@include s-animation(s-tooltip-component--c .1s);
+						}
 					}
 				}
-			}
-			@if index($sides, tl) {
-				#{s-selector($componentName, null, 'tl')} {
-					transform-origin:0 calc(100% + 0.5em);
-					left:0; bottom:calc(100% + 1em);
-					@include s-bubble(
-						$side : bottom,
-						$align : left,
-						$size : .5em,
-						$color : s-color($color),
-						$arrow-offset : .5em,
-						$border-width : 0,
-						$border-color : null
-					);
 
-					#{s-selector($componentName, null, 'active')} > &,
-					#{s-selector($componentName, null, 'hover')} > &,
-					.active > &,
-					:hover > & {
-						@include s-animation(s-tooltip-component .1s);
+				@if index($sides, t) {
+					&#{s-component-selector(null, 't')} {
+						transform-origin:0 calc(100% + 0.5em);
+						left:50%; bottom:calc(100% + 1em);
+						@include s-translate(-50%,0);
+						@include s-bubble(
+							$side : bottom,
+							$align : center,
+							$size : .5em,
+							$color : s-color($color),
+							$arrow-offset : .5em,
+							$border-width : 0,
+							$border-color : null
+						);
+
+						#{s-component-selector(null, null, 'active')} > &,
+						#{s-component-selector(null, null, 'hover')} > &,
+						.active > &,
+						:hover > & {
+							@include s-animation(s-tooltip-component--t .1s);
+						}
 					}
 				}
-			}
-			@if index($sides, tr) {
-				#{s-selector($componentName, null, 'tr')} {
-					transform-origin:100% 100%;
-					right:0; bottom:calc(100% + 1em);
-					@include s-bubble(
-						$side : bottom,
-						$align : right,
-						$size : .5em,
-						$color : s-color($color),
-						$arrow-offset : .5em,
-						$border-width : 0,
-						$border-color : null
-					);
+				@if index($sides, tl) {
+					&#{s-component-selector(null, 'tl')} {
+						transform-origin:0 calc(100% + 0.5em);
+						left:0; bottom:calc(100% + 1em);
+						@include s-bubble(
+							$side : bottom,
+							$align : left,
+							$size : .5em,
+							$color : s-color($color),
+							$arrow-offset : .5em,
+							$border-width : 0,
+							$border-color : null
+						);
 
-					#{s-selector($componentName, null, 'active')} > &,
-					#{s-selector($componentName, null, 'hover')} > &,
-					.active > &,
-					:hover > & {
-						@include s-animation(s-tooltip-component .1s);
+						#{s-component-selector(null, null, 'active')} > &,
+						#{s-component-selector(null, null, 'hover')} > &,
+						.active > &,
+						:hover > & {
+							@include s-animation(s-tooltip-component .1s);
+						}
 					}
 				}
-			}
+				@if index($sides, tr) {
+					&#{s-component-selector(null, 'tr')} {
+						transform-origin:100% 100%;
+						right:0; bottom:calc(100% + 1em);
+						@include s-bubble(
+							$side : bottom,
+							$align : right,
+							$size : .5em,
+							$color : s-color($color),
+							$arrow-offset : .5em,
+							$border-width : 0,
+							$border-color : null
+						);
 
-			@if index($sides, l) {
-				#{s-selector($componentName, null, 'l')} {
-					transform-origin:calc(100% + 0.5em) 50%;
-					right:calc(100% + 0.5em); top:50%;
-					@include s-translate(0,-50%);
-					@include s-bubble(
-						$side : right,
-						$align : middle,
-						$size : .5em,
-						$color : s-color($color),
-						$arrow-offset : .5em,
-						$border-width : 0,
-						$border-color : null
-					);
-
-					#{s-selector($componentName, null, 'active')} > &,
-					#{s-selector($componentName, null, 'hover')} > &,
-					.active > &,
-					:hover > & {
-						@include s-animation(s-tooltip-component--l .1s);
+						#{s-component-selector(null, null, 'active')} > &,
+						#{s-component-selector(null, null, 'hover')} > &,
+						.active > &,
+						:hover > & {
+							@include s-animation(s-tooltip-component .1s);
+						}
 					}
 				}
-			}
-			@if index($sides, r) {
-				#{s-selector($componentName, null, 'r')} {
-					transform-origin:-.5em 50%;
-					left:calc(100% + 1em); top:50%;
-					@include s-translate(0,-50%);
-					@include s-bubble(
-						$side : left,
-						$align : middle,
-						$size : .5em,
-						$color : s-color($color),
-						$arrow-offset : .5em,
-						$border-width : 0,
-						$border-color : null
-					);
 
-					#{s-selector($componentName, null, 'active')} > &,
-					#{s-selector($componentName, null, 'hover')} > &,
-					.active > &,
-					:hover > & {
-						@include s-animation(s-tooltip-component--r .1s);
+				@if index($sides, l) {
+					&#{s-component-selector(null, 'l')} {
+						transform-origin:calc(100% + 0.5em) 50%;
+						right:calc(100% + 0.5em); top:50%;
+						@include s-translate(0,-50%);
+						@include s-bubble(
+							$side : right,
+							$align : middle,
+							$size : .5em,
+							$color : s-color($color),
+							$arrow-offset : .5em,
+							$border-width : 0,
+							$border-color : null
+						);
+
+						#{s-component-selector(null, null, 'active')} > &,
+						#{s-component-selector(null, null, 'hover')} > &,
+						.active > &,
+						:hover > & {
+							@include s-animation(s-tooltip-component--l .1s);
+						}
 					}
 				}
-			}
-			@if index($sides, bl) {
-				#{s-selector($componentName, null, 'bl')} {
-					transform-origin:1em -1em;
-					left:0; top:calc(100% + 1em);
-					@include s-bubble(
-						$side : top,
-						$align : left,
-						$size : .5em,
-						$color : s-color($color),
-						$arrow-offset : .5em,
-						$border-width : 0,
-						$border-color : null
-					);
+				@if index($sides, r) {
+					&#{s-component-selector(null, 'r')} {
+						transform-origin:-.5em 50%;
+						left:calc(100% + 1em); top:50%;
+						@include s-translate(0,-50%);
+						@include s-bubble(
+							$side : left,
+							$align : middle,
+							$size : .5em,
+							$color : s-color($color),
+							$arrow-offset : .5em,
+							$border-width : 0,
+							$border-color : null
+						);
 
-					#{s-selector($componentName, null, 'active')} > &,
-					#{s-selector($componentName, null, 'hover')} > &,
-					.active > &,
-					:hover > & {
-						@include s-animation(s-tooltip-component .1s);
+						#{s-component-selector(null, null, 'active')} > &,
+						#{s-component-selector(null, null, 'hover')} > &,
+						.active > &,
+						:hover > & {
+							@include s-animation(s-tooltip-component--r .1s);
+						}
 					}
 				}
-			}
-			@if index($sides, b) {
-				#{s-selector($componentName, null, 'b')} {
-					transform-origin:0 -1em;
-					left:50%; top:calc(100% + 1em);
-					@include s-translate(-50%, 0);
-					@include s-bubble(
-						$side : top,
-						$align : center,
-						$size : .5em,
-						$color : s-color($color),
-						$arrow-offset : .5em,
-						$border-width : 0,
-						$border-color : null
-					);
+				@if index($sides, bl) {
+					&#{s-component-selector(null, 'bl')} {
+						transform-origin:1em -1em;
+						left:0; top:calc(100% + 1em);
+						@include s-bubble(
+							$side : top,
+							$align : left,
+							$size : .5em,
+							$color : s-color($color),
+							$arrow-offset : .5em,
+							$border-width : 0,
+							$border-color : null
+						);
 
-					#{s-selector($componentName, null, 'active')} > &,
-					#{s-selector($componentName, null, 'hover')} > &,
-					.active > &,
-					:hover > & {
-						@include s-animation(s-tooltip-component--b .1s);
+						#{s-component-selector(null, null, 'active')} > &,
+						#{s-component-selector(null, null, 'hover')} > &,
+						.active > &,
+						:hover > & {
+							@include s-animation(s-tooltip-component .1s);
+						}
 					}
 				}
-			}
-			@if index($sides, br) {
-				#{s-selector($componentName, null, 'br')} {
-					transform-origin:calc(100% - 1em) -1em;
-					right:0; top:calc(100% + 1em);
-					@include s-bubble(
-						$side : top,
-						$align : right,
-						$size : .5em,
-						$color : s-color($color),
-						$arrow-offset : .5em,
-						$border-width : 0,
-						$border-color : null
-					);
+				@if index($sides, b) {
+					&#{s-component-selector(null, 'b')} {
+						transform-origin:0 -1em;
+						left:50%; top:calc(100% + 1em);
+						@include s-translate(-50%, 0);
+						@include s-bubble(
+							$side : top,
+							$align : center,
+							$size : .5em,
+							$color : s-color($color),
+							$arrow-offset : .5em,
+							$border-width : 0,
+							$border-color : null
+						);
 
-					#{s-selector($componentName, null, 'active')} > &,
-					#{s-selector($componentName, null, 'hover')} > &,
-					.active > &,
-					:hover > & {
-						@include s-animation(s-tooltip-component .1s);
+						#{s-component-selector(null, null, 'active')} > &,
+						#{s-component-selector(null, null, 'hover')} > &,
+						.active > &,
+						:hover > & {
+							@include s-animation(s-tooltip-component--b .1s);
+						}
+					}
+				}
+				@if index($sides, br) {
+					&#{s-component-selector(null, 'br')} {
+						transform-origin:calc(100% - 1em) -1em;
+						right:0; top:calc(100% + 1em);
+						@include s-bubble(
+							$side : top,
+							$align : right,
+							$size : .5em,
+							$color : s-color($color),
+							$arrow-offset : .5em,
+							$border-width : 0,
+							$border-color : null
+						);
+
+						#{s-component-selector(null, null, 'active')} > &,
+						#{s-component-selector(null, null, 'hover')} > &,
+						.active > &,
+						:hover > & {
+							@include s-animation(s-tooltip-component .1s);
+						}
 					}
 				}
 			}

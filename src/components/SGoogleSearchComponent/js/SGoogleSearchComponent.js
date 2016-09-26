@@ -87,7 +87,6 @@ class SGoogleSearchComponent extends STemplateComponent {
 				this.data.results = [];
 				return;
 			}
-			console.log('new val', newVal);
 			// process search
 			this.search(newVal);
 		});
