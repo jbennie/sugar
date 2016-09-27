@@ -1,18 +1,14 @@
 import querySelectorLive from '../js/dom/querySelectorLive';
+import STemplate from '../js/core/STemplate'
 
-querySelectorLive('.label--inside, .label--material').once().inViewport().subscribe((elm) => {
-	const label = elm.querySelector(':scope > span');
-	const input = elm.querySelector(':scope > input');
-	// get the width of the span
-	let labelWidth = label.offsetWidth;
-	// set the values
-	input.style.paddingLeft = labelWidth + 'px';
+querySelectorLive('input:not([type="submit"])').once().inViewport().subscribe((elm) => {
 	// set the input value
-	input.addEventListener('keyup', (e) => {
-		if (input.value) {
-			input.setAttribute('value', input.value);
+	elm.addEventListener('blur', (e) => {
+		if (elm.value) {
+			elm.setAttribute('value', elm.value);
 		} else {
-			input.removeAttribute('value');
+			elm.removeAttribute('value');
 		}
 	});
+	STemplate.keepAttribute(elm, 'value');
 });

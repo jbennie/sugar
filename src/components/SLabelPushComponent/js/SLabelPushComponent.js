@@ -47,7 +47,6 @@ class SLabelPushComponent extends SComponent {
 		// calculate the label width
 		this._label = this.elm.querySelector(':scope > span');
 		this._labelWidth = this._label.offsetWidth;
-		this._label.setAttribute('s-template-keep', 'style');
 
 		// get the paddings
 		this._labelPaddingLeft = parseInt(__getStyleProperty(this._label, 'paddingLeft'));
@@ -69,6 +68,17 @@ class SLabelPushComponent extends SComponent {
 	 * @return 	{SLabelPushComponent}
 	 */
 	enable() {
+
+		// set the position relative if needed
+		const position = this.elm.style.position;
+		if ( ! position || position !== 'absolute' || position !== 'relative') {
+			this.elm.style.position = 'relative';
+		}
+
+		// add classes
+		this.addComponentClass(this.elm);
+		this.addComponentClass(this._label, 'label');
+
 		super.enable();
 		// maintain chainability
 		return this;
@@ -80,6 +90,14 @@ class SLabelPushComponent extends SComponent {
 	 * @return 	{SLabelPushComponent}
 	 */
 	disable() {
+
+		// reset the position
+		this.elm.style.position = '';
+
+		// add classes
+		this.removeComponentClass(this.elm);
+		this.removeComponentClass(this._label, 'label');
+
 		super.disable();
 		// maintain chainability
 		return this;
@@ -181,7 +199,10 @@ class SLabelPushComponent extends SComponent {
 
 STemplate.registerComponentIntegration('SLabelPushComponent', (component) => {
 	STemplate.keepAttribute(component._input, 'style')
-			 .keepAttribute(component._label, 'style');
+			 .keepAttribute(component._label, 'style')
+			 .keepAttribute(component.elm, 'style')
+			 .keepAttribute(component._label, 'class')
+			 .keepAttribute(component.elm, 'class');
 });
 
 // expose in window.sugar

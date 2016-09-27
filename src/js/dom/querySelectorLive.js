@@ -11,6 +11,7 @@ import mutationObservable from './mutationObservable'
 import injectOperators from '../rxjs/querySelectorLiveOperators/injectOperators'
 import __matches from './matches'
 import __domReady from './domReady'
+import __uniqid from '../tools/uniqid'
 import SEvent from '../core/SEvent'
 
 // store all the selectors with their settings
@@ -18,22 +19,26 @@ import SEvent from '../core/SEvent'
 // 		settings : {...},
 // 		ovservable : ...
 // }
-const selectorsStack = {};
-const observeStack = [];
+const observeStack = {};
 let domObserver = null;
 
-if ( ! window.sugar) window.sugar = {};
-window.sugar._sQuerySelectorLive = {};
-
 function _processAddedNode(observe, addedNode) {
+	// set the observerId flag to true
+	if ( ! addedNode._sQuerySelectorLive) addedNode._sQuerySelectorLive = {};
 
-	// save the selector into the node
-	if (window.sugar._sQuerySelectorLive[observe.selector].indexOf(addedNode) === -1) {
-		window.sugar._sQuerySelectorLive[observe.selector].push(addedNode);
+	// Push the node downward the observable
+	// only if has not already been done for this particular node
+	// and observer.
+	// This will be allowed again when the node has been removed
+	// from node or has been changed and that he matches not anymore
+	// the selector
+	if (addedNode._sQuerySelectorLive[observe.observerId]) return false;
 
-		// push the node downward the observable
-		observe.observer.next(addedNode);
-	}
+	// push the node downward
+	observe.observer.next(addedNode);
+
+	// set the flag that this node has been handled for this particular observer
+	addedNode._sQuerySelectorLive[observe.observerId] = true;
 }
 function processAdded(addedNode) {
 	// some nodes does not interesting us
@@ -45,8 +50,9 @@ function processAdded(addedNode) {
 	}
 
 	// check if the element match the selector
-	for(let i=0; i<observeStack.length; i++) {
-		const observe = observeStack[i];
+	const keys = Object.keys(observeStack);
+	for(let i=0; i<keys.length; i++) {
+		const observe = observeStack[keys[i]];
 
 		// rootNode
 		if (observe.settings.rootNode) {
@@ -76,29 +82,31 @@ function processAdded(addedNode) {
 }
 
 function _processRemovedNode(observe, removedNode) {
-	// remove the element from the selectors stack
-	if (window.sugar._sQuerySelectorLive[observe.selector]) {
-		const idx = window.sugar._sQuerySelectorLive[observe.selector].indexOf(removedNode);
-		// if we have a node that match
-		if (idx !== -1) {
-			// remmove from the stack
-			window.sugar._sQuerySelectorLive[observe.selector].splice(idx,1);
 
-			// if no onNodeRemoved
-			// continue to the next node
-			if ( ! observe.settings.onNodeRemoved || observe.settings.onNodeRemoved.length <= 0) {
-				return false;
-			}
-
-			// match the selector
-			if (__matches(removedNode, observe.selector)) {
-				// console.error('removed node', removedNode, observe.selector);
-				observe.settings.onNodeRemoved.forEach((cb) => {
-					cb(removedNode);
-				});
-			}
-		}
+	// stop if the node is not marked with the observer id
+	if ( ! removedNode._sQuerySelectorLive
+		|| ! removedNode._sQuerySelectorLive[observe.observerId]) {
+		return false;
 	}
+
+	// reset the flag that tell that whis node has been
+	// already handled for this particular observer
+	// if (removedNode._sQuerySelectorLive) {
+	delete removedNode._sQuerySelectorLive[observe.observerId];
+
+	// if no onNodeRemoved
+	// continue to the next node
+	if ( ! observe.settings.onNodeRemoved || observe.settings.onNodeRemoved.length <= 0) {
+		return false;
+	}
+
+	// match the selector
+	// if (__matches(removedNode, observe.selector)) {
+	observe.settings.onNodeRemoved.forEach((cb) => {
+		cb(removedNode);
+	});
+	// }
+
 }
 function processRemoved(removedNode) {
 	// some nodes does not interesting us
@@ -110,8 +118,9 @@ function processRemoved(removedNode) {
 	}
 
 	// check if the element match the selector
-	for(let i=0; i<observeStack.length; i++) {
-		const observe = observeStack[i];
+	const keys = Object.keys(observeStack);
+	for(let i=0; i<keys.length; i++) {
+		const observe = observeStack[keys[i]];
 
 		// emit the detached event
 		// that will be captured by
@@ -129,6 +138,7 @@ function processRemoved(removedNode) {
 			}
 		}
 
+		// process the removed node
 		if ( ! _processRemovedNode(observe, removedNode)) {
 			continue;
 		}
@@ -146,23 +156,27 @@ function processAttributes(node) {
 	}
 
 	// check if the element match the selector
-	for(let i=0; i<observeStack.length; i++) {
-		const observe = observeStack[i];
-
-		// rootNode
-		if (observe.settings.rootNode) {
-			if ( ! observe.settings.rootNode.contains(node)) {
-				// this node is not interesting for us
-				continue;
-			}
-		}
+	const keys = Object.keys(observeStack);
+	for(let i=0; i<keys.length; i++) {
+		const observe = observeStack[keys[i]];
 
 		// match the selector
 		if (__matches(node, observe.selector)) {
+
+			// rootNode
+			if (observe.settings.rootNode) {
+				if ( ! observe.settings.rootNode.contains(node)) {
+					// this node is not interesting for us
+					continue;
+				}
+			}
+
+			// process the added node
 			if ( ! _processAddedNode(observe, node)) {
 				continue;
 			}
 		} else {
+			// process the removedNode
 			if ( ! _processRemovedNode(observe, node)) {
 				continue;
 			}
@@ -224,9 +238,6 @@ __domReady(() => {
 
 export default function querySelectorLive(selector, settings = {}) {
 
-	if ( ! window.sugar._sQuerySelectorLive[selector])
-		window.sugar._sQuerySelectorLive[selector] = [];
-
 	// process onNodeRemoved setting
 	// to ensure that it's an array
 	if (settings.onNodeRemoved
@@ -241,29 +252,32 @@ export default function querySelectorLive(selector, settings = {}) {
 		...settings
 	};
 
+	const obsId = __uniqid();
+
 	const observerSettings = {
 		selector,
-		settings
+		settings,
+		observerId : obsId
 	};
 
 	const observable = new Observable(observer => {
 		observerSettings.observer = observer;
+
+		// save the new observe settings in stack
+		// observeStack.push(observerSettings);
+		observeStack[obsId] = observerSettings;
+
 		// select first time
 		__domReady(() => {
 			const rootNode = settings.rootNode || document.body;
 			[].forEach.call(rootNode.querySelectorAll(selector), (node) => {
-				processAdded(node, {
-					selector
-				});
+				_processAddedNode(observerSettings, node);
 			});
 		});
 
 		// unsubscribe routine
 		return () => {
-			const idx = observeStack.indexOf(observerSettings);
-			if (idx !== -1) {
-				observeStack.splice(idx,1);
-			}
+			delete observeStack[obsId];
 		}
 	});
 
@@ -275,9 +289,6 @@ export default function querySelectorLive(selector, settings = {}) {
 		selector,
 		settings
 	};
-
-	// save the new observe settings in stack
-	observeStack.push(observerSettings);
 
 	// return the observable
 	return observable;

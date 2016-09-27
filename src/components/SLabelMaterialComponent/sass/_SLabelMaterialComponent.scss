@@ -1,25 +1,32 @@
-@mixin s-label-push-component(
+@mixin s-label-material-component(
 	$colors : default primary secondary
 ) {
-	@include s-label-push-component-bare();
-	@include s-label-push-component-style(
+	@include s-label-material-component-bare();
+	@include s-label-material-component-style(
 		$colors : $colors
 	);
 }
 
-@mixin s-label-push-component-bare(
+@mixin s-label-material-component-bare(
 ) {
 	@include s-input-component-init();
-	@include s-component('s-label-push') {
+	@include s-component('s-label-material') {
 
 		// push
 		#{s-component-selector()} {
+			position:relative;
+
 			> input {
 				@include s-transition(fast);
+				padding-left:0;
+				border-left: none !important;
+				border-right: none !important;
+				border-top: none !important;
 			}
 			> span {
 				display:inline-block;
 				padding: s-lnf(padding-horizontal) s-lnf(padding-vertical);
+				padding-left: 0;
 				height: 1em + s-lnf(padding-horizontal) * 2;
 				position:absolute;
 				top:0; left:0;
@@ -28,26 +35,31 @@
 				text-overflow: ellipsis;
 				overflow: hidden;
 				@include s-translate(0,0);
-				@include s-transition(default left, default transform, fast opacity);
+				@include s-transition(fast padding, fast font-size);
 			}
-			> input[placeholder] ~ span,
 			> input[value]:not([value=""]) ~ span,
 			> input:focus ~ span {
-				left:100%;
-				@include s-translate(-100%,0);
+				font-size: 0.7em;
+				padding: 0;
+			}
+			> input[value]:not([value=""]),
+			> input:focus {
+				padding-left: 0 !important;
+				padding-top: s-lnf(padding-horizontal) * 1.33 !important;
+				padding-bottom : s-lnf(padding-horizontal) - s-lnf(padding-horizontal) / 3 !important;
 			}
 		}
 	}
 }
 
-@mixin s-label-push-component-style(
+@mixin s-label-material-component-style(
 	$colors : default primary secondary
 ) {
 	// parse properties
 	@if $_sugar-test-arguments {
 		// $colors : s-test-argument('s-formset','colors',map-keys(sugar('settings.colors')),$colors);
 	}
-	@include s-component('s-label-push') {
+	@include s-component('s-label-material') {
 		// generate each colors
 		@each $color in $colors {
 
@@ -55,7 +67,7 @@
 			#{s-component-selector(null, $color)} {
 				> input[value]:not([value=""]) ~ span,
 				> input:focus ~ span {
-					color: s-color($color);
+					color : s-color($color);
 				}
 			}
 		}

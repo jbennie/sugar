@@ -470,6 +470,8 @@ class SSlideshowComponent extends SComponent {
 	 * @return 	{SSlideshowComponent}
 	 */
 	enable() {
+		// no transmation
+		this.elm.classList.add('clear-transmations');
 		// next
 		this.next();
 		// add all classes
@@ -492,6 +494,10 @@ class SSlideshowComponent extends SComponent {
 		}
 		// parent
 		super.enable();
+		// remove the no transmation class to allow animations, etc...
+		setTimeout(() => {
+			this.elm.classList.remove('clear-transmations');
+		});
 		// maintain chainability
 		return this;
 	}

@@ -9,6 +9,7 @@
 			display: flex !important;
 			flex: 1 !important;
 
+			input[type="submit"], button,
 			#{s-component-selector()}-addon {
 				flex:0;
 			}
@@ -19,7 +20,7 @@
 			}
 
 			// make input flex
-			> input:not([type="checkbox"]):not([type="radio"]),
+			> input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]),
 			> label {
 				flex: 1 !important;
 				margin-top: 0 !important;
@@ -69,10 +70,6 @@
 
 			#{s-selector( #{s-component-selector()-addon}, null, $color )} {
 				@include s-input-component-field-color($color);
-
-				// & ~ .input-reply--#{$color} {
-				// 	display: block;
-				// }
 			}
 			#{s-selector( #{s-component-selector()-addon}, null, $color )} {
 				background-color: s-color($color, -opacity .08);

@@ -50,8 +50,8 @@ class SRangeComponent extends SComponent {
 	/**
 	 * Constructor
 	 */
-	constructor(elm, settings = {}) {
-		super('sRange', elm, {
+	constructor(elm, settings = {}, name = 'sRange') {
+		super(name, elm, {
 			start : 0,
 			end : null,
 			min : null,
@@ -92,8 +92,7 @@ class SRangeComponent extends SComponent {
 		// create the container for the slider
 		this.container = document.createElement('div');
 		this.container.className = this.elm.className;
-		this.addComponentClass(this.elm);
-		this.container.classList.add('clear-transmations'); // do not animate anything at initialisation
+		this.addComponentClass(this.container);
 
 		// range element
 		this.rangeElm = document.createElement('div');
@@ -142,9 +141,6 @@ class SRangeComponent extends SComponent {
 		// remove the noUi-background class on the main element
 		this.rangeElm.classList.remove('noUi-background');
 
-		// exclude the range element from template
-		this.rangeElm.setAttribute('s-template-exclude', true);
-
 		// query references
 		this.handleStartElm = this.container.querySelector('.noUi-origin:first-of-type .noUi-handle');
 		this.handleEndElm = this.container.querySelector('.noUi-origin:last-of-type .noUi-handle');
@@ -172,9 +168,6 @@ class SRangeComponent extends SComponent {
 
 		// append the element to the base
 		this.baseElm.appendChild(this.backgroundLowerElm);
-
-		// hide the base input
-		this.hideRealInput();
 
 		// init tooltip
 		if (this.settings.tooltips)
@@ -224,6 +217,26 @@ class SRangeComponent extends SComponent {
 			if (_throttledUpdateFn) _throttledUpdateFn();
 		});
 
+	}
+
+	/**
+	 * enable
+	 * Enable the component
+	 * @return 	{SRangeComponent}
+	 */
+	enable() {
+
+		console.log('ENBABLE');
+
+		// enable super
+		super.enable();
+
+		// hide the base input
+		this._hideRealInput();
+
+		// do not animate anything at start
+		this.container.classList.add('clear-transmations'); // do not animate anything at initialisation
+
 		// append the slider into the dom
 		this.elm.parentNode.insertBefore(this.container, this.elm);
 
@@ -232,23 +245,50 @@ class SRangeComponent extends SComponent {
 			this.container.classList.remove('clear-transmations');
 		});
 
-		// specify what to do after updating the element
-		// with the sTemplate
-		this.elm.addEventListener('sTemplate:updated', (e) => {
-			// hide the real input
-			this.hideRealInput();
-		});
+		// maintain chainability
+		return this;
+	}
 
+	/**
+	 * disable
+	 * Disable the component
+	 * @return 	{SRangeComponent}
+	 */
+	disable() {
+
+		// remove the range element from dom
+		if (this.container.parentNode) {
+			this.container.parentNode.removeChild(this.container);
+		}
+
+		// show the base input
+		this._showRealInput();
+
+		// disable parent
+		super.disable();
+
+		// maintain chainability
+		return this;
 	}
 
 	/**
 	 * Hide the base input
 	 */
-	hideRealInput() {
+	_hideRealInput() {
+		if (this.isDisabled()) return;
 		// hide the base input
 		this.elm.style.position = 'absolute';
 		this.elm.style.left = '-4000px';
 		this.elm.style.opacity = 0;
+	}
+
+	/**
+	 * Show the base input
+	 */
+	_showRealInput() {
+		this.elm.style.position = '';
+		this.elm.style.left = '';
+		this.elm.style.opacity = 1;
 	}
 
 	/**
@@ -340,7 +380,7 @@ class SRangeComponent extends SComponent {
 // STemplate integration
 STemplate.registerComponentIntegration('SRangeComponent', (component) => {
 	STemplate.keepAttribute(component.elm, 'style')
-			 .exclude(component.rangeElm);
+			 .exclude(component.container);
 });
 
 // expose in window.sugar

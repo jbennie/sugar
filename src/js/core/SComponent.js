@@ -8,9 +8,7 @@ import SElement from './SElement'
 import querySelectorLive from '../dom/querySelectorLive'
 import __constructorName from '../tools/constructorName'
 import sSettings from './sSettings'
-
 import sElementsManager from './sElementsManager'
-
 import STemplate from './STemplate'
 
 // store the settings for the different
@@ -367,6 +365,11 @@ class SComponent extends SElement {
 	_onAdded() {
 		// super added
 		super._onAdded();
+
+		if (this.elm.hasAttribute('s-range')) {
+			console.log('added', this);
+		}
+
 		// clear the destroy timeout
 		clearTimeout(this._componentAutoDestroyTimeout);
 		// onAdded callback
@@ -464,6 +467,8 @@ class SComponent extends SElement {
 
 	/**
 	 * disable
+	 * Disable the component
+	 * @return 	{SComponent}
 	 */
 	disable() {
 		this._componentEnabled = false;
@@ -475,7 +480,8 @@ class SComponent extends SElement {
 
 	/**
 	 * enable
-	 * Enable the element
+	 * Enable the component
+	 * @return 	{SComponent}
 	 */
 	enable() {
 		this._componentEnabled = true;
@@ -486,7 +492,9 @@ class SComponent extends SElement {
 	}
 
 	/**
+	 * destroy
 	 * Destroy routine
+	 * @return 	{SComponent}
 	 */
 	destroy() {
 		// stop listening for element add and remove
@@ -507,6 +515,9 @@ class SComponent extends SElement {
 
 		// track the destroyed status
 		this._componentDestroyed = true;
+
+		// maintain chainability
+		return this;
 	}
 
 	/**
