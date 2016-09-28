@@ -13,13 +13,13 @@ import __next from '../../../js/dom/next'
 import __previous from '../../../js/dom/previous'
 import __offset from '../../../js/dom/offset'
 import __scrollTop from '../../../js/dom/scrollTop'
-import __uniqid from '../../../js/tools/uniqid'
+import __uniqid from '../../../js/utils/uniqid'
 import __insertAfter from '../../../js/dom/insertAfter'
-import SEvent from '../../../js/core/SEvent'
+import SEvent from '../../../js/classes/SEvent'
 import __mutationObservable from '../../../js/dom/mutationObservable'
 import STemplate from '../../../js/core/STemplate'
 
-require('../../../js/rxjs/operators/groupByTimeout');
+require('../../../js/utils/rxjs/operators/groupByTimeout');
 
 // Select
 class SSelectComponent extends SComponent {

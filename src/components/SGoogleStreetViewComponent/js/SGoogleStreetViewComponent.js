@@ -1,4 +1,4 @@
-import SGoogleComponent from '../../../js/core/SGoogleComponent';
+import SGoogleComponent from '../../SGoogleComponent';
 import __style from '../../../js/dom/style'
 
 class SGoogleStreetViewComponent extends SGoogleComponent {

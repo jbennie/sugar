@@ -1,20 +1,20 @@
 import mustache from 'mustache';
 import __dispatchEvent from '../dom/dispatchEvent';
-import SWatcher from './SWatcher';
-import uniqid from '../tools/uniqid';
+import SWatcher from '../classes/SWatcher';
+import uniqid from '../utils/uniqid';
 import morphdom from 'morphdom';
 import domReady from '../dom/domReady';
 import _get from 'lodash/get';
-import __autoCast from '../string/autoCast';
+import __autoCast from '../utils/string/autoCast';
 import __matches from '../dom/matches';
-import __uniqid from '../tools/uniqid';
+import __uniqid from '../utils/uniqid';
 import querySelectorLive from '../dom/querySelectorLive';
 import __outerHTML from '../dom/outerHTML';
-import __strToHtml from '../string/strToHtml'
-import __constructorName from '../tools/constructorName'
+import __strToHtml from '../utils/string/strToHtml'
+import __constructorName from '../utils/objects/constructorName'
 import __closest from '../dom/closest'
 
-import __propertyProxy from '../core/propertyProxy'
+import __propertyProxy from '../utils/objects/propertyProxy'
 
 import sElementsManager from './sElementsManager';
 

@@ -6,7 +6,7 @@
  */
 import whenVisible from './whenVisible'
 import __isInViewport from './isInViewport'
-import __throttle from '../functions/throttle'
+import __throttle from '../utils/functions/throttle'
 
 export default function whenInViewport(elm, cb = null) {
 	return new Promise((resolve, reject) => {

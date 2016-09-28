@@ -1,4 +1,4 @@
-import uniqid from '../tools/uniqid'
+import uniqid from '../utils/uniqid'
 
 let _sSvgFilters = [];
 let _sIsSvgInjected = false;

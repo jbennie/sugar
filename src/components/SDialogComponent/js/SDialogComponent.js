@@ -12,11 +12,11 @@ import SComponent from '../../../js/core/SComponent'
 import __querySelectorLive from '../../../js/dom/querySelectorLive';
 import __scrollTop from '../../../js/dom/scrollTop'
 import __offset from '../../../js/dom/offset'
-import __strToHtml from '../../../js/string/strToHtml'
+import __strToHtml from '../../../js/utils/string/strToHtml'
 import __getAnimationProperties from '../../../js/dom/getAnimationProperties'
 import __style from '../../../js/dom/style'
 import __insertAfter from '../../../js/dom/insertAfter'
-import SAjax from '../../../js/core/SAjax'
+import SAjax from '../../../js/classes/SAjax'
 import STemplate from '../../../js/core/STemplate'
 
 class SDialogComponent extends SComponent {

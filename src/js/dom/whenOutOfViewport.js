@@ -5,7 +5,7 @@
  * @return {[type]}       [description]
  */
 import __isInViewport from './isInViewport'
-import __throttle from '../functions/throttle'
+import __throttle from '../utils/functions/throttle'
 
 export default function whenOutOfViewport(elm, cb = null) {
 	return new Promise((resolve, reject) => {

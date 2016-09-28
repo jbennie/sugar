@@ -9,7 +9,7 @@
  * @version  1.0.0
  */
 import SComponent from '../../../js/core/SComponent'
-import __debounce from '../../../js/functions/debounce'
+import __debounce from '../../../js/utils/functions/debounce'
 import STemplate from '../../../js/core/STemplate'
 
 class SResponsiveImageComponent extends SComponent {

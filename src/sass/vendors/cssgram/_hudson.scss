@@ -1,18 +1,0 @@
-$cssgram : () !default;/*
- *
- * Hudson
- *
- */
-
-
- //needs work!
-$cssgram : append($cssgram, hudson);  %cssgram-hudson {
-  @extend %filter-base;
-  filter: brightness(1.2) contrast(.9) saturate(1.1);
-
-  &::after {
-    background: radial-gradient(circle, rgb(166, 177, 255) 50%, rgb(52, 33, 52));
-    mix-blend-mode: multiply;
-    opacity: .5;
-  }
-}

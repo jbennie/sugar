@@ -1,6 +1,6 @@
 import getStyleProperty from './getStyleProperty';
-import autoCast from '../string/autoCast';
-import toMs from '../string/toMs';
+import autoCast from '../utils/string/autoCast';
+import toMs from '../utils/string/toMs';
 
 function splitIfNeeded(what, separator) {
 	if (what.indexOf(separator) !== -1) {

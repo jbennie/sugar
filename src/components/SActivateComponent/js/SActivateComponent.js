@@ -10,7 +10,7 @@
  */
 import SComponent from '../../../js/core/SComponent'
 import __scrollTop from '../../../js/dom/scrollTop'
-import __uniqid from '../../../js/tools/uniqid'
+import __uniqid from '../../../js/utils/uniqid'
 import __querySelectorLive from '../../../js/dom/querySelectorLive';
 
 import STemplate from '../../../js/core/STemplate'

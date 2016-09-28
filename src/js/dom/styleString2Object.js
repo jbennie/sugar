@@ -1,5 +1,5 @@
-import __camelize from '../string/camelize'
-import __autoCast from '../string/autoCast'
+import __camelize from '../utils/string/camelize'
+import __autoCast from '../utils/string/autoCast'
 
 export default function styleString2Object(style) {
 	if ( ! style || style === '') return {};

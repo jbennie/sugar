@@ -22,9 +22,6 @@ domReady(() => {
 		_settings = JSON.parse(_settings);
 
 		Object.assign(settings, _settings);
-
-		console.log('settings', settings);
-
 		// settings = {...settings, ..._settings};
 	}
 });

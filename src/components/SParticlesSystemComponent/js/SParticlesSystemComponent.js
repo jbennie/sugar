@@ -1,6 +1,6 @@
 import SComponent from '../../../js/core/SComponent';
 import SParticleComponent from '../../SParticleComponent';
-import setRecursiveTimeout from '../../../js/functions/setRecursiveTimeout';
+import setRecursiveTimeout from '../../../js/utils/functions/setRecursiveTimeout';
 import querySelectorLive from '../../../js/dom/querySelectorLive';
 
 class SParticlesSystemComponent extends SComponent {

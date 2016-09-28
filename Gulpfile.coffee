@@ -20,6 +20,7 @@ ts 			 = require 'gulp-typescript'
 mocha 	 	 = require 'gulp-mocha'
 mochaPhantom = require 'gulp-mocha-phantomjs'
 named 		 = require 'vinyl-named'
+gulpJsdoc2md = require 'gulp-jsdoc-to-markdown'
 
 # configure webpack
 webpackParams =
@@ -118,6 +119,15 @@ gulp.task 'clean-css', ->
 # 	.pipe autoprefixer
 # 		browsers: ['last 5 versions']
 # 	.pipe gulp.dest 'assets/css'
+
+gulp.task 'markdown-js-api', ->
+	gulp.src './src/js/classes/STimer.js'
+	.pipe babel
+		presets: ['es2015-loose','stage-0'],
+		#plugins: ['transform-proto-to-assign']
+	.pipe gulpJsdoc2md
+		template : fs.readFileSync('./template.hbs', 'utf8')
+	.pipe gulp.dest 'doc/api/js'
 
 # sass
 gulp.task 'sass', ->

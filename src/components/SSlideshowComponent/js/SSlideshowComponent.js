@@ -12,8 +12,8 @@ require('tocca');
 import SComponent from '../../../js/core/SComponent'
 import querySelectorLive from '../../../js/dom/querySelectorLive'
 import __isInViewport from '../../../js/dom/isInViewport'
-import __autoCast from '../../../js/string/autoCast'
-import STimer from '../../../js/core/STimer'
+import __autoCast from '../../../js/utils/string/autoCast'
+import STimer from '../../../js/classes/STimer'
 import STemplate from '../../../js/core/STemplate'
 
 // class

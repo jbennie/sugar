@@ -1,5 +1,5 @@
-import camelize from '../string/camelize';
-import autoCast from '../string/autoCast';
+import camelize from '../utils/string/camelize';
+import autoCast from '../utils/string/autoCast';
 
 export default function getStyleProperty(elm, name) {
 

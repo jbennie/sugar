@@ -112,7 +112,9 @@ module.exports = (grunt) ->
 				}]
 
 		clean: [
-			'src/sass/vendors'
+			'src/sass/vendors/modularscale/',
+			'src/sass/vendors/sassdash/',
+			'src/sass/vendors/sassyjson/'
 		]
 
 		notify:
@@ -138,13 +140,13 @@ module.exports = (grunt) ->
 
 	grunt.registerTask 'default', [
 		'clean'
-		'copy:fontawesome'
+		#'copy:fontawesome'
 		'copy:modularscale'
 		'copy:sassdash'
 		'copy:sassyjson'
-		'copy:cssgram'
-		'copy:animatecss'
-		'concat:animatecss'
-		'copy:animatecss_mixin'
+		#'copy:cssgram'
+		#'copy:animatecss'
+		#'concat:animatecss'
+		#'copy:animatecss_mixin'
 		'notify:default'
 	]

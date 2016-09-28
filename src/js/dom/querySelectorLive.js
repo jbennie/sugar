@@ -6,13 +6,13 @@ import 'rxjs/add/operator/share'
 import _isEqual from 'lodash/isEqual'
 import 'mutationobserver-shim'
 import 'classlist.js'
-import '../vendors/queryselector-scope.js'
+import '../polyfills/queryselector-scope.js'
 import mutationObservable from './mutationObservable'
-import injectOperators from '../rxjs/querySelectorLiveOperators/injectOperators'
+import injectOperators from '../utils/rxjs/querySelectorLiveOperators/injectOperators'
 import __matches from './matches'
 import __domReady from './domReady'
-import __uniqid from '../tools/uniqid'
-import SEvent from '../core/SEvent'
+import __uniqid from '../utils/uniqid'
+import SEvent from '../classes/SEvent'
 
 // store all the selectors with their settings
 // '{selector}' : {

@@ -13,9 +13,9 @@ import STemplate from '../../../js/core/STemplate'
 import __insertAfter from '../../../js/dom/insertAfter'
 import __closest from '../../../js/dom/closest'
 import __matches from '../../../js/dom/matches'
-import __uniqid from '../../../js/tools/uniqid'
+import __uniqid from '../../../js/utils/uniqid'
 import _get from 'lodash/get'
-import __constructorName from '../../../js/tools/constructorName'
+import __constructorName from '../../../js/utils/objects/constructorName'
 
 class STemplateComponent extends SComponent {
 

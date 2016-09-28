@@ -1,7 +1,7 @@
-import SGoogleComponent from '../../../js/core/SGoogleComponent';
-import querySelectorLive from '../../../js/dom/querySelectorLive'
+import SGoogleComponent from '../../SGoogleComponent';
 import SGoogleMapMarkerComponent from '../../SGoogleMapMarkerComponent'
-import __camelize from '../../../js/string/camelize'
+import __querySelectorLive from '../../../js/dom/querySelectorLive'
+import __camelize from '../../../js/utils/string/camelize'
 import __style from '../../../js/dom/style'
 
 class SGoogleMapComponent extends SGoogleComponent {
@@ -165,7 +165,7 @@ class SGoogleMapComponent extends SGoogleComponent {
 		this._initMap();
 
 		// listen for markers
-		querySelectorLive(`[${this.componentNameDash}-marker]`, {
+		__querySelectorLive(`[${this.componentNameDash}-marker]`, {
 			rootNode : this.elm,
 			onNodeRemoved : (node) => {
 				// remove the marker from the stack

@@ -1,4 +1,4 @@
-import SGoogleComponent from '../../../js/core/SGoogleComponent';
+import SGoogleComponent from '../../SGoogleComponent';
 
 class SGoogleMapMarkerComponent extends SGoogleComponent {
 

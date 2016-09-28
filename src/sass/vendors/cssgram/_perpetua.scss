@@ -1,17 +1,0 @@
-$cssgram : () !default;/*
- *
- * Perpetua
- *
- */
-
-
-
-$cssgram : append($cssgram, perpetua);  %cssgram-perpetua {
-  @extend %filter-base;
-
-  &::after {
-    background: linear-gradient(to bottom, rgb(0, 91, 154), rgb(230, 193, 61));
-    mix-blend-mode: soft-light;
-    opacity: .5;
-  }
-}

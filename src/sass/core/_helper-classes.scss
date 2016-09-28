@@ -63,31 +63,31 @@
 //
 // Text
 //
-@include s-register-class(text-hidden, 'sugar.text.hidden') {
+@include s-register-class(t-hidden, 'sugar.text.hidden') {
 	@include s-hide-text();
 }
-@include s-register-class(text-truncate, 'sugar.text.truncate') {
+@include s-register-class(t-truncate, 'sugar.text.truncate') {
 	@include s-truncate-text();
 }
-@include s-register-class(text-left, 'sugar.text.align.left') {
+@include s-register-class(t-left, 'sugar.text.align.left') {
 	text-align: left;
 }
-@include s-register-class(text-right, 'sugar.text.align.right') {
+@include s-register-class(t-right, 'sugar.text.align.right') {
 	text-align: right;
 }
-@include s-register-class(text-center, 'sugar.text.align.center') {
+@include s-register-class(t-center, 'sugar.text.align.center') {
 	text-align: center;
 }
-@include s-register-class(text-justify, 'sugar.text.align.justify') {
+@include s-register-class(t-justify, 'sugar.text.align.justify') {
 	text-align: justify;
 }
-@include s-register-class(text-lowercase, 'sugar.text.transform.lowercase') {
+@include s-register-class(t-lowercase, 'sugar.text.transform.lowercase') {
 	text-transform: lowercase;
 }
-@include s-register-class(text-uppercase, 'sugar.text.transform.uppercase') {
+@include s-register-class(t-uppercase, 'sugar.text.transform.uppercase') {
 	text-transform: uppercase;
 }
-@include s-register-class(text-capitalize, 'sugar.text.transform.capitalize') {
+@include s-register-class(t-capitalize, 'sugar.text.transform.capitalize') {
 	text-transform: capitalize;
 }
 

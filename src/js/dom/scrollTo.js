@@ -1,5 +1,3 @@
-import __easings from '../tools/easings';
-
 function scrollTo(target, duration, easing, padding, align, onFinish) {
 	padding = padding ? padding : 0;
 	var docElem = document.documentElement; // to facilitate minification better
@@ -32,7 +30,7 @@ function scrollTo(target, duration, easing, padding, align, onFinish) {
 		targetY: targetY,
 		deltaY: deltaY,
 		duration: (duration) ? duration : 0,
-		easing: (easing in scrollTo.Easing) ? scrollTo.Easing[easing] : scrollTo.Easing.linear,
+		easing: easing || function(t) { return t; },
 		onFinish: onFinish,
 		startTime: Date.now(),
 		lastY: currentY,
@@ -41,9 +39,6 @@ function scrollTo(target, duration, easing, padding, align, onFinish) {
 
 	window.requestAnimationFrame(obj.step.bind(obj));
 }
-
-// set easings
-scrollTo.Easing = __easings;
 
 scrollTo.step = function () {
 	if (this.lastY !== window.pageYOffset && this.onFinish) {

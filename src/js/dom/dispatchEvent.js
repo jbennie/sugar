@@ -1,4 +1,4 @@
-import SEvent from '../core/SEvent';
+import SEvent from '../classes/SEvent';
 
 export default function dispatchEvent(target, name, data = null) {
 	// create new event

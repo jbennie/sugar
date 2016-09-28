@@ -9,7 +9,7 @@
  * @version  1.0.0
  */
 import SComponent from '../../../js/core/SComponent'
-import __throttle from '../../../js/functions/throttle'
+import __throttle from '../../../js/utils/functions/throttle'
 import noUiSlider from 'nouislider';
 import STemplate from '../../../js/core/STemplate'
 

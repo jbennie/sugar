@@ -1,7 +1,7 @@
-import __uniqid from '../tools/uniqid'
-import __camelize from '../string/camelize'
-import __uncamelize from '../string/uncamelize'
-import __autoCast from '../string/autoCast'
+import __uniqid from '../utils/uniqid'
+import __camelize from '../utils/string/camelize'
+import __uncamelize from '../utils/string/uncamelize'
+import __autoCast from '../utils/string/autoCast'
 import querySelectorLive from '../dom/querySelectorLive'
 import __matches from '../dom/matches'
 import __closestNotVisible from '../dom/closestNotVisible'
@@ -14,11 +14,11 @@ import _set from 'lodash/set';
 import _get from 'lodash/get';
 
 import sElementsManager from './sElementsManager'
-import sDebug from '../tools/sDebug'
+import sDebug from '../utils/sDebug'
 
 import SObject from './SObject'
-import SWatcher from './SWatcher';
-import SBinder from './SBinder';
+import SWatcher from '../classes/SWatcher';
+import SBinder from '../classes/SBinder';
 
 import STemplate from './STemplate'
 

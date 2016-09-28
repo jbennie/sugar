@@ -1,5 +1,5 @@
 import __attributesObservable from './attributesObservable'
-import __autoCast from '../string/autoCast'
+import __autoCast from '../utils/string/autoCast'
 
 export default function whenAttribute(elm, attrName, checkFn = null) {
 	return new Promise((resolve, reject) => {

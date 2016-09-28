@@ -1,4 +1,4 @@
-import SAjax from '../core/SAjax'
+import SAjax from '../classes/SAjax'
 
 export default class SGoogleSearch {
 

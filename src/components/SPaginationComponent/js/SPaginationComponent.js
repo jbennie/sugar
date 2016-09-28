@@ -2,7 +2,7 @@ import STemplateComponent from '../../STemplateComponent'
 import querySelectorLive from '../../../js/dom/querySelectorLive'
 import _template from 'lodash/template'
 import __whenAttribute from '../../../js/dom/whenAttribute'
-import __whenProperty from '../../../js/objects/whenProperty'
+import __whenProperty from '../../../js/utils/objects/whenProperty'
 
 class SPaginationComponent extends STemplateComponent {
 

@@ -1,7 +1,7 @@
 /**
  * Access dataset
  */
-import uncamelize from '../string/uncamelize'
+import uncamelize from '../utils/string/uncamelize'
 
 export default function dataset(elm, key, value = null) {
 	if ( ! elm.getAttribute) return;

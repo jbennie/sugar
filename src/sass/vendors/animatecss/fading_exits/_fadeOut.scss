@@ -1,9 +1,0 @@
-@if index(sugar("settings.components.animate-css.animations"), fadeOut) {@keyframes fadeOut {
-  from {opacity: 1;}
-  100% {opacity: 0;}
-}
-
-%fadeOut {
-  animation-name: fadeOut;
-}
-}

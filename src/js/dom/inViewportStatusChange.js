@@ -1,4 +1,4 @@
-import InViewportStatusChangeDetector from './classes/InViewportStatusChangeDetector'
+import InViewportStatusChangeDetector from './InViewportStatusChangeDetector'
 
 export default function inViewportStatusChange(elm, onEnter = null, onExit = null) {
 	const detector = new InViewportStatusChangeDetector(elm);

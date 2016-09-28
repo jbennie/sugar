@@ -1,4 +1,4 @@
-import __uncamelize from '../string/uncamelize'
+import __uncamelize from '../utils/string/uncamelize'
 
 export default function styleObject2String(styleObj) {
 	// process the style object
