@@ -1,106 +1,146 @@
-/** @namespace */
-
 /**
- * Coco
+ * @class STimer
+ * Class that let you create and handle timer with ease.
+ * With this class you can set some callback function that will be
+ * called each x ms or tell that you want your callbacks to be called
+ * a certain number of time during the timer time.
+ *
+ * @name STimer
+ * @example
+ * const myTimer = new STimer(2000, {
+ * 		tickCount : 5
+ * });
+ * myTimer.onTick((myTimer) => {
+ * 		// do something here...
+ * });
+ * myTimer.start();
+ * @lang js
  */
 export default class STimer {
 
 	/**
-	 * settings
 	 * Store the settings for the timer
-	 * @type 	{Object}
+	 *
+	 * @property 	settings
+	 * @type 		{Object}
 	 */
 	settings = {
 
 		/**
-		 * tickInterval
 		 * Store the interval between ticks
-		 * @type 	{Number}
+		 *
+		 * @setting
+		 * @name 		tickInterval
+		 * @type 		{Number}
+		 * @default 	1000
 		 */
 		tickInterval : 1000,
 
 		/**
-		 * tickCount
 		 * Set the number of tick wanted
-		 * @type 	{Integer}
+		 *
+		 * @setting
+		 * @name 		tickCount
+		 * @type 		{Integer}
+		 * @default 	null
 		 */
 		tickCount : null,
 
 		/**
-		 * loop
 		 * Set if the timer has to loop
-		 * @type 	{Boolean}
+		 *
+		 * @setting
+		 * @name 		loop
+		 * @type 		{Boolean}
+		 * @default 	false
 		 */
 		loop : false
 
 	};
 
 	/**
-	 * _duration
 	 * Store the timer duration wanted
+	 *
+	 * @private
 	 * @type 	{Number}
 	 */
 	_duration = 0;
 
 	/**
-	 * _remaining
 	 * Store the remaining time
+	 *
+	 * @private
+	 * @name 	_remaining
 	 * @type 	{Number}
 	 */
 	_remaining = 0;
 
 	/**
-	 * _tickInterval
 	 * Computed value depending on the settings
+	 *
+	 * @private
+	 * @name 	_tickInterval
 	 * @type 	{Number}
 	 */
 	_tickInterval = 1000;
 
 	/**
-	 * _ticks
 	 * Store all the functions to call on tick
+	 *
+	 * @private
+	 * @name 	_ticks
 	 * @type 	{Array}
 	 */
 	_ticks = [];
 
 	/**
-	 * _complete
 	 * Store all the functions to call on complete
+	 *
+	 * @private
 	 * @type 	{Array}
 	 */
 	_completes = [];
 
 	/**
-	 * _tickSetTimeout
 	 * Store the setInterval instance
+	 *
+	 * @private
 	 * @type 	{Number}
 	 */
 	_tickSetTimeout = null;
 
 	/**
-	 * _startTime
 	 * Store the time when the timer is started
+	 *
+	 * @private
 	 * @type 	{Date}
 	 */
 	_startTime = null;
 
 	/**
-	 * _tickTime
 	 * Store the last tick time
+	 *
+	 * @private
 	 * @type 	{Date}
 	 */
 	_tickTime = null;
 
 	/**
-	 * _pauseTime
 	 * Store the pause time
+	 *
+	 * @private
 	 * @type 	{Date}
 	 */
 	_pauseTime = null;
 
 	/**
-	 * constructor
-	 * @instance
+	 * Init the timer
+	 *
+	 * @public
+	 * @constructor
+	 * @param 	{number} 	[duration=1000] 		The duration of the timer in ms
+	 * @param 	{Object} 	settings 		The settings for the timer
+	 * @return 	{STimer} 					The STimer instance
 	 */
 	constructor(duration, settings = {}) {
 		this._duration = duration;
@@ -118,8 +158,11 @@ export default class STimer {
 	}
 
 	/**
-	 * _tick
 	 * Internal tick function
+	 *
+	 * @private
+	 * @name 	_tick
+	 * @return 	{void}
 	 */
 	_tick() {
 
@@ -156,8 +199,10 @@ export default class STimer {
 	}
 
 	/**
-	 * remaining
 	 * Return the remaining time in ms
+	 *
+	 * @public
+	 * @name 	remaining
 	 * @return 	{Number} 	The remaining time in ms
 	 */
 	remaining() {
@@ -165,10 +210,12 @@ export default class STimer {
 	}
 
 	/**
-	 * duration
 	 * Set or get the duration
-	 * @param	{Number} 	duration	Set the duration
-	 * @return 	{Number} 				The duration
+	 *
+	 * @public
+	 * @name 	duration
+	 * @param	{Number} 	[duration=null]		Set the duration
+	 * @return 	{Number} 						The duration
 	 */
 	duration(duration = null) {
 		if (duration) {
@@ -182,32 +229,41 @@ export default class STimer {
 	}
 
 	/**
-	 * tick
 	 * Register a function called on tick
+	 *
+	 * @public
+	 * @name 	onTick
 	 * @param 	{Function} 	A function to call on tick
+	 * @example
+	 * const tick = this.tick();
 	 * @retun 	{STimer} 	The timer instance
 	 */
-	tick(fn) {
+	onTick(fn) {
 		// add the function if not already
 		if (this._ticks.indexOf(fn) !== -1) return;
 		this._ticks.push(fn);
 	}
 
 	/**
-	 * complete
 	 * Register a function called on complete
+	 *
+	 * @public
+	 * @name 	onComplete
 	 * @param 	{Function} 	A function to call on complete
 	 * @retun 	{STimer} 	The timer instance
 	 */
-	complete(fn) {
+	onComplete(fn) {
 		// add the function if not already
 		if (this._completes.indexOf(fn) !== -1) return;
 		this._completes.push(fn);
 	}
 
 	/**
-	 * reset
 	 * Reset the timer
+	 *
+	 * @public
+	 * @name 	reset
+	 * @param 	{Boolean} 	start 	If the timer has to start after reseting or not
 	 * @return 	{STimer}
 	 */
 	reset(start = false) {
@@ -227,8 +283,10 @@ export default class STimer {
 	}
 
 	/**
-	 * start
 	 * Start the timer
+	 *
+	 * @public
+	 * @name 	start
 	 * @return 	{STimer}
 	 */
 	start(duration = null) {
@@ -276,8 +334,10 @@ export default class STimer {
 	}
 
 	/**
-	 * pause
 	 * Pause the timer
+	 *
+	 * @public
+	 * @name 	pause
 	 * @return 	{STimer}
 	 */
 	pause() {
@@ -293,8 +353,10 @@ export default class STimer {
 	}
 
 	/**
-	 * stop
 	 * Stop the timer
+	 *
+	 * @public
+	 * @name 	stop
 	 * @return 	{STimer}
 	 */
 	stop() {
