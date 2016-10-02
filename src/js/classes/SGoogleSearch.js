@@ -1,54 +1,105 @@
+/**
+ * @class 		SGoogleSearch
+ * This class let you make with ease search requests to the google custom search service
+ * with useful features like:
+ * - Simple pagination system
+ * - Promise support
+ *
+ * @example 	js
+ * // create a google search instance
+ * const googleSearch = new SGoogleSearch('myApiKey', 'myCustomSearchContextKey');
+ *
+ * // make a search...
+ * googleSearch.search('hello world').then((response) => {
+ * 		// do something with the google response...
+ * });
+ *
+ * // get the nexts results
+ * googleSearch.next().then((response) => {
+ * 		// do something with the new response...
+ * });
+ *
+ * @author 		Olivier Bossel<olivier.bossel@gmail.com>
+ */
+
 import SAjax from '../classes/SAjax'
 
 export default class SGoogleSearch {
 
 	/**
-	 * _apiKey
 	 * Store the api key used to reach the google services
-	 * @type 	{String}
+	 * @private
+	 * @name 		_apiKey
+	 * @type 		{String}
 	 */
 	_apiKey = null;
 
 	/**
-	 * _cx
 	 * Store the context key used to reach the good google search instance
-	 * @type 	{String}
+	 * @private
+	 * @name 		_cx
+	 * @type 		{String}
 	 */
 	_cx = null;
 
 	/**
-	 * _query
 	 * Store the actual query object to be able to call
 	 * next page etc...
-	 * @type 	{Object}
+	 * @private
+	 * @name 		_settings
+	 * @type 		{Object}
 	 */
-	_query = null;
+	_settings = {
+
+		/**
+		 * How many results by page wanted
+		 * Can be between 1 and 10
+		 * @setting
+		 * @name 		num
+		 * @type 		{Integer}
+		 * @default 	10
+		 */
+		num : 10,
+
+		/**
+		 * The page to request
+		 * @setting
+		 * @name 		page
+		 * @type 		{Integer}
+		 * @default 	1
+		 */
+		page : 1
+
+	};
 
 	/**
-	 * _searchUrl
 	 * Store the google search url
-	 * @type 	{String}
+	 * @private
+	 * @name 		_searchUrl
+	 * @type 		{String}
 	 */
 	_searchUrl = 'https://www.googleapis.com/customsearch/v1';
 
 	/**
-	 * _page
 	 * Store the current page
-	 * @type 	{Integer}
+	 * @private
+	 * @name 		_page
+	 * @type 		{Integer}
 	 */
 	_page = 1;
 
 	/**
-	 * _keywords
 	 * The keywords searched
-	 * @type 	{String}
+	 * @private
+	 * @name 		_keywords
+	 * @type 		{String}
 	 */
 	_keywords = null;
 
 	/**
-	 * Constructor
+	 * @constructor
 	 * @param 	{String} 	apiKey 		The google api key to reach the services
-	 * @param 	{String} 	cx 		The google custom search context
+	 * @param 	{String} 	cx 			The google custom search context
 	 */
 	constructor(apiKey, cx) {
 		// save the props
@@ -57,16 +108,17 @@ export default class SGoogleSearch {
 	}
 
 	/**
-	 * _generateSearchUrl
 	 * Generate and return the correct search url depending on
 	 * parameters like the current page, etc...
+	 * @private
+	 * @name 				_generateSearchUrl
 	 * @return 	{String} 	The generated url
 	 */
 	_generateSearchUrl() {
 		// construct url
 		let queryString = '';
-		for (let key in this._query) {
-			queryString += `&${key}=${this._query[key]}`;
+		for (let key in this._settings) {
+			queryString += `&${key}=${this._settings[key]}`;
 		}
 		queryString = queryString.substr(1);
 		queryString = `?${queryString}`;
@@ -76,8 +128,8 @@ export default class SGoogleSearch {
 	}
 
 	/**
-	 * search
 	 * Launch a search
+	 * @name 	search
 	 * @param 	{String} 	keywords 	The keywords to search
 	 * @param 	{Object} 	settings 	The settings object
 	 * @return 	{Promise} 				A promise of results
@@ -93,7 +145,7 @@ export default class SGoogleSearch {
 
 			// construct query object
 			const num = settings.num || 10;
-			this._query = {
+			this._settings = {
 				key : this._apiKey,
 				cx : this._cx,
 				q : keywords,
@@ -122,9 +174,9 @@ export default class SGoogleSearch {
 	}
 
 	/**
-	 * next
 	 * Load the next page
-	 * @return 	{SGoogleSearch}
+	 * @name 		next
+	 * @return 		{Promise} 		The promise of next page results
 	 */
 	next() {
 		// update the page count

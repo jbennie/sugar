@@ -207,7 +207,7 @@ const parseJsDoc = function(file, cb) {
 };
 
 gulp.task('markdown-js-api', function() {
-    gulp.src('./src/js/classes/STimer.js')
+    gulp.src('./src/js/classes/*.js')
     .pipe(each(function(content, file, cb) {
         parseJsDoc(file, function(json) {
             let source = fs.readFileSync('./template.hbs', 'utf8');

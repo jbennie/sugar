@@ -62,7 +62,7 @@ export default class SWatcher {
 			}
 
 			// apply the proxy for arrays, etc...
-			val = this.applyProxy(val, objPath, (newVal) => {
+			val = this._applyProxy(val, objPath, (newVal) => {
 				val = newVal;
 			});
 		}
@@ -93,8 +93,8 @@ export default class SWatcher {
 				const oldValue = val;
 				// internal set to use the good setter
 				_set(v);
-				// notify of new update
-				this.notify(objPath, val, oldValue);
+				// _notify of new update
+				this._notify(objPath, val, oldValue);
 			},
 			configurable : descriptor && descriptor.configurable !== undefined ? descriptor.configurable : false,
 			enumarable : descriptor && descriptor.enumarable !== undefined ? descriptor.enumarable : true,
@@ -118,8 +118,8 @@ export default class SWatcher {
 				const ret = Array.prototype[method].apply(this,arguments);
 				// set value callback
 				setValueCb(this);
-				// notify
-				_this.notify(objPath, this, oldVal);
+				// _notify
+				_this._notify(objPath, this, oldVal);
 				// return the new value
 				return ret;
 			}
@@ -130,7 +130,7 @@ export default class SWatcher {
 	 * Apply a proxy on the variable to detect changes
 	 * on arrays, etc...
 	 */
-	applyProxy(value, objPath, setValueCb) {
+	_applyProxy(value, objPath, setValueCb) {
 		// if is an array
 		if (value instanceof Array) {
 			// override methods
@@ -195,7 +195,7 @@ export default class SWatcher {
 	/**
 	 * Tell that something has changed
 	 */
-	notify(path, newValue, oldValue) {
+	_notify(path, newValue, oldValue) {
 		if (this._watchStack[path] !== undefined && newValue !== oldValue) {
 			this._watchStack[path].forEach((cb) => {
 				cb(newValue, oldValue);

@@ -57,8 +57,9 @@ Handlebars.registerHelper('method', renderMethod);
 
 Handlebars.registerHelper('class', (data) => {
 	let cls = _.find(data, (item) => item.class !== undefined);
+	if ( ! cls) return;
  	let res = [
-		`# ${cls.name}`,
+		`# ${cls.class || cls.name}`,
 		cls.description
 	];
 	if (cls.example) {
