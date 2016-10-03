@@ -28,15 +28,17 @@ Handlebars.registerHelper('methods', (data) => {
 		'## API',
 		''
 	];
+	let areMethods = false;
 	for(let i=0; i<data.length; i++) {
 		const tag = data[i];
+		if (tag.class) continue;
 		if (tag.private) continue;
 		if (tag.constructor === true) continue;
 		if (tag.type) continue;
-		if (tag.public) {
-			res.push(renderMethod(tag));
-		}
+		areMethods = true;
+		res.push(renderMethod(tag));
 	}
+	if ( ! areMethods) return;
 	res.push('');
 	return res.join("\n");
 });
@@ -45,8 +47,8 @@ Handlebars.registerHelper('methods', (data) => {
 function renderMethod(of) {
 	var res = [];
 	res = res.concat([
-		'### ' + of.name,
-		of.description,
+		'### ' + of.name + '(' + renderInlineParams(of) + ')',
+		of.body,
 		renderParams(of),
 		renderReturn(of),
 		renderExample(of)
@@ -59,9 +61,15 @@ Handlebars.registerHelper('class', (data) => {
 	let cls = _.find(data, (item) => item.class !== undefined);
 	if ( ! cls) return;
  	let res = [
-		`# ${cls.class || cls.name}`,
-		cls.description
+		`# ${cls.class.name}`,
+		cls.body
 	];
+	if (cls.class.extends) {
+		res.push(`- Extends **${cls.class.extends}**`);
+	}
+	if (cls.author) {
+		res.push(`- Author **${cls.author}**`);
+	}
 	if (cls.example) {
 		res.push(renderExample(cls));
 	}
@@ -77,8 +85,8 @@ function renderExample(of) {
 	return [
 		'',
 		'#### Sample',
-		'```language-'+ of.lang,
-		of.example,
+		'```language-'+ of.example.lang,
+		of.example.body,
 		'```',
 		''
 	].join("\n");
@@ -94,6 +102,28 @@ function renderReturn(of) {
 		'Return **' + of.return.type + '** ' + of.return.description
 	].join("\n");
 }
+
+/**
+ * Inline params
+ */
+function renderInlineParams(of) {
+	if ( ! of.params) return '';
+	let res = [];
+	of.params.forEach(function(param) {
+		let def = '';
+		if (param.default) {
+			def = param.default;
+		}
+		let paramString = `${param.name}:${param.type}`;
+		if (def) {
+			paramString += ` = ${def}`;
+		}
+		res.push(paramString);
+	});
+	if ( ! res.length) return '';
+	return res.join(', ');
+}
+Handlebars.registerHelper('inlineParams', renderInlineParams);
 
 /**
  * Params
@@ -144,19 +174,29 @@ Handlebars.registerHelper('constructor', renderConstructor);
 Handlebars.registerHelper('settings', (data) => {
 	var res = [
 		'## Settings',
-		'Here\'s the available settings'
+		'Here\'s the available settings',
+		''
 	];
-	res = res.concat([
-		'',
-		'Name | Type | Description | Default',
-		'------------ | ------------ | ------------ | ------------'
-	]);
+	let _hasSettings = false;
 	for(let i=0; i<data.length; i++) {
 		const tag = data[i];
-		// console.log(tag);
 		if ( ! tag.setting) continue;
-		res.push(tag.name + ' | **' + tag.name + '** | ' + tag.description + ' | ' + tag.default);
+		_hasSettings = true;
+		res = res.concat([
+			'### ' + tag.name
+		]);
+		if (tag.body) {
+			res.push(tag.body);
+		}
+		if (tag.type) {
+			res.push(`- Type **${tag.type}**`);
+		}
+		if (tag.default) {
+			res.push(`- Default **${tag.default}**`);
+		}
+		res.push('');
 	}
+	if ( ! _hasSettings) return;
 	return res.join("\n");
 });
 

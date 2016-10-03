@@ -1,13 +1,18 @@
+import SObject from '../core/SObject'
+import SimpleAjax from 'simple-ajax'
+import {Observable} from 'rxjs/Observable'
+import strToHtml from '../utils/string/strToHtml'
+import htmlToStr from '../utils/string/htmlToStr'
+import SAjaxRequest from './SAjaxRequest'
+
 /**
- * @class 		SAjax
- * @extends  	{SObject}[./SObject]
+ * @class 		SAjax 	{SObject}
  * Class that allows to simply handle ajax requests with ease.
  * This class give some useful features like :
  * - Promise support
  * - Observable support
  * - Recursive requests
- *
- * @example js
+ * @example 	js
  * const ajx = new SAjax({
  * 		url : 'api/...',
  * 		method : 'GET',
@@ -38,14 +43,8 @@
  * }, (error) => {
  * 		// something went wrong...
  * });
+ * @author 		Olivier Bossel<olivier.bossel@gmail.com>
  */
-import SObject from '../core/SObject'
-import SimpleAjax from 'simple-ajax'
-import {Observable} from 'rxjs/Observable'
-import strToHtml from '../utils/string/strToHtml'
-import htmlToStr from '../utils/string/htmlToStr'
-import SAjaxRequest from './SAjaxRequest'
-
 export default class SAjax extends SObject {
 
 	/**
@@ -56,35 +55,30 @@ export default class SAjax extends SObject {
 
 	/**
 	 * Store the request settings to use
-	 * @private
-	 * @type 	{SAjaxRequest}[./SAjaxRequest]
+	 * @type 	{SAjaxRequest}
 	 */
 	_requestSettings = {};
 
 	/**
 	 * The SimpleAjax instance used to make requests under the hood
-	 * @private
 	 * @type 	{SimpleAjax}[https://github.com/MauriceButler/simple-ajax]
 	 */
 	_simpleAjax = null;
 
 	/**
 	 * Store the Observable observer to be able to call his methods outside
-	 * @private
 	 * @type 	{Object}
 	 */
 	_observer = null;
 
 	/**
 	 * Store how many requests have been sent
-	 * @private
 	 * @type 	{Integer}
 	 */
 	_requestsCount = 0;
 
 	/**
 	 * Store the settings around the request
-	 * @private
 	 * @type 	{Object}
 	 */
 	_settings = {
@@ -118,8 +112,8 @@ export default class SAjax extends SObject {
 
 	/**
 	 * @constructor
-	 * @param 	{SAjaxRequest}[./SAjaxRequest] 	request 		The request object used to make ajax call
-	 * @param 	{Object} 						[settings={}] 	Some settings around the request
+	 * @param 	{SAjaxRequest} 		request 		The request object used to make ajax call
+	 * @param 	{Object} 			[settings={}] 	Some settings around the request
  	 */
 	constructor(request, settings = {}) {
 
@@ -145,7 +139,6 @@ export default class SAjax extends SObject {
 
 	/**
 	 * Create the request
-	 * @private
 	 */
 	_createRequest() {
 
