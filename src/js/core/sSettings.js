@@ -1,3 +1,9 @@
+/**
+ * Store all the sugar settings grabed from your scss settings
+ * @type 		{Object}
+ * @name 		settings
+ */
+
 // imports
 import domReady from '../dom/domReady'
 

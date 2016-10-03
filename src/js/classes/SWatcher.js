@@ -2,37 +2,63 @@ import __constructorName from '../utils/objects/constructorName'
 import _get from 'lodash/get';
 import _set from 'lodash/set';
 
+/**
+ * @class 		SWathcer
+ * This class allows you to easily monitor some object properties and get the new and old value of it
+ *
+ * @example 	js
+ * // create the watcher instance
+ * const watcher = new SWatcher();
+ *
+ * // object to watch
+ * let myObject = {
+ * 		title : 'Hello World'
+ * };
+ *
+ * // watch the object
+ * watcher.watch(myObject, 'title', (newVal, oldVal) => {
+ *  	// do something when the title changes
+ * });
+ *
+ * // update the title
+ * myObject.title = 'Hello Universe';
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 export default class SWatcher {
 
-	/**
-	 * Setters methods
-	 */
-	static setters = {
-		CSSStyleDeclaration : (obj, property, value) => {
-			obj.setProperty(property, value);
-		}
-	}
+	// static setters = {
+	// 	CSSStyleDeclaration : (obj, property, value) => {
+	// 		obj.setProperty(property, value);
+	// 	}
+	// }
 
 	/**
 	 * Watch stack
+	 * @type 		{Object}
 	 */
 	_watchStack = {};
 
 	/**
-	 * Constructor
+	 * @constructor
 	 */
 	constructor() {
 	}
 
 	/**
-	 * destroy
 	 * Destroy the watcher
-	 * @return 	{void}
 	 */
 	destroy() {
 		// @TODO watcher destroy implementation
 	}
 
+	/**
+	 * Internal implementation of the defineProp
+	 * @param 		{Object} 	obj 		The object to watch
+	 * @param 		{String} 	property 	The property of the object to watch
+	 * @param 		{Mixed} 	value 		The initial value of the property
+	 * @param 		{String} 	objPath 	The object property path to watch
+	 */
 	_defineProp(obj, property, value, objPath) {
 
 		// do not define multiple time the description
@@ -45,10 +71,10 @@ export default class SWatcher {
 		// custom setter check
 		const _set = (value) => {
 			// check if have a custom setter for this object
-			if (customSetter) {
-				customSetter(obj, property, value);
-				val = value;
-			}
+			// if (customSetter) {
+			// 	customSetter(obj, property, value);
+			// 	val = value;
+			// }
 			// descriptor
 			else if (descriptor && descriptor.set) {
 				let ret = descriptor.set(value);
@@ -68,13 +94,13 @@ export default class SWatcher {
 		}
 
 		// get the setter
-		let customSetter;
-		for (let name in SWatcher.setters) {
-			if (__constructorName(obj) === name) {
-				customSetter = SWatcher.setters[name];
-				break;
-			}
-		}
+		// let customSetter;
+		// for (let name in SWatcher.setters) {
+		// 	if (__constructorName(obj) === name) {
+		// 		customSetter = SWatcher.setters[name];
+		// 		break;
+		// 	}
+		// }
 
 		// set the value
 		_set(value);
@@ -103,7 +129,11 @@ export default class SWatcher {
 	}
 
 	/**
-	 * overrideArrayMethod
+	 * Override some array methods to be able to notify of changes
+	 * @param 		{Array} 	array 			The array to process
+	 * @param 		{Array} 	methods 		The methods to override
+	 * @param 		{String} 	objPath 		The object property path to watch
+	 * @param 		{Function} 	setValueCb 		A callback function that will set the updated value
 	 */
 	_overrideArrayMethod(array, methods, objPath, setValueCb) {
 		const _this = this;
@@ -129,6 +159,10 @@ export default class SWatcher {
 	/**
 	 * Apply a proxy on the variable to detect changes
 	 * on arrays, etc...
+	 * @param 		{Mixed} 	value 		The value on which to apply the proxy
+	 * @param 		{String} 	objPath 	The object property path to watch
+	 * @param 		{Function} 	setValueCb 	A function that will be responsible to set the new value intarnally
+	 * @return 		{Mixed} 				Return the value
 	 */
 	_applyProxy(value, objPath, setValueCb) {
 		// if is an array
@@ -142,7 +176,10 @@ export default class SWatcher {
 	}
 
 	/**
-	 * Watch something on the element
+	 * Watch something on an object
+	 * @param 		{Object} 		object 		The object to watch
+	 * @param 		{String} 		path 		The property path to watch on the object
+	 * @param 		{Function} 		cb 			The callback called when the property is updated
 	 */
 	watch(object, path, cb) {
 		// split the path by ',' to watch multiple properties
@@ -159,7 +196,10 @@ export default class SWatcher {
 	}
 
 	/**
-	 * Internal watch
+	 * Internal watch$
+	 * @param 		{Object} 		object 		The object to watch
+	 * @param 		{String} 		path 		The property path to watch on the object
+	 * @param 		{Function} 		cb 			The callback called when the property is updated
 	 */
 	_watch(object, path, cb) {
 		// check if the path parameter has already a descriptor
@@ -194,6 +234,9 @@ export default class SWatcher {
 
 	/**
 	 * Tell that something has changed
+	 * @param 		{String} 		path 		The object property path that has been updated
+	 * @param 		{Mixed} 		newValue 	The new property value
+	 * @param 		{Mixed} 		oldValue 	The old property value
 	 */
 	_notify(path, newValue, oldValue) {
 		if (this._watchStack[path] !== undefined && newValue !== oldValue) {

@@ -21,22 +21,53 @@ import sElementsManager from './sElementsManager';
 if (! window.sugar) window.sugar = {};
 window.sugar._sTemplateData = {};
 
+/**
+ * @class 		STemplate 		{SOject}
+ * This class allows you to create complexe and dynamic templates that will stay
+ * in sync with his data object automatically.
+ * Under the hood, this class use the `morphdom` library that will be in charge of updating
+ * the minimum dom as needed.
+ *
+ * @example 	js
+ * // our data object
+ * const data = {
+ * 		title : 'Hello World'
+ * };
+ * // create an STemplate instance
+ * const myTemplate = new STemplate(`
+ * 		<div class="my-template">
+ *   		<h1>{{title}}</h1>
+ * 		</div>
+ * `, data);
+ * // append our template to the dom
+ * myTemplate.appendTo(document.querySelector('#myDiv'));
+ * // update the title at any point in time
+ * setTimeout(() => {
+ * 		data.title = 'Hello Universe';
+ * }, 2000);
+ *
+ *
+ * @see 		https://github.com/patrick-steele-idem/morphdom
+ * @author		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 export default class STemplate {
 
-	static componentsIntegrationFnStack = {};
+	/**
+	 * Store all the component integration functions registered
+	 * @private
+	 * @type 	{Object}
+	 */
+	static _componentsIntegrationFnStack = {};
 
 	/**
-	 * registerComponentIntegration
 	 * Register a component integration function
-	 * @param 	{Function} 		integrationFn 	The function used to set the integration attributes, etc into the component elements
-	 * @return 	{void}
+	 * @param 	{Function} 		integrationFn 		The function used to set the integration attributes, etc into the component elements
 	 */
 	static registerComponentIntegration = function(componentClassName, fn) {
-		STemplate.componentsIntegrationFnStack[componentClassName] = fn;
+		STemplate._componentsIntegrationFnStack[componentClassName] = fn;
 	}
 
 	/**
-	 * keepAttribute
 	 * Set an attribute to keep
 	 * @param 	{HTMLElement} 	elm 	The element on which to keep an attribute
 	 * @param 	{String} 		attr 	The attribute name to keep
@@ -56,7 +87,6 @@ export default class STemplate {
 	}
 
 	/**
-	 * doNotDiscard
 	 * Set an element to not discard
 	 * @param 	{HTMLElement} 	elm 	The element to not discard
 	 */
@@ -66,7 +96,6 @@ export default class STemplate {
 	}
 
 	/**
-	 * exclude
 	 * Set an element to exclude completely from the STemplate engine
 	 * @param 	{HTMLElement} 	elm 	The element to exclude
 	 */
@@ -76,7 +105,6 @@ export default class STemplate {
 	}
 
 	/**
-	 * refresh
 	 * Set an element to refresh completely when the STemplate handle it
 	 * @param 	{HTMLElement} 	elm 	The element to refresh
 	 */
@@ -85,6 +113,11 @@ export default class STemplate {
 		return STemplate;
 	}
 
+	/**
+	 * Check if an element is handled by an STemplate instance
+	 * @param 		{HTMLElement} 	elm 	The element to check
+	 * @return 		{Boolean} 				True if the element is handled by a template, false otherwise
+	 */
 	static isTemplate(elm) {
 		if ( ! elm.hasAttribute) return false;
 		if (elm.hasAttribute('s-template-id')) return true;
@@ -98,66 +131,85 @@ export default class STemplate {
 	}
 
 	/**
-	 * templateId
 	 * Store a uniqid that will be used as identifier for
 	 * this particular class in the window.sTemplateClasses
+	 * @type 	{String}
 	 */
 	templateId = null;
 
 	/**
-	 * refs
 	 * Store the reference to html elements that have an id or a name
 	 * @type 	{Object}
 	 */
 	refs = {};
 
 	/**
-	 * dom
 	 * Store the reference to the created dom structure
 	 */
 	dom = null;
 
 	/**
-	 * data
 	 * Store the data object used to render the template
 	 * @type 	{Object}
 	 */
 	data = {};
 
 	/**
-	 * modelValuesStack
 	 * Store the values of the model when it's an object or an array
 	 * This is used to set in html a string value like 'object:10' that will
 	 * match the current value in this stack
 	 * @type 	{Array}
 	 */
-	modelValuesStack = [];
+	_modelValuesStack = [];
 
 	/**
-	 * updateTimeout
 	 * Store the timeout used to update the template only once when multiple changes have been made
 	 * @type 	{Number}
 	 */
-	updateTimeout = null;
+	_updateTimeout = null;
 
 	/**
-	 * settings
 	 * Store the settings
 	 * @type 	{Object}
 	 */
 	settings = {
 
 		/**
-		 * render
 		 * A compile function to process the template
-		 * @type 	{Function}
+		 * This function will revieve the template and the data as parameters
+		 * and need to return the compiled string version
+		 * @setting
+		 * @type 		{Function}
+		 * @default 	null
 		 */
 		compile : null,
 
 		/**
-		 * onBeforeElUpdated
+		 * Function called before any HTMLElement will be updated in the dom
+		 * If this function return false, the element will not bein updated at all
+		 * @setting
+		 * @type 		{Function}
+		 * @default  	null
 		 */
-		onBeforeElUpdated : null
+		onBeforeElUpdated : null,
+
+		/**
+		 * Function called before any HTMLElement child will be updated in the dom
+		 * If this function return false, the engine will not try to update this element children
+		 * @setting
+		 * @type 		{Function}
+		 * @default  	null
+		 */
+		onBeforeElChildrenUpdated : null,
+
+		/**
+		 * Function called before any HTMLElement will be removed from the dom
+		 * If this function return false, the element will not bein removed
+		 * @setting
+		 * @type 		{Function}
+		 * @default  	null
+		 */
+		onBeforeElDiscarded : null
 
 	};
 
@@ -258,12 +310,12 @@ export default class STemplate {
 		// bound some methods into the data
 		this.data.sTemplate = {
 			value : (of) => {
-				const idx = this.modelValuesStack.indexOf(of);
+				const idx = this._modelValuesStack.indexOf(of);
 				if (idx !== -1) {
 					return `object:${idx}`;
 				} else {
-					this.modelValuesStack.push(of);
-					const newIdx = this.modelValuesStack.length - 1;
+					this._modelValuesStack.push(of);
+					const newIdx = this._modelValuesStack.length - 1;
 					return `object:${newIdx}`;
 				}
 				return of;
@@ -319,8 +371,8 @@ export default class STemplate {
 			this._watcher.watch(this.data, name, (newVal, oldVal) => {
 				// make update only once
 				// by waiting next loop
-				clearTimeout(this.updateTimeout);
-				this.updateTimeout = setTimeout(() => {
+				clearTimeout(this._updateTimeout);
+				this._updateTimeout = setTimeout(() => {
 					// render the template again
 					this._internalRender();
 				});
@@ -348,9 +400,9 @@ export default class STemplate {
 
 	/**
 	 * setParentTemplate
-	 * Set the parent template instance
+	 * Set the parent STemplate instance.
+	 * This is needed if you want your template to talk together through attributes
 	 * @param 	{STemplate} 	template 	The parent template instance
-	 * @return 	{void}
 	 */
 	setParentTemplate(template) {
 		if ( ! template instanceof STemplate) {
@@ -361,13 +413,19 @@ export default class STemplate {
 
 	/**
 	 * Compile the template
+	 * @protected
+	 * @param 		{String} 	template 	The template to compile
+	 * @param 		{Object} 	data 		The data used to compile the template
+	 * @return		{String} 				The compiled template string
 	 */
-	compile(template, data) {
+	_compile(template, data) {
 		return template;
 	}
 
 	/**
 	 * Render the template
+	 * Usually, you don't need to call this by yourself. The template
+	 * will be rendered again each time that a data is updated
 	 */
 	render() {
 		this._internalRender();
@@ -378,17 +436,15 @@ export default class STemplate {
 	 */
 	_internalRender() {
 
-		// console.error('_internalRender', this.data);
-
 		// compile the template
 		let compiled = '';
 		if (this.settings.compile) {
 			compiled = this.settings.compile(this.templateString, this.data);
 		} else {
-			compiled = this.compile(this.templateString, this.data);
+			compiled = this._compile(this.templateString, this.data);
 		}
 		// process compiled template
-		compiled = this.processOutput(compiled);
+		compiled = this._processOutput(compiled);
 
 		// remove all the elements that need to be fully refreshed
 		[].forEach.call(this.dom.querySelectorAll('[s-template-refresh]'), (elm) => {
@@ -418,6 +474,14 @@ export default class STemplate {
 				// cause it's not our business
 				if (STemplate.isTemplate(fromNode)) {
 					return false;
+				}
+
+				// check if an onBeforeElUpdated is present in the settings
+				if (this.settings.onBeforeElChildrenUpdated) {
+					const res = this.settings.onBeforeElChildrenUpdated(fromNode, toNode);
+					if (res === true || res === false) {
+						return res;
+					}
 				}
 
 				// update the children
@@ -497,6 +561,14 @@ export default class STemplate {
 					|| node.hasAttribute('s-template-exclude')
 				) return false;
 
+				// check if an onBeforeElUpdated is present in the settings
+				if (this.settings.onBeforeElDiscarded) {
+					const res = this.settings.onBeforeElDiscarded(fromNode, toNode);
+					if (res === true || res === false) {
+						return res;
+					}
+				}
+
 				// discard the element
 				return true;
 			},
@@ -509,17 +581,17 @@ export default class STemplate {
 		});
 
 		// update refs
-		this.updateRefs();
+		this._updateRefs();
 
 		// listen for changes of datas in the DOM
 		// through the s-template-model attribute
-		this.listenDataChangesInDom();
+		this._listenDataChangesInDom();
 	}
 
 	/**
 	 * Update references
 	 */
-	updateRefs() {
+	_updateRefs() {
 		// reset refs
 		this.refs = {};
 		// save the element itself
@@ -534,9 +606,9 @@ export default class STemplate {
 	}
 
 	/**
-	 * _applyIntegrationOnNode
 	 * Apply the STemplate integration on a node that has
 	 * some components on it
+	 * @param 		{HTMLElement} 	 node 		The node on which to apply the integration
 	 */
 	_applyIntegrationOnNode(node) {
 		// check if is a component to render it
@@ -550,7 +622,7 @@ export default class STemplate {
 				// do not launch the integration function
 				if (component._sTemplateIntegrated !== true) {
 					const constructorName = __constructorName(component);
-					const integrationFn = STemplate.componentsIntegrationFnStack[constructorName];
+					const integrationFn = STemplate._componentsIntegrationFnStack[constructorName];
 					if (integrationFn) {
 						integrationFn(component);
 						component._sTemplateIntegrated = true;
@@ -559,7 +631,7 @@ export default class STemplate {
 					let proto = Object.getPrototypeOf(component);
 					while(proto) {
 						const constructorName = __constructorName(proto);
-						const integrationFn = STemplate.componentsIntegrationFnStack[constructorName];
+						const integrationFn = STemplate._componentsIntegrationFnStack[constructorName];
 						if (integrationFn) {
 							integrationFn(component);
 						}
@@ -571,7 +643,6 @@ export default class STemplate {
 	}
 
 	/**
-	 * _updateDataModelFromElement
 	 * Update the data model from an s-template-model element
 	 * @param 	{HTMLElement} 	element 	The s-template-model element
 	 */
@@ -590,7 +661,7 @@ export default class STemplate {
 		} else if (element.value.substr(0,7) === 'object:') {
 			const split = element.value.split(':');
 			const idx = split[1];
-			this.data[model] = this.modelValuesStack[idx];
+			this.data[model] = this._modelValuesStack[idx];
 		} else {
 			this.data[model] = __autoCast(element.value);
 		}
@@ -599,7 +670,7 @@ export default class STemplate {
 	/**
 	 * Listen for changes of datas in dom
 	 */
-	listenDataChangesInDom() {
+	_listenDataChangesInDom() {
 		// find elements that have a data binded into it
 		[].forEach.call(this.dom.querySelectorAll('[s-template-model]'), (elm) => {
 			// check if already binded
@@ -631,15 +702,15 @@ export default class STemplate {
 				)
 			) {
 				// try to find the model into the stack
-				const idx = this.modelValuesStack.indexOf(this.data[model]);
+				const idx = this._modelValuesStack.indexOf(this.data[model]);
 				// if we already have the value into the stack
 				if (idx !== -1) {
 					htmlVal = `object:${idx}`;
 				} else {
 					// we don't have the value into the stack
 					// add it and set the new htmlVal
-					this.modelValuesStack.push(this.data[model]);
-					const newIdx = this.modelValuesStack.length - 1;
+					this._modelValuesStack.push(this.data[model]);
+					const newIdx = this._modelValuesStack.length - 1;
 					htmlVal = `object:${newIdx}`;
 					// console.log('htmlVal', htmlVal);
 					// htmlVal = 'coco';
@@ -657,7 +728,8 @@ export default class STemplate {
 	}
 
 	/**
-	 * Append to
+	 * Append the template to an HTMLElement
+	 * @param 		{HTMLElement} 	to 		The element in which to append the template
 	 */
 	appendTo(element) {
 		element.appendChild(this.dom);
@@ -673,9 +745,11 @@ export default class STemplate {
 	}
 
 	/**
-	 * Process output
+	 * Process output to replace some things like the this., parent., etc...
+	 * @param 		{String} 		renderedTemplate 		The rendered template returned by the settings.compile function
+	 * @return 		{String} 								The processed template string
 	 */
-	processOutput(renderedTemplate) {
+	_processOutput(renderedTemplate) {
 		let ret = renderedTemplate;
 
 		// after compile callback
@@ -706,9 +780,7 @@ export default class STemplate {
 	}
 
 	/**
-	 * destroy
 	 * Destroy the template
-	 * @return 	{void}
 	 */
 	destroy() {
 		// remove the template data into window
@@ -720,5 +792,4 @@ export default class STemplate {
 		// remove datas
 		this.data = null;
 	}
-
 }

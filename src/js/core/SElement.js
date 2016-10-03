@@ -26,25 +26,58 @@ import STemplate from './STemplate'
 // components types
 let _sugarTypesSettings = {};
 
+
+/**
+ * @class 		SElement 		{SObject}
+ * This class allows to wrap an HTMLElement with a lot of useful features like:
+ * - Keep in sync element attributes with this.attr property
+ * - Complete and powerfull lifecycle management
+ *  	- When the element is added : `_onAdded`
+ *  	- The element is bein inited : `_init`
+ *  	- Life of your element...
+ *  	- The element is destroyed : `destroy`
+ *  		- Either by calling manually the `destroy` method...
+ *  		- ...or when the element is not in the dom anymore since the settings.autoDestroyTimeout
+ *  - Watch some element property through a simple `watch` method
+ *  - And more...
+ *
+ * @example 	js
+ * // create a new element
+ * class myElement extends SElement {
+ * 		constructor(elm) {
+ * 			super(elm);
+ * 		}
+ * 		_init() {
+ * 			super._init();
+ * 			// do something when my element is inited
+ * 		}
+ * 		_onAdded() {
+ * 			super._onAdded();
+ * 			// do something when my element is added to the dom
+ * 		}
+ * 		destroy() {
+ * 			// handle the destroy routine of my element
+ * 			super.destroy();
+ * 		}
+ * 		// my element methods here...
+ * }
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 class SElement extends SObject {
 
-	/**
-	 * Setup
-	 */
-	static setup(name, type, settings) {
-		if (! _sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
-		_sugarTypesSettings[name][type] = settings;
-	}
+	// static setup(name, type, settings) {
+	// 	if (! _sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
+	// 	_sugarTypesSettings[name][type] = settings;
+	// }
 
 	/**
-	 * elm
 	 * Store the actual DOM element that the SElement instance manage
 	 * @type 	{HTMLElement}
 	 */
 	elm = null;
 
 	/**
-	 * attr
 	 * Store the element attributes in object format
 	 * This object will reflect the HTML state into the dom
 	 * and will keep updated until the SElement instance has been destroyed
@@ -53,28 +86,24 @@ class SElement extends SObject {
 	attr = {};
 
 	/**
-	 * _watcher
 	 * Store the watcher instance
 	 * @type 	{SWatcher}
 	 */
 	_watcher = null;
 
 	/**
-	 * _binder
 	 * Store the binder instance
 	 * @type 	{SBinder}
 	 */
 	_binder = null;
 
 	/**
-	 * _elementAdded
 	 * Store if the element has been added to the dom
 	 * @type 	{Boolean}
 	 */
 	_elementAdded = false;
 
 	/**
-	 * _elementAttached
 	 * Store if the element is attached in another dom element
 	 * and this, even if the parent dom is only in memory
 	 * @type 	{Boolean}
@@ -82,7 +111,8 @@ class SElement extends SObject {
 	_elementAttached = false;
 
 	/**
-	 * Constructor
+	 * @constructor
+	 * @param 		{HTMLElement} 		elm 		The HTMLElement to handle
 	 */
 	constructor(elm) {
 
@@ -207,7 +237,8 @@ class SElement extends SObject {
 	}
 
 	/**
-	 * onRemoved
+	 * When the element has been removed from the dom
+	 * @protected
 	 */
 	_onRemoved() {
 		// if removed, it is detached also
@@ -217,7 +248,8 @@ class SElement extends SObject {
 	}
 
 	/**
-	 * On added
+	 * When the element has been added to the dom
+	 * @protected
 	 */
 	_onAdded() {
 		// track attached status
@@ -232,11 +264,10 @@ class SElement extends SObject {
 	}
 
 	/**
-	 * _onAttached
 	 * When the element is added to the dom but was living
 	 * in another element in memory and that the _onAdded method
 	 * has already been trigerred
-	 * @return 	{void}
+	 * @protected
 	 */
 	_onAttached() {
 		// track the attached status
@@ -249,10 +280,9 @@ class SElement extends SObject {
 	}
 
 	/**
-	 * _onDetached
 	 * When the element is not anymore in the current page
 	 * but still lives in another element in memory
-	 * @return 	{void}
+	 * @protected
 	 */
 	_onDetached() {
 		// track the attached status
@@ -260,15 +290,7 @@ class SElement extends SObject {
 	}
 
 	/**
-	 * render
-	 * Render the element
-	 */
-	render() {
-		this.elm.setAttribute('s-element', this.elementId);
-	}
-
-	/**
-	 * Destroy
+	 * Destroy element routine
 	 */
 	destroy() {
 
@@ -296,17 +318,18 @@ class SElement extends SObject {
 	}
 
 	/**
-	 * originalElement
-	 * Original element property
+	 * Original HTMLElement before any SElement manipulation
+	 * @name 	originalElement
+	 * @type 	{HTMLElement}
 	 */
 	get originalElement() {
 		return sElementsManager.getOriginalElement(this.elementId);
 	}
 
 	/**
-	 * remove
 	 * Remove the element from the dom
-	 * @return 	{SElement} 	The instance itself to maintain chainability
+	 * @param 	{HTMLElement} 	[elm=this.elm] 		The element to remove
+	 * @return 	{SElement} 							The SElement instance itself to maintain chainability
 	 */
 	remove(elm = this.elm) {
 		// save the next sibling
@@ -322,10 +345,10 @@ class SElement extends SObject {
 	}
 
 	/**
-	 * append
 	 * Append the element into the dom
-	 * @param 	{HTMLElement} 	to 		The container in which to append the element
-	 * @return 	{SElement} 				The instance itself to maintain chainability
+	 * @param 	{HTMLElement} 	[elm=this.elm] 	The element to append
+	 * @param 	{HTMLElement} 	[to=null] 		The container in which to append the element
+	 * @return 	{SElement} 						The instance itself to maintain chainability
 	 */
 	append(elm = this.elm, to = null) {
 
@@ -350,66 +373,37 @@ class SElement extends SObject {
 	}
 
 	/**
-	 * Watch
+	 * Watch a property on the SElement instance
+	 * @param 		{String} 		path 		The object property path to watch
+	 * @param 		{Function} 		cb 			The callback called when the property has been updated
 	 */
 	watch(path, cb) {
 		this._watcher.watch(this, path, cb);
 	}
 
 	/**
-	 * isElementAttached
 	 * Return if the element is attached into the dom or not
 	 * This mean that the element live into the DOM document. It this is false,
 	 * that mean that the element live into another HTML element into the memory
-	 * @return 		{Boolean} 	the attached status
+	 * @return 		{Boolean} 	The attached status
 	 */
 	isElementAttached() {
 		return this._elementAttached;
 	}
 
 	/**
-	 * isElementAdded
 	 * Return if the element is added into the dom or not
 	 * This mean that the element is has been added into the dom
 	 * but it can live into another HTML element in memory and not
 	 * in the document
-	 * @return 		{Boolean} 	the attached status
+	 * @return 		{Boolean} 	The attached status
 	 */
 	isElementAdded() {
 		return this._elementAdded;
 	}
 
-	/**
-	 * Get closest not visible element
-	 */
-	closestNotVisible(elm = this.elm) {
-		return __closestNotVisible(elm);
-	}
-
-	/**
-	 * Visible proxy init
-	 */
-	whenVisible(cb = null, elm = this.elm) {
-		return __whenVisible(elm, cb);
-	}
-
-	/**
-	 * Detect if is visible
-	 */
-	isVisible() {
-		return __isVisible(this.elm);
-	}
-
-	/**
-	 * Detect when the element is in the viewport
-	 */
-	isInViewport(offset = null) {
-		return __isInViewport(this.elm, offset);
-	}
-
-	/**
-	 * Access dataset
-	 */
+	// access dataset
+	// @TODO : remove this method
 	dataset(key, value = null, elm = this.elm) {
 		return __dataset(elm, key, value);
 	}

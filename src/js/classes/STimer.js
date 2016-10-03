@@ -1,12 +1,11 @@
 /**
- * @class STimer
+ * @class 		STimer
  * Class that let you create and handle timer with ease.
  * With this class you can set some callback function that will be
  * called each x ms or tell that you want your callbacks to be called
  * a certain number of time during the timer time.
  *
- * @name STimer
- * @example
+ * @example 	js
  * const myTimer = new STimer(2000, {
  * 		tickCount : 5
  * });
@@ -14,23 +13,22 @@
  * 		// do something here...
  * });
  * myTimer.start();
- * @lang js
+ *
+ * @author 		Olivier Bossel<olivier.bossel@gmail.com>
  */
 export default class STimer {
 
 	/**
 	 * Store the settings for the timer
 	 *
-	 * @property 	settings
 	 * @type 		{Object}
 	 */
-	settings = {
+	_settings = {
 
 		/**
 		 * Store the interval between ticks
 		 *
 		 * @setting
-		 * @name 		tickInterval
 		 * @type 		{Number}
 		 * @default 	1000
 		 */
@@ -40,7 +38,6 @@ export default class STimer {
 		 * Set the number of tick wanted
 		 *
 		 * @setting
-		 * @name 		tickCount
 		 * @type 		{Integer}
 		 * @default 	null
 		 */
@@ -50,7 +47,6 @@ export default class STimer {
 		 * Set if the timer has to loop
 		 *
 		 * @setting
-		 * @name 		loop
 		 * @type 		{Boolean}
 		 * @default 	false
 		 */
@@ -61,7 +57,6 @@ export default class STimer {
 	/**
 	 * Store the timer duration wanted
 	 *
-	 * @private
 	 * @type 	{Number}
 	 */
 	_duration = 0;
@@ -69,8 +64,6 @@ export default class STimer {
 	/**
 	 * Store the remaining time
 	 *
-	 * @private
-	 * @name 	_remaining
 	 * @type 	{Number}
 	 */
 	_remaining = 0;
@@ -78,8 +71,6 @@ export default class STimer {
 	/**
 	 * Computed value depending on the settings
 	 *
-	 * @private
-	 * @name 	_tickInterval
 	 * @type 	{Number}
 	 */
 	_tickInterval = 1000;
@@ -87,8 +78,6 @@ export default class STimer {
 	/**
 	 * Store all the functions to call on tick
 	 *
-	 * @private
-	 * @name 	_ticks
 	 * @type 	{Array}
 	 */
 	_ticks = [];
@@ -96,7 +85,6 @@ export default class STimer {
 	/**
 	 * Store all the functions to call on complete
 	 *
-	 * @private
 	 * @type 	{Array}
 	 */
 	_completes = [];
@@ -104,7 +92,6 @@ export default class STimer {
 	/**
 	 * Store the setInterval instance
 	 *
-	 * @private
 	 * @type 	{Number}
 	 */
 	_tickSetTimeout = null;
@@ -112,7 +99,6 @@ export default class STimer {
 	/**
 	 * Store the time when the timer is started
 	 *
-	 * @private
 	 * @type 	{Date}
 	 */
 	_startTime = null;
@@ -120,7 +106,6 @@ export default class STimer {
 	/**
 	 * Store the last tick time
 	 *
-	 * @private
 	 * @type 	{Date}
 	 */
 	_tickTime = null;
@@ -128,15 +113,11 @@ export default class STimer {
 	/**
 	 * Store the pause time
 	 *
-	 * @private
 	 * @type 	{Date}
 	 */
 	_pauseTime = null;
 
 	/**
-	 * Init the timer
-	 *
-	 * @public
 	 * @constructor
 	 * @param 	{number} 	[duration=1000] 		The duration of the timer in ms
 	 * @param 	{Object} 	settings 		The settings for the timer
@@ -146,22 +127,19 @@ export default class STimer {
 		this._duration = duration;
 
 		// updating settings
-		this.settings = Object.assign(this.settings, settings);
+		this._settings = Object.assign(this._settings, settings);
 
 		// calculate the tickInterval
-		if (this.settings.tickCount) {
-			this._tickInterval = this._duration / this.settings.tickCount; // remove 1 cause the first tick is always the start time
+		if (this._settings.tickCount) {
+			this._tickInterval = this._duration / this._settings.tickCount; // remove 1 cause the first tick is always the start time
 			this._tickInterval = Math.round(this._tickInterval);
 		} else {
-			this._tickInterval = this.settings.tickInterval;
+			this._tickInterval = this._settings.tickInterval;
 		}
 	}
 
 	/**
 	 * Internal tick function
-	 *
-	 * @private
-	 * @name 	_tick
 	 * @return 	{void}
 	 */
 	_tick() {
@@ -186,7 +164,7 @@ export default class STimer {
 				complete(this);
 			});
 			// check if need to loop
-			if (this.settings.loop) {
+			if (this._settings.loop) {
 				this.start();
 			}
 		} else {
@@ -200,9 +178,6 @@ export default class STimer {
 
 	/**
 	 * Return the remaining time in ms
-	 *
-	 * @public
-	 * @name 	remaining
 	 * @return 	{Number} 	The remaining time in ms
 	 */
 	remaining() {
@@ -211,17 +186,14 @@ export default class STimer {
 
 	/**
 	 * Set or get the duration
-	 *
-	 * @public
-	 * @name 	duration
 	 * @param	{Number} 	[duration=null]		Set the duration
 	 * @return 	{Number} 						The duration
 	 */
 	duration(duration = null) {
 		if (duration) {
 			this._duration = duration;
-			if (this.settings.tickCount) {
-				this._tickInterval = this._duration / this.settings.tickCount; // remove 1 cause the first tick is always the start time
+			if (this._settings.tickCount) {
+				this._tickInterval = this._duration / this._settings.tickCount; // remove 1 cause the first tick is always the start time
 				this._tickInterval = Math.round(this._tickInterval);
 			}
 		}
@@ -230,13 +202,8 @@ export default class STimer {
 
 	/**
 	 * Register a function called on tick
-	 *
-	 * @public
-	 * @name 	onTick
 	 * @param 	{Function} 	A function to call on tick
-	 * @example
-	 * const tick = this.tick();
-	 * @retun 	{STimer} 	The timer instance
+	 * @return 	{STimer} 	The timer instance
 	 */
 	onTick(fn) {
 		// add the function if not already
@@ -246,9 +213,6 @@ export default class STimer {
 
 	/**
 	 * Register a function called on complete
-	 *
-	 * @public
-	 * @name 	onComplete
 	 * @param 	{Function} 	A function to call on complete
 	 * @retun 	{STimer} 	The timer instance
 	 */
@@ -260,9 +224,6 @@ export default class STimer {
 
 	/**
 	 * Reset the timer
-	 *
-	 * @public
-	 * @name 	reset
 	 * @param 	{Boolean} 	start 	If the timer has to start after reseting or not
 	 * @return 	{STimer}
 	 */
@@ -284,9 +245,6 @@ export default class STimer {
 
 	/**
 	 * Start the timer
-	 *
-	 * @public
-	 * @name 	start
 	 * @return 	{STimer}
 	 */
 	start(duration = null) {
@@ -335,9 +293,6 @@ export default class STimer {
 
 	/**
 	 * Pause the timer
-	 *
-	 * @public
-	 * @name 	pause
 	 * @return 	{STimer}
 	 */
 	pause() {
@@ -354,9 +309,6 @@ export default class STimer {
 
 	/**
 	 * Stop the timer
-	 *
-	 * @public
-	 * @name 	stop
 	 * @return 	{STimer}
 	 */
 	stop() {
@@ -366,5 +318,4 @@ export default class STimer {
 		// maintain chainability
 		return this;
 	}
-
 }

@@ -19,6 +19,7 @@
  * 		// do something with the new response...
  * });
  *
+ * @see 		https://developers.google.com/custom-search/
  * @author 		Olivier Bossel<olivier.bossel@gmail.com>
  */
 

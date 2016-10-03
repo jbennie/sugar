@@ -1,25 +1,65 @@
-/*
- * Sugar-activate.js
-#
- * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
-#
- * @author   Olivier Bossel <olivier.bossel@gmail.com>
- * @created  20.01.16
- * @updated  20.01.16
- * @version  1.0.0
+/**
+ * @class 		SLocalStorageFonts
+ * This class allows to easily store and load custom fonts from the localStorage
+ *
+ * @example 	js
+ * new SLocalStorageFonts({
+ *  	json_path : '/fonts/fonts.json#v1'
+ * });
+ *
+ * // the fonts.json file looks like this
+ * {
+ * 		"fonts" : [{
+ *	  		"font-family" : "Open Sans",
+ *	    	"font-weight" : 300,
+ *      	"src" : "url(data:application/font-woff;base64,d09GRgA..."
+ *      }]
+ * }
+ *
+ * @author 		Olivier Bossel<olivier.bossel@gmail.com>
  */
-
-// Localstorage fonts
 class SLocalStorageFonts {
 
 	/**
-	 * Constructor
+	 * Settings
+	 * @type 	{Object}
+	 */
+	_settings = {
+
+		/**
+		 * Store the version of the fonts to load.
+		 * Used for cache busting
+		 * @setting
+		 * @type 		{String}
+		 * @default 	1.0
+		 */
+		version : 1.0,
+
+		/**
+		 * Set the json file to load
+		 * @setting
+		 * @type 		{String}
+		 * @default 	/fonts/fonts.json
+		 */
+		json_path : '/fonts/fonts.json',
+
+		/**
+		 * Set if want the debug messages in the console
+		 * @setting
+		 * @type 		{Boolean}
+		 * @default 	false
+		 */
+		debug : false
+
+	};
+
+	/**
+	 * @constructor
+	 * @param 		{Object} 	settings 	The settings
 	 */
 	constructor(settings = {}) {
-		this.settings = {
-			version : 1.0,
-			json_path : '/fonts/fonts.json',
-			debug : false,
+		this._settings = {
+			...this._settings,
 			...settings
 		};
 		// init
@@ -31,17 +71,17 @@ class SLocalStorageFonts {
 	 */
 	_init() {
 		// check cachebuster
-		let cb = this.settings.json_path.split('#');
+		let cb = this._settings.json_path.split('#');
 		if (cb.length == 2) {
-			this.settings.version = cb[1];
-			this.settings.json_path = cb[0];
+			this._settings.version = cb[1];
+			this._settings.json_path = cb[0];
 		}
 
 		try {
 			this._cache = window.localStorage.getItem('sugar-fonts');
 			if (this._cache) {
 				this._cache = JSON.parse(this._cache);
-				if (this._cache.version == this.settings.version) {
+				if (this._cache.version == this._settings.version) {
 					this._debug('No new version of you fonts');
 					this._insertFonts(this._cache.value);
 				} else {
@@ -62,7 +102,7 @@ class SLocalStorageFonts {
 				let request = new XMLHttpRequest(),
 					response = undefined;
 				console.log(this);
-				request.open('GET', this.settings.json_path, true);
+				request.open('GET', this._settings.json_path, true);
 				request.onload = () => {
 					if (request.status == 200) {
 						try {
@@ -83,7 +123,7 @@ class SLocalStorageFonts {
 							this._insertFonts(fontface);
 							// save fonts in localstorage
 							window.localStorage.setItem('sugar-fonts', JSON.stringify({
-								version : this.settings.version,
+								version : this._settings.version,
 								value : fontface
 							}));
 						} catch(e) {
@@ -110,7 +150,7 @@ class SLocalStorageFonts {
 	 * Debug
 	 */
 	_debug() {
-		if (this.settings.debug) {
+		if (this._settings.debug) {
 			console.log('SUGAR-LOCALSTORAGEFONTS', arguments);
 		}
 	}

@@ -95,7 +95,7 @@ gulp.task('clean-css', function() {
 });
 
 gulp.task('markdown-js-api', function() {
-    gulp.src('./src/js/classes/SAjax.js')
+    gulp.src('./src/js/core/*.js')
     .pipe(each(function(content, file, cb) {
         docblockParser(file, function(json) {
             let source = fs.readFileSync('./template.hbs', 'utf8');
@@ -104,7 +104,7 @@ gulp.task('markdown-js-api', function() {
                 data : json
             });
 			result = ent.decode(result);
-            cb(null, result.replace(/&#x60;/g,'`'));
+            cb(null, result);
         });
     }))
     .pipe(rename((path) => {

@@ -25,7 +25,9 @@ function _customTag(of, name) {
 
 Handlebars.registerHelper('methods', (data) => {
 	let res = [
+		'-----------------------------',
 		'## API',
+		'-----------------------------',
 		''
 	];
 	let areMethods = false;
@@ -46,11 +48,22 @@ Handlebars.registerHelper('methods', (data) => {
 
 function renderMethod(of) {
 	var res = [];
+
+	let title = of.name + '(' + renderInlineParams(of) + ')';
+	if (of.return) {
+		title += ' : ' + of.return.type;
+	}
+	if (of.static) {
+		title = `static ${title}`;
+	}
+
 	res = res.concat([
-		'### ' + of.name + '(' + renderInlineParams(of) + ')',
+		'### ' + title,
 		of.body,
-		renderParams(of),
+		(of.protected) ? '- Privacy : **Protected**' : (of.private) ? '- Privacy : **Private**' : '- Privacy : **Public**',
+		(of.static) ? '- **Static**' : '',
 		renderReturn(of),
+		renderParams(of),
 		renderExample(of)
 	]);
 	return res.join("\n");
@@ -62,7 +75,8 @@ Handlebars.registerHelper('class', (data) => {
 	if ( ! cls) return;
  	let res = [
 		`# ${cls.class.name}`,
-		cls.body
+		cls.class.body,
+		renderConstructor(data)
 	];
 	if (cls.class.extends) {
 		res.push(`- Extends **${cls.class.extends}**`);
@@ -99,7 +113,7 @@ Handlebars.registerHelper('example', renderExample);
 function renderReturn(of) {
 	if ( ! of.return) return;
 	return [
-		'Return **' + of.return.type + '** ' + of.return.description
+		'- Return : **' + of.return.type + '** : ' + of.return.description
 	].join("\n");
 }
 
@@ -114,7 +128,7 @@ function renderInlineParams(of) {
 		if (param.default) {
 			def = param.default;
 		}
-		let paramString = `${param.name}:${param.type}`;
+		let paramString = `${param.name} : ${param.type}`;
 		if (def) {
 			paramString += ` = ${def}`;
 		}
@@ -132,7 +146,7 @@ function renderParams(of) {
 	if ( ! of.params) return;
 	var res = [
 		'',
-		'Name | Type | Description | Optional | Default',
+		'Name | Type | Description | Status | Default',
 		'------------ | ------------ | ------------ | ------------ | ------------'
 	];
 	of.params.forEach(function(param) {
@@ -158,12 +172,16 @@ Handlebars.registerHelper('params', renderParams);
  */
 function renderConstructor(data) {
 	const constr = _.find(data, (item) => item.constructor === true);
-	if ( ! constr) return;
+	if ( ! constr) return '';
+	const params = renderParams(constr);
+	if ( ! params) return ''
 	return [
-		'### Constructor',
+		'-----------------------------',
+		'## Constructor',
+		'-----------------------------',
+		'',
 		constr.description,
-		'#### Parameters',
-		renderParams(constr)
+		params
 	].join("\n");
 }
 Handlebars.registerHelper('constructor', renderConstructor);
@@ -173,8 +191,9 @@ Handlebars.registerHelper('constructor', renderConstructor);
  */
 Handlebars.registerHelper('settings', (data) => {
 	var res = [
+		'-----------------------------',
 		'## Settings',
-		'Here\'s the available settings',
+		'-----------------------------',
 		''
 	];
 	let _hasSettings = false;
@@ -182,21 +201,57 @@ Handlebars.registerHelper('settings', (data) => {
 		const tag = data[i];
 		if ( ! tag.setting) continue;
 		_hasSettings = true;
+
+		let name = `${tag.name} : ${tag.type}`;
+		if (tag.default) {
+			name += ` = ${tag.default}`;
+		}
+
 		res = res.concat([
-			'### ' + tag.name
+			'### ' + name
 		]);
 		if (tag.body) {
 			res.push(tag.body);
 		}
-		if (tag.type) {
-			res.push(`- Type **${tag.type}**`);
-		}
-		if (tag.default) {
-			res.push(`- Default **${tag.default}**`);
-		}
 		res.push('');
 	}
 	if ( ! _hasSettings) return;
+	return res.join("\n");
+});
+
+
+/**
+ * Properties
+ */
+Handlebars.registerHelper('properties', (data) => {
+	var res = [
+		'-----------------------------',
+		'## Properties',
+		'-----------------------------',
+		''
+	];
+	let _hasProperties = false;
+	for(let i=0; i<data.length; i++) {
+		const tag = data[i];
+		if ( ! tag.type) continue;
+		if ( tag.private) continue;
+		if ( tag.setting) continue;
+		_hasProperties = true;
+
+		let name = `${tag.name} : ${tag.type}`;
+		if (tag.default) {
+			name += ` = ${tag.default}`;
+		}
+
+		res = res.concat([
+			'### ' + name
+		]);
+		if (tag.body) {
+			res.push(tag.body);
+		}
+		res.push('');
+	}
+	if ( ! _hasProperties) return;
 	return res.join("\n");
 });
 

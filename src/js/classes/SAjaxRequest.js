@@ -1,7 +1,8 @@
 /**
+ * @class 		SAjaxRequest
  * Class that represent an ajax request that will be passed to an SAjax instance
- * @class SAjaxRequest
- * @example js
+ *
+ * @example 	js
  * const request = new SAjaxRequest({
  *  	url : '/api/...',
  *  	method : 'GET',
@@ -9,19 +10,19 @@
  *  		myVar : 'myVal'
  *  	}
  * });
+ *
+ * @author 		Olivier Bossel<olivier.bossel@gmail.com>
  */
 export default class SAjaxRequest {
 
 	/**
 	 * The url to call
-	 * @name 	url
 	 * @type 	{String}
 	 */
 	url = null;
 
 	/**
 	 * The request method to use like GET, POST, DELETE or PUT
-	 * @name 		methods
 	 * @type 		{String}
 	 * @default 	GET
 	 */
@@ -29,7 +30,6 @@ export default class SAjaxRequest {
 
 	/**
 	 * Use the CORS or not (only for IE)
-	 * @name 		cors
 	 * @type 		{Boolean}
 	 * @default 	true
 	 */
@@ -37,7 +37,6 @@ export default class SAjaxRequest {
 
 	/**
 	 * Use the cache or not
-	 * @name 		cache
 	 * @type 		{Boolean}
 	 * @default 	true
 	 */
@@ -45,7 +44,6 @@ export default class SAjaxRequest {
 
 	/**
 	 * The data that will be sent with the request in JSON format
-	 * @name 		data
 	 * @type 		{Object}
 	 * @default 	null
 	 */
@@ -54,7 +52,6 @@ export default class SAjaxRequest {
 	/**
 	 * The data type expected from the response
 	 * Accepted dataType are : text | json | html
-	 * @name 		dataType
 	 * @type 		{String}
 	 * @default 	text
 	 */
@@ -62,7 +59,6 @@ export default class SAjaxRequest {
 
 	/**
 	 * Set the content type header to send with the request
-	 * @name 		contentType
 	 * @type 		{String}
 	 * @default 	null
 	 */
@@ -70,7 +66,6 @@ export default class SAjaxRequest {
 
 	/**
 	 * Set the X-Requested-With header
-	 * @name 		requestedWith
 	 * @type 		{String}
 	 * @default 	XMLHttpRequest
 	 */
@@ -78,7 +73,6 @@ export default class SAjaxRequest {
 
 	/**
 	 * Set the Authorization header
-	 * @name 		auth
 	 * @type 		{String}
 	 * @default 	null
 	 */
@@ -86,7 +80,6 @@ export default class SAjaxRequest {
 
 	/**
 	 * Set additional headers to send with the request
-	 * @name 		headers
 	 * @type 		{Object}
 	 * @default 	null
 	 */
@@ -105,8 +98,6 @@ export default class SAjaxRequest {
 
 	/**
 	 * Check the parameters passed to the request
-	 * @private
-	 * @name 	_checkParams
 	 * @param 	(Object) 	params 	 	The request params
 	 * @return 	{Boolean} 				True if params are ok, false if
 	 */

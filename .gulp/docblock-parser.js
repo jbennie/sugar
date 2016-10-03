@@ -1,6 +1,5 @@
 const readline = require('readline');
 const fs = require('fs');
-const utf8 = require('utf8');
 
 const _docblockBoolean = function(name, splits, data) {
 	data[name] = true;
@@ -63,11 +62,17 @@ const _docblockNextLineAnalyzerJs = function(line, data) {
 	if ( ! line) return;
 	// protected, private, etc...
 	if ( line.substr(0,1) === '_'
-		&& line.public === undefined
-		&& line.protected === undefined
-		&& line.private === undefined) {
+		&& data.public === undefined
+		&& data.protected === undefined
+		&& data.private === undefined) {
 		data.private = true;
 	}
+
+	// static
+	if (line.indexOf('static ') !== -1) {
+		data.static = true;
+	}
+	
 	// name
 	if ( ! data.name) {
 		const _l = line.replace('(',' ').replace(')',' ');
@@ -81,6 +86,7 @@ const _docblockNextLineAnalyzerJs = function(line, data) {
 				&& val !== 'export'
 				&& val !== 'extends'
 				&& val !== 'import'
+				&& val !== 'static'
 				&& ! val.match('.prototype.')
 			) {
 				// it's the name
@@ -139,7 +145,7 @@ export default function(file, cb, settings = {}) {
     });
 
 	lineReader.on('line', function(line) {
-	  
+
 	  // if the line is the first line
 	  // after a docblock
 	  if (_analyzeNextLine) {
@@ -242,7 +248,7 @@ export default function(file, cb, settings = {}) {
 		  return;
 	  } else {
 		  // the line is not a tag one
-		  currentTagValue.push(rawLine.trim().replace(/^\t*\*\s/,''));
+		  currentTagValue.push(rawLine.trim().replace(/^\t*\*\s?/,''));
 		  if ( ! currentTag) {
 		  	currentTag = 'description';
 		  }

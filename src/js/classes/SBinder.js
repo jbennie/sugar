@@ -1,5 +1,5 @@
 /**
- * @class 	SBinder
+ * @class 		SBinder
  * This class allows to bind properties between objects, object to HTMLElement attribute and vice versa.
  *
  * @example		js
@@ -28,8 +28,6 @@ export default class SBinder {
 
 	/**
 	 * Store all the bind objects settings
-	 * @private
-	 * @name 		_bindStack
 	 * @type 		{Object}
 	 */
 	_bindStack = {
@@ -40,8 +38,6 @@ export default class SBinder {
 	/**
 	 * Store all the mutation observers that are used to
 	 * be notified when attributes are updated
-	 * @private
-	 * @name 		_mutationObservedElementsStack
 	 * @type 		{Array}
 	 */
 	_mutationObservedElementsStack = [];
@@ -50,7 +46,6 @@ export default class SBinder {
 	 * Store for each binded HTMLElement if each binded attributes are
 	 * in digest phase to avoid multiple assignement of the same attribute
 	 * in each digest phase
-	 * @private
 	 * @type 		{Map}
 	 */
 	_digestsMutation = new Map();
@@ -65,7 +60,6 @@ export default class SBinder {
 
 	/**
 	 * Bind object path 2 object path
-	 * @name 		bindObjectPath2ObjectPath
 	 * @param 		{Object} 	object1 	The source object that will be watched
 	 * @param 		{String} 	path1 		The property path on the source object to watch
 	 * @param 		{Object} 	object2 	The destination object that will be updated
@@ -86,7 +80,6 @@ export default class SBinder {
 
 	/**
 	 * Bind element attribute to object path
-	 * @name 		bindElementAttribute2ObjectPath
 	 * @param 		{HTMLElement} 	elm 		The source html element that will be watched
 	 * @param 		{String} 		attribute  	The attribute name to watch on the element
 	 * @param 		{Object} 		object 		The destination object that will be updated
@@ -114,7 +107,6 @@ export default class SBinder {
 
 	/**
 	 * Bind object path to element attribute
-	 * @name 		bindObjectPath2ElementAttribute
 	 * @param 		{Object} 		object 		The source object that will be watched
 	 * @param 		{String} 		path 		The property path on the source object to watch
 	 * @param 		{HTMLElement}	elm 		The HTMLElement that will be updated
@@ -169,7 +161,6 @@ export default class SBinder {
 
 	/**
 	 * Destroy the binder
-	 * @name 		destroy
 	 */
 	destroy() {
 		// @TODO binder destroy implementation
@@ -177,7 +168,6 @@ export default class SBinder {
 
 	/**
 	 * Observe DOM element
-	 * @private
 	 * @param 		{HTMLElement} 	elm 	The element to watch
 	 */
 	_observeDomElement(elm) {

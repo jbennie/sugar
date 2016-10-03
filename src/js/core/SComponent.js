@@ -15,56 +15,105 @@ import STemplate from './STemplate'
 // components types
 let _sugarTypesSettings = {};
 
+/**
+ * @class 		SComponent 		{SElement}
+ * This class allows to wrap an HTMLElement with a lot of useful features like:
+ * - Settings management through API and element attributes
+ * - Keep in sync element attributes with this.attr property
+ * - Complete and powerfull lifecycle management
+ *  	- When the component is added : `_onAdded`
+ *  	- The component is bein inited : `_init`
+ *  	- The component is bein enabled : `enable`
+ *  	- Life of your component...
+ *  	- The component is destroyed : `destroy`
+ *  		- Either by calling manually the `destroy` method...
+ *  		- ...or when the component is not in the dom anymore since the settings.autoDestroyTimeout
+ *  	- The component is bein disabled : `disable`
+ *  - Watch some component property through a simple `watch` method
+ *  - Watch any settings update through the simple `watchSettings` method
+ *  - And more...
+ *
+ * @example 	js
+ * // create a new component
+ * class myComponent extends SComponent {
+ * 		constructor(elm, settings = {}, name = 'myComponent') {
+ * 			super(name, elm, {
+ * 				myCoolSettings : true
+ * 			}, settings)
+ * 		}
+ * 		_init() {
+ * 			super._init();
+ * 			// do something when my component is inited
+ * 		}
+ * 		_onAdded() {
+ * 			super._onAdded();
+ * 			// do something when my component is added to the dom
+ * 		}
+ * 		enable() {
+ * 			// do something when my component is enabled
+ * 			super.enable();
+ * 		}
+ * 		disable() {
+ * 			// do something when my component is disabled
+ * 			super.disable();
+ * 		}
+ * 		destroy() {
+ * 			// handle the destroy routine of my component
+ * 			super.destroy();
+ * 		}
+ * 		// my component methods here...
+ * }
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 class SComponent extends SElement {
 
-	/**
-	 * Setup
-	 */
-	static setup(name, type, settings) {
-		if (! _sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
-		_sugarTypesSettings[name][type] = settings;
-	}
+	// static setup(name, type, settings) {
+	// 	if (! _sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
+	// 	_sugarTypesSettings[name][type] = settings;
+	// }
 
 	/**
-	 * Settings
+	 * Store the component settings
+	 * @type 		{Object}
 	 */
 	settings = {
 
 		/**
-		 * initWhen
 		 * Define when the component has to be
 		 * initiated. It can be 'visible', 'inViewport', 'added', 'hover', 'click'
-		 * @type {String}
+		 * @setting
+		 * @type	{String}
 		 */
 		initWhen : null,
 
 		/**
-		 * autoDestroyTimeout
 		 * Define after how many time the component has to destroy itself
 		 * That starts when the component is not in the
 		 * dom of has been detached
 		 * -1 meand no auto destroy
+		 * @setting
 		 * @type 	{Number}
 		 */
 		autoDestroyTimeout : 5000,
 
 		/**
-		 * beforeInit
 		 * Callback before the component initialisation
+		 * @setting
 		 * @type 	{Function}
 		 */
 		beforeInit : null,
 
 		/**
-		 * afterInit
 		 * Callback after the component initialisation
+		 * @setting
 		 * @type 	{Function}
 		 */
 		afterInit : null,
 
 		/**
-		 * beforeDestroy
 		 * Callback before the component is destroyed
+		 * @setting
 		 * @type 	{Function}
 		 */
 		beforeDestroy : null,
@@ -72,134 +121,117 @@ class SComponent extends SElement {
 		/**
 		 * afterDestroy
 		 * Callback after the component has been destroyed
+		 * @setting
 		 * @type 	{Function}
 		 */
 		afterDestroy : null,
 
 		/**
-		 * onAdded
 		 * Callback when the element is added to the dom
+		 * @setting
 		 * @type 	{Function}
 		 */
 		onAdded : null,
 
 		/**
-		 * onRemoved
 		 * Callback when the element is removed from the dom
+		 * @setting
 		 * @type 	{Function}
 		 */
 		onRemoved : null,
 
 		/**
-		 * onAttached
 		 * Callback when the element is attached to the dom
+		 * @setting
 		 * @type 	{Function}
 		 */
 		onAttached : null,
 
 		/**
-		 * onDetached
 		 * Callback when the element is detached from the dom
+		 * @setting
 		 * @type 	{Function}
 		 */
 		onDetached : null,
 
 		/**
-		 * onEnabled
 		 * Callback when the element has just been enabled
+		 * @setting
 		 * @type 	{Function}
 		 */
 		onEnabled : null,
 
 		/**
-		 * onDisabled
 		 * Callback when the element has just been disabled
+		 * @setting
 		 * @type 	{Function}
 		 */
-		onDisabled : null,
-
-		/**
-		 * beforeRender
-		 * Callback before the render happens
-		 * @type 	{Function}
-		 */
-		beforeRender : null,
-
-		/**
-		 * afterRender
-		 * Callback after the render has appened
-		 * @type 	{Function}
-		 */
-		afterRender : null
+		onDisabled : null
 	};
 
 	/**
-	 * componentId
 	 * Store the component uniqid
 	 * @type 	{String}
 	 */
 	componentId = null;
 
 	/**
-	 * componentName
 	 * Store the name of the component in camelcase format
 	 * @type 	{String}
 	 */
 	componentName = null;
 
 	/**
-	 * componentNameDash
 	 * Store the name of the component in dash format 's-date-...'
 	 * @type 	{String}
 	 */
 	componentNameDash = null;
 
 	/**
-	 * _componentAutoDestroyTimeout
 	 * Store the auto destroy timeout
 	 * @type 	{Number}
 	 */
 	_componentAutoDestroyTimeout = null;
 
 	/**
-	 * _componentAppliedComponentAsTag
 	 * Store if the component is applied as a tag
 	 * @type 	{Boolean}
 	 */
 	_componentAppliedComponentAsTag = false;
 
 	/**
-	 * _componentInited
 	 * Track if the component is already inited or not
 	 * @type 	{Boolean}
 	 */
 	_componentInited = false;
 
 	/**
-	 * _componentEnabled
 	 * Track if the component is enabled or not
 	 * @type 	{Boolean}
 	 */
 	_componentEnabled = true;
 
 	/**
-	 * _componentEnabledBeforeRemoved
 	 * Track if the component was enabled before remove from the dom
 	 * @type 	{Boolean}
 	 */
 	_componentEnabledBeforeRemoved = true;
 
 	/**
-	 * _componentDestroyed
 	 * Track if the component has been destroyed
 	 * @type 	{Boolean}
 	 */
 	_componentDestroyed = false;
 
-	_settings2AttributesBindings = {};
+
+	// _settings2AttributesBindings = {};
 
 	/**
-	 * Constructor
+	 * @constructor
+	 * @param 		{String} 		name 					The component name in camelcase
+	 * @param 		{HTMLElement} 	elm 					The HTMLElement handled by this component
+	 * @param 		{Object} 		[default_settings={}]	The default settings of the component
+	 * @param 		{Object} 		[settings={}] 			The settings passed to the component
 	 */
 	constructor(name, elm, default_settings = {}, settings = {}) {
 
@@ -290,7 +322,7 @@ class SComponent extends SElement {
 				let attrValue = __autoCast(this.elm.getAttribute(attrName));
 
 				// set that we want to bind this attribute to the setting object property
-				this._settings2AttributesBindings[settingName] = attrName;
+				// this._settings2AttributesBindings[settingName] = attrName;
 
 				// if the element has not the requested linked attribute, we set it
 				if (attrValue === null) {
@@ -338,6 +370,7 @@ class SComponent extends SElement {
 
 	/**
 	 * Init component
+	 * @protected
 	 */
 	_init() {
 		this.settings.beforeInit && this.settings.beforeInit(this);
@@ -347,20 +380,8 @@ class SComponent extends SElement {
 	}
 
 	/**
-	 * render
-	 * Render the html element
-	 */
-	render() {
-		this.settings.beforeRender && this.settings.beforeRender(this);
-		super.render();
-		this.elm.setAttribute('s-component', true);
-		this.settings.afterRender && this.settings.afterRender(this);
-	}
-
-	/**
-	 * _onAdded
 	 * When the component is added to the dom
-	 * @return 	{void}
+	 * @protected
 	 */
 	_onAdded() {
 		// super added
@@ -385,9 +406,8 @@ class SComponent extends SElement {
 	}
 
 	/**
-	 * _onRemoved
 	 * When the component is removed from the dom
-	 * @return 	{void}
+	 * @protected
 	 */
 	_onRemoved() {
 		// track the enable status before removing the element
@@ -403,11 +423,10 @@ class SComponent extends SElement {
 	}
 
 	/**
-	 * _onAttached
 	 * When the element is added to the dom but was living
 	 * in another element in memory and that the _onAdded method
 	 * has already been trigerred
-	 * @return 	{void}
+	 * @protected
 	 */
 	_onAttached() {
 		// if the element has not been already
@@ -432,10 +451,9 @@ class SComponent extends SElement {
 	}
 
 	/**
-	 * _onDetached
 	 * When the element is not anymore in the current page
 	 * but still lives in another element in memory
-	 * @return 	{void}
+	 * @protected
 	 */
 	_onDetached() {
 		// track the enable status before removing the element
@@ -454,7 +472,6 @@ class SComponent extends SElement {
 	 * _autoDestroy
 	 * Destroy the component after a certain time
 	 * that it's not anymore in the dom
-	 * @return 	{void}
 	 */
 	_autoDestroy() {
 		if (this.settings.autoDestroyTimeout === -1) return;
@@ -466,9 +483,8 @@ class SComponent extends SElement {
 	}
 
 	/**
-	 * disable
 	 * Disable the component
-	 * @return 	{SComponent}
+	 * @return 		{SComponent} 	The component instance itself
 	 */
 	disable() {
 		this._componentEnabled = false;
@@ -479,9 +495,8 @@ class SComponent extends SElement {
 	}
 
 	/**
-	 * enable
 	 * Enable the component
-	 * @return 	{SComponent}
+	 * @return  	{SComponent}	The component instance itself
 	 */
 	enable() {
 		this._componentEnabled = true;
@@ -492,9 +507,8 @@ class SComponent extends SElement {
 	}
 
 	/**
-	 * destroy
 	 * Destroy routine
-	 * @return 	{SComponent}
+	 * @return  	{SComponent}	The component instance itself
 	 */
 	destroy() {
 		// stop listening for element add and remove
@@ -521,33 +535,13 @@ class SComponent extends SElement {
 	}
 
 	/**
-	 * componentItemSelector
-	 * Return the correct selector for the component item wanted
-	 * @param 	{String} 	itemName 		The item name to get
-	 * @return 	{String} 					The component item selector
-	 */
-	componentItemSelector(itemName) {
-		return `[${this.componentNameDash}-${__uncamelize(itemName)}]`;
-	}
-
-	/**
-	 * componentItemAttributeName
-	 * Return the correct attribute for the component item wanted
-	 * @param 	{String} 	itemName 		The item name to get
-	 * @return 	{String} 					The component attribute iten name
-	 */
-	componentItemAttributeName(itemName) {
-		return `${this.componentNameDash}-${__uncamelize(itemName)}`;
-	}
-
-	/**
 	 * componentClassName
 	 * Set a class that will be construct with the componentNameDash,
 	 * an optional element and modifier
-	 * @param 	{String} 	element 	The element name
-	 * @param 	{String} 	modifier 	The modifier name
-	 * @param 	{String} 	state 		The state name
-	 * @return 	{String} 				The generated class
+	 * @param 	{String} 	[element=null] 		The element name
+	 * @param 	{String} 	[modifier=null] 	The modifier name
+	 * @param 	{String} 	[state=null] 		The state name
+	 * @return 	{String} 						The generated class
 	 */
 	componentClassName(element = null, modifier = null, state = null) {
 		// if the method is BEM
@@ -577,13 +571,11 @@ class SComponent extends SElement {
 	}
 
 	/**
-	 * componentSelector
-	 * Set a class that will be construct with the componentNameDash,
-	 * an optional element and modifier
-	 * @param 	{String} 	element 	The element name
-	 * @param 	{String} 	modifier 	The modifier name
-	 * @param 	{String} 	state 		The state name
-	 * @return 	{String} 				The generated class
+	 * Get a component selector class built with the passed element, modifier and state parameters
+	 * @param 	{String} 	[element=null] 		The element name
+	 * @param 	{String} 	[modifier=null] 	The modifier name
+	 * @param 	{String} 	[state=null] 		The state name
+	 * @return 	{String} 						The generated class
 	 */
 	componentSelector(element = null, modifier = null, state = null) {
 		let sel = this.componentClassName(element, modifier, state);
@@ -593,13 +585,12 @@ class SComponent extends SElement {
 
 	/**
 	 * hasComponentClass
-	 * Check if the passed element has the component class
-	 * generated by the element and modifier argument
-	 * @param 	{HTMLElement} 	elm 	The element to check
-	 * @param 	{String} 	element 	The element name
-	 * @param 	{String} 	modifier 	The modifier name
-	 * @param 	{String} 	state 		The state name
-	 * @return 	{Boolean} 				The check result
+	 * Check if the passed element has the component class generated by the element and modifier argument
+	 * @param 	{HTMLElement} 	elm 				The element to check
+	 * @param 	{String} 		[element=null] 		The element name
+	 * @param 	{String} 		[modifier=null] 	The modifier name
+	 * @param 	{String} 		[state=null] 		The state name
+	 * @return 	{Boolean} 							The check result
 	 */
 	hasComponentClass(elm, element = null, modifier = null, state = null) {
 		// generate the class
@@ -617,12 +608,11 @@ class SComponent extends SElement {
 	}
 
 	/**
-	 * addComponentClass
-	 * Set a class that will be construct with the componentNameDash,
-	 * an optional element and modifier
-	 * @param 	{String} 	element 	The element name
-	 * @param 	{String} 	modifier 	The modifier name
-	 * @param 	{String} 	state 		The state name
+	 * Add a class on the passed element that will be construct with the componentNameDash,
+	 * an optional element, modifier and state
+	 * @param 	{String} 	[element=null] 		The element name
+	 * @param 	{String} 	[modifier=null] 	The modifier name
+	 * @param 	{String} 	[state=null] 		The state name
 	 * @return 	{SComponent}} 			The component itself
 	 */
 	addComponentClass(elm, element = null, modifier = null, state = null) {
@@ -648,13 +638,12 @@ class SComponent extends SElement {
 	}
 
 	/**
-	 * removeComponentClass
-	 * Set a class that will be construct with the componentNameDash,
-	 * an optional element and modifier
-	 * @param 	{String} 	element 	The element name
-	 * @param 	{String} 	modifier 	The modifier name
-	 * @param 	{String} 	state 		The state name
-	 * @return 	{SComponent}} 			The component itself
+	 * Remove a class on the passed element that will be construct with the componentNameDash,
+	 * an optional element, modifier and state
+	 * @param 	{String} 	[element=null] 		The element name
+	 * @param 	{String} 	[modifier=null] 	The modifier name
+	 * @param 	{String} 	[state=null] 		The state name
+	 * @return 	{SComponent}} 					The component itself
 	 */
 	removeComponentClass(elm, element = null, modifier = null, state = null) {
 		// if is an array
@@ -676,34 +665,6 @@ class SComponent extends SElement {
 		});
 		// return the instance to maintain chainability
 		return this;
-	}
-
-	/**
-	 * setComponentItemName
-	 * Set the item name to an element
-	 * @param 	{HTMLElement} 	elm 		The element to process
-	 * @param 	{String} 		name 		The name
-	 * @return 	{HTMLElement} 				The element
-	 */
-	setComponentItemName(elm, name) {
-		const attrName = `${this.componentNameDash}-${__uncamelize(name)}`;
-		if ( elm.hasAttribute(attrName)) return elm;
-		elm.setAttribute(attrName,true);
-		return elm;
-	}
-
-	/**
-	 * removeComponentItemName
-	 * Remote the item name from an element
-	 * @param 	{HTMLElement} 	elm 		The element to process
-	 * @param 	{String} 		name 		The name
-	 * @return 	{HTMLElement} 				The element
-	 */
-	removeComponentItemName(elm, name) {
-		const attrName = `${this.componentNameDash}-${__uncamelize(name)}`;
-		if ( ! elm.hasAttribute(attrName)) return elm;
-		elm.removeAttribute(attrName);
-		return elm;
 	}
 
 	/**
@@ -790,10 +751,8 @@ class SComponent extends SElement {
 	}
 
 	/**
-	 * watchSettings
 	 * Watch all settings
 	 * @param 	{Function} 	callback	The callback to launch when a setting has changed
-	 * @return 	{void}
 	 */
 	watchSettings(cb) {
 		let timeout = null;
@@ -825,7 +784,6 @@ class SComponent extends SElement {
 	}
 
 	/**
-	 * isDestroyed
 	 * Return if the component has been destroyed
 	 * @return 	{Boolean} 		destroyed status
 	 */
@@ -834,7 +792,6 @@ class SComponent extends SElement {
 	}
 
 	/**
-	 * isDisabled
 	 * Return if the component is disabled
 	 * @return 	{Boolean}		disable status
 	 */
@@ -843,7 +800,6 @@ class SComponent extends SElement {
 	}
 
 	/**
-	 * isEnabled
 	 * Return is the component is enabled
 	 * @return 	{Boolean} 		enable status
 	 */
