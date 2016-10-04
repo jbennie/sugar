@@ -1,6 +1,23 @@
 import __camelize from '../utils/string/camelize'
 import __autoCast from '../utils/string/autoCast'
 
+/**
+ * Transform a style string to an object representation
+ *
+ * @name 		styleString2Object
+ * @param 		{String} 				style 			The style string
+ * @return 		(Object) 								The string object representation
+ *
+ * @example 	js
+ * import styleString2Object from 'sugarcss/js/dom/styleString2Object'
+ * const styleString = styleString2Object('padding-left:20px; display:block;');
+ * // output => {
+ * //		paddingLeft : '20px',
+ * // 		display : 'block'
+ * // }
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 export default function styleString2Object(style) {
 	if ( ! style || style === '') return {};
 	let obj = {};

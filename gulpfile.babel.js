@@ -95,9 +95,11 @@ gulp.task('clean-css', function() {
 });
 
 gulp.task('markdown-js-api', function() {
-    gulp.src('./src/js/core/*.js')
+    gulp.src('./src/js/**/*.js')
     .pipe(each(function(content, file, cb) {
         docblockParser(file, function(json) {
+
+
             let source = fs.readFileSync('./template.hbs', 'utf8');
             let template = Handlebars.compile(source);
             let result = template({

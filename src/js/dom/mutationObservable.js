@@ -2,6 +2,24 @@ import _isEqual from 'lodash/isEqual';
 import 'rxjs/add/operator/share'
 import {Observable} from 'rxjs/Observable'
 
+/**
+ * Observe mutations on an HTMLElement and get them through the observable subscription
+ *
+ * @name 		mutationObservable
+ * @param 		{HTMLElement} 					target 		The element to observe
+ * @param 		{MutationObserverInit} 			settings 	The mutation observer settings
+ * @return 		{Observable} 								The mutation observable
+ *
+ * @example  	js
+ * import mutationObservable from 'sugarcss/js/dom/mutationObservable'
+ * mutationObservable(myCoolHTMLElement).subscribe((mutation) => {
+ * 		// do something with the mutation
+ * });
+ *
+ * @see 		https://developer.mozilla.org/en/docs/Web/API/MutationObserver
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+
 const selectorsStack = [];
 
 // save nodes that's have a mutation observer on it

@@ -1,12 +1,34 @@
 import uniqid from '../utils/uniqid'
 
+/**
+ * @class 			SSvgFilter
+ * This class allows you to create with ease some complexe SVG filters and to apply it on any HTMLElement that you want
+ * by extending this class like so
+ *
+ * @example 		js
+ * class MyBlurFilter extends SSvgFilter {
+ *
+ * 		constructor(amount = 8) {
+ * 			super(`
+ * 				<feGaussianBlur in="SourceGraphic" stdDeviation="${amount}" result="blur" />
+ * 			`);
+ * 		}
+ * }
+ *
+ * // using your filter
+ * const myFilter = new MyBlurFilter(10);
+ * myFilter.applyTo(myCoolHTMLElement);
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
+
 let _sSvgFilters = [];
 let _sIsSvgInjected = false;
-
 export default class SSvgFilter {
 
 	/**
-	 * Constructor
+	 * @constructor
+	 * @param 			{String} 			The SVG filter string representation
 	 */
 	constructor(filter_content) {
 
@@ -28,6 +50,7 @@ export default class SSvgFilter {
 
 	/**
 	 * Apply the filter to an element
+	 * @param 		{HTMLElement} 			elm 			The element on which to apply the filter
 	 */
 	applyTo(elm) {
 		['-webkit-','-moz-','-ms-','-o-',''].forEach((vendor) => {
@@ -38,6 +61,7 @@ export default class SSvgFilter {
 
 	/**
 	 * Unapply from
+	 * @param 		{HTMLElement} 			elm 			The element from which to remove the filter
 	 */
 	unapplyFrom(elm) {
 		['-webkit-','-moz-','-ms-','-o-',''].forEach((vendor) => {
@@ -71,7 +95,7 @@ export default class SSvgFilter {
 	}
 
 	/**
-	 * Destroy
+	 * Destroy the filter
 	 */
 	destroy() {
 		// loop on each element savec in stack to remove the filter
@@ -83,7 +107,8 @@ export default class SSvgFilter {
 	}
 
 	/**
-	 * Inject svg
+	 * Inject the svg that will contains all the filters created through this class
+	 * @private
 	 */
 	static _injectFiltersContainer() {
 		let style = ['position:absolute;','left:-1000px;','top:-300px;'];

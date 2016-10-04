@@ -9,7 +9,6 @@ import __autoCast from '../utils/string/autoCast';
 import __matches from '../dom/matches';
 import __uniqid from '../utils/uniqid';
 import querySelectorLive from '../dom/querySelectorLive';
-import __outerHTML from '../dom/outerHTML';
 import __strToHtml from '../utils/string/strToHtml'
 import __constructorName from '../utils/objects/constructorName'
 import __closest from '../dom/closest'

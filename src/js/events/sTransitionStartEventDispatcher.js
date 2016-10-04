@@ -1,15 +1,12 @@
-/*
- * Sugar-activate.js
-#
- * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
-#
- * @author   Olivier Bossel <olivier.bossel@gmail.com>
- * @created  20.01.16
- * @updated  20.01.16
- * @version  1.0.0
+/**
+ * @class 			STransitionstartEventDispatcher
+ * This class does polyfill the transitionstart event that not actually exist for now in the DOM spec.
+ * It works in conjunction of the use of the `s-transition` sass mixin.
+ * To use this class, you just need to import it into your codebase, that's it!
+ *
+ * @example 	js
+ * require('sugarcss/js/events/STransitionstartEventDispatcher');
  */
-
-// Actual activate element class
 class STransitionstartEventDispatcher {
 
 	/**

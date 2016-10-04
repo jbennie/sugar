@@ -1,22 +1,24 @@
-/*
- * Sugar-activate.js
-#
- * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
-#
- * @author   Olivier Bossel <olivier.bossel@gmail.com>
- * @created  20.01.16
- * @updated  20.01.16
- * @version  1.0.0
- */
 import __offset from '../dom/offset'
 import SSvgFilter from './SSvgFilter'
 require('../events/sTransitionStartEventDispatcher');
 
-// motionblur filter
+/**
+ * @class 			SMotionblurSvgFilter 			{SSvgFilter}
+ * This class represent a motion blur svg filter that will blur your
+ * element depending on his movements, direction and speed
+ *
+ * @example 		js
+ * const filter = new SMotionblurSvgFilter();
+ * filter.applyTo(myCoolHTMLElement);
+ * // now when your element will move, it will be blured accordingly
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 class SMotionblurSvgFilter extends SSvgFilter {
 
 	/**
-	 * Constructor
+	 * @constructor
+	 * @param 		{Number} 		amount 			The motion blur amount
 	 */
 	constructor(amount = 0.5) {
 		super(`
@@ -36,7 +38,9 @@ class SMotionblurSvgFilter extends SSvgFilter {
 	}
 
 	/**
-	 * Apply to element (override)
+	 * Apply the filter to element
+	 * @override
+	 * @param 		{HTMLElement} 		elm 		The element on which to apply the filter
 	 */
 	applyTo(elm) {
 		// call parent method
@@ -51,10 +55,9 @@ class SMotionblurSvgFilter extends SSvgFilter {
 	}
 
 	/**
-	 * unapplyFrom
-	 * Remove the effect
-	 * @param 	{HTMLElement} 	elm 	The element to unapply the effect
-	 * @return 	{void}
+	 * Remove the filter from element
+	 * @override
+	 * @param 	{HTMLElement} 	elm 	The element to unapply the filter from
 	 */
 	unapplyFrom(elm) {
 		// remove event listeners
@@ -69,6 +72,7 @@ class SMotionblurSvgFilter extends SSvgFilter {
 
 	/**
 	 * Handle filter
+	 * @param 		{Boolean} 		recusrive 			If the function need to be called again at the end of it's execution
 	 */
 	_handleFilter(recusrive) {
 		if ( ! recusrive) {
@@ -116,9 +120,8 @@ class SMotionblurSvgFilter extends SSvgFilter {
 	}
 
 	/**
-	 * destroy
 	 * Destroy the filter
-	 * @return 	{void}
+	 * @override
 	 */
 	destroy() {
 		cancelAnimationFrame(this._animationFrame);

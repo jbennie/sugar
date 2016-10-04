@@ -1,9 +1,23 @@
 import linkLoaded from './linkLoaded';
-// import Pro from 'promise-polyfill'
-// if ( ! window.Promise) {
-// 	window.Promise = Pro;
-// }
-
+/**
+ * Wait until all the HTMLLinkElement's are properly loaded
+ *
+ * @name 		stylesheetsReady
+ * @param 		{Array}<HTMLLinkElement> 		links 			The HTMLLinkElement tags to process
+ * @param 		{Function} 						[cb=null] 		An optional callback function to call when all the links are loaded
+ * @return 		{Promise} 										The promise that will be resolved when all the links are loaded
+ *
+ * @example 	js
+ * import stylesheetsReady from 'sugarcss/js/dom/stylesheetsReady'
+ * stylesheetsReady([
+ * 		myHTMLLinkElement1,
+ * 		myHTMLLinkElement2
+ * ]).then(() => {
+ * 		// do something when all the links are loaded
+ * });
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 export default function stylesheetsReady(links, cb = null) {
 
 	let neededStylesheetsStack = links;
@@ -49,7 +63,6 @@ export default function stylesheetsReady(links, cb = null) {
 				[].forEach.call(neededStylesheetsStack, (link) => {
 					// check loaded
 					linkLoaded(link).then((link) => {
-						console.log('loaded', link.href);
 						// update the loaded stylesheet count
 						loadedStylesheedsCount++;
 						// check if all stylesheets has been loaded
@@ -64,7 +77,6 @@ export default function stylesheetsReady(links, cb = null) {
 							});
 						}
 					}, (error) => {
-						console.log('COCO', error);
 						// something goes wrong...
 						console.error('The following link as not been loaded properly...', error);
 					});

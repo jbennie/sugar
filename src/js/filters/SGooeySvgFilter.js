@@ -1,22 +1,21 @@
-/*
- * Sugar-activate.js
-#
- * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
-#
- * @author   Olivier Bossel <olivier.bossel@gmail.com>
- * @created  20.01.16
- * @updated  20.01.16
- * @version  1.0.0
- */
 import SSvgFilter from './SSvgFilter'
 
+
 /**
- * Svg filter
+ * @class 			SGooeySvgFilter 			{SSvgFilter}
+ * This class represent a gooey SVG filter that can be applied on any HTMLElement.
+ *
+ * @example 		js
+ * const filter = new SGooeySvgFilter();
+ * filter.applyTo(myCoolHTMLElement);
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
  */
 class SGooeySvgFilter extends SSvgFilter {
 
 	/**
-	 * Constructor
+	 * @constructor
+	 * @param 		{Number} 		amount 		The amount of effect to apply
 	 */
 	constructor(amount = 8) {
 		super(`
@@ -29,14 +28,16 @@ class SGooeySvgFilter extends SSvgFilter {
 	}
 
 	/**
-	 * Set blur
+	 * The blur amount to produce the effect
+	 * @type 	{Number}
 	 */
 	set blur(value) {
 		this._blur.setAttribute('stdDeviation', value);
 	}
 
 	/**
-	 * Set contrast
+	 * The contrast amount to produce the effect
+	 * @type 	{Number}
 	 */
 	set contrast(value) {
 		// get value
@@ -49,7 +50,8 @@ class SGooeySvgFilter extends SSvgFilter {
 	}
 
 	/**
-	 * Set shrink
+	 * The shrink amount to produce the effect
+	 * @type 	{Number}
 	 */
 	set shrink(value) {
 		// get value
@@ -62,7 +64,8 @@ class SGooeySvgFilter extends SSvgFilter {
 	}
 
 	/**
-	 * Set amount
+	 * The overall amount of effect to produce
+	 * @type 	{Number}
 	 */
 	set amount(value) {
 		this._blur.setAttribute('stdDeviation', value);

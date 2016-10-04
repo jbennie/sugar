@@ -72,7 +72,7 @@ const _docblockNextLineAnalyzerJs = function(line, data) {
 	if (line.indexOf('static ') !== -1) {
 		data.static = true;
 	}
-	
+
 	// name
 	if ( ! data.name) {
 		const _l = line.replace('(',' ').replace(')',' ');
@@ -255,7 +255,6 @@ export default function(file, cb, settings = {}) {
 	  }
     });
     lineReader.on('close', function() {
-	console.log(res);
 	  return cb(res);
     });
 };

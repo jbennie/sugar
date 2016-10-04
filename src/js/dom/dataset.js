@@ -1,8 +1,6 @@
-/**
- * Access dataset
- */
 import uncamelize from '../utils/string/uncamelize'
 
+// @TODO : delete this method and find a way to replace it by a polyfill
 export default function dataset(elm, key, value = null) {
 	if ( ! elm.getAttribute) return;
 	if ( ! value) {

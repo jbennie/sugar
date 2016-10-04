@@ -1,11 +1,19 @@
 /**
- * Detect when an image is loaded
+ * Wait until the passed HTMLLinkElement is fully loaded
+ *
+ * @name 		linkLoaded
+ * @param 		{HTMLLinkElement} 			link  		The link tag to check the loading state
+ * @param 		{Function}					[cb=null] 	An optional callback to call
+ * @return 		{Promise} 								The promise that will be resolved
+ *
+ * @example  	js
+ * import linkLoaded from 'sugarcss/js/dom/linkLoaded'
+ * linkLoaded(myCoolHTMLLinlElement).then((link) => {
+ * 		// do something when the link is loaded
+ * });
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-// import Pro from 'promise-polyfill'
-// if ( ! window.Promise) {
-// 	window.Promise = Pro;
-// }
-
 function alreadyLoaded(link) {
 	const href = link.href;
 	let result = false;
@@ -37,12 +45,12 @@ export default function linkLoaded(link, callback = null) {
 			const img = document.createElement('img');
 
 			// wait until loaded
-			console.log('CHECK LOADING', link.href);
+			// console.log('CHECK LOADING', link.href);
 			// we load the css into an image
 			// when the image is in error more
 			// that mean that the css is loaded
 			img.addEventListener('error', (e) => {
-				console.log('LOADED', e);
+				// console.log('LOADED', e);
 				// resolve the promise
 				resolve(link);
 				// callback if exist

@@ -1,3 +1,21 @@
+/**
+ * Proxy to the HTMLElement.getBoundingClientRect function.
+ * This proxy make some optimisations like it store in cache the
+ * result in the element while no invalidate actions has been made
+ * like scrolling or resizing the window...
+ *
+ * @name 		closest
+ * @param 		{HTMLElement} 					elm  		The element to start on
+ * @return 		{Object} 									The bouding client rect object
+ *
+ * @example  	js
+ * import getBoundingClientRect from 'sugarcss/js/dom/getBoundingClientRect'
+ * const rect = getBoundingClientRect(myCoolHTMLElement);
+ *
+ * @see 		https://developer.mozilla.org/en/docs/Web/API/Element/getBoundingClientRect
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+
 let elmStack = [];
 document.addEventListener('scroll', invalidate);
 document.addEventListener('resize', invalidate);
