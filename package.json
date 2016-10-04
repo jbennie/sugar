@@ -4,7 +4,7 @@
   "version": "1.0.4",
   "main": "js/index.js",
   "scripts": {
-	"doc": "node ./public/app.js",
+    "doc": "node ./public/app.js",
     "install": "./scripts/install.sh"
   },
   "repository": {
@@ -89,7 +89,6 @@
     "handlebars": "^4.0.5",
     "inline-style-prefixer": "^0.6.3",
     "install": "^0.8.1",
-    "koa": "^1.2.4",
     "mocha": "^2.5.3",
     "mocha-logger": "^1.0.3",
     "node-sass": "^3.4.2",
