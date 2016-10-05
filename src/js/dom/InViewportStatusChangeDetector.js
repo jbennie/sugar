@@ -2,28 +2,30 @@ import __whenInViewport from './whenInViewport'
 import __whenOutOfViewport from './whenOutOfViewport'
 import __isInViewport from './isInViewport'
 
+/**
+ * @class 		InViewportStatusChangeDetector
+ * This class allows you to monitor an HTMLElement and be notified when it enters or exit the viewport.
+ *
+ * @example 	js
+ * const detector = new InViewportStatusChangeDetector(myCoolHTMLElement);
+ * detector.on('enter', (elm) => {
+ * 		// the element has entered the viewport
+ * });
+ * detector.on('exit', (elm) => {
+ * 		// the element has exit the viewport
+ * });
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 export default class InViewportStatusChangeDetector {
 
 	/**
-	 * _elm
 	 * The element to track
 	 * @type 	{HTMLElement}
 	 */
 	_elm = null;
 
 	/**
-	 * _settings
-	 * The settings
-	 * @type 	{Object}
-	 * @TODO handle settings or remove them
-	 */
-	_settings = {
-		fireFirstEnterCallback  : true,
-		fireFirstExitCallback : false
-	};
-
-	/**
-	 * _cbStack
 	 * The callback stack
 	 * @type 	{Object}
 	 */
@@ -33,29 +35,24 @@ export default class InViewportStatusChangeDetector {
 	};
 
 	/**
-	 * _isInViewportCachec
 	 * Track if the element is in viewport
 	 * @type 	{Boolean}
 	 */
 	_isInViewportCached = null;
 
 	/**
-	 * _destroyed
 	 * Track is the tracker is destroyed
 	 * @type 	{Boolean}
 	 */
 	_destroyed = false;
 
 	/**
-	 * Constructor
-	 * @param 	{HTMLElement} 	elm 	The element to track
+	 * @constructor
+	 * @param 		{HTMLElement} 		elm 		The element to track
 	 */
-	constructor(elm, settings = {}) {
+	constructor(elm) {
 		// save the element
 		this._elm = elm;
-
-		// save the settings
-		this._settings = Object.assign(this._settings, settings);
 
 		// if not in viewport at start
 		if ( ! this._isInViewport()) {
@@ -66,9 +63,8 @@ export default class InViewportStatusChangeDetector {
 	}
 
 	/**
-	 * _isInViewport
 	 * Check if the element is in viewport
-	 * @return 	{Boolean}
+	 * @return 		{Boolean}
 	 */
 	_isInViewport() {
 		// return if not null
@@ -81,9 +77,7 @@ export default class InViewportStatusChangeDetector {
 	}
 
 	/**
-	 * _whenInViewport
 	 * Detect when the element is in viewport
-	 * @return 	{void}
 	 */
 	_whenInViewport() {
 		__whenInViewport(this._elm).then(() => {
@@ -98,9 +92,7 @@ export default class InViewportStatusChangeDetector {
 		});
 	}
 	/**
-	 * _whenOutOfViewport
 	 * Detect when the element exit the viewport
-	 * @return 	{void}
 	 */
 	_whenOutOfViewport() {
 		__whenOutOfViewport(this._elm).then(() => {
@@ -116,37 +108,22 @@ export default class InViewportStatusChangeDetector {
 	}
 
 	/**
-	 * on
 	 * Add a callback
-	 * @param 	{String} 	status 		The status to track (enter|exit)
-	 * @param 	{Function} 	cb 			The callback to add
-	 * @return 	{InViewportStatusTracker} 	The instance itself to maintain chainability
+	 * @param 		{String} 	status 					The status to track (enter|exit)
+	 * @param 		{Function} 	cb 						The callback to add
+	 * @return 		{InViewportStatusChangeDetector} 	The instance itself to maintain chainability
 	 */
 	on(status, cb) {
 		if ( ! this._cbStack[status]) throw `The status "${status}" that you want to track is not supported...`;
 		this._cbStack[status].push(cb);
-
-		// // if the status is "enter"
-		// // we check first time
-		// // apply callback
-		// if (this._settings.fireFirstEnterCallback && status === 'enter' && this._isInViewport()) {
-		// 	cb(this._elm);
-		// }
-		// // if the status is "exit"
-		// // we check first time
-		// // apply callback
-		// if (this._settings.fireFirstExitCallback && status === 'exit' && ! this._isInViewport()) {
-		// 	cb(this._elm);
-		// }
 		return this;
 	}
 
 	/**
-	 * off
 	 * Remove a callback
-	 * @param 	{String} 	status 		The status to remove (enter|exit)
-	 * @param 	{Function} 	cb 			The callback to remove
-	 * @return 	{InViewportStatusTracker} 	The instance itself to maintain chainability
+	 * @param 	{String} 	status 					The status to remove (enter|exit)
+	 * @param 	{Function} 	cb 						The callback to remove
+	 * @return 	{InViewportStatusChangeDetector} 	The instance itself to maintain chainability
 	 */
 	off(status, cb = null) {
 		if ( ! cb) {
@@ -161,9 +138,7 @@ export default class InViewportStatusChangeDetector {
 	}
 
 	/**
-	 * destroy
 	 * Destroy the tracker
-	 * @return 	{void}
 	 */
 	destroy() {
 		this._destroyed = true;

@@ -1,9 +1,22 @@
-export default function insertAfter(node, refNode) {
-	// next sibling of ref node
-	const nextSibling = refNode.nextSibling;
+/**
+ * Insert an HTMLElement after another HTMLElement
+ *
+ * @name 		insertAfter
+ * @param 		{HTMLElement} 				elm  		The element to insert
+ * @param 		{HTMLElement} 				refElm 		The element after which to insert the passed element
+ *
+ * @example  	js
+ * import insertAfter from 'sugarcss/js/dom/insertAfter'
+ * insertAfter(myElementToInsert, theReferenceElement);
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+export default function insertAfter(elm, refElm) {
+	// next sibling of ref elm
+	const nextSibling = refElm.nextSibling;
 	if ( ! nextSibling) {
-		refNode.parentNode.appendChild(node);
+		refElm.parentNode.appendChild(elm);
 	} else {
-		refNode.parentNode.insertBefore(node, nextSibling);
+		refElm.parentNode.insertBefore(elm, nextSibling);
 	}
 }

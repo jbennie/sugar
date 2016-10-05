@@ -1,23 +1,26 @@
-/*
- * Sugar-activate.js
-#
- * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
-#
- * @author   Olivier Bossel <olivier.bossel@gmail.com>
- * @created  20.01.16
- * @updated  20.01.16
- * @version  1.0.0
- */
 import SSvgFilter from './SSvgFilter'
 
-// Gradient filter
+/**
+ * @class 			SGradientSvgFilter 			{SSvgFilter}
+ * This SVG filter class apply either a linear or a radial gradient of your choice
+ * on an HTMLElement.
+ * This is useful cause the gradient will only be applied on part of the elements that is really visible and will respect the opacity
+ * of each parts
+ *
+ * @example 		js
+ * const filter = new SGradientSvgFilter();
+ * filter.linear(['red','blue','green']);
+ * filter.applyTo(myCoolHTMLElement);
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 class SGradientSvgFilter extends SSvgFilter {
 
 	/**
-	 * Constructor
+	 * @constructor
 	 */
 	constructor() {
-		super(`				
+		super(`
 			<feImage xlink:href="" x="0" y="0" result="IMAGEFILL" preserveAspectRatio="none" />
 			<feComposite operator="in" in="IMAGEFILL" in2="SourceAlpha" />
 		`);
@@ -27,6 +30,8 @@ class SGradientSvgFilter extends SSvgFilter {
 
 	/**
 	 * Linear gradient
+	 * @param 		{Array} 			colors 			An array of colors for your gradient
+	 * @param 		{Object} 			settings 		The settings of your gradient
 	 */
 	linear(colors, settings = {}) {
 		let width = settings.width || 512,
@@ -53,10 +58,12 @@ class SGradientSvgFilter extends SSvgFilter {
 	}
 
 	/**
-	 * Radial
+	 * Linear gradient
+	 * @param 		{Array} 			colors 			An array of colors for your gradient
+	 * @param 		{Object} 			settings 		The settings of your gradient
 	 */
 	radial(colors, settings = {}) {
-		
+
 		let width = settings.width || 512,
 			height = settings.height || 512,
 			x0 = settings.x0 || width / 2,
@@ -83,14 +90,33 @@ class SGradientSvgFilter extends SSvgFilter {
 	}
 
 	/**
-	 * Apply to override
+	 * Apply the filter to element
+	 * @override
+	 * @param 		{HTMLElement} 		elm 		The element on which to apply the filter
 	 */
 	applyTo(elm) {
 		super.applyTo(elm);
 		this._setImageSize();
-		window.addEventListener('resize', (e) => {
-			this._setImageSize();
-		});
+		window.addEventListener('resize', this._onWindowResize.bind(this));
+	}
+
+	/**
+	 * Remove the filter from element
+	 * @override
+	 * @param 	{HTMLElement} 	elm 	The element to unapply the filter from
+	 */
+	unapplyFrom(elm) {
+		super.unapplyFrom(elm);
+		window.removeEventListener('resize', this._onWindowResize);
+	}
+
+	/**
+	 * When the window is resizing
+	 * @param 		{Event} 		e 		The resize event
+	 */
+	_onWindowResize(e) {
+		// set the image size
+		this._setImageSize();
 	}
 
 	/**

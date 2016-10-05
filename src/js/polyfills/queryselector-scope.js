@@ -1,3 +1,12 @@
+/**
+ * Polyfill for the :scope value in the querySelector and querySelectorAll functions
+ * To use it, just require this file in your codebase
+ *
+ * @example 	js
+ * require('sugarcss/js/polyfill/queryselector-scope');
+ *
+ * @see 		http://stackoverflow.com/questions/6481612/queryselector-search-immediate-children
+ */
 (function(doc, proto) {
   try { // check if browser supports :scope natively
     doc.querySelector(':scope body');

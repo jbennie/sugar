@@ -1,5 +1,20 @@
 import __isVisible from './isVisible'
 import __getBoundingClientRect from './getBoundingClientRect'
+
+/**
+ * Return how many percent the passed element is visible in the viewport
+ *
+ * @name 		inViewportPercentage
+ * @param 		{HTMLElement} 				elm  		The element to get the in viewport percentage from
+ * @return 		{Number} 								The percentage visible in the viewport
+ *
+ * @example  	js
+ * import inViewportPercentage from 'sugarcss/js/dom/inViewportPercentage'
+ * const percentage = inViewportPercentage(myCoolHTMLElement);
+ * // 20
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 export default function inViewportPercentage(elm) {
 
 	// if not visible at all

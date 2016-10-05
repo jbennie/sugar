@@ -1,5 +1,22 @@
 import __getStyleProperty from './getStyleProperty'
 
+/**
+ * Get the text width in px of a passed string or the passed HTMLElement
+ *
+ * @name 		textWidth
+ * @param 		{String}{HTMLElement}		source 		The source to process
+ * @return 		{Number} 								The calculated width of the text
+ *
+ * @example 	js
+ * import textWidth from 'sugarcss/js/dom/textWidth'
+ * // text of an HTMLElement
+ * const width = textWidth(myCoolHTMLElement);
+ *
+ * // text directly (no font-size management so it's less accurate...)
+ * const width = textWidth('Hello World');
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 export default function textWidth(source) {
 	// create an element
 	const elm = document.createElement('span');

@@ -1,6 +1,18 @@
 /**
- * Get an object constructor name
- * @TODO rename to "reflector"
+ * Return the constructor name of the passed object
+ *
+ * @name 		constructorName
+ * @param 		{Object} 			obj 		The object to get the constructor name from
+ * @return 		{String}						The constructor name
+ *
+ * @example 	js
+ * class MyCoolClass {
+ * 		// class implementation...
+ * }
+ * const myObj = new MyCoolClass();
+ * console.log(constructorName(myObj)); => MyCoolClass
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 export default function constructorName(obj) {
 	let funcNameRegex = /function (.{1,})\(/;

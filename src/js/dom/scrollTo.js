@@ -1,5 +1,23 @@
-function scrollTo(target, duration, easing, padding, align, onFinish) {
-	padding = padding ? padding : 0;
+/**
+ * Function that let you make a smooth page scroll to a specific element in the page
+ *
+ * @param 		{HTMLElement} 				target 			The element to scroll to
+ * @param 		{Number} 					duration 		The animation duration
+ * @param 		{Function} 					easing 			An easing Function
+ * @param 		{Number} 					offset 			The destination offset
+ * @param 		{String} 					align 			The destination align (top, center, bottom)
+ * @param 		{Function} 					onFinish 		A callback to call when the animation if finished
+ *
+ * @name 		scrollTo
+ * @example 	js
+ * import scrollTop from 'sugarcss/js/dom/scrollTo'
+ * import easeInOutQuad from 'sugarcss/js/easings/easeInOutQuad'
+ * scrollTo(myCoolHTMLElement, 2000, easeInOutQuad);
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+function scrollTo(target, duration, easing, offset, align, onFinish) {
+	offset = offset ? offset : 0;
 	var docElem = document.documentElement; // to facilitate minification better
 	var windowHeight = docElem.clientHeight;
 	var maxScroll = ( 'scrollMaxY' in window ) ? window.scrollMaxY : (docElem.scrollHeight - windowHeight);
@@ -11,16 +29,16 @@ function scrollTo(target, duration, easing, padding, align, onFinish) {
 	if (align === "center") {
 		targetY += isNaN(target) ? (elementBounds.top + elementBounds.height/2) : target;
 		targetY -= windowHeight / 2;
-		targetY -= padding
+		targetY -= offset
 	}
 	else if (align === "bottom") {
 		targetY += elementBounds.bottom || target;
 		targetY -= windowHeight;
-		targetY += padding
+		targetY += offset
 	}
 	else { // top, undefined
 		targetY += elementBounds.top || target;
-		targetY -= padding
+		targetY -= offset
 	}
 	targetY = Math.max(Math.min(maxScroll, targetY), 0);
 

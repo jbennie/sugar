@@ -1,12 +1,22 @@
-/**
- * Register a callback to be launched when the element is visible
- * @param  {element}   elm The element to observe
- * @param  {Function} cb  The callback to launch
- * @return {[type]}       [description]
- */
 import __isVisible from './isVisible'
 import __closestNotVisible from './closestNotVisible'
 
+/**
+ * Monitor an HTMLElement to be notified when it is visible
+ *
+ * @name 		whenVisible
+ * @param 		{HTMLElement} 				elm 		The element to monitor
+ * @param 		{Function} 					[cb=null] 	An optional callback to call when the element is visible
+ * @return 		(Promise) 								The promise that will be resolved when the element is visible
+ *
+ * @example 	js
+ * import whenVisible from 'sugarcss/js/dom/whenVisible'
+ * whenVisible(myCoolHTMLElement).then((elm) => {
+ * 		// do something with your element that is now visible
+ * });
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 export default function whenVisible(elm, cb = null) {
 	return new Promise((resolve, reject) => {
 

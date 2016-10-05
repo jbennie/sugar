@@ -1,13 +1,23 @@
-/**
- * Register a callback to be launched when the element is visible
- * @param  {element}   elm The element to observe
- * @param  {Function} cb  The callback to launch
- * @return {[type]}       [description]
- */
 import whenVisible from './whenVisible'
 import __isInViewport from './isInViewport'
 import __throttle from '../utils/functions/throttle'
 
+/**
+ * Monitor an HTMLElement to be notified when it is in the viewport
+ *
+ * @name 		whenInViewport
+ * @param 		{HTMLElement} 				elm 		The element to monitor
+ * @param 		{Function} 					[cb=null] 	An optional callback to call when the element is in the viewport
+ * @return 		(Promise) 								The promise that will be resolved when the element is in the viewport
+ *
+ * @example 	js
+ * import whenInViewport from 'sugarcss/js/dom/whenInViewport'
+ * whenInViewport(myCoolHTMLElement).then((elm) => {
+ * 		// do something with your element that has entered the viewport...
+ * });
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 export default function whenInViewport(elm, cb = null) {
 	return new Promise((resolve, reject) => {
 		let isInViewport = false,

@@ -1,6 +1,3 @@
-/**
- * Make a selector detectable when new element are pushed in the page
- */
 import {Observable} from 'rxjs/Observable'
 import 'rxjs/add/operator/share'
 import _isEqual from 'lodash/isEqual'
@@ -13,6 +10,43 @@ import __matches from './matches'
 import __domReady from './domReady'
 import __uniqid from '../utils/uniqid'
 import SEvent from '../classes/SEvent'
+
+/**
+ * Observe the dom to get all the elements that matches the passed selector at any point in time
+ *
+ * @param 		{String} 						selector 				The css selector to monitor in the dom
+ * @param 		{Object} 						[settings=null] 		The settings to pass to the selector
+ * @return 		{QuerySelectorLiveObservable} 							The augmented observable instance to subscribe to
+ *
+ * @example 	js
+ * const observer = querySelectorLive('.some-cool-css-selector').subscribe((elm) => {
+ * 		// do something with the element found in the dom
+ * });
+ *
+ * // the QuerySelectorLiveObservable add some nice operators
+ * // that you can use with ease like so:
+ * const observer = querySelectorLive('.some-cool-css-selector').once().inViewport().subscribe((elm) => {
+ * 		// do someting with the element found in the dom and that is now in the viewport
+ * });
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+
+/**
+ * The root node to start the monitoring from
+ * @setting
+ * @name 		rootNode
+ * @type 		{HTMLElement}
+ * @default 	document.body
+ */
+
+/**
+ * An array of callbacks to call when the detected element is removed from the dom
+ * @setting
+ * @name 		onNodeRemoved
+ * @type 		{Array}<Function>
+ * @default 	[]
+ */
 
 // store all the selectors with their settings
 // '{selector}' : {

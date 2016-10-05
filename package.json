@@ -4,6 +4,7 @@
   "version": "1.0.4",
   "main": "js/index.js",
   "scripts": {
+    "doc": "node ./public/app.js",
     "install": "./scripts/install.sh"
   },
   "repository": {

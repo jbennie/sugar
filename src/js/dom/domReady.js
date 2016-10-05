@@ -1,12 +1,26 @@
 /**
- * Dom ready
+ * Wait that the dom is ready before resolving the promise
+ * If you need that some css files are loaded before considering the dom as loaded
+ * you can add the attribute 's-domready-dependency' on any css link tag
+ *
+ * @name 		domReady
+ * @param 		{Function} 		cb 			An optional callback that will be called when the dom is ready
+ * @return 		{Promise} 					A promise that will be resolved when the dom is ready
+ *
+ * @example  	js
+ * import domReady from 'sugarcss/js/dom/domReady'
+ * // using callback
+ * domReady(() => {
+ * 		// do something
+ * });
+ * // using promise
+ * domReady().then(() => {
+ * 		// do something
+ * });
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 import stylesheetsReady from '../dom/stylesheetsReady';
-// import Pro from 'promise-polyfill'
-// if ( ! window.Promise) {
-// 	window.Promise = Pro;
-// }
-
 let neededStylesheetsStack = null;
 
 function _domReady(cb = null) {

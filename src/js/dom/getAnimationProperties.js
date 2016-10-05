@@ -1,13 +1,36 @@
 import getStyleProperty from './getStyleProperty';
 import toMs from '../utils/string/toMs';
 
+/**
+ * Get the css animation properties from an HTMLElement in an object format
+ *
+ * @name 		getAnimationProperties
+ * @param 		{HTMLElement} 					elm  		The element to get the properties from
+ * @return 		{Object} 									The animation properties
+ *
+ * @example  	js
+ * import getAnimationProperties from 'sugarcss/js/dom/getAnimationProperties'
+ * const props = getAnimationProperties(myCoolHTMLElement);
+ * // output format
+ * // {
+ * // 	name : ['animation1'],
+ * // 	duration : [200],
+ * // 	delay : [0],
+ * // 	timingFunction : ['linear'],
+ * // 	iterationCount : [1],
+ * // 	direction : ['forward'],
+ * // 	totalDuration : 200
+ * // }
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+
 function splitIfNeeded(what, separator) {
 	if (what.indexOf(separator) !== -1) {
 		return what.split(separator).map((item) => item.trim());
 	}
 	return what;
 }
-
 export default function getAnimationProperties(elm) {
 	// get the animation properties
 	const name = getStyleProperty(elm, 'animation-name') || '';
@@ -21,7 +44,7 @@ export default function getAnimationProperties(elm) {
 	const props = {
 		name : name.split(','),
 		duration : duration.split(',').map((value) => toMs(value)),
-		delay : delay.split(',').map((value) => toMs(value)),
+		delay : `${delay}`.split(',').map((value) => toMs(value)),
 		timingFunction : timingFunction.split(','),
 		iterationCount : `${iterationCount}`.split(','),
 		direction : direction.split(',')
