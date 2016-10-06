@@ -20,7 +20,7 @@ $_sugar-classes-inited : false;
 		$transitions : sugar('settings.transitions');
 		@each $name, $transition in $transitions {
 			@include s-register-class(
-				$classname : 't-#{$name}',
+				$classname : 'tr-#{$name}',
 				$namespace : 'sugar.transition.#{$name}'
 			) {
 				@include s-transition($transition);
