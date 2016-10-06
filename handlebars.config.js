@@ -95,7 +95,6 @@ Handlebars.registerHelper('class', (data) => {
  */
 function renderExample(of) {
 	if ( ! of.example) return;
-	console.log(of.example);
 	return [
 		'',
 		'#### Sample',

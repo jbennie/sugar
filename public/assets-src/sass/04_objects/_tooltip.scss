@@ -1,5 +1,7 @@
 
-@include s-tooltip-component(
-	$colors : default primary secondary,
-	$sides : tr c
-);
+@include s-component('tooltip') {
+	@include s-tooltip-component(
+		$colors : default primary secondary,
+		$sides : tr c br b
+	);
+}

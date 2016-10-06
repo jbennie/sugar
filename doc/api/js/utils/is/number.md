@@ -5,16 +5,16 @@
 ## API
 -----------------------------
 
-### isNumber(Mixed value) : Boolean
+### isNumber({ Mixed } value) : { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean" target="_blank" title="Boolean">Boolean</a> }
 Check if the passed value is a number
 
 - Privacy : **Public**
 
-- Return : **Boolean** : The check result
+- Return : **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean" target="_blank" title="Boolean">Boolean</a> }** : The check result
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-value | **Mixed** | The value to check | required | 
+value | **{ Mixed }** | The value to check | required | 
 
 
 #### Sample

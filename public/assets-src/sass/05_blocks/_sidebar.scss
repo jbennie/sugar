@@ -1,28 +1,44 @@
 /**
  * Side menu
  */
+[s-trianglify] {
+	position:absolute;
+	top:0; left:0;
+	width:100%; height:100%;
+	mix-blend-mode:overlay;
+}
 #topbar {
-	background: s-color(primary, -lighten 0%);
-	// height: 64px;
+
+	background: linear-gradient(to right, s-color(primary), s-color(primary, -darken 10%));
+	height: 70px;
+	position:relative;
 	// color: white;
 	//
 	// .input {
 	// 	color: inherit;
 	// 	border-bottom: 1px solid currentColor;
 	// }
-
+	//
 }
 	.topbar__title {
 		font-size: s-rem(26px);
 		color: white;
 		text-transform: uppercase;
+		padding: 0 0 0 s-space(big);
+		@include s-filter(shadowed-text);
+	}
+	.topbar__links {
+		color: white;
+		@include s-filter(shadowed-text);
+		padding-right: s-space(big);
+		position:relative;
 	}
 
 #sidebar {
 	font-size: 0.9rem;
 	min-width:s-rem(200px);
 	max-width:s-rem(300px);
-	height:calc(100% - 64px);
+	height:calc(100% - 70px);
 	overflow-y: auto;
 	float:left;
 	border-right:solid 1px s-color(#eee);
@@ -38,6 +54,6 @@
 	background-color: s-color(white, -darken 0%);
 	margin-left:s-rem(300px);
 	padding: s-space(bigger);
-	height:calc(100% - 64px);
+	height:calc(100% - 70px);
 	overflow-y: auto;
 }

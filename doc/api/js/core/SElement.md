@@ -19,9 +19,9 @@ This class allows to wrap an HTMLElement with a lot of useful features like:
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-elm | **HTMLElement** | The HTMLElement to handle | required | 
+elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The HTMLElement to handle | required | 
 
-- Extends **{SObject}**
+- Extends **{ [SObject](/api/js/core/SObject.md) }**
 - Author **Olivier Bossel <olivier.bossel@gmail.com>**
 
 #### Sample
@@ -53,15 +53,15 @@ class myElement extends SElement {
 ## Properties
 -----------------------------
 
-### HTMLElement elm
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm
 Store the actual DOM element that the SElement instance manage
 
-### Object attr
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> } attr
 Store the element attributes in object format
 This object will reflect the HTML state into the dom
 and will keep updated until the SElement instance has been destroyed
 
-### HTMLElement originalElement
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } originalElement
 Original HTMLElement before any SElement manipulation
 
 -----------------------------
@@ -106,30 +106,30 @@ Destroy element routine
 
 
 
-### remove(HTMLElement elm = this.elm) : SElement
+### remove({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm = this.elm) : { [SElement](/api/js/core/SElement.md) }
 Remove the element from the dom
 - Privacy : **Public**
 
-- Return : **SElement** : The SElement instance itself to maintain chainability
+- Return : **{ [SElement](/api/js/core/SElement.md) }** : The SElement instance itself to maintain chainability
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-elm | **HTMLElement** | The element to remove | optional | this.elm
+elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element to remove | optional | this.elm
 
 
-### append(HTMLElement elm = this.elm, HTMLElement to = null) : SElement
+### append({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm = this.elm, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } to = null) : { [SElement](/api/js/core/SElement.md) }
 Append the element into the dom
 - Privacy : **Public**
 
-- Return : **SElement** : The instance itself to maintain chainability
+- Return : **{ [SElement](/api/js/core/SElement.md) }** : The instance itself to maintain chainability
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-elm | **HTMLElement** | The element to append | optional | this.elm
-to | **HTMLElement** | The container in which to append the element | optional | null
+elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element to append | optional | this.elm
+to | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The container in which to append the element | optional | null
 
 
-### watch(String path, Function cb)
+### watch({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } path, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } cb)
 Watch a property on the SElement instance
 - Privacy : **Public**
 
@@ -137,27 +137,27 @@ Watch a property on the SElement instance
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-path | **String** | The object property path to watch | required | 
-cb | **Function** | The callback called when the property has been updated | required | 
+path | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | The object property path to watch | required | 
+cb | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> }** | The callback called when the property has been updated | required | 
 
 
-### isElementAttached() : Boolean
+### isElementAttached() : { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean" target="_blank" title="Boolean">Boolean</a> }
 Return if the element is attached into the dom or not
 This mean that the element live into the DOM document. It this is false,
 that mean that the element live into another HTML element into the memory
 - Privacy : **Public**
 
-- Return : **Boolean** : The attached status
+- Return : **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean" target="_blank" title="Boolean">Boolean</a> }** : The attached status
 
 
-### isElementAdded() : Boolean
+### isElementAdded() : { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean" target="_blank" title="Boolean">Boolean</a> }
 Return if the element is added into the dom or not
 This mean that the element is has been added into the dom
 but it can live into another HTML element in memory and not
 in the document
 - Privacy : **Public**
 
-- Return : **Boolean** : The attached status
+- Return : **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean" target="_blank" title="Boolean">Boolean</a> }** : The attached status
 
 
 

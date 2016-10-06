@@ -9,7 +9,7 @@ Class that represent an ajax request that will be passed to an SAjax instance
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-params | **Object** | The request params | required | 
+params | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> }** | The request params | required | 
 
 - Author **Olivier Bossel<olivier.bossel@gmail.com>**
 
@@ -30,35 +30,35 @@ const request = new SAjaxRequest({
 ## Properties
 -----------------------------
 
-### String url
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } url
 The url to call
 
-### String method = GET
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } method = GET
 The request method to use like GET, POST, DELETE or PUT
 
-### Boolean cors = true
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean" target="_blank" title="Boolean">Boolean</a> } cors = true
 Use the CORS or not (only for IE)
 
-### Boolean cache = true
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean" target="_blank" title="Boolean">Boolean</a> } cache = true
 Use the cache or not
 
-### Object data = null
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> } data = null
 The data that will be sent with the request in JSON format
 
-### String dataType = text
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } dataType = text
 The data type expected from the response
 Accepted dataType are : text | json | html
 
-### String contentType = null
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } contentType = null
 Set the content type header to send with the request
 
-### String requestedWith = XMLHttpRequest
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } requestedWith = XMLHttpRequest
 Set the X-Requested-With header
 
-### String auth = null
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } auth = null
 Set the Authorization header
 
-### Object headers = null
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> } headers = null
 Set additional headers to send with the request
 
 

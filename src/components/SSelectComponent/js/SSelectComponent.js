@@ -188,7 +188,6 @@ class SSelectComponent extends SComponent {
 			characterData : true,
 			subtree : true
 		}).groupByTimeout().subscribe((mutation) => {
-			console.log('refres');
 			this.refresh();
 		});
 

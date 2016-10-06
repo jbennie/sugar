@@ -9,7 +9,7 @@ This class allows to easily store and load custom fonts from the localStorage
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-settings | **Object** | The settings | required | 
+settings | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> }** | The settings | required | 
 
 - Author **Olivier Bossel<olivier.bossel@gmail.com>**
 
@@ -34,14 +34,14 @@ new SLocalStorageFonts({
 ## Settings
 -----------------------------
 
-### String version = 1.0
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } version = 1.0
 Store the version of the fonts to load.
 Used for cache busting
 
-### String json_path = /fonts/fonts.json
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } json_path = /fonts/fonts.json
 Set the json file to load
 
-### Boolean debug = false
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean" target="_blank" title="Boolean">Boolean</a> } debug = false
 Set if want the debug messages in the console
 
 

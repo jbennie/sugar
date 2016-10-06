@@ -5,7 +5,7 @@ Under the hood, this class use the `morphdom` library that will be in charge of 
 the minimum dom as needed.
 
 
-- Extends **{SOject}**
+- Extends **{ SOject }**
 - Author **Olivier Bossel <olivier.bossel@gmail.com>**
 
 #### Sample
@@ -34,20 +34,20 @@ setTimeout(() => {
 ## Settings
 -----------------------------
 
-### Function compile = null
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } compile = null
 A compile function to process the template
 This function will revieve the template and the data as parameters
 and need to return the compiled string version
 
-### Function onBeforeElUpdated = null
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } onBeforeElUpdated = null
 Function called before any HTMLElement will be updated in the dom
 If this function return false, the element will not bein updated at all
 
-### Function onBeforeElChildrenUpdated = null
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } onBeforeElChildrenUpdated = null
 Function called before any HTMLElement child will be updated in the dom
 If this function return false, the engine will not try to update this element children
 
-### Function onBeforeElDiscarded = null
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } onBeforeElDiscarded = null
 Function called before any HTMLElement will be removed from the dom
 If this function return false, the element will not bein removed
 
@@ -55,24 +55,24 @@ If this function return false, the element will not bein removed
 ## Properties
 -----------------------------
 
-### String templateId
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } templateId
 Store a uniqid that will be used as identifier for
 this particular class in the window.sTemplateClasses
 
-### Object refs
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> } refs
 Store the reference to html elements that have an id or a name
 
-### Object data
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> } data
 Store the data object used to render the template
 
-### Object settings
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> } settings
 Store the settings
 
 -----------------------------
 ## API
 -----------------------------
 
-### static registerComponentIntegration(Function integrationFn)
+### static registerComponentIntegration({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } integrationFn)
 Register a component integration function
 - Privacy : **Public**
 - **Static**
@@ -80,10 +80,10 @@ Register a component integration function
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-integrationFn | **Function** | The function used to set the integration attributes, etc into the component elements | required | 
+integrationFn | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> }** | The function used to set the integration attributes, etc into the component elements | required | 
 
 
-### static keepAttribute(HTMLElement elm, String attr)
+### static keepAttribute({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } attr)
 Set an attribute to keep
 - Privacy : **Public**
 - **Static**
@@ -91,11 +91,11 @@ Set an attribute to keep
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-elm | **HTMLElement** | The element on which to keep an attribute | required | 
-attr | **String** | The attribute name to keep | required | 
+elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element on which to keep an attribute | required | 
+attr | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | The attribute name to keep | required | 
 
 
-### static doNotDiscard(HTMLElement elm)
+### static doNotDiscard({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm)
 Set an element to not discard
 - Privacy : **Public**
 - **Static**
@@ -103,10 +103,10 @@ Set an element to not discard
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-elm | **HTMLElement** | The element to not discard | required | 
+elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element to not discard | required | 
 
 
-### static exclude(HTMLElement elm)
+### static exclude({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm)
 Set an element to exclude completely from the STemplate engine
 - Privacy : **Public**
 - **Static**
@@ -114,10 +114,10 @@ Set an element to exclude completely from the STemplate engine
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-elm | **HTMLElement** | The element to exclude | required | 
+elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element to exclude | required | 
 
 
-### static refresh(HTMLElement elm)
+### static refresh({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm)
 Set an element to refresh completely when the STemplate handle it
 - Privacy : **Public**
 - **Static**
@@ -125,18 +125,18 @@ Set an element to refresh completely when the STemplate handle it
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-elm | **HTMLElement** | The element to refresh | required | 
+elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element to refresh | required | 
 
 
-### static isTemplate(HTMLElement elm) : Boolean
+### static isTemplate({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm) : { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean" target="_blank" title="Boolean">Boolean</a> }
 Check if an element is handled by an STemplate instance
 - Privacy : **Public**
 - **Static**
-- Return : **Boolean** : True if the element is handled by a template, false otherwise
+- Return : **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean" target="_blank" title="Boolean">Boolean</a> }** : True if the element is handled by a template, false otherwise
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-elm | **HTMLElement** | The element to check | required | 
+elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element to check | required | 
 
 
 ### dom()
@@ -153,7 +153,7 @@ Constructor
 
 
 
-### setParentTemplate(STemplate template)
+### setParentTemplate({ [STemplate](/api/js/core/STemplate.md) } template)
 setParentTemplate
 Set the parent STemplate instance.
 This is needed if you want your template to talk together through attributes
@@ -163,19 +163,19 @@ This is needed if you want your template to talk together through attributes
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-template | **STemplate** | The parent template instance | required | 
+template | **{ [STemplate](/api/js/core/STemplate.md) }** | The parent template instance | required | 
 
 
-### _compile(String template, Object data) : String
+### _compile({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } template, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> } data) : { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }
 Compile the template
 - Privacy : **Protected**
 
-- Return : **String** : The compiled template string
+- Return : **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** : The compiled template string
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-template | **String** | The template to compile | required | 
-data | **Object** | The data used to compile the template | required | 
+template | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | The template to compile | required | 
+data | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> }** | The data used to compile the template | required | 
 
 
 ### render()
@@ -187,7 +187,7 @@ will be rendered again each time that a data is updated
 
 
 
-### appendTo(HTMLElement to)
+### appendTo({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } to)
 Append the template to an HTMLElement
 - Privacy : **Public**
 
@@ -195,7 +195,7 @@ Append the template to an HTMLElement
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-to | **HTMLElement** | The element in which to append the template | required | 
+to | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element in which to append the template | required | 
 
 
 ### remove()

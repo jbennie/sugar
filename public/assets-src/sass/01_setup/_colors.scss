@@ -1,5 +1,7 @@
 @include s-setup((
 	colors : (
+		default : rgb(248, 248, 249),
+		text : #333,
 		"lightgrey" : (
 			color : #f8f8f9,
 			modifiers : (

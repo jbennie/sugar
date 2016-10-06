@@ -5,17 +5,17 @@
 ## API
 -----------------------------
 
-### mutationObservable(HTMLElement target, MutationObserverInit settings) : Observable
+### mutationObservable({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } target, { MutationObserverInit } settings) : { <a class="link" href="https://github.com/Reactive-Extensions/RxJS/blob/master/doc/api/core/observable.md" target="_blank" title="Observable">Observable</a> }
 Observe mutations on an HTMLElement and get them through the observable subscription
 
 - Privacy : **Public**
 
-- Return : **Observable** : The mutation observable
+- Return : **{ <a class="link" href="https://github.com/Reactive-Extensions/RxJS/blob/master/doc/api/core/observable.md" target="_blank" title="Observable">Observable</a> }** : The mutation observable
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-target | **HTMLElement** | The element to observe | required | 
-settings | **MutationObserverInit** | The mutation observer settings | required | 
+target | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element to observe | required | 
+settings | **{ MutationObserverInit }** | The mutation observer settings | required | 
 
 
 #### Sample

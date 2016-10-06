@@ -1,5 +1,7 @@
 const readline = require('readline');
 const fs = require('fs');
+const _extend = require('lodash/merge');
+const __upperFirst = require('../src/js/utils/string/upperFirst').default;
 
 const _docblockBoolean = function(name, splits, data) {
 	data[name] = true;
@@ -8,28 +10,28 @@ const _docblockOneSplit = function(name, splits, data) {
 	data[name] = splits[0];
 }
 const _docblockTypeSplit = function(name, splits, data) {
-	data[name] = splits[0].replace('{','').replace('}','');
+	data[name] = splits[0];
 }
 const _docblockParamSplit = function(name, splits, data) {
 	if ( ! data.params) data.params = [];
 
-   let def = undefined;
-   let _name = splits[1];
-   let _optional = false;
-   let _param = {};
-   if (_name.substr(0,1) === '[' && _name.substr(-1) === ']') {
-       const defSplit = _name.substr(1,_name.length-2).split('=');
-       def = defSplit[1];
-       _name = defSplit[0];
-   }
+ let def = undefined;
+ let _name = splits[1];
+ let _optional = false;
+ let _param = {};
+ if (_name.substr(0,1) === '[' && _name.substr(-1) === ']') {
+	 const defSplit = _name.substr(1,_name.length-2).split('=');
+	 def = defSplit[1];
+	 _name = defSplit[0];
+ }
 
-   if (def) {
-       _optional = true;
-   }
+ if (def) {
+	 _optional = true;
+ }
 
-   _param = {
+ _param = {
 		name : _name,
-		type : splits[0].replace('{','').replace('}',''),
+		type : __upperFirst(splits[0]),
 		description : splits[2],
 		optional : _optional
 	};
@@ -46,7 +48,7 @@ const _docblockClassSplit = function(name, splits, data) {
 }
 const _docblockReturnSplit = function(name, splits, data) {
 	data.return = {
-		type : splits[0].replace('{','').replace('}',''),
+		type : __upperFirst(splits[0]),
 		description : splits[1]
 	};
 }
@@ -99,17 +101,17 @@ const _docblockNextLineAnalyzerJs = function(line, data) {
 }
 
 export default function(file, cb, settings = {}) {
-    let res = [];
-    let data = {};
-    let inBlock = false;
-    let currentTag = null;
-    let currentTagValue = [];
+	let res = [];
+	let data = {};
+	let inBlock = false;
+	let currentTag = null;
+	let currentTagValue = [];
 	let _analyzeNextLine = false;
 
 	let _language = require("path").extname(file.path).substr(1);
 
 	// extends settings
-	settings = Object.assign({
+	settings = _extend({
 		tags : {
 			"@constructor" : _docblockBoolean,
 			"@deprecated" : _docblockBoolean,
@@ -138,124 +140,161 @@ export default function(file, cb, settings = {}) {
 		},
 		nextLineAnalyzer : {
 			js : _docblockNextLineAnalyzerJs
+		},
+		types : {
+			js : {
+				"HTMLElement" : 'https://developer.mozilla.org/fr/docs/Web/API/HTMLElement',
+				"HTMLLinkElement" : 'https://developer.mozilla.org/fr/docs/Web/API/HTMLLinkElement',
+				"String" : 'https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String',
+				"Array" : 'https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Array',
+				"Object" : 'https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object',
+				"Function" : 'https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function',
+				"Boolean" : 'https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean',
+				"Data" : 'https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Date',
+				"Error" : 'https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Error',
+				"JSON" : 'https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/JSON',
+				"Map" : 'https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Map',
+				"Math" : 'https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Math',
+				"NaN" : 'https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/NaN',
+				"Number" : 'https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number',
+				"Promise" : 'https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise',
+				"Proxy" : 'https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Proxy',
+				"RegExp" : 'https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/RegExp'
+			}
 		}
-	});
+	}, settings);
 
 	let lineReader = readline.createInterface({
-      input: fs.createReadStream(file.path)
-    });
+		input: fs.createReadStream(file.path)
+	});
 
 	lineReader.on('line', function(line) {
 
-	  // if the line is the first line
-	  // after a docblock
-	  if (_analyzeNextLine) {
-		  if (settings.nextLineAnalyzer
-		  	&& settings.nextLineAnalyzer[_language]) {
+	// if the line is the first line
+	// after a docblock
+	if (_analyzeNextLine) {
+		if (settings.nextLineAnalyzer
+			&& settings.nextLineAnalyzer[_language]) {
 			settings.nextLineAnalyzer[_language](line, data);
-		  }
-		  _analyzeNextLine = false;
-		  return;
-	  }
+		}
+		_analyzeNextLine = false;
+		return;
+	}
 
-	  // if we have a new block
-	  if (line.trim() === '/**') {
-        data = {};
-        inBlock = true;
-        return;
-      } else if (line.trim() === '*/') {
+	// if we have a new block
+	if (line.trim() === '/**') {
+		data = {};
+		inBlock = true;
+		return;
+	} else if (line.trim() === '*/') {
 
 		// if we have already a currentTag
-  		// mean that we have finished to process it
-  		// and need to add it into result json
-  		// before handle the next one
-  		if (currentTag) {
-  			// check if we have a currentTagValue
-  			// for the currentTag
-  			// to add it has a body
-  			if (currentTagValue.length) {
+		// mean that we have finished to process it
+		// and need to add it into result json
+		// before handle the next one
+		if (currentTag) {
+			// check if we have a currentTagValue
+			// for the currentTag
+			// to add it has a body
+			if (currentTagValue.length) {
 				if (typeof(data[currentTag]) === 'object') {
 					data[currentTag].body = currentTagValue.join("\n");
 				} else {
-  					data.body = currentTagValue.join("\n");
+					data.body = currentTagValue.join("\n");
 				}
-  			}
-  			// set the current tag
-  			currentTagValue = [];
-  		}
+			}
+			// set the current tag
+			currentTagValue = [];
+		}
 
 
 		// we are at the end of the block
 		// so we add the data to the res json
 		// and reset some variables
-        res.push(data);
-        inBlock = false;
-        currentTag = null;
-        currentTagValue = [];
+		res.push(data);
+		inBlock = false;
+		currentTag = null;
+		currentTagValue = [];
 		// set that we can analyze the next line
 		_analyzeNextLine = true;
 		// stop here
-        return;
-      }
+		return;
+	}
 
-	  // if we are not in a docblock
-	  // we do nothing....
-      if (!inBlock) {
-        return;
-      }
+	// if we are not in a docblock
+	// we do nothing....
+	if (!inBlock) {
+		return;
+	}
 
-	  // process line
-	  const rawLine = line;
-	  line = line.trim().substr(1).trim().replace(/\t+/g, "\t");
+	// process line
+	const rawLine = line;
+	line = line.trim().substr(1).trim().replace(/\t+/g, "\t");
 
-	  // check if the line is a tag one
-	  if (line.substr(0,1) === '@') {
+	// transform types definition by links in the line
+	if (settings.types[_language]) {
+		line = line.replace(/\{[a-zA-Z]+\}/g, (type) => {
+			const name = type.replace('{','').replace('}','');
+			const url = settings.types[_language][name];
+			if (url) {
+				if (url.toLowerCase().match(/^https?:\/\//)) {
+					return `{ <a class="link" href="${url}" target="_blank" title="${name}">${name}</a> }`;
+				} else {
+					return `{ [${name}](${settings.types[_language][name]}) }`;
+				}
+			}
+			return `{ ${name} }`;
+		});
+	}
 
-		  // if we have already a currentTag
-		  // mean that we have finished to process it
-		  // and need to add it into result json
-		  // before handle the next one
-		  if (currentTag && currentTagValue.length) {
-			  // check if we have a currentTagValue
-			  // for the currentTag
-			  // to add it has a body
-			  if (typeof(data[currentTag]) === 'object') {
-				  data[currentTag].body = currentTagValue.join("\n");
-			  } else {
-				  data.body = currentTagValue.join("\n");
-			  }
-			  // set the current tag
-			  currentTagValue = [];
-		  }
+	// check if the line is a tag one
+	if (line.substr(0,1) === '@') {
 
-		  // split the line by tabs
-		  const splits = line.split(/\t/).map((item) => {
-			  return item.trim();
-		  });
-		  // get the tag name
-		  let name = splits[0].trim().substr(1);
-		   // unshift the name of the splits
-		  splits.shift();
-		  // process the line
-		  if (settings.tags[`@${name}`]) {
-			  settings.tags[`@${name}`](name, splits, data, _language);
-		  } else {
-			  // we do not handle this tag name
-			  return;
-		  }
+		// if we have already a currentTag
+		// mean that we have finished to process it
+		// and need to add it into result json
+		// before handle the next one
+		if (currentTag && currentTagValue.length) {
+			// check if we have a currentTagValue
+			// for the currentTag
+			// to add it has a body
+			if (typeof(data[currentTag]) === 'object') {
+				data[currentTag].body = currentTagValue.join("\n");
+			} else {
+				data.body = currentTagValue.join("\n");
+			}
+			// set the current tag
+			currentTagValue = [];
+		}
 
-		  currentTag = name;
+		// split the line by tabs
+		const splits = line.split(/\t/).map((item) => {
+			return item.trim();
+		});
+		// get the tag name
+		let name = splits[0].trim().substr(1);
+		 // unshift the name of the splits
+		splits.shift();
+		// process the line
+		if (settings.tags[`@${name}`]) {
+			settings.tags[`@${name}`](name, splits, data, _language);
+		} else {
+			// we do not handle this tag name
+			return;
+		}
 
-		  return;
-	  } else {
-		  // the line is not a tag one
-		  currentTagValue.push(rawLine.trim().replace(/^\t*\*\s?/,''));
-		  if ( ! currentTag) {
-		  	currentTag = 'description';
-		  }
-	  }
-    });
-    lineReader.on('close', function() {
-	  return cb(res);
-    });
+		currentTag = name;
+
+		return;
+	} else {
+		// the line is not a tag one
+		currentTagValue.push(rawLine.trim().replace(/^\t*\*\s?/,''));
+		if ( ! currentTag) {
+			currentTag = 'description';
+		}
+	}
+	});
+	lineReader.on('close', function() {
+	return cb(res);
+	});
 };

@@ -5,17 +5,17 @@
 ## API
 -----------------------------
 
-### imageLoaded(HTMLImageElement img, Function cb = null) : Promise
+### imageLoaded({ HTMLImageElement } img, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } cb = null) : { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise" target="_blank" title="Promise">Promise</a> }
 Wait until the passed image is fully loaded
 
 - Privacy : **Public**
 
-- Return : **Promise** : The promise that will be resolved
+- Return : **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise" target="_blank" title="Promise">Promise</a> }** : The promise that will be resolved
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-img | **HTMLImageElement** | The image to check the loading state | required | 
-cb | **Function** | An optional callback to call | optional | null
+img | **{ HTMLImageElement }** | The image to check the loading state | required | 
+cb | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> }** | An optional callback to call | optional | null
 
 
 #### Sample

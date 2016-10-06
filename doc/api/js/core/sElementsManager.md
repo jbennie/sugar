@@ -5,92 +5,92 @@
 ## API
 -----------------------------
 
-### registerComponent(HTMLElement elm, SComponent component) : void
+### registerComponent({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm, { [SComponent](/api/js/core/SComponent.md) } component) : { void }
 registerComponent
 Register a component on a given element
 - Privacy : **Public**
 
-- Return : **void** : undefined
+- Return : **{ void }** : undefined
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-elm | **HTMLElement** | The element in which to register a component | required | 
-component | **SComponent** | The component to register | required | 
+elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element in which to register a component | required | 
+component | **{ [SComponent](/api/js/core/SComponent.md) }** | The component to register | required | 
 
 
-### unregisterComponent(HTMLElement elm, SComponent component) : void
+### unregisterComponent({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm, { [SComponent](/api/js/core/SComponent.md) } component) : { void }
 unregisterComponent
 Unregister a component on a given element
 - Privacy : **Public**
 
-- Return : **void** : undefined
+- Return : **{ void }** : undefined
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-elm | **HTMLElement** | The element in which to register a component | required | 
-component | **SComponent** | The component to register | required | 
+elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element in which to register a component | required | 
+component | **{ [SComponent](/api/js/core/SComponent.md) }** | The component to register | required | 
 
 
-### registerElement(HTMLElement elm, SElement element) : void
+### registerElement({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm, { [SElement](/api/js/core/SElement.md) } element) : { void }
 registerElement
 Register an SElement instance on a given element
 - Privacy : **Public**
 
-- Return : **void** : undefined
+- Return : **{ void }** : undefined
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-elm | **HTMLElement** | The element in which to register a component | required | 
-element | **SElement** | The SElement instance to register | required | 
+elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element in which to register a component | required | 
+element | **{ [SElement](/api/js/core/SElement.md) }** | The SElement instance to register | required | 
 
 
-### unregisterElement(HTMLElement elm, SElement element) : void
+### unregisterElement({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm, { [SElement](/api/js/core/SElement.md) } element) : { void }
 unregisterElement
 Unregister an SElement instance on a given element
 - Privacy : **Public**
 
-- Return : **void** : undefined
+- Return : **{ void }** : undefined
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-elm | **HTMLElement** | The element in which to register a component | required | 
-element | **SElement** | The SElement instance to register | required | 
+elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element in which to register a component | required | 
+element | **{ [SElement](/api/js/core/SElement.md) }** | The SElement instance to register | required | 
 
 
-### getComponents(HTMLElement elm) : Object
+### getComponents({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm) : { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> }
 getComponents
 Return all the components inited on the given element
 - Privacy : **Public**
 
-- Return : **Object** : The object of all components inited on this element
+- Return : **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> }** : The object of all components inited on this element
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-elm | **HTMLElement** | The element to process | required | 
+elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element to process | required | 
 
 
-### getOriginalElement(HTMLElement elm) : HTMLElement
+### getOriginalElement({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm) : { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }
 getOriginalElement
 Return the original element before it has been processed by any components etc...
 - Privacy : **Public**
 
-- Return : **HTMLElement** : The original element
+- Return : **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** : The original element
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-elm | **HTMLElement** | The element to process | required | 
+elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element to process | required | 
 
 
-### getElementsCount(HTMLElement elm) : Integer
+### getElementsCount({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm) : { Integer }
 getElementsCount
 Return the number of SElements instances that are inited on the given html element
 - Privacy : **Public**
 
-- Return : **Integer** : The count of SElement instances that are living on the particular node
+- Return : **{ Integer }** : The count of SElement instances that are living on the particular node
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-elm | **HTMLElement** | The element to process | required | 
+elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element to process | required | 
 
 
 

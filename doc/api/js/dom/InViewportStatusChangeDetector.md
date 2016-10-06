@@ -9,7 +9,7 @@ This class allows you to monitor an HTMLElement and be notified when it enters o
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-elm | **HTMLElement** | The element to track | required | 
+elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element to track | required | 
 
 - Author **Olivier Bossel <olivier.bossel@gmail.com>**
 
@@ -31,28 +31,28 @@ detector.on('exit', (elm) => {
 ## API
 -----------------------------
 
-### on(String status, Function cb) : InViewportStatusChangeDetector
+### on({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } status, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } cb) : { [InViewportStatusChangeDetector](/api/js/dom/InViewportStatusChangeDetector.md) }
 Add a callback
 - Privacy : **Public**
 
-- Return : **InViewportStatusChangeDetector** : The instance itself to maintain chainability
+- Return : **{ [InViewportStatusChangeDetector](/api/js/dom/InViewportStatusChangeDetector.md) }** : The instance itself to maintain chainability
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-status | **String** | The status to track (enter|exit) | required | 
-cb | **Function** | The callback to add | required | 
+status | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | The status to track (enter|exit) | required | 
+cb | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> }** | The callback to add | required | 
 
 
-### off(String status, Function cb) : InViewportStatusChangeDetector
+### off({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } status, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } cb) : { [InViewportStatusChangeDetector](/api/js/dom/InViewportStatusChangeDetector.md) }
 Remove a callback
 - Privacy : **Public**
 
-- Return : **InViewportStatusChangeDetector** : The instance itself to maintain chainability
+- Return : **{ [InViewportStatusChangeDetector](/api/js/dom/InViewportStatusChangeDetector.md) }** : The instance itself to maintain chainability
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-status | **String** | The status to remove (enter|exit) | required | 
-cb | **Function** | The callback to remove | required | 
+status | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | The status to remove (enter|exit) | required | 
+cb | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> }** | The callback to remove | required | 
 
 
 ### destroy()

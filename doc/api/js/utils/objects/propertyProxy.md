@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### propertyProxy(Object obj, String property, Object descriptor, Boolean applySetter)
+### propertyProxy({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> } obj, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } property, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> } descriptor, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean" target="_blank" title="Boolean">Boolean</a> } applySetter)
 
 - Privacy : **Public**
 
@@ -13,10 +13,10 @@
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-obj | **Object** | The object on which to create the proxy | required | 
-property | **String** | The property name that will be proxied | required | 
-descriptor | **Object** | A descriptor object that contains at least a get or a set method, or both | required | 
-applySetter | **Boolean** | If need to apply the descriptor setter directly on the current value or not | required | 
+obj | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> }** | The object on which to create the proxy | required | 
+property | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | The property name that will be proxied | required | 
+descriptor | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> }** | A descriptor object that contains at least a get or a set method, or both | required | 
+applySetter | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean" target="_blank" title="Boolean">Boolean</a> }** | If need to apply the descriptor setter directly on the current value or not | required | 
 
 
 #### Sample

@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### whenInViewport(HTMLElement elm, Function cb = null) : (Promise)
+### whenInViewport({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } cb = null) : (Promise)
 Monitor an HTMLElement to be notified when it is in the viewport
 
 - Privacy : **Public**
@@ -14,8 +14,8 @@ Monitor an HTMLElement to be notified when it is in the viewport
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-elm | **HTMLElement** | The element to monitor | required | 
-cb | **Function** | An optional callback to call when the element is in the viewport | optional | null
+elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element to monitor | required | 
+cb | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> }** | An optional callback to call when the element is in the viewport | optional | null
 
 
 #### Sample

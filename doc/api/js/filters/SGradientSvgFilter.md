@@ -5,7 +5,7 @@ This is useful cause the gradient will only be applied on part of the elements t
 of each parts
 
 
-- Extends **{SSvgFilter}**
+- Extends **{ [SSvgFilter](/api/js/filters/SSvgFilter.md) }**
 - Author **Olivier Bossel <olivier.bossel@gmail.com>**
 
 #### Sample
@@ -22,7 +22,7 @@ filter.applyTo(myCoolHTMLElement);
 ## API
 -----------------------------
 
-### linear(Array colors, Object settings)
+### linear({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Array" target="_blank" title="Array">Array</a> } colors, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> } settings)
 Linear gradient
 - Privacy : **Public**
 
@@ -30,11 +30,11 @@ Linear gradient
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-colors | **Array** | An array of colors for your gradient | required | 
-settings | **Object** | The settings of your gradient | required | 
+colors | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Array" target="_blank" title="Array">Array</a> }** | An array of colors for your gradient | required | 
+settings | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> }** | The settings of your gradient | required | 
 
 
-### radial(Array colors, Object settings)
+### radial({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Array" target="_blank" title="Array">Array</a> } colors, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> } settings)
 Linear gradient
 - Privacy : **Public**
 
@@ -42,11 +42,11 @@ Linear gradient
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-colors | **Array** | An array of colors for your gradient | required | 
-settings | **Object** | The settings of your gradient | required | 
+colors | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Array" target="_blank" title="Array">Array</a> }** | An array of colors for your gradient | required | 
+settings | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> }** | The settings of your gradient | required | 
 
 
-### applyTo(HTMLElement elm)
+### applyTo({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm)
 Apply the filter to element
 - Privacy : **Public**
 
@@ -54,10 +54,10 @@ Apply the filter to element
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-elm | **HTMLElement** | The element on which to apply the filter | required | 
+elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element on which to apply the filter | required | 
 
 
-### unapplyFrom(HTMLElement elm)
+### unapplyFrom({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm)
 Remove the filter from element
 - Privacy : **Public**
 
@@ -65,7 +65,7 @@ Remove the filter from element
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-elm | **HTMLElement** | The element to unapply the filter from | required | 
+elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element to unapply the filter from | required | 
 
 
 

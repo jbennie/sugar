@@ -5,18 +5,18 @@
 ## API
 -----------------------------
 
-### inViewportStatusChange(HTMLElement elm, Function onEnter, Function onExit) : InViewportStatusChangeDetector
+### inViewportStatusChange({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } onEnter, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } onExit) : { [InViewportStatusChangeDetector](/api/js/dom/InViewportStatusChangeDetector.md) }
 Monitor when the passed element enter or exit the viewport
 
 - Privacy : **Public**
 
-- Return : **InViewportStatusChangeDetector** : The in viewport status change detector instance
+- Return : **{ [InViewportStatusChangeDetector](/api/js/dom/InViewportStatusChangeDetector.md) }** : The in viewport status change detector instance
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-elm | **HTMLElement** | The element to monitor | required | 
-onEnter | **Function** | Callback when the element enter the viewport | required | 
-onExit | **Function** | Callback when the element exit the viewport | required | 
+elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element to monitor | required | 
+onEnter | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> }** | Callback when the element enter the viewport | required | 
+onExit | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> }** | Callback when the element exit the viewport | required | 
 
 
 #### Sample

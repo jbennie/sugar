@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### styleString2Object(String style) : (Object)
+### styleString2Object({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } style) : (Object)
 Transform a style string to an object representation
 
 - Privacy : **Public**
@@ -14,7 +14,7 @@ Transform a style string to an object representation
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-style | **String** | The style string | required | 
+style | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | The style string | required | 
 
 
 #### Sample

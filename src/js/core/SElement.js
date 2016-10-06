@@ -172,11 +172,6 @@ class SElement extends SObject {
 				});
 			}
 		}).subscribe((elm) => {
-
-			if (elm.hasAttribute('s-range')) {
-				console.log('subscribe', this);
-			}
-
 			clearTimeout(onRemovedTimeout);
 			clearTimeout(onAddedTimeout);
 			onAddedTimeout = setTimeout(() => {

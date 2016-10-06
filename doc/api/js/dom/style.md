@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### style(HTMLElement elm, Object styleObj) : (Object)
+### style({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> } styleObj) : (Object)
 Set or remove a css style property on an HTMLElement
 
 - Privacy : **Public**
@@ -14,8 +14,8 @@ Set or remove a css style property on an HTMLElement
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-elm | **HTMLElement** | The element to process | required | 
-styleObj | **Object** | An object of style to apply | required | 
+elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element to process | required | 
+styleObj | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> }** | An object of style to apply | required | 
 
 
 #### Sample

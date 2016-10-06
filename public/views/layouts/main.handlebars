@@ -7,11 +7,12 @@
 </head>
 <body>
 	<section id="topbar">
-		<div class="container gutter">
+		<div s-trianglify style="z-index:0;"></div>
+		<div class="container" style="position:relative; z-index:1;">
 			<div class="row row-align-middle">
 				<div class="gr-adapt">
 					<h1 class="topbar__title">
-						Sugar.{scss}
+						Sugar
 					</h1>
 				</div>
 				<div class="gr-grow">
@@ -27,7 +28,45 @@
 					</form>
 				</div>
 				<div class="gr-adapt">
-
+					<nav class="topbar__links">
+						<ul class="nav nav--inline s-smaller">
+							<li class="nav__item">
+								<a href="#" class="s-big" title="Github">
+									<i class="icon-facebook"></i>
+									<span class="tooltip tooltip--b tooltip--secondary s-small">
+										Me on Facebook
+									</span>
+								</a>
+							</li>
+							<li class="nav__item">
+								<a href="#" class="s-big" title="Github">
+									<i class="icon-twitter-bird"></i>
+									<span class="tooltip tooltip--b tooltip--secondary s-small">
+										Sugar on Twitter
+									</span>
+								</a>
+							</li>
+							<li class="nav__item">
+								<a href="#" class="s-big" title="Github">
+									<i class="icon-github"></i>
+									<span class="tooltip tooltip--b tooltip--secondary s-small">
+										Sugar on Github
+									</span>
+								</a>
+							</li>
+							<li class="nav__item">
+								<a href="#" class="s-big" title="Github">
+									<i class="icon-home"></i>
+									<span class="tooltip tooltip--b tooltip--secondary s-small">
+										Author website
+									</span>
+								</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+				<div class="gr-adapt">
+					<div style="width:70px;"></div>
 				</div>
 			</div>
 		</div>
@@ -47,24 +86,12 @@
 		</div>
 	</section>
 	<section id="content" class="t-format markdown">
-
-		<form action="/charbon" class="grid-9 grid-moblet-12" method="post" name="login">
-<div class="box">
-<div class="container">
-
-<div class="grid-12 gutter-bottom relative"><label class="form__label form__label--required" data-labelize="" for="username">Username</label> <input class="input" id="username" name="username" required type="text" value="" s-template-keep="value" style="background-color: rgb(255, 255, 204);"><span style="opacity: 1; background-size: 19px 13px; left: 1178px; top: 31.5px; width: 19px; min-width: 19px; height: 13px; position: absolute; background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAANCAYAAABLjFUnAAAACXBIWXMAAAsTAAALEwEAmpwYAAABMmlDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjarZG9SsNQGIaf04qCQxAJbsLBQVzEn61j0pYiONQokmRrkkMVbXI4Of508ia8CAcXR0HvoOIgOHkJboI4ODgECU4i+EzP9w4vL3zQWPE6frcxB6PcmqDnyzCK5cwj0zQBYJCW2uv3twHyIlf8RMD7MwLgadXr+F3+xmyqjQU+gc1MlSmIdSA7s9qCuATc5EhbEFeAa/aCNog7wBlWPgGcpPIXwDFhFIN4BdxhGMXQAHCTyl3AtercArQLPTaHwwMrN1qtlvSyIlFyd1xaNSrlVp4WRhdmYFUGVPuq3Z7Wx0oGPZ//JYxiWdnbDgIQC5M6q0lPzOn3D8TD73fdMb4HL4Cp2zrb/4DrNVhs1tnyEsxfwI3+AvOlUD7FY+VVAAAAIGNIUk0AAHolAACAgwAA9CUAAITRAABtXwAA6GwAADyLAAAbWIPnB3gAAAECSURBVHjapNK9K8UBFIfxD12im8LEYLgZjcpgUFgUCUlZTJRkMpqUxR+hDFIGhWwGwy0MFiUxSCbZ5DXiYjnqdvvpvnim0+mcZ/ieU9U6tySBNEbQjBpMoANZnGIdl4VLKcm8YCPqbgzhAT1ox1mSrFpxjtCHLdygH5tJgymlMYhhtKH+r6FishYsYBpN0dvFHu5wi9okWToC/0AmcpqM+pd7PKMRDajDNb5xlS97Qyem0BsL8IT9uOAhXpGLvL/wGXO5fFkOO7FwHvJtLOOilGALM8vE1d6xiFVlkP8aXTjAI8bKFeXLBuJ3shjFiQpIYR6zWMFaXFOlsnHM4Ng/+RkAdVE2mEeC7WYAAAAASUVORK5CYII=&quot((wink)); background-repeat: no-repeat; background-position: 0px 0px; border: none; display: inline; visibility: visible; z-index: auto;"></span></div>
-
-<div class="grid-12 gutter-top gutter-bottom relative"><label class="form__label form__label--required" data-labelize="" for="password">Password</label> <input class="input s-validate--dirty s-validate--valid" id="password" name="password" required type="password" value="" s-template-keep="value" style="background-color: rgb(255, 255, 204);"><span style="opacity: 1; background-size: 19px 13px; left: 1178px; top: 41.5px; width: 19px; min-width: 19px; height: 13px; position: absolute; background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAANCAYAAABLjFUnAAAACXBIWXMAAAsTAAALEwEAmpwYAAABMmlDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjarZG9SsNQGIaf04qCQxAJbsLBQVzEn61j0pYiONQokmRrkkMVbXI4Of508ia8CAcXR0HvoOIgOHkJboI4ODgECU4i+EzP9w4vL3zQWPE6frcxB6PcmqDnyzCK5cwj0zQBYJCW2uv3twHyIlf8RMD7MwLgadXr+F3+xmyqjQU+gc1MlSmIdSA7s9qCuATc5EhbEFeAa/aCNog7wBlWPgGcpPIXwDFhFIN4BdxhGMXQAHCTyl3AtercArQLPTaHwwMrN1qtlvSyIlFyd1xaNSrlVp4WRhdmYFUGVPuq3Z7Wx0oGPZ//JYxiWdnbDgIQC5M6q0lPzOn3D8TD73fdMb4HL4Cp2zrb/4DrNVhs1tnyEsxfwI3+AvOlUD7FY+VVAAAAIGNIUk0AAHolAACAgwAA9CUAAITRAABtXwAA6GwAADyLAAAbWIPnB3gAAAECSURBVHjapNK9K8UBFIfxD12im8LEYLgZjcpgUFgUCUlZTJRkMpqUxR+hDFIGhWwGwy0MFiUxSCbZ5DXiYjnqdvvpvnim0+mcZ/ieU9U6tySBNEbQjBpMoANZnGIdl4VLKcm8YCPqbgzhAT1ox1mSrFpxjtCHLdygH5tJgymlMYhhtKH+r6FishYsYBpN0dvFHu5wi9okWToC/0AmcpqM+pd7PKMRDajDNb5xlS97Qyem0BsL8IT9uOAhXpGLvL/wGXO5fFkOO7FwHvJtLOOilGALM8vE1d6xiFVlkP8aXTjAI8bKFeXLBuJ3shjFiQpIYR6zWMFaXFOlsnHM4Ng/+RkAdVE2mEeC7WYAAAAASUVORK5CYII=&quot((wink)); background-repeat: no-repeat; background-position: 0px 0px; border: none; display: inline; visibility: visible; z-index: auto;"></span></div>
-
-<div class="grid-12 txt-right gutter-top gutter-bottom txt-small">* mandatory fields</div>
-
-<div class="grid-12 gutter-top txt-right"><input class="btn btn--grey btn--small btn--square btn--flat" type="submit" value="Log in" s-component="true" s-element="se23211p1v1l1671030052" style="position: relative;"></div>
-</div>
-</div>
-<script>document.login.username.focus();</script></form>
-
 		{{{body}}}
 	</section>
+
+	<a href="https://github.com/olivierbossel/sugar" target="_blank">
+		<img style="position: absolute; z-index:1; top: 0; right: 0; border: 0; width: 130px; min-width: auto;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png">
+	</a>
 
 	<script src="/assets/js/main.js"></script>
 

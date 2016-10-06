@@ -10,9 +10,9 @@ element depending on his movements, direction and speed
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-amount | **Number** | The motion blur amount | required | 
+amount | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number" target="_blank" title="Number">Number</a> }** | The motion blur amount | required | 
 
-- Extends **{SSvgFilter}**
+- Extends **{ [SSvgFilter](/api/js/filters/SSvgFilter.md) }**
 - Author **Olivier Bossel <olivier.bossel@gmail.com>**
 
 #### Sample
@@ -29,7 +29,7 @@ filter.applyTo(myCoolHTMLElement);
 ## API
 -----------------------------
 
-### applyTo(HTMLElement elm)
+### applyTo({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm)
 Apply the filter to element
 - Privacy : **Public**
 
@@ -37,10 +37,10 @@ Apply the filter to element
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-elm | **HTMLElement** | The element on which to apply the filter | required | 
+elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element on which to apply the filter | required | 
 
 
-### unapplyFrom(HTMLElement elm)
+### unapplyFrom({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm)
 Remove the filter from element
 - Privacy : **Public**
 
@@ -48,7 +48,7 @@ Remove the filter from element
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-elm | **HTMLElement** | The element to unapply the filter from | required | 
+elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element to unapply the filter from | required | 
 
 
 ### destroy()

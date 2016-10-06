@@ -10,7 +10,7 @@ const menuLevel = (three, currentUrl) => {
 			if (currentUrl.indexOf(path) !== -1) {
 				active = 'active';
 			}
-			console.log(path);
+			// console.log(path);
 			res += `<li class="list__item list__item--toggle ${active}" s-toggle -group="${Math.round(Math.random()*9999999999)}">${key}</li>`;
 			res += '<ul class="list list--sidemenu">';
 			res += menuLevel(value, currentUrl);

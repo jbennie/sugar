@@ -10,8 +10,8 @@ through the standard dispatch method on any HTMLElement
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-name | **String** | The event name | required | 
-settings | **Object** | The event settings | required | 
+name | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | The event name | required | 
+settings | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> }** | The event settings | required | 
 
 - Author **Olivier Bossel<olivier.bossel@gmail.com>**
 
@@ -33,13 +33,13 @@ myHTMLElement.dispatch(myEvent);
 ## Settings
 -----------------------------
 
-### Boolean cancelable = true
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean" target="_blank" title="Boolean">Boolean</a> } cancelable = true
 Set if the event is cancelable or not
 
-### Boolean bubbles = true
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean" target="_blank" title="Boolean">Boolean</a> } bubbles = true
 Set if the event will bubble or not
 
-### Object detail = null
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> } detail = null
 Pass an object that will be sent with the event
 
 

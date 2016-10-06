@@ -37,7 +37,7 @@ Destroy the watcher
 
 
 
-### watch(Object object, String path, Function cb)
+### watch({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> } object, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } path, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } cb)
 Watch something on an object
 - Privacy : **Public**
 
@@ -45,9 +45,9 @@ Watch something on an object
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-object | **Object** | The object to watch | required | 
-path | **String** | The property path to watch on the object | required | 
-cb | **Function** | The callback called when the property is updated | required | 
+object | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> }** | The object to watch | required | 
+path | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | The property path to watch on the object | required | 
+cb | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> }** | The callback called when the property is updated | required | 
 
 
 

@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### styleObject2String(Object styleObj) : (String)
+### styleObject2String({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> } styleObj) : (String)
 Transform a style object to inline string separated by ;
 
 - Privacy : **Public**
@@ -14,7 +14,7 @@ Transform a style object to inline string separated by ;
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-styleObj | **Object** | An object of style to apply | required | 
+styleObj | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> }** | An object of style to apply | required | 
 
 
 #### Sample

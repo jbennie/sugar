@@ -10,7 +10,7 @@ by extending this class like so
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-The SVG filter string representation | **String** | undefined | required | 
+The SVG filter string representation | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | undefined | required | 
 
 - Author **Olivier Bossel <olivier.bossel@gmail.com>**
 
@@ -37,7 +37,7 @@ myFilter.applyTo(myCoolHTMLElement);
 ## API
 -----------------------------
 
-### applyTo(HTMLElement elm)
+### applyTo({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm)
 Apply the filter to an element
 - Privacy : **Public**
 
@@ -45,10 +45,10 @@ Apply the filter to an element
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-elm | **HTMLElement** | The element on which to apply the filter | required | 
+elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element on which to apply the filter | required | 
 
 
-### unapplyFrom(HTMLElement elm)
+### unapplyFrom({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm)
 Unapply from
 - Privacy : **Public**
 
@@ -56,7 +56,7 @@ Unapply from
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-elm | **HTMLElement** | The element from which to remove the filter | required | 
+elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element from which to remove the filter | required | 
 
 
 ### destroy()

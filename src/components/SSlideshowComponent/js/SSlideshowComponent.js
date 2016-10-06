@@ -365,7 +365,7 @@ class SSlideshowComponent extends SComponent {
 			loop : true
 		});
 		// on tick
-		this._timer.tick((timer) => {
+		this._timer.onTick((timer) => {
 			// next slide
 			this.next();
 		});

@@ -23,12 +23,12 @@ This class allows to wrap an HTMLElement with a lot of useful features like:
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-name | **String** | The component name in camelcase | required | 
-elm | **HTMLElement** | The HTMLElement handled by this component | required | 
-default_settings | **Object** | The default settings of the component | optional | {}
-settings | **Object** | The settings passed to the component | optional | {}
+name | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | The component name in camelcase | required | 
+elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The HTMLElement handled by this component | required | 
+default_settings | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> }** | The default settings of the component | optional | {}
+settings | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> }** | The settings passed to the component | optional | {}
 
-- Extends **{SElement}**
+- Extends **{ [SElement](/api/js/core/SElement.md) }**
 - Author **Olivier Bossel <olivier.bossel@gmail.com>**
 
 #### Sample
@@ -69,61 +69,61 @@ class myComponent extends SComponent {
 ## Settings
 -----------------------------
 
-### String initWhen
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } initWhen
 Define when the component has to be
 initiated. It can be 'visible', 'inViewport', 'added', 'hover', 'click'
 
-### Number autoDestroyTimeout
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number" target="_blank" title="Number">Number</a> } autoDestroyTimeout
 Define after how many time the component has to destroy itself
 That starts when the component is not in the
 dom of has been detached
 -1 meand no auto destroy
 
-### Function beforeInit
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } beforeInit
 Callback before the component initialisation
 
-### Function afterInit
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } afterInit
 Callback after the component initialisation
 
-### Function beforeDestroy
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } beforeDestroy
 Callback before the component is destroyed
 
-### Function afterDestroy
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } afterDestroy
 afterDestroy
 Callback after the component has been destroyed
 
-### Function onAdded
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } onAdded
 Callback when the element is added to the dom
 
-### Function onRemoved
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } onRemoved
 Callback when the element is removed from the dom
 
-### Function onAttached
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } onAttached
 Callback when the element is attached to the dom
 
-### Function onDetached
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } onDetached
 Callback when the element is detached from the dom
 
-### Function onEnabled
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } onEnabled
 Callback when the element has just been enabled
 
-### Function onDisabled
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } onDisabled
 Callback when the element has just been disabled
 
 -----------------------------
 ## Properties
 -----------------------------
 
-### Object settings
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> } settings
 Store the component settings
 
-### String componentId
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } componentId
 Store the component uniqid
 
-### String componentName
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } componentName
 Store the name of the component in camelcase format
 
-### String componentNameDash
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } componentNameDash
 Store the name of the component in dash format 's-date-...'
 
 -----------------------------
@@ -168,99 +168,99 @@ but still lives in another element in memory
 
 
 
-### disable() : SComponent
+### disable() : { [SComponent](/api/js/core/SComponent.md) }
 Disable the component
 - Privacy : **Public**
 
-- Return : **SComponent** : The component instance itself
+- Return : **{ [SComponent](/api/js/core/SComponent.md) }** : The component instance itself
 
 
-### enable() : SComponent
+### enable() : { [SComponent](/api/js/core/SComponent.md) }
 Enable the component
 - Privacy : **Public**
 
-- Return : **SComponent** : The component instance itself
+- Return : **{ [SComponent](/api/js/core/SComponent.md) }** : The component instance itself
 
 
-### destroy() : SComponent
+### destroy() : { [SComponent](/api/js/core/SComponent.md) }
 Destroy routine
 - Privacy : **Public**
 
-- Return : **SComponent** : The component instance itself
+- Return : **{ [SComponent](/api/js/core/SComponent.md) }** : The component instance itself
 
 
-### componentClassName(String element = null, String modifier = null, String state = null) : String
+### componentClassName({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } element = null, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } modifier = null, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } state = null) : { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }
 componentClassName
 Set a class that will be construct with the componentNameDash,
 an optional element and modifier
 - Privacy : **Public**
 
-- Return : **String** : The generated class
+- Return : **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** : The generated class
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-element | **String** | The element name | optional | null
-modifier | **String** | The modifier name | optional | null
-state | **String** | The state name | optional | null
+element | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | The element name | optional | null
+modifier | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | The modifier name | optional | null
+state | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | The state name | optional | null
 
 
-### componentSelector(String element = null, String modifier = null, String state = null) : String
+### componentSelector({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } element = null, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } modifier = null, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } state = null) : { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }
 Get a component selector class built with the passed element, modifier and state parameters
 - Privacy : **Public**
 
-- Return : **String** : The generated class
+- Return : **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** : The generated class
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-element | **String** | The element name | optional | null
-modifier | **String** | The modifier name | optional | null
-state | **String** | The state name | optional | null
+element | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | The element name | optional | null
+modifier | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | The modifier name | optional | null
+state | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | The state name | optional | null
 
 
-### hasComponentClass(HTMLElement elm, String element = null, String modifier = null, String state = null) : Boolean
+### hasComponentClass({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } element = null, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } modifier = null, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } state = null) : { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean" target="_blank" title="Boolean">Boolean</a> }
 hasComponentClass
 Check if the passed element has the component class generated by the element and modifier argument
 - Privacy : **Public**
 
-- Return : **Boolean** : The check result
+- Return : **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean" target="_blank" title="Boolean">Boolean</a> }** : The check result
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-elm | **HTMLElement** | The element to check | required | 
-element | **String** | The element name | optional | null
-modifier | **String** | The modifier name | optional | null
-state | **String** | The state name | optional | null
+elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element to check | required | 
+element | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | The element name | optional | null
+modifier | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | The modifier name | optional | null
+state | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | The state name | optional | null
 
 
-### addComponentClass(String element = null, String modifier = null, String state = null) : SComponent}
+### addComponentClass({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } element = null, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } modifier = null, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } state = null) : { [SComponent](/api/js/core/SComponent.md) }}
 Add a class on the passed element that will be construct with the componentNameDash,
 an optional element, modifier and state
 - Privacy : **Public**
 
-- Return : **SComponent}** : The component itself
+- Return : **{ [SComponent](/api/js/core/SComponent.md) }}** : The component itself
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-element | **String** | The element name | optional | null
-modifier | **String** | The modifier name | optional | null
-state | **String** | The state name | optional | null
+element | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | The element name | optional | null
+modifier | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | The modifier name | optional | null
+state | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | The state name | optional | null
 
 
-### removeComponentClass(String element = null, String modifier = null, String state = null) : SComponent}
+### removeComponentClass({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } element = null, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } modifier = null, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } state = null) : { [SComponent](/api/js/core/SComponent.md) }}
 Remove a class on the passed element that will be construct with the componentNameDash,
 an optional element, modifier and state
 - Privacy : **Public**
 
-- Return : **SComponent}** : The component itself
+- Return : **{ [SComponent](/api/js/core/SComponent.md) }}** : The component itself
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-element | **String** | The element name | optional | null
-modifier | **String** | The modifier name | optional | null
-state | **String** | The state name | optional | null
+element | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | The element name | optional | null
+modifier | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | The modifier name | optional | null
+state | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | The state name | optional | null
 
 
-### watchSettings(Function callback)
+### watchSettings({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } callback)
 Watch all settings
 - Privacy : **Public**
 
@@ -268,28 +268,28 @@ Watch all settings
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-callback | **Function** | The callback to launch when a setting has changed | required | 
+callback | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> }** | The callback to launch when a setting has changed | required | 
 
 
-### isDestroyed() : Boolean
+### isDestroyed() : { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean" target="_blank" title="Boolean">Boolean</a> }
 Return if the component has been destroyed
 - Privacy : **Public**
 
-- Return : **Boolean** : destroyed status
+- Return : **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean" target="_blank" title="Boolean">Boolean</a> }** : destroyed status
 
 
-### isDisabled() : Boolean
+### isDisabled() : { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean" target="_blank" title="Boolean">Boolean</a> }
 Return if the component is disabled
 - Privacy : **Public**
 
-- Return : **Boolean** : disable status
+- Return : **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean" target="_blank" title="Boolean">Boolean</a> }** : disable status
 
 
-### isEnabled() : Boolean
+### isEnabled() : { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean" target="_blank" title="Boolean">Boolean</a> }
 Return is the component is enabled
 - Privacy : **Public**
 
-- Return : **Boolean** : enable status
+- Return : **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean" target="_blank" title="Boolean">Boolean</a> }** : enable status
 
 
 

@@ -12,10 +12,10 @@ This class give some useful features like :
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-request | **SAjaxRequest** | The request object used to make ajax call | required | 
-settings | **Object** | Some settings around the request | optional | {}
+request | **{ [SAjaxRequest](/api/js/classes/SAjaxRequest.md) }** | The request object used to make ajax call | required | 
+settings | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> }** | Some settings around the request | optional | {}
 
-- Extends **{SObject}**
+- Extends **{ [SObject](/api/js/core/SObject.md) }**
 - Author **Olivier Bossel<olivier.bossel@gmail.com>**
 
 #### Sample
@@ -56,13 +56,13 @@ ajx.send().then((response) => {
 ## Settings
 -----------------------------
 
-### Number sendInterval = 1000
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number" target="_blank" title="Number">Number</a> } sendInterval = 1000
 Set the interval time between each requests if the sendCount setting is specified
 
-### Integer sendCount = null
+### { Integer } sendCount = null
 Set how many times the request has to be sent
 
-### Function beforeSend = null
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } beforeSend = null
 A function that will be called before each requests to have a change to update some request params
 Must return the new request params
 Will recieve the actual request params and the request count as parameter
@@ -71,18 +71,18 @@ Will recieve the actual request params and the request count as parameter
 ## Properties
 -----------------------------
 
-### Observable[https://github.com/ReactiveX/rxjs] observable
+### { <a class="link" href="https://github.com/Reactive-Extensions/RxJS/blob/master/doc/api/core/observable.md" target="_blank" title="Observable">Observable</a> }[https://github.com/ReactiveX/rxjs] observable
 Store the observable instance on which you can subscribe for responses
 
 -----------------------------
 ## API
 -----------------------------
 
-### send() : Promise
+### send() : { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise" target="_blank" title="Promise">Promise</a> }
 Send the request and return a promise
 - Privacy : **Public**
 
-- Return : **Promise** : The promise through which you will be notified when data are here
+- Return : **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise" target="_blank" title="Promise">Promise</a> }** : The promise through which you will be notified when data are here
 
 
 

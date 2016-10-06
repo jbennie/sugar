@@ -12,6 +12,7 @@
  */
 .btn {
 	border-radius: #{1em + s-lnf(padding-horizontal) * 2};
+	@include s-filter(shadowed-text);
 
 	i {
 		font-size:1.3em;

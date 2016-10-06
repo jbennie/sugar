@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### whenProperty(Object object, String property, Function checkFn = null) : (Promise)
+### whenProperty({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> } object, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } property, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } checkFn = null) : (Promise)
 Resolve a promise when the wanted property on the passed object exist or pass the check function provided
 
 - Privacy : **Public**
@@ -14,9 +14,9 @@ Resolve a promise when the wanted property on the passed object exist or pass th
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-object | **Object** | The object on which to monitor the property | required | 
-property | **String** | The property to monitor | required | 
-checkFn | **Function** | An optional function to check the property. The promise is resolved when this function return true | optional | null
+object | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> }** | The object on which to monitor the property | required | 
+property | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | The property to monitor | required | 
+checkFn | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> }** | An optional function to check the property. The promise is resolved when this function return true | optional | null
 
 
 #### Sample

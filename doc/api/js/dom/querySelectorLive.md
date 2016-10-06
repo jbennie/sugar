@@ -3,10 +3,10 @@
 ## Settings
 -----------------------------
 
-### HTMLElement rootNode = document.body
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } rootNode = document.body
 The root node to start the monitoring from
 
-### Array<Function> onNodeRemoved = []
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Array" target="_blank" title="Array">Array</a> }<Function> onNodeRemoved = []
 An array of callbacks to call when the detected element is removed from the dom
 
 
@@ -14,17 +14,17 @@ An array of callbacks to call when the detected element is removed from the dom
 ## API
 -----------------------------
 
-### undefined(String selector, Object settings = null) : QuerySelectorLiveObservable
+### undefined({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } selector, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> } settings = null) : { QuerySelectorLiveObservable }
 Observe the dom to get all the elements that matches the passed selector at any point in time
 
 - Privacy : **Public**
 
-- Return : **QuerySelectorLiveObservable** : The augmented observable instance to subscribe to
+- Return : **{ QuerySelectorLiveObservable }** : The augmented observable instance to subscribe to
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-selector | **String** | The css selector to monitor in the dom | required | 
-settings | **Object** | The settings to pass to the selector | optional | null
+selector | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | The css selector to monitor in the dom | required | 
+settings | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> }** | The settings to pass to the selector | optional | null
 
 
 #### Sample

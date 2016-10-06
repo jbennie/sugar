@@ -9,9 +9,9 @@ This class represent a gooey SVG filter that can be applied on any HTMLElement.
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-amount | **Number** | The amount of effect to apply | required | 
+amount | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number" target="_blank" title="Number">Number</a> }** | The amount of effect to apply | required | 
 
-- Extends **{SSvgFilter}**
+- Extends **{ [SSvgFilter](/api/js/filters/SSvgFilter.md) }**
 - Author **Olivier Bossel <olivier.bossel@gmail.com>**
 
 #### Sample
@@ -26,16 +26,16 @@ filter.applyTo(myCoolHTMLElement);
 ## Properties
 -----------------------------
 
-### Number blur
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number" target="_blank" title="Number">Number</a> } blur
 The blur amount to produce the effect
 
-### Number contrast
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number" target="_blank" title="Number">Number</a> } contrast
 The contrast amount to produce the effect
 
-### Number shrink
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number" target="_blank" title="Number">Number</a> } shrink
 The shrink amount to produce the effect
 
-### Number amount
+### { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number" target="_blank" title="Number">Number</a> } amount
 The overall amount of effect to produce
 
 
