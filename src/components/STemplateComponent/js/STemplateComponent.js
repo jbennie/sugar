@@ -117,7 +117,7 @@ class STemplateComponent extends SComponent {
 		// If the component that extend this class has an _initDependencies method,
 		// we don't want the parent template to render us
 		// cause we are not already inited...
-		this.elm.sTemplateComponent = this;
+		this.elm._sTemplateComponent = this;
 	}
 
 	/**
@@ -146,9 +146,8 @@ class STemplateComponent extends SComponent {
 	_getParentTemplateComponent() {
 		if (this._parentTemplateComponent) return this._parentTemplateComponent;
 		const closestComponent = __closest(this.elm, '[s-template-component]');
-		// console.log(__constructorName(this));
-		// console.error('closest', closestComponent);
-		const component = closestComponent.sTemplateComponent;
+		if ( ! closestComponent) return null;
+		const component = closestComponent._sTemplateComponent;
 		if (component) this._parentTemplateComponent = component;
 		return component;
 	}
@@ -294,10 +293,10 @@ class STemplateComponent extends SComponent {
 	//
 	// 	// check if is a template component
 	// 	// in case we need to render it
-	// 	if (node.sTemplateComponent
-	// 		&& node.sTemplateComponent !== this) {
+	// 	if (node._sTemplateComponent
+	// 		&& node._sTemplateComponent !== this) {
 	// 		// render the node if needed
-	// 		node.sTemplateComponent._internalRender(true);
+	// 		node._sTemplateComponent._internalRender(true);
 	// 	}
 	// }
 
@@ -320,7 +319,7 @@ class STemplateComponent extends SComponent {
 			this._template.destroy();
 		}
 		// remove the reference on the element
-		delete this.elm.sTemplateComponent;
+		delete this.elm._sTemplateComponent;
 		// delete reference to parent template component
 		this._parentTemplateComponent = null;
 	}

@@ -222,7 +222,7 @@ $not : ':not([type="checkbox"]):not([type="radio"]):not(.noUi-target)';
 }
 
 @mixin s-input-component-select-field-style(
-	$color : default primary secondary
+	$color : null
 ) {
 	@include s-input-component-init();
 	@extend %s-input-component-field-style;
