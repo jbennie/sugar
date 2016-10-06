@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### style(elm : HTMLElement, styleObj : Object) : (Object)
+### style(HTMLElement elm, Object styleObj) : (Object)
 Set or remove a css style property on an HTMLElement
 
 - Privacy : **Public**
@@ -19,7 +19,7 @@ styleObj | **Object** | An object of style to apply | required | 
 
 
 #### Sample
-```language-undefined
+```js
 import style from 'sugarcss/js/dom/style'
 style(myCoolHTMLElement, {
 		paddingLeft : 20,

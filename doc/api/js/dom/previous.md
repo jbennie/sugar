@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### previous(elm : HTMLElement, selector : String) : HTMLElement
+### previous(HTMLElement elm, String selector) : HTMLElement
 Browse the passed element previous siblings to find the first element that matches the passed selector
 
 - Privacy : **Public**
@@ -19,7 +19,7 @@ selector | **String** | A css selector to search for | required | 
 
 
 #### Sample
-```language-undefined
+```js
 import previous from 'sugarcss/js/dom/previous'
 const previousElm = previous(myCoolElement, '.my-cool-class');
 if (previousElm) {

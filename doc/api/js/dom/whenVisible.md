@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### whenVisible(elm : HTMLElement, cb : Function = null) : (Promise)
+### whenVisible(HTMLElement elm, Function cb = null) : (Promise)
 Monitor an HTMLElement to be notified when it is visible
 
 - Privacy : **Public**
@@ -19,7 +19,7 @@ cb | **Function** |Â An optional callback to call when the element is visible |Â
 
 
 #### Sample
-```language-undefined
+```js
 import whenVisible from 'sugarcss/js/dom/whenVisible'
 whenVisible(myCoolHTMLElement).then((elm) => {
 		// do something with your element that is now visible

@@ -5,7 +5,7 @@ This class allows you to easily monitor some object properties and get the new a
 - Author **Olivier Bossel <olivier.bossel@gmail.com>**
 
 #### Sample
-```language-undefined
+```js
 // create the watcher instance
 const watcher = new SWatcher();
 
@@ -37,7 +37,7 @@ Destroy the watcher
 
 
 
-### watch(object : Object, path : String, cb : Function)
+### watch(Object object, String path, Function cb)
 Watch something on an object
 - Privacy : **Public**
 

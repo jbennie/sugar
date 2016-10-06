@@ -27,7 +27,7 @@ export default function getTranslateProperties(elm) {
 		return {
 			x : parseFloat(mat[1].split(', ')[12]),
 			y : parseFloat(mat[1].split(', ')[13]),
-			z : parseFloat(mat[1].split(', ')[14)
+			z : parseFloat(mat[1].split(', ')[14])
 		};
 	}
 	mat = transform.match(/^matrix\((.+)\)$/);

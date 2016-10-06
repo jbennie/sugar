@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### getTransitionProperties(elm : HTMLElement) : Object
+### getTransitionProperties(HTMLElement elm) : Object
 Get the css transition properties from an HTMLElement in an object format
 
 - Privacy : **Public**
@@ -18,7 +18,7 @@ elm | **HTMLElement** | The element to get the properties from | required | 
 
 
 #### Sample
-```language-undefined
+```js
 import getTransitionProperties from 'sugarcss/js/dom/getTransitionProperties'
 const props = getTransitionProperties(myCoolHTMLElement);
 // output format

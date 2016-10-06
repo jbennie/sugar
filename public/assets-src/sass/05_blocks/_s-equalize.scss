@@ -1,0 +1,8 @@
+/**
+ * s-equalize component styling
+ */
+
+// transition the equalizeR
+[s-equalizer] {
+	@include s-transition(max-height slow);
+}

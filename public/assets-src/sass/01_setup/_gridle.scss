@@ -1,0 +1,38 @@
+/* # GRIDLE vars
+Define the gridle configuration vars
+
+For the documentation check : http://gridle.org/
+*/
+
+@import "../../../../node_modules/gridle/sass/gridle/gridle";
+
+// do not generate JSON in css cause we don't use gridle.js for now
+$gridle-generate-json-settings : false;
+
+// setup grid
+ @include gridle_setup((
+	context             : 12,
+	gutter-width        : 20px,
+    gutter-height       : 20px
+ ));
+
+// register states
+@include gridle_register_state(mobile , (
+	max-width : 620px
+));
+@include gridle_register_state(tablet , (
+	min-width : 621px,
+	max-width : 1023px
+));
+@include gridle_register_state(moblet, (
+	max-width : 1023px
+));
+
+// Custom columns
+@include gridle_register_column('1-5', 1, 5);
+
+// Custom clear
+@include gridle_register_clear_each(2, left);
+@include gridle_register_clear_each(3, left);
+@include gridle_register_clear_each(4, left);
+@include gridle_register_clear_each(5, left);

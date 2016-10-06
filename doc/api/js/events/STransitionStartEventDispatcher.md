@@ -6,7 +6,7 @@ To use this class, you just need to import it into your codebase, that's it!
 
 
 #### Sample
-```language-undefined
+```js
 require('sugarcss/js/events/STransitionstartEventDispatcher');
 ```
 

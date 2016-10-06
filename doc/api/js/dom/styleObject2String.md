@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### styleObject2String(styleObj : Object) : (String)
+### styleObject2String(Object styleObj) : (String)
 Transform a style object to inline string separated by ;
 
 - Privacy : **Public**
@@ -18,7 +18,7 @@ styleObj | **Object** | An object of style to apply | required | 
 
 
 #### Sample
-```language-undefined
+```js
 import styleObject2String from 'sugarcss/js/dom/styleObject2String'
 const styleString = styleObject2String({
 		paddingLeft : '20px',

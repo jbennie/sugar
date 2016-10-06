@@ -202,10 +202,14 @@ class SValidateComponent extends SComponent {
 
 		// try to find the closest form to listen when it is submitted
 		const formElm = __closest(this.elm, 'form');
+		this._formElm = formElm;
 		if (formElm) {
+			formElm.setAttribute('novalidate', true);
+			// formElm._sValidateComponentSubmitHandler = true;
 			formElm.addEventListener('submit', (e) => {
+				const isValid = this.validate();
 				// validate the input
-				if ( ! this.validate()) {
+				if ( ! isValid) {
 					e.preventDefault();
 				}
 			});
@@ -218,8 +222,6 @@ class SValidateComponent extends SComponent {
 	 * @return 	{void}
 	 */
 	render() {
-		// render component
-		super.render();
 		// if is dirty
 		if (this._isDirty) {
 			this.addComponentClass(this.elm, null, null, 'dirty');
@@ -276,9 +278,10 @@ class SValidateComponent extends SComponent {
 
 		// if it's the same invalid type
 		// do nothing
-		if (this._invalidType === invalidType) {
-			return;
-		} else {
+		if (this._invalidType && this._invalidType === invalidType) {
+			this._isValid = false;
+			return false;
+		} else if (invalidType) {
 			// save the invalid type
 			this._invalidType = invalidType;
 		}
@@ -295,13 +298,15 @@ class SValidateComponent extends SComponent {
 
 		if ( ! invalidType) {
 			this._isValid = true;
+		} else {
+			this._isValid = false;
 		}
 
 		// render
 		this.render();
 
 		// the input is valid
-		return true;
+		return this._isValid;
 	}
 
 	/**
@@ -324,31 +329,31 @@ class SValidateComponent extends SComponent {
 		else validators = [];
 		const type = this.attr.type;
 		// required
-		if (this.elm.hasAttribute('required') && validators.indexOf('required') === -1) {
+		if (this.attr.required && validators.indexOf('required') === -1) {
 			validators.push('required');
 		}
 
 		// range
-		if (this.elm.hasAttribute('min') && this.elm.hasAttribute('max')) {
+		if (this.attr.min && this.attr.max) {
 			if (validators.indexOf('range') === -1) {
 				validators.push('range');
 			}
 		} else {
 			// max
-			if (this.elm.hasAttribute('max') && validators.indexOf('max') === -1) {
+			if (this.attr.max && validators.indexOf('max') === -1) {
 				validators.push('max');
 			}
 			// min
-			if (this.elm.hasAttribute('min') && validators.indexOf('min') === -1) {
+			if (this.attr.min && validators.indexOf('min') === -1) {
 				validators.push('min');
 			}
 		}
 		// maxlength
-		if (this.elm.hasAttribute('maxlength') && validators.indexOf('maxlength') === -1) {
+		if (this.attr.maxlength && validators.indexOf('maxlength') === -1) {
 			validators.push('maxlength');
 		}
 		// pattern
-		if (this.elm.hasAttribute('pattern') && validators.indexOf('pattern') === -1) {
+		if (this.attr.pattern && validators.indexOf('pattern') === -1) {
 			validators.push('pattern');
 		}
 		// number
@@ -476,6 +481,9 @@ SValidateComponent.registerValidator('url', {
 // STemplate integration
 STemplate.registerComponentIntegration('SValidateComponent', (component) => {
 	STemplate.keepAttribute(component.elm, 'class');
+	if (component._formElm) {
+		STemplate.keepAttribute(component._formElm, 'novalidate');
+	}
 });
 
 // expose in window.sugar

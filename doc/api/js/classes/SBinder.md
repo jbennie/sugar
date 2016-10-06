@@ -5,7 +5,7 @@ This class allows to bind properties between objects, object to HTMLElement attr
 - Author **Olivier Bossel<olivier.bossel@gmail.com>**
 
 #### Sample
-```language-undefined
+```js
 const binder = new SBinder();
 
 // keep in sync the myObject2.title with the myObject1.title property
@@ -24,7 +24,7 @@ binder.bindObjectPath2ElementAttribute(myObject1, 'title', myHTMLElement, 'title
 ## API
 -----------------------------
 
-### bindObjectPath2ObjectPath(object1 : Object, path1 : String, object2 : Object, path2 : String) : SBinder
+### bindObjectPath2ObjectPath(Object object1, String path1, Object object2, String path2) : SBinder
 Bind object path 2 object path
 - Privacy : **Public**
 
@@ -38,7 +38,7 @@ object2 | **Object** | The destination object that will be updated | required 
 path2 | **String** | The property path on the destination object to update | required | 
 
 
-### bindElementAttribute2ObjectPath(elm : HTMLElement, attribute : String, object : Object, path : String) : SBinder
+### bindElementAttribute2ObjectPath(HTMLElement elm, String attribute, Object object, String path) : SBinder
 Bind element attribute to object path
 - Privacy : **Public**
 
@@ -52,7 +52,7 @@ object | **Object** | The destination object that will be updated | required |
 path | **String** | The property path on the destination object to update | required | 
 
 
-### bindObjectPath2ElementAttribute(object : Object, path : String, elm : HTMLElement, attribute : String) : SBinder
+### bindObjectPath2ElementAttribute(Object object, String path, HTMLElement elm, String attribute) : SBinder
 Bind object path to element attribute
 - Privacy : **Public**
 

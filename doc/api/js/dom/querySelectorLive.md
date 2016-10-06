@@ -3,10 +3,10 @@
 ## Settings
 -----------------------------
 
-### rootNode : HTMLElement = document.body
+### HTMLElement rootNode = document.body
 The root node to start the monitoring from
 
-### onNodeRemoved : Array<Function> = []
+### Array<Function> onNodeRemoved = []
 An array of callbacks to call when the detected element is removed from the dom
 
 
@@ -14,7 +14,7 @@ An array of callbacks to call when the detected element is removed from the dom
 ## API
 -----------------------------
 
-### undefined(selector : String, settings : Object = null) : QuerySelectorLiveObservable
+### undefined(String selector, Object settings = null) : QuerySelectorLiveObservable
 Observe the dom to get all the elements that matches the passed selector at any point in time
 
 - Privacy : **Public**
@@ -28,7 +28,7 @@ settings | **Object** | The settings to pass to the selector | optional | nul
 
 
 #### Sample
-```language-undefined
+```js
 const observer = querySelectorLive('.some-cool-css-selector').subscribe((elm) => {
 		// do something with the element found in the dom
 });

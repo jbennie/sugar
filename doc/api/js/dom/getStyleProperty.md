@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### getStyleProperty(elm : HTMLElement, property : String) : Mixed
+### getStyleProperty(HTMLElement elm, String property) : Mixed
 Get a style property on the passed element through the computed style.
 This function try to store the actual style to not trigger more that 1 redraw
 each js execution loop.
@@ -21,7 +21,7 @@ property | **String** | The css property to get | required | 
 
 
 #### Sample
-```language-undefined
+```js
 import getStyleProperty from 'sugarcss/js/dom/getStyleProperty'
 const opacity = getStyleProperty(myCoolHTMLElement, 'opacity');
 

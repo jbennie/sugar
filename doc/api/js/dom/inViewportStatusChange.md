@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### inViewportStatusChange(elm : HTMLElement, onEnter : Function, onExit : Function) : InViewportStatusChangeDetector
+### inViewportStatusChange(HTMLElement elm, Function onEnter, Function onExit) : InViewportStatusChangeDetector
 Monitor when the passed element enter or exit the viewport
 
 - Privacy : **Public**
@@ -20,7 +20,7 @@ onExit | **Function** | Callback when the element exit the viewport | required
 
 
 #### Sample
-```language-undefined
+```js
 import inViewportStatusChange from 'sugarcss/js/dom/inViewportStatusChange'
 const detector = inViewportStatusChange(myCoolHTMLElement, () => {
 		// i'm now in the viewport

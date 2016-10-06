@@ -18,7 +18,7 @@ settings | **Object** | The settings for the timer | required | 
 - Author **Olivier Bossel<olivier.bossel@gmail.com>**
 
 #### Sample
-```language-undefined
+```js
 const myTimer = new STimer(2000, {
 		tickCount : 5
 });
@@ -33,15 +33,15 @@ myTimer.start();
 ## Settings
 -----------------------------
 
-### tickInterval : Number = 1000
+### Number tickInterval = 1000
 Store the interval between ticks
 
 
-### tickCount : Integer = null
+### Integer tickCount = null
 Set the number of tick wanted
 
 
-### loop : Boolean = false
+### Boolean loop = false
 Set if the timer has to loop
 
 
@@ -57,7 +57,7 @@ Return the remaining time in ms
 - Return : **Number** : The remaining time in ms
 
 
-### duration(duration : Number = null) : Number
+### duration(Number duration = null) : Number
 Set or get the duration
 - Privacy : **Public**
 
@@ -68,7 +68,7 @@ Name | Type | Description | Status | Default
 duration | **Number** | Set the duration | optional | null
 
 
-### onTick(A function to call on tick : Function) : STimer
+### onTick(Function A function to call on tick) : STimer
 Register a function called on tick
 - Privacy : **Public**
 
@@ -79,7 +79,7 @@ Name | Type | Description | Status | Default
 A function to call on tick | **Function** | undefined | required | 
 
 
-### onComplete(A function to call on complete : Function)
+### onComplete(Function A function to call on complete)
 Register a function called on complete
 - Privacy : **Public**
 
@@ -90,7 +90,7 @@ Name | Type | Description | Status | Default
 A function to call on complete | **Function** | undefined | required | 
 
 
-### reset(start : Boolean) : STimer
+### reset(Boolean start) : STimer
 Reset the timer
 - Privacy : **Public**
 

@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### closestNotVisible(elm : HTMLElement) : HTMLElement
+### closestNotVisible(HTMLElement elm) : HTMLElement
 Go up the dom three to find the first element that is not visible.
 Not visible mean that has either an opacity to 0, a visibility to hidden or a display to none
 
@@ -19,7 +19,7 @@ elm | **HTMLElement** | The element to start on | required | 
 
 
 #### Sample
-```language-undefined
+```js
 import closestNotVisible from 'sugarcss/js/dom/closestNotVisible'
 const closestElm = closest(myCoolElement);
 if (closestElm) {

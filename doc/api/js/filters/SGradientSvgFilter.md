@@ -9,7 +9,7 @@ of each parts
 - Author **Olivier Bossel <olivier.bossel@gmail.com>**
 
 #### Sample
-```language-undefined
+```js
 const filter = new SGradientSvgFilter();
 filter.linear(['red','blue','green']);
 filter.applyTo(myCoolHTMLElement);
@@ -22,7 +22,7 @@ filter.applyTo(myCoolHTMLElement);
 ## API
 -----------------------------
 
-### linear(colors : Array, settings : Object)
+### linear(Array colors, Object settings)
 Linear gradient
 - Privacy : **Public**
 
@@ -34,7 +34,7 @@ colors | **Array** | An array of colors for your gradient | required | 
 settings | **Object** | The settings of your gradient | required | 
 
 
-### radial(colors : Array, settings : Object)
+### radial(Array colors, Object settings)
 Linear gradient
 - Privacy : **Public**
 
@@ -46,7 +46,7 @@ colors | **Array** | An array of colors for your gradient | required | 
 settings | **Object** | The settings of your gradient | required | 
 
 
-### applyTo(elm : HTMLElement)
+### applyTo(HTMLElement elm)
 Apply the filter to element
 - Privacy : **Public**
 
@@ -57,7 +57,7 @@ Name | Type | Description | Status | Default
 elm | **HTMLElement** | The element on which to apply the filter | required | 
 
 
-### unapplyFrom(elm : HTMLElement)
+### unapplyFrom(HTMLElement elm)
 Remove the filter from element
 - Privacy : **Public**
 

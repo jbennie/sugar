@@ -14,7 +14,7 @@ params | **Object** | The request params | required | 
 - Author **Olivier Bossel<olivier.bossel@gmail.com>**
 
 #### Sample
-```language-undefined
+```js
 const request = new SAjaxRequest({
  	url : '/api/...',
  	method : 'GET',
@@ -30,35 +30,35 @@ const request = new SAjaxRequest({
 ## Properties
 -----------------------------
 
-### url : String
+### String url
 The url to call
 
-### method : String = GET
+### String method = GET
 The request method to use like GET, POST, DELETE or PUT
 
-### cors : Boolean = true
+### Boolean cors = true
 Use the CORS or not (only for IE)
 
-### cache : Boolean = true
+### Boolean cache = true
 Use the cache or not
 
-### data : Object = null
+### Object data = null
 The data that will be sent with the request in JSON format
 
-### dataType : String = text
+### String dataType = text
 The data type expected from the response
 Accepted dataType are : text | json | html
 
-### contentType : String = null
+### String contentType = null
 Set the content type header to send with the request
 
-### requestedWith : String = XMLHttpRequest
+### String requestedWith = XMLHttpRequest
 Set the X-Requested-With header
 
-### auth : String = null
+### String auth = null
 Set the Authorization header
 
-### headers : Object = null
+### Object headers = null
 Set additional headers to send with the request
 
 

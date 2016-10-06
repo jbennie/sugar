@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### imageLoaded(img : HTMLImageElement, cb : Function = null) : Promise
+### imageLoaded(HTMLImageElement img, Function cb = null) : Promise
 Wait until the passed image is fully loaded
 
 - Privacy : **Public**
@@ -19,7 +19,7 @@ cb | **Function** | An optional callback to call | optional | null
 
 
 #### Sample
-```language-undefined
+```js
 import imageLoaded from 'sugarcss/js/dom/imageLoaded'
 imageLoaded(myCoolHTMLImageElement).then((img) => {
 		// do something when the image is loaded

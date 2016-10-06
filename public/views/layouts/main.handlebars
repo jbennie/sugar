@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<title>{{title}}</title>
+	<link rel="stylesheet" href="/assets/css/style.css" />
+	<link rel="stylesheet" href="/assets/css/gridle.css" />
+</head>
+<body>
+	<section id="topbar">
+		<div class="container gutter">
+			<div class="row row-align-middle">
+				<div class="gr-adapt">
+					<h1 class="topbar__title">
+						Sugar.{scss}
+					</h1>
+				</div>
+				<div class="gr-grow">
+					<form name="search" class="p-small">
+						<select class="input s-small" s-select placeholder="Search the doc" onchange="document.location = this.options[this.selectedIndex].value;">
+							<option value=""></option>
+							{{#each files}}
+								<option value="/{{this}}">
+									{{this}}
+								</option>
+							{{/each}}
+						</select>
+					</form>
+				</div>
+				<div class="gr-adapt">
+
+				</div>
+			</div>
+		</div>
+	</section>
+	<section id="sidebar">
+		<div class="sidebar__header">
+			<a class="btn btn--primary btn--block t-center t-uppercase">
+				Download <span class="s-small">1.0.0</span>
+			</a>
+			<!-- <pre class="language-js"><code class="language-js">npm install sugarcss --save</code>
+			</pre> -->
+		</div>
+
+
+		<div class="p">
+			{{{menu three currentUrl}}}
+		</div>
+	</section>
+	<section id="content" class="t-format markdown">
+
+		<form action="/charbon" class="grid-9 grid-moblet-12" method="post" name="login">
+<div class="box">
+<div class="container">
+
+<div class="grid-12 gutter-bottom relative"><label class="form__label form__label--required" data-labelize="" for="username">Username</label> <input class="input" id="username" name="username" required type="text" value="" s-template-keep="value" style="background-color: rgb(255, 255, 204);"><span style="opacity: 1; background-size: 19px 13px; left: 1178px; top: 31.5px; width: 19px; min-width: 19px; height: 13px; position: absolute; background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAANCAYAAABLjFUnAAAACXBIWXMAAAsTAAALEwEAmpwYAAABMmlDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjarZG9SsNQGIaf04qCQxAJbsLBQVzEn61j0pYiONQokmRrkkMVbXI4Of508ia8CAcXR0HvoOIgOHkJboI4ODgECU4i+EzP9w4vL3zQWPE6frcxB6PcmqDnyzCK5cwj0zQBYJCW2uv3twHyIlf8RMD7MwLgadXr+F3+xmyqjQU+gc1MlSmIdSA7s9qCuATc5EhbEFeAa/aCNog7wBlWPgGcpPIXwDFhFIN4BdxhGMXQAHCTyl3AtercArQLPTaHwwMrN1qtlvSyIlFyd1xaNSrlVp4WRhdmYFUGVPuq3Z7Wx0oGPZ//JYxiWdnbDgIQC5M6q0lPzOn3D8TD73fdMb4HL4Cp2zrb/4DrNVhs1tnyEsxfwI3+AvOlUD7FY+VVAAAAIGNIUk0AAHolAACAgwAA9CUAAITRAABtXwAA6GwAADyLAAAbWIPnB3gAAAECSURBVHjapNK9K8UBFIfxD12im8LEYLgZjcpgUFgUCUlZTJRkMpqUxR+hDFIGhWwGwy0MFiUxSCbZ5DXiYjnqdvvpvnim0+mcZ/ieU9U6tySBNEbQjBpMoANZnGIdl4VLKcm8YCPqbgzhAT1ox1mSrFpxjtCHLdygH5tJgymlMYhhtKH+r6FishYsYBpN0dvFHu5wi9okWToC/0AmcpqM+pd7PKMRDajDNb5xlS97Qyem0BsL8IT9uOAhXpGLvL/wGXO5fFkOO7FwHvJtLOOilGALM8vE1d6xiFVlkP8aXTjAI8bKFeXLBuJ3shjFiQpIYR6zWMFaXFOlsnHM4Ng/+RkAdVE2mEeC7WYAAAAASUVORK5CYII=&quot((wink)); background-repeat: no-repeat; background-position: 0px 0px; border: none; display: inline; visibility: visible; z-index: auto;"></span></div>
+
+<div class="grid-12 gutter-top gutter-bottom relative"><label class="form__label form__label--required" data-labelize="" for="password">Password</label> <input class="input s-validate--dirty s-validate--valid" id="password" name="password" required type="password" value="" s-template-keep="value" style="background-color: rgb(255, 255, 204);"><span style="opacity: 1; background-size: 19px 13px; left: 1178px; top: 41.5px; width: 19px; min-width: 19px; height: 13px; position: absolute; background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAANCAYAAABLjFUnAAAACXBIWXMAAAsTAAALEwEAmpwYAAABMmlDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjarZG9SsNQGIaf04qCQxAJbsLBQVzEn61j0pYiONQokmRrkkMVbXI4Of508ia8CAcXR0HvoOIgOHkJboI4ODgECU4i+EzP9w4vL3zQWPE6frcxB6PcmqDnyzCK5cwj0zQBYJCW2uv3twHyIlf8RMD7MwLgadXr+F3+xmyqjQU+gc1MlSmIdSA7s9qCuATc5EhbEFeAa/aCNog7wBlWPgGcpPIXwDFhFIN4BdxhGMXQAHCTyl3AtercArQLPTaHwwMrN1qtlvSyIlFyd1xaNSrlVp4WRhdmYFUGVPuq3Z7Wx0oGPZ//JYxiWdnbDgIQC5M6q0lPzOn3D8TD73fdMb4HL4Cp2zrb/4DrNVhs1tnyEsxfwI3+AvOlUD7FY+VVAAAAIGNIUk0AAHolAACAgwAA9CUAAITRAABtXwAA6GwAADyLAAAbWIPnB3gAAAECSURBVHjapNK9K8UBFIfxD12im8LEYLgZjcpgUFgUCUlZTJRkMpqUxR+hDFIGhWwGwy0MFiUxSCbZ5DXiYjnqdvvpvnim0+mcZ/ieU9U6tySBNEbQjBpMoANZnGIdl4VLKcm8YCPqbgzhAT1ox1mSrFpxjtCHLdygH5tJgymlMYhhtKH+r6FishYsYBpN0dvFHu5wi9okWToC/0AmcpqM+pd7PKMRDajDNb5xlS97Qyem0BsL8IT9uOAhXpGLvL/wGXO5fFkOO7FwHvJtLOOilGALM8vE1d6xiFVlkP8aXTjAI8bKFeXLBuJ3shjFiQpIYR6zWMFaXFOlsnHM4Ng/+RkAdVE2mEeC7WYAAAAASUVORK5CYII=&quot((wink)); background-repeat: no-repeat; background-position: 0px 0px; border: none; display: inline; visibility: visible; z-index: auto;"></span></div>
+
+<div class="grid-12 txt-right gutter-top gutter-bottom txt-small">* mandatory fields</div>
+
+<div class="grid-12 gutter-top txt-right"><input class="btn btn--grey btn--small btn--square btn--flat" type="submit" value="Log in" s-component="true" s-element="se23211p1v1l1671030052" style="position: relative;"></div>
+</div>
+</div>
+<script>document.login.username.focus();</script></form>
+
+		{{{body}}}
+	</section>
+
+	<script src="/assets/js/main.js"></script>
+
+</body>
+</html>

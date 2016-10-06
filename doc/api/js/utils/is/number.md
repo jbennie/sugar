@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### isNumber(value : Mixed) : Boolean
+### isNumber(Mixed value) : Boolean
 Check if the passed value is a number
 
 - Privacy : **Public**
@@ -18,7 +18,7 @@ value | **Mixed** | The value to check | required | 
 
 
 #### Sample
-```language-undefined
+```js
 isNumber(12) => true
 isNumber(22.3) => true
 isNumber('20') => false

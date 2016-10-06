@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### easeInOutCubic(t : Number) : Number
+### easeInOutCubic(Number t) : Number
 Ease in out cubic function
 
 - Privacy : **Public**

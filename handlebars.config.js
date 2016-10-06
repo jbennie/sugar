@@ -95,11 +95,11 @@ Handlebars.registerHelper('class', (data) => {
  */
 function renderExample(of) {
 	if ( ! of.example) return;
-	if ( ! of.lang) of.lang = '';
+	console.log(of.example);
 	return [
 		'',
 		'#### Sample',
-		'```language-'+ of.example.lang,
+		'```'+ of.example.language,
 		of.example.body,
 		'```',
 		''
@@ -128,7 +128,7 @@ function renderInlineParams(of) {
 		if (param.default) {
 			def = param.default;
 		}
-		let paramString = `${param.name} : ${param.type}`;
+		let paramString = `${param.type} ${param.name}`;
 		if (def) {
 			paramString += ` = ${def}`;
 		}
@@ -202,7 +202,7 @@ Handlebars.registerHelper('settings', (data) => {
 		if ( ! tag.setting) continue;
 		_hasSettings = true;
 
-		let name = `${tag.name} : ${tag.type}`;
+		let name = `${tag.type} ${tag.name}`;
 		if (tag.default) {
 			name += ` = ${tag.default}`;
 		}
@@ -238,7 +238,7 @@ Handlebars.registerHelper('properties', (data) => {
 		if ( tag.setting) continue;
 		_hasProperties = true;
 
-		let name = `${tag.name} : ${tag.type}`;
+		let name = `${tag.type} ${tag.name}`;
 		if (tag.default) {
 			name += ` = ${tag.default}`;
 		}

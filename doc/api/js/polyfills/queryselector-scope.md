@@ -15,7 +15,7 @@ To use it, just require this file in your codebase
 
 
 #### Sample
-```language-undefined
+```js
 require('sugarcss/js/polyfill/queryselector-scope');
 
 ```

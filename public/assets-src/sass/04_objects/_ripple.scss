@@ -1,0 +1,9 @@
+/**
+ * Ripples
+ */
+@include s-ripple-component();
+
+[s-ripple] {
+	user-select:none;
+	cursor: pointer;
+}

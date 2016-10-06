@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### easeInQuart(t : Number) : Number
+### easeInQuart(Number t) : Number
 Ease in quart function
 
 - Privacy : **Public**

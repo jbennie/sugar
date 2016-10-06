@@ -1,0 +1,81 @@
+/**
+ * Dialog
+ */
+body.s-dialog--opened {
+	overflow:hidden;
+}
+.s-dialog {
+	z-index:9999;
+	padding:s-space(bigger);
+	@include s-animation(dialog-out-container .2s);
+
+	@include gridle_state(mobile) {
+		padding:0;
+	}
+}
+.s-dialog__overlay {
+	background : s-color(darkgrey, -opacity .8);
+	@include s-animation(dialog-in-overlay .1s ease-out);
+}
+.s-dialog__content {
+	max-width:80vw;
+	background:white;
+	@include s-animation(dialog-in-content .2s ease-in-out);
+	@include s-depth(5);
+
+	@include gridle_state(mobile) {
+		max-width:100vw;
+	}
+}
+
+.s-dialog--out {
+
+	.s-dialog__overlay {
+		@include s-animation(dialog-out-overlay .2s ease-out);
+	}
+	.s-dialog__content {
+		@include s-animation(dialog-out-content .1s ease-out);
+	}
+}
+
+
+@keyframes dialog-in-overlay {
+	from {
+		opacity:0;
+	}
+	to {
+		opacity:1;
+	}
+}
+@keyframes dialog-in-content {
+	from {
+		opacity:0;
+		transform:translateY(-50px);
+	}
+	to {
+		opacity:1;
+		transform:translateY(0);
+	}
+}
+@keyframes dialog-out-container {
+	from {}
+	to {}
+}
+@keyframes dialog-out-overlay {
+	from {
+		opacity:1;
+	}
+	to {
+		opacity:0;
+	}
+}
+@keyframes dialog-out-content {
+	from {
+		transform:translateY(0);
+		opacity:1;
+	}
+	to {
+		transform:translateY(50px) ;
+		opacity:0;
+	}
+}

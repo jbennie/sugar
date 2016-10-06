@@ -1,0 +1,8 @@
+@include s-corner-badge-component-bare();
+@include s-corner-badge-component-style(
+	$colors : primary secondary
+);
+
+.s-corner-badge {
+	@include s-filter(text-shadow(rgba(0,0,0,.2) 0 0 5px));
+}

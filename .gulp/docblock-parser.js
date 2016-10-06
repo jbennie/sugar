@@ -87,6 +87,7 @@ const _docblockNextLineAnalyzerJs = function(line, data) {
 				&& val !== 'extends'
 				&& val !== 'import'
 				&& val !== 'static'
+				&& val !== 'set'
 				&& ! val.match('.prototype.')
 			) {
 				// it's the name

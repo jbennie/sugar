@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### next(elm : HTMLElement, selector : String) : HTMLElement
+### next(HTMLElement elm, String selector) : HTMLElement
 Browse the passed element next siblings to find the first element that matches the passed selector
 
 - Privacy : **Public**
@@ -19,7 +19,7 @@ selector | **String** | A css selector to search for | required | 
 
 
 #### Sample
-```language-undefined
+```js
 import next from 'sugarcss/js/dom/next'
 const nextElm = next(myCoolElement, '.my-cool-class');
 if (nextElm) {

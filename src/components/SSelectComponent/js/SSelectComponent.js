@@ -188,6 +188,7 @@ class SSelectComponent extends SComponent {
 			characterData : true,
 			subtree : true
 		}).groupByTimeout().subscribe((mutation) => {
+			console.log('refres');
 			this.refresh();
 		});
 
@@ -559,7 +560,7 @@ class SSelectComponent extends SComponent {
 	 				}
 					this.addComponentClass(option, 'option', null, 'selected');
 	 			} else {
-					this.removeComponentItemName(option, 'option', null, 'selected');
+					this.removeComponentClass(option, 'option', null, 'selected');
 	 			}
 	 		}
 	 	});

@@ -76,7 +76,7 @@ export default class SWatcher {
 			// 	val = value;
 			// }
 			// descriptor
-			else if (descriptor && descriptor.set) {
+			if (descriptor && descriptor.set) {
 				let ret = descriptor.set(value);
 				if (ret) {
 					val = ret;

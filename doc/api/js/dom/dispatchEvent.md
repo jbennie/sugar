@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### dispatchEvent(target : HTMLElement, name : String, data : Mixed)
+### dispatchEvent(HTMLElement target, String name, Mixed data)
 
 - Privacy : **Public**
 
@@ -19,7 +19,7 @@ data | **Mixed** | The data to attache to the event | required | 
 
 
 #### Sample
-```language-undefined
+```js
 import dispatchEvent from 'sugarcss/js/dom/dispatchEvent'
 dispatchEvent(myCoolHTMLElement, 'myCoolEventName', {
 		var1 : 'value1'

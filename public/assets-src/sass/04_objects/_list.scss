@@ -1,0 +1,69 @@
+/**
+ * Generic list
+ */
+.list {
+	.list__item {
+		line-height:1.7;
+		color : s-color(text, -lighten 25%);
+	}
+}
+
+/**
+ * Unordered list
+ */
+ul.list {
+	@include s-list();
+
+	@include s-vertical-rhythme {
+		.list__item {
+			margin-bottom: s-space(small);
+		}
+	}
+}
+
+
+/**
+ * Ordered list
+ */
+ol.list {
+	@include s-list();
+
+	.list__item {
+		@include s-list-bullet(
+			$type : decimal,
+			$space : 20px
+		);
+		@include s-vertical-rhythme {
+			margin-bottom: s-space(small);
+		}
+	}
+}
+
+
+/**
+ * List sidemenu
+ */
+.list--sidemenu {
+	padding-left:s-rem(10px);
+
+	.list__item {
+		padding-left: s-rem(10px);
+
+		&.list__item--toggle {
+			font-weight: bold;
+			font-size: s-rem(18px);
+			cursor: pointer;
+
+			+ .list {
+				max-height: 0;
+				overflow: hidden;
+				@include s-transition(max-height slow);
+			}
+			&.active {
+				+ .list {
+					max-height:10000px;
+				}
+			}
+		}
+	}
+}

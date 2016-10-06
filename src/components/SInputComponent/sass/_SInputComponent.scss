@@ -12,15 +12,16 @@ $_s-input-component-inited : false;
 			&:not(.input-addon) {
 				line-height: 1 !important;
 			}
+			border:none;
+			background-color: transparent;
 			outline : none;
 			width:100%;
-			font-size:1em;
+			// font-size:1em;
 		}
 		%s-input-component-field-style {
 			border-width:1px;
 			border-bottom-width : 3px;
 			border-style : solid;
-			background-color: white;
 			color: s-color(text);
 			@include s-transition(fast);
 			@include s-placeholder() {
@@ -35,8 +36,7 @@ $_s-input-component-inited : false;
 				cursor: not-allowed;
 			}
 		}
-		%s-input-component-select-field-style {
-		}
+
 		%s-input-component-select-field-bare {
 			background-size: 9px 6px;
 			background-position: right center;
@@ -76,10 +76,9 @@ $_s-input-component-inited : false;
 }
 
 @mixin s-input-component(
-	$colors : null
+	$colors : default primary secondary
 ) {
 	@include s-input-component-bare();
-	@include s-
 	@if $colors {
 		@include s-input-component-style($colors);
 	}
@@ -93,7 +92,7 @@ $not : ':not([type="checkbox"]):not([type="radio"]):not(.noUi-target)';
 	@include s-input-component-init();
 	@include s-component('s-input') {
 
-		input#{s-component-selector()}#{$not} {
+		#{s-component-selector()}#{$not} {
 			@extend %s-input-component-field-bare;
 			// set input styling
 			@include s-input-component-field-size();
@@ -117,7 +116,7 @@ $not : ':not([type="checkbox"]):not([type="radio"]):not(.noUi-target)';
 		}
 	}
 }
-@mixin s-formset-input-style(
+@mixin s-input-component-style(
 	$colors : default primary secondary
 ) {
 	// parse properties
@@ -126,18 +125,19 @@ $not : ':not([type="checkbox"]):not([type="radio"]):not(.noUi-target)';
 	}
 	@include s-component('s-input') {
 
-		input#{s-component-selector()}#{$not} {
+		#{s-component-selector()}#{$not} {
 			@extend %s-input-component-field-style;
+			background-color: white !important;
 		}
-		select#{s-component-selector()} {
-			@extend %s-input-component-select-field-style;
-		}
+		// select#{s-component-selector()} {
+		// 	@extend %s-input-component-select-field-style;
+		// }
 
 		// generate each colors
 		@each $color in $colors {
 
 			// input styling
-			input#{s-component-selector(null, $color)}#{$not} {
+			#{s-component-selector(null, $color)}#{$not} {
 				@include s-input-component-field-color($color);
 
 				// & ~ #{s-selector(#{s-component-selector()}-reply}, null, $color) {

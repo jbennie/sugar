@@ -16,7 +16,7 @@ settings | **Object** | The event settings | required | 
 - Author **Olivier Bossel<olivier.bossel@gmail.com>**
 
 #### Sample
-```language-undefined
+```js
 let myEvent = new SEvent('myCoolEvent', {
 		cancelable : true,
 		bubbles : false,
@@ -33,13 +33,13 @@ myHTMLElement.dispatch(myEvent);
 ## Settings
 -----------------------------
 
-### cancelable : Boolean = true
+### Boolean cancelable = true
 Set if the event is cancelable or not
 
-### bubbles : Boolean = true
+### Boolean bubbles = true
 Set if the event will bubble or not
 
-### detail : Object = null
+### Object detail = null
 Pass an object that will be sent with the event
 
 

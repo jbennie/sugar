@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### styleString2Object(style : String) : (Object)
+### styleString2Object(String style) : (Object)
 Transform a style string to an object representation
 
 - Privacy : **Public**
@@ -18,7 +18,7 @@ style | **String** | The style string | required | 
 
 
 #### Sample
-```language-undefined
+```js
 import styleString2Object from 'sugarcss/js/dom/styleString2Object'
 const styleString = styleString2Object('padding-left:20px; display:block;');
 // output => {

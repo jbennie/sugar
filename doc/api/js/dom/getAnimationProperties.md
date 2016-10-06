@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### getAnimationProperties(elm : HTMLElement) : Object
+### getAnimationProperties(HTMLElement elm) : Object
 Get the css animation properties from an HTMLElement in an object format
 
 - Privacy : **Public**
@@ -18,7 +18,7 @@ elm | **HTMLElement** | The element to get the properties from | required | 
 
 
 #### Sample
-```language-undefined
+```js
 import getAnimationProperties from 'sugarcss/js/dom/getAnimationProperties'
 const props = getAnimationProperties(myCoolHTMLElement);
 // output format

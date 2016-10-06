@@ -18,7 +18,7 @@ cx | **String** | The google custom search context | required | 
 - Author **Olivier Bossel<olivier.bossel@gmail.com>**
 
 #### Sample
-```language-undefined
+```js
 // create a google search instance
 const googleSearch = new SGoogleSearch('myApiKey', 'myCustomSearchContextKey');
 
@@ -38,11 +38,11 @@ googleSearch.next().then((response) => {
 ## Settings
 -----------------------------
 
-### num : Integer = 10
+### Integer num = 10
 How many results by page wanted
 Can be between 1 and 10
 
-### page : Integer = 1
+### Integer page = 1
 The page to request
 
 
@@ -50,7 +50,7 @@ The page to request
 ## API
 -----------------------------
 
-### search(keywords : String, settings : Object) : Promise
+### search(String keywords, Object settings) : Promise
 Launch a search
 - Privacy : **Public**
 

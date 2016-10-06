@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### whenProperty(object : Object, property : String, checkFn : Function = null) : (Promise)
+### whenProperty(Object object, String property, Function checkFn = null) : (Promise)
 Resolve a promise when the wanted property on the passed object exist or pass the check function provided
 
 - Privacy : **Public**
@@ -20,7 +20,7 @@ checkFn | **Function** | An optional function to check the property. The promis
 
 
 #### Sample
-```language-undefined
+```js
 import whenProperty from 'sugarcss/js/utils/objects/whenProperty'
 
 const myObj = {

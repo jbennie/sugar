@@ -1,0 +1,74 @@
+.markdown {
+
+	ul {
+		@include s-list();
+		color: s-color(text);
+
+		li {
+			@include s-list-bullet(
+				$type : disc,
+				$space : 20px,
+				$color : s-color(primary)
+			);
+		}
+	}
+
+	hr {
+		display: none;
+		color: s-color(primary);
+		background-color: transparent;
+		border-color: s-color(primary);
+	}
+
+	h3 {
+		@include s-side-lined(
+			$style : solid,
+			$side : right,
+			$height : 1px,
+			$width : 100%,
+			$color : s-color(lightgrey, dark),
+			$padding : s-space(default),
+			$margin-top : null
+		);
+	}
+	// h2 {
+	// 	background-color: s-color(secondary);
+	// 	color: white;
+	// 	padding: .5em;
+	// 	margin-left:-20px;
+	// 	margin-right:-20px;
+	// 	@include s-filter(shadowed-text);
+	// }
+
+	h1,h2,h3,h4,h5,h6 {
+		color: s-color(text);
+	}
+
+	h1,h2,h3,h4,h5,h6,
+	p,
+	pre,
+	ul, ol, dl {
+		margin-bottom: 2rem;
+	}
+	table {
+		margin-bottom: 2rem;
+	}
+
+	h1, h2, h3 {
+		+ p {
+			font-size:1.5rem;
+		}
+	}
+
+	p {
+		margin-bottom: 1rem;
+	}
+
+	table {
+		@extend .s-table;
+		@extend .s-table--striped;
+		@extend .s-table--hover;
+		color: s-color(text);
+	}
+
+}

@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### closest(elm : HTMLElement, selector : String) : HTMLElement
+### closest(HTMLElement elm, String selector) : HTMLElement
 Go up the dom three to find the first element that matches the passed selector
 
 - Privacy : **Public**
@@ -19,7 +19,7 @@ selector | **String** | A css selector to search for | required | 
 
 
 #### Sample
-```language-undefined
+```js
 import closest from 'sugarcss/js/dom/closest'
 const closestElm = closest(myCoolElement, '.my-cool-class');
 if (closestElm) {

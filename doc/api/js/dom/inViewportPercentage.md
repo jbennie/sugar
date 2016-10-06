@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### inViewportPercentage(elm : HTMLElement) : Number
+### inViewportPercentage(HTMLElement elm) : Number
 Return how many percent the passed element is visible in the viewport
 
 - Privacy : **Public**
@@ -18,7 +18,7 @@ elm | **HTMLElement** | The element to get the in viewport percentage from | r
 
 
 #### Sample
-```language-undefined
+```js
 import inViewportPercentage from 'sugarcss/js/dom/inViewportPercentage'
 const percentage = inViewportPercentage(myCoolHTMLElement);
 // 20

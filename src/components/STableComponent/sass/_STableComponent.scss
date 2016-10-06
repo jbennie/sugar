@@ -1,3 +1,9 @@
+@mixin s-table-component(
+    $colors : default primary secondary
+) {
+    @include s-table-component-bare();
+    @include s-table-component-style($colors);
+}
 
 @mixin s-table-component-style(
     $colors : default primary secondary

@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### matches(elm : HTMLElement, selector : String) : Boolean
+### matches(HTMLElement elm, String selector) : Boolean
 Polyfill for the Element.matches function
 
 - Privacy : **Public**
@@ -19,7 +19,7 @@ selector | **String** | The selector to check on the element | required | 
 
 
 #### Sample
-```language-undefined
+```js
 import matches from 'sugarcss/js/dom/matches'
 if (matches(myCoolHTMLElement, '.my-cool-css-selector')) {
 		// the element match the selector

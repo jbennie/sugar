@@ -9,7 +9,7 @@ the minimum dom as needed.
 - Author **Olivier Bossel <olivier.bossel@gmail.com>**
 
 #### Sample
-```language-undefined
+```js
 // our data object
 const data = {
 		title : 'Hello World'
@@ -34,20 +34,20 @@ setTimeout(() => {
 ## Settings
 -----------------------------
 
-### compile : Function = null
+### Function compile = null
 A compile function to process the template
 This function will revieve the template and the data as parameters
 and need to return the compiled string version
 
-### onBeforeElUpdated : Function = null
+### Function onBeforeElUpdated = null
 Function called before any HTMLElement will be updated in the dom
 If this function return false, the element will not bein updated at all
 
-### onBeforeElChildrenUpdated : Function = null
+### Function onBeforeElChildrenUpdated = null
 Function called before any HTMLElement child will be updated in the dom
 If this function return false, the engine will not try to update this element children
 
-### onBeforeElDiscarded : Function = null
+### Function onBeforeElDiscarded = null
 Function called before any HTMLElement will be removed from the dom
 If this function return false, the element will not bein removed
 
@@ -55,24 +55,24 @@ If this function return false, the element will not bein removed
 ## Properties
 -----------------------------
 
-### templateId : String
+### String templateId
 Store a uniqid that will be used as identifier for
 this particular class in the window.sTemplateClasses
 
-### refs : Object
+### Object refs
 Store the reference to html elements that have an id or a name
 
-### data : Object
+### Object data
 Store the data object used to render the template
 
-### settings : Object
+### Object settings
 Store the settings
 
 -----------------------------
 ## API
 -----------------------------
 
-### static registerComponentIntegration(integrationFn : Function)
+### static registerComponentIntegration(Function integrationFn)
 Register a component integration function
 - Privacy : **Public**
 - **Static**
@@ -83,7 +83,7 @@ Name | Type | Description | Status | Default
 integrationFn | **Function** | The function used to set the integration attributes, etc into the component elements | required | 
 
 
-### static keepAttribute(elm : HTMLElement, attr : String)
+### static keepAttribute(HTMLElement elm, String attr)
 Set an attribute to keep
 - Privacy : **Public**
 - **Static**
@@ -95,7 +95,7 @@ elm | **HTMLElement** | The element on which to keep an attribute | required |
 attr | **String** | The attribute name to keep | required | 
 
 
-### static doNotDiscard(elm : HTMLElement)
+### static doNotDiscard(HTMLElement elm)
 Set an element to not discard
 - Privacy : **Public**
 - **Static**
@@ -106,7 +106,7 @@ Name | Type | Description | Status | Default
 elm | **HTMLElement** | The element to not discard | required | 
 
 
-### static exclude(elm : HTMLElement)
+### static exclude(HTMLElement elm)
 Set an element to exclude completely from the STemplate engine
 - Privacy : **Public**
 - **Static**
@@ -117,7 +117,7 @@ Name | Type | Description | Status | Default
 elm | **HTMLElement** | The element to exclude | required | 
 
 
-### static refresh(elm : HTMLElement)
+### static refresh(HTMLElement elm)
 Set an element to refresh completely when the STemplate handle it
 - Privacy : **Public**
 - **Static**
@@ -128,7 +128,7 @@ Name | Type | Description | Status | Default
 elm | **HTMLElement** | The element to refresh | required | 
 
 
-### static isTemplate(elm : HTMLElement) : Boolean
+### static isTemplate(HTMLElement elm) : Boolean
 Check if an element is handled by an STemplate instance
 - Privacy : **Public**
 - **Static**
@@ -153,7 +153,7 @@ Constructor
 
 
 
-### setParentTemplate(template : STemplate)
+### setParentTemplate(STemplate template)
 setParentTemplate
 Set the parent STemplate instance.
 This is needed if you want your template to talk together through attributes
@@ -166,7 +166,7 @@ Name | Type | Description | Status | Default
 template | **STemplate** | The parent template instance | required | 
 
 
-### _compile(template : String, data : Object) : String
+### _compile(String template, Object data) : String
 Compile the template
 - Privacy : **Protected**
 
@@ -187,7 +187,7 @@ will be rendered again each time that a data is updated
 
 
 
-### appendTo(to : HTMLElement)
+### appendTo(HTMLElement to)
 Append the template to an HTMLElement
 - Privacy : **Public**
 

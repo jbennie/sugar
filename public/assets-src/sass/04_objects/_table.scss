@@ -1,0 +1,10 @@
+/**
+ * Tables
+ */
+@include s-context((
+	colors : (
+		default : s-color(lightgrey)
+	)
+)) {
+	@include s-table-component();
+}

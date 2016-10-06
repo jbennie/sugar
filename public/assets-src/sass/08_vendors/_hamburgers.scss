@@ -1,0 +1,18 @@
+/**
+ * Hamburgers settings
+ */
+$hamburger-types: (
+	squeeze
+);
+$hamburger-padding-x                       : 0;
+$hamburger-padding-y                       : 0;
+$hamburger-layer-width                     : 25px;
+$hamburger-layer-height                    : 3px;
+$hamburger-layer-spacing                   : 3px;
+$hamburger-layer-color                     : s-color(text);
+$hamburger-layer-border-radius             : 2px;
+$hamburger-hover-opacity                   : 0.7;
+$hamburger-hover-transition-duration       : 0.15s;
+$hamburger-hover-transition-timing-function: linear;
+
+@import 'hamburgers/hamburgers';

@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### whenTransitionEnd(elm : HTMLElement, cb : Function = null) : (Promise)
+### whenTransitionEnd(HTMLElement elm, Function cb = null) : (Promise)
 Monitor an HTMLElement to be notified when his transition has ended
 
 - Privacy : **Public**
@@ -19,7 +19,7 @@ cb | **Function** | An optional callback to call when the element transition ha
 
 
 #### Sample
-```language-undefined
+```js
 import whenTransitionEnd from 'sugarcss/js/dom/whenTransitionEnd'
 whenTransitionEnd(myCoolHTMLElement).then((elm) => {
 		// do something with your element transition has ended...

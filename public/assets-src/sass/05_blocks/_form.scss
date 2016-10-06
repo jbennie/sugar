@@ -1,0 +1,18 @@
+@include s-form-component-group();
+
+//
+// Material label
+//
+@include s-component('label') {
+	@include s-label-material-component-bare();
+}
+
+//
+// Select
+//
+@include s-select-component(
+	$colors : default primary
+);
+.s-select {
+	// border:1px solid s-color(default, -opacity .1) !important;
+}

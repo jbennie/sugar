@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### domReady(cb : Function) : Promise
+### domReady(Function cb) : Promise
 Wait that the dom is ready before resolving the promise
 If you need that some css files are loaded before considering the dom as loaded
 you can add the attribute 's-domready-dependency' on any css link tag
@@ -20,7 +20,7 @@ cb | **Function** | An optional callback that will be called when the dom is re
 
 
 #### Sample
-```language-undefined
+```js
 import domReady from 'sugarcss/js/dom/domReady'
 // using callback
 domReady(() => {

@@ -3,13 +3,13 @@
 ## Settings
 -----------------------------
 
-### visible : Boolean = false
+### Boolean visible = false
 If we want only visible elements
 
-### inViewport : Boolean = false
+### Boolean inViewport = false
 If we want only elements that are in the viewport
 
-### rootNode : HTMLElement = document.body
+### HTMLElement rootNode = document.body
 The root node to start the query from
 
 
@@ -17,7 +17,7 @@ The root node to start the query from
 ## API
 -----------------------------
 
-### querySelectorAll(selector : String, settings : Object) : Array<HTMLElement>
+### querySelectorAll(String selector, Object settings) : Array<HTMLElement>
 Enhanced proxy of the Element.querySelectorAll function that let you specify
 if you want elements that are visible, or even that are in the viewport
 
@@ -32,7 +32,7 @@ settings | **Object** |  | required | 
 
 
 #### Sample
-```language-undefined
+```js
 // simple query
 const elms = querySelectorAll('.a-cool-css-selector');
 

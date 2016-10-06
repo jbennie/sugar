@@ -14,7 +14,7 @@ elm | **HTMLElement** | The element to track | required | 
 - Author **Olivier Bossel <olivier.bossel@gmail.com>**
 
 #### Sample
-```language-undefined
+```js
 const detector = new InViewportStatusChangeDetector(myCoolHTMLElement);
 detector.on('enter', (elm) => {
 		// the element has entered the viewport
@@ -31,7 +31,7 @@ detector.on('exit', (elm) => {
 ## API
 -----------------------------
 
-### on(status : String, cb : Function) : InViewportStatusChangeDetector
+### on(String status, Function cb) : InViewportStatusChangeDetector
 Add a callback
 - Privacy : **Public**
 
@@ -43,7 +43,7 @@ status | **String** | The status to track (enter|exit) | required | 
 cb | **Function** | The callback to add | required | 
 
 
-### off(status : String, cb : Function) : InViewportStatusChangeDetector
+### off(String status, Function cb) : InViewportStatusChangeDetector
 Remove a callback
 - Privacy : **Public**
 

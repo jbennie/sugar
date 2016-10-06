@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### insertAfter(elm : HTMLElement, refElm : HTMLElement)
+### insertAfter(HTMLElement elm, HTMLElement refElm)
 
 - Privacy : **Public**
 
@@ -18,7 +18,7 @@ refElm | **HTMLElement** | The element after which to insert the passed element
 
 
 #### Sample
-```language-undefined
+```js
 import insertAfter from 'sugarcss/js/dom/insertAfter'
 insertAfter(myElementToInsert, theReferenceElement);
 

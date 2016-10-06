@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### isEmail(value : Mixed) : Boolean
+### isEmail(Mixed value) : Boolean
 Check if the passed value is a valid email address
 
 - Privacy : **Public**
@@ -18,7 +18,7 @@ value | **Mixed** | The value to check | required | 
 
 
 #### Sample
-```language-undefined
+```js
 isEmail('john.doe@gmail.com') => true
 isEmail('plop@yop.com') => true
 isEmail('hello') => false

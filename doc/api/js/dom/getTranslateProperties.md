@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### getTranslateProperties(elm : HTMLElement) : Object
+### getTranslateProperties(HTMLElement elm) : Object
 Get a translate properties of an HTMLElement
 
 - Privacy : **Public**
@@ -18,7 +18,7 @@ elm | **HTMLElement** | The element to get the properties from | required | 
 
 
 #### Sample
-```language-undefined
+```js
 import getTranslateProperties from 'sugarcss/js/dom/getTranslateProperties'
 const props = getTranslateProperties(myCoolHTMLElement);
 // output format

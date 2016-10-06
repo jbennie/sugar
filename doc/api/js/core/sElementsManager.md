@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### registerComponent(elm : HTMLElement, component : SComponent) : void
+### registerComponent(HTMLElement elm, SComponent component) : void
 registerComponent
 Register a component on a given element
 - Privacy : **Public**
@@ -18,7 +18,7 @@ elm | **HTMLElement** | The element in which to register a component | require
 component | **SComponent** | The component to register | required | 
 
 
-### unregisterComponent(elm : HTMLElement, component : SComponent) : void
+### unregisterComponent(HTMLElement elm, SComponent component) : void
 unregisterComponent
 Unregister a component on a given element
 - Privacy : **Public**
@@ -31,7 +31,7 @@ elm | **HTMLElement** | The element in which to register a component | require
 component | **SComponent** | The component to register | required | 
 
 
-### registerElement(elm : HTMLElement, element : SElement) : void
+### registerElement(HTMLElement elm, SElement element) : void
 registerElement
 Register an SElement instance on a given element
 - Privacy : **Public**
@@ -44,7 +44,7 @@ elm | **HTMLElement** | The element in which to register a component | require
 element | **SElement** | The SElement instance to register | required | 
 
 
-### unregisterElement(elm : HTMLElement, element : SElement) : void
+### unregisterElement(HTMLElement elm, SElement element) : void
 unregisterElement
 Unregister an SElement instance on a given element
 - Privacy : **Public**
@@ -57,7 +57,7 @@ elm | **HTMLElement** | The element in which to register a component | require
 element | **SElement** | The SElement instance to register | required | 
 
 
-### getComponents(elm : HTMLElement) : Object
+### getComponents(HTMLElement elm) : Object
 getComponents
 Return all the components inited on the given element
 - Privacy : **Public**
@@ -69,7 +69,7 @@ Name | Type | Description | Status | Default
 elm | **HTMLElement** | The element to process | required | 
 
 
-### getOriginalElement(elm : HTMLElement) : HTMLElement
+### getOriginalElement(HTMLElement elm) : HTMLElement
 getOriginalElement
 Return the original element before it has been processed by any components etc...
 - Privacy : **Public**
@@ -81,7 +81,7 @@ Name | Type | Description | Status | Default
 elm | **HTMLElement** | The element to process | required | 
 
 
-### getElementsCount(elm : HTMLElement) : Integer
+### getElementsCount(HTMLElement elm) : Integer
 getElementsCount
 Return the number of SElements instances that are inited on the given html element
 - Privacy : **Public**

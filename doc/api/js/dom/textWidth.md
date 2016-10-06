@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### textWidth(source : String{HTMLElement}) : Number
+### textWidth(String{HTMLElement} source) : Number
 Get the text width in px of a passed string or the passed HTMLElement
 
 - Privacy : **Public**
@@ -18,7 +18,7 @@ source | **String{HTMLElement}** | The source to process | required | 
 
 
 #### Sample
-```language-undefined
+```js
 import textWidth from 'sugarcss/js/dom/textWidth'
 // text of an HTMLElement
 const width = textWidth(myCoolHTMLElement);

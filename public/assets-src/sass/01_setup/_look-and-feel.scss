@@ -1,0 +1,21 @@
+@include s-setup((
+	look-and-feel : (
+		border-radius : (
+			default: 0em
+		),
+		padding-vertical : (
+			default : 1.6em
+		),
+		padding-horizontal : (
+			default : 1.2em
+		),
+		font-size : (
+			smaller : 0.6em,
+			small : 0.8em,
+			default : 1em,
+			medium : 1.5em,
+			big : 2em,
+			bigger : 3em
+		)
+	)
+));

@@ -144,12 +144,38 @@ gulp.task('tests', ['tests-js-compile'], function() {
   return gulp.src('tests/phantomjs/*.html').pipe(mochaPhantom());
 });
 
+/**
+ * Documentation
+ */
+gulp.task('doc-sass', [], () => {
+    gulp.src('public/assets-src/sass/**/*.scss')
+    .pipe(sass({
+      outputStyle: 'expanded',
+      precision: 8
+    }))
+    .pipe(gulp.dest('public/assets/css'));
+});
+let docWebpackParams = _.extend({}, webpackParams, {
+  output: {
+    path: require("path").resolve("./public/assets/js"),
+    filename: '[name].js',
+    libraryTarget: 'umd'
+  }
+});
+gulp.task('doc-webpack', [], () => {
+  gulp.src('public/assets-src/js/**/*.js')
+    .pipe(gulpWebpack(docWebpackParams))
+    .pipe(gulp.dest('public/assets/js'));
+});
+
 gulp.task('default', ['webpack-app', 'sass']);
 
 gulp.task('watch', ['default'], function() {
   gulp.watch(['src/js/**/*.js'], ['webpack-app']);
   gulp.watch(["src/sass/**/*.scss"], ['sass']);
   gulp.watch(['pages/**/*.php'], ['tokens']);
+  gulp.watch(['public/assets-src/js/**/*.js'], ['doc-webpack']);
+  gulp.watch(['public/assets-src/sass/**/*.scss'], ['doc-sass']);
   return gulp.watch(['tests/phantomjs/src/**/*.js'], ['tests']);
 });
 

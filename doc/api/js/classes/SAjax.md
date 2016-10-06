@@ -19,7 +19,7 @@ settings | **Object** | Some settings around the request | optional | {}
 - Author **Olivier Bossel<olivier.bossel@gmail.com>**
 
 #### Sample
-```language-undefined
+```js
 const ajx = new SAjax({
 		url : 'api/...',
 		method : 'GET',
@@ -56,13 +56,13 @@ ajx.send().then((response) => {
 ## Settings
 -----------------------------
 
-### sendInterval : Number = 1000
+### Number sendInterval = 1000
 Set the interval time between each requests if the sendCount setting is specified
 
-### sendCount : Integer = null
+### Integer sendCount = null
 Set how many times the request has to be sent
 
-### beforeSend : Function = null
+### Function beforeSend = null
 A function that will be called before each requests to have a change to update some request params
 Must return the new request params
 Will recieve the actual request params and the request count as parameter
@@ -71,7 +71,7 @@ Will recieve the actual request params and the request count as parameter
 ## Properties
 -----------------------------
 
-### observable : Observable[https://github.com/ReactiveX/rxjs]
+### Observable[https://github.com/ReactiveX/rxjs] observable
 Store the observable instance on which you can subscribe for responses
 
 -----------------------------

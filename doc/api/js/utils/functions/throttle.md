@@ -15,7 +15,7 @@ several times, for example during a scroll event, to be called once each threshh
 
 
 #### Sample
-```language-undefined
+```js
 const myThrottledFn = throttle(() => {
 		// my function content that will be
 		// executed only once each second

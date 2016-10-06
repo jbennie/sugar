@@ -1,0 +1,33 @@
+/**
+ * Button base styling
+ */
+@include s-component('btn') {
+	@include s-button-component(
+		$colors : primary secondary
+	);
+}
+
+/**
+ * Adjust icon font-size
+ */
+.btn {
+	border-radius: #{1em + s-lnf(padding-horizontal) * 2};
+
+	i {
+		font-size:1.3em;
+	}
+}
+
+
+/**
+ * Loading button
+ */
+.btn--loading {
+	i {
+		color: transparent;
+		background-image: url('../img/loader--white-on-red.gif');
+		background-repeat: no-repeat;
+		background-position:50% 50%;
+		background-size: 100% auto;
+	}
+}

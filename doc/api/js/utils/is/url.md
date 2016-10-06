@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### isUrl(value : Mixed) : Boolean
+### isUrl(Mixed value) : Boolean
 Check if the passed value is a valid url
 
 - Privacy : **Public**
@@ -18,7 +18,7 @@ value | **Mixed** | The value to check | required | 
 
 
 #### Sample
-```language-undefined
+```js
 isUrl('http://google.com') => true
 isUrl('ftp://web.coco.com:2222') => true
 isUrl('hello') => false

@@ -3,13 +3,13 @@
 ## Settings
 -----------------------------
 
-### visible : Boolean = false
+### Boolean visible = false
 If we want only a visible element
 
-### inViewport : Boolean = false
+### Boolean inViewport = false
 If we want only an element that is in the viewport
 
-### rootNode : HTMLElement = document.body
+### HTMLElement rootNode = document.body
 The root node to start the query from
 
 
@@ -17,7 +17,7 @@ The root node to start the query from
 ## API
 -----------------------------
 
-### querySelector(selector : String, settings : Object) : HTMLElement
+### querySelector(String selector, Object settings) : HTMLElement
 Enhanced proxy of the Element.querySelector function that let you specify
 if you want an element that is visible, or even that is in the viewport
 
@@ -32,7 +32,7 @@ settings | **Object** |  | required | 
 
 
 #### Sample
-```language-undefined
+```js
 // simple query
 const elm = querySelector('.a-cool-css-selector');
 

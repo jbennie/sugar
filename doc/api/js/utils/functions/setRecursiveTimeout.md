@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### setRecursiveTimeout(fn : Function, timeout : Number, duration : Number, spread : Number = 0) : Function
+### setRecursiveTimeout(Function fn, Number timeout, Number duration, Number spread = 0) : Function
 This utils function allows you to call a passed function each x time during a certain duration
 
 - Privacy : **Public**
@@ -21,7 +21,7 @@ spread | **Number** | An optional spread time that will be used to randomize th
 
 
 #### Sample
-```language-undefined
+```js
 setRecursiveTimeout(() => {
 		// I will be executed 10 times
 }, 1000, 10000);

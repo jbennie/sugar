@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### whenAttribute(elm : HTMLElement, attribute : String, checkFn : Function = null) : (Promise)
+### whenAttribute(HTMLElement elm, String attribute, Function checkFn = null) : (Promise)
 Resolve a promise when the wanted attribute on the passed HTMLElement exist or pass the check function provided
 
 - Privacy : **Public**
@@ -20,7 +20,7 @@ checkFn | **Function** | An optional function to check the attribute. The promi
 
 
 #### Sample
-```language-undefined
+```js
 import whenAttribute from 'sugarcss/js/dom/whenAttribute'
 whenAttribute(myCoolHTMLElement, 'value').then((value) => {
 		// the value attribute exist on the element

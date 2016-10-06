@@ -15,7 +15,7 @@ The SVG filter string representation | **String** | undefined | required | 
 - Author **Olivier Bossel <olivier.bossel@gmail.com>**
 
 #### Sample
-```language-undefined
+```js
 class MyBlurFilter extends SSvgFilter {
 
 		constructor(amount = 8) {
@@ -37,7 +37,7 @@ myFilter.applyTo(myCoolHTMLElement);
 ## API
 -----------------------------
 
-### applyTo(elm : HTMLElement)
+### applyTo(HTMLElement elm)
 Apply the filter to an element
 - Privacy : **Public**
 
@@ -48,7 +48,7 @@ Name | Type | Description | Status | Default
 elm | **HTMLElement** | The element on which to apply the filter | required | 
 
 
-### unapplyFrom(elm : HTMLElement)
+### unapplyFrom(HTMLElement elm)
 Unapply from
 - Privacy : **Public**
 

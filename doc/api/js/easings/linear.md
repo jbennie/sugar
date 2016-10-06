@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### linear(t : Number) : Number
+### linear(Number t) : Number
 Ease linear function
 
 - Privacy : **Public**

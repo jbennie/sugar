@@ -16,7 +16,7 @@ amount | **Number** | The motion blur amount | required | 
 - Author **Olivier Bossel <olivier.bossel@gmail.com>**
 
 #### Sample
-```language-undefined
+```js
 const filter = new SMotionblurSvgFilter();
 filter.applyTo(myCoolHTMLElement);
 // now when your element will move, it will be blured accordingly
@@ -29,7 +29,7 @@ filter.applyTo(myCoolHTMLElement);
 ## API
 -----------------------------
 
-### applyTo(elm : HTMLElement)
+### applyTo(HTMLElement elm)
 Apply the filter to element
 - Privacy : **Public**
 
@@ -40,7 +40,7 @@ Name | Type | Description | Status | Default
 elm | **HTMLElement** | The element on which to apply the filter | required | 
 
 
-### unapplyFrom(elm : HTMLElement)
+### unapplyFrom(HTMLElement elm)
 Remove the filter from element
 - Privacy : **Public**
 

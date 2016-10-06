@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### scrollTo(target : HTMLElement, duration : Number, easing : Function, offset : Number, align : String, onFinish : Function)
+### scrollTo(HTMLElement target, Number duration, Function easing, Number offset, String align, Function onFinish)
 
 - Privacy : **Public**
 
@@ -22,7 +22,7 @@ onFinish | **Function** | A callback to call when the animation if finished | 
 
 
 #### Sample
-```language-undefined
+```js
 import scrollTop from 'sugarcss/js/dom/scrollTo'
 import easeInOutQuad from 'sugarcss/js/easings/easeInOutQuad'
 scrollTo(myCoolHTMLElement, 2000, easeInOutQuad);

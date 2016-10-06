@@ -16,7 +16,7 @@ the delay passed
 
 
 #### Sample
-```language-undefined
+```js
 const myDebouncedFn = debounce(() => {
 		// my function content that will be
 		// executed only once after the 1 second delay

@@ -25,7 +25,7 @@ elm | **HTMLElement** | The HTMLElement to handle | required | 
 - Author **Olivier Bossel <olivier.bossel@gmail.com>**
 
 #### Sample
-```language-undefined
+```js
 // create a new element
 class myElement extends SElement {
 		constructor(elm) {
@@ -53,15 +53,15 @@ class myElement extends SElement {
 ## Properties
 -----------------------------
 
-### elm : HTMLElement
+### HTMLElement elm
 Store the actual DOM element that the SElement instance manage
 
-### attr : Object
+### Object attr
 Store the element attributes in object format
 This object will reflect the HTML state into the dom
 and will keep updated until the SElement instance has been destroyed
 
-### originalElement : HTMLElement
+### HTMLElement originalElement
 Original HTMLElement before any SElement manipulation
 
 -----------------------------
@@ -106,7 +106,7 @@ Destroy element routine
 
 
 
-### remove(elm : HTMLElement = this.elm) : SElement
+### remove(HTMLElement elm = this.elm) : SElement
 Remove the element from the dom
 - Privacy : **Public**
 
@@ -117,7 +117,7 @@ Name | Type | Description | Status | Default
 elm | **HTMLElement** | The element to remove | optional | this.elm
 
 
-### append(elm : HTMLElement = this.elm, to : HTMLElement = null) : SElement
+### append(HTMLElement elm = this.elm, HTMLElement to = null) : SElement
 Append the element into the dom
 - Privacy : **Public**
 
@@ -129,7 +129,7 @@ elm | **HTMLElement** | The element to append | optional | this.elm
 to | **HTMLElement** | The container in which to append the element | optional | null
 
 
-### watch(path : String, cb : Function)
+### watch(String path, Function cb)
 Watch a property on the SElement instance
 - Privacy : **Public**
 

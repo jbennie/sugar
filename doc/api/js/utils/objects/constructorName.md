@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### constructorName(obj : Object) : String
+### constructorName(Object obj) : String
 Return the constructor name of the passed object
 
 - Privacy : **Public**
@@ -18,7 +18,7 @@ obj | **Object** | The object to get the constructor name from | required | 
 
 
 #### Sample
-```language-undefined
+```js
 class MyCoolClass {
 		// class implementation...
 }

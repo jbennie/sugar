@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### stylesheetsReady(links : Array<HTMLLinkElement>, cb : Function = null) : Promise
+### stylesheetsReady(Array<HTMLLinkElement> links, Function cb = null) : Promise
 Wait until all the HTMLLinkElement's are properly loaded
 
 - Privacy : **Public**
@@ -19,7 +19,7 @@ cb | **Function** | An optional callback function to call when all the links ar
 
 
 #### Sample
-```language-undefined
+```js
 import stylesheetsReady from 'sugarcss/js/dom/stylesheetsReady'
 stylesheetsReady([
 		myHTMLLinkElement1,

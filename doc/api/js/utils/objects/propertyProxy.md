@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### propertyProxy(obj : Object, property : String, descriptor : Object, applySetter : Boolean)
+### propertyProxy(Object obj, String property, Object descriptor, Boolean applySetter)
 
 - Privacy : **Public**
 
@@ -20,7 +20,7 @@ applySetter | **Boolean** | If need to apply the descriptor setter directly on 
 
 
 #### Sample
-```language-undefined
+```js
 const myObject = {
 		title : 'World'
 };

@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### whenInViewport(elm : HTMLElement, cb : Function = null) : (Promise)
+### whenInViewport(HTMLElement elm, Function cb = null) : (Promise)
 Monitor an HTMLElement to be notified when it is in the viewport
 
 - Privacy : **Public**
@@ -19,7 +19,7 @@ cb | **Function** | An optional callback to call when the element is in the vie
 
 
 #### Sample
-```language-undefined
+```js
 import whenInViewport from 'sugarcss/js/dom/whenInViewport'
 whenInViewport(myCoolHTMLElement).then((elm) => {
 		// do something with your element that has entered the viewport...

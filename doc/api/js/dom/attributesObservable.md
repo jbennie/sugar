@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### attributesObservable(target : HTMLElement, settings : MutationObserverInit) : Observable
+### attributesObservable(HTMLElement target, MutationObserverInit settings) : Observable
 Observe attributes on an HTMLElement and get mutations through the observable subscription
 
 - Privacy : **Public**
@@ -19,7 +19,7 @@ settings | **MutationObserverInit** | The mutation observer settings | require
 
 
 #### Sample
-```language-undefined
+```js
 import attributesObservable from 'sugarcss/js/dom/attributesObservable'
 attributesObservable(myCoolHTMLElement).subscribe((mutation) => {
 		// do something with the mutation

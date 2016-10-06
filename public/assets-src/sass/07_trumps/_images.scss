@@ -1,0 +1,11 @@
+/**
+ * Cover
+ */
+.abs-cover {
+	@include s-size(cover);
+	max-width:100%;
+}
+.rel-cover {
+	@include s-size(cover, $position : relative);
+	max-width:100%;
+}

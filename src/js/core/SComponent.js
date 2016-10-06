@@ -399,10 +399,6 @@ class SComponent extends SElement {
 		if (this._componentEnabledBeforeRemoved) {
 			this.enable();
 		}
-		// render
-		if ( ! this._isInTemplate) {
-			this.render();
-		}
 	}
 
 	/**
@@ -443,10 +439,6 @@ class SComponent extends SElement {
 		// enable the component
 		if (this._componentEnabledBeforeDetached) {
 			this.enable();
-		}
-		// render
-		if ( ! this._isInTemplate) {
-			this.render();
 		}
 	}
 

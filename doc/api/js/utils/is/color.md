@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### isColor(value : Mixed) : Boolean
+### isColor(Mixed value) : Boolean
 Check if the passed value is a color
 
 - Privacy : **Public**
@@ -18,7 +18,7 @@ value | **Mixed** | The value to check | required | 
 
 
 #### Sample
-```language-undefined
+```js
 isColor('red') => true
 isColor('#fff') => true
 isColor('hello') => false

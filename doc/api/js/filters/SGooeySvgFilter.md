@@ -15,7 +15,7 @@ amount | **Number** | The amount of effect to apply | required | 
 - Author **Olivier Bossel <olivier.bossel@gmail.com>**
 
 #### Sample
-```language-undefined
+```js
 const filter = new SGooeySvgFilter();
 filter.applyTo(myCoolHTMLElement);
 
@@ -26,16 +26,16 @@ filter.applyTo(myCoolHTMLElement);
 ## Properties
 -----------------------------
 
-### set : Number
+### Number blur
 The blur amount to produce the effect
 
-### set : Number
+### Number contrast
 The contrast amount to produce the effect
 
-### set : Number
+### Number shrink
 The shrink amount to produce the effect
 
-### set : Number
+### Number amount
 The overall amount of effect to produce
 
 

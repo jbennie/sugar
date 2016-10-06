@@ -1,0 +1,15 @@
+/**
+ * Typography trumps classes
+ */
+.two-cols {
+	@include s-columns(
+		$count : 2,
+		$gap : gridle_get_state_var(gutter-width)
+	);
+
+	@include gridle_state(mobile) {
+		@include s-columns(
+			$count : 1
+		);
+	}
+}

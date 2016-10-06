@@ -1,0 +1,10 @@
+@include s-setup((
+	sizes : (
+		smaller : 0.6,
+		small : 0.8,
+		default : 1,
+		medium : 1.5,
+		big : 2,
+		bigger : 3
+	)
+));

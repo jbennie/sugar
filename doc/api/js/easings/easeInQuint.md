@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### easeInQuint(t : Number) : Number
+### easeInQuint(Number t) : Number
 Ease in quint function
 
 - Privacy : **Public**

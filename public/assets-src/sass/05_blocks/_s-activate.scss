@@ -1,0 +1,25 @@
+//
+// s-activate display style
+//
+[s-activate-target] {
+	display: none;
+
+	&.read-more--active,
+	&.active {
+		display: block;
+	}
+}
+
+[s-activate-target="toggle"] {
+	display: block !important;
+	max-height: 0;
+	overflow: hidden;
+	opacity:0.001;
+	@include s-transition(slow);
+
+	&.read-more--active,
+	&.active {
+		max-height: 500px;
+		opacity: 1;
+	}
+}

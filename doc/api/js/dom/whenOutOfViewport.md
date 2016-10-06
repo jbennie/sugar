@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### whenOutOfViewport(elm : HTMLElement, cb : Function = null) : (Promise)
+### whenOutOfViewport(HTMLElement elm, Function cb = null) : (Promise)
 Monitor an HTMLElement to be notified when it exit the viewport
 
 - Privacy : **Public**
@@ -19,7 +19,7 @@ cb | **Function** | An optional callback to call when the element exit the view
 
 
 #### Sample
-```language-undefined
+```js
 import whenOutOfViewport from 'sugarcss/js/dom/whenOutOfViewport'
 whenOutOfViewport(myCoolHTMLElement).then((elm) => {
 		// do something with your element that has exit the viewport...

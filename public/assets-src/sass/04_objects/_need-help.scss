@@ -1,0 +1,66 @@
+/**
+ * Need help styling
+ */
+.need-help-cta {
+	@include s-font(
+		$family : open-sans-light,
+		$size : 28px
+	);
+}
+
+.need-help {
+	position: fixed;
+	right:0; top:20vh;
+	display:block;
+	width:s-rem(300px);
+	z-index:10;
+	background-color: s-color(primary);
+	padding:s-space(default);
+	@include s-translate(150%, 0);
+	@include s-transition(slow -delay .1s);
+
+	background-image:url('/assets/img/alpadia-logo--grey-transparent.svg');
+	background-repeat:no-repeat;
+	background-size:300px auto;
+	background-position:50% 50%;
+
+	@include gridle_state(mobile) {
+		display: none;
+	}
+
+	.need-help--sticked & {
+		@include s-translate(100%,0);
+	}
+
+	.need-help--opened &,
+	&:hover {
+		@include s-translate(0,0);
+		@include s-depth(5);
+
+		.need-help__cta {
+			background-color: s-color(primary, dark);
+		}
+	}
+}
+	.need-help__cta {
+		background-color: s-color(primary);
+		position:absolute;
+		top:0; left:0;
+		@include s-translate(-100%,0);
+		padding:s-space(smaller) s-space(default);
+		font-size:1rem;
+
+		.icon-cross {
+			display:none;
+			cursor: pointer;
+
+			.need-help--opened & {
+				display:block;
+			}
+		}
+		.icon-help {
+			.need-help--opened & {
+				display:none;
+			}
+		}
+	}

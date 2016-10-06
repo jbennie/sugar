@@ -14,6 +14,9 @@
 
 		// push
 		#{s-component-selector()} {
+			position: relative;
+			display: block;
+
 			> input {
 				@include s-transition(fast);
 			}

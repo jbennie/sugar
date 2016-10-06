@@ -1,0 +1,25 @@
+/**
+ * Menu drawer
+ */
+@include s-drawer-component(
+	$name : 'menu',
+	$side : left,
+	$method : position
+);
+
+/**
+ * Generic drawer styling
+ */
+[s-drawer-content] {
+	overflow-x: hidden;
+	transform:none;
+}
+[s-drawer-overlay] {
+	background : s-color(darkgrey, -opacity .8);
+}
+.s-drawer-menu [s-drawer-content] {
+	@include s-filter(grayscale(90%));
+}
+body.s-drawer-menu {
+	overflow-y: hidden;
+}

@@ -1,0 +1,11 @@
+@include s-setup((
+	colors : (
+		"lightgrey" : (
+			color : #f8f8f9,
+			modifiers : (
+				dark : darken(#f8f8f9,5%),
+				light : lighten(#f8f8f9,5%)
+			)
+		)
+	)
+));

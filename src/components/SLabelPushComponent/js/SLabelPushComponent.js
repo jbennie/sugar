@@ -116,7 +116,6 @@ class SLabelPushComponent extends SComponent {
 				this._isFocus = false;
 			}
 		}
-		super.render();
 		this._setInputPadding();
 		this._setLabelSize();
 	}

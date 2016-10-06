@@ -1,0 +1,43 @@
+/**
+ * Images generic styling
+ */
+
+@keyframes image-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity : 1;
+	}
+}
+@keyframes image-in-cover {
+	from {
+		opacity: 0;
+		transform: translateX(-50%) translateY(-50%) scale(1,1);
+	}
+	to {
+		opacity : 1;
+		transform: translateX(-50%) translateY(-50%) scale(1.05,1.05);
+	}
+}
+img {
+	line-height: 1;
+	min-width:100%;
+	height:auto;
+	border:none;
+}
+img[src]:not([src$="svg"]) {
+	@include s-animation(image-in .3s);
+}
+img.abs-cover[src]:not([src$="svg"]) {
+	@include s-animation(image-in-cover .3s);
+}
+img[src$="svg"] {
+	min-width: auto;
+}
+img:not([src]) {
+	opacity:0.001; // do not use 0 otherwise it will not been detected by js isVisible function
+}
+figure {
+	background-color: s-color(lightblue);
+}
