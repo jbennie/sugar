@@ -69,11 +69,11 @@ class SPaginationComponent extends STemplateComponent {
 				<ol class="<%= _componentNameDash %>">
 					<!--% if (showFirst) { %-->
 						<!--% if (current === 1) { %-->
-							<li {{component_item}} {{disabled_item}} onclick="this.first()">
+							<li class="{{component_item_class}} {{disabled_item_class}}" onclick="this.first()">
 								«
 							</li>
 						<!--% } else { %-->
-							<li {{component_item}} onclick="this.first()">
+							<li class="{{component_item_class}}" onclick="this.first()">
 								«
 							</li>
 						<!--% } %-->
@@ -81,27 +81,27 @@ class SPaginationComponent extends STemplateComponent {
 
 					<!--% if (showPrevious) { %-->
 						<!--% if (current === 1) { %-->
-							<li {{component_item}} {{disabled_item}} onclick="this.previous()">
+							<li class="{{component_item_class}} {{disabled_item_class}}" onclick="this.previous()">
 								‹
 							</li>
 						<!--% } else { %-->
-							<li {{component_item}} onclick="this.previous()">
+							<li class="{{component_item_class}}" onclick="this.previous()">
 								‹
 							</li>
 						<!--% } %-->
 					<!--% } %-->
 
 					<!--% for(i=0; i<pages; i++) { %-->
-						<li {{component_item}} class="<% if ((i + 1) === current) { %> active <% } %>" onclick="this.onchange(<%= (i + 1) %>)"><%= (i + 1) %></li>
+						<li class="{{component_item_class}} <% if ((i + 1) === current) { %> active <% } %>" onclick="this.onchange(<%= (i + 1) %>)"><%= (i + 1) %></li>
 					<!--% } %-->
 
 					<!--% if (showNext) { %-->
 						<!--% if (current === pages) { %-->
-							<li {{component_item}} {{disabled_item}} onclick="this.next()">
+							<li class="{{component_item_class}} {{disabled_item_class}}" onclick="this.next()">
 								›
 							</li>
 						<!--% } else { %-->
-							<li {{component_item}} onclick="this.next()">
+							<li class="{{component_item_class}}" onclick="this.next()">
 								›
 							</li>
 						<!--% } %-->
@@ -109,11 +109,11 @@ class SPaginationComponent extends STemplateComponent {
 
 					<!--% if (showLast) { %-->
 						<!--% if (current === pages) { %-->
-							<li {{component_item}} {{disabled_item}} onclick="this.last()">
+							<li class="{{component_item_class}} {{disabled_item_class}}" onclick="this.last()">
 								»
 							</li>
 						<!--% } else { %-->
-							<li {{component_item}} onclick="this.last()">
+							<li class="{{component_item_class}}" onclick="this.last()">
 								»
 							</li>
 						<!--% } %-->
@@ -169,8 +169,8 @@ class SPaginationComponent extends STemplateComponent {
 	 */
 	_afterCompile(template) {
 		template = super._afterCompile(template);
-		template = template.replace(/\{\{component_item\}\}/g, this.componentItemAttributeName('item'));
-		template = template.replace(/\{\{disabled_item\}\}/g, this.componentItemAttributeName('item-disabled'));
+		template = template.replace(/\{\{component_item_class\}\}/g, this.componentClassName('item'));
+		template = template.replace(/\{\{disabled_item_class\}\}/g, this.componentClassName('item',null,'disabled'));
 		return template;
 	}
 

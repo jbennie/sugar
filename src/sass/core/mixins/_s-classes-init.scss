@@ -9,7 +9,7 @@ $_sugar-classes-inited : false;
 		$filters : sugar('settings.filters');
 		@each $name, $filter in $filters {
 			@include s-register-class(
-				$classname : 'f-#{$name}',
+				$classname : 'fi-#{$name}',
 				$namespace : 'sugar.filter.#{$name}'
 			) {
 				@include s-filter($filter);
@@ -24,6 +24,15 @@ $_sugar-classes-inited : false;
 				$namespace : 'sugar.transition.#{$name}'
 			) {
 				@include s-transition($transition);
+			}
+		}
+
+		@each $fontName, $font in sugar('settings.fonts') {
+			@include s-register-class(
+				$classname : 'f-#{$fontName}',
+				$namespace : 'sugar.font.family.#{$fontName}'
+			) {
+				@include s-font($fontName);
 			}
 		}
 

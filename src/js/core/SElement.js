@@ -231,7 +231,7 @@ class SElement extends SObject {
 		// bind all the attributes
 		[].forEach.call(this.elm.attributes, (attr) => {
 			const value = __autoCast(attr.value);
-			this.attr[__camelize(attr.name)] = (value !== undefined) ? value : true;
+			this.attr[__camelize(attr.name)] = (value !== undefined) ? value : null;
 			this._binder.bindObjectPath2ElementAttribute(this, `attr.${__camelize(attr.name)}`, this.elm, attr.name);
 			this._binder.bindElementAttribute2ObjectPath(this.elm, attr.name, this, `attr.${__camelize(attr.name)}`);
 		});

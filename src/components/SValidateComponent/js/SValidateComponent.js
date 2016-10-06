@@ -329,7 +329,7 @@ class SValidateComponent extends SComponent {
 		else validators = [];
 		const type = this.attr.type;
 		// required
-		if (this.attr.required && validators.indexOf('required') === -1) {
+		if (this.attr.required !== undefined && validators.indexOf('required') === -1) {
 			validators.push('required');
 		}
 

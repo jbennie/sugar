@@ -430,7 +430,7 @@ class SActivateComponent extends SComponent {
 
 		// update the targets array
 		if (this.target) {
-			this.targets = document.querySelectorAll(this.target);
+			this.targets = scope.querySelectorAll(this.target);
 			[].forEach.call(this.targets, (t) => {
 				t._sActivateTrigger = this.elm;
 			});
@@ -460,8 +460,9 @@ class SActivateComponent extends SComponent {
 
 // STemplate integration
 STemplate.registerComponentIntegration('SActivateComponent', (component) => {
-	// console.error('integrate', component);
-	// STemplate.refresh(component.elm);
+	component.targets.forEach((target) => {
+		STemplate.keepAttribute(target, 'id');
+	});
 });
 
 // expose in window.sugar

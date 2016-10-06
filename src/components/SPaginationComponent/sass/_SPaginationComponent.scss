@@ -49,11 +49,11 @@ $_s-pagination-component-inited : false;
 ) {
 	@include s-pagination-component-init();
 	@include s-component('s-pagination') {
-		#{s-component-item()} {
+		#{s-component-selector()} {
 			display:inline-block;
 			user-select:none;
 		}
-		#{s-component-item('item')} {
+		#{s-component-selector('item')} {
 			display: inline-block;
 			border-radius: s-lnf(border-radius);
 			padding : s-lnf(padding-horizontal) s-lnf(padding-vertical);
@@ -66,7 +66,7 @@ $_s-pagination-component-inited : false;
 				margin-right:0;
 			}
 		}
-		#{s-component-item('item-disabled')} {
+		#{s-component-selector('item',null,'disabled')} {
 			opacity: .3;
 			pointer-events: none;
 		}
@@ -77,9 +77,8 @@ $_s-pagination-component-inited : false;
 ) {
 	@include s-component('s-pagination') {
 		@each $color in $colors {
-			#{s-component-item()}.color-#{$color},
-			.color-#{$color} #{s-component-item()} {
-				#{s-component-item('item')} {
+			#{s-component-selector(null, $color)} {
+				#{s-component-selector('item')} {
 					color: s-color($color);
 					background: s-color($color, -opacity .1);
 					// border:solid 1px s-color($color, -opacity .1);

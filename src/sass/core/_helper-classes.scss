@@ -92,6 +92,32 @@
 }
 
 //
+// Fonts
+//
+@include s-register-class(f-bold, 'sugar.font.weight.bold') {
+	font-weight: bold;
+}
+@include s-register-class(f-lighter, 'sugar.font.weight.lighter') {
+	font-weight: lighter;
+}
+@include s-register-class(f-bolder, 'sugar.font.weight.bolder') {
+	font-weight: bolder;
+}
+@include s-register-class(f-normal, 'sugar.font.weight.normal') {
+	font-weight: normal;
+	font-style: normal;
+}
+@include s-register-class(f-italic, 'sugar.font.style.italic') {
+	font-style: italic;
+}
+@include s-register-class(f-oblique, 'sugar.font.style.oblique') {
+	font-weight: oblique;
+}
+@include s-register-class(f-small-caps, 'sugar.font.variant.small-caps') {
+	font-variant: small-caps;
+}
+
+//
 // Blocks
 //
 @include s-register-class(block-center, 'sugar.block.align.center') {
