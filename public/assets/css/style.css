@@ -71,6 +71,78 @@ Load compass and all files of level : 01_setup folder (variables, colors vars, g
 }
 
 /**
+ * Get a registered color by name or wrap a new color into a s-color call
+ * to manipulate it with ease.
+ * Supported actions :
+ * - hue {Deg}
+ * - lighten {Percent}
+ * - darken {Percent}
+ * - saturate {Percent}
+ * - desaturate {Percent}
+ * - grayscale {Boolean}
+ * - complement {Boolean}
+ * - invert {Boolean}
+ * - opacity {Percent}
+ * - mix {Color}
+ *
+ * @param 		{String}{Color} 		$color 				The color name or the color value to manipulate
+ * @param 		{String}{List} 			[$modifier=null] 	The color modifier to apply. Can be a registered modifier name or a modifier list
+ * @return 		{Color} 									The actual color value
+ *
+ * @example 	 	scss
+ * // default color (settings.colors.default)
+ * $myColor : s-color(default);
+ * // primary color (settings.colors.primary)
+ * $primary : s-color(primary);
+ * // manipulate
+ * $primary-dark : s-color(primary, -darken 10%);
+ * // registered modifier
+ * $primary-light : s-color(primary, light);
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
+/**
+ * Return the css class selector for the current component setted by the [core/mixins/_s-component.scss] mixin
+ * and build with the passed arguments.
+ * This function generate the class selector depending of the settings.selector.method setting
+ *
+ * @param 			{String} 			[$element=null] 		The element name of the class selector
+ * @param 			{String} 			[$modifier=null] 		The modifier name of the class selector
+ * @param 			{String} 			[$state=null] 			The state name of the class selector
+ * @return 			{String} 									The generated class selector
+ *
+ * @example
+ * \@incluse s-component('my-component') {
+ * 		// if settings.selector.method === 'BEM'
+ * 		s-component-selector('item') // => '.my-component__item'
+ * 		s-component-selector(null, 'red') // => '.my-component--red'
+ * 		s-component-selector('coco',null,'active') // => '.my-component__coco--active'
+ * 		// if setting.selector.method === 'SMACCS'
+ * 		s-component-selector('item') // => '.my-component-item'
+ * 		s-component-selector(null, 'red') // => '.my-component-red'
+ * 		s-component-selector('coco',null,'active') // => '.my-component-coco.is-active'
+ * }
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
+/**
+ * Return the name of the top level component setted with the [../mixins/_s-component.scss] mixin
+ *
+ * @param 			{String} 			[$default=null] 		The name to return if no top component name exist
+ * @return 			{String} 									The component name
+ *
+ * @example
+ * s-component('hello') // => 'hello'
+ * \@include s-component('my-component') {
+ * 		s-component('hello') // => 'my-component'
+ * 		\@include s-component('another-component') {
+ * 			s-component('hello') // => 'my-component'
+ * 		}
+ * }
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>;
+ */
+/**
  * Transform -var value -var value value to map
  */
 .pull-left {
@@ -1863,7 +1935,7 @@ pre[class*="language-"] {
 
 .s-ripple__particle {
   background: transparent;
-  border: 3px solid #777;
+  border: 7px solid #777;
   width: 50px;
   height: 50px;
   animation: ripple 0.2s 0s cubic-bezier(0.005, 0.575, 0.565, 1) 1 normal forwards;
@@ -2578,7 +2650,7 @@ html, body {
   height: 100%;
 }
 
-[s-drawer-toggle] {
+s-component-item("toggle") {
   position: fixed;
   top: 0;
   left: 0;
@@ -2601,7 +2673,7 @@ html, body {
 }
 
 /* actual page content pane */
-[s-drawer-content] {
+s-component-item("content") {
   transform: translateX(0) translateY(0) translateZ(0);
   width: 100%;
   min-height: 100vh;
@@ -2616,7 +2688,7 @@ html, body {
   bottom: 0;
 }
 
-[s-drawer-overlay="team"] {
+s-component-item("overlay")s-component-item("team") {
   position: fixed;
   z-index: 10;
   top: 0;
@@ -2633,7 +2705,7 @@ html, body {
   z-index: 4;
 }
 
-[s-drawer-bkg="team"] {
+s-component-item("bkg")s-component-item("team") {
   position: fixed;
   top: 0;
   left: 0;
@@ -2645,7 +2717,7 @@ html, body {
   outline-color: black;
 }
 
-[s-drawer-toggle="team"]:checked ~ [s-drawer-overlay="team"] {
+s-component-item("toggle")s-component-item("team"):checked ~ s-component-item("overlay")s-component-item("team") {
   opacity: 1;
   pointer-events: all;
   left: auto;
@@ -2653,20 +2725,20 @@ html, body {
   cursor: pointer;
 }
 
-[s-drawer-toggle="team"]:checked ~ [s-drawer-bkg="team"] {
+s-component-item("toggle")s-component-item("team"):checked ~ s-component-item("bkg")s-component-item("team") {
   visibility: visible;
   z-index: 2;
   transition: visibility 0s linear 0s, outline-color 0.000001s linear 0s;
   outline-color: black;
 }
 
-[s-drawer-toggle="team"]:checked ~ [s-drawer="team"] {
+s-component-item("toggle")s-component-item("team"):checked ~ [s-drawer="team"] {
   z-index: 3;
   left: auto;
   right: 0;
 }
 
-[s-drawer-toggle="team"]:checked ~ [s-drawer-content] {
+s-component-item("toggle")s-component-item("team"):checked ~ s-component-item("content") {
   left: auto;
   right: 500px;
   z-index: 3;
@@ -4512,24 +4584,48 @@ body {
   font-size: 0.6rem;
 }
 
+.s-smaller-rel {
+  font-size: 0.6em;
+}
+
 .s-small {
   font-size: 0.8rem;
+}
+
+.s-small-rel {
+  font-size: 0.8em;
 }
 
 .s-default {
   font-size: 1rem;
 }
 
+.s-default-rel {
+  font-size: 1em;
+}
+
 .s-medium {
   font-size: 1.5rem;
+}
+
+.s-medium-rel {
+  font-size: 1.5em;
 }
 
 .s-big {
   font-size: 2rem;
 }
 
+.s-big-rel {
+  font-size: 2em;
+}
+
 .s-bigger {
   font-size: 3rem;
+}
+
+.s-bigger-rel {
+  font-size: 3em;
 }
 
 .s-reset {

@@ -1,3 +1,11 @@
+/**
+ * Convert the passed value to em
+ *
+ * @param 			{Number} 		$value 		The value to convert
+ * @return 			{Number} 					The em converted value
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @function s-em($value) {
 	@return s-convert($value, em);
 }

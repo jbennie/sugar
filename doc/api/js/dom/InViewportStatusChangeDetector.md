@@ -31,11 +31,11 @@ detector.on('exit', (elm) => {
 ## API
 -----------------------------
 
-### on({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } status, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } cb) : { [InViewportStatusChangeDetector](/api/js/dom/InViewportStatusChangeDetector.md) }
+### on({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } status, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } cb) : { [InViewportStatusChangeDetector](/data/web/sugar/repo/src/js/dom/InViewportStatusChangeDetector.js) }
 Add a callback
 - Privacy : **Public**
 
-- Return : **{ [InViewportStatusChangeDetector](/api/js/dom/InViewportStatusChangeDetector.md) }** : The instance itself to maintain chainability
+- Return : **{ [InViewportStatusChangeDetector](/data/web/sugar/repo/src/js/dom/InViewportStatusChangeDetector.js) }** : The instance itself to maintain chainability
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
@@ -43,11 +43,11 @@ status | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/Jav
 cb | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> }** | The callback to add | required | 
 
 
-### off({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } status, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } cb) : { [InViewportStatusChangeDetector](/api/js/dom/InViewportStatusChangeDetector.md) }
+### off({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } status, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function" target="_blank" title="Function">Function</a> } cb) : { [InViewportStatusChangeDetector](/data/web/sugar/repo/src/js/dom/InViewportStatusChangeDetector.js) }
 Remove a callback
 - Privacy : **Public**
 
-- Return : **{ [InViewportStatusChangeDetector](/api/js/dom/InViewportStatusChangeDetector.md) }** : The instance itself to maintain chainability
+- Return : **{ [InViewportStatusChangeDetector](/data/web/sugar/repo/src/js/dom/InViewportStatusChangeDetector.js) }** : The instance itself to maintain chainability
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------

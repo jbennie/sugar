@@ -1,6 +1,34 @@
-//
-// Color
-//
+/**
+ * Get a registered color by name or wrap a new color into a s-color call
+ * to manipulate it with ease.
+ * Supported actions :
+ * - hue {Deg}
+ * - lighten {Percent}
+ * - darken {Percent}
+ * - saturate {Percent}
+ * - desaturate {Percent}
+ * - grayscale {Boolean}
+ * - complement {Boolean}
+ * - invert {Boolean}
+ * - opacity {Percent}
+ * - mix {Color}
+ *
+ * @param 		{String}{Color} 		$color 				The color name or the color value to manipulate
+ * @param 		{String}{List} 			[$modifier=null] 	The color modifier to apply. Can be a registered modifier name or a modifier list
+ * @return 		{Color} 									The actual color value
+ *
+ * @example 	 	scss
+ * // default color (settings.colors.default)
+ * $myColor : s-color(default);
+ * // primary color (settings.colors.primary)
+ * $primary : s-color(primary);
+ * // manipulate
+ * $primary-dark : s-color(primary, -darken 10%);
+ * // registered modifier
+ * $primary-light : s-color(primary, light);
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @function s-color(
 	$name,
 	$actions : null

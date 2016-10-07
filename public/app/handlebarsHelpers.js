@@ -9,7 +9,6 @@ const menuLevel = (three, currentUrl) => {
 		if (typeof(value) === 'object'
 			&& ! value.filename
 		) {
-			console.log(path);
 			if (newDir) {
 				path += `/${key}`;
 				newDir = false;
@@ -23,7 +22,6 @@ const menuLevel = (three, currentUrl) => {
 
 			let active = '';
 			if (currentUrl.match(p)) {
-				console.log(p, key);
 				active = 'active';
 			}
 			// console.log(path);

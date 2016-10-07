@@ -1,4 +1,4 @@
-# SAjax
+# SAjax <span class="s-smaller-rel">extends { [SObject](/data/web/sugar/repo/src/js/core/SObject.js) }</span>
 Class that allows to simply handle ajax requests with ease.
 This class give some useful features like :
 - Promise support
@@ -12,10 +12,10 @@ This class give some useful features like :
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-request | **{ [SAjaxRequest](/api/js/classes/SAjaxRequest.md) }** | The request object used to make ajax call | required | 
+request | **{ [SAjaxRequest](/data/web/sugar/repo/src/js/classes/SAjaxRequest.js) }** | The request object used to make ajax call | required | 
 settings | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> }** | Some settings around the request | optional | {}
 
-- Extends **{ [SObject](/api/js/core/SObject.md) }**
+- Extends **{ [SObject](/data/web/sugar/repo/src/js/core/SObject.js) }**
 - Author **Olivier Bossel<olivier.bossel@gmail.com>**
 
 #### Sample

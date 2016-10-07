@@ -1,7 +1,45 @@
-//
-// Convert some values
-//
 $_s-font-size : null;
+/**
+ * Convert a passed value to the wanted unit
+ * The conversion between some units that depends on a font-size will take the settings.typo.font-size value as reference.
+ *
+ * Available conversions
+ * - from px
+ * 	- to em
+ * 	- to rem
+ * 	- to pt
+ * 	- to %
+ *
+ * - from em
+ * 	- to rem
+ * 	- to px
+ * 	- to pt
+ * 	- to %
+ *
+ * - from pt
+ * 	- to em
+ * 	- to rem
+ * 	- to px
+ * 	- to pt
+ * 	- to %
+ *
+ * - from rem
+ * 	- to em
+ * 	- to px
+ * 	- to pt
+ * 	- to %
+ *
+ * @param 			{Number} 		$value 			The value to convert
+ * @param 			{String} 		$unit 			The unit in which to convert the value
+ * @return 			{Number} 						The converted value
+ *
+ * @example
+ * // if the settings.typo.font-size === 16px
+ * s-convert(24px, rem) // 1.5rem
+ * s-convert(3rem, pt) // 36pt
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @function s-convert(
 	$value,
 	$convertUnit : null
@@ -31,13 +69,6 @@ $_s-font-size : null;
 		// $_s-font-size : s-convert($_s-font-size, px) !global;
 	}
 	$font-size : s-strip-units($_s-font-size);
-
-	// @debug(type-of($unit));
-	// @debug($unit);
-	// @debug(type-of($convertUnit));
-	// @debug($convertUnit);
-	// @debug('******');
-	// @debug($font-size);
 
 	// return the value if same units
 	@if $unit and $unit == $convertUnit {

@@ -1,4 +1,4 @@
-# SElement
+# SElement <span class="s-smaller-rel">extends { [SObject](/data/web/sugar/repo/src/js/core/SObject.js) }</span>
 This class allows to wrap an HTMLElement with a lot of useful features like:
 - Keep in sync element attributes with this.attr property
 - Complete and powerfull lifecycle management
@@ -21,7 +21,7 @@ Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
 elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The HTMLElement to handle | required | 
 
-- Extends **{ [SObject](/api/js/core/SObject.md) }**
+- Extends **{ [SObject](/data/web/sugar/repo/src/js/core/SObject.js) }**
 - Author **Olivier Bossel <olivier.bossel@gmail.com>**
 
 #### Sample
@@ -106,22 +106,22 @@ Destroy element routine
 
 
 
-### remove({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm = this.elm) : { [SElement](/api/js/core/SElement.md) }
+### remove({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm = this.elm) : { [SElement](/data/web/sugar/repo/src/js/core/SElement.js) }
 Remove the element from the dom
 - Privacy : **Public**
 
-- Return : **{ [SElement](/api/js/core/SElement.md) }** : The SElement instance itself to maintain chainability
+- Return : **{ [SElement](/data/web/sugar/repo/src/js/core/SElement.js) }** : The SElement instance itself to maintain chainability
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
 elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element to remove | optional | this.elm
 
 
-### append({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm = this.elm, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } to = null) : { [SElement](/api/js/core/SElement.md) }
+### append({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm = this.elm, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } to = null) : { [SElement](/data/web/sugar/repo/src/js/core/SElement.js) }
 Append the element into the dom
 - Privacy : **Public**
 
-- Return : **{ [SElement](/api/js/core/SElement.md) }** : The instance itself to maintain chainability
+- Return : **{ [SElement](/data/web/sugar/repo/src/js/core/SElement.js) }** : The instance itself to maintain chainability
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------

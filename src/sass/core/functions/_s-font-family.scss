@@ -1,3 +1,30 @@
+/**
+ * Return the font-family string or a registered font
+ *
+ * @param 			{String} 		$name 		The name of the registered font
+ * @return 			{String} 					The corresponding font-family property to set in your css
+ *
+ * @example
+ * // register a font
+ * \@include s-setup((
+ * 		fonts : (
+ * 			myCoolFont : (
+ * 				font-family : 'Helvetica Neue',
+ * 				font-weight : 'bold',
+ * 				// etc...
+ * 			),
+ * 			// other fonts...
+ * 		)
+ * ));
+ *
+ * // apply the font
+ * .my-cool-element {
+ * 		font-family : s-font-family(myCoolFont);
+ * 		// font-family : 'Helvetica Neue';
+ * }
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @function s-font-family(
 	$name
 ) {

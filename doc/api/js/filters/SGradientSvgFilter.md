@@ -1,11 +1,11 @@
-# SGradientSvgFilter
+# SGradientSvgFilter <span class="s-smaller-rel">extends { [SSvgFilter](/data/web/sugar/repo/src/js/filters/SSvgFilter.js) }</span>
 This SVG filter class apply either a linear or a radial gradient of your choice
 on an HTMLElement.
 This is useful cause the gradient will only be applied on part of the elements that is really visible and will respect the opacity
 of each parts
 
 
-- Extends **{ [SSvgFilter](/api/js/filters/SSvgFilter.md) }**
+- Extends **{ [SSvgFilter](/data/web/sugar/repo/src/js/filters/SSvgFilter.js) }**
 - Author **Olivier Bossel <olivier.bossel@gmail.com>**
 
 #### Sample

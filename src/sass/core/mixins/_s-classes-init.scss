@@ -161,6 +161,9 @@ $_sugar-classes-inited : false;
 			@include s-register-class(s-#{$size}, 'sugar.size.#{$size}') {
 				font-size : s-rem($value);
 			}
+			@include s-register-class(s-#{$size}-rel, 'sugar.size.rel.#{$size}') {
+				font-size : s-em($value);
+			}
 		}
 		@include s-register-class('s-reset', 'sugar.size.reset') {
 			font-size: 1rem;

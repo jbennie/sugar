@@ -1,5 +1,19 @@
 /**
- * Transform -var value -var value value to map
+ * Transform a dash notation value into a map
+ * Dash notation value is : -key1 value1 -key2 value2
+ *
+ * @param 			{List} 			$dash 			The dash list notation to transform
+ * @return 			{Map} 							The map generated
+ *
+ * @example
+ * $dash : -hello world -coco universe
+ * s-dash-to-map($dash);
+ * // (
+ * // 	hello : world,
+ * // 	coco : universe
+ * // )
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
  */
 @function s-dash-to-map(
 	$dash

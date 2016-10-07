@@ -1,4 +1,5 @@
 require('prismjs');
+require('prismjs/components/prism-scss');
 
 import SSelectComponent from '../../../src/components/SSelectComponent';
 import SActivateComponent from '../../../src/components/SActivateComponent';

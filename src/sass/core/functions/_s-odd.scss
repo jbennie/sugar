@@ -1,7 +1,11 @@
-
-//
-// Make a number odd
-//
+/**
+ * Convert the passed value to the closest odd value
+ *
+ * @param 			{Number} 		$value 		The value to convert
+ * @return 			{Number} 					The closest odd converted value
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @function s-odd($value) {
 	$dec : s-strip-units($value % 2);
 	$value : round($value);

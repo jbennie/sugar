@@ -1,4 +1,4 @@
-# SMotionblurSvgFilter
+# SMotionblurSvgFilter <span class="s-smaller-rel">extends { [SSvgFilter](/data/web/sugar/repo/src/js/filters/SSvgFilter.js) }</span>
 This class represent a motion blur svg filter that will blur your
 element depending on his movements, direction and speed
 
@@ -12,7 +12,7 @@ Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
 amount | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number" target="_blank" title="Number">Number</a> }** | The motion blur amount | required | 
 
-- Extends **{ [SSvgFilter](/api/js/filters/SSvgFilter.md) }**
+- Extends **{ [SSvgFilter](/data/web/sugar/repo/src/js/filters/SSvgFilter.js) }**
 - Author **Olivier Bossel <olivier.bossel@gmail.com>**
 
 #### Sample

@@ -1,6 +1,11 @@
-//
-// Make a number even
-//
+/**
+ * Convert the passed value to the closest even value
+ *
+ * @param 			{Number} 		$value 		The value to convert
+ * @return 			{Number} 					The closest even converted value
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @function s-even($value) {
 	$d : s-strip-units($value % 2);
 	$value : round($value);

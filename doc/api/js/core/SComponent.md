@@ -1,4 +1,4 @@
-# SComponent
+# SComponent <span class="s-smaller-rel">extends { [SElement](/data/web/sugar/repo/src/js/core/SElement.js) }</span>
 This class allows to wrap an HTMLElement with a lot of useful features like:
 - Settings management through API and element attributes
 - Keep in sync element attributes with this.attr property
@@ -28,7 +28,7 @@ elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HT
 default_settings | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> }** | The default settings of the component | optional | {}
 settings | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> }** | The settings passed to the component | optional | {}
 
-- Extends **{ [SElement](/api/js/core/SElement.md) }**
+- Extends **{ [SElement](/data/web/sugar/repo/src/js/core/SElement.js) }**
 - Author **Olivier Bossel <olivier.bossel@gmail.com>**
 
 #### Sample
@@ -168,25 +168,25 @@ but still lives in another element in memory
 
 
 
-### disable() : { [SComponent](/api/js/core/SComponent.md) }
+### disable() : { [SComponent](/data/web/sugar/repo/src/js/core/SComponent.js) }
 Disable the component
 - Privacy : **Public**
 
-- Return : **{ [SComponent](/api/js/core/SComponent.md) }** : The component instance itself
+- Return : **{ [SComponent](/data/web/sugar/repo/src/js/core/SComponent.js) }** : The component instance itself
 
 
-### enable() : { [SComponent](/api/js/core/SComponent.md) }
+### enable() : { [SComponent](/data/web/sugar/repo/src/js/core/SComponent.js) }
 Enable the component
 - Privacy : **Public**
 
-- Return : **{ [SComponent](/api/js/core/SComponent.md) }** : The component instance itself
+- Return : **{ [SComponent](/data/web/sugar/repo/src/js/core/SComponent.js) }** : The component instance itself
 
 
-### destroy() : { [SComponent](/api/js/core/SComponent.md) }
+### destroy() : { [SComponent](/data/web/sugar/repo/src/js/core/SComponent.js) }
 Destroy routine
 - Privacy : **Public**
 
-- Return : **{ [SComponent](/api/js/core/SComponent.md) }** : The component instance itself
+- Return : **{ [SComponent](/data/web/sugar/repo/src/js/core/SComponent.js) }** : The component instance itself
 
 
 ### componentClassName({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } element = null, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } modifier = null, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } state = null) : { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }
@@ -232,12 +232,12 @@ modifier | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/J
 state | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | The state name | optional | null
 
 
-### addComponentClass({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } element = null, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } modifier = null, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } state = null) : { [SComponent](/api/js/core/SComponent.md) }}
+### addComponentClass({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } element = null, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } modifier = null, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } state = null) : { [SComponent](/data/web/sugar/repo/src/js/core/SComponent.js) }}
 Add a class on the passed element that will be construct with the componentNameDash,
 an optional element, modifier and state
 - Privacy : **Public**
 
-- Return : **{ [SComponent](/api/js/core/SComponent.md) }}** : The component itself
+- Return : **{ [SComponent](/data/web/sugar/repo/src/js/core/SComponent.js) }}** : The component itself
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
@@ -246,12 +246,12 @@ modifier | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/J
 state | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }** | The state name | optional | null
 
 
-### removeComponentClass({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } element = null, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } modifier = null, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } state = null) : { [SComponent](/api/js/core/SComponent.md) }}
+### removeComponentClass({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } element = null, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } modifier = null, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } state = null) : { [SComponent](/data/web/sugar/repo/src/js/core/SComponent.js) }}
 Remove a class on the passed element that will be construct with the componentNameDash,
 an optional element, modifier and state
 - Privacy : **Public**
 
-- Return : **{ [SComponent](/api/js/core/SComponent.md) }}** : The component itself
+- Return : **{ [SComponent](/data/web/sugar/repo/src/js/core/SComponent.js) }}** : The component itself
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
