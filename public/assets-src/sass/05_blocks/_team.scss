@@ -1,0 +1,39 @@
+@include s-context((
+	colors : (
+		default : s-color(default, -desaturate 4%)
+	)
+)) {
+	[s-drawer="team"] {
+		background: s-color(default, -darken 55%);
+		height: 100%;
+	}
+	.team {
+		padding: s-space(big);
+		color: white;
+
+		> [s-trianglify] {
+			position: fixed;
+			z-index:0;
+		}
+	}
+
+		.team__member {
+			background: s-color(default);
+			// border: solid 1px s-color(default, -darken 5%);
+			border-radius: s-rem(5px);
+			padding: s-space(default);
+			margin-bottom: s-space(medium);
+			color: s-color(default, -darken 60%);
+		}
+
+		.team__picture {
+			@include s-ratio(1);
+			@include s-round();
+			width:s-rem(50px);
+			display: inline-block;
+
+			img {
+				@include s-size(cover);
+			}
+		}
+}

@@ -72,6 +72,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _STrianglifyComponent2 = _interopRequireDefault(_STrianglifyComponent);
 
+	var _SAddthisComponent = __webpack_require__(237);
+
+	var _SAddthisComponent2 = _interopRequireDefault(_SAddthisComponent);
+
+	var _SDrawerComponent = __webpack_require__(239);
+
+	var _SDrawerComponent2 = _interopRequireDefault(_SDrawerComponent);
+
+	var _SRippleComponent = __webpack_require__(244);
+
+	var _SRippleComponent2 = _interopRequireDefault(_SRippleComponent);
+
 	var _querySelectorLive = __webpack_require__(11);
 
 	var _querySelectorLive2 = _interopRequireDefault(_querySelectorLive);
@@ -84,13 +96,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _domReady2 = _interopRequireDefault(_domReady);
 
-	var _SColor = __webpack_require__(237);
+	var _SColor = __webpack_require__(252);
 
 	var _SColor2 = _interopRequireDefault(_SColor);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	__webpack_require__(238);
+	__webpack_require__(253);
 
 	(0, _domReady2.default)().then(function () {
 
@@ -102,26 +114,47 @@ return /******/ (function(modules) { // webpackBootstrap
 			}, 'sToggle');
 		});
 
+		// s-drawer
+		(0, _querySelectorLive2.default)('[s-drawer]').once().subscribe(function (elm) {
+			new _SDrawerComponent2.default(elm);
+		});
+
+		// s-addthis
+		(0, _querySelectorLive2.default)('[s-addthis]').once().subscribe(function (elm) {
+			new _SAddthisComponent2.default(elm);
+		});
+
 		// s-select
 		(0, _querySelectorLive2.default)('[s-select]').once().subscribe(function (elm) {
 			new _SSelectComponent2.default(elm);
 		});
 
+		// s-ripple
+		// __querySelectorLive('.topbar__links .nav__item').once().mouseover().subscribe((elm) => {
+		// 	new SRippleComponent(elm, {
+		// 		contains : false,
+		// 		centered : true
+		// 	});
+		// });
+		new _SRippleComponent2.default(document.querySelector('[s-drawer-content]'), {
+			contains: false
+		});
+		// __querySelectorLive('[s-ripple],.btn').once().mouseover().subscribe((elm) => {
+		// 	new SRippleComponent(elm);
+		// });
+
 		// s-trianglify
-		(0, _querySelectorLive2.default)('h2,.btn').once().subscribe(function (elm) {
+		(0, _querySelectorLive2.default)('[s-drawer-content] h2,.btn').once().subscribe(function (elm) {
 			elm.style.position = 'relative';
 			var trianglify = document.createElement('div');
 			trianglify.setAttribute('s-trianglify', true);
 			elm.appendChild(trianglify);
 		});
 		(0, _querySelectorLive2.default)('[s-trianglify]').once().subscribe(function (elm) {
-			var color = _sSettings2.default.colors.primary.color,
-			    light = new _SColor2.default(color).spin(20).toHex(),
-			    dark = new _SColor2.default(color).toHex();
-			console.log('datk', dark, light);
 			new _STrianglifyComponent2.default(elm, {
-				x_colors: ['#000', '#fff'],
-				y_colors: ['#000', '#fff']
+				cellSize: 200,
+				xColors: ['#000', '#fff'],
+				yColors: ['#000', '#fff']
 			});
 		});
 	});
@@ -14683,17 +14716,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); } /*
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * STrianglifyComponent.js
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Component that allows to stick an element to the top of the screen
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author   Olivier Bossel <olivier.bossel@gmail.com>
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @created  25.07.16
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @updated  25.07.16
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @version  1.0.0
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
 
 	__webpack_require__(236);
 
@@ -14701,7 +14724,10 @@ return /******/ (function(modules) { // webpackBootstrap
 		_inherits(STrianglifyComponent, _SComponent);
 
 		/**
-	  * Constructor
+	  * @constructor
+	  * @param 		{HTMLElement} 		elm 					The element on which to create the trianglify effect
+	  * @param 		{Object} 			settings 				The component settings
+	  * @param 		{String} 			[name="sTrianglify"]	The component name
 	  */
 		function STrianglifyComponent(elm) {
 			var settings = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -14709,27 +14735,107 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			_classCallCheck(this, STrianglifyComponent);
 
-			return _possibleConstructorReturn(this, _SComponent.call(this, name, elm, {
+			var _this = _possibleConstructorReturn(this, _SComponent.call(this, name, elm, {
+
+				/**
+	    * The width of the generated trianglify picture
+	    * @setting
+	    * @type 		{Number}
+	    * @default 	elm.offsetWith
+	    */
+				width: null,
+
+				/**
+	    * The height of the generated trianglify picture
+	    * @setting
+	    * @type 		{Number}
+	    * @default 	elm.offsetHeight
+	    */
+				height: null,
+
+				/**
+	    * The size of each cell that will compose the trianglify picture
+	    * @setting
+	    * @type 		{Number}
+	    * @default 	75
+	    */
+				cellSize: 75,
+
+				/**
+	    * Decimal value between 0 and 1 (inclusive), defaults to 0.75. Specify the amount of randomness used when generating triangles.
+	    * @setting
+	    * @type 		{Number}
+	    * @default 	0.75
+	    */
+				variance: .75,
+
+				/**
+	    * Seeds the random number generator to create repeatable patterns. When set to null, the random number will be seeded with random values from the environment. An example usage would be passing in blog post titles as the seed to generate unique trianglify patterns for every post on a blog that won't change when the page reloads.
+	    * @setting
+	    * @type 		{Number}
+	    * @default 	null
+	    */
+				seed: null,
 
 				/**
 	    * String or array of CSS-formatted colors, default is 'random'.
 	    * Specify the color gradient used on the x axis.
 	    * @setting
-	    * @type 		{Array}
-	    * @default 	null
+	    * @type 		{Array}{String}
+	    * @default 	random
 	    */
-				x_colors: null,
+				xColors: 'random',
 
 				/**
 	    * String or array of CSS-formatted colors, default is 'match_x'.
-	    * When set to 'match_x' the same gradient will be used on both axes. Otherwise, accepts the same options as x_colors.
+	    * When set to 'match_x' the same gradient will be used on both axes. Otherwise, accepts the same options as xColors.
+	    * @setting
+	    * @type 		{Array}{String}
+	    * @default 	match_x
+	    */
+				yColors: 'match_x',
+
+				/**
+	    *  Set the color space used for generating gradients. Supported values are rgb, hsv, hsl, hsi, lab and hcl.
+	    * @setting
+	    * @type 		{String}
+	    * @default 	lab
+	    */
+				colorSpace: 'lab',
+
+				/**
+	    * Specify a custom function for coloring triangles, defaults to null. Accepts a function to override the standard gradient coloring that takes the x,y coordinates of a triangle's centroid as arguments and returns a CSS-formatted color string representing the color that triangle should have.
+	    * @setting
+	    * @type 		{Function}
+	    * @default 	null
+	    * @example 	js
+	    * var colorFunc = function(x, y) {
+	    * 	return 'hsl('+Math.floor(Math.abs(x*y)*360)+',80%,60%)';
+	    * };
+	    * var pattern = Trianglify({colorFunction: colorFunc})
+	    */
+				colorFunction: null,
+
+				/**
+	    * Specify the width of the stroke on triangle shapes in the pattern. The default value is the ideal value for eliminating antialiasing artifacts when rendering patterns to a canvas.
+	    * @setting
+	    * @type 		{Number}
+	    * @default 	1.51
+	    */
+				strokeWidth: 1.51,
+
+				/**
+	    * Array of points ([x, y]) to trianglulate. When not specified an array randomised points is generated filling the space.
 	    * @setting
 	    * @type 		{Array}
 	    * @default 	null
 	    */
-				y_colors: null
+				points: null
 
 			}, settings));
+
+			console.log(_this.settings);
+			return _this;
 		}
 
 		/**
@@ -14740,8 +14846,6 @@ return /******/ (function(modules) { // webpackBootstrap
 		STrianglifyComponent.prototype._init = function _init() {
 			// init component
 			_SComponent.prototype._init.call(this);
-
-			console.log('hello trianglify');
 		};
 
 		/**
@@ -14774,12 +14878,17 @@ return /******/ (function(modules) { // webpackBootstrap
 		STrianglifyComponent.prototype._onElmResize = function _onElmResize() {
 			// create a new trianglify
 			var trianglify = (0, _trianglify2.default)({
-				width: this.elm.offsetWidth,
-				height: this.elm.offsetHeight,
-				cell_size: this.elm.offsetHeight * 2,
-				x_colors: this.settings.x_colors,
-				y_colors: this.settings.y_colors,
-				color_space: 'rgb'
+				width: this.settings.width || this.elm.offsetWidth,
+				height: this.settings.height || this.elm.offsetHeight,
+				cell_size: this.settings.cellSize || this.elm.offsetHeight * 2,
+				x_colors: this.settings.xColors,
+				y_colors: this.settings.yColors,
+				color_space: this.settings.colorSpace,
+				variance: this.settings.variance,
+				seed: this.settings.seed,
+				color_function: this.settings.colorFunction,
+				stroke_width: this.settings.strokeWidth,
+				points: this.settings.points
 			});
 			this.elm.style.backgroundImage = 'url(' + trianglify.png() + ')';
 		};
@@ -22632,6 +22741,1230 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 237 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _SAddthisComponent = __webpack_require__(238);
+
+	var _SAddthisComponent2 = _interopRequireDefault(_SAddthisComponent);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = _SAddthisComponent2.default;
+
+/***/ },
+/* 238 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _SComponent2 = __webpack_require__(3);
+
+	var _SComponent3 = _interopRequireDefault(_SComponent2);
+
+	var _STemplate = __webpack_require__(161);
+
+	var _STemplate2 = _interopRequireDefault(_STemplate);
+
+	var _dispatchEvent = __webpack_require__(141);
+
+	var _dispatchEvent2 = _interopRequireDefault(_dispatchEvent);
+
+	var _querySelectorLive = __webpack_require__(11);
+
+	var _querySelectorLive2 = _interopRequireDefault(_querySelectorLive);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); } /*
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * SAddthisComponent.js
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Component that allows to stick an element to the top of the screen
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author   Olivier Bossel <olivier.bossel@gmail.com>
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @created  25.07.16
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @updated  25.07.16
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @version  1.0.0
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+
+	var _sAddThisLoaded = null;
+
+	var SAddthisComponent = function (_SComponent) {
+		_inherits(SAddthisComponent, _SComponent);
+
+		/**
+	  * Constructor
+	  */
+		function SAddthisComponent(elm) {
+			var settings = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+			var name = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'sAddthis';
+
+			_classCallCheck(this, SAddthisComponent);
+
+			// set the pubid in window if exist in settings
+			var _this = _possibleConstructorReturn(this, _SComponent.call(this, name, elm, {
+				/**
+	    * pubid
+	    * The public id used to reach addthis service
+	    * @type 	{String}
+	    */
+				pubid: null,
+
+				/**
+	    * url
+	    * The url to share
+	    * @type 	{String}
+	    */
+				url: window.location.url,
+
+				/**
+	    * title
+	    * The title to share
+	    * @type 	{String}
+	    */
+				title: document.title,
+
+				/**
+	    * description
+	    * The description to share
+	    * @type 	{String}
+	    */
+				description: null,
+
+				/**
+	    * swfurl
+	    * The swfurl to share
+	    * @type 	{String}
+	    */
+				swfurl: null,
+
+				/**
+	    * width
+	    * The width of the popup
+	    * @type 	{String}
+	    */
+				width: null,
+
+				/**
+	    * height
+	    * The height of the popup
+	    * @type 	{String}
+	    */
+				height: null,
+
+				/**
+	    * email_template
+	    * The email_template to share
+	    * @type 	{String}
+	    */
+				email_template: null,
+
+				/**
+	    * email_vars
+	    * The email_vars to share
+	    * @type 	{String}
+	    */
+				email_vars: null
+
+			}, settings));
+
+			_this._addthis = null;
+			if (_this.settings.pubid) {
+				window.addthis_config = window.addthis_config || {};
+				window.addthis_config.pubid = _this.settings.pubid;
+			}
+			return _this;
+		}
+
+		/**
+	  * Init
+	  */
+
+
+		/**
+	  * _addthis
+	  * Store the addthis instance
+	  * @type 	{Object}
+	  */
+
+
+		SAddthisComponent.prototype._init = function _init() {
+			// init component
+			_SComponent.prototype._init.call(this);
+		};
+
+		/**
+	  * _initDependencies
+	  * Init the dependencies
+	  * @return 	{Array} 	An array of promises to resolve before init
+	  */
+
+
+		SAddthisComponent.prototype._initDependencies = function _initDependencies() {
+			var _this2 = this;
+
+			return [new Promise(function (resolve, reject) {
+
+				// check if already loaded
+				if (window.addthis) {
+					_this2._addthis = window.addthis;
+					resolve(_this2._addthis);
+					return;
+				}
+				// if already a loader
+				if (_sAddThisLoaded) {
+					document.body.addEventListener('addthis:loaded', function (e) {
+						_this2._addthis = window.addthis;
+						resolve(_this2._addthis);
+					});
+					return;
+				}
+
+				// map the loaded function into the window
+				_sAddThisLoaded = function _sAddThisLoaded() {
+					_this2._addthis = window.addthis;
+					_this2._addthis.init();
+					(0, _dispatchEvent2.default)(document.body, 'addthis:loaded');
+					resolve(_this2._addthis);
+				};
+				// check if addThis is loaded
+				(function checkIfLoaded() {
+					if (window.addthis) {
+						_sAddThisLoaded();
+						return;
+					}
+					setTimeout(checkIfLoaded, 50);
+				})();
+				// add the script the the page
+				var script = document.createElement('script');
+				script.type = 'text/javascript';
+				script.src = 'http://s7.addthis.com/js/300/addthis_widget.js#async=1';
+				document.body.appendChild(script);
+			})];
+		};
+
+		/**
+	  * enable
+	  * Enable the component
+	  * @return 	{SAddthisComponent}
+	  */
+
+
+		SAddthisComponent.prototype.enable = function enable() {
+			_SComponent.prototype.enable.call(this);
+
+			// init the button
+			this._addthis.toolbox(this.elm, window.addthis_config || {}, this.settings);
+		};
+
+		return SAddthisComponent;
+	}(_SComponent3.default);
+
+	// expose in window.sugar
+
+
+	if (window.sugar == null) {
+		window.sugar = {};
+	}
+	window.sugar.SAddthisComponent = SAddthisComponent;
+
+	// export
+	exports.default = SAddthisComponent;
+
+/***/ },
+/* 239 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _SDrawerComponent = __webpack_require__(240);
+
+	var _SDrawerComponent2 = _interopRequireDefault(_SDrawerComponent);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = _SDrawerComponent2.default;
+
+/***/ },
+/* 240 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _SComponent2 = __webpack_require__(3);
+
+	var _SComponent3 = _interopRequireDefault(_SComponent2);
+
+	var _querySelectorLive = __webpack_require__(11);
+
+	var _querySelectorLive2 = _interopRequireDefault(_querySelectorLive);
+
+	var _getTransitionProperties = __webpack_require__(241);
+
+	var _getTransitionProperties2 = _interopRequireDefault(_getTransitionProperties);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); } /*
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Sugar-activate.js
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author   Olivier Bossel <olivier.bossel@gmail.com>
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @created  20.01.16
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @updated  20.01.16
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @version  1.0.0
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+
+	if (!window._sDrawerStack) {
+		window._sDrawerStack = {};
+	}
+
+	// Actual activate element class
+
+	var SDrawerComponent = function (_SComponent) {
+		_inherits(SDrawerComponent, _SComponent);
+
+		/**
+	  * Setup
+	  */
+		SDrawerComponent.setup = function setup(type, settings) {
+			_SComponent3.default.setup('sDrawer', type, settings);
+		};
+
+		/**
+	  * Constructor
+	  */
+
+
+		function SDrawerComponent(elm) {
+			var settings = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+			_classCallCheck(this, SDrawerComponent);
+
+			// get the name
+			var _this = _possibleConstructorReturn(this, _SComponent.call(this, 'sDrawer', elm, {
+				name: '@',
+				closeOnClick: true,
+				handleHash: true
+			}, settings));
+
+			_this.componentName = _this.settings.name;
+
+			// add the class into the stack
+			window._sDrawerStack[_this.componentName] = _this;
+			return _this;
+		}
+
+		/**
+	  * Init
+	  */
+
+
+		SDrawerComponent.prototype._init = function _init() {
+			var _this2 = this;
+
+			// init component
+			_SComponent.prototype._init.call(this);
+
+			// try to find the drawer background
+			this.bkg = document.querySelector('[s-drawer-bkg="' + this.componentName + '"]');
+			if (!this.bkg) {
+				this.bkg = document.createElement('div');
+				this.bkg.setAttribute('s-drawer-bkg', this.componentName);
+				// insert in the page
+				this.elm.parentElement.insertBefore(this.bkg, this.elm.parentElement.firstChild);
+			}
+
+			// try to find the drawer overlay
+			this.overlay = document.querySelector('[s-drawer-overlay="' + this.componentName + '"]');
+			if (!this.overlay) {
+				this.overlay = document.createElement('label');
+				this.overlay.setAttribute('for', this.componentName);
+				this.overlay.setAttribute('s-drawer-overlay', this.componentName);
+				// insert in the page
+				this.elm.parentElement.insertBefore(this.overlay, this.elm.parentElement.firstChild);
+			}
+
+			// try to find the toggle
+			this.toggle = document.querySelector('[s-drawer-toggle="' + this.componentName + '"]');
+			if (!this.toggle) {
+				this.toggle = document.createElement('input');
+				this.toggle.setAttribute('name', this.componentName);
+				this.toggle.setAttribute('id', this.componentName);
+				this.toggle.setAttribute('type', 'checkbox');
+				this.toggle.setAttribute('s-drawer-toggle', this.componentName);
+				// insert into page
+				this.elm.parentElement.insertBefore(this.toggle, this.elm.parentElement.firstChild);
+			}
+
+			// listen for change on the toggle
+			this.toggle.addEventListener('change', function (e) {
+				var name = e.target.name;
+				if (e.target.checked) {
+					document.body.classList.add('s-drawer-' + _this2.componentName);
+				} else {
+					document.body.classList.remove('s-drawer-' + _this2.componentName);
+				}
+			});
+
+			// listen for click on links into the drawer to close it
+			if (this.settings.closeOnClick) {
+				this.elm.addEventListener('click', function (e) {
+					if (e.target.nodeName.toLowerCase() == 'a') {
+						// close the drawer
+						_this2.close();
+					}
+				});
+			}
+
+			// if handle hach
+			if (this.settings.handleHash) {
+				if (document.location.hash) {
+					var hash = document.location.hash.substr(1);
+					if (hash == this.componentName) {
+						this.open();
+					}
+				}
+			}
+		};
+
+		/**
+	  * Open
+	  */
+
+
+		SDrawerComponent.prototype.open = function open() {
+			// check the toggle
+			this.toggle.setAttribute('checked', true);
+			document.body.add('s-drawer-' + this.componentName);
+			return this;
+		};
+
+		/**
+	  * Close
+	  */
+
+
+		SDrawerComponent.prototype.close = function close() {
+			var _this3 = this;
+
+			// uncheck the toggle
+			this.toggle.removeAttribute('checked');
+			var transition = (0, _getTransitionProperties2.default)(this.elm);
+			setTimeout(function () {
+				document.body.classList.remove('s-drawer-' + _this3.componentName);
+			}, transition.totalDuration);
+			return this;
+		};
+
+		/**
+	  * Check if is opened
+	  */
+
+
+		SDrawerComponent.prototype.isOpen = function isOpen() {
+			return this.toggle.checked;
+		};
+
+		return SDrawerComponent;
+	}(_SComponent3.default);
+
+	// expose in window.sugar
+
+
+	if (window.sugar == null) {
+		window.sugar = {};
+	}
+	window.sugar.SDrawerComponent = SDrawerComponent;
+
+	// export modules
+	exports.default = SDrawerComponent;
+
+/***/ },
+/* 241 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.default = getTransitionProperties;
+
+	var _getStyleProperty = __webpack_require__(242);
+
+	var _getStyleProperty2 = _interopRequireDefault(_getStyleProperty);
+
+	var _autoCast = __webpack_require__(9);
+
+	var _autoCast2 = _interopRequireDefault(_autoCast);
+
+	var _toMs = __webpack_require__(243);
+
+	var _toMs2 = _interopRequireDefault(_toMs);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * Get the css transition properties from an HTMLElement in an object format
+	 *
+	 * @name 		getTransitionProperties
+	 * @param 		{HTMLElement} 					elm  		The element to get the properties from
+	 * @return 		{Object} 									The animation properties
+	 *
+	 * @example  	js
+	 * import getTransitionProperties from 'sugarcss/js/dom/getTransitionProperties'
+	 * const props = getTransitionProperties(myCoolHTMLElement);
+	 * // output format
+	 * // {
+	 * // 	property : ['all'],
+	 * // 	duration : [200],
+	 * // 	delay : [0],
+	 * // 	timingFunction : ['linear'],
+	 * // 	totalDuration : 200
+	 * // }
+	 *
+	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	 */
+
+	function splitIfNeeded(what, separator) {
+		if (what.indexOf(separator) !== -1) {
+			return what.split(separator).map(function (item) {
+				return item.trim();
+			});
+		}
+		return [what];
+	}
+
+	function getTransitionProperties(elm) {
+		// get the transition properties
+		var property = (0, _getStyleProperty2.default)(elm, 'transition-property');
+		var duration = (0, _getStyleProperty2.default)(elm, 'transition-duration') || 0;
+		var timingFunction = (0, _getStyleProperty2.default)(elm, 'transition-timing-function');
+		var delay = (0, _getStyleProperty2.default)(elm, 'transition-delay');
+
+		// return the transition object
+		var props = {
+			property: splitIfNeeded(property, ','),
+			duration: splitIfNeeded(duration, ',').map(function (value) {
+				return (0, _toMs2.default)(value);
+			}),
+			delay: splitIfNeeded(delay, ',').map(function (value) {
+				return (0, _toMs2.default)(value);
+			}),
+			timingFunction: splitIfNeeded(timingFunction, ',')
+		};
+		var totalDuration = 0;
+		var i = 0;
+		var delays = [0].concat(props.delay);
+		[0].concat(props.duration).forEach(function (val) {
+			if (val + delays[i] > totalDuration) {
+				totalDuration = val + delays[i];
+			}
+			i++;
+		});
+		props.totalDuration = totalDuration;
+		return props;
+	}
+
+/***/ },
+/* 242 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.default = getStyleProperty;
+
+	var _camelize = __webpack_require__(5);
+
+	var _camelize2 = _interopRequireDefault(_camelize);
+
+	var _autoCast = __webpack_require__(9);
+
+	var _autoCast2 = _interopRequireDefault(_autoCast);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * Get a style property on the passed element through the computed style.
+	 * This function try to store the actual style to not trigger more that 1 redraw
+	 * each js execution loop.
+	 *
+	 * @name 		getStyleProperty
+	 * @param 		{HTMLElement} 					elm  		The element to get style from
+	 * @param 		{String} 						property 	The css property to get
+	 * @return 		{Mixed} 									The style value
+	 *
+	 * @example  	js
+	 * import getStyleProperty from 'sugarcss/js/dom/getStyleProperty'
+	 * const opacity = getStyleProperty(myCoolHTMLElement, 'opacity');
+	 *
+	 * @see 		https://developer.mozilla.org/en-US/docs/Web/API/Window/getComputedStyle
+	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	 */
+	function getStyleProperty(elm, property) {
+
+	  // caching mecanisme
+	  setTimeout(function () {
+	    elm._sComputedStyle = null;
+	  });
+
+	  var computed = elm._sComputedStyle || window.getComputedStyle(elm);
+	  elm._sComputedStyle = computed;
+
+	  var prefixes = ['', 'webkit-', 'moz-', 'ms-', 'o-', 'khtml-'];
+	  for (var i = 0; i < prefixes.length; i++) {
+	    var prefix = prefixes[i];
+	    var value = computed[(0, _camelize2.default)('' + prefix + property)];
+	    if (value && value.trim() !== '') return (0, _autoCast2.default)(value);
+	  }
+	  return null;
+	}
+
+/***/ },
+/* 243 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.default = toMs;
+	function toMs(string) {
+		// parse the string to int to get the lenght of the suffix
+		// if (string.substr(0,1) === '.') string = '0${string}';
+		var value = parseFloat(string);
+		var valueLength = ('' + value).length;
+		var suffix = string.substr(valueLength);
+		// switch on suffix
+		switch (suffix) {
+			case 'ms':
+				// milisecond
+				return value;
+				break;
+			case 's': // seconds
+			default:
+				return value * 1000;
+				break;
+		}
+	}
+
+/***/ },
+/* 244 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _SRippleComponent = __webpack_require__(245);
+
+	var _SRippleComponent2 = _interopRequireDefault(_SRippleComponent);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = _SRippleComponent2.default;
+
+/***/ },
+/* 245 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _SComponent2 = __webpack_require__(3);
+
+	var _SComponent3 = _interopRequireDefault(_SComponent2);
+
+	var _offset = __webpack_require__(169);
+
+	var _offset2 = _interopRequireDefault(_offset);
+
+	var _SParticlesSystemComponent = __webpack_require__(246);
+
+	var _SParticlesSystemComponent2 = _interopRequireDefault(_SParticlesSystemComponent);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); } /*
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Sugar-activate.js
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author   Olivier Bossel <olivier.bossel@gmail.com>
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @created  20.01.16
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @updated  20.01.16
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @version  1.0.0
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+
+	// class
+	var SRippleComponent = function (_SComponent) {
+		_inherits(SRippleComponent, _SComponent);
+
+		/**
+	  * Setup
+	  */
+		SRippleComponent.setup = function setup(type, settings) {
+			_SComponent3.default.setup('sRipple', type, settings);
+		};
+
+		/**
+	  * Container
+	  */
+
+
+		/**
+	  * Ripple elements
+	  */
+
+
+		/**
+	  * Constructor
+	  */
+		function SRippleComponent(elm) {
+			var settings = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+			var name = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'sRipple';
+
+			_classCallCheck(this, SRippleComponent);
+
+			var _this = _possibleConstructorReturn(this, _SComponent.call(this, name, elm, {
+				contains: true,
+				centered: false,
+				delay: 130, // delay in ms between each ripple
+				count: 1, // number of ripple to trigger on click
+				spread: 0 // spread distance for each ripple
+			}, settings));
+
+			_this.containerElm = null;
+			_this.rippleElms = [];
+			return _this;
+		}
+
+		/**
+	  * On added to dom
+	  */
+
+
+		SRippleComponent.prototype._init = function _init() {
+			// init component
+			_SComponent.prototype._init.call(this);
+
+			// listen for click
+			this.elm.addEventListener('click', this.handleClick.bind(this));
+		};
+
+		/**
+	  * Handle click
+	  */
+
+
+		SRippleComponent.prototype.handleClick = function handleClick(e) {
+			// create new particle system
+			var particlesSystemElm = document.createElement('div');
+			this.addComponentClass(particlesSystemElm, 'container');
+			var particleElm = document.createElement('div');
+			this.addComponentClass(particleElm, 'particle');
+
+			var emitterX = void 0,
+			    emitterY = void 0;
+			if (this.settings.centered) {
+				emitterX = this.elm.offsetWith * .5;
+				emitterY = this.elm.offsetHeight * .5;
+			} else {
+				var elmOffset = (0, _offset2.default)(this.elm);
+				emitterX = e.pageX - elmOffset.left;
+				emitterY = e.pageY - elmOffset.top;
+			}
+
+			var particlesSystem = new _SParticlesSystemComponent2.default(particlesSystemElm, {
+				emitterX: emitterX + 'px',
+				emitterY: emitterY + 'px',
+				amount: this.settings.count,
+				spread: this.settings.spread,
+				particleElm: particleElm,
+				duration: this.settings.delay * this.settings.count,
+				onComplete: function onComplete() {
+					particlesSystemElm.parentNode.removeChild(particlesSystemElm);
+				}
+			});
+
+			// set position if needed
+			var position = this.elm.style.position;
+			if (!position) {
+				this.elm.style.position = 'relative';
+			}
+
+			if (this.settings.contains) {
+				particlesSystemElm.style.overflow = 'hidden';
+			}
+
+			// add a new ripple
+			this.elm.appendChild(particlesSystemElm);
+		};
+
+		return SRippleComponent;
+	}(_SComponent3.default);
+
+	// expose in window.sugar
+
+
+	if (window.sugar == null) {
+		window.sugar = {};
+	}
+	window.sugar.SRippleComponent = SRippleComponent;
+
+	// export modules
+	exports.default = SRippleComponent;
+
+/***/ },
+/* 246 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _SParticlesSystemComponent = __webpack_require__(247);
+
+	var _SParticlesSystemComponent2 = _interopRequireDefault(_SParticlesSystemComponent);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = _SParticlesSystemComponent2.default;
+
+/***/ },
+/* 247 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _SComponent2 = __webpack_require__(3);
+
+	var _SComponent3 = _interopRequireDefault(_SComponent2);
+
+	var _SParticleComponent = __webpack_require__(248);
+
+	var _SParticleComponent2 = _interopRequireDefault(_SParticleComponent);
+
+	var _setRecursiveTimeout = __webpack_require__(251);
+
+	var _setRecursiveTimeout2 = _interopRequireDefault(_setRecursiveTimeout);
+
+	var _querySelectorLive = __webpack_require__(11);
+
+	var _querySelectorLive2 = _interopRequireDefault(_querySelectorLive);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
+
+	var SParticlesSystemComponent = function (_SComponent) {
+		_inherits(SParticlesSystemComponent, _SComponent);
+
+		/**
+	  * Setup
+	  */
+		SParticlesSystemComponent.setup = function setup(type, settings) {
+			_SComponent3.default.setup('sParticlesSystem', type, settings);
+		};
+
+		/**
+	  * Constructor
+	  */
+
+
+		function SParticlesSystemComponent(elm) {
+			var settings = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+			var name = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'sParticlesSystem';
+
+			_classCallCheck(this, SParticlesSystemComponent);
+
+			return _possibleConstructorReturn(this, _SComponent.call(this, name, elm, {
+				emitterX: 0,
+				emitterY: 0,
+				spread: 0,
+				amount: 5,
+				timeoutSpread: 0,
+				duration: null,
+				particleClass: null,
+				particleElm: null,
+				particleClassSelection: 'random',
+				onComplete: null
+			}, settings));
+		}
+
+		/**
+	  * Init
+	  */
+
+
+		SParticlesSystemComponent.prototype._init = function _init() {
+			var _this2 = this;
+
+			// init component
+			_SComponent.prototype._init.call(this);
+
+			var particleClsIdx = 0;
+
+			// init the particle creation system
+			(0, _setRecursiveTimeout2.default)(function (idx) {
+				// create new particle
+				var particleElm = document.createElement('div');
+				if (_this2.settings.particleElm) {
+					particleElm = _this2.settings.particleElm.cloneNode(true);
+				}
+
+				// set particle position
+				particleElm.style.top = _this2.settings.emitterY;
+				particleElm.style.left = _this2.settings.emitterX;
+				particleElm.style.marginLeft = -_this2.settings.spread + Math.round(Math.random() * _this2.settings.spread * 2) + 'px';
+				particleElm.style.marginRight = -_this2.settings.spread + Math.round(Math.random() * _this2.settings.spread * 2) + 'px';
+
+				// add attributes to particle if needed
+
+				var cls = _this2.settings.particleClass;
+				if (cls instanceof Array) {
+					if (_this2.settings.particleClassSelection === 'random') {
+						cls = Math.round(Math.random() * (cls.length - 1));
+					} else {
+						cls = cls[particleClsIdx];
+						particleClsIdx = particleClsIdx + 1 < cls.length - 1 ? particleClsIdx + 1 : 0;
+					}
+				}
+				if (_this2.settings.particleClass) {
+					particleElm.classList.add(_this2.settings.particleClass);
+				}
+				var particle = new _SParticleComponent2.default(particleElm, {
+					class: cls
+				});
+				// add the particle to the element
+				_this2.elm.appendChild(particleElm);
+			}, this.settings.duration / this.settings.amount, this.settings.duration, this.settings.timeoutSpread);
+
+			// detect the end of the particles
+			setTimeout(function () {
+				if (_this2.settings.onComplete) _this2.settings.onComplete();
+			}, this.settings.duration + 1000 / this.settings.amount);
+		};
+
+		return SParticlesSystemComponent;
+	}(_SComponent3.default);
+
+	// expose in window.sugar
+
+
+	if (window.sugar == null) {
+		window.sugar = {};
+	}
+	window.sugar.SParticlesSystemComponent = SParticlesSystemComponent;
+
+	// export modules
+	exports.default = SParticlesSystemComponent;
+
+/***/ },
+/* 248 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _SParticleComponent = __webpack_require__(249);
+
+	var _SParticleComponent2 = _interopRequireDefault(_SParticleComponent);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = _SParticleComponent2.default;
+
+/***/ },
+/* 249 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _SComponent2 = __webpack_require__(3);
+
+	var _SComponent3 = _interopRequireDefault(_SComponent2);
+
+	var _getAnimationProperties = __webpack_require__(250);
+
+	var _getAnimationProperties2 = _interopRequireDefault(_getAnimationProperties);
+
+	var _querySelectorLive = __webpack_require__(11);
+
+	var _querySelectorLive2 = _interopRequireDefault(_querySelectorLive);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
+
+	var SParticleComponent = function (_SComponent) {
+		_inherits(SParticleComponent, _SComponent);
+
+		/**
+	  * Setup
+	  */
+		SParticleComponent.setup = function setup(type, settings) {
+			_SComponent3.default.setup('sParticle', type, settings);
+		};
+
+		/**
+	  * Constructor
+	  */
+
+
+		function SParticleComponent(elm) {
+			var settings = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+			var name = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'sParticle';
+
+			_classCallCheck(this, SParticleComponent);
+
+			// set class if needed
+			var _this = _possibleConstructorReturn(this, _SComponent.call(this, name, elm, {
+				class: null
+			}, settings));
+
+			if (_this.settings.class) {
+				_this.elm.classList.add(_this.settings.class);
+			}
+			return _this;
+		}
+
+		/**
+	  * When added
+	  */
+
+
+		SParticleComponent.prototype._onAdded = function _onAdded() {
+			var _this2 = this;
+
+			// get the animation properties
+			var animation = (0, _getAnimationProperties2.default)(this.elm);
+
+			// wait till the animation is finished to remove the particle from DOM
+			setTimeout(function () {
+				if (_this2.elm.parentNode) {
+					_this2.elm.parentNode.removeChild(_this2.elm);
+				}
+			}, animation.totalDuration);
+		};
+
+		/**
+	  * _onRemoved
+	  * When removed
+	  * @return 	{void}
+	  */
+
+
+		SParticleComponent.prototype._onRemoved = function _onRemoved() {
+			// destroy
+			this.destroy();
+		};
+
+		return SParticleComponent;
+	}(_SComponent3.default);
+
+	// expose in window.sugar
+
+
+	if (window.sugar == null) {
+		window.sugar = {};
+	}
+	window.sugar.SParticleComponent = SParticleComponent;
+
+	// export modules
+	exports.default = SParticleComponent;
+
+/***/ },
+/* 250 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.default = getAnimationProperties;
+
+	var _getStyleProperty = __webpack_require__(242);
+
+	var _getStyleProperty2 = _interopRequireDefault(_getStyleProperty);
+
+	var _toMs = __webpack_require__(243);
+
+	var _toMs2 = _interopRequireDefault(_toMs);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * Get the css animation properties from an HTMLElement in an object format
+	 *
+	 * @name 		getAnimationProperties
+	 * @param 		{HTMLElement} 					elm  		The element to get the properties from
+	 * @return 		{Object} 									The animation properties
+	 *
+	 * @example  	js
+	 * import getAnimationProperties from 'sugarcss/js/dom/getAnimationProperties'
+	 * const props = getAnimationProperties(myCoolHTMLElement);
+	 * // output format
+	 * // {
+	 * // 	name : ['animation1'],
+	 * // 	duration : [200],
+	 * // 	delay : [0],
+	 * // 	timingFunction : ['linear'],
+	 * // 	iterationCount : [1],
+	 * // 	direction : ['forward'],
+	 * // 	totalDuration : 200
+	 * // }
+	 *
+	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	 */
+
+	function splitIfNeeded(what, separator) {
+		if (what.indexOf(separator) !== -1) {
+			return what.split(separator).map(function (item) {
+				return item.trim();
+			});
+		}
+		return what;
+	}
+	function getAnimationProperties(elm) {
+		// get the animation properties
+		var name = (0, _getStyleProperty2.default)(elm, 'animation-name') || '';
+		var duration = (0, _getStyleProperty2.default)(elm, 'animation-duration') || '0s';
+		var timingFunction = (0, _getStyleProperty2.default)(elm, 'animation-timing-function') || 'linear';
+		var delay = (0, _getStyleProperty2.default)(elm, 'animation-delay') || '0s';
+		var iterationCount = (0, _getStyleProperty2.default)(elm, 'animation-iteration-count') || 1;
+		var direction = (0, _getStyleProperty2.default)(elm, 'animation-direction') || 'normal';
+
+		// return the animation object
+		var props = {
+			name: name.split(','),
+			duration: duration.split(',').map(function (value) {
+				return (0, _toMs2.default)(value);
+			}),
+			delay: ('' + delay).split(',').map(function (value) {
+				return (0, _toMs2.default)(value);
+			}),
+			timingFunction: timingFunction.split(','),
+			iterationCount: ('' + iterationCount).split(','),
+			direction: direction.split(',')
+		};
+		var totalDuration = 0;
+		var i = 0;
+		var delays = [0].concat(props.delay);
+		[0].concat(props.duration).forEach(function (val) {
+			if (val + delays[i] > totalDuration) {
+				totalDuration = val + delays[i];
+			}
+		});
+		props.totalDuration = totalDuration;
+		return props;
+	}
+
+/***/ },
+/* 251 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	exports.__esModule = true;
+	exports.default = setRecursiveTimeout;
+	/**
+	 * This utils function allows you to call a passed function each x time during a certain duration
+	 *
+	 * @name 			setRecursiveTimeout
+	 * @param 		{Function} 		fn 				The function to execute
+	 * @param 		{Number} 		timeout 		The time between each execution
+	 * @param 		{Number} 		duration 		The duration of the timeout
+	 * @param 		{Number}		[spread=0] 		An optional spread time that will be used to randomize the function executions times
+	 * @return 		{Function} 		clearer 		A function that you can use to clear the timeout before it ends by itself
+	 *
+	 * @example 		js
+	 * setRecursiveTimeout(() => {
+	 * 		// I will be executed 10 times
+	 * }, 1000, 10000);
+	 *
+	 * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+	 */
+	function setRecursiveTimeout(fn, timeout, duration) {
+		var spread = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+
+
+		var idx = 0;
+		var currentDuration = 0;
+		var timeoutFn = null;
+
+		(function tick() {
+
+			// call the function
+			fn(idx);
+
+			// update current duration
+			currentDuration += timeout;
+			idx++;
+
+			// recursive call until end
+			if (!duration || duration === -1 || currentDuration < duration) {
+				var spreadValue = -spread + Math.round(Math.random(spread * 2));
+				timeoutFn = setTimeout(tick, timeout + spreadValue);
+			}
+		})();
+
+		// return the clear function to be able to stop the timeout
+		return function () {
+			// clear the timeout
+			clearTimeout(timeoutFn);
+		};
+	}
+
+/***/ },
+/* 252 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -23694,7 +25027,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = SColor;
 
 /***/ },
-/* 238 */
+/* 253 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {

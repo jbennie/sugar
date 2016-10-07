@@ -12,6 +12,7 @@
  */
 .btn {
 	border-radius: #{1em + s-lnf(padding-horizontal) * 2};
+	overflow: hidden;
 	@include s-filter(shadowed-text);
 
 	i {

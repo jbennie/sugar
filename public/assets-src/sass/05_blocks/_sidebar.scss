@@ -8,7 +8,6 @@
 	mix-blend-mode:overlay;
 }
 #topbar {
-
 	background: linear-gradient(to right, s-color(primary), s-color(primary, -darken 10%));
 	height: 70px;
 	position:relative;
@@ -28,10 +27,16 @@
 		@include s-filter(shadowed-text);
 	}
 	.topbar__links {
-		color: white;
-		@include s-filter(shadowed-text);
 		padding-right: s-space(big);
 		position:relative;
+
+		.nav__item {
+			text-align: center;
+		}
+		.nav__item > * > i {
+			color: white;
+			@include s-filter(shadowed-text);
+		}
 	}
 
 #sidebar {
@@ -42,7 +47,7 @@
 	overflow-y: auto;
 	float:left;
 	border-right:solid 1px s-color(#eee);
-	background-color: s-color(white, -darken 1%);
+	background-color: s-color(default);
 }
 	.sidebar__header {
 		background: white;

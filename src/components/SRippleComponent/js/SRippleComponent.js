@@ -37,6 +37,8 @@ class SRippleComponent extends SComponent {
 	 */
 	constructor(elm, settings = {}, name = 'sRipple') {
 		super(name, elm, {
+			contains : true,
+			centered : false,
 			delay : 130, // delay in ms between each ripple
 			count : 1, // number of ripple to trigger on click
 			spread : 0 // spread distance for each ripple
@@ -63,10 +65,20 @@ class SRippleComponent extends SComponent {
 		this.addComponentClass(particlesSystemElm, 'container');
 		const particleElm = document.createElement('div');
 		this.addComponentClass(particleElm, 'particle');
-		const elmOffset = __offset(this.elm);
+
+		let emitterX, emitterY;
+		if (this.settings.centered) {
+			emitterX = this.elm.offsetWith * .5;
+			emitterY = this.elm.offsetHeight * .5;
+		} else {
+			const elmOffset = __offset(this.elm);
+			emitterX = e.pageX - elmOffset.left;
+			emitterY = e.pageY - elmOffset.top;
+		}
+
 		const particlesSystem = new SParticlesSystemComponent(particlesSystemElm, {
-			emitterX : (e.pageX - elmOffset.left) + 'px',
-			emitterY : (e.pageY - elmOffset.top) + 'px',
+			emitterX : emitterX + 'px',
+			emitterY : emitterY + 'px',
 			amount : this.settings.count,
 			spread : this.settings.spread,
 			particleElm : particleElm,
@@ -80,6 +92,10 @@ class SRippleComponent extends SComponent {
 		const position = this.elm.style.position;
 		if ( ! position) {
 			this.elm.style.position = 'relative';
+		}
+
+		if (this.settings.contains) {
+			particlesSystemElm.style.overflow = 'hidden';
 		}
 
 		// add a new ripple

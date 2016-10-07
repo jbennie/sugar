@@ -2,8 +2,9 @@
  * Menu drawer
  */
 @include s-drawer-component(
-	$name : 'menu',
-	$side : left,
+	$name : 'team',
+	$side : right,
+	$size : 500px,
 	$method : position
 );
 
@@ -13,6 +14,8 @@
 [s-drawer-content] {
 	overflow-x: hidden;
 	transform:none;
+	height:100%;
+	@include s-filter(drop-shadow(rgba(0,0,0,.3) 0 0 4px));
 }
 [s-drawer-overlay] {
 	background : s-color(darkgrey, -opacity .8);

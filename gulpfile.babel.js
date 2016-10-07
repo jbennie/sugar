@@ -203,7 +203,7 @@ gulp.task('doc-iconfont', [], () => {
 		fontName : 'icons',
 		prependUnicode : false,
 		startUnicode : false,
-		formats : ['ttf','eot','woff'],
+		formats : ['ttf','eot','woff','woff2'],
 		timestamp : runTimestamp,
 		normalize : true
 	}))

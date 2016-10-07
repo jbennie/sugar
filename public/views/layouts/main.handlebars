@@ -6,92 +6,193 @@
 	<link rel="stylesheet" href="/assets/css/gridle.css" />
 </head>
 <body>
-	<section id="topbar">
-		<div s-trianglify style="z-index:0;"></div>
-		<div class="container" style="position:relative; z-index:1;">
-			<div class="row row-align-middle">
-				<div class="gr-adapt">
-					<h1 class="topbar__title">
-						Sugar
-					</h1>
-				</div>
-				<div class="gr-grow">
-					<form name="search" class="p-small">
-						<select class="input s-small" s-select placeholder="Search the doc" onchange="document.location = this.options[this.selectedIndex].value;">
-							<option value=""></option>
-							{{#each files}}
-								<option value="/{{this}}">
-									{{this}}
-								</option>
-							{{/each}}
-						</select>
-					</form>
-				</div>
-				<div class="gr-adapt">
-					<nav class="topbar__links">
-						<ul class="nav nav--inline s-smaller">
-							<li class="nav__item">
-								<a href="#" class="s-big" title="Github">
-									<i class="icon-facebook"></i>
-									<span class="tooltip tooltip--b tooltip--secondary s-small">
-										Me on Facebook
-									</span>
-								</a>
-							</li>
-							<li class="nav__item">
-								<a href="#" class="s-big" title="Github">
-									<i class="icon-twitter-bird"></i>
-									<span class="tooltip tooltip--b tooltip--secondary s-small">
-										Sugar on Twitter
-									</span>
-								</a>
-							</li>
-							<li class="nav__item">
-								<a href="#" class="s-big" title="Github">
-									<i class="icon-github"></i>
-									<span class="tooltip tooltip--b tooltip--secondary s-small">
-										Sugar on Github
-									</span>
-								</a>
-							</li>
-							<li class="nav__item">
-								<a href="#" class="s-big" title="Github">
-									<i class="icon-home"></i>
-									<span class="tooltip tooltip--b tooltip--secondary s-small">
-										Author website
-									</span>
-								</a>
-							</li>
-						</ul>
-					</nav>
-				</div>
-				<div class="gr-adapt">
-					<div style="width:70px;"></div>
+
+	<div s-drawer="team">
+		<section class="team">
+			<div s-trianglify -cell-size="900"></div>
+			<div class="relative">
+				<h1 class="h1 vr">
+					{{team.title}}
+				</h1>
+				<p class="p p--lead vr">
+					{{team.intro}}
+				</p>
+				{{#each team.members}}
+					<section class="team__member">
+
+						<div class="row row-align-top">
+
+							<div class="gr-grow">
+								<h2 class="h2">
+									{{name}}
+								</h2>
+								<h3 class="h4 c-primary vr">
+									{{role}}
+								</h3>
+							</div>
+							<div class="gr-adapt">
+								<figure class="team__picture">
+									<img src="{{ gravatarUrl email }}" />
+								</figure>
+							</div>
+						</div>
+						<p class="p vr">
+							{{description}}
+						</p>
+						<nav class="team__links">
+							<ul class="nav nav--inline s-smaller">
+								{{#each links}}
+									<li class="nav__item">
+										<a href="{{url}}" class="s-reset" target="_blank">
+											<i class="icon-{{icon}}"></i>
+										</a>
+									</li>
+								{{/each}}
+							</ul>
+						</nav>
+					</section>
+				{{/each}}
+				<a class="btn btn--primary btn--block t-center" title="Join out team">
+					Contribute to sugar
+				</a>
+			</div>
+		</section>
+
+	</div>
+
+	<div s-drawer-content>
+		<section id="topbar">
+			<div s-trianglify style="z-index:0;"></div>
+			<div class="container" style="position:relative; z-index:1;">
+				<div class="row row-align-middle">
+					<div class="gr-adapt">
+						<h1 class="topbar__title">
+							<i class="icon-facebook"></i> Sugar
+						</h1>
+					</div>
+					<div class="gr-grow">
+						<form name="search" class="p-small">
+							<select class="input s-small" s-select placeholder="Search the doc" onchange="document.location = this.options[this.selectedIndex].value;">
+								<option value=""></option>
+								{{#each files}}
+									<option value="/{{this}}">
+										{{this}}
+									</option>
+								{{/each}}
+							</select>
+						</form>
+					</div>
+					<div class="gr-adapt">
+						<nav class="topbar__links">
+							<ul class="nav nav--inline s-smaller">
+								<li class="nav__item">
+									<a href="#" class="s-big" title="Github">
+										<i class="icon-facebook"></i>
+										<span class="tooltip tooltip--b tooltip--secondary s-small">
+											Me on Facebook
+										</span>
+									</a>
+								</li>
+								<li class="nav__item">
+									<a href="#" class="s-big" title="Github">
+										<i class="icon-twitter-bird"></i>
+										<span class="tooltip tooltip--b tooltip--secondary s-small">
+											Sugar on Twitter
+										</span>
+									</a>
+								</li>
+								<li class="nav__item">
+									<a href="#" class="s-big" title="Github">
+										<i class="icon-github"></i>
+										<span class="tooltip tooltip--b tooltip--secondary s-small">
+											Sugar on Github
+										</span>
+									</a>
+								</li>
+								<li class="nav__item">
+									<a href="#" class="s-big" title="Subscribe to newsletter">
+										<i class="icon-news"></i>
+										<span class="tooltip tooltip--b tooltip--secondary s-small">
+											Subscribe to newsletter
+										</span>
+									</a>
+								</li>
+								<li class="nav__item">
+									<a href="#" class="s-big" title="Github">
+										<i class="icon-home"></i>
+										<span class="tooltip tooltip--b tooltip--secondary s-small">
+											Author website
+										</span>
+									</a>
+								</li>
+								<li class="nav__item">
+									<label for="team" class="s-big">
+										<i class="icon-team"></i>
+										<span class="tooltip tooltip--b tooltip--secondary s-small">
+											Meet out team
+										</span>
+									</label>
+								</li>
+								<li class="nav__item">
+									<div class="s-big dropdown dropdown--right dropdown--primary" title="Share the love"
+										s-addthis>
+										<i class="icon-share"></i>
+										<ul class="dropdown__menu s-default">
+											<li class="dropdown__item">
+												<a href="#" class="addthis_button_facebook" title="Share on Facebook">
+													<i class="icon-facebook"></i>
+													Facebook
+												</a>
+											</li>
+											<li class="dropdown__item">
+												<a href="#" class="addthis_button_twitter" title="Share on Facebook">
+													<i class="icon-twitter-bird"></i>
+													Twitter
+												</a>
+											</li>
+										</ul>
+									</div>
+								</li>
+							</ul>
+						</nav>
+					</div>
+					<div class="gr-adapt">
+						<div style="width:70px;"></div>
+					</div>
 				</div>
 			</div>
-		</div>
-	</section>
-	<section id="sidebar">
-		<div class="sidebar__header">
-			<a class="btn btn--primary btn--block t-center t-uppercase">
-				Download <span class="s-small">1.0.0</span>
-			</a>
-			<!-- <pre class="language-js"><code class="language-js">npm install sugarcss --save</code>
-			</pre> -->
-		</div>
+		</section>
+		<section id="sidebar">
+			<div class="sidebar__header t-center">
+				<a class="btn btn--primary btn--block t-center t-uppercase m-b-small">
+					Download <span class="s-small">1.0.0</span>
+				</a>
+				<div class="f-code s-small m-b-smaller">
+					npm install sugarcss --save
+				</div>
+				<div class="f-code s-small">
+					bower install sugarcss --save
+				</div>
+				<!-- <pre class="language-js"><code class="language-js">npm install sugarcss --save</code>
+				</pre> -->
+			</div>
 
 
-		<div class="p">
-			{{{menu three currentUrl}}}
-		</div>
-	</section>
-	<section id="content" class="t-format markdown">
-		{{{body}}}
-	</section>
+			<div class="p">
+				{{{menu three currentUrl}}}
+			</div>
+		</section>
+		<section id="content" class="t-format markdown">
+			{{{body}}}
+		</section>
 
-	<a href="https://github.com/olivierbossel/sugar" target="_blank">
-		<img style="position: absolute; z-index:1; top: 0; right: 0; border: 0; width: 130px; min-width: auto;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png">
-	</a>
+		<a href="https://github.com/olivierbossel/sugar" target="_blank">
+			<img style="position: absolute; z-index:1; top: 0; right: 0; border: 0; width: 130px; min-width: auto;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png">
+		</a>
+
+	</div>
+
+
 
 	<script src="/assets/js/main.js"></script>
 
