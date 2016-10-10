@@ -6,9 +6,9 @@
 ) {
 	$componentName : s-component('s-drawer');
 	@include s-component($componentName) {
-		$drawer-toggle-sel : s-component-item('toggle');
+		$drawer-toggle-sel : '[#{$componentName}-toggle]';
 		@if $name {
-			$drawer-toggle-sel : s-component-item('toggle', $name);
+			$drawer-toggle-sel : '[#{$componentName}-toggle]';
 		}
 		#{$drawer-toggle-sel}:checked ~ & {
 			@content;
@@ -38,21 +38,21 @@
 			height: 100%;
 		}
 
-		#{s-component-item('toggle')} {
+		[#{$componentName}-toggle] {
 			position: fixed;
 			top:0; left:0;
 			opacity: 0;
 		}
 
 		$drawer-sel : '[#{$componentName}]';
-		$drawer-overlay-sel : s-component-item('overlay');
-		$drawer-toggle-sel : s-component-item('toggle');
-		$drawer-bkg-sel : s-component-item('bkg');
+		$drawer-overlay-sel : '[#{$componentName}-overlay]';
+		$drawer-toggle-sel : '[#{$componentName}-toggle]';
+		$drawer-bkg-sel : '[#{$componentName}-bkg]';
 		@if $name {
 			$drawer-sel : '[#{$componentName}="#{$name}"]';
-			$drawer-overlay-sel : s-component-item('overlay', $name);
-			$drawer-toggle-sel : s-component-item('toggle', $name);
-			$drawer-bkg-sel : s-component-item('bkg', $name);
+			$drawer-overlay-sel : '[#{$componentName}-overlay]';
+			$drawer-toggle-sel : '[#{$componentName}-toggle]';
+			$drawer-bkg-sel : '[#{$componentName}-bkg]';
 		}
 
 		#{$drawer-sel} {
@@ -123,7 +123,7 @@
 			@include s-transition();
 		}
 		/* actual page content pane */
-		#{s-component-item('content')} {
+		[#{$componentName}-content] {
 			@include s-translate(0,0);
 			width: 100%; min-height:100vh;
 			@include s-transition();
@@ -247,7 +247,7 @@
 			}
 		}
 
-		#{$drawer-toggle-sel}:checked ~ #{s-component-item('content')} {
+		#{$drawer-toggle-sel}:checked ~ [#{$componentName}-content] {
 			@if $type != slide {
 				@if $side == left {
 					@if $method == translate {

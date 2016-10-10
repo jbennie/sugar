@@ -121,6 +121,7 @@ $_s-dropdown-component-inited : false;
 			}
 
 			> a {
+				color : s-color(text);
 				display: block;
 				width: 100%;
 			}
