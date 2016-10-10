@@ -1,6 +1,17 @@
-//
-// Get a look and feel value
-//
+/**
+ * Return a settings.look-and-feel stack value
+ *
+ * @param 		{String} 		$name					The look and feel value name
+ * @param 		{String} 		[$size=default] 		The size wanted.
+ * @return 		{Number} 								The look and feel value in em
+ *
+ * @example
+ * .my-cool-element {
+ * 		padding : s-look-and-feel(padding-horizontal) s-look-and-feel(padding-vertical);
+ * }
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @function s-look-and-feel(
 	$name,
 	$size : default
