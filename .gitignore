@@ -5,3 +5,6 @@ archives
 node_modules
 npm-debug.log
 bower_components
+public/assets/fonts/icons.eot
+public/assets/fonts/icons.ttf
+public/assets/fonts/icons.woff
