@@ -1,8 +1,22 @@
-//
-// Get rhythme max-width
-//
+/**
+ * Return the Map properties representation for the rhythme width
+ * The rhythme width is the width of an element that target a certain number of letters by line
+ *
+ * @param 			{Integer} 			[$letters-count=settings.typo.line-letters-count] 		The number of letters to target by line
+ * @return 			{Map} 																		The Map properties representation
+ *
+ * @example
+ * s-rhythme-width(50);
+ * // return
+ * // (
+ * // 	display : block,
+ * // 	max-width : 50ex
+ * // )
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @function s-rhythme-width(
-	$letters-count : sugar('settings.typo.line-letters-count')
+	$letters-count : s-setting('typo.line-letters-count')
 ) {
 	@if unitless($letters-count) {
 		@return (

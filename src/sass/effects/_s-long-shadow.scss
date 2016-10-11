@@ -1,6 +1,28 @@
-//
-// Long shadow
-//
+/**
+ * Generate a long shadow effect like [this](https://www.google.ch/search?q=long+shadow&espv=2&biw=2560&bih=1316&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjjne6x49LPAhVBHRQKHat8AW8Q_AUIBigB)
+ *
+ * @param 		{Color} 		[$color=rgba(0,0,0,.3)] 			The shadow color
+ * @param 		{String} 		[$type=text] 						The shadow type (text,box)
+ * @param 		{Degree} 		[$angle=135deg] 					The shadow angle
+ * @param 		{Integer} 		[$depth=20] 						The shadow depth
+ * @param 		{Boolean} 		[$fade=false] 						If true, the shadow will fade itself
+ * @param 		{Number} 		[$blur=0] 							The blur amount of the shadow
+ * @param 		{Number} 		[$blur-ratio=0] 					The ratio to blur each depth more
+ *
+ * @example
+ * .my-cool-title {
+ * 		\@include s-long-shadow(
+ * 			$depth : 10
+ * 		);
+ * }
+ * .my-cool-box {
+ * 		\@include s-long-shadow(
+ * 			$type : box
+ * 		);
+ * }
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-long-shadow(
 	$color : rgba(0,0,0,.3),
 	$type : text,
@@ -14,7 +36,7 @@
 		$color : s-test-argument('s-long-shadow','color',color,$color);
 		$type : s-test-argument('s-long-shadow','type',(text,box),$type);
 		$angle : s-test-argument('s-long-shadow','angle',degree,$angle);
-		$depth : s-test-argument('s-long-shadow','depth',number,$depth);
+		$depth : s-test-argument('s-long-shadow','depth',integer,$depth);
 		$fade : s-test-argument('s-long-shadow','fade',boolean,$fade);
 		$blur : s-test-argument('s-long-shadow','blur',number,$blur);
 		$blur-ratio : s-test-argument('s-long-shadow','blur-ratio',number,$blur-ratio);

@@ -1,14 +1,33 @@
-//
-// Side lined
-//
+/**
+ * Create side lines around an item
+ *
+ * @param 			{String} 		[$style=solid] 			The line style, same possible values as the border-style property
+ * @param 			{String} 		[$side=both] 			The side where to put lines (left,right,both)
+ * @param 			{Number} 		[$height=1px] 			The lines height
+ * @param 			{Number} 		[$width=50%] 			The width of the lines
+ * @param 			{Color} 		[$color=text]			The color of the lines
+ * @param 			{Number} 		[$padding=0] 			The padding between the lines and the content
+ * @param 			{Number} 		[$offset-top=null] 		The line offset top
+ *
+ * @example
+ * h1 {
+ * 		\@include s-side-lined(
+ * 			$padding : 20px,
+ * 			$side : right,
+ * 			$width : 100%
+ * 		);
+ * }
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-side-lined(
 	$style : solid,
 	$side : both,
 	$height : 1px,
 	$width : 50%,
-	$color : black,
+	$color : text,
 	$padding : 0,
-	$margin-top : null
+	$offset-top : null
 ) {
 	@if $_sugar-test-arguments {
 		$style : s-test-argument('s-side-lined','style',none hidden dotted dashed solid double groove ridge inset outset initial inherit,$style);
@@ -17,7 +36,7 @@
 		$width : s-test-argument('s-side-lined','width',number,$width);
 		$color : s-test-argument('s-side-lined','color',color,$color);
 		$padding : s-test-argument('s-side-lined','padding',number,$padding);
-		$margin-top : s-test-argument('s-side-lined','margin-top',number,$margin-top);
+		$offset-top : s-test-argument('s-side-lined','offset-top',number,$offset-top);
 	}
 
 	display: block;
@@ -60,8 +79,8 @@
 			border-bottom-color: $color;
 		}
 
-    	@if $margin-top {
-			bottom: $margin-top;
+    	@if $offset-top {
+			bottom: $offset-top;
     	} @else {
     		bottom : 0.05em;
     	}

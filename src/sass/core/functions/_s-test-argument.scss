@@ -1,7 +1,29 @@
+/**
+ * Test an argument passed to a function or a mixin to ensure his type, value, etc...
+ * If the argument does not pass the test, an error will be thrown, unless the $check-only argument is true
+ *
+ * @param 				{String} 				$method 				The function/mixin name (debug purpose)
+ * @param 				{String} 				$argument 				The argument name to test (debug purpose)
+ * @param 				{List}{String} 			$type-or-values 		If string, the type(s) that the argument must match, if list, the possible values that the argument can take
+ * @param 				{Mixed} 				$value 					The actual argument value
+ * @param 				{Boolean} 				[$check-only=false]		If this is true, will not thrown any error
+ * @return 				{Mixed} 										The value if ok, false if not
+ *
+ * @example
+ * \@mixin my-cool-mixin($argument1, $argument2) {
+ *        $argument1 : s-test-argument(my-cool-mixin, argument1, string, $argument1);
+ *        $argument2 : s-test-argument(my-cool-mixin, argument2, (hello,world,12), $argument2);
+ * }
+ * \@mixin my-cool-mixin(hello, world); // ok
+ * \@mixin my-cool-mixin(hello, universe); // throw an error
+ * \@mixin my-cool-mixin(12, world); // throw an error
+ *
+ * @author 				Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @function s-test-argument(
 	$method,
-	$property,
-	$type,
+	$argument,
+	$type-or-values,
 	$value,
 	$check-only : false
 ) {
@@ -10,44 +32,44 @@
 		@return $value;
 	}
 	// check explicit values
-	@if type-of($type) == string {
+	@if type-of($type-or-values) == string {
 		// check the type
-		@if not s-is($value, $type) {
+		@if not s-is($value, $type-or-values) {
 			@if $check-only {
 				@return false;
 			}
-			@error('The property "#{$property}" of the mixin/function "#{$method}" need to be a "#{$type}" but it seems that you pass a "#{type-of($value)}" : #{$value}');
+			@error('The property "#{$argument}" of the mixin/function "#{$method}" need to be a "#{$type-or-values}" but it seems that you pass a "#{type-of($value)}" : #{$value}');
 		}
 		@return $value;
-	} @else if type-of($type) == list {
+	} @else if type-of($type-or-values) == list {
 		// check if the passed value exist in possible values
-		@if type-of($value) == list and index($type, length) {
+		@if type-of($value) == list and index($type-or-values, length) {
 			@return $value;
-		} @else if type-of($value) == number and index($type, number) {
+		} @else if type-of($value) == number and index($type-or-values, number) {
 			@return $value;
 		} @else {
 			// if its a list of values, check each values
 			@if type-of($value) == list {
 				@each $v in $value {
-					@if not _s-check-property($property, $type, $v, true) {
+					@if not _s-check-property($argument, $type-or-values, $v, true) {
 						@return false;
 					}
 				}
 				@return $value;
 			} @else {
-				$idx : index($type, $value);
+				$idx : index($type-or-values, $value);
 				@if not $idx {
 					@if not $check-only {
-						@error('The property "#{$property}" or the mixin/function "#{$method}" has to be one of these values "#{$type}" and not "#{$value}"');
+						@error('The property "#{$argument}" or the mixin/function "#{$method}" has to be one of these values "#{$type-or-values}" and not "#{$value}"');
 					}
 					@return false;
 				}
-				$v : nth($type, $idx);
+				$v : nth($type-or-values, $idx);
 				@if type-of($v) == type-of($value) {
 					@if type-of($v) == number {
 						@if unit($v) == unit($value) {
 							@if not $check-only {
-								@error('The property "#{$property}" or the mixin/function "#{$method}" has to be one of these values "#{$type}" and not "#{$value}"');
+								@error('The property "#{$argument}" or the mixin/function "#{$method}" has to be one of these values "#{$type-or-values}" and not "#{$value}"');
 							}
 							@return $value;
 						} @else {
@@ -58,7 +80,7 @@
 					}
 				} @else {
 					@if not $check-only {
-						@error('The property "#{$property}" or the mixin/function "#{$method}" has to be one of these values "#{$type}" and not "#{$value}"');
+						@error('The property "#{$argument}" or the mixin/function "#{$method}" has to be one of these values "#{$type-or-values}" and not "#{$value}"');
 					}
 					@return false;
 				}
@@ -69,7 +91,7 @@
 		@return $value;
 	}
 	@if not $check-only {
-		@error('The property "#{$property}" or the mixin/function "#{$method}" is wrong');
+		@error('The property "#{$argument}" or the mixin/function "#{$method}" is wrong');
 	}
 	@return false;
 

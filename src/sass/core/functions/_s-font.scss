@@ -52,7 +52,7 @@
 	$wrap : null
 ) {
 	@if $_sugar-test-arguments {
-		$family : s-test-argument('s-font','family',map-keys(sugar('settings.fonts')),$family);
+		$family : s-test-argument('s-font','family',map-keys(s-setting('fonts')),$family);
 		$color : s-test-truncate('s-font','color',color,$color);
 		$size : s-test-argument('s-font','size',number,$size);
 		$style : s-test-argument('s-font','style',(normal,italic,oblique,initial,inherit),$style);
@@ -71,8 +71,8 @@
 	}
 
 	// get the font object
-	$fonts : sugar('settings.fonts');
-	$f : map-get($fonts, sugar('settings.typo.font-family'));
+	$fonts : s-setting('fonts');
+	$f : map-get($fonts, s-setting('typo.font-family'));
 	@if type-of($f) == string {
 		$f : map-get($fonts, $f);
 	}

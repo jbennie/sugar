@@ -1,8 +1,0 @@
-@function sugar(
-	$what
-) {
-	@if type-of($what) == string and str-index($what, "settings.") {
-		// get a configuration
-		@return s-setting(str-slice($what,10));
-	}
-}

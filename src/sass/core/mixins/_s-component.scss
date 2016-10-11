@@ -1,3 +1,19 @@
+/**
+ * Set the name of the component that will be handled inside the mixin
+ *
+ * @param 			{String} 			[$name=null] 			The name of the component to set
+ * @param 			{String}{Map} 		[$context=null] 		A context name or map to use inside the mixin
+ *
+ * @example
+ * \@include s-component('my-component') {
+ * 		s-component('hello') // => 'my-component'
+ * 		\@include s-component('another-component') {
+ * 			s-component('hello') // => 'my-component'
+ * 		}
+ * }
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>;
+ */
 $_sugar-component-name : null;
 @mixin s-component(
 	$name : null,
@@ -9,7 +25,7 @@ $_sugar-component-name : null;
 	} @else if $name {
 		$_sugar-component-name : $name !global;
 	}
-	
+
 	@if $context {
 		@include s-context($context) {
 			@content;

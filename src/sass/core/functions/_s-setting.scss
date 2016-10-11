@@ -1,6 +1,16 @@
-//
-// Get a configuration
-//
+/**
+ * Get a settings from the global settings stack
+ *
+ * @param 				{String} 			$path 						The setting path wanted separated by dots
+ * @param 				{String} 			[$context=s-context()] 		The context name to get the setting
+ * @return 				{Mixed} 										The setting value¨
+ *
+ * @example
+ * $font-size : s-setting('typo.font-size');
+ * // etc...
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 $_sugar-settings-cache : ();
 @function s-setting(
 	$path,

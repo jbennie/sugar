@@ -44,7 +44,7 @@
 	}
 
 	// get what we need to interpolate the value
-	$ratio : sugar('settings.sizes.#{$size}');
+	$ratio : s-setting('sizes.#{$size}');
 	$default-size : sugar('#{$stack}.default');
 
 	// if the getted value is a unitless one, mean that it's the ratio to use

@@ -27,7 +27,7 @@ $_s-formset-radiobox-component-inited : false;
 
 		// parse properties
 		@if $_sugar-test-arguments {
-			// $colors : s-test-argument('s-formset-radiobox-style','colors',map-keys(sugar('settings.colors')),$colors);
+			// $colors : s-test-argument('s-formset-radiobox-style','colors',map-keys(s-setting('colors')),$colors);
 		}
 
 		// base
@@ -92,7 +92,7 @@ $_s-formset-radiobox-component-inited : false;
 	@include s-component('s-radiobox') {
 		// parse properties
 		@if $_sugar-test-arguments {
-			// $colors : s-test-argument('s-formset-radiobox-style','colors',map-keys(sugar('settings.colors')),$colors);
+			// $colors : s-test-argument('s-formset-radiobox-style','colors',map-keys(s-setting('colors')),$colors);
 		}
 
 	    // colors

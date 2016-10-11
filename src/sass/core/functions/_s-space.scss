@@ -1,6 +1,16 @@
-//
-// Space
-//
+/**
+ * Return a value interpolated from the settings.spaces stack
+ *
+ * @param 			{String} 			$size 			The space size wanted. Must exist in the settings.sizes stack
+ * @return 			{Number} 							The actual space value
+ *
+ * @example
+ * .my-cool-section {
+ * 		padding : s-pace(big);
+ * }
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @function s-space(
 	$size
 ) {

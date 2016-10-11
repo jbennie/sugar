@@ -1,7 +1,24 @@
+/**
+ * Generate a full animated, single element, flip ball style loader
+ *
+ * @param 		{String} 		[$shape=circle] 			The shape of the loader (circle,rect)
+ * @param 		{Number} 		[$size=1em] 				The size of the loader
+ * @param 		{Color} 		[$color=primary] 			The color of the loader. Can be a list of colors
+ * @param 		{Second} 		[$a-duration=1s] 			The overall animation duration
+ * @param 		{Second} 		[$a-delay=0s] 				The delay between two animation cycle
+ * @param 		{String} 		[$a-ease=ease-in-out]		The ease to use for the animation
+ *
+ * @example
+ * .my-cool-loader {
+ * 		\@include s-loader-flip-ball();
+ * }
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-loader-flip-ball(
 	$shape : circle,
 	$size : 1em,
-	$color : s-color(primary),
+	$color : primary,
 	$a-duration : 1s,
 	$a-delay : 0s,
 	$a-ease : ease-in-out
@@ -49,7 +66,7 @@
 			border-radius: $size $size 0 0;
 		}
 		content:'';
-		background: $c;
+		background: s-color($c);
 		transform-origin: $size / 2 $size / 2;
 		position: absolute;
 		top: 0; left:0;
@@ -78,7 +95,7 @@
 				transform : rotateX(180deg);
 			}
 			#{percentage(1 / $steps * $i)} {
-				background: nth($colors, $i);
+				background: s-color(nth($colors, $i));
 				transform : rotateX(0deg);
 			}
 			#{percentage(1 / $steps * $i) - percentage(1 / $steps) / 2} {
@@ -104,7 +121,7 @@
 	@keyframes #{$a-name}-before {
 		@for $i from 1 through $steps {
 			#{percentage(1 / $steps * $i) - 0.0001%} {
-				background: nth($colors, $i);
+				background: s-color(nth($colors, $i));
 			}
 			#{percentage(1 / $steps * $i)} {
 				$c : null;
@@ -113,7 +130,7 @@
 				} @else {
 					$c : nth($colors, $i + 1);
 				}
-				background: $c;
+				background: s-color($c);
 			}
 		}
 	}
@@ -124,15 +141,15 @@
 				$c : null;
 				@if $i - 1 <= 0 {
 					$c : nth($colors, length($colors));
-					background: $c;
+					background: s-color($c);
 				} @else {
 					$c : nth($colors, $i - 1);
-					background: $c;
+					background: s-color($c);
 				}
 			}
 			#{percentage(1 / $steps * $i)} {
 				transform: rotate($i * 90deg);
-				background: nth($colors, $i);
+				background: s-color(nth($colors, $i));
 			}
 		}
 	}

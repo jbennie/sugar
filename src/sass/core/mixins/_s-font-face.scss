@@ -1,6 +1,22 @@
-//
-// Font face
-//
+/**
+ * Helper to print a font-face
+ *
+ * @param 			{String} 		$font-family 			The font-family
+ * @param 			{String} 		$src 					The source url (only 1 extension)
+ * @param 			{List} 			[$extensions=woff2] 	The extensions list that you have available
+ * @param 			{String} 		[$font-weight=normal] 	The font-weight property
+ * @param 			{String} 		[$font-style=normal] 	The font-style property
+ *
+ * @example
+ * // if you have these extensions files : .woff .eot .woff2
+ * \@include s-font-face(
+ * 		$name : my-cool-font,
+ * 		$src : '/fonts/my-font.eot',
+ * 		$extensions : eot woff woff2
+ * )
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-font-face(
 	$font-family,
 	$src,
@@ -17,7 +33,7 @@
 	}
 
 	// get font format from settings
-	$font-format : sugar('settings.typo.font-format');
+	$font-format : s-setting('typo.font-format');
 
 	// if the src is a string
 	// mean that's a url

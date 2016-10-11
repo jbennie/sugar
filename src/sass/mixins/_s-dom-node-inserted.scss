@@ -3,5 +3,5 @@
 	to { opacity: 1; }
 }
 @mixin s-dom-node-inserted() {
-	@include s-animation(s-dom-node-inserted());
+	@include s-animation(s-DOMNodeInserted 0.001s);
 }

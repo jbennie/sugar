@@ -353,13 +353,13 @@ $_s-range-component-inited : false;
 }
 
 @mixin s-range-component-style(
-	$colors : sugar('settings.components.formset.generate.colors')
+	$colors : s-setting('components.formset.generate.colors')
 ) {
 	@include s-range-component-init();
 
 	// parse properties
 	@if $_sugar-test-arguments {
-		// $colors : s-test-argument('s-range-component-style','colors',map-keys(sugar('settings.colors')),$colors);
+		// $colors : s-test-argument('s-range-component-style','colors',map-keys(s-setting('colors')),$colors);
 	}
 
 	@include s-component('s-range') {

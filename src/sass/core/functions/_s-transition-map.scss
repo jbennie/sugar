@@ -1,6 +1,39 @@
-//
-// Transition
-//
+/**
+ * Take a transition as parameter and parse it to return the {Map} corresponding
+ * The $transition parameter can be either a registered transition name or a custom css transition like : all .2s ease-in-out 2s
+ * The $transition argument will be parsed with the [./_s-parse-properties.scss] function.
+ *
+ * @param 			{List} 				$transition 			The registered transition name or the transition string to transform into map
+ * @return 			{Map} 										The corresponding transition map properties
+ *
+ * @example
+ * // register a transition
+ * \@include s-setup((
+ * 		transitions : (
+ * 			fast : all .2s ease-in-out,
+ * 			// other transitions...
+ * 		)
+ * ));
+ *
+ * // registered transition
+ * s-transition-map(fast);
+ * // {
+ * // 	property : all,
+ * // 	duration : .2s,
+ * // 	ease : ease-in-out
+ * // }
+ *
+ * // custom transition
+ * s-transition-map(fast -delay .5s);
+ * // {
+ * // 	property : all,
+ * // 	duration : .2s,
+ * // 	ease : ease-in-out,
+ * // 	delay : .5s
+ * // }
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 $_s-default-transition-map : null;
 @function s-transition-map(
 	$transition
@@ -8,7 +41,7 @@ $_s-default-transition-map : null;
 	// merge with default transition
 	// to avoid recursion
 	@if not $_s-default-transition-map {
-		$_s-default-transition-map : s-parse-properties(sugar('settings.transitions.default'), (
+		$_s-default-transition-map : s-parse-properties(s-setting('transitions.default'), (
 			property : string,
 			duration : number,
 			ease : string,
@@ -18,7 +51,7 @@ $_s-default-transition-map : null;
 
 	// parse passed transition
 	$tran : s-parse-properties($transition, (
-		name : map-keys(sugar('settings.transitions')),
+		name : map-keys(s-setting('transitions')),
 		property : string,
 		duration : number,
 		ease : string,
@@ -32,7 +65,7 @@ $_s-default-transition-map : null;
 	$name : map-get($tran, name);
 	@if $name {
 		// get the transition
-		$named_transition : sugar('settings.transitions.#{$name}');
+		$named_transition : s-setting('transitions.#{$name}');
 		// check the name
 		@if not $named_transition {
 			@error('The transition named "#{$name}" does not exist...');

@@ -1,6 +1,15 @@
-//
-// Show rhythme
-//
+/**
+ * Display the vertical rhythme
+ *
+ * @param 			{Color} 		The color wanted
+ *
+ * @example
+ * body {
+ * 		@include s-show-vertical-rhythme();
+ * }
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-show-vertical-rhythme(
 	$color : #0ff
 ) {

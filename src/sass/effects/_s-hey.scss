@@ -1,26 +1,51 @@
-//
-// Hey
-//
+/**
+ * Create a poping dot effect to catch user attention on a particular item
+ * This mixin affect the :before and :after pseudo selector of the item
+ *
+ * @param 		{String} 		[$vertical-align=top] 			Where to put the dot verticaly (top,middle,bottom)
+ * @param 		{String} 		[$align=left] 					Where to put the dot horizontaly (left,center,right)
+ * @param 		{Number} 		[$size=20px] 					The size of the dot
+ * @param 		{Color} 		[$color=primary] 				The color of the dot
+ * @param 		{Number} 		[$offset-top=0] 				The offset top
+ * @param 		{Number} 		[$offset-right=0] 				The offset right
+ * @param 		{Number} 		[$offset-bottom=0] 				The offset bottom
+ * @param 		{Number} 		[$offset-left=0] 				The offset left
+ *
+ * @example
+ * .my-cool-element {
+ * 		\@include s-hey(
+ * 			$align : right,
+ * 			$color : secondary,
+ * 			$size : 10px,
+ * 			$offset-top : -10px,
+ * 			$offset-right : -10px
+ * 		);
+ * }
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-hey(
 	$vertical-align : top,
 	$align : left,
 	$size : 20px,
-	$color : gold,
-	$margin-left : 0,
-	$margin-right : 0,
-	$margin-top : 0,
-	$margin-bottom : 0
+	$color : primary,
+	$offset-top : 0,
+	$offset-right : 0,
+	$offset-bottom : 0,
+	$offset-left : 0
 ) {
 	@if $_sugar-test-arguments {
 		$t : s-test-argument('s-hey','vertical-align',(top,middle,bottom),$vertical-align);
 		$t : s-test-argument('s-hey','align',(left,center,right),$align);
 		$t : s-test-argument('s-hey','size',number,$size);
 		$t : s-test-argument('s-hey','color',color,$color);
-		$t : s-test-argument('s-hey','margin-left',number,$margin-left);
-		$t : s-test-argument('s-hey','margin-top',number,$margin-top);
-		$t : s-test-argument('s-hey','margin-bottom',number,$margin-bottom);
-		$t : s-test-argument('s-hey','margin-right',number,$margin-right);
+		$t : s-test-argument('s-hey','margin-left',number,$offset-left);
+		$t : s-test-argument('s-hey','margin-top',number,$offset-top);
+		$t : s-test-argument('s-hey','margin-bottom',number,$offset-bottom);
+		$t : s-test-argument('s-hey','margin-right',number,$offset-right);
 	}
+
+	$color : s-color($color);
 
 	$position : s-position(
 		$vertical-align : $vertical-align,
@@ -57,13 +82,13 @@
 					$value : "#{$value} + #{($size / 2 - $s / 2)}";
 				}
 				@if $prop == top {
-					$value : "#{$value} + #{$margin-top} - #{$margin-bottom}";
+					$value : "#{$value} + #{$offset-top} - #{$offset-bottom}";
 				} @else if $prop == right {
-					$value : "#{$value} + #{$margin-right} - #{$margin-left}";
+					$value : "#{$value} + #{$offset-right} - #{$offset-left}";
 				} @else if $prop == bottom {
-					$value : "#{$value} + #{$margin-bottom} - #{$margin-top}";
+					$value : "#{$value} + #{$offset-bottom} - #{$offset-top}";
 				} @else if $prop == left {
-					$value : "#{$value} + #{$margin-left} - #{$margin-right}";
+					$value : "#{$value} + #{$offset-left} - #{$offset-right}";
 				}
 				@if $prop != position or $prop != transform {
 					#{$prop} : calc(#{$value});
@@ -87,13 +112,13 @@
 
 		@each $prop, $value in $position {
 			@if $prop == top {
-				$value : "#{$value} + #{$margin-top} - #{$margin-bottom}";
+				$value : "#{$value} + #{$offset-top} - #{$offset-bottom}";
 			} @else if $prop == right {
-				$value : "#{$value} + #{$margin-right} - #{$margin-left}";
+				$value : "#{$value} + #{$offset-right} - #{$offset-left}";
 			} @else if $prop == bottom {
-				$value : "#{$value} + #{$margin-bottom} - #{$margin-top}";
+				$value : "#{$value} + #{$offset-bottom} - #{$offset-top}";
 			} @else if $prop == left {
-				$value : "#{$value} + #{$margin-left} - #{$margin-right}";
+				$value : "#{$value} + #{$offset-left} - #{$offset-right}";
 			}
 			@if $prop != position or $prop != transform {
 				#{$prop} : calc(#{$value});

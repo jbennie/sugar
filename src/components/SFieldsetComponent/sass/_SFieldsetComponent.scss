@@ -30,7 +30,7 @@ $_s-fieldset-component-inited : false;
 	@include s-component('s-fieldset') {
 
 		@if $_sugar-test-arguments {
-			// $colors : s-test-argument('s-fieldset-component','colors',map-keys(sugar('settings.colors')),$colors);
+			// $colors : s-test-argument('s-fieldset-component','colors',map-keys(s-setting('colors')),$colors);
 		}
 
 

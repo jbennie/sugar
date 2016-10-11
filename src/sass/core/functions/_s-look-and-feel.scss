@@ -22,7 +22,7 @@
 	}
 
 	// initial value
-	$value : sugar('settings.look-and-feel.#{$name}.#{$size}');
+	$value : s-setting('look-and-feel.#{$name}.#{$size}');
 
 	// make sure value is in em unit
 	@if type-of($value) == number and unit($value) != em {

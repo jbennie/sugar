@@ -1,5 +1,46 @@
+/**
+ * Generic sugar function can return multiple settings types like:
+ * - any settings : s('settings.{path}')
+ * - look and feel : s('look-and-feel.{property}', $size)
+ *  	- s('lnf.{property}', $size)
+ * - space : s('space.{size}')
+ * - color : s('color.{name}', $modifier)
+ * - transition : s('transition.{name}')
+ * - filter : s('filter.{name}')
+ *
+ * @example
+ * $my-color : s('color.primary');
+ * $my-transition : s('transition.fast');
+ * $my-font-size : s('settings.typo.font.size')
+ * // etc...
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @function s(
-	$what
+	$what,
+	$param2 : null,
+	$param3 : null
 ) {
-	@return sugar($what);
+	@if type-of($what) == string and str-index($what, "settings.") {
+		// get a configuration
+		@return s-setting(str-slice($what,10), $param2);
+	} @else if type-of($what) == string and str-index($what, "look-and-feel.") {
+		// get a look and feel
+		@return s-look-and-feel(str-slice($what,15), $param2);
+	} @else if type-of($what) == string and str-index($what, "lnf.") {
+		// get a look and feel
+		@return s-look-and-feel(str-slice($what,5), $param2);
+	} @else if type-of($what) == string and str-index($what, "space.") {
+		// get a space
+		@return s-space(str-slice($what,7));
+	} @else if type-of($what) == string and str-index($what, "color.") {
+		// get a color
+		@return s-color(str-slice($what,7), $param2);
+	} @else if type-of($what) == string and str-index($what, "transition.") {
+		// get a transition
+		@return s-transition(str-slice($what,12));
+	} @else if type-of($what) == string and str-index($what, "filter.") {
+		// get a filter
+		@return s-filter(str-slice($what,8));
+	}
 }

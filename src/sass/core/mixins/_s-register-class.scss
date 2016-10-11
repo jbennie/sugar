@@ -1,8 +1,24 @@
-//
-// Register helper class
-//
 $_sugar-classes : () !default;
 $_sugar-test-arguments : true !default;
+/**
+ * Register a helper class under a certain namespace
+ *
+ * @param 			{String} 		$classname 		The classname that will be printed out
+ * @param 			{String} 		$namespace 		The dots separated namespace under which the class will live
+ *
+ * @example
+ * \@include s-register-class(my-cool-class, 'my.cool.namespace') {
+ * 		background : pink;
+ * }
+ * \@include s-register-class(another-cool-class, 'my.another.namespace') {
+ * 		background : red;
+ * }
+ *
+ * // print out my helpers classes
+ * \@include s-classes('my');
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-register-class(
 	$classname,
 	$namespace

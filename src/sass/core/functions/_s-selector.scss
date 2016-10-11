@@ -19,7 +19,7 @@
 	$element : null,
 	$modifier : null,
 	$state : null,
-	$method : sugar('settings.selector.method')
+	$method : s-setting('selector.method')
 ) {
 
 	// @if type-of($block) == map andd not $element and not $modifier {
@@ -66,7 +66,7 @@
 // @function _s-selector-legacy(
 // 	$sel
 // ) {
-// 	$method : sugar('settings.selector.method');
+// 	$method : s-setting('selector.method');
 // 	@if type-of($sel) == 'map' {
 // 		$sel : map-get($sel,$method);
 // 	}

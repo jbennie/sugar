@@ -1,6 +1,25 @@
-//
-// Component setup
-//
+/**
+ * Register a context with a name to use it later
+ *
+ * @param 			{String} 		$name 			The context name
+ * @param 			{Map} 			$settings 		The settings to override for this context
+ *
+ * @example
+ * \@include s-context-setup(my-cool-context, (
+ * 		look-and-feel : (
+ * 			padding-vertical : (
+ * 				default : 0.6em
+ * 			)
+ * 		)
+ * ));
+ *
+ * // using your context
+ * \@include s-context(my-cool-context) {
+ * 		s-look-and-feel(padding-vertical); // => 0.6em
+ * }
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-context-setup(
 	$contextName,
 	$settings

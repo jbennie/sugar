@@ -24,7 +24,7 @@
 	$name,
 	$extend : false
 ) {
-	$separator : sugar('settings.BEM.element-separator');
+	$separator : s-setting('BEM.element-separator');
 	$this : #{&};
 	@if $this == '' or not $this {
 		$this : '.';
@@ -48,9 +48,9 @@
 @mixin s-beM(
 	$name,
 	$extend : false,
-	$standelone : sugar('settings.BEM.standelone')
+	$standelone : s-setting('BEM.standelone')
 ) {
-	$separator : sugar('settings.BEM.modifier-separator');
+	$separator : s-setting('BEM.modifier-separator');
 	$this : #{&};
 	@at-root {
 		#{$this}#{$separator}#{$name} {

@@ -1,6 +1,15 @@
-//
-// Strip units
-//
+/**
+ * Return a number without any units
+ *
+ * @param 			{Number} 		$number 		The number to process
+ * @return 			{Number} 						The number without units
+ *
+ * @example
+ * s-strip-units(12px); // => 12
+ * s-strip-units(30rem); // => 30
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @function s-strip-units($number) {
 	@return $number / ($number * 0 + 1);
 }

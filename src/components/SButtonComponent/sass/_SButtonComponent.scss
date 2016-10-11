@@ -62,7 +62,7 @@ $_s-button-component-inited : false;
 		// parse properties
 		@if $_sugar-test-arguments {
 			// @TODO find a solution to check the colors properties
-			// $colors : s-test-argument('s-button-component-style','colors',map-keys(sugar('settings.colors')),$colors);
+			// $colors : s-test-argument('s-button-component-style','colors',map-keys(s-setting('colors')),$colors);
 		}
 
 

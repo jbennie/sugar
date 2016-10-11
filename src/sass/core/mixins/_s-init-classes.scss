@@ -1,12 +1,18 @@
-//
-// Classes
-//
 $_sugar-classes-inited : false;
-@mixin s-classes-init() {
+/**
+ * Register all the dynamic helper classes that depends on the settings, etc...
+ * This is used internaly
+ *
+ * @example
+ * \@include s-init-classes();
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-init-classes() {
 	@if not $_sugar-classes-inited {
 		$_sugar-classes-inited : true !global;
 
-		$filters : sugar('settings.filters');
+		$filters : s-setting('filters');
 		@each $name, $filter in $filters {
 			@include s-register-class(
 				$classname : 'fi-#{$name}',
@@ -17,7 +23,7 @@ $_sugar-classes-inited : false;
 		}
 
 		// transitions
-		$transitions : sugar('settings.transitions');
+		$transitions : s-setting('transitions');
 		@each $name, $transition in $transitions {
 			@include s-register-class(
 				$classname : 'tr-#{$name}',
@@ -27,7 +33,7 @@ $_sugar-classes-inited : false;
 			}
 		}
 
-		@each $fontName, $font in sugar('settings.fonts') {
+		@each $fontName, $font in s-setting('fonts') {
 			@include s-register-class(
 				$classname : 'f-#{$fontName}',
 				$namespace : 'sugar.font.family.#{$fontName}'
@@ -36,8 +42,8 @@ $_sugar-classes-inited : false;
 			}
 		}
 
-		$vertical-rhythme-scope : sugar('settings.vertical-rhythme.scope-class');
-		$sizes : sugar('settings.sizes');
+		$vertical-rhythme-scope : s-setting('vertical-rhythme.scope-class');
+		$sizes : s-setting('sizes');
 		@each $name, $size in $sizes {
 			$cname : 'm-b-#{$name}';
 			@if $name == 'default' {
@@ -157,16 +163,13 @@ $_sugar-classes-inited : false;
 		//
 		// Text size
 		//
-		@each $size, $value in sugar('settings.sizes') {
+		@each $size, $value in s-setting('sizes') {
 			@include s-register-class(s-#{$size}, 'sugar.size.#{$size}') {
 				font-size : s-rem($value);
 			}
 			@include s-register-class(s-#{$size}-rel, 'sugar.size.rel.#{$size}') {
 				font-size : s-em($value);
 			}
-		}
-		@include s-register-class('s-reset', 'sugar.size.reset') {
-			font-size: 1rem;
 		}
 
 		//
@@ -210,7 +213,7 @@ $_sugar-classes-inited : false;
 		}
 
 		// colors
-		$colors : sugar('settings.colors');
+		$colors : s-setting('colors');
 		@each $name, $color in $colors {
 			@if $name != classes {
 				$modifiers : ();

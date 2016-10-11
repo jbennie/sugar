@@ -2,7 +2,7 @@
  * Take a filter as parameter and parse it to return the {Map} corresponding
  * The $filter parameter can be either a registered filter name or a filter formated like `filterName(filterValue)`
  *
- * @param 			{List}<String> 			$filters 			The registered filter(s) name(s) or the filter(s) string(s) to transform into map
+ * @param 			{List}<String> 			$filter 			The registered filter name or the filter string to transform into map
  * @return 			{Map} 										The corresponding filter map properties
  *
  * @example
@@ -32,13 +32,13 @@
 @function s-filter-map(
 	$filter
 ) {
-	$filters : map-keys(sugar('settings.filters'));
+	$filters : map-keys(s-setting('filters'));
 	$map : ();
 	@each $f in $filter {
 		// check if the filter exist in registered ones
 		@if type-of($f) == string and index($filters,$f) {
 			// we have a filter
-			$map : map-merge($map, s-filter-map(sugar('settings.filters.#{$f}')));
+			$map : map-merge($map, s-filter-map(s-setting('filters.#{$f}')));
 		} @else {
 			// split the filter
 			$open_idx : str-index($f,'(');

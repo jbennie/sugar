@@ -1,7 +1,14 @@
-//
-// Init
-//
 $_sugar-inited : false;
+/**
+ * Init the sugar toolkit.
+ * This has to be called **AFTER** all the [./_s-setup.scss] mixin call
+ * and **BEFORE** all the others sugar mixins and functions calls
+ *
+ * @example
+ * \@include s-init();
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-init() {
 
 	// do that only if not already inited
@@ -11,7 +18,7 @@ $_sugar-inited : false;
 		$_sugar-inited : true !global;
 
 		// reset
-		@if sugar('settings.reset') == true {
+		@if s-setting('reset') == true {
 			@include s-reset();
 		}
 
@@ -22,7 +29,7 @@ $_sugar-inited : false;
 		}
 
 		// border box
-		@if sugar('settings.border-box') == true {
+		@if s-setting('border-box') == true {
 			html {
 				box-sizing: border-box;
 			}
@@ -32,8 +39,8 @@ $_sugar-inited : false;
 		}
 
 		// check settings
-		$base-font-family : sugar('settings.typo.font-family');
-		$fonts : sugar('settings.fonts');
+		$base-font-family : s-setting('typo.font-family');
+		$fonts : s-setting('fonts');
 		@if $base-font-family and not map-get($fonts, $base-font-family) {
 			@error("Your typo.font-family setting has to be a registered font...");
 		}
@@ -49,8 +56,8 @@ $_sugar-inited : false;
 
 		// font
 		html {
-			$base-font-size : sugar('settings.typo.font-size');
-			$base-font-sizes : sugar('settings.typo.font-sizes');
+			$base-font-size : s-setting('typo.font-size');
+			$base-font-sizes : s-setting('typo.font-sizes');
 			font-size: s-Px($base-font-size);
 			@if type-of($base-font-sizes) == map {
 				@each $size, $media in $base-font-sizes {
@@ -60,7 +67,7 @@ $_sugar-inited : false;
 				}
 			}
 			// try to get the font family from fonts
-			@include s-font(sugar('settings.typo.font-family'));
+			@include s-font(s-setting('typo.font-family'));
 		}
 
 		// default color
@@ -69,7 +76,7 @@ $_sugar-inited : false;
 		}
 
 		// font faces
-		$fonts : sugar('settings.fonts');
+		$fonts : s-setting('fonts');
 		@each $font-name, $font in $fonts {
 			@if type-of($font) == string {
 				$font : map-get($fonts, $font);
@@ -84,9 +91,9 @@ $_sugar-inited : false;
 		}
 
 		// modular scale
-		$ms-base : sugar('settings.modular-scale.base') !global;
-		$ms-size : sugar('settings.modular-scale.ratio') !global;
-		$ms-range : sugar('settings.modular-scale.range') !global;
-		$ms-fluid : sugar('settings.modular-scale.fluid') !global;
+		$ms-base : s-setting('modular-scale.base') !global;
+		$ms-size : s-setting('modular-scale.ratio') !global;
+		$ms-range : s-setting('modular-scale.range') !global;
+		$ms-fluid : s-setting('modular-scale.fluid') !global;
 	}
 }

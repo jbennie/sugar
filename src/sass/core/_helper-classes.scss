@@ -1,6 +1,8 @@
-//
-// Helper classes
-//
+/**
+ * This file is responsible to register the static helper classes like pull-right, clear, etc...
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 
 //
 // Pull
@@ -48,6 +50,9 @@
 	display: inline-block;
 }
 @include s-register-class(hidden, 'sugar.display.hidden') {
+	display: none;
+}
+@include s-register-class(hide, 'sugar.display.hide') {
 	display: none;
 }
 @include s-register-class(visible, 'sugar.display.visible') {

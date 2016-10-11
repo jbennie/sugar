@@ -1,17 +1,39 @@
+/**
+ * Generate a full animated, single element, circle loader
+ *
+ * @param 			{Color} 			[$color=primary] 			The color(s) of the loader. Can be a list of colors
+ * @param 			{Number} 			[$size=.33em] 				The size of each dot
+ * @param 			{Number} 			[$radius=1em] 				The distance of each dot from the center of the loader
+ * @param 			{Integer} 			[$count=5] 					How many bars you want
+ * @param 			{Number} 			[$opacity=1] 				The initial opacity of each bars
+ * @param 			{Number} 			[$a-opacity=null] 			The opacity of the animated bars
+ * @param 			{Second} 			[$a-duration=1s] 			The overall animation duration
+ * @param 			{Second} 			[$a-delay=0s] 				The delay between two animation cycle
+ * @param 			{Integer} 			[$a-near=1] 				How many bars are affected by the animated one
+ * @param 			{String} 			[$a-ease=ease-in-out] 		The ease to use to animate each bars
+ *
+ * @TODO finish documentation
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-loader-circle(
-	$color : s-color(primary),
-	$size : 10px,
-	$radius : 30px,
+	$color : primary,
+	$size : .33em,
+	$radius : 1em,
 	$count : 8,
 	$opacity : 1,
+	$a-opacity : null,
+	$a-duration : 1s,
+	$a-delay : 0s,
+	$a-ease : ease-in-out,
+	$a-near : null,
 	$a-spread : null,
 	$a-rotate : null,
 	$a-scale : null,
-	$a-opacity : null,
-	$a-near : null,
-	$a-ease : ease-in-out,
-	$a-duration : 1s,
-	$a-delay : 0s
+
+
+
+
 ) {
 	@if $_sugar-test-arguments {
 		$color : s-test-argument('s-loader-circle','color','color|list-color',$color);
@@ -28,6 +50,8 @@
 		$a-duration : s-test-argument('s-loader-circle','a-duration',second,$a-duration);
 		$a-delay : s-test-argument('s-loader-circle','a-delay',second,$a-delay);
 	}
+
+	$color : s-color($color);
 
 	// handle colors
 	$colors : null;

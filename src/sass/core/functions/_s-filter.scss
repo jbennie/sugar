@@ -1,6 +1,6 @@
 /**
  * Return a list with all the filters that are passed as argument
- * This will use the [._s-filter-map.scss] function to parse the filters
+ * This will use the [./_s-filter-map.scss] function to parse the filters
  *
  * @param 	 	{List}<String> 			$filters 			The registered filter(s) name(s) or the filter(s) string(s) to transform into list
  * @return 		{List} 										The converted filters list to use as css property

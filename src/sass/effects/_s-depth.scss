@@ -1,6 +1,16 @@
-//
-// Depth
-//
+/**
+ * Generate a drop shadow depending on the depth specified
+ *
+ * @param 		{Integer} 			$depth 							The depth wanted (1,2,3,4,etc...)
+ * @param 		{Color} 			[$color=rgba(0,0,0,.2)] 		The drop shadow color
+ *
+ * @example
+ * .my-cool-element {
+ * 		\@include s-depth(2);
+ * }
+ *
+ * @author 	 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-depth(
 	$depth,
 	$color : rgba(0,0,0,.2)

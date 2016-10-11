@@ -1,6 +1,20 @@
-//
-// Animate mixin
-//
+/**
+ * Print out the animation property calculated with the passed arguments
+ * This mixin support all the standard css animation properties like name, duration, delay, ease, direction and fill-mode.
+ * The $animations argument will be parsed with the [../functions/_s-parse-properties.scss] function.
+ * If you specify multiple animations at a time, this mixin will take care
+ * of the delay calculation for each animations and make them play one after another
+ *
+ * @param 			{List} 				$animations 			The animations wanted like : coco .2s ease-in-out reverse
+ *
+ * @example
+ * .my-cool-element {
+ * 		@include s-animation(my-animation 1s ease-in-out, another-animation 4s);
+ * 		// animation : my-animation 1s 0s ease-in-out 1 normal forwards, another-animation 4s 1s ease-in-out 1 normal forwards;
+ * }
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-animation(
 	$animations...
 ) {

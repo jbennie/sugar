@@ -1,5 +1,21 @@
-
-
+/**
+ * Generate a full animated, single element, couch-potato style loader
+ *
+ * @param 		{Number} 		[$size=1em] 				The size of the loader
+ * @param 		{Color} 		[$color=primary] 			The color of the loader
+ * @param 		{Second} 		[$a-duration=1s] 			The overall animation duration
+ * @param 		{Second} 		[$a-delay=0s] 				The delay between two animation cycle
+ * @param 		{String} 		[$a-ease=ease-in-out]		The ease to use for the animation
+ * @param 		{Degree}		[$a-rotate=360deg] 			The animation rotation
+ * @param 		{Number} 		[$a-scale=.7] 				The animation scale
+ *
+ * @example
+ * .my-cool-loader {
+ * 		\@include s-loader-couch-potato();
+ * }
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-loader-couch-potato(
 	$size : 1em,
 	$color : s-color(primary),
@@ -18,6 +34,8 @@
 		$a-rotate : s-test-argument('s-loader-couch-potato','a-rotate',degree,$a-rotate);
 		$a-scale : s-test-argument('s-loader-couch-potato','a-scale',number,$a-scale);
 	}
+
+	$color : s-color($color);
 
 	// handle colors
 	$colors : null;

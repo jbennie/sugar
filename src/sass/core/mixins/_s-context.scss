@@ -1,7 +1,37 @@
-//
-// Component definition
-//
 $_sugar-current-context : null;
+/**
+ * Set a context to be used inside the mixin
+ *
+ * @param 			{String}{Map} 			$name-or-map 		The name of a registered context or a map
+ *
+ * @example
+ * // register a context
+ * \@include s-context-setup(my-cool-context, (
+ * 		look-and-feel : (
+ * 			padding-vertical : (
+ * 				default : 0.6em
+ * 			)
+ * 		)
+ * ));
+ *
+ * // registered context
+ * \@include s-context(my-cool-context) {
+ * 		// your code here...
+ * }
+ *
+ * // inline context
+ * \@include s-context((
+ * 		look-and-feel : (
+ * 			padding-vertical : (
+ * 				default : .3em
+ * 			)
+ * 		)
+ * )) {
+ * 		// your code here...
+ * }
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-context(
 	$name-or-map
 ) {

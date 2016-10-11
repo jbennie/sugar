@@ -6,7 +6,7 @@ $_s-input-component-inited : false;
 		// input
 		%s-input-component-field-bare {
 			display: inline-block;
-			@include s-font(sugar('settings.typo.font-family'));
+			@include s-font(s-setting('typo.font-family'));
 			-webkit-appearance: none;
 			-moz-appearance: none;
 			&:not(.input-addon) {
@@ -117,7 +117,7 @@ $_s-input-component-inited : false;
 ) {
 	// parse properties
 	@if $_sugar-test-arguments {
-		// $colors : s-test-argument('s-formset','colors',map-keys(sugar('settings.colors')),$colors);
+		// $colors : s-test-argument('s-formset','colors',map-keys(s-setting('colors')),$colors);
 	}
 	@include s-component('s-input') {
 

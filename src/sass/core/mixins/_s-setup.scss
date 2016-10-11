@@ -1,3 +1,25 @@
+/**
+ * Setup sugar toolkit by overriding the default [settings](../_settings.scss)
+ * This has to be called **BEFORE** the [s-init mixin](./_s-init.scss)
+ *
+ * @param 			{Map} 			$settings 		The settings to override
+ *
+ * @example
+ * \@include s-setup((
+ * 		typo : (
+ * 			font-size : 12px
+ * 		),
+ * 		sizes : (
+ * 			small : 0.5,
+ * 			big : 1.5
+ * 		)
+ * ));
+ * // this mixin can be called as many times as you need
+ * // this allows you to separate your configs setup into multiple
+ * // files...
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-setup(
 	$settings
 ) {

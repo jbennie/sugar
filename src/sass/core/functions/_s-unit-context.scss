@@ -1,6 +1,9 @@
-//
-// Get the current unit context
-//
+/**
+ * Return the unit context if has been set by the [../mixins/_s-unit-context.scss] mixin
+ *
+ * @return 		{String} 				The unit context setted
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @function s-unit-context() {
 	@return $_s-unit-context;
 }

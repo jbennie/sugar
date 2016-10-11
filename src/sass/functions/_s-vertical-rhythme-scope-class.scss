@@ -1,3 +1,10 @@
+/**
+ * Return the settings.vertical-rhythme.scope-class value
+ *
+ * @return 			{String} 			The settings.vertical-rhythme.scope-class value
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @function s-vertical-rhythme-scope-class() {
-	@return unquote(".#{sugar('settings.vertical-rhythme.scope-class')}");
+	@return unquote(".#{s-setting('vertical-rhythme.scope-class')}");
 }
