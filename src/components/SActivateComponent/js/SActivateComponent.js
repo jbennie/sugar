@@ -12,6 +12,7 @@ import SComponent from '../../../js/core/SComponent'
 import __scrollTop from '../../../js/dom/scrollTop'
 import __uniqid from '../../../js/utils/uniqid'
 import __querySelectorLive from '../../../js/dom/querySelectorLive';
+import __dispatchEvent from '../../../js/dom/dispatchEvent'
 
 import STemplate from '../../../js/core/STemplate'
 
@@ -112,11 +113,28 @@ class SActivateComponent extends SComponent {
 			}
 		}
 
-		// check if we are in another s-activate element
-		this._parentActivateComponent = this._getClosestActivateComponent();
+		// listen for childs behin activated
+		[].forEach.call(this.targets, (target) => {
+			target.addEventListener('s-activate:child-activate', (e) => {
+				e.stopPropagation();
+				// activate the trigger that handle this target
+				if (e.target._sActivateTriggerComponent
+				 	&& e.target._sActivateTriggerComponent !== this) {
+				 	target._sActivateTriggerComponent._activate();
+				}
+			}, true);
+		});
 
 		// listen for click
 		this.elm.addEventListener(this.settings.trigger, (e) => {
+			// if the target is the element itself
+			// we stop if the current target if not
+			// the element itselg to avoid issues
+			if (this.targets.length === 1
+				&& this.targets[0] === this.elm
+			) {
+				if (e.target !== this.elm) return;
+			}
 			// if (e.target !== this.elm) return;
 			e.preventDefault();
 			// clear unactivate timeout
@@ -163,7 +181,11 @@ class SActivateComponent extends SComponent {
 		setTimeout(() => {
 			// manage the active class
 			if (this.elm.classList.contains(this.settings.activeClass)) {
-				this._activate();
+				// activate the targets
+				// but to not dispatch any events etc...
+				[].forEach.call(this.targets, (target) => {
+					target.classList.add(this.settings.activeTargetClass || this.settings.activeClass);
+				});
 			}
 			// check with anchor if need to activate the element
 			if (this.settings.anchor) {
@@ -313,12 +335,9 @@ class SActivateComponent extends SComponent {
 		[].forEach.call(this.targets, (target_elm) => {
 			// remove the active class on target
 			target_elm.classList.add(this.settings.activeTargetClass || this.settings.activeClass);
+			// dispatch an event to tell parents that this target is activated
+			__dispatchEvent(target_elm, 's-activate:child-activate');
 		});
-
-		// if has a perent, activate it
-		if (this._parentActivateComponent) {
-			this._parentActivateComponent._activate();
-		}
 
 		// callback
 		this.settings.afterActivate && this.settings.afterActivate(this);
@@ -433,28 +452,11 @@ class SActivateComponent extends SComponent {
 			this.targets = scope.querySelectorAll(this.target);
 			[].forEach.call(this.targets, (t) => {
 				t._sActivateTrigger = this.elm;
+				t._sActivateTriggerComponent = this;
 			});
 		} else {
 			this.targets = [];
 		}
-	}
-
-	/**
-	 * Get closest
-	 */
-	_getClosestActivateComponent() {
-		let elm = this.elm.parentNode;
-		while(elm && elm != document) {
-			if (
-				elm._sActivateTrigger // if the element is a target of an activate component
-				// && elm._sActivateTrigger[this.componentName] // and the trigger is the same instance type
-				&& elm._sActivateTrigger !== this.elm
-			) {
-				return elm._sActivateTrigger[this.componentName];
-			}
-			elm = elm.parentNode;
-		}
-		return false;
 	}
 }
 

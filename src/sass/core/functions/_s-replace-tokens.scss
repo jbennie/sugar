@@ -1,6 +1,13 @@
-//
-// Replace tokens
-//
+/**
+ * Search and replace tokens like colors #primary in a passed string, list or map
+ * Supported tokens types :
+ * 1. Colors : #{colorName}
+ *
+ * @example
+ * s-replace-tokens(12px #primary hello #secondary); // > 12px #ddd hello #fff;
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @function s-replace-tokens(
 	$in
 ) {

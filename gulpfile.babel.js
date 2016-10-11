@@ -1,40 +1,24 @@
 
 require('babel-core/register');
 const _ = require('lodash');
-const gulp = require('gulp');
-const gulpWebpack = require('gulp-webpack');
-const gutil = require('gulp-util');
-const rename = require('gulp-rename');
-const sass = require('gulp-sass');
-const uglify = require('gulp-uglify');
-const autoprefixer = require('gulp-autoprefixer');
-const replace = require('gulp-replace');
-const fs = require('fs');
+const __gulp = require('gulp');
+const __gulpWebpack = require('gulp-webpack');
+const __gulpRename = require('gulp-rename');
+const __gulpSass = require('gulp-sass');
+const __gulpUglify = require('gulp-uglify');
+const __gulpAutoprefixer = require('gulp-autoprefixer');
+const __gulpReplace = require('gulp-replace');
+const __fs = require('fs');
 const __path = require('path');
-const compass = require('gulp-compass');
-const concat = require('gulp-concat');
-const coffee = require('gulp-coffee');
-const clean = require('gulp-clean');
-const babel = require('gulp-babel');
-const filter = require('gulp-filter');
-const cached = require('gulp-cached');
-const ts = require('gulp-typescript');
-const mocha = require('gulp-mocha');
-const mochaPhantom = require('gulp-mocha-phantomjs');
-const named = require('vinyl-named');
-const gulpJsdoc2md = require('gulp-jsdoc-to-markdown');
-const jsdocParse = require('jsdoc-parse');
-const data = require('gulp-data');
-const each = require('gulp-each');
-const ent = require('ent');
-const readdirRecursive = require('fs-readdir-recursive');
-const iconfont = require('gulp-iconfont');
-const iconfontCss = require('gulp-iconfont-css');
+const __gulpClean = require('gulp-clean');
+const __gulpCached = require('gulp-cached');
+const __gulpMochaPhantom = require('gulp-mocha-phantomjs');
+const __named = require('vinyl-named');
+const __gulpIconfont = require('gulp-iconfont');
+const __gulpIconfontCss = require('gulp-iconfont-css');
+const __generateDoc = require('./.gulp/generateDoc').default;
 
 const runTimestamp = Math.round(Date.now()/1000);
-
-import docblockParser from './.gulp/docblock-parser'
-import Handlebars from './handlebars.config'
 
 let webpackParams = {
 	resolve: {
@@ -83,98 +67,36 @@ if (process.env.NODE_ENV === 'debug') {
 	webpackParams.devtool = "#inline-source-map";
 }
 
-gulp.task('tokens', function() {
-	var drawers_content, footer_content, head_content, topbar_content;
-	topbar_content = fs.readFileSync("pages/parts/top-bar.php", "utf8");
-	drawers_content = fs.readFileSync("pages/parts/drawers.php", "utf8");
-	head_content = fs.readFileSync("pages/parts/head.php", "utf8");
-	footer_content = fs.readFileSync("pages/parts/footer.php", "utf8");
-	return gulp.src(['pages/*.php']).pipe(replace('{HEAD}', head_content)).pipe(replace('{FOOTER}', footer_content)).pipe(replace('{TOPBAR}', topbar_content)).pipe(replace('{DRAWERS}', drawers_content)).pipe(gulp.dest('./'));
+__gulp.task('clean-js', function() {
+	return __gulp.src(['dist/js/', 'assets/js']).pipe(__gulpClean());
 });
 
-gulp.task('clean-js', function() {
-	return gulp.src(['dist/js/', 'assets/js']).pipe(clean());
-});
-
-gulp.task('clean-css', function() {
-	return gulp.src(['dist/css/', 'assets/css']).pipe(clean());
-});
-
-gulp.task('markdown-js-api', function() {
-
-	const files = readdirRecursive('./doc/api/js');
-	const types = {};
-	files.forEach((path) => {
-		const basename = __path.basename(path),
-			  fileName = basename.slice(0,-3);
-		if (/^[A-Z]/.test(fileName)) {
-			types[fileName] = `/api/js/${path}`;
-		}
-	});
-
-	gulp.src('./src/js/**/*.js')
-	.pipe(each(function(content, file, cb) {
-		docblockParser(file, function(json) {
-			let source = fs.readFileSync('./template.hbs', 'utf8');
-			let template = Handlebars.compile(source);
-			let result = template({
-				data : json
-			});
-			result = ent.decode(result);
-			cb(null, result);
-		}, {
-			types : {
-				js : Object.assign(types, {
-					Observable : 'https://github.com/Reactive-Extensions/RxJS/blob/master/doc/api/core/observable.md'
-				})
-			}
-		});
-	}))
-	.pipe(rename((path) => {
-		path.extname = '.md';
-	}))
-	.pipe(gulp.dest('doc/api/js'));
-});
-
-gulp.task('sass', function() {
-	return gulp.src('./src/sass/**/*.scss').pipe(sass({
-	outputStyle: 'expanded',
-	precision: 8
-	}).on('error', sass.logError)).pipe(autoprefixer({
-	browsers: ['last 5 versions']
-	})).pipe(gulp.dest('assets/css'));
-});
-
-gulp.task('webpack-dist', ['clean-js'], function() {
-	return gulp.src(['./src/components/**/*.js']).pipe(gulpWebpack(webpackDistParams)).pipe(gulp.dest('dist/js')).pipe(uglify()).pipe(rename({
+__gulp.task('webpack-dist', ['clean-js'], function() {
+	return __gulp.src(['./src/components/**/*.js']).pipe(__gulpWebpack(webpackDistParams)).pipe(__gulp.dest('dist/js')).pipe(__gulpUglify()).pipe(__gulpRename({
 	extname: '.min.js'
-	})).pipe(gulp.dest('dist/js'));
+})).pipe(__gulp.dest('dist/js'));
 });
 
-gulp.task('webpack-app', ['clean-js'], function() {
-	return gulp.src(['./src/js/demo/*.js']).pipe(gulpWebpack(webpackAppParams)).pipe(gulp.dest('assets/js')).pipe(uglify()).pipe(rename({
-	extname: '.min.js'
-	})).pipe(gulp.dest('assets/js'));
+/**
+ * Tests
+ */
+__gulp.task('tests-js-compile', [], function() {
+	return __gulp.src('tests/phantomjs/src/**/*.js').pipe(__named()).pipe(__gulpWebpack(webpackParams)).pipe(__gulp.dest('tests/phantomjs/js'));
 });
-
-gulp.task('tests-js-compile', [], function() {
-	return gulp.src('tests/phantomjs/src/**/*.js').pipe(named()).pipe(gulpWebpack(webpackParams)).pipe(gulp.dest('tests/phantomjs/js'));
-});
-
-gulp.task('tests', ['tests-js-compile'], function() {
-	return gulp.src('tests/phantomjs/*.html').pipe(mochaPhantom());
+__gulp.task('tests', ['tests-js-compile'], function() {
+	return __gulp.src('tests/phantomjs/*.html').pipe(__gulpMochaPhantom());
 });
 
 /**
  * Documentation
  */
-gulp.task('doc-sass', [], () => {
-	gulp.src('public/assets-src/sass/**/*.scss')
-	.pipe(sass({
+__gulp.task('doc-sass', ['doc-iconfont'], () => {
+	__gulp.src('public/assets-src/sass/**/*.scss')
+	.pipe(__gulpSass({
 		outputStyle: 'expanded',
 		precision: 8
 	}))
-	.pipe(gulp.dest('public/assets/css'));
+	.pipe(__gulp.dest('public/assets/css'));
 });
 let docWebpackParams = _.extend({}, webpackParams, {
 	output: {
@@ -183,15 +105,23 @@ let docWebpackParams = _.extend({}, webpackParams, {
 	libraryTarget: 'umd'
 	}
 });
-gulp.task('doc-webpack', [], () => {
-	gulp.src('public/assets-src/js/**/*.js')
-	.pipe(gulpWebpack(docWebpackParams))
-	.pipe(gulp.dest('public/assets/js'));
+__gulp.task('doc-js', [], () => {
+	__gulp.src('public/assets-src/js/**/*.js')
+	.pipe(__gulpWebpack(docWebpackParams))
+	.pipe(__gulp.dest('public/assets/js'));
 });
-// iconfont
-gulp.task('doc-iconfont', [], () => {
-	gulp.src('public/assets-src/fonts/icons-src/*.svg')
-	.pipe(iconfontCss({
+__gulp.task('doc-js-api', function() {
+	return __generateDoc(__dirname + '/src/js/', '**/*.js', __dirname + '/doc/api/js');
+});
+__gulp.task('doc-sass-api', function() {
+	return __generateDoc(__dirname + '/src/sass/', '**/*.scss', __dirname + '/doc/api/sass');
+});
+__gulp.task('doc-components-api', function() {
+	return __generateDoc(__dirname + '/src/components/', '**/*.{scss,js}', __dirname + '/doc/components');
+});
+__gulp.task('doc-iconfont', [], () => {
+	__gulp.src('public/assets-src/fonts/icons-src/*.svg')
+	.pipe(__gulpIconfontCss({
 		fontName: 'icons',
 		path: 'public/assets-src/sass/03_generic/_icons-gulp-template.scss',
 		targetPath: '../../assets-src/sass/03_generic/_icons.scss',
@@ -199,27 +129,25 @@ gulp.task('doc-iconfont', [], () => {
 		startUnicode : false,
 		fixedCodepoints : true
 	}))
-	.pipe(iconfont({
+	.pipe(__gulpIconfont({
 		fontName : 'icons',
 		prependUnicode : false,
 		startUnicode : false,
-		formats : ['ttf','eot','woff'],
+		formats : ['ttf','eot','woff','woff2'],
 		timestamp : runTimestamp,
 		normalize : true
 	}))
-	.pipe(gulp.dest('public/assets/fonts'));
+	.pipe(__gulp.dest('public/assets/fonts'));
 });
 
-gulp.task('default', ['webpack-app', 'sass']);
+__gulp.task('default', ['doc-js-api','doc-sass-api','doc-components-api','doc-js','doc-sass']);
 
-gulp.task('watch', ['default'], function() {
-	gulp.watch(['src/js/**/*.js'], ['webpack-app']);
-	gulp.watch(["src/sass/**/*.scss"], ['sass']);
-	gulp.watch(['pages/**/*.php'], ['tokens']);
-	gulp.watch(['public/assets-src/js/**/*.js'], ['doc-webpack']);
-	gulp.watch(['public/assets-src/sass/**/*.scss'], ['doc-sass']);
-	return gulp.watch(['tests/phantomjs/src/**/*.js'], ['tests']);
+__gulp.task('watch', ['default'], function() {
+	__gulp.watch(['src/js/**/*.js'], ['doc-js-api','doc-js']);
+	__gulp.watch(["src/sass/**/*.scss"], ['doc-sass-api','doc-sass']);
+	__gulp.watch(["src/components//**/*.scss"], ['doc-components-api']);
+	__gulp.watch(['public/assets-src/js/**/*.js'], ['doc-js']);
+	__gulp.watch(['public/assets-src/sass/**/*.scss'], ['doc-sass']);
+	// __gulp.watch(['./.gulp/**/*'], ['doc-sass-api','doc-js-api','doc-components-api']);
+	__gulp.watch(['tests/phantomjs/src/**/*.js'], ['tests']);
 });
-
-// ---
-// generated by coffee-script 1.9.2

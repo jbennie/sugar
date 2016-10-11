@@ -1,6 +1,50 @@
-//
-// Check a variable type
-//
+/**
+ * Check if the passed value is of a certain type
+ *
+ * Here's the available types that you can check
+ * - mixed => mean anything
+ * - null
+ * - url
+ * - px
+ * - pt
+ * - rem
+ * - em
+ * - percent | %
+ * - vw
+ * - vh
+ * - ex
+ * - ch
+ * - cm
+ * - mm
+ * - in
+ * - pc
+ * - s | second
+ * - boolean | bool
+ * - function
+ * - number
+ * - int | integer
+ * - string
+ * - color
+ * - list
+ * - map
+ * - deg | degree
+ * - list-{type} => check if is a list of the specified type
+ * - map-{type} => check if is a map of the specified type
+ *
+ * @param 			{Mixed} 			$value 			The value to check
+ * @param 			{String} 			$type 			The type to check
+ * @return 			{Boolean} 							true if match the type, false if not
+ *
+ * @example
+ * s-is(hello, string) // => true
+ * s-is('hello', string) // => true
+ * s-is(#fff, color) // => true
+ * s-is(hello #fff, list-color) // => false
+ * s-is(#fff #ddd, list-color) // => true
+ * // etc...
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @function s-is(
 	$value,
 	$type
@@ -76,8 +120,6 @@
 			@return _is-boolean($value);
 		} @else if $type == function {
 			@return _is-function($value);
-		} @else if $type == null {
-			@return _is-null($value);
 		} @else if $type == number {
 			@return type-of($value) == number;
 		} @else if $type == integer or $type == int {

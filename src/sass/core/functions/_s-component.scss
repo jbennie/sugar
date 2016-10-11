@@ -1,3 +1,20 @@
+/**
+ * Return the name of the top level component setted with the [../mixins/_s-component.scss] mixin
+ *
+ * @param 			{String} 			[$default=null] 		The name to return if no top component name exist
+ * @return 			{String} 									The component name
+ *
+ * @example
+ * s-component('hello') // => 'hello'
+ * \@include s-component('my-component') {
+ * 		s-component('hello') // => 'my-component'
+ * 		\@include s-component('another-component') {
+ * 			s-component('hello') // => 'my-component'
+ * 		}
+ * }
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>;
+ */
 @function s-component(
 	$default : null
 ) {

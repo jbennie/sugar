@@ -53,7 +53,6 @@
 .t-format h4,
 .h4{
 	@extend %h;
-	@include s-font(open-sans-semibold);
 	font-size: 18px;
 	@include s-vertical-rhythme() {
 		margin-bottom: 20px;
@@ -67,7 +66,6 @@
 .t-format h5,
 .h5{
 	@extend %h;
-	@include s-font(open-sans-semibold);
 	font-size: 14px;
 	@include s-vertical-rhythme() {
 		margin-bottom: 20px;

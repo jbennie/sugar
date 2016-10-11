@@ -1,3 +1,22 @@
+/**
+ * Return the name of the context setted with the [../mixins/_s-context.scss] mixin
+ *
+ * @param 			{String} 			[$default=null] 		The name to return if no context exist
+ * @return 			{String} 									The context name
+ *
+ * @example
+ * // register a context
+ * \@include s-context-setup('my-context', (
+ * 		// override some settings here...
+ * ));
+ *
+ * s-context('hello') // => 'hello'
+ * \@include s-context('my-context') {
+ * 		s-context('hello') // => 'my-context'
+ * }
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>;
+ */
 @function s-context(
 	$default : null
 ) {

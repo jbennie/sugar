@@ -220,6 +220,7 @@ $_s-select-component-inited : false;
 			}
 		}
 		#{s-component-selector('option')} {
+			color: s-color(text);
 			@include s-transition(fast);
 		}
 		@each $color in $colors {

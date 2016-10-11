@@ -1,6 +1,38 @@
-//
-// s-font
-//
+/**
+ * Return the font {Map} that correspond to the passed arguments
+ *
+ * @param 		{String} 			[$family=null] 			The font family wanted (can be a registered font name)
+ * @param 		{Color} 			[$color=null] 			The color wanted (can be a registered color name)
+ * @param 		{Number} 			[$size=null] 			The font-size wanted
+ * @param 		{String} 			[$style=null] 			The font-style wanted
+ * @param 		{String} 			[$variant=null] 		The font-variant wanted
+ * @param 		{String}{Number} 	[$weight=null] 			The font-weight wanted
+ * @param 		{String} 			[$decoration=null] 		The text-decoration wanted
+ * @param 		{String} 			[$align=null] 			The text-align wanted
+ * @param 		{String} 			[$transform=null] 		The text-transform wanted
+ * @param 		{String} 			[$stretch=null] 		The font-stretch wanted
+ * @param 		{String} 			[$white-space=null] 	The white-space wanted
+ * @param 		{Number} 			[$height=null] 			The line-height wanted
+ * @param 		{Number} 			[$spacing=null] 		The letter-spacing wanted
+ * @param 		{Number} 			[$indent=null] 			The text-indent wanted
+ * @param 		{String} 			[$break=null] 			The line-break wanted
+ * @param 		{String} 			[$wrap=null] 			The word-wrap wanted
+ * @return 		{Map} 										The corresponding font map
+ *
+ * @example
+ * s-font(
+ * 		$family : 'Helvetica Neue',
+ * 		$size : 12px,
+ * 		$wrap : norwap
+ * );
+ * // (
+ * 		font-family : 'Helvetica Neue',
+ * 		font-size : 12px,
+ * 		word-wrap : nowrap
+ * // )
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @function s-font(
 	$family : null,
 	$color : null,
@@ -76,7 +108,7 @@
 
 	// color
 	@if $color {
-		$return : map-set($return, color, $color);
+		$return : map-set($return, color, s-color($color));
 	}
 
 	// font-size

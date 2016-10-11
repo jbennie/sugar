@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### registerComponent({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm, { [SComponent](/api/js/core/SComponent.md) } component) : { void }
+### registerComponent({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm, { [SComponent](/data/web/sugar/repo/src/js/core/SComponent.js) } component) : { void }
 registerComponent
 Register a component on a given element
 - Privacy : **Public**
@@ -15,10 +15,10 @@ Register a component on a given element
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
 elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element in which to register a component | required | 
-component | **{ [SComponent](/api/js/core/SComponent.md) }** | The component to register | required | 
+component | **{ [SComponent](/data/web/sugar/repo/src/js/core/SComponent.js) }** | The component to register | required | 
 
 
-### unregisterComponent({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm, { [SComponent](/api/js/core/SComponent.md) } component) : { void }
+### unregisterComponent({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm, { [SComponent](/data/web/sugar/repo/src/js/core/SComponent.js) } component) : { void }
 unregisterComponent
 Unregister a component on a given element
 - Privacy : **Public**
@@ -28,10 +28,10 @@ Unregister a component on a given element
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
 elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element in which to register a component | required | 
-component | **{ [SComponent](/api/js/core/SComponent.md) }** | The component to register | required | 
+component | **{ [SComponent](/data/web/sugar/repo/src/js/core/SComponent.js) }** | The component to register | required | 
 
 
-### registerElement({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm, { [SElement](/api/js/core/SElement.md) } element) : { void }
+### registerElement({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm, { [SElement](/data/web/sugar/repo/src/js/core/SElement.js) } element) : { void }
 registerElement
 Register an SElement instance on a given element
 - Privacy : **Public**
@@ -41,10 +41,10 @@ Register an SElement instance on a given element
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
 elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element in which to register a component | required | 
-element | **{ [SElement](/api/js/core/SElement.md) }** | The SElement instance to register | required | 
+element | **{ [SElement](/data/web/sugar/repo/src/js/core/SElement.js) }** | The SElement instance to register | required | 
 
 
-### unregisterElement({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm, { [SElement](/api/js/core/SElement.md) } element) : { void }
+### unregisterElement({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm, { [SElement](/data/web/sugar/repo/src/js/core/SElement.js) } element) : { void }
 unregisterElement
 Unregister an SElement instance on a given element
 - Privacy : **Public**
@@ -54,7 +54,7 @@ Unregister an SElement instance on a given element
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
 elm | **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }** | The element in which to register a component | required | 
-element | **{ [SElement](/api/js/core/SElement.md) }** | The SElement instance to register | required | 
+element | **{ [SElement](/data/web/sugar/repo/src/js/core/SElement.js) }** | The SElement instance to register | required | 
 
 
 ### getComponents({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> } elm) : { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> }

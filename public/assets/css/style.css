@@ -71,6 +71,78 @@ Load compass and all files of level : 01_setup folder (variables, colors vars, g
 }
 
 /**
+ * Get a registered color by name or wrap a new color into a s-color call
+ * to manipulate it with ease.
+ * Supported actions :
+ * - hue {Deg}
+ * - lighten {Percent}
+ * - darken {Percent}
+ * - saturate {Percent}
+ * - desaturate {Percent}
+ * - grayscale {Boolean}
+ * - complement {Boolean}
+ * - invert {Boolean}
+ * - opacity {Percent}
+ * - mix {Color}
+ *
+ * @param 		{String}{Color} 		$color 				The color name or the color value to manipulate
+ * @param 		{String}{List} 			[$modifier=null] 	The color modifier to apply. Can be a registered modifier name or a modifier list
+ * @return 		{Color} 									The actual color value
+ *
+ * @example 	 	scss
+ * // default color (settings.colors.default)
+ * $myColor : s-color(default);
+ * // primary color (settings.colors.primary)
+ * $primary : s-color(primary);
+ * // manipulate
+ * $primary-dark : s-color(primary, -darken 10%);
+ * // registered modifier
+ * $primary-light : s-color(primary, light);
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
+/**
+ * Return the css class selector for the current component setted by the [core/mixins/_s-component.scss] mixin
+ * and build with the passed arguments.
+ * This function generate the class selector depending of the settings.selector.method setting
+ *
+ * @param 			{String} 			[$element=null] 		The element name of the class selector
+ * @param 			{String} 			[$modifier=null] 		The modifier name of the class selector
+ * @param 			{String} 			[$state=null] 			The state name of the class selector
+ * @return 			{String} 									The generated class selector
+ *
+ * @example
+ * \@incluse s-component('my-component') {
+ * 		// if settings.selector.method === 'BEM'
+ * 		s-component-selector('item') // => '.my-component__item'
+ * 		s-component-selector(null, 'red') // => '.my-component--red'
+ * 		s-component-selector('coco',null,'active') // => '.my-component__coco--active'
+ * 		// if setting.selector.method === 'SMACCS'
+ * 		s-component-selector('item') // => '.my-component-item'
+ * 		s-component-selector(null, 'red') // => '.my-component-red'
+ * 		s-component-selector('coco',null,'active') // => '.my-component-coco.is-active'
+ * }
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
+/**
+ * Return the name of the top level component setted with the [../mixins/_s-component.scss] mixin
+ *
+ * @param 			{String} 			[$default=null] 		The name to return if no top component name exist
+ * @return 			{String} 									The component name
+ *
+ * @example
+ * s-component('hello') // => 'hello'
+ * \@include s-component('my-component') {
+ * 		s-component('hello') // => 'my-component'
+ * 		\@include s-component('another-component') {
+ * 			s-component('hello') // => 'my-component'
+ * 		}
+ * }
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>;
+ */
+/**
  * Transform -var value -var value value to map
  */
 .pull-left {
@@ -435,7 +507,6 @@ body {
 
 .t-format h4,
 .h4 {
-  font-family: open-sans-semibold;
   font-size: 18px;
 }
 
@@ -454,7 +525,6 @@ body {
 
 .t-format h5,
 .h5 {
-  font-family: open-sans-semibold;
   font-size: 14px;
 }
 
@@ -606,7 +676,7 @@ a {
   src: url("../fonts/icons.eot?#iefix") format("eot"), url("../fonts/icons.woff2") format("woff2"), url("../fonts/icons.woff") format("woff"), url("../fonts/icons.ttf") format("truetype"), url("../fonts/icons.svg#icons") format("svg");
 }
 
-.icon:before,
+.icon:before, .list--sidemenu .list__item.list__item--toggle:before,
 [class^="icon-"]:before {
   font-family: "icons";
   -webkit-font-smoothing: antialiased;
@@ -659,16 +729,36 @@ a {
   content: "\E00A" !important;
 }
 
-.icon-skype:before {
+.icon-minus:before, .list--sidemenu .list__item.list__item--toggle.active:before {
   content: "\E00B" !important;
 }
 
-.icon-twitter-bird:before {
+.icon-news:before {
   content: "\E00C" !important;
 }
 
-.icon-twitter:before {
+.icon-plus:before, .list--sidemenu .list__item.list__item--toggle:before {
   content: "\E00D" !important;
+}
+
+.icon-share:before {
+  content: "\E00E" !important;
+}
+
+.icon-skype:before {
+  content: "\E00F" !important;
+}
+
+.icon-team:before {
+  content: "\E010" !important;
+}
+
+.icon-twitter-bird:before {
+  content: "\E011" !important;
+}
+
+.icon-twitter:before {
+  content: "\E012" !important;
 }
 
 /**
@@ -1022,6 +1112,7 @@ button {
  */
 .btn {
   border-radius: 3.42857143em;
+  overflow: hidden;
   text-shadow: rgba(0, 0, 0, 0.3) 1px 1px 2px;
 }
 
@@ -1142,7 +1233,7 @@ button {
 /**
  * Dropdown
  */
-.s-dropdown__menu {
+.dropdown__menu {
   visibility: hidden;
   opacity: 0;
   position: absolute;
@@ -1150,45 +1241,50 @@ button {
   pointer-events: none;
 }
 
-.s-dropdown:hover .s-dropdown__menu, .s-dropdown.active .s-dropdown__menu, .s-dropdown.s-dropdown--active .s-dropdown__menu {
+.dropdown:hover .dropdown__menu, .dropdown.active .dropdown__menu, .dropdown.dropdown--active .dropdown__menu {
   visibility: visible;
   opacity: 1;
   pointer-events: all;
 }
 
-.s-dropdown:hover, .s-dropdown.active, .s-dropdown.s-dropdown--active {
+.dropdown:hover, .dropdown.active, .dropdown.dropdown--active {
   z-index: 1;
 }
 
-.s-dropdown:hover .s-dropdown__menu, .s-dropdown.active .s-dropdown__menu, .s-dropdown.s-dropdown--active .s-dropdown__menu {
+.dropdown:hover .dropdown__menu, .dropdown.active .dropdown__menu, .dropdown.dropdown--active .dropdown__menu {
   top: 100%;
 }
 
-.s-dropdown.s-dropdown--up .s-dropdown__menu {
+.dropdown.dropdown--right .dropdown__menu {
+  left: auto;
+  right: 0;
+}
+
+.dropdown.dropdown--up .dropdown__menu {
   top: auto;
   bottom: 100%;
 }
 
-.s-dropdown.s-dropdown--up:hover .s-dropdown__menu, .s-dropdown.s-dropdown--up.active .s-dropdown__menu, .s-dropdown.s-dropdown--up.s-dropdown--active .s-dropdown__menu {
+.dropdown.dropdown--up:hover .dropdown__menu, .dropdown.dropdown--up.active .dropdown__menu, .dropdown.dropdown--up.dropdown--active .dropdown__menu {
   top: auto;
   bottom: 100%;
 }
 
-.s-dropdown__menu {
+.dropdown__menu {
   transition: all, 0.2s, ease-in-out, 0s, outline-color 0.000001s linear 0s;
   outline-color: black;
 }
 
-.s-dropdown__item {
+.dropdown__item {
   white-space: nowrap;
 }
 
-.s-dropdown__item > a {
+.dropdown__item > a {
   padding: 1.21428571em 1.57142857em;
   display: block;
 }
 
-.s-dropdown__menu {
+.dropdown__menu {
   background: #f8f8f9;
   box-shadow: rgba(0, 0, 0, 0.2) 0 4px 6px;
   transition: all 0.1s ease-in-out 0s, outline-color 0.000001s linear 0s;
@@ -1196,7 +1292,7 @@ button {
   overflow: hidden;
 }
 
-.s-dropdown__item {
+.dropdown__item {
   border-top: solid 1px rgba(248, 248, 249, 0.2);
   transition: all 0.1s ease-in-out 0s, outline-color 0.000001s linear 0s;
   outline-color: black;
@@ -1207,21 +1303,20 @@ button {
   outline-color: black;
 }
 
-.s-dropdown__item:hover, .s-dropdown__item.active, .s-dropdown__item.s-dropdown__item--active {
+.dropdown__item:hover, .dropdown__item.active, .dropdown__item.dropdown__item--active {
   left: 5px;
 }
 
-.s-dropdown__item > a {
-  color: #f2bc2b !important;
+.dropdown__item > a {
   display: block;
   width: 100%;
 }
 
-.s-dropdown .s-dropdown__menu {
+.dropdown .dropdown__menu {
   background-color: #f8f8f9;
 }
 
-.s-dropdown--primary .s-dropdown__menu {
+.dropdown--primary .dropdown__menu {
   background-color: #f2bc2b;
 }
 
@@ -1451,6 +1546,10 @@ ol.list .list__item.vr:not(.no-vr),
   padding-left: 0.71428571rem;
 }
 
+.list--sidemenu a.active {
+  color: #f2bc2b;
+}
+
 .list--sidemenu .list__item {
   padding-left: 0.71428571rem;
 }
@@ -1459,6 +1558,15 @@ ol.list .list__item.vr:not(.no-vr),
   font-weight: bold;
   font-size: 1.28571429rem;
   cursor: pointer;
+  position: relative;
+}
+
+.list--sidemenu .list__item.list__item--toggle:before {
+  position: absolute;
+  right: 0;
+  font-size: .5em;
+  color: rgba(51, 51, 51, 0.3);
+  top: .5em;
 }
 
 .list--sidemenu .list__item.list__item--toggle + .list {
@@ -1466,6 +1574,14 @@ ol.list .list__item.vr:not(.no-vr),
   overflow: hidden;
   transition: max-height 0.4s ease-in-out 0s, outline-color 0.000001s linear 0s;
   outline-color: black;
+}
+
+.list--sidemenu .list__item.list__item--toggle:hover:before {
+  color: #f2bc2b;
+}
+
+.list--sidemenu .list__item.list__item--toggle.active:before {
+  color: #f2bc2b;
 }
 
 .list--sidemenu .list__item.list__item--toggle.active + .list {
@@ -1779,11 +1895,21 @@ pre[class*="language-"] {
 /**
  * Ripples
  */
+@keyframes ripple {
+  0% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-50%) scale(0, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-50%) scale(1, 1);
+  }
+}
+
 .s-ripple__container {
   position: absolute;
   top: 0;
   left: 0;
-  overflow: hidden;
   width: 100%;
   height: 100%;
   pointer-events: none;
@@ -1808,13 +1934,12 @@ pre[class*="language-"] {
 }
 
 .s-ripple__particle {
-  background: rgba(0, 0, 0, 0.3);
-  animation: s-ripple 0.3s 0s ease-out 1 normal forwards;
-}
-
-[s-ripple] {
-  user-select: none;
-  cursor: pointer;
+  background: transparent;
+  border: 7px solid #777;
+  width: 50px;
+  height: 50px;
+  animation: ripple 0.2s 0s cubic-bezier(0.005, 0.575, 0.565, 1) 1 normal forwards;
+  z-index: 99999;
 }
 
 .tooltip {
@@ -2525,19 +2650,19 @@ html, body {
   height: 100%;
 }
 
-[s-drawer-toggle] {
+s-component-item("toggle") {
   position: fixed;
   top: 0;
   left: 0;
   opacity: 0;
 }
 
-[s-drawer="menu"] {
+[s-drawer="team"] {
   position: fixed;
-  right: auto;
-  left: -400px;
+  left: auto;
+  right: -500px;
   height: 100%;
-  width: 400px;
+  width: 500px;
   top: 0;
   z-index: 0;
   overflow-x: hidden;
@@ -2548,7 +2673,7 @@ html, body {
 }
 
 /* actual page content pane */
-[s-drawer-content] {
+s-component-item("content") {
   transform: translateX(0) translateY(0) translateZ(0);
   width: 100%;
   min-height: 100vh;
@@ -2563,7 +2688,7 @@ html, body {
   bottom: 0;
 }
 
-[s-drawer-overlay="menu"] {
+s-component-item("overlay")s-component-item("team") {
   position: fixed;
   z-index: 10;
   top: 0;
@@ -2580,7 +2705,7 @@ html, body {
   z-index: 4;
 }
 
-[s-drawer-bkg="menu"] {
+s-component-item("bkg")s-component-item("team") {
   position: fixed;
   top: 0;
   left: 0;
@@ -2592,30 +2717,30 @@ html, body {
   outline-color: black;
 }
 
-[s-drawer-toggle="menu"]:checked ~ [s-drawer-overlay="menu"] {
+s-component-item("toggle")s-component-item("team"):checked ~ s-component-item("overlay")s-component-item("team") {
   opacity: 1;
   pointer-events: all;
-  right: auto;
-  left: 400px;
+  left: auto;
+  right: 500px;
   cursor: pointer;
 }
 
-[s-drawer-toggle="menu"]:checked ~ [s-drawer-bkg="menu"] {
+s-component-item("toggle")s-component-item("team"):checked ~ s-component-item("bkg")s-component-item("team") {
   visibility: visible;
   z-index: 2;
   transition: visibility 0s linear 0s, outline-color 0.000001s linear 0s;
   outline-color: black;
 }
 
-[s-drawer-toggle="menu"]:checked ~ [s-drawer="menu"] {
+s-component-item("toggle")s-component-item("team"):checked ~ [s-drawer="team"] {
   z-index: 3;
-  right: auto;
-  left: 0;
+  left: auto;
+  right: 0;
 }
 
-[s-drawer-toggle="menu"]:checked ~ [s-drawer-content] {
-  right: auto;
-  left: 400px;
+s-component-item("toggle")s-component-item("team"):checked ~ s-component-item("content") {
+  left: auto;
+  right: 500px;
   z-index: 3;
 }
 
@@ -2625,6 +2750,8 @@ html, body {
 [s-drawer-content] {
   overflow-x: hidden;
   transform: none;
+  height: 100%;
+  filter: drop-shadow(rgba(0, 0, 0, 0.3) 0 0 4px);
 }
 
 [s-drawer-overlay] {
@@ -3390,10 +3517,17 @@ body.s-dialog--opened {
 }
 
 .topbar__links {
-  color: white;
-  text-shadow: rgba(0, 0, 0, 0.3) 1px 1px 2px;
   padding-right: 2.85714286rem;
   position: relative;
+}
+
+.topbar__links .nav__item {
+  text-align: center;
+}
+
+.topbar__links .nav__item > * > i {
+  color: white;
+  text-shadow: rgba(0, 0, 0, 0.3) 1px 1px 2px;
 }
 
 #sidebar {
@@ -3404,7 +3538,7 @@ body.s-dialog--opened {
   overflow-y: auto;
   float: left;
   border-right: solid 1px #eee;
-  background-color: #fcfcfc;
+  background-color: #f8f8f9;
 }
 
 .sidebar__header {
@@ -3442,6 +3576,59 @@ body.s-dialog--opened {
 
 .tabs__tab a:hover, .tabs__tab a.active {
   background: white;
+}
+
+[s-drawer="team"] {
+  background: #686870;
+  height: 100%;
+}
+
+.team {
+  padding: 2.85714286rem;
+  color: white;
+}
+
+.team > [s-trianglify] {
+  position: fixed;
+  z-index: 0;
+}
+
+.team__member {
+  background: #f8f8f9;
+  border-radius: 0.35714286rem;
+  padding: 1.42857143rem;
+  margin-bottom: 2.14285714rem;
+  color: #5c5c63;
+}
+
+.team__picture {
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  overflow: hidden;
+  width: 3.57142857rem;
+  display: inline-block;
+}
+
+.team__picture:before {
+  content: '';
+  display: block;
+  height: 0;
+  padding-top: 100%;
+}
+
+.team__picture > img {
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.team__picture img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  min-width: 100%;
+  min-height: 100%;
 }
 
 /* LAYOUT
@@ -4397,24 +4584,52 @@ body {
   font-size: 0.6rem;
 }
 
+.s-smaller-rel {
+  font-size: 0.6em;
+}
+
 .s-small {
   font-size: 0.8rem;
+}
+
+.s-small-rel {
+  font-size: 0.8em;
 }
 
 .s-default {
   font-size: 1rem;
 }
 
+.s-default-rel {
+  font-size: 1em;
+}
+
 .s-medium {
   font-size: 1.5rem;
+}
+
+.s-medium-rel {
+  font-size: 1.5em;
 }
 
 .s-big {
   font-size: 2rem;
 }
 
+.s-big-rel {
+  font-size: 2em;
+}
+
 .s-bigger {
   font-size: 3rem;
+}
+
+.s-bigger-rel {
+  font-size: 3em;
+}
+
+.s-reset {
+  font-size: 1rem;
 }
 
 .no-p-t {

@@ -58,17 +58,49 @@ const _docblockExampleSplit = function(name, splits, data, language) {
 	}
 }
 
-const _docblockNextLineAnalyzerJs = function(line, data) {
+const _docblockNextLineAnalyzerScss = function(line, data) {
 	// process the line
 	line = line.trim();
 	if ( ! line) return;
+
+	// mixin
+	if (line.match('@mixin')) {
+		data.mixin = true;
+	}
+	// function
+	if (line.match('@function')) {
+		data.func = true;
+	}
+
+	if ( ! data.name) {
+		const _l = line.replace('(',' ').replace(')',' ');
+		const splits = _l.split(/\s+/);
+		// find the name
+		for (let i=0; i<splits.length; i++) {
+			const val = splits[i];
+			if (val !== '@function'
+				&& val !== '@class'
+			) {
+				// it's the name
+				data.name = val;
+				break;
+			}
+		}
+	}
+
 	// protected, private, etc...
-	if ( line.substr(0,1) === '_'
+	if ( data.name.substr(0,1) === '_'
 		&& data.public === undefined
 		&& data.protected === undefined
 		&& data.private === undefined) {
 		data.private = true;
 	}
+}
+
+const _docblockNextLineAnalyzerJs = function(line, data) {
+	// process the line
+	line = line.trim();
+	if ( ! line) return;
 
 	// static
 	if (line.indexOf('static ') !== -1) {
@@ -97,6 +129,14 @@ const _docblockNextLineAnalyzerJs = function(line, data) {
 				break;
 			}
 		}
+	}
+
+	// protected, private, etc...
+	if ( data.name.substr(0,1) === '_'
+		&& data.public === undefined
+		&& data.protected === undefined
+		&& data.private === undefined) {
+		data.private = true;
 	}
 }
 
@@ -139,7 +179,8 @@ export default function(file, cb, settings = {}) {
 			"@example" : _docblockExampleSplit
 		},
 		nextLineAnalyzer : {
-			js : _docblockNextLineAnalyzerJs
+			js : _docblockNextLineAnalyzerJs,
+			scss : _docblockNextLineAnalyzerScss
 		},
 		types : {
 			js : {

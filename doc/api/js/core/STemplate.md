@@ -1,4 +1,4 @@
-# STemplate
+# STemplate <span class="s-smaller-rel">extends { SOject }</span>
 This class allows you to create complexe and dynamic templates that will stay
 in sync with his data object automatically.
 Under the hood, this class use the `morphdom` library that will be in charge of updating
@@ -153,7 +153,7 @@ Constructor
 
 
 
-### setParentTemplate({ [STemplate](/api/js/core/STemplate.md) } template)
+### setParentTemplate({ [STemplate](/data/web/sugar/repo/src/js/core/STemplate.js) } template)
 setParentTemplate
 Set the parent STemplate instance.
 This is needed if you want your template to talk together through attributes
@@ -163,7 +163,7 @@ This is needed if you want your template to talk together through attributes
 
 Name | Type | Description | Status | Default
 ------------ | ------------ | ------------ | ------------ | ------------
-template | **{ [STemplate](/api/js/core/STemplate.md) }** | The parent template instance | required | 
+template | **{ [STemplate](/data/web/sugar/repo/src/js/core/STemplate.js) }** | The parent template instance | required | 
 
 
 ### _compile({ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> } template, { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object" target="_blank" title="Object">Object</a> } data) : { <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String" target="_blank" title="String">String</a> }

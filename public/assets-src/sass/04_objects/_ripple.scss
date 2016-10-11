@@ -1,9 +1,23 @@
 /**
  * Ripples
  */
-@include s-ripple-component();
-
-[s-ripple] {
-	user-select:none;
-	cursor: pointer;
+@keyframes ripple {
+	0% {
+		opacity:1;
+		transform:translateX(-50%) translateY(-50%) scale(0,0);
+	}
+	100% {
+		opacity:0;
+		transform:translateX(-50%) translateY(-50%) scale(1,1);
+	}
+}
+@include s-ripple-component-bare();
+@include s-component('s-ripple') {
+	#{s-component-selector('particle')} {
+		background: transparent;
+		border: 7px solid s-color(secondary);
+		width:50px; height:50px;
+		@include s-animation(ripple .2s cubic-bezier(0.005, 0.575, 0.565, 1));
+		z-index:99999;
+	}
 }

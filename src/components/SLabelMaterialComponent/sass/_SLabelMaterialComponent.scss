@@ -35,6 +35,7 @@
 				pointer-events: none;
 				text-overflow: ellipsis;
 				overflow: hidden;
+				color: s-color(text);
 				@include s-translate(0,0);
 				@include s-transition(fast padding, fast font-size);
 			}

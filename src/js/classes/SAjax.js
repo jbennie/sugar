@@ -204,11 +204,12 @@ export default class SAjax extends SObject {
 					}
 					// stop here
 					return;
+				} else if (this._settings.sendCount) {
+					// wait the requested timeout and send a new request
+					setTimeout(() => {
+						this.send();
+					}, this._settings.sendInterval);
 				}
-				// wait the requested timeout and send a new request
-				setTimeout(() => {
-					this.send();
-				}, this._settings.sendInterval);
 			}
 		});
 

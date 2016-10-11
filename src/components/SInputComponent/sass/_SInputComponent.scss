@@ -15,7 +15,7 @@ $_s-input-component-inited : false;
 			border:none;
 			outline : none;
 			width:100%;
-			// font-size:1em;
+			font-size:1em;
 		}
 		%s-input-component-field-style {
 			border-width:1px;
@@ -83,15 +83,12 @@ $_s-input-component-inited : false;
 	}
 }
 
-// what to exclude from styling
-$not : ':not([type="checkbox"]):not([type="radio"]):not(.noUi-target)';
-
 @mixin s-input-component-bare(
 ) {
 	@include s-input-component-init();
 	@include s-component('s-input') {
 
-		#{s-component-selector()}#{$not} {
+		#{s-component-selector()} {
 			@extend %s-input-component-field-bare;
 			// set input styling
 			@include s-input-component-field-size();
@@ -124,7 +121,7 @@ $not : ':not([type="checkbox"]):not([type="radio"]):not(.noUi-target)';
 	}
 	@include s-component('s-input') {
 
-		#{s-component-selector()}#{$not} {
+		#{s-component-selector()} {
 			@extend %s-input-component-field-style;
 			background-color: white !important;
 		}
@@ -136,7 +133,7 @@ $not : ':not([type="checkbox"]):not([type="radio"]):not(.noUi-target)';
 		@each $color in $colors {
 
 			// input styling
-			#{s-component-selector(null, $color)}#{$not} {
+			#{s-component-selector(null, $color)} {
 				@include s-input-component-field-color($color);
 
 				// & ~ #{s-selector(#{s-component-selector()}-reply}, null, $color) {

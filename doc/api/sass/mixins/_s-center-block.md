@@ -5,7 +5,7 @@
 ## API
 -----------------------------
 
-### undefined()
+### @mixin()
 Center block
 - Privacy : **Public**
 

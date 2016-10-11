@@ -21,6 +21,7 @@ app.set('view engine', 'handlebars');
 app.use('/assets', express.static('assets'));
 
 app.use((req, res, next) => {
+	if (/^\/assets\//.test(req.url)) return;
 
 	files = readdirRecursive('../doc/');
 	files.forEach((path, i) => {
@@ -64,7 +65,6 @@ app.use((req, res, next) => {
 });
 
 app.get(/.*/, function (req, res) {
-
 	if (req.url.match('.js.map')) return;
 
 	let docFile = req.url;
@@ -81,6 +81,71 @@ app.get(/.*/, function (req, res) {
 		helpers : __handlebarsHelpers,
 		three,
 		files,
+		team : {
+			title : 'Meet our team',
+			intro : `Sugar is a poweful toolkit, but it's a team before all. Here's who's behind your favorite toolkit!`,
+			members : [{
+				name : 'Olivier Bossel',
+				role : 'Lead sugar developer',
+				description : `Passionate interactive web designer from Switzerland.
+	To be always in research of new design trends, technologies and user interaction is my primary motivation.`,
+				email : 'olivier.bossel@gmail.com',
+				links : [{
+					title : 'Facebook',
+					icon : 'facebook',
+					url : 'http://facebook.com'
+				}, {
+					title : 'Twitter',
+					icon : 'twitter-bird',
+					url : 'http://twitter.com'
+				}]
+			}, {
+				name : 'Olivier Bossel',
+				role : 'Lead sugar developer',
+				description : `Passionate interactive web designer from Switzerland.
+	To be always in research of new design trends, technologies and user interaction is my primary motivation.`,
+				email : 'olivier.bossel@gmail.com',
+				links : [{
+					title : 'Facebook',
+					icon : 'facebook',
+					url : 'http://facebook.com'
+				}, {
+					title : 'Twitter',
+					icon : 'twitter-bird',
+					url : 'http://twitter.com'
+				}]
+			}, {
+				name : 'Olivier Bossel',
+				role : 'Lead sugar developer',
+				description : `Passionate interactive web designer from Switzerland.
+	To be always in research of new design trends, technologies and user interaction is my primary motivation.`,
+				email : 'olivier.bossel@gmail.com',
+				links : [{
+					title : 'Facebook',
+					icon : 'facebook',
+					url : 'http://facebook.com'
+				}, {
+					title : 'Twitter',
+					icon : 'twitter-bird',
+					url : 'http://twitter.com'
+				}]
+			}, {
+				name : 'Olivier Bossel',
+				role : 'Lead sugar developer',
+				description : `Passionate interactive web designer from Switzerland.
+	To be always in research of new design trends, technologies and user interaction is my primary motivation.`,
+				email : 'olivier.bossel@gmail.com',
+				links : [{
+					title : 'Facebook',
+					icon : 'facebook',
+					url : 'http://facebook.com'
+				}, {
+					title : 'Twitter',
+					icon : 'twitter-bird',
+					url : 'http://twitter.com'
+				}]
+			}]
+		},
 		currentUrl : req.url,
 		content : __parseMarkdown(content, types)
 	});

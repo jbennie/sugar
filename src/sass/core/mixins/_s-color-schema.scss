@@ -1,0 +1,15 @@
+@mixin s-color-schema(
+	$name
+) {
+	$root : #{&};
+	@if $root != "" {
+		.cs-#{$name} &,
+		&.cs-#{$name} {
+			@content;
+		}
+	} @else {
+		.cs-#{$name} {
+			@content;
+		}
+	}	
+}

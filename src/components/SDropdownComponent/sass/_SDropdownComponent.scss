@@ -51,6 +51,13 @@ $_s-dropdown-component-inited : false;
 				}
 			}
 
+			&#{s-component-selector(null, 'right')} {
+				#{s-component-selector('menu')} {
+					left: auto;
+					right: 0;
+				}
+			}
+
 			&#{s-component-selector(null, 'up')} {
 				#{s-component-selector('menu')} {
 					top: auto;
@@ -104,6 +111,7 @@ $_s-dropdown-component-inited : false;
 			background-color:white;
 			left:0;
 			position:relative;
+			color : s-color(text);
 			@include s-transition(fast left);
 
 			&:hover,
@@ -113,7 +121,7 @@ $_s-dropdown-component-inited : false;
 			}
 
 			> a {
-				color : s-color(link) !important;
+				color : s-color(text);
 				display: block;
 				width: 100%;
 			}
