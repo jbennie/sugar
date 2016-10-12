@@ -8,7 +8,7 @@ class SGradientComponent extends SComponent {
 	 * @constructor
 	 */
 	constructor(elm, settings = {}, name = 'sGradient') {
-		super(name, elm, {
+		super(elm, {
 
 			/**
 			 * The colors wanted for your gradient
@@ -23,9 +23,11 @@ class SGradientComponent extends SComponent {
 			 * @type 		{String}
 			 * @default 	linear
 			 */
-			type : 'linear'
+			type : 'linear',
 
-		}, settings);
+			...settings
+
+		}, name);
 
 	}
 

@@ -15,13 +15,6 @@ import STemplate from '../../../js/core/STemplate'
 class SResponsiveImageComponent extends SComponent {
 
 	/**
-	 * Setup
-	 */
-	static setup(type, settings, name = 'sResponsiveImage') {
-		SComponent.setup(name, type, settings);
-	}
-
-	/**
 	 * _originalSrc
 	 * Store the original src of the picture
 	 * @type 	{String}
@@ -32,16 +25,18 @@ class SResponsiveImageComponent extends SComponent {
 	 * Constructor
 	 */
 	constructor(elm, settings = {}, name = 'sResponsiveImage') {
-		super(name, elm, {
+		super(elm, {
 
 			/**
 			 * widths
 			 * Store the available widths for this image
 			 * @type 	{String|Array}
 			 */
-			widths : []
+			widths : [],
 
-		}, settings);
+			...settings
+
+		}, name);
 	}
 
 	/**

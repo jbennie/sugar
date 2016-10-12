@@ -5,18 +5,12 @@ import querySelectorLive from '../../../js/dom/querySelectorLive';
 class SRadioboxComponent extends SComponent {
 
 	/**
-	 * Setup
-	 */
-	static setup(type, settings) {
-		SComponent.setup('sRadiobox', type, settings);
-	}
-
-	/**
 	 * Constructor
 	 */
 	constructor(elm, settings = {}, name = 'sRadiobox') {
-		super(name, elm, {
-		}, settings);
+		super(elm, {
+			...settings
+		}, name);
 	}
 
 	/**

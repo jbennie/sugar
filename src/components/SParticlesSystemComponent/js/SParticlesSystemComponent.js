@@ -6,17 +6,10 @@ import querySelectorLive from '../../../js/dom/querySelectorLive';
 class SParticlesSystemComponent extends SComponent {
 
 	/**
-	 * Setup
-	 */
-	static setup(type, settings) {
-		SComponent.setup('sParticlesSystem', type, settings);
-	}
-
-	/**
 	 * Constructor
 	 */
 	constructor(elm, settings = {}, name = 'sParticlesSystem') {
-		super(name, elm, {
+		super(elm, {
 			emitterX : 0,
 			emitterY : 0,
 			spread : 0,
@@ -26,8 +19,9 @@ class SParticlesSystemComponent extends SComponent {
 			particleClass : null,
 			particleElm : null,
 			particleClassSelection : 'random',
-			onComplete : null
-		}, settings);
+			onComplete : null,
+			...settings
+		}, name);
 	}
 
 	/**

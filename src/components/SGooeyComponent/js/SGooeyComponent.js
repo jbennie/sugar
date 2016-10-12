@@ -9,7 +9,7 @@ class SGooeyElement extends SComponent {
 	 * Constructor
 	 */
 	constructor(elm, settings = {}, name = 'sGooey') {
-		super(name, elm, {
+		super(elm, {
 
 			/**
 			 * The overall amount of effect
@@ -41,10 +41,12 @@ class SGooeyElement extends SComponent {
 			 * @type 		{Number}
 			 * @default 	null
 			 */
-			shrink : null
+			shrink : null,
+
+			...settings
 
 
-		}, settings);
+		}, name);
 	}
 
 	/**

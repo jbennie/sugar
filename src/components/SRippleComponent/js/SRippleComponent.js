@@ -16,13 +16,6 @@ import SParticlesSystemComponent from '../../SParticlesSystemComponent';
 class SRippleComponent extends SComponent {
 
 	/**
-	 * Setup
-	 */
-	static setup(type, settings) {
-		SComponent.setup('sRipple', type, settings);
-	}
-
-	/**
 	 * Container
 	 */
 	containerElm = null;
@@ -36,13 +29,14 @@ class SRippleComponent extends SComponent {
 	 * Constructor
 	 */
 	constructor(elm, settings = {}, name = 'sRipple') {
-		super(name, elm, {
+		super(elm, {
 			contains : true,
 			centered : false,
 			delay : 130, // delay in ms between each ripple
 			count : 1, // number of ripple to trigger on click
-			spread : 0 // spread distance for each ripple
-		}, settings);
+			spread : 0, // spread distance for each ripple
+			...settings
+		}, name);
 	}
 
 	/**

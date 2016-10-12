@@ -17,12 +17,13 @@ class SDatepickerComponent extends SComponent {
 	 * Constructor
 	 */
 	constructor(elm, settings = {}, name='sDatepicker') {
-		super(name, elm, {
+		super(elm, {
 			from : null,
 			to : null,
 			numberOfMonths : 1,
-			autoFocus : true
-		}, settings);
+			autoFocus : true,
+			...settings
+		}, name);
 	}
 
 	/**

@@ -20,13 +20,6 @@ import STemplate from '../../../js/core/STemplate'
 class SSlideshowComponent extends SComponent {
 
 	/**
-	 * Setup
-	 */
-	static setup(type, settings) {
-		SComponent.setup('sSlideshow', type, settings);
-	}
-
-	/**
 	 * _slides
 	 * Store all the slides elements
 	 * @type 	{Array}
@@ -98,8 +91,8 @@ class SSlideshowComponent extends SComponent {
 	/**
 	 * Constructor
 	 */
-	constructor(elm, settings = {}) {
-		super('sSlideshow', elm, {
+	constructor(elm, settings = {}, name = 'sSlideshow') {
+		super(elm, {
 
 			/**
 			 * slideClass
@@ -311,9 +304,11 @@ class SSlideshowComponent extends SComponent {
 			 * Callback used to init a new slide
 			 * @type 	{Function}
 			 */
-			initSlide : null
+			initSlide : null,
 
-		}, settings);
+			...settings
+
+		}, name);
 	}
 
 	/**

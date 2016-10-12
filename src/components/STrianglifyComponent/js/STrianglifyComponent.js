@@ -12,7 +12,7 @@ class STrianglifyComponent extends SComponent {
 	 * @param 		{String} 			[name="sTrianglify"]	The component name
 	 */
 	constructor(elm, settings = {}, name = 'sTrianglify') {
-		super(name, elm, {
+		super(elm, {
 
 			/**
 			 * The width of the generated trianglify picture
@@ -107,11 +107,11 @@ class STrianglifyComponent extends SComponent {
 			 * @type 		{Array}
 			 * @default 	null
 			 */
-			points : null
+			points : null,
 
-		}, settings);
+			...settings
 
-		console.log(this.settings);
+		}, name);
 	}
 
 	/**

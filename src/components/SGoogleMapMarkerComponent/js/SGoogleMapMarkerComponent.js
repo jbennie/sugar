@@ -22,14 +22,16 @@ class SGoogleMapMarkerComponent extends SGoogleComponent {
 	constructor(elm, settings = {}, name = 'sGoogleMapMarker') {
 
 		// init component
-		super(name, elm, {
+		super(elm, {
 
 			/**
 			 * The settings of this component are the exact same as the
 			 * google map marker options
 			 */
 
-		}, settings);
+			 ...settings
+
+		}, name);
 	}
 
 	/**

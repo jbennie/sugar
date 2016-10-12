@@ -48,9 +48,9 @@ class SGoogleComponent extends SComponent {
 	/**
 	 * Constructor
 	 */
-	constructor(name, elm, default_settings, settings) {
+	constructor(elm, settings = {}, name = 'sGoogle') {
 		// init component
-		super(name, elm, default_settings, settings);
+		super(elm, settings, name);
 	}
 
 	/**

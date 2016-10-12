@@ -25,9 +25,10 @@ class SMotionBlurComponent extends SComponent {
 	 * Constructor
 	 */
 	constructor(elm, settings = {}, name = 'sMotionBlur') {
-		super(name, elm, {
-			amount : 0.5
-		}, settings);
+		super(elm, {
+			amount : 0.5,
+			...settings
+		}, name);
 	}
 
 	/**

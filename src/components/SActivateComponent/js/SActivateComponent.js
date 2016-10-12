@@ -25,13 +25,6 @@ if ( ! window._sActivateStack) {
 class SActivateComponent extends SComponent {
 
 	/**
-	 * Setup
-	 */
-	static setup(type, settings, name = 'sActivate') {
-		SComponent.setup(name, type, settings);
-	}
-
-	/**
 	 * targets
 	 * Store all the targets of the component
 	 * @type 	[Array]
@@ -39,18 +32,10 @@ class SActivateComponent extends SComponent {
 	targets = [];
 
 	/**
-	 * _parentActivateComponent
-	 * Store the parent activate component instance
-	 * to activate it when this component is activated
-	 * @type 	{SActivateComponent}
-	 */
-	_parentActivateComponent = null;
-
-	/**
 	 * Constructor
 	 */
 	constructor(elm, settings = {}, name = 'sActivate') {
-		super(name, elm, {
+		super(elm, {
 			target : '@',
 			id : null,
 			group : null,
@@ -66,8 +51,9 @@ class SActivateComponent extends SComponent {
 			beforeActivate : null,
 			afterActivate : null,
 			beforeUnactivate : null,
-			afterUnactivate : null
-		}, settings);
+			afterUnactivate : null,
+			...settings
+		}, name);
 	}
 
 	/**
@@ -115,7 +101,7 @@ class SActivateComponent extends SComponent {
 
 		// listen for childs behin activated
 		[].forEach.call(this.targets, (target) => {
-			target.addEventListener('s-activate:child-activate', (e) => {
+			target.addEventListener(`${this.componentNameDash}:activate`, (e) => {
 				e.stopPropagation();
 				// activate the trigger that handle this target
 				if (e.target._sActivateTriggerComponent
@@ -332,15 +318,32 @@ class SActivateComponent extends SComponent {
 		this.elm.classList.add(this.settings.activeClass);
 
 		// activate all the targets
-		[].forEach.call(this.targets, (target_elm) => {
-			// remove the active class on target
-			target_elm.classList.add(this.settings.activeTargetClass || this.settings.activeClass);
+		[].forEach.call(this.targets, (target) => {
+			this.activateTarget(target);
 			// dispatch an event to tell parents that this target is activated
-			__dispatchEvent(target_elm, 's-activate:child-activate');
+			__dispatchEvent(target, `${this.componentNameDash}:activate`);
 		});
 
 		// callback
 		this.settings.afterActivate && this.settings.afterActivate(this);
+	}
+
+	/**
+	 * Activate a target element
+	 * @param 		{HTMLElement} 		target 			The target to activatee
+	 */
+	activateTarget(target) {
+		// remove the active class on target
+		target.classList.add(this.settings.activeTargetClass || this.settings.activeClass);
+	}
+
+	/**
+	 * Unactivate a target element
+	 * @param 		{HTMLElement} 		target 			The target to activatee
+	 */
+	unactivateTarget(target) {
+		// remove the active class on target
+		target.classList.remove(this.settings.activeTargetClass || this.settings.activeClass);
 	}
 
 	/**
@@ -400,7 +403,9 @@ class SActivateComponent extends SComponent {
 
 		// unactive targets
 		[].forEach.call(this.targets, (target) => {
-			target.classList.remove(this.settings.activeTargetClass || this.settings.activeClass);
+			this.unactivateTarget(target);
+			// dispatch an event to tell parents that this target is activated
+			__dispatchEvent(target, `${this.componentNameDash}:unactivate`);
 		});
 
 		// callback
@@ -415,17 +420,18 @@ class SActivateComponent extends SComponent {
 		// get the target
 		this.target = this.attr[this.componentName] || this.attr.href;
 
+		// remove # at start of target
+		if (this.target && this.target.substr(0,1) === '#') {
+			this.target = this.target.substr(1);
+		}
+
 		// if the target is an id
 		// and the setting "id" is not set
 		// set the setting with the target id
 		if ( ! this.settings.id
-			&& (typeof(this.target) === 'string' && this.target.substr(0,1) !== '.')
+			&& (typeof(this.target) === 'string')
 		) {
-			if (this.target.substr(0,1) === '#') {
-				this.settings.id = this.target.substr(1);
-			} else {
-				this.settings.id = this.target;
-			}
+			this.settings.id = this.target;
 		} else if ( ! this.settings.id) {
 			this.settings.id = __uniqid();
 		}
@@ -439,7 +445,7 @@ class SActivateComponent extends SComponent {
 			if (this.elm.getAttribute('id') == null) {
 				this.elm.setAttribute('id', id);
 			}
-			this.target = `#${id}`;
+			this.target = id;
 		}
 
 		// save in stack id an id exist
@@ -449,7 +455,7 @@ class SActivateComponent extends SComponent {
 
 		// update the targets array
 		if (this.target) {
-			this.targets = scope.querySelectorAll(this.target);
+			this.targets = scope.querySelectorAll(`#${this.target},[${this.componentNameDash}-target="${this.target}"]`);
 			[].forEach.call(this.targets, (t) => {
 				t._sActivateTrigger = this.elm;
 				t._sActivateTriggerComponent = this;
@@ -462,8 +468,9 @@ class SActivateComponent extends SComponent {
 
 // STemplate integration
 STemplate.registerComponentIntegration('SActivateComponent', (component) => {
+	STemplate.keepAttribute(component.elm, 'class');
 	component.targets.forEach((target) => {
-		STemplate.keepAttribute(target, 'id');
+		STemplate.keepAttribute(target, 'id,class');
 	});
 });
 

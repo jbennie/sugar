@@ -20,13 +20,6 @@ import __constructorName from '../../../js/utils/objects/constructorName'
 class STemplateComponent extends SComponent {
 
 	/**
-	 * Setup
-	 */
-	static setup(type, settings, name = 'sTemplate') {
-		SComponent.setup(name, type, settings);
-	}
-
-	/**
 	 * _isTemplateComponent
 	 * Set that this class is a templateComponent
 	 * @type 	{Boolean}
@@ -46,7 +39,7 @@ class STemplateComponent extends SComponent {
 	constructor(elm, settings = {}, name = 'sTemplate') {
 
 		// init the component
-		super(name, elm, {
+		super(elm, {
 
 			/**
 			 * data
@@ -67,9 +60,11 @@ class STemplateComponent extends SComponent {
 			 * The template to use. If not specified, will be the element itself used as template
 			 * @type 	{String}
 			 */
-			template : null
+			template : null,
 
-		}, settings);
+			...settings
+
+		}, name);
 
 		// create a component id
 		this._templateComponentId = __uniqid();

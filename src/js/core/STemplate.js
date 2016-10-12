@@ -556,6 +556,10 @@ export default class STemplate {
 
 				// check if the node match one of the element selector
 				// to not discard
+				if (node.classList.contains('s-range') && node.hasAttribute('s-template-exclude')) {
+					console.log(node.cloneNode());
+				}
+				return false;
 				if (node.hasAttribute('s-template-do-not-discard')
 					|| node.hasAttribute('s-template-exclude')
 				) return false;

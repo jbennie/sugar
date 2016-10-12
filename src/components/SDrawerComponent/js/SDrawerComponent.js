@@ -20,21 +20,15 @@ if ( ! window._sDrawerStack) {
 class SDrawerComponent extends SComponent {
 
 	/**
-	 * Setup
-	 */
-	static setup(type, settings) {
-		SComponent.setup('sDrawer', type, settings);
-	}
-
-	/**
 	 * Constructor
 	 */
-	constructor(elm, settings = {}) {
-		super('sDrawer', elm, {
+	constructor(elm, settings = {}, name = 'sDrawer') {
+		super(elm, {
 			name : '@',
 			closeOnClick : true,
-			handleHash : true
-		}, settings);
+			handleHash : true,
+			...settings
+		}, name);
 
 		// get the name
 		this.componentName = this.settings.name;

@@ -18,18 +18,12 @@ import STemplate from '../../../js/core/STemplate'
 class SLabelPushComponent extends SComponent {
 
 	/**
-	 * Setup
-	 */
-	static setup(type, settings) {
-		SComponent.setup('sLabelPush', type, settings);
-	}
-
-	/**
 	 * Constructor
 	 */
 	constructor(elm, settings = {}, name = 'sLabelPush') {
-		super(name, elm, {
-		}, settings);
+		super(elm, {
+			...settings
+		}, name);
 	}
 
 	/**

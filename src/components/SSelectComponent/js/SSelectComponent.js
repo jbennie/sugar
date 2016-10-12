@@ -25,25 +25,19 @@ require('../../../js/utils/rxjs/operators/groupByTimeout');
 class SSelectComponent extends SComponent {
 
 	/**
-	 * Setup
-	 */
-	static setup(type, settings) {
-		SComponent.setup('sSelect', type, settings);
-	}
-
-	/**
 	 * Constructor
 	 */
-	constructor(elm, settings = {}) {
-		super('sSelect', elm, {
+	constructor(elm, settings = {}, name = 'sSelect') {
+		super(elm, {
 			onOpen : null,
 			onClose : null,
 			search : true,
 			searchPlaceholder : 'Search...',
 			internalSearch : true,
 			minCharactersForSearch : 3,
-			screenMargin : 50
-		}, settings);
+			screenMargin : 50,
+			...settings
+		}, name);
 	}
 
 	/**

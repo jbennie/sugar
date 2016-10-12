@@ -4,13 +4,6 @@ import __style from '../../../js/dom/style'
 class SGoogleStreetViewComponent extends SGoogleComponent {
 
 	/**
-	 * Setup
-	 */
-	static setup(type, settings) {
-		SComponent.setup('sGoogleStreetView', type, settings);
-	}
-
-	/**
 	 * _view
 	 * Store the street view instance
 	 * @type 	{StreetView}
@@ -30,7 +23,7 @@ class SGoogleStreetViewComponent extends SGoogleComponent {
 	constructor(elm, settings = {}, name = 'sGoogleStreetView') {
 
 		// init component
-		super(name, elm, {
+		super(elm, {
 
 			/**
 			 * The settings of this component are the exact same as the
@@ -42,9 +35,11 @@ class SGoogleStreetViewComponent extends SGoogleComponent {
  			 * Set when to init the streetview if the placeholder setting is used
  			 * @type 	{String}
  			 */
- 			initOn : 'click'
+ 			initOn : 'click',
 
-		}, settings);
+			...settings
+
+		}, name);
 	}
 
 	/**

@@ -233,7 +233,7 @@ class SComponent extends SElement {
 	 * @param 		{Object} 		[default_settings={}]	The default settings of the component
 	 * @param 		{Object} 		[settings={}] 			The settings passed to the component
 	 */
-	constructor(name, elm, default_settings = {}, settings = {}) {
+	constructor(elm, settings = {}, name) {
 
 		// check arguments
 		if ( ! elm.nodeName) {
@@ -299,7 +299,7 @@ class SComponent extends SElement {
 		this.elm[this.componentName] = this;
 
 		// extend settings values
-		this.settings = { ...this.settings, ...default_settings, ...settings };
+		this.settings = { ...this.settings, ...settings };
 
 		// check if the main data attribute is an object to extend the settings
 		let set = __autoCast(this.elm.getAttribute('data-' + this.componentNameDash) || this.elm.getAttribute(this.componentNameDash));

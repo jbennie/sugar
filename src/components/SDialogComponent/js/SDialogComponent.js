@@ -22,13 +22,6 @@ import STemplate from '../../../js/core/STemplate'
 class SDialogComponent extends SComponent {
 
 	/**
-	 * Setup
-	 */
-	static setup(type, settings, name = 'sDialog') {
-		SComponent.setup(name, type, settings);
-	}
-
-	/**
 	 * Counter
 	 */
 	static counter = 0;
@@ -59,7 +52,7 @@ class SDialogComponent extends SComponent {
 	 * Constructor
 	 */
 	constructor(elm, settings = {}, name = 'sDialog') {
-		super(name, elm, {
+		super(elm, {
 
 			/**
 			 * content
@@ -92,9 +85,11 @@ class SDialogComponent extends SComponent {
 			 * This can be 'click'|'hover'|'init'
 			 * @type 	{String}
 			 */
-			openOn : 'click'
+			openOn : 'click',
 
-		}, settings);
+			...settings
+
+		}, name);
 	}
 
 	/**

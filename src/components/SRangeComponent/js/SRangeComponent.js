@@ -17,13 +17,6 @@ import STemplate from '../../../js/core/STemplate'
 class SRangeComponent extends SComponent {
 
 	/**
-	 * Setup
-	 */
-	static setup(type, settings) {
-		SComponent.setup('sRange', type, settings);
-	}
-
-	/**
 	 * formaters
 	 * Store the formaters functions
 	 * @type 	{Object}
@@ -51,7 +44,7 @@ class SRangeComponent extends SComponent {
 	 * Constructor
 	 */
 	constructor(elm, settings = {}, name = 'sRange') {
-		super(name, elm, {
+		super(elm, {
 			start : 0,
 			end : null,
 			min : null,
@@ -66,8 +59,9 @@ class SRangeComponent extends SComponent {
 			tooltip : true,
 			value : '@value',
 			formater : null,
-			updateInterval : null
-		}, settings);
+			updateInterval : null,
+			...settings
+		}, name);
 	}
 
 	/**

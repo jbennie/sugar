@@ -22,13 +22,6 @@ import STemplate from '../../../js/core/STemplate'
 class SValidateComponent extends SComponent {
 
 	/**
-	 * Setup
-	 */
-	static setup(type, settings, name = 'sValidate') {
-		SComponent.setup(name, type, settings);
-	}
-
-	/**
 	 * Registered validators
 	 * @type 	{Object}
 	 */
@@ -84,7 +77,7 @@ class SValidateComponent extends SComponent {
 	 * Constructor
 	 */
 	constructor(elm, settings = {}, name = 'sValidate') {
-		super(name, elm, {
+		super(elm, {
 
 			/**
 			 * validate
@@ -154,10 +147,11 @@ class SValidateComponent extends SComponent {
 			 * This is applied AFTER the validation
 			 * @type 	{String}
 			 */
-			requiredClass : 'is-required'
+			requiredClass : 'is-required',
 
+			...settings
 
-		}, settings);
+		}, name);
 	}
 
 	/**

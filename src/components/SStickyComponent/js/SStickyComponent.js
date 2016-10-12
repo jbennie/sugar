@@ -17,13 +17,6 @@ import __getAnimationProperties from '../../../js/dom/getAnimationProperties'
 class SStickyComponent extends SComponent {
 
 	/**
-	 * Setup
-	 */
-	static setup(type, settings, name = 'sSticky') {
-		SComponent.setup(name, type, settings);
-	}
-
-	/**
 	 * _updateCounter
 	 * Update counter to update the sizes, offsets, etc not at each scroll event
 	 * @type 	{Integer}
@@ -69,7 +62,7 @@ class SStickyComponent extends SComponent {
 	 * Constructor
 	 */
 	constructor(elm, settings = {}, name = 'sSticky') {
-		super(name, elm, {
+		super(elm, {
 			/**
 			 * topElm
 			 * Specify the top element to use as boundary
@@ -132,8 +125,11 @@ class SStickyComponent extends SComponent {
 			 * How long to wait after a window resize before updating sizes etc...
 			 * @type 	{Number}
 			 */
-			resizeTimeout : 50
-		}, settings);
+			resizeTimeout : 50,
+
+			...settings
+
+		}, name);
 	}
 
 	/**

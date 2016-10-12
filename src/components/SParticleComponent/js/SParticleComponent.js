@@ -5,19 +5,13 @@ import querySelectorLive from '../../../js/dom/querySelectorLive';
 class SParticleComponent extends SComponent {
 
 	/**
-	 * Setup
-	 */
-	static setup(type, settings) {
-		SComponent.setup('sParticle', type, settings);
-	}
-
-	/**
 	 * Constructor
 	 */
 	constructor(elm, settings = {}, name = 'sParticle') {
-		super(name, elm, {
-			class : null
-		}, settings);
+		super(elm, {
+			class : null,
+			...settings
+		}, name);
 
 		// set class if needed
 		if (this.settings.class) {

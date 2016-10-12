@@ -7,13 +7,6 @@ import __style from '../../../js/dom/style'
 class SGoogleMapComponent extends SGoogleComponent {
 
 	/**
-	 * Setup
-	 */
-	static setup(type, settings) {
-		SComponent.setup('sGoogleMap', type, settings);
-	}
-
-	/**
 	 * _map
 	 * Store the map instance
 	 * @type 	{Map}
@@ -33,7 +26,7 @@ class SGoogleMapComponent extends SGoogleComponent {
 	constructor(elm, settings = {}, name = 'sGoogleMap') {
 
 		// init component
-		super(name, elm, {
+		super(elm, {
 
 			/**
 			 * The settings of this component are the exact same as the
@@ -52,9 +45,11 @@ class SGoogleMapComponent extends SGoogleComponent {
 			 * Set when to init the map if the placeholder setting is used
 			 * @type 	{String}
 			 */
-			initOn : 'click'
+			initOn : 'click',
 
-		}, settings);
+			...settings
+
+		}, name);
 	}
 
 	/**

@@ -13,13 +13,6 @@ import imageLoaded from '../../../js/dom/imageLoaded';
 class SEqualizeComponent extends SComponent {
 
 	/**
-	 * Setup
-	 */
-	static setup(type, settings, name = 'sEqualize') {
-		SComponent.setup(name, type, settings);
-	}
-
-	/**
 	 * Reference to all the columns by groups
 	 * Store value format :
 	 * groupId : {
@@ -50,10 +43,11 @@ class SEqualizeComponent extends SComponent {
 	 * Constructor
 	 */
 	constructor(elm, settings = {}, name = 'sEqualize') {
-		super(name, elm, {
+		super(elm, {
 			group : '@',
-			resizeTimeout : 200
-		}, settings);
+			resizeTimeout : 200,
+			...settings
+		}, name);
 	}
 
 	/**
@@ -120,7 +114,7 @@ class SEqualizeComponent extends SComponent {
 				// loon on each columns
 				[].forEach.call(line.columns, (column) => {
 					column.style.minHeight = '';
-					column.style.maxHeight = '';
+					// column.style.maxHeight = '';
 				});
 			});
 
@@ -169,7 +163,7 @@ class SEqualizeComponent extends SComponent {
 						equalizer.style.height = line.height - column.offsetHeight + 'px';
 					} else {
 						column.style.minHeight = line.height + 'px';
-						column.style.maxHeight = line.height + 'px';
+						// column.style.maxHeight = line.height + 'px';
 					}
 				});
 			});

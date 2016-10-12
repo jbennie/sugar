@@ -28,7 +28,7 @@ class SAddthisComponent extends SComponent {
 	 * Constructor
 	 */
 	constructor(elm, settings = {}, name = 'sAddthis') {
-		super(name, elm, {
+		super(elm, {
 			/**
 			 * pubid
 			 * The public id used to reach addthis service
@@ -90,9 +90,11 @@ class SAddthisComponent extends SComponent {
 			 * The email_vars to share
 			 * @type 	{String}
 			 */
-			email_vars : null
+			email_vars : null,
 
-		}, settings);
+			...settings
+
+		}, name);
 
 		// set the pubid in window if exist in settings
 		if (this.settings.pubid) {

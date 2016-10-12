@@ -20,7 +20,7 @@ class SOneTimeDisplayComponent extends SComponent {
 	 * @return 	{SOneTimeDisplayComponent}
 	 */
 	constructor(elm, settings = {}, name = 'sOneTimeDisplayComponent') {
-		super(name, elm, {
+		super(elm, {
 			/**
 			 * timeout
 			 * How many times to hide the element when dismissed
@@ -41,9 +41,11 @@ class SOneTimeDisplayComponent extends SComponent {
 			 * Set the name used to save the cookie / localStorage or sessionStorage
 			 * @type 	{String}
 			 */
-			name : 's-one-time-display'
+			name : 's-one-time-display',
 
-		}, settings);
+			...settings
+
+		}, name);
 	}
 
 	/**
