@@ -1,4 +1,3 @@
-import mustache from 'mustache';
 import __dispatchEvent from '../dom/dispatchEvent';
 import SWatcher from '../classes/SWatcher';
 import uniqid from '../utils/uniqid';
