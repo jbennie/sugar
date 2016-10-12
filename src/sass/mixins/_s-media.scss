@@ -32,9 +32,9 @@ $media-keywords : (
 	webos : '.ua-webos',
 	blackberry : '.ua-blackberry',
 
-	x2 : '(-webkit-min-device-pixel-ratio: 2), (min-resolution: 320dpi)',
-	x3 : '(-webkit-min-device-pixel-ratio: 3), (min-resolution: 480dpi)',
-	x4 : '(-webkit-min-device-pixel-ratio: 4), (min-resolution: 640dpi)'
+	2x : '(-webkit-min-device-pixel-ratio: 2), (min-resolution: 320dpi)',
+	3x : '(-webkit-min-device-pixel-ratio: 3), (min-resolution: 480dpi)',
+	4x : '(-webkit-min-device-pixel-ratio: 4), (min-resolution: 640dpi)'
 );
 @for $idx from 6 through 20 {
 	$media-keywords : map-set($media-keywords, 'ie#{$idx}', '.ua-ie-#{$idx}');
@@ -89,7 +89,7 @@ $media-keywords : (
 	// resolution
 	@if $resolution {
 		$res : ();
-		$resolutions : (x2,x3,x4);
+		$resolutions : (2x,3x,4x);
 		@each $m in $resolution {
 			@if index($resolutions,$m) {
 				$res : append($res, map-get($media-keywords,$m));

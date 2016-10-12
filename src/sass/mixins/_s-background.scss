@@ -1,6 +1,33 @@
-//
-// Background
-//
+/**
+ * Helper mixin to set a background image
+ *
+ * @param 			{String} 				[$repeat=null] 				The background-repeat property
+ * @param 			{String} 				[$size=null] 				The background-size property
+ * @param 			{String} 				[$attachment=null] 			The background-attachment property
+ * @param 			{String} 				[$blend-mode=null] 			The background-blend-mode property
+ * @param 			{String} 				[$clip=null] 				The background-clip property
+ * @param 			{String} 				[$url=null] 				The background-image url property
+ * @param 			{Number} 				[$width=null] 				The background-size width property
+ * @param 			{Number} 				[$height=null] 				The background-size height property
+ * @param 			{Number} 				[$top=null] 				The background-position top property
+ * @param 			{Number} 				[$left=null] 				The background-position left property
+ * @param 			{String} 				[$suffix2x=@2x] 			The suffix to add the the url if the 2x resolution if wanted
+ * @param 			{String} 				[$suffix3x=@3x] 			The suffix to add the the url if the 3x resolution if wanted
+ * @param 			{String} 				[$suffix4x=@4x] 			The suffix to add the the url if the 4x resolution if wanted
+ * @param 			{List} 					[$resolution=null] 			The resolution wanted like 2x, 3x and 4x
+ * @param 			{List} 					[$position=null] 			The background-position property
+ *
+ * @example
+ * .my-cool-element {
+ * 		\@include s-background(
+ * 			$url : 'img/my-cool-image.jpg',
+ * 			$size : cover,
+ * 			resolution : 2x 3x 4x
+ * 		);
+ * }
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-background(
 	$repeat : null,
 	$size : null,
@@ -13,9 +40,9 @@
 	$height : null,
 	$top : null,
 	$left : null,
-	$x2 : null,
-	$x3 : null,
-	$x4 : null,
+	$suffix2x : '@2x',
+	$suffix3x : '@3x',
+	$suffix4x : '@4x',
 	$resolution : null,
 	$position : null
 ) {
@@ -34,24 +61,14 @@
 	}
 
 	// manage resolutions
-	@if index($resolution,'x2') {
+	@if index($resolution,'2x') {
 		$x2 : true;
 	}
-	@if index($resolution,'x3') {
+	@if index($resolution,'3x') {
 		$x3 : true;
 	}
-	@if index($resolution,'x4') {
+	@if index($resolution,'4x') {
 		$x4 : true;
-	}
-
-	@if $x2 == true {
-		$x2 : '@2x';
-	}
-	@if $x3 == true {
-		$x3 : '@3x';
-	}
-	@if $x4 == true {
-		$x4 : '@4x';
 	}
 
 	// build background
@@ -88,24 +105,24 @@
 	// resolutions
 	$split : _split($url,'.');
 	$name : nth($split, length($split)-1);
-	@if $x2 and $url {
-		$split : set-nth($split, length($split)-1, #{$name}#{$x2});
+	@if index($resolution,'2x') and $url {
+		$split : set-nth($split, length($split)-1, #{$name}#{$suffix2x});
 		$url : _join($split, '.');
-		@include s-media($resolution : x2) {
+		@include s-media($resolution : 2x) {
 			background-image: url("#{$url}");
 		}
 	}
 	@if $x3 and $url {
 		$split : set-nth($split, length($split)-1, #{$name}#{$x3});
 		$url : _join($split, '.');
-		@include s-media($resolution : x3) {
+		@include s-media($resolution : 3x) {
 			background-image: url("#{$url}");
 		}
 	}
 	@if $x4 and $url {
 		$split : set-nth($split, length($split)-1, #{$name}#{$x4});
 		$url : _join($split, '.');
-		@include s-media($resolution : x4) {
+		@include s-media($resolution : 4x) {
 			background-image: url("#{$url}");
 		}
 	}
