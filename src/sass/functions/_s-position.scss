@@ -27,7 +27,7 @@
 	$top : null,
 	$right : null,
 	$bottom : null,
-	$left : null,
+	$left : null
 ) {
 	@if $_sugar-test-arguments {
 		$t : s-test-argument('s-position','position',(fixed,relative,absolute),$position);

@@ -36,7 +36,7 @@
 	}
 
 	// get the value
-	$value : sugar('#{$stack}.#{$size}');
+	$value : s('#{$stack}.#{$size}');
 
 	// if we have a value with units, return
 	@if $value and not unitless($value) {
@@ -45,7 +45,7 @@
 
 	// get what we need to interpolate the value
 	$ratio : s-setting('sizes.#{$size}');
-	$default-size : sugar('#{$stack}.default');
+	$default-size : s('#{$stack}.default');
 
 	// if the getted value is a unitless one, mean that it's the ratio to use
 	// to interpolate the default stack value

@@ -29,11 +29,7 @@
 	$a-near : null,
 	$a-spread : null,
 	$a-rotate : null,
-	$a-scale : null,
-
-
-
-
+	$a-scale : null
 ) {
 	@if $_sugar-test-arguments {
 		$color : s-test-argument('s-loader-circle','color','color|list-color',$color);
