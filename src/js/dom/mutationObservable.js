@@ -61,7 +61,7 @@ export default function mutationObservable(target, settings = {}) {
 			mutationObserver.disconnect();
 		}
 
-	}).share();
+	});
 
 	// save the new observable into the stack
 	const obs = {

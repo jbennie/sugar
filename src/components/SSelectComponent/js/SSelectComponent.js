@@ -18,6 +18,7 @@ import __insertAfter from '../../../js/dom/insertAfter'
 import SEvent from '../../../js/classes/SEvent'
 import __mutationObservable from '../../../js/dom/mutationObservable'
 import STemplate from '../../../js/core/STemplate'
+import __querySelectorLive from '../../../js/dom/querySelectorLive'
 
 require('../../../js/utils/rxjs/operators/groupByTimeout');
 
@@ -176,12 +177,18 @@ class SSelectComponent extends SComponent {
 
 		// observe all changes into the select
 		// to refresh our custom one
-		this._refreshObserver = __mutationObservable(this.elm, {
-			childList : true,
-			attributes : true,
-			characterData : true,
-			subtree : true
-		}).groupByTimeout().subscribe((mutation) => {
+		//
+		//
+		let removedTimeout = null;
+		this._refreshObserver = __querySelectorLive('option, optgroup', {
+			rootNode : this.elm,
+			onNodeRemoved : (node) => {
+				clearTimeout(removedTimeout);
+				removedTimeout = setTimeout(() => {
+					this.refresh();
+				});
+			}
+		}).notIn('optgroup').groupByTimeout().subscribe((elms) => {
 			this.refresh();
 		});
 

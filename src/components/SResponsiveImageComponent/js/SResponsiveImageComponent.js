@@ -210,7 +210,8 @@ class SResponsiveImageComponent extends SComponent {
 }
 
 STemplate.registerComponentIntegration('SResponsiveImageComponent', (component) => {
-	STemplate.keepAttribute(component.elm, 'width');
+	STemplate.keepAttribute(component.elm, 'width')
+			 .keepAttribute(component.elm, 'src');
 });
 
 // expose in window.sugar

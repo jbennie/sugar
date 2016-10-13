@@ -220,8 +220,6 @@ class SRangeComponent extends SComponent {
 	 */
 	enable() {
 
-		console.log('ENBABLE');
-
 		// enable super
 		super.enable();
 

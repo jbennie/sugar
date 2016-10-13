@@ -77,6 +77,11 @@ class SActivateComponent extends SComponent {
 			this._handleHistory();
 		}
 
+		// set group in html
+		if (this.settings.group) {
+			this.elm.setAttribute(`${this.componentNameDash}-group`, this.settings.group);
+		}
+
 		if ( ! this._getGroup(this.elm)) {
 			[].forEach.call(this.elm.parentNode.childNodes, (sibling) => {
 				if ( ! this._getGroup(this.elm) && sibling.nodeName != '#text' && sibling.nodeName != '#coment') {
@@ -165,6 +170,16 @@ class SActivateComponent extends SComponent {
 		// we wait to be sure all the elements on the pages have
 		// been inited
 		setTimeout(() => {
+			// check with anchor if need to activate the element
+			if (this.settings.anchor) {
+				let hash = document.location.hash;
+				if (hash) {
+					if (hash.substr(1) === this.settings.id) {
+						this._activate();
+						return;
+					}
+				}
+			}
 			// manage the active class
 			if (this.elm.classList.contains(this.settings.activeClass)) {
 				// activate the targets
@@ -172,15 +187,6 @@ class SActivateComponent extends SComponent {
 				[].forEach.call(this.targets, (target) => {
 					target.classList.add(this.settings.activeTargetClass || this.settings.activeClass);
 				});
-			}
-			// check with anchor if need to activate the element
-			if (this.settings.anchor) {
-				let hash = document.location.hash;
-				if (hash) {
-					if (hash.substr(1) === this.settings.id) {
-						this._activate();
-					}
-				}
 			}
 		});
 	}
@@ -285,6 +291,7 @@ class SActivateComponent extends SComponent {
 	 * Get group
 	 */
 	_getGroup(elm) {
+		// if (this.settings.group) return this.settings.group;
 		return elm.getAttribute(this.componentNameDash+'-group') || elm.getAttribute('data-'+this.componentNameDash+'-group');
 	}
 
@@ -305,7 +312,7 @@ class SActivateComponent extends SComponent {
 
 		// unactive all group elements
 		let grp = this._getGroup(this.elm);
-		[].forEach.call(document.body.querySelectorAll(`[data-${this.componentNameDash}-group="${grp}"],[${this.componentNameDash}-group="${grp}"]`), (group_elm) => {
+		[].forEach.call(document.body.querySelectorAll(`[${this.componentNameDash}-group="${grp}"]`), (group_elm) => {
 			// get the api
 			let api = group_elm[this.componentName];
 			// unactive element
@@ -418,7 +425,11 @@ class SActivateComponent extends SComponent {
 	update(scope = document.body) {
 
 		// get the target
-		this.target = this.attr[this.componentName] || this.attr.href;
+		if (typeof(this.attr[this.componentName]) === 'string') {
+			this.target = this.attr[this.componentName];
+ 		} else {
+			this.target = this.attr.href;
+		}
 
 		// remove # at start of target
 		if (this.target && this.target.substr(0,1) === '#') {
@@ -468,8 +479,11 @@ class SActivateComponent extends SComponent {
 
 // STemplate integration
 STemplate.registerComponentIntegration('SActivateComponent', (component) => {
+	STemplate.ignoreClass(component.elm, component.settings.activeClass);
 	STemplate.keepAttribute(component.elm, 'class');
+	STemplate.keepAttribute(component.elm, `${component.componentNameDash}-group`);
 	component.targets.forEach((target) => {
+		STemplate.ignoreClass(target, component.settings.activeTargetClass || component.settings.activeClass);
 		STemplate.keepAttribute(target, 'id,class');
 	});
 });

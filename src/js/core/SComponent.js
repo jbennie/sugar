@@ -386,11 +386,6 @@ class SComponent extends SElement {
 	_onAdded() {
 		// super added
 		super._onAdded();
-
-		if (this.elm.hasAttribute('s-range')) {
-			console.log('added', this);
-		}
-
 		// clear the destroy timeout
 		clearTimeout(this._componentAutoDestroyTimeout);
 		// onAdded callback

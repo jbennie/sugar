@@ -78,7 +78,9 @@ class SRippleComponent extends SComponent {
 			particleElm : particleElm,
 			duration : this.settings.delay * this.settings.count,
 			onComplete : () => {
-				particlesSystemElm.parentNode.removeChild(particlesSystemElm);
+				if (particlesSystemElm.parentNode) {
+					particlesSystemElm.parentNode.removeChild(particlesSystemElm);
+				}
 			}
 		});
 

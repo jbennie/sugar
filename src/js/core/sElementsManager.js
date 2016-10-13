@@ -1,6 +1,6 @@
 // init a stack into the window
 if ( ! window.sugar) window.sugar = {};
-window.sugar._elements = new Map();
+// window.sugar._elements = new Map();
 window.sugar._elementsById = {};
 
 class SElementsManager {
@@ -13,19 +13,25 @@ class SElementsManager {
 	 */
 	_getElementStack(elm) {
 		let inStackElement = null;
-		if (typeof(elm) === 'string') {
-			inStackElement = window.sugar._elementsById[elm];
-		} else {
-			inStackElement = window.sugar._elements.get(elm);
+
+		let id = elm;
+		if (elm.getAttribute) {
+			id = elm.getAttribute('s-element');
 		}
-		if ( ! inStackElement && elm.hasAttribute('s-element')) {
+		// if no id, it's not an element
+		// and it's not a component
+		// so return false
+		if ( ! id) return false;
+
+		inStackElement = window.sugar._elementsById[id];
+		if ( ! inStackElement) {
 			inStackElement = {
 				elements : {},
 				components : {},
 				originalElement : null
 			};
-			window.sugar._elements.set(elm, inStackElement);
-			window.sugar._elementsById[elm.getAttribute('s-element')] = inStackElement;
+			// window.sugar._elements.set(elm, inStackElement);
+			window.sugar._elementsById[id] = inStackElement;
 		}
 		return inStackElement;
 	}
@@ -38,6 +44,10 @@ class SElementsManager {
 	 * @return 	{void}
 	 */
 	registerComponent(elm, component) {
+		if ( ! elm.hasAttribute || ! elm.hasAttribute('s-element')) {
+			console.error('Passed arguments', elm, component);
+			throw `You try to register an element component that is not wrapped into a SElement instance...`;
+		}
 		const inStackElement = this._getElementStack(elm);
 		inStackElement.components[component.componentName] = component;
 	}
@@ -66,6 +76,10 @@ class SElementsManager {
 	 * @return 	{void}
 	 */
 	registerElement(elm, sElement) {
+		if ( ! elm.hasAttribute || ! elm.hasAttribute('s-element')) {
+			console.error('Passed arguments', elm, component);
+			throw `You try to register an element that is not wrapped into a SElement instance...`;
+		}
 		const inStackElement = this._getElementStack(elm);
 		// add the element into the element stack
 		inStackElement.elements[sElement.elementId] = sElement;
@@ -97,7 +111,6 @@ class SElementsManager {
 		// remove the s-component attribute if no more components
 		if (Object.keys(inStackElement.elements).length <= 0) {
 			elm.removeAttribute('s-element');
-			window.sugar._elements.delete(elm);
 		}
 	}
 

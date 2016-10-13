@@ -71,6 +71,37 @@ export default class STemplate {
 	 * @param 	{String} 		attr 	The attribute name to keep
 	 */
 	static keepAttribute = function(elm, attr) {
+		// if ( ! STemplate._keepQueue) STemplate._keepQueue = new Map();
+		// let map = STemplate._keepQueue.get(elm);
+		// if ( ! map) {
+		// 	map = [attr];
+		// } else {
+		// 	if (map.indexOf(attr) === -1) {
+		// 		map.push(attr);
+		// 	}
+		// }
+		// STemplate._keepQueue.set(elm, map);
+		//
+		// clearTimeout(STemplate._keepQueueTimeout);
+		// STemplate._keepQueueTimeout = setTimeout(() => {
+		//
+		// 	// loop on map
+		// 	STemplate._keepQueue.forEach((value, elm) => {
+		// 		// set the ignore attribute
+		// 		const keep = elm.getAttribute('s-template-keep') || '';
+		// 		const keeps = keep.split(',');
+		// 		value.forEach((attribute) => {
+		// 			if (keeps.indexOf(attribute) === -1) {
+		// 				keeps.push(attribute);
+		// 			}
+		// 		});
+		// 		console.log(keeps);
+		// 		elm.setAttribute('s-template-keep', keeps.join(','));
+		// 	});
+		//
+		//
+		// });
+
 		const keep = elm.getAttribute('s-template-keep');
 		if (keep) {
 			const keeps = keep.split(',');
@@ -80,6 +111,41 @@ export default class STemplate {
 			elm.setAttribute('s-template-keep', keeps.join(','));
 		} else {
 			elm.setAttribute('s-template-keep', attr);
+		}
+
+		return STemplate;
+	}
+
+	/**
+	 * Set an attribute to ignore
+	 * @param 	{HTMLElement} 	elm 	The element on which to keep an attribute
+	 * @param 	{String} 		attr 	The attribute name to keep
+	 */
+	static ignoreAttribute = function(elm, attr) {
+		const ignore = elm.getAttribute('s-template-ignore') || [];
+		const ignores = ignore.split(',');
+		if (ignores.indexOf(attr) === -1) {
+			ignores.push(attr);
+		}
+		elm.setAttribute('s-template-ignore', ignores.join(','));
+		return STemplate;
+	}
+
+	/**
+	 * Set a class to ignore
+	 * @param 	{HTMLElement} 	elm 	The element on which to keep an attribute
+	 * @param 	{String} 		attr 	The attribute name to keep
+	 */
+	static ignoreClass = function(elm, cls) {
+		const ignore = elm.getAttribute('s-template-ignore-class');
+		if (ignore) {
+			const ignores = ignore.split(',');
+			if (ignores.indexOf(cls) === -1) {
+				ignores.push(cls);
+			}
+			elm.setAttribute('s-template-ignore-class', ignores.join(','));
+		} else {
+			elm.setAttribute('s-template-ignore-class', cls);
 		}
 		return STemplate;
 	}
@@ -235,69 +301,93 @@ export default class STemplate {
 		// if template is a string
 		if (typeof(this.template) === 'string') {
 			// set the s-template-id attribute in first template node
-			this.template = this.template.replace('>',` s-template-id="${this.templateId}">`);
-			this.templateString = this.template;
-			this.dom = document.createElement('div');
+			// this.template = this.template.replace('>',` s-template-id="${this.templateId}">`);
+			this.template = __strToHtml(this.template);
+
+			// this.templateString = this.template;
+			// this.dom = document.createElement('div');
 		}
-		// if the template is a node
-		else if (this.template.nodeName) {
-			this.template.setAttribute('s-template-id', this.templateId);
 
-			// apply the integration in components
-			// without rendering it
-			this._applyIntegrationOnNode(this.template);
-			[].forEach.call(this.template.querySelectorAll('[s-component]'), (componentNode) => {
-				this._applyIntegrationOnNode(componentNode);
+		// set a template id to the element
+		this.template.setAttribute('s-template-id', this.templateId);
+
+		// apply the integration in components
+		this._applyIntegrationOnNode(this.template);
+		[].forEach.call(this.template.querySelectorAll('[s-component]'), (componentNode) => {
+			// if the model is into another template,
+			// this is not our business
+			const closestTemplate = __closest(componentNode, '[s-template-id]');
+			if (closestTemplate && closestTemplate.getAttribute('s-template-id') !== this.templateId) {
+				return;
+			}
+			this._applyIntegrationOnNode(componentNode);
+		});
+
+		// make a clone of the template that will be the trusted base
+		// to render
+		const clone = this.template.cloneNode(true);
+		// const clone = __strToHtml(this.template.outerHTML);
+
+		// clone the template to remove all the templates contents
+		// cause each template has to care only about his scope and not
+		// about the scope of nested onces...
+		[].forEach.call(clone.querySelectorAll('[s-template-component]'), (nestedTemplate) => {
+			nestedTemplate.innerHTML = '';
+		});
+		// remove all the element that has not to be touched
+		[].forEach.call(clone.querySelectorAll('[s-template-exclude]'), (elm) => {
+			elm.parentNode.removeChild(elm);
+		});
+		// handle the s-template-ignore attribute
+		[].forEach.call(clone.querySelectorAll('[s-template-ignore]'), (elm) => {
+			let ignore = elm.getAttribute('s-template-ignore');
+			ignore = ignore.replace(/\s/g,'').split(',');
+			// loop on each attribute to ignore
+			ignore.forEach((key) => {
+				elm.removeAttribute(key);
 			});
+		});
 
-			// window.sugar.debug.start();
-			// const clone = this.template.cloneNode(true);
-			const clone = __strToHtml(this.template.outerHTML);
-
-			// clone the template to remove all the templates contents
-			// cause each template has to care only about his scope and not
-			// about the scope of nested onces...
-			[].forEach.call(clone.querySelectorAll('[s-template-component]'), (nestedTemplate) => {
-				nestedTemplate.innerHTML = '';
-			});
-			// remove all the element that has not to be touched
-			[].forEach.call(clone.querySelectorAll('[s-template-exclude]'), (elm) => {
-				elm.parentNode.removeChild(elm);
-			});
-
-			// replace all the s-element with their original versions
-			[].forEach.call(clone.querySelectorAll('[s-element]'), (elm) => {
-				// console.log('element', elm);
-				const elementId = elm.getAttribute('s-element');
-				const originalElement = sElementsManager.getOriginalElement(elementId);
-				if (originalElement) {
-					elm = morphdom(elm, originalElement, {
-						onBeforeElUpdated : (fromNode, toNode) => {
-							['s-template-keep',
-							 's-template-exclude',
-							 's-template-refresh',
-							 's-template-do-not-update',
-							 's-template-do-not-discard',
-							 's-template-do-not-children-update']
-							.forEach((attr) => {
-								if (fromNode.hasAttribute(attr)
-							 		&& ! toNode.hasAttribute(attr)
-								) {
-									toNode.setAttribute(attr, fromNode.getAttribute(attr));
-								}
-							});
-							return true;
-						},
-						onBeforeElChildrenUpdated : (node) => {
-							// do not update children at all
-							return false;
+		// replace all the s-element with their original versions
+		[].forEach.call(clone.querySelectorAll('[s-element]'), (elm) => {
+			// console.log('element', elm);
+			const elementId = elm.getAttribute('s-element');
+			const originalElement = sElementsManager.getOriginalElement(elementId);
+			if (originalElement) {
+				elm = morphdom(elm, originalElement, {
+					onBeforeElUpdated : (fromNode, toNode) => {
+						if (fromNode.hasAttribute('s-template-keep')) {
+							STemplate.keepAttribute(toNode, fromNode.getAttribute('s-template-keep'));
 						}
-					});
-				}
-			});
-			this.templateString = clone.outerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
-			this.dom = this.template;
-		}
+						if (fromNode.hasAttribute('s-template-ignore')) {
+							STemplate.ignoreAttribute(toNode, fromNode.getAttribute('s-template-ignore'));
+						}
+						if (fromNode.hasAttribute('s-template-ignore-class')) {
+							STemplate.ignoreClass(toNode, fromNode.getAttribute('s-template-ignore-class'));
+						}
+						['s-template-exclude',
+						 's-template-refresh',
+						 's-template-do-not-update',
+						 's-template-do-not-discard',
+						 's-template-do-not-children-update']
+						.forEach((attr) => {
+							if (fromNode.hasAttribute(attr)
+						 		&& ! toNode.hasAttribute(attr)
+							) {
+								toNode.setAttribute(attr, fromNode.getAttribute(attr));
+							}
+						});
+						return true;
+					},
+					onBeforeElChildrenUpdated : (node) => {
+						// do not update children at all
+						return false;
+					}
+				});
+			}
+		});
+		this.templateString = clone.outerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
+		this.dom = this.template;
 
 		// save the template instance into the dom
 		this.dom._sTemplate = this;
@@ -495,6 +585,8 @@ export default class STemplate {
 
 				// handle integration attributes
 				['s-template-keep',
+				 's-template-ignore',
+				 's-template-ignore-class',
 				 's-template-exclude',
 				 's-template-refresh',
 				 's-template-do-not-update',
@@ -517,6 +609,20 @@ export default class STemplate {
 						if (fromNode.hasAttribute(key)
 							&& ! toNode.hasAttribute(key)) {
 							toNode.setAttribute(key, fromNode.getAttribute(key));
+						}
+					});
+				}
+
+				// handle the s-template-ignore attribute
+				if (fromNode.hasAttribute('s-template-ignore-class')) {
+					let ignore = fromNode.getAttribute('s-template-ignore-class');
+					ignore = ignore.replace(/\s/g,'').split(',');
+					// loop on each attribute to ignore
+					ignore.forEach((key) => {
+						if (fromNode.classList.contains(key)) {
+							toNode.classList.add(key);
+						} else {
+							toNode.classList.remove(key);
 						}
 					});
 				}
@@ -555,10 +661,6 @@ export default class STemplate {
 
 				// check if the node match one of the element selector
 				// to not discard
-				if (node.classList.contains('s-range') && node.hasAttribute('s-template-exclude')) {
-					console.log(node.cloneNode());
-				}
-				return false;
 				if (node.hasAttribute('s-template-do-not-discard')
 					|| node.hasAttribute('s-template-exclude')
 				) return false;
@@ -600,6 +702,12 @@ export default class STemplate {
 		this.refs.elm = this.dom;
 		// search for name and id's
 		[].forEach.call(this.dom.querySelectorAll('[id],[name]'), (elm) => {
+			// if the model is into another template,
+			// this is not our business
+			const closestTemplate = __closest(elm, '[s-template-id]');
+			if (closestTemplate && closestTemplate.getAttribute('s-template-id') !== this.templateId) {
+				return;
+			}
 			// get the id or name
 			const id = elm.id || elm.getAttribute('name');
 			// save the reference
@@ -623,19 +731,23 @@ export default class STemplate {
 				// if already integrated
 				// do not launch the integration function
 				if (component._sTemplateIntegrated !== true) {
-					const constructorName = __constructorName(component);
-					const integrationFn = STemplate._componentsIntegrationFnStack[constructorName];
-					if (integrationFn) {
-						integrationFn(component);
-						component._sTemplateIntegrated = true;
-					}
+					// const constructorName = __constructorName(component);
+					// const integrationFn = STemplate._componentsIntegrationFnStack[constructorName];
+					// if (integrationFn) {
+					// 	integrationFn(component);
+					// 	component._sTemplateIntegrated = true;
+					// }
 					// loop on each prototypes to go up inheritence tree
 					let proto = Object.getPrototypeOf(component);
 					while(proto) {
 						const constructorName = __constructorName(proto);
-						const integrationFn = STemplate._componentsIntegrationFnStack[constructorName];
-						if (integrationFn) {
-							integrationFn(component);
+						if ( ! component._sTemplateIntegrated) component._sTemplateIntegrated = {};
+						if ( ! component._sTemplateIntegrated[constructorName]) {
+							component._sTemplateIntegrated[constructorName] = true;
+							const integrationFn = STemplate._componentsIntegrationFnStack[constructorName];
+							if (integrationFn) {
+								integrationFn(component);
+							}
 						}
 						proto = Object.getPrototypeOf(proto);
 					}
@@ -675,6 +787,14 @@ export default class STemplate {
 	_listenDataChangesInDom() {
 		// find elements that have a data binded into it
 		[].forEach.call(this.dom.querySelectorAll('[s-template-model]'), (elm) => {
+
+			// if the model is into another template,
+			// this is not our business
+			const closestTemplate = __closest(elm, '[s-template-id]');
+			if (closestTemplate && closestTemplate.getAttribute('s-template-id') !== this.templateId) {
+				return;
+			}
+
 			// check if already binded
 			const model = elm.getAttribute('s-template-model');
 
@@ -786,7 +906,7 @@ export default class STemplate {
 	 */
 	destroy() {
 		// remove the template data into window
-		delete window.sugar._sTemplateData[thi.templateId];
+		delete window.sugar._sTemplateData[this.templateId];
 		// destroy watcher
 		this._watcher.destroy();
 		// delete reference to parentTemplate
