@@ -228,6 +228,8 @@ class SOneTimeDisplayComponent extends SComponent {
 	}
 }
 
+// @TODO : STemplate integration
+
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }
 window.sugar.SOneTimeDisplayComponent = SOneTimeDisplayComponent;

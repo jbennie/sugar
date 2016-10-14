@@ -220,6 +220,8 @@ class SGoogleMapComponent extends SGoogleComponent {
 	}
 }
 
+// @TODO : STemplate integration
+
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }
 window.sugar.SGoogleMapComponent = SGoogleMapComponent;

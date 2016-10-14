@@ -797,7 +797,9 @@ class SComponent extends SElement {
 
 // STemplate integration
 STemplate.registerComponentIntegration('SComponent', (component) => {
-	STemplate.keepAttribute(component.elm, 's-component');
+	STemplate.ignore(component.elm, {
+		"s-component" : true
+	});
 });
 
 // expose in window.sugar

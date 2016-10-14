@@ -170,16 +170,6 @@ class SActivateComponent extends SComponent {
 		// we wait to be sure all the elements on the pages have
 		// been inited
 		setTimeout(() => {
-			// check with anchor if need to activate the element
-			if (this.settings.anchor) {
-				let hash = document.location.hash;
-				if (hash) {
-					if (hash.substr(1) === this.settings.id) {
-						this._activate();
-						return;
-					}
-				}
-			}
 			// manage the active class
 			if (this.elm.classList.contains(this.settings.activeClass)) {
 				// activate the targets
@@ -187,6 +177,15 @@ class SActivateComponent extends SComponent {
 				[].forEach.call(this.targets, (target) => {
 					target.classList.add(this.settings.activeTargetClass || this.settings.activeClass);
 				});
+			}
+			// check with anchor if need to activate the element
+			if (this.settings.anchor) {
+				let hash = document.location.hash;
+				if (hash) {
+					if (hash.substr(1) === this.settings.id) {
+						this._activate();
+					}
+				}
 			}
 		});
 	}
@@ -479,12 +478,17 @@ class SActivateComponent extends SComponent {
 
 // STemplate integration
 STemplate.registerComponentIntegration('SActivateComponent', (component) => {
-	STemplate.ignoreClass(component.elm, component.settings.activeClass);
-	STemplate.keepAttribute(component.elm, 'class');
-	STemplate.keepAttribute(component.elm, `${component.componentNameDash}-group`);
+	STemplate.ignore(component.elm, {
+		class : component.settings.activeClass,
+		[`${component.componentNameDash}-group`] : true
+	});
+
 	component.targets.forEach((target) => {
-		STemplate.ignoreClass(target, component.settings.activeTargetClass || component.settings.activeClass);
-		STemplate.keepAttribute(target, 'id,class');
+		STemplate.ignore(target, {
+			class : component.settings.activeTargetClass || component.settings.activeClass,
+			[`${component.componentNameDash}-target`] : true,
+			id : true
+		});
 	});
 });
 

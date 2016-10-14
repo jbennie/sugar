@@ -191,11 +191,15 @@ class SLabelPushComponent extends SComponent {
 }
 
 STemplate.registerComponentIntegration('SLabelPushComponent', (component) => {
-	STemplate.keepAttribute(component._input, 'style')
-			 .keepAttribute(component._label, 'style')
-			 .keepAttribute(component.elm, 'style')
-			 .keepAttribute(component._label, 'class')
-			 .keepAttribute(component.elm, 'class');
+	STemplate.ignore(component._input, {
+		style : true
+	}).ignore(component._label, {
+		style : true,
+		class : true
+	}).ignore(component.elm, {
+		style : true,
+		class : true
+	});
 });
 
 // expose in window.sugar

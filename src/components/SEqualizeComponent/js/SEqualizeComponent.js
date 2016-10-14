@@ -9,6 +9,7 @@
 import SComponent from '../../../js/core/SComponent'
 import querySelectorLive from '../../../js/dom/querySelectorLive'
 import imageLoaded from '../../../js/dom/imageLoaded';
+import STemplate from '../../../js/core/STemplate';
 
 class SEqualizeComponent extends SComponent {
 
@@ -66,7 +67,7 @@ class SEqualizeComponent extends SComponent {
 		SEqualizeComponent.columns[this.settings.group].columns = document.querySelectorAll(`[${this.componentNameDash}="${this.settings.group}"]`);
 
 		// try to get an equalizer element inside the column
-		this.equalizerElm = this.elm.querySelector('[s-equalizer],[data-s-equalizer]');
+		this.equalizerElm = this.elm.querySelector(`[s-equalizer],[data-s-equalizer],[${this.componentNameDash}-equalizer]`);
 
 		// listen for all images in the column
 		// querySelectorLive('img', {
@@ -180,6 +181,18 @@ class SEqualizeComponent extends SComponent {
 
 	}
 }
+
+// STemplate integration
+STemplate.registerComponentIntegration('SEqualizeComponent', (component) => {
+	STemplate.ignore(component.elm, {
+		style : true,
+	});
+	if (component.equalizerElm) {
+		STemplate.ignore(component.equalizerElm, {
+			style : true
+		});
+	}
+});
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }

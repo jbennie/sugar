@@ -12,6 +12,8 @@ import SComponent from '../../../js/core/SComponent'
 import __throttle from '../../../js/utils/functions/throttle'
 import noUiSlider from 'nouislider';
 import STemplate from '../../../js/core/STemplate'
+import __dispatchEvent from '../../../js/dom/dispatchEvent'
+import __insertAfter from '../../../js/dom/insertAfter'
 
 // class
 class SRangeComponent extends SComponent {
@@ -186,7 +188,6 @@ class SRangeComponent extends SComponent {
 			// set the new values to the slider
 			// but this, only if the slider is not
 			// busy, mean that the user is using it
-			console.warn('new value', newVal, oldVal);
 			if ( ! this._busy) {
 				this.slider.set(newVal.toString().split(','));
 			}
@@ -230,7 +231,7 @@ class SRangeComponent extends SComponent {
 		this.container.classList.add('clear-transmations'); // do not animate anything at initialisation
 
 		// append the slider into the dom
-		this.elm.parentNode.insertBefore(this.container, this.elm);
+		__insertAfter(this.container, this.elm);
 
 		// remove the no-transmations class to let animations do their job
 		setTimeout(() => {
@@ -296,6 +297,9 @@ class SRangeComponent extends SComponent {
 				return this._formater(val, 'input', this);
 			}).join(',');
 		}
+		// trigger a change event
+		__dispatchEvent(this.elm, 'keyup');
+		__dispatchEvent(this.elm, 'keydown');
 	}
 
 	/**
@@ -371,8 +375,10 @@ class SRangeComponent extends SComponent {
 
 // STemplate integration
 STemplate.registerComponentIntegration('SRangeComponent', (component) => {
-	STemplate.keepAttribute(component.elm, 'style')
-			 .exclude(component.container);
+	STemplate.ignore(component.container)
+			 .ignore(component.elm, {
+				style : true
+			 });
 });
 
 // expose in window.sugar

@@ -119,7 +119,9 @@ class SReadMoreComponent extends SActivateComponent {
 // STemplate integration
 STemplate.registerComponentIntegration('SReadMoreComponent', (component) => {
 	[].forEach.call(component.targets, (target) => {
-		STemplate.keepAttribute(target, 'style');
+		STemplate.ignore(target, {
+			style : true
+		});
 	});
 });
 

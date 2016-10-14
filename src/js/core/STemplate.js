@@ -65,6 +65,83 @@ export default class STemplate {
 		STemplate._componentsIntegrationFnStack[componentClassName] = fn;
 	}
 
+	static getIntegrationFrom = function(elm) {
+		let integration = __autoCast(elm.getAttribute('s-template-integration'));
+		if ( ! integration) {
+			integration = {
+				ignore : {},
+				// keep : {},
+				refresh : false
+			};
+		}
+		return integration;
+	}
+
+	static setIntegrationTo = function(elm, integration) {
+		elm.setAttribute('s-template-integration', JSON.stringify(integration));
+		return STemplate;
+	}
+
+	static ignore = function(elm, what = null) {
+		// get integration settings
+		let integration = STemplate.getIntegrationFrom(elm);
+
+		// autocast what
+		if (what) what = __autoCast(what);
+
+		// we ignore the tag itself
+		if (integration.ignore === true) {
+			return STemplate;
+		}
+
+		// if has no what parameter
+		// mean that we want to ignore the tag itself
+		if (! what || what === true) {
+			integration.ignore = true;
+			return STemplate.setIntegrationTo(elm, integration);
+		}
+		// if we don't have any ignore for now
+		// set the new object
+		if (what && typeof(what) === 'object') {
+			if (integration.ignore && typeof(integration.ignore) === 'object') {
+				what = Object.assign(integration.ignore, what);
+			}
+			return STemplate.setIntegrationTo(elm, integration);
+		}
+		// return the STemplate class
+		return STemplate;
+	}
+
+	// static keep = function(elm, what = null) {
+	// 	// get integration settings
+	// 	let integration = STemplate.getIntegrationFrom(elm);
+	//
+	// 	// autocast what
+	// 	if (what) what = __autoCast(what);
+	//
+	// 	// we keep the tag itself
+	// 	if (integration.keep === true) {
+	// 		return STemplate;
+	// 	}
+	//
+	// 	// if has no what parameter
+	// 	// mean that we want to keep the tag itself
+	// 	if (! what || what === true) {
+	// 		integration.keep = true;
+	// 		return STemplate.setIntegrationTo(elm, integration);
+	// 	}
+	// 	// if we don't have any keep for now
+	// 	// set the new object
+	// 	if (what && typeof(what) === 'object') {
+	// 		if (integration.keep && typeof(integration.keep) === 'object') {
+	// 			what = Object.assign(integration.keep, what);
+	// 		}
+	// 		return STemplate.setIntegrationTo(elm, integration);
+	// 	}
+	// 	// return the STemplate class
+	// 	return STemplate;
+	// }
+
 	/**
 	 * Set an attribute to keep
 	 * @param 	{HTMLElement} 	elm 	The element on which to keep an attribute
@@ -102,16 +179,16 @@ export default class STemplate {
 		//
 		// });
 
-		const keep = elm.getAttribute('s-template-keep');
-		if (keep) {
-			const keeps = keep.split(',');
-			if (keeps.indexOf(attr) === -1) {
-				keeps.push(attr);
-			}
-			elm.setAttribute('s-template-keep', keeps.join(','));
-		} else {
-			elm.setAttribute('s-template-keep', attr);
-		}
+		// const keep = elm.getAttribute('s-template-keep');
+		// if (keep) {
+		// 	const keeps = keep.split(',');
+		// 	if (keeps.indexOf(attr) === -1) {
+		// 		keeps.push(attr);
+		// 	}
+		// 	elm.setAttribute('s-template-keep', keeps.join(','));
+		// } else {
+		// 	elm.setAttribute('s-template-keep', attr);
+		// }
 
 		return STemplate;
 	}
@@ -122,12 +199,12 @@ export default class STemplate {
 	 * @param 	{String} 		attr 	The attribute name to keep
 	 */
 	static ignoreAttribute = function(elm, attr) {
-		const ignore = elm.getAttribute('s-template-ignore') || [];
-		const ignores = ignore.split(',');
-		if (ignores.indexOf(attr) === -1) {
-			ignores.push(attr);
-		}
-		elm.setAttribute('s-template-ignore', ignores.join(','));
+		// const ignore = elm.getAttribute('s-template-ignore') || [];
+		// const ignores = ignore.split(',');
+		// if (ignores.indexOf(attr) === -1) {
+		// 	ignores.push(attr);
+		// }
+		// elm.setAttribute('s-template-ignore', ignores.join(','));
 		return STemplate;
 	}
 
@@ -137,16 +214,16 @@ export default class STemplate {
 	 * @param 	{String} 		attr 	The attribute name to keep
 	 */
 	static ignoreClass = function(elm, cls) {
-		const ignore = elm.getAttribute('s-template-ignore-class');
-		if (ignore) {
-			const ignores = ignore.split(',');
-			if (ignores.indexOf(cls) === -1) {
-				ignores.push(cls);
-			}
-			elm.setAttribute('s-template-ignore-class', ignores.join(','));
-		} else {
-			elm.setAttribute('s-template-ignore-class', cls);
-		}
+		// const ignore = elm.getAttribute('s-template-ignore-class');
+		// if (ignore) {
+		// 	const ignores = ignore.split(',');
+		// 	if (ignores.indexOf(cls) === -1) {
+		// 		ignores.push(cls);
+		// 	}
+		// 	elm.setAttribute('s-template-ignore-class', ignores.join(','));
+		// } else {
+		// 	elm.setAttribute('s-template-ignore-class', cls);
+		// }
 		return STemplate;
 	}
 
@@ -155,7 +232,7 @@ export default class STemplate {
 	 * @param 	{HTMLElement} 	elm 	The element to not discard
 	 */
 	static doNotDiscard(elm) {
-		elm.setAttribute('s-template-do-not-discard',true);
+		// elm.setAttribute('s-template-do-not-discard',true);
 		return STemplate;
 	}
 
@@ -164,7 +241,7 @@ export default class STemplate {
 	 * @param 	{HTMLElement} 	elm 	The element to exclude
 	 */
 	static exclude(elm) {
-		elm.setAttribute('s-template-exclude',true);
+		// elm.setAttribute('s-template-exclude',true);
 		return STemplate;
 	}
 
@@ -173,8 +250,9 @@ export default class STemplate {
 	 * @param 	{HTMLElement} 	elm 	The element to refresh
 	 */
 	static refresh(elm) {
-		elm.setAttribute('s-template-refresh',true);
-		return STemplate;
+		let integration = STemplate.getIntegrationFrom(elm);
+		integration.refresh = true;
+		return STemplate.setIntegrationTo(elm, integration);
 	}
 
 	/**
@@ -307,7 +385,6 @@ export default class STemplate {
 			// this.templateString = this.template;
 			// this.dom = document.createElement('div');
 		}
-
 		// set a template id to the element
 		this.template.setAttribute('s-template-id', this.templateId);
 
@@ -325,8 +402,8 @@ export default class STemplate {
 
 		// make a clone of the template that will be the trusted base
 		// to render
-		const clone = this.template.cloneNode(true);
-		// const clone = __strToHtml(this.template.outerHTML);
+		// const clone = this.template.cloneNode(true);
+		const clone = __strToHtml(this.template.outerHTML);
 
 		// clone the template to remove all the templates contents
 		// cause each template has to care only about his scope and not
@@ -335,17 +412,17 @@ export default class STemplate {
 			nestedTemplate.innerHTML = '';
 		});
 		// remove all the element that has not to be touched
-		[].forEach.call(clone.querySelectorAll('[s-template-exclude]'), (elm) => {
+		[].forEach.call(clone.querySelectorAll(`[s-template-integration*='"ignore":true']`), (elm) => {
 			elm.parentNode.removeChild(elm);
 		});
 		// handle the s-template-ignore attribute
-		[].forEach.call(clone.querySelectorAll('[s-template-ignore]'), (elm) => {
-			let ignore = elm.getAttribute('s-template-ignore');
-			ignore = ignore.replace(/\s/g,'').split(',');
-			// loop on each attribute to ignore
-			ignore.forEach((key) => {
+		[].forEach.call(clone.querySelectorAll(`[s-template-integration*='"ignore":{']`), (elm) => {
+			const integration = STemplate.getIntegrationFrom(elm);
+			for(let key in integration.ignore) {
+				const value = integration.ignore[key];
+				if (key === 'class' && value !== true) continue;
 				elm.removeAttribute(key);
-			});
+			}
 		});
 
 		// replace all the s-element with their original versions
@@ -356,20 +433,7 @@ export default class STemplate {
 			if (originalElement) {
 				elm = morphdom(elm, originalElement, {
 					onBeforeElUpdated : (fromNode, toNode) => {
-						if (fromNode.hasAttribute('s-template-keep')) {
-							STemplate.keepAttribute(toNode, fromNode.getAttribute('s-template-keep'));
-						}
-						if (fromNode.hasAttribute('s-template-ignore')) {
-							STemplate.ignoreAttribute(toNode, fromNode.getAttribute('s-template-ignore'));
-						}
-						if (fromNode.hasAttribute('s-template-ignore-class')) {
-							STemplate.ignoreClass(toNode, fromNode.getAttribute('s-template-ignore-class'));
-						}
-						['s-template-exclude',
-						 's-template-refresh',
-						 's-template-do-not-update',
-						 's-template-do-not-discard',
-						 's-template-do-not-children-update']
+						['s-template-integration']
 						.forEach((attr) => {
 							if (fromNode.hasAttribute(attr)
 						 		&& ! toNode.hasAttribute(attr)
@@ -386,8 +450,10 @@ export default class STemplate {
 				});
 			}
 		});
-		this.templateString = clone.outerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
+		this.templateString = clone.outerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(/\=""/g,'');
 		this.dom = this.template;
+
+		console.log(this.templateString);
 
 		// save the template instance into the dom
 		this.dom._sTemplate = this;
@@ -535,7 +601,7 @@ export default class STemplate {
 		compiled = this._processOutput(compiled);
 
 		// remove all the elements that need to be fully refreshed
-		[].forEach.call(this.dom.querySelectorAll('[s-template-refresh]'), (elm) => {
+		[].forEach.call(this.dom.querySelectorAll(`[s-template-integration*='"refresh":true"']`), (elm) => {
 			// console.log('refresh', elm)
 			elm.parentNode.removeChild(elm);
 		});
@@ -552,10 +618,12 @@ export default class STemplate {
 					return true;
 				}
 
+				// get the integration settings
+				const integration = STemplate.getIntegrationFrom(fromNode);
+
 				// check the s-template-no-children-update attribute
-				if (fromNode.hasAttribute('s-template-do-not-children-update')
-					|| fromNode.hasAttribute('s-template-exclude')
-				) return false;
+				// check if we need to ignore the element itself
+				if (integration.ignore === true) return false;
 
 				// if the node if a template or a template component
 				// we do not want to update his children
@@ -584,14 +652,7 @@ export default class STemplate {
 				this._applyIntegrationOnNode(fromNode);
 
 				// handle integration attributes
-				['s-template-keep',
-				 's-template-ignore',
-				 's-template-ignore-class',
-				 's-template-exclude',
-				 's-template-refresh',
-				 's-template-do-not-update',
-				 's-template-do-not-discard',
-				 's-template-do-not-children-update']
+				['s-template-integration']
 				.forEach((attr) => {
 					if (fromNode.hasAttribute(attr)
 				 		&& ! toNode.hasAttribute(attr)
@@ -600,31 +661,64 @@ export default class STemplate {
 					}
 				});
 
-				// handle the sTemplateKeepAttr attribute
-				if (fromNode.hasAttribute('s-template-keep')) {
-					let keep = fromNode.getAttribute('s-template-keep');
-					keep = keep.replace(/\s/g,'').split(',');
-					// loop on each attribute to keep
-					keep.forEach((key) => {
-						if (fromNode.hasAttribute(key)
-							&& ! toNode.hasAttribute(key)) {
-							toNode.setAttribute(key, fromNode.getAttribute(key));
-						}
-					});
-				}
+				// get the integration from the node
+				const integration = STemplate.getIntegrationFrom(fromNode);
 
-				// handle the s-template-ignore attribute
-				if (fromNode.hasAttribute('s-template-ignore-class')) {
-					let ignore = fromNode.getAttribute('s-template-ignore-class');
-					ignore = ignore.replace(/\s/g,'').split(',');
-					// loop on each attribute to ignore
-					ignore.forEach((key) => {
-						if (fromNode.classList.contains(key)) {
-							toNode.classList.add(key);
+				// console.log('update?', fromNode, integration);
+
+				// handle the keep integration
+				// if (typeof(integration.keep) === 'object') {
+				// 	for(let key in integration.keep) {
+				// 		let value = integration.keep[key];
+				// 		// if is class, handle multiple class to keep
+				// 		if (key === 'class') {
+				// 			if (typeof(value) === 'string') {
+				// 				value = value.split(',').map((v) => return v.trim());
+				// 			}
+				// 			// loop on each classes to keep
+				// 			value.forEach((cls) => {
+				// 				if (fromNode.classList.contains(cls)) {
+				// 					toNode.classList.add(cls);
+				// 				} else {
+				// 					toNode.classList.remove(cls);
+				// 				}
+				// 			});
+				// 		}
+				// 		// this is an attribute to keep
+				// 		if (fromNode.hasAttribute(key)
+				// 			&& ! toNode.hasAttribute(key)
+				// 		) {
+				// 			toNode.setAttribute(key, fromNode.getAttribute(key));
+				// 		}
+				// 	}
+				// }
+
+				// handle the ingnore integration
+				if (typeof(integration.ignore) === 'object') {
+					for(let key in integration.ignore) {
+						let value = integration.ignore[key];
+						// if is class, handle multiple class to ignore
+						if (key === 'class' && value !== true) {
+							if (typeof(value) === 'string') {
+								value = value.split(',').map((v) => { return v.trim(); });
+							}
+							// loop on each classes to ignore
+							value.forEach((cls) => {
+								if (fromNode.classList.contains(cls)) {
+									toNode.classList.add(cls);
+								} else {
+									toNode.classList.remove(cls);
+								}
+							});
 						} else {
-							toNode.classList.remove(key);
+							// this is an attribute to ignore
+							if (fromNode.hasAttribute(key)
+								&& ! toNode.hasAttribute(key)
+							) {
+								toNode.setAttribute(key, fromNode.getAttribute(key));
+							}
 						}
-					});
+					}
 				}
 
 				// update if is the template itself
@@ -632,10 +726,8 @@ export default class STemplate {
 					return true;
 				}
 
-				// check the s-template-no-update attribute
-				if (fromNode.hasAttribute('s-template-do-not-update')
-					|| fromNode.hasAttribute('s-template-exclude')
-				) return false;
+				// if we need to ignore this node completly
+				if (integration.ignore === true) return false;
 
 				// check if an onBeforeElUpdated is present in the settings
 				if (this.settings.onBeforeElUpdated) {
@@ -659,11 +751,13 @@ export default class STemplate {
 				// such has comments, text, etc...
 				if ( ! node.hasAttribute) return true;
 
+				// get the integration
+				const integration = STemplate.getIntegrationFrom(node);
+
 				// check if the node match one of the element selector
 				// to not discard
-				if (node.hasAttribute('s-template-do-not-discard')
-					|| node.hasAttribute('s-template-exclude')
-				) return false;
+				// if we need to ignore this node completly
+				if (integration.ignore === true) return false;
 
 				// check if an onBeforeElUpdated is present in the settings
 				if (this.settings.onBeforeElDiscarded) {

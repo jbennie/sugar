@@ -177,7 +177,7 @@ class SElement extends SObject {
 			onAddedTimeout = setTimeout(() => {
 
 				// check if the element is into a template
-				this._isInTemplate = __matches(this.elm, `[s-template-id] [s-element="${this.elementId}"],[s-template-component] [s-element="${this.elementId}"]`);
+				// this._isInTemplate = __matches(this.elm, `[s-template-id] [s-element="${this.elementId}"],[s-template-component] [s-element="${this.elementId}"]`);
 
 				// call either the onAdded or onAttached method
 				// depending on the added state
@@ -252,11 +252,11 @@ class SElement extends SObject {
 		this._elementAttached = true;
 		// track added status
 		this._elementAdded = true;
-		// render the component
-		if ( ! this.componentName
-			&& ! this._isInTemplate) {
-			this.render();
-		}
+		// // render the component
+		// if ( ! this.componentName
+		// 	&& ! this._isInTemplate) {
+		// 	this.render();
+		// }
 	}
 
 	/**
@@ -268,11 +268,11 @@ class SElement extends SObject {
 	_onAttached() {
 		// track the attached status
 		this._elementAttached = true;
-		// render the component
-		if ( ! this.componentName
-			&& ! this._isInTemplate) {
-			this.render();
-		}
+		// // render the component
+		// if ( ! this.componentName
+		// 	&& ! this._isInTemplate) {
+		// 	this.render();
+		// }
 	}
 
 	/**
@@ -407,7 +407,9 @@ class SElement extends SObject {
 
 // STemplate integration
 STemplate.registerComponentIntegration('SElement', (component) => {
-	STemplate.keepAttribute(component.elm, 's-element');
+	STemplate.ignore(component.elm, {
+		"s-element" : true
+	});
 });
 
 // expose in window.sugar

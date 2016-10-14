@@ -293,6 +293,8 @@ class SGoogleStreetViewComponent extends SGoogleComponent {
 
 }
 
+// @TODO : STemplate integration
+
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }
 window.sugar.SGoogleStreetViewComponent = SGoogleStreetViewComponent;

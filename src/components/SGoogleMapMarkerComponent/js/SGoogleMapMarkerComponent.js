@@ -96,6 +96,8 @@ class SGoogleMapMarkerComponent extends SGoogleComponent {
 	}
 }
 
+// @TODO : STemplate integration
+
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }
 window.sugar.SGoogleMapMarkerComponent = SGoogleMapMarkerComponent;

@@ -886,8 +886,9 @@ class SSelectComponent extends SComponent {
 
 // STemplate integration
 STemplate.registerComponentIntegration('SSelectComponent', (component) => {
-	STemplate.keepAttribute(component.elm, 'style')
-			 .exclude(component.container);
+	STemplate.ignore(component.elm, {
+		style : true
+	}).ignore(component.container);
 });
 
 // expose in window.sugar

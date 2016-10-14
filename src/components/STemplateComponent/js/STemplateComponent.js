@@ -338,7 +338,10 @@ class STemplateComponent extends SComponent {
 
 // STemplate integration
 STemplate.registerComponentIntegration('STemplateComponent', (component) => {
-	STemplate.keepAttribute(component.elm, 's-template-component,s-template-component-dirty');
+	STemplate.ignore(component.elm, {
+		"s-template-component" : true,
+		"s-template-component-dirty" : true
+	});
 });
 
 // expose in window.sugar

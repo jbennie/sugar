@@ -121,34 +121,6 @@ class SValidateComponent extends SComponent {
 			 */
 			apply : {},
 
-			/**
-			 * dirtyClass
-			 * The class applied on the element itself when it has been touch like a virgin
-			 */
-			dirtyClass : 'is-dirty',
-
-			/**
-			 * validClass
-			 * The class applied on the element itself when it is valid
-			 * @type 	{String}
-			 */
-			validClass : 'is-valid',
-
-			/**
-			 * invalidClass
-			 * The class applied on the element itself when it is invalid
-			 * @type 	{String}
-			 */
-			invalidClass : 'is-invalid',
-
-			/**
-			 * requiredClass
-			 * The class applied on the element itself when it is required
-			 * This is applied AFTER the validation
-			 * @type 	{String}
-			 */
-			requiredClass : 'is-required',
-
 			...settings
 
 		}, name);
@@ -474,9 +446,18 @@ SValidateComponent.registerValidator('url', {
 
 // STemplate integration
 STemplate.registerComponentIntegration('SValidateComponent', (component) => {
-	STemplate.keepAttribute(component.elm, 'class');
+	STemplate.ignore(component.elm, {
+		class : [
+			component.componentClassName(null, null, 'valid'),
+			component.componentClassName(null, null, 'dirty'),
+			component.componentClassName(null, null, 'invalid'),
+			component.componentClassName(null, null, 'required')
+		]
+	});
 	if (component._formElm) {
-		STemplate.keepAttribute(component._formElm, 'novalidate');
+		STemplate.ignore(component._formElm, {
+			novalidate : true
+		});
 	}
 });
 
