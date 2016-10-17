@@ -1,5 +1,5 @@
 import SComponent from '../../../js/core/SComponent'
-import STemplate from '../../../js/core/STemplate'
+import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
 import Trianglify from 'trianglify'
 require('javascript-detect-element-resize')
 
@@ -164,8 +164,8 @@ class STrianglifyComponent extends SComponent {
 
 
 // STemplate integration
-STemplate.registerComponentIntegration('STrianglifyComponent', (component) => {
-	STemplate.ignore(component.elm, {
+sTemplateIntegrator.registerComponentIntegration('STrianglifyComponent', (component) => {
+	sTemplateIntegrator.ignore(component.elm, {
 		style : true
 	});
 });

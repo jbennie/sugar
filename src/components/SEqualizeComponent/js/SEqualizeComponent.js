@@ -9,7 +9,7 @@
 import SComponent from '../../../js/core/SComponent'
 import querySelectorLive from '../../../js/dom/querySelectorLive'
 import imageLoaded from '../../../js/dom/imageLoaded';
-import STemplate from '../../../js/core/STemplate';
+import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator';
 
 class SEqualizeComponent extends SComponent {
 
@@ -183,12 +183,12 @@ class SEqualizeComponent extends SComponent {
 }
 
 // STemplate integration
-STemplate.registerComponentIntegration('SEqualizeComponent', (component) => {
-	STemplate.ignore(component.elm, {
+sTemplateIntegrator.registerComponentIntegration('SEqualizeComponent', (component) => {
+	sTemplateIntegrator.ignore(component.elm, {
 		style : true,
 	});
 	if (component.equalizerElm) {
-		STemplate.ignore(component.equalizerElm, {
+		sTemplateIntegrator.ignore(component.equalizerElm, {
 			style : true
 		});
 	}

@@ -16,25 +16,24 @@ import __whenAttribute from '../dom/whenAttribute'
 
 import __propertyProxy from '../utils/objects/propertyProxy'
 
-import sTemplateIntegrator from './sTemplateIntegrator'
 import sElementsManager from './sElementsManager';
 
 if (! window.sugar) window.sugar = {};
 window.sugar._sTemplateData = {};
 
 // set SElement init dependencies
-// SElement.registerInitDependency((element) => {
-// 	return new Promise((resolve, reject) => {
-// 		const closestTemplate = __closest(element.elm, '[s-temp]');
-// 		if (closestTemplate) {
-// 			__whenAttribute(closestTemplate, 's-template-dirty').then((elm) => {
-// 				resolve();
-// 			});
-// 		} else {
-// 			resolve();
-// 		}
-// 	});
-// });
+SElement.registerInitDependency((element) => {
+	return new Promise((resolve, reject) => {
+		const closestTemplate = __closest(element.elm, '[s-temp]');
+		if (closestTemplate) {
+			__whenAttribute(closestTemplate, 's-template-dirty').then((elm) => {
+				resolve();
+			});
+		} else {
+			resolve();
+		}
+	});
+});
 
 /**
  * @class 		STemplate 		{SOject}
@@ -68,6 +67,211 @@ window.sugar._sTemplateData = {};
 export default class STemplate {
 
 	/**
+	 * Store all the component integration functions registered
+	 * @private
+	 * @type 	{Object}
+	 */
+	static _componentsIntegrationFnStack = {};
+
+	/**
+	 * Register a component integration function
+	 * @param 	{Function} 		integrationFn 		The function used to set the integration attributes, etc into the component elements
+	 */
+	static registerComponentIntegration = function(componentClassName, fn) {
+		STemplate._componentsIntegrationFnStack[componentClassName] = fn;
+	}
+
+	static getIntegrationFrom = function(elm) {
+		let integration = __autoCast(elm.getAttribute('s-template-integration'));
+		if ( ! integration) {
+			integration = {
+				ignore : {},
+				// keep : {},
+				refresh : false
+			};
+		}
+		return integration;
+	}
+
+	static setIntegrationTo = function(elm, integration) {
+		elm.setAttribute('s-template-integration', JSON.stringify(integration));
+		return STemplate;
+	}
+
+	static ignore = function(elm, what = null) {
+		// get integration settings
+		let integration = STemplate.getIntegrationFrom(elm);
+
+		// autocast what
+		if (what) what = __autoCast(what);
+
+		// we ignore the tag itself
+		if (integration.ignore === true) {
+			return STemplate;
+		}
+
+		// if has no what parameter
+		// mean that we want to ignore the tag itself
+		if (! what || what === true) {
+			integration.ignore = true;
+			return STemplate.setIntegrationTo(elm, integration);
+		}
+		// if we don't have any ignore for now
+		// set the new object
+		if (what && typeof(what) === 'object') {
+			if (integration.ignore && typeof(integration.ignore) === 'object') {
+				what = Object.assign(integration.ignore, what);
+			}
+			return STemplate.setIntegrationTo(elm, integration);
+		}
+		// return the STemplate class
+		return STemplate;
+	}
+
+	// static keep = function(elm, what = null) {
+	// 	// get integration settings
+	// 	let integration = STemplate.getIntegrationFrom(elm);
+	//
+	// 	// autocast what
+	// 	if (what) what = __autoCast(what);
+	//
+	// 	// we keep the tag itself
+	// 	if (integration.keep === true) {
+	// 		return STemplate;
+	// 	}
+	//
+	// 	// if has no what parameter
+	// 	// mean that we want to keep the tag itself
+	// 	if (! what || what === true) {
+	// 		integration.keep = true;
+	// 		return STemplate.setIntegrationTo(elm, integration);
+	// 	}
+	// 	// if we don't have any keep for now
+	// 	// set the new object
+	// 	if (what && typeof(what) === 'object') {
+	// 		if (integration.keep && typeof(integration.keep) === 'object') {
+	// 			what = Object.assign(integration.keep, what);
+	// 		}
+	// 		return STemplate.setIntegrationTo(elm, integration);
+	// 	}
+	// 	// return the STemplate class
+	// 	return STemplate;
+	// }
+
+	/**
+	 * Set an attribute to keep
+	 * @param 	{HTMLElement} 	elm 	The element on which to keep an attribute
+	 * @param 	{String} 		attr 	The attribute name to keep
+	 */
+	static keepAttribute = function(elm, attr) {
+		// if ( ! STemplate._keepQueue) STemplate._keepQueue = new Map();
+		// let map = STemplate._keepQueue.get(elm);
+		// if ( ! map) {
+		// 	map = [attr];
+		// } else {
+		// 	if (map.indexOf(attr) === -1) {
+		// 		map.push(attr);
+		// 	}
+		// }
+		// STemplate._keepQueue.set(elm, map);
+		//
+		// clearTimeout(STemplate._keepQueueTimeout);
+		// STemplate._keepQueueTimeout = setTimeout(() => {
+		//
+		// 	// loop on map
+		// 	STemplate._keepQueue.forEach((value, elm) => {
+		// 		// set the ignore attribute
+		// 		const keep = elm.getAttribute('s-template-keep') || '';
+		// 		const keeps = keep.split(',');
+		// 		value.forEach((attribute) => {
+		// 			if (keeps.indexOf(attribute) === -1) {
+		// 				keeps.push(attribute);
+		// 			}
+		// 		});
+		// 		console.log(keeps);
+		// 		elm.setAttribute('s-template-keep', keeps.join(','));
+		// 	});
+		//
+		//
+		// });
+
+		// const keep = elm.getAttribute('s-template-keep');
+		// if (keep) {
+		// 	const keeps = keep.split(',');
+		// 	if (keeps.indexOf(attr) === -1) {
+		// 		keeps.push(attr);
+		// 	}
+		// 	elm.setAttribute('s-template-keep', keeps.join(','));
+		// } else {
+		// 	elm.setAttribute('s-template-keep', attr);
+		// }
+
+		return STemplate;
+	}
+
+	/**
+	 * Set an attribute to ignore
+	 * @param 	{HTMLElement} 	elm 	The element on which to keep an attribute
+	 * @param 	{String} 		attr 	The attribute name to keep
+	 */
+	static ignoreAttribute = function(elm, attr) {
+		// const ignore = elm.getAttribute('s-template-ignore') || [];
+		// const ignores = ignore.split(',');
+		// if (ignores.indexOf(attr) === -1) {
+		// 	ignores.push(attr);
+		// }
+		// elm.setAttribute('s-template-ignore', ignores.join(','));
+		return STemplate;
+	}
+
+	/**
+	 * Set a class to ignore
+	 * @param 	{HTMLElement} 	elm 	The element on which to keep an attribute
+	 * @param 	{String} 		attr 	The attribute name to keep
+	 */
+	static ignoreClass = function(elm, cls) {
+		// const ignore = elm.getAttribute('s-template-ignore-class');
+		// if (ignore) {
+		// 	const ignores = ignore.split(',');
+		// 	if (ignores.indexOf(cls) === -1) {
+		// 		ignores.push(cls);
+		// 	}
+		// 	elm.setAttribute('s-template-ignore-class', ignores.join(','));
+		// } else {
+		// 	elm.setAttribute('s-template-ignore-class', cls);
+		// }
+		return STemplate;
+	}
+
+	/**
+	 * Set an element to not discard
+	 * @param 	{HTMLElement} 	elm 	The element to not discard
+	 */
+	static doNotDiscard(elm) {
+		// elm.setAttribute('s-template-do-not-discard',true);
+		return STemplate;
+	}
+
+	/**
+	 * Set an element to exclude completely from the STemplate engine
+	 * @param 	{HTMLElement} 	elm 	The element to exclude
+	 */
+	static exclude(elm) {
+		// elm.setAttribute('s-template-exclude',true);
+		return STemplate;
+	}
+
+	/**
+	 * Set an element to refresh completely when the STemplate handle it
+	 * @param 	{HTMLElement} 	elm 	The element to refresh
+	 */
+	static refresh(elm) {
+		let integration = STemplate.getIntegrationFrom(elm);
+		integration.refresh = true;
+		return STemplate.setIntegrationTo(elm, integration);
+	}
+
+	/**
 	 * Check if an element is handled by an STemplate instance
 	 * @param 		{HTMLElement} 	elm 	The element to check
 	 * @return 		{Boolean} 				True if the element is handled by a template, false otherwise
@@ -82,25 +286,6 @@ export default class STemplate {
 			if (component._isTemplateComponent) return true;
 		}
 		return false;
-	}
-
-	/**
-	 * Register a template selector
-	 */
-	static registerTemplateSelector = function(selector) {
-		// set SElement init dependencies
-		SElement.registerInitDependency((element) => {
-			return new Promise((resolve, reject) => {
-				const closestTemplate = __closest(element.elm, selector);
-				if (closestTemplate) {
-					__whenAttribute(closestTemplate, 's-template-dirty').then((elm) => {
-						resolve();
-					});
-				} else {
-					resolve();
-				}
-			});
-		});
 	}
 
 	/**
@@ -209,42 +394,24 @@ export default class STemplate {
 
 		// if template is a string
 		if (typeof(this.template) === 'string') {
-
-			// apply a node if to each nodes
-			this.template = this.template.replace(/<[a-zA-Z]+\s/g, (item) => {
-				return `${item} s-template-node-id="${__uniqid()}" `;
-			});
-
 			// set the s-template-id attribute in first template node
 			// this.template = this.template.replace('>',` s-template-id="${this.templateId}">`);
 			this.template = __strToHtml(this.template);
 
 			// this.templateString = this.template;
 			this.dom = document.createElement('div');
-
-			sTemplateIntegrator.ignore(this.dom, {
-				's-template-node-id' : true
-			});
-
 		} else {
-			// apply a node id to each nodes
-
-			[].forEach.call(this.template.querySelectorAll('*'), (elm) => {
-				if ( elm.hasAttribute && ! elm.hasAttribute('s-template-node-id')) {
-					elm.setAttribute('s-template-node-id', __uniqid());
-				}
-			});
-
 			this.dom = this.template;
 		}
 
-		// console.log(this.template.cloneNode());
-
-
-
 		// set a template id to the element
-		this.dom.setAttribute('s-template-node-id', __uniqid());
-		this.dom.setAttribute('s-template-id', this.templateId);
+		this.template.setAttribute('s-template-id', this.templateId);
+
+		[].forEach.call(this.template.querySelectorAll('*'), (elm) => {
+			if ( ! elm.hasAttribute('s-template-node-id')) {
+				elm.setAttribute('s-template-node-id', __uniqid());
+			}
+		});
 
 		// apply the integration in components
 		// this._applyIntegrationOnNode(this.template);
@@ -315,8 +482,6 @@ export default class STemplate {
 
 		// console.warn(clone.outerHTML);
 		this.templateString = clone.outerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(/\=""/g,'').replace(/&nbsp;/g," ").replace(/&quot;/g,"'");
-
-		console.log(this.templateString);
 
 		// apply a node id on each nodes
 		// this.templateString = this.templateString.replace(/<[a-zA-Z]+\s/g, (item) => {
@@ -572,6 +737,27 @@ export default class STemplate {
 				// such has comments, text, etc...
 				if ( ! fromNode.hasAttribute) return false;
 
+				// update if is the template itself
+				if (this.dom === fromNode) {
+					return true;
+				}
+
+				// get the integration settings
+				// const integration = STemplate.getIntegrationFrom(fromNode);
+
+				// check the s-template-no-children-update attribute
+				// check if we need to ignore the element itself
+				// if (integration.ignore === true) return false;
+
+				if ( ! toNode.hasAttribute('s-template-node-id')) return false;
+
+				// if the node if a template or a template component
+				// we do not want to update his children
+				// cause it's not our business
+				if (STemplate.isTemplate(fromNode)) {
+					return false;
+				}
+
 				// check if an onBeforeElUpdated is present in the settings
 				if (this.settings.onBeforeElChildrenUpdated) {
 					const res = this.settings.onBeforeElChildrenUpdated(fromNode, toNode);
@@ -589,52 +775,78 @@ export default class STemplate {
 				// such has comments, text, etc...
 				if ( ! fromNode.hasAttribute) return false;
 
-				// apply integration on component
-				this._applyIntegrationOnNode(fromNode);
+				if ( ! toNode.hasAttribute('s-template-node-id')) return false;
 
-				// keep integration from compile to compile
-				if (fromNode.hasAttribute('s-template-integration')
-					&& ! toNode.hasAttribute('s-template-integration')
-				) {
-					toNode.setAttribute('s-template-integration', fromNode.getAttribute('s-template-integration'));
-				}
+				// if (fromNode.hasAttribute('s-template-node-id') && ! toNode.hasAttribute('s-template-node-id')) {
+				// 	toNode.setAttribute('s-template-node-id', )
+				// }
+
+				// apply integration on component
+				// this._applyIntegrationOnNode(fromNode);
+
+
+
+				// // if the node is a template-component once
+				// // and that it is not the root one
+				// // we remove it from the templateString
+				// // because it has to be handled by another
+				// // template instance
+				// if (fromNode.hasAttribute('s-template-id')
+				// 	&& fromNode !== this.dom
+				// ) {
+				// 	// get the template-id
+				// 	const templateId = fromNode.getAttribute('s-template-id');
+				// 	console.log('remove', templateId);
+				// }
+
+				// handle integration attributes
+				// ['s-template-integration']
+				// .forEach((attr) => {
+				// 	if (fromNode.hasAttribute(attr)
+				//  		&& ! toNode.hasAttribute(attr)
+				// 	) {
+				// 		toNode.setAttribute(attr, fromNode.getAttribute(attr));
+				// 	}
+				// });
 
 				// get the integration from the node
-				const integration = sTemplateIntegrator.getIntegrationFrom(toNode);
+				// const integration = STemplate.getIntegrationFrom(fromNode);
+				//
+				// // handle the ingnore integration
+				// if (typeof(integration.ignore) === 'object') {
+				// 	for(let key in integration.ignore) {
+				// 		let value = integration.ignore[key];
+				// 		// if is class, handle multiple class to ignore
+				// 		if (key === 'class' && value !== true) {
+				// 			if (typeof(value) === 'string') {
+				// 				value = value.split(',').map((v) => { return v.trim(); });
+				// 			}
+				// 			// loop on each classes to ignore
+				// 			value.forEach((cls) => {
+				// 				if (fromNode.classList.contains(cls)) {
+				// 					toNode.classList.add(cls);
+				// 				} else {
+				// 					toNode.classList.remove(cls);
+				// 				}
+				// 			});
+				// 		} else {
+				// 			// this is an attribute to ignore
+				// 			if (fromNode.hasAttribute(key)
+				// 				&& ! toNode.hasAttribute(key)
+				// 			) {
+				// 				toNode.setAttribute(key, fromNode.getAttribute(key));
+				// 			}
+				// 		}
+				// 	}
+				// }
 
-				// handle the ingnore integration
-				if (typeof(integration.ignore) === 'object') {
-					for(let key in integration.ignore) {
-						let value = integration.ignore[key];
-						// if is class, handle multiple class to ignore
-						if (key === 'class' && value !== true) {
-							if (typeof(value) === 'string') {
-								value = value.split(',').map((v) => { return v.trim(); });
-							}
-							// loop on each classes to ignore
-							value.forEach((cls) => {
-								if (fromNode.classList.contains(cls)) {
-									toNode.classList.add(cls);
-								} else {
-									toNode.classList.remove(cls);
-								}
-							});
-						} else {
-							// this is an attribute to ignore
-							if (fromNode.hasAttribute(key)
-								&& ! toNode.hasAttribute(key)
-							) {
-								toNode.setAttribute(key, fromNode.getAttribute(key));
-							}
-						}
-					}
+				// update if is the template itself
+				if (this.dom === fromNode) {
+					return true;
 				}
 
-				// do not update this element
-				// cause it's not part of the initial template.
-				// maybe it has been added by any component after
-				// so it's not our business...
-				if ( ! fromNode.hasAttribute('s-template-node-id')) return false;
+				// if we need to ignore this node completly
+				// if (integration.ignore === true) return false;
 
 				// check if an onBeforeElUpdated is present in the settings
 				if (this.settings.onBeforeElUpdated) {
@@ -659,6 +871,14 @@ export default class STemplate {
 				if ( ! node.hasAttribute) return true;
 
 				if ( ! node.hasAttribute('s-template-node-id')) return false;
+
+				// get the integration
+				// const integration = STemplate.getIntegrationFrom(node);
+
+				// check if the node match one of the element selector
+				// to not discard
+				// if we need to ignore this node completly
+				// if (integration.ignore === true) return false;
 
 				// check if an onBeforeElUpdated is present in the settings
 				if (this.settings.onBeforeElDiscarded) {
@@ -749,7 +969,7 @@ export default class STemplate {
 						if ( ! component._sTemplateIntegrated) component._sTemplateIntegrated = {};
 						if ( ! component._sTemplateIntegrated[constructorName]) {
 							component._sTemplateIntegrated[constructorName] = true;
-							const integrationFn = sTemplateIntegrator._componentsIntegrationFnStack[constructorName];
+							const integrationFn = STemplate._componentsIntegrationFnStack[constructorName];
 							if (integrationFn) {
 								integrationFn(component);
 							}
@@ -845,8 +1065,6 @@ export default class STemplate {
 			elm.value = htmlVal;
 			if (htmlVal === null || htmlVal === undefined) {
 				elm.removeAttribute('value');
-				// __dispatchEvent(elm, 'change');
-				//console.log('remove value from', elm);
 			} else {
 				elm.setAttribute('value', htmlVal);
 			}

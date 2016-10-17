@@ -26,7 +26,7 @@ class SElementsManager {
 		inStackElement = window.sugar._elementsById[id];
 		if ( ! inStackElement) {
 			inStackElement = {
-				elements : {},
+				elements : [],
 				components : {},
 				originalElement : null
 			};
@@ -61,6 +61,8 @@ class SElementsManager {
 	 */
 	unregisterComponent(elm, component) {
 		const inStackElement = this._getElementStack(elm);
+		if ( ! inStackElement) return;
+		// @TODO : handle issue here...
 		delete inStackElement.components[component.componentName];
 		// remove the s-component attribute if no more components
 		if (Object.keys(inStackElement.components).length <= 0) {
@@ -81,8 +83,10 @@ class SElementsManager {
 			throw `You try to register an element that is not wrapped into a SElement instance...`;
 		}
 		const inStackElement = this._getElementStack(elm);
-		// add the element into the element stack
-		inStackElement.elements[sElement.elementId] = sElement;
+		// add the sElement instance into the elements stack if not already in
+		if (inStackElement.elements.indexOf(sElement) === -1) {
+			inStackElement.elements.push(sElement);
+		}
 		// save the element into the stacj
 		inStackElement.elm = elm;
 		// save the original element is is the first time
@@ -92,6 +96,7 @@ class SElementsManager {
 			// remove the sugar component and element attribute
 			originalElement.removeAttribute('s-element');
 			originalElement.removeAttribute('s-component');
+			inStackElement.originalElementString = originalElement.outerHTML;
 			inStackElement.originalElement = originalElement;
 		}
 	}
@@ -105,11 +110,17 @@ class SElementsManager {
 	 */
 	unregisterElement(elm, sElement) {
 		const inStackElement = this._getElementStack(elm);
-		delete inStackElement.elements[sElement.elementId];
-		// remove from the elementsById stack
-		delete window.sugar._elementsById[sElement.elementId];
-		// remove the s-component attribute if no more components
-		if (Object.keys(inStackElement.elements).length <= 0) {
+		// remove the instance from the stack
+		const elmIdx = inStackElement.elements.indexOf(sElement);
+		if (elmIdx !== -1) {
+			inStackElement.elements.splice(elmIdx,1);
+		}
+		console.log('in', inStackElement.elements);
+		// if no more SElements inited
+		if ( ! inStackElement.elements.length) {
+			// remove from the elementsById stack
+			delete window.sugar._elementsById[sElement.elementId];
+			// remove the s-component attribute if no more components
 			elm.removeAttribute('s-element');
 		}
 	}
@@ -136,6 +147,18 @@ class SElementsManager {
 		const inStackElement = this._getElementStack(elm);
 		if ( ! inStackElement) return null;
 		return inStackElement.originalElement;
+	}
+
+	/**
+	 * getOriginalElementString
+	 * Return the original element string before it has been processed by any components etc...
+	 * @param 	{HTMLElement} 	elm 	The element to process
+	 * @return 	{HTMLElement} 			The original element
+	 */
+	getOriginalElementString(elm) {
+		const inStackElement = this._getElementStack(elm);
+		if ( ! inStackElement) return null;
+		return inStackElement.originalElementString;
 	}
 
 	/**

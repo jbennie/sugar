@@ -150,10 +150,10 @@ export default class SBinder {
 				watch.elm.setAttribute(__uncamelize(watch.attribute), newVal);
 
 				// if the attribute is the value, trigger a change event
-				if (__uncamelize(watch.attribute) === 'value') {
-					elm.value = newVal;
-					__dispatchEvent(watch.elm, 'change');
-				}
+				// if (__uncamelize(watch.attribute) === 'value') {
+				// 	elm.value = newVal;
+				// 	__dispatchEvent(watch.elm, 'change');
+				// }
 			}
 		});
 		return this;

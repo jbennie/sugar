@@ -9,7 +9,7 @@
  * @version  1.0.0
  */
 import SComponent from '../../../js/core/SComponent'
-import STemplate from '../../../js/core/STemplate'
+import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
 import __dispatchEvent from '../../../js/dom/dispatchEvent'
 import __querySelectorLive from '../../../js/dom/querySelectorLive'
 

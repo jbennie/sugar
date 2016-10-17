@@ -14,7 +14,7 @@ import querySelectorLive from '../../../js/dom/querySelectorLive'
 import __isInViewport from '../../../js/dom/isInViewport'
 import __autoCast from '../../../js/utils/string/autoCast'
 import STimer from '../../../js/classes/STimer'
-import STemplate from '../../../js/core/STemplate'
+import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
 
 // class
 class SSlideshowComponent extends SComponent {
@@ -1214,25 +1214,25 @@ class SSlideshowComponent extends SComponent {
 }
 
 // STemplate integration
-STemplate.registerComponentIntegration('SSlideshowComponent', (component) => {
-	STemplate.keepAttribute(component.elm, 'class');
+sTemplateIntegrator.registerComponentIntegration('SSlideshowComponent', (component) => {
+	sTemplateIntegrator.keepAttribute(component.elm, 'class');
 	component.onNewSlide((slide) => {
-		STemplate.keepAttribute(slide, 'class');
+		sTemplateIntegrator.keepAttribute(slide, 'class');
 	});
 	if (component._refs.navigation) {
-		STemplate.keepAttribute(component._refs.navigation, 'class');
+		sTemplateIntegrator.keepAttribute(component._refs.navigation, 'class');
 	}
 	if (component._refs.next) {
-		STemplate.keepAttribute(component._refs.next, 'class');
+		sTemplateIntegrator.keepAttribute(component._refs.next, 'class');
 	}
 	if (component._refs.previous) {
-		STemplate.keepAttribute(component._refs.previous, 'class');
+		sTemplateIntegrator.keepAttribute(component._refs.previous, 'class');
 	}
 	if (component._refs.total) {
-		STemplate.keepAttribute(component._refs.total, 'class');
+		sTemplateIntegrator.keepAttribute(component._refs.total, 'class');
 	}
 	if (component._refs.current) {
-		STemplate.keepAttribute(component._refs.current, 'class');
+		sTemplateIntegrator.keepAttribute(component._refs.current, 'class');
 	}
 });
 

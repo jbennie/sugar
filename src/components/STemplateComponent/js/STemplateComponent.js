@@ -9,6 +9,7 @@
  * @version  1.0.0
  */
 import SComponent from '../../../js/core/SComponent'
+import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
 import STemplate from '../../../js/core/STemplate'
 import __insertAfter from '../../../js/dom/insertAfter'
 import __closest from '../../../js/dom/closest'
@@ -16,8 +17,14 @@ import __matches from '../../../js/dom/matches'
 import __uniqid from '../../../js/utils/uniqid'
 import _get from 'lodash/get'
 import __constructorName from '../../../js/utils/objects/constructorName'
+import SElement from '../../../js/core/SElement'
+import __uncamelize from '../../../js/utils/string/uncamelize'
 
 class STemplateComponent extends SComponent {
+
+	static registerSelector = function(selector) {
+		return STemplate.registerTemplateSelector(selector);
+	}
 
 	/**
 	 * _isTemplateComponent
@@ -37,6 +44,20 @@ class STemplateComponent extends SComponent {
 	 * Constructor
 	 */
 	constructor(elm, settings = {}, name = 'sTemplate') {
+
+		// // set SElement init dependencies
+		// SElement.registerInitDependency((element) => {
+		// 	return new Promise((resolve, relect) => {
+		// 		const closestTemplate = __closest(element.elm, `[${__uncamelize(name)}]`);
+		// 		if (closestTemplate) {
+		// 			__whenAttribute(closestTemplate, 's-template-dirty').then((elm) => {
+		// 				resolve();
+		// 			});
+		// 		} else {
+		// 			resolve();
+		// 		}
+		// 	});
+		// });
 
 		// init the component
 		super(elm, {
@@ -250,8 +271,6 @@ class STemplateComponent extends SComponent {
 		this._template = new STemplate(template, this.settings.data, {
 			compile : this.settings.compile,
 			afterCompile : this._afterCompile.bind(this)
-			// onElUpdated : this._onBeforeElUpdated.bind(this)
-			// onBeforeElUpdated : this._onBeforeElUpdated.bind(this)
 		}, parentTemplateComponent.template);
 
 		// if we have a container, append the template into it
@@ -337,8 +356,8 @@ class STemplateComponent extends SComponent {
 }
 
 // STemplate integration
-STemplate.registerComponentIntegration('STemplateComponent', (component) => {
-	STemplate.ignore(component.elm, {
+sTemplateIntegrator.registerComponentIntegration('STemplateComponent', (component) => {
+	sTemplateIntegrator.ignore(component.elm, {
 		"s-template-component" : true,
 		"s-template-component-dirty" : true
 	});

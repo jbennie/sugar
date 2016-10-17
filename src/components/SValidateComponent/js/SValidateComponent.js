@@ -17,7 +17,7 @@ import __isEmail from '../../../js/utils/is/email'
 import __isUrl from '../../../js/utils/is/url'
 import __isNumber from '../../../js/utils/is/number'
 import __isInteger from '../../../js/utils/is/integer'
-import STemplate from '../../../js/core/STemplate'
+import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
 
 class SValidateComponent extends SComponent {
 
@@ -445,8 +445,8 @@ SValidateComponent.registerValidator('url', {
 });
 
 // STemplate integration
-STemplate.registerComponentIntegration('SValidateComponent', (component) => {
-	STemplate.ignore(component.elm, {
+sTemplateIntegrator.registerComponentIntegration('SValidateComponent', (component) => {
+	sTemplateIntegrator.ignore(component.elm, {
 		class : [
 			component.componentClassName(null, null, 'valid'),
 			component.componentClassName(null, null, 'dirty'),
@@ -455,7 +455,7 @@ STemplate.registerComponentIntegration('SValidateComponent', (component) => {
 		]
 	});
 	if (component._formElm) {
-		STemplate.ignore(component._formElm, {
+		sTemplateIntegrator.ignore(component._formElm, {
 			novalidate : true
 		});
 	}

@@ -14,7 +14,7 @@ import __uniqid from '../../../js/utils/uniqid'
 import __querySelectorLive from '../../../js/dom/querySelectorLive';
 import __dispatchEvent from '../../../js/dom/dispatchEvent'
 
-import STemplate from '../../../js/core/STemplate'
+import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
 
 // save all the activate elements
 if ( ! window._sActivateStack) {
@@ -477,14 +477,13 @@ class SActivateComponent extends SComponent {
 }
 
 // STemplate integration
-STemplate.registerComponentIntegration('SActivateComponent', (component) => {
-	STemplate.ignore(component.elm, {
+sTemplateIntegrator.registerComponentIntegration('SActivateComponent', (component) => {
+	sTemplateIntegrator.ignore(component.elm, {
 		class : component.settings.activeClass,
 		[`${component.componentNameDash}-group`] : true
 	});
-
 	component.targets.forEach((target) => {
-		STemplate.ignore(target, {
+		sTemplateIntegrator.ignore(target, {
 			class : component.settings.activeTargetClass || component.settings.activeClass,
 			[`${component.componentNameDash}-target`] : true,
 			id : true

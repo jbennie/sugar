@@ -11,7 +11,7 @@
 import SComponent from '../../../js/core/SComponent'
 import __throttle from '../../../js/utils/functions/throttle'
 import noUiSlider from 'nouislider';
-import STemplate from '../../../js/core/STemplate'
+import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
 import __dispatchEvent from '../../../js/dom/dispatchEvent'
 import __insertAfter from '../../../js/dom/insertAfter'
 
@@ -374,8 +374,8 @@ class SRangeComponent extends SComponent {
 }
 
 // STemplate integration
-STemplate.registerComponentIntegration('SRangeComponent', (component) => {
-	STemplate.ignore(component.container)
+sTemplateIntegrator.registerComponentIntegration('SRangeComponent', (component) => {
+	sTemplateIntegrator.ignore(component.container)
 			 .ignore(component.elm, {
 				style : true
 			 });

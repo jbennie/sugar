@@ -10,7 +10,7 @@
  */
 import SComponent from '../../../js/core/SComponent'
 import __debounce from '../../../js/utils/functions/debounce'
-import STemplate from '../../../js/core/STemplate'
+import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
 
 class SResponsiveImageComponent extends SComponent {
 
@@ -209,8 +209,8 @@ class SResponsiveImageComponent extends SComponent {
 	}
 }
 
-STemplate.registerComponentIntegration('SResponsiveImageComponent', (component) => {
-	STemplate.ignore(component.elm, {
+sTemplateIntegrator.registerComponentIntegration('SResponsiveImageComponent', (component) => {
+	sTemplateIntegrator.ignore(component.elm, {
 		width : true,
 		src : true
 	}).refresh(component.elm);

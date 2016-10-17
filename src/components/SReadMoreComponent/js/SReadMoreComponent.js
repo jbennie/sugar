@@ -12,7 +12,7 @@ import SActivateComponent from '../../SActivateComponent'
 import __autoCast from '../../../js/utils/string/autoCast'
 import __realHeight from '../../../js/dom/realHeight'
 import __getStyleProperty from '../../../js/dom/getStyleProperty'
-import STemplate from '../../../js/core/STemplate'
+import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
 
 // Actual activate element class
 class SReadMoreComponent extends SActivateComponent {
@@ -117,9 +117,9 @@ class SReadMoreComponent extends SActivateComponent {
 }
 
 // STemplate integration
-STemplate.registerComponentIntegration('SReadMoreComponent', (component) => {
+sTemplateIntegrator.registerComponentIntegration('SReadMoreComponent', (component) => {
 	[].forEach.call(component.targets, (target) => {
-		STemplate.ignore(target, {
+		sTemplateIntegrator.ignore(target, {
 			style : true
 		});
 	});

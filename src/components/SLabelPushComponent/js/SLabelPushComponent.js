@@ -12,7 +12,7 @@ import SComponent from '../../../js/core/SComponent'
 import __style from '../../../js/dom/style'
 import __textWidth from '../../../js/dom/textWidth'
 import __getStyleProperty from '../../../js/dom/getStyleProperty'
-import STemplate from '../../../js/core/STemplate'
+import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
 
 // class
 class SLabelPushComponent extends SComponent {
@@ -190,8 +190,8 @@ class SLabelPushComponent extends SComponent {
 	}
 }
 
-STemplate.registerComponentIntegration('SLabelPushComponent', (component) => {
-	STemplate.ignore(component._input, {
+sTemplateIntegrator.registerComponentIntegration('SLabelPushComponent', (component) => {
+	sTemplateIntegrator.ignore(component._input, {
 		style : true
 	}).ignore(component._label, {
 		style : true,

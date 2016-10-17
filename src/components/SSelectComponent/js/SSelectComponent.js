@@ -17,7 +17,7 @@ import __uniqid from '../../../js/utils/uniqid'
 import __insertAfter from '../../../js/dom/insertAfter'
 import SEvent from '../../../js/classes/SEvent'
 import __mutationObservable from '../../../js/dom/mutationObservable'
-import STemplate from '../../../js/core/STemplate'
+import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
 import __querySelectorLive from '../../../js/dom/querySelectorLive'
 
 require('../../../js/utils/rxjs/operators/groupByTimeout');
@@ -885,8 +885,9 @@ class SSelectComponent extends SComponent {
 }
 
 // STemplate integration
-STemplate.registerComponentIntegration('SSelectComponent', (component) => {
-	STemplate.ignore(component.elm, {
+sTemplateIntegrator.registerComponentIntegration('SSelectComponent', (component) => {
+	console.log('integrate', component.elm);
+	sTemplateIntegrator.ignore(component.elm, {
 		style : true
 	}).ignore(component.container);
 });

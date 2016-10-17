@@ -1,5 +1,5 @@
 import querySelectorLive from '../js/dom/querySelectorLive';
-import STemplate from '../js/core/STemplate'
+import sTemplateIntegrator from '../js/core/sTemplateIntegrator'
 
 querySelectorLive('input:not([type="submit"])').once().inViewport().subscribe((elm) => {
 	// set the input value
@@ -10,5 +10,5 @@ querySelectorLive('input:not([type="submit"])').once().inViewport().subscribe((e
 			elm.removeAttribute('value');
 		}
 	});
-	STemplate.keepAttribute(elm, 'value');
+	sTemplateIntegrator.keepAttribute(elm, 'value');
 });

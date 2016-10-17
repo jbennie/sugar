@@ -20,7 +20,7 @@ import SObject from './SObject'
 import SWatcher from '../classes/SWatcher';
 import SBinder from '../classes/SBinder';
 
-import STemplate from './STemplate'
+import sTemplateIntegrator from './sTemplateIntegrator'
 
 // store the settings for the different
 // components types
@@ -70,6 +70,19 @@ class SElement extends SObject {
 	// 	if (! _sugarTypesSettings[name]) _sugarTypesSettings[name] = {};
 	// 	_sugarTypesSettings[name][type] = settings;
 	// }
+
+	/**
+	 * Init dependencies at class level
+	 */
+	static initDependencies = [];
+
+	/**
+	 * Register an init dependency at class level
+	 * @param 		{Function} 		fn 			A function that return a new promise
+	 */
+	static registerInitDependency = (fn) => {
+		SElement.initDependencies.push(fn);
+	};
 
 	/**
 	 * Store the actual DOM element that the SElement instance manage
@@ -146,7 +159,7 @@ class SElement extends SObject {
 		// init bindings if not a component
 		if ( ! elm.hasAttribute('s-component')) {
 			this._initBindings();
-			this._init();
+			this._initProxy();
 		}
 	}
 
@@ -188,6 +201,52 @@ class SElement extends SObject {
 				}
 			});
 		});
+
+		// dispatch an event
+		__dispatchEvent(this.elm, 's-element:init');
+	}
+
+	/**
+	 * Init proxy
+	 */
+	_initProxy() {
+
+		// resolve dependencied at class level
+		if (SElement.initDependencies.length
+			&& ! this._initClassDependenciesResolved
+		) {
+			const depsArray = SElement.initDependencies.map((fn) => {
+				return fn(this);
+			});
+			Promise.all(depsArray).then(() => {
+				this._initClassDependenciesResolved = true;
+				this._initProxy();
+			});
+			return false;
+		}
+
+		// resolve all the init dependencies
+		if (this._initDependencies
+			&& ! this._initDependenciesResolved) {
+			Promise.all(this._initDependencies()).then(() => {
+				// set that the dependencies are resolved
+				this._initDependenciesResolved = true;
+				// relaunch the init proxy
+				this._initProxy();
+			});
+			return false;
+		}
+
+		// if not a component
+		// launch the init function
+		// otherwise, the component will launch the
+		// init when needed
+		if ( ! this.elm.hasAttribute('s-component')) {
+			this._init();
+		}
+
+		// all ok
+		return true;
 	}
 
 	/**
@@ -241,6 +300,8 @@ class SElement extends SObject {
 		this._elementAttached = false;
 		// track added status
 		this._elementAdded = false;
+		// dispatch an event
+		__dispatchEvent(this.elm, 's-element:removed');
 	}
 
 	/**
@@ -257,6 +318,8 @@ class SElement extends SObject {
 		// 	&& ! this._isInTemplate) {
 		// 	this.render();
 		// }
+		// dispatch an event
+		__dispatchEvent(this.elm, 's-element:added');
 	}
 
 	/**
@@ -273,6 +336,8 @@ class SElement extends SObject {
 		// 	&& ! this._isInTemplate) {
 		// 	this.render();
 		// }
+		// dispatch an event
+		__dispatchEvent(this.elm, 's-element:attached');
 	}
 
 	/**
@@ -283,6 +348,8 @@ class SElement extends SObject {
 	_onDetached() {
 		// track the attached status
 		this._elementAttached = false;
+		// dispatch an event
+		__dispatchEvent(this.elm, 's-element:detached');
 	}
 
 	/**
@@ -311,6 +378,9 @@ class SElement extends SObject {
 
 		// unregister element instance
 		sElementsManager.unregisterElement(this.elm, this);
+
+		// dispatch an event
+		__dispatchEvent(this.elm, 's-element:destroy');
 	}
 
 	/**
@@ -406,8 +476,8 @@ class SElement extends SObject {
 }
 
 // STemplate integration
-STemplate.registerComponentIntegration('SElement', (component) => {
-	STemplate.ignore(component.elm, {
+sTemplateIntegrator.registerComponentIntegration('SElement', (component) => {
+	sTemplateIntegrator.ignore(component.elm, {
 		"s-element" : true
 	});
 });

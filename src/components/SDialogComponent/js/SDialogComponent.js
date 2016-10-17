@@ -17,7 +17,7 @@ import __getAnimationProperties from '../../../js/dom/getAnimationProperties'
 import __style from '../../../js/dom/style'
 import __insertAfter from '../../../js/dom/insertAfter'
 import SAjax from '../../../js/classes/SAjax'
-import STemplate from '../../../js/core/STemplate'
+import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
 
 class SDialogComponent extends SComponent {
 

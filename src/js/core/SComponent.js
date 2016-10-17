@@ -3,13 +3,14 @@ import __camelize from '../utils/string/camelize'
 import __upperFirst from '../utils/string/upperFirst'
 import __lowerFirst from '../utils/string/lowerFirst'
 import __uniqid from '../utils/uniqid'
+import __dispatchEvent from '../dom/dispatchEvent'
 import __autoCast from '../utils/string/autoCast'
 import SElement from './SElement'
 import querySelectorLive from '../dom/querySelectorLive'
 import __constructorName from '../utils/objects/constructorName'
 import sSettings from './sSettings'
 import sElementsManager from './sElementsManager'
-import STemplate from './STemplate'
+import sTemplateIntegrator from './sTemplateIntegrator'
 
 // store the settings for the different
 // components types
@@ -377,6 +378,59 @@ class SComponent extends SElement {
 		// init element
 		super._init();
 		this.settings.afterInit && this.settings.afterInit(this);
+		// dispatch an event
+		__dispatchEvent(this.elm, 's-component:init');
+	}
+
+	/**
+	 * Init the component only when needed
+	 */
+	_initProxy() {
+
+		// init element
+		if ( ! super._initProxy()) return;
+
+		// protect multiple init
+		if (this._componentInited) return;
+		this._componentInited = true;
+
+		// init callback
+		const cb = this._init.bind(this);
+
+		switch(this.settings.initWhen) {
+			case 'visible':
+				this._initObserver = querySelectorLive(`[s-element="${this.elementId}"]`).once().visible().subscribe(cb);
+			break;
+			case 'inViewport':
+				this._initObserver = querySelectorLive(`[s-element="${this.elementId}"]`).once().inViewport().subscribe(cb);
+			break;
+			case 'added':
+				this._initObserver = querySelectorLive(`[s-element="${this.elementId}"]`).once().subscribe(cb);
+			break;
+			case 'hover':
+				function clickHandler(e) {
+					const id = e.target.getAttribute('s-element');
+					if (e.target === this.elm) {
+						cb();
+						document.removeEventListener('mouseover', clickHandler.bind(this));
+					}
+				}
+				document.addEventListener('mouseover', clickHandler.bind(this));
+			break;
+			case 'click':
+				function clickHandler(e) {
+					const id = e.target.getAttribute('s-element');
+					if (e.target === this.elm) {
+						cb();
+						document.removeEventListener('click', clickHandler.bind(this));
+					}
+				}
+				document.addEventListener('click', clickHandler.bind(this));
+			break;
+			default:
+				setTimeout(cb.bind(this));
+			break;
+		}
 	}
 
 	/**
@@ -394,6 +448,8 @@ class SComponent extends SElement {
 		if (this._componentEnabledBeforeRemoved) {
 			this.enable();
 		}
+		// dispatch an event
+		__dispatchEvent(this.elm, 's-component:added');
 	}
 
 	/**
@@ -411,6 +467,8 @@ class SComponent extends SElement {
 		this.disable();
 		// autoDestroy
 		this._autoDestroy();
+		// dispatch an event
+		__dispatchEvent(this.elm, 's-component:removed');
 	}
 
 	/**
@@ -435,6 +493,8 @@ class SComponent extends SElement {
 		if (this._componentEnabledBeforeDetached) {
 			this.enable();
 		}
+		// dispatch an event
+		__dispatchEvent(this.elm, 's-component:attached');
 	}
 
 	/**
@@ -453,6 +513,8 @@ class SComponent extends SElement {
 		this.disable();
 		// autoDestroy
 		this._autoDestroy();
+		// dispatch an event
+		__dispatchEvent(this.elm, 's-component:detached');
 	}
 
 	/**
@@ -477,6 +539,8 @@ class SComponent extends SElement {
 		this._componentEnabled = false;
 		// onDisabled callback
 		this.settings.onDisabled && this.settings.onDisabled(this);
+		// dispatch an event
+		__dispatchEvent(this.elm, 's-component:disable');
 		// maintain chainability
 		return this;
 	}
@@ -489,6 +553,8 @@ class SComponent extends SElement {
 		this._componentEnabled = true;
 		// onEnabled callback
 		this.settings.onEnabled && this.settings.onEnabled(this);
+		// dispatch an event
+		__dispatchEvent(this.elm, 's-component:enable');
 		// maintain chainability
 		return this;
 	}
@@ -516,6 +582,9 @@ class SComponent extends SElement {
 
 		// track the destroyed status
 		this._componentDestroyed = true;
+
+		// dispatch an event
+		__dispatchEvent(this.elm, 's-component:destroy');
 
 		// maintain chainability
 		return this;
@@ -678,66 +747,6 @@ class SComponent extends SElement {
 	}
 
 	/**
-	 * Init proxy
-	 */
-	_initProxy() {
-
-		// resolve all the init dependencies
-		if (this._initDependencies
-			&& ! this._initDependenciesResolved) {
-			Promise.all(this._initDependencies()).then(() => {
-				// set that the dependencies are resolved
-				this._initDependenciesResolved = true;
-				// relaunch the init proxy
-				this._initProxy()
-			});
-			return;
-		}
-
-		// protect multiple init
-		if (this._componentInited) return;
-		this._componentInited = true;
-
-		// init callback
-		const cb = this._init.bind(this);
-
-		switch(this.settings.initWhen) {
-			case 'visible':
-				this._initObserver = querySelectorLive(`[s-element="${this.elementId}"]`).once().visible().subscribe(cb);
-			break;
-			case 'inViewport':
-				this._initObserver = querySelectorLive(`[s-element="${this.elementId}"]`).once().inViewport().subscribe(cb);
-			break;
-			case 'added':
-				this._initObserver = querySelectorLive(`[s-element="${this.elementId}"]`).once().subscribe(cb);
-			break;
-			case 'hover':
-				function clickHandler(e) {
-					const id = e.target.getAttribute('s-element');
-					if (e.target === this.elm) {
-						cb();
-						document.removeEventListener('mouseover', clickHandler.bind(this));
-					}
-				}
-				document.addEventListener('mouseover', clickHandler.bind(this));
-			break;
-			case 'click':
-				function clickHandler(e) {
-					const id = e.target.getAttribute('s-element');
-					if (e.target === this.elm) {
-						cb();
-						document.removeEventListener('click', clickHandler.bind(this));
-					}
-				}
-				document.addEventListener('click', clickHandler.bind(this));
-			break;
-			default:
-				setTimeout(cb.bind(this));
-			break;
-		}
-	}
-
-	/**
 	 * Watch all settings
 	 * @param 	{Function} 	callback	The callback to launch when a setting has changed
 	 */
@@ -796,8 +805,8 @@ class SComponent extends SElement {
 }
 
 // STemplate integration
-STemplate.registerComponentIntegration('SComponent', (component) => {
-	STemplate.ignore(component.elm, {
+sTemplateIntegrator.registerComponentIntegration('SComponent', (component) => {
+	sTemplateIntegrator.ignore(component.elm, {
 		"s-component" : true
 	});
 });
