@@ -266,18 +266,6 @@ export default class STemplate {
 			this.templateString = this.template.outerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(/\=""/g,'').replace(/&nbsp;/g," ").replace(/&quot;/g,"'")
 		}
 
-		console.log(this.templateString);
-
-		// make a clone of the template that will be the trusted base
-		// to render
-		// const clone = this.template.cloneNode(true);
-		// const clone = __strToHtml(this.template.outerHTML);
-		//
-		// // save the st
-		// console.warn(clone.outerHTML);
-		//
-		// this.templateString = clone.outerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(/\=""/g,'').replace(/&nbsp;/g," ").replace(/&quot;/g,"'");
-		//
 		// console.log(this.templateString);
 
 		// save the template instance into the dom

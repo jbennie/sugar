@@ -145,16 +145,14 @@ class SActivateComponent extends SComponent {
 					if (document.location.hash && document.location.hash === this.settings.id) {
 						this._activate();
 					} else {
-						// save the scroll position
-						// this._scrollTop = __scrollTop();
 						// simply change the hash
 						// the event listener will take care of activate the
 						// good element
 						if (this.settings.preventScroll) {
 							window.history.pushState({
 								url : this.settings.id
-							},null,`${document.location.pathname}${this.settings.id}`);
-							this._processHistoryChange();
+							},null,`#${this.settings.id}`);
+							__dispatchEvent(window, 'hashchange');
 						} else {
 							document.location.hash = `${this.settings.id}`;
 						}
@@ -356,15 +354,9 @@ class SActivateComponent extends SComponent {
 	 * Handle history
 	 */
 	_handleHistory() {
-		if ( ! this.settings.preventScroll) {
-			window.addEventListener('hashchange', (e) => {
-				this._processHistoryChange();
-			});
-		} else {
-			window.addEventListener('popstate', (e) => {
-				this._processHistoryChange();
-			});
-		}
+		window.addEventListener('hashchange', (e) => {
+			this._processHistoryChange();
+		});
 	}
 
 	/**
@@ -385,8 +377,8 @@ class SActivateComponent extends SComponent {
 	activate() {
 		if (this.settings.history) {
 			if (this.settings.preventScroll) {
-				window.history.pushState(null,null,`${document.location.pathname}#${this.settings.id}`);
-				this._processHistoryChange();
+				window.history.pushState(null,null,`#${this.settings.id}`);
+				__dispatchEvent(window, 'hashchange');
 			} else {
 				document.location.hash = this.settings.id;
 			}

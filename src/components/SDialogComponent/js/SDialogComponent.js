@@ -16,8 +16,10 @@ import __strToHtml from '../../../js/utils/string/strToHtml'
 import __getAnimationProperties from '../../../js/dom/getAnimationProperties'
 import __style from '../../../js/dom/style'
 import __insertAfter from '../../../js/dom/insertAfter'
+import __dispatchEvent from '../../../js/dom/dispatchEvent'
 import SAjax from '../../../js/classes/SAjax'
 import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
+
 
 class SDialogComponent extends SComponent {
 
@@ -66,6 +68,14 @@ class SDialogComponent extends SComponent {
 			content : '@',
 
 			/**
+			 * The dialog id that can be used to open the dialog through the url hash
+			 * @setting
+			 * @type 		{String}
+			 * @default 	null
+			 */
+			id : '@id',
+
+			/**
 			 * modal
 			 * Specify if the dialog is a modal or not
 			 * @type 	{Boolean}
@@ -102,6 +112,14 @@ class SDialogComponent extends SComponent {
 		// get the content string
 		this.settings.content = this.settings.content || this.elm.getAttribute('href');
 
+		// check hash change
+		if (this.settings.id) {
+			this._processHashChange();
+			window.addEventListener('hashchange', (e) => {
+				this._processHashChange();
+			});
+		}
+
 		// handle openOn
 		switch(this.settings.openOn) {
 			case 'click':
@@ -120,6 +138,18 @@ class SDialogComponent extends SComponent {
 				this.open();
 			break;
 		}
+	}
+
+	/**
+	 * Process hash change
+	 */
+	_processHashChange() {
+		const hash = document.location.hash;
+		if (! hash) return;
+		if (hash.substr(1) === this.settings.id) {
+			this.open();
+		}
+		// console.log('hash', hash);
 	}
 
 	/**
@@ -301,6 +331,12 @@ class SDialogComponent extends SComponent {
 		if (this.settings.modal
 			&& ! this._allowModalClose
 			&& ! force) return;
+
+		// reset the hash
+		if (this.settings.id) {
+			window.history.pushState(null, document.title, '#');
+			__dispatchEvent(window, 'hashchange');
+		}
 
 		// add the out class to the dialog
 		this.addComponentClass(this.refs.elm, null, null, 'out');

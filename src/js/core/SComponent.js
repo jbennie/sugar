@@ -325,15 +325,6 @@ class SComponent extends SElement {
 				// set that we want to bind this attribute to the setting object property
 				// this._settings2AttributesBindings[settingName] = attrName;
 
-				// if the element has not the requested linked attribute, we set it
-				if (attrValue === null) {
-					const settingValue = this.attr[settingCamelName];
-					if (settingValue) {
-						this.elm.setAttribute(attrName, settingValue);
-						attrValue = settingValue;
-					}
-				}
-
 				// check that the element has the requested attribute
 				if (attrValue !== undefined)
 				{

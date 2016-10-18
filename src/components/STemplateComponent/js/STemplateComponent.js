@@ -210,7 +210,6 @@ class STemplateComponent extends SComponent {
 
 		// get the parent template component
 		const parentTemplate = STemplate.getParentTemplate(this.elm);
-		console.log('parent template', parentTemplate);
 
 		// make a template with the dom
 		this._template = new STemplate(template, this.settings.data, {
@@ -222,7 +221,6 @@ class STemplateComponent extends SComponent {
 		if ( ! template.nodeName || ! template.parentNode) {
 			// insert into if possible
 			if (this.elm.nodeName.toLowerCase() === 'script') {
-				console.log('insert', this._template.dom);
 				// insert the element after the script
 				__insertAfter(this._template.dom, this.elm);
 			} else {

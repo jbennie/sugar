@@ -329,31 +329,6 @@ class SSlideshowComponent extends SComponent {
 			this._initSlide(elm);
 		});
 
-		// listen for click on element
-		this.elm.addEventListener('click', this._onClick.bind(this));
-
-		// pauseOnHover
-		if (this.settings.pauseOnHover) {
-			this.elm.addEventListener('mouseenter', this._onMouseover.bind(this));
-			this.elm.addEventListener('mouseleave', this._onMouseout.bind(this));
-		}
-
-		// keyboardEnabled
-		if (this.settings.keyboardEnabled) {
-			this._initKeyboardNavigation();
-		}
-
-		// touchenabled
-		if (this.settings.touchEnabled) {
-			this._initTouchNavigation();
-		}
-
-		// init next and previous buttons
-		this._initPreviousAndNextButtons();
-
-		// listen blur and focus
-		this._listenBlurAndFocus();
-
 		// create the timer
 		this._timer = new STimer(this.settings.timeout, {
 			tickCount : 1,
@@ -467,10 +442,22 @@ class SSlideshowComponent extends SComponent {
 	enable() {
 		// no transmation
 		this.elm.classList.add('clear-transmations');
+
 		// next
 		this.next();
+
 		// add all classes
 		this._applyClasses();
+
+		// listen for click on element
+		this.elm.addEventListener('click', this._onClick.bind(this));
+
+		// pauseOnHover
+		if (this.settings.pauseOnHover) {
+			this.elm.addEventListener('mouseenter', this._onMouseover.bind(this));
+			this.elm.addEventListener('mouseleave', this._onMouseout.bind(this));
+		}
+
 		// enable keyboard navigation
 		if (this.settings.keyboardEnabled) {
 			this._initKeyboardNavigation();
@@ -479,20 +466,26 @@ class SSlideshowComponent extends SComponent {
 		if (this.settings.touchEnabled) {
 			this._initTouchNavigation();
 		}
+
 		// listen for blur and focus
 		this._listenBlurAndFocus();
+
 		// init the previous and next navigation
 		this._initPreviousAndNextButtons();
+
 		// if autoplay
 		if (this.settings.autoplay) {
 			this.play();
 		}
+
 		// parent
 		super.enable();
+
 		// remove the no transmation class to allow animations, etc...
 		setTimeout(() => {
 			this.elm.classList.remove('clear-transmations');
 		});
+
 		// maintain chainability
 		return this;
 	}
@@ -505,9 +498,16 @@ class SSlideshowComponent extends SComponent {
 	disable() {
 		// disable keyboard navigation
 		document.removeEventListener('keyup', this._onKeyup);
+		// do not listen for click anymore
+		this.elm.removeEventListener('click', this._onClick);
 		// disable touch navigation
 		this.elm.removeEventListener('swipeleft', this._onSwipe);
 		this.elm.removeEventListener('swiperight', this._onSwipe);
+		// pauseOnHover
+		if (this.settings.pauseOnHover) {
+			this.elm.removeEventListener('mouseenter', this._onMouseover);
+			this.elm.removeEventListener('mouseleave', this._onMouseout);
+		}
 		// do not listen for focus and blur anymore
 		window.removeEventListener('blur', this._onWindowBlur);
 		window.removeEventListener('focus', this._onWindowFocus);
