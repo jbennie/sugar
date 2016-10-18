@@ -3,6 +3,7 @@ import querySelectorLive from '../../../js/dom/querySelectorLive'
 import _template from 'lodash/template'
 import __whenAttribute from '../../../js/dom/whenAttribute'
 import __whenProperty from '../../../js/utils/objects/whenProperty'
+import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
 
 class SPaginationComponent extends STemplateComponent {
 
@@ -124,9 +125,7 @@ class SPaginationComponent extends STemplateComponent {
 			// extend with passed settings
 			...settings
 		}, name);
-
 		elm.style.display = 'none';
-
 	}
 
 	/**
@@ -192,6 +191,12 @@ class SPaginationComponent extends STemplateComponent {
 		}
 	}
 }
+
+sTemplateIntegrator.registerComponentIntegration('SPaginationComponent', (component) => {
+	sTemplateIntegrator.ignore(component.elm, {
+		style : true
+	});
+});
 
 // expose in window.sugar
 if (window.sugar == null) { window.sugar = {}; }

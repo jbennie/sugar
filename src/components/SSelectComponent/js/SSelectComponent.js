@@ -15,6 +15,7 @@ import __offset from '../../../js/dom/offset'
 import __scrollTop from '../../../js/dom/scrollTop'
 import __uniqid from '../../../js/utils/uniqid'
 import __insertAfter from '../../../js/dom/insertAfter'
+import __dispatchEvent from '../../../js/dom/dispatchEvent'
 import SEvent from '../../../js/classes/SEvent'
 import __mutationObservable from '../../../js/dom/mutationObservable'
 import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
@@ -492,7 +493,6 @@ class SSelectComponent extends SComponent {
 			// close
 			this.close();
 		} else {
-
 			_s_option._s_select_source_option.selected = ! _s_option._s_select_source_option.selected;
 
 			// // check if the alt key is pressed
@@ -541,8 +541,7 @@ class SSelectComponent extends SComponent {
 		}
 
 		// trigger change event
-		let event = new SEvent('change');
-		this.elm.dispatchEvent(event);
+		__dispatchEvent(this.elm, 'change');
 	}
 
 	/**
@@ -886,10 +885,9 @@ class SSelectComponent extends SComponent {
 
 // STemplate integration
 sTemplateIntegrator.registerComponentIntegration('SSelectComponent', (component) => {
-	console.log('integrate', component.elm);
 	sTemplateIntegrator.ignore(component.elm, {
 		style : true
-	}).ignore(component.container);
+	});
 });
 
 // expose in window.sugar

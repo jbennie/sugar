@@ -56,9 +56,8 @@
 		@if str-index("#{&}", s-vertical-rhythme-scope-class()) {
 			$scope-class : false;
 		}
-
 		$sc : s-setting('vertical-rhythme.scope-class');
-		@if type-of($scope-class) == string {
+		@if type-of($scope-class) == string or type-of($scope-class) == list {
 			$sc : $scope-class;
 		}
 
@@ -94,12 +93,14 @@
 			$rhythme-map : map-remove($rhythme-map, scope-class);
 			$rhythme-map : map-remove($rhythme-map, calculate-height);
 			@if $scope-class {
-				&.#{$sc}#{$no-vertical-rhythme-selector},
-				.#{$sc} &#{$no-vertical-rhythme-selector} {
-					@each $prop, $value in $rhythme-map {
-						#{$prop} : $value;
+				@each $cls in $sc {
+					&.#{$cls}#{$no-vertical-rhythme-selector},
+					.#{$cls} &#{$no-vertical-rhythme-selector} {
+						@each $prop, $value in $rhythme-map {
+							#{$prop} : $value;
+						}
+						@content;
 					}
-					@content;
 				}
 			} @else {
 				&#{$no-vertical-rhythme-selector} {
@@ -111,9 +112,11 @@
 			}
 		} @else {
 			@if $scope-class {
-				&.#{$sc}#{$no-vertical-rhythme-selector},
-				.#{$sc} &#{$no-vertical-rhythme-selector} {
-					@content;
+				@each $cls in $sc {
+					&.#{$cls}#{$no-vertical-rhythme-selector},
+					.#{$cls} &#{$no-vertical-rhythme-selector} {
+						@content;
+					}
 				}
 			} @else {
 				&#{$no-vertical-rhythme-selector} {

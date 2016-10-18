@@ -53,6 +53,15 @@ class SResponsiveImageComponent extends SComponent {
 		// init component
 		super._init();
 
+		// listen for changes on data-src attribute
+		this.watch('attr.dataSrc,attr.src', (newVal, oldVal) => {
+			if (newVal === oldVal) return;
+			// save the new original src
+			this._originalSrc = newVal;
+			// apply the new src
+			this._applySrc();
+		});
+
 		// set the width if not specified
 		const width = this.elm.style.width;
 		if ( ! width) {
@@ -213,7 +222,7 @@ sTemplateIntegrator.registerComponentIntegration('SResponsiveImageComponent', (c
 	sTemplateIntegrator.ignore(component.elm, {
 		width : true,
 		src : true
-	}).refresh(component.elm);
+	});
 });
 
 // expose in window.sugar

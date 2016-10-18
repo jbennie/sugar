@@ -291,15 +291,16 @@ class SRangeComponent extends SComponent {
 		// set new value in attributes
 		const value = this.slider.get();
 		if (typeof(value) === 'number' || typeof(value) === 'string') {
-			this.attr.value = this._formater(value, 'input', this);
+			this.elm.setAttribute('value', this._formater(value, 'input', this));
 		} else {
-			this.attr.value = this.slider.get().map((val) => {
+			this.elm.setAttribute('value', this.slider.get().map((val) => {
 				return this._formater(val, 'input', this);
-			}).join(',');
+			}).join(','));
 		}
 		// trigger a change event
-		__dispatchEvent(this.elm, 'keyup');
-		__dispatchEvent(this.elm, 'keydown');
+		__dispatchEvent(this.elm, 'change');
+		// __dispatchEvent(this.elm, 'keyup');
+		// __dispatchEvent(this.elm, 'keydown');
 	}
 
 	/**

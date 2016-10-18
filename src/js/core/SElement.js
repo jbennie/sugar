@@ -169,8 +169,9 @@ class SElement extends SObject {
 	_init() {
 		let onAddedTimeout = null;
 		let onRemovedTimeout = null;
+
 		// listen for changes in some html tags
-		this._listenChangesOnElement();
+		// this._listenChangesOnElement();
 
 		// listen when the element is detached from the dom
 		this.elm.addEventListener('detached', this._onDetachedEvent.bind(this));
@@ -264,19 +265,19 @@ class SElement extends SObject {
 	/**
 	 * Listen changes on element
 	 */
-	_listenChangesOnElement() {
-		const tagName = this.elm.tagName.toLowerCase();
-		switch(tagName) {
-			case 'input':
-			case 'textarea':
-			case 'select':
-				this.elm.addEventListener('change', (e) => {
-					// set the attribute
-					this.attr.value = __autoCast(e.target.value);
-				});
-			break;
-		}
-	}
+	// _listenChangesOnElement() {
+	// 	const tagName = this.elm.tagName.toLowerCase();
+	// 	switch(tagName) {
+	// 		case 'input':
+	// 		case 'textarea':
+	// 		case 'select':
+	// 			this.elm.addEventListener('change', (e) => {
+	// 				// set the attribute
+	// 				this.attr.value = __autoCast(e.target.value);
+	// 			});
+	// 		break;
+	// 	}
+	// }
 
 	/**
 	 * Bind the attrbutes

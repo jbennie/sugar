@@ -115,7 +115,6 @@ class SElementsManager {
 		if (elmIdx !== -1) {
 			inStackElement.elements.splice(elmIdx,1);
 		}
-		console.log('in', inStackElement.elements);
 		// if no more SElements inited
 		if ( ! inStackElement.elements.length) {
 			// remove from the elementsById stack

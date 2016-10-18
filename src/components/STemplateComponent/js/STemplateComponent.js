@@ -15,6 +15,7 @@ import __insertAfter from '../../../js/dom/insertAfter'
 import __closest from '../../../js/dom/closest'
 import __matches from '../../../js/dom/matches'
 import __uniqid from '../../../js/utils/uniqid'
+import __strToHtml from '../../../js/utils/string/strToHtml'
 import _get from 'lodash/get'
 import __constructorName from '../../../js/utils/objects/constructorName'
 import SElement from '../../../js/core/SElement'
@@ -44,20 +45,6 @@ class STemplateComponent extends SComponent {
 	 * Constructor
 	 */
 	constructor(elm, settings = {}, name = 'sTemplate') {
-
-		// // set SElement init dependencies
-		// SElement.registerInitDependency((element) => {
-		// 	return new Promise((resolve, relect) => {
-		// 		const closestTemplate = __closest(element.elm, `[${__uncamelize(name)}]`);
-		// 		if (closestTemplate) {
-		// 			__whenAttribute(closestTemplate, 's-template-dirty').then((elm) => {
-		// 				resolve();
-		// 			});
-		// 		} else {
-		// 			resolve();
-		// 		}
-		// 	});
-		// });
 
 		// init the component
 		super(elm, {
@@ -92,7 +79,7 @@ class STemplateComponent extends SComponent {
 
 		// apply some attributes
 		this.elm.setAttribute('s-template-component', this._templateComponentId);
-		this.elm.setAttribute('s-template-component-virgin', true);
+		// this.elm.setAttribute('s-template-component-virgin', true);
 
 		// process the data to allow some features
 		// like the mapping of instance property with @,
@@ -122,17 +109,6 @@ class STemplateComponent extends SComponent {
 	 */
 	_init() {
 		super._init();
-
-		// save the instance into the dom element
-		// so the template class can know that
-		// this node is a templateComponent and re-render it
-		//
-		// We do this ONLY in the init method
-		// cause the nested templates will render themself ONLY if
-		// the node has the sTemplateComponent property.
-		// If the component that extend this class has an _initDependencies method,
-		// we don't want the parent template to render us
-		// cause we are not already inited...
 		this.elm._sTemplateComponent = this;
 	}
 
@@ -141,50 +117,13 @@ class STemplateComponent extends SComponent {
 	 */
 	_onAdded() {
 		super._onAdded();
-		// Init the template only if it is not nested in
-		// another one...
-		// OR if the component is nested in an already rendered template
-		// that is detectable by the presence of the s-template-component-dirty attribute
-		const parentTemplateComponent = this._getParentTemplateComponent();
-		if (! parentTemplateComponent
-			|| (parentTemplateComponent && parentTemplateComponent.elm.hasAttribute('s-template-component-dirty')) 
-		) {
-			// setTimeout(() => {
-				this._internalRender();
-			// });
-		}
-	}
-	/**
-	 * _getParentTemplateComponent
-	 * Return the parent component if theirs one
-	 * @return 	{STemplateComponent}
-	 */
-	_getParentTemplateComponent() {
-		if (this._parentTemplateComponent) return this._parentTemplateComponent;
-		const closestComponent = __closest(this.elm, '[s-template-component]');
-		if ( ! closestComponent) return null;
-		const component = closestComponent._sTemplateComponent;
-		if (component) this._parentTemplateComponent = component;
-		return component;
+		this._internalRender();
 	}
 
 	/**
 	 * Internal render
 	 */
-	_internalRender(fromTemplate = false) {
-
-		// check render dependencies
-		if (this._renderDependencies && ! this._renderDependencies()) return;
-
-		// if the internalRender is not called from
-		// a template rendering
-		// we check again if we are in a template to avoid
-		// rendering the element that will be rendered by the parent template
-		// anyway
-		if ( ! fromTemplate && __matches(this.elm, `[s-template-component-virgin] [s-template-component="${this._templateComponentId}"]`)) return;
-		// const closestComponent = __closest(this.elm, '[s-template-component-virgin]');
-		// if ( ! fromTemplate && closestComponent) return;
-		this.elm.removeAttribute('s-template-component-virgin');
+	_internalRender() {
 
 		// if the element has already been rendered once,
 		// no need to initiate it completely
@@ -198,11 +137,12 @@ class STemplateComponent extends SComponent {
 		// set that the template id now dirty
 		this.elm.setAttribute('s-template-component-dirty', true);
 
-		// template is the element itself
+		// init template variable that will contains the
+		// complete template to pass the the STemplate instance
 		let template = null;
 
-		// manage template settings to make a dom element with it
-		// only once
+		// if a template is specified in the settings.template,
+		// we process it to have an html version of it
 		if (this._templateInSettings === null && typeof(this.settings.template) === 'string') {
 			const cont = document.createElement('div');
 			cont.innerHTML = this.settings.template;
@@ -214,7 +154,7 @@ class STemplateComponent extends SComponent {
 		// will contain the rendered template
 		if (this.elm.nodeName.toString().toLowerCase() === 'script') {
 			// the template is the script content
-			template = `<div>${this.elm.innerHTML}</div>`;
+			template = this.elm.innerHTML;
 		} else if (this.elm.nodeName !== undefined) {
 			template = this.elm;
 		}
@@ -255,7 +195,11 @@ class STemplateComponent extends SComponent {
 				});
 			}
 			template = this._templateInSettings;
+			// this.elm.appendChild(this._templateInSettings);
+			// template = this.elm;
 		} else if ( this._templateInSettings && ! template) {
+			// this.elm.appendChild(this._templateInSettings);
+			// template = this.elm;
 			template = this._templateInSettings;
 		}
 
@@ -265,18 +209,20 @@ class STemplateComponent extends SComponent {
 		}
 
 		// get the parent template component
-		const parentTemplateComponent = this._getParentTemplateComponent() || {};
+		const parentTemplate = STemplate.getParentTemplate(this.elm);
+		console.log('parent template', parentTemplate);
 
 		// make a template with the dom
 		this._template = new STemplate(template, this.settings.data, {
 			compile : this.settings.compile,
 			afterCompile : this._afterCompile.bind(this)
-		}, parentTemplateComponent.template);
+		}, parentTemplate);
 
 		// if we have a container, append the template into it
 		if ( ! template.nodeName || ! template.parentNode) {
 			// insert into if possible
 			if (this.elm.nodeName.toLowerCase() === 'script') {
+				console.log('insert', this._template.dom);
 				// insert the element after the script
 				__insertAfter(this._template.dom, this.elm);
 			} else {
@@ -300,20 +246,6 @@ class STemplateComponent extends SComponent {
 		return template;
 	}
 
-	// /**
-	//  * _onBeforeElUpdated
-	//  */
-	// _onBeforeElUpdated(node) {
-	//
-	// 	// check if is a template component
-	// 	// in case we need to render it
-	// 	if (node._sTemplateComponent
-	// 		&& node._sTemplateComponent !== this) {
-	// 		// render the node if needed
-	// 		node._sTemplateComponent._internalRender(true);
-	// 	}
-	// }
-
 	/**
 	 * renderTemplate
 	 */
@@ -334,8 +266,6 @@ class STemplateComponent extends SComponent {
 		}
 		// remove the reference on the element
 		delete this.elm._sTemplateComponent;
-		// delete reference to parent template component
-		this._parentTemplateComponent = null;
 	}
 
 	/**
@@ -359,7 +289,8 @@ class STemplateComponent extends SComponent {
 sTemplateIntegrator.registerComponentIntegration('STemplateComponent', (component) => {
 	sTemplateIntegrator.ignore(component.elm, {
 		"s-template-component" : true,
-		"s-template-component-dirty" : true
+		"s-template-component-dirty" : true,
+		"s-template-component-virgin" : true
 	});
 });
 

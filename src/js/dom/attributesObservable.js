@@ -25,6 +25,12 @@ export default function(target, settings = {}) {
 		const mutationObserver = new MutationObserver((mutations) => {
 			// loop on mutations
 			mutations.forEach((mutation) => {
+				if (settings.attributes) {
+					if (settings.attributes.indexOf(mutation.attribute) !== -1) {
+						observer.next(mutation);
+					}
+					return;
+				}
 				// push mutation
 				observer.next(mutation);
 			});
