@@ -45,6 +45,7 @@ class SActivateComponent extends SComponent {
 			anchor : true,
 			toggle : false,
 			trigger : 'click',
+			preventActivateParent : false,
 			unactivateTrigger : null,
 			unactivateTimeout : 200,
 			preventScroll : false,
@@ -104,66 +105,6 @@ class SActivateComponent extends SComponent {
 			}
 		}
 
-		// listen for childs behin activated
-		[].forEach.call(this.targets, (target) => {
-			target.addEventListener(`${this.componentNameDash}:activate`, (e) => {
-				e.stopPropagation();
-				// activate the trigger that handle this target
-				if (e.target._sActivateTriggerComponent
-				 	&& e.target._sActivateTriggerComponent !== this) {
-				 	target._sActivateTriggerComponent._activate();
-				}
-			}, true);
-		});
-
-		// listen for click
-		this.elm.addEventListener(this.settings.trigger, (e) => {
-			// if the target is the element itself
-			// we stop if the current target if not
-			// the element itselg to avoid issues
-			if (this.targets.length === 1
-				&& this.targets[0] === this.elm
-			) {
-				if (e.target !== this.elm) return;
-			}
-			// if (e.target !== this.elm) return;
-			e.preventDefault();
-			// clear unactivate timeout
-			clearTimeout(this._unactivateSetTimeout);
-			// if toggle
-			if (this.settings.toggle && this.isActive()) {
-				// unactivate
-				this.unactivate();
-				// check if has a hash
-				if (this.settings.history) {
-					window.history.back();
-				}
-			} else {
-				if (this.settings.history) {
-					// simply activate again if the same id that anchor
-					// this can happened when an element has history to false
-					if (document.location.hash && document.location.hash === this.settings.id) {
-						this._activate();
-					} else {
-						// simply change the hash
-						// the event listener will take care of activate the
-						// good element
-						if (this.settings.preventScroll) {
-							window.history.pushState({
-								url : this.settings.id
-							},null,`#${this.settings.id}`);
-							__dispatchEvent(window, 'hashchange');
-						} else {
-							document.location.hash = `${this.settings.id}`;
-						}
-					}
-				} else {
-					// activate the element
-					this._activate();
-				}
-			}
-		});
-
 		// wait a loop to activate the element if needed
 		// we wait to be sure all the elements on the pages have
 		// been inited
@@ -195,7 +136,14 @@ class SActivateComponent extends SComponent {
 	 * @return 	{SActivateComponent}
 	 */
 	enable() {
+		// enable parent
 		super.enable();
+		// listen for trigger (click, mouseover, etc...)
+		this.elm.addEventListener(this.settings.trigger, this._onTriggerElement.bind(this));
+		// listen for childs behin activated
+		[].forEach.call(this.targets, (target) => {
+			target.addEventListener(`${this.componentNameDash}:activate`, this._onTargetActivate.bind(this), true);
+		});
 	}
 
 	/**
@@ -205,6 +153,17 @@ class SActivateComponent extends SComponent {
 	 * @return 	{SActivateComponent}
 	 */
 	disable() {
+		// listen for trigger (click, mouseover, etc...)
+		this.elm.removeEventListener(this.settings.trigger, this._onTriggerElement);
+		// remove all the classes
+		this.elm.classList.remove(this.settings.activeClass);
+		[].forEach.call(this.targets, (target) => {
+			// remove the class from targets
+			target.classList.remove(this.settings.activeTargetClass || this.settings.activeClass);
+			// stop listening for activate event
+			target.removeEventListener(`${this.componentNameDash}:activate`, this._onTargetActivate, true);
+		});
+		// disable in parent
 		super.disable();
 	}
 
@@ -246,6 +205,68 @@ class SActivateComponent extends SComponent {
 	destroy() {
 		delete window._sActivateStack[this.settings.id];
 		super.destroy();
+	}
+
+	/**
+	 * On target activate
+	 */
+	_onTargetActivate(e) {
+		e.stopPropagation();
+		// activate the trigger that handle this target
+		if (e.target._sActivateTriggerComponent
+			&& e.target._sActivateTriggerComponent !== this) {
+			target._sActivateTriggerComponent._activate();
+		}
+	}
+
+	/**
+	 * On element trigger is launched
+	 */
+	_onTriggerElement(e) {
+		// if the target is the element itself
+		// we stop if the current target if not
+		// the element itselg to avoid issues
+		if (this.targets.length === 1
+			&& this.targets[0] === this.elm
+		) {
+			if (e.target !== this.elm) return;
+		}
+		// if (e.target !== this.elm) return;
+		e.preventDefault();
+		// clear unactivate timeout
+		clearTimeout(this._unactivateSetTimeout);
+		// if toggle
+		if (this.settings.toggle && this.isActive()) {
+			// unactivate
+			this.unactivate();
+			// check if has a hash
+			if (this.settings.history) {
+				window.history.back();
+			}
+		} else {
+			if (this.settings.history) {
+				// simply activate again if the same id that anchor
+				// this can happened when an element has history to false
+				if (document.location.hash && document.location.hash === this.settings.id) {
+					this._activate();
+				} else {
+					// simply change the hash
+					// the event listener will take care of activate the
+					// good element
+					if (this.settings.preventScroll) {
+						window.history.pushState({
+							url : this.settings.id
+						},null,`#${this.settings.id}`);
+						__dispatchEvent(window, 'hashchange');
+					} else {
+						document.location.hash = `${this.settings.id}`;
+					}
+				}
+			} else {
+				// activate the element
+				this._activate();
+			}
+		}
 	}
 
 	/**
@@ -325,7 +346,9 @@ class SActivateComponent extends SComponent {
 		[].forEach.call(this.targets, (target) => {
 			this.activateTarget(target);
 			// dispatch an event to tell parents that this target is activated
-			__dispatchEvent(target, `${this.componentNameDash}:activate`);
+			if ( ! this.settings.preventActivateParent) {
+				__dispatchEvent(target, `${this.componentNameDash}:activate`);
+			}
 		});
 
 		// callback
@@ -402,7 +425,7 @@ class SActivateComponent extends SComponent {
 		// unactive targets
 		[].forEach.call(this.targets, (target) => {
 			this.unactivateTarget(target);
-			// dispatch an event to tell parents that this target is activated
+			// dispatch an event to tell parents that this target is unactivated
 			__dispatchEvent(target, `${this.componentNameDash}:unactivate`);
 		});
 

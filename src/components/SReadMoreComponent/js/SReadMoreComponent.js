@@ -22,6 +22,7 @@ class SReadMoreComponent extends SActivateComponent {
 	 */
 	constructor(elm, settings = {}, name = 'sReadMore') {
 		super(elm, {
+			preventActivateParent : true,
 			toggle : true,
 			history : false,
 			threshold : null,
@@ -43,7 +44,41 @@ class SReadMoreComponent extends SActivateComponent {
 	 */
 	enable() {
 		super.enable();
+		// listen for resize to process targets again
+		window.addEventListener('resize', this._onWindowResize.bind(this));
+		// process targets
+		this._processTargets();
+	}
 
+	/**
+	 * Disable the component
+	 */
+	disable() {
+		// do not listen anymore for window resize
+		window.removeEventListener('resize', this._onWindowResize);
+		// remove the useless class from all the targets
+		[].forEach.call(this.targets, (target) => {
+			// remove the useless class
+			this.removeComponentClass(target, null, null, 'useless');
+			// reset the max-height
+			target.style.maxHeight = null;
+		});
+		// disable super
+		super.disable();
+	}
+
+	/**
+	 * On window resize
+	 */
+	_onWindowResize(e) {
+		// process targets
+		this._processTargets();
+	}
+
+	/**
+	 * Process all the targets to check height, etc...
+	 */
+	_processTargets() {
 		// loop on each targets to check the targeted height
 		[].forEach.call(this.targets, (target) => {
 
@@ -71,13 +106,20 @@ class SReadMoreComponent extends SActivateComponent {
 				threshold = threshold(target);
 			}
 
+			if (this.elm.classList.contains('read-more--offers')) {
+				console.log(targetedHeight, realHeight);
+			}
+
 			// check if the targetedHeight is lower that the actual height
 			if (targetedHeight + threshold >= realHeight) {
 				// we can activate the element right now cause it is not larger that the target
 				this.activateTarget(target);
+				// add the class that the read-more is not needed
+				this.addComponentClass(target, null, null, 'useless');
 			} else {
 				// unactivate target
-				this.unactivateTarget(target);
+				// this.unactivateTarget(target);
+				this.removeComponentClass(target, null, null, 'useless');
 			}
 		});
 	}

@@ -190,7 +190,8 @@ class SDialogComponent extends SComponent {
 					// the content of the dialog is an ajax resource
 					const ajx = new SAjax({
 						url : content,
-						method : 'GET'
+						method : 'GET',
+						dataType : 'html'
 					});
 					ajx.send().then((response) => {
 						// set the content

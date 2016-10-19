@@ -48,3 +48,11 @@ export default function(target, settings = {}) {
 
 	return observable;
 }
+
+/**
+ * List of attributes to observe
+ * @setting
+ * @name 		attributes
+ * @type 		{Array}
+ * @default 	null
+ */
