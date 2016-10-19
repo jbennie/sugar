@@ -34,7 +34,6 @@ class SReadMoreComponent extends SActivateComponent {
 	 * Init
 	 */
 	_init() {
-
 		// init component
 		super._init();
 	}
@@ -56,6 +55,8 @@ class SReadMoreComponent extends SActivateComponent {
 	disable() {
 		// do not listen anymore for window resize
 		window.removeEventListener('resize', this._onWindowResize);
+		// remove class on element
+		this.removeComponentClass(this.elm, null, null, 'useless');
 		// remove the useless class from all the targets
 		[].forEach.call(this.targets, (target) => {
 			// remove the useless class
@@ -79,6 +80,7 @@ class SReadMoreComponent extends SActivateComponent {
 	 * Process all the targets to check height, etc...
 	 */
 	_processTargets() {
+		let useless = true;
 		// loop on each targets to check the targeted height
 		[].forEach.call(this.targets, (target) => {
 
@@ -101,13 +103,9 @@ class SReadMoreComponent extends SActivateComponent {
 			// do nothing if don't have any targetedHeight
 			if (typeof(targetedHeight) !== 'number') return;
 
-			let threshold = this.settings.threshold;
+			let threshold = __autoCast(target.getAttribute(`${this.componentNameDash}-threshold`)) || this.settings.threshold;
 			if (typeof(threshold) === 'function') {
 				threshold = threshold(target);
-			}
-
-			if (this.elm.classList.contains('read-more--offers')) {
-				console.log(targetedHeight, realHeight);
 			}
 
 			// check if the targetedHeight is lower that the actual height
@@ -116,12 +114,21 @@ class SReadMoreComponent extends SActivateComponent {
 				this.activateTarget(target);
 				// add the class that the read-more is not needed
 				this.addComponentClass(target, null, null, 'useless');
+
 			} else {
+				// update the useless flag
+				useless = false;
 				// unactivate target
 				// this.unactivateTarget(target);
 				this.removeComponentClass(target, null, null, 'useless');
 			}
 		});
+		// check if the read more is useless
+		if (useless) {
+			this.addComponentClass(this.elm, null, null, 'useless');
+		} else {
+			this.removeComponentClass(this.elm, null, null, 'useless');
+		}
 	}
 
 	/**
@@ -144,7 +151,7 @@ class SReadMoreComponent extends SActivateComponent {
 	 * @param 		{HTMLElement} 		target 		The target element
 	 */
 	unactivateTarget(target) {
-		let threshold = this.settings.threshold;
+		let threshold = __autoCast(target.getAttribute(`${this.componentNameDash}-threshold`)) || this.settings.threshold;
 		if (typeof(threshold) === 'function') {
 			threshold = threshold(target);
 		}
@@ -160,9 +167,13 @@ class SReadMoreComponent extends SActivateComponent {
 
 // STemplate integration
 sTemplateIntegrator.registerComponentIntegration('SReadMoreComponent', (component) => {
+	sTemplateIntegrator.ignore(component.elm, {
+		class : [component.componentClassName(null, null, 'useless')]
+	});
 	[].forEach.call(component.targets, (target) => {
 		sTemplateIntegrator.ignore(target, {
-			style : true
+			style : true,
+			class : [component.componentClassName(null, null, 'useless')]
 		});
 	});
 });
