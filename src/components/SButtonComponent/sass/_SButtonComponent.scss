@@ -11,6 +11,7 @@ $_s-button-component-inited : false;
 			line-height: 1;
 			text-decoration: none;
 			font-size:1em;
+			user-select:none;
 
 			> * {
 				vertical-align: middle;

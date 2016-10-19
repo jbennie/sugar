@@ -12,6 +12,7 @@ import SActivateComponent from '../../SActivateComponent'
 import __autoCast from '../../../js/utils/string/autoCast'
 import __realHeight from '../../../js/dom/realHeight'
 import __getStyleProperty from '../../../js/dom/getStyleProperty'
+import __dispatchEvent from '../../../js/dom/dispatchEvent'
 import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
 
 // Actual activate element class
@@ -114,7 +115,6 @@ class SReadMoreComponent extends SActivateComponent {
 				this.activateTarget(target);
 				// add the class that the read-more is not needed
 				this.addComponentClass(target, null, null, 'useless');
-
 			} else {
 				// update the useless flag
 				useless = false;
@@ -126,6 +126,7 @@ class SReadMoreComponent extends SActivateComponent {
 		// check if the read more is useless
 		if (useless) {
 			this.addComponentClass(this.elm, null, null, 'useless');
+			__dispatchEvent(this.elm, `${this.componentNameDash}:useless`);
 		} else {
 			this.removeComponentClass(this.elm, null, null, 'useless');
 		}
