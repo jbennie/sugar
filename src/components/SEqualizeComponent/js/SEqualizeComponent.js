@@ -35,8 +35,6 @@ class SEqualizeComponent extends SComponent {
 	 */
 	lines = [];
 
-	_refreshLineTimeout = null;
-
 	/**
 	 * Constructor
 	 */
