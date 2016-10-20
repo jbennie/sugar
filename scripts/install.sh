@@ -11,6 +11,7 @@ then
 	mv src/js/ js/
 	mv src/sass/ sass/
 	mv src/components/ components/
+	mv src/webcomponents/ webcomponents/
 
 	# clean repo
 	rm -rf src

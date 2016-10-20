@@ -20,7 +20,7 @@ export default class SWebComponent extends HTMLElement {
 	 * When the element is attached
 	 */
 	attachedCallback() {
-
+		console.log('atached');
 	}
 
 	/**
@@ -34,6 +34,13 @@ export default class SWebComponent extends HTMLElement {
 	 * When any of the component attribute changes
 	 */
 	attributeChangedCallback(attribute, newVal, oldVal) {
+		console.log('attr updated', attribute, newVal, oldVal);
+	}
 
+	/**
+	 * Destroy the component
+	 */
+	destroy() {
+		console.log('destroy', this);
 	}
 }

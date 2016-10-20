@@ -17,6 +17,7 @@
     "bootstrap-sass": "^3.3.6",
     "css-element-queries": "^0.3.2",
     "custom-event": "^1.0.0",
+    "fastdom": "^1.0.5",
     "google-maps": "^3.2.1",
     "javascript-detect-element-resize": "^0.5.3",
     "js-cookie": "^2.1.3",

@@ -6,7 +6,19 @@ class SMix {
 	}
 	in(superclass) {
 		return this.mixins.reduce((c, mixin) => {
-			return mixin(c);
+			// console.log('c', c);
+			// console.log('mixin', mixin);
+			// if ((typeof(mixin) === 'object')) {
+			// 	c.prototype = Object.create(mixin);
+			// 	// Object.assign(c.prototype, mixin.prototype);
+			// 	return c;
+			// }
+
+			c.prototype = Object.create(mixin.prototype);
+
+			return c;
+
+			// return mixin(c);
 		}, superclass);
 	}
 }
