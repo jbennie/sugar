@@ -2,6 +2,7 @@ import __autoCast from '../utils/string/autoCast'
 import __camelize from '../utils/string/camelize'
 import sSettings from './sSettings'
 require('webcomponents.js');
+import fastdom from 'fastdom'
 
 export default class SWebComponent extends HTMLElement {
 
@@ -122,8 +123,9 @@ export default class SWebComponent extends HTMLElement {
 			this.componentWillReceiveProp(prop, value, _oldVal);
 		}
 
-		clearTimeout(this._nextPropsTimeout);
-		this._nextPropsTimeout = setTimeout(() => {
+		// clearTimeout(this._nextPropsTimeout);
+		// this._nextPropsTimeout = setTimeout(() => {
+		fastdom.mutate(() => {
 
 			// create array version of each stacks
 			const nextPropsArray = [],
@@ -328,20 +330,22 @@ export default class SWebComponent extends HTMLElement {
 	 * on the dom element as attribute
 	 */
 	_handlePhysicalProps(prop, value) {
-		// check if is a physical prop to set it in the dom
-		const physicalProps = this.physicalProps();
-		if (physicalProps[prop]) {
-			// set the prop on the node
-			if (value === false) {
-				this.removeAttribute(prop);
-			} else if (typeof(value) === 'object') {
-				this.setAttribute(prop, JSON.stringify(value));
-			} else if (typeof(value) === 'function') {
-				this.setAttribute(prop, 'fn');
-			} else {
-				this.setAttribute(prop, value);
+		fastdom.mutate(() => {
+			// check if is a physical prop to set it in the dom
+			const physicalProps = this.physicalProps();
+			if (physicalProps[prop]) {
+				// set the prop on the node
+				if (value === false) {
+					this.removeAttribute(prop);
+				} else if (typeof(value) === 'object') {
+					this.setAttribute(prop, JSON.stringify(value));
+				} else if (typeof(value) === 'function') {
+					this.setAttribute(prop, 'fn');
+				} else {
+					this.setAttribute(prop, value);
+				}
 			}
-		}
+		});
 	}
 
 	/**
