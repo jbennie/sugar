@@ -13,6 +13,7 @@ import querySelectorLive from '../../../js/dom/querySelectorLive';
 import __scrollTop from '../../../js/dom/scrollTop'
 import __offset from '../../../js/dom/offset'
 import __getAnimationProperties from '../../../js/dom/getAnimationProperties'
+import __fastdom from 'fastdom'
 
 class SStickyComponent extends SComponent {
 
@@ -263,7 +264,9 @@ class SStickyComponent extends SComponent {
 
 		// add the placeholder into the dom
 		if ( ! this.placeholderElm.parentNode) {
-			this.elm.parentNode.insertBefore(this.placeholderElm, this.elm);
+			__fastdom.mutate(() => {
+				this.elm.parentNode.insertBefore(this.placeholderElm, this.elm);
+			});
 		}
 	}
 

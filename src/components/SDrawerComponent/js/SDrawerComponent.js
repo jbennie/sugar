@@ -11,6 +11,7 @@
 import SComponent from '../../../js/core/SComponent'
 import __querySelectorLive from '../../../js/dom/querySelectorLive';
 import __getTransitionProperties from '../../../js/dom/getTransitionProperties'
+import __fastdom from 'fastdom'
 
 if ( ! window._sDrawerStack) {
 	window._sDrawerStack = {};
@@ -48,9 +49,11 @@ class SDrawerComponent extends SComponent {
 		this.bkg = document.querySelector('[s-drawer-bkg="'+this.componentName+'"]');
 		if ( ! this.bkg) {
 			this.bkg = document.createElement('div');
-			this.bkg.setAttribute('s-drawer-bkg', this.componentName);
-			// insert in the page
-			this.elm.parentElement.insertBefore(this.bkg, this.elm.parentElement.firstChild);
+			__fastdom.mutate(() => {
+				this.bkg.setAttribute('s-drawer-bkg', this.componentName);
+				// insert in the page
+				this.elm.parentElement.insertBefore(this.bkg, this.elm.parentElement.firstChild);
+			});
 		}
 
 		// try to find the drawer overlay
@@ -59,8 +62,10 @@ class SDrawerComponent extends SComponent {
 			this.overlay = document.createElement('label');
 			this.overlay.setAttribute('for', this.componentName);
 			this.overlay.setAttribute('s-drawer-overlay', this.componentName);
-			// insert in the page
-			this.elm.parentElement.insertBefore(this.overlay, this.elm.parentElement.firstChild);
+			__fastdom.mutate(() => {
+				// insert in the page
+				this.elm.parentElement.insertBefore(this.overlay, this.elm.parentElement.firstChild);
+			});
 		}
 
 		// try to find the toggle
@@ -71,18 +76,22 @@ class SDrawerComponent extends SComponent {
 			this.toggle.setAttribute('id', this.componentName);
 			this.toggle.setAttribute('type', 'checkbox');
 			this.toggle.setAttribute('s-drawer-toggle', this.componentName);
-			// insert into page
-			this.elm.parentElement.insertBefore(this.toggle, this.elm.parentElement.firstChild);
+			__fastdom.mutate(() => {
+				// insert into page
+				this.elm.parentElement.insertBefore(this.toggle, this.elm.parentElement.firstChild);
+			});
 		}
 
 		// listen for change on the toggle
 		this.toggle.addEventListener('change', (e) => {
 			let name = e.target.name;
-			if (e.target.checked) {
-				document.body.classList.add('s-drawer-'+this.componentName)
-			} else {
-				document.body.classList.remove('s-drawer-'+this.componentName);
-			}
+			__fastdom.mutate(() => {
+				if (e.target.checked) {
+					document.body.classList.add('s-drawer-'+this.componentName)
+				} else {
+					document.body.classList.remove('s-drawer-'+this.componentName);
+				}
+			});
 		});
 
 		// listen for click on links into the drawer to close it
@@ -111,8 +120,10 @@ class SDrawerComponent extends SComponent {
 	 */
 	open() {
 		// check the toggle
-		this.toggle.setAttribute('checked', true);
-		document.body.add('s-drawer-'+this.componentName);
+		__fastdom.mutate(() => {
+			this.toggle.setAttribute('checked', true);
+			document.body.classList.add('s-drawer-'+this.componentName);
+		});
 		return this;
 	}
 
@@ -121,10 +132,15 @@ class SDrawerComponent extends SComponent {
 	 */
 	close() {
 		// uncheck the toggle
-		this.toggle.removeAttribute('checked');
+		__fastdom.mutate(() => {
+			this.toggle.removeAttribute('checked');
+		});
+
 		const transition = __getTransitionProperties(this.elm);
 		setTimeout(() => {
-			document.body.classList.remove('s-drawer-'+this.componentName);
+			__fastdom.mutate(() => {
+				document.body.classList.remove('s-drawer-'+this.componentName);
+			});
 		}, transition.totalDuration);
 		return this;
 	}

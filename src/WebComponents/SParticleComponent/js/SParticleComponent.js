@@ -1,40 +1,65 @@
 import SWebComponent from '../../../js/core/SWebComponent'
+import __getAnimationProperties from '../../../js/dom/getAnimationProperties'
+import __style from '../../../js/dom/style'
 
 export default class SParticleComponent extends SWebComponent {
 
 	/**
 	 * @constructor
 	 */
-	constructor() {
-		super();
+	constructor() { super(); }
+
+	/**
+	 * Default props
+	 * @definition 		SWebComponent.getDefaultProps
+	 */
+	getDefaultProps(props = {}) {
+		return super.getDefaultProps({
+			/**
+			 * Specify the particle lifetime. It null try to get the lifetype from css animation set on the particle
+			 * @prop
+			 * @type 		{Number}
+			 */
+			lifetime : null,
+			...props
+		});
 	}
 
 	/**
-	 * When added
+	 * Mount component
+	 * @definition 		SWebComponent.componentMount
 	 */
-	attachedCallback() {
-		super.attachedCallback();
+	componentMount() {
+		super.componentMount();
 
-		// get the animation properties
-		const animation = __getAnimationProperties(this.elm);
+		// set position
+		__style(this, {
+			position : 'absolute'
+		});
+
+		let lifetime = this.props.lifetime;
+		if ( ! lifetime) {
+			// get the animation properties
+			const animation = __getAnimationProperties(this);
+			lifetime = animation.totalDuration;
+		}
 
 		// wait till the animation is finished to remove the particle from DOM
 		setTimeout(() => {
-			if (this.elm.parentNode) {
-				this.elm.parentNode.removeChild(this.elm);
+			if (this.parentNode) {
+				this.parentNode.removeChild(this);
 			}
-		}, animation.totalDuration);
+		}, lifetime);
 	}
 
 	/**
-	 * _onRemoved
-	 * When removed
-	 * @return 	{void}
+	 * Render
+	 * @definition 		SWebComponent.render
 	 */
-	detachedCallback() {
-		super.detachedCallback();
-		// destroy
-		this.destroy();
+	render() {
+		super.render();
 	}
-
 }
+
+// register component
+SWebComponent.define('s-particle', SParticleComponent);

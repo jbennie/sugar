@@ -16,11 +16,13 @@
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 
+import __throttle from '../utils/functions/throttle'
+
 let elmStack = [];
 document.addEventListener('scroll', invalidate);
 document.addEventListener('resize', invalidate);
 
-function invalidate() {
+const invalidate = __throttle(function() {
 	elmStack.forEach((elm) => {
 		// check if the element is not in the dom anymore
 		if ( ! elm || ! elm.parentNode) {
@@ -30,7 +32,7 @@ function invalidate() {
 			elm._sBoundingClientRect = null;
 		}
 	});
-}
+}, 250);
 
 // export the function
 export default function getBoundingClientRect(elm) {

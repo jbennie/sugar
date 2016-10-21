@@ -11,6 +11,8 @@ import __constructorName from '../utils/objects/constructorName'
 import sSettings from './sSettings'
 import sElementsManager from './sElementsManager'
 import sTemplateIntegrator from './sTemplateIntegrator'
+import fastdom from 'fastdom'
+// require('fastdom/fastdom-strict')
 
 // store the settings for the different
 // components types
@@ -677,7 +679,9 @@ class SComponent extends SElement {
 		// loop on each classes to add
 		cls.split('.').forEach((cl) => {
 			if (cl && cl !== '') {
-				elm.classList.add(cl);
+				fastdom.mutate(() => {
+					elm.classList.add(cl);
+				});
 			}
 		});
 		// return the instance to maintain chainability
@@ -707,7 +711,9 @@ class SComponent extends SElement {
 		// loop on each classes to add
 		cls.split('.').forEach((cl) => {
 			if (cl && cl !== '') {
-				elm.classList.remove(cl);
+				fastdom.mutate(() => {
+					elm.classList.remove(cl);
+				});
 			}
 		});
 		// return the instance to maintain chainability

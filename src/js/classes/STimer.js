@@ -318,4 +318,13 @@ export default class STimer {
 		// maintain chainability
 		return this;
 	}
+
+	/**
+	 * Destroy the timer
+	 */
+	destroy() {
+		this.stop();
+		this._completes = [];
+		this._ticks = [];
+	}
 }
