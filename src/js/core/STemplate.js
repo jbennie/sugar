@@ -735,8 +735,8 @@ export default class STemplate {
 			// set the initial value coming from the model
 			elm.value = htmlVal;
 			if (htmlVal === null || htmlVal === undefined) {
-				// elm.removeAttribute('value');
-				elm.setAttribute('value', null);
+				elm.removeAttribute('value');
+				__dispatchEvent(elm, 'change');
 			} else {
 				elm.setAttribute('value', htmlVal);
 			}

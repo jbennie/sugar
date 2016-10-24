@@ -114,13 +114,7 @@ class SResponsiveImageComponent extends SComponent {
 	 */
 	_applySrc() {
 		// calculate the width of the image
-		//
-		const start = window.performance.now();
-		const parent = this.elm.parentNode;
-		const imageWidth = parent.offsetWidth;
-		//
-		// const imageWidth = this.elm.offsetWidth;
-		console.log(window.performance.now() - start);
+		const imageWidth = this.elm.offsetWidth;
 		let appliedWidth = this.settings.widths[0] || 0;
 
 		// grab the best available width

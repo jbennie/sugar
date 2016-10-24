@@ -149,7 +149,6 @@ class SEqualizeComponent extends SComponent {
 		setTimeout(() => {
 			SEqualizeComponent.groups[this.settings.group].refreshLinesInProgress = false;
 		}, 100);
-		console.log('refresh lines', this.settings.group);
 		// loop on all the columns
 		let offsetTop;
 		this.lines = [];
@@ -210,7 +209,6 @@ class SEqualizeComponent extends SComponent {
 		// every time it is called but only 1 by group every 100ms
 		this.refreshLines();
 
-		console.log('equalize line', line);
 		// do nothing if the line is already in progress
 		if (line.inProgress) return;
 		// flag the line as inProgress

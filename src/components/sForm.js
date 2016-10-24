@@ -10,5 +10,7 @@ querySelectorLive('input:not([type="submit"])').once().inViewport().subscribe((e
 			elm.removeAttribute('value');
 		}
 	});
-	sTemplateIntegrator.keepAttribute(elm, 'value');
+	sTemplateIntegrator.ignore(elm, {
+		value : true
+	});
 });

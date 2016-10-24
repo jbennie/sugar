@@ -27,7 +27,7 @@ export default class SReadMoreComponent extends SWebComponent {
 
 			disabled : false,
 
-			height : 50,
+			height : null,
 
 			...props
 		});
@@ -104,8 +104,6 @@ export default class SReadMoreComponent extends SWebComponent {
 
 		// check the actual height of the target
 		const realHeight = __realHeight(this);
-
-		console.log('read hasComponentClass', realHeight);
 
 		this._targetedHeight = targetedHeight;
 		this._originalHeight = realHeight;

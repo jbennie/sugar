@@ -116,6 +116,9 @@ class SDialogComponent extends SComponent {
 		if (this.settings.id) {
 			this._processHashChange();
 			window.addEventListener('hashchange', (e) => {
+		 		this._processHashChange();
+			});
+			window.addEventListener('popstate', (e) => {
 				this._processHashChange();
 			});
 		}
@@ -144,11 +147,16 @@ class SDialogComponent extends SComponent {
 	 * Process hash change
 	 */
 	_processHashChange() {
-		const hash = document.location.hash;
-		if (! hash) return;
-		if (hash.substr(1) === this.settings.id) {
-			this.open();
-		}
+		clearTimeout(this._processHashChangeTimeout);
+		this._processHashChangeTimeout = setTimeout(() => {
+			const hash = document.location.hash;
+			// if (! hash) return;
+			if (hash && hash.substr(1) === this.settings.id) {
+				this.open();
+			} else if (this.isOpened()){
+				this.close();
+			}
+		});
 		// console.log('hash', hash);
 	}
 
@@ -156,6 +164,16 @@ class SDialogComponent extends SComponent {
 	 * Open the dialog
 	 */
 	open(content = null) {
+
+		// id has an id, set it as hash
+		if (this.settings.id
+			&& (! document.location.hash
+				|| document.location.hash.substr(1) !== this.settings.id
+			)
+		) {
+			window.history.pushState({},null,`#${this.settings.id}`);
+			// __dispatchEvent(window, 'hashchange');
+		}
 
 		// return a new promise
 		return new Promise((resolve, reject) => {
@@ -235,6 +253,7 @@ class SDialogComponent extends SComponent {
 					<div name="content" class="${this.componentClassName('content')}" style="display: inline-block; text-align: left; margin: 0px auto; position: relative; vertical-align: middle; white-space: normal;" s-template-do-not-update>
 						<!-- content will be here... -->
 					</div>
+					<div name="close" class="${this.componentClassName('close')}"></div>
 				</div>
 			`);
 
@@ -242,11 +261,15 @@ class SDialogComponent extends SComponent {
 				elm : this._html,
 				overlay : this._html.querySelector('[name="overlay"]'),
 				content : this._html.querySelector('[name="content"]'),
+				close : this._html.querySelector('[name="close"]')
 			}
 
 			// listen for click on the overlay
 			// to close the dialog
 			this.refs.overlay.addEventListener('click', (e) => {
+				this.close(false);
+			});
+			this.refs.close.addEventListener('click', (e) => {
 				this.close(false);
 			});
 			// if not a modal, make the cursor pointer on the overlay
@@ -336,7 +359,7 @@ class SDialogComponent extends SComponent {
 		// reset the hash
 		if (this.settings.id) {
 			window.history.pushState(null, document.title, '#');
-			__dispatchEvent(window, 'hashchange');
+			// __dispatchEvent(window, 'hashchange');
 		}
 
 		// add the out class to the dialog
@@ -365,7 +388,9 @@ class SDialogComponent extends SComponent {
 			this.removeComponentClass(this.refs.elm, null, null, 'out');
 
 			// remove the container from the dom
-			document.body.removeChild(this._html);
+			if (this._html) {
+				this._html.parentNode.removeChild(this._html);
+			}
 
 			// update counter
 			if ( SDialogComponent.counter > 0) {

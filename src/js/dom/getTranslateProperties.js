@@ -22,6 +22,11 @@ export default function getTranslateProperties(elm) {
 	let idx, mat, style, transform;
 	style = getComputedStyle(elm);
 	transform = style.transform || style.webkitTransform || style.mozTransform || style.msTransform;
+	if ( ! transform) return {
+		x : 0,
+		y : 0,
+		z : 0
+	};
 	mat = transform.match(/^matrix3d\((.+)\)$/);
 	if (mat) {
 		return {

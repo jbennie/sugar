@@ -178,8 +178,6 @@ class SSelectComponent extends SComponent {
 
 		// observe all changes into the select
 		// to refresh our custom one
-		//
-		//
 		let removedTimeout = null;
 		this._refreshObserver = __querySelectorLive('option, optgroup', {
 			rootNode : this.elm,

@@ -15,7 +15,6 @@ $_s-nav-component-inited : false;
 	// init nav
 	@include s-nav-component-init();
 	@include s-component('s-nav') {
-
 		#{s-component-selector(null, 'justify')} {
 			@extend %s-nav-component-bare;
 			display: table;
@@ -25,9 +24,16 @@ $_s-nav-component-inited : false;
 			> #{s-component-selector('item')} {
 				display: table-cell;
 				vertical-align: middle;
-				padding-left: s-lnf(padding-vertical);
-				padding-right: s-lnf(padding-vertical);
+				padding-right: s-lnf(padding-vertical) * 2;
 				text-align: center;
+			}
+		}
+		#{s-component-selector(null, 'right')} {
+			text-align: right;
+			> li,
+			> #{s-component-selector('item')} {
+				padding-right: 0;
+				padding-left: s-lnf(padding-vertical) * 2;
 			}
 		}
 	}
@@ -46,8 +52,7 @@ $_s-nav-component-inited : false;
 			> #{s-component-selector('item')} {
 				position:relative;
 				display: inline-block;
-				padding-left : s-lnf(padding-horizontal);
-				padding-right : s-lnf(padding-horizontal);
+				padding-right: s-lnf(padding-vertical) * 2;
 
 				&:last-of-type {
 					padding-right: 0 !important;
@@ -55,6 +60,14 @@ $_s-nav-component-inited : false;
 				&:first-of-type {
 					padding-left: 0 !important;
 				}
+			}
+		}
+		#{s-component-selector(null, 'right')} {
+			text-align: right;
+			> li,
+			> #{s-component-selector('item')} {
+				padding-right: 0;
+				padding-left: s-lnf(padding-vertical) * 2;
 			}
 		}
 	}

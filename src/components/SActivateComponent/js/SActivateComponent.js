@@ -215,7 +215,7 @@ class SActivateComponent extends SComponent {
 		// activate the trigger that handle this target
 		if (e.target._sActivateTriggerComponent
 			&& e.target._sActivateTriggerComponent !== this) {
-			target._sActivateTriggerComponent._activate();
+			this._activate();
 		}
 	}
 
@@ -380,18 +380,24 @@ class SActivateComponent extends SComponent {
 		window.addEventListener('hashchange', (e) => {
 			this._processHistoryChange();
 		});
+		window.addEventListener('popstate', (e) => {
+			this._processHistoryChange();
+		});
 	}
 
 	/**
 	 * Process history change
 	 */
 	_processHistoryChange() {
-		let hash = document.location.hash;
-		if (hash) {
-			if (hash.substr(1) === this.settings.id) {
-				this._activate();
+		// clearTimeout(this._processHistoryChangeTimeout);
+		// this._processHistoryChangeTimeout = setTimeout(() => {
+			let hash = document.location.hash;
+			if (hash) {
+				if (hash.substr(1) === this.settings.id) {
+					this._activate();
+				}
 			}
-		}
+		// });
 	}
 
 	/**

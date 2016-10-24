@@ -33,6 +33,8 @@ $_s-dropdown-component-inited : false;
 	@include s-dropdown-component-init();
 	@include s-component('s-dropdown') {
 		#{s-component-selector()} {
+			position: relative;
+
 			&:hover,
 			&.active,
 			&#{s-component-selector(null, null, 'active')} {

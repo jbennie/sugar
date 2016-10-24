@@ -10,10 +10,7 @@ export default function querySelectorTemplateLive(selector, settings = {}) {
 
 	// register the dependency only 1 time
 	if ( ! templateSelectors.length) {
-		// append new selector if needed
-		if (templateSelectors.indexOf(selector) === -1) {
-			templateSelectors.push(selector);
-		}
+
 		// set SElement init dependencies
 		SElement.registerInitDependency((api) => {
 			return new Promise((resolve, reject) => {
@@ -45,6 +42,12 @@ export default function querySelectorTemplateLive(selector, settings = {}) {
 			});
 		});
 	}
+
+	// append new selector if needed
+	if (templateSelectors.indexOf(selector) === -1) {
+		templateSelectors.push(selector);
+	}
+
 	// return the querySelectorLive
 	return querySelectorLive(selector, settings);
 }
