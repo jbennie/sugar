@@ -1,7 +1,7 @@
-import SComponent from '../../js/core/SComponent'
-import Pikaday from 'pikaday-time'
-import sSettings from '../../js/core/sSettings'
-import __querySelectorLive from '../../js/dom/querySelectorLive';
+import SComponent from '../../../js/core/SComponent'
+import Pikaday from 'pikaday-time/pikaday'
+import sSettings from '../../../js/core/sSettings'
+import __querySelectorLive from '../../../js/dom/querySelectorLive';
 
 // Date picker
 class SDatepickerComponent extends SComponent {

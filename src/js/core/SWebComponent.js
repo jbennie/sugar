@@ -43,6 +43,9 @@ export default class SWebComponent extends HTMLElement {
 	 *
 	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
 	 */
+	get defaultProps() {
+		return {};
+	}
 	getDefaultProps(props = {}) {
 		return props;
 	}
@@ -80,6 +83,9 @@ export default class SWebComponent extends HTMLElement {
 		this.props = this.getDefaultProps();
 		// compute props
 		this._computeProps();
+
+		console.log('props', this.defaultProps);
+
 	}
 
 	/**
