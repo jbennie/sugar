@@ -13,22 +13,10 @@ export default class SParticleComponent extends SWebComponent {
 	 * Default props
 	 * @definition 		SWebComponent.getDefaultProps
 	 */
-	get defaultProps() {
+	static get defaultProps() {
 		return {
-			...super.defaultProps,
 			lifetime : null
 		}
-	}
-	getDefaultProps(props = {}) {
-		return super.getDefaultProps({
-			/**
-			 * Specify the particle lifetime. It null try to get the lifetype from css animation set on the particle
-			 * @prop
-			 * @type 		{Number}
-			 */
-			lifetime : null,
-			...props
-		});
 	}
 
 	/**

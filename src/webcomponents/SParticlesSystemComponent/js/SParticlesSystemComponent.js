@@ -13,8 +13,8 @@ export default class SParticlesSystemComponent extends SWebComponent {
 	/**
 	 * Default props
 	 */
-	getDefaultProps(props = {}) {
-		return super.getDefaultProps({
+	static get defaultProps() {
+		return {
 			emitterX : 0,
 			emitterY : 0,
 			spread : 0,
@@ -26,9 +26,8 @@ export default class SParticlesSystemComponent extends SWebComponent {
 			particleClassSelection : 'random',
 			onComplete : null,
 			active : true,
-			loop : false,
-			...props
-		});
+			loop : false
+		}
 	}
 
 	/**

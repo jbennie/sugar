@@ -20,8 +20,8 @@ export default class SRippleComponent extends SWebComponent {
 	 * Default props
 	 * @definition 		SWebComponent.getDefaultProps
 	 */
-	getDefaultProps(props = {}) {
-		return super.getDefaultProps({
+	static get defaultProps() {
+		return {
 			/**
 			 * Set if need to stay contained in the parent (overflow hidden)
 			 * @prop
@@ -55,10 +55,12 @@ export default class SRippleComponent extends SWebComponent {
 			 * @prop
 			 * @type 		{Number}
 			 */
-			spread : 0,
+			spread : 0
+		}
+	}
 
-			...props
-		});
+	static get physicalProps() {
+		return ['hello'];
 	}
 
 	/**

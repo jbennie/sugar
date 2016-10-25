@@ -13,8 +13,8 @@ export default class SReadMoreComponent extends SWebComponent {
 	 * Default props
 	 * @definition 		SWebComponent.getDefaultProps
 	 */
-	getDefaultProps(props = {}) {
-		return super.getDefaultProps({
+	static get defaultProps() {
+		return {
 			/**
 			 * Set the threshold difference height between the content and the
 			 * actual read more size under which the read more will not been enabled
@@ -27,18 +27,13 @@ export default class SReadMoreComponent extends SWebComponent {
 
 			disabled : false,
 
-			height : null,
+			height : null
 
-			...props
-		});
+		};
 	}
 
-	physicalProps(props = {}) {
-		return super.physicalProps({
-			disabled : true,
-			active : true,
-			...props
-		});
+	static get physicalProps() {
+		return ['disabled','active'];
 	}
 
 	/**

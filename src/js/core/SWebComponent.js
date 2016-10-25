@@ -1,8 +1,12 @@
 import __autoCast from '../utils/string/autoCast'
 import __camelize from '../utils/string/camelize'
+import __upperFirst from '../utils/string/upperFirst'
 import sSettings from './sSettings'
 require('webcomponents.js');
 import fastdom from 'fastdom'
+import __constructorName from '../utils/objects/constructorName'
+
+const componentsStack = {};
 
 export default class SWebComponent extends HTMLElement {
 
@@ -12,6 +16,12 @@ export default class SWebComponent extends HTMLElement {
 	 * @param 			{SWebComponent} 	component 	The component class
 	 */
 	static define(name, component) {
+		let funcNameRegex = /function (.{1,})\(/;
+		const res = (funcNameRegex).exec(component.toString());
+		if ( ! res || ! res[1]) {
+			throw `You component names ${name} can not be defined with the component class passed ${component}`;
+		}
+		componentsStack[res[1]] = component;
 		document.registerElement(name, component);
 	}
 
@@ -43,17 +53,69 @@ export default class SWebComponent extends HTMLElement {
 	 *
 	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
 	 */
-	get defaultProps() {
-		return {};
+	static get defaultProps() {
+		return {
+			initWhen : null
+		};
 	}
-	getDefaultProps(props = {}) {
+
+	static setDefaultProps(props) {
+		const proto = Object.getPrototypeOf(this);
+		proto._defaultProps = {
+			...proto._defaultProps || {},
+			...props
+		};
+	}
+
+	/**
+	 * Get the default props for this particular instance
+	 * @return 		{Object} 			The default props
+	 */
+	get defaultProps() {
+		let props = componentsStack[this._componentName].defaultProps;
+		let comp = Object.getPrototypeOf(componentsStack[this._componentName]);
+		while(comp) {
+			if (comp.defaultProps) {
+				props = {
+					...comp.defaultProps,
+					...props
+				};
+			}
+			if (comp._defaultProps) {
+				props = {
+					...props,
+					...comp._defaultProps
+				};
+			}
+			comp = Object.getPrototypeOf(comp);
+		}
 		return props;
 	}
 
 	/**
 	 * Return an array of props to set on the dom
 	 */
-	physicalProps(props = {}) {
+	static get physicalProps() {
+		return ['coco'];
+	}
+
+	/**
+	 * Get physical props for this particular instance
+	 * @return 		{Object} 			The physical props array
+	 */
+	get physicalProps() {
+		let props = componentsStack[this._componentName].physicalProps;
+		let comp = Object.getPrototypeOf(componentsStack[this._componentName]);
+		while(comp) {
+			if (comp.physicalProps) {
+				comp.physicalProps.forEach((prop) => {
+					if (props.indexOf(prop) === -1) {
+						props.push(prop);
+					}
+				});
+			}
+			comp = Object.getPrototypeOf(comp);
+		}
 		return props;
 	}
 
@@ -79,96 +141,14 @@ export default class SWebComponent extends HTMLElement {
 		this._nextPropsTimeout = null;
 		this._componentMounted = false;
 
+		// component name
+		this._componentName = __upperFirst(__camelize(__constructorName(this))) + 'Component';
+
 		// default props init
-		this.props = this.getDefaultProps();
+		this.props = Object.assign({}, this.defaultProps);
+
 		// compute props
 		this._computeProps();
-
-		console.log('props', this.defaultProps);
-
-	}
-
-	/**
-	 * Set properties
-	 */
-	setProps(props = {}) {
-		// set each props
-		for (let key in props) {
-			this.setProp(key, props[key]);
-		}
-		return this;
-	}
-
-	/**
-	 * Set a property
-	 */
-	setProp(prop, value) {
-
-		// save the oldVal
-		const _oldVal = this.props[prop];
-
-		// stop if same value
-		if (_oldVal === value) return;
-
-		// set the prop
-		this.props[prop] = value
-
-		// handle physical props
-		this._handlePhysicalProps(prop, value);
-
-		// if the component is not mounted
-		// we do nothing here...
-		if ( ! this.isComponentMounted()) return;
-
-		// create the stacks
-		this._prevPropsStack[prop] = _oldVal;
-		this._nextPropsStack[prop] = value;
-
-		// component will receive prop
-		if (this.componentWillReceiveProp) {
-			this.componentWillReceiveProp(prop, value, _oldVal);
-		}
-
-		// clearTimeout(this._nextPropsTimeout);
-		// this._nextPropsTimeout = setTimeout(() => {
-		fastdom.mutate(() => {
-
-			// create array version of each stacks
-			const nextPropsArray = [],
-				  prevPropsArray = [];
-			for (let key in this._nextPropsStack) {
-				const val = this._nextPropsStack[key];
-				nextPropsArray.push({
-					name : key,
-					value : val
-				});
-			}
-			for (let key in this._prevPropsStack) {
-				const val = this._prevPropsStack[key];
-				prevPropsArray.push({
-					name : key,
-					value : val
-				});
-			}
-
-			// call the will reveiveProps if exist
-			if (this.componentWillReceiveProps) {
-				this.componentWillReceiveProps(this._nextPropsStack, nextPropsArray);
-			}
-
-			// should component update
-			if (this.shouldComponentUpdate && ! this.shouldComponentUpdate(this._nextPropsStack, nextPropsArray)) return;
-
-			// component will update
-			this.componentWillUpdate(this._nextPropsStack, nextPropsArray);
-
-			// render the component
-			this.render();
-
-			// component did update
-			this.componentDidUpdate(this._prevPropsStack, prevPropsArray);
-
-		});
 	}
 
 	/**
@@ -324,6 +304,89 @@ export default class SWebComponent extends HTMLElement {
 	}
 
 	/**
+	 * Set properties
+	 */
+	setProps(props = {}) {
+		// set each props
+		for (let key in props) {
+			this.setProp(key, props[key]);
+		}
+		return this;
+	}
+
+	/**
+	 * Set a property
+	 */
+	setProp(prop, value) {
+
+		// save the oldVal
+		const _oldVal = this.props[prop];
+
+		// stop if same value
+		if (_oldVal === value) return;
+
+		// set the prop
+		this.props[prop] = value
+
+		// handle physical props
+		this._handlePhysicalProps(prop, value);
+
+		// if the component is not mounted
+		// we do nothing here...
+		if ( ! this.isComponentMounted()) return;
+
+		// create the stacks
+		this._prevPropsStack[prop] = _oldVal;
+		this._nextPropsStack[prop] = value;
+
+		// component will receive prop
+		if (this.componentWillReceiveProp) {
+			this.componentWillReceiveProp(prop, value, _oldVal);
+		}
+
+		// clearTimeout(this._nextPropsTimeout);
+		// this._nextPropsTimeout = setTimeout(() => {
+		fastdom.mutate(() => {
+
+			// create array version of each stacks
+			const nextPropsArray = [],
+				  prevPropsArray = [];
+			for (let key in this._nextPropsStack) {
+				const val = this._nextPropsStack[key];
+				nextPropsArray.push({
+					name : key,
+					value : val
+				});
+			}
+			for (let key in this._prevPropsStack) {
+				const val = this._prevPropsStack[key];
+				prevPropsArray.push({
+					name : key,
+					value : val
+				});
+			}
+
+			// call the will reveiveProps if exist
+			if (this.componentWillReceiveProps) {
+				this.componentWillReceiveProps(this._nextPropsStack, nextPropsArray);
+			}
+
+			// should component update
+			if (this.shouldComponentUpdate && ! this.shouldComponentUpdate(this._nextPropsStack, nextPropsArray)) return;
+
+			// component will update
+			this.componentWillUpdate(this._nextPropsStack, nextPropsArray);
+
+			// render the component
+			this.render();
+
+			// component did update
+			this.componentDidUpdate(this._prevPropsStack, prevPropsArray);
+
+		});
+	}
+
+	/**
 	 * Check if component is mounted
 	 * @return 			{Boolean} 			true if mounted, false if not
 	 */
@@ -338,8 +401,8 @@ export default class SWebComponent extends HTMLElement {
 	_handlePhysicalProps(prop, value) {
 		fastdom.mutate(() => {
 			// check if is a physical prop to set it in the dom
-			const physicalProps = this.physicalProps();
-			if (physicalProps[prop]) {
+			const physicalProps = this.physicalProps;
+			if (physicalProps.indexOf(prop) !== -1) {
 				// set the prop on the node
 				if (value === false) {
 					this.removeAttribute(prop);
