@@ -225,7 +225,7 @@ class SEqualizeComponent extends SComponent {
 			const equalizer = element.querySelector('[s-equalizer]');
 			if (equalizer) {
 				// console.log('set equalizerElm', line.height - column.offsetHeight + 'px');
-				equalizer.style.height = line.height - element.offsetHeight + 'px';
+				equalizer.style.minHeight = line.height - element.offsetHeight + 'px';
 			} else {
 				element.style.minHeight = line.height + 'px';
 				// column.style.maxHeight = line.height + 'px';
