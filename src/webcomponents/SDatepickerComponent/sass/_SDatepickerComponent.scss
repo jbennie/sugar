@@ -1,0 +1,318 @@
+// @TODO : handle componentName in datepicker component
+
+$_s-datepicker-component-inited : false;
+@mixin s-datepicker-component-init() {
+	@if not $_s-datepicker-component-inited {
+		$_s-datepicker-component-inited : true ! global;
+
+		.flatpickr-input {
+		    cursor: pointer;
+		    z-index: 1
+		}
+		.flatpickr-mobileInput {
+		    opacity: 0;
+		    visibility: hidden;
+		    position: absolute;
+		    width: 0;
+		    height: 0;
+		    box-sizing: border-box;
+		    padding: 0
+		}
+		.flatpickr-calendar {
+			color: s-color(text);
+		    background: #fff;
+			@include s-transition(fast margin-top,fast opacity);
+			opacity:0;
+			pointer-events: none;
+			margin-top:-20px;
+			border-radius: s-lnf(border-radius);
+			text-align: center;
+		    padding:1em;
+		    position: absolute;
+
+		}
+		.flatpickr-calendar.open {
+		    opacity: 1;
+		    z-index: 99999;
+			margin-top:0;
+			pointer-events: all;
+			@include s-depth(6);
+		}
+		.flatpickr-calendar.inline {
+		    display: inline-block;
+		    position: relative;
+			opacity:1;
+			margin-top:0;
+			pointer-events: all;
+		}
+		.flatpickr-calendar.static {
+		    position: relative
+		}
+		.flatpickr-calendar.static.open {
+		    display: block
+		}
+		.flatpickr-calendar.hasWeeks {
+		}
+
+		.flatpickr-month,
+		.flatpickr-next-month i,
+		.flatpickr-prev-month i {
+		    position: relative
+		}
+
+		.flatpickr-month {
+			display: table;
+			width:100%;
+			color: s-color(text);
+		    fill: s-color(text);
+		}
+		.flatpickr-month > span {
+			display: table-cell !important;
+			vertical-align: middle;
+			height: 3em;
+			line-height: 3em;
+		}
+
+		.flatpickr-next-month,
+		.flatpickr-prev-month {
+		    text-decoration: none;
+		    cursor: pointer
+		}
+		.flatpickr-next-month svg,
+		.flatpickr-prev-month svg {
+		    height: 1em;
+		}
+		.flatpickr-next-month svg path,
+		.flatpickr-prev-month svg path {
+		    fill: inherit
+		}
+		.flatpickr-next-month svg:hover,
+		.flatpickr-prev-month svg:hover {
+		    fill: #f99595
+		}
+		.flatpickr-next-month:hover,
+		.flatpickr-prev-month:hover {
+		    color: #f99595
+		}
+		.flatpickr-current-month {
+		}
+		.flatpickr-current-month .cur-month {
+		    font-weight: bold;
+		}
+		.flatpickr-current-month .cur-year {
+		    padding: 0;
+		    margin: 0;
+		    width: 3.2em;
+		    display: inline;
+		    font-size: inherit;
+		    font-weight: 300;
+		    line-height: inherit;
+		    height: initial;
+		    border: 0;
+		    border-radius: 0;
+		    vertical-align: initial;
+			outline:none;
+		}
+		.flatpickr-current-month .cur-year:hover {
+		    background: rgba(0, 0, 0, .05)
+		}
+		.flatpickr-weekdays {
+			padding:.5em 0;
+		    overflow: hidden;
+		}
+		span.flatpickr-weekday {
+		    cursor: default;
+		    margin: 0;
+		    text-align: center;
+		    display:inline-block;
+		    width: 3em / 6 * 10;
+			font-size:.6em;
+		}
+
+		.flatpickr-rContainer {
+			display: inline-block;
+			width: 21em;
+		}
+		.flatpickr-days {
+		    outline: 0;
+		    text-align: left;
+		}
+		.flatpickr-day {
+			border-radius: s-lnf(border-radius);
+			width: 3em;
+			height: 3em;
+			line-height: 3em;
+			cursor: pointer;
+		    display: inline-block;
+		    margin: 0;
+		    text-align: center;
+			@include s-transition(fast);
+		}
+		.flatpickr-day.disabled,
+		.flatpickr-day.disabled:hover,
+		.flatpickr-day.nextMonthDay,
+		.flatpickr-day.notAllowed,
+		.flatpickr-day.notAllowed.nextMonthDay,
+		.flatpickr-day.notAllowed.prevMonthDay,
+		.flatpickr-day.prevMonthDay {
+		    color: rgba(57, 57, 57, .3);
+		    background: 0 0;
+		    border-color: transparent;
+		    cursor: default
+		}
+		.flatpickr-weekwrapper {
+		    display: inline-block;
+		    float: left
+		}
+		.flatpickr-weekwrapper .flatpickr-weeks {
+		    padding: 0 .25rem;
+		    border-right: 1px solid #e6e6e6
+		}
+		.flatpickr-weekwrapper .flatpickr-weekday {
+		    float: none;
+		    width: 100%
+		}
+		.flatpickr-weekwrapper span.flatpickr-day {
+		    display: block;
+		    width: 100%
+		}
+		.flatpickr-time {
+		    overflow: auto;
+		    text-align: center;
+		    border-top: 0;
+		    outline: 0;
+		    display: block;
+		    display: flex
+		}
+		.flatpickr-am-pm,
+		.flatpickr-time input,
+		.flatpickr-time-separator {
+		    height: 38px;
+		    display: inline-block;
+		    line-height: 38px;
+		    color: #393939
+		}
+		.flatpickr-time input {
+		    -moz-appearance: textfield;
+		    background: 0 0;
+		    box-shadow: none;
+		    border: 0;
+		    border-radius: 0;
+		    flex: 1;
+		    width: 33%;
+		    min-width: 33%;
+		    text-align: center;
+		    margin: 0;
+		    padding: 0;
+		    cursor: pointer;
+		    font-weight: 700
+		}
+		.flatpickr-time input.flatpickr-minute {
+		    width: 26%;
+		    font-weight: 300
+		}
+		.flatpickr-time input.flatpickr-second {
+		    font-weight: 300
+		}
+		.flatpickr-time input:focus {
+		    outline: 0;
+		    border: 0
+		}
+		.flatpickr-time input:focus,
+		.flatpickr-time input:hover {
+		    -moz-appearance: number-input;
+		    background: #e6e6e6
+		}
+		.flatpickr-time.has-seconds input[type=number] {
+		    width: 25%;
+		    min-width: 25%
+		}
+		.hasTime .flatpickr-days,
+		.hasWeeks .flatpickr-days {
+		    border-bottom: 0;
+		    border-bottom-right-radius: 0;
+		    border-bottom-left-radius: 0
+		}
+		.hasWeeks .flatpickr-days {
+		    border-left: 0
+		}
+		.flatpickr-rContainer+.flatpickr-time {
+		    border-top: 1px solid #e6e6e6
+		}
+		.flatpickr-am-pm {
+		    outline: 0;
+		    width: 21%;
+		    padding: 0 2%;
+		    cursor: pointer;
+		    text-align: left;
+		    font-weight: 300
+		}
+		.flatpickr-am-pm:focus,
+		.flatpickr-am-pm:hover {
+		    background: #f0f0f0
+		}
+		@media all and (-ms-high-contrast: none) {
+		    .flatpickr-month {
+		        padding: 0
+		    }
+		    .flatpickr-month svg {
+		        top: 0!important
+		    }
+		}
+	}
+}
+
+@mixin s-datepicker-component(
+	$colors : default primary secondary
+) {
+	@include s-datepicker-component-bare();
+	@if $colors {
+		@include s-datepicker-component-style($colors);
+	}
+}
+
+@mixin s-datepicker-component-bare() {
+	@include s-datepicker-component-init();
+}
+
+@mixin s-datepicker-component-style(
+	$colors
+) {
+	@include s-component('s-datepicker') {
+		@include s-datepicker-component-init();
+
+		@each $color in $colors {
+			.flatpickr-calendar[color="#{$color}"] {
+				.flatpickr-day.inRange,
+				.flatpickr-day.nextMonthDay.inRange,
+				.flatpickr-day.nextMonthDay:focus,
+				.flatpickr-day.nextMonthDay:hover,
+				.flatpickr-day.prevMonthDay.inRange,
+				.flatpickr-day.prevMonthDay:focus,
+				.flatpickr-day.prevMonthDay:hover,
+				.flatpickr-day:focus,
+				.flatpickr-day:hover {
+				    cursor: pointer;
+				    outline: 0;
+				    background: s-color($color, -opacity .1);
+				}
+				.flatpickr-day.today {
+				    // background: s-color($color, -opacity .3);
+				    color: s-color($color);
+					font-weight:bold;
+				}
+				.flatpickr-day.today:focus,
+				.flatpickr-day.today:hover {
+				}
+				.flatpickr-day.selected,
+				.flatpickr-day.selected.nextMonthDay,
+				.flatpickr-day.selected.prevMonthDay,
+				.flatpickr-day.selected:focus,
+				.flatpickr-day.selected:hover {
+				    background: s-color($color);
+				    color: #fff;
+				}
+			}
+		}
+	}
+}
