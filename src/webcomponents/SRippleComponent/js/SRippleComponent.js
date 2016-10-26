@@ -60,7 +60,7 @@ export default class SRippleComponent extends SWebComponent {
 	}
 
 	static get physicalProps() {
-		return ['hello'];
+		return [];
 	}
 
 	/**

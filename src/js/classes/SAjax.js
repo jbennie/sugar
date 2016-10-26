@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable'
 import strToHtml from '../utils/string/strToHtml'
 import htmlToStr from '../utils/string/htmlToStr'
 import SAjaxRequest from './SAjaxRequest'
+import __autoCast from '../utils/string/autoCast'
 
 /**
  * @class 		SAjax 	{SObject}
@@ -156,24 +157,30 @@ export default class SAjax extends SObject {
 			// grab response
 			let response = e.target.response;
 
-			// check if the url has an hash
-			// and that the request dataType is html
-			const urlParts = simpleAjax._requestSettings.url.toString().split('#');
-			if (simpleAjax._requestSettings.dataType === 'html'
-				&& urlParts.length >= 2 && document !== undefined && document.querySelector !== undefined
-			) {
-				const html = strToHtml(response);
-				const part = html.querySelector(`#${urlParts[1]}`);
-				if (part) {
-					response = htmlToStr(part);
-				}
-			}
+			// get the content type
+			const contentType = simpleAjax.request.getResponseHeader('content-type');
 
-			// auto convert JSON response
-			if (simpleAjax._requestSettings.dataType
-				&& simpleAjax._requestSettings.dataType.toLowerCase() === 'json'
-			) {
-				response = JSON.parse(response);
+			// switch on content type
+			switch(true) {
+				case contentType.indexOf('text/html') === 0:
+					// check if the url has an hash
+					// and that the request dataType is html
+					const urlParts = simpleAjax._requestSettings.url.toString().split('#');
+					if (urlParts.length >= 2 && document !== undefined && document.querySelector !== undefined) {
+						const html = strToHtml(response);
+						if (html.id === urlParts[1]) {
+							response = htmlToStr(html);
+						} else {
+							const part = html.querySelector(`#${urlParts[1]}`);
+							if (part) {
+								response = htmlToStr(part);
+							}
+						}
+					}
+				break;
+				case contentType.indexOf('application/json') === 0:
+					response = JSON.parse(response);
+				break;
 			}
 
 			// push the result into the observer

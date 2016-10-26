@@ -9,7 +9,7 @@ $_s-input-component-inited : false;
 			@include s-font(s-setting('typo.font-family'));
 			-webkit-appearance: none;
 			-moz-appearance: none;
-			&:not(.input-addon) {
+			&:not(.input-addon):not(textarea) {
 				line-height: 1 !important;
 			}
 			border:none;
@@ -102,6 +102,7 @@ $_s-input-component-inited : false;
 		}
 		textarea#{s-component-selector()} {
 			height: auto !important;
+			line-height:1.5;
 
 			@include s-input-component-textarea-field-size();
 

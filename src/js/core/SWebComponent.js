@@ -2,9 +2,10 @@ import __autoCast from '../utils/string/autoCast'
 import __camelize from '../utils/string/camelize'
 import __upperFirst from '../utils/string/upperFirst'
 import sSettings from './sSettings'
-require('webcomponents.js');
+require('webcomponents.js/webcomponents-lite');
 import fastdom from 'fastdom'
 import __constructorName from '../utils/objects/constructorName'
+import __dispatchEvent from '../dom/dispatchEvent'
 
 const componentsStack = {};
 
@@ -16,13 +17,15 @@ export default class SWebComponent extends HTMLElement {
 	 * @param 			{SWebComponent} 	component 	The component class
 	 */
 	static define(name, component) {
-		let funcNameRegex = /function (.{1,})\(/;
-		const res = (funcNameRegex).exec(component.toString());
-		if ( ! res || ! res[1]) {
-			throw `You component names ${name} can not be defined with the component class passed ${component}`;
-		}
-		componentsStack[res[1]] = component;
-		document.registerElement(name, component);
+		setTimeout(() => {
+			let funcNameRegex = /function (.{1,})\(/;
+			const res = (funcNameRegex).exec(component.toString());
+			if ( ! res || ! res[1]) {
+				throw `You component names ${name} can not be defined with the component class passed ${component}`;
+			}
+			componentsStack[res[1]] = component;
+			document.registerElement(name, component);
+		});
 	}
 
 	/**
@@ -96,7 +99,7 @@ export default class SWebComponent extends HTMLElement {
 	 * Return an array of props to set on the dom
 	 */
 	static get physicalProps() {
-		return ['coco'];
+		return [];
 	}
 
 	/**
@@ -141,8 +144,8 @@ export default class SWebComponent extends HTMLElement {
 		this._nextPropsTimeout = null;
 		this._componentMounted = false;
 
-		// component name
-		this._componentName = __upperFirst(__camelize(__constructorName(this))) + 'Component';
+		// set the componentName
+		this._componentName = __upperFirst(__camelize(this.tagName.toLowerCase())) + 'Component';
 
 		// default props init
 		this.props = Object.assign({}, this.defaultProps);
@@ -304,6 +307,20 @@ export default class SWebComponent extends HTMLElement {
 	}
 
 	/**
+	 * Dispatch an event from the tag with namespaced event name
+	 * This will dispatch actually two events :
+	 * 1. {tagName}.{name} : example : s-datepicker.change
+	 * 2. {name} 		   : example : change
+	 *
+	 * @param		{String} 		name 		The event name
+	 * @param 		{Mixed} 		data 		Some data to attach to the event
+	 */
+	dispatchComponentEvent(name, data = null) {
+		__dispatchEvent(this, name, data);
+		__dispatchEvent(this, `${this.tagName.toLowerCase()}.${name}`, data);
+	}
+
+	/**
 	 * Set properties
 	 */
 	setProps(props = {}) {
@@ -404,7 +421,7 @@ export default class SWebComponent extends HTMLElement {
 			const physicalProps = this.physicalProps;
 			if (physicalProps.indexOf(prop) !== -1) {
 				// set the prop on the node
-				if (value === false) {
+				if (value === false || value === 'null' || ! value) {
 					this.removeAttribute(prop);
 				} else if (typeof(value) === 'object') {
 					this.setAttribute(prop, JSON.stringify(value));

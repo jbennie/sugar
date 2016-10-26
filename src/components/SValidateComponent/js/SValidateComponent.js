@@ -177,6 +177,7 @@ class SValidateComponent extends SComponent {
 				// validate the input
 				if ( ! isValid) {
 					e.preventDefault();
+					e.stopPropagation();
 				}
 			});
 		}
