@@ -171,7 +171,7 @@ class SDialogComponent extends SComponent {
 				|| document.location.hash.substr(1) !== this.settings.id
 			)
 		) {
-			window.history.pushState({},null,`#${this.settings.id}`);
+			window.history.pushState({},null,`${document.location.search || ''}#${this.settings.id}`);
 			// __dispatchEvent(window, 'hashchange');
 		}
 
@@ -358,7 +358,7 @@ class SDialogComponent extends SComponent {
 
 		// reset the hash
 		if (this.settings.id) {
-			window.history.pushState(null, document.title, '#');
+			window.history.pushState(null, document.title, `${document.location.search || ''}#`);
 			// __dispatchEvent(window, 'hashchange');
 		}
 
