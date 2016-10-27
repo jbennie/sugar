@@ -124,7 +124,7 @@ export default class SDatepickerComponent extends SWebComponent {
 			 * Hides the calendar. For use along with enableTime.
 			 * @type 		{Boolean}
 			 */
-			noCalendar : {},
+			noCalendar : false,
 
 			/**
 			 * Function(s) to trigger on every date selection

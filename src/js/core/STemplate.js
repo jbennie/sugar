@@ -318,17 +318,20 @@ export default class STemplate {
 							} else {
 								throw `You try to access the "${value}" value but your template is not embeded in another one`;
 							}
+						} else if (value.substr(0,1) === '<' && value.substr(-1) === '>') {
+							// apply a node id to each nodes
+							value = value.replace(/<[a-zA-Z]+\s/g, (item) => {
+								return `${item.trim()} s-template-node-id="${__uniqid()}" `;
+							});
+						} else if (this.data[value]) {
+							// the value exist in the current data
+							value = _get(this.data, value);
 						} else {
-							// check if the value exist in the current data
-							if (this.data[value]) {
-								value = _get(this.data, value);
-							} else {
-								// get parent template
-								const parentTemplate = this._getParentTemplate();
-								if (parentTemplate && parentTemplate.data) {
-									const _v = _get(parentTemplate.data, value);
-									if (_v) value = _v;
-								}
+							// get parent template
+							const parentTemplate = this._getParentTemplate();
+							if (parentTemplate && parentTemplate.data) {
+								const _v = _get(parentTemplate.data, value);
+								if (_v) value = _v;
 							}
 						}
 					}
@@ -475,7 +478,7 @@ export default class STemplate {
 				}
 
 				// get the integration from the node
-				const integration = sTemplateIntegrator.getIntegrationFrom(toNode);
+				const integration = sTemplateIntegrator.getIntegrationFrom(fromNode);
 
 				// handle the ingnore integration
 				if (typeof(integration.ignore) === 'object') {
@@ -499,8 +502,6 @@ export default class STemplate {
 							// to keep in sync the from and to nodes
 							if (fromNode.hasAttribute(key)) {
 								toNode.setAttribute(key, fromNode.getAttribute(key));
-							} else {
-								toNode.removeAttribute(key);
 							}
 						}
 					}
@@ -606,39 +607,57 @@ export default class STemplate {
 		// if (node._sTemplateIntegrationDone) return;
 		// node._sTemplateIntegrationDone = true;
 
-		// check if is a component to render it
-		const components = sElementsManager.getComponents(node);
-		if (components) {
-			// loop on each components to render themself
-			for (let name in components) {
-				const component = components[name];
+		if ( ! node._sTemplateTypesIntegration) node._sTemplateTypesIntegration = {};
 
-				// if already integrated
-				// do not launch the integration function
-				if (component._sTemplateIntegrated !== true) {
-					// const constructorName = __constructorName(component);
-					// const integrationFn = STemplate._componentsIntegrationFnStack[constructorName];
-					// if (integrationFn) {
-					// 	integrationFn(component);
-					// 	component._sTemplateIntegrated = true;
-					// }
-					// loop on each prototypes to go up inheritence tree
-					let proto = Object.getPrototypeOf(component);
-					while(proto) {
-						const constructorName = __constructorName(proto);
-						if ( ! component._sTemplateIntegrated) component._sTemplateIntegrated = {};
-						if ( ! component._sTemplateIntegrated[constructorName]) {
-							component._sTemplateIntegrated[constructorName] = true;
-							const integrationFn = sTemplateIntegrator._componentsIntegrationFnStack[constructorName];
-							if (integrationFn) {
-								integrationFn(component);
-							}
-						}
-						proto = Object.getPrototypeOf(proto);
-					}
+		// loop ever the types of the node
+		if (node._typeOf && node._typeOf instanceof Array) {
+			node._typeOf.forEach((type) => {
+				// do nothing is already integrated
+				if ( node._sTemplateTypesIntegration
+					&& node._sTemplateTypesIntegration[type]) return;
+				// get the integration function
+				const integrationFn = sTemplateIntegrator._componentsIntegrationFnStack[type];
+				if (integrationFn) {
+					integrationFn(node._sInstance || node);
 				}
-			}
+				// set as integrated
+				node._sTemplateTypesIntegration[type] = true;
+			});
 		}
+
+		// check if is a component to render it
+		// const components = sElementsManager.getComponents(node);
+		// if (components) {
+		// 	// loop on each components to render themself
+		// 	for (let name in components) {
+		// 		const component = components[name];
+		//
+		// 		// if already integrated
+		// 		// do not launch the integration function
+		// 		if (component._sTemplateIntegrated !== true) {
+		// 			// const constructorName = __constructorName(component);
+		// 			// const integrationFn = STemplate._componentsIntegrationFnStack[constructorName];
+		// 			// if (integrationFn) {
+		// 			// 	integrationFn(component);
+		// 			// 	component._sTemplateIntegrated = true;
+		// 			// }
+		// 			// loop on each prototypes to go up inheritence tree
+		// 			let proto = Object.getPrototypeOf(component);
+		// 			while(proto) {
+		// 				const constructorName = __constructorName(proto);
+		// 				if ( ! component._sTemplateIntegrated) component._sTemplateIntegrated = {};
+		// 				if ( ! component._sTemplateIntegrated[constructorName]) {
+		// 					component._sTemplateIntegrated[constructorName] = true;
+		// 					const integrationFn = sTemplateIntegrator._componentsIntegrationFnStack[constructorName];
+		// 					if (integrationFn) {
+		// 						integrationFn(component);
+		// 					}
+		// 				}
+		// 				proto = Object.getPrototypeOf(proto);
+		// 			}
+		// 		}
+		// 	}
+		// }
 	}
 
 	/**

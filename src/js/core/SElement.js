@@ -12,6 +12,7 @@ import __dataset from '../dom/dataset'
 import __dispatchEvent from '../dom/dispatchEvent'
 import _set from 'lodash/set';
 import _get from 'lodash/get';
+import __constructorName from '../utils/objects/constructorName'
 
 import sElementsManager from './sElementsManager'
 import sDebug from '../utils/sDebug'
@@ -134,6 +135,22 @@ class SElement extends SObject {
 
 		// save the element reference
 		this.elm = elm;
+
+		// sane into the element of which type it is
+		if ( ! this.elm._typeOf) this.elm._typeOf = [];
+		let comp = this;
+		while(comp) {
+			const name = __constructorName(comp);
+			if (name) {
+				if ( this.elm._typeOf.indexOf(name) === -1) {
+					this.elm._typeOf.push(name);
+				}
+			}
+			comp = Object.getPrototypeOf(comp);
+		}
+
+		// save the instance in the elm
+		this.elm._sInstance = this;
 
 		// create a uniqid for the element
 		this.elementId = this.elm.getAttribute('s-element') || __uniqid();

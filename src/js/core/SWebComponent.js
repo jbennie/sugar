@@ -6,6 +6,8 @@ require('webcomponents.js/webcomponents-lite');
 import fastdom from 'fastdom'
 import __constructorName from '../utils/objects/constructorName'
 import __dispatchEvent from '../dom/dispatchEvent'
+import __whenInViewport from '../dom/whenInViewport'
+import __whenVisible from '../dom/whenVisible'
 
 const componentsStack = {};
 
@@ -58,7 +60,7 @@ export default class SWebComponent extends HTMLElement {
 	 */
 	static get defaultProps() {
 		return {
-			initWhen : null
+			mountWhen : null
 		};
 	}
 
@@ -146,6 +148,20 @@ export default class SWebComponent extends HTMLElement {
 
 		// set the componentName
 		this._componentName = __upperFirst(__camelize(this.tagName.toLowerCase())) + 'Component';
+
+		// save each instances into the element _sComponents stack
+		this._typeOf = [];
+		let comp = componentsStack[this._componentName];
+		while(comp) {
+			let funcNameRegex = /function (.{1,})\(/;
+			const res = (funcNameRegex).exec(comp.toString());
+			if (res && res[1]) {
+				if ( this._typeOf.indexOf(res[1]) === -1) {
+					this._typeOf.push(res[1]);
+				}
+			}
+			comp = Object.getPrototypeOf(comp);
+		}
 
 		// default props init
 		this.props = Object.assign({}, this.defaultProps);
@@ -245,6 +261,42 @@ export default class SWebComponent extends HTMLElement {
 	 * When the element is attached
 	 */
 	attachedCallback() {
+
+		// switch on the mountWhen prop
+		switch(this.props.mountWhen) {
+			case 'inViewport':
+				__whenInViewport(this).then(() => {
+					this._mountComponent();
+				});
+			break;
+			case 'mouseover':
+				this.addEventListener('mouseover', this._onMouseoverComponentMount.bind(this));
+			break;
+			case 'isVisible':
+				__whenVisible(this).then(() => {
+					this._mountComponent();
+				})
+			break;
+			default:
+				// mount component directly
+				this._mountComponent();
+			break;
+		}
+
+	}
+
+	/**
+	 * On mouse over
+	 */
+	_onMouseoverComponentMount() {
+		this._mountComponent();
+		this.removeEventListener('mouseover', this._onMouseoverComponentMount);
+	}
+
+	/**
+	 * Internal mount component method
+	 */
+	_mountComponent() {
 		// init
 		this.componentMount();
 		// render

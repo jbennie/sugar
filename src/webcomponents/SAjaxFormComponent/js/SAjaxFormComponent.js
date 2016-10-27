@@ -1,4 +1,4 @@
-import SWebComponent from '../../../js/core/SWebComponent'
+import SWebTemplateComponent from '../../../js/core/SWebTemplateComponent'
 import __getAnimationProperties from '../../../js/dom/getAnimationProperties'
 import __style from '../../../js/dom/style'
 import Flatpickr from 'flatpickr/dist/flatpickr'
@@ -6,7 +6,7 @@ import __dispatchEvent from '../../../js/dom/dispatchEvent'
 import SAjax from '../../../js/classes/SAjax'
 import _get from 'lodash/get'
 
-export default class SAjaxFormComponent extends SWebComponent {
+export default class SAjaxFormComponent extends SWebTemplateComponent {
 
 	/**
 	 * @constructor
@@ -51,7 +51,28 @@ export default class SAjaxFormComponent extends SWebComponent {
 			 * Path that specify where the error to display
 			 * lives in the response JSON
 			 */
-			errorPath : null
+			errorPath : null,
+
+			/**
+			 * Data available into the template
+			 * @type 		{Object}
+			 */
+			data : {
+
+				/**
+				 * Store the success response
+				 * @templateData
+				 * @type 		{Mixed}
+				 */
+				success : null,
+
+				/**
+				 * Store the error response
+				 * @templateData
+				 * @type		{Mixed}}
+				 */
+				error : null
+			}
 		}
 	}
 
@@ -69,6 +90,8 @@ export default class SAjaxFormComponent extends SWebComponent {
 	 */
 	componentMount() {
 		super.componentMount();
+
+		console.log('mount ajax');
 
 		// required properties
 		if ( ! this.props.for) {
@@ -105,8 +128,6 @@ export default class SAjaxFormComponent extends SWebComponent {
 	 * @param 		{Event} 		e 		The submit event
 	 */
 	_onSubmit(e) {
-		console.log('submit', e);
-
 		e.preventDefault();
 
 		// check validity
@@ -118,16 +139,16 @@ export default class SAjaxFormComponent extends SWebComponent {
 			method : this._form.getAttribute('method') || 'POST'
 		});
 
+		// set the loading attribute on the form
+		this._form.setAttribute('loading', true);
+
 		// send the request
 		ajx.send().then((response) => {
-			console.log('response', response);
 			// handle response
 			this._handleSuccess(response);
 		}, (error) => {
-			console.error('error', error);
+			this._handleError(error);
 		});
-
-
 	}
 
 	/**
@@ -135,18 +156,24 @@ export default class SAjaxFormComponent extends SWebComponent {
 	 * @param 		{Mixed} 		response 		The ajax response
 	 */
 	_handleSuccess(response) {
+		// remove the loading attribute on the form
+		this._form.removeAttribute('loading', true);
+
+		// reset form
+		this._form.reset();
+
 		// check the response type
 		if (typeof(response) === 'string') {
 			// assume that the response is some kind of text, or html.
 			// set it directly into the html
-			this.innerHTML = response;
+			this.data.success = response;
 		} else if (typeof(response) === 'object'
 				  && this.props.successPath
 		) {
 			// try to get the success message
 			const msg = _get(response, this.props.successPath);
 			if ( ! msg) return;
-			this.innerHTML = msg;
+			this.data.success = msg;
 		}
 
 		// check if need to hide the form
@@ -158,7 +185,44 @@ export default class SAjaxFormComponent extends SWebComponent {
 		if (this.props.displayResultTimeout) {
 			setTimeout(() => {
 				// empty the element
-				this.innerHTML = '';
+				this.data.success = null;
+				this._form.style.display = '';
+			}, this.props.displayResultTimeout);
+		}
+	}
+
+	/**
+	 * Handle error response
+	 * @param 		{Mixed} 		error 		The error response from the server
+	 */
+	_handleError(error) {
+		// remove the loading attribute on the form
+		this._form.removeAttribute('loading', true);
+
+		// check the error type
+		if (typeof(error) === 'string') {
+			// assume that the error is some kind of text, or html.
+			// set it directly into the html
+			this.data.error = error;
+		} else if (typeof(error) === 'object'
+				  && this.props.errorPath
+		) {
+			// try to get the error message
+			const msg = _get(error, this.props.errorPath);
+			if ( ! msg) return;
+			this.data.error = msg;
+		}
+
+		// check if need to hide the form
+		if (this.props.hideFormOnError) {
+			// hide the form
+			this._form.style.display = 'none';
+		}
+
+		if (this.props.displayResultTimeout) {
+			setTimeout(() => {
+				// empty the element
+				this.data.error = null;
 				this._form.style.display = '';
 			}, this.props.displayResultTimeout);
 		}
@@ -170,12 +234,8 @@ export default class SAjaxFormComponent extends SWebComponent {
 	 */
 	render() {
 		super.render();
-		// copy props
-		if (this.props.color) {
-			this._flatpickr.calendarContainer.setAttribute('color', this.props.color);
-		}
 	}
 }
 
 // register component
-SWebComponent.define('s-ajax-form', SAjaxFormComponent);
+SWebTemplateComponent.define('s-ajax-form', SAjaxFormComponent);

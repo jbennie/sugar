@@ -21,17 +21,17 @@ class STemplateIntegrator {
 	}
 
 	getIntegrationFrom(elm) {
-		let integration = __autoCast(elm.getAttribute('s-template-integration'));
-		if ( ! integration) {
-			integration = {
-				ignore : {},
-				refresh : false
-			};
-		}
+		let integration = elm._sTemplateIntegration || {
+			ignore : {
+				"s-template-integration" : true
+			},
+			refresh : false
+		};
 		return integration;
 	}
 
 	setIntegrationTo(elm, integration) {
+		elm._sTemplateIntegration = integration;
 		elm.setAttribute('s-template-integration', JSON.stringify(integration));
 		return this;
 	}

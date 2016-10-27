@@ -376,10 +376,9 @@ class SRangeComponent extends SComponent {
 
 // STemplate integration
 sTemplateIntegrator.registerComponentIntegration('SRangeComponent', (component) => {
-	sTemplateIntegrator.ignore(component.container)
-			 .ignore(component.elm, {
-				style : true
-			 });
+	sTemplateIntegrator.ignore(component.elm, {
+		style : true
+	 });
 });
 
 // expose in window.sugar
