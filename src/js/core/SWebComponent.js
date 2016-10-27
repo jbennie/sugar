@@ -77,6 +77,7 @@ export default class SWebComponent extends HTMLElement {
 	 * @return 		{Object} 			The default props
 	 */
 	get defaultProps() {
+		console.log(this._componentName);
 		let props = componentsStack[this._componentName].defaultProps;
 		let comp = Object.getPrototypeOf(componentsStack[this._componentName]);
 		while(comp) {

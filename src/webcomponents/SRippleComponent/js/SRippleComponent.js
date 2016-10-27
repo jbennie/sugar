@@ -79,6 +79,7 @@ export default class SRippleComponent extends SWebComponent {
 	 * Unmount the component
 	 */
 	componentUnmount() {
+		super.componentUnmount();
 		// do not listen for click anymore
 		this._parentNode.removeEventListener('click', this._onParentClick);
 	}
