@@ -82,12 +82,6 @@ export default class SValidatorComponent extends SWebComponent {
 			for : null,
 
 			/**
-			 * The list of validators to apply on the element
-			 * @type 	{String}
-			 */
-			validate : null,
-
-			/**
 			 * Specify when the validation has to be triggered
 			 * @type 	{String}
 			 */
@@ -111,6 +105,12 @@ export default class SValidatorComponent extends SWebComponent {
 			 * @type 	{Object}
 			 */
 			validators : {},
+
+			/**
+			 * Specify the validators order
+			 * @type 	{Array}
+			 */
+			validateOrder : null,
 
 			/**
 			 * messages
@@ -150,10 +150,10 @@ export default class SValidatorComponent extends SWebComponent {
 			throw `The SValidatorComponent need a "for" property that target a form input to handle validation for...`;
 		}
 		// get the input
-		this._target = document.querySelector(`[name="${this.props.for}"],#${this.props.for}`);
+		this._targets = document.querySelectorAll(`[name="${this.props.for}"],#${this.props.for}`);
 
 		// check the target
-		if ( ! this._target) {
+		if ( ! this._targets) {
 			throw `The form field named "${this.props.for}" has not been found in the current document`;
 		}
 
@@ -174,23 +174,26 @@ export default class SValidatorComponent extends SWebComponent {
 
 		// listen when to trigger the validation
 		if (this.props.on) {
-
-			// if is a select, a checkbox or a radio
-			this._target.addEventListener(this.props.on, (e) => {
-				// validate directly if no timeout
-				if ( ! this.props.timeout) this.validate();
-				else {
-					// wait before validating
-					clearTimeout(this._timeout);
-					this._timeout = setTimeout(() => {
-						this.validate();
-					}, this.props.timeout);
-				}
+			[].forEach.call(this._targets, (target) => {
+				const type = target.getAttribute('type');
+				const listener = (type === 'checkbox' || type === 'radio') ? 'change' : this.props.on;
+				// if is a select, a checkbox or a radio
+				target.addEventListener(listener, (e) => {
+					// validate directly if no timeout
+					if ( ! this.props.timeout) this.validate();
+					else {
+						// wait before validating
+						clearTimeout(this._timeout);
+						this._timeout = setTimeout(() => {
+							this.validate();
+						}, this.props.timeout);
+					}
+				});
 			});
 		}
 
 		// try to find the closest form to listen when it is submitted
-		const formElm = __closest(this._target, 'form');
+		const formElm = __closest(this._targets[0], 'form');
 		this._formElm = formElm;
 		if (formElm) {
 			formElm.setAttribute('novalidate', true);
@@ -219,17 +222,25 @@ export default class SValidatorComponent extends SWebComponent {
 		// set that is dirty
 		this._isDirty = true;
 
-		// loop on each validators and launch them
-		const validators = this.props.validate.split(',');
-		for (let i=0; i<validators.length; i++) {
-			const name = validators[i];
+		// create the validators array to loop through
+		const validatorsList = [];
+		for (let name in this.props) {
+			// if the prop is not a validator
+			// continue to the next prop
+			if ( ! this._validators[name] || name === 'required') continue;
+			// add the validator in the list
+			validatorsList.push(name);
+		}
+		if (this.props.required) validatorsList.unshift('required');
 
-			// check if the value is null and the validator name if not
-			// "required" to not launch the validation
-			if ( ! this._getFieldValue() && name !== 'required') continue;
+		console.log('validatorsList', validatorsList);
+
+		// loop on each validators and launch them
+		for (let i in validatorsList) {
+			const name = validatorsList[i];
 
 			// process to validation
-			if (this._validators[name] && ! this._validators[name].validate(this._target, this._getFieldValue())) {
+			if ( ! this._validators[name].validate(this._targets)) {
 
 				// set the invalid type
 				invalidType = name;
@@ -239,7 +250,7 @@ export default class SValidatorComponent extends SWebComponent {
 
 				// get the message
 				message = this._validators[name].message;
-				if (typeof(message) === 'function') message = message(this._target, this._messages[name]);
+				if (typeof(message) === 'function') message = message(this._targets, this._messages[name]);
 				else message = this._messages[name];
 				// apply the error message
 				applyFn = this.props.apply[name] || this.props.apply['default'];
@@ -260,6 +271,8 @@ export default class SValidatorComponent extends SWebComponent {
 			this._invalidType = null;
 		}
 
+		console.log('applyFn', applyFn);
+
 		// unapply
 		if ( this._unApply) {
 			this._unApply();
@@ -268,7 +281,8 @@ export default class SValidatorComponent extends SWebComponent {
 
 		if (applyFn) {
 			applyFn = applyFn.bind(this);
-			this._unApply = applyFn(this._target, message, this._invalidType);
+			console.log('message', message);
+			this._unApply = applyFn(this._targets, message, this._invalidType);
 		}
 
 		if ( ! invalidType) {
@@ -276,9 +290,6 @@ export default class SValidatorComponent extends SWebComponent {
 		} else {
 			this._isValid = false;
 		}
-
-		// render
-		// this.render();
 
 		if (this._isValid) {
 			this.setProp('active', false);
@@ -294,7 +305,7 @@ export default class SValidatorComponent extends SWebComponent {
 	 * Get the value
 	 */
 	_getFieldValue() {
-		const value = this._target.value;
+		const value = this._targets.value;
 		if ( value === '') return null;
 		return value;
 	}
@@ -305,60 +316,58 @@ export default class SValidatorComponent extends SWebComponent {
 	 * to apply the standard validators
 	 */
 	_applyStandardValidators() {
-		let validators = this.props.validate;
-		if (validators) validators = validators.split(',');
-		else validators = [];
-		const type = this._target.getAttribute('type');
+
+		// if their's more than 1 target,
+		// mean that it's a radio or a checkbox group
+		// and we do not get the standard validators
+		if (this._targets.length > 1) return;
+
+		// get the type
+		const type = this._targets[0].getAttribute('type');
+
+		// switch on type
+		switch(type) {
+			case 'email':
+			case 'integer':
+			case 'url':
+			case 'number':
+			case 'color':
+				this.setAttribute(type, true);
+			break;
+		}
+
+		// set the type if exist
+		if (type) {
+			this.setAttribute('type', type);
+		}
+
 		// required
-		if (this._target.getAttribute('required') !== undefined && validators.indexOf('required') === -1) {
-			validators.push('required');
+		if (this._targets[0].getAttribute('required') !== undefined) {
+			this.setAttribute('required', true);
 		}
 
 		// range
-		if (this._target.getAttribute('min') && this._target.getAttribute('max')) {
-			if (validators.indexOf('range') === -1) {
-				validators.push('range');
-			}
+		if (this._targets[0].getAttribute('min') && this._targets[0].getAttribute('max')) {
+			this.setAttribute('min', this._targets[0].getAttribute('min'));
+			this.setAttribute('max', this._targets[0].getAttribute('max'));
 		} else {
 			// max
-			if (this._target.getAttribute('max') && validators.indexOf('max') === -1) {
-				validators.push('max');
+			if (this._targets[0].getAttribute('max')) {
+				this.setAttribute('max', this._targets[0].getAttribute('max'));
 			}
 			// min
-			if (this._target.getAttribute('min') && validators.indexOf('min') === -1) {
-				validators.push('min');
+			if (this._targets[0].getAttribute('min')) {
+				this.setAttribute('min', this._targets[0].getAttribute('min'));
 			}
 		}
 		// maxlength
-		if (this._target.getAttribute('maxlength') && validators.indexOf('maxlength') === -1) {
-			validators.push('maxlength');
+		if (this._targets[0].getAttribute('maxlength')) {
+			this.setAttribute('maxlength', this._targets[0].getAttribute('maxlength'));
 		}
 		// pattern
-		if (this._target.getAttribute('pattern') && validators.indexOf('pattern') === -1) {
-			validators.push('pattern');
+		if (this._targets[0].getAttribute('pattern')) {
+			this.setAttribute('pattern', this._targets[0].getAttribute('pattern'));
 		}
-		// number
-		if (type === 'number' && validators.indexOf('number') === -1) {
-			validators.push('number');
-		}
-		// range
-		if (type === 'range' && validators.indexOf('range') === -1) {
-			validators.push('range');
-		}
-		// color
-		if (type === 'color' && validators.indexOf('color') === -1) {
-			validators.push('color');
-		}
-		// email
-		if (type === 'email' && validators.indexOf('email') === -1) {
-			validators.push('email');
-		}
-		// url
-		if (type === 'url' && validators.indexOf('url') === -1) {
-			validators.push('url');
-		}
-		// set the validators back in settings
-		this.props.validate = validators.join(',');
 	}
 
 	/**
@@ -375,13 +384,13 @@ export default class SValidatorComponent extends SWebComponent {
 		super.render();
 		// if is dirty
 		if (this._isDirty) {
-			this.addComponentClass(this._target, null, null, 'dirty');
+			this.addComponentClass(this._targets, null, null, 'dirty');
 			if (this._isValid) {
-				this.removeComponentClass(this._target, null, null, 'invalid');
-				this.addComponentClass(this._target, null, null, 'valid');
+				this.removeComponentClass(this._targets, null, null, 'invalid');
+				this.addComponentClass(this._targets, null, null, 'valid');
 			} else {
-				this.addComponentClass(this._target, null, null, 'invalid');
-				this.removeComponentClass(this._target, null, null, 'valid');
+				this.addComponentClass(this._targets, null, null, 'invalid');
+				this.removeComponentClass(this._targets, null, null, 'valid');
 			}
 		}
 	}
@@ -389,95 +398,136 @@ export default class SValidatorComponent extends SWebComponent {
 
 // required validator
 SValidatorComponent.registerValidator('required', {
-	validate : (target, value) => {
-		if ( ! target.hasAttribute('required') === undefined) return true;
-		return (value !== null);
+	validate : (targets) => {
+		let res = false;
+		[].forEach.call(targets, (target) => {
+			if (target.checked !== undefined) {
+				if (target.checked) res = true;
+			} else {
+				if ( target.value ) res = true;
+			}
+		});
+		return res;
 	}
 });
 
 // min validator
 SValidatorComponent.registerValidator('min', {
-	validate : (target, value) => {
-		return (value !== null && value >= parseFloat(target.getAttribute('min')));
+	validate : (targets) => {
+		if ( ! this.props.min) throw `The "min" validator need the "props.min" property to be specified...`;
+		if (targets.length === 1) {
+			// get the value
+			return (parseFloat(targets[0].value) >= this.props.min);
+		} else if (target.length > 1) {
+			// assume that it's some checkboxes
+			let checkedCount = 0;
+			[].forEach.call(targets, (target) => {
+				if (target.checked) checkedCount++;
+			});
+			// check result
+			return (checkedCount >= this.props.min);
+		}
 	},
 	message : (target, message) => {
-		return message.replace('%min', target.getAttribute('min'));
+		return message.replace('%min', this.props.min);
 	}
 });
 
 // max validator
 SValidatorComponent.registerValidator('max', {
-	validate : (target, value) => {
-		return (value !== null && value <= parseFloat(target.getAttribute('max')));
+	validate : (targets) => {
+		if ( ! this.props.max) throw `The "max" validator need the "props.max" property to be specified...`;
+		if (targets.length === 1) {
+			// get the value
+			return (parseFloat(targets[0].value) <= this.props.max);
+		} else if (target.length > 1) {
+			// assume that it's some checkboxes
+			let checkedCount = 0;
+			[].forEach.call(targets, (target) => {
+				if (target.checked) checkedCount++;
+			});
+			// check result
+			return (checkedCount <= this.props.max);
+		}
 	},
 	message : (target, message) => {
-		return message.replace('%max', target.getAttribute('max'));
+		return message.replace('%max', this.props.max);
 	}
 });
 
 // range validator
 SValidatorComponent.registerValidator('range', {
-	validate : (target, value) => {
-		return (value !== null && value <= parseFloat(target.getAttribute('max')) && value >= parseFloat(target.getAttribute('min')));
+	validate : (targets) => {
+		// check the min and max
+		if ( ! SValidatorComponent.validators.min.validate(targets)) return false;
+		if ( ! SValidatorComponent.validators.max.validate(targets)) return false;
+		return true;
 	},
-	message : (target, message) => {
-		return message.replace('%max', target.getAttribute('max')).replace('%min', target.getAttribute('min'));
+	message : (targets, message) => {
+		return message.replace('%max', this.props.max).replace('%min', this.props.min);
 	}
 });
 
 // maxlength validator
 SValidatorComponent.registerValidator('maxlength', {
-	validate : (target, value) => {
-		return (value.toString().length <= target.getAttribute('maxlength'));
+	validate : (targets) => {
+		if (targets.length > 1) throw 'The "maxlength" validator does not work on multiple targets fields...';
+		return (targets[0].value.toString().length <= this.props.maxlength);
 	},
-	message : (target, message) => {
-		return message.replace('%maxlength', target.getAttribute('maxlength'));
+	message : (targets, message) => {
+		return message.replace('%maxlength', target.props.maxlength);
 	}
 });
 
 // pattern validator
 SValidatorComponent.registerValidator('pattern', {
-	validate : (target, value) => {
-		const reg = new RegExp(target.getAttribute('pattern'));
-		return (value.toString().match(reg));
+	validate : (targets) => {
+		if (targets.length > 1) throw 'The "pattern" validator does not work on multiple targets fields...';
+		const reg = new RegExp(this.props.pattern);
+		return (targets[0].value.toString().match(reg));
 	},
-	message : (target, message) => {
-		return message.replace('%pattern', target.getAttribute('pattern'));
+	message : (targets, message) => {
+		return message.replace('%pattern', target.props.pattern);
 	}
 });
 
 // number validator
 SValidatorComponent.registerValidator('number', {
-	validate : (target, value) => {
-		return __isNumber(value);
+	validate : (targets) => {
+		if (targets.length > 1) throw 'The "number" validator does not work on multiple targets fields...';
+		return __isNumber(targets[0].value);
 	}
 });
 
 // integer validator
 SValidatorComponent.registerValidator('integer', {
-	validate : (target, value) => {
-		return __isInteger(value);
+	validate : (targets) => {
+		if (targets.length > 1) throw 'The "integer" validator does not work on multiple targets fields...';
+		return __isInteger(targets[0].value);
 	}
 });
 
 // color validator
 SValidatorComponent.registerValidator('color', {
-	validate : (target, value) => {
-		return __isColor(value);
+	validate : (targets) => {
+		if (targets.length > 1) throw 'The "color" validator does not work on multiple targets fields...';
+		return __isColor(targets[0].value);
 	}
 });
 
 // email validator
 SValidatorComponent.registerValidator('email', {
-	validate : (target, value) => {
-		return __isEmail(value);
+	validate : (targets) => {
+		if (targets.length > 1) throw 'The "email" validator does not work on multiple targets fields...';
+		return __isEmail(targets[0].value);
 	}
 });
 
 // url validator
 SValidatorComponent.registerValidator('url', {
-	validate : (target, value) => {
-		return __isUrl(value);
+	validate : (targets) => {
+		if (targets.length > 1) throw 'The "url" validator does not work on multiple targets fields...';
+		return __isUrl(targets[0].value);
 	}
 });
 

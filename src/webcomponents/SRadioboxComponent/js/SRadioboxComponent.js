@@ -1,8 +1,8 @@
-import SWebComponent from '../../../js/core/SWebComponent'
+import SWebInputComponent from '../../../js/core/SWebInputComponent'
 import __getAnimationProperties from '../../../js/dom/getAnimationProperties'
 import __style from '../../../js/dom/style'
 
-export default class SRadioboxComponent extends SWebComponent {
+export default class SRadioboxComponent extends SWebInputComponent {
 
 	/**
 	 * @constructor
@@ -15,7 +15,16 @@ export default class SRadioboxComponent extends SWebComponent {
 	 */
 	static get defaultProps() {
 		return {
+			color : 'default'
 		}
+	}
+
+	/**
+	 * Physical props
+	 * @definition 		SWebComponent.physicalProps
+	 */
+	static get physicalProps() {
+		return ['color'];
 	}
 
 	/**
@@ -23,12 +32,17 @@ export default class SRadioboxComponent extends SWebComponent {
 	 * @definition 		SWebComponent.componentMount
 	 */
 	componentMount() {
+		this.type = 'checkbox';
 		super.componentMount();
 		// try to get the id or name of the input
 		let input_for = this.id || this.name;
 
 		// stop if already the s-radiobox div
 		if (this.nextSibling && this.nextSibling.nodeName != '#text' && this.nextSibling.classList.contains(this.componentClassName())) return;
+
+		// remove the base input from the display
+		this.style.position = 'absolute';
+		this.style.left = '-299vw';
 
 		// append an empty element after the input to style it
 		let nodeType = 'div';
@@ -53,4 +67,4 @@ export default class SRadioboxComponent extends SWebComponent {
 }
 
 // register component
-SWebComponent.define('s-radiobox', SRadioboxComponent, 'input');
+SWebInputComponent.define('s-radiobox', SRadioboxComponent, 'input');
