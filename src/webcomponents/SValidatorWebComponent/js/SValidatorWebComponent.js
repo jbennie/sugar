@@ -177,7 +177,6 @@ export default class SValidatorComponent extends SWebComponent {
 
 			// if is a select, a checkbox or a radio
 			this._target.addEventListener(this.props.on, (e) => {
-				console.log('hello');
 				// validate directly if no timeout
 				if ( ! this.props.timeout) this.validate();
 				else {
@@ -257,6 +256,8 @@ export default class SValidatorComponent extends SWebComponent {
 		} else if (invalidType) {
 			// save the invalid type
 			this._invalidType = invalidType;
+		} else {
+			this._invalidType = null;
 		}
 
 		// unapply
@@ -389,7 +390,7 @@ export default class SValidatorComponent extends SWebComponent {
 // required validator
 SValidatorComponent.registerValidator('required', {
 	validate : (target, value) => {
-		if (target.getAttribute('required') === undefined) return true;
+		if ( ! target.hasAttribute('required') === undefined) return true;
 		return (value !== null);
 	}
 });

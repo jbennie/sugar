@@ -18,7 +18,7 @@ export default class SWebComponent extends HTMLElement {
 	 * @param 			{String} 			name 		The name of the component
 	 * @param 			{SWebComponent} 	component 	The component class
 	 */
-	static define(name, component) {
+	static define(name, component, ext = null) {
 		setTimeout(() => {
 			let funcNameRegex = /function (.{1,})\(/;
 			const res = (funcNameRegex).exec(component.toString());
@@ -26,7 +26,10 @@ export default class SWebComponent extends HTMLElement {
 				throw `You component names ${name} can not be defined with the component class passed ${component}`;
 			}
 			componentsStack[res[1]] = component;
-			document.registerElement(name, component);
+			document.registerElement(name, {
+				prototype : component.prototype,
+				extends : ext
+			});
 		});
 	}
 
@@ -77,7 +80,6 @@ export default class SWebComponent extends HTMLElement {
 	 * @return 		{Object} 			The default props
 	 */
 	get defaultProps() {
-		console.log(this._componentName);
 		let props = componentsStack[this._componentName].defaultProps;
 		let comp = Object.getPrototypeOf(componentsStack[this._componentName]);
 		while(comp) {
@@ -148,7 +150,9 @@ export default class SWebComponent extends HTMLElement {
 		this._componentMounted = false;
 
 		// set the componentName
-		this._componentName = __upperFirst(__camelize(this.tagName.toLowerCase())) + 'Component';
+		const sourceName = this.getAttribute('is') || this.tagName.toLowerCase()
+		this._componentNameDash = sourceName;
+		this._componentName = __upperFirst(__camelize(sourceName)) + 'Component';
 
 		// save each instances into the element _sComponents stack
 		this._typeOf = [];
@@ -522,7 +526,7 @@ export default class SWebComponent extends HTMLElement {
 	 */
 	componentClassName(element = null, modifier = null, state = null) {
 		// if the method is BEM
-		let sel = this.tagName.toLowerCase();
+		let sel = this._componentNameDash;
 		if (sSettings && sSettings.selector.method.toLowerCase() === 'smaccs') {
 			if (element) {
 				sel += `-${element}`;

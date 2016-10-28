@@ -3,6 +3,8 @@ import __getAnimationProperties from '../../../js/dom/getAnimationProperties'
 import __style from '../../../js/dom/style'
 import Flatpickr from 'flatpickr/dist/flatpickr'
 import __dispatchEvent from '../../../js/dom/dispatchEvent'
+import __isInteger from '../../../js/utils/is/integer'
+import __autoCast from '../../../js/utils/string/autoCast'
 
 export default class SDatepickerComponent extends SWebComponent {
 
@@ -276,6 +278,9 @@ export default class SDatepickerComponent extends SWebComponent {
 				// if the date is a time only
 				if (this.props.noCalendar && this.props.enableTime) {
 					return new Date(Date.parse(`2000.01.01 ${date}`));
+				} else if (__isInteger(__autoCast(date))) {
+					// it's a timestamp
+					return new Date(parseInt(date) * 1000);
 				}
 				return new Date(Date.parse(date));
 			}.bind(this),

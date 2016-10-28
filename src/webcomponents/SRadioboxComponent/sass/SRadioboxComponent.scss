@@ -1,0 +1,204 @@
+$_s-formset-radiobox-component-inited : false;
+@mixin s-radiobox-component-init() {
+	@if not $_s-formset-radiobox-component-inited {
+		$_s-formset-radiobox-component-inited : true !global;
+	}
+}
+
+@mixin s-radiobox-component(
+	$colors : null,
+	$animations : true
+) {
+	@include s-radiobox-component-bare();
+	@if $colors {
+		@include s-radiobox-component-style(
+			$animations : $animations,
+			$colors : $colors
+		);
+	}
+}
+
+@mixin s-radiobox-component-bare(
+) {
+
+	// init form
+	@include s-radiobox-component-init();
+	@include s-component('s-radiobox') {
+
+		// parse properties
+		@if $_sugar-test-arguments {
+			// $colors : s-test-argument('s-formset-radiobox-style','colors',map-keys(s-setting('colors')),$colors);
+		}
+
+		// base
+		%#{s-component()}-checkbox-bare,
+		input[#{s-component()}][type="checkbox"] {
+			position: absolute;
+			left : -999999px;
+
+			& + #{s-component-selector()} {
+				display: inline-block;
+				position: relative;
+				cursor: pointer;
+				vertical-align: sub;
+
+				&:before {
+					content:'';
+					display: block;
+					position:absolute;
+					top:50%; left:50%;
+					@include s-translate(-50%,-50%);
+					height:100%; width:100%;
+					pointer-events:none;
+				}
+				&:after {
+					content:'';
+					display: block;
+					position: absolute;
+					top:50%; left:50%;
+					width: 30%; height: 30%;
+					@include s-translate(-50%, -50%);
+					z-index:1;
+				}
+			}
+		}
+		input[#{s-component()}][type="radio"] {
+			@extend %#{s-component()}-checkbox-bare;
+			border-radius: 50% !important;
+
+			& + #{s-component-selector()} {
+				&,
+				&:after,
+				&:before {
+					border-radius:50% !important;
+				}
+			}
+		}
+
+		// @TODO : found another way to handle that property
+		.label .label #{s-component-selector()} {
+			margin-top:1rem;
+		}
+	}
+}
+
+@mixin s-radiobox-component-style(
+	$colors : null,
+	$animations : true
+) {
+
+	// init form
+	@include s-radiobox-component-init();
+	@include s-component('s-radiobox') {
+		// parse properties
+		@if $_sugar-test-arguments {
+			// $colors : s-test-argument('s-formset-radiobox-style','colors',map-keys(s-setting('colors')),$colors);
+		}
+
+	    // colors
+	    @if ($colors) {
+			@each $color in $colors {
+
+				input#{s-component-selector(null, $color)} {
+					& + #{s-component-selector()} {
+						&:before {
+							background-color: s-color($color, -opacity .1);
+							border:1px solid s-color($color, -opacity .1);
+						}
+					}
+
+					& + #{s-component-selector()}:after {
+						background-color : s-color($color, -opacity .3);
+						background-color: white;
+					}
+
+					&#{s-component-selector(null, null, 'hover')},
+					&#{s-component-selector(null, null, 'active')} {
+						& + #{s-component-selector()} {
+							&:after {
+								background-color: s-color($color, -opacity .15);
+								width:60%;
+								height:60%;
+							}
+							&:before {
+								width: 60%;
+								height: 60%;
+							}
+						}
+					}
+
+					& + #{s-component-selector()}:hover {
+						&:after {
+							background-color: s-color($color, -opacity .15);
+							@include s-depth(3, s-color($color, -opacity .3));
+						}
+						&:after,
+						&:before {
+							width:60% !important;
+							height:60% !important;
+						}
+					}
+					&:checked {
+						& + #{s-component-selector()} {
+							&:after {
+								background-color: s-color($color);
+								@include s-depth(3, s-color($color, -opacity .3));
+							}
+						}
+					}
+				}
+			}
+		}
+
+		.input.#{s-component-selector()} {
+
+			$br : s-lnf(border-radius);
+			$fs : 1em * 1.3;
+			& + .#{$componentName} {
+				width: $fs;
+				height: $fs;
+				&:after {
+					border-radius: $br / 100 * 30;
+				}
+				&:before {
+					border-radius: $br;
+				}
+			}
+
+			#{s-component-selector(null, null, 'hover')},
+			#{s-component-selector(null, null, 'active')},
+			&:hover {
+				& + #{s-component-selector()} {
+					&:before,
+					&:after {
+						border-radius: $br / 100 * 60
+					}
+				}
+			}
+			&:checked {
+				& + #{s-component-selector()} {
+					&:after {
+						border-radius: $br / 100 * 60
+					}
+				}
+			}
+		}
+
+		// animations
+		@if ($animations) {
+			input#{s-component-selector()}[type="checkbox"],
+			input#{s-component-selector()}[type="radio"] {
+				& + #{s-component-selector()} {
+					&,
+					&:before,
+					&:after {
+						@include s-transition(fast);
+					}
+				}
+				&:checked + #{s-component-selector()}:after {
+					width:40%; height:40%;
+				}
+			}
+		}
+	}
+}

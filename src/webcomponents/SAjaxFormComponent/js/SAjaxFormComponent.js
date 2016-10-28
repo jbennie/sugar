@@ -91,8 +91,6 @@ export default class SAjaxFormComponent extends SWebTemplateComponent {
 	componentMount() {
 		super.componentMount();
 
-		console.log('mount ajax');
-
 		// required properties
 		if ( ! this.props.for) {
 			throw `The SAjaxFormComponent component need a props.for property`;
