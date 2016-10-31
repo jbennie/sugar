@@ -131,10 +131,14 @@ export default class SAjaxFormComponent extends SWebTemplateComponent {
 		// check validity
 		if ( ! this._form.checkValidity()) return;
 
+		// get the form data to send with the request
+		const formData = new FormData(this._form);
+
 		// create ajax instance
 		const ajx = new SAjax({
 			url : this._form.getAttribute('action'),
-			method : this._form.getAttribute('method') || 'POST'
+			method : this._form.getAttribute('method') || 'POST',
+			data : formData
 		});
 
 		// set the loading attribute on the form

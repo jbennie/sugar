@@ -1,6 +1,7 @@
 import SWebInputComponent from '../../../js/core/SWebInputComponent'
 import __getAnimationProperties from '../../../js/dom/getAnimationProperties'
 import __style from '../../../js/dom/style'
+import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
 
 export default class SRadioboxComponent extends SWebInputComponent {
 
@@ -32,7 +33,6 @@ export default class SRadioboxComponent extends SWebInputComponent {
 	 * @definition 		SWebComponent.componentMount
 	 */
 	componentMount() {
-		this.type = 'checkbox';
 		super.componentMount();
 		// try to get the id or name of the input
 		let input_for = this.id || this.name;
@@ -65,6 +65,14 @@ export default class SRadioboxComponent extends SWebInputComponent {
 		super.render();
 	}
 }
+
+// STemplate integration
+sTemplateIntegrator.registerComponentIntegration('SRadioboxComponent', (component) => {
+	sTemplateIntegrator.ignore(component, {
+		style : true,
+		color : true
+	});
+});
 
 // register component
 SWebInputComponent.define('s-radiobox', SRadioboxComponent, 'input');

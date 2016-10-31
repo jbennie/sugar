@@ -14,14 +14,9 @@
 				flex:0;
 			}
 
-			// remove margin-top from input that are in a form-group
-			> * {
-				margin-top: 0 !important;
-			}
-
 			// make input flex
 			> input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]),
-			> label {
+			> label:first-of-type:last-of-type {
 				flex: 1 !important;
 				margin-top: 0 !important;
 			}

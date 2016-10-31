@@ -8,6 +8,11 @@ import __isNumber from '../../../js/utils/is/number'
 import __isInteger from '../../../js/utils/is/integer'
 import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
 import __autoCast from '../../../js/utils/string/autoCast'
+import __uniqid from '../../../js/utils/uniqid'
+import __dispatchEvent from '../../../js/dom/dispatchEvent'
+
+// store all the overidded checkValidity function on the forms
+const formsCheckValidityFn = {};
 
 export default class SValidatorComponent extends SWebComponent {
 
@@ -137,6 +142,10 @@ export default class SValidatorComponent extends SWebComponent {
 	 */
 	componentWillMount() {
 		super.componentWillMount();
+
+		// init properties
+		this._isValid = null;
+
 	}
 
 	/**
@@ -150,12 +159,21 @@ export default class SValidatorComponent extends SWebComponent {
 			throw `The SValidatorComponent need a "for" property that target a form input to handle validation for...`;
 		}
 		// get the input
-		this._targets = document.querySelectorAll(`[name="${this.props.for}"],#${this.props.for}`);
+		this._targets = document.querySelectorAll(`[name="${this.props.for}"], #${this.props.for}`);
 
 		// check the target
 		if ( ! this._targets) {
 			throw `The form field named "${this.props.for}" has not been found in the current document`;
 		}
+
+		// ensure the form has a name or an id
+		this._ensureFormHasNameOrId();
+
+		// process each targets
+		[].forEach.call(this._targets, (target) => {
+			// override the checkValidity function on each targets
+			target.checkValidity = this.validate.bind(this);
+		});
 
 		// extend messages with the static ones
 		this._messages = {
@@ -177,8 +195,18 @@ export default class SValidatorComponent extends SWebComponent {
 			[].forEach.call(this._targets, (target) => {
 				const type = target.getAttribute('type');
 				const listener = (type === 'checkbox' || type === 'radio') ? 'change' : this.props.on;
+				const originalValue = target.value;
 				// if is a select, a checkbox or a radio
 				target.addEventListener(listener, (e) => {
+					// set the field as dirty
+					if (e.target.value !== originalValue) {
+						e.target._isDirty = true;
+					}
+
+					// bust the cache when the field is updated
+					// to trigger a new validation next time
+					this._isValid = null;
+
 					// validate directly if no timeout
 					if ( ! this.props.timeout) this.validate();
 					else {
@@ -192,35 +220,107 @@ export default class SValidatorComponent extends SWebComponent {
 			});
 		}
 
-		// try to find the closest form to listen when it is submitted
-		const formElm = __closest(this._targets[0], 'form');
-		this._formElm = formElm;
-		if (formElm) {
-			formElm.setAttribute('novalidate', true);
-			// formElm._sValidateComponentSubmitHandler = true;
-			formElm.addEventListener('submit', (e) => {
-				const isValid = this.validate();
-				// validate the input
-				if ( ! isValid) {
-					e.preventDefault();
-					e.stopPropagation();
-				}
-			});
-		}
+		// init the parent form element
+		this._initParentFormIfNeeded();
+	}
 
+	/**
+	 * Ensure form has a name or an id
+	 */
+	_ensureFormHasNameOrId() {
+		const form = this._getForm();
+		if ( ! form.name && ! form.id) {
+			const formId = `s-validator-form-${__uniqid()}`;
+			form.setAttribute('id', formId);
+			return `form#${formId}`;
+		}
+	}
+
+	/**
+	 * Get form selector
+	 * @return 		{String} 			The form selector that target the form that handle the validated field
+	 */
+	_getFormSelector() {
+		const form = this._getForm();
+		if (form.name) {
+			return `form[name="${form.name}"]`;
+		} else if (form.id) {
+			return `form#${form.id}`;
+		}
+	}
+
+	/**
+	 * Get form that handle the validated field
+	 * @return 		{String} 			The form element that handle the validated field
+	 */
+	_getForm() {
+		return this._targets[0].form;
+	}
+
+	/**
+	 * Init the parent form if not already inited by another validator
+	 */
+	_initParentFormIfNeeded() {
+		// try to find the closest form to listen when it is submitted
+		const formElm = this._getForm();
+		if (formElm) {
+			// override the checkValidity function
+			// on the form (only once)
+			if ( ! formsCheckValidityFn[formElm.name || formElm.id] ) {
+				formsCheckValidityFn[formElm.name || formElm.id] = function() {
+					// store result
+					let res = true;
+					// loop on each fields of the form to validate
+					formElm._sValidators.forEach((validator) => {
+						if ( ! validator.validate(true)) res = false;
+					});
+					// return the result
+					return res;
+				}
+				formElm.checkValidity = formsCheckValidityFn[formElm.name || formElm.id];
+
+				// do not validate the form with
+				// html5 built in validation
+				formElm.setAttribute('novalidate', true);
+
+				// check validity on submit
+				formElm.addEventListener('submit', (e) => {
+					if ( ! formElm.checkValidity()) {
+						e.stopPropagation();
+						e.preventDefault();
+					}
+				});
+			}
+
+			// register validator on the form element
+			// to be able to check the validity after
+			if ( ! formElm._sValidators) formElm._sValidators = [];
+			formElm._sValidators.push(this);
+		}
 	}
 
 	/**
 	 * Apply the validation
 	 */
-	validate() {
+	validate(fromSubmit = false) {
+
+		// use the cache if possible
+		if ( this._isValid !== null) return this._isValid;
 
 		let invalidType = null;
 		let applyFn = null;
 		let message = null;
 
 		// set that is dirty
-		this._isDirty = true;
+		if (fromSubmit) {
+			this._isDirty = true;
+		} else {
+			if (this._targets.length === 1) {
+				this._isDirty = this._targets[0]._isDirty || false;
+			} else {
+				this._isDirty = true;
+			}
+		}
 
 		// create the validators array to loop through
 		const validatorsList = [];
@@ -233,14 +333,26 @@ export default class SValidatorComponent extends SWebComponent {
 		}
 		if (this.props.required) validatorsList.unshift('required');
 
-		console.log('validatorsList', validatorsList);
-
 		// loop on each validators and launch them
 		for (let i in validatorsList) {
 			const name = validatorsList[i];
 
+			// get the validator parameters
+			let validatorArguments = this.props[name];
+			if (typeof(validatorArguments) === 'string') {
+				validatorArguments = validatorArguments.split(':').map(val => __autoCast(val) );
+			} else {
+				validatorArguments = [validatorArguments];
+			}
+
+			// prepare array of arguments for validate and message functions
+			const validateArguments = [].concat(validatorArguments),
+			 	  messageArguments = [].concat(validatorArguments);
+			validateArguments.unshift(this._targets);
+			messageArguments.unshift(this._messages[name]);
+
 			// process to validation
-			if ( ! this._validators[name].validate(this._targets)) {
+			if ( ! this._validators[name].validate.apply(this, validateArguments)) {
 
 				// set the invalid type
 				invalidType = name;
@@ -250,7 +362,7 @@ export default class SValidatorComponent extends SWebComponent {
 
 				// get the message
 				message = this._validators[name].message;
-				if (typeof(message) === 'function') message = message(this._targets, this._messages[name]);
+				if (typeof(message) === 'function') message = message.call(this, messageArguments);
 				else message = this._messages[name];
 				// apply the error message
 				applyFn = this.props.apply[name] || this.props.apply['default'];
@@ -271,43 +383,40 @@ export default class SValidatorComponent extends SWebComponent {
 			this._invalidType = null;
 		}
 
-		console.log('applyFn', applyFn);
-
 		// unapply
 		if ( this._unApply) {
 			this._unApply();
 			this._unApply = null;
 		}
 
+		// apply
 		if (applyFn) {
 			applyFn = applyFn.bind(this);
-			console.log('message', message);
 			this._unApply = applyFn(this._targets, message, this._invalidType);
 		}
 
+		// update the isValid flag
 		if ( ! invalidType) {
 			this._isValid = true;
 		} else {
 			this._isValid = false;
 		}
 
-		if (this._isValid) {
-			this.setProp('active', false);
-		} else {
-			this.setProp('active', true);
+		// set the active property
+		// if the field is dirty
+		if (this._isDirty) {
+			if (this._isValid) {
+				this.setProp('active', false);
+			} else {
+				this.setProp('active', true);
+			}
 		}
+
+		// render
+		this.render();
 
 		// the input is valid
 		return this._isValid;
-	}
-
-	/**
-	 * Get the value
-	 */
-	_getFieldValue() {
-		const value = this._targets.value;
-		if ( value === '') return null;
-		return value;
 	}
 
 	/**
@@ -378,6 +487,14 @@ export default class SValidatorComponent extends SWebComponent {
 	}
 
 	/**
+	 * Check if is valid
+	 * @return 		{Boolean} 			true if the validator is valid, false it not
+	 */
+	checkValidity() {
+		return this.validate(true);
+	}
+
+	/**
 	 * Render
 	 */
 	render() {
@@ -401,10 +518,10 @@ SValidatorComponent.registerValidator('required', {
 	validate : (targets) => {
 		let res = false;
 		[].forEach.call(targets, (target) => {
-			if (target.checked !== undefined) {
+			if (target.type && target.type.toLowerCase() === 'checkbox') {
 				if (target.checked) res = true;
-			} else {
-				if ( target.value ) res = true;
+			} else if (target.value && target.value !== '') {
+				res = true;
 			}
 		});
 		return res;
@@ -413,11 +530,11 @@ SValidatorComponent.registerValidator('required', {
 
 // min validator
 SValidatorComponent.registerValidator('min', {
-	validate : (targets) => {
-		if ( ! this.props.min) throw `The "min" validator need the "props.min" property to be specified...`;
+	validate : (targets, min) => {
+		if ( ! min) throw `The "min" validator need the "props.min" property to be specified...`;
 		if (targets.length === 1) {
 			// get the value
-			return (parseFloat(targets[0].value) >= this.props.min);
+			return (parseFloat(targets[0].value) >= min);
 		} else if (target.length > 1) {
 			// assume that it's some checkboxes
 			let checkedCount = 0;
@@ -425,21 +542,21 @@ SValidatorComponent.registerValidator('min', {
 				if (target.checked) checkedCount++;
 			});
 			// check result
-			return (checkedCount >= this.props.min);
+			return (checkedCount >= min);
 		}
 	},
-	message : (target, message) => {
-		return message.replace('%min', this.props.min);
+	message : (message, min) => {
+		return message.replace('%min', min);
 	}
 });
 
 // max validator
 SValidatorComponent.registerValidator('max', {
-	validate : (targets) => {
-		if ( ! this.props.max) throw `The "max" validator need the "props.max" property to be specified...`;
+	validate : (targets, max) => {
+		if ( ! max) throw `The "max" validator need the "props.max" property to be specified...`;
 		if (targets.length === 1) {
 			// get the value
-			return (parseFloat(targets[0].value) <= this.props.max);
+			return (parseFloat(targets[0].value) <= max);
 		} else if (target.length > 1) {
 			// assume that it's some checkboxes
 			let checkedCount = 0;
@@ -447,47 +564,47 @@ SValidatorComponent.registerValidator('max', {
 				if (target.checked) checkedCount++;
 			});
 			// check result
-			return (checkedCount <= this.props.max);
+			return (checkedCount <= max);
 		}
 	},
-	message : (target, message) => {
-		return message.replace('%max', this.props.max);
+	message : (message, max) => {
+		return message.replace('%max', max);
 	}
 });
 
 // range validator
 SValidatorComponent.registerValidator('range', {
-	validate : (targets) => {
+	validate : (targets, min = null, max = null) => {
 		// check the min and max
-		if ( ! SValidatorComponent.validators.min.validate(targets)) return false;
-		if ( ! SValidatorComponent.validators.max.validate(targets)) return false;
+		if ( ! SValidatorComponent.validators.min.validate(targets, min || this.props.min)) return false;
+		if ( ! SValidatorComponent.validators.max.validate(targets, max || this.props.max)) return false;
 		return true;
 	},
-	message : (targets, message) => {
-		return message.replace('%max', this.props.max).replace('%min', this.props.min);
+	message : (message, min = null, max = null) => {
+		return message.replace('%max', max || this.props.max).replace('%min', min || this.props.min);
 	}
 });
 
 // maxlength validator
 SValidatorComponent.registerValidator('maxlength', {
-	validate : (targets) => {
+	validate : (targets, maxlength) => {
 		if (targets.length > 1) throw 'The "maxlength" validator does not work on multiple targets fields...';
-		return (targets[0].value.toString().length <= this.props.maxlength);
+		return (targets[0].value.toString().length <= maxlength);
 	},
-	message : (targets, message) => {
-		return message.replace('%maxlength', target.props.maxlength);
+	message : (message, maxlength) => {
+		return message.replace('%maxlength', maxlength);
 	}
 });
 
 // pattern validator
 SValidatorComponent.registerValidator('pattern', {
-	validate : (targets) => {
+	validate : (targets, pattern) => {
 		if (targets.length > 1) throw 'The "pattern" validator does not work on multiple targets fields...';
-		const reg = new RegExp(this.props.pattern);
+		const reg = new RegExp(pattern);
 		return (targets[0].value.toString().match(reg));
 	},
-	message : (targets, message) => {
-		return message.replace('%pattern', target.props.pattern);
+	message : (message, pattern) => {
+		return message.replace('%pattern', pattern);
 	}
 });
 
@@ -533,13 +650,15 @@ SValidatorComponent.registerValidator('url', {
 
 // STemplate integration
 sTemplateIntegrator.registerComponentIntegration('SValidatorComponent', (component) => {
-	sTemplateIntegrator.ignore(component, {
-		class : [
-			component.componentClassName(null, null, 'valid'),
-			component.componentClassName(null, null, 'dirty'),
-			component.componentClassName(null, null, 'invalid'),
-			component.componentClassName(null, null, 'required')
-		]
+	[].forEach.call(component._targets, (target) => {
+		sTemplateIntegrator.ignore(target, {
+			class : [
+				component.componentClassName(null, null, 'valid'),
+				component.componentClassName(null, null, 'dirty'),
+				component.componentClassName(null, null, 'invalid'),
+				component.componentClassName(null, null, 'required')
+			]
+		});
 	});
 	if (component._formElm) {
 		sTemplateIntegrator.ignore(component._formElm, {

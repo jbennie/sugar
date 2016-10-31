@@ -85,8 +85,7 @@ export default Mixin((superclass) => class extends superclass {
   			  };
   		  }
   		  if (comp._defaultProps) {
-			  console.log('default', comp._defaultProps);
-  			  props = {
+ 		  	  props = {
   				  ...props,
   				  ...comp._defaultProps
   			  };
@@ -109,7 +108,7 @@ export default Mixin((superclass) => class extends superclass {
      */
     get physicalProps() {
   	  let props = componentsStack[this._componentName].physicalProps;
-  	  let comp = Object.getPrototypeOf(componentsStack[this._componentName]);
+  	  let comp = componentsStack[this._componentName];
   	  while(comp) {
   		  if (comp.physicalProps) {
   			  comp.physicalProps.forEach((prop) => {
@@ -122,6 +121,33 @@ export default Mixin((superclass) => class extends superclass {
   	  }
   	  return props;
     }
+
+	/**
+	 * Return an array of required props to init the component
+	 */
+	static get requiredProps() {
+		return [];
+	}
+
+	/**
+	 * Get the required props array for this particular instance
+	 * @return 		{Array} 			An array of required props
+	 */
+	get requiredProps() {
+		let props = componentsStack[this._componentName].requiredProps;
+		let comp = componentsStack[this._componentName];
+		while(comp) {
+			if (comp.requiredProps) {
+				comp.requiredProps.forEach((prop) => {
+					if (props.indexOf(prop) === -1) {
+						props.push(prop);
+					}
+				});
+			}
+			comp = Object.getPrototypeOf(comp);
+		}
+		return props;
+	}
 
     /**
      * Method called before the component will be added in the dom.
@@ -169,6 +195,13 @@ export default Mixin((superclass) => class extends superclass {
 
   	  // compute props
   	  this._computeProps();
+
+	  // check the required props
+	  this.requiredProps.forEach((prop) => {
+		  if ( ! this.props[prop]) {
+			  throw `The "${this._componentNameDash}" component need the "${prop}" property in order to work`;
+		  }
+	  });
     }
 
     /**

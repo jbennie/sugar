@@ -1,6 +1,7 @@
 import SWebComponent from './SWebComponent'
 import sTemplateIntegrator from './sTemplateIntegrator'
 import STemplate from './STemplate'
+import SBinder from '../classes/SBinder'
 import __insertAfter from '../dom/insertAfter'
 import __uniqid from '../utils/uniqid'
 import _get from 'lodash/get'
@@ -65,27 +66,30 @@ export default class SWebTemplateComponent extends SWebComponent {
 		// apply some attributes
 		this.setAttribute('s-template-component', this._templateComponentId);
 
+		// new binder
+		this._binder = new SBinder();
+
 		// process the data to allow some features
 		// like the mapping of instance property with @,
 		// etc...
-		for(let key in this.props.data) {
-			// map the data to an instance variable
-			if (typeof(this.props.data[key]) === 'string') {
-				// handle the @... notation in datas
-				if (this.props.data[key].substr(0,1) === '@') {
-					const watchKey = this.props.data[key].substr(1);
-					// set the initial value
-					this.props.data[key] = _get(this, watchKey);
-					// bind the value to the data value
-					this._binder.bindObjectPath2ObjectPath(this, watchKey, this, `props.data.${key}`);
-				}
-			}
-			// bind the component instance to the setting if it is
-			// a function
-			if (typeof(this.props.data[key]) === 'function') {
-				this.props.data[key] = this.props.data[key].bind(this);
-			}
-		}
+		// for(let key in this.props.data) {
+		// 	// map the data to an instance variable
+		// 	if (typeof(this.props.data[key]) === 'string') {
+		// 		// handle the @... notation in datas
+		// 		if (this.props.data[key].substr(0,1) === '@') {
+		// 			const watchKey = this.props.data[key].substr(1);
+		// 			// set the initial value
+		// 			this.props.data[key] = _get(this, watchKey);
+		// 			// bind the value to the data value
+		// 			this._binder.bindObjectPath2ObjectPath(this, watchKey, this, `props.data.${key}`);
+		// 		}
+		// 	}
+		// 	// bind the component instance to the setting if it is
+		// 	// a function
+		// 	if (typeof(this.props.data[key]) === 'function') {
+		// 		this.props.data[key] = this.props.data[key].bind(this);
+		// 	}
+		// }
 	}
 
 	/**

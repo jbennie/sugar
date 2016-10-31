@@ -686,7 +686,7 @@ export default class STemplate {
 		// take that as value to set into model
 		if (val) {
 			this.data[model] = val;
-		} else if (value.substr(0,7) === 'object:') {
+		} else if (typeof(value) === 'string' && value.substr(0,7) === 'object:') {
 			const split = value.split(':');
 			const idx = split[1];
 			this.data[model] = this._modelValuesStack[idx];
