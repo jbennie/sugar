@@ -255,7 +255,7 @@ class SActivateComponent extends SComponent {
 					// good element
 					console.log(document.location);
 					if (this.settings.preventScroll) {
-						window.history.pushState(null,null,`${document.location.search || ''}#${this.settings.id}`);
+						window.history.pushState(null,null,`${document.location.pathname || ''}${document.location.search || ''}#${this.settings.id}`);
 						__dispatchEvent(window, 'hashchange');
 					} else {
 						document.location.hash = `${this.settings.id}`;
