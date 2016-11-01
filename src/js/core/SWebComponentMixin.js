@@ -10,7 +10,8 @@ import __dispatchEvent from '../dom/dispatchEvent'
 import __whenInViewport from '../dom/whenInViewport'
 import __whenVisible from '../dom/whenVisible'
 
-const componentsStack = {};
+if ( ! window.sugar) window.sugar = {};
+if ( ! window.sugar._webComponentsStack) window.sugar._webComponentsStack = {};
 
 export default Mixin((superclass) => class extends superclass {
 
@@ -25,7 +26,7 @@ export default Mixin((superclass) => class extends superclass {
 			if ( ! constructorName) {
 				throw `You component names ${name} can not be defined with the component class passed ${component}`;
 			}
-			componentsStack[constructorName] = component;
+			window.sugar._webComponentsStack[constructorName] = component;
 			document.registerElement(name, {
 				prototype : component.prototype,
 				extends : ext
@@ -75,8 +76,8 @@ export default Mixin((superclass) => class extends superclass {
      * @return 		{Object} 			The default props
      */
     get defaultProps() {
-  	  let props = componentsStack[this._componentName].defaultProps;
-  	  let comp = componentsStack[this._componentName];
+  	  let props = window.sugar._webComponentsStack[this._componentName].defaultProps;
+  	  let comp = window.sugar._webComponentsStack[this._componentName];
   	  while(comp) {
   		  if (comp.defaultProps) {
   			  props = {
@@ -107,8 +108,8 @@ export default Mixin((superclass) => class extends superclass {
      * @return 		{Object} 			The physical props array
      */
     get physicalProps() {
-  	  let props = componentsStack[this._componentName].physicalProps;
-  	  let comp = componentsStack[this._componentName];
+  	  let props = window.sugar._webComponentsStack[this._componentName].physicalProps;
+  	  let comp = window.sugar._webComponentsStack[this._componentName];
   	  while(comp) {
   		  if (comp.physicalProps) {
   			  comp.physicalProps.forEach((prop) => {
@@ -134,8 +135,8 @@ export default Mixin((superclass) => class extends superclass {
 	 * @return 		{Array} 			An array of required props
 	 */
 	get requiredProps() {
-		let props = componentsStack[this._componentName].requiredProps;
-		let comp = componentsStack[this._componentName];
+		let props = window.sugar._webComponentsStack[this._componentName].requiredProps;
+		let comp = window.sugar._webComponentsStack[this._componentName];
 		while(comp) {
 			if (comp.requiredProps) {
 				comp.requiredProps.forEach((prop) => {
@@ -178,7 +179,7 @@ export default Mixin((superclass) => class extends superclass {
 
   	  // save each instances into the element _sComponents stack
   	  this._typeOf = [];
-  	  let comp = componentsStack[this._componentName];
+  	  let comp = window.sugar._webComponentsStack[this._componentName];
   	  while(comp) {
   		  let funcNameRegex = /function (.{1,})\(/;
   		  const res = (funcNameRegex).exec(comp.toString());

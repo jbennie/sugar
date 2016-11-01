@@ -1,4 +1,4 @@
-import SWebTemplateComponent from '../../../js/core/SWebTemplateComponent'
+import SWebSTemplateComponent from '../../../js/core/SWebSTemplateComponent'
 import __getAnimationProperties from '../../../js/dom/getAnimationProperties'
 import __style from '../../../js/dom/style'
 import Flatpickr from 'flatpickr/dist/flatpickr'
@@ -6,8 +6,9 @@ import __dispatchEvent from '../../../js/dom/dispatchEvent'
 import __isInteger from '../../../js/utils/is/integer'
 import __autoCast from '../../../js/utils/string/autoCast'
 import SGoogleSearch from '../../../js/classes/SGoogleSearch'
+import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
 
-export default class SGoogleSearchComponent extends SWebTemplateComponent {
+export default class SGoogleSearchComponent extends SWebSTemplateComponent {
 
 	/**
 	 * @constructor
@@ -38,24 +39,44 @@ export default class SGoogleSearchComponent extends SWebTemplateComponent {
 			 * @prop
 			 * @type 		{String}
 			 */
-			cx : null,
+			cx : null
+		}
+	}
+
+	/**
+	 * Template data
+	 */
+	static get defaultTemplateData() {
+		return {
 
 			/**
-			 * The data used in the template
-			 * @type 		{Object}
+			 * Keywords that represent the search to make
+			 * @templateData
+			 * @type 		{String}
 			 */
-			data : {
+			keywords : '@props.keywords',
 
-				// the keywords
-				keywords : '@props.keywords',
+			/**
+			 * Store the results array
+			 * @templateData
+			 * @type 		{Array}
+			 */
+			results : [],
 
-				// results
-				results : [],
+			/**
+			 * Flag if there's more results to show or not
+			 * @templateData
+			 * @type 		{Boolean}
+			 */
+			noMoreResults : false,
 
-				// noMoreResults
-				noMoreResults : false
-
-			}
+			/**
+			 * Next function that can be loaded from the template
+			 * to load more results
+			 * @templateData
+			 * @type 		{Function}
+			 */
+			next : '@next'
 		}
 	}
 
@@ -96,7 +117,7 @@ export default class SGoogleSearchComponent extends SWebTemplateComponent {
 	search(keywords, settings) {
 
 		// process the search
-		const search = this._googleSearch.search(this.data.keywords, {
+		const search = this._googleSearch.search(keywords, {
 			num : 10
 		});
 		// listen for end of search to set data
@@ -104,14 +125,14 @@ export default class SGoogleSearchComponent extends SWebTemplateComponent {
 		search.then((response) => {
 
 			if ( ! response.queries || ! response.queries.nextPage) {
-				this.data.noMoreResults = true;
+				this.templateData.noMoreResults = true;
 			} else {
-				this.data.noMoreResults = false;
+				this.templateData.noMoreResults = false;
 			}
 
 			if (response.items && response.items.length) {
 				// save the results into data
-				this.data.results = response.items;
+				this.templateData.results = response.items;
 			}
 		});
 		// return the search promise
@@ -127,36 +148,44 @@ export default class SGoogleSearchComponent extends SWebTemplateComponent {
 		const search = this._googleSearch.next();
 		search.then((response) => {
 			if ( ! response.queries || ! response.queries.nextPage) {
-				this.data.noMoreResults = true;
+				this.templateData.noMoreResults = true;
 			} else {
-				this.data.noMoreResults = false;
+				this.templateData.noMoreResults = false;
 			}
 			if (response.items && response.items.length) {
 				// add the results into data
-		    	this.data.results = this.data.results.concat(response.items);
+		    	this.templateData.results = this.templateData.results.concat(response.items);
 			}
 		});
 		return search;
 	}
 
 	/**
-	 * Component will receive props
-	 * @definition 		SWebComponent.componentWillReceiveProps
+	 * Template will receive data
+	 * @definition 		SWebTemplateComponent.templateWillReceiveData
 	 */
-	componentWillReceiveProps(nextProps) {
-		console.log('next props', nextProps);
+	templateWillReceiveData(name, newVal, oldVal) {
+		// if we have any keywords
+		switch(name) {
+			case 'keywords':
+				if (newVal) {
+					this.search(newVal);
+				} else {
+					this.templateData.results = [];
+				}
+			break;
+		}
 	}
 
-
 	/**
-	 * Render
-	 * @definition 		SWebComponent.render
+	 * Should template update
 	 */
-	render() {
-		super.render();
-		console.log('render', this.props);
+	shouldTemplateUpdate(nextData) {
+		const keys = Object.keys(nextData);
+		if (keys.length === 1 && keys[0] === 'keywords') return false;
+		return true;
 	}
 }
 
 // register component
-SWebTemplateComponent.define('s-google-search', SGoogleSearchComponent);
+SWebSTemplateComponent.define('s-google-search', SGoogleSearchComponent);

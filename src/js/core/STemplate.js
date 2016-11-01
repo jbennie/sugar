@@ -148,6 +148,12 @@ export default class STemplate {
 	_modelValuesStack = [];
 
 	/**
+	 * Store a stack of updated data between two render
+	 * @type 	{Object}
+	 */
+	_updatedDataStack = {};
+
+	/**
 	 * Store the timeout used to update the template only once when multiple changes have been made
 	 * @type 	{Number}
 	 */
@@ -168,6 +174,43 @@ export default class STemplate {
 		 * @default 	null
 		 */
 		compile : null,
+
+		/**
+		 * Function called when a data is updated with his new and old value as parameter
+		 * @setting
+		 * @type 		{Function}
+		 */
+		onDataUpdate : null,
+
+		/**
+		 * Function that runs before the template will be compiled so that you can have a change to process it if needed
+		 * before it will be passed to the compile step
+		 * @param 		{String} 				template 				The template before compilation
+		 * @return 		{String} 										The processed template to pass to compilation step
+		 */
+		beforeCompile : null,
+
+		/**
+		 * Function that runs after the template has been compiled so that you can have a chance to process it if needed
+		 * before that the dom will be updated
+		 * @param 		{String} 			 	compiledTemplate 		The compiled template
+		 * @return 		{String|HTMLElement} 							The processed template
+		 */
+		afterCompile : null,
+
+		/**
+		 * Function that runs before the template will be rendered in the dom so that you can have a change to process it if needed
+		 * before it will be passed to the render step
+		 * @param 		{String} 				template 				The template before compilation
+		 * @return 		{String} 										The processed template to pass to render step
+		 */
+		beforeRender : null,
+
+		/**
+		 * Function that runs after the template has been rendered to the dom so that you can have a chance to process it if needed
+		 * @param 		{HTMLElement} 			 	inDomTemplate 		The dom element that represent the template
+		 */
+		afterRender : null,
 
 		/**
 		 * Function called before any HTMLElement will be updated in the dom
@@ -194,7 +237,14 @@ export default class STemplate {
 		 * @type 		{Function}
 		 * @default  	null
 		 */
-		onBeforeElDiscarded : null
+		onBeforeElDiscarded : null,
+
+		/**
+		 * Function called after any HTMLElement has been removed from the dom
+		 * @setting
+		 * @type 		{Function}
+		 */
+		onElDiscarded : null
 
 	};
 
@@ -238,12 +288,6 @@ export default class STemplate {
 			this.dom.setAttribute('s-template-id', this.templateId);
 			this.dom.setAttribute('s-template-node-id', __uniqid());
 
-			// ignore the template node id
-			sTemplateIntegrator.ignore(this.dom, {
-				's-template-node-id' : true,
-				's-template-id' : true
-			});
-
 		} else {
 			// apply a node id to each nodes
 			[].forEach.call(this.template.querySelectorAll('*'), (elm) => {
@@ -264,9 +308,16 @@ export default class STemplate {
 
 			// save the template string version
 			this.templateString = this.template.outerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(/\=""/g,'').replace(/&nbsp;/g," ").replace(/&quot;/g,"'")
+
+
 		}
 
-		// console.log(this.templateString);
+		// ignore the template node id
+		sTemplateIntegrator.ignore(this.dom, {
+			's-template-node-id' : true,
+			's-template-id' : true,
+			's-template-dirty' : true
+		});
 
 		// save the template instance into the dom
 		this.dom._sTemplate = this;
@@ -339,12 +390,21 @@ export default class STemplate {
 				}
 			});
 			this._watcher.watch(this.data, name, (newVal, oldVal) => {
+
+				console.log('watch', name, newVal, oldVal);
+
+				// save the update in the stack
+				this._updatedDataStack[name] = newVal;
 				// make update only once
 				// by waiting next loop
 				clearTimeout(this._updateTimeout);
 				this._updateTimeout = setTimeout(() => {
+					// check if has a function to listen to data update
+					this.settings.onDataUpdate && this.settings.onDataUpdate(name, newVal, oldVal);
 					// render the template again
 					this._internalRender();
+					// reset the updated data stack
+					this._updatedDataStack = {};
 				});
 			});
 		}
@@ -420,12 +480,25 @@ export default class STemplate {
 	 */
 	_internalRender() {
 
+		// check if the template need to render itself again or not
+		if (this.settings.shouldTemplateUpdate) {
+			if (this.settings.shouldTemplateUpdate(this._updatedDataStack) === false) return;
+		}
+
+		// copy the templateString before compilation
+		let templateString = this.templateString;
+
+		// process the template before compile it
+		if (this.settings.beforeCompile) {
+			templateString = this.settings.beforeCompile(templateString);
+		}
+
 		// compile the template
 		let compiled = '';
 		if (this.settings.compile) {
-			compiled = this.settings.compile(this.templateString, this.data);
+			compiled = this.settings.compile(templateString, this.data);
 		} else {
-			compiled = this._compile(this.templateString, this.data);
+			compiled = this._compile(templateString, this.data);
 		}
 		// process compiled template
 		compiled = this._processOutput(compiled);
@@ -436,8 +509,38 @@ export default class STemplate {
 			elm.parentNode.removeChild(elm);
 		});
 
+		// before render
+		if (this.settings.beforeRender) {
+			compiled = this.settings.beforeRender(compiled);
+		}
+
+		// patch dom
+		this.dom = this.patchDom(compiled);
+
+		// update refs
+		this._updateRefs();
+
+		// listen for changes of datas in the DOM
+		// through the s-template-model attribute
+		this._listenDataChangesInDom();
+
+		// set the template as dirty
+		if ( ! this.dom.hasAttribute('s-template-dirty')) {
+			this.dom.setAttribute('s-template-dirty', true);
+		}
+
+		// after render
+		this.settings.afterRender && this.settings.afterRender(this.dom);
+	}
+
+	/**
+	 * Patch the dom with the passed template string
+	 * @param 		{String} 		template 		The template to use to patch the dom
+	 * @return 		{HTMLElement} 					The HTMLElement that represent the template in the dom
+	 */
+	patchDom(template) {
 		// set the new html
-		this.dom = morphdom(this.dom, compiled.trim(), {
+		const dom = morphdom(this.dom, template.trim(), {
 			onBeforeElChildrenUpdated : (fromNode, toNode) => {
 				// don't care about no html elements
 				// such has comments, text, etc...
@@ -560,17 +663,8 @@ export default class STemplate {
 			},
 		});
 
-		// update refs
-		this._updateRefs();
-
-		// listen for changes of datas in the DOM
-		// through the s-template-model attribute
-		this._listenDataChangesInDom();
-
-		// set the template as dirty
-		if ( ! this.dom.hasAttribute('s-template-dirty')) {
-			this.dom.setAttribute('s-template-dirty', true);
-		}
+		// return the dom template
+		return dom;
 	}
 
 	/**
@@ -585,10 +679,7 @@ export default class STemplate {
 		[].forEach.call(this.dom.querySelectorAll('[id],[name]'), (elm) => {
 			// if the model is into another template,
 			// this is not our business
-			const closestTemplate = __closest(elm, '[s-template-id]');
-			if (closestTemplate && closestTemplate.getAttribute('s-template-id') !== this.templateId) {
-				return;
-			}
+			if ( ! this.isNodeBelongToMe(elm)) return;
 			// get the id or name
 			const id = elm.id || elm.getAttribute('name');
 			// save the reference
@@ -624,40 +715,6 @@ export default class STemplate {
 				node._sTemplateTypesIntegration[type] = true;
 			});
 		}
-
-		// check if is a component to render it
-		// const components = sElementsManager.getComponents(node);
-		// if (components) {
-		// 	// loop on each components to render themself
-		// 	for (let name in components) {
-		// 		const component = components[name];
-		//
-		// 		// if already integrated
-		// 		// do not launch the integration function
-		// 		if (component._sTemplateIntegrated !== true) {
-		// 			// const constructorName = __constructorName(component);
-		// 			// const integrationFn = STemplate._componentsIntegrationFnStack[constructorName];
-		// 			// if (integrationFn) {
-		// 			// 	integrationFn(component);
-		// 			// 	component._sTemplateIntegrated = true;
-		// 			// }
-		// 			// loop on each prototypes to go up inheritence tree
-		// 			let proto = Object.getPrototypeOf(component);
-		// 			while(proto) {
-		// 				const constructorName = __constructorName(proto);
-		// 				if ( ! component._sTemplateIntegrated) component._sTemplateIntegrated = {};
-		// 				if ( ! component._sTemplateIntegrated[constructorName]) {
-		// 					component._sTemplateIntegrated[constructorName] = true;
-		// 					const integrationFn = sTemplateIntegrator._componentsIntegrationFnStack[constructorName];
-		// 					if (integrationFn) {
-		// 						integrationFn(component);
-		// 					}
-		// 				}
-		// 				proto = Object.getPrototypeOf(proto);
-		// 			}
-		// 		}
-		// 	}
-		// }
 	}
 
 	/**
@@ -674,24 +731,31 @@ export default class STemplate {
 		// property instead of the value attribute
 		// cause the value attribute in multiple select does not mean
 		// anything...
-		let value = element.getAttribute('value');
-		if (element.tagName.toLowerCase() === 'select') {
-			value = element.value;
-		}
+		// let value = element.getAttribute('value');
+		// if (element.tagName.toLowerCase() === 'select') {
+		// 	value = element.value;
+		// }
+		// let value = element.value || element.getAttribute('value');
+		let value = __autoCast(element.value);
 
 		// try to get into data
-		const val = _get(this.data, value);
+		let valueInData = null;
+		if (typeof(value) === 'string') {
+			valueInData = _get(this.data, value);
+		}
 
 		// if has a value into data
 		// take that as value to set into model
-		if (val) {
-			this.data[model] = val;
+		if (valueInData) {
+			this.data[model] = valueInData;
 		} else if (typeof(value) === 'string' && value.substr(0,7) === 'object:') {
 			const split = value.split(':');
 			const idx = split[1];
 			this.data[model] = this._modelValuesStack[idx];
+		} else if (value !== undefined) {
+			this.data[model] = value;
 		} else {
-			this.data[model] = __autoCast(value);
+			this.data[model] = null;
 		}
 	}
 
@@ -746,8 +810,6 @@ export default class STemplate {
 					this._modelValuesStack.push(this.data[model]);
 					const newIdx = this._modelValuesStack.length - 1;
 					htmlVal = `object:${newIdx}`;
-					// console.log('htmlVal', htmlVal);
-					// htmlVal = 'coco';
 				}
 			}
 

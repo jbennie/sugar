@@ -5,6 +5,8 @@ export default function autoCast(string) {
 	// boolean values
 	if (string === 'false'
 		|| string === 'true'
+		|| string === 'undefined'
+		|| string === 'null'
 		|| ! isNaN(string)) {
 		return eval(string);
 	}

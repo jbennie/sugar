@@ -229,10 +229,12 @@ export default class SValidatorComponent extends SWebComponent {
 	 */
 	_ensureFormHasNameOrId() {
 		const form = this._getForm();
-		if ( ! form.name && ! form.id) {
-			const formId = `s-validator-form-${__uniqid()}`;
-			form.setAttribute('id', formId);
-			return `form#${formId}`;
+		if (form) {
+			if ( ! form.name && ! form.id) {
+				const formId = `s-validator-form-${__uniqid()}`;
+				form.setAttribute('id', formId);
+				return `form#${formId}`;
+			}
 		}
 	}
 

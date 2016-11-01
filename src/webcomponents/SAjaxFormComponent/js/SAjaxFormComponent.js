@@ -1,4 +1,4 @@
-import SWebTemplateComponent from '../../../js/core/SWebTemplateComponent'
+import SWebSTemplateComponent from '../../../js/core/SWebSTemplateComponent'
 import __getAnimationProperties from '../../../js/dom/getAnimationProperties'
 import __style from '../../../js/dom/style'
 import Flatpickr from 'flatpickr/dist/flatpickr'
@@ -6,7 +6,7 @@ import __dispatchEvent from '../../../js/dom/dispatchEvent'
 import SAjax from '../../../js/classes/SAjax'
 import _get from 'lodash/get'
 
-export default class SAjaxFormComponent extends SWebTemplateComponent {
+export default class SAjaxFormComponent extends SWebSTemplateComponent {
 
 	/**
 	 * @constructor
@@ -51,29 +51,30 @@ export default class SAjaxFormComponent extends SWebTemplateComponent {
 			 * Path that specify where the error to display
 			 * lives in the response JSON
 			 */
-			errorPath : null,
+			errorPath : null
+		}
+	}
+
+	/**
+	 * Default template data
+	 * @definition 		SWebTemplateComponent.defaultTemplateData
+	 */
+	static get defaultTemplateData() {
+		return {
+			/**
+			 * Store the success response
+			 * @templateData
+			 * @type 		{Mixed}
+			 */
+			success : null,
 
 			/**
-			 * Data available into the template
-			 * @type 		{Object}
+			 * Store the error response
+			 * @templateData
+			 * @type		{Mixed}}
 			 */
-			data : {
-
-				/**
-				 * Store the success response
-				 * @templateData
-				 * @type 		{Mixed}
-				 */
-				success : null,
-
-				/**
-				 * Store the error response
-				 * @templateData
-				 * @type		{Mixed}}
-				 */
-				error : null
-			}
-		}
+			error : null
+		};
 	}
 
 	/**
@@ -168,14 +169,14 @@ export default class SAjaxFormComponent extends SWebTemplateComponent {
 		if (typeof(response) === 'string') {
 			// assume that the response is some kind of text, or html.
 			// set it directly into the html
-			this.data.success = response;
+			this.templateData.success = response;
 		} else if (typeof(response) === 'object'
 				  && this.props.successPath
 		) {
 			// try to get the success message
 			const msg = _get(response, this.props.successPath);
 			if ( ! msg) return;
-			this.data.success = msg;
+			this.templateData.success = msg;
 		}
 
 		// check if need to hide the form
@@ -187,7 +188,7 @@ export default class SAjaxFormComponent extends SWebTemplateComponent {
 		if (this.props.displayResultTimeout) {
 			setTimeout(() => {
 				// empty the element
-				this.data.success = null;
+				this.templateData.success = null;
 				this._form.style.display = '';
 			}, this.props.displayResultTimeout);
 		}
@@ -205,14 +206,14 @@ export default class SAjaxFormComponent extends SWebTemplateComponent {
 		if (typeof(error) === 'string') {
 			// assume that the error is some kind of text, or html.
 			// set it directly into the html
-			this.data.error = error;
+			this.templateData.error = error;
 		} else if (typeof(error) === 'object'
 				  && this.props.errorPath
 		) {
 			// try to get the error message
 			const msg = _get(error, this.props.errorPath);
 			if ( ! msg) return;
-			this.data.error = msg;
+			this.templateData.error = msg;
 		}
 
 		// check if need to hide the form
@@ -224,20 +225,12 @@ export default class SAjaxFormComponent extends SWebTemplateComponent {
 		if (this.props.displayResultTimeout) {
 			setTimeout(() => {
 				// empty the element
-				this.data.error = null;
+				this.templateData.error = null;
 				this._form.style.display = '';
 			}, this.props.displayResultTimeout);
 		}
 	}
-
-	/**
-	 * Render
-	 * @definition 		SWebComponent.render
-	 */
-	render() {
-		super.render();
-	}
 }
 
 // register component
-SWebTemplateComponent.define('s-ajax-form', SAjaxFormComponent);
+SWebSTemplateComponent.define('s-ajax-form', SAjaxFormComponent);

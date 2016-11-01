@@ -1,10 +1,10 @@
 import SWebComponent from './SWebComponent'
-import sTemplateIntegrator from './sTemplateIntegrator'
-import STemplate from './STemplate'
 import SBinder from '../classes/SBinder'
-import __insertAfter from '../dom/insertAfter'
 import __uniqid from '../utils/uniqid'
 import _get from 'lodash/get'
+import __template from '../dom/template'
+import __htmlToStr from '../utils/string/htmlToStr'
+import __mergeYields from '../dom/mergeYields'
 
 export default class SWebTemplateComponent extends SWebComponent {
 
@@ -19,14 +19,6 @@ export default class SWebTemplateComponent extends SWebComponent {
 	 */
 	static get defaultProps() {
 		return {
-
-			/**
-			 * data
-			 * Store the data object used in to render the template
-			 * @type 	{Object}
-			 */
-			data : {},
-
 			/**
 			 * compile
 			 * The compile function to use
@@ -40,16 +32,86 @@ export default class SWebTemplateComponent extends SWebComponent {
 			 * @type 	{String}
 			 */
 			template : null
-
-		}
+		};
 	}
 
 	/**
-	 * Physical props
-	 * @definition 		SWebComponent.physicalProps
+	 * Return an object that represent the default data used by the template
+	 * to render itself
+	 * @return 		{Object} 			An object that represent the data used by the template
 	 */
-	static get physicalProps() {
-		return []
+	static get defaultTemplateData() {
+		return {};
+	}
+
+	/**
+	 * Get the default template data for this particular instance
+	 * @return 		{Object} 			The template data
+	 */
+	get defaultTemplateData() {
+		let data = window.sugar._webComponentsStack[this._componentName].defaultTemplateData;
+		let comp = window.sugar._webComponentsStack[this._componentName];
+		while(comp) {
+			if (comp.defaultTemplateData) {
+				data = {
+					...comp.defaultTemplateData,
+					...data
+				};
+			}
+			comp = Object.getPrototypeOf(comp);
+		}
+		return data;
+	}
+
+	/**
+	 * Get the template
+	 */
+	get template() {
+		// cache
+		if ( this._templateCached) return this._templateCached;
+		// get the template
+		const tpl = __template(this.props.template || this);
+		// if a template is specified in the props
+		// we will try to merge the yield elements
+		// to produce the final template
+		if (this.props.template) {
+			// get the template from the element itself
+			const elmTpl = __template(this);
+			// merge the yields
+			__mergeYields(tpl, elmTpl);
+		}
+		// save to cache
+		this._templateCached = tpl;
+		// return the template
+		return tpl;
+	}
+
+	/**
+	 * Get the template in string format
+	 */
+	get templateString() {
+		const tpl = this.template;
+		return __htmlToStr(tpl);
+	}
+
+	/**
+	 * Before that the component will mount
+	 */
+	componentWillMount() {
+		super.componentWillMount();
+
+		// check if no template specified
+		if ( ! this.template) {
+			throw "You have to specify a template either by setting up the props.template variable, by initiating this component on a 'script' tag or on any html element like a 'div' or something...";
+		}
+
+		// create a component id
+		this._templateComponentId = __uniqid();
+
+		// set the content if the template if not the element itself
+		if (this !== this.template) {
+			this.innerHTML = this.template.innerHTML;
+		}
 	}
 
 	/**
@@ -57,14 +119,10 @@ export default class SWebTemplateComponent extends SWebComponent {
 	 * @definition 		SWebComponent.componentMount
 	 */
 	componentMount() {
-
 		super.componentMount();
 
-		// create a component id
-		this._templateComponentId = __uniqid();
-
-		// apply some attributes
-		this.setAttribute('s-template-component', this._templateComponentId);
+		// create the templateData stack from the default template data
+		this.templateData = Object.assign({}, this.defaultTemplateData);
 
 		// new binder
 		this._binder = new SBinder();
@@ -72,164 +130,107 @@ export default class SWebTemplateComponent extends SWebComponent {
 		// process the data to allow some features
 		// like the mapping of instance property with @,
 		// etc...
-		// for(let key in this.props.data) {
-		// 	// map the data to an instance variable
-		// 	if (typeof(this.props.data[key]) === 'string') {
-		// 		// handle the @... notation in datas
-		// 		if (this.props.data[key].substr(0,1) === '@') {
-		// 			const watchKey = this.props.data[key].substr(1);
-		// 			// set the initial value
-		// 			this.props.data[key] = _get(this, watchKey);
-		// 			// bind the value to the data value
-		// 			this._binder.bindObjectPath2ObjectPath(this, watchKey, this, `props.data.${key}`);
-		// 		}
-		// 	}
-		// 	// bind the component instance to the setting if it is
-		// 	// a function
-		// 	if (typeof(this.props.data[key]) === 'function') {
-		// 		this.props.data[key] = this.props.data[key].bind(this);
-		// 	}
-		// }
+		for(let key in this.templateData) {
+			// map the data to an instance variable
+			if (typeof(this.templateData[key]) === 'string') {
+				// handle the @... notation in datas
+				if (this.templateData[key].substr(0,1) === '@') {
+					const watchKey = this.templateData[key].substr(1);
+					// set the initial value
+					this.templateData[key] = _get(this, watchKey);
+					// bind the value to the data value
+					this._binder.bindObjectPath2ObjectPath(this, watchKey, this, `templateData.${key}`);
+				}
+			}
+			// bind the component instance to the setting if it is
+			// a function
+			if (typeof(this.templateData[key]) === 'function') {
+				this.templateData[key] = this.templateData[key].bind(this);
+			}
+		}
 	}
 
 	/**
-	 * Internal render
+	 * Run each time a data is updated in the template
+	 * @param 		{String} 		name 			The data name
+	 * @param 		{Mixed} 		newVal 			The new value
+	 * @param 		{Mixed} 		oldVal 			The old value
 	 */
-	_internalRender() {
-
-		// if the element has already been rendered once,
-		// no need to initiate it completely
-		// just render the template
-		if (this.sTemplateInited) {
-			this.renderTemplate();
-			return;
-		}
-		this.sTemplateInited = true;
-
-		// set that the template id now dirty
-		this.setAttribute('s-template-component-dirty', true);
-
-		// init template variable that will contains the
-		// complete template to pass the the STemplate instance
-		let template = null;
-
-		// if a template is specified in the props.template,
-		// we process it to have an html version of it
-		if ( ! this._templateInProps && typeof(this.props.template) === 'string') {
-			const cont = document.createElement('div');
-			cont.innerHTML = this.props.template;
-			this._templateInProps = cont;
-		}
-
-		// ...but is the element is a script
-		// if it is, create a div after it that
-		// will contain the rendered template
-		if (this.props.template && typeof(this.props.template) === 'string' && this.props.template.substr(0,1) === '#') {
-			const tplEl = document.querySelector(this.props.template);
-			if (tplEl) {
-				template = tplEl.innerHTML;
-			}
-		} else {
-			template = this;
-		}
-
-		// if we have any template from settings
-		// we assume that the template in the html are
-		// contents of the setting template
-		if (this._templateInProps && template) {
-			// search the yieds into the template
-			let cont = template;
-			if (typeof(template) === 'string') {
-				// create a new container to convert the string to html elements
-				const cont = document.createElement('div');
-				cont.innerHTML = template;
-			}
-			// find yields in the templateInProps
-			const inPropsTemplateYields = this._templateInProps.querySelectorAll('[yield]');
-			// if we have some yields,
-			// we process them.
-			// otherwise, we considere the _templateInProps
-			// as the template itself
-			if (inPropsTemplateYields.length) {
-				// process the yields
-				[].forEach.call(inPropsTemplateYields, (yieldElm) => {
-					// if the yield as a value,
-					// we will try to find the corresponding yield in the
-					// template
-					const yieldId = yieldElm.getAttribute('yield');
-					let yieldSelector = '[yield]';
-					if (yieldId) {
-						yieldSelector = `[yield="${yieldId}"]`;
-					}
-					// we need to find the proper yield id
-					const destYield = cont.querySelector(yieldSelector);
-					if (destYield) {
-						// set the yield content into the inPropTemplate
-						destYield.removeAttribute('yield');
-						yieldElm.removeAttribute('yield');
-						yieldElm.appendChild(destYield);
-					} else {
-						// theirs no yield in the template,
-						// so use the template itself as yield content
-						yieldElm.removeAttribute('yield');
-						yieldElm.innerHTML = cont.innerHTML;
-					}
-				});
-			}
-			template = this._templateInProps;
-		} else if ( this._templateInProps && ! template) {
-			// this.appendChild(this._templateInProps);
-			// template = this.elm;
-			template = this._templateInProps;
-		}
-
-		// check if no template specified
-		if ( ! template) {
-			throw "You have to specify a template either by setting up the settings.template variable, by initiating this component on a 'script' tag or on any html element like a 'div' or something...";
-		}
-
-		// get the parent template component
-		const parentTemplate = STemplate.getParentTemplate(this);
-
-		// make a template with the dom
-		this._template = new STemplate(template, this.props.data, {
-			compile : this.props.compile,
-			afterCompile : this._afterCompile.bind(this)
-		}, parentTemplate);
-
-		// if we have a container, append the template into it
-		if ( ! template.nodeName || ! template.parentNode) {
-			// insert into if possible
-			if (this.nodeName.toLowerCase() === 'script') {
-				// insert the element after the script
-				__insertAfter(this._template.dom, this);
-			} else {
-				// empty the element and add the template into it
-				this.innerHTML = '';
-				this.appendChild(this._template.dom);
-			}
-		}
-
-		// render
-		this.renderTemplate();
+	_onTemplateDataUpdate(name, newVal, oldVal) {
+		// do nothing if is the same data
+		if ( newVal === oldVal) return;
+		// call the function
+		this.templateWillReceiveData && this.templateWillReceiveData(name, newVal, oldVal);
+		// stop here if we don't have any templateWillReceiveDatas method
+		if ( ! this.templateWillReceiveDatas) return;
+		// ensure that we have a stack to work with
+		if ( ! this._templateWillReceiveDataStack) this._templateWillReceiveDataStack = {};
+		// // add the data into the stack
+		this._templateWillReceiveDataStack[name] = newVal;
+		// // batch the datas
+		clearTimeout(this._templateWillReceiveDataTimeout);
+		this._templateWillReceiveDataTimeout = setTimeout(() => {
+		// 	// call the templateWillReceiveData function
+			this.templateWillReceiveData(Object.assign({}, this._templateWillReceiveDataStack));
+			// clean the stack
+			this._templateWillReceiveDataStack = {};
+		});
 	}
 
 	/**
-	 * _afterCompile
-	 * Run after the template has been rendered
-	 * @param 	{String} 	compiledTemplate 	The compiled template
-	 * @return 	{String} 						The processed template
+	 * Run before the template will be compiled so that you can have a change to process it if needed
+	 * before it will be passed to the compile step
+	 * @param 		{String} 				template 				The template before compilation
+	 * @return 		{String} 										The processed template to pass to compilation step
 	 */
-	_afterCompile(template) {
+	templateWillCompile(template) {
 		return template;
 	}
 
 	/**
-	 * renderTemplate
+	 * Compile the template has you wan
+	 * @param 		{String} 				template 				The template to compile
+	 * @param 		{Object} 				data 					The data to compile the template with
+	 * @return 		{String} 										The compiled template
 	 */
-	renderTemplate() {
-		// render the template
-		this._template.render();
+	templateCompile(template, data) {
+		return template;
+	}
+
+	/**
+	 * Run after the template has been compiled so that you can have a chance to process it if needed
+	 * before that the dom will be updated
+	 * @param 		{String} 			 	compiledTemplate 		The compiled template
+	 * @return 		{String|HTMLElement} 							The processed template
+	 */
+	templateDidCompile(template) {
+		return template;
+	}
+
+	/**
+	 * Run before the template will be rendered in the viewport
+	 * @param 		{String} 				template 				The template to render to the screen
+	 * @return 		{String} 										The processed template to render
+	 */
+	templateWillRender(template) {
+		return template;
+	}
+
+	/**
+	 * Run after the template has been rendered in the viewport
+	 * @param 		{HTMLElement} 			inDomTemplate 			The in dom representation of the template
+	 */
+	templateDidRender(inDomTemplate) {
+		// do something here if needed
+	}
+
+	/**
+	 * Run before compile the template to test if we need to render it again or not
+	 * @param 		{Object} 				nextData 				The new data that the template should reflect
+	 * @return 		{Boolean} 										false if want to prevent the template to be rendered, true otherwise
+	 */
+	shouldTemplateUpdate(nextData) {
+		return true;
 	}
 
 	/**
@@ -237,28 +238,6 @@ export default class SWebTemplateComponent extends SWebComponent {
 	 */
 	componentUnmount() {
 		super.componentUnmount();
-		// destroy the template
-		if (this._template && this._template.destroy) {
-			this._template.destroy();
-		}
-		// remove the reference on the element
-		delete this._sTemplateComponent;
-	}
-
-	/**
-	 * Data accessor
-	 */
-	get data() {
-		return this.props.data;
-	}
-
-	/**
-	 * template
-	 * template accessor
-	 * @return 	{STemplate} 	The template instance
-	 */
-	get template() {
-		return this._template;
 	}
 
 	/**
@@ -267,16 +246,5 @@ export default class SWebTemplateComponent extends SWebComponent {
 	 */
 	render() {
 		super.render();
-		this._internalRender();
 	}
 }
-
-// STemplate integration
-sTemplateIntegrator.registerComponentIntegration('SWebTemplateComponent', (component) => {
-	sTemplateIntegrator.ignore(component, {
-		"s-template-dirty" : true,
-		"s-template-component" : true,
-		"s-template-component-dirty" : true,
-		"s-template-component-virgin" : true
-	});
-});
