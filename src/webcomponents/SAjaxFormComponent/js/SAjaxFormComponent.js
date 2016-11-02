@@ -6,6 +6,7 @@ import __dispatchEvent from '../../../js/dom/dispatchEvent'
 import SAjax from '../../../js/classes/SAjax'
 import _get from 'lodash/get'
 import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
+import __formSerialize from 'form-serialize'
 
 export default class SAjaxFormComponent extends SWebSTemplateComponent {
 
@@ -70,7 +71,7 @@ export default class SAjaxFormComponent extends SWebSTemplateComponent {
 			 * @prop
 			 * @type 		{String}
 			 */
-			contentType : 'application/x-www-form-urlencoded'
+			enctype : 'application/x-www-form-urlencoded'
 		}
 	}
 
@@ -151,15 +152,25 @@ export default class SAjaxFormComponent extends SWebSTemplateComponent {
 		// check validity
 		if ( ! this._form.checkValidity()) return;
 
-		// get the form data to send with the request
-		const formData = new FormData(this._form);
+		// data to send
+		let data = {};
+
+		// encode form datas
+		if (this.props.enctype === 'application/x-www-form-urlencoded') {
+			// serialize the form values
+			data = __formSerialize(this._form);
+		} else {
+			data = new FormData(this._form);
+		}
+
+		console.log('data', data);
 
 		// create ajax instance
 		const ajx = new SAjax({
 			url : this._form.getAttribute('action'),
 			method : this._form.getAttribute('method') || 'POST',
-			data : formData,
-			contentType : this._form.getAttribute('enctype') || this.props.contentType
+			data : data,
+			contentType : this._form.getAttribute('enctype') || this.props.enctype
 		});
 
 		// set the loading attribute on the form
