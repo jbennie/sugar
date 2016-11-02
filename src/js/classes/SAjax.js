@@ -122,7 +122,7 @@ export default class SAjax extends SObject {
 		super();
 
 		// if the request is not an SAjaxRequest, create it
-		if ( ! request instanceof SAjaxRequest) {
+		if ( ! (request instanceof SAjaxRequest)) {
 			this._requestSettings = new SAjaxRequest(request);
 		} else {
 			this._requestSettings = request;
@@ -146,6 +146,20 @@ export default class SAjax extends SObject {
 		// process request settings
 		if (this._settings.beforeSend) {
 			this._requestSetting = this._settings.beforeSend(this._requestSettings, this._requestsCount);
+		}
+
+		// check type and datas
+		// to set datas as query string if is a GET request
+		if (this._requestSettings.method.toLowerCase() === 'get'
+			&& this._requestSettings.data
+			&& typeof(this._requestSettings.data) === 'string'
+		) {
+			// append the data to the URL
+			let start = '?';
+			if (this._requestSettings.url.indexOf('?') !== -1) {
+				start = '&';
+			}
+			this._requestSettings.url += `${start}${this._requestSettings.data}`;
 		}
 
 		// create the new simple ajax instance

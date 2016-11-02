@@ -3,10 +3,10 @@ import __getAnimationProperties from '../../../js/dom/getAnimationProperties'
 import __style from '../../../js/dom/style'
 import Flatpickr from 'flatpickr/dist/flatpickr'
 import __dispatchEvent from '../../../js/dom/dispatchEvent'
-import SAjax from '../../../js/classes/SAjax'
 import _get from 'lodash/get'
 import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
 import __formSerialize from 'form-serialize'
+import __sendForm from '../../../js/dom/sendForm'
 
 export default class SAjaxFormComponent extends SWebSTemplateComponent {
 
@@ -152,32 +152,8 @@ export default class SAjaxFormComponent extends SWebSTemplateComponent {
 		// check validity
 		if ( ! this._form.checkValidity()) return;
 
-		// data to send
-		let data = {};
-
-		// encode form datas
-		if (this.props.enctype === 'application/x-www-form-urlencoded') {
-			// serialize the form values
-			data = __formSerialize(this._form);
-		} else {
-			data = new FormData(this._form);
-		}
-
-		console.log('data', data);
-
-		// create ajax instance
-		const ajx = new SAjax({
-			url : this._form.getAttribute('action'),
-			method : this._form.getAttribute('method') || 'POST',
-			data : data,
-			contentType : this._form.getAttribute('enctype') || this.props.enctype
-		});
-
-		// set the loading attribute on the form
-		this._form.setAttribute('loading', true);
-
-		// send the request
-		ajx.send().then((response) => {
+		// send form
+		__sendForm(this._form).then((response) => {
 			// handle response
 			this._handleSuccess(response);
 		}, (error) => {
@@ -190,9 +166,6 @@ export default class SAjaxFormComponent extends SWebSTemplateComponent {
 	 * @param 		{Mixed} 		response 		The ajax response
 	 */
 	_handleSuccess(response) {
-		// remove the loading attribute on the form
-		this._form.removeAttribute('loading', true);
-
 		// reset form
 		this._form.reset();
 
@@ -230,9 +203,6 @@ export default class SAjaxFormComponent extends SWebSTemplateComponent {
 	 * @param 		{Mixed} 		error 		The error response from the server
 	 */
 	_handleError(error) {
-		// remove the loading attribute on the form
-		this._form.removeAttribute('loading', true);
-
 		// check the error type
 		if (typeof(error) === 'string') {
 			// assume that the error is some kind of text, or html.

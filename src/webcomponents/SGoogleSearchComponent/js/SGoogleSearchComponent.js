@@ -76,7 +76,14 @@ export default class SGoogleSearchComponent extends SWebSTemplateComponent {
 			 * @templateData
 			 * @type 		{Function}
 			 */
-			next : '@next'
+			next : '@next',
+
+			/**
+			 * Flag is the search is busy
+			 * @templateData
+			 * @type 		{Boolean}
+			 */
+			isBusy : false
 		}
 	}
 
@@ -105,6 +112,9 @@ export default class SGoogleSearchComponent extends SWebSTemplateComponent {
 
 		// create the google search instance
 		this._googleSearch = new SGoogleSearch(this.props.apiKey, this.props.cx);
+
+		// initial search if a keywords if specified
+		if (this.props.keywords) this.search(this.props.keywords);
 	}
 
 	/**
@@ -116,6 +126,9 @@ export default class SGoogleSearchComponent extends SWebSTemplateComponent {
 	 */
 	search(keywords, settings) {
 
+		// busy
+		this.templateData.isBusy = true;
+
 		// process the search
 		const search = this._googleSearch.search(keywords, {
 			num : 10
@@ -123,6 +136,9 @@ export default class SGoogleSearchComponent extends SWebSTemplateComponent {
 		// listen for end of search to set data
 		// into template
 		search.then((response) => {
+
+			// budy status
+			this.templateData.isBusy = false;
 
 			if ( ! response.queries || ! response.queries.nextPage) {
 				this.templateData.noMoreResults = true;
@@ -168,10 +184,9 @@ export default class SGoogleSearchComponent extends SWebSTemplateComponent {
 		// if we have any keywords
 		switch(name) {
 			case 'keywords':
+				this.templateData.results = [];
 				if (newVal) {
 					this.search(newVal);
-				} else {
-					this.templateData.results = [];
 				}
 			break;
 		}
