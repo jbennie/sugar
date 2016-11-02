@@ -179,7 +179,7 @@ export default class SAjax extends SObject {
 				case contentType.indexOf('text/html') === 0:
 					// check if the url has an hash
 					// and that the request dataType is html
-					const urlParts = simpleAjax._requestSettings.url.toString().split('#');
+					const urlParts = simpleAjax._requestSettings.url.toString().split(/#|%23/);
 					if (urlParts.length >= 2 && document !== undefined && document.querySelector !== undefined) {
 						const html = strToHtml(response);
 						if (html.id === urlParts[1]) {
