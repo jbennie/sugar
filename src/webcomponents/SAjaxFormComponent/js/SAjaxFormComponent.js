@@ -63,7 +63,14 @@ export default class SAjaxFormComponent extends SWebSTemplateComponent {
 			 * @prop
 			 * @type 		{String}
 			 */
-			errorPath : null
+			errorPath : null,
+
+			/**
+			 * Content type header that will be sent with the request
+			 * @prop
+			 * @type 		{String}
+			 */
+			contentType : 'application/x-www-form-urlencoded'
 		}
 	}
 
@@ -151,7 +158,8 @@ export default class SAjaxFormComponent extends SWebSTemplateComponent {
 		const ajx = new SAjax({
 			url : this._form.getAttribute('action'),
 			method : this._form.getAttribute('method') || 'POST',
-			data : formData
+			data : formData,
+			contentType : this._form.getAttribute('enctype') || this.props.contentType
 		});
 
 		// set the loading attribute on the form
