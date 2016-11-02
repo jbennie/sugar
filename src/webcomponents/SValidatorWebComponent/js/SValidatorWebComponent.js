@@ -336,7 +336,7 @@ export default class SValidatorComponent extends SWebComponent {
 		if (this.props.required) validatorsList.unshift('required');
 
 		// loop on each validators and launch them
-		for (let i in validatorsList) {
+		for (let i=0; i<validatorsList.length; i++) {
 			const name = validatorsList[i];
 
 			// get the validator parameters
