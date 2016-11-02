@@ -5,6 +5,7 @@ import Flatpickr from 'flatpickr/dist/flatpickr'
 import __dispatchEvent from '../../../js/dom/dispatchEvent'
 import SAjax from '../../../js/classes/SAjax'
 import _get from 'lodash/get'
+import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
 
 export default class SAjaxFormComponent extends SWebSTemplateComponent {
 
@@ -22,34 +23,45 @@ export default class SAjaxFormComponent extends SWebSTemplateComponent {
 
 			/**
 			 * Specify the name or id of the field to link the datepicker to
+			 * @prop
 			 * @type  		{String}
 			 */
 			for : null,
 
 			/**
 			 * Specify if need to hide the form on result
+			 * @prop
+			 * @type 		{Boolean}
 			 */
 			hideFormOnSuccess : false,
 
 			/**
 			 * Specify if need to hide the form on error
+			 * @prop
+			 * @type 		{Boolean}
 			 */
 			hideFormOnError : false,
 
 			/**
 			 * Specify the hide form timeout
+			 * @prop
+			 * @type 		{Number}
 			 */
 			displayResultTimeout : 2000,
 
 			/**
 			 * Path that specify where the response to display
 			 * lives in the response JSON
+			 * @prop
+			 * @type 		{String}
 			 */
 			successPath : null,
 
 			/**
 			 * Path that specify where the error to display
 			 * lives in the response JSON
+			 * @prop
+			 * @type 		{String}
 			 */
 			errorPath : null
 		}
@@ -231,6 +243,16 @@ export default class SAjaxFormComponent extends SWebSTemplateComponent {
 		}
 	}
 }
+
+// STemplate integration
+sTemplateIntegrator.registerComponentIntegration('SAjaxFormComponent', (component) => {
+	if (component._form) {
+		sTemplateIntegrator.ignore(component._form, {
+			loading : true,
+			style : true
+		});
+	}
+});
 
 // register component
 SWebSTemplateComponent.define('s-ajax-form', SAjaxFormComponent);

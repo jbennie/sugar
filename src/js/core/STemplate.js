@@ -23,20 +23,6 @@ import sElementsManager from './sElementsManager';
 if (! window.sugar) window.sugar = {};
 window.sugar._sTemplateData = {};
 
-// set SElement init dependencies
-// SElement.registerInitDependency((element) => {
-// 	return new Promise((resolve, reject) => {
-// 		const closestTemplate = __closest(element.elm, '[s-temp]');
-// 		if (closestTemplate) {
-// 			__whenAttribute(closestTemplate, 's-template-dirty').then((elm) => {
-// 				resolve();
-// 			});
-// 		} else {
-// 			resolve();
-// 		}
-// 	});
-// });
-
 /**
  * @class 		STemplate 		{SOject}
  * This class allows you to create complexe and dynamic templates that will stay
@@ -390,9 +376,6 @@ export default class STemplate {
 				}
 			});
 			this._watcher.watch(this.data, name, (newVal, oldVal) => {
-
-				console.log('watch', name, newVal, oldVal);
-
 				// save the update in the stack
 				this._updatedDataStack[name] = newVal;
 				// make update only once
