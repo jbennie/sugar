@@ -19,7 +19,7 @@ export default class SAjaxRequest {
 	 * The url to call
 	 * @type 	{String}
 	 */
-	url = null;
+	_url = null;
 
 	/**
 	 * The request method to use like GET, POST, DELETE or PUT
@@ -111,5 +111,19 @@ export default class SAjaxRequest {
 		}
 		// all ok
 		return true;
+	}
+
+	/**
+	 * Get the url
+	 */
+	get url() {
+		return unescape(this._url);
+	}
+
+	/**
+	 * Set the url
+	 */
+	set url(value) {
+		this._url = value;
 	}
 }
