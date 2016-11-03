@@ -1,9 +1,9 @@
-import SWebInputComponent from '../../../js/core/SWebInputComponent'
+import SInputWebComponent from '../../../js/core/SInputWebComponent'
 import __getAnimationProperties from '../../../js/dom/getAnimationProperties'
 import __style from '../../../js/dom/style'
 import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
 
-export default class SRadioboxComponent extends SWebInputComponent {
+export default class SRadioboxComponent extends SInputWebComponent {
 
 	/**
 	 * @constructor
@@ -75,4 +75,4 @@ sTemplateIntegrator.registerComponentIntegration('SRadioboxComponent', (componen
 });
 
 // register component
-SWebInputComponent.define('s-radiobox', SRadioboxComponent, 'input');
+SInputWebComponent.define('s-radiobox', SRadioboxComponent, 'input');
