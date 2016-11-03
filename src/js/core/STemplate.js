@@ -756,6 +756,9 @@ export default class STemplate {
 			// check if already binded
 			const model = elm.getAttribute('s-template-model');
 
+			// get update timeout from model element
+			let updateModelTimeout = __autoCast(elm.getAttribute('s-template-model-timeout')) || 100;
+
 			// listen for change on the model
 			if ( ! elm._sTemplateBinded) {
 				elm._sTemplateBinded = true;
@@ -768,7 +771,7 @@ export default class STemplate {
 					this._keyUpTimeout = setTimeout(() => {
 						// update the model from the element
 						this._updateDataModelFromElement(e.target);
-					}, 1000);
+					}, updateModelTimeout);
 				});
 			}
 
