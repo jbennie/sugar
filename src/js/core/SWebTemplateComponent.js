@@ -171,7 +171,7 @@ export default class SWebTemplateComponent extends SWebComponent {
 		clearTimeout(this._templateWillReceiveDataTimeout);
 		this._templateWillReceiveDataTimeout = setTimeout(() => {
 		// 	// call the templateWillReceiveData function
-			this.templateWillReceiveData(Object.assign({}, this._templateWillReceiveDataStack));
+			this.templateWillReceiveDatas(Object.assign({}, this._templateWillReceiveDataStack));
 			// clean the stack
 			this._templateWillReceiveDataStack = {};
 		});
