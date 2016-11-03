@@ -262,7 +262,7 @@ export default class STemplate {
 			this.templateString = `<div s-template-id="${this.templateId}">${this.template}</div>`;
 
 			// apply a node id to each nodes
-			this.templateString = this.templateString.replace(/<[a-zA-Z]+\s/g, (item) => {
+			this.templateString = this.templateString.replace(/<[a-zA-Z]+\s?/g, (item) => {
 				return `${item.trim()} s-template-node="true" `;
 			});
 
@@ -357,7 +357,7 @@ export default class STemplate {
 							}
 						} else if (value.substr(0,1) === '<' && value.substr(-1) === '>') {
 							// apply a node id to each nodes
-							value = value.replace(/<[a-zA-Z]+\s/g, (item) => {
+							value = value.replace(/<[a-zA-Z]+\s?/g, (item) => {
 								return `${item.trim()} s-template-node="true" `;
 							});
 						} else if (this.data[value]) {
@@ -845,10 +845,11 @@ export default class STemplate {
 
 		// apply template node id where there's not one for now
 		ret = ret.replace(/<[a-z](?!.*s-template-node)[\s\S]+?>/g, (item) => {
-			return item.replace(/<[a-z]+\s/g, (itm) => {
+			return item.replace(/<[a-z]+\s?/g, (itm) => {
 				return `${itm.trim()} s-template-node="true" `;
 			});
 		});
+		console.log('ret', ret);
 
 		// replace the parent.
 		// if we have a parent template
