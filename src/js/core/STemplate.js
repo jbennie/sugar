@@ -263,7 +263,7 @@ export default class STemplate {
 
 			// apply a node id to each nodes
 			this.templateString = this.templateString.replace(/<[a-zA-Z]+\s/g, (item) => {
-				return `${item.trim()} s-template-node-id="${__uniqid()}" `;
+				return `${item.trim()} s-template-node="true" `;
 			});
 
 			// transform the template to his html version
@@ -272,13 +272,13 @@ export default class STemplate {
 			// this.templateString = this.template;
 			this.dom = document.createElement('div');
 			this.dom.setAttribute('s-template-id', this.templateId);
-			this.dom.setAttribute('s-template-node-id', __uniqid());
+			this.dom.setAttribute('s-template-node', true);
 
 		} else {
 			// apply a node id to each nodes
 			[].forEach.call(this.template.querySelectorAll('*'), (elm) => {
-				if ( elm.hasAttribute && ! elm.hasAttribute('s-template-node-id')) {
-					elm.setAttribute('s-template-node-id', __uniqid());
+				if ( elm.hasAttribute && ! elm.hasAttribute('s-template-node')) {
+					elm.setAttribute('s-template-node', true);
 				}
 			});
 
@@ -286,7 +286,7 @@ export default class STemplate {
 			this.template.setAttribute('s-template-id', this.templateId);
 
 			// set the node id on the root element
-			this.template.setAttribute('s-template-node-id', __uniqid());
+			this.template.setAttribute('s-template-node', true);
 
 			// set the base dom to transform
 			// as the passed template
@@ -300,7 +300,7 @@ export default class STemplate {
 
 		// ignore the template node id
 		sTemplateIntegrator.ignore(this.dom, {
-			's-template-node-id' : true,
+			's-template-node' : true,
 			's-template-id' : true,
 			's-template-dirty' : true
 		});
@@ -358,7 +358,7 @@ export default class STemplate {
 						} else if (value.substr(0,1) === '<' && value.substr(-1) === '>') {
 							// apply a node id to each nodes
 							value = value.replace(/<[a-zA-Z]+\s/g, (item) => {
-								return `${item.trim()} s-template-node-id="${__uniqid()}" `;
+								return `${item.trim()} s-template-node="true" `;
 							});
 						} else if (this.data[value]) {
 							// the value exist in the current data
@@ -597,7 +597,7 @@ export default class STemplate {
 				// cause it's not part of the initial template.
 				// maybe it has been added by any component after
 				// so it's not our business...
-				if ( ! fromNode.hasAttribute('s-template-node-id')) return false;
+				if ( ! fromNode.hasAttribute('s-template-node')) return false;
 
 				// check if an onBeforeElUpdated is present in the settings
 				if (this.settings.onBeforeElUpdated) {
@@ -622,10 +622,10 @@ export default class STemplate {
 				if ( ! node.hasAttribute) return true;
 
 				// we do not discard any elements that
-				// have no s-template-node-id attribute
+				// have no s-template-node attribute
 				// cause they maybe has been added by another plugins
 				// and it is not our business...
-				if ( ! node.hasAttribute('s-template-node-id')) return false;
+				if ( ! node.hasAttribute('s-template-node')) return false;
 
 				// check if an onBeforeElUpdated is present in the settings
 				if (this.settings.onBeforeElDiscarded) {
@@ -838,6 +838,13 @@ export default class STemplate {
 		if (this.settings.afterCompile) {
 			ret = this.settings.afterCompile(ret);
 		}
+
+		// apply template node id where there's not one for now
+		ret = ret.replace(/<[a-z](?!.*s-template-node)[\s\S]+?>/g, (item) => {
+			return item.replace(/<[a-z]+\s/g, (itm) => {
+				return `${itm.trim()} s-template-node="true" `;
+			});
+		});
 
 		// replace the parent.
 		// if we have a parent template
