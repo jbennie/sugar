@@ -128,6 +128,9 @@ export default class SAjax extends SObject {
 			this._requestSettings = request;
 		}
 
+		// process request url
+		this._requestSettings.url = unescape(this._requestSettings.url);
+
 		// extend settings
 		Object.assign(this._settings, settings);
 

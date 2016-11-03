@@ -19,7 +19,7 @@ export default class SAjaxRequest {
 	 * The url to call
 	 * @type 	{String}
 	 */
-	_url = null;
+	url = null;
 
 	/**
 	 * The request method to use like GET, POST, DELETE or PUT
@@ -104,26 +104,12 @@ export default class SAjaxRequest {
 	_checkParams(params) {
 		// loop on each params
 		for (let key in params) {
-			if ( ! this.hasOwnProperty(key) && key !== 'url') {
+			if ( ! this.hasOwnProperty(key)) {
 				throw `The SAjaxRequest does not support the passed "${key}" parameter...`;
 				return false;
 			}
 		}
 		// all ok
 		return true;
-	}
-
-	/**
-	 * Get the url
-	 */
-	get url() {
-		return unescape(this._url);
-	}
-
-	/**
-	 * Set the url
-	 */
-	set url(value) {
-		this._url = value;
 	}
 }
