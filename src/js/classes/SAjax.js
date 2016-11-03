@@ -128,9 +128,6 @@ export default class SAjax extends SObject {
 			this._requestSettings = request;
 		}
 
-		// process request url
-		this._requestSettings.url = unescape(this._requestSettings.url);
-
 		// extend settings
 		Object.assign(this._settings, settings);
 
@@ -166,7 +163,10 @@ export default class SAjax extends SObject {
 		}
 
 		// create the new simple ajax instance
-		const simpleAjax = new SimpleAjax(this._requestSettings);
+		const simpleAjax = new SimpleAjax({
+			...this._requestSettings,
+			url : this._requestSettings.url.split(/#|%23/)[0]
+		});
 		simpleAjax._requestSettings = Object.assign({}, this._requestSettings);
 
 		// listen request states
