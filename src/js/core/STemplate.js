@@ -849,7 +849,6 @@ export default class STemplate {
 				return `${itm.trim()} s-template-node="true" `;
 			});
 		});
-		console.log('ret', ret);
 
 		// replace the parent.
 		// if we have a parent template
