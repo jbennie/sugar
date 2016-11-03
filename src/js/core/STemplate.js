@@ -764,6 +764,7 @@ export default class STemplate {
 				elm._sTemplateBinded = true;
 				elm.addEventListener('change', (e) => {
 					// update the model from the element
+					clearTimeout(this._keyUpTimeout);
 					this._updateDataModelFromElement(e.target);
 				});
 				elm.addEventListener('keyup', (e) => {
