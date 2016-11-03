@@ -104,7 +104,7 @@ export default class SAjaxRequest {
 	_checkParams(params) {
 		// loop on each params
 		for (let key in params) {
-			if ( ! this.hasOwnProperty(key)) {
+			if ( ! this.hasOwnProperty(key) && key !== 'url') {
 				throw `The SAjaxRequest does not support the passed "${key}" parameter...`;
 				return false;
 			}
