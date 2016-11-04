@@ -262,7 +262,7 @@ export default class STemplate {
 			this.templateString = `<div s-template-id="${this.templateId}">${this.template}</div>`;
 
 			// apply a node id to each nodes
-			this.templateString = this.templateString.replace(/<[a-zA-Z]+\s?/g, (item) => {
+			this.templateString = this.templateString.replace(/<[a-zA-Z0-9-]+\s?/g, (item) => {
 				return `${item.trim()} s-template-node="true" `;
 			});
 
@@ -357,7 +357,7 @@ export default class STemplate {
 							}
 						} else if (value.substr(0,1) === '<' && value.substr(-1) === '>') {
 							// apply a node id to each nodes
-							value = value.replace(/<[a-zA-Z]+\s?/g, (item) => {
+							value = value.replace(/<[a-zA-Z0-9-]+\s?/g, (item) => {
 								return `${item.trim()} s-template-node="true" `;
 							});
 						} else if (this.data[value]) {
@@ -471,6 +471,8 @@ export default class STemplate {
 		// copy the templateString before compilation
 		let templateString = this.templateString;
 
+		// console.log('templateString', templateString);
+
 		// process the template before compile it
 		if (this.settings.beforeCompile) {
 			templateString = this.settings.beforeCompile(templateString);
@@ -485,6 +487,8 @@ export default class STemplate {
 		}
 		// process compiled template
 		compiled = this._processOutput(compiled);
+		
+		console.log('compiled', compiled);
 
 		// remove all the elements that need to be fully refreshed
 		[].forEach.call(this.dom.querySelectorAll(`[s-template-integration*='"refresh":true"']`), (elm) => {
@@ -527,7 +531,7 @@ export default class STemplate {
 			onBeforeElChildrenUpdated : (fromNode, toNode) => {
 				// don't care about no html elements
 				// such has comments, text, etc...
-				if ( ! fromNode.hasAttribute) return false;
+				// if ( ! fromNode.hasAttribute) return false;
 
 				if (fromNode.hasAttribute('s-template-component')
 					&& fromNode !== this.dom) return false;
@@ -619,7 +623,7 @@ export default class STemplate {
 			onBeforeNodeDiscarded : (node) => {
 				// don't care about no html elements
 				// such has comments, text, etc...
-				if ( ! node.hasAttribute) return true;
+				// if ( ! node.hasAttribute) return true;
 
 				// we do not discard any elements that
 				// have no s-template-node attribute
@@ -844,8 +848,8 @@ export default class STemplate {
 		}
 
 		// apply template node id where there's not one for now
-		ret = ret.replace(/<[a-z](?!.*s-template-node)[\s\S]+?>/g, (item) => {
-			return item.replace(/<[a-z]+\s?/g, (itm) => {
+		ret = ret.replace(/<[a-zA-Z0-9-](?!.*s-template-node)[\s\S]+?>/g, (item) => {
+			return item.replace(/<[a-zA-Z0-9-]+\s?/g, (itm) => {
 				return `${itm.trim()} s-template-node="true" `;
 			});
 		});
