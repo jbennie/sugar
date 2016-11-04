@@ -82,7 +82,6 @@ export default class SWebTemplateComponent extends SWebComponent {
 			// merge the yields
 			__mergeYields(tpl, elmTpl);
 		}
-		console.log('tpl', tpl);
 		// save to cache
 		this._templateCached = tpl;
 		// return the template
@@ -98,10 +97,11 @@ export default class SWebTemplateComponent extends SWebComponent {
 	}
 
 	/**
-	 * Before that the component will mount
+	 * Mount component
+	 * @definition 		SWebComponent.componentMount
 	 */
-	componentWillMount() {
-		super.componentWillMount();
+	componentMount() {
+		super.componentMount();
 
 		// check if no template specified
 		if ( ! this.template) {
@@ -122,14 +122,6 @@ export default class SWebTemplateComponent extends SWebComponent {
 		if (this !== this.template) {
 			this.innerHTML = this.template.innerHTML;
 		}
-	}
-
-	/**
-	 * Mount component
-	 * @definition 		SWebComponent.componentMount
-	 */
-	componentMount() {
-		super.componentMount();
 
 		// create the templateData stack from the default template data
 		this.templateData = Object.assign({}, this.defaultTemplateData);

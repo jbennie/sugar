@@ -262,7 +262,7 @@ export default class STemplate {
 			this.templateString = `<div s-template-id="${this.templateId}">${this.template}</div>`;
 
 			// apply a node id to each nodes
-			this.templateString = this.templateString.replace(/<[a-zA-Z]+\s?/g, (item) => {
+			this.templateString = this.templateString.replace(/<[a-zA-Z0-9-]+\s?/g, (item) => {
 				return `${item.trim()} s-template-node="true" `;
 			});
 
@@ -294,7 +294,6 @@ export default class STemplate {
 
 			// save the template string version
 			this.templateString = this.template.outerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(/\=""/g,'').replace(/&nbsp;/g," ").replace(/&quot;/g,"'")
-
 
 		}
 
@@ -357,7 +356,7 @@ export default class STemplate {
 							}
 						} else if (value.substr(0,1) === '<' && value.substr(-1) === '>') {
 							// apply a node id to each nodes
-							value = value.replace(/<[a-zA-Z]+\s?/g, (item) => {
+							value = value.replace(/<[a-zA-Z0-9-]+\s?/g, (item) => {
 								return `${item.trim()} s-template-node="true" `;
 							});
 						} else if (this.data[value]) {
@@ -527,7 +526,7 @@ export default class STemplate {
 			onBeforeElChildrenUpdated : (fromNode, toNode) => {
 				// don't care about no html elements
 				// such has comments, text, etc...
-				if ( ! fromNode.hasAttribute) return false;
+				if ( ! fromNode.hasAttribute) return true;
 
 				if (fromNode.hasAttribute('s-template-component')
 					&& fromNode !== this.dom) return false;
@@ -551,7 +550,7 @@ export default class STemplate {
 				// return true;
 				// don't care about no html elements
 				// such has comments, text, etc...
-				if ( ! fromNode.hasAttribute) return false;
+				if ( ! fromNode.hasAttribute) return true;
 
 				// apply integration on component
 				this._applyIntegrationOnNode(fromNode);
@@ -619,7 +618,7 @@ export default class STemplate {
 			onBeforeNodeDiscarded : (node) => {
 				// don't care about no html elements
 				// such has comments, text, etc...
-				if ( ! node.hasAttribute) return true;
+				if ( ! node.hasAttribute) return false;
 
 				// we do not discard any elements that
 				// have no s-template-node attribute
@@ -844,8 +843,8 @@ export default class STemplate {
 		}
 
 		// apply template node id where there's not one for now
-		ret = ret.replace(/<[a-z](?!.*s-template-node)[\s\S]+?>/g, (item) => {
-			return item.replace(/<[a-z]+\s?/g, (itm) => {
+		ret = ret.replace(/<[a-zA-Z0-9-](?!.*s-template-node)[\s\S]+?>/g, (item) => {
+			return item.replace(/<[a-zA-Z0-9-]+\s?/g, (itm) => {
 				return `${itm.trim()} s-template-node="true" `;
 			});
 		});
