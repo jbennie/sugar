@@ -295,7 +295,6 @@ export default class STemplate {
 			// save the template string version
 			this.templateString = this.template.outerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(/\=""/g,'').replace(/&nbsp;/g," ").replace(/&quot;/g,"'")
 
-
 		}
 
 		// ignore the template node id
@@ -471,8 +470,6 @@ export default class STemplate {
 		// copy the templateString before compilation
 		let templateString = this.templateString;
 
-		// console.log('templateString', templateString);
-
 		// process the template before compile it
 		if (this.settings.beforeCompile) {
 			templateString = this.settings.beforeCompile(templateString);
@@ -487,8 +484,6 @@ export default class STemplate {
 		}
 		// process compiled template
 		compiled = this._processOutput(compiled);
-		
-		console.log('compiled', compiled);
 
 		// remove all the elements that need to be fully refreshed
 		[].forEach.call(this.dom.querySelectorAll(`[s-template-integration*='"refresh":true"']`), (elm) => {
@@ -531,7 +526,7 @@ export default class STemplate {
 			onBeforeElChildrenUpdated : (fromNode, toNode) => {
 				// don't care about no html elements
 				// such has comments, text, etc...
-				// if ( ! fromNode.hasAttribute) return false;
+				if ( ! fromNode.hasAttribute) return true;
 
 				if (fromNode.hasAttribute('s-template-component')
 					&& fromNode !== this.dom) return false;
@@ -555,7 +550,7 @@ export default class STemplate {
 				// return true;
 				// don't care about no html elements
 				// such has comments, text, etc...
-				if ( ! fromNode.hasAttribute) return false;
+				if ( ! fromNode.hasAttribute) return true;
 
 				// apply integration on component
 				this._applyIntegrationOnNode(fromNode);
@@ -623,7 +618,7 @@ export default class STemplate {
 			onBeforeNodeDiscarded : (node) => {
 				// don't care about no html elements
 				// such has comments, text, etc...
-				// if ( ! node.hasAttribute) return true;
+				if ( ! node.hasAttribute) return false;
 
 				// we do not discard any elements that
 				// have no s-template-node attribute
