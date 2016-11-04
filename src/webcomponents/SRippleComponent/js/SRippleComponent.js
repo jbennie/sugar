@@ -8,7 +8,7 @@ export default class SRippleComponent extends SWebComponent {
 	/**
 	 * @constructor
 	 */
-	constructor() { super(); }
+	constructor() { console.log('hello'); super(); }
 
 	/**
 	 * Store the particle system used to launch the ripples particles
@@ -180,6 +180,3 @@ export default class SRippleComponent extends SWebComponent {
 		return false;
 	}
 }
-
-// detine the component
-SWebComponent.define('s-ripple', SRippleComponent);

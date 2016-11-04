@@ -1,2 +1,2 @@
-import SGoogleStreetViewComponent from './js/SGoogleStreetViewComponent'
-export default SGoogleStreetViewComponent
+import SGoogleStreetviewComponent from './js/SGoogleStreetviewComponent';
+export default SGoogleStreetviewComponent.define('s-google-streetview', SGoogleStreetviewComponent);

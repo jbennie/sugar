@@ -503,6 +503,3 @@ export default class SDialogComponent extends SWebComponent {
 	}
 
 }
-
-// register component
-SWebComponent.define('s-dialog', SDialogComponent);

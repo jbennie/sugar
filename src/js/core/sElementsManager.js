@@ -1,7 +1,6 @@
 // init a stack into the window
 if ( ! window.sugar) window.sugar = {};
-// window.sugar._elements = new Map();
-window.sugar._elementsById = {};
+if ( ! window.sugar._elementsById) window.sugar._elementsById = {};
 
 class SElementsManager {
 

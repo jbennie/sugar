@@ -1,2 +1,2 @@
-import SDialogComponent from './js/SDialogComponent.js'
-export default SDialogComponent
+import SDialogComponent from './js/SDialogComponent'
+export default SDialogComponent.define('s-dialog', SDialogComponent);

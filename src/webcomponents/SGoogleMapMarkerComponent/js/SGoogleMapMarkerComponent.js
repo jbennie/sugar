@@ -91,6 +91,3 @@ sTemplateIntegrator.registerComponentIntegration('SGoogleMapMarkerComponent', (c
 		sTemplateIntegrator.ignore(component._placeholder);
 	}
 });
-
-// register component
-SWebComponent.define('s-google-map-marker', SGoogleMapMarkerComponent);

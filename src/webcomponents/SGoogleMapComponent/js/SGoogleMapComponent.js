@@ -151,6 +151,3 @@ sTemplateIntegrator.registerComponentIntegration('SGoogleMapComponent', (compone
 		inited : true
 	});
 });
-
-// register component
-SWebComponent.define('s-google-map', SGoogleMapComponent);

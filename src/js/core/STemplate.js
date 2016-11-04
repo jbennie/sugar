@@ -21,7 +21,7 @@ import sTemplateIntegrator from './sTemplateIntegrator'
 import sElementsManager from './sElementsManager';
 
 if (! window.sugar) window.sugar = {};
-window.sugar._sTemplateData = {};
+if (! window.sugar._sTemplateData) window.sugar._sTemplateData = {};
 
 /**
  * @class 		STemplate 		{SOject}

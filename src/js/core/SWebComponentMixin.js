@@ -12,6 +12,7 @@ import __whenVisible from '../dom/whenVisible'
 
 if ( ! window.sugar) window.sugar = {};
 if ( ! window.sugar._webComponentsStack) window.sugar._webComponentsStack = {};
+if ( ! window.sugar._webComponentsDefaultPropsStack) window.sugar._webComponentsDefaultPropsStack = {};
 
 export default Mixin((superclass) => class extends superclass {
 
@@ -21,17 +22,19 @@ export default Mixin((superclass) => class extends superclass {
 	 * @param 			{SWebComponent} 	component 	The component class
 	 */
 	static define(name, component, ext = null) {
-		setTimeout(() => {
-			const constructorName = __constructorName(component);
-			if ( ! constructorName) {
-				throw `You component names ${name} can not be defined with the component class passed ${component}`;
-			}
-			window.sugar._webComponentsStack[constructorName] = component;
-			document.registerElement(name, {
+		// setTimeout(() => {
+			const componentName = __upperFirst(__camelize(name));
+			// console.log('name', componentName);
+			// const constructorName = __constructorName(component);
+			// if ( ! constructorName) {
+			// 	throw `You component names ${name} can not be defined with the component class passed ${component}`;
+			// }
+			window.sugar._webComponentsStack[componentName] = component;
+			return document.registerElement(name, {
 				prototype : component.prototype,
 				extends : ext
 			});
-		});
+		// });
 	}
 
 	/**
@@ -63,12 +66,22 @@ export default Mixin((superclass) => class extends superclass {
   	  };
 	}
 
-	static setDefaultProps(props) {
-  	  const proto = this;
-	  proto._defaultProps = {
-  		  ...proto._defaultProps || {},
-  		  ...props
-  	  };
+	static setDefaultProps(props, tagname = null) {
+		// if a tagname is specified, we store the default props for a
+		// particular tagname
+		if (tagname) {
+			tagname = __upperFirst(__camelize(tagname));
+			window.sugar._webComponentsDefaultPropsStack[tagname] = {
+				...window.sugar._webComponentsDefaultPropsStack[tagname] || {},
+				...props
+			};
+		} else {
+			const proto = this;
+			proto._defaultProps = {
+				...proto._defaultProps || {},
+				...props
+			};
+		}
 	}
 
 	/**
@@ -76,24 +89,31 @@ export default Mixin((superclass) => class extends superclass {
 	 * @return 		{Object} 			The default props
 	 */
 	get defaultProps() {
-  	  let props = window.sugar._webComponentsStack[this._componentName].defaultProps;
-  	  let comp = window.sugar._webComponentsStack[this._componentName];
-  	  while(comp) {
-  		  if (comp.defaultProps) {
-  			  props = {
-  				  ...comp.defaultProps,
-  				  ...props
-  			  };
-  		  }
-  		  if (comp._defaultProps) {
- 		  	  props = {
-  				  ...props,
-  				  ...comp._defaultProps
-  			  };
-  		  }
-  		  comp = Object.getPrototypeOf(comp);
-  	  }
-  	  return props;
+		let props = window.sugar._webComponentsStack[this._componentName].defaultProps;
+		let comp = window.sugar._webComponentsStack[this._componentName];
+		while(comp) {
+			if (comp.defaultProps) {
+				props = {
+					...comp.defaultProps,
+					...props
+				};
+			}
+			if (comp._defaultProps) {
+				props = {
+					...props,
+					...comp._defaultProps
+				};
+			}
+			comp = Object.getPrototypeOf(comp);
+		}
+		// extend with default props stored in the component default props stack by tagname
+		if (window.sugar._webComponentsDefaultPropsStack[this._componentName]) {
+			props = {
+				...props,
+				...window.sugar._webComponentsDefaultPropsStack[this._componentName]
+			}
+		}
+		return props;
 	}
 
 	/**
@@ -206,10 +226,7 @@ export default Mixin((superclass) => class extends superclass {
   	  // set the componentName
   	  const sourceName = this.getAttribute('is') || this.tagName.toLowerCase()
   	  this._componentNameDash = sourceName;
-  	  this._componentName = __upperFirst(__camelize(sourceName)) + 'Component';
-
-	  // set element as inline-block
-	  this.style.display = 'block';
+  	  this._componentName = __upperFirst(__camelize(sourceName));
 
   	  // save each instances into the element _sComponents stack
   	  this._typeOf = [];
@@ -228,7 +245,7 @@ export default Mixin((superclass) => class extends superclass {
   	  // default props init
   	  this.props = Object.assign({}, this.defaultProps);
 
-  	  // compute props
+	  // compute props
   	  this._computeProps();
 
 	  // check the required props

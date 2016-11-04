@@ -131,7 +131,4 @@ export default class SReadMoreComponent extends SWebComponent {
 			});
 		}
 	}
-
 }
-
-SWebComponent.define('s-read-more', SReadMoreComponent);

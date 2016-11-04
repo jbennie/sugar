@@ -242,6 +242,3 @@ sTemplateIntegrator.registerComponentIntegration('SAjaxFormComponent', (componen
 		});
 	}
 });
-
-// register component
-SWebSTemplateComponent.define('s-ajax-form', SAjaxFormComponent);

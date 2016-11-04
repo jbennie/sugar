@@ -668,6 +668,3 @@ sTemplateIntegrator.registerComponentIntegration('SValidatorComponent', (compone
 		});
 	}
 });
-
-// detine the component
-SWebComponent.define('s-validator', SValidatorComponent);

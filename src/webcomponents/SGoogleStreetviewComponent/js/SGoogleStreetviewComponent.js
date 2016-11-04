@@ -201,6 +201,3 @@ sTemplateIntegrator.registerComponentIntegration('SGoogleStreetviewComponent', (
 		inited : true
 	});
 });
-
-// register component
-SWebComponent.define('s-google-streetview', SGoogleStreetviewComponent);

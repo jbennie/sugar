@@ -76,6 +76,3 @@ export default class SGooeyComponent extends SWebComponent {
 	}
 
 }
-
-// register component
-SWebComponent.define('s-gooey', SGooeyComponent);

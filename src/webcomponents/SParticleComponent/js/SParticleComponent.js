@@ -54,6 +54,3 @@ export default class SParticleComponent extends SWebComponent {
 		super.render();
 	}
 }
-
-// register component
-SWebComponent.define('s-particle', SParticleComponent);

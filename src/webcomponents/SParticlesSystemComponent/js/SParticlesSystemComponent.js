@@ -131,6 +131,3 @@ export default class SParticlesSystemComponent extends SWebComponent {
 	}
 
 }
-
-// register component
-SWebComponent.define('s-particles-system', SParticlesSystemComponent);

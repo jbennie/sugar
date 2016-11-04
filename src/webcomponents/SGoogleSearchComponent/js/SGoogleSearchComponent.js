@@ -1,4 +1,4 @@
-import SWebSTemplateComponent from '../../../js/core/SWebSTemplateComponent'
+import STemplateWebComponent from '../../../js/core/STemplateWebComponent'
 import __getAnimationProperties from '../../../js/dom/getAnimationProperties'
 import __style from '../../../js/dom/style'
 import Flatpickr from 'flatpickr/dist/flatpickr'
@@ -8,7 +8,7 @@ import __autoCast from '../../../js/utils/string/autoCast'
 import SGoogleSearch from '../../../js/classes/SGoogleSearch'
 import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
 
-export default class SGoogleSearchComponent extends SWebSTemplateComponent {
+export default class SGoogleSearchComponent extends STemplateWebComponent {
 
 	/**
 	 * @constructor
@@ -201,6 +201,3 @@ export default class SGoogleSearchComponent extends SWebSTemplateComponent {
 		return true;
 	}
 }
-
-// register component
-SWebSTemplateComponent.define('s-google-search', SGoogleSearchComponent);

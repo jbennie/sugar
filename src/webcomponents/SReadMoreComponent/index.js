@@ -1,2 +1,2 @@
-import SReadMoreComponent from './js/SReadMoreComponent'
-export default SReadMoreComponent
+import SReadMoreComponent from './js/SReadMoreComponent';
+export default SReadMoreComponent.define('s-read-more', SReadMoreComponent);

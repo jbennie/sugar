@@ -40,6 +40,3 @@ export default class STooltipComponent extends SWebComponent {
 	}
 
 }
-
-// register component
-SWebComponent.define('s-tooltip', STooltipComponent);

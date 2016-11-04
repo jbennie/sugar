@@ -319,6 +319,3 @@ export default class SDatepickerComponent extends SWebComponent {
 		}
 	}
 }
-
-// register component
-SWebComponent.define('s-datepicker', SDatepickerComponent);

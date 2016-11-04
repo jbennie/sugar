@@ -73,6 +73,3 @@ sTemplateIntegrator.registerComponentIntegration('SRadioboxComponent', (componen
 		color : true
 	});
 });
-
-// register component
-SInputWebComponent.define('s-radiobox', SRadioboxComponent, 'input');
