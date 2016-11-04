@@ -526,7 +526,7 @@ export default class STemplate {
 			onBeforeElChildrenUpdated : (fromNode, toNode) => {
 				// don't care about no html elements
 				// such has comments, text, etc...
-				if ( ! fromNode.hasAttribute) return true;
+				if ( ! fromNode.hasAttribute) return false;
 
 				if (fromNode.hasAttribute('s-template-component')
 					&& fromNode !== this.dom) return false;
@@ -550,7 +550,7 @@ export default class STemplate {
 				// return true;
 				// don't care about no html elements
 				// such has comments, text, etc...
-				if ( ! fromNode.hasAttribute) return true;
+				if ( ! fromNode.hasAttribute) return false;
 
 				// apply integration on component
 				this._applyIntegrationOnNode(fromNode);
