@@ -526,7 +526,7 @@ export default class STemplate {
 			onBeforeElChildrenUpdated : (fromNode, toNode) => {
 				// don't care about no html elements
 				// such has comments, text, etc...
-				if ( ! fromNode.hasAttribute) return false;
+				if ( ! fromNode.hasAttribute) return true;
 
 				if (fromNode.hasAttribute('s-template-component')
 					&& fromNode !== this.dom) return false;
@@ -550,7 +550,7 @@ export default class STemplate {
 				// return true;
 				// don't care about no html elements
 				// such has comments, text, etc...
-				if ( ! fromNode.hasAttribute) return false;
+				if ( ! fromNode.hasAttribute) return true;
 
 				// apply integration on component
 				this._applyIntegrationOnNode(fromNode);
@@ -616,9 +616,10 @@ export default class STemplate {
 				}
 			},
 			onBeforeNodeDiscarded : (node) => {
+
 				// don't care about no html elements
 				// such has comments, text, etc...
-				if ( ! node.hasAttribute) return false;
+				if ( ! node.hasAttribute) return true;
 
 				// we do not discard any elements that
 				// have no s-template-node attribute
