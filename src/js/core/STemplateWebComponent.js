@@ -4,11 +4,12 @@ import __uniqid from '../utils/uniqid'
 import _get from 'lodash/get'
 import __template from '../dom/template'
 import __htmlToStr from '../utils/string/htmlToStr'
+import __strToHtml from '../utils/string/strToHtml'
 import __mergeYields from '../dom/mergeYields'
 import sTemplateIntegrator from './sTemplateIntegrator'
 import STemplate from './STemplate'
 
-export default class SWebTemplateComponent extends SWebComponent {
+export default class STemplateWebComponent extends SWebComponent {
 
 	/**
 	 * @constructor
@@ -97,37 +98,29 @@ export default class SWebTemplateComponent extends SWebComponent {
 	}
 
 	/**
-	 * Mount component
-	 * @definition 		SWebComponent.componentMount
+	 * Component will mount
 	 */
-	componentMount() {
-		super.componentMount();
-
-		// check if no template specified
-		if ( ! this.template) {
-			throw "You have to specify a template either by setting up the props.template variable, by initiating this component on a 'script' tag or on any html element like a 'div' or something...";
-		}
-
-		// create a component id
-		this._templateComponentId = __uniqid();
-
-		// ignore the props
-		const ignore = {};
-		for (let key in this.props) {
-			ignore[key] = true;
-		}
-		sTemplateIntegrator.ignore(this, ignore);
-
-		// set the content if the template if not the element itself
-		if (this !== this.template) {
-			this.innerHTML = this.template.innerHTML;
-		}
+	componentWillMount() {
+		// in super
+		super.componentWillMount();
 
 		// create the templateData stack from the default template data
 		this.templateData = Object.assign({}, this.defaultTemplateData);
 
+		// create a component id
+		this._templateComponentId = __uniqid();
+
 		// new binder
 		this._binder = new SBinder();
+
+		// set some element to ignore on this element
+		sTemplateIntegrator.ignore(this, {
+			"s-template-component" : true,
+			"s-template-component-dirty" : true
+		});
+
+		// set the s-template-component id
+		this.setAttribute('s-template-component', this._templateComponentId);
 
 		// process the data to allow some features
 		// like the mapping of instance property with @,
@@ -150,12 +143,43 @@ export default class SWebTemplateComponent extends SWebComponent {
 				this.templateData[key] = this.templateData[key].bind(this);
 			}
 		}
+	}
+
+	/**
+	 * Mount component
+	 * @definition 		SWebComponent.componentMount
+	 */
+	componentMount() {
+		super.componentMount();
+
+		// check if no template specified
+		if ( ! this.template) {
+			throw "You have to specify a template either by setting up the props.template variable, by initiating this component on a 'script' tag or on any html element like a 'div' or something...";
+		}
+
+		// set the content if the template if not the element itself
+		if (this !== this.template) {
+			if (typeof(this.template) === 'string') {
+				this.innerHTML = `<div>${this.template}</div>`;
+			} else {
+				this.innerHTML = `<div>${this.template.outerHTML}</div>`;
+			}
+		} else {
+			// wrap the template into a div
+			this.innerHTML = `<div>${this.innerHTML}</div>`;
+		}
+
+		// grab the first child that will be the template to process.
+		// this is made so that the actual template tag will not been updated
+		// by the change of his own data but can be updated by the change of parent
+		// template compilation
+		const templateElm = this.children[0];
 
 		// try to get the parent template instance
 		this._parentSTemplate = STemplate.getParentTemplate(this);
 
 		// instanciate a new STemplate
-		this._sTemplate = new STemplate(this, this.templateData, {
+		this._sTemplate = new STemplate(templateElm, this.templateData, {
 			compile : this.props.compile || this.templateCompile.bind(this),
 			beforeCompile : this.templateWillCompile.bind(this),
 			afterCompile : this.templateDidCompile.bind(this),
@@ -167,6 +191,9 @@ export default class SWebTemplateComponent extends SWebComponent {
 
 		// render the template
 		this._sTemplate.render();
+
+		// set the component as dirty
+		this.setAttribute('s-template-component-dirty', true);
 	}
 
 	/**

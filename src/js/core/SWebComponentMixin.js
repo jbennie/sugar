@@ -41,7 +41,6 @@ export default Mixin((superclass) => class extends superclass {
 	 * Store all the props of the component
 	 * Props are actual computed props with attributes
 	 * @type 		{Object}
-	 * @default 	{}
 	 */
 	props = {};
 
@@ -70,11 +69,14 @@ export default Mixin((superclass) => class extends superclass {
 		// if a tagname is specified, we store the default props for a
 		// particular tagname
 		if (tagname) {
-			tagname = __upperFirst(__camelize(tagname));
-			window.sugar._webComponentsDefaultPropsStack[tagname] = {
-				...window.sugar._webComponentsDefaultPropsStack[tagname] || {},
-				...props
-			};
+			tagname = [].concat(tagname);
+			tagname.forEach((tag) => {
+				tag = __upperFirst(__camelize(tag));
+				window.sugar._webComponentsDefaultPropsStack[tag] = {
+					...window.sugar._webComponentsDefaultPropsStack[tag] || {},
+					...props
+				};
+			});
 		} else {
 			const proto = this;
 			proto._defaultProps = {
@@ -627,7 +629,8 @@ export default Mixin((superclass) => class extends superclass {
 	componentClassName(element = null, modifier = null, state = null) {
   	  // if the method is BEM
   	  let sel = this._componentNameDash;
-  	  if (sSettings && sSettings.selector.method.toLowerCase() === 'smaccs') {
+	  // @TODO : handle the sSettings at component load
+  	  if ( false && sSettings && sSettings.selector.method.toLowerCase() === 'smaccs') {
   		  if (element) {
   			  sel += `-${element}`;
   		  }

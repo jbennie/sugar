@@ -453,7 +453,7 @@ export default class SValidatorComponent extends SWebComponent {
 		}
 
 		// required
-		if (this._targets[0].getAttribute('required') !== undefined) {
+		if (this._targets[0].hasAttribute('required')) {
 			this.setAttribute('required', true);
 		}
 

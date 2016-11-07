@@ -251,19 +251,29 @@ export default class STemplate {
 		// generate a uniqid for the template
 		this.templateId = uniqid();
 
-		// wrap the template into a div
-		// with the templateId
+		// save the template
 		this.template = template;
 
 		// if template is a string
 		if (typeof(this.template) === 'string') {
+
+			// transform to html to remove all the nested components
+			if (this.template.match(/s-template-component="[a-zA-Z0-9]+"|s-template-id="[a-zA-Z0-9]+"/g)) {
+				const html = __strToHtml(this.template);
+				// remove all the nested template component and templates
+				[].forEach.call(html.querySelectorAll(`[s-template-component], [s-template-id!="${this.templateId}"]`), (component) => {
+					component.innerHTML = '';
+				});
+				// set the template back
+				this.template = html.outerHTML;
+			}
 
 			// save the template string version
 			this.templateString = `<div s-template-id="${this.templateId}">${this.template}</div>`;
 
 			// apply a node id to each nodes
 			this.templateString = this.templateString.replace(/<[a-zA-Z0-9-]+\s?/g, (item) => {
-				return `${item.trim()} s-template-node="true" `;
+				return `${item.trim()} s-template-node="${this.templateId}" `;
 			});
 
 			// transform the template to his html version
@@ -272,13 +282,13 @@ export default class STemplate {
 			// this.templateString = this.template;
 			this.dom = document.createElement('div');
 			this.dom.setAttribute('s-template-id', this.templateId);
-			this.dom.setAttribute('s-template-node', true);
+			this.dom.setAttribute('s-template-node', this.templateId);
 
 		} else {
 			// apply a node id to each nodes
 			[].forEach.call(this.template.querySelectorAll('*'), (elm) => {
 				if ( elm.hasAttribute && ! elm.hasAttribute('s-template-node')) {
-					elm.setAttribute('s-template-node', true);
+					elm.setAttribute('s-template-node', this.templateId);
 				}
 			});
 
@@ -286,15 +296,22 @@ export default class STemplate {
 			this.template.setAttribute('s-template-id', this.templateId);
 
 			// set the node id on the root element
-			this.template.setAttribute('s-template-node', true);
+			this.template.setAttribute('s-template-node', this.templateId);
 
 			// set the base dom to transform
 			// as the passed template
 			this.dom = this.template;
 
-			// save the template string version
-			this.templateString = this.template.outerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(/\=""/g,'').replace(/&nbsp;/g," ").replace(/&quot;/g,"'")
+			// clone the node to create the templateString
+			const clone = this.template.cloneNode(true);
 
+			// remove all the nested template component and templates
+			[].forEach.call(clone.querySelectorAll('[s-template-component], [s-template-id]'), (component) => {
+				component.innerHTML = '';
+			});
+
+			// save the template string version
+			this.templateString = clone.outerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(/\=""/g,'').replace(/&nbsp;/g," ").replace(/&quot;/g,"'")
 		}
 
 		// ignore the template node id
@@ -357,7 +374,7 @@ export default class STemplate {
 						} else if (value.substr(0,1) === '<' && value.substr(-1) === '>') {
 							// apply a node id to each nodes
 							value = value.replace(/<[a-zA-Z0-9-]+\s?/g, (item) => {
-								return `${item.trim()} s-template-node="true" `;
+								return `${item.trim()} s-template-node="${this.templateId}" `;
 							});
 						} else if (this.data[value]) {
 							// the value exist in the current data
@@ -377,12 +394,16 @@ export default class STemplate {
 			this._watcher.watch(this.data, name, (newVal, oldVal) => {
 				// save the update in the stack
 				this._updatedDataStack[name] = newVal;
+				// check if has a function to listen to data update
+				// do this OUTSIDE the setTimeout cause the onDataUpdate function
+				// can update itself the templateData.
+				// If it where in the setTImeout, the data will be updated after the render happend,
+				// resulting in multiple useless renders
+				this.settings.onDataUpdate && this.settings.onDataUpdate(name, newVal, oldVal);
 				// make update only once
 				// by waiting next loop
 				clearTimeout(this._updateTimeout);
 				this._updateTimeout = setTimeout(() => {
-					// check if has a function to listen to data update
-					this.settings.onDataUpdate && this.settings.onDataUpdate(name, newVal, oldVal);
 					// render the template again
 					this._internalRender();
 					// reset the updated data stack
@@ -398,11 +419,12 @@ export default class STemplate {
 	 * @return 			{Boolean} 								True if part of this template, false if not
  	 */
  	isNodeBelongToMe(node) {
-		const closestTemplate = __closest(node, '[s-template-id]');
-		if (closestTemplate && closestTemplate.getAttribute('s-template-id') !== this.templateId) {
-			return false;
-		}
-		return true;
+		// if the node has the templateId has s-template-node attribute
+		if (node.hasAttribute('s-template-node')
+			&& node.getAttribute('s-template-node') === this.templateId
+		) return true;
+		// otherwise, the node does not belong to the template
+		return false;
 	}
 
 
@@ -464,7 +486,7 @@ export default class STemplate {
 
 		// check if the template need to render itself again or not
 		if (this.settings.shouldTemplateUpdate) {
-			if (this.settings.shouldTemplateUpdate(this._updatedDataStack) === false) return;
+			if (this.settings.shouldTemplateUpdate(Object.assign({}, this._updatedDataStack)) === false) return;
 		}
 
 		// copy the templateString before compilation
@@ -521,15 +543,13 @@ export default class STemplate {
 	 * @return 		{HTMLElement} 					The HTMLElement that represent the template in the dom
 	 */
 	patchDom(template) {
+
 		// set the new html
 		const dom = morphdom(this.dom, template.trim(), {
 			onBeforeElChildrenUpdated : (fromNode, toNode) => {
 				// don't care about no html elements
 				// such has comments, text, etc...
 				if ( ! fromNode.hasAttribute) return true;
-
-				if (fromNode.hasAttribute('s-template-component')
-					&& fromNode !== this.dom) return false;
 
 				// do not take care of childs of another template
 				if ( fromNode.hasAttribute('s-template-id')
@@ -620,6 +640,9 @@ export default class STemplate {
 				// don't care about no html elements
 				// such has comments, text, etc...
 				if ( ! node.hasAttribute) return true;
+
+				// is the node is template and that it's not us
+				if (node.hasAttribute('s-template-id') && node !== this.dom) return false;
 
 				// we do not discard any elements that
 				// have no s-template-node attribute
@@ -846,7 +869,7 @@ export default class STemplate {
 		// apply template node id where there's not one for now
 		ret = ret.replace(/<[a-zA-Z0-9-](?!.*s-template-node)[\s\S]+?>/g, (item) => {
 			return item.replace(/<[a-zA-Z0-9-]+\s?/g, (itm) => {
-				return `${itm.trim()} s-template-node="true" `;
+				return `${itm.trim()} s-template-node="${this.templateId}" `;
 			});
 		});
 

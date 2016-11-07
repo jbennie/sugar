@@ -13,6 +13,8 @@ import __dispatchEvent from '../dom/dispatchEvent'
 import _set from 'lodash/set';
 import _get from 'lodash/get';
 import __constructorName from '../utils/objects/constructorName'
+import __closest from '../dom/closest'
+import __whenAttribute from '../dom/whenAttribute'
 
 import sElementsManager from './sElementsManager'
 import sDebug from '../utils/sDebug'
@@ -492,6 +494,31 @@ class SElement extends SObject {
 		return __dataset(elm, key, value);
 	}
 }
+
+// Do not init the element before the template is rendered
+// if the element lives in a template or in a template-component
+SElement.registerInitDependency((api) => {
+	return new Promise((resolve, reject) => {
+		// get the closest template instance
+		// to wait when it is dirty (rendered)
+		const closestTemplate = __closest(api.elm, '[s-template-component],[s-template-id]');
+		if (closestTemplate) {
+			if ( ! closestTemplate.hasAttribute('s-template-id')) {
+				__whenAttribute(closestTemplate, 's-template-dirty').then((elm) => {
+					resolve();
+				});
+			} else if (closestTemplate.hasAttribute('s-template-component')) {
+				__whenAttribute(closestTemplate, 's-template-component-dirty').then((elm) => {
+					resolve();
+				});
+			} else {
+				resolve();
+			}
+		} else {
+			resolve();
+		}
+	});
+});
 
 // STemplate integration
 sTemplateIntegrator.registerComponentIntegration('SElement', (component) => {

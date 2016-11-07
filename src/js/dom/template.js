@@ -34,11 +34,13 @@ export default function template(source) {
 		return processNodeElm(source);
 	}
 
+	if (typeof(source) === 'string') source = source.trim();
+
 	// check source type
 	if (typeof(source) === 'string' && source.substr(0,1) === '<' && source.substr(-1) === '>') {
 		// The source is an html string source
 		// we need to convert it to html fragment
-		return strToHtml(source);
+		return __strToHtml(source);
 	}
 
 	// string selector

@@ -29,7 +29,6 @@ export default class SMotionBlurComponent extends SWebComponent {
 	 */
 	componentMount() {
 		super.componentMount();
-		console.log('moton', this);
 		// create a new svg filter
 		this._motionBlurFilter = new SMotionblurSvgFilter(this.props.amount);
 		// apply the filter
