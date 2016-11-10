@@ -7,7 +7,7 @@ $_s-select-component-inited : false;
 			position:relative;
 
 			select:disabled + & {
-				opacity:.65;
+				opacity:s-lnf(disabled-opacity);
 				pointer-events:none;
 			}
 		}
@@ -49,7 +49,7 @@ $_s-select-component-inited : false;
 			cursor: pointer;
 		}
 		%s-select__option--disabled {
-			opacity: .65;
+			opacity: s-lnf(disabled-opacity);
 			pointer-events: none;
 		}
 		%s-select__option--hidden {

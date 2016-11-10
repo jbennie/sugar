@@ -25,7 +25,7 @@
 	$value : s-setting('look-and-feel.#{$name}.#{$size}');
 
 	// make sure value is in em unit
-	@if type-of($value) == number and unit($value) != em {
+	@if type-of($value) == number and not unitless($value) and unit($value) != em {
 		@error('Your look-and-feel value "#{$name}" setted to "#{$value}" need to be in "em"');
 	}
 
@@ -34,8 +34,14 @@
 		@return s-replace-tokens(s-render-round($value));
 	}
 
-	// if we have a number value, return the interpolated version
-	@return s-render-round(s-interpolate('settings.look-and-feel.#{$name}', $size));
+	// if the value is a unitless one
+	// return the interpolated value only
+	@if $value and unitless($value) {
+		@return s-interpolate('settings.look-and-feel.#{$name}', $size);
+	} @else if $value {
+		// if we have a number value, return the interpolated version
+		@return s-render-round(s-interpolate('settings.look-and-feel.#{$name}', $size));
+	}
 
 	// we don't have anything...
 	@return null;

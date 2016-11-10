@@ -31,7 +31,7 @@ $_s-input-component-inited : false;
 				border-left-width : 5px;
 			}
 			&:disabled {
-				opacity : .65;
+				opacity : s-lnf(disabled-opacity);
 				cursor: not-allowed;
 			}
 		}

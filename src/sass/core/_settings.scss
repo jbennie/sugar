@@ -44,6 +44,9 @@ $_sugar-settings : (								// store all the settings
 		),
 		font-size 					: (
 			default 					: 1em
+		),
+		disabled-opacity 			: (
+			default 					: .5
 		)
 	),
 	spaces 						: (					// store all the spaces available

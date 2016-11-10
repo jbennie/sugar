@@ -136,7 +136,7 @@ $_s-button-component-inited : false;
 		// disabled
 		#{s-component-selector()}[disabled],
 		#{s-component-selector(null, null, 'disabled')} {
-			opacity: 0.65;
+			opacity: s-lnf(disabled-opacity);
 			cursor: not-allowed !important;
 		}
 
