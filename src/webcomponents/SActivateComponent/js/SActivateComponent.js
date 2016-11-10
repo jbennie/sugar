@@ -18,7 +18,7 @@ export default class SActivateComponent extends SAnchorWebComponent {
 	static get defaultProps() {
 		return {
 			href : null,
-			target : null,
+			activate : null,
 			id : null,
 			group : null,
 			activeTargetClass : null,
@@ -410,7 +410,7 @@ export default class SActivateComponent extends SAnchorWebComponent {
 	update(scope = document.body) {
 
 		// target
-		let targetsSelector = this.props.target || this.props.href;
+		let targetsSelector = this.props.activate || this.props.href;
 
 		// remove # at start of targetsSelector
 		if (targetsSelector && targetsSelector.substr(0,1) === '#') {
