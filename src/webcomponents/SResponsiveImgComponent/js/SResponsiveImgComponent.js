@@ -1,6 +1,8 @@
 import SWebComponent from '../../../js/core/SWebComponent'
 import __debounce from '../../../js/utils/functions/debounce'
 import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
+import __whenAttribute from '../../../js/dom/whenAttribute'
+import __propertyProxy from '../../../js/utils/objects/propertyProxy'
 
 export default class SResponsiveImgComponent extends SWebComponent {
 
@@ -33,6 +35,18 @@ export default class SResponsiveImgComponent extends SWebComponent {
 	}
 
 	/**
+	 * Mount dependencies
+	 * @definition 		SWebComponent.mountDependencies
+	 */
+	static get mountDependencies() {
+		return [function() {
+			return __whenAttribute(this, 'data-src', (value) => {
+				return value.toString().match(/^[a-zA-Z0-9_\/]/) !== null;
+			});
+		}];
+	}
+
+	/**
 	 * Mount component
 	 * @definition 		SWebComponent.componentMount
 	 */
@@ -40,7 +54,7 @@ export default class SResponsiveImgComponent extends SWebComponent {
 		super.componentMount();
 
 		// get the original src
-		this._originalSrc = this.props.src || this.props.dataSrc;
+		this._originalSrc = this.getAttribute('src') || this.getAttribute('data-src');
 
 		// stop here if the image has no src
 		if ( ! this._originalSrc) return;
@@ -78,8 +92,9 @@ export default class SResponsiveImgComponent extends SWebComponent {
 	 */
 	componentWillReceiveProp(name, newVal, oldVal) {
 		switch(name) {
-			case 'src':
 			case 'dataSrc':
+				if ( ! newVal) return;
+				if ( ! newVal.toString().match(/^[a-zA-Z0-9_\/]/)) return;
 				// save the new original src
 				this._originalSrc = newVal;
 				// apply the new src
@@ -89,7 +104,6 @@ export default class SResponsiveImgComponent extends SWebComponent {
 	}
 
 	/**
-	 * _applySrc
 	 * Apply the good src to the image
 	 * @return 	{void}
 	 */
@@ -145,7 +159,6 @@ export default class SResponsiveImgComponent extends SWebComponent {
 	}
 
 	/**
-	 * _loadAndSetSrc
 	 * Load the new image and set the src
 	 * @param 	{String} 	src 	The src to set
 	 * @return 	{void}
@@ -162,12 +175,12 @@ export default class SResponsiveImgComponent extends SWebComponent {
 	}
 
 	/**
-	 * _computeSrc
 	 * Compute the new src
 	 * @param 	{Object} 	widthObj 	The width object that will be applied
 	 * @return 	{String} 				The new src to apply
 	 */
 	_computeSrc(widthObj) {
+
 		// store the new src
 		let src = this._originalSrc;
 		// check if has a computeSrc setting
@@ -188,7 +201,6 @@ export default class SResponsiveImgComponent extends SWebComponent {
 	}
 
 	/**
-	 * _onWindowResize
 	 * When the window is resized
 	 * @param 	{Event} 	e 	The event
 	 * @return 	{void}
