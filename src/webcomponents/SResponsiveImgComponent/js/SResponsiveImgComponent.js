@@ -41,6 +41,7 @@ export default class SResponsiveImgComponent extends SWebComponent {
 	static get mountDependencies() {
 		return [function() {
 			return __whenAttribute(this, 'data-src', (value) => {
+				if ( ! value) return;
 				return value.toString().match(/^[a-zA-Z0-9_\/]/) !== null;
 			});
 		}];
