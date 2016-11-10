@@ -158,8 +158,13 @@ export default class SValidatorComponent extends SWebComponent {
 		if ( ! this.props.for) {
 			throw `The SValidatorComponent need a "for" property that target a form input to handle validation for...`;
 		}
+
+		// get the scope to find for fields
+		let scope = this._getForm();
+		if ( ! scope) scope = document;
+
 		// get the input
-		this._targets = document.querySelectorAll(`[name="${this.props.for}"], #${this.props.for}`);
+		this._targets = scope.querySelectorAll(`[name="${this.props.for}"], #${this.props.for}`);
 
 		// check the target
 		if ( ! this._targets) {
@@ -256,7 +261,9 @@ export default class SValidatorComponent extends SWebComponent {
 	 * @return 		{String} 			The form element that handle the validated field
 	 */
 	_getForm() {
-		return this._targets[0].form;
+		if ( this._formElm) return this._formElm;
+		this._formElm = __closest(this, 'form');
+		return this._formElm;
 	}
 
 	/**
