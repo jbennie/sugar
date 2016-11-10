@@ -13,7 +13,7 @@
     	#{s-component-selector()} {
 
             // shadowed
-    		&#{s-component-selector(null, 'shadowed')} {
+    		&#{s-component-selector('&', 'shadowed')} {
     			@include s-transition();
     			#{s-component-selector(null, 'hover')},
     			&:hover {
@@ -22,7 +22,7 @@
     		}
 
             // hover
-            &#{s-component-selector(null, 'hover')} {
+            &#{s-component-selector('&', 'hover')} {
                 > tbody > .tr:hover,
                 > tbody > tr:hover {
                     td,.td,
@@ -36,10 +36,10 @@
 
             @each $color in $colors {
 
-    			&#{s-component-selector(null, $color)} {
+    			&#{s-component-selector('&', $color, null, 'color')} {
 
          			// stripped
-         			&#{s-component-selector(null, 'striped')} {
+         			&#{s-component-selector('&', 'striped')} {
                         > thead > .tr:nth-of-type(odd),
          				> thead > tr:nth-of-type(odd) {
          					background-color : s-color($color);
@@ -51,7 +51,7 @@
          			}
 
          			// bordered
-         			&#{s-component-selector(null, 'bordered')} {
+         			&#{s-component-selector('&', 'bordered')} {
          				border: 1px solid s-color($color);
 
          				td,
@@ -61,7 +61,7 @@
          			}
 
          			// hover
-                    &#{s-component-selector(null, 'hover')} {
+                    &#{s-component-selector('&', 'hover')} {
                         td,.td,
                         th,.th {
                             &:before {
@@ -69,7 +69,7 @@
                             }
                         }
                     }
-        			&#{s-component-selector(null, 'hover')} {
+        			&#{s-component-selector('&', 'hover')} {
                         > tbody > .tr,
                         > tbody > tr {
                             transform:scale(1,1);

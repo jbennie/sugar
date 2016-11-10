@@ -27,70 +27,72 @@ $_s-corner-badge-component-inited : false;
 	$corners : tl tr bl br
 ) {
 	@include s-corner-badge-component-init();
-	@include s-component('s-corner-badge') {
+	@include s-selector-method(WEBCOMPONENT) {
+		@include s-component('s-corner-badge') {
 
-		// @TODO parse properties
-		@if $_sugar-test-arguments {
-		}
+			// @TODO parse properties
+			@if $_sugar-test-arguments {
+			}
 
-		#{s-component()} {
-			@extend %corner-badge;
-	        $w : s-lnf(padding-vertical) * 2 + s-lnf(font-size);
-	    	font-size : s-lnf(font-size);
-	    	width: $w;
-	    	height: $w;
-	    	padding: s-lnf(padding-vertical) * .4;
+			#{s-component-selector()} {
+				@extend %corner-badge;
+		        $w : s-lnf(padding-vertical) * 2 + s-lnf(font-size);
+		    	font-size : s-lnf(font-size);
+		    	width: $w;
+		    	height: $w;
+		    	padding: s-lnf(padding-vertical) * .4;
 
-	    	&:before {
-	    		border-width: $w / 2;
-	    	}
-	    }
+		    	&:before {
+		    		border-width: $w / 2;
+		    	}
+		    }
 
-		@if (index($corners, tl)) {
-			#{s-component()}[align="tl"] {
-				top:0; left:0;
-
-				&:before {
-					border-right-color: transparent !important;
-					border-bottom-color: transparent !important;
-					border-left-color: transparent !important;
+			@if (index($corners, tl)) {
+				#{s-component-selector(null, 'tl', null, 'align')} {
 					top:0; left:0;
+
+					&:before {
+						border-right-color: transparent !important;
+						border-bottom-color: transparent !important;
+						border-left-color: transparent !important;
+						top:0; left:0;
+					}
 				}
 			}
-		}
-		@if (index($corners, tr)) {
-			#{s-component()}[align="tr"] {
-				top:0; right:0;
-				text-align:right;
-
-				&:before {
-					border-bottom-color: transparent !important;
-					border-left-color: transparent !important;
+			@if (index($corners, tr)) {
+				#{s-component-selector(null, 'tr', null, 'align')} {
 					top:0; right:0;
+					text-align:right;
+
+					&:before {
+						border-bottom-color: transparent !important;
+						border-left-color: transparent !important;
+						top:0; right:0;
+					}
 				}
 			}
-		}
-		@if (index($corners, bl)) {
-			#{s-component()}[align="bl"] {
-				bottom:0; left:0;
-
-				&:before {
-					border-top-color: transparent !important;
-					border-right-color: transparent !important;
-					border-bottom-color: transparent !important;
+			@if (index($corners, bl)) {
+				#{s-component-selector(null, 'bl', null, 'align')} {
 					bottom:0; left:0;
+
+					&:before {
+						border-top-color: transparent !important;
+						border-right-color: transparent !important;
+						border-bottom-color: transparent !important;
+						bottom:0; left:0;
+					}
 				}
 			}
-		}
-		@if (index($corners, br)) {
-			#{s-component()}[align="br"] {
-				bottom:0; right:0;
-
-				&:before {
-					border-top-color: transparent !important;
-					border-right-color: transparent !important;
-					border-left-color: transparent !important;
+			@if (index($corners, br)) {
+				#{s-component-selector(null, 'br', null, 'align')} {
 					bottom:0; right:0;
+
+					&:before {
+						border-top-color: transparent !important;
+						border-right-color: transparent !important;
+						border-left-color: transparent !important;
+						bottom:0; right:0;
+					}
 				}
 			}
 		}
@@ -104,13 +106,15 @@ $_s-corner-badge-component-inited : false;
 	@if $_sugar-test-arguments {
 		// $colors : s-test-argument('s-corner-badge-component-style','colors',map-keys(s-setting('colors')),$colors);
 	}
-	@include s-component('s-corner-badge') {
-		@each $color in $colors {
-			#{s-component()}[color="#{$color}"] {
-				color: white;
+	@include s-selector-method(WEBCOMPONENT) {
+		@include s-component('s-corner-badge') {
+			@each $color in $colors {
+				#{s-component-selector(null, $color, null, 'color')} {
+					color: white;
 
-				&:before {
-					border-color: s-color($color);
+					&:before {
+						border-color: s-color($color);
+					}
 				}
 			}
 		}

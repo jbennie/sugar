@@ -1,11 +1,13 @@
 /**
  * Return the css class selector for the current component setted by the [core/mixins/_s-component.scss] mixin
  * and build with the passed arguments.
- * This function generate the class selector depending of the settings.selector.method setting
+ * This function generate the class selector depending of the settings.selector.method setting or the selector method setted by the [s-selector-method mixin](../mixins/_s-selector-method.scss)
  *
- * @param 			{String} 			[$element=null] 		The element name of the class selector
+ * @param 			{String} 			[$element=null] 		The element name of the class selector | '&' if target the same element like `&#{s-component-selector('&', null)} {}`
  * @param 			{String} 			[$modifier=null] 		The modifier name of the class selector
  * @param 			{String} 			[$state=null] 			The state name of the class selector
+ * @param 			{String} 			[$modifierName=null] 	The modifier name that will be used for webcomponent method like [$modifierName="$modifier"]
+ * @param 			{String} 			[$method=null] 			The method wanted to generate the selector. [See here](../_selector-methods.scss)
  * @return 			{String} 									The generated class selector
  *
  * @example
@@ -20,16 +22,27 @@
  * 		s-component-selector('coco',null,'active') // => '.my-component-coco.is-active'
  * }
  *
+ * // if target the same element with & :
+ * \@include s-component('my-component') {
+ * 		#{s-component-selector(null, red, null, 'color')} {
+ * 			&#{s-component-selector('&', null, 'active')} {
+ * 				// something here...
+ * 			}
+ * 		}
+ * }
+ *
  * @author 			Olivier Bossel <olivier.bossel@gmail.com>
  */
 @function s-component-selector(
 	$element : null,
 	$modifier : null,
-	$state : null
+	$state : null,
+	$modifierName : null,
+	$method : null
 ) {
 	$component : s-component();
 	@if not $component {
 		@error('To use the function s-component-selector, you need to be in a component by using the s-component mixin...');
 	}
-	@return s-selector($component, $element, $modifier, $state);
+	@return s-selector($component, $element, $modifier, $state, $modifierName, $method);
 }

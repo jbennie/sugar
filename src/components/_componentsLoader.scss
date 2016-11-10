@@ -1,17 +1,12 @@
 /**
  * Load all components
  */
-@import 'SActivateComponent/index',
-		'SButtonComponent/index',
+@import 'SButtonComponent/index',
 		'SDropdownComponent/index',
 		'SInputComponent/index',
 		'SFieldsetComponent/index',
 		'SFormComponent/index',
-		'SLabelMaterialComponent/index',
-		'SLabelPushComponent/index',
 		'SNavComponent/index',
-		'SPaginationComponent/index',
-		'SRangeComponent/index',
 		'SSelectComponent/index',
 		'SSlideshowComponent/index',
 		'STableComponent/index';

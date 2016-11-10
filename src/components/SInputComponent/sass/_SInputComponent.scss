@@ -134,7 +134,7 @@ $_s-input-component-inited : false;
 		@each $color in $colors {
 
 			// input styling
-			#{s-component-selector(null, $color)} {
+			#{s-component-selector(null, $color, null, 'color')} {
 				@include s-input-component-field-color($color);
 
 				// & ~ #{s-selector(#{s-component-selector()}-reply}, null, $color) {
@@ -143,7 +143,7 @@ $_s-input-component-inited : false;
 			}
 
 			// select styling
-			select#{s-component-selector(null, $color)} {
+			select#{s-component-selector(null, $color, null, 'color')} {
 				@include s-input-component-select-field-color($color);
 			}
 		}

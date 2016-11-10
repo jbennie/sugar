@@ -66,21 +66,22 @@ $_s-pagination-component-inited : false;
 @mixin s-pagination-component-style(
 	$colors
 ) {
-	@include s-selector-method(BEM) {
+	@include s-selector-method(WEBCOMPONENT) {
 		@include s-component('s-pagination') {
 			@each $color in $colors {
 				#{s-component-selector(null, $color, null, 'color')} {
-					#{s-component-selector(null, 'plop')} {
+					#{s-component-selector('item')} {
 						color: s-color($color);
 						background: s-color($color, -opacity .1);
 						@include s-transition(fast);
 
 						&:hover {
-							background : s-color($color, -opacity .2);
+							background: s-color($color, -opacity .2);
 							@include s-depth(2);
 						}
+						&#{s-component-selector('&', null, 'active')},
 						&.active {
-							background : s-color($color);
+							background: s-color($color);
 							color : white;
 						}
 					}

@@ -5,12 +5,13 @@
  * @param 			{String} 			[$element=null] 			The element part of the selector
  * @param 			{String} 			[$modifier=null] 			The modifier part of the selector
  * @param 			{String} 			[$state=null] 				The state part of the selector
+ * @param 			{String} 			[$modifierName=null] 		The modifier name that will be used for webcomponent method like [$modifierName="$modifier"]
  * @param 			{String} 			[$method=BEM] 				The method used to build the selector (BEM or SMACCS)
  * @return 			{String} 										The generated class selector
  *
  * @example
- * s-selector(my-component, item, null, active, BEM); // => .my-component__item--active
- * s-selector(my-component, item, null, active, SMACCS); // => .my-component-item.is-active
+ * s-selector(my-component, item, null, active, null, BEM); // => .my-component__item--active
+ * s-selector(my-component, item, null, active, null, SMACCS); // => .my-component-item.is-active
  *
  * @author 			Olivier Bossel <olivier.bossel@gmail.com>
  */
@@ -19,33 +20,69 @@
 	$element : null,
 	$modifier : null,
 	$state : null,
-	$method : s-setting('selector.method')
+	$modifierName : null,
+	$method : null
 ) {
+	// default selector
+	@if not $method {
+		$method : s-selector-method();
+	}
 
-	// @if type-of($block) == map andd not $element and not $modifier {
-	// 	@return _s-selector-legacy($block);
-	// }
-
+	// otherwise, handle the selector as itself
 	$sel : $block;
-	@if $element {
+	@if $method == ISWEBCOMPONENT {
+		$sel : '[is="#{$block}"]';
+	}
+
+	// handle the '&' parameter
+	// that specify that the selector wanted is a modifier (addition)
+	// to the current selector :
+	@if $element == '&' and $method == WEBCOMPONENT {
+		$sel : "";
+	}
+	@if $element == '&' and $method == ISWEBCOMPONENT {
+		$sel : "";
+	}
+	@if $element == '&' {
+		$element : null;
+	}
+
+	// element part
+	@if $element  {
 		@if $method == BEM {
 			$sel : "#{$sel}__#{$element}";
 		} @else if $method == SMACCS {
 			$sel : "#{$sel}-#{$element}";
+		} @else if $method == WEBCOMPONENT {
+			$sel : "#{$sel}-#{$element}";
+		} @else if $method == ISWEBCOMPONENT {
+			$sel : '[is="#{$block}-#{$element}"]';
 		}
 	}
+
+	// modifier part
 	@if $modifier {
 		@if $method == BEM {
 			$sel : "#{$sel}--#{$modifier}";
 		} @else if $method == SMACCS {
 			$sel : "#{$sel}-#{$modifier}";
+		} @else if $method == WEBCOMPONENT or $method == ISWEBCOMPONENT {
+			@if $modifierName {
+				$sel : '#{$sel}[#{$modifierName}="#{$modifier}"]';
+			} @else {
+				$sel : "#{$sel}[#{$modifier}]";
+			}
 		}
 	}
+
+	// state part
 	@if $state {
 		@if $method == BEM {
 			$sel : "#{$sel}--#{$state}";
-		} @else if ($method == SMACCS) {
+		} @else if $method == SMACCS {
 			$sel : "#{$sel}.is-#{$state}";
+		} @else if $method == WEBCOMPONENT or $method == ISWEBCOMPONENT {
+			$sel : "#{$sel}[#{$state}]";
 		}
 	}
 
@@ -56,45 +93,18 @@
 		$sel : str-replace($sel, '.is-default','');
 		$sel : str-replace($sel,'is-default','');
 		$sel : str-replace($sel,'-default','');
+	} @else if $method == WEBCOMPONENT or $method == ISWEBCOMPONENT {
+		@if $modifier and $modifierName {
+			$sel : str-replace($sel,'[#{$modifierName}="default"]','');
+		}
 	}
 	$sel : str-replace($sel,'.default','');
 
+	// if the selector is not webcomponent, add the .
+	@if ($method != WEBCOMPONENT and $method != ISWEBCOMPONENT) {
+		$sel : ".#{$sel}";
+	}
+
 	// return the selector
-	@return unquote(".#{$sel}");
+	@return $sel;
 }
-//
-// @function _s-selector-legacy(
-// 	$sel
-// ) {
-// 	$method : s-setting('selector.method');
-// 	@if type-of($sel) == 'map' {
-// 		$sel : map-get($sel,$method);
-// 	}
-// 	@if not $sel {
-// 		@error("The method #{$method} is not available in the passed selector map : #{inspect($map)}");
-// 	}
-// 	// join the map if needed
-// 	@if type-of($sel) == list {
-// 		$sel : _join($sel, ',');
-// 	}
-// 	// check if need to scope vertical rhythme
-// 	// @if $vertical-rhythme-scope {
-// 	// 	// split
-// 	// 	$sels : _split($sel,',');
-// 	// 	$new_sels : ();
-// 	// 	@each $s in $sels {
-// 	// 		$s : #{s-vertical-rhythme-scope-class()}#{$s};
-// 	// 		$new_sels : append($new_sels, $s);
-// 	// 	}
-// 	// 	$sel : _join($new_sels,',');
-// 	// }
-// 	// replace the --default in selector
-// 	@if $method == BEM {
-// 		$sel : str-replace($sel,'--default','');
-// 	} @else if $method == SMACCS {
-// 		$sel : str-replace($sel,'-default','');
-// 	}
-// 	$sel : str-replace($sel,'.default','');
-// 	// return the selector
-// 	@return unquote($sel);
-// }

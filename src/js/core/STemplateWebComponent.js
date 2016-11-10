@@ -178,9 +178,15 @@ export default class STemplateWebComponent extends SWebComponent {
 		// try to get the parent template instance
 		this._parentSTemplate = STemplate.getParentTemplate(this);
 
+		// which compile method to use
+		let compile = this.props.compile;
+		if (this.templateCompile) {
+			compile = this.templateCompile.bind(this);
+		}
+
 		// instanciate a new STemplate
 		this._sTemplate = new STemplate(templateElm, this.templateData, {
-			compile : this.props.compile || this.templateCompile.bind(this),
+			compile : compile,
 			beforeCompile : this.templateWillCompile.bind(this),
 			afterCompile : this.templateDidCompile.bind(this),
 			beforeRender : this.templateWillRender.bind(this),
@@ -234,14 +240,16 @@ export default class STemplateWebComponent extends SWebComponent {
 	}
 
 	/**
-	 * Compile the template has you wan
+	 * Compile the template has you want
+	 * @optional
+	 * @name 		templateCompile
 	 * @param 		{String} 				template 				The template to compile
 	 * @param 		{Object} 				data 					The data to compile the template with
 	 * @return 		{String} 										The compiled template
 	 */
-	templateCompile(template, data) {
-		return template;
-	}
+	// templateCompile(template, data) {
+	// 	return template;
+	// }
 
 	/**
 	 * Run after the template has been compiled so that you can have a chance to process it if needed

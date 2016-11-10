@@ -37,7 +37,7 @@ $_s-dropdown-component-inited : false;
 
 			&:hover,
 			&.active,
-			&#{s-component-selector(null, null, 'active')} {
+			&#{s-component-selector('&', null, 'active')} {
 				z-index:1;
 
 				#{s-component-selector('menu')} {
@@ -47,20 +47,20 @@ $_s-dropdown-component-inited : false;
 
 			&:hover,
 			&.active,
-			&#{s-component-selector(null, null, 'active')} {
+			&#{s-component-selector('&', null, 'active')} {
 				#{s-component-selector('menu')} {
 					top: 100%;
 				}
 			}
 
-			&#{s-component-selector(null, 'right')} {
+			&#{s-component-selector('&', 'right')} {
 				#{s-component-selector('menu')} {
 					left: auto;
 					right: 0;
 				}
 			}
 
-			&#{s-component-selector(null, 'up')} {
+			&#{s-component-selector('&', 'up')} {
 				#{s-component-selector('menu')} {
 					top: auto;
 					bottom: 100%;
@@ -68,7 +68,7 @@ $_s-dropdown-component-inited : false;
 
 				&:hover,
 				&.active,
-				&#{s-component-selector(null, null, 'active')} {
+				&#{s-component-selector('&', null, 'active')} {
 					#{s-component-selector('menu')} {
 						top: auto;
 						bottom: 100%;
@@ -118,7 +118,7 @@ $_s-dropdown-component-inited : false;
 
 			&:hover,
 			&.active,
-			&#{s-component-selector('item', null, 'active')} {
+			&#{s-component-selector('&', null, 'active')} {
 				left:5px;
 			}
 
@@ -132,7 +132,7 @@ $_s-dropdown-component-inited : false;
 
 		@each $color in $colors {
 			// extend dropdown
-			#{s-component-selector(null, $color)} {
+			#{s-component-selector(null, $color, null, 'color')} {
 				#{s-component-selector('menu')} {
 					background-color: s-color($color);
 				}

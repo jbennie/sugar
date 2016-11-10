@@ -78,7 +78,7 @@ $_s-button-component-inited : false;
 
 		// generate each colors
 		@each $color in $colors {
-			#{s-component-selector(null, $color)} {
+			#{s-component-selector(null, $color, null, 'color')} {
 				background-color: s-color($color);
 				border: 1px solid s-color($color);
 				@if lightness(s-color($color)) > 70 {
@@ -90,7 +90,7 @@ $_s-button-component-inited : false;
 				&:active,
 				&:hover,
 				&.active,
-				&#{s-component-selector(null, null, 'active')} {
+				&#{s-component-selector('&', null, 'active')} {
 					&:not(:disabled) {
 						background-color : s-color($color, -darken 15%);
 						border-color: s-color($color, -darken 15%);
@@ -102,14 +102,14 @@ $_s-button-component-inited : false;
 				}
 
 				// outline
-				&#{s-component-selector(null, 'outline')} {
+				&#{s-component-selector('&', 'outline')} {
 					color: s-color($color);
 
 					&:active,
 					&:hover,
 					&.active,
 					:checked + &,
-					#{s-component-selector(null, null, 'active')} {
+					&#{s-component-selector('&', null, 'active')} {
 						&:not(:disabled) {
 							background-color: s-color($color);
 							border-color: s-color($color);

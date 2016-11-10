@@ -1,0 +1,27 @@
+/**
+ * Return the selector method define at the top level with the the [../mixins/_s-selector-method.scss] mixin
+ *
+ * @param 			{String} 			[$default=settings.selector.method] 		The selector method to return if no top selector method exist
+ * @return 			{String} 														The selector method
+ *
+ * @example
+ * s-selector-method() // => settings.selector.method
+ * s-selector-method(BEM) // => BEM
+ * \@include s-selector-method(SMACCS) {
+ * 		s-selector-method(BEM) // => SMACCS
+ * 		\@include s-selector-method(WEBCOMPONENT) {
+ * 			s-selector-method() // => SMACCS
+ * 		}
+ * }
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>;
+ */
+@function s-selector-method(
+	$default : s-setting('selector.method')
+) {
+	@if not $_sugar-selector-method {
+		@return $default;
+	} @else {
+		@return $_sugar-selector-method;
+	}
+}

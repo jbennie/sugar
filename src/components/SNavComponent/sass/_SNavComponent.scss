@@ -104,7 +104,7 @@ $_s-nav-component-inited : false;
 				cursor: pointer;
 
 				&.disabled,
-				&#{s-component-selector('item', null, 'disabled')} {
+				&#{s-component-selector('&', null, 'disabled')} {
 					pointer-events: none;
 					opacity: .5;
 					cursor: not-allowed;
@@ -137,7 +137,7 @@ $_s-nav-component-inited : false;
 			// generate each colors
 			@each $color in $colors {
 
-				&#{s-component-selector(null, $color)} {
+				&#{s-component-selector(null, $color, null, 'color')} {
 					border-bottom: 1px solid s-color($color, -opacity .2);
 					@include s-clearfix;
 

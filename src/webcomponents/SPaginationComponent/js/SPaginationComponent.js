@@ -17,14 +17,11 @@ export default class SPaginationComponent extends STemplateWebComponent {
 	 */
 	static get mountDependencies() {
 		return [function() {
-
 			return __whenProperty(this.templateData, 'pages', (newVal, oldVal) => {
-				// console.log(typeof(newVal));
 				return (typeof(newVal) === 'number');
 			});
 		}, function() {
 			return __whenProperty(this.templateData, 'current', (newVal, oldVal) => {
-				// console.log('ccc', typeof(newVal));
 				return (typeof(newVal) === 'number');
 			});
 		}];
@@ -42,77 +39,71 @@ export default class SPaginationComponent extends STemplateWebComponent {
 			showFirst : true,
 			showLast : true,
 			showPrevious : true,
-			showNext : true,
-			compile : (template, data) => {
-				const tmp = _template(template, {
-					evaluate : /<!?-?-?%([\s\S]+?)%-?-?>/g,
-					interpolate : /<!?-?-?%=([\s\S]+?)%-?-?>/g,
-					escape : /<!?-?-?%-([\s\S]+?)%-?-?>/g
-				});
-				const rnd = tmp(data);
-				return rnd;
-			}
+			showNext : true
 		}
 	}
 
 	get template() {
 		return `
-		<%
-			var itemAttr = _componentNameDash + '-item';
-		%>
-		<ol class="<%= _componentNameDash %>">
-			<!--% if (showFirst) { %-->
-				<!--% if (current === 1) { %-->
-					<li class="{{component_item_class}} {{disabled_item_class}}" onclick="this.first()">
-						«
-					</li>
-				<!--% } else { %-->
-					<li class="{{component_item_class}}" onclick="this.first()">
-						«
-					</li>
-				<!--% } %-->
+		<!--% if (showFirst) { %-->
+			<!--% if (current === 1) { %-->
+				<${this._componentNameDash}-item onclick="this.first()">
+					«
+				</${this._componentNameDash}-item>
+			<!--% } else { %-->
+				<${this._componentNameDash}-item onclick="this.first()">
+					«
+				</${this._componentNameDash}-item>
 			<!--% } %-->
+		<!--% } %-->
 
-			<!--% if (showPrevious) { %-->
-				<!--% if (current === 1) { %-->
-					<li class="{{component_item_class}} {{disabled_item_class}}" onclick="this.previous()">
-						‹
-					</li>
-				<!--% } else { %-->
-					<li class="{{component_item_class}}" onclick="this.previous()">
-						‹
-					</li>
-				<!--% } %-->
+		<!--% if (showPrevious) { %-->
+			<!--% if (current === 1) { %-->
+				<${this._componentNameDash}-item onclick="this.previous()">
+					‹
+				</${this._componentNameDash}-item>
+			<!--% } else { %-->
+				<${this._componentNameDash}-item onclick="this.previous()">
+					‹
+				</${this._componentNameDash}-item>
 			<!--% } %-->
+		<!--% } %-->
 
-			<!--% for(i=0; i<pages; i++) { %-->
-				<li class="{{component_item_class}} <% if ((i + 1) === current) { %> active <% } %>" onclick="this.onchange(<%= (i + 1) %>)"><%= (i + 1) %></li>
+		<!--% for(i=0; i<pages; i++) { %-->
+			<!--% if ((i + 1) === current) { %-->
+				<${this._componentNameDash}-item active onclick="this.onchange(!%= (i + 1) %!)">
+					<!--%= (i + 1) %-->
+				</${this._componentNameDash}-item>
+			<!--% } else { %-->
+				<${this._componentNameDash}-item onclick="this.onchange(!%= (i + 1) %!)">
+					<!--%= (i + 1) %-->
+				</${this._componentNameDash}-item>
 			<!--% } %-->
+		<!--% } %-->
 
-			<!--% if (showNext) { %-->
-				<!--% if (current === pages) { %-->
-					<li class="{{component_item_class}} {{disabled_item_class}}" onclick="this.next()">
-						›
-					</li>
-				<!--% } else { %-->
-					<li class="{{component_item_class}}" onclick="this.next()">
-						›
-					</li>
-				<!--% } %-->
+		<!--% if (showNext) { %-->
+			<!--% if (current === pages) { %-->
+				<${this._componentNameDash}-item onclick="this.next()">
+					›
+				</${this._componentNameDash}-item>
+			<!--% } else { %-->
+				<${this._componentNameDash}-item onclick="this.next()">
+					›
+				</${this._componentNameDash}-item>
 			<!--% } %-->
+		<!--% } %-->
 
-			<!--% if (showLast) { %-->
-				<!--% if (current === pages) { %-->
-					<li class="{{component_item_class}} {{disabled_item_class}}" onclick="this.last()">
-						»
-					</li>
-				<!--% } else { %-->
-					<li class="{{component_item_class}}" onclick="this.last()">
-						»
-					</li>
-				<!--% } %-->
+		<!--% if (showLast) { %-->
+			<!--% if (current === pages) { %-->
+				<${this._componentNameDash}-item onclick="this.last()">
+					»
+				</${this._componentNameDash}-item>
+			<!--% } else { %-->
+				<${this._componentNameDash}-item onclick="this.last()">
+					»
+				</${this._componentNameDash}-item>
 			<!--% } %-->
-		</ol>
+		<!--% } %-->
 		`;
 	}
 
@@ -122,7 +113,6 @@ export default class SPaginationComponent extends STemplateWebComponent {
 	 */
 	static get defaultTemplateData() {
 		return {
-			_componentNameDash : '@componentNameDash',
 			pages : '@props.pages',
 			current : '@props.current',
 			onchange : '@props.onchange',
@@ -136,17 +126,6 @@ export default class SPaginationComponent extends STemplateWebComponent {
 			showNext : '@props.showNext'
 		};
 	}
-
-	/**
-	 * Define the template
-	 * @definition 		SWebTemplateComponent.
-	 */
-	// get template() {
-	//
-	// 	return `
-	//
-	// 	`;
-	// }
 
 	/**
 	 * Physical props
@@ -165,14 +144,17 @@ export default class SPaginationComponent extends STemplateWebComponent {
 	}
 
 	/**
-	 * Template did compile
-	 * @definition 		STemplateWebComponent.templateDidCompile
+	 * Compile template
+	 * @definition 		STemplateWebComponent.templateCompile
 	 */
-	templateDidCompile(template) {
-		template = super.templateDidCompile(template);
-		template = template.replace(/\{\{component_item_class\}\}/g, this.componentClassName('item'));
-		template = template.replace(/\{\{disabled_item_class\}\}/g, this.componentClassName('item',null,'disabled'));
-		return template;
+	templateCompile(template, data) {
+		const tmp = _template(template, {
+			evaluate : /<?!?-?-?%\s([\s\S]+?)%-?-?!?>?/g,
+			interpolate : /<?!?-?-?%=\s([\s\S]+?)%-?-?!?>?/g,
+			escape : /<?!?-?-?%-\s([\s\S]+?)%-?-?!?>?/g
+		});
+		const rnd = tmp(data);
+		return rnd;
 	}
 
 	/**

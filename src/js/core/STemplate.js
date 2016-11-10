@@ -272,7 +272,7 @@ export default class STemplate {
 			this.templateString = `<div s-template-id="${this.templateId}">${this.template}</div>`;
 
 			// apply a node id to each nodes
-			this.templateString = this.templateString.replace(/<[a-zA-Z0-9-]+\s?/g, (item) => {
+			this.templateString = this.templateString.replace(/<[a-zA-Z0-9-]+(\s|>)/g, (item) => {
 				return `${item.trim()} s-template-node="${this.templateId}" `;
 			});
 
@@ -373,7 +373,7 @@ export default class STemplate {
 							}
 						} else if (value.substr(0,1) === '<' && value.substr(-1) === '>') {
 							// apply a node id to each nodes
-							value = value.replace(/<[a-zA-Z0-9-]+\s?/g, (item) => {
+							value = value.replace(/<[a-zA-Z0-9-]+(\s|>)/g, (item) => {
 								return `${item.trim()} s-template-node="${this.templateId}" `;
 							});
 						} else if (this.data[value]) {
@@ -868,7 +868,7 @@ export default class STemplate {
 
 		// apply template node id where there's not one for now
 		ret = ret.replace(/<[a-zA-Z0-9-](?!.*s-template-node)[\s\S]+?>/g, (item) => {
-			return item.replace(/<[a-zA-Z0-9-]+\s?/g, (itm) => {
+			return item.replace(/<[a-zA-Z0-9-]+(\s|>)/g, (itm) => {
 				return `${itm.trim()} s-template-node="${this.templateId}" `;
 			});
 		});

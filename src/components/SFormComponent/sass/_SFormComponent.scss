@@ -63,10 +63,10 @@
 
 		@each $color in $colors {
 
-			#{s-selector( #{s-component-selector()-addon}, null, $color )} {
+			#{s-selector( #{s-component-selector()-addon}, null, $color, null, 'color' )} {
 				@include s-input-component-field-color($color);
 			}
-			#{s-selector( #{s-component-selector()-addon}, null, $color )} {
+			#{s-selector( #{s-component-selector()-addon}, null, $color, null, 'color' )} {
 				background-color: s-color($color, -opacity .08);
 				color : s-color($color, -darken 20%);
 			}

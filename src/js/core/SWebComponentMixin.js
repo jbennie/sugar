@@ -438,7 +438,7 @@ export default Mixin((superclass) => class extends superclass {
   	  // process the attribute to camelCase
   	  attribute = __camelize(attribute);
 
-  	  // when the prop is false
+	  // when the prop is false
   	  // and the element has not this attribute
   	  // we assume that the prop will stay to false
   	  if (this.props[attribute] === false
@@ -449,12 +449,13 @@ export default Mixin((superclass) => class extends superclass {
   	  // if there's no new value but that the element has
   	  // the attribute on itself, we assume the newVal
   	  // is equal to true
-  	  if ( ! this.props[attribute]
+  	  if ( ! newVal
+		  // && ! this.props[attribute]
   		  && newVal !== 'false'
   		  && newVal !== 'null'
   		  && this.hasAttribute(_attribute)
   	  ) {
-  		  this.setProp(attribute, true);
+		  this.setProp(attribute, true);
   		  return;
   	  }
 
@@ -575,22 +576,20 @@ export default Mixin((superclass) => class extends superclass {
 	 * on the dom element as attribute
 	 */
 	_handlePhysicalProps(prop, value) {
-  	  fastdom.mutate(() => {
-  		  // check if is a physical prop to set it in the dom
-  		  const physicalProps = this.physicalProps;
-  		  if (physicalProps.indexOf(prop) !== -1) {
-  			  // set the prop on the node
-  			  if (value === false || value === 'null' || ! value) {
-  				  this.removeAttribute(prop);
-  			  } else if (typeof(value) === 'object') {
-  				  this.setAttribute(prop, JSON.stringify(value));
-  			  } else if (typeof(value) === 'function') {
-  				  this.setAttribute(prop, 'fn');
-  			  } else {
-  				  this.setAttribute(prop, value);
-  			  }
-  		  }
-  	  });
+		// check if is a physical prop to set it in the dom
+		const physicalProps = this.physicalProps;
+		if (physicalProps.indexOf(prop) !== -1) {
+			// set the prop on the node
+			if (value === false || value === 'null' || ! value) {
+				this.removeAttribute(prop);
+			} else if (typeof(value) === 'object') {
+				this.setAttribute(prop, JSON.stringify(value));
+			} else if (typeof(value) === 'function') {
+				this.setAttribute(prop, 'fn');
+			} else {
+				this.setAttribute(prop, value);
+			}
+		}
 	}
 
 	/**

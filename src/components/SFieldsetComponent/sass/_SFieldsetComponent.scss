@@ -49,11 +49,10 @@ $_s-fieldset-component-inited : false;
 		// generate each colors
 		@each $color in $colors {
 
-			#{s-component-selector(null, $color)} {
+			#{s-component-selector(null, $color, null, 'color')} {
 				border-color: s-color($color, -opacity .1);
 
-				&#{s-component-selector(null, null, 'hover')},
-				&#{s-component-selector(null, null, 'active')},
+				&#{s-component-selector('&', null, 'active')},
 				&:hover,
 				&.active {
 					border-color: s-color($color, -opacity .2);

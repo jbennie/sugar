@@ -225,7 +225,7 @@ $_s-select-component-inited : false;
 		}
 		@each $color in $colors {
 
-			#{s-component-selector(null, $color)} {
+			#{s-component-selector(null, $color, null, 'color')} {
 				#{s-component-selector('search-container')} {
 					background: s-color($color, -opacity .1);
 					border-bottom:1px solid s-color($color, -opacity .2);
