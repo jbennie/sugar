@@ -8,9 +8,11 @@ export default class SLocalStorageCache extends SCache {
 		const ls = localStorage.getItem(this.name);
 		if ( ! ls) return;
 		this.cache = JSON.parse(ls);
-		console.log('cache', this.cache);
 	}
 
+	/**
+	 * Save the cache
+	 */
 	save() {
 		localStorage.setItem(this.name, JSON.stringify(this.cache));
 	}
