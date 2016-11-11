@@ -34,7 +34,7 @@
 					@include s-transition(default left, default transform, fast opacity);
 				}
 				> input[placeholder] ~ span,
-				> input[value]:not([value=""]) ~ span,
+				> input[has-value] ~ span,
 				> input:focus ~ span {
 					left:100%;
 					@include s-translate(-100%,0);
@@ -57,7 +57,7 @@
 			@each $color in $colors {
 				// label styling
 				#{s-component-selector(null, $color, null, 'color')} {
-					> input[value]:not([value=""]) ~ span,
+					> input[has-value] ~ span,
 					> input:focus ~ span {
 						color: s-color($color);
 					}

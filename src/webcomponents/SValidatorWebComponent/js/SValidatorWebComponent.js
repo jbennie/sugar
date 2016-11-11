@@ -10,9 +10,24 @@ import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
 import __autoCast from '../../../js/utils/string/autoCast'
 import __uniqid from '../../../js/utils/uniqid'
 import __dispatchEvent from '../../../js/dom/dispatchEvent'
+import __printf from '../../../js/utils/string/printf'
 
 // store all the overidded checkValidity function on the forms
 const formsCheckValidityFn = {};
+// store the default messages
+let __messages = {
+	required : 'This field is required',
+	min : 'This field value must greater or equal than %s',
+	max : 'This field value must lower or equal than %s',
+	maxlength : 'This field must be shorter than %s',
+	pattern : 'This field must respect this pattern "%s"',
+	integer : 'This field must be an integer',
+	number : 'This field must be a number',
+	range : 'This field must stand between %s and %s',
+	email : 'This field must be a valid email address',
+	color : 'This field must be a valid color',
+	url : 'This field must be a valid url'
+};
 
 export default class SValidatorComponent extends SWebComponent {
 
@@ -28,22 +43,26 @@ export default class SValidatorComponent extends SWebComponent {
 	static validators = {};
 
 	/**
-	 * Messages
-	 * @type 	{Object}
+	 * Set the messages
+	 * @param 		{Object} 		messages 		An object of messages to override
 	 */
-	static messages = {
-		required : 'This field is required',
-		min : 'This field value must greater or equal than %min',
-		max : 'This field value must lower or equal than %max',
-		maxlength : 'This field must be shorter than %maxlength',
-		pattern : 'This field must respect this pattern "%pattern"',
-		integer : 'This field must be an integer',
-		number : 'This field must be a number',
-		range : 'This field must stand between %min and %max',
-		email : 'This field must be a valid email address',
-		color : 'This field must be a valid color',
-		url : 'This field must be a valid url'
-	};
+	static setMessages(messages = {}) {
+		__messages = {
+			...__messages,
+			...messages
+		};
+	}
+
+	/**
+	 * Return the messages object computed
+	 * @return 			{Object} 			The final messages for this instance
+	 */
+	get messages() {
+		return {
+			...__messages,
+			...this.props.messages
+		};
+	}
 
 	/**
 	 * Register a validator
@@ -179,12 +198,6 @@ export default class SValidatorComponent extends SWebComponent {
 			// override the checkValidity function on each targets
 			target.checkValidity = this.validate.bind(this);
 		});
-
-		// extend messages with the static ones
-		this._messages = {
-			...SValidatorComponent.messages,
-			...this.props.messages
-		};
 
 		// extend validators with the static ones
 		this._validators = _extend(
@@ -358,7 +371,7 @@ export default class SValidatorComponent extends SWebComponent {
 			const validateArguments = [].concat(validatorArguments),
 			 	  messageArguments = [].concat(validatorArguments);
 			validateArguments.unshift(this._targets);
-			messageArguments.unshift(this._messages[name]);
+			messageArguments.unshift(this.messages[name]);
 
 			// process to validation
 			if ( ! this._validators[name].validate.apply(this, validateArguments)) {
@@ -372,7 +385,7 @@ export default class SValidatorComponent extends SWebComponent {
 				// get the message
 				message = this._validators[name].message;
 				if (typeof(message) === 'function') message = message.call(this, messageArguments);
-				else message = this._messages[name];
+				else message = this.messages[name];
 				// apply the error message
 				applyFn = this.props.apply[name] || this.props.apply['default'];
 				// stop the loop
@@ -555,7 +568,7 @@ SValidatorComponent.registerValidator('min', {
 		}
 	},
 	message : (message, min) => {
-		return message.replace('%min', min);
+		return __printf(message, min);
 	}
 });
 
@@ -577,7 +590,7 @@ SValidatorComponent.registerValidator('max', {
 		}
 	},
 	message : (message, max) => {
-		return message.replace('%max', max);
+		return __printf(message, max);
 	}
 });
 
@@ -590,7 +603,9 @@ SValidatorComponent.registerValidator('range', {
 		return true;
 	},
 	message : (message, min = null, max = null) => {
-		return message.replace('%max', max || this.props.max).replace('%min', min || this.props.min);
+		min = min || this.props.min;
+		max = max || this.props.max;
+		return __printf(message, min, max);
 	}
 });
 
@@ -601,7 +616,7 @@ SValidatorComponent.registerValidator('maxlength', {
 		return (targets[0].value.toString().length <= maxlength);
 	},
 	message : (message, maxlength) => {
-		return message.replace('%maxlength', maxlength);
+		return __printf(message, maxlength);
 	}
 });
 
@@ -613,7 +628,7 @@ SValidatorComponent.registerValidator('pattern', {
 		return (targets[0].value.toString().match(reg));
 	},
 	message : (message, pattern) => {
-		return message.replace('%pattern', pattern);
+		return __printf(message, pattern);
 	}
 });
 

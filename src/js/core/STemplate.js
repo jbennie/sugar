@@ -826,10 +826,10 @@ export default class STemplate {
 			// set the initial value coming from the model
 			elm.value = htmlVal;
 			if (htmlVal === null || htmlVal === undefined) {
-				elm.removeAttribute('value');
+				// elm.removeAttribute('value');
 				__dispatchEvent(elm, 'change');
 			} else {
-				elm.setAttribute('value', htmlVal);
+				// elm.setAttribute('value', htmlVal);
 			}
 		});
 	}

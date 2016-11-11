@@ -39,12 +39,12 @@
 					@include s-translate(0,0);
 					@include s-transition(fast padding, fast font-size);
 				}
-				> input[value]:not([value=""]) ~ span,
+				> input[has-value] ~ span,
 				> input:focus ~ span {
 					font-size: 0.7em;
 					padding: 0;
 				}
-				> input[value]:not([value=""]),
+				> input[has-value],
 				> input:focus {
 					padding-left: 0 !important;
 					padding-top: s-lnf(padding-horizontal) * 1.33 !important;
@@ -69,7 +69,7 @@
 
 				// label styling
 				#{s-component-selector(null, $color, null, 'color')} {
-					> input[value]:not([value=""]) ~ span,
+					> input[has-value] ~ span,
 					> input:focus ~ span {
 						color : s-color($color);
 					}

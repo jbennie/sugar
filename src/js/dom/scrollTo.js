@@ -16,12 +16,26 @@
  *
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
+let isUserScrolling = false;
+let userScrollingTimeout;
+let isScrollingHappening = false;
+document.addEventListener('mousewheel', (e) => {
+	if ( ! isScrollingHappening) return;
+	isUserScrolling = true;
+	clearTimeout(userScrollingTimeout);
+	userScrollingTimeout = setTimeout(() => {
+		isUserScrolling = false;
+	}, 200);
+});
+
 function scrollTo(target, duration, easing, offset, align, onFinish) {
 	offset = offset ? offset : 0;
 	var docElem = document.documentElement; // to facilitate minification better
 	var windowHeight = docElem.clientHeight;
 	var maxScroll = ( 'scrollMaxY' in window ) ? window.scrollMaxY : (docElem.scrollHeight - windowHeight);
 	var currentY = window.pageYOffset;
+
+	isScrollingHappening = true;
 
 	var targetY = currentY;
 	var elementBounds = isNaN(target) ? target.getBoundingClientRect() : 0;
@@ -52,14 +66,14 @@ function scrollTo(target, duration, easing, offset, align, onFinish) {
 		onFinish: onFinish,
 		startTime: Date.now(),
 		lastY: currentY,
-		step: scrollTo.step,
+		step: scrollTo.step
 	};
-
 	window.requestAnimationFrame(obj.step.bind(obj));
 }
 
 scrollTo.step = function () {
 	if (this.lastY !== window.pageYOffset && this.onFinish) {
+		isScrollingHappening = false;
 		this.onFinish();
 		return;
 	}
@@ -72,10 +86,11 @@ scrollTo.step = function () {
 	window.scrollTo(window.scrollX, y);
 
 	// Continue animation as long as duration hasn't surpassed
-	if (t !== 1) {
+	if (t !== 1 && ! isUserScrolling) {
 		this.lastY = window.pageYOffset;
 		window.requestAnimationFrame(this.step.bind(this));
 	} else {
+		isScrollingHappening = false;
 		if (this.onFinish) this.onFinish();
 	}
 }

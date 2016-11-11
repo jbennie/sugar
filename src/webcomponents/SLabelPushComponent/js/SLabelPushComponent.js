@@ -54,6 +54,27 @@ export default class SLabelPushComponent extends SWebComponent {
 		if ( ! position || position !== 'absolute' || position !== 'relative') {
 			this.style.position = 'relative';
 		}
+
+		// listen for input change to set the correct attribute
+		this._input.addEventListener('keyup', this._handleHasValueAttribute.bind(this));
+		if (this._input.form) {
+			this._input.form.addEventListener('reset', () => {
+				setTimeout(() => {
+					this._handleHasValueAttribute();
+				});
+			});
+		}
+	}
+
+	/**
+	 * On input key up
+	 */
+	_handleHasValueAttribute() {
+		if (this._input.value && ! this._input.hasAttribute('has-value')) {
+			this._input.setAttribute('has-value', true);
+		} else if ( ! this._input.value) {
+			this._input.removeAttribute('has-value');
+		}
 	}
 
 	/**

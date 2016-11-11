@@ -108,7 +108,15 @@ export default class SAjax extends SObject {
 		 * @type 		{Function}
 		 * @default 	null
 		 */
-		beforeSend : null
+		beforeSend : null,
+
+		/**
+		 * A cache instance that will be used
+		 * @setting
+		 * @type 		{SCache}
+		 * @default 	null
+		 */
+		cache : null
 	};
 
 	/**
@@ -200,6 +208,12 @@ export default class SAjax extends SObject {
 				break;
 			}
 
+			// check if need to store response in cache
+			if (this._settings.cache) {
+				console.log('set', simpleAjax._requestSettings.url, response);
+				this._settings.cache.set(simpleAjax._requestSettings.url, response);
+			}
+
 			// push the result into the observer
 			if (this._observer)
 				this._observer.next(response);
@@ -255,6 +269,15 @@ export default class SAjax extends SObject {
 
 		// return a promise
 		return new Promise((resolve, reject) => {
+
+			// check if a cache exist and if we have the content
+			if (this._settings.cache) {
+				const response = this._settings.cache.get(this._requestSettings.url);
+				if (response) {
+					resolve(response);
+					return;
+				}
+			}
 
 			// set the resolve and reject callback in the instance
 			this._resolve = resolve;

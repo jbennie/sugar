@@ -7,6 +7,7 @@ import _get from 'lodash/get'
 import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
 import __formSerialize from 'form-serialize'
 import __sendForm from '../../../js/dom/sendForm'
+import __matches from '../../../js/dom/matches'
 
 export default class SAjaxFormComponent extends SWebSTemplateComponent {
 
@@ -168,6 +169,11 @@ export default class SAjaxFormComponent extends SWebSTemplateComponent {
 	_handleSuccess(response) {
 		// reset form
 		this._form.reset();
+		[].forEach.call(this._form.elements, (formField) => {
+			if (__matches(formField, 'input:not([type="submit"]):not([type="checkbox"]):not([type="radio"])')) {
+				formField.removeAttribute('value');
+			}
+		});
 
 		// check the response type
 		if (typeof(response) === 'string') {
