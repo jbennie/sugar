@@ -1,4 +1,4 @@
-import { Mixin } from 'mixwith'
+import { Mixin } from './sMix'
 import __autoCast from '../utils/string/autoCast'
 import __camelize from '../utils/string/camelize'
 import __upperFirst from '../utils/string/upperFirst'

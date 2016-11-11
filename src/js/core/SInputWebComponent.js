@@ -1,4 +1,4 @@
-import { mix } from 'mixwith'
+import { mix } from './sMix'
 import SWebComponentMixin from './SWebComponentMixin'
 
 export default class SInputWebComponent extends mix(HTMLInputElement).with(SWebComponentMixin) {
