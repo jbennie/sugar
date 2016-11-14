@@ -3,6 +3,10 @@ import __uniqid from '../../../js/utils/uniqid'
 import __dispatchEvent from '../../../js/dom/dispatchEvent'
 import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
 import __whenAttribute from '../../../js/dom/whenAttribute'
+import fastdom from 'fastdom';
+
+if ( ! window.sugar) window.sugar = {};
+if ( ! window.sugar._sActivateStack) window.sugar._sActivateStack = {};
 
 export default class SActivateComponent extends SAnchorWebComponent {
 
@@ -51,9 +55,18 @@ export default class SActivateComponent extends SAnchorWebComponent {
 	 * Physical props
 	 * @definition 		SWebComponent.physicalProps
 	 */
-	// static get physicalProps() {
-	// 	// return ['group'];
-	// }
+	static get physicalProps() {
+		return ['group'];
+	}
+
+	/**
+	 * Component will mount
+	 * @definition 		SWebComponent.componentWillMount
+	 */
+	componentWillMount() {
+		super.componentWillMount();
+		this._sActivateTargets = [];
+	}
 
 	/**
 	 * Mount component
@@ -61,9 +74,6 @@ export default class SActivateComponent extends SAnchorWebComponent {
 	 */
 	componentMount() {
 		super.componentMount();
-
-		// init vars
-		this._sActivateTargets = [];
 
 		// update references
 		this.update();
@@ -73,25 +83,9 @@ export default class SActivateComponent extends SAnchorWebComponent {
 			this._handleHistory();
 		}
 
+		// if we don't have any group yet
 		if ( ! this._getGroup(this)) {
-			[].forEach.call(this.parentNode.childNodes, (sibling) => {
-				if ( ! this._getGroup(this) && sibling.nodeName != '#text' && sibling.nodeName != '#coment') {
-					let targetsSelector = this._getTargetsSelector(sibling);
-					if (targetsSelector) {
-						let sibling_grp = this._getGroup(sibling);
-						if (sibling_grp && sibling._sActivateGeneratedGroup) {
-							this.setProp('group', sibling_grp);
-						}
-					}
-				}
-			});
-
-			// if we don't have any group yet
-			if ( ! this._getGroup(this)) {
-			// if ( ! this.dataset(`${this.componentName}Group`)) {
-				this.setProp('group', 'group-'+Math.round(Math.random()*99999999));
-				this._sActivateGeneratedGroup = true;
-			}
+			this.setProp('group', 'group-'+Math.round(Math.random()*99999999));
 		}
 
 		// listen for trigger (click, mouseover, etc...)
@@ -170,7 +164,7 @@ export default class SActivateComponent extends SAnchorWebComponent {
 	componentWillReceiveProp(name, newVal, oldVal) {
 		switch(name) {
 			case 'href':
-			case 'target':
+			case 'activate':
 				this.update();
 			break;
 		}
@@ -180,6 +174,7 @@ export default class SActivateComponent extends SAnchorWebComponent {
 	 * On target activate
 	 */
 	_onTargetActivate(e) {
+		if ( ! this.isComponentMounted()) return;
 		e.stopPropagation();
 		// activate the trigger that handle this target
 		if (e.target._sActivateTrigger
@@ -323,8 +318,11 @@ export default class SActivateComponent extends SAnchorWebComponent {
 	 * @param 		{HTMLElement} 		target 			The target to activatee
 	 */
 	activateTarget(target) {
-		// remove the active class on target
-		target.classList.add(this.props.activeTargetClass || this.props.activeClass);
+		if (target.activate && typeof(target.activate) === 'function') target.activate();
+		else {
+			// remove the active class on target
+			target.classList.add(this.props.activeTargetClass || this.props.activeClass);
+		}
 	}
 
 	/**
@@ -332,8 +330,11 @@ export default class SActivateComponent extends SAnchorWebComponent {
 	 * @param 		{HTMLElement} 		target 			The target to activatee
 	 */
 	unactivateTarget(target) {
-		// remove the active class on target
-		target.classList.remove(this.props.activeTargetClass || this.props.activeClass);
+		if (target.unactivate && typeof(target.unactivate) === 'function') target.unactivate();
+		else {
+			// remove the active class on target
+			target.classList.remove(this.props.activeTargetClass || this.props.activeClass);
+		}
 	}
 
 	/**
@@ -409,59 +410,66 @@ export default class SActivateComponent extends SAnchorWebComponent {
 	 */
 	update(scope = document.body) {
 
-		// target
-		let targetsSelector = this.props.activate || this.props.href;
+		// wait next frame to be sure that we have the last html
+		fastdom.mutate(() => {
 
-		// remove # at start of targetsSelector
-		if (targetsSelector && targetsSelector.substr(0,1) === '#') {
-			targetsSelector = targetsSelector.substr(1);
-		}
+			// target
+			let targetsSelector = this.props.activate || this.props.href;
 
-		// if the targetsSelector is an id
-		// and the setting "id" is not set
-		// set the setting with the targetsSelector id
-		if ( ! this.props.id
-			&& (typeof(targetsSelector) === 'string')
-		) {
-			this.setProp('id', targetsSelector);
-		} else if ( ! this.props.id) {
-			this.setProp('id', __uniqid());
-		}
-
-		// if don't have any targetsSelector
-		// mean that it's the element itself
-		// so check if already an id
-		// otherwise, set a new one
-		if ( ! targetsSelector) {
-			const id = `${this._componentNameDash}-${__uniqid()}`;
-			if ( ! this.props.id) {
-				this.setProp('id', id);
+			// remove # at start of targetsSelector
+			if (targetsSelector && targetsSelector.substr(0,1) === '#') {
+				targetsSelector = targetsSelector.substr(1);
 			}
-			targetsSelector = id;
-		}
 
-		// save in stack id an id exist
-		if (this.props.id) {
-			window._sActivateStack[this.props.id] = this;
-		}
+			// if the targetsSelector is an id
+			// and the setting "id" is not set
+			// set the setting with the targetsSelector id
+			if ( ! this.props.id
+				&& (typeof(targetsSelector) === 'string')
+			) {
+				this.setProp('id', targetsSelector);
+			} else if ( ! this.props.id) {
+				this.setProp('id', __uniqid());
+			}
 
-		// update the targetsSelectors array
-		if (targetsSelector) {
-			this._sActivateTargets = scope.querySelectorAll(`#${targetsSelector},[${this._componentNameDash}-target="${targetsSelector}"]`);
-			[].forEach.call(this._sActivateTargets, (t) => {
-				t._sActivateTrigger = this;
-			});
-		} else {
-			this._sActivateTargets = [];
-		}
+			// if don't have any targetsSelector
+			// mean that it's the element itself
+			// so check if already an id
+			// otherwise, set a new one
+			if ( ! targetsSelector) {
+				const id = `${this._componentNameDash}-${__uniqid()}`;
+				if ( ! this.props.id) {
+					this.setProp('id', id);
+				}
+				targetsSelector = id;
+			}
 
-		// save the selector
-		this._targetsSelector = targetsSelector;
+			// save in stack id an id exist
+			if (this.props.id) {
+				window.sugar._sActivateStack[this.props.id] = this;
+			}
+
+			// update the targetsSelectors array
+			if (targetsSelector) {
+				this._sActivateTargets = scope.querySelectorAll(`#${targetsSelector},[${this._componentNameDash}-target="${targetsSelector}"]`);
+				[].forEach.call(this._sActivateTargets, (t) => {
+					t._sActivateTrigger = this;
+				});
+			} else {
+				this._sActivateTargets = [];
+			}
+
+			// save the selector
+			this._targetsSelector = targetsSelector;
+		});
 	}
 
 }
 
 sTemplateIntegrator.registerComponentIntegration('SActivateComponent', (component) => {
-	console.log('integrate', component);
-	sTemplateIntegrator.ignore()
+	fastdom.mutate(() => {
+		sTemplateIntegrator.ignore(component, {
+			group : true
+		});
+	});
 });
