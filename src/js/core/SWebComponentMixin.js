@@ -224,6 +224,7 @@ export default Mixin((superclass) => class extends superclass {
   	  this._prevPropsStack = {};
   	  this._nextPropsTimeout = null;
   	  this._componentMounted = false;
+	  this._componentAttached = false;
 
   	  // set the componentName
   	  const sourceName = this.getAttribute('is') || this.tagName.toLowerCase()
@@ -273,6 +274,8 @@ export default Mixin((superclass) => class extends superclass {
 	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
 	 */
 	componentMount() {
+		// update the status
+		this._componentMounted = true;
 	}
 
 	/**
@@ -332,6 +335,8 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	componentUnmount() {
+		// update the status
+		this._componentMounted = false;
 	}
 
 	componentDidUnmount() {
@@ -349,7 +354,10 @@ export default Mixin((superclass) => class extends superclass {
 	 * When the element is attached
 	 */
 	attachedCallback() {
+		// update attached status
+		this._componentAttached = true;
 
+		// wait until dependencies are ok
 		this._whenMountDependenciesAreOk().then(() => {
 			// switch on the mountWhen prop
 			switch(this.props.mountWhen) {
@@ -401,31 +409,41 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	 * Internal mount component method
-	 */
+	* Internal mount component method
+	*/
 	_mountComponent() {
-  	  // init
-  	  this.componentMount();
-  	  // render
-  	  this.render();
-  	  // component did mount
-  	  this.componentDidMount();
-  	  // update the status
-  	  this._componentMounted = true;
+		// wait next frame
+		fastdom.mutate(() => {
+			// sometimes, the component has been unmounted between the
+			// fastdom execution, so we stop here if it's the case
+			if ( ! this._componentAttached) return;
+			// init
+			this.componentMount();
+			// render
+			this.render();
+			// component did mount
+			this.componentDidMount();
+		});
+
 	}
 
 	/**
-	 * When the component is detached
-	 */
+	* When the component is detached
+	*/
 	detachedCallback() {
-  	  // will unmount
-  	  this.componentWillUnmount();
-  	  // unmount
-  	  this.componentUnmount();
-  	  // did unmount
-  	  this.componentDidUnmount();
-  	  // update the status
-  	  this._componentMounted = false;
+		// update attached status
+		this._componentAttached = false;
+		// will unmount
+		this.componentWillUnmount();
+		// wait next frame
+		fastdom.mutate(() => {
+			// unmount only if the component is mounted
+			if ( ! this._componentMounted) return;
+			// unmount
+			this.componentUnmount();
+			// did unmount
+			this.componentDidUnmount();
+		});
 	}
 
 	/**
@@ -521,9 +539,8 @@ export default Mixin((superclass) => class extends superclass {
   		  this.componentWillReceiveProp(prop, value, _oldVal);
   	  }
 
-  	  // clearTimeout(this._nextPropsTimeout);
-  	  // this._nextPropsTimeout = setTimeout(() => {
-  	  fastdom.mutate(() => {
+	  // wait till next frame
+	  fastdom.mutate(() => {
 
   		  // create array version of each stacks
   		  const nextPropsArray = [],
