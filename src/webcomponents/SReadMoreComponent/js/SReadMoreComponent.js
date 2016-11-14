@@ -2,6 +2,7 @@ import SWebComponent from '../../../js/core/SWebComponent'
 import __realHeight from '../../../js/dom/realHeight'
 import __getStyleProperty from '../../../js/dom/getStyleProperty'
 import __style from '../../../js/dom/style'
+import __matches from '../../../js/dom/matches'
 
 export default class SReadMoreComponent extends SWebComponent {
 
@@ -21,7 +22,7 @@ export default class SReadMoreComponent extends SWebComponent {
 			 * @prop
 			 * @type 		{Number}
 			 */
-			threshold : null,
+			threshold : 0,
 
 			active : false,
 
@@ -43,11 +44,6 @@ export default class SReadMoreComponent extends SWebComponent {
 	componentMount() {
 		super.componentMount();
 
-		// check threshold
-		if (this.props.threshold) {
-			this._checkThreshold();
-		}
-
 		// apply base style
 		this._applyInitialStyle();
 
@@ -56,14 +52,23 @@ export default class SReadMoreComponent extends SWebComponent {
 
 		// listen for click on the element
 		this.addEventListener('click', this._onClick.bind(this));
+
+		// check threshold
+		this._checkThreshold();
+
+		// listen for content mutation
+		this._listenMutations();
 	}
 
 	/**
-	 * Unmount component
+	 * Component unmount
 	 * @definition 		SWebComponent.componentUnmount
 	 */
 	componentUnmount() {
 		super.componentUnmount();
+		if (this._sReadMoreMutationObserver) {
+			this._sReadMoreMutationObserver.disconnect();
+		}
 	}
 
 	/**
@@ -77,11 +82,41 @@ export default class SReadMoreComponent extends SWebComponent {
 	}
 
 	/**
+	 * Listen mutations
+	 */
+	_listenMutations() {
+		this._sReadMoreMutationObserver = new MutationObserver((mutations) => {
+			let render = false;
+			mutations.forEach((mutation) => {
+				let parentNode = mutation.target.parentNode;
+				if (mutation.target.nodeName === '#text') {
+					parentNode = parentNode.parentNode;
+				}
+				if ( mutation.target !== this && parentNode === this) render = true;
+			});
+			if ( ! render) return;
+			// update targeted and original height
+			this._updateTargetedAndOriginalHeight();
+			// check threshold
+			this._checkThreshold();
+			// render
+			this.render();
+		});
+		this._sReadMoreMutationObserver.observe(this, {
+			childList : true,
+			subtree : true,
+			characterData : true
+		});
+	}
+
+	/**
 	 * On click on the read more
 	 */
 	_onClick(e) {
+		if (e.target !== this) return;
 		// toggle the active state
-		this.setProp('active', ! this.props.active);
+		if (this.isActive()) this.unactivate();
+		else this.activate();
 	}
 
 	/**
@@ -111,8 +146,31 @@ export default class SReadMoreComponent extends SWebComponent {
 		// check if the targetedHeight is lower that the actual height
 		if (this._targetedHeight + this.props.threshold >= this._originalHeight) {
 			// disable the component
-			this.setProp('disable', true);
+			this.setProp('disabled', true);
+		} else {
+			this.setProp('disabled', false);
 		}
+	}
+
+	/**
+	 * Activate
+	 */
+	activate() {
+		this.setProp('active', true);
+	}
+
+	/**
+	 * Unactivate
+	 */
+	unactivate() {
+		this.setProp('active', false);
+	}
+
+	/**
+	 * Return if the read more is activate or not
+	 */
+	isActive() {
+		return this.props.active;
 	}
 
 	/**
@@ -120,14 +178,25 @@ export default class SReadMoreComponent extends SWebComponent {
 	 * @definition 		SWebComponent.render
 	 */
 	render() {
-		if (this.props.active) {
-			// open the read more
+		if ( ! this.props.disabled) {
+			if (this.props.active) {
+				setTimeout(() => {
+					// open the read more
+					__style(this, {
+						minHeight : this._originalHeight + 'px',
+						maxHeight : this._originalHeight + 'px'
+					});
+				});
+			} else {
+				__style(this, {
+					minHeight : this._targetedHeight + 'px',
+					maxHeight : this._targetedHeight + 'px'
+				});
+			}
+		} else {
 			__style(this, {
-				height : this._originalHeight + 'px'
-			});
-		} else {
-			__style(this, {
-				height : this._targetedHeight + 'px'
+				minHeight : null,
+				maxHeight : null
 			});
 		}
 	}
