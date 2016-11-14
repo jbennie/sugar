@@ -6,11 +6,13 @@
  */
 export default function realHeight(elm) {
 	// apply an overflow-y to the element
+	elm.style.transition = 'none';
 	elm.style.overflowY = 'scroll';
 	// get the actual height through the scrollHeight
 	const height = elm.scrollHeight;
 	// reset the overflowY
 	elm.style.overflowY = null;
+	elm.style.transition = null;
 	// return the height
 	return height;
 }
