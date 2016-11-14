@@ -102,6 +102,7 @@ export default class SActivateComponent extends SAnchorWebComponent {
 			this.addEventListener(unactivate_trigger, this._onElmUnactivate.bind(this));
 			if (unactivate_trigger == 'mouseleave' || unactivate_trigger == 'mouseout') {
 				[].forEach.call(this._sActivateTargets, (target) => {
+					console.log('mouseenter', target);
 					target.addEventListener('mouseenter', this._onTargetMouseEnter.bind(this));
 					target.addEventListener(unactivate_trigger, this._onTargetUnactivate.bind(this));
 				});
@@ -165,7 +166,10 @@ export default class SActivateComponent extends SAnchorWebComponent {
 		switch(name) {
 			case 'href':
 			case 'activate':
-				this.update();
+				// wait next frame to be sure that we have the last html
+				fastdom.mutate(() => {
+					this.update();
+				});
 			break;
 		}
 	}
@@ -410,58 +414,54 @@ export default class SActivateComponent extends SAnchorWebComponent {
 	 */
 	update(scope = document.body) {
 
-		// wait next frame to be sure that we have the last html
-		fastdom.mutate(() => {
+		// target
+		let targetsSelector = this.props.activate || this.props.href;
 
-			// target
-			let targetsSelector = this.props.activate || this.props.href;
+		// remove # at start of targetsSelector
+		if (targetsSelector && targetsSelector.substr(0,1) === '#') {
+			targetsSelector = targetsSelector.substr(1);
+		}
 
-			// remove # at start of targetsSelector
-			if (targetsSelector && targetsSelector.substr(0,1) === '#') {
-				targetsSelector = targetsSelector.substr(1);
+		// if the targetsSelector is an id
+		// and the setting "id" is not set
+		// set the setting with the targetsSelector id
+		if ( ! this.props.id
+			&& (typeof(targetsSelector) === 'string')
+		) {
+			this.setProp('id', targetsSelector);
+		} else if ( ! this.props.id) {
+			this.setProp('id', __uniqid());
+		}
+
+		// if don't have any targetsSelector
+		// mean that it's the element itself
+		// so check if already an id
+		// otherwise, set a new one
+		if ( ! targetsSelector) {
+			const id = `${this._componentNameDash}-${__uniqid()}`;
+			if ( ! this.props.id) {
+				this.setProp('id', id);
 			}
+			targetsSelector = id;
+		}
 
-			// if the targetsSelector is an id
-			// and the setting "id" is not set
-			// set the setting with the targetsSelector id
-			if ( ! this.props.id
-				&& (typeof(targetsSelector) === 'string')
-			) {
-				this.setProp('id', targetsSelector);
-			} else if ( ! this.props.id) {
-				this.setProp('id', __uniqid());
-			}
+		// save in stack id an id exist
+		if (this.props.id) {
+			window.sugar._sActivateStack[this.props.id] = this;
+		}
 
-			// if don't have any targetsSelector
-			// mean that it's the element itself
-			// so check if already an id
-			// otherwise, set a new one
-			if ( ! targetsSelector) {
-				const id = `${this._componentNameDash}-${__uniqid()}`;
-				if ( ! this.props.id) {
-					this.setProp('id', id);
-				}
-				targetsSelector = id;
-			}
+		// update the targetsSelectors array
+		if (targetsSelector) {
+			this._sActivateTargets = scope.querySelectorAll(`#${targetsSelector},[${this._componentNameDash}-target="${targetsSelector}"]`);
+			[].forEach.call(this._sActivateTargets, (t) => {
+				t._sActivateTrigger = this;
+			});
+		} else {
+			this._sActivateTargets = [];
+		}
 
-			// save in stack id an id exist
-			if (this.props.id) {
-				window.sugar._sActivateStack[this.props.id] = this;
-			}
-
-			// update the targetsSelectors array
-			if (targetsSelector) {
-				this._sActivateTargets = scope.querySelectorAll(`#${targetsSelector},[${this._componentNameDash}-target="${targetsSelector}"]`);
-				[].forEach.call(this._sActivateTargets, (t) => {
-					t._sActivateTrigger = this;
-				});
-			} else {
-				this._sActivateTargets = [];
-			}
-
-			// save the selector
-			this._targetsSelector = targetsSelector;
-		});
+		// save the selector
+		this._targetsSelector = targetsSelector;
 	}
 
 }
