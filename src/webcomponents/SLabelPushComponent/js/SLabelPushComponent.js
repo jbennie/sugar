@@ -168,3 +168,18 @@ export default class SLabelPushComponent extends SWebComponent {
 		}
 	}
 }
+
+// STemplate integration
+sTemplateIntegrator.registerComponentIntegration('SLabelPushComponent', (component) => {
+	if (component._input) {
+		sTemplateIntegrator.ignore(component._input, {
+			"has-value" : true,
+			style : true
+		});
+	}
+	if (component._label) {
+		sTemplateIntegrator.ignore(component._label, {
+			style : true
+		});
+	}
+});

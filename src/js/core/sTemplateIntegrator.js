@@ -17,13 +17,30 @@ class STemplateIntegrator {
 	 * @param 	{Function} 		integrationFn 		The function used to set the integration attributes, etc into the component elements
 	 */
 	registerComponentIntegration(componentClassName, fn) {
-		this._componentsIntegrationFnStack[componentClassName] = fn;
+		if (componentClassName instanceof Array) {
+			componentClassName.forEach((className) => {
+				if ( ! this._componentsIntegrationFnStack[className]) {
+					this._componentsIntegrationFnStack[className] = [];
+				}
+				if (this._componentsIntegrationFnStack[className].indexOf(fn) === -1) {
+					this._componentsIntegrationFnStack[className].push(fn);
+				}
+			});
+		} else {
+			if ( ! this._componentsIntegrationFnStack[componentClassName]) {
+				this._componentsIntegrationFnStack[componentClassName] = [];
+			}
+			if (this._componentsIntegrationFnStack[componentClassName].indexOf(fn) === -1) {
+				this._componentsIntegrationFnStack[componentClassName].push(fn);
+			}
+		}
 	}
 
 	getIntegrationFrom(elm) {
 		let integration = elm._sTemplateIntegration || {
 			ignore : {
-				"s-template-integration" : true
+				"s-template-integration" : true,
+				"s-template-refresh" : true
 			},
 			refresh : false
 		};
@@ -32,7 +49,7 @@ class STemplateIntegrator {
 
 	setIntegrationTo(elm, integration) {
 		elm._sTemplateIntegration = integration;
-		elm.setAttribute('s-template-integration', JSON.stringify(integration));
+		// elm.setAttribute('s-template-integration', JSON.stringify(integration));
 		return this;
 	}
 
@@ -75,9 +92,8 @@ class STemplateIntegrator {
 	 */
 	refresh(elm) {
 		if ( ! elm) return this;
-		let integration = this.getIntegrationFrom(elm);
-		integration.refresh = true;
-		return this.setIntegrationTo(elm, integration);
+		elm.setAttribute('s-template-refresh', true);
+		return this;
 	}
 
 }

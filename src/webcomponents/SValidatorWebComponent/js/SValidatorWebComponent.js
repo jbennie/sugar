@@ -216,6 +216,7 @@ export default class SValidatorComponent extends SWebComponent {
 				const originalValue = target.value;
 				// if is a select, a checkbox or a radio
 				target.addEventListener(listener, (e) => {
+
 					// set the field as dirty
 					if (e.target.value !== originalValue) {
 						e.target._isDirty = true;
@@ -523,13 +524,36 @@ export default class SValidatorComponent extends SWebComponent {
 		super.render();
 		// if is dirty
 		if (this._isDirty) {
-			this.addComponentClass(this._targets, null, null, 'dirty');
+			[].forEach.call(this._targets, (target) => {
+				if ( ! target.hasAttribute('dirty')) {
+					target.setAttribute('dirty', true);
+				}
+				if (target.value) {
+					if ( ! target.hasAttribute('has-value')) {
+						target.setAttribute('has-value', true);
+					}
+					target.removeAttribute('empty');
+				} else {
+					if ( ! target.hasAttribute('empty')) {
+						target.setAttribute('empty', true);
+					}
+					target.removeAttribute('has-value');
+				}
+			});
 			if (this._isValid) {
-				this.removeComponentClass(this._targets, null, null, 'invalid');
-				this.addComponentClass(this._targets, null, null, 'valid');
+				[].forEach.call(this._targets, (target) => {
+					target.removeAttribute('invalid');
+					if ( ! target.hasAttribute('valid')) {
+						target.setAttribute('valid', true);
+					}
+				});
 			} else {
-				this.addComponentClass(this._targets, null, null, 'invalid');
-				this.removeComponentClass(this._targets, null, null, 'valid');
+				[].forEach.call(this._targets, (target) => {
+					target.removeAttribute('valid');
+					if ( ! target.hasAttribute('invalid')) {
+						target.setAttribute('invalid', true);
+					}
+				});
 			}
 		}
 	}
@@ -673,19 +697,16 @@ SValidatorComponent.registerValidator('url', {
 });
 
 // STemplate integration
-sTemplateIntegrator.registerComponentIntegration('SValidatorComponent', (component) => {
-	[].forEach.call(component._targets, (target) => {
-		sTemplateIntegrator.ignore(target, {
-			class : [
-				component.componentClassName(null, null, 'valid'),
-				component.componentClassName(null, null, 'dirty'),
-				component.componentClassName(null, null, 'invalid'),
-				component.componentClassName(null, null, 'required')
-			]
-		});
+sTemplateIntegrator.registerComponentIntegration(['HTMLSelectElement','HTMLInputElement'], (component) => {
+	sTemplateIntegrator.ignore(component, {
+		valid : true,
+		invalid : true,
+		dirty : true,
+		"has-value" : true,
+		empty : true
 	});
-	if (component._formElm) {
-		sTemplateIntegrator.ignore(component._formElm, {
+	if (component.form) {
+		sTemplateIntegrator.ignore(component.form, {
 			novalidate : true
 		});
 	}

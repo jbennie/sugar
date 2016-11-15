@@ -13,12 +13,9 @@ import __strToHtml from '../utils/string/strToHtml'
 import __constructorName from '../utils/objects/constructorName'
 import __closest from '../dom/closest'
 import __whenAttribute from '../dom/whenAttribute'
-
-import __attributesObservable from '../dom/attributesObservable'
 import __propertyProxy from '../utils/objects/propertyProxy'
-
 import sTemplateIntegrator from './sTemplateIntegrator'
-import sElementsManager from './sElementsManager';
+// import sElementsManager from './sElementsManager';
 
 if (! window.sugar) window.sugar = {};
 if (! window.sugar._sTemplateData) window.sugar._sTemplateData = {};
@@ -59,36 +56,36 @@ export default class STemplate {
 	 * @param 		{HTMLElement} 	elm 	The element to check
 	 * @return 		{Boolean} 				True if the element is handled by a template, false otherwise
 	 */
-	static isTemplate(elm) {
-		if ( ! elm.hasAttribute) return false;
-		if (elm.hasAttribute('s-template-id')) return true;
-		const components = sElementsManager.getComponents(elm);
-		if ( ! components) return false;
-		for(let key in components) {
-			const component = components[key];
-			if (component._isTemplateComponent) return true;
-		}
-		return false;
-	}
+	// static isTemplate(elm) {
+	// 	if ( ! elm.hasAttribute) return false;
+	// 	if (elm.hasAttribute('s-template-id')) return true;
+	// 	const components = sElementsManager.getComponents(elm);
+	// 	if ( ! components) return false;
+	// 	for(let key in components) {
+	// 		const component = components[key];
+	// 		if (component._isTemplateComponent) return true;
+	// 	}
+	// 	return false;
+	// }
 
 	/**
 	 * Register a template selector
 	 */
-	static registerTemplateSelector = function(selector) {
-		// set SElement init dependencies
-		SElement.registerInitDependency((element) => {
-			return new Promise((resolve, reject) => {
-				const closestTemplate = __closest(element.elm, selector);
-				if (closestTemplate) {
-					__whenAttribute(closestTemplate, 's-template-dirty').then((elm) => {
-						resolve();
-					});
-				} else {
-					resolve();
-				}
-			});
-		});
-	}
+	// static registerTemplateSelector = function(selector) {
+	// 	// set SElement init dependencies
+	// 	SElement.registerInitDependency((element) => {
+	// 		return new Promise((resolve, reject) => {
+	// 			const closestTemplate = __closest(element.elm, selector);
+	// 			if (closestTemplate) {
+	// 				__whenAttribute(closestTemplate, 's-template-dirty').then((elm) => {
+	// 					resolve();
+	// 				});
+	// 			} else {
+	// 				resolve();
+	// 			}
+	// 		});
+	// 	});
+	// }
 
 	/**
 	 * Get the parent template instance
@@ -327,6 +324,9 @@ export default class STemplate {
 		// set the data into instance
 		this.data = data;
 
+		// keep a copy of the original datas
+		this._originalData = Object.assign({}, data);
+
 		// bound some methods into the data
 		this.data.sTemplate = {
 			value : (of) => {
@@ -508,7 +508,7 @@ export default class STemplate {
 		compiled = this._processOutput(compiled);
 
 		// remove all the elements that need to be fully refreshed
-		[].forEach.call(this.dom.querySelectorAll(`[s-template-integration*='"refresh":true"']`), (elm) => {
+		[].forEach.call(this.dom.querySelectorAll(`[s-template-refresh]`), (elm) => {
 			// console.log('refresh', elm)
 			elm.parentNode.removeChild(elm);
 		});
@@ -575,15 +575,11 @@ export default class STemplate {
 				// apply integration on component
 				this._applyIntegrationOnNode(fromNode);
 
-				// keep integration from compile to compile
-				if (fromNode.hasAttribute('s-template-integration')
-					&& ! toNode.hasAttribute('s-template-integration')
-				) {
-					toNode.setAttribute('s-template-integration', fromNode.getAttribute('s-template-integration'));
-				}
-
 				// get the integration from the node
 				const integration = sTemplateIntegrator.getIntegrationFrom(fromNode);
+				if (integration) {
+					sTemplateIntegrator.setIntegrationTo(toNode, integration);
+				}
 
 				// handle the ingnore integration
 				if (typeof(integration.ignore) === 'object') {
@@ -710,12 +706,14 @@ export default class STemplate {
 		if (node._typeOf && node._typeOf instanceof Array) {
 			node._typeOf.forEach((type) => {
 				// do nothing is already integrated
-				if ( node._sTemplateTypesIntegration
-					&& node._sTemplateTypesIntegration[type]) return;
+				// if ( node._sTemplateTypesIntegration
+				// 	&& node._sTemplateTypesIntegration[type]) return;
 				// get the integration function
 				const integrationFn = sTemplateIntegrator._componentsIntegrationFnStack[type];
 				if (integrationFn) {
-					integrationFn(node._sInstance || node);
+					integrationFn.forEach((fn) => {
+						fn(node._sInstance || node);
+					});
 				}
 				// set as integrated
 				node._sTemplateTypesIntegration[type] = true;
@@ -733,15 +731,6 @@ export default class STemplate {
 		const model = element.getAttribute('s-template-model');
 
 		// get the value from the element
-		// if it is a select element, get the value from the element.value
-		// property instead of the value attribute
-		// cause the value attribute in multiple select does not mean
-		// anything...
-		// let value = element.getAttribute('value');
-		// if (element.tagName.toLowerCase() === 'select') {
-		// 	value = element.value;
-		// }
-		// let value = element.value || element.getAttribute('value');
 		let value = __autoCast(element.value);
 
 		// try to get into data
@@ -760,6 +749,9 @@ export default class STemplate {
 			this.data[model] = this._modelValuesStack[idx];
 		} else if (value !== undefined) {
 			this.data[model] = value;
+		} else if (this._originalData[model]) {
+			// reset the data to his original value
+			this.data[model] = this._originalData[model];
 		} else {
 			this.data[model] = null;
 		}
@@ -825,12 +817,14 @@ export default class STemplate {
 
 			// set the initial value coming from the model
 			elm.value = htmlVal;
-			if (htmlVal === null || htmlVal === undefined) {
-				// elm.removeAttribute('value');
+
+			// dispatch a change event if the value has been updated from last render
+			if (htmlVal === null || htmlVal === undefined || elm._sTemplateLastRenderValue !== elm.value) {
 				__dispatchEvent(elm, 'change');
-			} else {
-				// elm.setAttribute('value', htmlVal);
 			}
+
+			// save the value from render to render
+			elm._sTemplateLastRenderValue = elm.value;
 		});
 	}
 

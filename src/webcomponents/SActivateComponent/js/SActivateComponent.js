@@ -102,7 +102,6 @@ export default class SActivateComponent extends SAnchorWebComponent {
 			this.addEventListener(unactivate_trigger, this._onElmUnactivate.bind(this));
 			if (unactivate_trigger == 'mouseleave' || unactivate_trigger == 'mouseout') {
 				[].forEach.call(this._sActivateTargets, (target) => {
-					console.log('mouseenter', target);
 					target.addEventListener('mouseenter', this._onTargetMouseEnter.bind(this));
 					target.addEventListener(unactivate_trigger, this._onTargetUnactivate.bind(this));
 				});

@@ -1,84 +1,73 @@
-/*
- * Sugar-activate.js
-#
- * This little js file allow you to detect when an element has been inserted in the page in conjunction with the scss mixin
-#
- * @author   Olivier Bossel <olivier.bossel@gmail.com>
- * @created  20.01.16
- * @updated  20.01.16
- * @version  1.0.0
- */
-import SComponent from '../../../js/core/SComponent'
+import { mix } from 'mixwith'
+import SWebComponentMixin from '../../../js/core/SWebComponentMixin'
 import __next from '../../../js/dom/next'
 import __previous from '../../../js/dom/previous'
 import __offset from '../../../js/dom/offset'
+import __offsetParent from '../../../js/dom/offsetParent'
 import __scrollTop from '../../../js/dom/scrollTop'
 import __uniqid from '../../../js/utils/uniqid'
 import __insertAfter from '../../../js/dom/insertAfter'
 import __dispatchEvent from '../../../js/dom/dispatchEvent'
 import SEvent from '../../../js/classes/SEvent'
-import __mutationObservable from '../../../js/dom/mutationObservable'
+import __style from '../../../js/dom/style'
 import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
 import __querySelectorLive from '../../../js/dom/querySelectorLive'
 
 require('../../../js/utils/rxjs/operators/groupByTimeout');
 
-// Select
-class SSelectComponent extends SComponent {
+export default class SSelectComponent extends mix(HTMLSelectElement).with(SWebComponentMixin) {
 
 	/**
-	 * Constructor
+	 * Default props
+	 * @definition 		SWebComponent.defaultProps
 	 */
-	constructor(elm, settings = {}, name = 'sSelect') {
-		super(elm, {
+	static get defaultProps() {
+		return {
 			onOpen : null,
 			onClose : null,
 			search : true,
+			resetAllowed : true,
 			searchPlaceholder : 'Search...',
 			internalSearch : true,
 			minCharactersForSearch : 3,
-			screenMargin : 50,
-			...settings
-		}, name);
+			screenMargin : 50
+		}
 	}
 
 	/**
-	 * Init the component
+	 * Mount component
+	 * @definition 		SWebComponent.componentMount
 	 */
-	_init() {
-		// init component
-		super._init();
+	componentMount() {
+		super.componentMount();
 
 		// utils variables
 		this._openOnFocus = false;
 		this._currentActiveOption = null; // save the current keyboard selected item
 
-		// generate a custom id
-		this.id = __uniqid();
-
 		// build html structure
 		this._buildHTML();
 
 		// display or not the search
-		if ( ! this.settings.search) {
-			this.search_container.style.position = 'absolute';
-			this.search_container.style.left = '-120vw';
+		if ( ! this.props.search) {
+			this._searchContainerElm.style.position = 'absolute';
+			this._searchContainerElm.style.left = '-120vw';
 		}
 
 		// make sure when we click that we focus on the search field
-		this.container.addEventListener('click', (e) => {
-			if (this.settings.search) {
-				this.search_field.focus();
+		this._containerElm.addEventListener('click', (e) => {
+			if (this.props.search) {
+				this._searchFieldElm.focus();
 			}
 		});
 
 		// prevent default behavior on click in options container
-		this.options_container.addEventListener('click', (e) => {
+		this.optionsContainerElm.addEventListener('click', (e) => {
 			e.preventDefault();
 		});
 
 		// open on click
-		this.container.addEventListener('click', (e) => {
+		this._containerElm.addEventListener('click', (e) => {
 			// do not open when the click is on an option
 			if (this.hasComponentClass(e.target, 'option')) return;
 			// open
@@ -88,7 +77,7 @@ class SSelectComponent extends SComponent {
 		});
 
 		// prevent scroll into the options
-		this.options_container.addEventListener('mousewheel', (ev) => {
+		this.optionsContainerElm.addEventListener('mousewheel', (ev) => {
 			let _this = ev.currentTarget;
 			let scrollTop = _this.scrollTop;
 			let scrollHeight = _this.scrollHeight;
@@ -128,14 +117,14 @@ class SSelectComponent extends SComponent {
 		let _onDocumentClick = (e) => {
 			this._onDocumentClick(e);
 		}
-		this.elm.addEventListener('open', (e) => {
+		this.addEventListener('open', (e) => {
 			document.addEventListener('keyup', _onKeyUpFn);
 			document.addEventListener('keydown', _onKeyDownFn);
 			document.addEventListener('click', _onDocumentClick);
 			window.addEventListener('scroll', _onScrollResizeFn);
 			window.addEventListener('resize', _onScrollResizeFn);
 		});
-		this.elm.addEventListener('close', (e) => {
+		this.addEventListener('close', (e) => {
 			document.removeEventListener('keyup', _onKeyUpFn);
 			document.removeEventListener('keydown', _onKeyDownFn);
 			document.removeEventListener('click', _onDocumentClick);
@@ -145,12 +134,12 @@ class SSelectComponent extends SComponent {
 
 		// listen for change on base select
 		// to set the selected items
-		this.elm.addEventListener('change', (e) => {
+		this.addEventListener('change', (e) => {
 			this._setSelected();
 		});
 
 		// listen for focus in search field to activate the field
-		this.search_field.addEventListener('focus', (e) => {
+		this._searchFieldElm.addEventListener('focus', (e) => {
 			this._openOnFocus = true;
 			this.open();
 			setTimeout(() => {
@@ -159,28 +148,28 @@ class SSelectComponent extends SComponent {
 		});
 
 		// listen for keyup on search field
-		let internalSearch = this.settings.internalSearch;
-		let search = this.settings.search;
+		let internalSearch = this.props.internalSearch;
+		let search = this.props.search;
 		const searchFieldFn = (e) => {
 			// trigger custom event
 			let event = new SEvent('search');
-			this.elm.dispatchEvent(event);
+			this.dispatchEvent(event);
 			// on search callback
-			let onSearch = this.settings.onSearch;
+			let onSearch = this.props.onSearch;
 			if (onSearch) onSearch(e.target.value);
 			// check if internal search
 			this._search();
 		}
 		if (internalSearch && search) {
-			this.search_field.addEventListener('keyup', searchFieldFn);
-			this.search_field.addEventListener('search', searchFieldFn);
+			this._searchFieldElm.addEventListener('keyup', searchFieldFn);
+			this._searchFieldElm.addEventListener('search', searchFieldFn);
 		}
 
 		// observe all changes into the select
 		// to refresh our custom one
 		let removedTimeout = null;
 		this._refreshObserver = __querySelectorLive('option, optgroup', {
-			rootNode : this.elm,
+			rootNode : this,
 			onNodeRemoved : (node) => {
 				clearTimeout(removedTimeout);
 				removedTimeout = setTimeout(() => {
@@ -193,6 +182,19 @@ class SSelectComponent extends SComponent {
 
 		// first refresh
 		this.refresh();
+
+		// hide the select
+		this._hideRealSelect();
+		// append the element right after the real select
+		__insertAfter(this._containerElm, this);
+	}
+
+	/**
+	 * Component will receive prop
+	 * @definition 		SWebComponent.componentWillReceiveProp
+	 */
+	componentWillReceiveProp(name, newVal, oldVal) {
+
 	}
 
 	/**
@@ -206,66 +208,15 @@ class SSelectComponent extends SComponent {
 	}
 
 	/**
-	 * disable
-	 * When the component is disabled
-	 */
-	disable() {
-		// disable in parent class
-		super.disable();
-		// show the select
-		this._showRealSelect();
-		// remove the container
-		if (this.container.parentNode) {
-			this.container.parentNode.removeChild(this.container);
-		}
-	}
-
-	/**
-	 * enable
-	 * When the component is enabled
-	 */
-	enable() {
-		// enable in parent class
-		super.enable();
-		// hide the select
-		this._hideRealSelect();
-		// append the element right after the real select
-		__insertAfter(this.container, this.elm);
-	}
-
-	/**
-	 * onRemoved
-	 */
-	_onRemoved() {
-		// remove the container from the dom
-		if (this.container.parentNode) {
-			this.container.parentNode.removeChild(this.container);
-		}
-		// parent method
-		super._onRemoved();
-	}
-
-	/**
-	 * onAdded
-	 */
-	_onAdded() {
-		// parent method
-		super._onAdded();
-
-		// append the element right after the real select
-		__insertAfter(this.container, this.elm);
-	}
-
-	/**
 	 * Search
 	 */
 	_search() {
 		// loop on each options
-		[].forEach.call(this.options_container.querySelectorAll(this.componentSelector('option')), (option) => {
+		[].forEach.call(this.optionsContainerElm.querySelectorAll(this.componentSelector('option')), (option) => {
 			// check if is a value in the search field
-			if (this.search_field.value && this.search_field.value.length >= this.settings.minCharactersForSearch) {
+			if (this._searchFieldElm.value && this._searchFieldElm.value.length >= this.props.minCharactersForSearch) {
 				// check if we find the text in the option
-				let regexp = new RegExp("(" + this.search_field.value + ")(?!([^<]+)?>)",'gi');
+				let regexp = new RegExp("(" + this._searchFieldElm.value + ")(?!([^<]+)?>)",'gi');
 				// search the tokens in html
 				let replace = option._s_innerHTML.replace(regexp, `<span class="${this.componentClassName('search-result')}">$1</span>`);
 				if (option._s_innerHTML.match(regexp)) {
@@ -299,7 +250,7 @@ class SSelectComponent extends SComponent {
 	 * When the user click outside of the select
 	 */
 	_onDocumentClick(e) {
-		if ( ! this.container.contains(e.target)) {
+		if ( ! this._containerElm.contains(e.target)) {
 			this.close();
 		}
 	}
@@ -332,7 +283,7 @@ class SSelectComponent extends SComponent {
 				e.preventDefault();
 			break;
 			case 8: // backspace
-				if (this.search_field.focus && this.search_field.value == '') {
+				if (this._searchFieldElm.focus && this._searchFieldElm.value == '') {
 					// remove the last item
 					this.removeLast();
 				}
@@ -351,15 +302,22 @@ class SSelectComponent extends SComponent {
 		}
 		// check if already an item is selected
 		if ( ! this._currentActiveOption) {
-			this._currentActiveOption = this.options_container.querySelector(`${this.componentSelector('option')}:not(${this.componentSelector('option', 'disabled')}):not(${this.componentSelector('option', 'hidden')}):first-child`);
+			this._currentActiveOption = this.optionsContainerElm.querySelector(`${this.componentSelector('option')}:not(${this.componentSelector('option', 'disabled')}):not(${this.componentSelector('option', 'hidden')}):first-child`);
 		} else {
 			// try to get the next sibling
-			this._currentActiveOption = __next(this._currentActiveOption, `${this.componentSelector('option')}:not(${this.componentSelector('option', 'disabled')}):not(${this.componentSelector('option', 'hidden')})`);
+			const next = __next(this._currentActiveOption, `${this.componentSelector('option')}:not(${this.componentSelector('option', 'disabled')}):not(${this.componentSelector('option', 'hidden')})`);
+			if (next) this._currentActiveOption = next;
 		}
 		// activate the element
 		if (this._currentActiveOption) {
 			this.addComponentClass(this._currentActiveOption, 'option', null, 'active');
 			this._currentActiveOption.classList.add('active');
+			// scroll view
+			const currentScroll = this._currentActiveOption.parentNode.scrollTop;
+			const optionHeight = this._currentActiveOption.offsetHeight;
+			if (currentScroll + optionHeight <= this._currentActiveOption.parentNode.scrollHeight) {
+				this._currentActiveOption.parentNode.scrollTop += optionHeight;
+			}
 		}
 	}
 
@@ -374,15 +332,22 @@ class SSelectComponent extends SComponent {
 		}
 		// check if already an item is selected
 		if ( ! this._currentActiveOption) {
-			this._currentActiveOption = this.options_container.querySelector(`${this.componentSelector('option')}:not(${this.componentSelector('option', 'disabled')}):not(${this.componentSelector('option', 'hidden')}):last-child`);
+			this._currentActiveOption = this.optionsContainerElm.querySelector(`${this.componentSelector('option')}:not(${this.componentSelector('option', 'disabled')}):not(${this.componentSelector('option', 'hidden')}):last-child`);
 		} else {
 			// try to get the next sibling
-			this._currentActiveOption = __previous(this._currentActiveOption, `${this.componentSelector('option')}:not(${this.componentSelector('option', 'disabled')}):not(${this.componentSelector('option', 'hidden')})`);
+			const previous = __previous(this._currentActiveOption, `${this.componentSelector('option')}:not(${this.componentSelector('option', 'disabled')}):not(${this.componentSelector('option', 'hidden')})`);
+			if (previous) this._currentActiveOption = previous;
 		}
 		// activate the element
 		if (this._currentActiveOption) {
 			this.addComponentClass(this._currentActiveOption, 'option', null, 'active');
 			this._currentActiveOption.classList.add('active');
+			// scroll to item
+			const currentScroll = this._currentActiveOption.parentNode.scrollTop;
+			const optionHeight = this._currentActiveOption.offsetHeight;
+			if (currentScroll - optionHeight >= 0) {
+				this._currentActiveOption.parentNode.scrollTop -= optionHeight;
+			}
 		}
 	}
 
@@ -402,11 +367,11 @@ class SSelectComponent extends SComponent {
 	_buildHTML() {
 
 		let container = document.createElement('div');
-		container.setAttribute('class', this.elm.getAttribute('class'));
+		container.setAttribute('class', this.getAttribute('class'));
 		this.addComponentClass(container);
 
 		// multiple class
-		if (this.elm.getAttribute('multiple') != null) {
+		if (this.getAttribute('multiple') != null) {
 			this.addComponentClass(container, null, 'multiple');
 		}
 
@@ -430,8 +395,20 @@ class SSelectComponent extends SComponent {
 		if (search_field.type != 'search') {
 			search_field.type = 'text';
 		}
-		search_field.setAttribute('placeholder', this.settings.searchPlaceholder);
+		search_field.setAttribute('placeholder', this.props.searchPlaceholder);
 		this.addComponentClass(search_field, 'search-field');
+
+		// reset
+		let resetElm = null;
+		if (this.props.resetAllowed) {
+			resetElm = document.createElement('button');
+			resetElm.setAttribute('type', 'button');
+			resetElm.addEventListener('click', (e) => {
+				e.preventDefault();
+				this.reset();
+			});
+			this.addComponentClass(resetElm, 'reset');
+		}
 
 		// options
 		let options_container = document.createElement('div');
@@ -445,38 +422,40 @@ class SSelectComponent extends SComponent {
 
 		// container.appendChild(open_checkbox);
 		container.appendChild(selection_container);
+		if (resetElm) {
+			container.appendChild(resetElm);
+		}
 		container.appendChild(dropdown);
 
 		// hide the real select
 		this._hideRealSelect();
 
 		// save into object
-		this.container = container;
-		this.dropdown = dropdown;
-		this.search_container = search_container;
-		this.selection_container = selection_container;
-		this.search_field = search_field;
-		this.options_container = options_container;
+		this._containerElm = container;
+		this._dropdownElm = dropdown;
+		this._searchContainerElm = search_container;
+		this.selectionContainerElm = selection_container;
+		this._searchFieldElm = search_field;
+		this.optionsContainerElm = options_container;
 	}
 
 	/**
 	 * Hide the select
 	 */
 	_hideRealSelect() {
-		this.elm.style.position = 'absolute';
-		this.elm.style.left = '-120vw';
-		this.elm.style.opacity = 0;
-		this.elm.tabIndex = -1;
-	}
-
-	/**
-	 * Show the select
-	 */
-	_showRealSelect() {
-		this.elm.style.position = null;
-		this.elm.style.left = null;
-		this.elm.style.opacity = 1;
-		this.elm.tabIndex = null;
+		// keep it in the viewport to avoid issues
+		// when trying to get the select that is in the viewport,
+		// etc...
+		__style(this, {
+			position : 'absolute',
+			width : 0,
+			height : 0,
+			padding : 0,
+			opacity : .01,
+			pointerEvents : 'none',
+			zIndex : -1
+		});
+		this.tabIndex = -1;
 	}
 
 	/**
@@ -499,11 +478,11 @@ class SSelectComponent extends SComponent {
 			// 	_s_option._s_select_source_option.selected = ! _s_option._s_select_source_option.selected;
 			// } else if (e.shiftKey) {
 			// 	// get the index of the last selected option
-			// 	if (this.elm.options.selectedIndex) {
+			// 	if (this.options.selectedIndex) {
 			// 		// find the current option position
 			// 		let current_option_idx = 0,
 			// 			found = false;
-			// 		[].forEach.call(this.elm.options, (opt) => {
+			// 		[].forEach.call(this.options, (opt) => {
 			// 			if ( ! found && opt != _s_option._s_select_source_option) {
 			// 				current_option_idx++;
 			// 			} else {
@@ -512,7 +491,7 @@ class SSelectComponent extends SComponent {
 			// 		});
 
 			// 		// select all the options inbetween
-			// 		let first = this.elm.options.selectedIndex;
+			// 		let first = this.options.selectedIndex;
 			// 		let last = current_option_idx;
 			// 		if (first > last) {
 			// 			let _last = last;
@@ -520,8 +499,8 @@ class SSelectComponent extends SComponent {
 			// 			first = _last;
 			// 		}
 			// 		for (let i = first; i <= last; i++) {
-			// 			if ( ! this.elm.options[i].disabled) {
-			// 				this.elm.options[i].selected = true;
+			// 			if ( ! this.options[i].disabled) {
+			// 				this.options[i].selected = true;
 			// 			}
 			// 		}
 			// 	} else {
@@ -530,7 +509,7 @@ class SSelectComponent extends SComponent {
 			// 	}
 			// } else {
 			// 	// unactive all the options
-			// 	[].forEach.call(this.elm.options, (opt) => {
+			// 	[].forEach.call(this.options, (opt) => {
 			// 		opt.selected = false;
 			// 	});
 			// 	// activate the item
@@ -539,7 +518,7 @@ class SSelectComponent extends SComponent {
 		}
 
 		// trigger change event
-		__dispatchEvent(this.elm, 'change');
+		__dispatchEvent(this, 'change');
 	}
 
 	/**
@@ -548,24 +527,24 @@ class SSelectComponent extends SComponent {
 	 _setSelected() {
 	 	// loop on selected option to activate them
 	 	let areSomeSelectedItems = false;
-	 	[].forEach.call(this.elm.options, (option) => {
+	 	[].forEach.call(this.options, (option) => {
 	 		// apply the active class
 	 		if (option._s_select_option) {
 	 			if (option.selected) {
 	 				if (option.innerHTML != '') {
 	 					areSomeSelectedItems = true;
 	 				}
-					this.addComponentClass(option, 'option', null, 'selected');
+					this.addComponentClass(option._s_select_option, 'option', null, 'selected');
 	 			} else {
-					this.removeComponentClass(option, 'option', null, 'selected');
+					this.removeComponentClass(option._s_select_option, 'option', null, 'selected');
 	 			}
 	 		}
 	 	});
 	 	// set the selection
-	 	this.selection_container.innerHTML = '';
+	 	this.selectionContainerElm.innerHTML = '';
 	 	if (this.isMultiple()) {
 	 		// loop on each selected items
-	 		[].forEach.call(this.elm.options, (option) => {
+	 		[].forEach.call(this.options, (option) => {
 	 			if (option.selected) {
 	 				// get the content
 	 				let content = option.innerHTML;
@@ -579,42 +558,42 @@ class SSelectComponent extends SComponent {
 	 					option.selected = false;
 	 					// trigger change event
 						let event = new SEvent('change');
-						this.elm.dispatchEvent(event);
+						this.dispatchEvent(event);
 	 				});
 	 				tag.addEventListener('dblclick', (e) => {
 	 					option.selected = false;
 	 					// trigger change event
 						let event = new SEvent('change');
-						this.elm.dispatchEvent(event);
+						this.dispatchEvent(event);
 	 				})
 	 				tag.appendChild(close);
-	 				this.selection_container.appendChild(tag);
+	 				this.selectionContainerElm.appendChild(tag);
 	 			}
 	 		});
 	 	} else {
 	 		// get the selected one
-	 		let selected_idx = this.elm.options.selectedIndex;
+	 		let selected_idx = this.options.selectedIndex;
 	 		if (selected_idx != -1) {
 	 			// set the selected
 	 			let selection = document.createElement('div');
 				this.addComponentClass(selection, 'selection');
-	 			selection.innerHTML = this.elm.options[selected_idx].innerHTML;
-	 			this.selection_container.appendChild(selection);
+	 			selection.innerHTML = this.options[selected_idx].innerHTML;
+	 			this.selectionContainerElm.appendChild(selection);
 	 		}
 	 	}
 
 	 	if ( ! areSomeSelectedItems) {
-	 		let placeholder = this.elm.getAttribute('placeholder');
+	 		let placeholder = this.getAttribute('placeholder');
 	 		if (placeholder) {
 	 			let selection = document.createElement('div');
 				this.addComponentClass(selection, 'selection');
 	 			selection.classList.add('input--placeholder');
 	 			selection.innerHTML = placeholder;
-				this.addComponentClass(this.container, null, 'placeholder');
-	 			this.selection_container.appendChild(selection);
+				this.addComponentClass(this._containerElm, null, 'placeholder');
+	 			this.selectionContainerElm.appendChild(selection);
 	 		}
 	 	} else {
-			this.removeComponentClass(this.container, null, 'placeholder');
+			this.removeComponentClass(this._containerElm, null, 'placeholder');
 	 	}
 	 }
 
@@ -623,32 +602,32 @@ class SSelectComponent extends SComponent {
 	 */
 	_setPosition() {
 		// get the position of the container
-		let dropdownOffset = __offset(this.dropdown);
+		let dropdownOffset = __offset(this._dropdownElm);
 		let dropdownTop = dropdownOffset.top - __scrollTop();
-		let containerTop = __offset(this.container).top - __scrollTop();
-		let dropdownFullHeight = this.options_container.scrollHeight + this.search_container.offsetHeight;
-		let optionsFullHeight = this.options_container.scrollHeight;
-		let optionsHeight = this.options_container.offsetHeight;
-		let screenMargin = this.settings.screenMargin;
-		let optionsMinHeight = parseInt(window.getComputedStyle(this.options_container).getPropertyValue('min-height'));
+		let containerTop = __offset(this._containerElm).top - __scrollTop();
+		let dropdownFullHeight = this.optionsContainerElm.scrollHeight + this._searchContainerElm.offsetHeight;
+		let optionsFullHeight = this.optionsContainerElm.scrollHeight;
+		let optionsHeight = this.optionsContainerElm.offsetHeight;
+		let screenMargin = this.props.screenMargin;
+		let optionsMinHeight = parseInt(window.getComputedStyle(this.optionsContainerElm).getPropertyValue('min-height'));
 
 		// check if the min-height has been reached
-		if ( containerTop + this.container.offsetHeight + this.search_container.offsetHeight + optionsMinHeight + screenMargin > window.innerHeight) {
+		if ( containerTop + this._containerElm.offsetHeight + this._searchContainerElm.offsetHeight + optionsMinHeight + screenMargin > window.innerHeight) {
 		// if (optionsHeight < optionsFullHeight && optionsHeight <= optionsMinHeight ) {
-			this.addComponentClass(this.container, null, 'dropup');
+			this.addComponentClass(this._containerElm, null, 'dropup');
 			// console.log(top + h, window.innerHeight);
 			if (containerTop - dropdownFullHeight - screenMargin < 0) {
-				this.options_container.style.height = window.innerHeight - (window.innerHeight - containerTop) - this.search_container.offsetHeight - screenMargin + 'px';
+				this.optionsContainerElm.style.height = window.innerHeight - (window.innerHeight - containerTop) - this._searchContainerElm.offsetHeight - screenMargin + 'px';
 			} else {
-				this.options_container.style.height = 'auto';
+				this.optionsContainerElm.style.height = 'auto';
 			}
 		} else {
-			this.removeComponentClass(this.container, null, 'dropup');
+			this.removeComponentClass(this._containerElm, null, 'dropup');
 			// console.log(top + h, window.innerHeight);
 			if (dropdownTop + dropdownFullHeight + screenMargin > window.innerHeight) {
-				this.options_container.style.height = window.innerHeight - dropdownTop - this.search_container.offsetHeight - screenMargin + 'px';
+				this.optionsContainerElm.style.height = window.innerHeight - dropdownTop - this._searchContainerElm.offsetHeight - screenMargin + 'px';
 			} else {
-				this.options_container.style.height = 'auto';
+				this.optionsContainerElm.style.height = 'auto';
 			}
 		}
 	}
@@ -680,7 +659,7 @@ class SSelectComponent extends SComponent {
 		}
 
 		// append new choice
-		this.options_container.appendChild(option);
+		this.optionsContainerElm.appendChild(option);
 	}
 
 	/**
@@ -752,7 +731,7 @@ class SSelectComponent extends SComponent {
 		});
 
 		// append new choice
-		this.options_container.appendChild(option);
+		this.optionsContainerElm.appendChild(option);
 	}
 
 	/**
@@ -760,21 +739,21 @@ class SSelectComponent extends SComponent {
 	 */
 	refresh() {
 		// empty the options
-		let options_parent = this.options_container.parentNode;
-		options_parent.removeChild(this.options_container);
-		this.options_container.innerHTML = '';
+		let options_parent = this.optionsContainerElm.parentNode;
+		options_parent.removeChild(this.optionsContainerElm);
+		this.optionsContainerElm.innerHTML = '';
 
 		// create the options tree
-		[].forEach.call(this.elm.querySelectorAll(':scope > option, :scope > optgroup'), (elm) => {
+		[].forEach.call(this.querySelectorAll(':scope > option, :scope > optgroup'), (elm) => {
 			// handle option
 			this._handleOption(elm);
-		}, this.elm);
+		}, this);
 
 		// set selected the first time
 		this._setSelected();
 
 		// append again in dom the options
-		options_parent.appendChild(this.options_container);
+		options_parent.appendChild(this.optionsContainerElm);
 
 		// set position
 		if (this.isOpened()) {
@@ -795,11 +774,21 @@ class SSelectComponent extends SComponent {
 	}
 
 	/**
+	 * Reset the select
+	 */
+	reset() {
+		this.selectedIndex = -1;
+		this.refresh();
+		__dispatchEvent(this, 'change');
+		__dispatchEvent(this, 'reset');
+	}
+
+	/**
 	 * Remove last
 	 */
 	removeLast() {
 		let last = null;
-		[].forEach.call(this.elm.options, (option) => {
+		[].forEach.call(this.options, (option) => {
 			if (option.selected) {
 				last = option;
 			}
@@ -809,43 +798,29 @@ class SSelectComponent extends SComponent {
 			last.selected = false;
 			// trigger change event
 			let event = new SEvent('change');
-			this.elm.dispatchEvent(event);
+			this.dispatchEvent(event);
 		}
-	}
-
-	/**
-	 * Add event listener
-	 */
-	addEventListener(event, callback, capture) {
-		this.elm.addEventListener(event, callback, capture);
-	}
-
-	/**
-	 * Remove event listener
-	 */
-	removeEventListener(event, callback, capture) {
-		this.elm.removeEventListener(event, callback, capture);
 	}
 
 	/**
 	 * Is multiple
 	 */
 	isMultiple() {
-		return this.elm.hasAttribute('multiple');
+		return this.hasAttribute('multiple');
 	}
 
 	/**
 	 * Is opened
 	 */
 	isOpened() {
-		return this.hasComponentClass(this.container, null, null, 'opened');
+		return this.hasComponentClass(this._containerElm, null, null, 'opened');
 	}
 
 	/**
 	 * Close
 	 */
 	close() {
-		this.removeComponentClass(this.container, null, null, 'opened');
+		this.removeComponentClass(this._containerElm, null, null, 'opened');
 
 		// unactivate the option if one exist
 		if (this._currentActiveOption) {
@@ -853,13 +828,13 @@ class SSelectComponent extends SComponent {
 		}
 		// remove the dropup class
 		this._clearDropupTimeout = setTimeout(() => {
-			this.removeComponentClass(this.container, null, 'dropup');
+			this.removeComponentClass(this._containerElm, null, 'dropup');
 		},500);
 		// dispatch close event
 		let event = new SEvent('close');
-		this.elm.dispatchEvent(event);
+		this.dispatchEvent(event);
 		// handle onClose callback
-		let onClose = this.settings.onClose;
+		let onClose = this.props.onClose;
 		if (onClose) { onClose(); }
 	}
 
@@ -867,30 +842,23 @@ class SSelectComponent extends SComponent {
 	 * Close
 	 */
 	open() {
-		this.addComponentClass(this.container, null, null, 'opened');
+		this.addComponentClass(this._containerElm, null, null, 'opened');
 		// set position
 		clearTimeout(this._clearDropupTimeout);
 		this._setPosition();
 		// dispatch open event
 		let event = new SEvent('open');
-		this.elm.dispatchEvent(event);
+		this.dispatchEvent(event);
 		// manage onOpen callback
-		let onOpen = this.settings.onOpen;
+		let onOpen = this.props.onOpen;
 		if (onOpen) { onOpen(); }
 	}
-
 }
 
 // STemplate integration
 sTemplateIntegrator.registerComponentIntegration('SSelectComponent', (component) => {
-	sTemplateIntegrator.ignore(component.elm, {
+	sTemplateIntegrator.ignore(component._containerElm);
+	sTemplateIntegrator.ignore(component, {
 		style : true
 	});
 });
-
-// expose in window.sugar
-if (window.sugar == null) { window.sugar = {}; }
-window.sugar.SSelectComponent = SSelectComponent;
-
-// export modules
-export default SSelectComponent;

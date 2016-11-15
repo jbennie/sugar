@@ -1,6 +1,7 @@
 import { Mixin } from 'mixwith'
 import __autoCast from '../utils/string/autoCast'
 import __camelize from '../utils/string/camelize'
+import __uniqid from '../utils/uniqid'
 import __upperFirst from '../utils/string/upperFirst'
 import sSettings from './sSettings'
 require('webcomponents.js/webcomponents-lite');
@@ -9,10 +10,14 @@ import __constructorName from '../utils/objects/constructorName'
 import __dispatchEvent from '../dom/dispatchEvent'
 import __whenInViewport from '../dom/whenInViewport'
 import __whenVisible from '../dom/whenVisible'
+import __matches from '../dom/matches'
+import __closest from '../dom/closest'
+import __whenAttribute from '../dom/whenAttribute'
 
 if ( ! window.sugar) window.sugar = {};
 if ( ! window.sugar._webComponentsStack) window.sugar._webComponentsStack = {};
 if ( ! window.sugar._webComponentsDefaultPropsStack) window.sugar._webComponentsDefaultPropsStack = {};
+if ( ! window.sugar._templateWebComponents) window.sugar._templateWebComponents = {};
 
 export default Mixin((superclass) => class extends superclass {
 
@@ -22,19 +27,12 @@ export default Mixin((superclass) => class extends superclass {
 	 * @param 			{SWebComponent} 	component 	The component class
 	 */
 	static define(name, component, ext = null) {
-		// setTimeout(() => {
-			const componentName = __upperFirst(__camelize(name));
-			// console.log('name', componentName);
-			// const constructorName = __constructorName(component);
-			// if ( ! constructorName) {
-			// 	throw `You component names ${name} can not be defined with the component class passed ${component}`;
-			// }
-			window.sugar._webComponentsStack[componentName] = component;
-			return document.registerElement(name, {
-				prototype : component.prototype,
-				extends : ext
-			});
-		// });
+		const componentName = __upperFirst(__camelize(name));
+		window.sugar._webComponentsStack[componentName] = component;
+		return document.registerElement(name, {
+			prototype : component.prototype,
+			extends : ext
+		});
 	}
 
 	/**
@@ -60,9 +58,9 @@ export default Mixin((superclass) => class extends superclass {
 	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
 	 */
 	static get defaultProps() {
-  	  return {
-  		  mountWhen : null
-  	  };
+	  return {
+		  mountWhen : null
+	  };
 	}
 
 	static setDefaultProps(props, tagname = null) {
@@ -122,7 +120,7 @@ export default Mixin((superclass) => class extends superclass {
 	 * Return an array of props to set on the dom
 	 */
 	static get physicalProps() {
-  	  return [];
+	  return [];
 	}
 
 	/**
@@ -130,19 +128,19 @@ export default Mixin((superclass) => class extends superclass {
 	 * @return 		{Object} 			The physical props array
 	 */
 	get physicalProps() {
-  	  let props = window.sugar._webComponentsStack[this._componentName].physicalProps;
-  	  let comp = window.sugar._webComponentsStack[this._componentName];
-  	  while(comp) {
-  		  if (comp.physicalProps) {
-  			  comp.physicalProps.forEach((prop) => {
-  				  if (props.indexOf(prop) === -1) {
-  					  props.push(prop);
-  				  }
-  			  });
-  		  }
-  		  comp = Object.getPrototypeOf(comp);
-  	  }
-  	  return props;
+	  let props = window.sugar._webComponentsStack[this._componentName].physicalProps;
+	  let comp = window.sugar._webComponentsStack[this._componentName];
+	  while(comp) {
+		  if (comp.physicalProps) {
+			  comp.physicalProps.forEach((prop) => {
+				  if (props.indexOf(prop) === -1) {
+					  props.push(prop);
+				  }
+			  });
+		  }
+		  comp = Object.getPrototypeOf(comp);
+	  }
+	  return props;
 	}
 
 	/**
@@ -176,7 +174,30 @@ export default Mixin((superclass) => class extends superclass {
 	 * Return an array of props to set on the dom
 	 */
 	static get mountDependencies() {
-  	  return [];
+		// return [];
+	  return [function() {
+		 return new Promise((resolve, reject) => {
+			 let isTemplate = false;
+			 console.log(this._typeOf);
+			//  let comp = Object.getPrototypeOf(this);
+ 		// 	while(comp) {
+ 		// 		if (__constructorName(comp) === 'STemplateWebComponent') {
+ 		// 			isTemplate = true;
+			// 		break;
+ 		// 		}
+ 		// 		comp = Object.getPrototypeOf(comp);
+ 		// 	}
+			//
+			// if (isTemplate) {
+			// 	resolve();
+			// } else {
+			// 	setTimeout(() => {
+			// 		resolve();
+			// 	});
+			// }
+			resolve();
+		 });
+	  }];
 	}
 
 	/**
@@ -184,23 +205,23 @@ export default Mixin((superclass) => class extends superclass {
 	 * @return 		{Object} 			The physical props array
 	 */
 	get mountDependencies() {
-  	  let deps = window.sugar._webComponentsStack[this._componentName].mountDependencies;
-  	  let comp = window.sugar._webComponentsStack[this._componentName];
-  	  while(comp) {
-  		  if (comp.mountDependencies) {
-  			  comp.mountDependencies.forEach((dep) => {
+	  let deps = window.sugar._webComponentsStack[this._componentName].mountDependencies;
+	  let comp = window.sugar._webComponentsStack[this._componentName];
+	  while(comp) {
+		  if (comp.mountDependencies) {
+			  comp.mountDependencies.forEach((dep) => {
 				  if (typeof(dep) === 'function') {
 					  dep = dep.bind(this);
 					  dep = dep();
 				  }
-  				  if (deps.indexOf(dep) === -1) {
-  					  deps.push(dep);
-  				  }
-  			  });
-  		  }
-  		  comp = Object.getPrototypeOf(comp);
-  	  }
-  	  return deps;
+				  if (deps.indexOf(dep) === -1) {
+					  deps.push(dep);
+				  }
+			  });
+		  }
+		  comp = Object.getPrototypeOf(comp);
+	  }
+	  return deps;
 	}
 
 	/**
@@ -219,37 +240,37 @@ export default Mixin((superclass) => class extends superclass {
 	 */
 	componentWillMount() {
 
-  	  // internal properties
-  	  this._nextPropsStack = {};
-  	  this._prevPropsStack = {};
-  	  this._nextPropsTimeout = null;
-  	  this._componentMounted = false;
+	  // internal properties
+	  this._nextPropsStack = {};
+	  this._prevPropsStack = {};
+	  this._nextPropsTimeout = null;
+	  this._componentMounted = false;
 	  this._componentAttached = false;
 
-  	  // set the componentName
-  	  const sourceName = this.getAttribute('is') || this.tagName.toLowerCase()
-  	  this._componentNameDash = sourceName;
-  	  this._componentName = __upperFirst(__camelize(sourceName));
+	  // set the componentName
+	  const sourceName = this.getAttribute('is') || this.tagName.toLowerCase()
+	  this._componentNameDash = sourceName;
+	  this._componentName = __upperFirst(__camelize(sourceName));
 
-  	  // save each instances into the element _sComponents stack
-  	  this._typeOf = [];
-  	  let comp = window.sugar._webComponentsStack[this._componentName];
-  	  while(comp) {
-  		  let funcNameRegex = /function (.{1,})\(/;
-  		  const res = (funcNameRegex).exec(comp.toString());
-  		  if (res && res[1]) {
-  			  if ( this._typeOf.indexOf(res[1]) === -1) {
-  				  this._typeOf.push(res[1]);
-  			  }
-  		  }
-  		  comp = Object.getPrototypeOf(comp);
-  	  }
+	  // save each instances into the element _sComponents stack
+	  this._typeOf = [];
+	  let comp = window.sugar._webComponentsStack[this._componentName];
+	  while(comp) {
+		  let funcNameRegex = /function (.{1,})\(/;
+		  const res = (funcNameRegex).exec(comp.toString());
+		  if (res && res[1]) {
+			  if ( this._typeOf.indexOf(res[1]) === -1) {
+				  this._typeOf.push(res[1]);
+			  }
+		  }
+		  comp = Object.getPrototypeOf(comp);
+	  }
 
-  	  // default props init
-  	  this.props = Object.assign({}, this.defaultProps);
+	  // default props init
+	  this.props = Object.assign({}, this.defaultProps);
 
 	  // compute props
-  	  this._computeProps();
+	  this._computeProps();
 
 	  // check the required props
 	  this.requiredProps.forEach((prop) => {
@@ -346,8 +367,8 @@ export default Mixin((superclass) => class extends superclass {
 	 * When the component is created
 	 */
 	createdCallback() {
-  	  // component will mount
-  	  this.componentWillMount();
+	  // component will mount
+	  this.componentWillMount();
 	}
 
 	/**
@@ -404,8 +425,8 @@ export default Mixin((superclass) => class extends superclass {
 	 * On mouse over
 	 */
 	_onMouseoverComponentMount() {
-  	  this._mountComponent();
-  	  this.removeEventListener('mouseover', this._onMouseoverComponentMount);
+	  this._mountComponent();
+	  this.removeEventListener('mouseover', this._onMouseoverComponentMount);
 	}
 
 	/**
@@ -451,37 +472,42 @@ export default Mixin((superclass) => class extends superclass {
 	 */
 	attributeChangedCallback(attribute, oldVal, newVal) {
 
-  	  const _attribute = attribute;
+		newVal = __autoCast(newVal);
 
-  	  // process the attribute to camelCase
-  	  attribute = __camelize(attribute);
+	  const _attribute = attribute;
+
+	  // process the attribute to camelCase
+	  attribute = __camelize(attribute);
+
+	  // do nothing if the value is already the same
+	  if (this.props[attribute] === newVal) return;
 
 	  // when the prop is false
-  	  // and the element has not this attribute
-  	  // we assume that the prop will stay to false
-  	  if (this.props[attribute] === false
-  		  && ! this.hasAttribute(_attribute)) {
-  		  return;
-  	  }
+	  // and the element has not this attribute
+	  // we assume that the prop will stay to false
+	  if (this.props[attribute] === false
+		  && ! this.hasAttribute(_attribute)) {
+		  return;
+	  }
 
-  	  // if there's no new value but that the element has
-  	  // the attribute on itself, we assume the newVal
-  	  // is equal to true
-  	  if ( ! newVal
+	  // if there's no new value but that the element has
+	  // the attribute on itself, we assume the newVal
+	  // is equal to true
+	  if ( ! newVal
 		  // && ! this.props[attribute]
-  		  && newVal !== 'false'
-  		  && newVal !== 'null'
-  		  && this.hasAttribute(_attribute)
-  	  ) {
+		  && newVal !== 'false'
+		  && newVal !== 'null'
+		  && this.hasAttribute(_attribute)
+	  ) {
 		  this.setProp(attribute, true);
-  		  return;
-  	  }
+		  return;
+	  }
 
-  	  // update the props
-  	  const val = __autoCast(newVal);
+	  // update the props
+	  const val = __autoCast(newVal);
 
-  	  // set the new prop
-  	  this.setProp(attribute, val);
+	  // set the new prop
+	  this.setProp(attribute, val);
 	}
 
 	/**
@@ -494,19 +520,19 @@ export default Mixin((superclass) => class extends superclass {
 	 * @param 		{Mixed} 		data 		Some data to attach to the event
 	 */
 	dispatchComponentEvent(name, data = null) {
-  	  __dispatchEvent(this, name, data);
-  	  __dispatchEvent(this, `${this.tagName.toLowerCase()}.${name}`, data);
+	  __dispatchEvent(this, name, data);
+	  __dispatchEvent(this, `${this.tagName.toLowerCase()}.${name}`, data);
 	}
 
 	/**
 	 * Set properties
 	 */
 	setProps(props = {}) {
-  	  // set each props
-  	  for (let key in props) {
-  		  this.setProp(key, props[key]);
-  	  }
-  	  return this;
+	  // set each props
+	  for (let key in props) {
+		  this.setProp(key, props[key]);
+	  }
+	  return this;
 	}
 
 	/**
@@ -514,70 +540,70 @@ export default Mixin((superclass) => class extends superclass {
 	 */
 	setProp(prop, value) {
 
-  	  // save the oldVal
-  	  const _oldVal = this.props[prop];
+	  // save the oldVal
+	  const _oldVal = this.props[prop];
 
-  	  // stop if same value
-  	  if (_oldVal === value) return;
+	  // stop if same value
+	  if (_oldVal === value) return;
 
-  	  // set the prop
-  	  this.props[prop] = value
+	  // set the prop
+	  this.props[prop] = value
 
-  	  // handle physical props
-  	  this._handlePhysicalProps(prop, value);
+	  // handle physical props
+	  this._handlePhysicalProps(prop, value);
 
-  	  // if the component is not mounted
-  	  // we do nothing here...
-  	  if ( ! this.isComponentMounted()) return;
+	  // if the component is not mounted
+	  // we do nothing here...
+	  if ( ! this.isComponentMounted()) return;
 
-  	  // create the stacks
-  	  this._prevPropsStack[prop] = _oldVal;
-  	  this._nextPropsStack[prop] = value;
+	  // create the stacks
+	  this._prevPropsStack[prop] = _oldVal;
+	  this._nextPropsStack[prop] = value;
 
-  	  // component will receive prop
-  	  if (this.componentWillReceiveProp) {
-  		  this.componentWillReceiveProp(prop, value, _oldVal);
-  	  }
+	  // component will receive prop
+	  if (this.componentWillReceiveProp) {
+		  this.componentWillReceiveProp(prop, value, _oldVal);
+	  }
 
 	  // wait till next frame
 	  fastdom.mutate(() => {
 
-  		  // create array version of each stacks
-  		  const nextPropsArray = [],
-  				prevPropsArray = [];
-  		  for (let key in this._nextPropsStack) {
-  			  const val = this._nextPropsStack[key];
-  			  nextPropsArray.push({
-  				  name : key,
-  				  value : val
-  			  });
-  		  }
-  		  for (let key in this._prevPropsStack) {
-  			  const val = this._prevPropsStack[key];
-  			  prevPropsArray.push({
-  				  name : key,
-  				  value : val
-  			  });
-  		  }
+		  // create array version of each stacks
+		  const nextPropsArray = [],
+				prevPropsArray = [];
+		  for (let key in this._nextPropsStack) {
+			  const val = this._nextPropsStack[key];
+			  nextPropsArray.push({
+				  name : key,
+				  value : val
+			  });
+		  }
+		  for (let key in this._prevPropsStack) {
+			  const val = this._prevPropsStack[key];
+			  prevPropsArray.push({
+				  name : key,
+				  value : val
+			  });
+		  }
 
-  		  // call the will reveiveProps if exist
-  		  if (this.componentWillReceiveProps) {
-  			  this.componentWillReceiveProps(this._nextPropsStack, nextPropsArray);
-  		  }
+		  // call the will reveiveProps if exist
+		  if (this.componentWillReceiveProps) {
+			  this.componentWillReceiveProps(this._nextPropsStack, nextPropsArray);
+		  }
 
-  		  // should component update
-  		  if (this.shouldComponentUpdate && ! this.shouldComponentUpdate(this._nextPropsStack, nextPropsArray)) return;
+		  // should component update
+		  if (this.shouldComponentUpdate && ! this.shouldComponentUpdate(this._nextPropsStack, nextPropsArray)) return;
 
-  		  // component will update
-  		  this.componentWillUpdate(this._nextPropsStack, nextPropsArray);
+		  // component will update
+		  this.componentWillUpdate(this._nextPropsStack, nextPropsArray);
 
-  		  // render the component
-  		  this.render();
+		  // render the component
+		  this.render();
 
-  		  // component did update
-  		  this.componentDidUpdate(this._prevPropsStack, prevPropsArray);
+		  // component did update
+		  this.componentDidUpdate(this._prevPropsStack, prevPropsArray);
 
-  	  });
+	  });
 	}
 
 	/**
@@ -585,7 +611,7 @@ export default Mixin((superclass) => class extends superclass {
 	 * @return 			{Boolean} 			true if mounted, false if not
 	 */
 	isComponentMounted() {
-  	  return this._componentMounted;
+	  return this._componentMounted;
 	}
 
 	/**
@@ -597,7 +623,9 @@ export default Mixin((superclass) => class extends superclass {
 		const physicalProps = this.physicalProps;
 		if (physicalProps.indexOf(prop) !== -1) {
 			// set the prop on the node
-			if (value === false || value === 'null' || ! value) {
+			if (value !== 0
+				&& (value === false || value === 'null' || ! value)
+			) {
 				this.removeAttribute(prop);
 			} else if (typeof(value) === 'object') {
 				this.setAttribute(prop, JSON.stringify(value));
@@ -613,24 +641,24 @@ export default Mixin((superclass) => class extends superclass {
 	 * Compute props by mixing settings with attributes presents on the component
 	 */
 	_computeProps() {
-  	  for (let i=0; i<this.attributes.length; i++) {
-  		  const attr = this.attributes[i];
-  		  if ( ! attr.value) {
-  			  // the attribute has no value but it is present
-  			  // so we assume the prop value is true
-  			  this.props[__camelize(attr.name)] = true
-  			  continue;
-  		  }
-  		  // cast the value
-  		  this.props[__camelize(attr.name)] = __autoCast(attr.value);
-  	  }
+	  for (let i=0; i<this.attributes.length; i++) {
+		  const attr = this.attributes[i];
+		  if ( ! attr.value) {
+			  // the attribute has no value but it is present
+			  // so we assume the prop value is true
+			  this.props[__camelize(attr.name)] = true
+			  continue;
+		  }
+		  // cast the value
+		  this.props[__camelize(attr.name)] = __autoCast(attr.value);
+	  }
 
-  	  // handle physicalProps
-  	  for (let key in this.props) {
-  		  const value = this.props[key];
-  		  // handle physical props
-  		  this._handlePhysicalProps(key, value);
-  	  }
+	  // handle physicalProps
+	  for (let key in this.props) {
+		  const value = this.props[key];
+		  // handle physical props
+		  this._handlePhysicalProps(key, value);
+	  }
 	}
 
 	/**
@@ -643,31 +671,31 @@ export default Mixin((superclass) => class extends superclass {
 	 * @return 	{String} 						The generated class
 	 */
 	componentClassName(element = null, modifier = null, state = null) {
-  	  // if the method is BEM
-  	  let sel = this._componentNameDash;
+	  // if the method is BEM
+	  let sel = this._componentNameDash;
 	  // @TODO : handle the sSettings at component load
-  	  if ( false && sSettings && sSettings.selector.method.toLowerCase() === 'smaccs') {
-  		  if (element) {
-  			  sel += `-${element}`;
-  		  }
-  		  if (modifier) {
-  			  sel += `-${modifier}`;
-  		  }
-  		  if (state) {
-  			  sel += ` is-${state}`;
-  		  }
-  	  } else {
-  		  if (element) {
-  			  sel += `__${element}`;
-  		  }
-  		  if (modifier) {
-  			  sel += `--${modifier}`;
-  		  }
-  		  if (state) {
-  			  sel += `--${state}`;
-  		  }
-  	  }
-  	  return sel;
+	  if ( false && sSettings && sSettings.selector.method.toLowerCase() === 'smaccs') {
+		  if (element) {
+			  sel += `-${element}`;
+		  }
+		  if (modifier) {
+			  sel += `-${modifier}`;
+		  }
+		  if (state) {
+			  sel += ` is-${state}`;
+		  }
+	  } else {
+		  if (element) {
+			  sel += `__${element}`;
+		  }
+		  if (modifier) {
+			  sel += `--${modifier}`;
+		  }
+		  if (state) {
+			  sel += `--${state}`;
+		  }
+	  }
+	  return sel;
 	}
 
 	/**
@@ -678,9 +706,9 @@ export default Mixin((superclass) => class extends superclass {
 	 * @return 	{String} 						The generated class
 	 */
 	componentSelector(element = null, modifier = null, state = null) {
-  	  let sel = this.componentClassName(element, modifier, state);
-  	  sel = `.${sel}`.replace(' ','.');
-  	  return sel;
+	  let sel = this.componentClassName(element, modifier, state);
+	  sel = `.${sel}`.replace(' ','.');
+	  return sel;
 	}
 
 	/**
@@ -693,18 +721,18 @@ export default Mixin((superclass) => class extends superclass {
 	 * @return 	{Boolean} 							The check result
 	 */
 	hasComponentClass(elm, element = null, modifier = null, state = null) {
-  	  // generate the class
-  	  const cls = this.componentSelector(element, modifier, state);
-  	  const _cls = cls.split('.');
-  	  for (let i=0; i<_cls.length; i++) {
-  		  const cl = _cls[i];
-  		  if (cl && cl !== '') {
-  			  if ( ! elm.classList.contains(cl)) {
-  				  return false;
-  			  }
-  		  }
-  	  }
-  	  return true;
+	  // generate the class
+	  const cls = this.componentSelector(element, modifier, state);
+	  const _cls = cls.split('.');
+	  for (let i=0; i<_cls.length; i++) {
+		  const cl = _cls[i];
+		  if (cl && cl !== '') {
+			  if ( ! elm.classList.contains(cl)) {
+				  return false;
+			  }
+		  }
+	  }
+	  return true;
 	}
 
 	/**
@@ -716,27 +744,27 @@ export default Mixin((superclass) => class extends superclass {
 	 * @return 	{SComponent}} 			The component itself
 	 */
 	addComponentClass(elm, element = null, modifier = null, state = null) {
-  	  // if is an array
-  	  if (elm instanceof Array
-  		  || elm instanceof NodeList) {
-  		  [].forEach.call(elm, (el) => {
-  			  this.addComponentClass(el, element, modifier, state);
-  		  });
-  		  return this;
-  	  }
+	  // if is an array
+	  if (elm instanceof Array
+		  || elm instanceof NodeList) {
+		  [].forEach.call(elm, (el) => {
+			  this.addComponentClass(el, element, modifier, state);
+		  });
+		  return this;
+	  }
 
-  	  // get the component class
-  	  let cls = this.componentSelector(element, modifier, state);
-  	  // loop on each classes to add
-  	  cls.split('.').forEach((cl) => {
-  		  if (cl && cl !== '') {
-  			  fastdom.mutate(() => {
-  				  elm.classList.add(cl);
-  			  });
-  		  }
-  	  });
-  	  // return the instance to maintain chainability
-  	  return this;
+	  // get the component class
+	  let cls = this.componentSelector(element, modifier, state);
+	  // loop on each classes to add
+	  cls.split('.').forEach((cl) => {
+		  if (cl && cl !== '') {
+			  fastdom.mutate(() => {
+				  elm.classList.add(cl);
+			  });
+		  }
+	  });
+	  // return the instance to maintain chainability
+	  return this;
 	}
 
 	/**
@@ -748,27 +776,27 @@ export default Mixin((superclass) => class extends superclass {
 	 * @return 	{SComponent}} 					The component itself
 	 */
 	removeComponentClass(elm, element = null, modifier = null, state = null) {
-  	  // if is an array
-  	  if (elm instanceof Array
-  		  || elm instanceof NodeList) {
-  		  [].forEach.call(elm, (el) => {
-  			  this.removeComponentClass(el, element, modifier, state);
-  		  });
-  		  return this;
-  	  }
+	  // if is an array
+	  if (elm instanceof Array
+		  || elm instanceof NodeList) {
+		  [].forEach.call(elm, (el) => {
+			  this.removeComponentClass(el, element, modifier, state);
+		  });
+		  return this;
+	  }
 
-  	  // get the component class
-  	  let cls = this.componentSelector(element, modifier, state);
-  	  // loop on each classes to add
-  	  cls.split('.').forEach((cl) => {
-  		  if (cl && cl !== '') {
-  			  fastdom.mutate(() => {
-  				  elm.classList.remove(cl);
-  			  });
-  		  }
-  	  });
-  	  // return the instance to maintain chainability
-  	  return this;
+	  // get the component class
+	  let cls = this.componentSelector(element, modifier, state);
+	  // loop on each classes to add
+	  cls.split('.').forEach((cl) => {
+		  if (cl && cl !== '') {
+			  fastdom.mutate(() => {
+				  elm.classList.remove(cl);
+			  });
+		  }
+	  });
+	  // return the instance to maintain chainability
+	  return this;
 	}
 
 });
