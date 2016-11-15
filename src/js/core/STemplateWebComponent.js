@@ -73,28 +73,37 @@ export default class STemplateWebComponent extends SWebComponent {
 		// cache
 		if ( this._templateCached) return this._templateCached;
 		// get the template
-		const tpl = __template(this.props.template || this);
-		// if a template is specified in the props
-		// we will try to merge the yield elements
-		// to produce the final template
-		if (this.props.template) {
-			// get the template from the element itself
-			const elmTpl = __template(this);
-			// merge the yields
-			__mergeYields(tpl, elmTpl);
-		}
-		// save to cache
+		let tpl = __template(this.props.template || this, 'string');
+
 		this._templateCached = tpl;
+
+		// console.log('string', tpl);
+
+		// // if a template is specified in the props
+		// // we will try to merge the yield elements
+		// // to produce the final template
+		// if (this.props.template) {
+		// 	// get the template from the element itself
+		// 	const elmTpl = __template(this);
+		// 	// merge the yields
+		// 	__mergeYields(tpl, elmTpl);
+		// }
+		// // set a node id to each nodes
+		// if ( ! tpl.hasAttribute('s-template-node')) {
+		// 	tpl.setAttribute('s-template-node', this._templateComponentId);
+		// }
+		// [].forEach.call(tpl.querySelectorAll('*:not([s-template-node])'), (node) => {
+		// 	node.setAttribute('s-template-node', this._templateComponentId);
+		// });
+		// // save to cache
+		// this._templateCached = tpl;
+		// this._templateStringCached = tpl.outerHTML;
 		// return the template
 		return tpl;
 	}
 
-	/**
-	 * Get the template in string format
-	 */
 	get templateString() {
-		const tpl = this.template;
-		return __htmlToStr(tpl);
+		return this._templateString;
 	}
 
 	/**
@@ -104,11 +113,24 @@ export default class STemplateWebComponent extends SWebComponent {
 		// in super
 		super.componentWillMount();
 
-		// create the templateData stack from the default template data
-		this.templateData = Object.assign({}, this.defaultTemplateData);
-
 		// create a component id
 		this._templateComponentId = __uniqid();
+
+		// check if no template specified
+		if ( ! this.template) {
+			throw "You have to specify a template either by setting up the props.template variable, by initiating this component on a 'script' tag or on any html element like a 'div' or something...";
+		}
+
+		// prepare templateString
+		this._templateString = this._prepareTemplateString(this.template);
+
+		// prepare element
+		this._prepareElement();
+
+		console.log('tem', this.templateString);
+
+		// create the templateData stack from the default template data
+		this.templateData = Object.assign({}, this.defaultTemplateData);
 
 		// new binder
 		this._binder = new SBinder();
@@ -145,35 +167,65 @@ export default class STemplateWebComponent extends SWebComponent {
 		}
 	}
 
+	_prepareTemplateString(templateString) {
+		// yields
+		let hasYields = false;
+		templateString = templateString.replace(/<yield\s?(id="([a-zA-Z0-0-_]+)")?\s?\/?>(<\/yield>)?/g,(item, idAttr, id) => {
+			hasYields = true;
+			// try to get the yield id in the template
+			let yieldElm;
+			if (id) {
+				yieldElm = this.querySelector(`yield[id="${id}"]`);
+			} else {
+				yieldElm = this.querySelector('yield');
+			}
+			if ( ! yieldElm) return item;
+			// if we have a yield, replace it
+			const yieldContent = yieldElm.innerHTML;
+			// remove the yield from html
+			yieldElm.parentNode.removeChild(yieldElm);
+			// return
+			return yieldElm.innerHTML;
+		});
+		const tag = this.outerHTML.split(' ')[0];
+		const templateTag = templateString.split(' ')[0];
+		if (tag !== templateTag) {
+			// we need to wrap the templateString with the base
+			const outer = this.outerHTML;
+			const matches = outer.match(/<([a-zA-Z-]+)\s.*>/);
+			if (matches[0] && matches[1]) {
+				templateString = `${matches[0]}${templateString}</${matches[1]}>`;
+			}
+		}
+
+		templateString = templateString.replace('>', ` s-template-id="${this._templateComponentId}">`)
+		// apply a node id to each nodes
+		templateString = templateString.replace(/<[a-zA-Z0-9-]+(\s|>)/g, (item, s) => {
+			if (s === '>') {
+				return `${item.trim().replace('>','')} s-template-node="${this._templateComponentId}">`;
+			} else {
+				return `${item.trim()} s-template-node="${this._templateComponentId}" `;
+			}
+		});
+		return templateString;
+	}
+
+	_prepareElement() {
+		if ( ! this.hasAttribute('s-template-node')) {
+			this.setAttribute('s-template-node', this._templateComponentId);
+		}
+
+		// [].forEach.call(this.querySelectorAll('*:not([s-template-node])'), (node) => {
+		// 	node.setAttribute('s-template-node', this._templateComponentId);
+		// });
+	}
+
 	/**
 	 * Mount component
 	 * @definition 		SWebComponent.componentMount
 	 */
 	componentMount() {
 		super.componentMount();
-
-		// check if no template specified
-		if ( ! this.template) {
-			throw "You have to specify a template either by setting up the props.template variable, by initiating this component on a 'script' tag or on any html element like a 'div' or something...";
-		}
-
-		// set the content if the template if not the element itself
-		if (this !== this.template) {
-			if (typeof(this.template) === 'string') {
-				this.innerHTML = `<div>${this.template}</div>`;
-			} else {
-				this.innerHTML = `<div>${this.template.outerHTML}</div>`;
-			}
-		} else {
-			// wrap the template into a div
-			this.innerHTML = `<div>${this.innerHTML}</div>`;
-		}
-
-		// grab the first child that will be the template to process.
-		// this is made so that the actual template tag will not been updated
-		// by the change of his own data but can be updated by the change of parent
-		// template compilation
-		const templateElm = this.children[0];
 
 		// try to get the parent template instance
 		this._parentSTemplate = STemplate.getParentTemplate(this);
@@ -185,7 +237,8 @@ export default class STemplateWebComponent extends SWebComponent {
 		}
 
 		// instanciate a new STemplate
-		this._sTemplate = new STemplate(templateElm, this.templateData, {
+		this._sTemplate = new STemplate(this.templateString, this.templateData, {
+			id : this._templateComponentId,
 			compile : compile,
 			beforeCompile : this.templateWillCompile.bind(this),
 			afterCompile : this.templateDidCompile.bind(this),
@@ -196,7 +249,7 @@ export default class STemplateWebComponent extends SWebComponent {
 		}, this._parentSTemplate);
 
 		// render the template
-		this._sTemplate.render();
+		this._sTemplate.render(this);
 
 		// set the component as dirty
 		this.setAttribute('s-template-component-dirty', true);

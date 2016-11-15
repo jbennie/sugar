@@ -114,7 +114,7 @@ export default class STemplate {
 	/**
 	 * Store the reference to the created dom structure
 	 */
-	domNode = null;
+	dom = null;
 
 	/**
 	 * Store the data object used to render the template
@@ -234,7 +234,7 @@ export default class STemplate {
 	/**
 	 * Constructor
 	 */
-	constructor(templateString, data = {}, settings = {}, parentTemplate = null) {
+	constructor(template, data = {}, settings = {}, parentTemplate = null) {
 
 		// save settings
 		this.settings = {
@@ -246,52 +246,80 @@ export default class STemplate {
 		if (parentTemplate) this.setParentTemplate(parentTemplate);
 
 		// generate a uniqid for the template
-		this.templateId = this.settings.id || __uniqid();
+		this.templateId = uniqid();
 
 		// save the template
-		this.templateString = templateString;
+		this.template = template;
 
-		// transform to html to remove all the nested components
-		// if (this.templateString.match(/s-template-component="[a-zA-Z0-9]+"|s-template-id="[a-zA-Z0-9]+"/g)) {
-		const html = __strToHtml(this.templateString);
-		// remove all the nested template component and templates
-		[].forEach.call(html.querySelectorAll(`[s-template-id]:not([s-template-id="${this.templateId}"])`), (component) => {
-			component.innerHTML = '';
-		});
-		if ( ! html.hasAttribute('s-template-node')) {
-			html.setAttribute('s-template-node', this.templateId);
+		// if template is a string
+		if (typeof(this.template) === 'string') {
+
+			// transform to html to remove all the nested components
+			if (this.template.match(/s-template-component="[a-zA-Z0-9]+"|s-template-id="[a-zA-Z0-9]+"/g)) {
+				const html = __strToHtml(this.template);
+				// remove all the nested template component and templates
+				[].forEach.call(html.querySelectorAll(`[s-template-component], [s-template-id!="${this.templateId}"]`), (component) => {
+					component.innerHTML = '';
+				});
+				// set the template back
+				this.template = html.outerHTML;
+			}
+
+			// save the template string version
+			this.templateString = `<div s-template-id="${this.templateId}">${this.template}</div>`;
+
+			// apply a node id to each nodes
+			this.templateString = this.templateString.replace(/<[a-zA-Z0-9-]+(\s|>)/g, (item) => {
+				return `${item.trim()} s-template-node="${this.templateId}" `;
+			});
+
+			// transform the template to his html version
+			this.template = __strToHtml(this.template);
+
+			// this.templateString = this.template;
+			this.dom = document.createElement('div');
+			this.dom.setAttribute('s-template-id', this.templateId);
+			this.dom.setAttribute('s-template-node', this.templateId);
+
+		} else {
+			// apply a node id to each nodes
+			[].forEach.call(this.template.querySelectorAll('*'), (elm) => {
+				if ( elm.hasAttribute && ! elm.hasAttribute('s-template-node')) {
+					elm.setAttribute('s-template-node', this.templateId);
+				}
+			});
+
+			// set a template id to the element
+			this.template.setAttribute('s-template-id', this.templateId);
+
+			// set the node id on the root element
+			this.template.setAttribute('s-template-node', this.templateId);
+
+			// set the base dom to transform
+			// as the passed template
+			this.dom = this.template;
+
+			// clone the node to create the templateString
+			const clone = this.template.cloneNode(true);
+
+			// remove all the nested template component and templates
+			[].forEach.call(clone.querySelectorAll('[s-template-component], [s-template-id]'), (component) => {
+				component.innerHTML = '';
+			});
+
+			// save the template string version
+			this.templateString = clone.outerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(/\=""/g,'').replace(/&nbsp;/g," ").replace(/&quot;/g,"'")
 		}
-		html.setAttribute('s-template-id', this.templateId);
-		[].forEach.call(html.querySelectorAll('*:not([s-template-node])'), (elm) => {
-			elm.setAttribute('s-template-node', this.templateId);
-		});
-		// set the template back
-		this.templateString = html.outerHTML;
-		// }
-
-		// save the template string version
-		// this.templateString = `<div s-template-id="${this.templateId}">${this.templateString}</div>`;
-		// this.templateString = this.templateString.replace('>', ` s-template-id="${this.templateId}"`)
-
-		// apply a node id to each nodes
-		// this.templateString = this.templateString.replace(/<[a-zA-Z0-9-]+(\s|>)/g, (item) => {
-		// 	return `${item.trim()} s-template-node="${this.templateId}" `;
-		// });
-
-		// this.templateString = this.template;
-		// this.domNode = document.createElement('div');
-		// this.domNode.setAttribute('s-template-id', this.templateId);
-		// this.domNode.setAttribute('s-template-node', this.templateId);
 
 		// ignore the template node id
-		// sTemplateIntegrator.ignore(this.domNode, {
-		// 	's-template-node' : true,
-		// 	's-template-id' : true,
-		// 	's-template-dirty' : true
-		// });
+		sTemplateIntegrator.ignore(this.dom, {
+			's-template-node' : true,
+			's-template-id' : true,
+			's-template-dirty' : true
+		});
 
 		// save the template instance into the dom
-		// this.domNode._sTemplate = this;
+		this.dom._sTemplate = this;
 
 		// set the data into instance
 		this.data = data;
@@ -407,10 +435,10 @@ export default class STemplate {
 	 */
 	_getParentTemplate() {
 		if (this._parentTemplate) return this._parentTemplate;
-		// console.log('dom', this.domNode);
-		if (this.domNode && this.domNode.parentNode) {
-			const parentTemplateNode = __closest(this.domNode, '[s-template-id]');
-			// console.log('parent', this.domNode, parentTemplateNode);
+		// console.log('dom', this.dom);
+		if (this.dom && this.dom.parentNode) {
+			const parentTemplateNode = __closest(this.dom, '[s-template-id]');
+			// console.log('parent', this.dom, parentTemplateNode);
 			if (parentTemplateNode && parentTemplateNode._sTemplate) {
 				this._parentTemplate = parentTemplateNode._sTemplate;
 			}
@@ -419,29 +447,7 @@ export default class STemplate {
 	}
 
 	/**
-	 * Set the dom node in which to render the template
-	 * @param 		{HTMLElement} 		node 			The node that will represent the template
-	 */
-	setDomNode(node) {
-		// prepare the node
-		if ( ! node.hasAttribute('s-template-id')) {
-			node.setAttribute('s-template-id', this.templateId);
-			node.setAttribute('s-template-node', this.templateId);
-			// ignore the template node id
-			sTemplateIntegrator.ignore(node, {
-				's-template-node' : true,
-				's-template-id' : true,
-				's-template-dirty' : true
-			});
-
-			// save the template instance into the dom
-			node._sTemplate = this;
-		}
-		// set the node
-		this.domNode = node;
-	}
-
-	/**
+	 * setParentTemplate
 	 * Set the parent STemplate instance.
 	 * This is needed if you want your template to talk together through attributes
 	 * @param 	{STemplate} 	template 	The parent template instance
@@ -469,11 +475,7 @@ export default class STemplate {
 	 * Usually, you don't need to call this by yourself. The template
 	 * will be rendered again each time that a data is updated
 	 */
-	render(domNode = null) {
-		if (domNode) {
-			this.setDomNode(domNode);
-		}
-		// render
+	render() {
 		this._internalRender();
 	}
 
@@ -506,7 +508,7 @@ export default class STemplate {
 		compiled = this._processOutput(compiled);
 
 		// remove all the elements that need to be fully refreshed
-		[].forEach.call(this.domNode.querySelectorAll(`[s-template-refresh]`), (elm) => {
+		[].forEach.call(this.dom.querySelectorAll(`[s-template-refresh]`), (elm) => {
 			// console.log('refresh', elm)
 			elm.parentNode.removeChild(elm);
 		});
@@ -517,7 +519,7 @@ export default class STemplate {
 		}
 
 		// patch dom
-		this.domNode = this.patchDom(compiled);
+		this.dom = this.patchDom(compiled);
 
 		// update refs
 		this._updateRefs();
@@ -527,12 +529,12 @@ export default class STemplate {
 		this._listenDataChangesInDom();
 
 		// set the template as dirty
-		if ( ! this.domNode.hasAttribute('s-template-dirty')) {
-			this.domNode.setAttribute('s-template-dirty', true);
+		if ( ! this.dom.hasAttribute('s-template-dirty')) {
+			this.dom.setAttribute('s-template-dirty', true);
 		}
 
 		// after render
-		this.settings.afterRender && this.settings.afterRender(this.domNode);
+		this.settings.afterRender && this.settings.afterRender(this.dom);
 	}
 
 	/**
@@ -540,10 +542,10 @@ export default class STemplate {
 	 * @param 		{String} 		template 		The template to use to patch the dom
 	 * @return 		{HTMLElement} 					The HTMLElement that represent the template in the dom
 	 */
-	patchDom(templateString) {
+	patchDom(template) {
 
 		// set the new html
-		const dom = morphdom(this.domNode, templateString.trim(), {
+		const dom = morphdom(this.dom, template.trim(), {
 			onBeforeElChildrenUpdated : (fromNode, toNode) => {
 				// don't care about no html elements
 				// such has comments, text, etc...
@@ -551,7 +553,7 @@ export default class STemplate {
 
 				// do not take care of childs of another template
 				if ( fromNode.hasAttribute('s-template-id')
-					&& fromNode !== this.domNode) return false;
+					&& fromNode !== this.dom) return false;
 
 				// check if an onBeforeElUpdated is present in the settings
 				if (this.settings.onBeforeElChildrenUpdated) {
@@ -636,7 +638,7 @@ export default class STemplate {
 				if ( ! node.hasAttribute) return true;
 
 				// is the node is template and that it's not us
-				if (node.hasAttribute('s-template-id') && node !== this.domNode) return false;
+				if (node.hasAttribute('s-template-id') && node !== this.dom) return false;
 
 				// we do not discard any elements that
 				// have no s-template-node attribute
@@ -674,9 +676,9 @@ export default class STemplate {
 		// reset refs
 		this.refs = {};
 		// save the element itself
-		this.refs.elm = this.domNode;
+		this.refs.elm = this.dom;
 		// search for name and id's
-		[].forEach.call(this.domNode.querySelectorAll('[id],[name]'), (elm) => {
+		[].forEach.call(this.dom.querySelectorAll('[id],[name]'), (elm) => {
 			// if the model is into another template,
 			// this is not our business
 			if ( ! this.isNodeBelongToMe(elm)) return;
@@ -760,7 +762,7 @@ export default class STemplate {
 	 */
 	_listenDataChangesInDom() {
 		// find elements that have a data binded into it
-		[].forEach.call(this.domNode.querySelectorAll('[s-template-model]'), (elm) => {
+		[].forEach.call(this.dom.querySelectorAll('[s-template-model]'), (elm) => {
 
 			// if the model is into another template,
 			// this is not our business
@@ -831,7 +833,7 @@ export default class STemplate {
 	 * @param 		{HTMLElement} 	to 		The element in which to append the template
 	 */
 	appendTo(element) {
-		element.appendChild(this.domNode);
+		element.appendChild(this.dom);
 		// render
 		this._internalRender();
 	}
@@ -840,7 +842,7 @@ export default class STemplate {
 	 * Remove the template from the dom
 	 */
 	remove() {
-		this.domNode.parentNode.removeChild(this.domNode);
+		this.dom.parentNode.removeChild(this.dom);
 	}
 
 	/**

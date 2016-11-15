@@ -174,7 +174,7 @@ export default Mixin((superclass) => class extends superclass {
 	 * Return an array of props to set on the dom
 	 */
 	static get mountDependencies() {
-		// return [];
+		return [];
 	  return [function() {
 		 return new Promise((resolve, reject) => {
 			 let isTemplate = false;

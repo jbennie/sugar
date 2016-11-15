@@ -1,19 +1,32 @@
 import __strToHtml from '../utils/string/strToHtml'
 
-function processNodeElm(elm) {
+function processString(string) {
+	return string.replace(/&gt;/g,'>').replace(/&lt;/g,'<').replace(/&nbsp;/g,' ');
+}
+
+function processNodeElm(elm, format) {
 	// check tpl type
 	switch (elm.tagName.toLowerCase()) {
 		case 'script':
-			// grab the script content and convert it to html
-			return __strToHtml(elm.innerHTML);
+			// grab the script content and convert it to html if needed
+			if (format === 'html') {
+				return __strToHtml(elm.innerHTML);
+			}
+			return processString(elm.innerHTML);
 		break;
 		case 'template':
 			// get the template content
-			return document.importNode(elm.content, true);
+			if (format === 'html') {
+				return document.importNode(elm.content, true);
+			}
+			return processString(elm.content);
 		break;
 		default:
 			// assume that the template is the element itself
-			return elm;
+			if (format === 'html') {
+				return elm;
+			}
+			return processString(elm.outerHTML);
 		break;
 	}
 }
@@ -27,11 +40,11 @@ function processNodeElm(elm) {
  *
  * @author 			Olivier Bossel <olivier.bossel@gmail.com>
  */
-export default function template(source) {
+export default function template(source, format = 'html') {
 
 	// if the source is an HTMLElement
 	if (source.tagName) {
-		return processNodeElm(source);
+		return processNodeElm(source, format);
 	}
 
 	if (typeof(source) === 'string') source = source.trim();
@@ -39,8 +52,11 @@ export default function template(source) {
 	// check source type
 	if (typeof(source) === 'string' && source.substr(0,1) === '<' && source.substr(-1) === '>') {
 		// The source is an html string source
-		// we need to convert it to html fragment
-		return __strToHtml(source);
+		// check if need to convert it
+		if (format === 'html') {
+			return __strToHtml(source);
+		}
+		return processString(source);
 	}
 
 	// string selector
@@ -50,6 +66,6 @@ export default function template(source) {
 		// if don't found anything
 		if ( ! tpl) return;
 		// process the node
-		return processNodeElm(tpl);
+		return processNodeElm(tpl, format);
 	}
 }

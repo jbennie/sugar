@@ -41,6 +41,8 @@ export default class SSelectComponent extends mix(HTMLSelectElement).with(SWebCo
 	componentMount() {
 		super.componentMount();
 
+		console.log('mount select', this);
+
 		// utils variables
 		this._openOnFocus = false;
 		this._currentActiveOption = null; // save the current keyboard selected item
