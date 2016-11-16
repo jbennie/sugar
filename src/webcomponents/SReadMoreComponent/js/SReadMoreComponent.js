@@ -38,6 +38,15 @@ export default class SReadMoreComponent extends SWebComponent {
 	}
 
 	/**
+	 * Component will mount
+	 * @definition 		SWebComponent.componentWillMount
+	 */
+	componentWillMount() {
+		super.componentWillMount();
+		this._targetedHeight;
+	}
+
+	/**
 	 * Mount component
 	 * @definition 		SWebComponent.componentMount
 	 */
@@ -56,8 +65,14 @@ export default class SReadMoreComponent extends SWebComponent {
 		// check threshold
 		this._checkThreshold();
 
+		// listen for update read more
+		this.addEventListener(`update:height`, (e) => {
+			this._updateTargetedAndOriginalHeight();
+			this._checkThreshold();
+		});
+
 		// listen for content mutation
-		this._listenMutations();
+		// this._listenMutations();
 	}
 
 	/**
@@ -124,18 +139,19 @@ export default class SReadMoreComponent extends SWebComponent {
 	 */
 	_updateTargetedAndOriginalHeight() {
 		// check if has an targeted height
-		let targetedHeight = this.props.height || this.style.maxHeight || __getStyleProperty(this, 'maxHeight');
-		if (targetedHeight === 'none') {
-			targetedHeight = null;
-		}
-		if (targetedHeight) {
-			targetedHeight = parseFloat(targetedHeight);
+		if ( ! this._targetedHeight) {
+			let targetedHeight = this.props.height || this.style.maxHeight || __getStyleProperty(this, 'maxHeight');
+			if (targetedHeight === 'none') {
+				targetedHeight = null;
+			}
+			if (targetedHeight) {
+				targetedHeight = parseFloat(targetedHeight);
+			}
+			this._targetedHeight = targetedHeight;
 		}
 
 		// check the actual height of the target
 		const realHeight = __realHeight(this);
-
-		this._targetedHeight = targetedHeight;
 		this._originalHeight = realHeight;
 	}
 
@@ -183,19 +199,16 @@ export default class SReadMoreComponent extends SWebComponent {
 				setTimeout(() => {
 					// open the read more
 					__style(this, {
-						minHeight : this._originalHeight + 'px',
-						maxHeight : this._originalHeight + 'px'
+						maxHeight : (this._originalHeight + (this._originalHeight / 100 * 10)) + 'px'
 					});
 				});
 			} else {
 				__style(this, {
-					minHeight : this._targetedHeight + 'px',
 					maxHeight : this._targetedHeight + 'px'
 				});
 			}
 		} else {
 			__style(this, {
-				minHeight : null,
 				maxHeight : null
 			});
 		}

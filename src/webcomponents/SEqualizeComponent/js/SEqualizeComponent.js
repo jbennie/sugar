@@ -1,5 +1,7 @@
 import SWebComponent from '../../../js/core/SWebComponent'
 import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
+import __dispatchEvent from '../../../js/dom/dispatchEvent'
+import fastdom from 'fastdom'
 
 export default class SEqualizeComponent extends SWebComponent {
 
@@ -65,10 +67,7 @@ export default class SEqualizeComponent extends SWebComponent {
 		this.refreshLines();
 
 		// equalize
-		if (this === SEqualizeComponent.groups[this.props.group].elements[SEqualizeComponent.groups[this.props.group].elements.length - 1])
-		{
-			this.equalize();
-		}
+		this.equalize();
 
 		// listen for resizing window
 		let resizeWindowTimeout;
@@ -159,44 +158,46 @@ export default class SEqualizeComponent extends SWebComponent {
 	 * Equalize line
 	 */
 	equalizeLine(line) {
-		// refresh lines
-		// don't worry, it will not do the work
-		// every time it is called but only 1 by group every 100ms
-		this.refreshLines();
 
 		// do nothing if the line is already in progress
 		if (line.inProgress) return;
 		// flag the line as inProgress
 		line.inProgress = true;
-		// loop on each columns
-		[].forEach.call(line.elements, (element) => {
-			element.classList.add('clear-transmations');
-			// reset the equalizer or element min-height
-			// to get the real height of the element
-			if (element.equalizerElm) {
-				element.equalizerElm.style.minHeight = 0;
-			} else {
-				element.style.minHeight = 0;
-			}
-		});
-		// loop on each columns
-		[].forEach.call(line.elements, (element) => {
-			// check if an equalizer exist to use it
-			// @TODO : find a way to not query each time in the column for the equalizer
-			// reset the equalizer or element min-height
-			// to get the real height of the element
-			if (element.equalizerElm) {
-				element.equalizerElm.style.display = 'block';
-				element.equalizerElm.style.minHeight = line.height - element.offsetHeight + 'px';
-			} else {
-				element.style.minHeight = line.height + 'px';
-			}
-		});
-		[].forEach.call(line.elements, (element) => {
-			element.classList.remove('clear-transmations');
-		});
-		// reset the line progress status
+
+		// refresh lines
+		// don't worry, it will not do the work
+		// every time it is called but only 1 by group every 100ms
+		this.refreshLines();
+
 		setTimeout(() => {
+			// loop on each columns
+			[].forEach.call(line.elements, (element) => {
+				element.classList.add('clear-transmations');
+				// reset the equalizer or element min-height
+				// to get the real height of the element
+				if (element.equalizerElm) {
+					element.equalizerElm.style.minHeight = 0;
+				} else {
+					element.style.minHeight = 0;
+				}
+			});
+			// loop on each columns
+			[].forEach.call(line.elements, (element) => {
+				// check if an equalizer exist to use it
+				// @TODO : find a way to not query each time in the column for the equalizer
+				// reset the equalizer or element min-height
+				// to get the real height of the element
+				if (element.equalizerElm) {
+					element.equalizerElm.style.display = 'block';
+					element.equalizerElm.style.minHeight = line.height - element.offsetHeight + 'px';
+				} else {
+					element.style.minHeight = line.height + 'px';
+				}
+			});
+			[].forEach.call(line.elements, (element) => {
+				element.classList.remove('clear-transmations');
+			});
+			// reset the line progress status
 			line.inProgress = false;
 		});
 	}
@@ -221,6 +222,9 @@ export default class SEqualizeComponent extends SWebComponent {
 				this.equalizeLine(line);
 			});
 		}
+		setTimeout(() => {
+			__dispatchEvent(this, 'update:height');
+		});
 	}
 }
 

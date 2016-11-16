@@ -184,6 +184,8 @@ export default class STemplateWebComponent extends SWebComponent {
 		// prepare templateString
 		this._templateString = this._prepareTemplateString(this.template);
 
+		console.warn('ts', this._templateString);
+
 		// instanciate a new STemplate
 		this._sTemplate = new STemplate(this.templateString, this.templateData, {
 			id : this._templateComponentId,

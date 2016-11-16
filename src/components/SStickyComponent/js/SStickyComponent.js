@@ -333,27 +333,29 @@ class SStickyComponent extends SComponent {
 		this.addComponentClass(this.elm, null, null, 'out');
 
 		// get animation properties to wait if needed
-		let animationProperties = __getAnimationProperties(this.elm);
+		setTimeout(() => {
+			let animationProperties = __getAnimationProperties(this.elm);
 
-		clearTimeout(this._resetTimeout);
-		this._resetTimeout = setTimeout(() => {
+			clearTimeout(this._resetTimeout);
+			this._resetTimeout = setTimeout(() => {
 
-			// reset the element style
-			this.elm.style.position = '';
-			this.elm.style.top = '';
-			this.elm.style.bottom = '';
-			this.elm.style.width = '';
+				// reset the element style
+				this.elm.style.position = '';
+				this.elm.style.top = '';
+				this.elm.style.bottom = '';
+				this.elm.style.width = '';
 
-			// remove the placeholder if exist
-			if (this.placeholderElm && this.placeholderElm.parentNode) {
-				this.placeholderElm.parentNode.removeChild(this.placeholderElm);
-			}
+				// remove the placeholder if exist
+				if (this.placeholderElm && this.placeholderElm.parentNode) {
+					this.placeholderElm.parentNode.removeChild(this.placeholderElm);
+				}
 
-			// remove the out class
-			this.removeComponentClass(this.elm, null, null, 'out');
-			// remove the sticked class
-			this.removeComponentClass(this.elm, null, null, 'sticked');
-		}, animationProperties.totalDuration);
+				// remove the out class
+				this.removeComponentClass(this.elm, null, null, 'out');
+				// remove the sticked class
+				this.removeComponentClass(this.elm, null, null, 'sticked');
+			}, animationProperties.totalDuration);
+		});
 	}
 
 	/**
