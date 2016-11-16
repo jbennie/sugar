@@ -40,10 +40,24 @@ export default Mixin((superclass) => class extends superclass {
   	  }
 
 		window.sugar._webComponentsStack[componentName] = component;
-		return document.registerElement(name, {
+
+		// register the webcomponent
+		const webcomponent = document.registerElement(name, {
 			prototype : component.prototype,
 			extends : ext
 		});
+
+		// fix for firefox and surely other crapy browser...
+		// this make sur that the (static) methods of the component
+		// are present on the webcomponent itself
+		Object.keys(component).forEach((key) => {
+			if ( ! webcomponent[key]) {
+				webcomponent[key] = component[key];
+			}
+		});
+
+		// return the webcomponent instance
+		return webcomponent;
 	}
 
 	/**
