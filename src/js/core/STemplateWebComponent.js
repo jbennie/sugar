@@ -8,6 +8,7 @@ import __strToHtml from '../utils/string/strToHtml'
 import __mergeYields from '../dom/mergeYields'
 import sTemplateIntegrator from './sTemplateIntegrator'
 import STemplate from './STemplate'
+import morphdom from 'morphdom'
 
 export default class STemplateWebComponent extends SWebComponent {
 
@@ -113,21 +114,18 @@ export default class STemplateWebComponent extends SWebComponent {
 		// in super
 		super.componentWillMount();
 
+		// console.log('will mount', this, this.ownerDocument);
+
 		// create a component id
-		this._templateComponentId = __uniqid();
+		this._templateComponentId = this.getAttribute('s-template-component') || __uniqid();
 
 		// check if no template specified
 		if ( ! this.template) {
 			throw "You have to specify a template either by setting up the props.template variable, by initiating this component on a 'script' tag or on any html element like a 'div' or something...";
 		}
 
-		// prepare templateString
-		this._templateString = this._prepareTemplateString(this.template);
-
 		// prepare element
 		this._prepareElement();
-
-		console.log('tem', this.templateString);
 
 		// create the templateData stack from the default template data
 		this.templateData = Object.assign({}, this.defaultTemplateData);
@@ -167,7 +165,46 @@ export default class STemplateWebComponent extends SWebComponent {
 		}
 	}
 
+	/**
+	 * Mount component
+	 * @definition 		SWebComponent.componentMount
+	 */
+	componentMount() {
+		super.componentMount();
+
+		// try to get the parent template instance
+		this._parentSTemplate = STemplate.getParentTemplate(this);
+
+		// which compile method to use
+		let compile = this.props.compile;
+		if (this.templateCompile) {
+			compile = this.templateCompile.bind(this);
+		}
+
+		// prepare templateString
+		this._templateString = this._prepareTemplateString(this.template);
+
+		// instanciate a new STemplate
+		this._sTemplate = new STemplate(this.templateString, this.templateData, {
+			id : this._templateComponentId,
+			compile : compile,
+			beforeCompile : this.templateWillCompile.bind(this),
+			afterCompile : this.templateDidCompile.bind(this),
+			beforeRender : this.templateWillRender.bind(this),
+			afterRender : this.templateDidRender.bind(this),
+			onDataUpdate : this._onTemplateDataUpdate.bind(this),
+			shouldTemplateUpdate : this.shouldTemplateUpdate.bind(this)
+		}, this._parentSTemplate);
+
+		// render the template
+		this._sTemplate.render(this);
+
+		// set the component as dirty
+		this.setAttribute('s-template-component-dirty', true);
+	}
+
 	_prepareTemplateString(templateString) {
+
 		// yields
 		let hasYields = false;
 		templateString = templateString.replace(/<yield\s?(id="([a-zA-Z0-0-_]+)")?\s?\/?>(<\/yield>)?/g,(item, idAttr, id) => {
@@ -187,72 +224,54 @@ export default class STemplateWebComponent extends SWebComponent {
 			// return
 			return yieldElm.innerHTML;
 		});
-		const tag = this.outerHTML.split(' ')[0];
-		const templateTag = templateString.split(' ')[0];
+
+		// wrap the templateString inside the root node if
+		// the root node is not already him
+		const tag = this.outerHTML.split(/\s|>/)[0];
+		const templateTag = templateString.split(/\s|>/)[0];
 		if (tag !== templateTag) {
 			// we need to wrap the templateString with the base
 			const outer = this.outerHTML;
-			const matches = outer.match(/<([a-zA-Z-]+)\s.*>/);
+			const matches = outer.match(/<([a-zA-Z-]+)[^>]*>/);
 			if (matches[0] && matches[1]) {
 				templateString = `${matches[0]}${templateString}</${matches[1]}>`;
 			}
 		}
 
+		// escape < and > inside attributes
+		templateString = templateString.replace(/[[\S]+=[\"\']([^"^']*)[\"\']/g, (attribute) => {
+			return attribute.replace('<','&lt;').replace('>','&gt;');
+		});
+
+		// set a template id to the root node
 		templateString = templateString.replace('>', ` s-template-id="${this._templateComponentId}">`)
-		// apply a node id to each nodes
-		templateString = templateString.replace(/<[a-zA-Z0-9-]+(\s|>)/g, (item, s) => {
+
+		// set a template-node attribute on each of the nodes that are not a template-id
+		templateString = templateString.replace(/<[a-zA-Z0-9-]+(?!.*s-template-id)(\s|>)/g, (itm, s) => {
 			if (s === '>') {
-				return `${item.trim().replace('>','')} s-template-node="${this._templateComponentId}">`;
+				return `${itm.trim().replace('>','')} s-template-node="${this._templateComponentId}">`;
 			} else {
-				return `${item.trim()} s-template-node="${this._templateComponentId}" `;
+				return `${itm.trim()} s-template-node="${this._templateComponentId}" `;
 			}
 		});
-		return templateString;
+
+		// remove all the the nested templates
+		const df = new window.DOMParser().parseFromString(templateString, 'text/html');
+		[].forEach.call(df.querySelectorAll(Object.keys(window.sugar._templateWebComponents).join(',')), (elm) => {
+			if (elm.parentNode.tagName.toLowerCase() !== 'body') {
+				elm.innerHTML = '';
+			}
+		});
+		templateString = df.body.innerHTML;
+
+		// return the template String
+		return templateString.replace(/&lt;/g,'<').replace(/&gt;/g,'>');
 	}
 
 	_prepareElement() {
-		if ( ! this.hasAttribute('s-template-node')) {
-			this.setAttribute('s-template-node', this._templateComponentId);
-		}
-
-		// [].forEach.call(this.querySelectorAll('*:not([s-template-node])'), (node) => {
-		// 	node.setAttribute('s-template-node', this._templateComponentId);
-		// });
-	}
-
-	/**
-	 * Mount component
-	 * @definition 		SWebComponent.componentMount
-	 */
-	componentMount() {
-		super.componentMount();
-
-		// try to get the parent template instance
-		this._parentSTemplate = STemplate.getParentTemplate(this);
-
-		// which compile method to use
-		let compile = this.props.compile;
-		if (this.templateCompile) {
-			compile = this.templateCompile.bind(this);
-		}
-
-		// instanciate a new STemplate
-		this._sTemplate = new STemplate(this.templateString, this.templateData, {
-			id : this._templateComponentId,
-			compile : compile,
-			beforeCompile : this.templateWillCompile.bind(this),
-			afterCompile : this.templateDidCompile.bind(this),
-			beforeRender : this.templateWillRender.bind(this),
-			afterRender : this.templateDidRender.bind(this),
-			onDataUpdate : this._onTemplateDataUpdate.bind(this),
-			shouldTemplateUpdate : this.shouldTemplateUpdate.bind(this)
-		}, this._parentSTemplate);
-
-		// render the template
-		this._sTemplate.render(this);
-
-		// set the component as dirty
-		this.setAttribute('s-template-component-dirty', true);
+		[].forEach.call(this.querySelectorAll('*:not([s-template-node])'), (node) => {
+			node.setAttribute('s-template-node', this._templateComponentId);
+		});
 	}
 
 	/**

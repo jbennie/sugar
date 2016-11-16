@@ -28,6 +28,17 @@ export default Mixin((superclass) => class extends superclass {
 	 */
 	static define(name, component, ext = null) {
 		const componentName = __upperFirst(__camelize(name));
+
+		let comp = component;
+  	  while(comp) {
+  		 if (__constructorName(comp) === 'STemplateWebComponent') {
+			 if ( ! window.sugar._templateWebComponents[name]) {
+				 window.sugar._templateWebComponents[name] = component;
+			 }
+		 }
+  		  comp = Object.getPrototypeOf(comp);
+  	  }
+
 		window.sugar._webComponentsStack[componentName] = component;
 		return document.registerElement(name, {
 			prototype : component.prototype,
@@ -174,28 +185,17 @@ export default Mixin((superclass) => class extends superclass {
 	 * Return an array of props to set on the dom
 	 */
 	static get mountDependencies() {
-		return [];
+		// return [];
 	  return [function() {
 		 return new Promise((resolve, reject) => {
 			 let isTemplate = false;
-			 console.log(this._typeOf);
-			//  let comp = Object.getPrototypeOf(this);
- 		// 	while(comp) {
- 		// 		if (__constructorName(comp) === 'STemplateWebComponent') {
- 		// 			isTemplate = true;
-			// 		break;
- 		// 		}
- 		// 		comp = Object.getPrototypeOf(comp);
- 		// 	}
-			//
-			// if (isTemplate) {
-			// 	resolve();
-			// } else {
-			// 	setTimeout(() => {
-			// 		resolve();
-			// 	});
-			// }
-			resolve();
+			 if (this._typeOf.indexOf('STemplateWebComponent')) {
+				 resolve();
+			 } else {
+				 setTimeout(() => {
+					 resolve();
+				 });
+			 }
 		 });
 	  }];
 	}
@@ -367,7 +367,7 @@ export default Mixin((superclass) => class extends superclass {
 	 * When the component is created
 	 */
 	createdCallback() {
-	  // component will mount
+	  // component will mount only if part of the active document
 	  this.componentWillMount();
 	}
 
@@ -471,7 +471,6 @@ export default Mixin((superclass) => class extends superclass {
 	 * When any of the component attribute changes
 	 */
 	attributeChangedCallback(attribute, oldVal, newVal) {
-
 		newVal = __autoCast(newVal);
 
 	  const _attribute = attribute;

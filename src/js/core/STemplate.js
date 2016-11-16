@@ -52,42 +52,6 @@ if (! window.sugar._sTemplateData) window.sugar._sTemplateData = {};
 export default class STemplate {
 
 	/**
-	 * Check if an element is handled by an STemplate instance
-	 * @param 		{HTMLElement} 	elm 	The element to check
-	 * @return 		{Boolean} 				True if the element is handled by a template, false otherwise
-	 */
-	// static isTemplate(elm) {
-	// 	if ( ! elm.hasAttribute) return false;
-	// 	if (elm.hasAttribute('s-template-id')) return true;
-	// 	const components = sElementsManager.getComponents(elm);
-	// 	if ( ! components) return false;
-	// 	for(let key in components) {
-	// 		const component = components[key];
-	// 		if (component._isTemplateComponent) return true;
-	// 	}
-	// 	return false;
-	// }
-
-	/**
-	 * Register a template selector
-	 */
-	// static registerTemplateSelector = function(selector) {
-	// 	// set SElement init dependencies
-	// 	SElement.registerInitDependency((element) => {
-	// 		return new Promise((resolve, reject) => {
-	// 			const closestTemplate = __closest(element.elm, selector);
-	// 			if (closestTemplate) {
-	// 				__whenAttribute(closestTemplate, 's-template-dirty').then((elm) => {
-	// 					resolve();
-	// 				});
-	// 			} else {
-	// 				resolve();
-	// 			}
-	// 		});
-	// 	});
-	// }
-
-	/**
 	 * Get the parent template instance
 	 * @param 		{HTMLElement} 		of 			The element to get the parent template from
   	 * @return 		{STemplate} 					The parent template instance found in the html
@@ -251,47 +215,13 @@ export default class STemplate {
 		// save the template
 		this.templateString = templateString;
 
-		// transform to html to remove all the nested components
-		// if (this.templateString.match(/s-template-component="[a-zA-Z0-9]+"|s-template-id="[a-zA-Z0-9]+"/g)) {
-		const html = __strToHtml(this.templateString);
-		// remove all the nested template component and templates
-		[].forEach.call(html.querySelectorAll(`[s-template-id]:not([s-template-id="${this.templateId}"])`), (component) => {
-			component.innerHTML = '';
-		});
-		if ( ! html.hasAttribute('s-template-node')) {
-			html.setAttribute('s-template-node', this.templateId);
-		}
-		html.setAttribute('s-template-id', this.templateId);
-		[].forEach.call(html.querySelectorAll('*:not([s-template-node])'), (elm) => {
-			elm.setAttribute('s-template-node', this.templateId);
-		});
-		// set the template back
-		this.templateString = html.outerHTML;
-		// }
-
 		// save the template string version
-		// this.templateString = `<div s-template-id="${this.templateId}">${this.templateString}</div>`;
-		// this.templateString = this.templateString.replace('>', ` s-template-id="${this.templateId}"`)
+		this.templateString = this.templateString.replace('>', ` s-template-id="${this.templateId}">`);
 
 		// apply a node id to each nodes
-		// this.templateString = this.templateString.replace(/<[a-zA-Z0-9-]+(\s|>)/g, (item) => {
-		// 	return `${item.trim()} s-template-node="${this.templateId}" `;
-		// });
-
-		// this.templateString = this.template;
-		// this.domNode = document.createElement('div');
-		// this.domNode.setAttribute('s-template-id', this.templateId);
-		// this.domNode.setAttribute('s-template-node', this.templateId);
-
-		// ignore the template node id
-		// sTemplateIntegrator.ignore(this.domNode, {
-		// 	's-template-node' : true,
-		// 	's-template-id' : true,
-		// 	's-template-dirty' : true
-		// });
-
-		// save the template instance into the dom
-		// this.domNode._sTemplate = this;
+		this.templateString = this.templateString.replace(/<[a-zA-Z0-9-]+(?!.*s-template-id)(\s|>)/g, (itm) => {
+			return `${itm.trim()} s-template-node="${this.templateId}" `;
+		});
 
 		// set the data into instance
 		this.data = data;
@@ -345,7 +275,7 @@ export default class STemplate {
 							}
 						} else if (value.substr(0,1) === '<' && value.substr(-1) === '>') {
 							// apply a node id to each nodes
-							value = value.replace(/<[a-zA-Z0-9-]+(\s|>)/g, (item) => {
+							value = value.replace(/<[a-zA-Z0-9-]+(?!.*s-template-id)(\s|>)/g, (item) => {
 								return `${item.trim()} s-template-node="${this.templateId}" `;
 							});
 						} else if (this.data[value]) {
@@ -426,7 +356,7 @@ export default class STemplate {
 		// prepare the node
 		if ( ! node.hasAttribute('s-template-id')) {
 			node.setAttribute('s-template-id', this.templateId);
-			node.setAttribute('s-template-node', this.templateId);
+			// node.setAttribute('s-template-node', this.templateId);
 			// ignore the template node id
 			sTemplateIntegrator.ignore(node, {
 				's-template-node' : true,
@@ -437,6 +367,7 @@ export default class STemplate {
 			// save the template instance into the dom
 			node._sTemplate = this;
 		}
+
 		// set the node
 		this.domNode = node;
 	}
@@ -540,128 +471,137 @@ export default class STemplate {
 	 * @param 		{String} 		template 		The template to use to patch the dom
 	 * @return 		{HTMLElement} 					The HTMLElement that represent the template in the dom
 	 */
-	patchDom(templateString) {
+	patchDom(compiledTemplate) {
 
-		// set the new html
-		const dom = morphdom(this.domNode, templateString.trim(), {
-			onBeforeElChildrenUpdated : (fromNode, toNode) => {
-				// don't care about no html elements
-				// such has comments, text, etc...
-				if ( ! fromNode.hasAttribute) return true;
+		// console.log('com', compiledTemplate);
 
-				// do not take care of childs of another template
-				if ( fromNode.hasAttribute('s-template-id')
-					&& fromNode !== this.domNode) return false;
+		let dom;
+		if (this.domNode.innerHTML.trim() === '') {
+			dom = morphdom(this.domNode, compiledTemplate.trim());
+		} else {
+			// set the new html
+			dom = morphdom(this.domNode, compiledTemplate.trim(), {
+				childrenOnly : true,
+				onBeforeElChildrenUpdated : (fromNode, toNode) => {
 
-				// check if an onBeforeElUpdated is present in the settings
-				if (this.settings.onBeforeElChildrenUpdated) {
-					const res = this.settings.onBeforeElChildrenUpdated(fromNode, toNode);
-					if (res === true || res === false) {
-						return res;
+					// don't care about no html elements
+					// such has comments, text, etc...
+					if ( ! fromNode.hasAttribute) return true;
+
+					// do not take care of childs of another template
+					if ( fromNode.hasAttribute('s-template-id')
+						&& fromNode !== this.domNode) return false;
+
+					// check if an onBeforeElUpdated is present in the settings
+					if (this.settings.onBeforeElChildrenUpdated) {
+						const res = this.settings.onBeforeElChildrenUpdated(fromNode, toNode);
+						if (res === true || res === false) {
+							return res;
+						}
 					}
-				}
 
-				// update the children
-				return true;
-			},
-			onBeforeElUpdated : (fromNode, toNode) => {
-				// return true;
-				// don't care about no html elements
-				// such has comments, text, etc...
-				if ( ! fromNode.hasAttribute) return true;
+					// update the children
+					return true;
+				},
+				onBeforeElUpdated : (fromNode, toNode) => {
 
-				// apply integration on component
-				this._applyIntegrationOnNode(fromNode);
+					// don't care about no html elements
+					// such has comments, text, etc...
+					if ( ! fromNode.hasAttribute) return true;
 
-				// get the integration from the node
-				const integration = sTemplateIntegrator.getIntegrationFrom(fromNode);
-				if (integration) {
-					sTemplateIntegrator.setIntegrationTo(toNode, integration);
-				}
+					// apply integration on component
+					this._applyIntegrationOnNode(fromNode);
 
-				// handle the ingnore integration
-				if (typeof(integration.ignore) === 'object') {
-					for(let key in integration.ignore) {
-						let value = integration.ignore[key];
-						// if is class, handle multiple class to ignore
-						if (key === 'class' && value !== true) {
-							if (typeof(value) === 'string') {
-								value = value.split(',').map((v) => { return v.trim(); });
-							}
-							// loop on each classes to ignore
-							value.forEach((cls) => {
-								if (fromNode.classList.contains(cls)) {
-									toNode.classList.add(cls);
-								} else {
-									toNode.classList.remove(cls);
+					// get the integration from the node
+					const integration = sTemplateIntegrator.getIntegrationFrom(fromNode);
+					if (integration) {
+						sTemplateIntegrator.setIntegrationTo(toNode, integration);
+					}
+
+					// handle the ingnore integration
+					if (typeof(integration.ignore) === 'object') {
+						for(let key in integration.ignore) {
+							let value = integration.ignore[key];
+							// if is class, handle multiple class to ignore
+							if (key === 'class' && value !== true) {
+								if (typeof(value) === 'string') {
+									value = value.split(',').map((v) => { return v.trim(); });
 								}
-							});
-						} else {
-							// set or remove the attribute
-							// to keep in sync the from and to nodes
-							if (fromNode.hasAttribute(key)) {
-								toNode.setAttribute(key, fromNode.getAttribute(key));
+								// loop on each classes to ignore
+								value.forEach((cls) => {
+									if (fromNode.classList.contains(cls)) {
+										toNode.classList.add(cls);
+									} else {
+										toNode.classList.remove(cls);
+									}
+								});
+							} else {
+								// set or remove the attribute
+								// to keep in sync the from and to nodes
+								if (fromNode.hasAttribute(key)) {
+									toNode.setAttribute(key, fromNode.getAttribute(key));
+								}
 							}
 						}
 					}
-				}
 
-				// do not update this element
-				// cause it's not part of the initial template.
-				// maybe it has been added by any component after
-				// so it's not our business...
-				if ( ! fromNode.hasAttribute('s-template-node')) return false;
+					// do not update this element
+					// cause it's not part of the initial template.
+					// maybe it has been added by any component after
+					// so it's not our business...
+					if ( ! fromNode.hasAttribute('s-template-node')) return false;
 
-				// check if an onBeforeElUpdated is present in the settings
-				if (this.settings.onBeforeElUpdated) {
-					const res = this.settings.onBeforeElUpdated(fromNode, toNode);
-					if (res === true || res === false) {
-						return res;
+					// check if an onBeforeElUpdated is present in the settings
+					if (this.settings.onBeforeElUpdated) {
+						const res = this.settings.onBeforeElUpdated(fromNode, toNode);
+						if (res === true || res === false) {
+							return res;
+						}
+					}
+
+					// update the element
+					return true;
+				},
+				onElUpdated : (node) => {
+					// check if an onBeforeElUpdated is present in the settings
+					if (this.settings.onElUpdated) {
+						this.settings.onElUpdated(node);
+					}
+				},
+				onBeforeNodeDiscarded : (node) => {
+
+					// don't care about no html elements
+					// such has comments, text, etc...
+					if ( ! node.hasAttribute) return true;
+
+					// is the node is template and that it's not us
+					if (node.hasAttribute('s-template-id') && node !== this.domNode) return false;
+
+					// we do not discard any elements that
+					// have no s-template-node attribute
+					// cause they maybe has been added by another plugins
+					// and it is not our business...
+					if ( ! node.hasAttribute('s-template-node')) return false;
+
+					// check if an onBeforeElUpdated is present in the settings
+					if (this.settings.onBeforeElDiscarded) {
+						const res = this.settings.onBeforeElDiscarded(fromNode, toNode);
+						if (res === true || res === false) {
+							return res;
+						}
+					}
+
+					// discard the element
+					return true;
+				},
+				onElDiscarded : (node) => {
+					// check if an onBeforeElUpdated is present in the settings
+					if (this.settings.onElDiscarded) {
+						this.settings.onElDiscarded(node);
 					}
 				}
-
-				// update the element
-				return true;
-			},
-			onElUpdated : (node) => {
-				// check if an onBeforeElUpdated is present in the settings
-				if (this.settings.onElUpdated) {
-					this.settings.onElUpdated(node);
-				}
-			},
-			onBeforeNodeDiscarded : (node) => {
-
-				// don't care about no html elements
-				// such has comments, text, etc...
-				if ( ! node.hasAttribute) return true;
-
-				// is the node is template and that it's not us
-				if (node.hasAttribute('s-template-id') && node !== this.domNode) return false;
-
-				// we do not discard any elements that
-				// have no s-template-node attribute
-				// cause they maybe has been added by another plugins
-				// and it is not our business...
-				if ( ! node.hasAttribute('s-template-node')) return false;
-
-				// check if an onBeforeElUpdated is present in the settings
-				if (this.settings.onBeforeElDiscarded) {
-					const res = this.settings.onBeforeElDiscarded(fromNode, toNode);
-					if (res === true || res === false) {
-						return res;
-					}
-				}
-
-				// discard the element
-				return true;
-			},
-			onElDiscarded : (node) => {
-				// check if an onBeforeElUpdated is present in the settings
-				if (this.settings.onElDiscarded) {
-					this.settings.onElDiscarded(node);
-				}
-			},
-		});
+			});
+		}
 
 		// return the dom template
 		return dom;
@@ -676,10 +616,7 @@ export default class STemplate {
 		// save the element itself
 		this.refs.elm = this.domNode;
 		// search for name and id's
-		[].forEach.call(this.domNode.querySelectorAll('[id],[name]'), (elm) => {
-			// if the model is into another template,
-			// this is not our business
-			if ( ! this.isNodeBelongToMe(elm)) return;
+		[].forEach.call(this.domNode.querySelectorAll(`[id][s-template-node="${this.templateId}"],[name][s-template-node="${this.templateId}"]`), (elm) => {
 			// get the id or name
 			const id = elm.id || elm.getAttribute('name');
 			// save the reference
@@ -760,11 +697,7 @@ export default class STemplate {
 	 */
 	_listenDataChangesInDom() {
 		// find elements that have a data binded into it
-		[].forEach.call(this.domNode.querySelectorAll('[s-template-model]'), (elm) => {
-
-			// if the model is into another template,
-			// this is not our business
-			if ( ! this.isNodeBelongToMe(elm)) return;
+		[].forEach.call(this.domNode.querySelectorAll(`[s-template-model][s-template-node="${this.templateId}"]`), (elm) => {
 
 			// check if already binded
 			const model = elm.getAttribute('s-template-model');
@@ -859,10 +792,15 @@ export default class STemplate {
 		}
 
 		// apply template node id where there's not one for now
-		ret = ret.replace(/<[a-zA-Z0-9-](?!.*s-template-node)[\s\S]+?>/g, (item) => {
+		ret = ret.replace(/<[a-zA-Z0-9-](?!.*s-template-node)(?!.*s-template-id)[\s\S]+?>/g, (item) => {
 			return item.replace(/<[a-zA-Z0-9-]+(\s|>)/g, (itm) => {
 				return `${itm.trim()} s-template-node="${this.templateId}" `;
 			});
+		});
+
+		// replace s-template-exp
+		ret = ret.replace(/s-template-escaped="(.+)"/g, (toEscape, value) => {
+			return value;
 		});
 
 		// replace the parent.

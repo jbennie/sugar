@@ -81,6 +81,7 @@ export default class SRangeComponent extends SInputWebComponent {
 		// create the container for the slider
 		this.container = document.createElement('div');
 		this.container.setAttribute(`${this._componentNameDash}-container`, true);
+		this.container.setAttribute('class', this.className);
 
 		// range element
 		this.rangeElm = document.createElement('div');
