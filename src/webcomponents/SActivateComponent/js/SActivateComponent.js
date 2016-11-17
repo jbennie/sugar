@@ -33,6 +33,7 @@ export default class SActivateComponent extends SAnchorWebComponent {
 			trigger : 'click',
 			preventActivateParent : false,
 			unactivateTrigger : null,
+			activateTimeout : 0,
 			unactivateTimeout : 200,
 			preventScroll : false,
 			beforeActivate : null,
@@ -190,55 +191,62 @@ export default class SActivateComponent extends SAnchorWebComponent {
 	 * On element trigger is launched
 	 */
 	_onTriggerElement(e) {
-		// if the target is the element itself
-		// we stop if the current target if not
-		// the element itselg to avoid issues
-		if (this._sActivateTargets.length === 1
-			&& this._sActivateTargets[0] === this
-		) {
-			if (e.target !== this) return;
-		}
-		// if (e.target !== this) return;
-		e.preventDefault();
-		// clear unactivate timeout
-		clearTimeout(this._unactivateSetTimeout);
-		// if toggle
-		if (this.props.toggle && this.isActive()) {
-			// unactivate
-			this.unactivate();
-			// check if has a hash
-			if (this.props.history) {
-				window.history.back();
+
+		clearTimeout(this._activateTimeout);
+		this._activateTimeout = setTimeout(() => {
+
+			// if the target is the element itself
+			// we stop if the current target if not
+			// the element itselg to avoid issues
+			if (this._sActivateTargets.length === 1
+				&& this._sActivateTargets[0] === this
+			) {
+				if (e.target !== this) return;
 			}
-		} else {
-			if (this.props.history) {
-				// simply activate again if the same id that anchor
-				// this can happened when an element has history to false
-				if (document.location.hash && document.location.hash === this.props.id) {
-					this._activate();
-				} else {
-					// simply change the hash
-					// the event listener will take care of activate the
-					// good element
-					if (this.props.preventScroll) {
-						window.history.pushState(null,null,`${document.location.pathname || ''}${document.location.search || ''}#${this.props.id}`);
-						__dispatchEvent(window, 'hashchange');
-					} else {
-						document.location.hash = `${this.props.id}`;
-					}
+			// if (e.target !== this) return;
+			e.preventDefault();
+			// clear unactivate timeout
+			clearTimeout(this._unactivateTimeout);
+			// if toggle
+			if (this.props.toggle && this.isActive()) {
+				// unactivate
+				this.unactivate();
+				// check if has a hash
+				if (this.props.history) {
+					window.history.back();
 				}
 			} else {
-				// activate the element
-				this._activate();
+				if (this.props.history) {
+					// simply activate again if the same id that anchor
+					// this can happened when an element has history to false
+					if (document.location.hash && document.location.hash === this.props.id) {
+						this._activate();
+					} else {
+						// simply change the hash
+						// the event listener will take care of activate the
+						// good element
+						if (this.props.preventScroll) {
+							window.history.pushState(null,null,`${document.location.pathname || ''}${document.location.search || ''}#${this.props.id}`);
+							__dispatchEvent(window, 'hashchange');
+						} else {
+							document.location.hash = `${this.props.id}`;
+						}
+					}
+				} else {
+					// activate the element
+					this._activate();
+				}
 			}
-		}
+		}, this.props.activateTimeout);
 	}
 
 	/**
 	 * Element unactivate
 	 */
 	_onElmUnactivate(e) {
-		this._unactivateSetTimeout = setTimeout(() => {
+		clearTimeout(this._unactivateTimeout);
+		clearTimeout(this._activateTimeout);
+		this._unactivateTimeout = setTimeout(() => {
 			this.unactivate();
 		}, this.props.unactivateTimeout);
 	}
@@ -248,14 +256,15 @@ export default class SActivateComponent extends SAnchorWebComponent {
 	 */
 	_onTargetMouseEnter(e) {
 		// clear the unactivate timeout
-		clearTimeout(this._unactivateSetTimeout);
+		clearTimeout(this._unactivateTimeout);
 	}
 
 	/**
 	 * Target uncactivate callback
 	 */
 	_onTargetUnactivate(e) {
-		this._unactivateSetTimeout = setTimeout(() => {
+		clearTimeout(this._unactivateTimeout);
+		this._unactivateTimeout = setTimeout(() => {
 			this.unactivate();
 		}, this.props.unactivateTimeout);
 	}
@@ -388,7 +397,6 @@ export default class SActivateComponent extends SAnchorWebComponent {
 	 * Unactive
 	 */
 	unactivate() {
-
 		// before unactivate
 		this.props.beforeUnactivate && this.props.onBeforeUnactivate(this);
 

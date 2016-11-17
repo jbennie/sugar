@@ -3,11 +3,6 @@ import SWebComponent from '../../../js/core/SWebComponent'
 export default class SGoogleMapComponent extends SWebComponent {
 
 	/**
-	 * @constructor
-	 */
-	constructor() { super(); }
-
-	/**
 	 * Default props
 	 * @definition 		SWebComponent.defaultProps
 	 */
@@ -33,6 +28,3 @@ export default class SGoogleMapComponent extends SWebComponent {
 	}
 
 }
-
-// register component
-SWebComponent.define('s-google-map', SGoogleMapComponent);
