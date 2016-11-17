@@ -28,17 +28,6 @@ export default Mixin((superclass) => class extends superclass {
 	 */
 	static define(name, component, ext = null) {
 		const componentName = __upperFirst(__camelize(name));
-
-		let comp = component;
-  	  while(comp) {
-  		 if (__constructorName(comp) === 'STemplateWebComponent') {
-			 if ( ! window.sugar._templateWebComponents[name]) {
-				 window.sugar._templateWebComponents[name] = component;
-			 }
-		 }
-  		  comp = Object.getPrototypeOf(comp);
-  	  }
-
 		window.sugar._webComponentsStack[componentName] = component;
 
 		// register the webcomponent

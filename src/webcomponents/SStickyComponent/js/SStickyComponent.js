@@ -134,8 +134,6 @@ export default class SStickyComponent extends SWebComponent {
 		this.base_top = parseInt(this.style.top) || 0;
 		this.base_height = parseInt(this.offsetHeight);
 
-		console.log(this.offsetWidth);
-
 		// get top element
 		this._topElm = this.props.topElm || this.parentNode;
 		this._bottomElm = this.props.bottomElm || this.parentNode;

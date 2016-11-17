@@ -9,6 +9,9 @@ import __mergeYields from '../dom/mergeYields'
 import sTemplateIntegrator from './sTemplateIntegrator'
 import STemplate from './STemplate'
 import morphdom from 'morphdom'
+import __autoCast from '../utils/string/autoCast'
+import __camelize from '../utils/string/camelize'
+import __upperFirst from '../utils/string/upperFirst'
 
 export default class STemplateWebComponent extends SWebComponent {
 
@@ -16,6 +19,14 @@ export default class STemplateWebComponent extends SWebComponent {
 	 * @constructor
 	 */
 	constructor() { super(); }
+
+	static define(name, component, ext = null) {
+		const componentName = __upperFirst(__camelize(name));
+		if ( ! window.sugar._templateWebComponents[name]) {
+			window.sugar._templateWebComponents[name] = component;
+		}
+		return SWebComponent.define(name, component, ext);
+	}
 
 	/**
 	 * Default props
@@ -75,30 +86,8 @@ export default class STemplateWebComponent extends SWebComponent {
 		if ( this._templateCached) return this._templateCached;
 		// get the template
 		let tpl = __template(this.props.template || this, 'string');
-
+		// save into cache
 		this._templateCached = tpl;
-
-		// console.log('string', tpl);
-
-		// // if a template is specified in the props
-		// // we will try to merge the yield elements
-		// // to produce the final template
-		// if (this.props.template) {
-		// 	// get the template from the element itself
-		// 	const elmTpl = __template(this);
-		// 	// merge the yields
-		// 	__mergeYields(tpl, elmTpl);
-		// }
-		// // set a node id to each nodes
-		// if ( ! tpl.hasAttribute('s-template-node')) {
-		// 	tpl.setAttribute('s-template-node', this._templateComponentId);
-		// }
-		// [].forEach.call(tpl.querySelectorAll('*:not([s-template-node])'), (node) => {
-		// 	node.setAttribute('s-template-node', this._templateComponentId);
-		// });
-		// // save to cache
-		// this._templateCached = tpl;
-		// this._templateStringCached = tpl.outerHTML;
 		// return the template
 		return tpl;
 	}
@@ -378,3 +367,5 @@ export default class STemplateWebComponent extends SWebComponent {
 		super.render();
 	}
 }
+
+window.STemplateWebComponent = STemplateWebComponent;
