@@ -1,6 +1,7 @@
 import SWebComponent from '../../../js/core/SWebComponent'
 import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
 import __dispatchEvent from '../../../js/dom/dispatchEvent'
+import __offset from '../../../js/dom/offset'
 import fastdom from 'fastdom'
 
 export default class SEqualizeComponent extends SWebComponent {
@@ -112,10 +113,11 @@ export default class SEqualizeComponent extends SWebComponent {
 				elm.style.minHeight = 0;
 			}
 
-			const elmOffsetTop = elm.offsetTop;
 			const elmHeight = elm.offsetHeight;
+			const elmOffset = __offset(elm);
+
 			// check if is on new line
-			if (offsetTop !== elmOffsetTop && line.height > 0) {
+			if (offsetTop !== elmOffset.top && line.height > 0) {
 				// add the new line to lines stack
 				this.lines.push(line);
 				// reset the line
@@ -132,7 +134,7 @@ export default class SEqualizeComponent extends SWebComponent {
 				line.height = elmHeight;
 			}
 			// save the new offset
-			offsetTop = elmOffsetTop;
+			offsetTop = elmOffset.top;
 		});
 
 		// add the last line
