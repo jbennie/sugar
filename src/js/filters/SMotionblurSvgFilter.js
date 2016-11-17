@@ -1,5 +1,6 @@
 import __offset from '../dom/offset'
 import SSvgFilter from './SSvgFilter'
+import fastdom from 'fastdom'
 require('../events/sTransitionStartEventDispatcher');
 
 /**
@@ -14,7 +15,15 @@ require('../events/sTransitionStartEventDispatcher');
  *
  * @author 			Olivier Bossel <olivier.bossel@gmail.com>
  */
-class SMotionblurSvgFilter extends SSvgFilter {
+export default class SMotionblurSvgFilter extends SSvgFilter {
+
+	/**
+	 * Store the status of the animation
+	 * @type 		{Boolean}
+	 */
+	_isMoving = false;
+
+	_startMoveTimeout = null;
 
 	/**
 	 * @constructor
@@ -26,7 +35,7 @@ class SMotionblurSvgFilter extends SSvgFilter {
 		`);
 
 		// settings
-		this._notMovingStepsBeforeStop = 10;
+		this._notMovingStepsBeforeStop = 5;
 		this._currentStep = 0;
 		this._amount = parseFloat(amount);
 
@@ -46,11 +55,11 @@ class SMotionblurSvgFilter extends SSvgFilter {
 		// call parent method
 		super.applyTo(elm);
 		// listen to animation, transitionstart and move event
-		elm.addEventListener('animationiteration', this._handleFilter.bind(this));
-		elm.addEventListener('transitionstart', this._handleFilter.bind(this));
-		elm.addEventListener('transitionend', this._handleFilter.bind(this));
-		elm.addEventListener('animationend', this._handleFilter.bind(this));
-		elm.addEventListener('move', this._handleFilter.bind(this));
+		elm.addEventListener('transitionstart', this._onMotionStart.bind(this));
+		elm.addEventListener('animationstart', this._onMotionStart.bind(this));
+		elm.addEventListener('dragstart', this._onMotionStart.bind(this));
+		elm.addEventListener('transitionend', this._onMotionStop.bind(this));
+		elm.addEventListener('animationend', this._onMotionStop.bind(this));
 		this._lastPos = __offset(this.elms[0]);
 	}
 
@@ -61,23 +70,53 @@ class SMotionblurSvgFilter extends SSvgFilter {
 	 */
 	unapplyFrom(elm) {
 		// remove event listeners
-		elm.removeEventListener('animationiteration', this._handleFilter);
-		elm.removeEventListener('transitionstart', this._handleFilter);
-		elm.removeEventListener('transitionend', this._handleFilter);
-		elm.removeEventListener('animationend', this._handleFilter);
-		elm.removeEventListener('move', this._handleFilter);
+		elm.removeEventListener('animationStart', this._onMotionStart);
+		elm.removeEventListener('transitionstart', this._onMotionStart);
+		elm.removeEventListener('dragstart', this._onMotionStart);
+		elm.removeEventListener('transitionend', this._onMotionStop);
+		elm.removeEventListener('animationend', this._onMotionStop);
+		elm.removeEventListener('dragend', this._onMotionStop);
 		// call parent
 		super.unapplyFrom(elm);
+	}
+
+	/**
+	 * When the animation, transition or draging start
+	 */
+	_onMotionStart(e) {
+		if (e.target !== this.elms[0]) return;
+		clearTimeout(this._startMoveTimeout);
+		this._startMoveTimeout = setTimeout(() => {
+			this._isMoving = true;
+			// handle filter
+			this._handleFilter();
+		});
+	}
+
+	/**
+	 * Transition / animation end
+	 */
+	_onMotionStop(e) {
+		if (e.target !== this.elms[0]) return;
+		if ( ! this._isMoving) return;
+ 		// update is moving status
+		this._isMoving = false;
+		fastdom.mutate(() => {
+			// set the blur
+			this._blur.setAttribute('stdDeviation', 0 +','+ 0);
+			this.elms[0].style.opacity = .99;
+			this.elms[0].offsetHeight; // no need to store this anywhere, the reference is enough
+			this.elms[0].style.opacity = 1;
+		});
 	}
 
 	/**
 	 * Handle filter
 	 * @param 		{Boolean} 		recusrive 			If the function need to be called again at the end of it's execution
 	 */
-	_handleFilter(recusrive) {
-		if ( ! recusrive) {
-			this._currentStep = 0;
-		}
+	_handleFilter() {
+		// animation or move is finished
+		if ( ! this._isMoving) return;
 
 		// set the motion blur and get the moving difference
 		let diff = this._setMotionBlur();
@@ -93,7 +132,7 @@ class SMotionblurSvgFilter extends SSvgFilter {
 
 		// recusrive call to apply the blur with requestAnimationFrame for performances
 		this._animationFrame = requestAnimationFrame(() => {
-			this._handleFilter(true);
+			this._handleFilter();
 		});
 	}
 
@@ -128,10 +167,3 @@ class SMotionblurSvgFilter extends SSvgFilter {
 		super.destroy();
 	}
 }
-
-// expose in window.sugar
-if (window.sugar == null) { window.sugar = {}; }
-window.sugar.SMotionblurSvgFilter = SMotionblurSvgFilter;
-
-// export modules
-export default SMotionblurSvgFilter;

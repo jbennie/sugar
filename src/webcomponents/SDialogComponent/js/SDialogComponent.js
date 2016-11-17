@@ -233,7 +233,7 @@ export default class SDialogComponent extends SWebComponent {
 			this._reject = reject;
 
 			// get content from passed parameter or settings
-			content = content || this.props.content || this._triggerer.href;
+			content = content || this.props.content || this._triggerer.getAttribute('href');
 
 			// try to load the content only if not already loaded
 			if ( ! this._content) {

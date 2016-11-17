@@ -22,11 +22,70 @@ export default class SSlideshowComponent extends SWebComponent {
 			slide : 0,
 
 			/**
+			 * Set the direction of the slideshow playback
+			 * @prop
+			 * @type 		{String}
+			 * @values 		forward|backward
+			 */
+			direction : 'forward',
+
+			/**
+			 * Status of the playback
+			 * @prop
+			 * @type 		{String}
+			 * @values 		stop|pause|play
+			 */
+			playback : 'play',
+
+			/**
+			 * Set the time to wait between each slides when the
+			 * @prop
+			 * slideshow is played
+			 * @type 	{Number}
+			 */
+			timeout : 1000,
+
+			/**
+			 * Set the slideshow to pause mode when mouse is hover
+			 * @prop
+			 * @type 	{Boolean}
+			 */
+			pauseOnHover : false,
+
+			/**
+			 * Go to next slide when click on the slideshow
+			 * @prop
+			 * @type 	{Boolean}
+			 */
+			nextOnClick : false,
+
+			/**
 			 * Set if the slideshow is infinite
 			 * @prop
 			 * @tyoe 	{Boolean}
 			 */
 			loop : false,
+
+			/**
+			 * Set if the slideshow start in play mode
+			 * @prop
+			 * @type  	{Boolean}
+			 */
+			autoplay : true,
+
+			/**
+			 * Set if the keyboard navigation is enabled
+			 * @prop
+			 * @type 	{Boolean}
+			 */
+			keyboardEnabled : true,
+
+			/**
+			 * Set if the touch navigation is enabled
+			 * @prop
+			 * @type 	{Boolean}
+			 */
+			touchEnabled : true,
 
 			/**
 			 * Callback when the slideshow is inited
@@ -57,11 +116,46 @@ export default class SSlideshowComponent extends SWebComponent {
 			afterChange : null,
 
 			/**
+			 * Callback when the slideshow pass to the next slide
+			 * @prop
+			 * @type 	{Function}
+			 */
+			onNext : null,
+
+			/**
+			 * Callback when the slideshow pass to the previous slide
+			 * @prop
+			 * @type 	{Function}
+			 */
+			onPrevious : null,
+
+			/**
+			 * Callback when the slideshow pass in pause
+			 * @prop
+			 * @type 	{Function}
+			 */
+			onPause : null,
+
+			/**
+			 * Callback when the slideshow pass in play mode
+			 * @prop
+			 * @type 	{Function}
+			 */
+			onPlay : null,
+
+			/**
+			 * Callback when the slideshow stops
+			 * @prop
+			 * @type 	{Function}
+			 */
+			onStop : null,
+
+			/**
 			 * Callback used to init a new slide
 			 * @prop
 			 * @type 	{Function}
 			 */
-			initSlide : null
+			initSlide : null,
 		}
 	}
 
@@ -70,7 +164,7 @@ export default class SSlideshowComponent extends SWebComponent {
 	 * @definition 		SWebComponent.physicalProps
 	 */
 	static get physicalProps() {
-		return ['slide'];
+		return ['slide','playback','direction'];
 	}
 
 	/**
@@ -97,6 +191,12 @@ export default class SSlideshowComponent extends SWebComponent {
 		 * @type 	{DOMElement}
 		 */
 		this._activeSlide = null;
+
+		/**
+		 * Store the timer instance
+		 * @type 	{STimer}
+		 */
+		this._timer = null;
 
 		/**
 		 * Store the observer of the slides
@@ -136,6 +236,22 @@ export default class SSlideshowComponent extends SWebComponent {
 			this._initSlide(elm);
 		});
 
+		// create the timer
+		this._timer = new STimer(this.props.timeout, {
+			tickCount : 1,
+			loop : true
+		});
+		// on tick
+		this._timer.onTick((timer) => {
+			// check if need to go forward or backward
+			if (this.props.direction === 'backward') {
+				this.previous();
+			} else {
+				// next slide
+				this.next();
+			}
+		});
+
 		// onInit callback
 		this.props.onInit && this.props.onInit(this);
 
@@ -154,6 +270,79 @@ export default class SSlideshowComponent extends SWebComponent {
 	}
 
 	/**
+	 * _listenBlurAndFocus
+	 * Listen when the window is active and unactivate
+	 */
+	_listenBlurAndFocus() {
+		// listen for blur and focus event on window
+		window.addEventListener('blur', this._onWindowBlur.bind(this));
+		window.addEventListener('focus', this._onWindowFocus.bind(this));
+	}
+
+	/**
+	 * When the user click on the slideshow
+	 * @param 	{Event} 	e 	The event
+	 */
+	_onClick(e) {
+		// check if we click on a goto element
+		const goTo = e.target.getAttribute(`${this._componentNameDash}-goto`);
+		if (goTo) {
+			// go to wanted slide
+			this.goTo(__autoCast(goTo));
+		} else {
+			if (this.props.nextOnClick) {
+				this.next();
+			}
+		}
+	}
+
+	/**
+	 * When the user has clicked on the next button
+	 * @param 	{Event} 	e 	The event
+	 */
+	_onNextClick(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		this.next();
+	}
+
+	/**
+	 * When the user has clicked on the previous button
+	 * @param 	{Event} 	e 	The event
+	 */
+	_onPreviousClick(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		this.previous();
+	}
+
+	/**
+	 * Called when the user does not have the window active anymore
+	 * @param 	{Event} 	e 	The event
+	 */
+	_onWindowBlur(e) {
+		// pause the slideshow
+		if (this.isPlay()) {
+			this._wasPlayed = true;
+			this.pause();
+		} else {
+			this._wasPlayed = false;
+		}
+	}
+
+	/**
+	 * Called when the user does not have the window active anymore
+	 * @param 	{Event} 	e 	The event
+	 */
+	_onWindowFocus(e) {
+		// pause the slideshow
+		if (this._wasPlayed) {
+			this.play();
+			this._wasPlayed = null;
+		}
+	}
+
+	/**
 	 * When the element is enabled
 	 * @return 	{SSlideshowComponent}
 	 */
@@ -165,7 +354,36 @@ export default class SSlideshowComponent extends SWebComponent {
 		this.next();
 
 		// add all classes
-		this._applyStateAttributes();
+		this._applyClasses();
+
+		// listen for click on element
+		this.addEventListener('click', this._onClick.bind(this));
+
+		// pauseOnHover
+		if (this.props.pauseOnHover) {
+			this.addEventListener('mouseenter', this._onMouseover.bind(this));
+			this.addEventListener('mouseleave', this._onMouseout.bind(this));
+		}
+
+		// enable keyboard navigation
+		if (this.props.keyboardEnabled) {
+			this._initKeyboardNavigation();
+		}
+		// enable touch navigation
+		if (this.props.touchEnabled) {
+			this._initTouchNavigation();
+		}
+
+		// listen for blur and focus
+		this._listenBlurAndFocus();
+
+		// init the previous and next navigation
+		this._initPreviousAndNextButtons();
+
+		// if autoplay
+		if (this.props.autoplay) {
+			this.play();
+		}
 
 		// remove the no transmation class to allow animations, etc...
 		setTimeout(() => {
@@ -185,6 +403,13 @@ export default class SSlideshowComponent extends SWebComponent {
 			case 'slide':
 				this.goTo(newVal);
 			break;
+			case 'playback':
+				switch(newVal) {
+					case 'play': this._play(); break;
+					case 'pause': this._pause(); break;
+					case 'stop': this._stop(); break;
+				}
+			break;
 		}
 	}
 
@@ -193,8 +418,28 @@ export default class SSlideshowComponent extends SWebComponent {
 	 * @return 	{SSlideshowComponent}
 	 */
 	disable() {
+		// disable keyboard navigation
+		document.removeEventListener('keyup', this._onKeyup);
+		// do not listen for click anymore
+		this.removeEventListener('click', this._onClick);
+		// disable touch navigation
+		this.removeEventListener('swipeleft', this._onSwipe);
+		this.removeEventListener('swiperight', this._onSwipe);
+		// pauseOnHover
+		if (this.props.pauseOnHover) {
+			this.removeEventListener('mouseenter', this._onMouseover);
+			this.removeEventListener('mouseleave', this._onMouseout);
+		}
+		// do not listen for focus and blur anymore
+		window.removeEventListener('blur', this._onWindowBlur);
+		window.removeEventListener('focus', this._onWindowFocus);
+		// do not listen for previous and next click
+		this._refs.previous && this._refs.previous.removeEventListener('click', this._onPreviousClick);
+		this._refs.next && this._refs.next.removeEventListener('click', this._onNextClick);
+		// stop
+		this.stop();
 		// remove all classes
-		this._unapplyStateAttrubutes();
+		this._unapplyClasses();
 		// maintain chainability
 		return this;
 	}
@@ -205,6 +450,90 @@ export default class SSlideshowComponent extends SWebComponent {
 	destroy() {
 		// destroy all element in slideshow that need to be destroyed
 		this._slidesObserver.unsubscribe();
+	}
+
+	/**
+	 * Init the previous and next buttons
+	 */
+	_initPreviousAndNextButtons() {
+		// if the next element exist
+		if (this._refs.next) {
+			this._refs.next.addEventListener('click', this._onNextClick.bind(this));
+		}
+		// if the previous element exist
+		if (this._refs.previous) {
+			this._refs.previous.addEventListener('click', this._onPreviousClick.bind(this));
+		}
+	}
+
+	/**
+	 * Init the keyboard navigation
+	 */
+	_initKeyboardNavigation() {
+		// listen for keyup event
+		document.addEventListener('keyup', this._onKeyup.bind(this));
+	}
+
+	/**
+	 * Init the touch navigation
+	 */
+	_initTouchNavigation() {
+		// listen for swiped
+		this.addEventListener('swipeleft', this._onSwipe.bind(this));
+		this.addEventListener('swiperight', this._onSwipe.bind(this));
+	}
+
+	/**
+	 * When the user has swiped on the slideshow
+	 * @param 	{Event} 	e 	The event
+	 */
+	_onSwipe(e) {
+		// check the swipe direction
+		switch(e.type) {
+			case 'swipeleft':
+				this.next();
+			break;
+			case 'swiperight':
+				this.previous();
+			break;
+		}
+	}
+
+	/**
+	 * When the user has released a keyboard key
+	 * @param 	{Event} 	e 	The event
+	 */
+	_onKeyup(e) {
+		// do nothing if the slideshow is not in viewport
+		if ( ! __isInViewport(this)) return;
+
+		// check the key
+		switch(e.keyCode) {
+			case 39: // right arrow
+				this.next();
+			break;
+			case 37: // left arrow
+				this.previous();
+			break;
+		}
+	}
+
+	/**
+	 * Called when the user has the mouse over the slideshow
+	 * @param 	{Event} 	e 	The event
+	 */
+	_onMouseover(e) {
+		// pause the timer
+		this.pause()
+	}
+
+	/**
+	 * Called when the user has the mouse out the slideshow
+	 * @param 	{Event} 	e 	The event
+	 */
+	_onMouseout(e) {
+		// resume the timer
+		this.play();
 	}
 
 	/**
@@ -220,9 +549,30 @@ export default class SSlideshowComponent extends SWebComponent {
 	}
 
 	/**
-	 * Remove the attributes from the elements
+	 * Set the timer duration for the current slide
 	 */
-	_unapplyStateAttrubutes() {
+	_setTimerDurationForCurrentSlide() {
+		// check if the current slide has a special timer defined
+		const slideTime = this.getActiveSlide().getAttribute(`${this._componentNameDash}-slide-time`);
+		if (slideTime) {
+			this._timer.duration(__autoCast(slideTime));
+		} else {
+			this._timer.duration(this.props.timeout);
+		}
+	}
+
+	/**
+	 * Refresh the classes of the component
+	 */
+	_refreshClasses() {
+		this._unapplyClasses();
+		this._applyClasses();
+	}
+
+	/**
+	 * Remove the classes from the elements
+	 */
+	_unapplyClasses() {
 		// unactivate all the slides
 		this._slides.forEach((slide) => {
 			slide.removeAttribute('active');
@@ -250,9 +600,9 @@ export default class SSlideshowComponent extends SWebComponent {
 	}
 
 	/**
-	 * Apply the good attributes to the elements
+	 * Apply the good classes to the elements
 	 */
-	_applyStateAttributes() {
+	_applyClasses() {
 		// activate the current slide
 		this._activeSlide.setAttribute('active', true);
 		// goto classes
@@ -359,6 +709,8 @@ export default class SSlideshowComponent extends SWebComponent {
 			activeSlideIndex = idx+1;
 		}
 
+		// console.log('fefefe', activeSlideIndex);
+
 		// set slide prop
 		this.setProp('slide', activeSlideIndex);
 
@@ -425,7 +777,10 @@ export default class SSlideshowComponent extends SWebComponent {
 		this.props.beforeChange && this.props.beforeChange(this);
 
 		// unapply classes
-		this._unapplyStateAttrubutes();
+		this._unapplyClasses();
+
+		// reset the timer and start it again if needed
+		this._timer.reset(this.isPlay());
 
 		// active the good slide
 		this._activeSlide = this._slides[slideIndex];
@@ -437,7 +792,10 @@ export default class SSlideshowComponent extends SWebComponent {
 		this.props.onChange && this.props.onChange(this);
 
 		// apply classes
-		this._applyStateAttributes();
+		this._applyClasses();
+
+		// set the timer duration
+		this._setTimerDurationForCurrentSlide();
 
 		// afterChange callback
 		this.props.afterChange && this.props.afterChange(this);
@@ -455,6 +813,71 @@ export default class SSlideshowComponent extends SWebComponent {
 		if (this._slidesIniter.indexOf(callback) === -1) {
 			this._slidesIniter.push(callback);
 		}
+	}
+
+	/**
+	 * Set the slideshow to play mode
+	 * @return 	{SSlideshowComponent}
+	 */
+	play() {
+		// update status
+		this.setProp('playback', 'play');
+		// maintain chainability
+		return this;
+	}
+
+	/**
+	 * Internal play
+	 */
+	_play() {
+		// start the timer
+		this._timer.start();
+		// onPlay callback
+		this.props.onPlay && this.props.onPlay(this);
+	}
+
+	/**
+	 * Set the slideshow to pause mode
+	 * @return 	{SSlideshowComponent}
+	 */
+	pause() {
+		// update status
+		this.setProp('playback', 'pause');
+		// maintain chainability
+		return this;
+	}
+
+	/**
+	 * Internal pause
+	 */
+	_pause() {
+		// pause the timer
+		this._timer.pause();
+		// onPause callback
+		this.props.onPause && this.props.onPause(this);
+	}
+
+	/**
+	 * Stop the slideshow
+	 * @return {SSlideshowComponent}
+	 */
+	stop() {
+		// update status
+		this.setProp('playback', 'stop');
+		// maintain chainability
+		return this;
+	}
+
+	/**
+	 * Internal stop
+	 */
+	_stop() {
+		// stop the timer
+		this._timer.stop();
+		// onStop callback
+		this.props.onStop && this.props.onStop(this);
+		// maintain chainability
+		return this;
 	}
 
 	/**
@@ -554,6 +977,31 @@ export default class SSlideshowComponent extends SWebComponent {
 	}
 
 	/**
+	 * Return if the slideshow is played or not
+	 * @return 	{Boolean} 	The played status
+	 */
+	isPlay() {
+		return this.props.playback === 'play';
+	}
+
+	/**
+	 * Return if the slideshow is paused or not
+	 * @return 	{Boolean} 	The paused status
+	 */
+	isPause() {
+		return this.props.playback === 'pause';
+	}
+
+	/**
+	 * isStop
+	 * Return if the slideshow is stoped or not
+	 * @return 	{Boolean} 	The stoped status
+	 */
+	isStop() {
+		return ! this.props.playback || this.props.playback === 'stop';
+	}
+
+	/**
 	 * Return if the slideshow loop status is true
 	 * @return 	{Boolean} 	The loop status
 	 */
@@ -582,6 +1030,9 @@ export default class SSlideshowComponent extends SWebComponent {
      * @return 	{void}
 	 */
 	_updateReferences() {
+		// grab the next and previous element
+		this._refs.next = this.querySelector(`${this._componentNameDash}-next, [${this._componentNameDash}-next]`);
+		this._refs.previous = this.querySelector(`${this._componentNameDash}-previous, [${this._componentNameDash}-previous]`);
 		// grab the total and current token handler
 		this._refs.total = this.querySelectorAll(`${this._componentNameDash}-total, [${this._componentNameDash}-total]`);
 		this._refs.current = this.querySelectorAll(`${this._componentNameDash}-current, [${this._componentNameDash}-current]`);
@@ -594,6 +1045,7 @@ export default class SSlideshowComponent extends SWebComponent {
 sTemplateIntegrator.registerComponentIntegration('SSlideshowComponent', (component) => {
 	sTemplateIntegrator.ignore(component, {
 		slide : true,
+		playback : true,
 		direction : true
 	});
 	component.onNewSlide((slide) => {

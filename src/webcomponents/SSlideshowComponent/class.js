@@ -1,1 +1,2 @@
-export default SSlideshowComponent from './js/SSlideshowComponent';
+import SSlideshowComponent from './js/SSlideshowComponent';
+export default SSlideshowComponent;
