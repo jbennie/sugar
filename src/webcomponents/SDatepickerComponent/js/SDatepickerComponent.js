@@ -245,10 +245,6 @@ export default class SDatepickerComponent extends SWebComponent {
 			noCalendar : this.props.noCalendar,
 			onChange : (dateObj, dateStr, instance) => {
 				this.props.onChange && this.props.onChange(dateObj, dateStr, instance);
-				// set the value on the input
-				if (this._target.tagName.toLowerCase() === 'input') {
-					this._target.setAttribute('value', dateStr);
-				}
 				this.dispatchComponentEvent('change', {
 					dateObj,
 					dateStr,
@@ -258,19 +254,13 @@ export default class SDatepickerComponent extends SWebComponent {
 			onClose : this.props.onClose,
 			onOpen : (dateObj, dateStr, instance) => {
 				this.props.onOpen && this.props.onOpen(dateObj, dateStr, instance);
-				if (this._target.tagName.toLowerCase() === 'input'
-					&& ! this._target.hasAttribute('value')
-				) {
-					instance.setDate(this.props.minDate || new Date());
-					instance.triggerChange();
-				}
 			},
 			onReady : (dateObj, dateStr, instance) => {
 				this.props.onReady && this.props.onReady(dateObj, dateStr, instance);
-				if (this._target.tagName.toLowerCase() === 'input'
-					&& ! this._target.hasAttribute('value')
-				) {
-					instance.setDate(this.props.minDate || new Date());
+				if (this._target.tagName.toLowerCase() === 'input') {
+					if ( ! this._target.value) {
+						instance.setDate(this.props.minDate || new Date());
+					}
 					instance.triggerChange();
 				}
 			},

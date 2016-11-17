@@ -524,22 +524,6 @@ export default class SValidatorComponent extends SWebComponent {
 		super.render();
 		// if is dirty
 		if (this._isDirty) {
-			[].forEach.call(this._targets, (target) => {
-				if ( ! target.hasAttribute('dirty')) {
-					target.setAttribute('dirty', true);
-				}
-				if (target.value) {
-					if ( ! target.hasAttribute('has-value')) {
-						target.setAttribute('has-value', true);
-					}
-					target.removeAttribute('empty');
-				} else {
-					if ( ! target.hasAttribute('empty')) {
-						target.setAttribute('empty', true);
-					}
-					target.removeAttribute('has-value');
-				}
-			});
 			if (this._isValid) {
 				[].forEach.call(this._targets, (target) => {
 					target.removeAttribute('invalid');
