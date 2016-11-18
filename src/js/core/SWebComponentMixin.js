@@ -664,6 +664,14 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
+	 * Mutate the dom using an optimize requestAnimationFrame technique
+	 * @param 		{Function} 		cb 			The callback to exexute
+	 */
+	mutate(cb) {
+		fastdom.mutate(cb);
+	}
+
+	/**
 	 * componentClassName
 	 * Set a class that will be construct with the componentNameDash,
 	 * an optional element and modifier

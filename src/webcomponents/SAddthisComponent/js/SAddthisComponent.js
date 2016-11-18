@@ -35,13 +35,13 @@ export default class SAddthisComponent extends SWebComponent {
 					resolve(this._addthis);
 				};
 				// check if addThis is loaded
-				(function checkIfLoaded() {
-					if (window.addthis) {
-						_sAddThisLoaded();
-						return;
-					}
-					setTimeout(checkIfLoaded, 50);
-				})();
+				// (function checkIfLoaded() {
+				// 	if (window.addthis) {
+				// 		_sAddThisLoaded();
+				// 		return;
+				// 	}
+				// 	setTimeout(checkIfLoaded, 50);
+				// })();
 				// add the script the the page
 				const script = document.createElement('script');
 				script.type = 'text/javascript';

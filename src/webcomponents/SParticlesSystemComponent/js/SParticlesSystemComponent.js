@@ -1,7 +1,6 @@
 import SWebComponent from '../../../js/core/SWebComponent'
 import STimer from '../../../js/classes/STimer'
 import SParticleComponent from '../../SParticleComponent'
-import fastdom from 'fastdom'
 
 export default class SParticlesSystemComponent extends SWebComponent {
 
@@ -103,7 +102,7 @@ export default class SParticlesSystemComponent extends SWebComponent {
 			particle.appendChild(this.props.particleElm);
 		}
 
-		fastdom.mutate(() => {
+		this.mutate(() => {
 			// append the new particle into the system
 			this.appendChild(particle);
 		});

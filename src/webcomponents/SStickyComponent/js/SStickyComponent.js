@@ -2,7 +2,6 @@ import SWebComponent from '../../../js/core/SWebComponent'
 import __scrollTop from '../../../js/dom/scrollTop'
 import __offset from '../../../js/dom/offset'
 import __getAnimationProperties from '../../../js/dom/getAnimationProperties'
-import __fastdom from 'fastdom'
 
 export default class SStickyComponent extends SWebComponent {
 
@@ -250,7 +249,7 @@ export default class SStickyComponent extends SWebComponent {
 
 		// add the placeholder into the dom
 		if ( ! this.placeholderElm.parentNode) {
-			__fastdom.mutate(() => {
+			this.mutate(() => {
 				this.parentNode.insertBefore(this.placeholderElm, this);
 			});
 		}

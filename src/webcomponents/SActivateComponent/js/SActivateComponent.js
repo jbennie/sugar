@@ -3,7 +3,6 @@ import __uniqid from '../../../js/utils/uniqid'
 import __dispatchEvent from '../../../js/dom/dispatchEvent'
 import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
 import __whenAttribute from '../../../js/dom/whenAttribute'
-import fastdom from 'fastdom';
 
 if ( ! window.sugar) window.sugar = {};
 if ( ! window.sugar._sActivateStack) window.sugar._sActivateStack = {};
@@ -167,7 +166,7 @@ export default class SActivateComponent extends SAnchorWebComponent {
 			case 'href':
 			case 'activate':
 				// wait next frame to be sure that we have the last html
-				fastdom.mutate(() => {
+				this.mutate(() => {
 					this.update();
 				});
 			break;
@@ -474,7 +473,7 @@ export default class SActivateComponent extends SAnchorWebComponent {
 }
 
 sTemplateIntegrator.registerComponentIntegration('SActivateComponent', (component) => {
-	fastdom.mutate(() => {
+	component.mutate(() => {
 		sTemplateIntegrator.ignore(component, {
 			group : true
 		});

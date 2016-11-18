@@ -1,6 +1,5 @@
 import SWebComponent from '../../../js/core/SWebComponent'
 import __getTransitionProperties from '../../../js/dom/getTransitionProperties'
-import __fastdom from 'fastdom'
 
 export default class SDrawerComponent extends SWebComponent {
 
@@ -40,7 +39,7 @@ export default class SDrawerComponent extends SWebComponent {
 		this.bkg = document.querySelector(`${this._componentNameDash}-bkg[for="${this.props.name}"]`);
 		if ( ! this.bkg) {
 			this.bkg = document.createElement(`${this._componentNameDash}-bkg`);
-			__fastdom.mutate(() => {
+			this.mutate(() => {
 				this.bkg.setAttribute('for', this.props.name);
 				// insert in the page
 				this.parentElement.insertBefore(this.bkg, this.parentElement.firstChild);
@@ -53,7 +52,7 @@ export default class SDrawerComponent extends SWebComponent {
 			this.overlay = document.createElement('label');
 			this.overlay.setAttribute('for', this.props.name);
 			this.overlay.setAttribute('is', `${this._componentNameDash}-overlay`);
-			__fastdom.mutate(() => {
+			this.mutate(() => {
 				// insert in the page
 				this.parentElement.insertBefore(this.overlay, this.parentElement.firstChild);
 			});
@@ -67,7 +66,7 @@ export default class SDrawerComponent extends SWebComponent {
 			this.toggle.setAttribute('id', this.props.name);
 			this.toggle.setAttribute('type', 'checkbox');
 			this.toggle.setAttribute('is', `${this._componentNameDash}-toggle`);
-			__fastdom.mutate(() => {
+			this.mutate(() => {
 				// insert into page
 				this.parentElement.insertBefore(this.toggle, this.parentElement.firstChild);
 			});
@@ -76,7 +75,7 @@ export default class SDrawerComponent extends SWebComponent {
 		// listen for change on the toggle
 		this.toggle.addEventListener('change', (e) => {
 			let name = e.target.name;
-			__fastdom.mutate(() => {
+			this.mutate(() => {
 				if (e.target.checked) {
 					document.body.classList.add(`${this._componentNameDash}-${this.props.name}`);
 				} else {
@@ -111,7 +110,7 @@ export default class SDrawerComponent extends SWebComponent {
 	 */
 	open() {
 		// check the toggle
-		__fastdom.mutate(() => {
+		this.mutate(() => {
 			this.toggle.setAttribute('checked', true);
 			document.body.classList.add(`${this._componentNameDash}-${this.props.name}`);
 		});
@@ -123,13 +122,13 @@ export default class SDrawerComponent extends SWebComponent {
 	 */
 	close() {
 		// uncheck the toggle
-		__fastdom.mutate(() => {
+		this.mutate(() => {
 			this.toggle.removeAttribute('checked');
 		});
 
 		const transition = __getTransitionProperties(this);
 		setTimeout(() => {
-			__fastdom.mutate(() => {
+			this.mutate(() => {
 				document.body.classList.remove(`${this._componentNameDash}-${this.props.nane}`);
 			});
 		}, transition.totalDuration);
