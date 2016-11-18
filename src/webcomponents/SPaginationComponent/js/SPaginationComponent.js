@@ -199,6 +199,6 @@ export default class SPaginationComponent extends STemplateWebComponent {
 }
 
 // STemplate integration
-sTemplateIntegrator.registerComponentIntegration('SPaginationComponent', (component) => {
+sTemplateIntegrator.registerComponentIntegration(SPaginationComponent, (component) => {
 
 });

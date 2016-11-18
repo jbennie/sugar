@@ -190,7 +190,7 @@ export default class SGoogleStreetviewComponent extends mix(SWebComponent).with(
 }
 
 // STemplate integration
-sTemplateIntegrator.registerComponentIntegration('SGoogleStreetviewComponent', (component) => {
+sTemplateIntegrator.registerComponentIntegration(SGoogleStreetviewComponent, (component) => {
 	if (component._mapElm) {
 		sTemplateIntegrator.ignore(component._mapElm);
 	}

@@ -83,7 +83,7 @@ export default class SGoogleMapMarkerComponent extends mix(SWebComponent).with(S
 }
 
 // STemplate integration
-sTemplateIntegrator.registerComponentIntegration('SGoogleMapMarkerComponent', (component) => {
+sTemplateIntegrator.registerComponentIntegration(SGoogleMapMarkerComponent, (component) => {
 	if (component._mapElm) {
 		sTemplateIntegrator.ignore(component._mapElm);
 	}

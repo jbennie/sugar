@@ -1,13 +1,8 @@
 import __autoCast from '../utils/string/autoCast'
 
-class STemplateIntegrator {
+const _integrations = new Map();
 
-	/**
-	 * Store all the component integration functions registered
-	 * @private
-	 * @type 	{Object}
-	 */
-	_componentsIntegrationFnStack = {};
+class STemplateIntegrator {
 
 	keepAttribute() { return this; }
 	exclude() { return this; }
@@ -16,24 +11,21 @@ class STemplateIntegrator {
 	 * Register a component integration function
 	 * @param 	{Function} 		integrationFn 		The function used to set the integration attributes, etc into the component elements
 	 */
-	registerComponentIntegration(componentClassName, fn) {
-		if (componentClassName instanceof Array) {
-			componentClassName.forEach((className) => {
-				if ( ! this._componentsIntegrationFnStack[className]) {
-					this._componentsIntegrationFnStack[className] = [];
-				}
-				if (this._componentsIntegrationFnStack[className].indexOf(fn) === -1) {
-					this._componentsIntegrationFnStack[className].push(fn);
-				}
+	registerComponentIntegration(componentClass, fn) {
+
+		if (componentClass instanceof Array) {
+			componentClass.forEach((comp) => {
+				this.registerComponentIntegration(comp, fn);
 			});
-		} else {
-			if ( ! this._componentsIntegrationFnStack[componentClassName]) {
-				this._componentsIntegrationFnStack[componentClassName] = [];
-			}
-			if (this._componentsIntegrationFnStack[componentClassName].indexOf(fn) === -1) {
-				this._componentsIntegrationFnStack[componentClassName].push(fn);
-			}
+			return;
 		}
+		// get the component class map entry
+		let arrayIntegrations = _integrations.get(componentClass) || [];
+		if (arrayIntegrations.indexOf(fn) === -1) {
+			arrayIntegrations.push(fn);
+		}
+		// set into map again
+		_integrations.set(componentClass, arrayIntegrations);
 	}
 
 	getIntegrationFrom(elm) {
@@ -45,6 +37,17 @@ class STemplateIntegrator {
 			refresh : false
 		};
 		return integration;
+	}
+
+	getComponentIntegrationFunctionsFrom(elm) {
+		let functionsArray = [];
+		// loop on all the component keys in the integration map
+		_integrations.forEach((value, key) => {
+			if (elm instanceof key) {
+				functionsArray = functionsArray.concat(value);
+			}
+		});
+		return functionsArray;
 	}
 
 	setIntegrationTo(elm, integration) {

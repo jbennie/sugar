@@ -231,7 +231,7 @@ export default class SEqualizeComponent extends SWebComponent {
 }
 
 // STemplate integration
-sTemplateIntegrator.registerComponentIntegration('SEqualizeComponent', (component) => {
+sTemplateIntegrator.registerComponentIntegration(SEqualizeComponent, (component) => {
 	sTemplateIntegrator.ignore(component, {
 		style : true,
 	});

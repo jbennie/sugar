@@ -212,7 +212,7 @@ export default class SResponsiveImgComponent extends SWebComponent {
 	}
 }
 
-sTemplateIntegrator.registerComponentIntegration('SResponsiveImgComponent', (component) => {
+sTemplateIntegrator.registerComponentIntegration(SResponsiveImgComponent, (component) => {
 	sTemplateIntegrator.ignore(component, {
 		width : true,
 		src : true

@@ -521,7 +521,7 @@ SElement.registerInitDependency((api) => {
 });
 
 // STemplate integration
-sTemplateIntegrator.registerComponentIntegration('SElement', (component) => {
+sTemplateIntegrator.registerComponentIntegration(SElement, (component) => {
 	sTemplateIntegrator.ignore(component.elm, {
 		"s-element" : true
 	});

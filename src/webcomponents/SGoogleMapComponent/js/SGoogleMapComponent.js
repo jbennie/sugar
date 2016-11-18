@@ -140,7 +140,7 @@ export default class SGoogleMapComponent extends mix(SWebComponent).with(SGoogle
 }
 
 // STemplate integration
-sTemplateIntegrator.registerComponentIntegration('SGoogleMapComponent', (component) => {
+sTemplateIntegrator.registerComponentIntegration(SGoogleMapComponent, (component) => {
 	if (component._mapElm) {
 		sTemplateIntegrator.ignore(component._mapElm);
 	}

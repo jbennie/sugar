@@ -637,23 +637,29 @@ export default class STemplate {
 
 		if ( ! node._sTemplateTypesIntegration) node._sTemplateTypesIntegration = {};
 
-		// loop ever the types of the node
-		if (node._typeOf && node._typeOf instanceof Array) {
-			node._typeOf.forEach((type) => {
-				// do nothing is already integrated
-				// if ( node._sTemplateTypesIntegration
-				// 	&& node._sTemplateTypesIntegration[type]) return;
-				// get the integration function
-				const integrationFn = sTemplateIntegrator._componentsIntegrationFnStack[type];
-				if (integrationFn) {
-					integrationFn.forEach((fn) => {
-						fn(node._sInstance || node);
-					});
-				}
-				// set as integrated
-				node._sTemplateTypesIntegration[type] = true;
-			});
-		}
+		const fns = sTemplateIntegrator.getComponentIntegrationFunctionsFrom(node);
+		fns.forEach((fn) => {
+			fn(node);
+		});
+
+		//
+		// // loop ever the types of the node
+		// if (node._typeOf && node._typeOf instanceof Array) {
+		// 	node._typeOf.forEach((type) => {
+		// 		// do nothing is already integrated
+		// 		// if ( node._sTemplateTypesIntegration
+		// 		// 	&& node._sTemplateTypesIntegration[type]) return;
+		// 		// get the integration function
+		// 		const integrationFn = sTemplateIntegrator._componentsIntegrationFnStack[type];
+		// 		if (integrationFn) {
+		// 			integrationFn.forEach((fn) => {
+		// 				fn(node._sInstance || node);
+		// 			});
+		// 		}
+		// 		// set as integrated
+		// 		node._sTemplateTypesIntegration[type] = true;
+		// 	});
+		// }
 	}
 
 	/**

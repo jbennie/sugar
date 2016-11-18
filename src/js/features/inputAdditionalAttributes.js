@@ -28,7 +28,7 @@ function handleInputAttributes(e) {
 document.addEventListener('change', handleInputAttributes);
 document.addEventListener('keyup', handleInputAttributes);
 
-sTemplateIntegrator.registerComponentIntegration(['HTMLInputElement','HTMLSelectElement'], (input) => {
+sTemplateIntegrator.registerComponentIntegration([HTMLInputElement,HTMLSelectElement], (input) => {
 	sTemplateIntegrator.ignore(input, {
 		"has-value" : true,
 		empty : true,

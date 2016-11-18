@@ -128,12 +128,12 @@
                 }
                 &:last-child {
                     &:before {
-                        border-right-width: s-lnf(padding-vertical) * .5;
+                        border-right-width: 1px;
                     }
                 }
                 &:first-child {
                     &:before {
-                        border-left-width: s-lnf(padding-vertical) * .5;
+                        border-left-width: 1px;
                     }
                 }
     		}

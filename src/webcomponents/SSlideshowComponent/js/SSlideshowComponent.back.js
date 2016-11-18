@@ -1042,7 +1042,7 @@ export default class SSlideshowComponent extends SWebComponent {
 }
 
 // STemplate integration
-sTemplateIntegrator.registerComponentIntegration('SSlideshowComponent', (component) => {
+sTemplateIntegrator.registerComponentIntegration(SSlideshowComponent, (component) => {
 	sTemplateIntegrator.ignore(component, {
 		slide : true,
 		playback : true,

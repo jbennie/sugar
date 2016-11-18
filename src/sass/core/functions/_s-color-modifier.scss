@@ -1,0 +1,26 @@
+/**
+ * Return the color in a modifier list
+ * @param 			{List} 			$modifiers 		The modifiers list
+ * @return 			{String} 						The color name
+ *
+ * @example
+ * $my-color : s-color-modifier(outline primary); // => primary
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@function s-color-modifier(
+	$modifiers,
+	$default : null
+) {
+	// get the colors registered as list
+	$colors : map-keys(s-setting('colors'));
+	@each $modifier in $modifiers {
+		@if s-is($modifier, color) {
+			@return $modifier;
+		}
+		@if index($colors, $modifier) {
+			@return $modifier;
+		}
+	}
+	@return $default;
+}

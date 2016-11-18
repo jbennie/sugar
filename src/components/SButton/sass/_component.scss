@@ -1,0 +1,59 @@
+@mixin s-button-component(
+	$colors : null
+) {
+	@include s-button-component-bare();
+	@if $colors {
+		@include s-button-component-style($colors);
+	}
+}
+@mixin s-button-component-bare(
+) {
+	// init dropdown
+	@include s-component('s-button') {
+		// base
+		#{s-component-selector()} {
+			@include s-button-bare();
+		}
+		// block
+		#{s-component-selector(null, 'block')} {
+			@include s-button-bare('block');
+		}
+	}
+}
+@mixin s-button-component-style(
+	$colors : default primary secondary
+) {
+	// init dropdown
+	@include s-component('s-button') {
+
+		// parse properties
+		@if $_sugar-test-arguments {
+			// @TODO find a solution to check the colors properties
+			// $colors : s-test-argument('s-button-component-style','colors',map-keys(s-setting('colors')),$colors);
+		}
+
+		// base
+		#{s-component-selector()} {
+			@include s-transition(fast);
+		}
+		// generate each colors
+		@each $color in $colors {
+			#{s-component-selector(null, $color, null, 'color')} {
+				@include s-button-style($color);
+				// outline
+				&#{s-component-selector('&', 'outline')} {
+					@include s-button-style($color 'outline');
+				}
+				// link button
+				&#{s-component-selector('&', 'link')} {
+					@include s-button-style($color 'link');
+				}
+				// disabled
+				&#{s-component-selector('&')}[disabled],
+				&#{s-component-selector('&', null, 'disabled')} {
+					@include s-button-style($color, 'disabled');
+				}
+			}
+		}
+	}
+}

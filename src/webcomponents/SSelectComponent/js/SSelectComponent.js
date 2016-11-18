@@ -856,7 +856,7 @@ export default class SSelectComponent extends mix(HTMLSelectElement).with(SWebCo
 }
 
 // STemplate integration
-sTemplateIntegrator.registerComponentIntegration('SSelectComponent', (component) => {
+sTemplateIntegrator.registerComponentIntegration(SSelectComponent, (component) => {
 	sTemplateIntegrator.ignore(component._containerElm);
 	sTemplateIntegrator.ignore(component, {
 		style : true

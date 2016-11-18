@@ -159,7 +159,7 @@ export default class SLabelPushComponent extends SWebComponent {
 }
 
 // STemplate integration
-sTemplateIntegrator.registerComponentIntegration('SLabelPushComponent', (component) => {
+sTemplateIntegrator.registerComponentIntegration(SLabelPushComponent, (component) => {
 	if (component._input) {
 		sTemplateIntegrator.ignore(component._input, {
 			style : true

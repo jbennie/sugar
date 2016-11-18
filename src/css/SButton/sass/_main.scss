@@ -1,0 +1,105 @@
+$_s-button-inited : false;
+@mixin s-button-component-init() {
+	@if not $_s-button-inited {
+		$_s-button-inited : true !global;
+		%s-button-bare {
+			display: inline-block;
+			border: none;
+			cursor: pointer;
+			outline-width:0;
+			-webkit-appearance: none;
+			line-height: 1;
+			text-decoration: none;
+			font-size:1em;
+			user-select:none;
+
+			> * {
+				vertical-align: middle;
+			}
+		}
+	}
+}
+@mixin s-button(
+	$color,
+	$modifier : null,
+	$state : null
+) {
+	@include s-button-bare();
+	@include s-button-style($color, $modifier, $state);
+}
+@mixin s-button-bare(
+	$modifier : null,
+	$state : null
+) {
+	@if index($modifier, 'base') {
+		@include s-button-component-init();
+		@extend %s-button-component-bare;
+		border-radius: s-lnf(border-radius);
+		padding : s-lnf(padding-horizontal) s-lnf(padding-vertical);
+		height: 1em + s-lnf(padding-horizontal) * 2;
+	}
+
+	@if index($modifier, 'block') {
+		display: block;
+		width: 100%;
+	}
+}
+@mixin s-button-style(
+	$color,
+	$modifier : null,
+	$state : null
+) {
+	@if index($modifier, 'base') {
+		background-color: s-color($color);
+		border: 1px solid s-color($color);
+		@if lightness(s-color($color)) > 70 {
+			color : s-color($color, -darken 30%);
+		} @else {
+			color : white;
+		}
+	}
+
+	@if not index($modifier, 'outline') {
+		&[active],
+		&.active,
+		&:active,
+		&:hover {
+			&:not(:disabled) {
+				background-color : s-color($color, -darken 15%);
+				border-color: s-color($color, -darken 15%);
+			}
+		}
+	}
+
+	@if index($modifier, 'outline') {
+		color: s-color($color);
+		background-color: transparent;
+
+		&:active,
+		&:hover,
+		&.active,
+		:checked + &,
+			&:not(:disabled) {
+				background-color: s-color($color);
+				border-color: s-color($color);
+				@if lightness(s-color($color)) > 70 {
+					color : s-color($color, -darken 30%);
+				} @else {
+					color : white;
+				}
+			}
+		}
+	}
+
+	@if index($modifier, 'link') {
+		background: transparent !important;
+		color: s-color(link) !important;
+		border: none !important;
+	}
+
+	@if index($state, 'disabled') {
+		opacity: s-lnf(disabled-opacity);
+		cursor: not-allowed !important;
+	}
+
+}

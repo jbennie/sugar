@@ -347,7 +347,7 @@ export default class SRangeComponent extends SInputWebComponent {
 	}
 }
 
-sTemplateIntegrator.registerComponentIntegration('SRangeComponent', (component) => {
+sTemplateIntegrator.registerComponentIntegration(SRangeComponent, (component) => {
 	sTemplateIntegrator.ignore(component, {
 		style : true,
 		value : true

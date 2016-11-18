@@ -191,8 +191,8 @@ export default class SActivateComponent extends SAnchorWebComponent {
 	 */
 	_onTriggerElement(e) {
 
-		clearTimeout(this._activateTimeout);
-		this._activateTimeout = setTimeout(() => {
+		// clearTimeout(this._activateTimeout);
+		// this._activateTimeout = setTimeout(() => {
 
 			// if the target is the element itself
 			// we stop if the current target if not
@@ -236,7 +236,7 @@ export default class SActivateComponent extends SAnchorWebComponent {
 					this._activate();
 				}
 			}
-		}, this.props.activateTimeout);
+		// }, this.props.activateTimeout);
 	}
 
 	/**
@@ -384,6 +384,7 @@ export default class SActivateComponent extends SAnchorWebComponent {
 				window.history.pushState(null,null,`#${this.props.id}`);
 				__dispatchEvent(window, 'hashchange');
 			} else {
+				console.log('fefefe');
 				document.location.hash = this.props.id;
 			}
 		} else {
@@ -472,7 +473,7 @@ export default class SActivateComponent extends SAnchorWebComponent {
 
 }
 
-sTemplateIntegrator.registerComponentIntegration('SActivateComponent', (component) => {
+sTemplateIntegrator.registerComponentIntegration(SActivateComponent, (component) => {
 	component.mutate(() => {
 		sTemplateIntegrator.ignore(component, {
 			group : true

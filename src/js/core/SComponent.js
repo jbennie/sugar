@@ -802,7 +802,7 @@ class SComponent extends SElement {
 }
 
 // STemplate integration
-sTemplateIntegrator.registerComponentIntegration('SComponent', (component) => {
+sTemplateIntegrator.registerComponentIntegration(SComponent, (component) => {
 	sTemplateIntegrator.ignore(component.elm, {
 		"s-component" : true
 	});

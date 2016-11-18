@@ -1,0 +1,106 @@
+@mixin s-button-component(
+	$colors : null
+) {
+	@include s-button-component-bare();
+	@if $colors {
+		@include s-button-component-style($colors);
+	}
+}
+@mixin s-button-component-bare(
+) {
+	// init dropdown
+	@include s-component('s-button') {
+		// base
+		#{s-component-selector()} {
+			@include s-button-bare('base');
+		}
+		button {
+			line-height: 1 !important;
+		}
+		// block
+		#{s-component-selector(null, 'block')} {
+			@include s-button-bare('block');
+		}
+	}
+}
+@mixin s-button-component-style(
+	$colors : default primary secondary
+) {
+	// init dropdown
+	@include s-component('s-button') {
+
+		// parse properties
+		@if $_sugar-test-arguments {
+			// @TODO find a solution to check the colors properties
+			// $colors : s-test-argument('s-button-component-style','colors',map-keys(s-setting('colors')),$colors);
+		}
+
+		// base
+		#{s-component-selector()} {
+			@include s-transition(fast);
+		}
+		button {
+			line-height: 1 !important;
+		}
+
+		// generate each colors
+		@each $color in $colors {
+			#{s-component-selector(null, $color, null, 'color')} {
+				@include s-button-style($color, 'base');
+
+				&:active,
+				&:hover,
+				&.active,
+				&#{s-component-selector('&', null, 'active')} {
+					@include s-button-style($color, null, 'active');
+				}
+				:checked + &:not(:disabled) {
+					background-color : s-color($color, -darken 25%);
+					border-color: s-color($color, -darken 25%);
+				}
+
+				// outline
+				&#{s-component-selector('&', 'outline')} {
+					@include s-button-style($color, 'outline');
+				}
+
+				// link button
+				#{s-component-selector(null, 'link')} {
+					@include s-button-style($color, 'link');
+				}
+
+				// disabled
+				#{s-component-selector()}[disabled],
+				#{s-component-selector(null, null, 'disabled')} {
+					@include s-button-style($color, null, 'disabled');
+				}
+			}
+		}
+
+		// button group
+		// #{s-component-selector()}-group {
+		// 	@include s-clearfix();
+		//
+		// 	> input[type="checkbox"],
+		// 	> input[type="radio"] {
+		// 		display: none;
+		// 	}
+		//
+		// 	#{s-component-selector()} {
+		// 		float: left;
+		//
+		// 		&:not(:first-of-type):not(:last-of-type) {
+		// 			border-radius: 0;
+		// 		}
+		// 		&:first-of-type {
+		// 			border-top-right-radius:0;
+		// 			border-bottom-right-radius:0;
+		// 		}
+		// 		&:last-of-type {
+		// 			border-top-left-radius:0;
+		// 			border-bottom-left-radius:0;
+		// 		}
+		// 	}
+		// }
+	}
+}

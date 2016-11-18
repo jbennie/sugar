@@ -681,7 +681,7 @@ SValidatorComponent.registerValidator('url', {
 });
 
 // STemplate integration
-sTemplateIntegrator.registerComponentIntegration(['HTMLSelectElement','HTMLInputElement'], (component) => {
+sTemplateIntegrator.registerComponentIntegration([HTMLSelectElement,HTMLInputElement], (component) => {
 	sTemplateIntegrator.ignore(component, {
 		valid : true,
 		invalid : true,

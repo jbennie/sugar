@@ -240,7 +240,7 @@ export default class SAjaxFormComponent extends SWebSTemplateComponent {
 }
 
 // STemplate integration
-sTemplateIntegrator.registerComponentIntegration('SAjaxFormComponent', (component) => {
+sTemplateIntegrator.registerComponentIntegration(SAjaxFormComponent, (component) => {
 	if (component._form) {
 		sTemplateIntegrator.ignore(component._form, {
 			loading : true,

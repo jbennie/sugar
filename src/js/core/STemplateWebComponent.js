@@ -15,11 +15,6 @@ import __upperFirst from '../utils/string/upperFirst'
 
 export default class STemplateWebComponent extends SWebComponent {
 
-	/**
-	 * @constructor
-	 */
-	constructor() { super(); }
-
 	static define(name, component, ext = null) {
 		const componentName = __upperFirst(__camelize(name));
 		if ( ! window.sugar._templateWebComponents[name]) {

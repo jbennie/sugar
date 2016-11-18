@@ -164,15 +164,11 @@ class STrianglifyComponent extends SComponent {
 
 
 // STemplate integration
-sTemplateIntegrator.registerComponentIntegration('STrianglifyComponent', (component) => {
+sTemplateIntegrator.registerComponentIntegration(STrianglifyComponent, (component) => {
 	sTemplateIntegrator.ignore(component.elm, {
 		style : true
 	});
 });
-
-// expose in window.sugar
-if (window.sugar == null) { window.sugar = {}; }
-window.sugar.STrianglifyComponent = STrianglifyComponent;
 
 // export
 export default STrianglifyComponent;

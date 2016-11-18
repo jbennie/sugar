@@ -67,7 +67,7 @@ export default class SRadioboxComponent extends SInputWebComponent {
 }
 
 // STemplate integration
-sTemplateIntegrator.registerComponentIntegration('SRadioboxComponent', (component) => {
+sTemplateIntegrator.registerComponentIntegration(SRadioboxComponent, (component) => {
 	sTemplateIntegrator.ignore(component, {
 		style : true,
 		color : true
