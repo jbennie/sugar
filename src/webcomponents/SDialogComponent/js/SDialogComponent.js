@@ -113,6 +113,40 @@ export default class SDialogComponent extends SWebComponent {
 	}
 
 	/**
+	 * Component css
+	 */
+	static css(componentName, componentNameDash) {
+		return `
+			body.${componentNameDash}--opened {
+				overflow: hidden;
+			}
+			.${componentNameDash} {
+				display : block;
+				position : fixed;
+				top : 0; left: 0;
+				width : 100%; height : 100%;
+				overflow : auto;
+				text-align : center;
+				white-space : nowrap;
+				z-index:9999;
+			}
+			.${componentNameDash}__overlay {
+				position:fixed;
+				top:0;
+				left:0;
+				width:100%;
+				height:100%;
+			}
+			.${componentNameDash}__aligner {
+				width:0px; height:100%; display:inline-block; vertical-align:middle;
+			}
+			.${componentNameDash}__content {
+				display: inline-block; text-align: left; margin: 0px auto; position: relative; vertical-align: middle; white-space: normal;
+			}
+		`;
+	}
+
+	/**
 	 * Mount component
 	 * @definition 		SWebComponent.componentMount
 	 */
@@ -284,7 +318,7 @@ export default class SDialogComponent extends SWebComponent {
 	_open() {
 
 		// add the body class
-		this.addComponentClass(document.body, null, null, 'opened');
+		document.body.classList.add(`${this._componentNameDash}--opened`);
 
 		// open counter
 		SDialogComponent.counter++;
@@ -293,13 +327,13 @@ export default class SDialogComponent extends SWebComponent {
 		if ( ! this._template) {
 
 			this._html = __strToHtml(`
-				<div class="${this.componentClassName()}" style="display: block; position: fixed; top: 0px; left: 0px; width: 100%; height: 100vh; overflow: auto; text-align: center; white-space: nowrap;">
-					<div name="overlay" class="${this.componentClassName('overlay')}" style="position:fixed; top:0; left:0; width:100%; height:100%;"></div>
-					<div style="width:0px; height:100%; display:inline-block; vertical-align:middle;"></div>
-					<div name="content" class="${this.componentClassName('content')}" style="display: inline-block; text-align: left; margin: 0px auto; position: relative; vertical-align: middle; white-space: normal;" s-template-do-not-update>
+				<div class="${this._componentNameDash}">
+					<div name="overlay" class="${this._componentNameDash}__overlay"></div>
+					<div class="${this._componentNameDash}__aligner"></div>
+					<div name="content" class="${this._componentNameDash}__content">
 						<!-- content will be here... -->
 					</div>
-					<div name="close" class="${this.componentClassName('close')}"></div>
+					<div name="close" class="${this._componentNameDash}__close"></div>
 				</div>
 			`);
 
@@ -357,11 +391,11 @@ export default class SDialogComponent extends SWebComponent {
 		}
 
 		// try to find the s-dialog-ok and the s-dialog-cancel elements
-		const okElms = this.refs.content.querySelectorAll(`[${this.componentNameDash}-ok]`);
+		const okElms = this.refs.content.querySelectorAll(`[${this._componentNameDash}-ok]`);
 		if (okElms.length) {
 			[].forEach.call(okElms, (elm) => {
 				if ( ! elm._SDialogCancelClickListener) {
-					const value = elm.getAttribute(`${this.componentNameDash}-ok`);
+					const value = elm.getAttribute(`${this._componentNameDash}-ok`);
 					elm._SDialogCancelClickListener = true;
 					elm.addEventListener('click', (e) => {
 						this.ok(value);
@@ -369,11 +403,11 @@ export default class SDialogComponent extends SWebComponent {
 				}
 			});
 		}
-		const cancelElms = this.refs.content.querySelectorAll(`[${this.componentNameDash}-cancel]`);
+		const cancelElms = this.refs.content.querySelectorAll(`[${this._componentNameDash}-cancel]`);
 		if (cancelElms.length) {
 			[].forEach.call(cancelElms, (elm) => {
 				if ( ! elm._SDialogOkClickListener) {
-					const value = elm.getAttribute(`${this.componentNameDash}-cancel`);
+					const value = elm.getAttribute(`${this._componentNameDash}-cancel`);
 					elm._SDialogOkClickListener = true;
 					elm.addEventListener('click', (e) => {
 						this.cancel(value);
@@ -462,7 +496,7 @@ export default class SDialogComponent extends SWebComponent {
 			}
 			// if no more dialog opened, remove the body class
 			if (SDialogComponent.counter <= 0) {
-				this.removeComponentClass(document.body, null, null, 'opened');
+				document.body.classList.remove(`${this._componentNameDash}--opened`);
 			}
 
 		}, animationProperties.totalDuration);
