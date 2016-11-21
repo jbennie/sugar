@@ -483,7 +483,9 @@ export default class STemplate {
 	 */
 	patchDom(compiledTemplate) {
 
-		// console.log('com', compiledTemplate);
+		// compiledTemplate.split("\n").forEach((line) => {
+		// 	console.log(line);
+		// });
 		let dom;
 		if (this.domNode.innerHTML.trim() === '') {
 			dom = morphdom(this.domNode, compiledTemplate.trim());
@@ -785,7 +787,7 @@ export default class STemplate {
 		ret = this._applyTemplateNodeIdAttribute(ret);
 
 		// replace s-template-exp
-		ret = ret.replace(/s-template-escaped="(.+)"/g, (toEscape, value) => {
+		ret = ret.replace(/s-template-escaped=[\"\']([^"^']*)[\"\']/g, (toEscape, value) => {
 			return value;
 		});
 

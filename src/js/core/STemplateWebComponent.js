@@ -83,6 +83,9 @@ export default class STemplateWebComponent extends SWebComponent {
 		let tpl = __template(this.props.template || this, 'string');
 		// save into cache
 		this._templateCached = tpl;
+		// tpl.split("\n").forEach((line) => {
+		// 	console.log(line);
+		// });
 		// return the template
 		return tpl;
 	}

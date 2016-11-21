@@ -5,6 +5,7 @@ import Flatpickr from 'flatpickr/dist/flatpickr'
 import __dispatchEvent from '../../../js/dom/dispatchEvent'
 import __isInteger from '../../../js/utils/is/integer'
 import __autoCast from '../../../js/utils/string/autoCast'
+import __fecha from 'fecha'
 
 export default class SDatepickerComponent extends SWebComponent {
 
@@ -511,12 +512,14 @@ export default class SDatepickerComponent extends SWebComponent {
 			parseDate : this.props.parseDate || function(date) {
 				// if the date is a time only
 				if (this.props.noCalendar && this.props.enableTime) {
-					return new Date(Date.parse(`2000.01.01 ${date}`));
+					return __fecha.parse(`2000.01.01 ${date}`);
 				} else if (__isInteger(__autoCast(date))) {
 					// it's a timestamp
 					return new Date(parseInt(date) * 1000);
 				}
-				return new Date(Date.parse(date));
+				console.log('date', date);
+				console.log(fecha.parse(date));
+				return new fecha.parse(date);
 			}.bind(this),
 			shorthandCurrentMonth : this.props.shorthandCurrentMonth,
 			time_24hr : this.props.time24hr,

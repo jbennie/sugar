@@ -15,6 +15,12 @@ import __querySelectorLive from '../../../js/dom/querySelectorLive'
 
 require('../../../js/utils/rxjs/operators/groupByTimeout');
 
+if (typeof HTMLSelectElement !== 'function'){
+    var _HTMLSelectElement = function(){};
+    _HTMLSelectElement.prototype = HTMLSelectElement.prototype;
+    HTMLSelectElement = _HTMLSelectElement;
+}
+
 export default class SSelectComponent extends mix(HTMLSelectElement).with(SWebComponentMixin) {
 
 	/**
