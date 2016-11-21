@@ -13,6 +13,7 @@ import __whenVisible from '../dom/whenVisible'
 import __matches from '../dom/matches'
 import __closest from '../dom/closest'
 import __whenAttribute from '../dom/whenAttribute'
+import __domReady from '../dom/domReady'
 
 if ( ! window.sugar) window.sugar = {};
 if ( ! window.sugar._webComponentsStack) window.sugar._webComponentsStack = {};
@@ -29,6 +30,7 @@ export default Mixin((superclass) => class extends superclass {
 	 */
 	static define(name, component, ext = null) {
 		const componentName = __upperFirst(__camelize(name));
+		const componentNameDash = name;
 		window.sugar._webComponentsStack[componentName] = component;
 
 		// register the webcomponent
@@ -46,8 +48,44 @@ export default Mixin((superclass) => class extends superclass {
 			}
 		});
 
+		// handle css
+		component._injectCss(component, componentName, componentNameDash);
+
 		// return the webcomponent instance
 		return webcomponent;
+	}
+
+	/**
+	 * Inject css into html
+	 * @param 		{String} 		componentName 		The component name
+	 * @param 		{String} 		componentNameDash 	The dash formated component name
+	 */
+	static _injectCss(componentClass, componentName, componentNameDash) {
+		// __domReady().then(() => {
+			// check if component has a css to be injected into the page
+			if (window.sugar._webComponentCss[componentName] === undefined) {
+				let css = '';
+				let comp = componentClass;
+				while(comp) {
+					if (comp.css) {
+						css += comp.css(componentName, componentNameDash);
+					}
+					comp = Object.getPrototypeOf(comp);
+				}
+				if (css) {
+					css = css.replace(/[\s]+/g,'');
+					window.sugar._webComponentCss[componentName] = css;
+					fastdom.mutate(() => {
+						const styleElm = document.createElement('style');
+						styleElm.setAttribute('name', componentName);
+						styleElm.innerHTML = css;
+						document.head.appendChild(styleElm);
+					});
+				} else {
+					window.sugar._webComponentCss[componentName] = false;
+				}
+			}
+		// });
 	}
 
 	/**
@@ -188,7 +226,7 @@ export default Mixin((superclass) => class extends superclass {
 	/**
 	 * Component css
 	 */
-	static css(componentName) {
+	static css(componentName, componentNameDash) {
 		return '';
 	}
 
@@ -274,23 +312,6 @@ export default Mixin((superclass) => class extends superclass {
 	  const sourceName = this.getAttribute('is') || this.tagName.toLowerCase()
 	  this._componentNameDash = sourceName;
 	  this._componentName = __upperFirst(__camelize(sourceName));
-
-	  // check if component has a css to be injected into the page
-	  if (window.sugar._webComponentCss[this._componentName] === undefined) {
-		  let css = this.css;
-		  if (css) {
-			  css = css.replace(/[\s]+/g,'');
-			  window.sugar._webComponentCss[this._componentName] = css;
-			  this.mutate(() => {
-				  const styleElm = document.createElement('style');
-				  styleElm.setAttribute('name', this._componentName);
-				  styleElm.innerHTML = css;
-				  document.head.appendChild(styleElm);
-			  });
-		  } else {
-			  window.sugar._webComponentCss[this._componentName] = false;
-		  }
-	  }
 
 	  // save each instances into the element _sComponents stack
 	  this._typeOf = [];
