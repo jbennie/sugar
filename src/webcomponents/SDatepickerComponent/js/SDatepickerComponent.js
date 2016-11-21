@@ -205,6 +205,250 @@ export default class SDatepickerComponent extends SWebComponent {
 	}
 
 	/**
+	 * Component css
+	 * @definition 		SWebcomponent.css
+	 */
+	static css(componentName, componentNameDash) {
+		return `
+			.flatpickr-input {
+				cursor: pointer;
+				z-index: 1
+			}
+			.flatpickr-mobileInput {
+				opacity: 0;
+				visibility: hidden;
+				position: absolute;
+				width: 0;
+				height: 0;
+				box-sizing: border-box;
+				padding: 0
+			}
+			.flatpickr-calendar {
+				background: #fff;
+				opacity:0;
+				pointer-events: none;
+				margin-top:-20px;
+				border-radius: s-lnf(border-radius);
+				text-align: center;
+				padding:1em;
+				position: absolute;
+				top:0; left: -200vw;
+			}
+			.flatpickr-calendar.open {
+				opacity: 1;
+				z-index: 99999;
+				margin-top:0;
+				pointer-events: all;
+				top:0; left:0;
+			}
+			.flatpickr-calendar.inline {
+				display: inline-block;
+				position: relative;
+				opacity:1;
+				margin-top:0;
+				pointer-events: all;
+			}
+			.flatpickr-calendar.static {
+				position: relative
+			}
+			.flatpickr-calendar.static.open {
+				display: block
+			}
+			.flatpickr-calendar.hasWeeks {
+			}
+
+			.flatpickr-month,
+			.flatpickr-next-month i,
+			.flatpickr-prev-month i {
+				position: relative
+			}
+
+			.flatpickr-month {
+				user-select:none;
+				display: table;
+				width:100%;
+				color: s-color(text);
+				fill: s-color(text);
+			}
+			.flatpickr-month > span {
+				display: table-cell !important;
+				vertical-align: middle;
+				height: 3em;
+				line-height: 3em;
+			}
+
+			.flatpickr-next-month,
+			.flatpickr-prev-month {
+				text-decoration: none;
+				cursor: pointer
+			}
+			.flatpickr-next-month svg,
+			.flatpickr-prev-month svg {
+				height: 1em;
+			}
+			.flatpickr-next-month svg path,
+			.flatpickr-prev-month svg path {
+				fill: inherit
+			}
+			.flatpickr-current-month {
+			}
+			.flatpickr-current-month .cur-month {
+				font-weight: bold;
+			}
+			.flatpickr-current-month .cur-year {
+				padding: 0;
+				margin: 0;
+				width: 3.2em;
+				display: inline;
+				font-size: inherit;
+				line-height: inherit;
+				height: initial;
+				border: 0;
+				border-radius: 0;
+				vertical-align: initial;
+				outline:none;
+			}
+			.flatpickr-current-month .cur-year:hover {
+				background: rgba(0, 0, 0, .05)
+			}
+			.flatpickr-weekdays {
+				padding:.5em 0;
+				overflow: hidden;
+			}
+			span.flatpickr-weekday {
+				cursor: default;
+				margin: 0;
+				text-align: center;
+				display:inline-block;
+				width: 3em / 6 * 10;
+				font-size:.6em;
+				padding:.5em 0;
+			}
+
+			.flatpickr-rContainer {
+				display: inline-block;
+				width: 21em;
+			}
+			.flatpickr-days {
+				outline: 0;
+				text-align: left;
+			}
+			.flatpickr-day {
+				border-radius: s-lnf(border-radius);
+				width: 3em;
+				height: 3em;
+				line-height: 3em;
+				cursor: pointer;
+				display: inline-block;
+				margin: 0;
+				text-align: center;
+			}
+			.flatpickr-day.disabled,
+			.flatpickr-day.disabled:hover,
+			.flatpickr-day.nextMonthDay,
+			.flatpickr-day.notAllowed,
+			.flatpickr-day.notAllowed.nextMonthDay,
+			.flatpickr-day.notAllowed.prevMonthDay,
+			.flatpickr-day.prevMonthDay {
+				color: rgba(57, 57, 57, .3);
+				background: 0 0;
+				border-color: transparent;
+				cursor: default
+			}
+			.flatpickr-weekwrapper {
+				padding-top:.5em;
+				display: inline-block;
+				float: left
+			}
+			.flatpickr-weekwrapper .flatpickr-weeks {
+				padding: .5em .25rem 0 .25em;
+			}
+			.flatpickr-weekwrapper .flatpickr-weekday {
+				float: none;
+				width: 100%
+			}
+			.flatpickr-weekwrapper span.flatpickr-day {
+				display: block;
+				width: 100%
+			}
+			.flatpickr-time {
+				overflow: auto;
+				text-align: center;
+				border-top: 0;
+				outline: 0;
+				display: block;
+				display: flex;
+				min-width:10em;
+			}
+			.flatpickr-am-pm {
+				user-select:none;
+			}
+			.flatpickr-am-pm,
+			.flatpickr-time input,
+			.flatpickr-time-separator {
+				height: 3em;
+				display: inline-block;
+				line-height: 3em;
+				color: #393939
+			}
+			.flatpickr-time input {
+				font-size: 1em;
+				background: 0 0;
+				box-shadow: none;
+				border: 0;
+				border-radius: 0;
+				flex: 1;
+				width: 33%;
+				min-width: 33%;
+				text-align: center;
+				margin: 0;
+				padding: 0;
+				cursor: pointer;
+			}
+			.flatpickr-time input.flatpickr-minute {
+				width: 26%;
+			}
+			.flatpickr-time input.flatpickr-second {
+			}
+			.flatpickr-time input:focus {
+				outline: 0;
+				border: 0
+			}
+
+			.flatpickr-time.has-seconds input[type=number] {
+				width: 25%;
+				min-width: 25%
+			}
+			.hasTime .flatpickr-days,
+			.hasWeeks .flatpickr-days {
+				border-bottom: 0;
+				border-bottom-right-radius: 0;
+				border-bottom-left-radius: 0
+			}
+			.hasWeeks .flatpickr-days {
+				border-left: 0
+			}
+
+			.flatpickr-am-pm {
+				outline: 0;
+				width: 21%;
+				padding: 0 2%;
+				cursor: pointer;
+				text-align: left;
+			}
+
+			@media all and (-ms-high-contrast: none) {
+				.flatpickr-month {
+					padding: 0
+				}
+				.flatpickr-month svg {
+					top: 0!important
+				}
+			}
+		`;
+	}
+
+	/**
 	 * Mount component
 	 * @definition 		SWebComponent.componentMount
 	 */

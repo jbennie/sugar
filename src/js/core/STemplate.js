@@ -219,9 +219,7 @@ export default class STemplate {
 		this.templateString = this.templateString.replace('>', ` s-template-id="${this.templateId}">`);
 
 		// apply a node id to each nodes
-		this.templateString = this.templateString.replace(/<[a-zA-Z0-9-]+(?!.*s-template-id)(\s|>)/g, (itm) => {
-			return `${itm.trim()} s-template-node="${this.templateId}" `;
-		});
+		this.templateString = this._applyTemplateNodeIdAttribute(this.templateString);
 
 		// set the data into instance
 		this.data = data;
@@ -275,9 +273,7 @@ export default class STemplate {
 							}
 						} else if (value.substr(0,1) === '<' && value.substr(-1) === '>') {
 							// apply a node id to each nodes
-							value = value.replace(/<[a-zA-Z0-9-]+(?!.*s-template-id)(\s|>)/g, (item) => {
-								return `${item.trim()} s-template-node="${this.templateId}" `;
-							});
+							value = this._applyTemplateNodeIdAttribute(value);
 						} else if (this.data[value]) {
 							// the value exist in the current data
 							value = _get(this.data, value);
@@ -329,6 +325,20 @@ export default class STemplate {
 		return false;
 	}
 
+	/**
+	 * Apply the template-node-id attribute on each nodes that does not have one
+	 * @param 		{String} 		templateString 		The template string to process
+	 * @return 		{String} 							The processed template string
+	 */
+	_applyTemplateNodeIdAttribute(templateString) {
+		return templateString.replace(/<[a-zA-Z0-9-]+(?!.*s-template-node)(?!.*s-template-id)(\s|>)/g, (itm, s) => {
+			if (s === '>') {
+				return `${itm.trim().replace('>','')} s-template-node="${this.templateId}">`;
+			} else {
+				return `${itm.trim()} s-template-node="${this.templateId}" `;
+			}
+		});
+	}
 
 	/**
 	 * _getParentTemplate
@@ -474,7 +484,6 @@ export default class STemplate {
 	patchDom(compiledTemplate) {
 
 		// console.log('com', compiledTemplate);
-
 		let dom;
 		if (this.domNode.innerHTML.trim() === '') {
 			dom = morphdom(this.domNode, compiledTemplate.trim());
@@ -630,36 +639,11 @@ export default class STemplate {
 	 * @param 		{HTMLElement} 	 node 		The node on which to apply the integration
 	 */
 	_applyIntegrationOnNode(node) {
-
-		// check if already applied integration on this node
-		// if (node._sTemplateIntegrationDone) return;
-		// node._sTemplateIntegrationDone = true;
-
 		if ( ! node._sTemplateTypesIntegration) node._sTemplateTypesIntegration = {};
-
 		const fns = sTemplateIntegrator.getComponentIntegrationFunctionsFrom(node);
 		fns.forEach((fn) => {
 			fn(node);
 		});
-
-		//
-		// // loop ever the types of the node
-		// if (node._typeOf && node._typeOf instanceof Array) {
-		// 	node._typeOf.forEach((type) => {
-		// 		// do nothing is already integrated
-		// 		// if ( node._sTemplateTypesIntegration
-		// 		// 	&& node._sTemplateTypesIntegration[type]) return;
-		// 		// get the integration function
-		// 		const integrationFn = sTemplateIntegrator._componentsIntegrationFnStack[type];
-		// 		if (integrationFn) {
-		// 			integrationFn.forEach((fn) => {
-		// 				fn(node._sInstance || node);
-		// 			});
-		// 		}
-		// 		// set as integrated
-		// 		node._sTemplateTypesIntegration[type] = true;
-		// 	});
-		// }
 	}
 
 	/**
@@ -798,11 +782,7 @@ export default class STemplate {
 		}
 
 		// apply template node id where there's not one for now
-		ret = ret.replace(/<[a-zA-Z0-9-](?!.*s-template-node)(?!.*s-template-id)[\s\S]+?>/g, (item) => {
-			return item.replace(/<[a-zA-Z0-9-]+(\s|>)/g, (itm) => {
-				return `${itm.trim()} s-template-node="${this.templateId}" `;
-			});
-		});
+		ret = this._applyTemplateNodeIdAttribute(ret);
 
 		// replace s-template-exp
 		ret = ret.replace(/s-template-escaped="(.+)"/g, (toEscape, value) => {
