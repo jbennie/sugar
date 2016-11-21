@@ -21,7 +21,7 @@
     "custom-event": "^1.0.0",
     "fastdom": "^1.0.5",
     "fecha": "^2.3.0",
-    "flatpickr": "^2.0.5",
+	"flatpickr" : "https://github.com/olivierbossel/flatpickr.git#master",
     "form-serialize": "^0.7.1",
     "google-maps": "^3.2.1",
     "javascript-detect-element-resize": "^0.5.3",
