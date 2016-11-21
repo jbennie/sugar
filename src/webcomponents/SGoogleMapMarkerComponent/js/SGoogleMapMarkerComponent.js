@@ -1,6 +1,6 @@
 import SWebComponent from '../../../js/core/SWebComponent'
 import SGoogleComponentMixin from '../../mixins/SGoogleComponentMixin'
-import { mix } from 'mixwith'
+import { mix } from '../../../js/vendors/mixwith'
 import __style from '../../../js/dom/style'
 import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
 import __whenAttribute from '../../../js/dom/whenAttribute'

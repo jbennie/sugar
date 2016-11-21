@@ -35,7 +35,8 @@ button {
 	border-radius: s-lnf(border-radius);
 	padding : s-lnf(padding-horizontal) s-lnf(padding-vertical);
 	height: 1em + s-lnf(padding-horizontal) * 2;
-
+	text-align: left;
+	
 	// if is a button, set the line height
 	$splt : _split(#{&},' ');
 	$sel : _last($splt);

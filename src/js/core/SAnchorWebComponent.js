@@ -1,4 +1,4 @@
-import { mix } from 'mixwith'
+import { mix } from '../vendors/mixwith'
 import SWebComponentMixin from './SWebComponentMixin'
 
 if (typeof HTMLAnchorElement !== 'function'){

@@ -1,4 +1,4 @@
-import { mix } from 'mixwith'
+import { mix } from '../../../js/vendors/mixwith'
 import SWebComponentMixin from '../../../js/core/SWebComponentMixin'
 import __next from '../../../js/dom/next'
 import __previous from '../../../js/dom/previous'
