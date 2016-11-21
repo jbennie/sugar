@@ -5,7 +5,6 @@ import Flatpickr from 'flatpickr/dist/flatpickr'
 import __dispatchEvent from '../../../js/dom/dispatchEvent'
 import __isInteger from '../../../js/utils/is/integer'
 import __autoCast from '../../../js/utils/string/autoCast'
-import __fecha from 'fecha'
 
 export default class SDatepickerComponent extends SWebComponent {
 
@@ -229,7 +228,6 @@ export default class SDatepickerComponent extends SWebComponent {
 				opacity:0;
 				pointer-events: none;
 				margin-top:-20px;
-				border-radius: s-lnf(border-radius);
 				text-align: center;
 				padding:1em;
 				position: absolute;
@@ -266,13 +264,10 @@ export default class SDatepickerComponent extends SWebComponent {
 
 			.flatpickr-month {
 				user-select:none;
-				display: table;
 				width:100%;
-				color: s-color(text);
-				fill: s-color(text);
+				display: flex;
 			}
 			.flatpickr-month > span {
-				display: table-cell !important;
 				vertical-align: middle;
 				height: 3em;
 				line-height: 3em;
@@ -281,7 +276,15 @@ export default class SDatepickerComponent extends SWebComponent {
 			.flatpickr-next-month,
 			.flatpickr-prev-month {
 				text-decoration: none;
-				cursor: pointer
+				cursor: pointer;
+				width: 3em;
+				display : inline-block !important;
+				text-align: center;
+			}
+			.flatpickr-next-month[style*="none"],
+			.flatpickr-prev-month[style*="none"] {
+				pointer-events:none;
+				opacity: .4;
 			}
 			.flatpickr-next-month svg,
 			.flatpickr-prev-month svg {
@@ -292,6 +295,7 @@ export default class SDatepickerComponent extends SWebComponent {
 				fill: inherit
 			}
 			.flatpickr-current-month {
+				flex: 1 auto;
 			}
 			.flatpickr-current-month .cur-month {
 				font-weight: bold;
@@ -302,7 +306,7 @@ export default class SDatepickerComponent extends SWebComponent {
 				width: 3.2em;
 				display: inline;
 				font-size: inherit;
-				line-height: inherit;
+				line-height: 0;
 				height: initial;
 				border: 0;
 				border-radius: 0;
@@ -321,7 +325,7 @@ export default class SDatepickerComponent extends SWebComponent {
 				margin: 0;
 				text-align: center;
 				display:inline-block;
-				width: 3em / 6 * 10;
+				width: 5em;
 				font-size:.6em;
 				padding:.5em 0;
 			}
@@ -335,7 +339,6 @@ export default class SDatepickerComponent extends SWebComponent {
 				text-align: left;
 			}
 			.flatpickr-day {
-				border-radius: s-lnf(border-radius);
 				width: 3em;
 				height: 3em;
 				line-height: 3em;
@@ -443,7 +446,7 @@ export default class SDatepickerComponent extends SWebComponent {
 					padding: 0
 				}
 				.flatpickr-month svg {
-					top: 0!important
+					top: 0 !important
 				}
 			}
 		`;
@@ -477,7 +480,7 @@ export default class SDatepickerComponent extends SWebComponent {
 		this._flatpickr = new Flatpickr(this._target, {
 			clickOpens : this.props.clickOpens,
 			dateFormat : this.props.dateFormat,
-			defaultDate : this.props.defaultDate,
+			defaultDate : this._target.value || this.props.defaultDate,
 			disable : this.props.disable,
 			enable : this.props.enable,
 			enableTime : this.props.enableTime,
@@ -509,7 +512,7 @@ export default class SDatepickerComponent extends SWebComponent {
 					instance.triggerChange();
 				}
 			},
-			parseDate : this.props.parseDate || function(date) {
+			parseDate : this.props.parseDate ? this.props.parseDate.bind(this) : function(date) {
 				// if the date is a time only
 				if (this.props.noCalendar && this.props.enableTime) {
 					return new Date(Date.parse(`2000.01.01 ${date}`));

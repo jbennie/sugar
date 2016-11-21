@@ -4,11 +4,14 @@
 	cursor: pointer;
 	outline-width:0;
 	-webkit-appearance: none;
-	line-height: 1;
+	line-height: 0;
 	text-decoration: none;
 	font-size:1em;
 	user-select:none;
 
+	&:not(button):not(input) {
+		line-height:1;
+	}
 	> * {
 		vertical-align: middle;
 	}

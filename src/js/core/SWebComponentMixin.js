@@ -73,14 +73,14 @@ export default Mixin((superclass) => class extends superclass {
 					comp = Object.getPrototypeOf(comp);
 				}
 				if (css) {
-					css = css.replace(/[\s]+/g,'');
+					css = css.replace(/[\s]+/g,' ');
 					window.sugar._webComponentCss[componentName] = css;
-					fastdom.mutate(() => {
+					// fastdom.mutate(() => {
 						const styleElm = document.createElement('style');
 						styleElm.setAttribute('name', componentName);
 						styleElm.innerHTML = css;
 						document.head.appendChild(styleElm);
-					});
+					// });
 				} else {
 					window.sugar._webComponentCss[componentName] = false;
 				}
@@ -495,7 +495,7 @@ export default Mixin((superclass) => class extends superclass {
 	*/
 	_mountComponent() {
 		// wait next frame
-		fastdom.mutate(() => {
+		this.mutate(() => {
 			// sometimes, the component has been unmounted between the
 			// fastdom execution, so we stop here if it's the case
 			if ( ! this._componentAttached) return;
@@ -518,7 +518,7 @@ export default Mixin((superclass) => class extends superclass {
 		// will unmount
 		this.componentWillUnmount();
 		// wait next frame
-		fastdom.mutate(() => {
+		this.mutate(() => {
 			// unmount only if the component is mounted
 			if ( ! this._componentMounted) return;
 			// unmount
@@ -626,7 +626,7 @@ export default Mixin((superclass) => class extends superclass {
 	  }
 
 	  // wait till next frame
-	  fastdom.mutate(() => {
+	  this.mutate(() => {
 
 		  // create array version of each stacks
 		  const nextPropsArray = [],
@@ -826,7 +826,7 @@ export default Mixin((superclass) => class extends superclass {
 	  // loop on each classes to add
 	  cls.split('.').forEach((cl) => {
 		  if (cl && cl !== '') {
-			  fastdom.mutate(() => {
+			  this.mutate(() => {
 				  elm.classList.add(cl);
 			  });
 		  }
@@ -858,7 +858,7 @@ export default Mixin((superclass) => class extends superclass {
 	  // loop on each classes to add
 	  cls.split('.').forEach((cl) => {
 		  if (cl && cl !== '') {
-			  fastdom.mutate(() => {
+			  this.mutate(() => {
 				  elm.classList.remove(cl);
 			  });
 		  }
