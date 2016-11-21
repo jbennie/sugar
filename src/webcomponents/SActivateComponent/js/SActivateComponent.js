@@ -3,6 +3,7 @@ import __uniqid from '../../../js/utils/uniqid'
 import __dispatchEvent from '../../../js/dom/dispatchEvent'
 import sTemplateIntegrator from '../../../js/core/sTemplateIntegrator'
 import __whenAttribute from '../../../js/dom/whenAttribute'
+import __attributesObservable from '../../../js/dom/attributesObservable'
 
 if ( ! window.sugar) window.sugar = {};
 if ( ! window.sugar._sActivateStack) window.sugar._sActivateStack = {};
@@ -30,6 +31,7 @@ export default class SActivateComponent extends SAnchorWebComponent {
 			anchor : true,
 			toggle : false,
 			trigger : 'click',
+			disabled : false,
 			preventActivateParent : false,
 			unactivateTrigger : null,
 			activateTimeout : 0,
@@ -56,7 +58,7 @@ export default class SActivateComponent extends SAnchorWebComponent {
 	 * @definition 		SWebComponent.physicalProps
 	 */
 	static get physicalProps() {
-		return ['group'];
+		return ['group','disabled'];
 	}
 
 	/**
@@ -66,6 +68,7 @@ export default class SActivateComponent extends SAnchorWebComponent {
 	componentWillMount() {
 		super.componentWillMount();
 		this._sActivateTargets = [];
+		this._sActivateTargetsDisabledTimeout = null;
 	}
 
 	/**
@@ -148,6 +151,11 @@ export default class SActivateComponent extends SAnchorWebComponent {
 			// stop listening for activate event
 			target.removeEventListener(`${this._componentNameDash}:activate`, this._onTargetActivate, true);
 		});
+		[].forEach.call(this._sActivateTargets, (target) => {
+			if (target._sActivateAttributesObservable) {
+				target._sActivateAttributesObservable.unsubscribe();
+			}
+		});
 		if (this.props.unactivateTrigger) {
 			this.removeEventListener(this.props.unactivateTrigger, this._onElmUnactivate);
 			[].forEach.call(this._sActivateTargets, (target) => {
@@ -190,6 +198,8 @@ export default class SActivateComponent extends SAnchorWebComponent {
 	 * On element trigger is launched
 	 */
 	_onTriggerElement(e) {
+
+		if ( this.props.disabled) return;
 
 		// clearTimeout(this._activateTimeout);
 		// this._activateTimeout = setTimeout(() => {
@@ -417,6 +427,23 @@ export default class SActivateComponent extends SAnchorWebComponent {
 	}
 
 	/**
+	 * Check if all targets are disabled
+	 */
+	_checkDisabledTargets() {
+		let allDisabled = true;
+		[].forEach.call(this._sActivateTargets, (target) => {
+			if ( ! target.hasAttribute('disabled')) {
+				allDisabled = false;
+			}
+		});
+		if ( allDisabled) {
+			this.setProp('disabled', true);
+		} else {
+			this.setProp('disabled', false);
+		}
+	}
+
+	/**
 	 * Update targets, etc...
 	 */
 	update(scope = document.body) {
@@ -461,8 +488,21 @@ export default class SActivateComponent extends SAnchorWebComponent {
 		if (targetsSelector) {
 			this._sActivateTargets = scope.querySelectorAll(`#${targetsSelector},[${this._componentNameDash}-target="${targetsSelector}"]`);
 			[].forEach.call(this._sActivateTargets, (t) => {
+				// observe disable attribute on the target
+				if ( ! t._sActivateAttributesObservable) {
+					t._sActivateAttributesObservable = __attributesObservable(t, {
+						attributeFilter : ['disabled']
+					}).subscribe((mutation) => {
+						clearTimeout(this._sActivateTargetsDisabledTimeout);
+						this._sActivateTargetsDisabledTimeout = setTimeout(() => {
+							this._checkDisabledTargets();
+						});
+					});
+				}
 				t._sActivateTrigger = this;
 			});
+			// check disabled targets first time
+			this._checkDisabledTargets();
 		} else {
 			this._sActivateTargets = [];
 		}

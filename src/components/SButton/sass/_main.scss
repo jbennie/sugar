@@ -121,5 +121,6 @@ button {
 	@if index($state, 'disabled') {
 		opacity: s-lnf(disabled-opacity);
 		cursor: not-allowed !important;
+		pointer-events: none;
 	}
 }
