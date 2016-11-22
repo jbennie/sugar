@@ -7,6 +7,9 @@ import __attributesObservable from '../../../js/dom/attributesObservable'
 
 if ( ! window.sugar) window.sugar = {};
 if ( ! window.sugar._sActivateStack) window.sugar._sActivateStack = {};
+if ( ! window.sugar._sActivateActiveStack) window.sugar._sActivateActiveStack = {};
+
+const _nestedActiveElements = [];
 
 export default class SActivateComponent extends SAnchorWebComponent {
 
@@ -27,7 +30,6 @@ export default class SActivateComponent extends SAnchorWebComponent {
 			toggle : false,
 			trigger : 'click',
 			disabled : false,
-			preventActivateParent : false,
 			unactivateTrigger : null,
 			activateTimeout : 0,
 			unactivateTimeout : 200,
@@ -62,8 +64,15 @@ export default class SActivateComponent extends SAnchorWebComponent {
 	 */
 	componentWillMount() {
 		super.componentWillMount();
-		this._sActivateTargets = [];
+		this._sActivateTargets = null;
 		this._sActivateTargetsDisabledTimeout = null;
+		this._sActivateNestedItems = [];
+		document.body.addEventListener(`${this._componentNameDash}:activate`, this._componentWillMountBodyActivateListener.bind(this));
+	}
+	_componentWillMountBodyActivateListener(e) {
+		if (this._sActivateNestedItems.indexOf(e.target) === -1) {
+			this._sActivateNestedItems.push(e.target);
+		}
 	}
 
 	/**
@@ -73,8 +82,27 @@ export default class SActivateComponent extends SAnchorWebComponent {
 	componentMount() {
 		super.componentMount();
 
+		// stop listening for activate elements that have been activated
+		// BEFORE this is mounted
+		document.body.removeEventListener(`${this._componentNameDash}:activate`, this._componentWillMountBodyActivateListener);
+
 		// update references
 		this.update();
+
+		// loop on each targets and each active elements to check if need to activate
+		// this element. This is to handle when a nested s-activate is inited before this
+		let activateCauseOfNestedActivatedItems = false;
+		[].forEach.call(this._sActivateTargets, (target) => {
+			if (activateCauseOfNestedActivatedItems) return;
+			this._sActivateNestedItems.forEach((activateItem) => {
+				if (target.contains(activateItem)) {
+					this._activate();
+					activateCauseOfNestedActivatedItems = true;
+				}
+			});
+		});
+		// reset activate nested items (just to be sure)
+		this._sActivateNestedItems = [];
 
 		// handle history if needed
 		if (this.props.history) {
@@ -88,6 +116,25 @@ export default class SActivateComponent extends SAnchorWebComponent {
 
 		// listen for trigger (click, mouseover, etc...)
 		this.addEventListener(this.props.trigger, this._onTriggerElement.bind(this));
+
+		// listen for the activate event on the body to check if we need to unactivate
+		// this
+		document.body.addEventListener(`${this._componentNameDash}:activate`, (e) => {
+			window.sugar._sActivateActiveStack[e.detail.group] = e.detail.id;
+			if (e.detail.group === this.props.group
+				&& e.detail.id !== this.props.id
+			) {
+				this.unactivate();
+			}
+		});
+
+		// check on init if another element of the same group is already activated
+		// to unactivate this
+		if ( window.sugar._sActivateActiveStack[this.props.group]
+			&& window.sugar._sActivateActiveStack[this.props.group] !== this.props.id
+		) {
+			this.unactivate();
+		}
 
 		// listen for childs behin activated
 		[].forEach.call(this._sActivateTargets, (target) => {
@@ -106,18 +153,15 @@ export default class SActivateComponent extends SAnchorWebComponent {
 			}
 		}
 
-		// wait a loop to activate the element if needed
-		// we wait to be sure all the elements on the pages have
-		// been inited
+		// manage the active class
+		if (this.classList.contains(this.props.activeClass)) {
+			// activate the targets
+			// but to not dispatch any events etc...
+			[].forEach.call(this._sActivateTargets, (target) => {
+				target.classList.add(this.props.activeTargetClass || this.props.activeClass);
+			});
+		}
 		setTimeout(() => {
-			// manage the active class
-			if (this.classList.contains(this.props.activeClass)) {
-				// activate the targets
-				// but to not dispatch any events etc...
-				[].forEach.call(this._sActivateTargets, (target) => {
-					target.classList.add(this.props.activeTargetClass || this.props.activeClass);
-				});
-			}
 			// check with anchor if need to activate the element
 			if (this.props.anchor) {
 				let hash = document.location.hash;
@@ -182,7 +226,7 @@ export default class SActivateComponent extends SAnchorWebComponent {
 	_onTargetActivate(e) {
 		// if ( this.props.id === e.detail.id) return;
 		if ( ! this.isComponentMounted()) return;
-		e.stopPropagation();
+		// e.stopPropagation();
 		// activate the trigger that handle this target
 		if (this.props.id !== e.detail.id
 			&& e.target._sActivateTrigger
@@ -195,11 +239,11 @@ export default class SActivateComponent extends SAnchorWebComponent {
 	 * On element trigger is launched
 	 */
 	_onTriggerElement(e) {
-
+		e.preventDefault();
 		if ( this.props.disabled) return;
 
-		// clearTimeout(this._activateTimeout);
-		// this._activateTimeout = setTimeout(() => {
+		clearTimeout(this._activateTimeout);
+		this._activateTimeout = setTimeout(() => {
 
 			// if the target is the element itself
 			// we stop if the current target if not
@@ -209,8 +253,7 @@ export default class SActivateComponent extends SAnchorWebComponent {
 			) {
 				if (e.target !== this) return;
 			}
-			// if (e.target !== this) return;
-			e.preventDefault();
+
 			// clear unactivate timeout
 			clearTimeout(this._unactivateTimeout);
 			// if toggle
@@ -243,7 +286,7 @@ export default class SActivateComponent extends SAnchorWebComponent {
 					this._activate();
 				}
 			}
-		// }, this.props.activateTimeout);
+		}, this.props.activateTimeout);
 	}
 
 	/**
@@ -305,15 +348,6 @@ export default class SActivateComponent extends SAnchorWebComponent {
 		// before activate callback
 		this.props.beforeActivate && this.props.beforeActivate(this);
 
-		// unactive all group elements
-		let grp = this.props.group;
-		[].forEach.call(document.body.querySelectorAll(`${this._componentNameDash}[group="${grp}"],[is="${this._componentNameDash}"][group="${grp}"]`), (group_elm) => {
-			// unactive element
-			if (group_elm.unactivate) {
-				group_elm.unactivate();
-			}
-		});
-
 		// activate the element
 		this.classList.add(this.props.activeClass);
 
@@ -321,23 +355,14 @@ export default class SActivateComponent extends SAnchorWebComponent {
 		[].forEach.call(this._sActivateTargets, (target) => {
 			this.activateTarget(target);
 			// dispatch an event to tell parents that this target is activated
-			if ( ! this.props.preventActivateParent) {
-				__dispatchEvent(target, `${this._componentNameDash}:activate`, {
-					id : this.props.id
-				});
-			}
+			__dispatchEvent(target, `${this._componentNameDash}:activate`, {
+				id : this.props.id,
+				group : this.props.group
+			});
 		});
 
 		// callback
 		this.props.afterActivate && this.props.afterActivate(this);
-
-		// stop if an activation is already in progress for this id
-		// _activationInProgress[this.props.id] = true;
-		//
-		// // reset activation in progress¨
-		// setTimeout(() => {
-		// 	delete _activationInProgress[this.props.id];
-		// });
 	}
 
 	/**
@@ -419,12 +444,13 @@ export default class SActivateComponent extends SAnchorWebComponent {
 		this.classList.remove(this.props.activeClass);
 
 		// unactive targets
-		if (this._sActivateTargets) {
+		if (this._sActivateTargets instanceof NodeList) {
 			[].forEach.call(this._sActivateTargets, (target) => {
 				this.unactivateTarget(target);
 				// dispatch an event to tell parents that this target is unactivated
 				__dispatchEvent(target, `${this._componentNameDash}:unactivate`, {
-					id : this.props.id
+					id : this.props.id,
+					group : this.props.group
 				});
 			});
 		}
