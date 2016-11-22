@@ -14,8 +14,6 @@
   "author": "Olivier Bossel <olivier.bossel@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@webcomponents/shadycss": "git+https://github.com/webcomponents/shadycss.git",
-    "@webcomponents/shadydom": "git+https://github.com/webcomponents/shadydom.git",
     "bootstrap-sass": "^3.3.6",
     "css-element-queries": "^0.3.2",
     "custom-event": "^1.0.0",
@@ -32,9 +30,7 @@
     "rxjs": "^5.0.0-beta.10",
     "sharer.npm.js": "0.0.10",
     "simple-ajax": "^2.6.0",
-    "skatejs-web-components": "^5.0.0",
-    "tocca": "^1.0.1",
-    "webcomponents.js": "^0.7.23"
+    "tocca": "^1.0.1"
   },
   "devDependencies": {
     "angular": "^1.5.5",

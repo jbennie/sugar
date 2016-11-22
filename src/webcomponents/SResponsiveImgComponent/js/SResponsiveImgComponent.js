@@ -179,7 +179,7 @@ export default class SResponsiveImgComponent extends SWebComponent {
 			// set the new src
 			this.setAttribute('src', src);
 			// onSrcApplied callback
-			this.props.onSrcApplied && this.props.onSrcApplied(this, src);
+			this.props.onSrcApplied && this.props.onSrcApplied.apply(this, [src]);
 		};
 		img.src = src;
 	}
@@ -195,7 +195,7 @@ export default class SResponsiveImgComponent extends SWebComponent {
 		let src = this._originalSrc;
 		// check if has a computeSrc setting
 		if (this.props.computeSrc) {
-			src = this.props.computeSrc(src, widthObj);
+			src = this.props.computeSrc.apply(this, [src, widthObj]);
 		}
 		// compute the tokens
 		src = src.replace(/\{[a-zA-Z0-9_-]+\}/g, (match) => {

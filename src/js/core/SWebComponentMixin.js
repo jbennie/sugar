@@ -4,7 +4,6 @@ import __camelize from '../utils/string/camelize'
 import __uniqid from '../utils/uniqid'
 import __upperFirst from '../utils/string/upperFirst'
 import sSettings from './sSettings'
-require('webcomponents.js/webcomponents-lite');
 import fastdom from 'fastdom'
 import __constructorName from '../utils/objects/constructorName'
 import __dispatchEvent from '../dom/dispatchEvent'
@@ -34,10 +33,19 @@ export default Mixin((superclass) => class extends superclass {
 		window.sugar._webComponentsStack[componentName] = component;
 
 		// register the webcomponent
-		const webcomponent = document.registerElement(name, {
-			prototype : component.prototype,
-			extends : ext
-		});
+		let webcomponent;
+		if (document.registerElement) {
+			webcomponent = document.registerElement(name, {
+				prototype : component.prototype,
+				extends : ext
+			});
+		} else if (window.customElements) {
+			webcomponent = window.customElements.define(name, component, {
+				extends : ext
+			});
+		} else {
+			throw `Your browser does not support either document.registerElement or window.customElements.define webcomponents specification...`;
+		}
 
 		// fix for firefox and surely other crapy browser...
 		// this make sur that the (static) methods of the component
@@ -554,6 +562,7 @@ export default Mixin((superclass) => class extends superclass {
 	  // the attribute on itself, we assume the newVal
 	  // is equal to true
 	  if ( ! newVal
+		  && newVal !== 0
 		  // && ! this.props[attribute]
 		  && newVal !== 'false'
 		  && newVal !== 'null'
