@@ -11,11 +11,6 @@ if ( ! window.sugar._sActivateStack) window.sugar._sActivateStack = {};
 export default class SActivateComponent extends SAnchorWebComponent {
 
 	/**
-	 * @constructor
-	 */
-	constructor() { super(); }
-
-	/**
 	 * Default props
 	 * @definition 		SWebComponent.defaultProps
 	 */
@@ -185,10 +180,12 @@ export default class SActivateComponent extends SAnchorWebComponent {
 	 * On target activate
 	 */
 	_onTargetActivate(e) {
+		// if ( this.props.id === e.detail.id) return;
 		if ( ! this.isComponentMounted()) return;
 		e.stopPropagation();
 		// activate the trigger that handle this target
-		if (e.target._sActivateTrigger
+		if (this.props.id !== e.detail.id
+			&& e.target._sActivateTrigger
 			&& e.target._sActivateTrigger !== this) {
 			this._activate();
 		}
@@ -305,7 +302,6 @@ export default class SActivateComponent extends SAnchorWebComponent {
 	 * Activate the element
 	 */
 	_activate() {
-
 		// before activate callback
 		this.props.beforeActivate && this.props.beforeActivate(this);
 
@@ -326,12 +322,22 @@ export default class SActivateComponent extends SAnchorWebComponent {
 			this.activateTarget(target);
 			// dispatch an event to tell parents that this target is activated
 			if ( ! this.props.preventActivateParent) {
-				__dispatchEvent(target, `${this._componentNameDash}:activate`);
+				__dispatchEvent(target, `${this._componentNameDash}:activate`, {
+					id : this.props.id
+				});
 			}
 		});
 
 		// callback
 		this.props.afterActivate && this.props.afterActivate(this);
+
+		// stop if an activation is already in progress for this id
+		// _activationInProgress[this.props.id] = true;
+		//
+		// // reset activation in progress¨
+		// setTimeout(() => {
+		// 	delete _activationInProgress[this.props.id];
+		// });
 	}
 
 	/**
@@ -394,7 +400,6 @@ export default class SActivateComponent extends SAnchorWebComponent {
 				window.history.pushState(null,null,`#${this.props.id}`);
 				__dispatchEvent(window, 'hashchange');
 			} else {
-				console.log('fefefe');
 				document.location.hash = this.props.id;
 			}
 		} else {
@@ -418,7 +423,9 @@ export default class SActivateComponent extends SAnchorWebComponent {
 			[].forEach.call(this._sActivateTargets, (target) => {
 				this.unactivateTarget(target);
 				// dispatch an event to tell parents that this target is unactivated
-				__dispatchEvent(target, `${this._componentNameDash}:unactivate`);
+				__dispatchEvent(target, `${this._componentNameDash}:unactivate`, {
+					id : this.props.id
+				});
 			});
 		}
 
