@@ -178,6 +178,14 @@ export default class SValidatorComponent extends SWebComponent {
 			throw `The SValidatorComponent need a "for" property that target a form input to handle validation for...`;
 		}
 
+		const form = this._getForm();
+		if (form) {
+			form.addEventListener('reset', (e) => {
+				// reset the isValid cache to trigger a new validation next time
+				this._isValid = null;
+			});
+		}
+
 		// get the scope to find for fields
 		let scope = this._getForm();
 		if ( ! scope) scope = document;
@@ -213,34 +221,39 @@ export default class SValidatorComponent extends SWebComponent {
 			[].forEach.call(this._targets, (target) => {
 				const type = target.getAttribute('type');
 				const listener = (type === 'checkbox' || type === 'radio') ? 'change' : this.props.on;
-				const originalValue = target.value;
-				// if is a select, a checkbox or a radio
-				target.addEventListener(listener, (e) => {
-
-					// set the field as dirty
-					if (e.target.value !== originalValue) {
-						e.target._isDirty = true;
-					}
-
-					// bust the cache when the field is updated
-					// to trigger a new validation next time
-					this._isValid = null;
-
-					// validate directly if no timeout
-					if ( ! this.props.timeout) this.validate();
-					else {
-						// wait before validating
-						clearTimeout(this._timeout);
-						this._timeout = setTimeout(() => {
-							this.validate();
-						}, this.props.timeout);
-					}
-				});
+				target._originalValue = target.value;
+				// listen new values
+				target.addEventListener('paste', this._onNewFieldValue.bind(this));
+				target.addEventListener(listener, this._onNewFieldValue.bind(this));
 			});
 		}
 
 		// init the parent form element
 		this._initParentFormIfNeeded();
+	}
+
+	/**
+	 * When the field get a new value, launch the validation
+	 * @param 		{Event} 		e 		The event that trigget the value update
+	 */
+	_onNewFieldValue(e) {
+		// set the field as dirty
+		if (e.target.value !== e.target._originalValue) {
+			e.target._isDirty = true;
+		}
+		// bust the cache when the field is updated
+		// to trigger a new validation next time
+		this._isValid = null;
+
+		// validate directly if no timeout
+		if ( ! this.props.timeout) this.validate();
+		else {
+			// wait before validating
+			clearTimeout(this._timeout);
+			this._timeout = setTimeout(() => {
+				this.validate();
+			}, this.props.timeout);
+		}
 	}
 
 	/**
@@ -684,10 +697,7 @@ SValidatorComponent.registerValidator('url', {
 sTemplateIntegrator.registerComponentIntegration([HTMLSelectElement,HTMLInputElement], (component) => {
 	sTemplateIntegrator.ignore(component, {
 		valid : true,
-		invalid : true,
-		dirty : true,
-		"has-value" : true,
-		empty : true
+		invalid : true
 	});
 	if (component.form) {
 		sTemplateIntegrator.ignore(component.form, {
