@@ -1,8 +1,11 @@
 const __gulp = require('gulp');
+const __gutil = require('gulp-util');
 const __readdirRecursive = require('fs-readdir-recursive');
 const __path = require('path');
 const __fs = require('fs');
-const __docblockParser = require('./docblock-parser').default;
+const __docblockParser = require('../../../npm/docblock-parser/index').default;
+const __docblockParserToMarkdown = require('../../../npm/docblock-parser-to-markdown/index').default;
+
 const __handlebars = require('./doc/handlebars.config').default;
 const __ent = require('ent');
 const __gulpRename = require('gulp-rename');
@@ -21,24 +24,31 @@ export default function(cwd, files, destination) {
 	return __gulp.src(`${cwd}${files}`)
 		.pipe(__gulpCached(cwd))
 		.pipe(__gulpEach(function(content, file, cb) {
-			__docblockParser(file, function(json) {
-				let source = __fs.readFileSync(__dirname + '/doc/template.hbs', 'utf8');
-				let template = __handlebars.compile(source);
-				let result = template({
-					data : json
-				});
-				result = __ent.decode(result);
-				cb(null, result);
-			}, {
+			__docblockParser.parse(file.path, {
 				types : {
 					js : Object.assign(types, {
 						Observable : 'https://github.com/Reactive-Extensions/RxJS/blob/master/doc/api/core/observable.md'
 					})
 				}
+			}).then((json) => {
+				// console.log(json);¨
+				//
+
+				cb(null, __docblockParserToMarkdown.toMarkdown(json));
+
+				// let source = __fs.readFileSync(__dirname + '/doc/template.hbs', 'utf8');
+				// let template = __handlebars.compile(source);
+				// let result = template({
+				// 	data : json
+				// });
+				// result = __ent.decode(result);
+				// cb(null, result);
+				// cb(null, '');
 			});
 		}))
 		.pipe(__gulpRename((path) => {
 			path.extname = '.md';
 		}))
 		.pipe(__gulp.dest(destination));
+	// return __gulp.src(`${cwd}${files}`);
 }

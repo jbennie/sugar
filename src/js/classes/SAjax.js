@@ -44,13 +44,13 @@ import __autoCast from '../utils/string/autoCast'
  * }, (error) => {
  * 		// something went wrong...
  * });
- * @author 		Olivier Bossel<olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 export default class SAjax extends SObject {
 
 	/**
 	 * Store the observable instance on which you can subscribe for responses
-	 * @type 	{Observable}[https://github.com/ReactiveX/rxjs]
+	 * @type 	{Observable}
 	 */
 	observable = null;
 

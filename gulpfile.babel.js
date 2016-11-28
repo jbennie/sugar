@@ -111,13 +111,11 @@ __gulp.task('doc-js', [], () => {
 	.pipe(__gulp.dest('public/assets/js'));
 });
 __gulp.task('doc-js-api', function() {
+	// return __generateDoc(__dirname + '/src/js/', 'classes/SAjax.js', __dirname + '/doc/api/js');
 	return __generateDoc(__dirname + '/src/js/', '**/*.js', __dirname + '/doc/api/js');
 });
 __gulp.task('doc-sass-api', function() {
 	return __generateDoc(__dirname + '/src/sass/', '**/*.scss', __dirname + '/doc/api/sass');
-});
-__gulp.task('doc-components-api', function() {
-	return __generateDoc(__dirname + '/src/components/', '**/*.{scss,js}', __dirname + '/doc/components');
 });
 __gulp.task('doc-iconfont', [], () => {
 	__gulp.src('public/assets-src/fonts/icons-src/*.svg')
@@ -140,7 +138,7 @@ __gulp.task('doc-iconfont', [], () => {
 	.pipe(__gulp.dest('public/assets/fonts'));
 });
 
-__gulp.task('default', ['doc-js-api','doc-sass-api','doc-components-api','doc-js','doc-sass']);
+__gulp.task('default', ['doc-js-api','doc-sass-api','doc-js','doc-sass']);
 
 __gulp.task('watch', ['default'], function() {
 	__gulp.watch(['src/js/**/*.js'], ['doc-js-api','doc-js']);
