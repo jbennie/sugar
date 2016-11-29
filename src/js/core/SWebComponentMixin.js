@@ -1,4 +1,4 @@
-import { Mixin } from 'mixwith'
+import { Mixin } from '../vendors/mixwith'
 import __autoCast from '../utils/string/autoCast'
 import __camelize from '../utils/string/camelize'
 import __uniqid from '../utils/uniqid'

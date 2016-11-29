@@ -1,4 +1,4 @@
-import { Mixin } from 'mixwith'
+import { Mixin } from '../../js/vendors/mixwith'
 import GoogleMapsLoader from 'google-maps'
 
 export default Mixin((superclass) => class SGoogleComponent extends superclass {
