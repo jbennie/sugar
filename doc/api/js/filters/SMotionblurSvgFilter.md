@@ -1,0 +1,48 @@
+
+# SMotionblurSvgFilter  extends { SSvgFilter }
+This class represent a motion blur svg filter that will blur your
+element depending on his movements, direction and speed
+
+#### Example
+```js
+	const filter = new SMotionblurSvgFilter();
+filter.applyTo(myCoolHTMLElement);
+// now when your element will move, it will be blured accordingly
+
+```
+Author : Olivier Bossel <olivier.bossel@gmail.com>
+## Constructor
+
+Name  |  Type  |  Description  |  Status  |  Default
+------------  |  ------------  |  ------------  |  ------------  |  ------------
+amount  |  **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number" target="_blank" title="Number">Number</a> }**  |  The motion blur amount  |  required  |
+
+
+
+
+## Methods
+
+
+### applyTo
+
+Apply the filter to element
+
+
+Name  |  Type  |  Description  |  Status  |  Default
+------------  |  ------------  |  ------------  |  ------------  |  ------------
+elm  |  **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }**  |  The element on which to apply the filter  |  required  |
+
+
+### unapplyFrom
+
+Remove the filter from element
+
+
+Name  |  Type  |  Description  |  Status  |  Default
+------------  |  ------------  |  ------------  |  ------------  |  ------------
+elm  |  **{ <a class="link" href="https://developer.mozilla.org/fr/docs/Web/API/HTMLElement" target="_blank" title="HTMLElement">HTMLElement</a> }**  |  The element to unapply the filter from  |  required  |
+
+
+### destroy
+
+Destroy the filter

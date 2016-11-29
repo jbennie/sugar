@@ -30,25 +30,13 @@ export default function(cwd, files, destination) {
 						Observable : 'https://github.com/Reactive-Extensions/RxJS/blob/master/doc/api/core/observable.md'
 					})
 				}
-			}).then((json) => {
-				// console.log(json);¨
-				//
-
-				cb(null, __docblockParserToMarkdown.toMarkdown(json));
-
-				// let source = __fs.readFileSync(__dirname + '/doc/template.hbs', 'utf8');
-				// let template = __handlebars.compile(source);
-				// let result = template({
-				// 	data : json
-				// });
-				// result = __ent.decode(result);
-				// cb(null, result);
-				// cb(null, '');
+			}, (json) => {
+				const res = __docblockParserToMarkdown.toMarkdown(json);
+				cb(null, res);
 			});
 		}))
 		.pipe(__gulpRename((path) => {
 			path.extname = '.md';
 		}))
 		.pipe(__gulp.dest(destination));
-	// return __gulp.src(`${cwd}${files}`);
 }

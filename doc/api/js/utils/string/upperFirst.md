@@ -1,0 +1,11 @@
+
+
+
+
+
+## Methods
+
+
+### upperFirst
+
+Upper first
