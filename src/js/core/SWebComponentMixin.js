@@ -264,6 +264,7 @@ export default Mixin((superclass) => class extends superclass {
 	componentWillMount() {
 
 		// dispatch event
+		this.onComponentWillMount && this.onComponentWillMount();
 		this.dispatchComponentEvent('componentWillMount');
 
 	  // internal properties
@@ -341,6 +342,7 @@ export default Mixin((superclass) => class extends superclass {
 		// update the status
 		this._componentMounted = true;
 		// dispatch event
+		this.onComponentMount && this.onComponentMount();
 		this.dispatchComponentEvent('componentMount');
 	}
 
@@ -358,6 +360,7 @@ export default Mixin((superclass) => class extends superclass {
 	 */
 	componentDidMount() {
 		// dispatch event
+		this.onComponentDidMount && this.onComponentDidMount();
 		this.dispatchComponentEvent('componentDidMount');
 	}
 
@@ -379,6 +382,7 @@ export default Mixin((superclass) => class extends superclass {
 	 */
 	componentWillUpdate(nextProps) {
 		// dispatch event
+		this.onComponentWillUpdate && this.onComponentWillUpdate(nextProps);
 		this.dispatchComponentEvent('componentWillUpdate', nextProps);
 	}
 
@@ -397,16 +401,19 @@ export default Mixin((superclass) => class extends superclass {
 	 */
 	render() {
 		// dispatch event
+		this.onComponentRender && this.onComponentRender();
 		this.dispatchComponentEvent('componentRender');
 	}
 
 	componentDidUpdate(prevProps) {
 		// dispatch event
+		this.onComponentDidUpdate && this.onComponentDidUpdate(prevProps);
 		this.dispatchComponentEvent('componentDidUpdate', prevProps);
 	}
 
 	componentWillUnmount() {
 		// dispatch event
+		this.onComponentWillUnmount && this.onComponentWillUnmount();
 		this.dispatchComponentEvent('componentWillUnmount');
 	}
 
@@ -414,11 +421,13 @@ export default Mixin((superclass) => class extends superclass {
 		// update the status
 		this._componentMounted = false;
 		// dispatch event
+		this.onComponentUnmount && this.onComponentUnmount();
 		this.dispatchComponentEvent('componentUnmount');
 	}
 
 	componentDidUnmount() {
 		// dispatch event
+		this.onComponentDidUnmount && this.onComponentDidUnmount();
 		this.dispatchComponentEvent('componentDidUnmount');
 	}
 
