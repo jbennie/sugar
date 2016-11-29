@@ -263,6 +263,9 @@ export default Mixin((superclass) => class extends superclass {
 	 */
 	componentWillMount() {
 
+		// dispatch event
+		this.dispatchComponentEvent('componentWillMount');
+
 	  // internal properties
 	  this._nextPropsStack = {};
 	  this._prevPropsStack = {};
@@ -337,6 +340,8 @@ export default Mixin((superclass) => class extends superclass {
 	componentMount() {
 		// update the status
 		this._componentMounted = true;
+		// dispatch event
+		this.dispatchComponentEvent('componentMount');
 	}
 
 	/**
@@ -352,6 +357,8 @@ export default Mixin((superclass) => class extends superclass {
 	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
 	 */
 	componentDidMount() {
+		// dispatch event
+		this.dispatchComponentEvent('componentDidMount');
 	}
 
 	/**
@@ -371,6 +378,8 @@ export default Mixin((superclass) => class extends superclass {
 	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
 	 */
 	componentWillUpdate(nextProps) {
+		// dispatch event
+		this.dispatchComponentEvent('componentWillUpdate', nextProps);
 	}
 
 	/**
@@ -387,20 +396,30 @@ export default Mixin((superclass) => class extends superclass {
 	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
 	 */
 	render() {
+		// dispatch event
+		this.dispatchComponentEvent('componentRender');
 	}
 
 	componentDidUpdate(prevProps) {
+		// dispatch event
+		this.dispatchComponentEvent('componentDidUpdate', prevProps);
 	}
 
 	componentWillUnmount() {
+		// dispatch event
+		this.dispatchComponentEvent('componentWillUnmount');
 	}
 
 	componentUnmount() {
 		// update the status
 		this._componentMounted = false;
+		// dispatch event
+		this.dispatchComponentEvent('componentUnmount');
 	}
 
 	componentDidUnmount() {
+		// dispatch event
+		this.dispatchComponentEvent('componentDidUnmount');
 	}
 
 	/**
@@ -473,7 +492,7 @@ export default Mixin((superclass) => class extends superclass {
 	* Internal mount component method
 	*/
 	_mountComponent() {
-		// wait next frame
+			// wait next frame
 		fastdom.mutate(() => {
 			// sometimes, the component has been unmounted between the
 			// fastdom execution, so we stop here if it's the case
@@ -641,7 +660,6 @@ export default Mixin((superclass) => class extends superclass {
 
 		  // component did update
 		  this.componentDidUpdate(this._prevPropsStack, prevPropsArray);
-
 	  });
 	}
 
