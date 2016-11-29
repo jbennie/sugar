@@ -613,8 +613,6 @@ export default Mixin((superclass) => class extends superclass {
 	  // stop if same value
 	  if (_oldVal === value) return;
 
-	  console.warn('set prop', prop, value);
-
 	  // set the prop
 	  this.props[prop] = value
 
