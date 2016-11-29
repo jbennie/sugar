@@ -539,42 +539,41 @@ export default Mixin((superclass) => class extends superclass {
 	 * When any of the component attribute changes
 	 */
 	attributeChangedCallback(attribute, oldVal, newVal) {
+		// cast the new val
 		newVal = __autoCast(newVal);
 
-	  const _attribute = attribute;
+		const _attribute = attribute;
 
-	  // process the attribute to camelCase
-	  attribute = __camelize(attribute);
+		// process the attribute to camelCase
+		attribute = __camelize(attribute);
 
-	  // do nothing if the value is already the same
-	  if (this.props[attribute] === newVal) return;
+		// do nothing if the value is already the same
+		if (this.props[attribute] === newVal) return;
 
-	  // when the prop is false
-	  // and the element has not this attribute
-	  // we assume that the prop will stay to false
-	  if (this.props[attribute] === false
-		  && ! this.hasAttribute(_attribute)) {
-		  return;
-	  }
+		// when the prop is false
+		// and the element has not this attribute
+		// we assume that the prop will stay to false
+		if (this.props[attribute] === false
+			&& ! this.hasAttribute(_attribute)
+		) {
+			return;
+		}
 
-	  // if there's no new value but that the element has
-	  // the attribute on itself, we assume the newVal
-	  // is equal to true
-	  if ( ! newVal
-		  // && ! this.props[attribute]
-		  && newVal !== 'false'
-		  && newVal !== 'null'
-		  && this.hasAttribute(_attribute)
-	  ) {
-		  this.setProp(attribute, true);
-		  return;
-	  }
+		// if there's no new value but that the element has
+		// the attribute on itself, we assume the newVal
+		// is equal to true
+		if ( ! newVal
+			// && ! this.props[attribute]
+			&& newVal !== 'false'
+			&& newVal !== 'null'
+			&& this.hasAttribute(_attribute)
+		) {
+			this.setProp(attribute, true);
+			return;
+		}
 
-	  // update the props
-	  const val = __autoCast(newVal);
-
-	  // set the new prop
-	  this.setProp(attribute, val);
+		// set the new prop
+		this.setProp(attribute, newVal);
 	}
 
 	/**
