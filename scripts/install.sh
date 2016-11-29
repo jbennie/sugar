@@ -1,11 +1,11 @@
 #!/bin/bash
 
-if [[ $PWD == *"/node_modules/sugarcss/scripts"* ]]
+if [[ $PWD == *"/node_modules/coffeekraken-sugar/scripts"* ]]
 then
 	cd ../
 fi
 
-if [[ $PWD == *"/node_modules/sugarcss"* ]]
+if [[ $PWD == *"/node_modules/coffeekraken-sugar"* ]]
 then
 	# move src
 	mv src/js/ js/
