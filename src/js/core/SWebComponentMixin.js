@@ -273,6 +273,7 @@ export default Mixin((superclass) => class extends superclass {
 	  this._nextPropsTimeout = null;
 	  this._componentMounted = false;
 	  this._componentAttached = false;
+	  this._fastdomSetProp = null;
 
 	  // set the componentName
 	  const sourceName = this.getAttribute('is') || this.tagName.toLowerCase()
@@ -634,7 +635,8 @@ export default Mixin((superclass) => class extends superclass {
 	  }
 
 	  // wait till next frame
-	  fastdom.mutate(() => {
+	  fastdom.clear(this._fastdomSetProp);
+	  this._fastdomSetProp = fastdom.mutate(() => {
 
 		  // create array version of each stacks
 		  const nextPropsArray = [],
@@ -733,7 +735,7 @@ export default Mixin((superclass) => class extends superclass {
 	 * @param 		{Function} 		cb 			The callback to exexute
 	 */
 	mutate(cb) {
-		fastdom.mutate(cb);
+		return fastdom.mutate(cb);
 	}
 
 	/**
