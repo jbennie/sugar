@@ -1,7 +1,6 @@
 import {Observable} from 'rxjs/Observable'
 import 'rxjs/add/operator/share'
 import _isEqual from 'lodash/isEqual'
-// import 'mutationobserver-shim'
 import '../polyfills/queryselector-scope.js'
 import mutationObservable from './mutationObservable'
 import injectOperators from '../utils/rxjs/querySelectorLiveOperators/injectOperators'

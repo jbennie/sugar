@@ -23,7 +23,6 @@
     "js-cookie": "^2.1.3",
     "lodash": "^4.15.0",
     "morphdom": "^2.1.2",
-    "mutationobserver-shim": "^0.3.1",
     "nouislider": "^8.5.1",
     "rxjs": "^5.0.0-beta.10",
     "sharer.npm.js": "0.0.10",

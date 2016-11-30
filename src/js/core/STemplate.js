@@ -1,6 +1,5 @@
 import __dispatchEvent from '../dom/dispatchEvent';
 import SWatcher from '../classes/SWatcher';
-import SElement from './SElement';
 import uniqid from '../utils/uniqid';
 import morphdom from 'morphdom';
 import domReady from '../dom/domReady';
@@ -15,7 +14,6 @@ import __closest from '../dom/closest'
 import __whenAttribute from '../dom/whenAttribute'
 import __propertyProxy from '../utils/objects/propertyProxy'
 import sTemplateIntegrator from './sTemplateIntegrator'
-// import sElementsManager from './sElementsManager';
 
 if (! window.sugar) window.sugar = {};
 if (! window.sugar._sTemplateData) window.sugar._sTemplateData = {};
