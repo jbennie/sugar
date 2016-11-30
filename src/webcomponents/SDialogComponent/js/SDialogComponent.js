@@ -509,8 +509,11 @@ export default class SDialogComponent extends SWebComponent {
 	ok(value = null) {
 		if ( ! this.isOpened()) return;
 		// resolve the promise if exist
-		if (this._resolve)
-			this._resolve(value);
+		try {
+			if (this._resolve && value) {
+				this._resolve(value);
+			}
+		} catch(e) {}
 		// close the dialog
 		this.close(true);
 	}
@@ -521,9 +524,12 @@ export default class SDialogComponent extends SWebComponent {
 	 */
 	cancel(value = null) {
 		if ( ! this.isOpened()) return;
-		// reject the promise if exist
-		if (this._reject)
-			this._reject(value);
+		try {
+			// reject the promise if exist
+			if (this._reject && value) {
+				this._reject(value);
+			}
+		} catch(e) {}
 		// close the dialog
 		this.close(true);
 	}

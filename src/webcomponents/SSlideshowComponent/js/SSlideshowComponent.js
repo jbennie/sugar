@@ -19,7 +19,7 @@ export default class SSlideshowComponent extends SWebComponent {
 			 * @prop
 			 * @type 		{Integer}
 			 */
-			slide : 0,
+			slide : null,
 
 			/**
 			 * Set if the slideshow is infinite
@@ -347,7 +347,7 @@ export default class SSlideshowComponent extends SWebComponent {
 
 		// if the slideshow is at his first time
 		let activeSlideIndex = 0;
-		if (idx === -1) {
+		if (idx === null) {
 			// try to find a slide that has the active class
 			const activeSlide = this._findActiveSlideByAttributes();
 			if (activeSlide) {
@@ -386,7 +386,7 @@ export default class SSlideshowComponent extends SWebComponent {
 
 		// if the slideshow is at his first time
 		let activeSlideIndex = 0;
-		if (idx === -1) {
+		if (idx === null) {
 			// try to find a slide that has the active class
 			const activeSlide = this._findActiveSlideByAttributes();
 			if (activeSlide) {

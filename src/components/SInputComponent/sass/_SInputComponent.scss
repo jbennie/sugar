@@ -144,8 +144,11 @@ $_s-input-component-inited : false;
 }
 @mixin s-input-component-field-size() {
 	border-radius: s-lnf(border-radius);
-	padding : s-lnf(padding-horizontal) s-lnf(padding-vertical);
+	padding : 0 s-lnf(padding-vertical);
 	height: 1em + s-lnf(padding-horizontal) * 2;
+	&:not(input) {
+		padding : s-lnf(padding-horizontal) s-lnf(padding-vertical);
+	}
 }
 @mixin s-input-component-field-color($color) {
 	border-color: s-color($color, -opacity .1);

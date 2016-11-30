@@ -23,21 +23,20 @@ export default function(target, settings = {}) {
 
 		// create a new observer
 		const mutationObserver = new MutationObserver((mutations) => {
+			let mutedAttrs = {};
 			// loop on mutations
 			mutations.forEach((mutation) => {
-				if (settings.attributes) {
-					if (settings.attributes.indexOf(mutation.attribute) !== -1) {
-						observer.next(mutation);
-					}
-					return;
-				}
 				// push mutation
-				observer.next(mutation);
+				if ( ! mutedAttrs[mutation.attribute]) {
+					observer.next(mutation);
+					mutedAttrs[mutation.attribute] = true;
+				}
 			});
+			mutedAttrs = {};
 		});
 		mutationObserver.observe(target, {
 			attributes : true,
-			characterData : true,
+			// characterData : true,
 			...settings
 		});
 		// unsubscribe routine

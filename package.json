@@ -16,7 +16,7 @@
   "dependencies": {
     "custom-event": "^1.0.0",
     "fastdom": "^1.0.5",
-    "flatpickr": "^2.0.5",
+    "flatpickr": "^2.1.1",
     "form-serialize": "^0.7.1",
     "google-maps": "^3.2.1",
     "javascript-detect-element-resize": "^0.5.3",
@@ -28,9 +28,7 @@
     "rxjs": "^5.0.0-beta.10",
     "sharer.npm.js": "0.0.10",
     "simple-ajax": "^2.6.0",
-    "skatejs-web-components": "^5.0.0",
-    "tocca": "^1.0.1",
-    "webcomponents.js": "^0.7.23"
+    "tocca": "^1.0.1"
   },
   "devDependencies": {
     "angular": "^1.5.5",

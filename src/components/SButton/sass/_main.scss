@@ -4,11 +4,14 @@
 	cursor: pointer;
 	outline-width:0;
 	-webkit-appearance: none;
-	line-height: 1;
+	line-height: 0;
 	text-decoration: none;
 	font-size:1em;
 	user-select:none;
 
+	&:not(button):not(input) {
+		line-height:1;
+	}
 	> * {
 		vertical-align: middle;
 	}
@@ -32,7 +35,8 @@ button {
 	border-radius: s-lnf(border-radius);
 	padding : s-lnf(padding-horizontal) s-lnf(padding-vertical);
 	height: 1em + s-lnf(padding-horizontal) * 2;
-
+	text-align: left;
+	
 	// if is a button, set the line height
 	$splt : _split(#{&},' ');
 	$sel : _last($splt);
@@ -118,5 +122,6 @@ button {
 	@if index($state, 'disabled') {
 		opacity: s-lnf(disabled-opacity);
 		cursor: not-allowed !important;
+		pointer-events: none;
 	}
 }

@@ -4,7 +4,6 @@ import __camelize from '../utils/string/camelize'
 import __uniqid from '../utils/uniqid'
 import __upperFirst from '../utils/string/upperFirst'
 import sSettings from './sSettings'
-require('webcomponents.js/webcomponents-lite');
 import fastdom from 'fastdom'
 import __constructorName from '../utils/objects/constructorName'
 import __dispatchEvent from '../dom/dispatchEvent'
@@ -13,6 +12,7 @@ import __whenVisible from '../dom/whenVisible'
 import __matches from '../dom/matches'
 import __closest from '../dom/closest'
 import __whenAttribute from '../dom/whenAttribute'
+import __domReady from '../dom/domReady'
 
 if ( ! window.sugar) window.sugar = {};
 if ( ! window.sugar._webComponentsStack) window.sugar._webComponentsStack = {};
@@ -29,13 +29,23 @@ export default Mixin((superclass) => class extends superclass {
 	 */
 	static define(name, component, ext = null) {
 		const componentName = __upperFirst(__camelize(name));
+		const componentNameDash = name;
 		window.sugar._webComponentsStack[componentName] = component;
 
 		// register the webcomponent
-		const webcomponent = document.registerElement(name, {
-			prototype : component.prototype,
-			extends : ext
-		});
+		let webcomponent;
+		if (document.registerElement) {
+			webcomponent = document.registerElement(name, {
+				prototype : component.prototype,
+				extends : ext
+			});
+		} else if (window.customElements) {
+			webcomponent = window.customElements.define(name, component, {
+				extends : ext
+			});
+		} else {
+			throw `Your browser does not support either document.registerElement or window.customElements.define webcomponents specification...`;
+		}
 
 		// fix for firefox and surely other crapy browser...
 		// this make sur that the (static) methods of the component
@@ -46,8 +56,44 @@ export default Mixin((superclass) => class extends superclass {
 			}
 		});
 
+		// handle css
+		component._injectCss(component, componentName, componentNameDash);
+
 		// return the webcomponent instance
 		return webcomponent;
+	}
+
+	/**
+	 * Inject css into html
+	 * @param 		{String} 		componentName 		The component name
+	 * @param 		{String} 		componentNameDash 	The dash formated component name
+	 */
+	static _injectCss(componentClass, componentName, componentNameDash) {
+		// __domReady().then(() => {
+			// check if component has a css to be injected into the page
+			if (window.sugar._webComponentCss[componentName] === undefined) {
+				let css = '';
+				let comp = componentClass;
+				while(comp) {
+					if (comp.css) {
+						css += comp.css(componentName, componentNameDash);
+					}
+					comp = Object.getPrototypeOf(comp);
+				}
+				if (css) {
+					css = css.replace(/[\s]+/g,' ');
+					window.sugar._webComponentCss[componentName] = css;
+					// fastdom.mutate(() => {
+						const styleElm = document.createElement('style');
+						styleElm.setAttribute('name', componentName);
+						styleElm.innerHTML = css;
+						document.head.appendChild(styleElm);
+					// });
+				} else {
+					window.sugar._webComponentCss[componentName] = false;
+				}
+			}
+		// });
 	}
 
 	/**
@@ -188,7 +234,7 @@ export default Mixin((superclass) => class extends superclass {
 	/**
 	 * Component css
 	 */
-	static css(componentName) {
+	static css(componentName, componentNameDash) {
 		return '';
 	}
 
@@ -279,23 +325,6 @@ export default Mixin((superclass) => class extends superclass {
 	  const sourceName = this.getAttribute('is') || this.tagName.toLowerCase()
 	  this._componentNameDash = sourceName;
 	  this._componentName = __upperFirst(__camelize(sourceName));
-
-	  // check if component has a css to be injected into the page
-	  if (window.sugar._webComponentCss[this._componentName] === undefined) {
-		  let css = this.css;
-		  if (css) {
-			  css = css.replace(/[\s]+/g,'');
-			  window.sugar._webComponentCss[this._componentName] = css;
-			  this.mutate(() => {
-				  const styleElm = document.createElement('style');
-				  styleElm.setAttribute('name', this._componentName);
-				  styleElm.innerHTML = css;
-				  document.head.appendChild(styleElm);
-			  });
-		  } else {
-			  window.sugar._webComponentCss[this._componentName] = false;
-		  }
-	  }
 
 	  // save each instances into the element _sComponents stack
 	  this._typeOf = [];
@@ -502,8 +531,8 @@ export default Mixin((superclass) => class extends superclass {
 	* Internal mount component method
 	*/
 	_mountComponent() {
-			// wait next frame
-		fastdom.mutate(() => {
+		// wait next frame
+		this.mutate(() => {
 			// sometimes, the component has been unmounted between the
 			// fastdom execution, so we stop here if it's the case
 			if ( ! this._componentAttached) return;
@@ -526,7 +555,7 @@ export default Mixin((superclass) => class extends superclass {
 		// will unmount
 		this.componentWillUnmount();
 		// wait next frame
-		fastdom.mutate(() => {
+		this.mutate(() => {
 			// unmount only if the component is mounted
 			if ( ! this._componentMounted) return;
 			// unmount
@@ -560,18 +589,19 @@ export default Mixin((superclass) => class extends superclass {
 			return;
 		}
 
-		// if there's no new value but that the element has
-		// the attribute on itself, we assume the newVal
-		// is equal to true
-		if ( ! newVal
-			// && ! this.props[attribute]
-			&& newVal !== 'false'
-			&& newVal !== 'null'
-			&& this.hasAttribute(_attribute)
-		) {
-			this.setProp(attribute, true);
-			return;
-		}
+	  // if there's no new value but that the element has
+	  // the attribute on itself, we assume the newVal
+	  // is equal to true
+	  if ( ! newVal
+		  && newVal !== 0
+		  // && ! this.props[attribute]
+		  && newVal !== 'false'
+		  && newVal !== 'null'
+		  && this.hasAttribute(_attribute)
+	  ) {
+		  this.setProp(attribute, true);
+		  return;
+	  }
 
 		// set the new prop
 		this.setProp(attribute, newVal);
@@ -833,7 +863,7 @@ export default Mixin((superclass) => class extends superclass {
 	  // loop on each classes to add
 	  cls.split('.').forEach((cl) => {
 		  if (cl && cl !== '') {
-			  fastdom.mutate(() => {
+			  this.mutate(() => {
 				  elm.classList.add(cl);
 			  });
 		  }
@@ -865,7 +895,7 @@ export default Mixin((superclass) => class extends superclass {
 	  // loop on each classes to add
 	  cls.split('.').forEach((cl) => {
 		  if (cl && cl !== '') {
-			  fastdom.mutate(() => {
+			  this.mutate(() => {
 				  elm.classList.remove(cl);
 			  });
 		  }
