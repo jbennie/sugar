@@ -1,8 +1,0 @@
-/**
- * Dropdown
- */
-@include s-component('dropdown') {
-	@include s-dropdown-component(
-		$colors : default primary
-	);
-}

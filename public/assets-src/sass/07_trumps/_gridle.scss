@@ -1,5 +1,0 @@
-// generate all helpers :
-@include gridle_generate_classes(default, ( helpers ) );
-@include gridle_generate_classes(moblet, ( helpers ) );
-@include gridle_generate_classes(mobile, ( helpers ) );
-@include gridle_generate_classes(tablet, ( helpers ) );
