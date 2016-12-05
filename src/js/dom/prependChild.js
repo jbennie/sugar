@@ -10,11 +10,11 @@
  *
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-export default function prependChild(elm, in) {
-	if ( ! in.firstChild) {
-		in.appendChild(elm);
+export default function prependChild(elm, refElm) {
+	if ( ! refElm.firstChild) {
+		refElm.appendChild(elm);
 	} else {
-		in.insertBefore(elm, in.firstChild);
+		refElm.insertBefore(elm, refElm.firstChild);
 	}
 	return child;
 }
