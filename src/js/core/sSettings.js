@@ -19,16 +19,13 @@ domReady(() => {
 	let _settings = window.getComputedStyle(
 		document.querySelector('.s-settings'), ':after'
 	).getPropertyValue('content').trim();
-	if (_settings && _settings !== '') {
-		console.log('_settings', _settings);
+	if (_settings && _settings !== '' && _settings !== 'none') {
 		_settings = _settings.replace(/\\"/g, '"');
-		_settings = _settings.replace(/\\\'\\"/g,'"').replace(/\\"\\\'/g,'"');
-		_settings = _settings.replace(/\'\\"/g,'"').replace(/\\"\'/g,'"');
-		_settings = _settings.replace(/'"/g,'"').replace(/"'/g,'"');
+		// _settings = _settings.replace(/\\\'\\"/g,'"').replace(/\\"\\\'/g,'"');
+		// _settings = _settings.replace(/\'\\"/g,'"').replace(/\\"\'/g,'"');
+		// _settings = _settings.replace(/'"/g,'"').replace(/"'/g,'"');
 		_settings = _settings.slice(1,_settings.length - 1);
-		console.log('_set', _settings);
 		_settings = JSON.parse(_settings);
-
 		Object.assign(settings, _settings);
 		// settings = {...settings, ..._settings};
 	}
