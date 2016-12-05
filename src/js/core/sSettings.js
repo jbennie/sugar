@@ -18,8 +18,8 @@ domReady(() => {
 	document.body.appendChild(settingsElm);
 	let _settings = window.getComputedStyle(
 		document.querySelector('.s-settings'), ':after'
-	).getPropertyValue('content');
-	if (_settings) {
+	).getPropertyValue('content').trim();
+	if (_settings && _settings !== '') {
 		_settings = _settings.replace(/\\"/g, '"');
 		// _settings = _settings.replace(/\\\'\\"/g,'"').replace(/\\"\\\'/g,'"');
 		// _settings = _settings.replace(/\'\\"/g,'"').replace(/\\"\'/g,'"');
