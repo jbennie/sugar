@@ -16,5 +16,4 @@ export default function prependChild(elm, refElm) {
 	} else {
 		refElm.insertBefore(elm, refElm.firstChild);
 	}
-	return child;
 }
