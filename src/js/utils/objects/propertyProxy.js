@@ -8,7 +8,7 @@ import _get from 'lodash/get'
  * @param 		{Object} 		obj 			The object on which to create the proxy
  * @param 		{String} 		property 		The property name that will be proxied
  * @param 		{Object} 		descriptor 		A descriptor object that contains at least a get or a set method, or both
- * @param 		{Boolean} 		applySetter 	If need to apply the descriptor setter directly on the current value or not
+ * @param 		{Boolean} 		applySetterAtStart 	If need to apply the descriptor setter directly on the current value or not
  *
  * @example 	js
  * const myObject = {
@@ -29,26 +29,26 @@ import _get from 'lodash/get'
  *
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-export default function propertyProxy(obj, property, _descriptor, applySetter = true) {
+export default function propertyProxy(obj, property, descriptor, applySetterAtStart = true) {
 
 	// store the current value
 	let val = _get(obj, property);
-	let descriptor = Object.getOwnPropertyDescriptor(obj.prototype || obj, property);
+	let currentDescriptor = Object.getOwnPropertyDescriptor(obj.prototype || obj, property);
 
 	// custom setter check
 	const _set = (value) => {
 
-		if (_descriptor.set) {
-			value = _descriptor.set(value);
+		if (descriptor.set) {
+			value = descriptor.set(value);
 		}
 
 		// descriptor
-		if (descriptor && descriptor.set) {
-			let ret = descriptor.set(value);
+		if (currentDescriptor && currentDescriptor.set) {
+			let ret = currentDescriptor.set(value);
 			if (ret) {
 				val = ret;
 			} else {
-				val = descriptor.get();
+				val = currentDescriptor.get();
 			}
 		} else {
 			val = value;
@@ -56,17 +56,17 @@ export default function propertyProxy(obj, property, _descriptor, applySetter = 
 	}
 
 	// apply the setter if needed
-	if (applySetter) _set(val);
+	if (applySetterAtStart) _set(val);
 
 	// make sure we have the good descriptor
 	let d = Object.getOwnPropertyDescriptor(obj, property);
 	Object.defineProperty(obj, property, {
 		get : () => {
 			let _val = val;
-			if (_descriptor.get) {
-				_val = _descriptor.get(_val);
+			if (descriptor.get) {
+				_val = descriptor.get(_val);
 			}
-			if (descriptor && descriptor.get) {
+			if (currentDescriptor && currentDescriptor.get) {
 				_val = descriptor.get();
 			}
 			return _val;
@@ -78,9 +78,9 @@ export default function propertyProxy(obj, property, _descriptor, applySetter = 
 			// notify of new update
 			// this.notify(objPath, val, oldValue);
 		},
-		configurable : descriptor && descriptor.configurable !== undefined ? descriptor.configurable : false,
-		enumarable : descriptor && descriptor.enumarable !== undefined ? descriptor.enumarable : true,
-		// writable : descriptor && descriptor.writable !== undefined ? descriptor.writable : true
+		configurable : currentDescriptor && currentDescriptor.configurable !== undefined ? currentDescriptor.configurable : false,
+		enumarable : currentDescriptor && currentDescriptor.enumarable !== undefined ? currentDescriptor.enumarable : true,
+		// writable : currentDescriptor && currentDescriptor.writable !== undefined ? currentDescriptor.writable : true
 	});
 
 	// return the value

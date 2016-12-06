@@ -11,6 +11,7 @@ import __whenVisible from '../dom/whenVisible'
 import __matches from '../dom/matches'
 import __closest from '../dom/closest'
 import __whenAttribute from '../dom/whenAttribute'
+import __propertyProxy from '../utils/objects/propertyProxy'
 import __domReady from '../dom/domReady'
 
 if ( ! window.sugar) window.sugar = {};
@@ -312,45 +313,48 @@ export default Mixin((superclass) => class extends superclass {
 		this.onComponentWillMount && this.onComponentWillMount();
 		this.dispatchComponentEvent('componentWillMount');
 
-	  // internal properties
-	  this._nextPropsStack = {};
-	  this._prevPropsStack = {};
-	  this._nextPropsTimeout = null;
-	  this._componentMounted = false;
-	  this._componentAttached = false;
-	  this._fastdomSetProp = null;
+		// internal properties
+		this._nextPropsStack = {};
+		this._prevPropsStack = {};
+		this._nextPropsTimeout = null;
+		this._componentMounted = false;
+		this._componentAttached = false;
+		this._fastdomSetProp = null;
 
-	  // set the componentName
-	  const sourceName = this.getAttribute('is') || this.tagName.toLowerCase()
-	  this._componentNameDash = sourceName;
-	  this._componentName = __upperFirst(__camelize(sourceName));
+		// props proxy
+		this._initPropsProxy();
 
-	  // save each instances into the element _sComponents stack
-	  this._typeOf = [];
-	  let comp = window.sugar._webComponentsStack[this._componentName];
-	  while(comp) {
-		  let funcNameRegex = /function (.{1,})\(/;
-		  const res = (funcNameRegex).exec(comp.toString());
-		  if (res && res[1]) {
-			  if ( this._typeOf.indexOf(res[1]) === -1) {
-				  this._typeOf.push(res[1]);
-			  }
-		  }
-		  comp = Object.getPrototypeOf(comp);
-	  }
+		// set the componentName
+		const sourceName = this.getAttribute('is') || this.tagName.toLowerCase()
+		this._componentNameDash = sourceName;
+		this._componentName = __upperFirst(__camelize(sourceName));
 
-	  // default props init
-	  this.props = Object.assign({}, this.defaultProps);
+		// save each instances into the element _sComponents stack
+		this._typeOf = [];
+		let comp = window.sugar._webComponentsStack[this._componentName];
+		while(comp) {
+			let funcNameRegex = /function (.{1,})\(/;
+			const res = (funcNameRegex).exec(comp.toString());
+			if (res && res[1]) {
+				if ( this._typeOf.indexOf(res[1]) === -1) {
+					this._typeOf.push(res[1]);
+				}
+			}
+			comp = Object.getPrototypeOf(comp);
+		}
 
-	  // compute props
-	  this._computeProps();
+		// default props init
+		this.props = Object.assign({}, this.defaultProps);
 
-	  // check the required props
-	  this.requiredProps.forEach((prop) => {
-		  if ( ! this.props[prop]) {
-			  throw `The "${this._componentNameDash}" component need the "${prop}" property in order to work`;
-		  }
-	  });
+		// compute props
+		this._computeProps();
+
+		// check the required props
+		this.requiredProps.forEach((prop) => {
+			if ( ! this.props[prop]) {
+				throw `The "${this._componentNameDash}" component need the "${prop}" property in order to work`;
+			}
+		});
 	}
 
 	/**
@@ -516,6 +520,23 @@ export default Mixin((superclass) => class extends superclass {
 			}
 		});
 		return promise;
+	}
+
+	/**
+	 * Init props proxy.
+	 * This will create a getter/setter accessor on the item itself
+	 * that get and update his corresponding props.{name} property
+	 */
+	_initPropsProxy() {
+		// loop on each props
+		for(let key in this.props) {
+			__propertyProxy(this, key, {
+				get : () => this.props[key],
+				set : (value) => {
+					this.setProp(key, value);
+				}
+			});
+		}
 	}
 
 	/**
