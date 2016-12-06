@@ -321,9 +321,6 @@ export default Mixin((superclass) => class extends superclass {
 		this._componentAttached = false;
 		this._fastdomSetProp = null;
 
-		// props proxy
-		this._initPropsProxy();
-
 		// set the componentName
 		const sourceName = this.getAttribute('is') || this.tagName.toLowerCase()
 		this._componentNameDash = sourceName;
@@ -348,6 +345,9 @@ export default Mixin((superclass) => class extends superclass {
 
 		// compute props
 		this._computeProps();
+
+		// props proxy
+		this._initPropsProxy();
 
 		// check the required props
 		this.requiredProps.forEach((prop) => {
