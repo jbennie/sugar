@@ -530,9 +530,10 @@ export default Mixin((superclass) => class extends superclass {
 	_initPropsProxy() {
 		// loop on each props
 		for(let key in this.props) {
-			console.log('proxy', key);
 			__propertyProxy(this, key, {
-				get : () => this.props[key],
+				get : () => {
+					return this.props[key];
+				},
 				set : (value) => {
 					this.setProp(key, value);
 				}
