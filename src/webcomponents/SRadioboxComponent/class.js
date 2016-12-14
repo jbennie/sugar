@@ -1,1 +1,2 @@
-export default SRadioboxComponent from './js/SRadioboxComponent';
+import SRadioboxComponent from './js/SRadioboxComponent';
+export default SRadioboxComponent

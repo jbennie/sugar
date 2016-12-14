@@ -1,1 +1,2 @@
-export default SGooeyComponent from './js/SGooeyComponent'
+import SGooeyComponent from './js/SGooeyComponent'
+export default SGooeyComponent

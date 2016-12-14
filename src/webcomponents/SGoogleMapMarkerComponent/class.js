@@ -1,1 +1,2 @@
-export default SGoogleMapMarkerComponent from './js/SGoogleMapMarkerComponent'
+import SGoogleMapMarkerComponent from './js/SGoogleMapMarkerComponent'
+export default SGoogleMapMarkerComponent

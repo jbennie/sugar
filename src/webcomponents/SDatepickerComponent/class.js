@@ -1,1 +1,2 @@
-export default SDatepickerComponent from './js/SDatepickerComponent'
+import SDatepickerComponent from './js/SDatepickerComponent'
+export default SDatepickerComponent

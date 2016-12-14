@@ -1,1 +1,2 @@
-export default SRippleComponent from './js/SRippleComponent'
+import SRippleComponent from './js/SRippleComponent'
+export default SRippleComponent

@@ -16,7 +16,7 @@ const __gulpMochaPhantom = require('gulp-mocha-phantomjs');
 const __named = require('vinyl-named');
 const __gulpIconfont = require('gulp-iconfont');
 const __gulpIconfontCss = require('gulp-iconfont-css');
-const __generateDoc = require('./.gulp/generateDoc').default;
+const __gulpBabel = require('gulp-babel');
 
 const runTimestamp = Math.round(Date.now()/1000);
 
@@ -136,6 +136,12 @@ __gulp.task('doc-iconfont', [], () => {
 		normalize : true
 	}))
 	.pipe(__gulp.dest('public/assets/fonts'));
+});
+
+__gulp.task('dist', [], () => {
+	__gulp.src('src/**/*.js')
+	.pipe(__gulpBabel())
+	.pipe(__gulp.dest('dist'));
 });
 
 __gulp.task('default', ['doc-js-api','doc-sass-api','doc-js','doc-sass']);

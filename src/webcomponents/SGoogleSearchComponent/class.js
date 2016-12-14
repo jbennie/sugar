@@ -1,1 +1,2 @@
-export default SGoogleSearchComponent from './js/SGoogleSearchComponent';
+import SGoogleSearchComponent from './js/SGoogleSearchComponent';
+export default SGoogleSearchComponent

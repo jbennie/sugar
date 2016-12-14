@@ -1,1 +1,2 @@
-export default SLabelPushComponent from './js/SLabelPushComponent';
+import SLabelPushComponent from './js/SLabelPushComponent';
+export default SLabelPushComponent

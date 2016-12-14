@@ -1,1 +1,2 @@
-export default SParticlesSystemComponent from './js/SParticlesSystemComponent';
+import SParticlesSystemComponent from './js/SParticlesSystemComponent';
+export default SParticlesSystemComponent

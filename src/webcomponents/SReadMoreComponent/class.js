@@ -1,1 +1,2 @@
-export default SReadMoreComponent from './js/SReadMoreComponent';
+import SReadMoreComponent from './js/SReadMoreComponent';
+export default SReadMoreComponent

@@ -1,1 +1,2 @@
-export default SEqualizeComponent from './js/SEqualizeComponent';
+import SEqualizeComponent from './js/SEqualizeComponent';
+export default SEqualizeComponent

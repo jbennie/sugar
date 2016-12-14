@@ -14,7 +14,6 @@
   "author": "Olivier Bossel <olivier.bossel@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "babel-runtime": "^6.20.0",
     "custom-event": "^1.0.0",
     "fastdom": "^1.0.5",
     "flatpickr": "^2.1.1",

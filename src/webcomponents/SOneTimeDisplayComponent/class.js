@@ -1,1 +1,2 @@
-export default SOneTimeDisplayComponent from './js/SOneTimeDisplayComponent';
+import SOneTimeDisplayComponent from './js/SOneTimeDisplayComponent';
+export default SOneTimeDisplayComponent

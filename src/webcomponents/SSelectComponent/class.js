@@ -1,1 +1,2 @@
-export default SSelectComponent from './js/SSelectComponent';
+import SSelectComponent from './js/SSelectComponent';
+export default SSelectComponent

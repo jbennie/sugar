@@ -1,1 +1,2 @@
-export default SDrawerComponent from './js/SDrawerComponent';
+import SDrawerComponent from './js/SDrawerComponent';
+export default SDrawerComponent

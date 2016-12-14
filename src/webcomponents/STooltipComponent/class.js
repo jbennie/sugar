@@ -1,1 +1,2 @@
-export default STooltipComponent from './js/STooltipComponent';
+import STooltipComponent from './js/STooltipComponent';
+export default STooltipComponent

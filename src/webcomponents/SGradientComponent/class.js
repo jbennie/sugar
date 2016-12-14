@@ -1,1 +1,2 @@
-export default SGradientComponent from './js/SGradientComponent';
+import SGradientComponent from './js/SGradientComponent';
+export default SGradientComponent

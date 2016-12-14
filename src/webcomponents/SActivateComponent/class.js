@@ -1,1 +1,2 @@
-export default SActivateComponent from './js/SActivateComponent';
+import SActivateComponent from './js/SActivateComponent'
+export default SActivateComponent

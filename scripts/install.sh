@@ -8,7 +8,7 @@ fi
 if [[ $PWD == *"/node_modules/coffeekraken-sugar"* ]]
 then
 	# move src
-	mv src/js/ js/
+	mv src/dist/ js/
 	mv src/sass/ sass/
 	mv src/components/ components/
 	mv src/webcomponents/ webcomponents/

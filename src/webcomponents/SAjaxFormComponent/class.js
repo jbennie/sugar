@@ -1,1 +1,2 @@
-export default SAjaxFormComponent from './js/SAjaxFormComponent'
+import SAjaxFormComponent from './js/SAjaxFormComponent'
+export default SAjaxFormComponent

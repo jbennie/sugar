@@ -1,1 +1,2 @@
-export default SMotionBlurComponent from './js/SMOtionBlurComponent';
+import SMotionBlurComponent from './js/SMOtionBlurComponent';
+export default SMotionBlurComponent

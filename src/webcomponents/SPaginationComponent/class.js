@@ -1,1 +1,2 @@
-export default SPaginationComponent from './js/SPaginationComponent';
+import SPaginationComponent from './js/SPaginationComponent';
+export default SPaginationComponent
