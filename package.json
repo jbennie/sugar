@@ -14,6 +14,7 @@
   "author": "Olivier Bossel <olivier.bossel@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "babel-runtime": "^6.20.0",
     "custom-event": "^1.0.0",
     "fastdom": "^1.0.5",
     "flatpickr": "^2.1.1",
@@ -40,7 +41,6 @@
     "babel-preset-es2015-loose": "^7.0.0",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
-    "babel-runtime": "^6.20.0",
     "chai": "^3.5.0",
     "cjsx-loader": "^2.0.1",
     "coffee-loader": "^0.7.2",
