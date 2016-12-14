@@ -138,7 +138,7 @@ __gulp.task('doc-iconfont', [], () => {
 	.pipe(__gulp.dest('public/assets/fonts'));
 });
 
-__gulp.task('dist', [], () => {
+__gulp.task('dist-js', [], () => {
 	__gulp.src('src/**/*.js')
 	.pipe(__gulpBabel())
 	.pipe(__gulp.dest('dist'));
@@ -147,7 +147,7 @@ __gulp.task('dist', [], () => {
 __gulp.task('default', ['doc-js-api','doc-sass-api','doc-js','doc-sass']);
 
 __gulp.task('watch', ['default'], function() {
-	__gulp.watch(['src/js/**/*.js'], ['doc-js-api','doc-js']);
+	__gulp.watch(['src/js/**/*.js'], ['doc-js-api','doc-js','dist-js']);
 	__gulp.watch(["src/sass/**/*.scss"], ['doc-sass-api','doc-sass']);
 	__gulp.watch(["src/components//**/*.scss"], ['doc-components-api']);
 	__gulp.watch(['public/assets-src/js/**/*.js'], ['doc-js']);
