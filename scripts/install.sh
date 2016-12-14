@@ -8,10 +8,10 @@ fi
 if [[ $PWD == *"/node_modules/coffeekraken-sugar"* ]]
 then
 	# move src
-	mv src/dist/ js/
+	mv dist/js/ js/
 	mv src/sass/ sass/
-	mv src/components/ components/
-	mv src/webcomponents/ webcomponents/
+	mv dist/components/ components/
+	mv dist/webcomponents/ webcomponents/
 
 	# clean repo
 	rm -rf src
