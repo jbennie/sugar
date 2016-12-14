@@ -2,7 +2,7 @@
   "name": "coffeekraken-sugar",
   "description": "A little sugar in your code",
   "version": "0.0.1",
-  "main": "js/index.js",
+  "main": "index.js",
   "scripts": {
     "doc": "open http://localhost:3000 && cd ./public/ && nodemon app.js",
     "install": "./scripts/install.sh"
