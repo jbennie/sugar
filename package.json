@@ -14,8 +14,8 @@
     "demo.build.css": "node-sass demo/src/sass/style.scss demo/dist/css/style.css",
     "demo.build.js": "npm run dist.build.js && webpack",
     "demo.watch": "concurrently --kill-others \"npm run demo.watch.css\" \"npm run demo.watch.css\"",
+		"demo.watch.css": "nodemon -w demo/src -w src -e scss -x \"npm run demo.build.css\"",
     "demo.watch.js": "nodemon -w demo/src -w src -e js -x \"npm run demo.build.js\"",
-    "demo.watch.css": "nodemon -w demo/src -w src -e scss -x \"npm run demo.build.css\"",
     "install": "./scripts/install.sh"
   },
   "repository": {
