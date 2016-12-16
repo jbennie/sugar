@@ -24,7 +24,24 @@ $_sugar-inited : false;
 
 		// settings
 		.s-settings:after {
-			content : json-encode($_sugar-settings);
+
+			// process colors
+			$settings-to-process : _extend((), $_sugar-settings);
+			// get colors
+			$colors : s-setting('colors');
+			@each $color-name, $color in $colors {
+				// @warn($color);
+				$modifiers : _get($color, modifiers);
+				@if $modifiers {
+					$new-modifiers : ();
+					@each $modifier-name, $modifier in $modifiers {
+						// @warn(s-color($color-name, $modifier));
+						// @warn("#{$color-name} modifiers #{$modifier-name}");
+						$settings-to-process : _set($settings-to-process, colors "#{$color-name}" modifiers "#{$modifier-name}", s-color($color-name, $modifier));
+					}
+				}
+			}
+			content : json-encode($settings-to-process);
 			display:none;
 		}
 

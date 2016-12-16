@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<meta charset="utf-8" />
+
+	<link href="css/style.css" rel="stylesheet" type="text/css" />
+	<link href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="js/jquery.slidizle.js"></script>
+
+	<script>
+
+		jQuery(function($) {
+
+			// setup slidizle
+			$('[data-slidizle]').slidizle({
+				beforeChange : function(api) {
+					console.log('previous', api.getPreviousSlide().index());
+					console.log('current', api.getCurrentSlide().index());
+					console.log('next', api.getNextSlide().index());
+					console.log('previous active', api.getPreviousActiveSlide().index());
+				}
+			});
+
+		});
+
+	</script>
+
+	<title>jQuery.slidizle</title>
+
+</head>
+<body>
+
+	<header class="header">
+		<h1 class="header__title">jQuery.slidizle</h1>
+		<h2 class="header__subtitle">jQuery plugin to create fully customizable sliders</h2>
+		<h3>1.3.19</h3>
+	</header>
+
+	<div class="container">
+
+		<section class="text">
+			
+			<header>
+				<h2>Slidizle samples</h2>
+			</header>	
+
+			<p>
+				Simply use your keyboard arrows (left & right) to interact with the sliders in this page.
+				<br />
+				<br />
+				<i style="font-size:30px" class="fa fa-keyboard-o"></i>
+			</p>
+
+			<p>
+				For more informations and the full documentation, go to github repository page
+			</p>
+
+			<a class="btn btn-info" href="https://github.com/olivierbossel/slidizle" target="_blank">
+				Girhub repo
+			</a>
+
+		</section>
+
+		<!-- simple -->
+		<section class="sample" data-slidizle>
+
+			<ul class="slider-content" data-slidizle-content>
+		
+				<li class="slider-item" style="background-image:url('img/01.jpg')">
+				</li>
+
+				<li class="slider-item" style="background-image:url('img/02.jpg')">
+				</li>
+
+				<li class="slider-item" style="background-image:url('img/03.jpg')">
+				</li>
+
+			</ul>
+
+			<header>
+				<h2>I'm a simple slider</h2>
+				<h3>Nothing fancy with me, just a simple slider</h3>
+			</header>
+
+			<div class="slider-next" data-slidizle-next>
+				<i class="fa fa-arrow-right"></i>
+			</div>
+			<div class="slider-previous" data-slidizle-previous>
+				<i class="fa fa-arrow-left"></i>
+			</div>
+
+			<ul class="slider-navigation" data-slidizle-navigation>
+				<!-- automatically generated navigation -->
+			</ul>
+
+		</section>
+
+		<!-- animated -->
+		<section class="sample slider--animated" data-slidizle>
+
+			<ul class="slider-content" data-slidizle-content>
+		
+				<li class="slider-item" style="background-image:url('img/01.jpg')">
+				</li>
+
+				<li class="slider-item" style="background-image:url('img/02.jpg')">
+				</li>
+
+				<li class="slider-item" style="background-image:url('img/03.jpg')">	
+				</li>
+
+			</ul>
+
+			<header>
+				<h2>Simple animation</h2>
+				<h3>I'm an animated slider. Animation are made by css using the <strong>.active</strong> class</h3>
+			</header>
+
+			<ul class="slider-navigation" data-slidizle-navigation>
+				<!-- automatically generated navigation -->
+			</ul>
+
+		</section>
+
+		<!-- animated up down -->
+		<section class="sample slider--animated-up-down" data-slidizle>
+
+			<ul class="slider-content" data-slidizle-content>
+		
+				<li class="slider-item" style="background-image:url('img/01.jpg')">
+				</li>
+
+				<li class="slider-item" style="background-image:url('img/02.jpg')">
+				</li>
+
+				<li class="slider-item" style="background-image:url('img/03.jpg')">
+				</li>
+
+			</ul>
+
+			<header>
+				<h2>Animated up down</h2>
+				<h3>I'm an animated slider. Animation are made by css using the <strong>.active</strong> class</h3>
+			</header>
+
+			<ul class="slider-navigation" data-slidizle-navigation>
+				<!-- automatically generated navigation -->
+			</ul>
+
+		</section>
+
+		<!-- loop -->
+		<section class="sample slider--animated" data-slidizle data-slidizle-loop="true">
+
+			<ul class="slider-content" data-slidizle-content>
+		
+				<li class="slider-item" style="background-image:url('img/01.jpg')">
+				</li>
+
+				<li class="slider-item" style="background-image:url('img/02.jpg')">
+				</li>
+
+				<li class="slider-item" style="background-image:url('img/03.jpg')">	
+				</li>
+
+			</ul>
+
+			<header>
+				<h2>Loop</h2>
+				<h3>I'm a slider that allow loop by using <strong>data-slidizle-loop="true"</strong> attribute</h3>
+			</header>
+
+			<div class="slider-next" data-slidizle-next>
+				<i class="fa fa-arrow-right"></i>
+			</div>
+			<div class="slider-previous" data-slidizle-previous>
+				<i class="fa fa-arrow-left"></i>
+			</div>
+
+			<ul class="slider-navigation" data-slidizle-navigation>
+				<!-- automatically generated navigation -->
+			</ul>
+
+		</section>
+
+		<!-- timeout -->
+		<section class="sample slider--animated" data-slidizle data-slidizle-timeout="2000" data-slidizle-loop="true" data-slidizle-pause-on-hover="true">
+
+			<ul class="slider-content" data-slidizle-content>
+		
+				<li class="slider-item" style="background-image:url('img/01.jpg')">
+				</li>
+
+				<li class="slider-item" style="background-image:url('img/02.jpg')">
+				</li>
+
+				<li class="slider-item" style="background-image:url('img/03.jpg')">
+				</li>
+
+			</ul>
+
+			<header>
+				<h2>Timeout & pause</h2>
+				<h3>I'm a slider that has a timeout and pause when the mouse is hover. This is done with the attributes <strong>data-slidizle-timeout="{ms}"</strong> and <strong>data-slidizle-pause-on-hover="true"</strong></h3>
+			</header>
+
+			<ul class="slider-navigation" data-slidizle-navigation>
+				<!-- automatically generated navigation -->
+			</ul>
+
+		</section>
+
+		<!-- api driven -->
+		<section id="api-driven" class="sample slider--animated" data-slidizle data-slidizle-keyboard-enabled="false">
+		
+			<ul class="slider-content" data-slidizle-content>
+		
+				<li class="slider-item" style="background-image:url('img/01.jpg')">
+				</li>
+
+				<li class="slider-item" style="background-image:url('img/02.jpg')">
+				</li>
+
+				<li class="slider-item" style="background-image:url('img/03.jpg')">
+				</li>
+
+			</ul>
+
+			<!-- script to manage slider (normally not in html like this...) -->
+			<script>
+				jQuery(function($) {
+					var $apiDriven = $('#api-driven'),
+						api = $apiDriven.data('slidizle_api');
+
+					window.apiDrivenNext = function() {
+						api.next();
+					}
+					window.apiDrivenPrevious = function() {
+						api.previous();
+					}
+				});
+			</script>
+
+			<header>
+				<h2>Api Driven</h2>
+				<h3>I do not react on keyboard events, but only on button clicks</h3>
+				<button class="btn btn--custom" onclick="apiDrivenPrevious()">
+					Previous
+				</button>
+				<button class="btn btn--custom" onClick="apiDrivenNext()">
+					Next
+				</button>
+			</header>
+
+			<ul class="slider-navigation" data-slidizle-navigation>
+				<!-- automatically generated navigation -->
+			</ul>
+
+		</section>
+
+		<!-- with loading -->
+		<section class="sample" data-slidizle data-slidizle-keyboard-enabled="false">
+
+			<ul class="slider-content" data-slidizle-content>
+		
+				<li class="slider-item" style="background-image:url('img/01.jpg')">
+				</li>
+
+				<li class="slider-item" style="background-image:url('img/large.png')">	
+				</li>
+
+				<li class="slider-item" style="background-image:url('img/02.jpg')">
+				</li>
+
+				<li class="slider-item" style="background-image:url('img/03.jpg')">
+				</li>
+
+			</ul>
+
+			<header>
+				<h2>Slider with loading</h2>
+				<h3>I contain a big image that need to be loaded before transition to this slide...</h3>
+			</header>
+
+			<div class="slider-next" data-slidizle-next>
+				<i class="fa fa-arrow-right"></i>
+			</div>
+			<div class="slider-previous" data-slidizle-previous>
+				<i class="fa fa-arrow-left"></i>
+			</div>
+
+			<ul class="slider-navigation" data-slidizle-navigation>
+				<!-- automatically generated navigation -->
+			</ul>
+
+			<div class="slidizle-loading">
+			</div>
+
+		</section>
+
+		<!-- custom navigation -->
+		<section class="sample" data-slidizle>
+
+			<ul class="slider-content" data-slidizle-content>
+		
+				<li class="slider-item" style="background-image:url('img/01.jpg')">
+				</li>
+
+				<li class="slider-item" style="background-image:url('img/02.jpg')">
+				</li>
+
+				<li class="slider-item" style="background-image:url('img/03.jpg')">
+				</li>
+
+			</ul>
+
+			<header>
+				<h2>Custom Navigation</h2>
+				<h3>I have a custom navigation with image thumbs</h3>
+			</header>
+
+			<div class="slider-next" data-slidizle-next>
+				<i class="fa fa-arrow-right"></i>
+			</div>
+			<div class="slider-previous" data-slidizle-previous>
+				<i class="fa fa-arrow-left"></i>
+			</div>
+
+			<ul class="slider-navigation" data-slidizle-navigation>
+				<li class="slider-navigation-item" style="background-image:url('img/01.jpg')">
+				</li>
+				<li class="slider-navigation-item" style="background-image:url('img/02.jpg')">
+				</li>
+				<li class="slider-navigation-item" style="background-image:url('img/03.jpg')">
+				</li>
+			</ul>
+
+			<div class="slidizle-loading">
+			</div>
+
+		</section>
+
+		<!-- custom navigation in custom order -->
+		<section class="sample" data-slidizle>
+
+			<ul class="slider-content" data-slidizle-content>
+		
+				<li data-slidizle-slide-id="slide1" class="slider-item" style="background-image:url('img/01.jpg')">
+				</li>
+
+				<li data-slidizle-slide-id="slide2" class="slider-item" style="background-image:url('img/02.jpg')">
+				</li>
+
+				<li data-slidizle-slide-id="slide3" class="slider-item" style="background-image:url('img/03.jpg')">
+				</li>
+
+			</ul>
+
+			<header>
+				<h2>Custom Navigation (custom order)</h2>
+				<h3>I have a custom navigation with image thumbs in a custom order. This is done by using the <strong>data-slidizle-slide-id</strong> attribute on slide and navigation items</h3>
+			</header>
+
+			<div class="slider-next" data-slidizle-next>
+				<i class="fa fa-arrow-right"></i>
+			</div>
+			<div class="slider-previous" data-slidizle-previous>
+				<i class="fa fa-arrow-left"></i>
+			</div>
+
+			<ul class="slider-navigation" data-slidizle-navigation>
+				<li class="slider-navigation-item" data-slidizle-slide-id="slide2" style="background-image:url('img/02.jpg')">
+				</li>
+				<li class="slider-navigation-item" data-slidizle-slide-id="slide1" style="background-image:url('img/01.jpg')">
+				</li>
+				<li class="slider-navigation-item" data-slidizle-slide-id="slide3" style="background-image:url('img/03.jpg')">
+				</li>
+			</ul>
+
+			<div class="slidizle-loading">
+			</div>
+
+		</section>
+
+		<!-- progressbar -->
+		<section id="progressbar-slider" class="sample slider--animated" data-slidizle data-slidizle-loop="true" data-slidizle-timeout="3000" data-slidizle-pause-on-hover="true">
+
+			<ul class="slider-content" data-slidizle-content>
+		
+				<li data-slidizle-slide-id="slide1" class="slider-item" style="background-image:url('img/01.jpg')">
+				</li>
+
+				<li data-slidizle-slide-id="slide2" data-slidizle-timeout="1000" class="slider-item" style="background-image:url('img/02.jpg')">
+				</li>
+
+				<li data-slidizle-slide-id="slide3" class="slider-item" style="background-image:url('img/03.jpg')">
+				</li>
+
+			</ul>
+
+			<!-- script to manage slider (normally not in html like this...) -->
+			<script>
+				jQuery(function($) {
+
+					var $slider = $('#progressbar-slider');
+					// $slider.slidizle();
+					var $progressbar = $slider.find('.slider-progressbar');
+						api = $slider.data('slidizle_api');
+
+					$slider.bind('slidizle.change', function(e, api) {
+						console.log('change');
+						$progressbar.stop().css('width', 0);
+					});
+					$slider.bind('slidizle.pause', function(e, api) {
+						$progressbar.stop();
+						console.log('timer pause', api.getCurrentTimeout(), api.getTotalTimeout(), api.getRemainingTimeout());
+					});
+					$slider.bind('slidizle.play slidizle.resume slidizle.change', function(e, api) {
+						console.log('timer start', api.getCurrentTimeout(), api.getTotalTimeout(), api.getRemainingTimeout());
+
+						// do nothing is is hover
+						if (api.isHover()) return;
+
+						// manage progressbar :
+						$progressbar.animate({
+							width : '100%'
+						}, api.getRemainingTimeout());
+					});
+					// $slider.bind('slidizle.timerStop', function(e, api) {
+					// 	$progressbar.css('width',0);
+					// 	console.log('timer stop', api.getCurrentTimeout(), api.getTotalTimeout(), api.getRemainingTimeout());
+					// });
+				});
+			</script>
+
+			<header>
+				<h2>Progressbar</h2>
+				<h3>I have a progressbar that is animated with jquery</h3>
+			</header>
+
+			<div class="slider-next" data-slidizle-next>
+				<i class="fa fa-arrow-right"></i>
+			</div>
+			<div class="slider-previous" data-slidizle-previous>
+				<i class="fa fa-arrow-left"></i>
+			</div>
+
+			<div class="slider-progressbar"></div>
+
+			<ul class="slider-navigation" data-slidizle-navigation>
+				<li class="slider-navigation-item" data-slidizle-slide-id="slide2" style="background-image:url('img/02.jpg')">
+				</li>
+				<li class="slider-navigation-item" data-slidizle-slide-id="slide1" style="background-image:url('img/01.jpg')">
+				</li>
+				<li class="slider-navigation-item" data-slidizle-slide-id="slide3" style="background-image:url('img/03.jpg')">
+				</li>
+			</ul>
+
+			<div class="slidizle-loading">
+			</div>
+
+		</section>
+
+	</div>
+
+</body>
+</html>

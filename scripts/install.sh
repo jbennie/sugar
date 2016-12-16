@@ -26,4 +26,7 @@ then
 	rm -rf *.coffee
 	rm -rf scripts
 	rm -rf bower.json
+
+	# update _index.scss file import reference
+	echo '@import "sass/sugar";' > _index.scss
 fi

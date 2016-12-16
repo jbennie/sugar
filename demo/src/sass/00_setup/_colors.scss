@@ -1,0 +1,9 @@
+@include s-setup((
+	colors : (
+		primary : (
+			modifiers : (
+				dark : -darken 10%
+			)
+		)
+	)
+));

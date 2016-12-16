@@ -1,4 +1,8 @@
-export default class SColor {
+import __domReady from '../dom/domReady'
+import __sSettings from '../core/sSettings'
+
+// color class
+class SColor {
 
     /**
      * Static color names map
@@ -159,25 +163,25 @@ export default class SColor {
 
     /**
      * Internal red value
-     * @type {number}
+     * @type {Number}
      */
     _r = null;
 
     /**
      * Internal green value
-     * @type {number}
+     * @type {Number}
      */
     _g = null;
 
     /**
      * Internal blue value
-     * @type {number}
+     * @type {Number}
      */
     _b = null;
 
     /**
      * Internal alpha value
-     * @type {number}
+     * @type {Number}
      */
     _a = 1;
 
@@ -317,10 +321,10 @@ export default class SColor {
 
     /**
      * RGBA to HEX
-     * @param {number} r The red value between 0-255
-     * @param {number} g The green value between 0-255
-     * @param {number} b The blue value between 0-255
-     * @param {number} a The alpha value between 0-100|0-1
+     * @param {Number} r The red value between 0-255
+     * @param {Number} g The green value between 0-255
+     * @param {Number} b The blue value between 0-255
+     * @param {Number} a The alpha value between 0-100|0-1
      * @return {string} The hex string representation like #ff004f
      */
     rgba2hex(r, g, b, a = 1) {
@@ -343,10 +347,10 @@ export default class SColor {
 
     /**
      * RGBA to RGBA
-     * @param {number} r The red value between 0-255
-     * @param {number} g The green value between 0-255
-     * @param {number} b The blue value between 0-255
-     * @param {number} a The alpha value between 0-100|0-1
+     * @param {Number} r The red value between 0-255
+     * @param {Number} g The green value between 0-255
+     * @param {Number} b The blue value between 0-255
+     * @param {Number} a The alpha value between 0-100|0-1
      * @return {object} The rgba object representation
      */
     rgba2rgba(r, g, b, a) {
@@ -384,10 +388,10 @@ export default class SColor {
 
     /**
      * HSV to RGBA
-     * @param {number} h The hue value between 0-360
-     * @param {number} s The saturation value between 0-100|0-1
-     * @param {number} v The value value between 0-100|0-1
-     * @param {number} a The alpha value between 0-100|0-1
+     * @param {Number} h The hue value between 0-360
+     * @param {Number} s The saturation value between 0-100|0-1
+     * @param {Number} v The value value between 0-100|0-1
+     * @param {Number} a The alpha value between 0-100|0-1
      * @return {object} The rgba object representation
      */
     hsv2rgba(h, s, v, a = 1) {
@@ -437,10 +441,10 @@ export default class SColor {
 
     /**
      * HSL to RGBA
-     * @param {number} h The hue value between 0-360
-     * @param {number} s The saturation value between 0-100|0-1
-     * @param {number} l The luminence value between 0-100|0-1
-     * @param {number} a The alpha value between 0-100|0-1
+     * @param {Number} h The hue value between 0-360
+     * @param {Number} s The saturation value between 0-100|0-1
+     * @param {Number} l The luminence value between 0-100|0-1
+     * @param {Number} a The alpha value between 0-100|0-1
      * @return {object} The rgba object representation
      */
     hsl2rgba(h, s, l, a = 1) {
@@ -484,10 +488,10 @@ export default class SColor {
 
     /**
      * RGBA to HSV
-     * @param {number} r The red value between 0-255
-     * @param {number} g The green value between 0-255
-     * @param {number} b The blue value between 0-255
-     * @param {number} a The alpha value between 0-100|0-1
+     * @param {Number} r The red value between 0-255
+     * @param {Number} g The green value between 0-255
+     * @param {Number} b The blue value between 0-255
+     * @param {Number} a The alpha value between 0-100|0-1
      * @return {object} The hsv object representation
      */
     rgba2hsv(r, g, b, a = 1) {
@@ -523,10 +527,10 @@ export default class SColor {
 
     /**
      * RGBA to HSL
-     * @param {number} r The red value between 0-255
-     * @param {number} g The green value between 0-255
-     * @param {number} b The blue value between 0-255
-     * @param {number} a The alpha value between 0-100|0-1
+     * @param {Number} r The red value between 0-255
+     * @param {Number} g The green value between 0-255
+     * @param {Number} b The blue value between 0-255
+     * @param {Number} a The alpha value between 0-100|0-1
      * @return {object} The hsl object representation
      */
     rgba2hsl(r, g, b, a = 1) {
@@ -594,7 +598,7 @@ export default class SColor {
 
     /**
      * Get the red value
-     * @return {number} The red value
+     * @return {Number} The red value
      */
     get r() {
         return this._r;
@@ -602,7 +606,7 @@ export default class SColor {
 
     /**
      * Set the red value
-     * @param {number} value 	The new red value between 0-255
+     * @param {Number} value 	The new red value between 0-255
      */
     set r(value) {
         value = parseInt(value);
@@ -612,7 +616,7 @@ export default class SColor {
 
     /**
      * Get the green value
-     * @return {number} The green value
+     * @return {Number} The green value
      */
     get g() {
         return this._g;
@@ -620,7 +624,7 @@ export default class SColor {
 
     /**
      * Set the green value
-     * @param {number} value 	The new green value between 0-255
+     * @param {Number} value 	The new green value between 0-255
      */
     set g(value) {
         value = parseInt(value);
@@ -630,7 +634,7 @@ export default class SColor {
 
     /**
      * Get the blue value
-     * @return {number} The blue value
+     * @return {Number} The blue value
      */
     get b() {
         return this._b;
@@ -638,7 +642,7 @@ export default class SColor {
 
     /**
      * Set the blue value
-     * @param {number} value 	The new blue value between 0-255
+     * @param {Number} value 	The new blue value between 0-255
      */
     set b(value) {
         value = parseInt(value);
@@ -648,7 +652,7 @@ export default class SColor {
 
     /**
      * Get the alpha value
-     * @return {number} The alpha value
+     * @return {Number} The alpha value
      */
     get a() {
         return this._a;
@@ -656,7 +660,7 @@ export default class SColor {
 
     /**
      * Set the alpha value
-     * @param {number} value 	The new alpha value between 0-100|0-1
+     * @param {Number} value 	The new alpha value between 0-100|0-1
      */
     set a(value) {
         value = parseFloat(value);
@@ -666,14 +670,14 @@ export default class SColor {
     }
 
     /**
-     * @return {number} 	The luminence value
+     * @return {Number} 	The luminence value
      */
     get l() {
         return this.convert2('hsl').l;
     }
 
     /**
-     * @param  {number} 	value 	The new luminence value between 0-100
+     * @param  {Number} 	value 	The new luminence value between 0-100
      */
     set l(value) {
         let hsl = this.convert2('hsl');
@@ -687,14 +691,14 @@ export default class SColor {
     }
 
     /**
-     * @return {number} 	The saturation value
+     * @return {Number} 	The saturation value
      */
     get s() {
         return this.convert2('hsl').s;
     }
 
     /**
-     * @param {number} 	value 	The new saturation value between 0-100
+     * @param {Number} 	value 	The new saturation value between 0-100
      */
     set s(value) {
         let hsl = this.convert2('hsl');
@@ -708,14 +712,14 @@ export default class SColor {
     }
 
     /**
-     * @return {number} 	The value
+     * @return {Number} 	The value
      */
     get v() {
         return this.convert2('hsv').v;
     }
 
     /**
-     * @param  {number} 	value 	The new value
+     * @param  {Number} 	value 	The new value
      */
     set v(value) {
         let hsv = this.convert2('hsv');
@@ -730,14 +734,14 @@ export default class SColor {
 
     /**
      * Get the hue
-     * @return {number} The current hue
+     * @return {Number} The current hue
      */
     get h() {
         return this.convert2('hsl').h;
     }
 
     /**
-     * @param {number}	value 	The new hue value between 0-360
+     * @param {Number}	value 	The new hue value between 0-360
      */
     set h(value) {
         let hsl = this.convert2('hsl');
@@ -760,7 +764,7 @@ export default class SColor {
 
     /**
      * Desaturate
-     * @param {number} amount The amount of desaturation wanted between 0-100
+     * @param {Number} amount The amount of desaturation wanted between 0-100
      * @return {object} The color instance to maintain chainability
      */
     desaturate(amount) {
@@ -772,7 +776,7 @@ export default class SColor {
 
     /**
      * Saturate
-     * @param {number} amount The amount of saturation wanted between 0-100
+     * @param {Number} amount The amount of saturation wanted between 0-100
      * @return {object} The color instance to maintain chainability
      */
     saturate(amount) {
@@ -794,7 +798,7 @@ export default class SColor {
 
     /**
      * Spin
-     * @param {number} amount The amount of hue spin wanted between 0-360
+     * @param {Number} amount The amount of hue spin wanted between 0-360
      * @return {object} The color instance to maintain chainability
      */
     spin(amount) {
@@ -811,7 +815,7 @@ export default class SColor {
 
     /**
      * Transparentize
-     * @param {number} amount The amount of transparence to apply between 0-100|0-1
+     * @param {Number} amount The amount of transparence to apply between 0-100|0-1
      * @return {object} The color instance to maintain chainability
      */
     transparentize(amount) {
@@ -823,7 +827,7 @@ export default class SColor {
 
     /**
      * Set the alpha
-     * @param {number} alpha The new alpha value to apply between 0-100|0-1
+     * @param {Number} alpha The new alpha value to apply between 0-100|0-1
      * @return {object} The color instance to maintain chainability
      */
     alpha(alpha) {
@@ -834,8 +838,17 @@ export default class SColor {
     }
 
     /**
+     * Set the opacity (alias for alpha)
+     * @param {Number} opacity The new opacity value to apply between 0-100|0-1
+     * @return {object} The color instance to maintain chainability
+     */
+    opacity(opacity) {
+        return this.alpha(opacity);
+    }
+
+    /**
      * Opacify
-     * @param {number} amount The amount of transparence to remove between 0-100|0-1
+     * @param {Number} amount The amount of transparence to remove between 0-100|0-1
      * @return {object} The color instance to maintain chainability
      */
     opacify(amount) {
@@ -847,7 +860,7 @@ export default class SColor {
 
     /**
      * Darken
-     * @param {number} amount The amount of darkness (of the nightmare of the shadow) to apply between 0-100
+     * @param {Number} amount The amount of darkness (of the nightmare of the shadow) to apply between 0-100
      * @return {object} The color instance to maintain chainabiliy
      */
     darken(amount) {
@@ -859,7 +872,7 @@ export default class SColor {
 
     /**
      * Lighten
-     * @param {number} amount The amount of lightness (of the sky of the angels) to apply between 0-100
+     * @param {Number} amount The amount of lightness (of the sky of the angels) to apply between 0-100
      * @return {object} The color instance to maintain chainability
      */
     lighten(amount) {
@@ -927,5 +940,31 @@ export default class SColor {
                 break;
         }
     }
-
 }
+
+// inject sugar css colors into class
+__domReady(() => {
+    // get settings
+    if ( ! __sSettings || ! __sSettings.colors) return;
+
+    // loop on each colors
+    for(let colorName in __sSettings.colors) {
+        const color = __sSettings.colors[colorName];
+        if ( ! color) return;
+
+        if (color.color) {
+            SColor.colors[colorName] = color.color;
+        }
+        // modifiers
+        if (color.modifiers) {
+            // loop on modifiers
+            for(let modifierName in color.modifiers) {
+                const modifierColor = color.modifiers[modifierName];
+                SColor.colors[`${colorName}--${modifierName}`] = modifierColor;
+            }
+        }
+    }
+});
+
+// export class
+export default SColor;

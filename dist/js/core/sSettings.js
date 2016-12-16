@@ -22,7 +22,7 @@ var settings = {};
 	var settingsElm = document.createElement('div');
 	settingsElm.classList.add('s-settings');
 	document.body.appendChild(settingsElm);
-	var _settings = window.getComputedStyle(document.querySelector('.s-settings'), ':after').getPropertyValue('content').trim();
+	var _settings = window.getComputedStyle(settingsElm, ':after').getPropertyValue('content').trim();
 	if (_settings && _settings !== '' && _settings !== 'none') {
 		_settings = _settings.replace(/\\"/g, '"');
 		// _settings = _settings.replace(/\\\'\\"/g,'"').replace(/\\"\\\'/g,'"');

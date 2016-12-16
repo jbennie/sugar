@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 exports.__esModule = true;
 
@@ -6,8 +6,19 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _domReady = require('../dom/domReady');
+
+var _domReady2 = _interopRequireDefault(_domReady);
+
+var _sSettings = require('../core/sSettings');
+
+var _sSettings2 = _interopRequireDefault(_sSettings);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+// color class
 var SColor = function () {
 
     /**
@@ -19,13 +30,13 @@ var SColor = function () {
 
     /**
      * Internal alpha value
-     * @type {number}
+     * @type {Number}
      */
 
 
     /**
      * Internal green value
-     * @type {number}
+     * @type {Number}
      */
 
 
@@ -78,13 +89,13 @@ var SColor = function () {
 
     /**
      * Internal blue value
-     * @type {number}
+     * @type {Number}
      */
 
 
     /**
      * Internal red value
-     * @type {number}
+     * @type {Number}
      */
 
 
@@ -108,7 +119,7 @@ var SColor = function () {
             } else if (color.substring(0, 1) == '#') {
                 color = this.hex2rgba(color);
             }
-        } else if ((typeof color === "undefined" ? "undefined" : _typeof(color)) == 'object') {
+        } else if ((typeof color === 'undefined' ? 'undefined' : _typeof(color)) == 'object') {
             if (!(color.r && color.g && color.b) || !(color.h && color.s && color.l) || !(color.h && color.s && color.v)) {
                 throw 'The passed color object ' + color.toString() + ' is not valid';
             }
@@ -205,10 +216,10 @@ var SColor = function () {
 
     /**
      * RGBA to HEX
-     * @param {number} r The red value between 0-255
-     * @param {number} g The green value between 0-255
-     * @param {number} b The blue value between 0-255
-     * @param {number} a The alpha value between 0-100|0-1
+     * @param {Number} r The red value between 0-255
+     * @param {Number} g The green value between 0-255
+     * @param {Number} b The blue value between 0-255
+     * @param {Number} a The alpha value between 0-100|0-1
      * @return {string} The hex string representation like #ff004f
      */
 
@@ -231,10 +242,10 @@ var SColor = function () {
 
     /**
      * RGBA to RGBA
-     * @param {number} r The red value between 0-255
-     * @param {number} g The green value between 0-255
-     * @param {number} b The blue value between 0-255
-     * @param {number} a The alpha value between 0-100|0-1
+     * @param {Number} r The red value between 0-255
+     * @param {Number} g The green value between 0-255
+     * @param {Number} b The blue value between 0-255
+     * @param {Number} a The alpha value between 0-100|0-1
      * @return {object} The rgba object representation
      */
 
@@ -276,10 +287,10 @@ var SColor = function () {
 
     /**
      * HSV to RGBA
-     * @param {number} h The hue value between 0-360
-     * @param {number} s The saturation value between 0-100|0-1
-     * @param {number} v The value value between 0-100|0-1
-     * @param {number} a The alpha value between 0-100|0-1
+     * @param {Number} h The hue value between 0-360
+     * @param {Number} s The saturation value between 0-100|0-1
+     * @param {Number} v The value value between 0-100|0-1
+     * @param {Number} a The alpha value between 0-100|0-1
      * @return {object} The rgba object representation
      */
 
@@ -333,10 +344,10 @@ var SColor = function () {
 
     /**
      * HSL to RGBA
-     * @param {number} h The hue value between 0-360
-     * @param {number} s The saturation value between 0-100|0-1
-     * @param {number} l The luminence value between 0-100|0-1
-     * @param {number} a The alpha value between 0-100|0-1
+     * @param {Number} h The hue value between 0-360
+     * @param {Number} s The saturation value between 0-100|0-1
+     * @param {Number} l The luminence value between 0-100|0-1
+     * @param {Number} a The alpha value between 0-100|0-1
      * @return {object} The rgba object representation
      */
 
@@ -386,10 +397,10 @@ var SColor = function () {
 
     /**
      * RGBA to HSV
-     * @param {number} r The red value between 0-255
-     * @param {number} g The green value between 0-255
-     * @param {number} b The blue value between 0-255
-     * @param {number} a The alpha value between 0-100|0-1
+     * @param {Number} r The red value between 0-255
+     * @param {Number} g The green value between 0-255
+     * @param {Number} b The blue value between 0-255
+     * @param {Number} a The alpha value between 0-100|0-1
      * @return {object} The hsv object representation
      */
 
@@ -426,10 +437,10 @@ var SColor = function () {
 
     /**
      * RGBA to HSL
-     * @param {number} r The red value between 0-255
-     * @param {number} g The green value between 0-255
-     * @param {number} b The blue value between 0-255
-     * @param {number} a The alpha value between 0-100|0-1
+     * @param {Number} r The red value between 0-255
+     * @param {Number} g The green value between 0-255
+     * @param {Number} b The blue value between 0-255
+     * @param {Number} a The alpha value between 0-100|0-1
      * @return {object} The hsl object representation
      */
 
@@ -511,7 +522,7 @@ var SColor = function () {
 
     /**
      * Get the red value
-     * @return {number} The red value
+     * @return {Number} The red value
      */
 
 
@@ -525,7 +536,7 @@ var SColor = function () {
 
     /**
      * Desaturate
-     * @param {number} amount The amount of desaturation wanted between 0-100
+     * @param {Number} amount The amount of desaturation wanted between 0-100
      * @return {object} The color instance to maintain chainability
      */
 
@@ -539,7 +550,7 @@ var SColor = function () {
 
     /**
      * Saturate
-     * @param {number} amount The amount of saturation wanted between 0-100
+     * @param {Number} amount The amount of saturation wanted between 0-100
      * @return {object} The color instance to maintain chainability
      */
 
@@ -565,7 +576,7 @@ var SColor = function () {
 
     /**
      * Spin
-     * @param {number} amount The amount of hue spin wanted between 0-360
+     * @param {Number} amount The amount of hue spin wanted between 0-360
      * @return {object} The color instance to maintain chainability
      */
 
@@ -584,7 +595,7 @@ var SColor = function () {
 
     /**
      * Transparentize
-     * @param {number} amount The amount of transparence to apply between 0-100|0-1
+     * @param {Number} amount The amount of transparence to apply between 0-100|0-1
      * @return {object} The color instance to maintain chainability
      */
 
@@ -598,7 +609,7 @@ var SColor = function () {
 
     /**
      * Set the alpha
-     * @param {number} alpha The new alpha value to apply between 0-100|0-1
+     * @param {Number} alpha The new alpha value to apply between 0-100|0-1
      * @return {object} The color instance to maintain chainability
      */
 
@@ -611,8 +622,19 @@ var SColor = function () {
     };
 
     /**
+     * Set the opacity (alias for alpha)
+     * @param {Number} opacity The new opacity value to apply between 0-100|0-1
+     * @return {object} The color instance to maintain chainability
+     */
+
+
+    SColor.prototype.opacity = function opacity(_opacity) {
+        return this.alpha(_opacity);
+    };
+
+    /**
      * Opacify
-     * @param {number} amount The amount of transparence to remove between 0-100|0-1
+     * @param {Number} amount The amount of transparence to remove between 0-100|0-1
      * @return {object} The color instance to maintain chainability
      */
 
@@ -626,7 +648,7 @@ var SColor = function () {
 
     /**
      * Darken
-     * @param {number} amount The amount of darkness (of the nightmare of the shadow) to apply between 0-100
+     * @param {Number} amount The amount of darkness (of the nightmare of the shadow) to apply between 0-100
      * @return {object} The color instance to maintain chainabiliy
      */
 
@@ -640,7 +662,7 @@ var SColor = function () {
 
     /**
      * Lighten
-     * @param {number} amount The amount of lightness (of the sky of the angels) to apply between 0-100
+     * @param {Number} amount The amount of lightness (of the sky of the angels) to apply between 0-100
      * @return {object} The color instance to maintain chainability
      */
 
@@ -669,7 +691,7 @@ var SColor = function () {
 
 
     SColor.prototype.toRgbaString = function toRgbaString() {
-        return "rgba(" + this._r + "," + this._g + "," + this._b + "," + this._a + ")";
+        return 'rgba(' + this._r + ',' + this._g + ',' + this._b + ',' + this._a + ')';
     };
 
     /**
@@ -680,7 +702,7 @@ var SColor = function () {
 
     SColor.prototype.toHslString = function toHslString() {
         var hsl = this.convert2('hsl');
-        return "hsl(" + hsl.h + "," + hsl.s + "," + hsl.l + ")";
+        return 'hsl(' + hsl.h + ',' + hsl.s + ',' + hsl.l + ')';
     };
 
     /**
@@ -691,7 +713,7 @@ var SColor = function () {
 
     SColor.prototype.toHsvString = function toHsvString() {
         var hsv = this.convert2('hsv');
-        return "hsv(" + hsv.h + "," + hsv.s + "," + hsv.v + ")";
+        return 'hsv(' + hsv.h + ',' + hsv.s + ',' + hsv.v + ')';
     };
 
     /**
@@ -724,14 +746,14 @@ var SColor = function () {
     };
 
     _createClass(SColor, [{
-        key: "r",
+        key: 'r',
         get: function get() {
             return this._r;
         }
 
         /**
          * Set the red value
-         * @param {number} value 	The new red value between 0-255
+         * @param {Number} value 	The new red value between 0-255
          */
         ,
         set: function set(value) {
@@ -742,18 +764,18 @@ var SColor = function () {
 
         /**
          * Get the green value
-         * @return {number} The green value
+         * @return {Number} The green value
          */
 
     }, {
-        key: "g",
+        key: 'g',
         get: function get() {
             return this._g;
         }
 
         /**
          * Set the green value
-         * @param {number} value 	The new green value between 0-255
+         * @param {Number} value 	The new green value between 0-255
          */
         ,
         set: function set(value) {
@@ -764,18 +786,18 @@ var SColor = function () {
 
         /**
          * Get the blue value
-         * @return {number} The blue value
+         * @return {Number} The blue value
          */
 
     }, {
-        key: "b",
+        key: 'b',
         get: function get() {
             return this._b;
         }
 
         /**
          * Set the blue value
-         * @param {number} value 	The new blue value between 0-255
+         * @param {Number} value 	The new blue value between 0-255
          */
         ,
         set: function set(value) {
@@ -786,18 +808,18 @@ var SColor = function () {
 
         /**
          * Get the alpha value
-         * @return {number} The alpha value
+         * @return {Number} The alpha value
          */
 
     }, {
-        key: "a",
+        key: 'a',
         get: function get() {
             return this._a;
         }
 
         /**
          * Set the alpha value
-         * @param {number} value 	The new alpha value between 0-100|0-1
+         * @param {Number} value 	The new alpha value between 0-100|0-1
          */
         ,
         set: function set(value) {
@@ -808,17 +830,17 @@ var SColor = function () {
         }
 
         /**
-         * @return {number} 	The luminence value
+         * @return {Number} 	The luminence value
          */
 
     }, {
-        key: "l",
+        key: 'l',
         get: function get() {
             return this.convert2('hsl').l;
         }
 
         /**
-         * @param  {number} 	value 	The new luminence value between 0-100
+         * @param  {Number} 	value 	The new luminence value between 0-100
          */
         ,
         set: function set(value) {
@@ -833,17 +855,17 @@ var SColor = function () {
         }
 
         /**
-         * @return {number} 	The saturation value
+         * @return {Number} 	The saturation value
          */
 
     }, {
-        key: "s",
+        key: 's',
         get: function get() {
             return this.convert2('hsl').s;
         }
 
         /**
-         * @param {number} 	value 	The new saturation value between 0-100
+         * @param {Number} 	value 	The new saturation value between 0-100
          */
         ,
         set: function set(value) {
@@ -858,17 +880,17 @@ var SColor = function () {
         }
 
         /**
-         * @return {number} 	The value
+         * @return {Number} 	The value
          */
 
     }, {
-        key: "v",
+        key: 'v',
         get: function get() {
             return this.convert2('hsv').v;
         }
 
         /**
-         * @param  {number} 	value 	The new value
+         * @param  {Number} 	value 	The new value
          */
         ,
         set: function set(value) {
@@ -884,17 +906,17 @@ var SColor = function () {
 
         /**
          * Get the hue
-         * @return {number} The current hue
+         * @return {Number} The current hue
          */
 
     }, {
-        key: "h",
+        key: 'h',
         get: function get() {
             return this.convert2('hsl').h;
         }
 
         /**
-         * @param {number}	value 	The new hue value between 0-360
+         * @param {Number}	value 	The new hue value between 0-360
          */
         ,
         set: function set(value) {
@@ -911,6 +933,9 @@ var SColor = function () {
 
     return SColor;
 }();
+
+// inject sugar css colors into class
+
 
 SColor.colors = {
     "aliceblue": "#f0f8ff",
@@ -1055,4 +1080,28 @@ SColor.colors = {
     "yellowgreen": "#9acd32"
 };
 SColor.toStringFormat = 'rgba';
+(0, _domReady2.default)(function () {
+    // get settings
+    if (!_sSettings2.default || !_sSettings2.default.colors) return;
+
+    // loop on each colors
+    for (var colorName in _sSettings2.default.colors) {
+        var color = _sSettings2.default.colors[colorName];
+        if (!color) return;
+
+        if (color.color) {
+            SColor.colors[colorName] = color.color;
+        }
+        // modifiers
+        if (color.modifiers) {
+            // loop on modifiers
+            for (var modifierName in color.modifiers) {
+                var modifierColor = color.modifiers[modifierName];
+                SColor.colors[colorName + '--' + modifierName] = modifierColor;
+            }
+        }
+    }
+});
+
+// export class
 exports.default = SColor;

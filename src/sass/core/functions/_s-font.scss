@@ -53,7 +53,7 @@
 ) {
 	@if $_sugar-test-arguments {
 		$family : s-test-argument('s-font','family',map-keys(s-setting('fonts')),$family);
-		$color : s-test-truncate('s-font','color',color,$color);
+		$color : s-test-argument('s-font','color',color,$color);
 		$size : s-test-argument('s-font','size',number,$size);
 		$style : s-test-argument('s-font','style',(normal,italic,oblique,initial,inherit),$style);
 		$variant : s-test-argument('s-font','variant',(normal,small-caps,initial,inherit),$variant);

@@ -1,0 +1,32 @@
+{
+  "name": "jquery.slidizle",
+  "version": "1.3.23",
+  "homepage": "https://github.com/olivierbossel/slidizle",
+  "authors": [
+    "Olivier Bossel <olivier.bossel@gmail.com>"
+  ],
+  "description": "jQuery plugin to create fully customizable sliders",
+  "main": "js/jquery.slidizle.js",
+  "keywords": [
+    "slidizle",
+    "slider",
+    "jquery"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "1.3.23",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.3.23",
+    "commit": "6e558e0be1ae89491a643519e00fd2c9acd5b72a"
+  },
+  "_source": "git://github.com/olivierbossel/slidizle.git",
+  "_target": "~1.3.22",
+  "_originalSource": "jquery.slidizle"
+}

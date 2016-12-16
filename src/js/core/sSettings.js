@@ -17,7 +17,7 @@ domReady(() => {
 	settingsElm.classList.add('s-settings');
 	document.body.appendChild(settingsElm);
 	let _settings = window.getComputedStyle(
-		document.querySelector('.s-settings'), ':after'
+		settingsElm, ':after'
 	).getPropertyValue('content').trim();
 	if (_settings && _settings !== '' && _settings !== 'none') {
 		_settings = _settings.replace(/\\"/g, '"');
