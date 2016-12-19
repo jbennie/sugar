@@ -592,20 +592,14 @@ export default Mixin((superclass) => class extends superclass {
 		*/
 		attributeChangedCallback(attribute, oldVal, newVal) {
 
-			console.log('attributeChangedCallback', attribute, oldVal, newVal);
-
 			// cast the new val
-			const rawNewVal = newVal;
 			newVal = __autoCast(newVal);
 
+			// keep an original attribute name
 			const _attribute = attribute;
 
 			// process the attribute to camelCase
 			attribute = __camelize(attribute);
-
-			console.log('this.props[attribute]', this.props[attribute]);
-			console.log('newVal', newVal);
-			console.log('rawNewVal', rawNewVal);
 
 			// handle the case when newVal is undefined (added attribute whithout any value)
 			if (newVal === undefined
@@ -615,30 +609,6 @@ export default Mixin((superclass) => class extends superclass {
 
 			// do nothing if the value is already the same
 			if (this.props[attribute] === newVal) return;
-
-			// // when the prop is false
-			// // and the element has not this attribute
-			// // we assume that the prop will stay to false
-			// if (this.props[attribute] === false
-			// 	&& ! this.hasAttribute(_attribute)
-			// ) {
-			// 	console.log('prop is false and component has not attribute',attribute);
-			// 	return;
-			// }
-
-			// // if there's no new value but that the element has
-			// // the attribute on itself, we assume the newVal
-			// // is equal to true
-			// if ( ! newVal
-			// 	&& rawNewVal !== '0'
-			// 	&& rawNewVal !== 'false'
-			// 	&& rawNewVal !== 'null'
-			// 	&& this.hasAttribute(_attribute)
-			// ) {
-			// 	console.log('set to true');
-			// 	this.setProp(attribute, true);
-			// 	return;
-			// }
 
 			// set the new prop
 			this.setProp(attribute, newVal);
@@ -674,15 +644,11 @@ export default Mixin((superclass) => class extends superclass {
 		*/
 		setProp(prop, value) {
 
-			console.log('setProp', prop, value);
-
 			// save the oldVal
 			const _oldVal = this.props[prop];
 
 			// stop if same value
 			if (_oldVal === value) return;
-
-			console.log('setProp', '_oldVal', _oldVal);
 
 			// set the prop
 			this.props[prop] = value

@@ -548,20 +548,14 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 		_class2.prototype.attributeChangedCallback = function attributeChangedCallback(attribute, oldVal, newVal) {
 
-			console.log('attributeChangedCallback', attribute, oldVal, newVal);
-
 			// cast the new val
-			var rawNewVal = newVal;
 			newVal = (0, _autoCast2.default)(newVal);
 
+			// keep an original attribute name
 			var _attribute = attribute;
 
 			// process the attribute to camelCase
 			attribute = (0, _camelize2.default)(attribute);
-
-			console.log('this.props[attribute]', this.props[attribute]);
-			console.log('newVal', newVal);
-			console.log('rawNewVal', rawNewVal);
 
 			// handle the case when newVal is undefined (added attribute whithout any value)
 			if (newVal === undefined && this.hasAttribute(_attribute)) {
@@ -570,30 +564,6 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 			// do nothing if the value is already the same
 			if (this.props[attribute] === newVal) return;
-
-			// // when the prop is false
-			// // and the element has not this attribute
-			// // we assume that the prop will stay to false
-			// if (this.props[attribute] === false
-			// 	&& ! this.hasAttribute(_attribute)
-			// ) {
-			// 	console.log('prop is false and component has not attribute',attribute);
-			// 	return;
-			// }
-
-			// // if there's no new value but that the element has
-			// // the attribute on itself, we assume the newVal
-			// // is equal to true
-			// if ( ! newVal
-			// 	&& rawNewVal !== '0'
-			// 	&& rawNewVal !== 'false'
-			// 	&& rawNewVal !== 'null'
-			// 	&& this.hasAttribute(_attribute)
-			// ) {
-			// 	console.log('set to true');
-			// 	this.setProp(attribute, true);
-			// 	return;
-			// }
 
 			// set the new prop
 			this.setProp(attribute, newVal);
@@ -640,15 +610,11 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		_class2.prototype.setProp = function setProp(prop, value) {
 			var _this8 = this;
 
-			console.log('setProp', prop, value);
-
 			// save the oldVal
 			var _oldVal = this.props[prop];
 
 			// stop if same value
 			if (_oldVal === value) return;
-
-			console.log('setProp', '_oldVal', _oldVal);
 
 			// set the prop
 			this.props[prop] = value;
