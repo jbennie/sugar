@@ -591,6 +591,9 @@ export default Mixin((superclass) => class extends superclass {
 		* When any of the component attribute changes
 		*/
 		attributeChangedCallback(attribute, oldVal, newVal) {
+
+			console.log('attributeChangedCallback', attribute, oldVal, newVal);
+
 			// cast the new val
 			const rawNewVal = newVal;
 			newVal = __autoCast(newVal);
@@ -599,6 +602,10 @@ export default Mixin((superclass) => class extends superclass {
 
 			// process the attribute to camelCase
 			attribute = __camelize(attribute);
+
+			console.log('this.props[attribute]', this.props[attribute]);
+			console.log('newVal', newVal);
+			console.log('rawNewVal', rawNewVal);
 
 			// do nothing if the value is already the same
 			if (this.props[attribute] === newVal) return;
@@ -609,6 +616,7 @@ export default Mixin((superclass) => class extends superclass {
 			if (this.props[attribute] === false
 				&& ! this.hasAttribute(_attribute)
 			) {
+				console.log('prop is false and component has not attribute',attribute);
 				return;
 			}
 
@@ -621,6 +629,7 @@ export default Mixin((superclass) => class extends superclass {
 				&& rawNewVal !== 'null'
 				&& this.hasAttribute(_attribute)
 			) {
+				console.log('set to true');
 				this.setProp(attribute, true);
 				return;
 			}
@@ -659,11 +668,15 @@ export default Mixin((superclass) => class extends superclass {
 		*/
 		setProp(prop, value) {
 
+			console.log('setProp', prop, value);
+
 			// save the oldVal
 			const _oldVal = this.props[prop];
 
 			// stop if same value
 			if (_oldVal === value) return;
+
+			console.log('setProp', '_oldVal', _oldVal);
 
 			// set the prop
 			this.props[prop] = value
