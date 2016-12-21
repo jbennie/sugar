@@ -94,12 +94,6 @@ $_sugar-settings : (								// store all the settings
 		element-separator 			: '__', 			// element separator
 		modifier-separator 			: '--' 				// modifier separator
 								),
-	modular-scale 				: ( 				// Modular scale settings
-		base 						: 1rem, 			// the modular scale base
-		ratio 						: $golden, 			// the ratio to use
-		range 						: null, 			// range
-		fluid 						: false 			// is fluid modular scale
-								),
 	fonts  						: ( 				// store all the fonts
 		default 					: (
 			font-family 				: ('Helvetica Neue',Helvetica,Verdana,Arial,sans-serif),
