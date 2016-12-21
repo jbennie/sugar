@@ -1,0 +1,80 @@
+@mixin s-label-material-component(
+	$colors : default primary secondary
+) {
+	@include s-label-material-component-bare();
+	@include s-label-material-component-style(
+		$colors : $colors
+	);
+}
+
+@mixin s-label-material-component-bare(
+) {
+	@include s-input-component-init();
+	@include s-component('s-label-material') {
+		@include s-selector-method(ISWEBCOMPONENT) {
+
+			// push
+			#{s-component-selector()} {
+				position:relative;
+				display: block;
+
+				> input {
+					@include s-transition(fast);
+					padding-left:0;
+					border-left: none !important;
+					border-right: none !important;
+					border-top: none !important;
+				}
+				> span {
+					display:inline-block;
+					padding: s-lnf(padding-horizontal) s-lnf(padding-vertical);
+					padding-left: 0;
+					height: 1em + s-lnf(padding-horizontal) * 2;
+					position:absolute;
+					top:0; left:0;
+					white-space: nowrap;
+					pointer-events: none;
+					text-overflow: ellipsis;
+					overflow: hidden;
+					@include s-translate(0,0);
+					@include s-transition(fast padding, fast font-size);
+				}
+				> input[has-value] ~ span,
+				> input:focus ~ span {
+					font-size: 0.7em;
+					padding: 0;
+				}
+				> input[has-value],
+				> input:focus {
+					padding-left: 0 !important;
+					padding-top: s-lnf(padding-horizontal) * 1.33 !important;
+					padding-bottom : s-lnf(padding-horizontal) - s-lnf(padding-horizontal) / 3 !important;
+				}
+			}
+		}
+	}
+}
+
+@mixin s-label-material-component-style(
+	$colors : default primary secondary
+) {
+	// parse properties
+	@if $_sugar-test-arguments {
+		// $colors : s-test-argument('s-formset','colors',map-keys(s-setting('colors')),$colors);
+	}
+	@include s-component('s-label-material') {
+		@include s-selector-method(ISWEBCOMPONENT) {
+			// generate each colors
+			@each $color in $colors {
+
+				// label styling
+				#{s-component-selector(null, $color, null, 'color')} {
+					> input[has-value] ~ span,
+					> input:focus ~ span {
+						color : s-color($color);
+					}
+				}
+			}
+		}
+	}
+}

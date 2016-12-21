@@ -1,0 +1,72 @@
+$_s-fieldset-component-inited : false;
+@mixin s-fieldset-component-init() {
+
+	@if not $_s-fieldset-component-inited {
+		$_s-fieldset-component-inited : true !global;
+
+		%s-fieldset-component-bare {
+			border-left-width: 5px;
+			border-left-style: solid;
+			display:block;
+			width: 100%;
+			@include s-transition(fast);
+
+			> legend,
+			> .legend {
+				@include s-transition(fast);
+				border-left-style: solid;
+				border-left-width: 5px;
+				border-bottom-style: solid;
+				border-bottom-width: 2px;
+			}
+		}
+	}
+}
+@mixin s-fieldset-component(
+	$colors : default primary secondary
+) {
+	// init form
+	@include s-fieldset-component-init();
+	@include s-component('s-fieldset') {
+
+		@if $_sugar-test-arguments {
+			// $colors : s-test-argument('s-fieldset-component','colors',map-keys(s-setting('colors')),$colors);
+		}
+
+
+		#{s-component-selector()} {
+			@extend %s-fieldset-component-bare;
+
+			@include s-vertical-rhythme() {
+				margin-bottom: 2rem;
+			}
+		}
+
+		#{s-component-selector()} > legend {
+			padding: s-lnf(padding-horizontal) s-lnf(padding-vertical);
+		}
+
+		// generate each colors
+		@each $color in $colors {
+
+			#{s-component-selector(null, $color, null, 'color')} {
+				border-color: s-color($color, -opacity .1);
+
+				&#{s-component-selector('&', null, 'active')},
+				&:hover,
+				&.active {
+					border-color: s-color($color, -opacity .2);
+
+					> legend {
+						border-color: s-color($color, -opacity .2);
+					}
+				}
+
+				> legend {
+					color: s-color($color);
+					border-color: s-color($color, -opacity .1);
+				}
+			}
+		}
+	}
+}
