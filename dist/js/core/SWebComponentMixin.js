@@ -66,6 +66,10 @@ var _domReady = require('../dom/domReady');
 
 var _domReady2 = _interopRequireDefault(_domReady);
 
+var _prependChild = require('../dom/prependChild');
+
+var _prependChild2 = _interopRequireDefault(_prependChild);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -165,7 +169,8 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 					var styleElm = document.createElement('style');
 					styleElm.setAttribute('name', componentName);
 					styleElm.innerHTML = css;
-					document.head.appendChild(styleElm);
+					(0, _prependChild2.default)(styleElm, document.head);
+					// document.head.appendChild(styleElm);
 					// });
 				} else {
 					window.sugar._webComponentCss[componentName] = false;

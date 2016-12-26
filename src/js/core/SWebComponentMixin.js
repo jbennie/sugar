@@ -13,6 +13,7 @@ import __closest from '../dom/closest'
 import __whenAttribute from '../dom/whenAttribute'
 import __propertyProxy from '../utils/objects/propertyProxy'
 import __domReady from '../dom/domReady'
+import __prependChild from '../dom/prependChild'
 
 if ( ! window.sugar) window.sugar = {};
 if ( ! window.sugar._webComponentsStack) window.sugar._webComponentsStack = {};
@@ -87,7 +88,8 @@ export default Mixin((superclass) => class extends superclass {
 				const styleElm = document.createElement('style');
 				styleElm.setAttribute('name', componentName);
 				styleElm.innerHTML = css;
-				document.head.appendChild(styleElm);
+				__prependChild(styleElm, document.head);
+				// document.head.appendChild(styleElm);
 				// });
 			} else {
 				window.sugar._webComponentCss[componentName] = false;
