@@ -22,7 +22,7 @@ domReady(() => {
 	if (_settings && _settings !== '' && _settings !== 'none') {
 		_settings = _settings.replace(/\\"/g, '"');
 		// handle numbers that does not have initial 0.65
-		_settings = _settings.replace(/[:|\s](\.\d+)[\s|,|}]?/g, `0$1`);
+		_settings = _settings.replace(/[:|\s](\.\d+)[\s|,|}]?/g, "0$1");
 		// _settings = _settings.replace(/\\\'\\"/g,'"').replace(/\\"\\\'/g,'"');
 		// _settings = _settings.replace(/\'\\"/g,'"').replace(/\\"\'/g,'"');
 		// _settings = _settings.replace(/'"/g,'"').replace(/"'/g,'"');
