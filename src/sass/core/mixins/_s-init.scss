@@ -76,6 +76,7 @@ $_sugar-inited : false;
 			$base-font-size : s-setting('typo.font-size');
 			$base-font-sizes : s-setting('typo.font-sizes');
 			font-size: s-Px($base-font-size);
+			color: s-color(text);
 			@if type-of($base-font-sizes) == map {
 				@each $size, $media in $base-font-sizes {
 					@include s-media($media...) {
@@ -109,8 +110,6 @@ $_sugar-inited : false;
 
 		// modular scale
 		$ms-base : s-setting('modular-scale.base') !global;
-		$ms-size : s-setting('modular-scale.ratio') !global;
-		$ms-range : s-setting('modular-scale.range') !global;
-		$ms-fluid : s-setting('modular-scale.fluid') !global;
+		$ms-ratio : s-setting('modular-scale.ratio') !global;
 	}
 }

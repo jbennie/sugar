@@ -1,0 +1,24 @@
+/**
+ * Return the modular scale value based on the settings ```modular-scale.base``` and ```modular-scale.ratio```.
+ *
+ * @param 			{Number} 		$scale 		The wanted scale
+ * @param 			{Number} 		[$base=settings.modular-scale.base] 	The base of calculation
+ * @return 			{Number} 					The calculated resulting value
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@function s-modular-scale(
+	$scale,
+	$base : null
+) {
+	@if not $base {
+		$base : s-setting('modular-scale.base');
+	}
+	@return ms($scale, $base);
+}
+@function s-ms(
+	$scale,
+	$base : null
+) {
+	@return s-modular-scale($scale, $base);
+}
