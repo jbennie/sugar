@@ -131,7 +131,7 @@
  */
 @mixin s-typography-paragraphs-component-bare() {
 	/**
-	 * @name 	Default paragraph
+	 * @name 	Default
 	 * Default paragraph styling
 	 * @styleguide 	Typography / Paragraphs
 	 * @example 	html
@@ -149,7 +149,7 @@
 		@include s-typography-paragraph-bare();
 	}
 	/**
-	 * @name 	Lead paragraph
+	 * @name 	Lead
 	 * Lead paragraph styling
 	 * @styleguide 	Typography / Paragraphs
 	 * @example 	html

@@ -1,13 +1,10 @@
 /**
  * Return the css class selector for the current component setted by the [core/mixins/_s-component.scss] mixin
  * and build with the passed arguments.
- * This function generate the class selector depending of the settings.selector.method setting or the selector method setted by the [s-selector-method mixin](../mixins/_s-selector-method.scss)
  *
  * @param 			{String} 			[$element=null] 		The element name of the class selector | '&' if target the same element like `&#{s-component-selector('&', null)} {}`
  * @param 			{String} 			[$modifier=null] 		The modifier name of the class selector
  * @param 			{String} 			[$state=null] 			The state name of the class selector
- * @param 			{String} 			[$modifierName=null] 	The modifier name that will be used for webcomponent method like [$modifierName="$modifier"]
- * @param 			{String} 			[$method=null] 			The method wanted to generate the selector. [See here](../_selector-methods.scss)
  * @return 			{String} 									The generated class selector
  *
  * @example
@@ -16,10 +13,6 @@
  * 		s-component-selector('item') // => '.my-component__item'
  * 		s-component-selector(null, 'red') // => '.my-component--red'
  * 		s-component-selector('coco',null,'active') // => '.my-component__coco--active'
- * 		// if setting.selector.method === 'SMACCS'
- * 		s-component-selector('item') // => '.my-component-item'
- * 		s-component-selector(null, 'red') // => '.my-component-red'
- * 		s-component-selector('coco',null,'active') // => '.my-component-coco.is-active'
  * }
  *
  * // if target the same element with & :
@@ -36,13 +29,11 @@
 @function s-component-selector(
 	$element : null,
 	$modifier : null,
-	$state : null,
-	$modifierName : null,
-	$method : null
+	$state : null
 ) {
 	$component : s-component();
 	@if not $component {
 		@error('To use the function s-component-selector, you need to be in a component by using the s-component mixin...');
 	}
-	@return s-selector($component, $element, $modifier, $state, $modifierName, $method);
+	@return s-selector($component, $element, $modifier, $state);
 }

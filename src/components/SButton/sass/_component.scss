@@ -15,11 +15,11 @@
 		 * Lead paragraph styling
 		 * @styleguide 	Components / Buttons
 		 * @example 	html
-		 * <a class="#{s-component-selector()}">
+		 * <a class="#{s-component()}">
 		 * 	Hello World
 		 * </a>
 		 */
-		#{s-component-selector()} {
+		.#{s-component()} {
 			@include s-button-bare();
 		}
 		/**
@@ -27,11 +27,11 @@
 		 * Lead paragraph styling
 		 * @styleguide 	Components / Buttons
 		 * @example 	html
-		 * <a class="#{s-component-selector(null, 'block')}">
+		 * <a class="#{s-component()} #{s-component()}--block">
 		 * 	Hello World
 		 * </a>
 		 */
-		#{s-component-selector(null, 'block')} {
+		.#{s-component()}--block {
 			@include s-button-bare('block');
 		}
 	}
@@ -49,8 +49,9 @@
 		}
 
 		// base
-		#{s-component-selector()} {
+		.#{s-component()} {
 			@include s-transition(fast);
+			@include s-button-style(default);
 		}
 		// generate each colors
 		@each $color in $colors {
@@ -59,23 +60,22 @@
 			 * Lead paragraph styling
 			 * @styleguide 	Components / Buttons
 			 * @example 	html
-			 * <a class="#{s-component-selector(null, $color, null, 'color')}">
+			 * <a class="#{s-component()} #{s-component()}--#{$color}">
 			 * 	Hello World
 			 * </a>
 			 */
-			#{s-component-selector(null, $color, null, 'color')} {
+			.#{s-component()}--#{$color} {
 				@include s-button-style($color);
 				// outline
-				&#{s-component-selector('&', 'outline')} {
+				&.#{s-component()}--outline {
 					@include s-button-style($color 'outline');
 				}
 				// link button
-				&#{s-component-selector('&', 'link')} {
+				&.#{s-component()}--link {
 					@include s-button-style($color 'link');
 				}
 				// disabled
-				&#{s-component-selector('&')}[disabled],
-				&#{s-component-selector('&', null, 'disabled')} {
+				&.#{s-component()}:disabled {
 					@include s-button-style($color, 'disabled');
 				}
 			}
