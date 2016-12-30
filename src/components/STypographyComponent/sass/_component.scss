@@ -9,39 +9,85 @@
 
 @mixin s-typography-titles-component-bare() {
 	/**
-	 * @name 	Titles
-	 * Provide all the titles from h1 to h6
-	 * @styleguide 	Typography
+	 * @name 	h1
+	 * h1 title styling
+	 * @styleguide 	Typography / Titles
 	 * @example 	html
 	 * <h1 class="h1">Hello World</h1>
-	 * <h2 class="h2">Hello World</h2>
-	 * <h3 class="h3">Hello World</h3>
-	 * <h4 class="h4">Hello World</h4>
-	 * <h5 class="h5">Hello World</h5>
-	 * <h6 class="h6">Hello World</h6>
+	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * 	<h1>Hello World</h1>
+	 * </div>
 	 */
-
-	// titles :
 	.h1,
 	.#{s-setting('text-format.scope-class')} h1 {
 		@include s-typography-title-bare(6);
 	}
+	/**
+	 * @name 	h2
+	 * h2 title styling
+	 * @styleguide 	Typography / Titles
+	 * @example 	html
+	 * <h2 class="h2">Hello World</h2>
+	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * 	<h2>Hello World</h2>
+	 * </div>
+	 */
 	.h2,
 	.#{s-setting('text-format.scope-class')} h2 {
 		@include s-typography-title-bare(5);
 	}
+	/**
+	 * @name 	h3
+	 * h3 title styling
+	 * @styleguide 	Typography / Titles
+	 * @example 	html
+	 * <h3 class="h3">Hello World</h3>
+	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * 	<h3>Hello World</h3>
+	 * </div>
+	 */
 	.h3,
 	.#{s-setting('text-format.scope-class')} h3 {
 		@include s-typography-title-bare(4);
 	}
+	/**
+	 * @name 	h4
+	 * h4 title styling
+	 * @styleguide 	Typography / Titles
+	 * @example 	html
+	 * <h4 class="h4">Hello World</h4>
+	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * 	<h4>Hello World</h4>
+	 * </div>
+	 */
 	.h4,
 	.#{s-setting('text-format.scope-class')} h4 {
 		@include s-typography-title-bare(3);
 	}
+	/**
+	 * @name 	h5
+	 * h5 title styling
+	 * @styleguide 	Typography / Titles
+	 * @example 	html
+	 * <h5 class="h5">Hello World</h5>
+	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * 	<h5>Hello World</h5>
+	 * </div>
+	 */
 	.h5,
 	.#{s-setting('text-format.scope-class')} h5 {
 		@include s-typography-title-bare(2);
 	}
+	/**
+	 * @name 	h6
+	 * h6 title styling
+	 * @styleguide 	Typography / Titles
+	 * @example 	html
+	 * <h6 class="h6">Hello World</h6>
+	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * 	<h6>Hello World</h6>
+	 * </div>
+	 */
 	.h6,
 	.#{s-setting('text-format.scope-class')} h6 {
 		@include s-typography-title-bare(1);
@@ -84,10 +130,38 @@
  * Paragraphs
  */
 @mixin s-typography-paragraphs-component-bare() {
+	/**
+	 * @name 	Default paragraph
+	 * Default paragraph styling
+	 * @styleguide 	Typography / Paragraphs
+	 * @example 	html
+	 * <p class="p">
+	 * 	Duis gravida justo at urna interdum blandit. Sed venenatis, eros dictum gravida dictum, mauris sapien feugiat libero, at fermentum quam tellus dignissim nunc. Donec eu rutrum dui, in rhoncus lacus.
+	 * </p>
+	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * 	<p>
+	 * 		Duis gravida justo at urna interdum blandit. Sed venenatis, eros dictum gravida dictum, mauris sapien feugiat libero, at fermentum quam tellus dignissim nunc. Donec eu rutrum dui, in rhoncus lacus.
+	 *   </p>
+	 * </div>
+	 */
 	.p,
 	.#{s-setting('text-format.scope-class')} p {
 		@include s-typography-paragraph-bare();
 	}
+	/**
+	 * @name 	Lead paragraph
+	 * Lead paragraph styling
+	 * @styleguide 	Typography / Paragraphs
+	 * @example 	html
+	 * <p class="p p--lead">
+	 * 	Duis gravida justo at urna interdum blandit. Sed venenatis, eros dictum gravida dictum, mauris sapien feugiat libero, at fermentum quam tellus dignissim nunc. Donec eu rutrum dui, in rhoncus lacus.
+	 * </p>
+	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * 	<p class="lead">
+	 * 		Duis gravida justo at urna interdum blandit. Sed venenatis, eros dictum gravida dictum, mauris sapien feugiat libero, at fermentum quam tellus dignissim nunc. Donec eu rutrum dui, in rhoncus lacus.
+	 *   </p>
+	 * </div>
+	 */
 	.p--lead,
 	.#{s-setting('text-format.scope-class')} p.lead {
 		font-size:1.3rem;

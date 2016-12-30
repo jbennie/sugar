@@ -11,7 +11,7 @@
 	/**
 	 * @name 		```.pull-left```
 	 * Allows you to pull an element to the left side
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Pull
 	 * @example 	html
 	 * 	<span class="pull-left">Hello world</span>
 	 * </div>
@@ -22,7 +22,7 @@
 	/**
 	 * @name 		```.pull-right```
 	 * Allows you to pull an element to the right side
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Pull
 	 * @example 	html
 	 * 	<span class="pull-right">Hello world</span>
 	 * </div>
@@ -38,7 +38,7 @@
 	/**
 	 * @name 		```.relative```
 	 * Set an element position as ```relative```
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Position
 	 * @example 	html
 	 * <div class="relative">
 	 * 	I'm relative now
@@ -50,7 +50,7 @@
 	/**
 	 * @name 		```.absolute```
 	 * Set an element position as ```absolute```
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Positon
 	 * @example 	html
 	 * <div class="absolute">
 	 * 	I'm absolute now
@@ -67,7 +67,7 @@
 	/**
 	 * @name 		```.clear-left```
 	 * Clear the left float on the element
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Float
 	 * @example 	html
 	 * <div class="clear-left">
 	 * 	I clear the left float
@@ -79,7 +79,7 @@
 	/**
 	 * @name 		```.clear-right```
 	 * Clear the right float on the element
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Float
 	 * @example 	html
 	 * <div class="clear-right">
 	 * 	I clear the right float
@@ -91,7 +91,7 @@
 	/**
 	 * @name 		```.clear```
 	 * Clear both float on the element
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Float
 	 * @example 	html
 	 * <div class="clear">
 	 * 	I clear both floats
@@ -108,7 +108,7 @@
 	/**
 	 * @name 		```.show```
 	 * Display the element as ```block```
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Display
 	 * @example 	html
 	 * <div class="show">
 	 * 	I'm displayed
@@ -120,7 +120,7 @@
 	/**
 	 * @name 		```.show-inline```
 	 * Display the element as ```inline-block```
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Display
 	 * @example 	html
 	 * <div class="show-inline">
 	 * 	I'm inline displayed
@@ -132,7 +132,7 @@
 	/**
 	 * @name 		```.hidden```
 	 * Hide the element by setting the display to ```none```
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Display
 	 * @example 	html
 	 * <div class="hidden">
 	 * 	I'm hidden
@@ -144,7 +144,7 @@
 	/**
 	 * @name 		```.hide```
 	 * Hide the element by setting the display to ```none```
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Display
 	 * @example 	html
 	 * <div class="hide">
 	 * 	I'm hidden
@@ -156,7 +156,7 @@
 	/**
 	 * @name 		```.visible```
 	 * Display the element by setting the visibility to ```visible```
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Display
 	 * @example 	html
 	 * <div class="visible">
 	 * 	I'm visible
@@ -168,7 +168,7 @@
 	/**
 	 * @name 		```.invisible```
 	 * Display the element by setting the visibility to ```hidden```
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Display
 	 * @example 	html
 	 * <div class="invisible">
 	 * 	I'm invisible
@@ -181,7 +181,7 @@
 	 * @name 		```.visually-hidden```
 	 * Hide the element from display but not for SEO.
 	 * This class use some tricks to make the element dissapear without using some ```display:none;```, etc...
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Display
 	 * @example 	html
 	 * <div class="visually-hidden">
 	 * 	I'm only visually hidden
@@ -197,7 +197,7 @@
 	/**
 	 * @name 		```.t-hidden```
 	 * Hide the text
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Text
 	 * @example 	html
 	 * <div class="t-hidden">
 	 * 	I'm not visible
@@ -209,7 +209,7 @@
 	/**
 	 * @name 		```.t-truncate```
 	 * Hide the text
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Text
 	 * @example 	html
 	 * <div class="t-truncate">
 	 * 	I'm truncated cause I talk a lot too much Nulla mauris eros, finibus ac faucibus et, tempus quis risus. Praesent sit amet nulla vel libero euismod sodales eu nec.
@@ -221,7 +221,7 @@
 	/**
 	 * @name 		```.t-left```
 	 * Align the text to the left
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Text
 	 * @example 	html
 	 * <div class="t-left">
 	 * 	I'm left aligned
@@ -233,7 +233,7 @@
 	/**
 	 * @name 		```.t-right```
 	 * Align the text to the right
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Text
 	 * @example 	html
 	 * <div class="t-right">
 	 * 	I'm right aligned
@@ -245,7 +245,7 @@
 	/**
 	 * @name 		```.t-center```
 	 * Align the text to the center
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Text
 	 * @example 	html
 	 * <div class="t-center">
 	 * 	I'm centered
@@ -257,7 +257,7 @@
 	/**
 	 * @name 		```.t-justify```
 	 * Make the text justified
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Text
 	 * @example 	html
 	 * <div class="t-justify">
 	 * 	Nullam vel feugiat nunc. Phasellus facilisis, nisi sit amet viverra rhoncus, arcu risus volutpat dolor, sed euismod magna tellus ac purus. Praesent augue lorem, ullamcorper ac accumsan nec, suscipit eu.
@@ -269,7 +269,7 @@
 	/**
 	 * @name 		```.t-lowercase```
 	 * Transform the text to lowercase
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Text
 	 * @example 	html
 	 * <div class="t-lowercase">
 	 * 	I'M LOWERCASE
@@ -281,7 +281,7 @@
 	/**
 	 * @name 		```.t-uppercase```
 	 * Transform the text to uppercase
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Text
 	 * @example 	html
 	 * <div class="t-uppercase">
 	 * 	I'm uppercase
@@ -293,7 +293,7 @@
 	/**
 	 * @name 		```.t-capitalize```
 	 * Capizalize the words
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Text
 	 * @example 	html
 	 * <div class="t-capitalize">
 	 * 	I'm capitalized
@@ -309,7 +309,7 @@
 	/**
 	 * @name 		```.f-bold```
 	 * Set the font-weight to ```bold```
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Font
 	 * @example 	html
 	 * This <span class="f-bold">word</span> is bold
 	 */
@@ -319,7 +319,7 @@
 	/**
 	 * @name 		```.f-lighter```
 	 * Set the font-weight to ```lighter```
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Font
 	 * @example 	html
 	 * 	This <span class="f-lighter">word</span> is lighter
 	 */
@@ -329,7 +329,7 @@
 	/**
 	 * @name 		```.f-bolder```
 	 * Set the font-weight to ```bolder```
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Font
 	 * @example 	html
 	 * This <span class="f-bolder">word</span> is bolder
 	 */
@@ -339,7 +339,7 @@
 	/**
 	 * @name 		```.f-normal```
 	 * Set the font-weight to ```normal```
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Font
 	 * @example 	html
 	 * <div class="f-bold">
 	 * 	This <span class="f-normal">word</span> is normal
@@ -352,7 +352,7 @@
 	/**
 	 * @name 		```.f-italic```
 	 * Set the font-style to ```italic```
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Font
 	 * @example 	html
 	 * This <span class="f-italic">word</span> is italic
 	 */
@@ -362,7 +362,7 @@
 	/**
 	 * @name 		```.f-oblique```
 	 * Set the font-style to ```oblique```
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Font
 	 * @example 	html
 	 * This <span class="f-oblique">word</span> is oblique
 	 */
@@ -372,7 +372,7 @@
 	/**
 	 * @name 		```.f-small-caps```
 	 * Set the font-variant to ```small-caps```
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Font
 	 * @example 	html
 	 * This <span class="f-small-caps">word</span> is small-caps
 	 */
@@ -386,7 +386,7 @@
 	/**
 	 * @name 		```.block-center```
 	 * Set the element to as ```display:block``` and center it
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Block
 	 * @example 	html
 	 * <div class="block-center bkg-primary" style="width:100px;">
 	 * 	I'm a centered block
@@ -404,7 +404,7 @@
 	/**
 	 * @name 		```.clearfix```
 	 * Apply the micro clearfix on the element
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Clearfix
 	 * @example 	html
 	 * <div class="clearfix bkg-primary">
 	 * 	<div class="pull-right">right pulled</div>
@@ -419,7 +419,7 @@
 	/**
 	 * @name 		```.clearfix-float```
 	 * Apply the float clearfix on the element
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Clearfix
 	 * @example 	html
 	 * <div class="clearfix-float bkg-primary">
 	 * 	<div class="pull-right">right pulled</div>
@@ -434,7 +434,7 @@
 	/**
 	 * @name 		```.clearfix```
 	 * Apply the micro clearfix on the element
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Clearfix
 	 * @example 	html
 	 * <div class="clearfix bkg-primary">
 	 * 	<div class="pull-right">right pulled</div>
@@ -449,7 +449,7 @@
 	/**
 	 * @name 		```.clearfix-overflow```
 	 * Apply the overflow clearfix on the element
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Clearfix
 	 * @example 	html
 	 * <div class="clearfix-overflow bkg-primary">
 	 * 	<div class="pull-right">right pulled</div>
@@ -464,7 +464,7 @@
 	/**
 	 * @name 		```.clearfix-facebook```
 	 * Apply the facebook clearfix on the element
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Clearfix
 	 * @example 	html
 	 * <div class="clearfix-facebook bkg-primary">
 	 * 	<div class="pull-right">right pulled</div>
@@ -483,7 +483,7 @@
 	/**
 	 * @name 		```.no-transitions```
 	 * Disable the transitions <span class="f-bold">only on the element</span>
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Transitions
 	 * @example 	html
 	 * <div class="no-transitions">
 	 * 	I have no more transitions
@@ -498,7 +498,7 @@
 	/**
 	 * @name 		```.clear-transitions```
 	 * Disable the transitions <span class="f-bold">on the element and all his children</span>
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Transitions
 	 * @example 	html
 	 * <div class="clear-transitions">
 	 * 	I have no more transitions
@@ -514,7 +514,7 @@
 	/**
 	 * @name 		```.no-animations```
 	 * Disable the animations <span class="f-bold">only on the element</span>
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Animations
 	 * @example 	html
 	 * <div class="no-animations">
 	 * 	I have no more animations
@@ -529,7 +529,7 @@
 	/**
 	 * @name 		```.clear-animations```
 	 * Disable the transitions <span class="f-bold">on the element and all his children</span>
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Animations
 	 * @example 	html
 	 * <div class="clear-animations">
 	 * 	I have no more animations
@@ -545,7 +545,7 @@
 	/**
 	 * @name 		```.no-transmations```
 	 * Disable the animations and transitions <span class="f-bold">only on the element</span>
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Transmations
 	 * @example 	html
 	 * <div class="no-transmations">
 	 * 	I have no more animations or transitions
@@ -561,7 +561,7 @@
 	/**
 	 * @name 		```.clear-transmations```
 	 * Disable the animations and transitions <span class="f-bold">on the element and all his children</span>
-	 * @styleguide 	Helper classes
+	 * @styleguide 	Helpers / Transmations
 	 * @example 	html
 	 * <div class="clear-transmations">
 	 * 	I have no more animations or transitions
