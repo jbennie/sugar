@@ -35,21 +35,21 @@
 	$name,
 	$actions : null
 ) {
-	// handle string color name that are another registered one
-	@if s-is($name, string) and not s-is($name, color) and s-setting('colors.#{$name}') {
-		$color : s-setting('colors.#{$name}');
-		@if s-is($color, map) {
-			$color : map-get($color, color);
-		}
-		@return s-color($color, $actions);
-	}
-
 	// handle (name, actions) name formating
-	@if type-of($name) == list and length($name) == 2 {
-		$actions : nth($name, 2);
-		$name : nth($name, 1);
-		@return s-color($name, $actions);
-	}
+	// @if type-of($name) == list and length($name) == 2 {
+	// 	$actions : nth($name, 2);
+	// 	$name : nth($name, 1);
+	// 	@return s-color($name, $actions);
+	// }
+
+	// handle string color name that are another registered one
+	// @if s-is($name, string) and not s-is($name, color) and s-setting('colors.#{$name}') {
+	// 	$color : s-setting('colors.#{$name}');
+	// 	@if s-is($color, map) {
+	// 		$color : map-get($color, color);
+	// 	}
+	// 	@return s-color($color, $actions);
+	// }
 
 	// dash syntax
 	@if $actions and type-of($actions) == list {
@@ -122,7 +122,7 @@
 			} @else if type-of($actions) == string {
 				$modifiers : s-setting('colors.#{$name}.modifiers');
 				@if not $modifiers {
-					@error('The color "#{$name} does not have any "#{$actions}" modifier...');
+					@error('The color "#{$name}" does not have any "#{$actions}" modifier...');
 				}
 				$actions : s-test-argument('s-color','actions',map-keys(s-setting('colors.#{$name}.modifiers')),$actions);
 			}

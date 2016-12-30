@@ -10,12 +10,12 @@ $_sugar-settings : (								// store all the settings
 	reset 						: true, 			// by default, a reset will be applied
 	border-box 					: true, 			// set if need to set all as border box model
 	sizes 						: (					// store all the ratios between sizes
-		smaller 					: 0.6,
-		small 						: 0.8,
+		smaller 					: 0.3,
+		small 						: 0.6,
 		default 					: 1,
-		medium 						: 1.4,
-		big 						: 1.8,
-		bigger 						: 2.4
+		medium 						: 1.6,
+		big 						: 2.4,
+		bigger 						: 3
 	),
 	typo 						: (
 		font-family 				: default, 			// set the font to use by default
@@ -50,14 +50,17 @@ $_sugar-settings : (								// store all the settings
 		)
 	),
 	spaces 						: (					// store all the spaces available
-		default 					: 2rem
+		default 					: 1rem
 								),
 	colors 						: (					// store all the colors
 		default 					: (
 			color 						: #777,
+			modifiers 					: (
+				light 						: -lighten 30%
+										)
 									),
 		title 						: (
-			color 						: (text, -darken 30%)
+			color 						: text
 									),
 		text 						: (
 			color 						: default
@@ -117,9 +120,10 @@ $_sugar-settings : (								// store all the settings
 									)
 								),
 	filters 					: ( 				// store all the registered filters
-		shadow 						: box-shadow(#text 0 0 32px)
 								),
 	transitions 				: ( 				// store all the transition settings
+		fast 						: all .1s ease-in-out 0s,
+		slow 						: all .5s ease-in-out 0s,
 		default  					: all .2s ease-in-out 0s // default transition
 								)
 );

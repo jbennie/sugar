@@ -1,0 +1,108 @@
+@mixin s-typography-component() {
+	// titles
+	@include s-typography-titles-component-bare();
+	@include s-typography-titles-component-style();
+	// paragraphs
+	@include s-typography-paragraphs-component-bare();
+	@include s-typography-paragraphs-component-style();
+}
+
+@mixin s-typography-titles-component-bare() {
+	/**
+	 * @name 	Titles
+	 * Provide all the titles from h1 to h6
+	 * @styleguide 	Typography
+	 * @example 	html
+	 * <h1 class="h1">Hello World</h1>
+	 * <h2 class="h2">Hello World</h2>
+	 * <h3 class="h3">Hello World</h3>
+	 * <h4 class="h4">Hello World</h4>
+	 * <h5 class="h5">Hello World</h5>
+	 * <h6 class="h6">Hello World</h6>
+	 */
+
+	// titles :
+	.h1,
+	.#{s-setting('text-format.scope-class')} h1 {
+		@include s-typography-title-bare(6);
+	}
+	.h2,
+	.#{s-setting('text-format.scope-class')} h2 {
+		@include s-typography-title-bare(5);
+	}
+	.h3,
+	.#{s-setting('text-format.scope-class')} h3 {
+		@include s-typography-title-bare(4);
+	}
+	.h4,
+	.#{s-setting('text-format.scope-class')} h4 {
+		@include s-typography-title-bare(3);
+	}
+	.h5,
+	.#{s-setting('text-format.scope-class')} h5 {
+		@include s-typography-title-bare(2);
+	}
+	.h6,
+	.#{s-setting('text-format.scope-class')} h6 {
+		@include s-typography-title-bare(1);
+	}
+	// vertical rhythme
+	h1,h2,h3,h4,h5,h6 {
+		@include s-vertical-rhythme() {
+			margin-bottom: 1rem;
+		}
+	}
+}
+@mixin s-typography-titles-component-style() {
+	.h1,
+	.#{s-setting('text-format.scope-class')} h1 {
+		@include s-typography-title-style(6);
+	}
+	.h2,
+	.#{s-setting('text-format.scope-class')} h2 {
+		@include s-typography-title-style(5);
+	}
+	.h3,
+	.#{s-setting('text-format.scope-class')} h3 {
+		@include s-typography-title-style(4);
+	}
+	.h4,
+	.#{s-setting('text-format.scope-class')} h4 {
+		@include s-typography-title-style(3);
+	}
+	.h5,
+	.#{s-setting('text-format.scope-class')} h5 {
+		@include s-typography-title-style(2);
+	}
+	.h6,
+	.#{s-setting('text-format.scope-class')} h6 {
+		@include s-typography-title-style(1);
+	}
+}
+
+/**
+ * Paragraphs
+ */
+@mixin s-typography-paragraphs-component-bare() {
+	.p,
+	.#{s-setting('text-format.scope-class')} p {
+		@include s-typography-paragraph-bare();
+	}
+	.p--lead,
+	.#{s-setting('text-format.scope-class')} p.lead {
+		font-size:1.3rem;
+		font-weight: lighter;
+	}
+	// vertical rhythme
+	p,.p {
+		@include s-vertical-rhythme() {
+			margin-bottom: 1rem;
+		}
+	}
+}
+@mixin s-typography-paragraphs-component-style() {
+	.p,
+	.#{s-setting('text-format.scope-class')} p {
+		@include s-typography-paragraph-style();
+	}
+}

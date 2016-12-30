@@ -8,9 +8,25 @@
 // Pull
 //
 @include s-register-class(pull-left, 'sugar.pull.left') {
+	/**
+	 * @name 		```.pull-left```
+	 * Allows you to pull an element to the left side
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * 	<span class="pull-left">Hello world</span>
+	 * </div>
+	 */
 	float: left;
 }
 @include s-register-class(pull-right, 'sugar.pull.right') {
+	/**
+	 * @name 		```.pull-right```
+	 * Allows you to pull an element to the right side
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * 	<span class="pull-right">Hello world</span>
+	 * </div>
+	 */
 	float: right;
 }
 
@@ -19,9 +35,27 @@
 // Position
 //
 @include s-register-class(relative, 'sugar.position.relative') {
+	/**
+	 * @name 		```.relative```
+	 * Set an element position as ```relative```
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="relative">
+	 * 	I'm relative now
+	 * </div>
+	 */
 	position: relative;
 }
 @include s-register-class(absolute, 'sugar.position.absolute') {
+	/**
+	 * @name 		```.absolute```
+	 * Set an element position as ```absolute```
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="absolute">
+	 * 	I'm absolute now
+	 * </div>
+	 */
 	position: absolute;
 }
 
@@ -30,12 +64,39 @@
 // Clear
 //
 @include s-register-class(clear-left, 'sugar.clear.left') {
+	/**
+	 * @name 		```.clear-left```
+	 * Clear the left float on the element
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="clear-left">
+	 * 	I clear the left float
+	 * </div>
+	 */
 	clear: left;
 }
 @include s-register-class(clear-right, 'sugar.clear.right') {
+	/**
+	 * @name 		```.clear-right```
+	 * Clear the right float on the element
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="clear-right">
+	 * 	I clear the right float
+	 * </div>
+	 */
 	clear: right;
 }
 @include s-register-class(clear, 'sugar.clear.both') {
+	/**
+	 * @name 		```.clear```
+	 * Clear both float on the element
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="clear">
+	 * 	I clear both floats
+	 * </div>
+	 */
 	clear: both;
 }
 
@@ -44,24 +105,88 @@
 // Show / hide
 //
 @include s-register-class(show, 'sugar.display.show') {
+	/**
+	 * @name 		```.show```
+	 * Display the element as ```block```
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="show">
+	 * 	I'm displayed
+	 * </div>
+	 */
 	display : block;
 }
 @include s-register-class(show-inline, 'sugar.display.show-inline') {
+	/**
+	 * @name 		```.show-inline```
+	 * Display the element as ```inline-block```
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="show-inline">
+	 * 	I'm inline displayed
+	 * </div>
+	 */
 	display: inline-block;
 }
 @include s-register-class(hidden, 'sugar.display.hidden') {
+	/**
+	 * @name 		```.hidden```
+	 * Hide the element by setting the display to ```none```
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="hidden">
+	 * 	I'm hidden
+	 * </div>
+	 */
 	display: none;
 }
 @include s-register-class(hide, 'sugar.display.hide') {
+	/**
+	 * @name 		```.hide```
+	 * Hide the element by setting the display to ```none```
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="hide">
+	 * 	I'm hidden
+	 * </div>
+	 */
 	display: none;
 }
 @include s-register-class(visible, 'sugar.display.visible') {
+	/**
+	 * @name 		```.visible```
+	 * Display the element by setting the visibility to ```visible```
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="visible">
+	 * 	I'm visible
+	 * </div>
+	 */
 	visibility: visible;
 }
 @include s-register-class(invisible, 'sugar.display.invisible') {
+	/**
+	 * @name 		```.invisible```
+	 * Display the element by setting the visibility to ```hidden```
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="invisible">
+	 * 	I'm invisible
+	 * </div>
+	 */
 	visibility: hidden;
 }
 @include s-register-class(visually-hidden, 'sugar.display.visually-hidden') {
+	/**
+	 * @name 		```.visually-hidden```
+	 * Hide the element from display but not for SEO.
+	 * This class use some tricks to make the element dissapear without using some ```display:none;```, etc...
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="visually-hidden">
+	 * 	I'm only visually hidden
+	 * </div>
+	 */
 	@include s-visually-hidden();
 }
 
@@ -69,30 +194,111 @@
 // Text
 //
 @include s-register-class(t-hidden, 'sugar.text.hidden') {
+	/**
+	 * @name 		```.t-hidden```
+	 * Hide the text
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="t-hidden">
+	 * 	I'm not visible
+	 * </div>
+	 */
 	@include s-hide-text();
 }
 @include s-register-class(t-truncate, 'sugar.text.truncate') {
+	/**
+	 * @name 		```.t-truncate```
+	 * Hide the text
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="t-truncate">
+	 * 	I'm truncated cause I talk a lot too much Nulla mauris eros, finibus ac faucibus et, tempus quis risus. Praesent sit amet nulla vel libero euismod sodales eu nec.
+	 * </div>
+	 */
 	@include s-truncate-text();
 }
 @include s-register-class(t-left, 'sugar.text.align.left') {
+	/**
+	 * @name 		```.t-left```
+	 * Align the text to the left
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="t-left">
+	 * 	I'm left aligned
+	 * </div>
+	 */
 	text-align: left;
 }
 @include s-register-class(t-right, 'sugar.text.align.right') {
+	/**
+	 * @name 		```.t-right```
+	 * Align the text to the right
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="t-right">
+	 * 	I'm right aligned
+	 * </div>
+	 */
 	text-align: right;
 }
 @include s-register-class(t-center, 'sugar.text.align.center') {
+	/**
+	 * @name 		```.t-center```
+	 * Align the text to the center
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="t-center">
+	 * 	I'm centered
+	 * </div>
+	 */
 	text-align: center;
 }
 @include s-register-class(t-justify, 'sugar.text.align.justify') {
+	/**
+	 * @name 		```.t-justify```
+	 * Make the text justified
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="t-justify">
+	 * 	Nullam vel feugiat nunc. Phasellus facilisis, nisi sit amet viverra rhoncus, arcu risus volutpat dolor, sed euismod magna tellus ac purus. Praesent augue lorem, ullamcorper ac accumsan nec, suscipit eu.
+	 * </div>
+	 */
 	text-align: justify;
 }
 @include s-register-class(t-lowercase, 'sugar.text.transform.lowercase') {
+	/**
+	 * @name 		```.t-lowercase```
+	 * Transform the text to lowercase
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="t-lowercase">
+	 * 	I'M LOWERCASE
+	 * </div>
+	 */
 	text-transform: lowercase;
 }
 @include s-register-class(t-uppercase, 'sugar.text.transform.uppercase') {
+	/**
+	 * @name 		```.t-uppercase```
+	 * Transform the text to uppercase
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="t-uppercase">
+	 * 	I'm uppercase
+	 * </div>
+	 */
 	text-transform: uppercase;
 }
 @include s-register-class(t-capitalize, 'sugar.text.transform.capitalize') {
+	/**
+	 * @name 		```.t-capitalize```
+	 * Capizalize the words
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="t-capitalize">
+	 * 	I'm capitalized
+	 * </div>
+	 */
 	text-transform: capitalize;
 }
 
@@ -100,25 +306,76 @@
 // Fonts
 //
 @include s-register-class(f-bold, 'sugar.font.weight.bold') {
+	/**
+	 * @name 		```.f-bold```
+	 * Set the font-weight to ```bold```
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * This <span class="f-bold">word</span> is bold
+	 */
 	font-weight: bold;
 }
 @include s-register-class(f-lighter, 'sugar.font.weight.lighter') {
+	/**
+	 * @name 		```.f-lighter```
+	 * Set the font-weight to ```lighter```
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * 	This <span class="f-lighter">word</span> is lighter
+	 */
 	font-weight: lighter;
 }
 @include s-register-class(f-bolder, 'sugar.font.weight.bolder') {
+	/**
+	 * @name 		```.f-bolder```
+	 * Set the font-weight to ```bolder```
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * This <span class="f-bolder">word</span> is bolder
+	 */
 	font-weight: bolder;
 }
 @include s-register-class(f-normal, 'sugar.font.weight.normal') {
+	/**
+	 * @name 		```.f-normal```
+	 * Set the font-weight to ```normal```
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="f-bold">
+	 * 	This <span class="f-normal">word</span> is normal
+	 * </div>
+	 */
 	font-weight: normal;
 	font-style: normal;
 }
 @include s-register-class(f-italic, 'sugar.font.style.italic') {
+	/**
+	 * @name 		```.f-italic```
+	 * Set the font-style to ```italic```
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * This <span class="f-italic">word</span> is italic
+	 */
 	font-style: italic;
 }
 @include s-register-class(f-oblique, 'sugar.font.style.oblique') {
-	font-weight: oblique;
+	/**
+	 * @name 		```.f-oblique```
+	 * Set the font-style to ```oblique```
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * This <span class="f-oblique">word</span> is oblique
+	 */
+	font-style: oblique;
 }
 @include s-register-class(f-small-caps, 'sugar.font.variant.small-caps') {
+	/**
+	 * @name 		```.f-small-caps```
+	 * Set the font-variant to ```small-caps```
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * This <span class="f-small-caps">word</span> is small-caps
+	 */
 	font-variant: small-caps;
 }
 
@@ -126,6 +383,15 @@
 // Blocks
 //
 @include s-register-class(block-center, 'sugar.block.align.center') {
+	/**
+	 * @name 		```.block-center```
+	 * Set the element to as ```display:block``` and center it
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="block-center bkg-primary" style="width:100px;">
+	 * 	I'm a centered block
+	 * </div>
+	 */
 	display : block;
 	margin-left : auto;
 	margin-right : auto;
@@ -135,18 +401,78 @@
 // Clearfix
 //
 @include s-register-class(clearfix, 'sugar.clearfix.default') {
+	/**
+	 * @name 		```.clearfix```
+	 * Apply the micro clearfix on the element
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="clearfix bkg-primary">
+	 * 	<div class="pull-right">right pulled</div>
+	 * </div>
+	 * <div class="bkg-primary">
+	 * 	<div class="pull-right">right pulled without clearfix</div>
+	 * </div>
+	 */
 	@include s-clearfix(micro);
 }
 @include s-register-class(clearfix-float, 'sugar.clearfix.float') {
+	/**
+	 * @name 		```.clearfix-float```
+	 * Apply the float clearfix on the element
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="clearfix-float bkg-primary">
+	 * 	<div class="pull-right">right pulled</div>
+	 * </div>
+	 * <div class="bkg-primary">
+	 * 	<div class="pull-right">right pulled without clearfix</div>
+	 * </div>
+	 */
 	@include s-clearfix(float);
 }
 @include s-register-class(clearfix-micro, 'sugar.clearfix.micro') {
+	/**
+	 * @name 		```.clearfix```
+	 * Apply the micro clearfix on the element
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="clearfix bkg-primary">
+	 * 	<div class="pull-right">right pulled</div>
+	 * </div>
+	 * <div class="bkg-primary">
+	 * 	<div class="pull-right">right pulled without clearfix</div>
+	 * </div>
+	 */
 	@include s-clearfix(micro);
 }
 @include s-register-class(clearfix-overflow, 'sugar.clearfix.overflow') {
+	/**
+	 * @name 		```.clearfix-overflow```
+	 * Apply the overflow clearfix on the element
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="clearfix-overflow bkg-primary">
+	 * 	<div class="pull-right">right pulled</div>
+	 * </div>
+	 * <div class="bkg-primary">
+	 * 	<div class="pull-right">right pulled without clearfix</div>
+	 * </div>
+	 */
 	@include s-clearfix(overflow);
 }
 @include s-register-class(clearfix-facebook, 'sugar.clearfix.facebook') {
+	/**
+	 * @name 		```.clearfix-facebook```
+	 * Apply the facebook clearfix on the element
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="clearfix-facebook bkg-primary">
+	 * 	<div class="pull-right">right pulled</div>
+	 * </div>
+	 * <div class="bkg-primary">
+	 * 	<div class="pull-right">right pulled without clearfix</div>
+	 * </div>
+	 */
 	@include s-clearfix(facebook);
 }
 
@@ -154,34 +480,94 @@
 // Transition / Animation
 //
 @include s-register-class(no-transitions, 'sugar.no-transitions') {
+	/**
+	 * @name 		```.no-transitions```
+	 * Disable the transitions <span class="f-bold">only on the element</span>
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="no-transitions">
+	 * 	I have no more transitions
+	 * 	<div>But I have</div>
+	 * </div>
+	 */
 	&, &:before, &:after {
 		transition: none !important;
 	}
 }
 @include s-register-class(clear-transitions, 'sugar.clear-transitions') {
+	/**
+	 * @name 		```.clear-transitions```
+	 * Disable the transitions <span class="f-bold">on the element and all his children</span>
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="clear-transitions">
+	 * 	I have no more transitions
+	 * 	<div>Me neither</div>
+	 * </div>
+	 */
 	&, &:before, &:after,
 	& *, & *:before, & *:after {
 		transition: none !important;
 	}
 }
 @include s-register-class(no-animations, 'sugar.no-animations') {
+	/**
+	 * @name 		```.no-animations```
+	 * Disable the animations <span class="f-bold">only on the element</span>
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="no-animations">
+	 * 	I have no more animations
+	 * 	<div>But I have</div>
+	 * </div>
+	 */
 	&, &:before, &:after {
 		animation: none !important;
 	}
 }
 @include s-register-class(clear-animations, 'sugar.clear-animations') {
+	/**
+	 * @name 		```.clear-animations```
+	 * Disable the transitions <span class="f-bold">on the element and all his children</span>
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="clear-animations">
+	 * 	I have no more animations
+	 * 	<div>Me neither</div>
+	 * </div>
+	 */
 	&, &:before, &:after,
 	& *, & *:before, & *:after {
 		animation: none !important;
 	}
 }
 @include s-register-class(no-transmations, 'sugar.no-transmations') {
+	/**
+	 * @name 		```.no-transmations```
+	 * Disable the animations and transitions <span class="f-bold">only on the element</span>
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="no-transmations">
+	 * 	I have no more animations or transitions
+	 * 	<div>But I have</div>
+	 * </div>
+	 */
 	&, &:before, &:after {
 		transition: none !important;
 		animation: none !important;
 	}
 }
 @include s-register-class(clear-transmations, 'sugar.clear-transmations') {
+	/**
+	 * @name 		```.clear-transmations```
+	 * Disable the animations and transitions <span class="f-bold">on the element and all his children</span>
+	 * @styleguide 	Helper classes
+	 * @example 	html
+	 * <div class="clear-transmations">
+	 * 	I have no more animations or transitions
+	 * 	<div>Me neither</div>
+	 * </div>
+	 */
 	&, &:before, &:after,
 	& *, & *:before, & *:after {
 		transition: none !important;

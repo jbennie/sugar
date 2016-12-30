@@ -1,0 +1,47 @@
+@mixin s-typography-title(
+	$level : 1
+) {
+	@include s-typography-title-bare($level);
+	@include s-typography-title-style($level);
+}
+@mixin s-typography-title-bare(
+	$size : 1,
+	$base : null
+) {
+	@include s-component('s-typography') {
+		@if unit($size) == '' {
+			font-size: s-ms($size, $base);
+		} @else {
+			font-size: $size;
+		}
+		line-height:1.1;
+
+		// vertical rhythme
+		@include s-vertical-rhythme() {
+			margin-bottom:1rem;
+		}
+	}
+}
+@mixin s-typography-title-style(
+	$size : 1,
+	$base : null
+) {
+	@include s-component('s-typography') {
+		color : s-color(title);
+	}
+}
+
+@mixin s-typography-paragraph-bare() {
+	@include s-component('s-typography') {
+		line-height: 1.4;
+
+		@include s-vertical-rhythme() {
+			margin-bottom:1rem;
+		}
+	}
+}
+@mixin s-typography-paragraph-style {
+	@include s-component('s-typography') {
+
+	}
+}

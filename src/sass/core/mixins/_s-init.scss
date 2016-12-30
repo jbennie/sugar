@@ -22,9 +22,11 @@ $_sugar-inited : false;
 			@include s-reset();
 		}
 
+		// styleguide
+		@include s-styleguide-colors();
+
 		// settings
 		.s-settings:after {
-
 			// process colors
 			$settings-to-process : _extend((), $_sugar-settings);
 			// get colors
