@@ -10,12 +10,28 @@
 ) {
 	// init dropdown
 	@include s-component('s-button') {
-		// base
-		#{s-component-selector()} {
+		/**
+		 * @name 	Base button
+		 * Lead paragraph styling
+		 * @styleguide 	Components / Buttons
+		 * @example 	html
+		 * <a class="#{s-component()}">
+		 * 	Hello World
+		 * </a>
+		 */
+		.#{s-component()} {
 			@include s-button-bare();
 		}
-		// block
-		#{s-component-selector(null, 'block')} {
+		/**
+		 * @name 	Block button
+		 * Lead paragraph styling
+		 * @styleguide 	Components / Buttons
+		 * @example 	html
+		 * <a class="#{s-component()} #{s-component()}--block">
+		 * 	Hello World
+		 * </a>
+		 */
+		.#{s-component()}--block {
 			@include s-button-bare('block');
 		}
 	}
@@ -33,24 +49,33 @@
 		}
 
 		// base
-		#{s-component-selector()} {
+		.#{s-component()} {
 			@include s-transition(fast);
+			@include s-button-style(default);
 		}
 		// generate each colors
 		@each $color in $colors {
-			#{s-component-selector(null, $color, null, 'color')} {
+			/**
+			 * @name 	#{$color} button
+			 * Lead paragraph styling
+			 * @styleguide 	Components / Buttons
+			 * @example 	html
+			 * <a class="#{s-component()} #{s-component()}--#{$color}">
+			 * 	Hello World
+			 * </a>
+			 */
+			.#{s-component()}--#{$color} {
 				@include s-button-style($color);
 				// outline
-				&#{s-component-selector('&', 'outline')} {
+				&.#{s-component()}--outline {
 					@include s-button-style($color 'outline');
 				}
 				// link button
-				&#{s-component-selector('&', 'link')} {
+				&.#{s-component()}--link {
 					@include s-button-style($color 'link');
 				}
 				// disabled
-				&#{s-component-selector('&')}[disabled],
-				&#{s-component-selector('&', null, 'disabled')} {
+				&.#{s-component()}:disabled {
 					@include s-button-style($color, 'disabled');
 				}
 			}

@@ -59,6 +59,14 @@
 		}
 	}
 
+	/**
+	 * @name   			#{$font-family}
+	 * @styleguide 		Typography / Fonts
+	 * @display 		font
+	 * @font-family 	#{$font-family}
+	 * @font-style 		#{$font-style}
+	 * @font-weight 	#{$font-weight}
+	 */
 	// declare font
 	@font-face {
 		font-family: "#{$font-family}";
