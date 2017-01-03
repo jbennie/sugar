@@ -5,6 +5,9 @@
 	// paragraphs
 	@include s-typography-paragraphs-component-bare();
 	@include s-typography-paragraphs-component-style();
+	// links
+	@include s-typography-link-component-bare();
+	@include s-typography-link-component-style();
 }
 
 @mixin s-typography-titles-component-bare() {
@@ -20,7 +23,7 @@
 	 */
 	.h1,
 	.#{s-setting('text-format.scope-class')} h1 {
-		@include s-typography-title-bare(6);
+		@include s-typography-title-bare(3.5em);
 	}
 	/**
 	 * @name 	h2
@@ -34,7 +37,7 @@
 	 */
 	.h2,
 	.#{s-setting('text-format.scope-class')} h2 {
-		@include s-typography-title-bare(5);
+		@include s-typography-title-bare(3em);
 	}
 	/**
 	 * @name 	h3
@@ -48,7 +51,7 @@
 	 */
 	.h3,
 	.#{s-setting('text-format.scope-class')} h3 {
-		@include s-typography-title-bare(4);
+		@include s-typography-title-bare(2.5em);
 	}
 	/**
 	 * @name 	h4
@@ -62,7 +65,7 @@
 	 */
 	.h4,
 	.#{s-setting('text-format.scope-class')} h4 {
-		@include s-typography-title-bare(3);
+		@include s-typography-title-bare(2em);
 	}
 	/**
 	 * @name 	h5
@@ -76,7 +79,7 @@
 	 */
 	.h5,
 	.#{s-setting('text-format.scope-class')} h5 {
-		@include s-typography-title-bare(2);
+		@include s-typography-title-bare(1.5em);
 	}
 	/**
 	 * @name 	h6
@@ -90,39 +93,39 @@
 	 */
 	.h6,
 	.#{s-setting('text-format.scope-class')} h6 {
-		@include s-typography-title-bare(1);
+		@include s-typography-title-bare(1em);
 	}
 	// vertical rhythme
 	h1,h2,h3,h4,h5,h6 {
 		@include s-vertical-rhythme() {
-			margin-bottom: 1rem;
+			margin-bottom: 1em;
 		}
 	}
 }
 @mixin s-typography-titles-component-style() {
 	.h1,
 	.#{s-setting('text-format.scope-class')} h1 {
-		@include s-typography-title-style(6);
+		@include s-typography-title-style();
 	}
 	.h2,
 	.#{s-setting('text-format.scope-class')} h2 {
-		@include s-typography-title-style(5);
+		@include s-typography-title-style();
 	}
 	.h3,
 	.#{s-setting('text-format.scope-class')} h3 {
-		@include s-typography-title-style(4);
+		@include s-typography-title-style();
 	}
 	.h4,
 	.#{s-setting('text-format.scope-class')} h4 {
-		@include s-typography-title-style(3);
+		@include s-typography-title-style();
 	}
 	.h5,
 	.#{s-setting('text-format.scope-class')} h5 {
-		@include s-typography-title-style(2);
+		@include s-typography-title-style();
 	}
 	.h6,
 	.#{s-setting('text-format.scope-class')} h6 {
-		@include s-typography-title-style(1);
+		@include s-typography-title-style();
 	}
 }
 
@@ -135,10 +138,10 @@
 	 * Default paragraph styling
 	 * @styleguide 	Typography / Paragraphs
 	 * @example 	html
-	 * <p class="p">
+	 * <p class="p #{s-setting('vertical-rhythme.scope-class')}">
 	 * 	Duis gravida justo at urna interdum blandit. Sed venenatis, eros dictum gravida dictum, mauris sapien feugiat libero, at fermentum quam tellus dignissim nunc. Donec eu rutrum dui, in rhoncus lacus.
 	 * </p>
-	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * <div class="#{s-setting('text-format.scope-class')} #{s-setting('vertical-rhythme.scope-class')}">
 	 * 	<p>
 	 * 		Duis gravida justo at urna interdum blandit. Sed venenatis, eros dictum gravida dictum, mauris sapien feugiat libero, at fermentum quam tellus dignissim nunc. Donec eu rutrum dui, in rhoncus lacus.
 	 *   </p>
@@ -153,10 +156,10 @@
 	 * Lead paragraph styling
 	 * @styleguide 	Typography / Paragraphs
 	 * @example 	html
-	 * <p class="p p--lead">
+	 * <p class="p p--lead #{s-setting('vertical-rhythme.scope-class')}">
 	 * 	Duis gravida justo at urna interdum blandit. Sed venenatis, eros dictum gravida dictum, mauris sapien feugiat libero, at fermentum quam tellus dignissim nunc. Donec eu rutrum dui, in rhoncus lacus.
 	 * </p>
-	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * <div class="#{s-setting('text-format.scope-class')} #{s-setting('vertical-rhythme.scope-class')}">
 	 * 	<p class="lead">
 	 * 		Duis gravida justo at urna interdum blandit. Sed venenatis, eros dictum gravida dictum, mauris sapien feugiat libero, at fermentum quam tellus dignissim nunc. Donec eu rutrum dui, in rhoncus lacus.
 	 *   </p>
@@ -164,13 +167,13 @@
 	 */
 	.p--lead,
 	.#{s-setting('text-format.scope-class')} p.lead {
-		font-size:1.3rem;
+		font-size:1.3em;
 		font-weight: lighter;
 	}
 	// vertical rhythme
 	p,.p {
 		@include s-vertical-rhythme() {
-			margin-bottom: 1rem;
+			margin-bottom: 1em;
 		}
 	}
 }
@@ -178,5 +181,18 @@
 	.p,
 	.#{s-setting('text-format.scope-class')} p {
 		@include s-typography-paragraph-style();
+	}
+}
+
+@mixin s-typography-link-component-bare() {
+	.link,
+	.#{s-setting('text-format.scope-class')} a {
+		@include s-typography-link-bare();
+	}
+}
+@mixin s-typography-link-component-style() {
+	.link,
+	.#{s-setting('text-format.scope-class')} a {
+		@include s-typography-link-style();
 	}
 }

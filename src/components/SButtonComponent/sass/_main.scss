@@ -1,6 +1,9 @@
 %s-button-bare {
 	display: inline-block;
-	border: none;
+	// border: none;
+	border-style:solid;
+	border-width:1px;
+	border-color:rgba(0,0,0,0);
 	cursor: pointer;
 	outline-width:0;
 	-webkit-appearance: none;
@@ -35,8 +38,7 @@ button {
 	border-radius: s-lnf(border-radius);
 	padding : s-lnf(padding-horizontal) s-lnf(padding-vertical);
 	height: 1em + s-lnf(padding-horizontal) * 2;
-	text-align: left;
-	
+
 	// if is a button, set the line height
 	$splt : _split(#{&},' ');
 	$sel : _last($splt);
@@ -57,7 +59,7 @@ button {
 	@if index($modifiers, 'outline') {
 		color: s-color($color);
 		background-color: transparent;
-		border: 1px solid s-color($color);
+		border-color: s-color($color);
 
 		&:active,
 		&:hover,
@@ -76,7 +78,7 @@ button {
 	} @else if index($modifiers, 'link') {
 		background-color: transparent !important;
 		color: s-color($color) !important;
-		border: none !important;
+		border-color:rgba(0,0,0,0) !important;
 		position:relative;
 
 		&:after {
@@ -103,7 +105,7 @@ button {
 		}
 	} @else {
 		background-color: s-color($color);
-		border: 1px solid s-color($color);
+		border-color: s-color($color);
 		@if lightness(s-color($color)) > 70 {
 			color : s-color($color, -darken 30%);
 		} @else {

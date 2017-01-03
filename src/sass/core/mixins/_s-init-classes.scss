@@ -14,6 +14,14 @@ $_sugar-classes-inited : false;
 
 		$filters : s-setting('filters');
 		@each $name, $filter in $filters {
+			/**
+			 * @name 	```.fi-#{$name}```
+			 * @styleguide  	Helpers / Filters
+			 * @example 	html
+			 * <div class="fi-#{$name}">
+			 * 	I'm filtered with #{$name}
+			 * </div>
+			 */
 			@include s-register-class(
 				$classname : 'fi-#{$name}',
 				$namespace : 'sugar.filter.#{$name}'
@@ -25,6 +33,14 @@ $_sugar-classes-inited : false;
 		// transitions
 		$transitions : s-setting('transitions');
 		@each $name, $transition in $transitions {
+			/**
+			 * @name 	```.tr-#{$name}```
+			 * @styleguide  	Helpers / Transitions
+			 * @example 	html
+			 * <div class="tr-#{$name}">
+			 * 	I'm transitionned with #{$name}
+			 * </div>
+			 */
 			@include s-register-class(
 				$classname : 'tr-#{$name}',
 				$namespace : 'sugar.transition.#{$name}'
@@ -33,12 +49,20 @@ $_sugar-classes-inited : false;
 			}
 		}
 
-		@each $fontName, $font in s-setting('fonts') {
+		@each $name, $font in s-setting('fonts') {
+			/**
+			 * @name 	```.f-#{$name}```
+			 * @styleguide  	Fonts / Classes
+			 * @example 	html
+			 * <div class="f-#{$name}">
+			 * 	I have the font "#{$name}" applied
+			 * </div>
+			 */
 			@include s-register-class(
-				$classname : 'f-#{$fontName}',
-				$namespace : 'sugar.font.family.#{$fontName}'
+				$classname : 'f-#{$name}',
+				$namespace : 'sugar.font.family.#{$name}'
 			) {
-				@include s-font($fontName);
+				@include s-font($name);
 			}
 		}
 
@@ -49,6 +73,13 @@ $_sugar-classes-inited : false;
 			@if $name == 'default' {
 				$cname : 'm-b';
 			}
+			/**
+			 * @name 	```.#{$cname}```
+			 * @styleguide  	Layout / Margins
+			 * @example 	html
+			 * <div class="#{$cname}" style="background:#{s-color(primary)}; width:100px; height:5px"></div>
+			 * <div style="background:#{s-color(secondary)}; width:100px; height:5px"></div>
+			 */
 			@include s-register-class(
 				$classname : $cname,
 				$namespace : 'sugar.margin.bottom.#{$name}'
@@ -59,6 +90,13 @@ $_sugar-classes-inited : false;
 			@if $name == 'default' {
 				$cname : 'm-t';
 			}
+			/**
+			 * @name 	```.#{$cname}```
+			 * @styleguide  	Layout / Margins
+			 * @example 	html
+			 * <div style="background:#{s-color(primary)}; width:100px; height:5px"></div>
+			 * <div class="#{$cname}" style="background:#{s-color(secondary)}; width:100px; height:5px"></div>
+			 */
 			@include s-register-class(
 				$classname : $cname,
 				$namespace : 'sugar.margin.top.#{$name}'
@@ -69,6 +107,13 @@ $_sugar-classes-inited : false;
 			@if $name == 'default' {
 				$cname : 'm-l';
 			}
+			/**
+			 * @name 	```.#{$cname}```
+			 * @styleguide  	Layout / Margins
+			 * @example 	html
+			 * <div style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px"></div>
+			 * <div class="#{$cname}" style="display:inline-block; background:#{s-color(secondary)}; width:50px; height:50px"></div>
+			 */
 			@include s-register-class(
 				$classname : $cname,
 				$namespace : 'sugar.margin.left.#{$name}'
@@ -79,6 +124,13 @@ $_sugar-classes-inited : false;
 			@if $name == 'default' {
 				$cname : 'm-r';
 			}
+			/**
+			 * @name 	```.#{$cname}```
+			 * @styleguide  	Layout / Margins
+			 * @example 	html
+			 * <div class="#{$cname}" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px"></div>
+			 * <div style="display:inline-block; background:#{s-color(secondary)}; width:50px; height:50px"></div>
+			 */
 			@include s-register-class(
 				$classname : $cname,
 				$namespace : 'sugar.margin.right.#{$name}'
@@ -89,6 +141,13 @@ $_sugar-classes-inited : false;
 			@if $name == 'default' {
 				$cname : 'm-s';
 			}
+			/**
+			 * @name 	```.#{$cname}```
+			 * @styleguide  	Layout / Margins
+			 * @example 	html
+			 * <div class="#{$cname}" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px"></div>
+			 * <div style="display:inline-block; background:#{s-color(secondary)}; width:50px; height:50px"></div>
+			 */
 			@include s-register-class(
 				$classname : $cname,
 				$namespace : 'sugar.margin.side.#{$name}'
@@ -101,16 +160,34 @@ $_sugar-classes-inited : false;
 			@if $name == 'default' {
 				$cname : 'p';
 			}
+			/**
+			 * @name 	```.#{$cname}```
+			 * @styleguide  	Layout / Paddings
+			 * @example 	html
+			 * <div class="#{$cname}" style="border:1px solid #{s-color(primary)}; width:150px; height:150px;">
+			 * 	<div style="background:#{s-color(secondary)}; width:100%; height:100%"></div>
+			 * </div>
+			 */
 			@include s-register-class(
 				$classname : $cname,
 				$namespace : 'sugar.padding.all.#{$name}'
 			) {
-				padding : s-space($name);
+				&:not(p) {
+					padding : s-space($name);
+				}
 			}
 			$cname : 'p-b-#{$name}';
 			@if $name == 'default' {
 				$cname : 'p-b';
 			}
+			/**
+			 * @name 	```.#{$cname}```
+			 * @styleguide  	Layout / Paddings
+			 * @example 	html
+			 * <div class="#{$cname}" style="border:1px solid #{s-color(primary)}; width:150px; height:150px;">
+			 * 	<div style="background:#{s-color(secondary)}; width:100%; height:100%"></div>
+			 * </div>
+			 */
 			@include s-register-class(
 				$classname : $cname,
 				$namespace : 'sugar.padding.bottom.#{$name}'
@@ -121,6 +198,14 @@ $_sugar-classes-inited : false;
 			@if $name == 'default' {
 				$cname : 'p-t';
 			}
+			/**
+			 * @name 	```.#{$cname}```
+			 * @styleguide  	Layout / Paddings
+			 * @example 	html
+			 * <div class="#{$cname}" style="border:1px solid #{s-color(primary)}; width:150px; height:150px;">
+			 * 	<div style="background:#{s-color(secondary)}; width:100%; height:100%"></div>
+			 * </div>
+			 */
 			@include s-register-class(
 				$classname : $cname,
 				$namespace : 'sugar.padding.top.#{$name}'
@@ -131,6 +216,14 @@ $_sugar-classes-inited : false;
 			@if $name == 'default' {
 				$cname : 'p-l';
 			}
+			/**
+			 * @name 	```.#{$cname}```
+			 * @styleguide  	Layout / Paddings
+			 * @example 	html
+			 * <div class="#{$cname}" style="border:1px solid #{s-color(primary)}; width:150px; height:150px;">
+			 * 	<div style="background:#{s-color(secondary)}; width:100%; height:100%"></div>
+			 * </div>
+			 */
 			@include s-register-class(
 				$classname : $cname,
 				$namespace : 'sugar.padding.left.#{$name}'
@@ -141,6 +234,14 @@ $_sugar-classes-inited : false;
 			@if $name == 'default' {
 				$cname : 'p-r';
 			}
+			/**
+			 * @name 	```.#{$cname}```
+			 * @styleguide  	Layout / Paddings
+			 * @example 	html
+			 * <div class="#{$cname}" style="border:1px solid #{s-color(primary)}; width:150px; height:150px;">
+			 * 	<div style="background:#{s-color(secondary)}; width:100%; height:100%"></div>
+			 * </div>
+			 */
 			@include s-register-class(
 				$classname : $cname,
 				$namespace : 'sugar.padding.right.#{$name}'
@@ -151,6 +252,14 @@ $_sugar-classes-inited : false;
 			@if $name == 'default' {
 				$cname : 'p-s';
 			}
+			/**
+			 * @name 	```.#{$cname}```
+			 * @styleguide  	Layout / Paddings
+			 * @example 	html
+			 * <div class="#{$cname}" style="border:1px solid #{s-color(primary)}; width:150px; height:150px;">
+			 * 	<div style="background:#{s-color(secondary)}; width:100%; height:100%"></div>
+			 * </div>
+			 */
 			@include s-register-class(
 				$classname : $cname,
 				$namespace : 'sugar.padding.side.#{$name}'
@@ -164,49 +273,129 @@ $_sugar-classes-inited : false;
 		// Text size
 		//
 		@each $size, $value in s-setting('sizes') {
+			/**
+			 * @name 	```.s-#{$size}```
+			 * @styleguide  	Layout / Sizes
+			 * @example 	html
+			 * <div class="s-#{$size}">
+			 * 	I have the size "#{$size}" defined
+			 * </div>
+			 */
 			@include s-register-class(s-#{$size}, 'sugar.size.#{$size}') {
 				font-size : s-rem($value);
 			}
+			/**
+			 * @name 	```.s-#{$size}-rel```
+			 * @styleguide  	Layout / Sizes
+			 * @example 	html
+			 * <div class="s-#{$size}-rel">
+			 * 	I have the size "#{$size}" defined
+			 * </div>
+			 */
 			@include s-register-class(s-#{$size}-rel, 'sugar.size.rel.#{$size}') {
 				font-size : s-em($value);
 			}
 		}
 
-		//
-		// Paddings
-		//
+		/**
+		 * @name 	```.no-p-t```
+		 * Reset **top** padding
+		 * @styleguide  	Layout / No paddings
+		 * @example 	html
+		 * <div class="no-p-t" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px;"></div>
+		 */
 		@include s-register-class(no-p-t,'sugar.padding.no.top') {
 			padding-top: 0 !important;
 		}
+		/**
+		 * @name 	```.no-p-r```
+		 * Reset **right** padding
+		 * @styleguide  	Layout / No paddings
+		 * @example 	html
+		 * <div class="no-p-r" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px;"></div>
+		 */
 		@include s-register-class(no-p-r,'sugar.padding.no.right') {
 			padding-right: 0 !important;
 		}
+		/**
+		 * @name 	```.no-p-b```
+		 * Reset **bottom** padding
+		 * @styleguide  	Layout / No paddings
+		 * @example 	html
+		 * <div class="no-p-b" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px;"></div>
+		 */
 		@include s-register-class(no-p-b,'sugar.padding.no.bottom') {
 			padding-bottom: 0 !important;
 		}
+		/**
+		 * @name 	```.no-p-l```
+		 * Reset **left** padding
+		 * @styleguide  	Layout / No paddings
+		 * @example 	html
+		 * <div class="no-p-l" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px;"></div>
+		 */
 		@include s-register-class(no-p-l,'sugar.padding.no.left') {
 			padding-left: 0 !important;
 		}
+		/**
+		 * @name 	```.no-p-s```
+		 * Reset **left** and **right** paddings
+		 * @styleguide  	Layout / No paddings
+		 * @example 	html
+		 * <div class="no-p-s" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px;"></div>
+		 */
 		@include s-register-class(no-p-s,'sugar.padding.no.side') {
 			padding-left: 0 !important;
 			padding-right: 0 !important;
 		}
 
-		//
-		// Margins
-		//
+		/**
+		 * @name 	```.no-m-t```
+		 * Reset **top** padding
+		 * @styleguide  	Layout / No margin
+		 * @example 	html
+		 * <div class="no-m-t" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px;"></div>
+		 */
 		@include s-register-class(no-m-t,'sugar.margin.no.top') {
 			margin-top: 0 !important;
 		}
+		/**
+		 * @name 	```.no-m-r```
+		 * Reset **right** padding
+		 * @styleguide  	Layout / No margin
+		 * @example 	html
+		 * <div class="no-m-r" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px;"></div>
+		 */
 		@include s-register-class(no-m-r,'sugar.margin.no.right') {
 			margin-right: 0 !important;
 		}
+		/**
+		 * @name 	```.no-m-b```
+		 * Reset **bottom** padding
+		 * @styleguide  	Layout / No margin
+		 * @example 	html
+		 * <div class="no-m-b" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px;"></div>
+		 */
 		@include s-register-class(no-m-b,'sugar.margin.no.bottom') {
 			margin-bottom: 0 !important;
 		}
+		/**
+		 * @name 	```.no-m-l```
+		 * Reset **left** padding
+		 * @styleguide  	Layout / No margin
+		 * @example 	html
+		 * <div class="no-m-l" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px;"></div>
+		 */
 		@include s-register-class(no-m-l,'sugar.margin.no.left') {
 			margin-left: 0 !important;
 		}
+		/**
+		 * @name 	```.no-m-s```
+		 * Reset **left** and **right** margins
+		 * @styleguide  	Layout / No paddings
+		 * @example 	html
+		 * <div class="no-m-s" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px;"></div>
+		 */
 		@include s-register-class(no-m-s,'sugar.margin.no.side') {
 			margin-left: 0 !important;
 			margin-right: 0 !important;
@@ -222,6 +411,15 @@ $_sugar-classes-inited : false;
 					$color : map-get($color, color);
 				}
 				$cls : unquote("c-#{$name}");
+				/**
+				 * @name 	```.#{$cls}```
+				 * Specify the color to **#{$name}**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="#{$cls}">
+				 * 	I'm in "#{$name}" color
+				 * </div>
+				 */
 				@include s-register-class(
 					$classname : $cls,
 					$namespace : 'sugar.color.#{$name}.color'
@@ -229,6 +427,15 @@ $_sugar-classes-inited : false;
 					color : s-color($color);
 				}
 				$cls : unquote("bkg-#{$name}");
+				/**
+				 * @name 	```.#{$cls}```
+				 * Specify the background color to **#{$name}**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="#{$cls} p" style="color:white">
+				 * 	My background color is "#{$name}"
+				 * </div>
+				 */
 				@include s-register-class(
 					$classname : $cls,
 					$namespace : 'sugar.color.#{$name}.bkg'
@@ -240,6 +447,15 @@ $_sugar-classes-inited : false;
 				@if $modifiers {
 					@each $mod-name, $mod in $modifiers {
 						$cls : unquote("c-#{$name}--#{$mod-name}");
+						/**
+						 * @name 	```.#{$cls}```
+						 * Specify the color to **#{$name}--#{$mod-name}**
+						 * @styleguide  	Colors / Classes
+						 * @example 	html
+						 * <div class="#{$cls}">
+						 * 	I'm in "#{$name}--#{$mod-name}" color
+						 * </div>
+						 */
 						@include s-register-class(
 							$classname : $cls,
 							$namespace : 'sugar.color.#{$name}.modifier.#{$mod-name}.color'
@@ -247,6 +463,15 @@ $_sugar-classes-inited : false;
 							color : s-color($name, $mod-name);
 						}
 						$cls : unquote("bkg-#{$name}--#{$mod-name}");
+						/**
+						 * @name 	```.#{$cls}```
+						 * Specify the background color to **#{$name}--#{$mod-name}**
+						 * @styleguide  	Colors / Classes
+						 * @example 	html
+						 * <div class="#{$cls} p" style="color:white">
+						 * 	My background color is "#{$name}--#{$mod-name}"
+						 * </div>
+						 */
 						@include s-register-class(
 							$classname : $cls,
 							$namespace : 'sugar.color.#{$name}.modifier.#{$mod-name}.bkg'

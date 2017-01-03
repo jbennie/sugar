@@ -45,3 +45,20 @@
 
 	}
 }
+
+@mixin s-typography-link(
+
+) {
+	@include s-typography-link-bare();
+	@include s-typography-link-style();
+}
+@mixin s-typography-link-bare(
+) {
+
+}
+@mixin s-typography-link-style(
+
+) {
+	text-decoration::none;
+	color: s-color(primary);
+}

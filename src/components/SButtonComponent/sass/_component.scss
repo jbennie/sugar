@@ -11,24 +11,24 @@
 	// init dropdown
 	@include s-component('s-button') {
 		/**
-		 * @name 	Base button
+		 * @name 	```.#{s-component()}```
 		 * Lead paragraph styling
 		 * @styleguide 	Components / Buttons
 		 * @example 	html
 		 * <a class="#{s-component()}">
-		 * 	Hello World
+		 * 	Default button
 		 * </a>
 		 */
 		.#{s-component()} {
 			@include s-button-bare();
 		}
 		/**
-		 * @name 	Block button
+		 * @name 	```.#{s-component()}--block```
 		 * Lead paragraph styling
 		 * @styleguide 	Components / Buttons
 		 * @example 	html
 		 * <a class="#{s-component()} #{s-component()}--block">
-		 * 	Hello World
+		 * 	Block button
 		 * </a>
 		 */
 		.#{s-component()}--block {
@@ -53,31 +53,63 @@
 			@include s-transition(fast);
 			@include s-button-style(default);
 		}
+		.#{s-component()}--link {
+			@include s-button-style('link');
+		}
 		// generate each colors
 		@each $color in $colors {
 			/**
-			 * @name 	#{$color} button
-			 * Lead paragraph styling
+			 * @name 	```.#{s-component()}--#{$color}```
+			 * #{_start-case($color)} button
 			 * @styleguide 	Components / Buttons
 			 * @example 	html
 			 * <a class="#{s-component()} #{s-component()}--#{$color}">
-			 * 	Hello World
+			 * 	#{_start-case($color)} button
 			 * </a>
 			 */
 			.#{s-component()}--#{$color} {
 				@include s-button-style($color);
-				// outline
+				/**
+				 * @name 	```.#{s-component()}--outline.#{s-component()}--#{$color}```
+				 * Outline #{$color} button
+				 * @styleguide 	Components / Buttons
+				 * @example 	html
+				 * <a class="#{s-component()} #{s-component()}--outline #{s-component()}--#{$color}">
+				 * 	#{_start-case($color)} outlined button
+				 * </a>
+				 */
 				&.#{s-component()}--outline {
 					@include s-button-style($color 'outline');
 				}
-				// link button
+
+				/**
+				 * @name 	```.#{s-component()}--link.#{s-component()}--#{$color}```
+				 * Link #{$color} button
+				 * @styleguide 	Components / Buttons
+				 * @example 	html
+				 * <a class="#{s-component()} #{s-component()}--link #{s-component()}--#{$color}">
+				 * 	#{_start-case($color)} link button
+				 * </a>
+				 */
 				&.#{s-component()}--link {
 					@include s-button-style($color 'link');
 				}
-				// disabled
+
+				/**
+				 * @name 	```.#{s-component()}:disabled.#{s-component()}--#{$color}```
+				 * Disabled #{$color} button
+				 * @styleguide 	Components / Buttons
+				 * @example 	html
+				 * <button disabled class="#{s-component()} #{s-component()}--#{$color}">
+				 * 	#{_start-case($color)} outlined button
+				 * </button>
+				 */
 				&.#{s-component()}:disabled {
 					@include s-button-style($color, 'disabled');
 				}
+			}
+			.#{s-component()}--hover-#{$color}:hover {
+				@include s-button-style($color);
 			}
 		}
 	}

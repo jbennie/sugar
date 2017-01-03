@@ -57,6 +57,9 @@ $_sugar-inited : false;
 			}
 		}
 
+		// links
+		a {	color: inherit; }
+
 		// check settings
 		$base-font-family : s-setting('typo.font-family');
 		$fonts : s-setting('fonts');
@@ -107,6 +110,18 @@ $_sugar-inited : false;
 			$font : map-remove($font,cap-height);
 			@if map-get($font, src) {
 				@include s-font-face($font...);
+			} @else {
+				$ff : map-get($font,font-family);
+				$fs : map-get($font,font-style);
+				$fw : map-get($font,font-weight);
+				/**
+				 * @name   			#{$font-name}
+				 * @styleguide 		Fonts / Faces
+				 * @display 		font
+				 * @font-family 	#{$ff}
+				 * @font-style 		#{$fs}
+				 * @font-weight 	#{$fw}
+				 */
 			}
 		}
 

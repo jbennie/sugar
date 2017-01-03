@@ -50,7 +50,7 @@
 	/**
 	 * @name 		```.absolute```
 	 * Set an element position as ```absolute```
-	 * @styleguide 	Helpers / Positon
+	 * @styleguide 	Helpers / Position
 	 * @example 	html
 	 * <div class="absolute">
 	 * 	I'm absolute now
@@ -104,6 +104,42 @@
 //
 // Show / hide
 //
+@include s-register-class(block, 'sugar.display.block') {
+	/**
+	 * @name 		```.block```
+	 * Display the element as ```block```
+	 * @styleguide 	Helpers / Display
+	 * @example 	html
+	 * <div class="block">
+	 * 	I'm displayed as block
+	 * </div>
+	 */
+	display : block;
+}
+@include s-register-class(inline, 'sugar.display.inline') {
+	/**
+	 * @name 		```.inline```
+	 * Display the element as ```inline```
+	 * @styleguide 	Helpers / Display
+	 * @example 	html
+	 * <div class="inline">
+	 * 	I'm displayed as inline
+	 * </div>
+	 */
+	display : inline;
+}
+@include s-register-class(inline-block, 'sugar.display.inline-block') {
+	/**
+	 * @name 		```.inline-block```
+	 * Display the element as ```inline-block```
+	 * @styleguide 	Helpers / Display
+	 * @example 	html
+	 * <div class="inline-block">
+	 * 	I'm displayed as inline-block
+	 * </div>
+	 */
+	display : inline-block;
+}
 @include s-register-class(show, 'sugar.display.show') {
 	/**
 	 * @name 		```.show```

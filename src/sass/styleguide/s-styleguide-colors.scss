@@ -2,7 +2,7 @@
 	$colors : s-setting('colors');
 	@each $name, $color in $colors {
 		/**
-		 * @styleguide 	Colors
+		 * @styleguide 	Colors / Swatches
 		 * @name 		#{$name}
 		 * @color 		#{s-color($name)}
 		 * @display 	color
@@ -13,7 +13,7 @@
 		@if $modifiers {
 			@each $mod-name, $mod in $modifiers {
 				/**
-				 * @styleguide 	Colors
+				 * @styleguide 	Colors / Swatches
 				 * @name 		#{$name}--#{$mod-name}
 				 * @color 		#{s-color($name, $mod-name)}
 				 * @display 	color

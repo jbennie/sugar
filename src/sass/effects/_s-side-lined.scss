@@ -29,6 +29,8 @@
 	$padding : 0,
 	$offset-top : null
 ) {
+	$color : s-color($color);
+
 	@if $_sugar-test-arguments {
 		$style : s-test-argument('s-side-lined','style',none hidden dotted dashed solid double groove ridge inset outset initial inherit,$style);
 		$side : s-test-argument('s-side-lined','side',left right both,$side);

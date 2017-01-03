@@ -11,100 +11,127 @@ $_s-nav-component-inited : false;
 	}
 }
 
-@mixin s-nav-component-justify-bare() {
-	// init nav
+@mixin s-nav-justify-component-bare() {
+
 	@include s-nav-component-init();
+	/**
+	 * @name 	```.#{s-component()}--justify```
+	 * Provide a simple justify navigation component
+	 * @styleguide 	Components / Navigations
+	 * @example 	html
+	 * <ul class="#{s-component()} #{s-component()}--justify">
+	 * 	<li class="#{s-component()}__item">
+	 *  	Item 1
+	 * 	</li>
+	 * 	<li class="#{s-component()}__item">
+	 *  	Item 2
+	 * 	</li>
+	 * 	<li class="#{s-component()}__item">
+	 *  	Item 3
+	 * 	</li>
+	 * </ul>
+	 */
 	@include s-component('s-nav') {
-		#{s-component-selector(null, 'justify')} {
+		.#{s-component()}--justify {
 			@extend %s-nav-component-bare;
 			display: table;
 			width: 100%;
 
 			> li,
-			> #{s-component-selector('item')} {
+			> .#{s-component()}__item {
 				display: table-cell;
 				vertical-align: middle;
-				padding-right: s-lnf(padding-vertical) * 2;
-				text-align: center;
+				&, a {
+					text-align: center;
+				}
 			}
 		}
-		#{s-component-selector(null, 'right')} {
+		.#{s-component()}--right {
 			text-align: right;
-			> li,
-			> #{s-component-selector('item')} {
-				padding-right: 0;
-				padding-left: s-lnf(padding-vertical) * 2;
-			}
 		}
 	}
 }
 
-@mixin s-nav-component-inline-bare() {
+@mixin s-nav-inline-component-bare() {
 	// init nav
 	@include s-nav-component-init();
 	@include s-component('s-nav') {
 
-		#{s-component-selector(null, 'inline')} {
+		/**
+		 * @name 	```.#{s-component()}--inline```
+		 * Provide a simple inline navigation component
+		 * @styleguide 	Components / Navigations
+		 * @example 	html
+		 * <ul class="#{s-component()} #{s-component()}--inline">
+		 * 	<li class="#{s-component()}__item">
+		 *  	Item 1
+		 * 	</li>
+		 * 	<li class="#{s-component()}__item">
+		 *  	Item 2
+		 * 	</li>
+		 * 	<li class="#{s-component()}__item">
+		 *  	Item 3
+		 * 	</li>
+		 * </ul>
+		 */
+		.#{s-component()}--inline {
 			@extend %s-nav-component-bare;
 			display: block;
 
 			> li,
-			> #{s-component-selector('item')} {
+			> .#{s-component()}__item {
 				position:relative;
 				display: inline-block;
-				padding-right: s-lnf(padding-vertical) * 2;
-
-				&:last-of-type {
-					padding-right: 0 !important;
-				}
-				&:first-of-type {
-					padding-left: 0 !important;
-				}
 			}
 		}
-		#{s-component-selector(null, 'right')} {
+		.#{s-component()}--right {
 			text-align: right;
-			> li,
-			> #{s-component-selector('item')} {
-				padding-right: 0;
-				padding-left: s-lnf(padding-vertical) * 2;
-			}
 		}
 	}
 }
 
-@mixin s-nav-component-tabs(
+@mixin s-nav-tabs-component(
 	$colors : null
 ) {
-	@include s-nav-component-tabs-bare();
+	@include s-nav-tabs-component-bare();
 	@if $colors {
-		@include s-nav-component-tabs-style($colors);
+		@include s-nav-tabs-component-style($colors);
 	}
 }
 
-@mixin s-nav-component-tabs-bare() {
+@mixin s-nav-tabs-component-bare() {
 	@include s-nav-component-init();
 	@include s-component('s-nav') {
 
-		#{s-component-selector(null, 'tabs')} {
+		/**
+		 * @name 	```.#{s-component()}--tabs```
+		 * Provide a simple tabs navigation component
+		 * @styleguide 	Components / Navigations
+		 * @example 	html
+		 * <ul class="#{s-component()} #{s-component()}--tabs">
+		 * 	<li class="#{s-component()}__item">
+		 *  	Item 1
+		 * 	</li>
+		 * 	<li class="#{s-component()}__item">
+		 *  	Item 2
+		 * 	</li>
+		 * 	<li class="#{s-component()}__item">
+		 *  	Item 3
+		 * 	</li>
+		 * </ul>
+		 */
+		.#{s-component()}--tabs {
 			@extend %s-nav-component-bare;
 
 			> li,
-			> #{s-component-selector('item')} {
-
-				// font-size : s-lnf(font-size);
-				@include s-corner(
-					$top-left : s-lnf(border-radius),
-					$top-right : s-lnf(border-radius)
-				);
+			> .#{s-component()}__item {
 				position:relative;
-				// margin-right: s-space(smaller);
 				padding : s-lnf(padding-vertical) s-lnf(padding-horizontal);
 				float: left;
 				cursor: pointer;
 
 				&.disabled,
-				&#{s-component-selector('&', null, 'disabled')} {
+				&.#{s-component()}--disabled {
 					pointer-events: none;
 					opacity: .5;
 					cursor: not-allowed;
@@ -114,7 +141,7 @@ $_s-nav-component-inited : false;
 	}
 }
 
-@mixin s-nav-component-tabs-style(
+@mixin s-nav-tabs-component-style(
 	$colors : default primary secondary
 ) {
 	// init nav
@@ -125,11 +152,16 @@ $_s-nav-component-inited : false;
 	}
 	@include s-component('s-nav') {
 
-		#{s-component-selector(null, 'tabs')} {
+		.#{s-component()}--tabs {
 			@extend %s-nav-component-bare;
+			@include s-corner(
+				$top-left : s-lnf(border-radius),
+				$top-right : s-lnf(border-radius)
+			);
+			@include s-clearfix;
 
 			> li,
-			> #{s-component-selector('item')} {
+			> .#{s-component()}__item {
 				position:relative;
 				margin-bottom: -1px;
 			}
@@ -137,20 +169,37 @@ $_s-nav-component-inited : false;
 			// generate each colors
 			@each $color in $colors {
 
-				&#{s-component-selector(null, $color, null, 'color')} {
+				/**
+				 * @name 	```.#{s-component()}--tabs.#{s-component()}--#{$color}```
+				 * Provide a simple tabs navigation component
+				 * @styleguide 	Components / Navigations
+				 * @example 	html
+				 * <ul class="#{s-component()} #{s-component()}--tabs #{s-component()}--#{$color}">
+				 * 	<li class="#{s-component()}__item active">
+				 *  	Item 1
+				 * 	</li>
+				 * 	<li class="#{s-component()}__item">
+				 *  	Item 2
+				 * 	</li>
+				 * 	<li class="#{s-component()}__item">
+				 *  	Item 3
+				 * 	</li>
+				 * </ul>
+				 */
+				&.#{s-component()}--#{$color} {
 					border-bottom: 1px solid s-color($color, -opacity .2);
-					@include s-clearfix;
 
 					> li,
-					> #{s-component-selector('item')} {
+					> .#{s-component()}__item {
 						border: 1px solid s-color($color, -opacity .1);
 						color : s-color($color);
 
-						&#{s-component-selector(null, null, 'hover')},
+						&.#{s-component()}--hover,
 						&:hover {
 							background-color : s-color($color, -opacity .1);
 						}
-						&#{s-component-selector(null, null, 'active')} {
+						&.active,
+						&.#{s-component()}--active {
 							background-color : s-color($color);
 							border-color: s-color($color);
 							@if lightness(s-color($color)) > 70 {
