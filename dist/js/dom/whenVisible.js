@@ -93,6 +93,7 @@ function whenVisible(elm) {
 
 		// check if element itself is not visible
 		if (!(0, _isVisible2.default)(elm)) {
+			console.log('not visible', elm);
 			selfObserver = new MutationObserver(function (mutations) {
 				mutations.forEach(function (mutation) {
 					// check that is the style whos changed

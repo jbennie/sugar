@@ -27,3 +27,4 @@ export default function closestNotVisible(elm) {
 	}
 	return false;
 }
+window.__closestNotVisible = closestNotVisible;

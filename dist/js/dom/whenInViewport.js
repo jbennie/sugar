@@ -54,7 +54,7 @@ function whenInViewport(elm) {
 			scrollContainerElm = elm._inViewportContainer;
 		}
 
-		console.log('whenInViewport', elm, scrollContainerElm);
+		// console.log('whenInViewport', elm, scrollContainerElm);
 
 		var isInViewport = false,
 		    isVisible = false,
