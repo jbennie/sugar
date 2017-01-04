@@ -5,7 +5,7 @@ import __matches from './matches'
  *
  * @name 		closest
  * @param 		{HTMLElement} 					elm  		The element to start on
- * @param 		{String} 						selector 	A css selector to search for
+ * @param 		{String|Function} 				selector 	A css selector to search for or a check function that will be used
  * @return 		{HTMLElement} 								The element found or null
  *
  * @example  	js
@@ -20,10 +20,13 @@ import __matches from './matches'
 export default function closest(elm, selector) {
 	elm = elm.parentNode;
 	while(elm && elm != document) {
-		if (__matches(elm, selector)) {
+		if (typeof selector === 'function') {
+			if (selector(elm)) return elm;
+		} else if (typeof selector === 'string' && __matches(elm, selector)) {
 			return elm;
 		}
 		elm = elm.parentNode;
 	}
 	return null;
 }
+window.__closest = closest;

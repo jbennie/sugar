@@ -48,7 +48,7 @@ function whenInViewport(elm) {
 			}
 		};
 		var checkViewport = (0, _throttle2.default)(function (e) {
-			isInViewport = (0, _isInViewport2.default)(elm, { top: 50, right: 50, bottom: 50, left: 50 });
+			isInViewport = (0, _isInViewport2.default)(elm, 50);
 			_cb();
 		}, 100);
 

@@ -31,7 +31,7 @@ export default function whenInViewport(elm, cb = null) {
 				}
 			}
 		let checkViewport = __throttle((e) => {
-			isInViewport = __isInViewport(elm, { top:50, right:50, bottom:50, left:50 });
+			isInViewport = __isInViewport(elm, 50);
 			_cb();
 		},100);
 

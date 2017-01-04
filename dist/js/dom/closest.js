@@ -14,7 +14,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  * @name 		closest
  * @param 		{HTMLElement} 					elm  		The element to start on
- * @param 		{String} 						selector 	A css selector to search for
+ * @param 		{String|Function} 				selector 	A css selector to search for or a check function that will be used
  * @return 		{HTMLElement} 								The element found or null
  *
  * @example  	js
@@ -29,10 +29,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function closest(elm, selector) {
   elm = elm.parentNode;
   while (elm && elm != document) {
-    if ((0, _matches2.default)(elm, selector)) {
+    if (typeof selector === 'function') {
+      if (selector(elm)) return elm;
+    } else if (typeof selector === 'string' && (0, _matches2.default)(elm, selector)) {
       return elm;
     }
     elm = elm.parentNode;
   }
   return null;
 }
+window.__closest = closest;

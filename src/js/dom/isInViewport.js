@@ -15,11 +15,22 @@
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 import __getBoundingClientRect from './getBoundingClientRect'
-import __inView from 'in-view'
-export default function isInViewport(elm, offset = { top:0, right:0, bottom:0, left:0 }) {
-
-	__inView.offset(offset);
-	return __inView.is(elm);
+import __inViewport from 'in-viewport'
+import __closest from './closest'
+export default function isInViewport(elm, offset = 50) {
+	// try to get the closest element that has an overflow
+	if ( ! elm._inViewportContainer) {
+		const overflowContainer = __closest(elm, '[data-in-viewport-container]');
+		if (overflowContainer) {
+			elm._inViewportContainer = overflowContainer;
+		} else {
+			elm._inViewportContainer = window;
+		}
+	}
+	return __inViewport(elm, {
+		offset,
+		container : elm._inViewportContainer
+	});
 
 	// const rect = __getBoundingClientRect(elm);
 	// const wh = (window.innerHeight || document.documentElement.clientHeight);
