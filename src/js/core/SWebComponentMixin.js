@@ -486,21 +486,21 @@ export default Mixin((superclass) => class extends superclass {
 				// switch on the mountWhen prop
 				switch(this.props.mountWhen) {
 					case 'inViewport':
-					__whenInViewport(this).then(() => {
-						this._mountComponent();
-					});
+						__whenInViewport(this).then(() => {
+							this._mountComponent();
+						});
 					break;
 					case 'mouseover':
-					this.addEventListener('mouseover', this._onMouseoverComponentMount.bind(this));
+						this.addEventListener('mouseover', this._onMouseoverComponentMount.bind(this));
 					break;
 					case 'isVisible':
-					__whenVisible(this).then(() => {
-						this._mountComponent();
-					});
+						__whenVisible(this).then(() => {
+							this._mountComponent();
+						});
 					break;
 					default:
-					// mount component directly
-					this._mountComponent();
+						// mount component directly
+						this._mountComponent();
 					break;
 				}
 			});
