@@ -21,6 +21,7 @@ import __closest from './closest'
  */
 export default function whenInViewport(elm, cb = null) {
 	return new Promise((resolve, reject) => {
+
 		// try to get the closest element that has an overflow
 		let scrollContainerElm = document;
 		if ( ! elm._inViewportContainer) {
@@ -32,6 +33,8 @@ export default function whenInViewport(elm, cb = null) {
 		} else {
 			scrollContainerElm = elm._inViewportContainer;
 		}
+
+		console.log('whenInViewport', elm, scrollContainerElm);
 
 		let isInViewport = false,
 			isVisible = false,
