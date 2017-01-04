@@ -7,11 +7,9 @@ var _isVisible = require('./isVisible');
 
 var _isVisible2 = _interopRequireDefault(_isVisible);
 
-var _getBoundingClientRect = require('./getBoundingClientRect');
-
-var _getBoundingClientRect2 = _interopRequireDefault(_getBoundingClientRect);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// import __getBoundingClientRect from './getBoundingClientRect'
 
 /**
  * Return how many percent the passed element is visible in the viewport
@@ -33,7 +31,7 @@ function inViewportPercentage(elm) {
 	if (!(0, _isVisible2.default)(elm)) return 0;
 
 	// calculate the visible percentage
-	var bounding = (0, _getBoundingClientRect2.default)(elm);
+	var bounding = elm.getBoundingClientRect();
 
 	var percentageWidth = 100,
 	    percentageHeight = 100;

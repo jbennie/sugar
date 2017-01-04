@@ -1,5 +1,5 @@
 import __getTranslateProperties from './getTranslateProperties'
-import __getBoundingClientRect from './getBoundingClientRect'
+// import __getBoundingClientRect from './getBoundingClientRect'
 
 /**
  * Get the offset top and left of the passed element from the document top left point
@@ -17,7 +17,6 @@ import __getBoundingClientRect from './getBoundingClientRect'
  */
 export default function offset(elm) {
 	let body, box, clientLeft, clientTop, docEl, left, scrollLeft, scrollTop, top, translates, transX, transY;
-	// box = __getBoundingClientRect(elm);
 	box = elm.getBoundingClientRect();
 	body = document.body;
 	docEl = document.documentElement;

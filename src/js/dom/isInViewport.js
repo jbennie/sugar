@@ -14,7 +14,7 @@
  *
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-import __getBoundingClientRect from './getBoundingClientRect'
+// import __getBoundingClientRect from './getBoundingClientRect'
 export default function isInViewport(elm, offset = 50) {
 	// // try to get the closest element that has an overflow
 	// if ( ! elm._inViewportContainer) {

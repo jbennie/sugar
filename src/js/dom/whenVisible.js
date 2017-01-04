@@ -28,7 +28,6 @@ export default function whenVisible(elm, cb = null) {
 			parentObserver = null;
 
 		const _cb = () => {
-			console.log('callback', elm, isSelfVisible, areParentsVisible);
 			if (isSelfVisible && areParentsVisible) {
 				// process callbacks
 				if (cb) cb(elm);
@@ -80,7 +79,6 @@ export default function whenVisible(elm, cb = null) {
 
 		// check if element itself is not visible
 		if ( ! __isVisible(elm)) {
-			console.warn('not visible', elm);
 			selfObserver = new MutationObserver((mutations) => {
 				mutations.forEach((mutation) => {
 					// check that is the style whos changed
@@ -112,7 +110,6 @@ export default function whenVisible(elm, cb = null) {
 		// if found, we monitor it to check when it is visible
 		closestNotVisible = __closestNotVisible(elm);
 		if (closestNotVisible) {
-			console.log('closest of', elm, closestNotVisible);
 			parentObserver = new MutationObserver((mutations) => {
 				mutations.forEach((mutation) => {
 					// check that is the style whos changed

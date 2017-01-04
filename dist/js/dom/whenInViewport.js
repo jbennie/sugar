@@ -41,7 +41,6 @@ function whenInViewport(elm) {
 	var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
 	return new Promise(function (resolve, reject) {
-
 		// try to get the closest element that has an overflow
 		var scrollContainerElm = document;
 		if (!elm._inViewportContainer) {
@@ -54,12 +53,9 @@ function whenInViewport(elm) {
 			scrollContainerElm = elm._inViewportContainer;
 		}
 
-		// console.log('whenInViewport', elm, scrollContainerElm);
-
 		var isInViewport = false,
 		    isVisible = false,
 		    _cb = function _cb() {
-			console.log('isVisible', elm, isVisible, isInViewport);
 			if (isVisible && isInViewport) {
 				scrollContainerElm.removeEventListener('scroll', checkViewport);
 				window.removeEventListener('resize', checkViewport);

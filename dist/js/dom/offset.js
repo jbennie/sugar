@@ -7,11 +7,9 @@ var _getTranslateProperties = require('./getTranslateProperties');
 
 var _getTranslateProperties2 = _interopRequireDefault(_getTranslateProperties);
 
-var _getBoundingClientRect = require('./getBoundingClientRect');
-
-var _getBoundingClientRect2 = _interopRequireDefault(_getBoundingClientRect);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// import __getBoundingClientRect from './getBoundingClientRect'
 
 /**
  * Get the offset top and left of the passed element from the document top left point
@@ -40,7 +38,6 @@ function offset(elm) {
 	    translates = void 0,
 	    transX = void 0,
 	    transY = void 0;
-	// box = __getBoundingClientRect(elm);
 	box = elm.getBoundingClientRect();
 	body = document.body;
 	docEl = document.documentElement;

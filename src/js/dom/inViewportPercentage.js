@@ -1,5 +1,5 @@
 import __isVisible from './isVisible'
-import __getBoundingClientRect from './getBoundingClientRect'
+// import __getBoundingClientRect from './getBoundingClientRect'
 
 /**
  * Return how many percent the passed element is visible in the viewport
@@ -21,7 +21,7 @@ export default function inViewportPercentage(elm) {
 	if ( ! __isVisible(elm)) return 0;
 
 	// calculate the visible percentage
-	const bounding = __getBoundingClientRect(elm);
+	const bounding = elm.getBoundingClientRect();
 
 	let percentageWidth = 100,
 		percentageHeight = 100;
