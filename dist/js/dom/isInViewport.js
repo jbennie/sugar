@@ -7,14 +7,6 @@ var _getBoundingClientRect = require('./getBoundingClientRect');
 
 var _getBoundingClientRect2 = _interopRequireDefault(_getBoundingClientRect);
 
-var _inViewport = require('in-viewport');
-
-var _inViewport2 = _interopRequireDefault(_inViewport);
-
-var _closest = require('./closest');
-
-var _closest2 = _interopRequireDefault(_closest);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function isInViewport(elm) {

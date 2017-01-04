@@ -26,7 +26,10 @@ export default function whenOutOfViewport(elm, cb = null) {
 			const overflowContainer = __closest(elm, '[data-in-viewport-container]');
 			if (overflowContainer) {
 				scrollContainerElm = overflowContainer;
+				elm._inViewportContainer = overflowContainer;
 			}
+		} else {
+			scrollContainerElm = elm._inViewportContainer;
 		}
 
 		let isInViewport = true,
