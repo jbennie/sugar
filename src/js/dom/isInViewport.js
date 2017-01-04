@@ -34,7 +34,7 @@ export default function isInViewport(elm, offset = 50) {
 
 	const containerHeight = window.innerHeight || document.documentElement.clientHeight;
 	const containerWidth = window.innerWidth || document.documentElement.clientWidth;
-	const rect = __getBoundingClientRect(elm);
+	const rect = elm.getBoundingClientRect();
 	return (
 		rect.top - containerHeight - offset <= 0
 		&& rect.bottom + offset  >= 0
@@ -42,3 +42,4 @@ export default function isInViewport(elm, offset = 50) {
 		&& rect.right + offset >= 0
 	);
 }
+window.__isInViewport = isInViewport;

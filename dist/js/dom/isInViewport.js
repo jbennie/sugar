@@ -30,7 +30,7 @@ function isInViewport(elm) {
 
 	var containerHeight = window.innerHeight || document.documentElement.clientHeight;
 	var containerWidth = window.innerWidth || document.documentElement.clientWidth;
-	var rect = (0, _getBoundingClientRect2.default)(elm);
+	var rect = elm.getBoundingClientRect();
 	return rect.top - containerHeight - offset <= 0 && rect.bottom + offset >= 0 && rect.left - containerWidth - offset <= 0 && rect.right + offset >= 0;
 } /**
    * Check if the passed HTMLElement is in the viewport or not
@@ -48,3 +48,5 @@ function isInViewport(elm) {
    *
    * @author 		Olivier Bossel <olivier.bossel@gmail.com>
    */
+
+window.__isInViewport = isInViewport;
