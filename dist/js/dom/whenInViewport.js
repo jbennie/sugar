@@ -41,17 +41,12 @@ function whenInViewport(elm) {
 	var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
 	return new Promise(function (resolve, reject) {
-
 		// try to get the closest element that has an overflow
 		var scrollContainerElm = document;
 		if (!elm._inViewportContainer) {
 			var overflowContainer = (0, _closest2.default)(elm, '[data-in-viewport-container]');
 			if (overflowContainer) {
-				elm._inViewportContainer = overflowContainer;
 				scrollContainerElm = overflowContainer;
-			} else {
-				elm._inViewportContainer = window;
-				scrollContainerElm = document;
 			}
 		}
 

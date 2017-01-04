@@ -42,11 +42,7 @@ function whenOutOfViewport(elm) {
 		if (!elm._inViewportContainer) {
 			var overflowContainer = (0, _closest2.default)(elm, '[data-in-viewport-container]');
 			if (overflowContainer) {
-				elm._inViewportContainer = overflowContainer;
 				scrollContainerElm = overflowContainer;
-			} else {
-				elm._inViewportContainer = window;
-				scrollContainerElm = document;
 			}
 		}
 

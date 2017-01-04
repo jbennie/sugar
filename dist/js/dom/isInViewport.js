@@ -20,29 +20,26 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function isInViewport(elm) {
 	var offset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 50;
 
-	// try to get the closest element that has an overflow
-	if (!elm._inViewportContainer) {
-		var overflowContainer = (0, _closest2.default)(elm, '[data-in-viewport-container]');
-		if (overflowContainer) {
-			elm._inViewportContainer = overflowContainer;
-		} else {
-			elm._inViewportContainer = window;
-		}
-	}
-	return (0, _inViewport2.default)(elm, {
-		offset: offset,
-		container: elm._inViewportContainer
-	});
+	// // try to get the closest element that has an overflow
+	// if ( ! elm._inViewportContainer) {
+	// 	const overflowContainer = __closest(elm, '[data-in-viewport-container]');
+	// 	if (overflowContainer) {
+	// 		elm._inViewportContainer = overflowContainer;
+	// 	} else {
+	// 		elm._inViewportContainer = window;
+	// 	}
+	// }
+	//
+	// if (elm._inViewportContainer !== window) {
+	// 	containerOffset = __getBoundingClientRect(elm._inViewportContainer);
+	// 	containerHeight = elm._inViewportContainer.offsetHeight;
+	// 	containerWidth = elm._inViewportContainer.offsetWidth;
+	// }
 
-	// const rect = __getBoundingClientRect(elm);
-	// const wh = (window.innerHeight || document.documentElement.clientHeight);
-	// const ww = (window.innerWidth || document.documentElement.clientWidth);
-	// return (
-	// 	rect.top - wh - offset.top <= 0
-	// 	&& rect.bottom + offset.bottom  >= 0
-	// 	&& rect.left - ww - offset.left <= 0
-	// 	&& rect.right + offset.right >= 0
-	// );
+	var containerHeight = window.innerHeight || document.documentElement.clientHeight;
+	var containerWidth = window.innerWidth || document.documentElement.clientWidth;
+	var rect = (0, _getBoundingClientRect2.default)(elm);
+	return rect.top - containerHeight - offset <= 0 && rect.bottom + offset >= 0 && rect.left - containerWidth - offset <= 0 && rect.right + offset >= 0;
 } /**
    * Check if the passed HTMLElement is in the viewport or not
    *
