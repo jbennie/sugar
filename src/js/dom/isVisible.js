@@ -34,3 +34,4 @@ export default function isVisible(elm) {
 		'hidden' !== visibility
 	);
 }
+window.__isVisible = isVisible;

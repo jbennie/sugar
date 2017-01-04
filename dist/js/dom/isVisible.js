@@ -34,3 +34,4 @@ function isVisible(elm) {
       display = style['display'];
   return '0' !== opacity && 'none' !== display && 'hidden' !== visibility;
 }
+window.__isVisible = isVisible;
