@@ -18,8 +18,8 @@ import __getBoundingClientRect from './getBoundingClientRect'
 import __inView from 'in-view'
 export default function isInViewport(elm, offset = { top:0, right:0, bottom:0, left:0 }) {
 
-	inView.offset(offset);
-	return inView.is(elm);
+	__inView.offset(offset);
+	return __inView.is(elm);
 
 	// const rect = __getBoundingClientRect(elm);
 	// const wh = (window.innerHeight || document.documentElement.clientHeight);

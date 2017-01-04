@@ -33,8 +33,8 @@ function isInViewport(elm) {
   var offset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { top: 0, right: 0, bottom: 0, left: 0 };
 
 
-  inView.offset(offset);
-  return inView.is(elm);
+  _inView2.default.offset(offset);
+  return _inView2.default.is(elm);
 
   // const rect = __getBoundingClientRect(elm);
   // const wh = (window.innerHeight || document.documentElement.clientHeight);
