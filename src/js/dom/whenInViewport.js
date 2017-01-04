@@ -39,6 +39,7 @@ export default function whenInViewport(elm, cb = null) {
 		let isInViewport = false,
 			isVisible = false,
 			_cb = () => {
+				console.log('isVisible', elm, isVisible, isInViewport);
 				if (isVisible && isInViewport) {
 					scrollContainerElm.removeEventListener('scroll', checkViewport);
 					window.removeEventListener('resize', checkViewport);
