@@ -1,6 +1,7 @@
 import whenVisible from './whenVisible'
 import __isInViewport from './isInViewport'
 import __throttle from '../utils/functions/throttle'
+import __closest from './closest'
 
 /**
  * Monitor an HTMLElement to be notified when it is in the viewport
@@ -20,11 +21,22 @@ import __throttle from '../utils/functions/throttle'
  */
 export default function whenInViewport(elm, cb = null) {
 	return new Promise((resolve, reject) => {
+
+		// try to get the closest element that has an overflow
+		if ( ! elm._inViewportContainer) {
+			const overflowContainer = __closest(elm, '[data-in-viewport-container]');
+			if (overflowContainer) {
+				elm._inViewportContainer = overflowContainer;
+			} else {
+				elm._inViewportContainer = document;
+			}
+		}
+
 		let isInViewport = false,
 			isVisible = false,
 			_cb = () => {
 				if (isVisible && isInViewport) {
-					document.removeEventListener('scroll', checkViewport);
+					elm._inViewportContainer.removeEventListener('scroll', checkViewport);
 					window.removeEventListener('resize', checkViewport);
 					if (cb)	cb(elm);
 					resolve(elm);
@@ -42,7 +54,7 @@ export default function whenInViewport(elm, cb = null) {
 		});
 
 		// listen for resize
-		document.addEventListener('scroll', checkViewport);
+		elm._inViewportContainer.addEventListener('scroll', checkViewport);
 		window.addEventListener('resize', checkViewport);
 		setTimeout(() => {
 			checkViewport(null);

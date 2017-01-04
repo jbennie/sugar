@@ -15,6 +15,10 @@ var _throttle = require('../utils/functions/throttle');
 
 var _throttle2 = _interopRequireDefault(_throttle);
 
+var _closest = require('./closest');
+
+var _closest2 = _interopRequireDefault(_closest);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
@@ -37,11 +41,22 @@ function whenInViewport(elm) {
 	var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
 	return new Promise(function (resolve, reject) {
+
+		// try to get the closest element that has an overflow
+		if (!elm._inViewportContainer) {
+			var overflowContainer = (0, _closest2.default)(elm, '[data-in-viewport-container]');
+			if (overflowContainer) {
+				elm._inViewportContainer = overflowContainer;
+			} else {
+				elm._inViewportContainer = document;
+			}
+		}
+
 		var isInViewport = false,
 		    isVisible = false,
 		    _cb = function _cb() {
 			if (isVisible && isInViewport) {
-				document.removeEventListener('scroll', checkViewport);
+				elm._inViewportContainer.removeEventListener('scroll', checkViewport);
 				window.removeEventListener('resize', checkViewport);
 				if (cb) cb(elm);
 				resolve(elm);
@@ -59,7 +74,7 @@ function whenInViewport(elm) {
 		});
 
 		// listen for resize
-		document.addEventListener('scroll', checkViewport);
+		elm._inViewportContainer.addEventListener('scroll', checkViewport);
 		window.addEventListener('resize', checkViewport);
 		setTimeout(function () {
 			checkViewport(null);
