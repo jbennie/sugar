@@ -14,24 +14,24 @@ $_s-nav-component-inited : false;
 @mixin s-nav-justify-component-bare() {
 
 	@include s-nav-component-init();
-	/**
-	 * @name 	```.#{s-component()}--justify```
-	 * Provide a simple justify navigation component
-	 * @styleguide 	Components / Navigations
-	 * @example 	html
-	 * <ul class="#{s-component()} #{s-component()}--justify">
-	 * 	<li class="#{s-component()}__item">
-	 *  	Item 1
-	 * 	</li>
-	 * 	<li class="#{s-component()}__item">
-	 *  	Item 2
-	 * 	</li>
-	 * 	<li class="#{s-component()}__item">
-	 *  	Item 3
-	 * 	</li>
-	 * </ul>
-	 */
-	@include s-component('s-nav') {
+	@include s-component('nav') {
+		/**
+		 * @name 	#{_start-case(s-component())} justify
+		 * Provide a simple justify navigation component
+		 * @styleguide 	Components / #{_start-case(s-component())}
+		 * @example 	html
+		 * <ul class="#{s-component()} #{s-component()}--justify">
+		 * 	<li class="#{s-component()}__item">
+		 *  	Item 1
+		 * 	</li>
+		 * 	<li class="#{s-component()}__item">
+		 *  	Item 2
+		 * 	</li>
+		 * 	<li class="#{s-component()}__item">
+		 *  	Item 3
+		 * 	</li>
+		 * </ul>
+		 */
 		.#{s-component()}--justify {
 			@extend %s-nav-component-bare;
 			display: table;
@@ -55,12 +55,11 @@ $_s-nav-component-inited : false;
 @mixin s-nav-inline-component-bare() {
 	// init nav
 	@include s-nav-component-init();
-	@include s-component('s-nav') {
-
+	@include s-component('nav') {
 		/**
-		 * @name 	```.#{s-component()}--inline```
+		 * @name 	#{_start-case(s-component())} inline
 		 * Provide a simple inline navigation component
-		 * @styleguide 	Components / Navigations
+		 * @styleguide 	Components / #{_start-case(s-component())}
 		 * @example 	html
 		 * <ul class="#{s-component()} #{s-component()}--inline">
 		 * 	<li class="#{s-component()}__item">
@@ -101,12 +100,11 @@ $_s-nav-component-inited : false;
 
 @mixin s-nav-tabs-component-bare() {
 	@include s-nav-component-init();
-	@include s-component('s-nav') {
-
+	@include s-component('nav') {
 		/**
-		 * @name 	```.#{s-component()}--tabs```
+		 * @name 	#{_start-case(s-component())} tabs
 		 * Provide a simple tabs navigation component
-		 * @styleguide 	Components / Navigations
+		 * @styleguide 	Components / #{_start-case(s-component())}
 		 * @example 	html
 		 * <ul class="#{s-component()} #{s-component()}--tabs">
 		 * 	<li class="#{s-component()}__item">
@@ -150,7 +148,7 @@ $_s-nav-component-inited : false;
 	@if $_sugar-test-arguments {
 		// $colors : s-test-argument('s-nav-component-tabs','colors',map-keys(s-setting('colors')),$colors);
 	}
-	@include s-component('s-nav') {
+	@include s-component('nav') {
 
 		.#{s-component()}--tabs {
 			@extend %s-nav-component-bare;
@@ -170,9 +168,9 @@ $_s-nav-component-inited : false;
 			@each $color in $colors {
 
 				/**
-				 * @name 	```.#{s-component()}--tabs.#{s-component()}--#{$color}```
+				 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> #{_start-case(s-component())} tabs
 				 * Provide a simple tabs navigation component
-				 * @styleguide 	Components / Navigations
+				 * @styleguide 	Components / #{_start-case(s-component())}
 				 * @example 	html
 				 * <ul class="#{s-component()} #{s-component()}--tabs #{s-component()}--#{$color}">
 				 * 	<li class="#{s-component()}__item active">

@@ -31,11 +31,11 @@ $_s-dropdown-component-inited : false;
 
 	// init dropdown
 	@include s-dropdown-component-init();
-	@include s-component('s-dropdown') {
+	@include s-component('dropdown') {
 		/**
-		 * @name 	```.#{s-component()}```
+		 * @name 	#{_start-case(s-component())}
 		 * Provide a nice dropdown component
-		 * @styleguide 		Components / #{s-component()}
+		 * @styleguide 		Components / #{_start-case(s-component())}
 		 * @example 	html
 		 * <div style="display:inline-block" class="#{s-component()}">
 		 * 	<a>Display dropdown</a>
@@ -80,9 +80,9 @@ $_s-dropdown-component-inited : false;
 			}
 
 			/**
-			 * @name 	```.#{s-component()}--right```
+			 * @name 	#{_start-case(s-component())} right
 			 * Provide a nice dropdown component aligned to the right
-			 * @styleguide 		Components / #{s-component()}
+			 * @styleguide 		Components / #{_start-case(s-component())}
 			 * @example 	html
 			 * <div style="display:inline-block" class="#{s-component()} #{s-component()}--right">
 			 * 	<a>Display right dropdown</a>
@@ -149,7 +149,7 @@ $_s-dropdown-component-inited : false;
 ) {
 	// init dropdown
 	@include s-dropdown-component-init();
-	@include s-component('s-dropdown') {
+	@include s-component('dropdown') {
 		.#{s-component()}__menu {
 			background: s-color(default);
 			@include s-depth(2);
@@ -182,9 +182,9 @@ $_s-dropdown-component-inited : false;
 
 		@each $color in $colors {
 			/**
-			 * @name 	```.#{s-component()}--#{$color}```
+			 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> #{_start-case(s-component())}
 			 * Provide a nice dropdown #{$color} component
-			 * @styleguide 		Components / #{s-component()}
+			 * @styleguide 		Components / #{_start-case(s-component())}
 			 * @example 	html
 			 * <div style="display:inline-block" class="#{s-component()} #{s-component()}--#{$color}">
 			 * 	<a>Display #{$color} dropdown</a>

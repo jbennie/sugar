@@ -37,7 +37,7 @@ $_s-corner-badge-component-inited : false;
 	$corners : tl tr bl br
 ) {
 	@include s-corner-badge-component-init();
-	@include s-component('s-corner-badge') {
+	@include s-component('corner-badge') {
 
 		// @TODO parse properties
 		@if $_sugar-test-arguments {
@@ -58,7 +58,7 @@ $_s-corner-badge-component-inited : false;
 
 		@if (index($corners, tl)) {
 			/**
-			 * @name 	```.#{s-component()}--tl```
+			 * @name 	#{_start-case(s-component())} top left
 			 * @styleguide 	Components / #{_start-case(s-component())}
 			 * @example 	html
 			 * <div class="#{s-component()} #{s-component()}--tl">
@@ -77,7 +77,7 @@ $_s-corner-badge-component-inited : false;
 		}
 		@if (index($corners, tr)) {
 			/**
-			 * @name 	```.#{s-component()}--tr```
+			 * @name 	#{_start-case(s-component())} top right
 			 * @styleguide 	Components / #{_start-case(s-component())}
 			 * @example 	html
 			 * <div class="#{s-component()} #{s-component()}--tr">
@@ -97,7 +97,7 @@ $_s-corner-badge-component-inited : false;
 		}
 		@if (index($corners, bl)) {
 			/**
-			 * @name 	```.#{s-component()}--bl```
+			 * @name 	#{_start-case(s-component())} bottom left
 			 * @styleguide 	Components / #{_start-case(s-component())}
 			 * @example 	html
 			 * <div class="#{s-component()} #{s-component()}--bl">
@@ -117,7 +117,7 @@ $_s-corner-badge-component-inited : false;
 		}
 		@if (index($corners, br)) {
 			/**
-			 * @name 	```.#{s-component()}--br```
+			 * @name 	#{_start-case(s-component())} bottom right
 			 * @styleguide 	Components / #{_start-case(s-component())}
 			 * @example 	html
 			 * <div class="#{s-component()} #{s-component()}--br">
@@ -129,7 +129,6 @@ $_s-corner-badge-component-inited : false;
 
 				&:before {
 					border-top-color: transparent !important;
-					// border-right-color: transparent !important;
 					border-left-color: transparent !important;
 					bottom:0; right:0;
 				}
@@ -145,7 +144,7 @@ $_s-corner-badge-component-inited : false;
 	@if $_sugar-test-arguments {
 		// $colors : s-test-argument('s-corner-badge-component-style','colors',map-keys(s-setting('colors')),$colors);
 	}
-	@include s-component('s-corner-badge') {
+	@include s-component('corner-badge') {
 		.#{s-component()} {
 			color: white;
 			&:before {
@@ -154,7 +153,7 @@ $_s-corner-badge-component-inited : false;
 		}
 		@each $color in $colors {
 			/**
-			 * @name 	```.#{s-component()}--#{$color}```
+			 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> #{_start-case(s-component())}
 			 * @styleguide 	Components / #{_start-case(s-component())}
 			 * @example 	html
 			 * <div class="#{s-component()} #{s-component()}--tl #{s-component()}--#{$color}">

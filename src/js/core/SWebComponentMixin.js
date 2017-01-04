@@ -313,7 +313,7 @@ export default Mixin((superclass) => class extends superclass {
 
 		// dispatch event
 		this.onComponentWillMount && this.onComponentWillMount();
-		this.dispatchComponentEvent('componentWillMount');
+		// this.dispatchComponentEvent('componentWillMount');
 
 		// internal properties
 		this._nextPropsStack = {};
@@ -378,7 +378,7 @@ export default Mixin((superclass) => class extends superclass {
 			this._componentMounted = true;
 			// dispatch event
 			this.onComponentMount && this.onComponentMount();
-			this.dispatchComponentEvent('componentMount');
+			// this.dispatchComponentEvent('componentMount');
 		}
 
 		/**
@@ -396,7 +396,7 @@ export default Mixin((superclass) => class extends superclass {
 		componentDidMount() {
 			// dispatch event
 			this.onComponentDidMount && this.onComponentDidMount();
-			this.dispatchComponentEvent('componentDidMount');
+			// this.dispatchComponentEvent('componentDidMount');
 		}
 
 		/**
@@ -418,7 +418,7 @@ export default Mixin((superclass) => class extends superclass {
 		componentWillUpdate(nextProps) {
 			// dispatch event
 			this.onComponentWillUpdate && this.onComponentWillUpdate(nextProps);
-			this.dispatchComponentEvent('componentWillUpdate', nextProps);
+			// this.dispatchComponentEvent('componentWillUpdate', nextProps);
 		}
 
 		/**
@@ -437,19 +437,19 @@ export default Mixin((superclass) => class extends superclass {
 		render() {
 			// dispatch event
 			this.onComponentRender && this.onComponentRender();
-			this.dispatchComponentEvent('componentRender');
+			// this.dispatchComponentEvent('componentRender');
 		}
 
 		componentDidUpdate(prevProps) {
 			// dispatch event
 			this.onComponentDidUpdate && this.onComponentDidUpdate(prevProps);
-			this.dispatchComponentEvent('componentDidUpdate', prevProps);
+			// this.dispatchComponentEvent('componentDidUpdate', prevProps);
 		}
 
 		componentWillUnmount() {
 			// dispatch event
 			this.onComponentWillUnmount && this.onComponentWillUnmount();
-			this.dispatchComponentEvent('componentWillUnmount');
+			// this.dispatchComponentEvent('componentWillUnmount');
 		}
 
 		componentUnmount() {
@@ -457,13 +457,13 @@ export default Mixin((superclass) => class extends superclass {
 			this._componentMounted = false;
 			// dispatch event
 			this.onComponentUnmount && this.onComponentUnmount();
-			this.dispatchComponentEvent('componentUnmount');
+			// this.dispatchComponentEvent('componentUnmount');
 		}
 
 		componentDidUnmount() {
 			// dispatch event
 			this.onComponentDidUnmount && this.onComponentDidUnmount();
-			this.dispatchComponentEvent('componentDidUnmount');
+			// this.dispatchComponentEvent('componentDidUnmount');
 		}
 
 		/**

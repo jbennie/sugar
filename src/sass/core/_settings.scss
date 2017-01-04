@@ -72,7 +72,7 @@ $_sugar-settings : (								// store all the settings
 			color 						: #f2bc2b
 									),
 		secondary 					: (
-			color 						: #777
+			color 						: #2b3438
 									),
 		success 					: (
 			color 						: #5cb85c
@@ -98,9 +98,6 @@ $_sugar-settings : (								// store all the settings
 		enabled 					: true,				// set if need the vertical rhythme options or not
 		scope-class 				: vr, 			// the class in which the vertical rhythme will be applied
 		no-vertical-rhythme-class 	: false 			// the class that disable the vertical rhythme on a particular element
-								),
-	selector 					: (
-		method 						: BEM,
 								),
 	BEM 						: ( 				// BEM settings
 		standelone-modifier			: false, 			// set if by default need to extend base element

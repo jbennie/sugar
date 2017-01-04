@@ -289,7 +289,7 @@ $_sugar-classes-inited : false;
 			 * @styleguide  	Layout / Sizes
 			 * @example 	html
 			 * <div class="s-#{$size}-rel">
-			 * 	I have the size "#{$size}" defined
+			 * 	I have the size "#{$size}" defined relative to my parent
 			 * </div>
 			 */
 			@include s-register-class(s-#{$size}-rel, 'sugar.size.rel.#{$size}') {
@@ -300,7 +300,7 @@ $_sugar-classes-inited : false;
 		/**
 		 * @name 	```.no-p-t```
 		 * Reset **top** padding
-		 * @styleguide  	Layout / No paddings
+		 * @styleguide  	Layout / No padding
 		 * @example 	html
 		 * <div class="no-p-t" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px;"></div>
 		 */
@@ -310,7 +310,7 @@ $_sugar-classes-inited : false;
 		/**
 		 * @name 	```.no-p-r```
 		 * Reset **right** padding
-		 * @styleguide  	Layout / No paddings
+		 * @styleguide  	Layout / No padding
 		 * @example 	html
 		 * <div class="no-p-r" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px;"></div>
 		 */
@@ -320,7 +320,7 @@ $_sugar-classes-inited : false;
 		/**
 		 * @name 	```.no-p-b```
 		 * Reset **bottom** padding
-		 * @styleguide  	Layout / No paddings
+		 * @styleguide  	Layout / No padding
 		 * @example 	html
 		 * <div class="no-p-b" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px;"></div>
 		 */
@@ -330,7 +330,7 @@ $_sugar-classes-inited : false;
 		/**
 		 * @name 	```.no-p-l```
 		 * Reset **left** padding
-		 * @styleguide  	Layout / No paddings
+		 * @styleguide  	Layout / No padding
 		 * @example 	html
 		 * <div class="no-p-l" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px;"></div>
 		 */
@@ -340,7 +340,7 @@ $_sugar-classes-inited : false;
 		/**
 		 * @name 	```.no-p-s```
 		 * Reset **left** and **right** paddings
-		 * @styleguide  	Layout / No paddings
+		 * @styleguide  	Layout / No padding
 		 * @example 	html
 		 * <div class="no-p-s" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px;"></div>
 		 */
@@ -392,7 +392,7 @@ $_sugar-classes-inited : false;
 		/**
 		 * @name 	```.no-m-s```
 		 * Reset **left** and **right** margins
-		 * @styleguide  	Layout / No paddings
+		 * @styleguide  	Layout / No padding
 		 * @example 	html
 		 * <div class="no-m-s" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px;"></div>
 		 */
