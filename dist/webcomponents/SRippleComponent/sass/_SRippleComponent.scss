@@ -1,0 +1,61 @@
+$_s-ripple-component-inited : false;
+@mixin s-ripple-component-init() {
+	@if not $_s-ripple-component-inited {
+		$_s-ripple-component-inited : true !global;
+
+		// input
+		%s-ripple-container-bare {
+			position: absolute;
+			top:0; left:0;
+			// overflow: hidden;
+			width:100%; height:100%;
+			pointer-events:none;
+		}
+		%s-ripple-component-bare {
+			top:50%; left:50%;
+			@include s-translate(-50%,-50%);
+			@include s-ratio(1);
+			position:absolute;
+			width:150%;
+			border-radius: 50%;
+		}
+	}
+}
+
+@mixin s-ripple-component() {
+	@include s-ripple-component-bare();
+	@include s-ripple-component-style();
+}
+
+@keyframes s-ripple {
+	0% {
+		opacity:1;
+		transform:translateX(-50%) translateY(-50%) scale(0,0);
+	}
+	100% {
+		opacity:0;
+		transform:translateX(-50%) translateY(-50%) scale(1,1);
+	}
+}
+
+@mixin s-ripple-component-bare() {
+	@include s-ripple-component-init();
+	@include s-component('s-ripple') {
+		#{s-component-selector('container')} {
+			@extend %s-ripple-container-bare;
+		}
+		#{s-component-selector('particle')} {
+			@extend %s-ripple-component-bare;
+		}
+	}
+}
+@mixin s-ripple-component-style(
+) {
+	@include s-component('s-ripple') {
+		#{s-component-selector('particle')} {
+			background:rgba(0,0,0,.3);
+			// mix-blend-mode: overlay;
+			@include s-animation(s-ripple .3s ease-out);
+		}
+	}
+}

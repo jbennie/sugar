@@ -1,0 +1,566 @@
+/**
+ * Provide all the classes of the typography component like titles, paragraphs, lists, etc..
+ * @param 		{Color} 	[$color=primary] 		The main color used to generate the texts styles
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-component(
+	$color : primary
+) {
+	// titles
+	@include s-typography-titles-component();
+	// paragraphs
+	@include s-typography-paragraphs-component();
+	// links
+	@include s-typography-links-component($color);
+	// inline texts
+	@include s-typography-inline-texts-component($color);
+	// lists
+	@include s-typography-lists-component($color);
+}
+
+/**
+ * Provide the styling for the titles classes
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-titles-component() {
+	@include s-typography-titles-component-bare();
+	@include s-typography-titles-component-style();
+}
+
+/**
+ * Provide the bare styling for the titles classes
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-titles-component-bare() {
+	/**
+	 * @name 	h1
+	 * h1 title styling
+	 * @styleguide 	Typography / Titles
+	 * @example 	html
+	 * <h1 class="h1">Hello World</h1>
+	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * 	<h1>Hello World</h1>
+	 * </div>
+	 */
+	.h1,
+	.#{s-setting('text-format.scope-class')} h1 {
+		@include s-typography-title-bare(3.5em);
+	}
+	/**
+	 * @name 	h2
+	 * h2 title styling
+	 * @styleguide 	Typography / Titles
+	 * @example 	html
+	 * <h2 class="h2">Hello World</h2>
+	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * 	<h2>Hello World</h2>
+	 * </div>
+	 */
+	.h2,
+	.#{s-setting('text-format.scope-class')} h2 {
+		@include s-typography-title-bare(3em);
+	}
+	/**
+	 * @name 	h3
+	 * h3 title styling
+	 * @styleguide 	Typography / Titles
+	 * @example 	html
+	 * <h3 class="h3">Hello World</h3>
+	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * 	<h3>Hello World</h3>
+	 * </div>
+	 */
+	.h3,
+	.#{s-setting('text-format.scope-class')} h3 {
+		@include s-typography-title-bare(2.5em);
+	}
+	/**
+	 * @name 	h4
+	 * h4 title styling
+	 * @styleguide 	Typography / Titles
+	 * @example 	html
+	 * <h4 class="h4">Hello World</h4>
+	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * 	<h4>Hello World</h4>
+	 * </div>
+	 */
+	.h4,
+	.#{s-setting('text-format.scope-class')} h4 {
+		@include s-typography-title-bare(2em);
+	}
+	/**
+	 * @name 	h5
+	 * h5 title styling
+	 * @styleguide 	Typography / Titles
+	 * @example 	html
+	 * <h5 class="h5">Hello World</h5>
+	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * 	<h5>Hello World</h5>
+	 * </div>
+	 */
+	.h5,
+	.#{s-setting('text-format.scope-class')} h5 {
+		@include s-typography-title-bare(1.5em);
+	}
+	/**
+	 * @name 	h6
+	 * h6 title styling
+	 * @styleguide 	Typography / Titles
+	 * @example 	html
+	 * <h6 class="h6">Hello World</h6>
+	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * 	<h6>Hello World</h6>
+	 * </div>
+	 */
+	.h6,
+	.#{s-setting('text-format.scope-class')} h6 {
+		@include s-typography-title-bare(1em);
+	}
+	// vertical rhythme
+	h1,h2,h3,h4,h5,h6 {
+		@include s-vertical-rhythme() {
+			margin-bottom: 1em;
+		}
+	}
+}
+
+/**
+ * Provide the style styling for the titles classes
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-titles-component-style() {
+	.h1,
+	.#{s-setting('text-format.scope-class')} h1 {
+		@include s-typography-title-style(3.5em);
+	}
+	.h2,
+	.#{s-setting('text-format.scope-class')} h2 {
+		@include s-typography-title-style(3em);
+	}
+	.h3,
+	.#{s-setting('text-format.scope-class')} h3 {
+		@include s-typography-title-style(2.5em);
+	}
+	.h4,
+	.#{s-setting('text-format.scope-class')} h4 {
+		@include s-typography-title-style(2em);
+	}
+	.h5,
+	.#{s-setting('text-format.scope-class')} h5 {
+		@include s-typography-title-style(1.5em);
+	}
+	.h6,
+	.#{s-setting('text-format.scope-class')} h6 {
+		@include s-typography-title-style(1em);
+	}
+}
+
+/**
+ * Provide the styling for the paragraphs classes
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-paragraphs-component() {
+	@include s-typography-paragraphs-component-bare();
+	@include s-typography-paragraphs-component-style();
+}
+
+/**
+ * Provide the bare styling for the ```.p``` and ```.p--lead``` classes
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-paragraphs-component-bare() {
+	/**
+	 * @name 	Default
+	 * Default paragraph styling
+	 * @styleguide 	Typography / Paragraphs
+	 * @example 	html
+	 * <p class="p #{s-setting('vertical-rhythme.scope-class')}">
+	 * 	Duis gravida justo at urna interdum blandit. Sed venenatis, eros dictum gravida dictum, mauris sapien feugiat libero, at fermentum quam tellus dignissim nunc. Donec eu rutrum dui, in rhoncus lacus.
+	 * </p>
+	 * <div class="#{s-setting('text-format.scope-class')} #{s-setting('vertical-rhythme.scope-class')}">
+	 * 	<p>
+	 * 		Duis gravida justo at urna interdum blandit. Sed venenatis, eros dictum gravida dictum, mauris sapien feugiat libero, at fermentum quam tellus dignissim nunc. Donec eu rutrum dui, in rhoncus lacus.
+	 *   </p>
+	 * </div>
+	 */
+	.p,
+	.#{s-setting('text-format.scope-class')} p {
+		@include s-typography-paragraph-bare(1em);
+	}
+	/**
+	 * @name 	Lead
+	 * Lead paragraph styling
+	 * @styleguide 	Typography / Paragraphs
+	 * @example 	html
+	 * <p class="p p--lead #{s-setting('vertical-rhythme.scope-class')}">
+	 * 	Duis gravida justo at urna interdum blandit. Sed venenatis, eros dictum gravida dictum, mauris sapien feugiat libero, at fermentum quam tellus dignissim nunc. Donec eu rutrum dui, in rhoncus lacus.
+	 * </p>
+	 * <div class="#{s-setting('text-format.scope-class')} #{s-setting('vertical-rhythme.scope-class')}">
+	 * 	<p class="lead">
+	 * 		Duis gravida justo at urna interdum blandit. Sed venenatis, eros dictum gravida dictum, mauris sapien feugiat libero, at fermentum quam tellus dignissim nunc. Donec eu rutrum dui, in rhoncus lacus.
+	 *   </p>
+	 * </div>
+	 */
+	.p--lead,
+	.#{s-setting('text-format.scope-class')} p.lead {
+		font-size:1.3em;
+		font-weight: lighter;
+	}
+	// vertical rhythme
+	p,.p {
+		@include s-vertical-rhythme() {
+			margin-bottom: 1em;
+		}
+	}
+}
+
+/**
+ * Provide the bare styling for the ```.p``` class
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-paragraphs-component-style() {
+	.p,
+	.#{s-setting('text-format.scope-class')} p {
+		@include s-typography-paragraph-style();
+	}
+}
+
+/**
+ * Provide the styling for the links classes
+ * @param 		{Color} 		[$color=primary] 		The color used to style links
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-links-component(
+	$color : primary
+) {
+	@include s-typography-links-component-bare();
+	@include s-typography-links-component-style($color);
+}
+
+/**
+ * Provide the bare styling for the links classes
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-links-component-bare() {
+	.link,
+	.#{s-setting('text-format.scope-class')} a {
+		@include s-typography-link-bare();
+	}
+}
+/**
+ * Provide the style styling for the links classes
+ * @param 		{Color} 		[$color=primary] 		The color used to style links
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-links-component-style(
+	$color : primary
+) {
+	.link,
+	.#{s-setting('text-format.scope-class')} a {
+		@include s-typography-link-style($color);
+	}
+}
+
+/**
+ * Provide the styling for the inline-text classes
+ * @param 		{Color} 		[$color=primary] 		The color used to style different inline text elements
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-inline-texts-component(
+	$color : primary
+) {
+	@include s-typography-inline-texts-component-bare();
+	@include s-typography-inline-texts-component-style($color);
+}
+
+/**
+ * Provide the bare styling for the inline-text classes
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-inline-texts-component-bare() {
+	/**
+	 * @name 		Marked text
+	 * For highlighting a run of text due to its relevance in another context, use the ```mark``` tag.
+	 * @styleguide 		Typography / Inline texts
+	 * @example 		html
+	 * This is a <span class="mark">marked text</span>
+	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * 	This is another <mark>marked text</mark>
+	 * </div>
+	 */
+	.mark,
+	.#{s-setting('text-format.scope-class')} mark {
+		@include s-typography-inline-text-bare(mark);
+	}
+	/**
+	 * @name 		Deleted text
+	 * For indicating blocks of text that have been deleted use the ```del``` tag.
+	 * @styleguide 		Typography / Inline texts
+	 * @example 		html
+	 * This is a <span class="del">deleted text</span>
+	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * 	This is another <del>deleted text</del>
+	 * </div>
+	 */
+	.del,
+	.#{s-setting('text-format.scope-class')} del {
+		@include s-typography-inline-text-bare(del);
+	}
+	/**
+	 * @name 		Strikethrough text
+	 * For indicating blocks of text that are no longer relevant use the ```s``` tag.
+	 * @styleguide 		Typography / Inline texts
+	 * @example 		html
+	 * This is a <span class="s">striked through text</span>
+	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * 	This is another <s>striked through text</s>
+	 * </div>
+	 */
+	.s,
+	.#{s-setting('text-format.scope-class')} s {
+		@include s-typography-inline-text-bare(s);
+	}
+	/**
+	 * @name 		Inserted text
+	 * For indicating additions to the document use the ```ins``` tag.
+	 * @styleguide 		Typography / Inline texts
+	 * @example 		html
+	 * This is a <span class="ins">inserted text</span>
+	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * 	This is another <ins>inserted text</ins>
+	 * </div>
+	 */
+	.ins,
+	.#{s-setting('text-format.scope-class')} ins {
+		@include s-typography-inline-text-bare(ins);
+	}
+	/**
+	 * @name 		Underlined text
+	 * To underline text use the ```u``` tag.
+	 * @styleguide 		Typography / Inline texts
+	 * @example 		html
+	 * This is a <span class="u">underlined text</span>
+	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * 	This is another <u>underlined text</u>
+	 * </div>
+	 */
+	.u,
+	.#{s-setting('text-format.scope-class')} u {
+		@include s-typography-inline-text-bare(u);
+	}
+	/**
+	 * @name 		Small text
+	 * For de-emphasizing inline or blocks of text, use the ```small``` tag to set text at 85% the size of the parent.
+	 * @styleguide 		Typography / Inline texts
+	 * @example 		html
+	 * This is a <span class="small">small text</span>
+	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * 	This is another <small>small text</small>
+	 * </div>
+	 */
+	.small,
+	.#{s-setting('text-format.scope-class')} small {
+		@include s-typography-inline-text-bare(small);
+	}
+	/**
+	 * @name 		Bold
+	 * For emphasizing a snippet of text with a heavier font-weight.
+	 * @styleguide 		Typography / Inline texts
+	 * @example 		html
+	 * This is a <span class="strong">strong text</span>
+	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * 	This is another <strong>strong text</strong>
+	 * </div>
+	 */
+	.strong,
+	.#{s-setting('text-format.scope-class')} strong {
+		@include s-typography-inline-text-bare(strong);
+	}
+	/**
+	 * @name 		Italics
+	 * For emphasizing a snippet of text with italics.
+	 * @styleguide 		Typography / Inline texts
+	 * @example 		html
+	 * This is an <span class="em">italic text</span>
+	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * 	This is another <em>italic text</em>
+	 * </div>
+	 */
+	.em,
+	.#{s-setting('text-format.scope-class')} em {
+		@include s-typography-inline-text-bare(em);
+	}
+}
+/**
+ * Provide the style styling for the inline-text classes
+ * @param 		{Color} 		[$color=primary] 		The color used to style different inline text elements
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-inline-texts-component-style(
+	$color : primary
+) {
+	.mark,
+	.#{s-setting('text-format.scope-class')} mark {
+		@include s-typography-inline-text-style(mark, $color);
+	}
+	.del,
+	.#{s-setting('text-format.scope-class')} del {
+		@include s-typography-inline-text-style(del, $color);
+	}
+	.s,
+	.#{s-setting('text-format.scope-class')} s {
+		@include s-typography-inline-text-style(s, $color);
+	}
+	.ins,
+	.#{s-setting('text-format.scope-class')} ins {
+		@include s-typography-inline-text-style(ins, $color);
+	}
+	.u,
+	.#{s-setting('text-format.scope-class')} u {
+		@include s-typography-inline-text-style(u, $color);
+	}
+	.small,
+	.#{s-setting('text-format.scope-class')} small {
+		@include s-typography-inline-text-style(small, $color);
+	}
+	.strong,
+	.#{s-setting('text-format.scope-class')} strong {
+		@include s-typography-inline-text-style(strong, $color);
+	}
+	.em,
+	.#{s-setting('text-format.scope-class')} em {
+		@include s-typography-inline-text-style(em, $color);
+	}
+}
+
+/**
+ * Provide the styling for the lists classes
+ * @param 		{Color} 		[$color=primary] 		The color used to style bullets
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-lists-component(
+	$color : primary
+) {
+	@include s-typography-lists-component-bare();
+	@include s-typography-lists-component-style($color);
+}
+
+/**
+ * Provide the bare styling for the lists classes
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-lists-component-bare() {
+	/**
+	 * @name 	Description list
+	 * A list of terms with their associated descriptions.
+	 * @styleguide 		Typography / Lists
+	 * @example 	html
+	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * 	<dl>
+	 *  	<dt>List item 1</dt>
+	 *  	<dd>Mauris sit amet erat vitae mi pellentesque placerat. Vestibulum dapibus.</dd>
+	 *  	<dt>List item 1</dt>
+	 *  	<dd>Mauris sit amet erat vitae mi pellentesque placerat. Vestibulum dapibus.</dd>
+	 *  	<dt>List item 1</dt>
+	 *  	<dd>Mauris sit amet erat vitae mi pellentesque placerat. Vestibulum dapibus.</dd>
+	 * 	</dl>
+	 * </div>
+	 */
+	.dl,
+	.#{s-setting('text-format.scope-class')} dl {
+		@include s-typography-list-bare(dl);
+	}
+	.dt,
+	.#{s-setting('text-format.scope-class')} dl > dt {
+		@include s-typography-list-bare(dl dt);
+	}
+	.dd,
+	.#{s-setting('text-format.scope-class')} dl > dd {
+		@include s-typography-list-bare(dl dd);
+	}
+	/**
+	 * @name 	Unordered list
+	 * A list of items in which the order does not explicitly matter.
+	 * @styleguide 		Typography / Lists
+	 * @example 	html
+	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * 	<ul>
+	 *  	<li>List item 1</li>
+	 *  	<li>List item 2</li>
+	 *  	<li>List item 3</li>
+	 *  	<li>List item 4</li>
+	 * 	</ul>
+	 * </div>
+	 */
+	.ul,
+	.#{s-setting('text-format.scope-class')} ul {
+		@include s-typography-list-bare(ul);
+	}
+	.ul > .li,
+	.ul > li,
+	.#{s-setting('text-format.scope-class')} ul > li {
+		@include s-typography-list-bare(ul li);
+	}
+	/**
+	 * @name 	Ordered list
+	 * A list of items in which the order does explicitly matter.
+	 * @styleguide 		Typography / Lists
+	 * @example 	html
+	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * 	<ol>
+	 *  	<li>List item 1</li>
+	 *  	<li>List item 2</li>
+	 *  	<li>List item 3</li>
+	 *  	<li>List item 4</li>
+	 * 	</ol>
+	 * </div>
+	 */
+	.ol,
+	.#{s-setting('text-format.scope-class')} ol {
+		@include s-typography-list-bare(ol);
+	}
+	.ol > .li,
+	.ol > li,
+	.#{s-setting('text-format.scope-class')} ol > li {
+		@include s-typography-list-bare(ol li);
+	}
+}
+/**
+ * Provide the style styling for the lists classes
+ * @param 		{Color} 		[$color=primary] 		The color used to style bullets
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-lists-component-style(
+	$color : primary
+) {
+	.dl,
+	.#{s-setting('text-format.scope-class')} dl {
+		@include s-typography-list-style(dl, $color);
+	}
+	.dt,
+	.#{s-setting('text-format.scope-class')} dl > dt {
+		@include s-typography-list-style(dl dt, $color);
+	}
+	.dd,
+	.#{s-setting('text-format.scope-class')} dl > dd {
+		@include s-typography-list-style(dl dd, $color);
+	}
+	.ul,
+	.#{s-setting('text-format.scope-class')} ul {
+		@include s-typography-list-style(ul, $color);
+	}
+	.ul > .li,
+	.ul > li,
+	.#{s-setting('text-format.scope-class')} ul > li {
+		@include s-typography-list-style(ul li, $color);
+	}
+	.ol,
+	.#{s-setting('text-format.scope-class')} ol {
+		@include s-typography-list-style(ol, $color);
+	}
+	.ol > .li,
+	.ol > li,
+	.#{s-setting('text-format.scope-class')} ol > li {
+		@include s-typography-list-style(ol li, $color);
+	}
+}

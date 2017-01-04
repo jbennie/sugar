@@ -1,0 +1,284 @@
+/**
+ * Apply the title css
+ * @param 		{Number} 		$size 		The size wanted. If unitless, will use modular scale to calculate size
+ * @param 		{Integer}		[$base=null] 		The base on which to calculate the modular scale if needed
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-title(
+	$size,
+	$base : null
+) {
+	@include s-typography-title-bare($size);
+	@include s-typography-title-style($size);
+}
+
+/**
+ * Apply the title bare css
+ * @param 		{Number} 		$size 				The size wanted. If unitless, will use modular scale to calculate size
+ * @param 		{Integer}		[$base=null] 		The base on which to calculate the modular scale if needed
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-title-bare(
+	$size,
+	$base : null
+) {
+	@include s-component('s-typography') {
+		@if unit($size) == '' {
+			font-size: s-ms($size, $base);
+		} @else {
+			font-size: $size;
+		}
+		line-height:1.1;
+
+		// vertical rhythme
+		@include s-vertical-rhythme() {
+			margin-bottom:1rem;
+		}
+	}
+}
+/**
+ * Apply the title style css
+ * @param 		{Number} 		$size 				The size wanted. If unitless, will use modular scale to calculate size
+ * @param 		{Integer}		[$base=null] 		The base on which to calculate the modular scale if needed
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-title-style(
+	$size,
+	$base : null
+) {
+	@include s-component('s-typography') {
+		color : s-color(title);
+	}
+}
+
+/**
+ * Apply the paragraph bare css
+ * @param 		{Number} 		$size 				The size wanted
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-paragraph-bare(
+	$size
+) {
+	@include s-component('s-typography') {
+		font-size: $size;
+		line-height: 1.4;
+
+		@include s-vertical-rhythme() {
+			margin-bottom:1rem;
+		}
+	}
+}
+/**
+ * Apply the paragraph style css
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-paragraph-style() {
+	@include s-component('s-typography') {
+	}
+}
+
+/**
+ * Apply the link css
+ * @param 		{Color} 		[$color=primary] 		The color used to style link
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-link(
+	$color : primary
+) {
+	@include s-typography-link-bare();
+	@include s-typography-link-style($color);
+}
+
+/**
+ * Apply the link bare css
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-link-bare(
+) {
+	@include s-component('s-typography') {
+	}
+}
+/**
+ * Apply the link style css
+ * @param 		{Color} 		[$color=primary] 		The color used to style link
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-link-style(
+	$color : primary
+) {
+	@include s-component('s-typography') {
+		text-decoration::none;
+		color: s-color($color);
+	}
+}
+
+/**
+ * Apply the inline-text css
+ * @param 		{String} 		$tag 		The tag to use the style for
+ * @param 		{Color} 		[$color=primary] 		The color used to style different inline text elements
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-inline-text(
+	$tag,
+	$color : primary
+) {
+	@include s-typography-inline-text-bare($tag);
+	@include s-typography-inline-text-style($tag, $color);
+}
+
+/**
+ * Apply the inline-text bare css
+ * @param 		{String} 		$tag 		The tag to use the style for
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-inline-text-bare(
+	$tag
+) {
+	@include s-component('s-typography') {
+		@if $tag == mark or $tag == marked {
+
+		} @else if $tag == del or $tag == deleted {
+
+		} @else if $tag == s or $tag == strikethrough {
+
+		} @else if $tag == ins or $tag == inserted {
+
+		} @else if $tag == underlined or $tag == u {
+
+		} @else if $tag == small {
+
+		} @else if $tag == strong or $tag == bold {
+
+		} @else if $tag == em or $tag == italic {
+
+		}
+	}
+}
+/**
+ * Apply the inline-text css
+ * @param 		{String} 		$tag 		The tag to use the style for
+ * @param 		{Color} 		[$color=primary] 		The color used to style different inline text elements
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-inline-text-style(
+	$tag,
+	$color : primary
+) {
+	@include s-component('s-typography') {
+		@if $tag == mark or $tag == marked {
+			background-color: s-color($color, -opacity .1);
+		} @else if $tag == del or $tag == deleted {
+			text-decoration: line-through;
+		} @else if $tag == s or $tag == strikethrough {
+			text-decoration: line-through;
+		} @else if $tag == ins or $tag == inserted {
+			text-decoration: underline;
+		} @else if $tag == underlined or $tag == u {
+			text-decoration: underline;
+		} @else if $tag == small {
+			font-size:.85em;
+		} @else if $tag == strong or $tag == bold {
+			font-weight: bold;
+		} @else if $tag == em or $tag == italic {
+			font-style:italic;
+		}
+	}
+}
+
+/**
+ * Apply the list css
+ * @param 		{String|List} 		$tag 				The tag to style like "ul", "ol li" or "dl dt"
+ * @param 		{Color} 			[$color=primary] 	The color used for styling bullets
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-list(
+	$tag,
+	$color : primary
+) {
+	@include s-typography-list-bare($tag);
+	@include s-typography-list-style($tag, $color);
+}
+
+/**
+ * Apply the list bare css
+ * @param 		{String|List} 		$tag 				The tag to style like "ul", "ol li" or "dl dt"
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-list-bare(
+	$tag
+) {
+	@include s-component('s-typography') {
+		@if $tag == dl {
+			@include s-list();
+			@include s-vertical-rhythme {
+				margin-bottom:2em;
+			}
+		} @else if length($tag) == 2 and nth($tag,2) == dt {
+			font-weight: bold;
+			margin-bottom: .3em;
+		} @else if length($tag) == 2 and nth($tag,2) == dd {
+			margin-bottom: .5em;
+		} @else if $tag == ul {
+			@include s-list();
+			@include s-vertical-rhythme {
+				margin-bottom:2em;
+			}
+		} @else if length($tag) == 2 and nth($tag,1) == ul {
+			@include s-list-bullet(
+				$type : circle,
+				$space : 1em
+			);
+			margin-bottom:.3em;
+		} @else if $tag == ol {
+			@include s-list();
+			@include s-vertical-rhythme {
+				margin-bottom:2em;
+			}
+		} @else if length($tag) == 2 and nth($tag,1) == ol {
+			@include s-list-bullet(
+				$type : decimal,
+				$size : .6em,
+				$offset : .4em 0,
+				$space : 1em
+			);
+			margin-bottom:.3em;
+		}
+	}
+}
+/**
+ * Apply the list style css
+ * @param 		{String|List} 		$tag 				The tag to style like "ul", "ol li" or "dl dt"
+ * @param 		{Color} 			[$color=primary] 	The color used for styling bullets
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-list-style(
+	$tag,
+	$color : primary
+) {
+	@include s-component('s-typography') {
+		@if $tag == dl {
+		} @else if length($tag) == 2 and nth($tag,2) == dt {
+			font-weight: bold;
+		} @else if length($tag) == 2 and nth($tag,2) == dd {
+
+		} @else if $tag == ul {
+
+		} @else if length($tag) == 2 and nth($tag,1) == ul {
+			@include s-list-bullet(
+				$type : circle,
+				$color : s-color($color),
+				$space : 1em
+			);
+		} @else if $tag == ol {
+
+		} @else if length($tag) == 2 and nth($tag,1) == ol {
+			@include s-list-bullet(
+				$type : decimal,
+				$color : s-color($color),
+				$size : .6em,
+				$offset : .4em 0,
+				$space : 1em
+			);
+		}
+	}
+}

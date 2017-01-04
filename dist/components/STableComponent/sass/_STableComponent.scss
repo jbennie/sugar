@@ -1,0 +1,328 @@
+@mixin s-table-component(
+    $colors : default primary secondary
+) {
+    @include s-table-component-bare();
+    @include s-table-component-style($colors);
+}
+
+@mixin s-table-component-style(
+    $colors : default primary secondary
+) {
+    @include s-component('table') {
+
+		.#{s-component()} {
+
+			tr {
+				border-bottom: 1px solid s-color(default, -opacity .1);
+				&:last-of-type {
+					border-bottom: none;
+				}
+			}
+
+            @each $color in $colors {
+
+				/**
+				 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> #{s-component()}
+				 * Display #{$color} table contents
+				 * @styleguide 		Components / #{_start-case(s-component())}
+				 * @example 		html
+				 * <table class="#{s-component()} #{s-component()}--#{$color}">
+				 * 	<tr>
+				 *  	<th>#</th>
+				 *  	<th>Table head 1</th>
+				 *  	<th>Table head 2</th>
+				 *  	<th>Table head 3</th>
+				 * 	</tr>
+				 * 	<tr>
+				 *  	<td>1</td>
+				 *  	<td>Table cell 1</td>
+				 *  	<td>Table cell 2</td>
+				 *  	<td>Table cell 3</td>
+				 * 	</tr>
+				 * </table>
+				 */
+				&.#{s-component()}--#{$color} {
+
+					th {
+						color: s-color($color);
+					}
+
+					/**
+					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> striped #{s-component()}
+					 * Display #{$color} table contents
+					 * @styleguide 		Components / #{_start-case(s-component())}
+					 * @example 		html
+					 * <table class="#{s-component()} #{s-component()}--#{$color} #{s-component()}--striped">
+					 * 	<tr>
+					 *  	<th>#</th>
+					 *  	<th>Table head 1</th>
+					 *  	<th>Table head 2</th>
+					 *  	<th>Table head 3</th>
+					 * 	</tr>
+					 * 	<tr>
+					 *  	<td>1</td>
+					 *  	<td>Table cell 1</td>
+					 *  	<td>Table cell 2</td>
+					 *  	<td>Table cell 3</td>
+					 * 	</tr>
+					 * </table>
+					 */
+         			&.#{s-component()}--striped {
+                        > thead > .tr:nth-of-type(odd),
+         				> thead > tr:nth-of-type(odd) {
+                            > td,
+                            > th {
+         					    background-color : s-color($color, -opacity .2);
+                            }
+         				}
+                        > tbody > .tr:nth-of-type(even),
+         				> tbody > tr:nth-of-type(even) {
+                            > td,
+                            > th {
+         					    background-color : s-color($color, -opacity .05);
+                            }
+                        }
+         			}
+
+					/**
+					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> bordered #{s-component()}
+					 * Display #{$color} bordered table contents
+					 * @styleguide 		Components / #{_start-case(s-component())}
+					 * @example 		html
+					 * <table class="#{s-component()} #{s-component()}--#{$color} #{s-component()}--bordered">
+					 * 	<tr>
+					 *  	<th>#</th>
+					 *  	<th>Table head 1</th>
+					 *  	<th>Table head 2</th>
+					 *  	<th>Table head 3</th>
+					 * 	</tr>
+					 * 	<tr>
+					 *  	<td>1</td>
+					 *  	<td>Table cell 1</td>
+					 *  	<td>Table cell 2</td>
+					 *  	<td>Table cell 3</td>
+					 * 	</tr>
+					 * </table>
+					 */
+         			&.#{s-component()}--bordered {
+         				border: 1px solid s-color($color, -opacity .1);
+						tr {
+							border-bottom: 1px solid s-color($color, -opacity .1);
+							&:last-of-type {
+								border-bottom: none;
+							}
+						}
+         				td,
+         				th {
+         					border-right: 1px solid s-color($color, -opacity .1);
+         				}
+         			}
+
+					/**
+					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> hoverable #{s-component()}
+					 * Display #{$color} hoverable table contents
+					 * @styleguide 		Components / #{_start-case(s-component())}
+					 * @example 		html
+					 * <table class="#{s-component()} #{s-component()}--#{$color} #{s-component()}--hover">
+					 * 	<tr>
+					 *  	<th>#</th>
+					 *  	<th>Table head 1</th>
+					 *  	<th>Table head 2</th>
+					 *  	<th>Table head 3</th>
+					 * 	</tr>
+					 * 	<tr>
+					 *  	<td>1</td>
+					 *  	<td>Table cell 1</td>
+					 *  	<td>Table cell 2</td>
+					 *  	<td>Table cell 3</td>
+					 * 	</tr>
+					 * </table>
+					 */
+         			&.#{s-component()}--hover {
+                        > tbody > .tr:hover,
+                        > tbody > tr:hover {
+                           td,.td,
+                           th,.th {
+                               background-color: s-color($color, -opacity .1);
+                           }
+                       }
+                    }
+         		}
+            }
+        }
+    }
+}
+
+@mixin s-table-component-bare(
+) {
+	@include s-component('table') {
+
+		/**
+		 * @name 		Default #{s-component()}
+		 * Display table contents
+		 * @styleguide 		Components / #{_start-case(s-component())}
+		 * @example 		html
+		 * <table class="#{s-component()}">
+		 * 	<tr>
+		 *  	<th>#</th>
+		 *  	<th>Table head 1</th>
+		 *  	<th>Table head 2</th>
+		 *  	<th>Table head 3</th>
+		 * 	</tr>
+		 * 	<tr>
+		 *  	<td>1</td>
+		 *  	<td>Table cell 1</td>
+		 *  	<td>Table cell 2</td>
+		 *  	<td>Table cell 3</td>
+		 * 	</tr>
+		 * </table>
+		 */
+		.#{s-component()} {
+    		width: 100%;
+
+			@include s-vertical-rhythme {
+				margin-bottom: 2em;
+			}
+
+            .th,th {
+                text-align: left;
+            }
+
+    		.th,th,
+    		.td,td {
+    			padding: s-lnf(padding-horizontal) s-lnf(padding-vertical);
+                position:relative;
+
+    			&:last-child {
+    				border-right : none;
+    			}
+
+                &:before {
+                    content:'';
+                    display:block;
+                    position:absolute;
+                    top:50%; left:0;
+                    @include s-translate(0,-50%);
+                    width:100%; height:100%;
+                    @include s-transition(fast);
+                    border-width:0;
+                    border-color: transparent;
+                    border-style:solid;
+                    border-top-width:s-rem(1px);
+                    border-bottom-width:s-rem(1px);
+                    // mix-blend-mode:darken;
+                    pointer-events:none;
+                }
+                &:last-child {
+                    &:before {
+                        border-right-width: 1px;
+                    }
+                }
+                &:first-child {
+                    &:before {
+                        border-left-width: 1px;
+                    }
+                }
+    		}
+    		.th,th {
+    			font-weight:bold;
+                position:relative;
+    		}
+    		.tr:last-child .td,
+    		tr:last-child td,
+    		.tr:last-child:not(:first-child) .th,
+    		tr:last-child:not(:first-child) th {
+    			border-bottom: none !important;
+    		}
+
+    		// caption
+    		.caption,
+    		caption {
+    			@include s-font(italic left);
+    			&:before {
+    				content : "\2014 \00A0";
+    			}
+    		}
+
+    		// adapt and grow
+    		.td.adapt,
+    		td.adapt,
+    		.th.adapt,
+    		th.adapt {
+    			width:1px;
+    			white-space: nowrap;
+    		}
+    		.td.grow,
+    		td.grow,
+    		.th.grow,
+    		th.grow {
+    			width:9999999px;
+    		}
+    	}
+
+		.#{s-component()}--responsive {
+    		min-height: 0.01%;
+    		overflow-x: auto;
+    		width: 100%;
+    		overflow-y: hidden;
+    	}
+
+		/**
+		 * @name 		Centered #{s-component()}
+		 * Display centered table contents
+		 * @styleguide 		Components / #{_start-case(s-component())}
+		 * @example 		html
+		 * <table class="#{s-component()} #{s-component()}--center">
+		 * 	<tr>
+		 *  	<th>#</th>
+		 *  	<th>Table head 1</th>
+		 *  	<th>Table head 2</th>
+		 *  	<th>Table head 3</th>
+		 * 	</tr>
+		 * 	<tr>
+		 *  	<td>1</td>
+		 *  	<td>Table cell 1</td>
+		 *  	<td>Table cell 2</td>
+		 *  	<td>Table cell 3</td>
+		 * 	</tr>
+		 * </table>
+		 */
+		.#{s-component()}--center {
+    		td,.td,
+            th,.th {
+                text-align: center;
+            }
+    	}
+
+		/**
+		 * @name 		Middle #{s-component()}
+		 * Display middle aligned table contents
+		 * @styleguide 		Components / #{_start-case(s-component())}
+		 * @example 		html
+		 * <table class="#{s-component()} #{s-component()}--middle">
+		 * 	<tr>
+		 *  	<th>#</th>
+		 *  	<th>Table head 1</th>
+		 *  	<th>Table head 2</th>
+		 *  	<th>Table head 3</th>
+		 * 	</tr>
+		 * 	<tr>
+		 *  	<td>1</td>
+		 *  	<td>Table cell 1</td>
+		 *  	<td>
+		 *  		Mauris sem nulla, maximus id dignissim vitae,<br>
+		 *  		ullamcorper a turpis. Vestibulum vel eros non nisl<br>
+		 *  		euismod tempus vitae non turpis.
+		 *  	</td>
+		 *  	<td>Table cell 3</td>
+		 * 	</tr>
+		 * </table>
+		 */
+		.#{s-component()}--middle {
+    		td,.td,
+            th,.th {
+                vertical-align: middle;
+            }
+    	}
+    }
+}

@@ -1,0 +1,116 @@
+@mixin s-button-component(
+	$colors : null
+) {
+	@include s-button-component-bare();
+	@if $colors {
+		@include s-button-component-style($colors);
+	}
+}
+@mixin s-button-component-bare(
+) {
+	// init dropdown
+	@include s-component('btn') {
+		/**
+		 * @name 	#{s-component()}
+		 * Lead paragraph styling
+		 * @styleguide 	Components / #{_start-case(s-component())}
+		 * @example 	html
+		 * <a class="#{s-component()}">
+		 * 	Default button
+		 * </a>
+		 */
+		.#{s-component()} {
+			@include s-button-bare();
+		}
+		/**
+		 * @name 	#{s-component()} block
+		 * Lead paragraph styling
+		 * @styleguide 	Components / #{_start-case(s-component())}
+		 * @example 	html
+		 * <a class="#{s-component()} #{s-component()}--block">
+		 * 	Block button
+		 * </a>
+		 */
+		.#{s-component()}--block {
+			@include s-button-bare('block');
+		}
+	}
+}
+@mixin s-button-component-style(
+	$colors : default primary secondary
+) {
+	// init dropdown
+	@include s-component('btn') {
+
+		// parse properties
+		@if $_sugar-test-arguments {
+			// @TODO find a solution to check the colors properties
+			// $colors : s-test-argument('s-button-component-style','colors',map-keys(s-setting('colors')),$colors);
+		}
+
+		// base
+		.#{s-component()} {
+			@include s-transition(fast);
+			@include s-button-style(default);
+		}
+		.#{s-component()}--link {
+			@include s-button-style('link');
+		}
+		// generate each colors
+		@each $color in $colors {
+			/**
+			 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> #{s-component()}
+			 * #{_start-case($color)} button
+			 * @styleguide 	Components / #{_start-case(s-component())}
+			 * @example 	html
+			 * <a class="#{s-component()} #{s-component()}--#{$color}">
+			 * 	#{_start-case($color)} button
+			 * </a>
+			 */
+			.#{s-component()}--#{$color} {
+				@include s-button-style($color);
+				/**
+				 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> outline #{s-component()}
+				 * Outline #{$color} button
+				 * @styleguide 	Components / #{_start-case(s-component())}
+				 * @example 	html
+				 * <a class="#{s-component()} #{s-component()}--outline #{s-component()}--#{$color}">
+				 * 	#{_start-case($color)} outlined button
+				 * </a>
+				 */
+				&.#{s-component()}--outline {
+					@include s-button-style($color 'outline');
+				}
+
+				/**
+				 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> link #{s-component()}
+				 * Link #{$color} button
+				 * @styleguide 	Components / #{_start-case(s-component())}
+				 * @example 	html
+				 * <a class="#{s-component()} #{s-component()}--link #{s-component()}--#{$color}">
+				 * 	#{_start-case($color)} link button
+				 * </a>
+				 */
+				&.#{s-component()}--link {
+					@include s-button-style($color 'link');
+				}
+
+				/**
+				 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> disabled #{s-component()}
+				 * Disabled #{$color} button
+				 * @styleguide 	Components / #{_start-case(s-component())}
+				 * @example 	html
+				 * <button disabled class="#{s-component()} #{s-component()}--#{$color}">
+				 * 	#{_start-case($color)} outlined button
+				 * </button>
+				 */
+				&.#{s-component()}:disabled {
+					@include s-button-style($color, 'disabled');
+				}
+			}
+			.#{s-component()}--hover-#{$color}:hover {
+				@include s-button-style($color);
+			}
+		}
+	}
+}
