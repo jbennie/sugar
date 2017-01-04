@@ -21,19 +21,22 @@ import __closest from './closest'
 export default function whenOutOfViewport(elm, cb = null) {
 	return new Promise((resolve, reject) => {
 		// try to get the closest element that has an overflow
+		let scrollContainerElm = document;
 		if ( ! elm._inViewportContainer) {
 			const overflowContainer = __closest(elm, '[data-in-viewport-container]');
 			if (overflowContainer) {
 				elm._inViewportContainer = overflowContainer;
+				scrollContainerElm = overflowContainer;
 			} else {
-				elm._inViewportContainer = document;
+				elm._inViewportContainer = window;
+				scrollContainerElm = document;
 			}
 		}
 
 		let isInViewport = true,
 			_cb = () => {
 				if ( ! isInViewport) {
-					elm._inViewportContainer.removeEventListener('scroll', checkViewport);
+					scrollContainerElm.removeEventListener('scroll', checkViewport);
 					window.removeEventListener('resize', checkViewport);
 					if (cb)	cb(elm);
 					resolve(elm);
@@ -45,7 +48,7 @@ export default function whenOutOfViewport(elm, cb = null) {
 		},100);
 
 		// listen for resize
-		elm._inViewportContainer.addEventListener('scroll', checkViewport);
+		scrollContainerElm.addEventListener('scroll', checkViewport);
 		window.addEventListener('resize', checkViewport);
 		setTimeout(() => {
 			checkViewport(null);

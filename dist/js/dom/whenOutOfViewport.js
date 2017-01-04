@@ -38,19 +38,22 @@ function whenOutOfViewport(elm) {
 
 	return new Promise(function (resolve, reject) {
 		// try to get the closest element that has an overflow
+		var scrollContainerElm = document;
 		if (!elm._inViewportContainer) {
 			var overflowContainer = (0, _closest2.default)(elm, '[data-in-viewport-container]');
 			if (overflowContainer) {
 				elm._inViewportContainer = overflowContainer;
+				scrollContainerElm = overflowContainer;
 			} else {
-				elm._inViewportContainer = document;
+				elm._inViewportContainer = window;
+				scrollContainerElm = document;
 			}
 		}
 
 		var isInViewport = true,
 		    _cb = function _cb() {
 			if (!isInViewport) {
-				elm._inViewportContainer.removeEventListener('scroll', checkViewport);
+				scrollContainerElm.removeEventListener('scroll', checkViewport);
 				window.removeEventListener('resize', checkViewport);
 				if (cb) cb(elm);
 				resolve(elm);
@@ -62,7 +65,7 @@ function whenOutOfViewport(elm) {
 		}, 100);
 
 		// listen for resize
-		elm._inViewportContainer.addEventListener('scroll', checkViewport);
+		scrollContainerElm.addEventListener('scroll', checkViewport);
 		window.addEventListener('resize', checkViewport);
 		setTimeout(function () {
 			checkViewport(null);
