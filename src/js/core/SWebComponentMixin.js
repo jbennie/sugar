@@ -33,6 +33,7 @@ export default Mixin((superclass) => class extends superclass {
 		const componentNameDash = name;
 		window.sugar._webComponentsStack[componentName] = component;
 
+
 		// register the webcomponent
 		let webcomponent;
 		if (document.registerElement) {

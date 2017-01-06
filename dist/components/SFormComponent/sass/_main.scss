@@ -1,0 +1,215 @@
+// input
+%s-form-field-bare {
+	display: inline-block;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	&:not(.input-addon):not(textarea) {
+		line-height: 1 !important;
+	}
+	border:none;
+	outline : none;
+	width:100%;
+	font-size:1em;
+}
+%s-form-field-style {
+	border-width:1px;
+	border-bottom-width : 3px;
+	border-style : solid;
+
+	[data-input-activator]:focus ~ &,
+	&:focus {
+		border-left-width : 5px;
+	}
+	&:disabled {
+		cursor: not-allowed;
+	}
+}
+
+$_s-form-input-component-inited : false;
+@mixin s-form-component-init() {
+	@if not $_s-form-input-component-inited {
+		$_s-form-input-component-inited : true !global;
+
+	}
+}
+
+@mixin s-form-field-size() {
+	border-radius: s-lnf(border-radius);
+	padding : 0 s-lnf(padding-vertical);
+	height: 1em + s-lnf(padding-horizontal) * 2;
+	&:not(input):not(select) {
+		padding : s-lnf(padding-horizontal) s-lnf(padding-vertical);
+	}
+}
+@mixin s-form-field-color($color) {
+	border-color: s-color($color, -opacity .1);
+	border-bottom-color: s-color($color, -opacity .3);
+
+	[data-input-activator]:focus ~ &,
+	[data-input-activator]:checked ~ &,
+	&:hover:not(:disabled),
+	&:focus:not(:disabled),
+	&.active:not(:disabled) {
+		border-bottom-color: s-color($color, -opacity .6);
+	}
+	[data-input-activator]:focus ~ &,
+	[data-input-activator]:checked ~ &,
+	&:focus:not(:disabled),
+	&.active:not(:disabled) {
+		border-left-color: s-color($color, -opacity .6);
+	}
+}
+
+@mixin s-form-input(
+	$color : default
+) {
+	@include s-form-input-bare();
+	@include s-form-input-style($color);
+}
+
+@mixin s-form-input-bare() {
+	@include s-form-component-init();
+	@extend %s-form-field-bare;
+	@include s-font(s-setting('typo.font-family'));
+	@include s-form-field-size();
+}
+
+@mixin s-form-input-style(
+	$color : default
+) {
+	@include s-form-component-init();
+	@extend %s-form-field-style;
+	color: s-color(text);
+	@include s-transition(fast);
+	@include s-placeholder() {
+		color: s-color(text, -opacity .4);
+	}
+	&:disabled {
+		opacity : s-lnf(disabled-opacity);
+	}
+	@if ($color) {
+		@include s-form-field-color($color);
+	}
+}
+
+@mixin s-form-textarea(
+	$color : default
+) {
+	@include s-form-textarea-bare();
+	@include s-form-textarea-style($color);
+}
+@mixin s-form-textarea-field-size() {
+	padding : s-lnf(padding-horizontal) s-lnf(padding-vertical);
+	display: inline-block;
+}
+@mixin s-form-textarea-bare() {
+	@include s-form-component-init();
+	@extend %s-form-field-bare;
+	@include s-font(s-setting('typo.font-family'));
+	@include s-form-textarea-field-size();
+}
+@mixin s-form-textarea-style(
+	$color : default
+) {
+	@include s-form-component-init();
+	@extend %s-form-field-style;
+	color: s-color(text);
+	@include s-transition(fast);
+	@include s-placeholder() {
+		color: s-color(text, -opacity .4);
+	}
+	&:disabled {
+		opacity : s-lnf(disabled-opacity);
+	}
+	@if ($color) {
+		@include s-form-field-color($color);
+	}
+}
+
+@mixin s-form-select(
+	$color : default
+) {
+	@include s-form-select-bare();
+	@include s-form-select-style($color);
+}
+@mixin s-form-select-field-color($color) {
+	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A#{str-replace("#{s-color($color)}","#","%23")}"></polygon></svg>');
+}
+@mixin s-form-select-bare() {
+	@include s-form-component-init();
+	@extend %s-form-field-bare;
+	@include s-font(s-setting('typo.font-family'));
+	background-size: 9px 6px;
+	background-position: right center;
+	background-origin: content-box;
+	background-repeat: no-repeat;
+	background-color: white;
+	@include s-form-field-size();
+}
+@mixin s-form-select-style(
+	$color : default
+) {
+	@include s-form-component-init();
+	@extend %s-form-field-style;
+	color: s-color(text);
+	@include s-transition(fast);
+	@include s-placeholder() {
+		color: s-color(text, -opacity .4);
+	}
+	&:disabled {
+		opacity : s-lnf(disabled-opacity);
+	}
+	@if $color {
+		@include s-form-field-color($color);
+		@include s-form-select-field-color($color);
+	}
+}
+
+@mixin s-form-group() {
+	@include s-form-group-bare();
+	@include s-form-group-style();
+}
+@mixin s-form-group-bare() {
+	@include s-component('form') {
+		// make form group flex
+		display: flex !important;
+		flex: 1 !important;
+		> * {
+			flex: 1;
+		}
+		> input[type="submit"],
+		> input[type="checkbox"],
+		> input[type="radio"],
+		> button,
+		.#{s-component()}-addon {
+			flex: 0;
+		}
+	}
+}
+@mixin s-form-group-style() {
+
+}
+
+@mixin s-form-addon() {
+	@include s-form-addon-bare();
+	@include s-form-addon-style();
+}
+@mixin s-form-addon-bare() {
+	@include s-component('form') {
+		@extend %s-form-field-bare;
+		pointer-events: none;
+		// set input styling
+		@include s-form-field-size();
+
+		@include s-vertical-rhythme {
+			margin-bottom: 1em;
+		}
+	}
+}
+@mixin s-form-addon-style(
+	$color : default
+) {
+	@include s-form-field-color($color);
+	background-color: s-color($color, -opacity .08);
+	color : s-color($color, -darken 10%);
+}
