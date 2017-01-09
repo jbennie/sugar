@@ -4,15 +4,14 @@
  * @author 			Olivier Bossel <olivier.bossel@gmail.com>
  */
 $_sugar-classes : () !default; 						// store all the classes in their namespaces
-$sugar-animatecss : () !default; 					// store all the icons wanted from animate.css package
 $_sugar-settings : (								// store all the settings
-	unit 						: rem,
+	unit 						: rem, 				// set the base unit to use across the system
 	reset 						: true, 			// by default, a reset will be applied
 	border-box 					: true, 			// set if need to set all as border box model
 	sizes 						: (					// store all the ratios between sizes
 		smaller 					: 0.3,
 		small 						: 0.6,
-		default 					: 1,
+		default 					: 1, 				// the default size is required and need to stay to 1
 		medium 						: 1.6,
 		big 						: 2.4,
 		bigger 						: 3
@@ -56,7 +55,8 @@ $_sugar-settings : (								// store all the settings
 		default 					: (
 			color 						: #848e91,
 			modifiers 					: (
-				light 						: -lighten 30%
+				light 						: -lighten 15%,
+				dark 						: -darken 15%
 										)
 									),
 		title 						: (
@@ -96,7 +96,7 @@ $_sugar-settings : (								// store all the settings
 								),
 	vertical-rhythme 			: ( 				// Vertical rhythme options
 		enabled 					: true,				// set if need the vertical rhythme options or not
-		scope-class 				: vr, 			// the class in which the vertical rhythme will be applied
+		scope-class 				: vr, 				// the class in which the vertical rhythme will be applied
 		no-vertical-rhythme-class 	: false 			// the class that disable the vertical rhythme on a particular element
 								),
 	BEM 						: ( 				// BEM settings
@@ -120,7 +120,7 @@ $_sugar-settings : (								// store all the settings
 								),
 	transitions 				: ( 				// store all the transition settings
 		fast 						: all .1s ease-in-out 0s,
-		slow 						: all .5s ease-in-out 0s,
-		default  					: all .2s ease-in-out 0s // default transition
+		default  					: all .2s ease-in-out 0s, // default transition
+		slow 						: all .5s ease-in-out 0s
 								)
 );

@@ -22,10 +22,12 @@ $_s-unit-context : null;
 	@if $_sugar-test-arguments {
 		$unit : s-test-argument('s-unit-context','unit',(px,rem,em,percent,'%',pt),$unit);
 	}
+	// save the previous unit context to restore it after
+	$previous-unit-context : $_s-unit-context;
 	// set the new unit context
 	$_s-unit-context : $unit !global;
 	// execute the content
 	@content;
-	// restore the unit context to null
-	$_s-unit-context : null !global;
+	// restore the unit context to previous unit context
+	$_s-unit-context : $previous-unit-context !global;
 }
