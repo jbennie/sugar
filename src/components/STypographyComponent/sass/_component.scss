@@ -117,7 +117,8 @@
 		@include s-typography-title-bare(1em);
 	}
 	// vertical rhythme
-	h1,h2,h3,h4,h5,h6 {
+	h1,h2,h3,h4,h5,h6,
+	.h1,.h2,.h3,.h4,.h5,.h6 {
 		@include s-vertical-rhythme() {
 			padding-bottom: .25em;
 			padding-top: .25em;
@@ -532,6 +533,18 @@
 	.#{s-setting('text-format.scope-class')} ol > li {
 		@include s-typography-list-bare(ol li);
 	}
+
+	// vertucal rhythme
+	dl, ul, ol,
+	.dl, .ul, .ol {
+		@include s-vertical-rhythme() {
+			padding-top:.5em;
+			padding-bottom:.5em;
+			&:first-child {
+				padding-top:0;
+			}
+		}
+	}
 }
 /**
  * Provide the style styling for the lists classes
@@ -570,15 +583,5 @@
 	.ol > li,
 	.#{s-setting('text-format.scope-class')} ol > li {
 		@include s-typography-list-style(ol li, $color);
-	}
-
-	.dl, .ul, .ol {
-		@include s-vertical-rhythme() {
-			padding-top:.5em;
-			padding-bottom:.5em;
-			&:first-child {
-				padding-top:0;
-			}
-		}
 	}
 }
