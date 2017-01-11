@@ -18,7 +18,8 @@
     "demo.watch": "concurrently --kill-others \"npm run demo.watch.css\" \"npm run demo.watch.css\"",
     "demo.watch.css": "nodemon -w demo/src -w src -e scss -x \"npm run demo.build.css\"",
     "demo.watch.js": "nodemon -w demo/src -w src -e js -x \"npm run demo.build.js\"",
-    "install": "./scripts/install.sh"
+    "install": "./scripts/install.sh",
+    "doc": "coffeekraken-docblock-to-markdown -s src/**/*.js -d doc"
   },
   "repository": {
     "type": "git",
@@ -56,6 +57,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "chai": "^3.5.0",
     "concurrently": "^3.1.0",
+    "coffeekraken-docblock-to-markdown": "git+https://github.com/Coffeekraken/docblock-to-markdown.git#release/0.0.1",
     "copyfiles": "^1.0.0",
     "gridle": "https://github.com/olivierbossel/gridle.git#alpadia",
     "node-sass": "^3.4.2",

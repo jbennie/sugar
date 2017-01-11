@@ -119,7 +119,11 @@
 	// vertical rhythme
 	h1,h2,h3,h4,h5,h6 {
 		@include s-vertical-rhythme() {
-			margin-bottom: 1em;
+			padding-bottom: .25em;
+			padding-top: .25em;
+			&:first-child {
+				padding-top:0;
+			}
 		}
 	}
 }
@@ -209,7 +213,11 @@
 	// vertical rhythme
 	p,.p {
 		@include s-vertical-rhythme() {
-			margin-bottom: 1em;
+			padding-top:.5em;
+			padding-bottom:.5em;
+			&:first-child {
+				padding-top:0;
+			}
 		}
 	}
 }
@@ -562,5 +570,15 @@
 	.ol > li,
 	.#{s-setting('text-format.scope-class')} ol > li {
 		@include s-typography-list-style(ol li, $color);
+	}
+
+	.dl, .ul, .ol {
+		@include s-vertical-rhythme() {
+			padding-top:.5em;
+			padding-bottom:.5em;
+			&:first-child {
+				padding-top:0;
+			}
+		}
 	}
 }
