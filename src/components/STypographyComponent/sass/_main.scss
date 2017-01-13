@@ -343,7 +343,7 @@
 		font-size:2.5em;
 		font-style: italic;
 		@include s-font(quote);
-		padding: s-space(medium) / 2 s-space(medium) s-space(medium) / 2 s-space(medium);
+		padding: s-space(big) / 2 s-space(big) s-space(big) / 2 s-space(big);
 		display: block;
 	}
 }
@@ -365,11 +365,11 @@
 			position:absolute;
 		}
 		&:before {
-			content:"&ldquo;";
+			content:"“";
 			top:0; left:0;
 		}
 		&:after {
-			content:"&rdquo;";
+			content:"”";
 			bottom:0; right:0;
 		}
 	}
