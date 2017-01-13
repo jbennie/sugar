@@ -17,9 +17,9 @@
 	// lists
 	@include s-typography-lists-component($color);
 	// captions
-	@include s-typography-captions-component($color);
+	@include s-typography-captions-component();
 	// quotes
-	@include s-typography-quotes-component($color);
+	@include s-typography-quotes-component();
 }
 
 /**
@@ -619,8 +619,22 @@
 	 * </div>
 	 */
 	.caption,
-	.#{s-setting('text-format.scope-class')} caption {
+	.#{s-setting('text-format.scope-class')} caption,
+	.#{s-setting('text-format.scope-class')} figcaption {
 		@include s-typography-caption-bare();
+	}
+
+	// vertucal rhythme
+	.caption,
+	caption,
+	figcaption {
+		@include s-vertical-rhythme() {
+			padding-top:.5em;
+			padding-bottom:.5em;
+			&:first-child {
+				padding-top:0;
+			}
+		}
 	}
 }
 /**
@@ -669,6 +683,17 @@
 	.quote,
 	.#{s-setting('text-format.scope-class')} quote {
 		@include s-typography-quote-bare();
+	}
+	// vertucal rhythme
+	.quote,
+	quote {
+		@include s-vertical-rhythme() {
+			padding-top:.5em;
+			padding-bottom:.5em;
+			&:first-child {
+				padding-top:0;
+			}
+		}
 	}
 }
 /**

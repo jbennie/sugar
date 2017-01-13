@@ -342,7 +342,7 @@
 	@include s-component('s-typography') {
 		font-size:2.5em;
 		font-style: italic;
-		padding: s-space(medium) s-space(medium) s-space(medium) s-space(medium);
+		padding: s-space(medium) / 2 s-space(medium) s-space(medium) / 2 s-space(medium);
 		display: block;
 	}
 }
