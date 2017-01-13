@@ -613,9 +613,9 @@
 	 * @styleguide 	Typography / Caption
 	 * @example 	html
 	 * <div class="#{s-setting('text-format.scope-class')}">
-	 * 	<caption>
+	 * 	<div class="caption">
 	 * 		Nunc venenatis, odio at porta egestas, tortor eros mollis sapien.
-	 * 	</caption>
+	 * 	</div>
 	 * </div>
 	 */
 	.caption,
@@ -632,7 +632,8 @@
 	$color : primary
 ) {
 	.caption,
-	.#{s-setting('text-format.scope-class')} caption {
+	.#{s-setting('text-format.scope-class')} caption,
+	.#{s-setting('text-format.scope-class')} figcaption {
 		@include s-typography-caption-style($color);
 	}
 }
