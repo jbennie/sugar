@@ -285,14 +285,11 @@
 
 /**
  * Apply the caption css
- * @param 		{Color} 		[$color=text] 		The color used to style caption
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-caption(
-	$color : text
-) {
+@mixin s-typography-caption() {
 	@include s-typography-caption-bare();
-	@include s-typography-caption-style($color);
+	@include s-typography-caption-style();
 }
 
 /**
@@ -310,27 +307,20 @@
 }
 /**
  * Apply the caption style css
- * @param 		{Color} 		[$color=text] 		The color used to style caption
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-caption-style(
-	$color : text
-) {
+@mixin s-typography-caption-style() {
 	@include s-component('s-typography') {
-		color: s-color($color);
 	}
 }
 
 /**
  * Apply the quote css
- * @param 		{Color} 		[$color=text] 		The color used to style quote
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-quote(
-	$color : text
-) {
+@mixin s-typography-quote() {
 	@include s-typography-quote-bare();
-	@include s-typography-quote-style($color);
+	@include s-typography-quote-style();
 }
 
 /**
@@ -349,16 +339,11 @@
 }
 /**
  * Apply the quote style css
- * @param 		{Color} 		[$color=text] 		The color used to style quote
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-quote-style(
-	$color : text
-) {
+@mixin s-typography-quote-style() {
 	@include s-component('s-typography') {
-		color: s-color($color, -opacity .65);
 		position: relative;
-		// border-left:3px solid s-color($color, -opacity .3);
 		&:before,
 		&:after {
 			display: inline-block;

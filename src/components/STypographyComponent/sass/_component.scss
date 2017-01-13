@@ -592,14 +592,11 @@
 
 /**
  * Provide the styling for the captions classes
- * @param 		{Color} 		[$color=text] 		The color used to style captions
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-captions-component(
-	$color : text
-) {
+@mixin s-typography-captions-component() {
 	@include s-typography-captions-component-bare();
-	@include s-typography-captions-component-style($color);
+	@include s-typography-captions-component-style();
 }
 
 /**
@@ -608,7 +605,7 @@
  */
 @mixin s-typography-captions-component-bare() {
 	/**
-	 * @name 		Caption
+	 * @name 		Default caption
 	 * Display a caption styled text
 	 * @styleguide 	Typography / Caption
 	 * @example 	html
@@ -639,29 +636,23 @@
 }
 /**
  * Provide the style styling for the captions classes
- * @param 		{Color} 		[$color=text] 		The color used to style captions
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-captions-component-style(
-	$color : text
-) {
+@mixin s-typography-captions-component-style() {
 	.caption,
 	.#{s-setting('text-format.scope-class')} caption,
 	.#{s-setting('text-format.scope-class')} figcaption {
-		@include s-typography-caption-style($color);
+		@include s-typography-caption-style();
 	}
 }
 
 /**
  * Provide the styling for the quotes classes
- * @param 		{Color} 		[$color=text] 		The color used to style quotes
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-quotes-component(
-	$color : text
-) {
+@mixin s-typography-quotes-component() {
 	@include s-typography-quotes-component-bare();
-	@include s-typography-quotes-component-style($color);
+	@include s-typography-quotes-component-style();
 }
 
 /**
@@ -670,7 +661,7 @@
  */
 @mixin s-typography-quotes-component-bare() {
 	/**
-	 * @name 		Caption
+	 * @name 		Default quote
 	 * Display a quote styled text
 	 * @styleguide 	Typography / Quote
 	 * @example 	html
@@ -701,14 +692,11 @@
 }
 /**
  * Provide the style styling for the quotes classes
- * @param 		{Color} 		[$color=text] 		The color used to style quotes
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-quotes-component-style(
-	$color : text
-) {
+@mixin s-typography-quotes-component-style() {
 	.quote,
 	.#{s-setting('text-format.scope-class')} quote {
-		@include s-typography-quote-style($color);
+		@include s-typography-quote-style();
 	}
 }
