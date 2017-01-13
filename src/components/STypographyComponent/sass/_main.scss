@@ -285,11 +285,11 @@
 
 /**
  * Apply the caption css
- * @param 		{Color} 		[$color=primary] 		The color used to style caption
+ * @param 		{Color} 		[$color=text] 		The color used to style caption
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 @mixin s-typography-caption(
-	$color : primary
+	$color : text
 ) {
 	@include s-typography-caption-bare();
 	@include s-typography-caption-style($color);
@@ -310,11 +310,11 @@
 }
 /**
  * Apply the caption style css
- * @param 		{Color} 		[$color=primary] 		The color used to style caption
+ * @param 		{Color} 		[$color=text] 		The color used to style caption
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 @mixin s-typography-caption-style(
-	$color : primary
+	$color : text
 ) {
 	@include s-component('s-typography') {
 		color: s-color($color);
@@ -323,7 +323,7 @@
 
 /**
  * Apply the quote css
- * @param 		{Color} 		[$color=primary] 		The color used to style quote
+ * @param 		{Color} 		[$color=text] 		The color used to style quote
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 @mixin s-typography-quote(
@@ -348,7 +348,7 @@
 }
 /**
  * Apply the quote style css
- * @param 		{Color} 		[$color=primary] 		The color used to style quote
+ * @param 		{Color} 		[$color=text] 		The color used to style quote
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 @mixin s-typography-quote-style(
