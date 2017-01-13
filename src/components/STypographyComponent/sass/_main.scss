@@ -300,7 +300,6 @@
 ) {
 	@include s-component('s-typography') {
 		font-style: italic;
-		font-weight: lighter;
 		font-size:.65em;
 		display:block;
 	}
@@ -311,6 +310,7 @@
  */
 @mixin s-typography-caption-style() {
 	@include s-component('s-typography') {
+		opacity:.65;
 	}
 }
 
@@ -348,6 +348,7 @@
 		&:after {
 			display: inline-block;
 			position:absolute;
+			opacity:.4;
 		}
 		&:before {
 			content:"“";
