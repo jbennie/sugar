@@ -16,6 +16,10 @@
 	@include s-typography-inline-texts-component($color);
 	// lists
 	@include s-typography-lists-component($color);
+	// captions
+	@include s-typography-captions-component($color);
+	// quotes
+	@include s-typography-quotes-component($color);
 }
 
 /**
@@ -583,5 +587,99 @@
 	.ol > li,
 	.#{s-setting('text-format.scope-class')} ol > li {
 		@include s-typography-list-style(ol li, $color);
+	}
+}
+
+/**
+ * Provide the styling for the captions classes
+ * @param 		{Color} 		[$color=primary] 		The color used to style captions
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-captions-component(
+	$color : primary
+) {
+	@include s-typography-captions-component-bare();
+	@include s-typography-captions-component-style($color);
+}
+
+/**
+ * Provide the bare styling for the captions classes
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-captions-component-bare() {
+	/**
+	 * @name 		Caption
+	 * Display a caption styled text
+	 * @styleguide 	Typography / Caption
+	 * @example 	html
+	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * 	<caption>
+	 * 		Nunc venenatis, odio at porta egestas, tortor eros mollis sapien.
+	 * 	</caption>
+	 * </div>
+	 */
+	.caption,
+	.#{s-setting('text-format.scope-class')} caption {
+		@include s-typography-caption-bare();
+	}
+}
+/**
+ * Provide the style styling for the captions classes
+ * @param 		{Color} 		[$color=primary] 		The color used to style captions
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-captions-component-style(
+	$color : primary
+) {
+	.caption,
+	.#{s-setting('text-format.scope-class')} caption {
+		@include s-typography-caption-style($color);
+	}
+}
+
+/**
+ * Provide the styling for the quotes classes
+ * @param 		{Color} 		[$color=primary] 		The color used to style quotes
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-quotes-component(
+	$color : primary
+) {
+	@include s-typography-quotes-component-bare();
+	@include s-typography-quotes-component-style($color);
+}
+
+/**
+ * Provide the bare styling for the quotes classes
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-quotes-component-bare() {
+	/**
+	 * @name 		Caption
+	 * Display a caption styled text
+	 * @styleguide 	Typography / Caption
+	 * @example 	html
+	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * 	<quote>
+	 * 		Nunc venenatis, odio at porta egestas, tortor eros mollis sapien.
+	 * 	</quote>
+	 * </div>
+	 */
+	.quote,
+	.#{s-setting('text-format.scope-class')} quote {
+		@include s-typography-quote-bare();
+	}
+}
+/**
+ * Provide the style styling for the quotes classes
+ * @param 		{Color} 		[$color=primary] 		The color used to style quotes
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-quotes-component-style(
+	$color : primary
+) {
+	.quote,
+	.#{s-setting('text-format.scope-class')} quote {
+		@include s-typography-quote-style($color);
 	}
 }

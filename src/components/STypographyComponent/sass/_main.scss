@@ -282,3 +282,76 @@
 		}
 	}
 }
+
+/**
+ * Apply the caption css
+ * @param 		{Color} 		[$color=primary] 		The color used to style caption
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-caption(
+	$color : primary
+) {
+	@include s-typography-caption-bare();
+	@include s-typography-caption-style($color);
+}
+
+/**
+ * Apply the caption bare css
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-caption-bare(
+) {
+	@include s-component('s-typography') {
+		font-style: italic;
+		font-weight: lighter;
+	}
+}
+/**
+ * Apply the caption style css
+ * @param 		{Color} 		[$color=primary] 		The color used to style caption
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-caption-style(
+	$color : primary
+) {
+	@include s-component('s-typography') {
+		color: s-color($color);
+	}
+}
+
+/**
+ * Apply the quote css
+ * @param 		{Color} 		[$color=primary] 		The color used to style quote
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-quote(
+	$color : primary
+) {
+	@include s-typography-quote-bare();
+	@include s-typography-quote-style($color);
+}
+
+/**
+ * Apply the quote bare css
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-quote-bare(
+) {
+	@include s-component('s-typography') {
+		font-size:2.5em;
+		padding: s-space(medium) s-space(medium) s-space(medium) s-space(medium);
+	}
+}
+/**
+ * Apply the quote style css
+ * @param 		{Color} 		[$color=primary] 		The color used to style quote
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-quote-style(
+	$color : primary
+) {
+	@include s-component('s-typography') {
+		color: s-color($color);
+		border-left:3px solid s-color($color);
+	}
+}
