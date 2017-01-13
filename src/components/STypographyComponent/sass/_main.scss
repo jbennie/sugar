@@ -342,6 +342,7 @@
 	@include s-component('s-typography') {
 		font-size:2.5em;
 		font-style: italic;
+		@include s-font(quote);
 		padding: s-space(medium) / 2 s-space(medium) s-space(medium) / 2 s-space(medium);
 		display: block;
 	}
@@ -355,7 +356,21 @@
 	$color : text
 ) {
 	@include s-component('s-typography') {
-		color: s-color($color);
-		border-left:3px solid s-color($color, -opacity .3);
+		color: s-color($color, -opacity .65);
+		position: relative;
+		// border-left:3px solid s-color($color, -opacity .3);
+		&:before,
+		&:after {
+			display: inline-block;
+			position:absolute;
+		}
+		&:before {
+			content:"&ldquo;";
+			top:0; left:0;
+		}
+		&:after {
+			content:"&rdquo;";
+			bottom:0; right:0;
+		}
 	}
 }
