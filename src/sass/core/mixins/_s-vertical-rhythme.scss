@@ -16,7 +16,7 @@
  * @param 			{Number} 				[$border-bottom-width=0] 						The targeted border-bottom-width property
  * @param 			{Number} 				[$border=null] 									The targeted border property
  * @param 			{Number} 				[$cap-height=null] 								The font cap-height used to calculate the vertical ryhthme
- * @param 			{Boolean}{String} 		[$calculate-height=false] 						If true|min-height|max-height|height, will return the corresponding absolute height value in the map
+ * @param 			{Boolean|String} 		[$calculate-height=false] 						If true|min-height|max-height|height, will return the corresponding absolute height value in the map
  *
  * @TODO example
  *

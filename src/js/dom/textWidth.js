@@ -4,7 +4,7 @@ import __getStyleProperty from './getStyleProperty'
  * Get the text width in px of a passed string or the passed HTMLElement
  *
  * @name 		textWidth
- * @param 		{String}{HTMLElement}		source 		The source to process
+ * @param 		{String|HTMLElement}		source 		The source to process
  * @return 		{Number} 								The calculated width of the text
  *
  * @example 	js

@@ -1,7 +1,6 @@
 /**
  * @class 		SAjaxRequest
  * Class that represent an ajax request that will be passed to an SAjax instance
- *
  * @example 	js
  * const request = new SAjaxRequest({
  *  	url : '/api/...',
@@ -10,7 +9,6 @@
  *  		myVar : 'myVal'
  *  	}
  * });
- *
  * @author 		Olivier Bossel<olivier.bossel@gmail.com>
  */
 export default class SAjaxRequest {
@@ -24,28 +22,24 @@ export default class SAjaxRequest {
 	/**
 	 * The request method to use like GET, POST, DELETE or PUT
 	 * @type 		{String}
-	 * @default 	GET
 	 */
 	method = 'GET';
 
 	/**
 	 * Use the CORS or not (only for IE)
 	 * @type 		{Boolean}
-	 * @default 	true
 	 */
 	cors = true;
 
 	/**
 	 * Use the cache or not
 	 * @type 		{Boolean}
-	 * @default 	true
 	 */
 	cache = true;
 
 	/**
 	 * The data that will be sent with the request in JSON format
 	 * @type 		{Object}
-	 * @default 	null
 	 */
 	data = null;
 
@@ -53,35 +47,30 @@ export default class SAjaxRequest {
 	 * The data type expected from the response
 	 * Accepted dataType are : text | json | html
 	 * @type 		{String}
-	 * @default 	text
 	 */
 	dataType = 'text';
 
 	/**
 	 * Set the content type header to send with the request
 	 * @type 		{String}
-	 * @default 	null
 	 */
 	contentType = null;
 
 	/**
 	 * Set the X-Requested-With header
 	 * @type 		{String}
-	 * @default 	XMLHttpRequest
 	 */
 	requestedWith = 'XMLHttpRequest';
 
 	/**
 	 * Set the Authorization header
 	 * @type 		{String}
-	 * @default 	null
 	 */
 	auth = null;
 
 	/**
 	 * Set additional headers to send with the request
 	 * @type 		{Object}
-	 * @default 	null
 	 */
 	headers = null;
 

@@ -2,7 +2,7 @@ $_sugar-current-context : null;
 /**
  * Set a context to be used inside the mixin
  *
- * @param 			{String}{Map} 			$name-or-map 		The name of a registered context or a map
+ * @param 			{String|Map} 			$name-or-map 		The name of a registered context or a map
  *
  * @example
  * // register a context

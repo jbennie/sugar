@@ -4,7 +4,7 @@
  * @param 		{Number} 			[$gap=null] 			The gap width between each columns
  * @param 		{String} 			[$fill=null] 			The fill property (balance,auto,initial,inherit)
  * @param 		{Number} 			[$width=null] 			The width of the columns
- * @param 		{Integer}{String} 	[$span=null] 			The column-span property (1,all,initial,inherit)
+ * @param 		{Integer|String} 	[$span=null] 			The column-span property (1,all,initial,inherit)
  * @param 		{List} 				[$rule=null] 			The column-rule property
  * @param 		{String} 			[$rule-style=null]  	The column-rule-style property
  * @param 		{Color} 			[$rule-color=null] 		The column-rule-color property

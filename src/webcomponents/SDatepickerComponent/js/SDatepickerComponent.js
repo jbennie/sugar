@@ -60,7 +60,7 @@ export default class SDatepickerComponent extends SWebComponent {
 
 			/**
 			 * Set the initial selected date. Same as preloading a date string into an input's value attribute, but can also handle a Date object.
-			 * @type 		{Date}{String}
+			 * @type 		{Date|String}
 			 */
 			defaultDate : null,
 
@@ -112,7 +112,7 @@ export default class SDatepickerComponent extends SWebComponent {
 
 			/**
 			 * The maximum date that a user can pick to.
-			 * @type 		{Date}{String}
+			 * @type 		{Date|String}
 			 */
 			maxDate : null,
 

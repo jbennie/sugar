@@ -2,7 +2,7 @@
  * Set the name of the component that will be handled inside the mixin
  *
  * @param 			{String} 			[$name=null] 			The name of the component to set
- * @param 			{String}{Map} 		[$context=null] 		A context name or map to use inside the mixin
+ * @param 			{String|Map} 		[$context=null] 		A context name or map to use inside the mixin
  *
  * @example
  * \@include s-component('my-component') {

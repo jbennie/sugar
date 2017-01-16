@@ -2,7 +2,7 @@
  * Parse and return the Map respresentation of a margin property
  * The $margin argument will be parsed with the [s-parse-properties](../core/functions/_s-parse-properties.scss) function.
  *
- * @param 			{List}{Number} 			$margin 			The margin property to parse
+ * @param 			{List|Number} 			$margin 			The margin property to parse
  * @return 			{Map} 										The map representation
  *
  * @example

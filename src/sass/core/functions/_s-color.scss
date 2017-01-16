@@ -13,8 +13,8 @@
  * - opacity {Percent}
  * - mix {Color}
  *
- * @param 		{String}{Color} 		$color 				The color name or the color value to manipulate
- * @param 		{String}{List} 			[$modifier=null] 	The color modifier to apply. Can be a registered modifier name or a modifier list
+ * @param 		{String|Color} 		$color 				The color name or the color value to manipulate
+ * @param 		{String|List} 			[$modifier=null] 	The color modifier to apply. Can be a registered modifier name or a modifier list
  * @return 		{Color} 									The actual color value
  *
  * @example 	 	scss

@@ -4,7 +4,7 @@
  *
  * @param 				{String} 				$method 				The function/mixin name (debug purpose)
  * @param 				{String} 				$argument 				The argument name to test (debug purpose)
- * @param 				{List}{String} 			$type-or-values 		If string, the type(s) that the argument must match, if list, the possible values that the argument can take
+ * @param 				{List|String} 			$type-or-values 		If string, the type(s) that the argument must match, if list, the possible values that the argument can take
  * @param 				{Mixed} 				$value 					The actual argument value
  * @param 				{Boolean} 				[$check-only=false]		If this is true, will not thrown any error
  * @return 				{Mixed} 										The value if ok, false if not
