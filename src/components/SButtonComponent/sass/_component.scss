@@ -101,7 +101,7 @@
 				 * @styleguide 	Components / #{_start-case(s-component())}
 				 * @example 	html
 				 * <button disabled class="#{s-component()} #{s-component()}--#{$color}">
-				 * 	#{_start-case($color)} outlined button
+				 * 	#{_start-case($color)} disabled button
 				 * </button>
 				 */
 				&.#{s-component()}:disabled {
