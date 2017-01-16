@@ -551,9 +551,6 @@
 			.dl, .ul, .ol {
 				padding-top:.5em;
 				padding-bottom:.5em;
-				&:first-child {
-					padding-top:0;
-				}
 			}
 		}
 	}
