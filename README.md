@@ -76,22 +76,22 @@ Release the kraken !!! 🦑
 
 Here's a list of features that the toolkit will offer you. **Don't worry**, it seems like a lot, but you don't need to use all of them to start. Just pick what you need and let the rest aside...
 
-- [Colors](doc/sass/colors.md) : Manage, organize and use colors easily
+- **[Colors](doc/sass/colors.md)** : Manage, organize and use colors easily
 	- Named colors
 	- Easy modifiers
 	- Helper classes (optional)
 	- [And more...](doc/sass/colors.md)
-- [Fonts](doc/sass/fonts.md) : Keep your fonts really organized
+- **[Fonts](doc/sass/fonts.md)** : Keep your fonts really organized
 	- Names fonts
 	- Helper mixins
 	- Helper classes (optional)
 	- [And more...](doc/sass/fonts.md)
-- [Typography](doc/sass/typography.md) : Full stack typography management
+- **[Typography](doc/sass/typography.md)** : Full stack typography management
 	- Optional default styles
 	- Helper mixins
 	- Helper classes (optional) (lowercase, uppercase, aligns, etc...)
 	- [And more...](doc/sass/typography.md)
-- [Components](doc/sass/components.md) : Full stack optional components
+- **[Components](doc/sass/components.md)** : Full stack optional components
 	- Divided in two parts
 		1. The **bare** part that gives you only the structure of the component (sizes, paddings, etc...)
 		2. The **style** part that gives you a pre-build style if you don't want to make your own
@@ -99,12 +99,12 @@ Here's a list of features that the toolkit will offer you. **Don't worry**, it s
 	- Forms (input, select, group, addons, etc...)
 	- Tables
 	- [And more...](doc/sass/components.md)
-- [Sizes](doc/sass/sizes.md) : Manage sizes ratios to keep consistent margins, etc...
+- **[Sizes](doc/sass/sizes.md)*** : Manage sizes ratios to keep consistent margins, etc...
 	- Named sizes (smaller, small, default, etc...)
 	- Fully customizable
 	- Ratio based
 	- [And more...](doc/sass/sizes.md)
-- [Spaces](doc/sass/spaces.md) : Full stack spaces management
+- **[Spaces](doc/sass/spaces.md)** : Full stack spaces management
 	- Named spaces (share sizes names)
 	- Helper classes (optional)
 		- ```.m-b-small``` : Margin bottom small
@@ -113,17 +113,17 @@ Here's a list of features that the toolkit will offer you. **Don't worry**, it s
 		- Etc...
 	- Helper mixins
 	- [And more...](doc/sass/spaces.md)
-- [Look and feel](doc/sass/look-and-feel.md) : Handle how your components (atoms) looks across your site
+- **[Look and feel](doc/sass/look-and-feel.md)** : Handle how your components (atoms) looks across your site
 	- **em** unit based
 	- Helper mixins
 	- Ensure a consistent feel across your website
 	- [And more...](doc/sass/look-and-feel.md)
-- [Filters](doc/sass/filters) : Manage and keep your filters organized
+- **[Filters](doc/sass/filters)** : Manage and keep your filters organized
 	- Named filters
 	- Helper mixins
 	- Helper classes (optional)
 	- [And more...](doc/sass/filters.md)
-- [Transitions](doc/sass/transitions.md) : Manage and keep your transitions organized
+- **[Transitions](doc/sass/transitions.md)** : Manage and keep your transitions organized
 	- Named transitions
 	- Helper mixins
 	- Helper classes (optional)
@@ -155,29 +155,29 @@ import SWebComponent from 'coffeekraken-sugar/js/core/SWebComponent'
 // etc...
 ```
 
-- [Classes](doc/js/classes.js) : Set of useful classes like:
+- **[Classes](doc/js/classes.js)** : Set of useful classes like:
 	- [STimer](doc/src/js/classes/STimer.md) : Handle times with nice control like start, stop, pause, etc...
 	- [SColor](doc/src/js/classes/SColor.md) : Manipulate colors and access your sass registered colors
 	- [And more...](doc/js/classes.md)
-- [DOM Helpers](doc/js/dom.md) : Set of useful DOM related functions like:
+- **[DOM Helpers](doc/js/dom.md)** : Set of useful DOM related functions like:
 	- [closest](doc/src/js/dom/closest.md) : Equivalent of the jQuery **closest** functions
 	- [whenInViewport](doc/src/js/dom/whenInViewport.md) : Let you know when an element enter the viewport the first time
 	- [whenAttribute](doc/src/js/dom/whenAttribute.md) : Let you know when an element has a specifiy attribute (or that an attribute is a string, etc...)
 	- [scrollTo](doc/src/js/dom/scrollTo.md) : Animate the scroll to a certain element in the page
 	- [And more](doc/js/dom.md)
-- [Easings](doc/src/js/easings) : Set of easings functions
-- [Filters](doc/js/filters.md) : Cool js filters like:
+- **[Easings](doc/src/js/easings)** : Set of easings functions
+- **[Filters](doc/js/filters.md)** : Cool js filters like:
 	- [SGooeySvgFilter](doc/src/js/filters/SGooeySvgFilter.md) : Make a gooey effect like in [this demo](https://tympanus.net/Development/CreativeGooeyEffects/)
 	- [SGradientSvgFilter](doc/src/js/filters/SGradientSvgFilter.md) : Apply an SVG gradient filter on top of any HTMLElement
 	- [SMotionblurSvgFilter](doc/src/js/filters/SMotionblurSvgFilter.md) : Monitor an HTMLElement movement and apply a nice motion blur accordingly
-- [Features](doc/js/features.md) : Additional auto-applied DOM behaviors
-- [Utils](doc/src/js/utils) : Utils function for strings, colors, objects, etc... like:
+- **[Features](doc/js/features.md)** : Additional auto-applied DOM behaviors
+- **[Utils](doc/src/js/utils)** : Utils function for strings, colors, objects, etc... like:
 	- [throttle](doc/src/js/utils/functions/throttle) : Throttle a function call
 	- [isColor](doc/src/js/utils/is/color) : Check if is a valid color
 	- [isEmail](doc/src/js/utils/is/email) : Check if is a valid email
 	- [whenProperty](doc/src/js/utils/objects/whenProperty) : Be notified when a property exist or match a certain check function
 	- [And more...](doc/src/js/utils)
-- [Web Components](doc/js/webcomponents.md) : Powerful web components library like:
+- **[Web Components](doc/js/webcomponents.md)** : Powerful web components library like:
 	- [s-read-more](https://github.com/coffeekraken/s-read-more-component) : Simply create toggleable read more component
 	- [s-datepicker-component](https://github.com/coffeekraken/s-datepicker-component) : Clean and fully featured datepicker
 	- [s-ripple-component](https://github.com/coffeekraken/s-ripple-component) : Fully customizable ripple component
@@ -190,14 +190,14 @@ import SWebComponent from 'coffeekraken-sugar/js/core/SWebComponent'
 
 Sugar is also focused on being a good friend with other tools. Here's some tools that you can use with:
 
-1. [Carpenter](https://github.com/coffeekraken/carpenter) : Styleguide and documentation aggregator interface for your projects
+1. **[Carpenter](https://github.com/coffeekraken/carpenter)** : Styleguide and documentation aggregator interface for your projects
 	- Generate styleguide from your css codebase
 	- Aggregate documentations from used modules inside 1 interface
 	- Freaking cool to work in team
 	- And more...
-2. [Docblock parser](https://github.com/coffeekraken/docblock-parser) : Parse docblocks to JSON
+2. **[Docblock parser](https://github.com/coffeekraken/docblock-parser)** : Parse docblocks to JSON
 	- Sugar is all documented with clean docblocks inside source files
-3. [Webpack](https://webpack.github.io/docs/) : Build final package JS file from ES6 modules codebase
+3. **[Webpack](https://webpack.github.io/docs/)** : Build final package JS file from ES6 modules codebase
 4. Let us know if you have other cool ideas around some Sugar integrations...
 
 ## <a title="does-not"></a>What Sugar does not
