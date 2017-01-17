@@ -20,7 +20,8 @@ We like to think about this toolkit as
 9. [License](#license)
 10. [Who are Coffeekraken](#who-are-coffeekraken)
 
-## <a title="goals"></a>Goals
+<a title="goals"></a>
+## Goals
 
 The primary goal of this toolkit is to cover these needs:
 
@@ -66,7 +67,8 @@ The primary goal of this toolkit is to cover these needs:
 	- Well tested components
 	- Open source so don't be afraid to [contribute](doc/contribute.md)!
 
-## <a title="install"></a>Install
+<a title="install"></a>
+## Install
 
 ```npm install git+ssh://git@github.com:Coffeekraken/sugar.git#release/0.0.1 --save```
 
@@ -186,7 +188,8 @@ import SWebComponent from 'coffeekraken-sugar/js/core/SWebComponent'
 	- [s-drawer-component](https://github.com/coffeekraken/s-drawer-component) : Elegant and powefull component to create fully customizable components.
 	- And [many more](https://github.com/coffeekraken)...
 
-## <a title="tools-integration"></a>Other tools integration
+<a title="tools-integration"></a>
+## Other tools integration
 
 Sugar is also focused on being a good friend with other tools. Here's some tools that you can use with:
 
@@ -200,7 +203,8 @@ Sugar is also focused on being a good friend with other tools. Here's some tools
 3. **[Webpack](https://webpack.github.io/docs/)** : Build final package JS file from ES6 modules codebase
 4. Let us know if you have other cool ideas around some Sugar integrations...
 
-## <a title="does-not"></a>What Sugar does not
+<a title="does-not"></a>
+## What Sugar does not
 
 Sugar has some goals it try to achieve, and have also **some things that it does intentionally not** like:
 
@@ -211,7 +215,8 @@ Sugar has some goals it try to achieve, and have also **some things that it does
 3. Force you to use his features
 	- Grab what you want from the toolkit, keep the rest aside...
 
-## <a title="contribute"></a>Contribute
+<a title="contribute"></a>
+## Contribute
 
 Sugar is an open source project and will ever be! You are more that welcomed to contribute to his development and make it more awesome every day.
 To do so, you have several possibilities:
@@ -222,7 +227,8 @@ To do so, you have several possibilities:
 4. [Add features](doc/contribute.md#add-features)
 5. [Build web component](doc/contribute.md#build-web-component)
 
-## <a title="browsers-support"></a>Browsers support
+<a title="browsers-support"></a>
+## Browsers support
 
 * Chrome *(latest 2)*
 * Firefox *(latest 2)*
@@ -230,11 +236,13 @@ To do so, you have several possibilities:
 * Opera *(latest 2)*
 * Safari *(latest 2)*
 
-## <a title="license"></a>License
+<a title="license"></a>
+## License
 
 The code is available under the [MIT license](LICENSE.txt). This mean that you can use, modify, or do whatever you want with it. This mean also that it is shipped to you for free, so don't be a hater and if you find some issues, etc... feel free to [contribute](doc/contribute.md) instead of sharing your frustrations on social networks like an asshole...
 
-## <a title="who-are-coffeekraken"></a>Who are Coffeekraken
+<a title="who-are-coffeekraken"></a>
+## Who are Coffeekraken
 
 We try to be **some cool guys** that build **some cool tools** to make our (and yours hopefully) **every day life better**.  
 

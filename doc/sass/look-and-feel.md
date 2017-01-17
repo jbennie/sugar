@@ -26,7 +26,7 @@ To setting up your look and feel, use the [s-setup](../src/sass/core/mixins/_s-s
 ```scss
 @include s-setup((
 	look-and-feel : (
-		border-radius : .2em,
+		border-radius : 0em,
 		padding-vertical : 1em,
 		padding-horizontal : .8em,
 		disabled-opacity : .5

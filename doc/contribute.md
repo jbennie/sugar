@@ -6,11 +6,13 @@ If you want to use and share our tools, you become a member of the team. Open so
 
 To do so, their's only some guidelines to follow in order to keep nice and clean products. Here's how you can contribute:
 
-## <a name="share-the-love"></a>Share the love
+<a name="share-the-love"></a>
+## Share the love
 
 Not so much guidelines here. At least, if you want to share some thoughts about our work, positive or negative, try to stay constructive... Keep in mind that we provide these tools for free. We see too much negative comments around some open source projects on the social networks these days by haters... Keep in mind that the open source community prefer guys that **do** something bad over guys that only **say** bad things....
 
-## <a name="declare-issues"></a>Declare issues
+<a name="declare-issues"></a>
+## Declare issues
 
 This is the most basic contribution you can make to a project. Here's just some small guidelines to create issues the proper way:
 
@@ -21,7 +23,8 @@ This is the most basic contribution you can make to a project. Here's just some 
 2. Stay in touch with your issue feed
 	- Don't run away... You're in charge of your issues
 
-## <a name="fix-issues"></a>Fix issues
+<a name="fix-issues"></a>
+## Fix issues
 
 > Doing is better that just finger pointing...
 
@@ -43,7 +46,8 @@ Here's how to proceed:
 Don't be vexed if sometimes your fix is not merged into the project. This will not mean that we don't like you, but maybe that someone else has already take care of it, or that your solution does not fit the standard of the project.
 Remember that we will always be thankful that you contribute in any possible way...
 
-## <a name="add-features"></a>Add some features
+<a name="add-features"></a>
+## Add some features
 
 Adding features is another great way to contribute to projects. That's what make the tools better and better!
 Here's how to contribute to new features:
@@ -63,5 +67,5 @@ Here's how to contribute to new features:
 8. Create a pull request
 9. Wait till an official maintainer answer to your pull request
 
-
-## <a name="build-web-component"></a>Build web component
+<a name="build-web-component"></a>
+## Build web component
