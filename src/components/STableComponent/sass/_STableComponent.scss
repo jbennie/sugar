@@ -41,7 +41,8 @@
 				 * 	</tr>
 				 * </table>
 				 */
-				&.#{s-component()}--#{$color} {
+				$sel : #{s-component()}--#{$color};
+				&.#{s-selector($sel)} {
 
 					th {
 						color: s-color($color);
@@ -49,7 +50,7 @@
 
 					/**
 					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> striped #{s-component()}
-					 * Display #{$color} table contents
+					 * Display #{$color} striped table contents
 					 * @styleguide 		Components / #{_start-case(s-component())}
 					 * @example 		html
 					 * <table class="#{s-component()} #{s-component()}--#{$color} #{s-component()}--striped">
