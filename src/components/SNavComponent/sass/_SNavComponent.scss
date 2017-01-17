@@ -81,7 +81,7 @@
 	}
 }
 
-@mixin s-nav-tabs-component(
+@mixin s-nav-tabs-classes(
 	$colors : null
 ) {
 	@include s-nav-tabs-classes-bare();

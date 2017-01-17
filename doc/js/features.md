@@ -1,4 +1,6 @@
-# Features ```coffeekraken-sugar/js/features/...```
+# Features
+
+> Stored in ```coffeekraken-sugar/js/features/...```
 
 The goal of the features are to ad some features around certain element types like inputs, etc...
 They don't expose any API, classes or functions. They're just files that add some behaviors to certain elements.

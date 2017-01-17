@@ -1,11 +1,13 @@
-# Filters ```coffeekraken-sugar/js/filters/...```
+# Filters
+
+> Stored in ```coffeekraken-sugar/js/filters/...```
 
 Sugar provide some nice filters classes to apply non css supported effects on your elements.
 Here's a list of available filters:
 
-- **[SGooeySvgFilter](doc/src/js/filters/SGooeySvgFilter.md)** : Make a gooey effect like in [this demo](https://tympanus.net/Development/CreativeGooeyEffects/)
-- **[SGradientSvgFilter](doc/src/js/filters/SGradientSvgFilter.md)** : Apply an SVG gradient filter on top of any HTMLElement
-- **[SMotionblurSvgFilter](doc/src/js/filters/SMotionblurSvgFilter.md)** : Monitor an HTMLElement movement and apply a nice motion blur accordingly   
+- **[SGooeySvgFilter](../src/js/filters/SGooeySvgFilter.md)** : Make a gooey effect like in [this demo](https://tympanus.net/Development/CreativeGooeyEffects/)
+- **[SGradientSvgFilter](../src/js/filters/SGradientSvgFilter.md)** : Apply an SVG gradient filter on top of any HTMLElement
+- **[SMotionblurSvgFilter](../src/js/filters/SMotionblurSvgFilter.md)** : Monitor an HTMLElement movement and apply a nice motion blur accordingly   
 
 ## Usage
 

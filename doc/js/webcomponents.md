@@ -1,4 +1,6 @@
-# Web components (external repositories)
+# Web components
+
+> Stored in [external repositories](https://github.com/coffeekraken)
 
 Sugar provide a base **[SWebComponent](../src/js/core/SWebComponent)** class on top of which are build plenty of useful web component.
 

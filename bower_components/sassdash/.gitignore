@@ -1,9 +1,0 @@
-/.sass-cache
-/node_modules
-/css
-/bower_components
-/sassdoc
-/tests/*.css
-/tests/*.map
-/tests/.sass-cache
-index.html

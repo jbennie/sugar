@@ -1,6 +1,5 @@
 %s-button-bare {
 	display: inline-block;
-	// border: none;
 	border-style:solid;
 	border-width:1px;
 	border-color:rgba(0,0,0,0);
@@ -33,7 +32,6 @@ button {
 	$modifiers : null,
 	$state : null
 ) {
-	// @include s-button-component-init();
 	@extend %s-button-bare;
 	border-radius: s-lnf(border-radius);
 	padding : s-lnf(padding-horizontal) s-lnf(padding-vertical);

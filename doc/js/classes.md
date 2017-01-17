@@ -1,6 +1,8 @@
-# Classes ```coffeekraken-sugar/js/classes/...```
+# Classes
 
 Sugar gives you some nice classes that are highly specialized in one purpose only like:
+
+> Stored in ```coffeekraken-sugar/js/classes/...```
 
 - **[STimer](../src/js/classes/STimer.md)** : Handle times with nice control like start, stop, pause, etc...
 - **[SColor](../src/js/classes/SColor.md)** : Manipulate colors and access your sass registered colors

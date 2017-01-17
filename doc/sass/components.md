@@ -4,27 +4,27 @@ Sugar provide some cool components that you can use.
 
 Here the list of components that are shipped out of the box with Sugar:
 
-- **[Buttons](doc/src/sass/components/SButtonComponent/_index.md)** : Provide base buttons styles like:
+- **[Buttons](../src/sass/components/SButtonComponent/_index.md)** : Provide base buttons styles like:
 	- Basic (default)
 	- Outline
 	- Link
-- **[Corner badges](doc/src/sass/components/SCornerBadgeComponent/_index.md)** : Cool corner badges
-- **[Dropdowns](doc/src/sass/components/SDropdownComponent/_index.md)** : Dropdown component that support tl, tr, bl and br alignement
-- **[Forms](doc/src/sass/components/SFormComponent/_index.md)** : Provide base form styles like:
+- **[Corner badges](../src/sass/components/SCornerBadgeComponent/_index.md)** : Cool corner badges
+- **[Dropdowns](../src/sass/components/SDropdownComponent/_index.md)** : Dropdown component that support tl, tr, bl and br alignement
+- **[Forms](../src/sass/components/SFormComponent/_index.md)** : Provide base form styles like:
 	- Input / Select / Textarea
 	- Checkbox / Radio
 	- Group
 	- Addons
-- **[Navigations](doc/src/sass/components/SNavComponent/_index.md)** : Provide base navigations styles like:
+- **[Navigations](../src/sass/components/SNavComponent/_index.md)** : Provide base navigations styles like:
 	- Inline
 	- Justify
 	- Tabs
-- **[Tables](doc/src/sass/components/STableComponent/_index.md)** : Provide base table styles like:
+- **[Tables](../src/sass/components/STableComponent/_index.md)** : Provide base table styles like:
 	- Default
 	- Stripped
 	- Hover
 	- Bordered
-- **[Typography](doc/src/sass/components/STypography/_index.md)** : Provide base typography styles like:
+- **[Typography](../src/sass/components/STypography/_index.md)** : Provide base typography styles like:
 	- Titles (h1, h2, ..., h6)
 	- Paragraphs (default, lead)
 	- Links

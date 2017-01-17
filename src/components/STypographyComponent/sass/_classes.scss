@@ -124,10 +124,13 @@
 	h1,h2,h3,h4,h5,h6,
 	.h1,.h2,.h3,.h4,.h5,.h6 {
 		@include s-vertical-rhythme() {
-			padding-bottom: .25em;
-			padding-top: .25em;
-			&:first-child {
-				padding-top:0;
+			// margin-top:.5em;
+			margin-bottom:1em;
+			// &:first-child {
+			// 	margin-top:0;
+			// }
+			&:last-child {
+				margin-bottom:0;
 			}
 		}
 	}
@@ -218,10 +221,13 @@
 	// vertical rhythme
 	p,.p {
 		@include s-vertical-rhythme() {
-			padding-top:.5em;
-			padding-bottom:.5em;
-			&:first-child {
-				padding-top:0;
+			// margin-top:.5em;
+			margin-bottom:1em;
+			// &:first-child {
+			// 	margin-top:0;
+			// }
+			&:last-child {
+				margin-bottom:0;
 			}
 		}
 	}
@@ -542,15 +548,18 @@
 	dl, ul, ol,
 	.dl, .ul, .ol {
 		@include s-vertical-rhythme() {
-			padding-top:.5em;
-			padding-bottom:.5em;
-			&:first-child {
-				padding-top:0;
+			// margin-top:.5em;
+			margin-bottom:1em;
+			// &:first-child {
+			// 	margin-top:0;
+			// }
+			&:last-child {
+				margin-bottom:0;
 			}
 			dl, ul, ol,
 			.dl, .ul, .ol {
-				padding-top:.5em;
-				padding-bottom:.5em;
+				margin-top:.5em;
+				margin-bottom:.5em;
 			}
 		}
 	}
@@ -631,10 +640,13 @@
 	caption,
 	figcaption {
 		@include s-vertical-rhythme() {
-			padding-top:.5em;
-			padding-bottom:.5em;
-			&:first-child {
-				padding-top:0;
+			// margin-top:.5em;
+			margin-bottom:1em;
+			// &:first-child {
+			// 	margin-top:0;
+			// }
+			&:last-child {
+				margin-bottom:0;
 			}
 		}
 	}
@@ -687,10 +699,13 @@
 	.quote,
 	quote {
 		@include s-vertical-rhythme() {
-			padding-top:.5em;
-			padding-bottom:.5em;
-			&:first-child {
-				padding-top:0;
+			// margin-top:.5em;
+			margin-bottom:1em;
+			// &:first-child {
+			// 	margin-top:0;
+			// }
+			&:last-child {
+				margin-bottom:0;
 			}
 		}
 	}

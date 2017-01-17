@@ -33,7 +33,7 @@ Here's the default colors that are defined in Sugar out of the box. You can as w
 
 ## Setting up your colors
 
-To register of modify an existing color, you have to use the [s-setup](doc/src/sass/core/mixins/_s-setup.md) mixin like so:
+To register of modify an existing color, you have to use the [s-setup](../src/sass/core/mixins/_s-setup.md) mixin like so:
 
 ```scss
 @include s-setup((
@@ -57,7 +57,7 @@ To register of modify an existing color, you have to use the [s-setup](doc/src/s
 
 ## Accessing your colors
 
-To access your colors inside your codebase, simple use the **[s-color](doc/src/sass/core/functions/_s-color.md)** function like so:
+To access your colors inside your codebase, simple use the **[s-color](../src/sass/core/functions/_s-color.md)** function like so:
 
 ```scss
 .my-cool-element {
