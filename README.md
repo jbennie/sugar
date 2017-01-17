@@ -9,18 +9,18 @@ We like to think about this toolkit as
 
 ## Table of content
 
-1. [Goals](#goals)
-2. [Install](#install)
-3. [Sass features](#sass-features)
-4. [JS features](#js-features)
-5. [What sugar does not](#does-not)
-6. [Other tools integration](#tools-integration)
-7. [Contribute](#contribute)
-8. [Browsers support](#browsers-support)
-9. [License](#license)
-10. [Who are Coffeekraken](#who-are-coffeekraken)
+1. [Goals](#readme-goals)
+2. [Install](#readme-install)
+3. [Sass features](#readme-sass-features)
+4. [JS features](#readme-js-features)
+5. [What sugar does not](#readme-does-not)
+6. [Other tools integration](#readme-tools-integration)
+7. [Contribute](#readme-contribute)
+8. [Browsers support](#readme-browsers-support)
+9. [License](#readme-license)
+10. [Who are Coffeekraken](#readme-who-are-coffeekraken)
 
-<a title="goals"></a>
+<a id="readme-goals"></a>
 ## Goals
 
 The primary goal of this toolkit is to cover these needs:
@@ -67,14 +67,14 @@ The primary goal of this toolkit is to cover these needs:
 	- Well tested components
 	- Open source so don't be afraid to [contribute](doc/contribute.md)!
 
-<a title="install"></a>
+<a id="readme-install"></a>
 ## Install
 
 ```npm install git+ssh://git@github.com:Coffeekraken/sugar.git#release/0.0.1 --save```
 
 Release the kraken !!! 🦑
 
-## <a title="sass-features"></a>Sass features
+## <a id="readme-sass-features"></a>Sass features
 
 Here's a list of features that the toolkit will offer you. **Don't worry**, it seems like a lot, but you don't need to use all of them to start. Just pick what you need and let the rest aside...
 
@@ -138,7 +138,7 @@ Here's a list of features that the toolkit will offer you. **Don't worry**, it s
 		- And more...
 	- We let you discover the rest by yourself...
 
-## <a title="js-features"></a>JS features
+## <a id="readme-js-features"></a>JS features
 
 Sugar provide a lot of cool functions and classes that you can use inside your project.
 The main goal sugar try to achieve is to give you some cool tools that you can or not use. It's your choice and sugar will never force you in any way.
@@ -188,7 +188,7 @@ import SWebComponent from 'coffeekraken-sugar/js/core/SWebComponent'
 	- [s-drawer-component](https://github.com/coffeekraken/s-drawer-component) : Elegant and powefull component to create fully customizable components.
 	- And [many more](https://github.com/coffeekraken)...
 
-<a title="tools-integration"></a>
+<a id="readme-tools-integration"></a>
 ## Other tools integration
 
 Sugar is also focused on being a good friend with other tools. Here's some tools that you can use with:
@@ -203,7 +203,7 @@ Sugar is also focused on being a good friend with other tools. Here's some tools
 3. **[Webpack](https://webpack.github.io/docs/)** : Build final package JS file from ES6 modules codebase
 4. Let us know if you have other cool ideas around some Sugar integrations...
 
-<a title="does-not"></a>
+<a id="readme-does-not"></a>
 ## What Sugar does not
 
 Sugar has some goals it try to achieve, and have also **some things that it does intentionally not** like:
@@ -215,19 +215,19 @@ Sugar has some goals it try to achieve, and have also **some things that it does
 3. Force you to use his features
 	- Grab what you want from the toolkit, keep the rest aside...
 
-<a title="contribute"></a>
+<a id="readme-contribute"></a>
 ## Contribute
 
 Sugar is an open source project and will ever be! You are more that welcomed to contribute to his development and make it more awesome every day.
 To do so, you have several possibilities:
 
-1. [Share the love ❤️](doc/contribute.md#share-the-love)
-2. [Declare issues](doc/contribute.md#declare-issues)
-3. [Fix issues](doc/contribute.md#fix-issues)
-4. [Add features](doc/contribute.md#add-features)
-5. [Build web component](doc/contribute.md#build-web-component)
+1. [Share the love ❤️](doc/contribute.md#contribute-share-the-love)
+2. [Declare issues](doc/contribute.md#contribute-declare-issues)
+3. [Fix issues](doc/contribute.md#contribute-fix-issues)
+4. [Add features](doc/contribute.md#contribute-add-features)
+5. [Build web component](doc/contribute.md#contribute-build-web-component)
 
-<a title="browsers-support"></a>
+<a id="readme-browsers-support"></a>
 ## Browsers support
 
 * Chrome *(latest 2)*
@@ -236,12 +236,12 @@ To do so, you have several possibilities:
 * Opera *(latest 2)*
 * Safari *(latest 2)*
 
-<a title="license"></a>
+<a id="readme-license"></a>
 ## License
 
 The code is available under the [MIT license](LICENSE.txt). This mean that you can use, modify, or do whatever you want with it. This mean also that it is shipped to you for free, so don't be a hater and if you find some issues, etc... feel free to [contribute](doc/contribute.md) instead of sharing your frustrations on social networks like an asshole...
 
-<a title="who-are-coffeekraken"></a>
+<a id="readme-who-are-coffeekraken"></a>
 ## Who are Coffeekraken
 
 We try to be **some cool guys** that build **some cool tools** to make our (and yours hopefully) **every day life better**.  
