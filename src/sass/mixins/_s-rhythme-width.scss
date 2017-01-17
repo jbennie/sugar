@@ -2,7 +2,7 @@
 // Set rhythme max-width
 //
 @mixin s-rhythme-width(
-	$letters-count : s-setting('typo.line-letters-count')
+	$letters-count : s-setting('typography.line-letters-count')
 ) {
 	@each $prop, $value in s-rhythme-width($letters-count) {
 		#{$prop} : $value;

@@ -72,7 +72,7 @@
 
 	// get the font object
 	$fonts : s-setting('fonts');
-	$f : map-get($fonts, s-setting('typo.font-family'));
+	$f : map-get($fonts, s-setting('typography.font-family'));
 	@if type-of($f) == string {
 		$f : map-get($fonts, $f);
 	}

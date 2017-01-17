@@ -1,12 +1,12 @@
-@mixin s-form-component(
+@mixin s-form-classes(
 	$colors : default
 ) {
-	@include s-form-component-bare();
+	@include s-form-classes-bare();
 	@if $colors {
-		@include s-form-component-style($colors);
+		@include s-form-classes-style($colors);
 	}
 }
-@mixin s-form-component-bare() {
+@mixin s-form-classes-bare() {
 	@include s-component('form') {
 		/**
 		 * @name 	Basic input
@@ -68,7 +68,7 @@
 		}
 	};
 }
-@mixin s-form-component-style(
+@mixin s-form-classes-style(
 	$colors : default
 ) {
 	@include s-component('form') {

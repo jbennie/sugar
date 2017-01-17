@@ -61,10 +61,10 @@ $_sugar-inited : false;
 		a {	color: inherit; }
 
 		// check settings
-		$base-font-family : s-setting('typo.font-family');
+		$base-font-family : s-setting('typography.font-family');
 		$fonts : s-setting('fonts');
 		@if $base-font-family and not map-get($fonts, $base-font-family) {
-			@error("Your typo.font-family setting has to be a registered font...");
+			@error("Your typography.font-family setting has to be a registered font...");
 		}
 
 		// set the base font family if not defined
@@ -78,8 +78,8 @@ $_sugar-inited : false;
 
 		// font
 		html {
-			$base-font-size : s-setting('typo.font-size');
-			$base-font-sizes : s-setting('typo.font-sizes');
+			$base-font-size : s-setting('typography.font-size');
+			$base-font-sizes : s-setting('typography.font-sizes');
 			font-size: s-Px($base-font-size);
 			color: s-color(text);
 			@if type-of($base-font-sizes) == map {
@@ -90,7 +90,7 @@ $_sugar-inited : false;
 				}
 			}
 			// try to get the font family from fonts
-			@include s-font(s-setting('typo.font-family'));
+			@include s-font(s-setting('typography.font-family'));
 		}
 
 		// default color

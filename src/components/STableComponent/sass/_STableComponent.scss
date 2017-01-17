@@ -1,11 +1,11 @@
-@mixin s-table-component(
+@mixin s-table-classes(
     $colors : default primary secondary
 ) {
-    @include s-table-component-bare();
-    @include s-table-component-style($colors);
+    @include s-table-classes-bare();
+    @include s-table-classes-style($colors);
 }
 
-@mixin s-table-component-style(
+@mixin s-table-classes-style(
     $colors : default primary secondary
 ) {
     @include s-component('table') {
@@ -153,7 +153,7 @@
     }
 }
 
-@mixin s-table-component-bare(
+@mixin s-table-classes-bare(
 ) {
 	@include s-component('table') {
 

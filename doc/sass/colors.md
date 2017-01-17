@@ -91,3 +91,14 @@ Here the list of the supported modifiers:
 - **invert** {boolean} : Set if we want to invert the color
 - **opacity** {0-1} : Set the opacity wanted
 - **mix** {color} : Mix the color with another
+
+## Helper classes
+
+Sugar have some [helper classes](helper-classes.md) that you can easily grab to use into your html. A bunch of these classes are colors related like:
+
+- ```.c-{color-name}``` : Apply a specific color
+- ```.bkg-{color-name}``` : Apply a specific background color
+- ```.c-{color-name}--{modifier-name} : Apply a specific modified color
+- ```.bkg-{color-name}--{modifier-name} : Apply a specific modified background color
+
+> These classes are stored inside the ```sugar.color``` namespace. Check out the [helper classes](helper-classes.md) documentation for more info...

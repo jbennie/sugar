@@ -7,10 +7,10 @@ $_s-unit-context : null;
  * @param 			{String} 			$unit 			The unit wanted
  *
  * @example
- * // if settings.typo.font-size == 16px
- * s-setting('typo.font-size'); // => 16px
+ * // if settings.typography.font-size == 16px
+ * s-setting('typography.font-size'); // => 16px
  * \@incluse s-unit-context(rem) {
- * 		s-setting('typo.font-size'); // => 1rem
+ * 		s-setting('typography.font-size'); // => 1rem
  * }
  *
  * @author 			Olivier Bossel <olivier.bossel@gmail.com>

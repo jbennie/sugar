@@ -70,7 +70,7 @@ $_s-form-input-component-inited : false;
 @mixin s-form-input-bare() {
 	@include s-form-component-init();
 	@extend %s-form-field-bare;
-	@include s-font(s-setting('typo.font-family'));
+	@include s-font(s-setting('typography.font-family'));
 	@include s-form-field-size();
 }
 
@@ -105,7 +105,7 @@ $_s-form-input-component-inited : false;
 @mixin s-form-textarea-bare() {
 	@include s-form-component-init();
 	@extend %s-form-field-bare;
-	@include s-font(s-setting('typo.font-family'));
+	@include s-font(s-setting('typography.font-family'));
 	@include s-form-textarea-field-size();
 }
 @mixin s-form-textarea-style(
@@ -138,7 +138,7 @@ $_s-form-input-component-inited : false;
 @mixin s-form-select-bare() {
 	@include s-form-component-init();
 	@extend %s-form-field-bare;
-	@include s-font(s-setting('typo.font-family'));
+	@include s-font(s-setting('typography.font-family'));
 	background-size: 9px 6px;
 	background-position: right center;
 	background-origin: content-box;

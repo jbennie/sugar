@@ -16,7 +16,7 @@ $_sugar-settings : (								// store all the settings
 		big 						: 2,
 		bigger 						: 3
 	),
-	typo 						: (
+	typography					: (
 		font-family 				: default, 			// set the font to use by default
 		font-size 					: 14px, 			// default font-size
 		font-sizes 					: null, 			// map of font-sizes by media (size : media)
@@ -32,21 +32,10 @@ $_sugar-settings : (								// store all the settings
 									)
 								),
 	look-and-feel 				: ( 				// store some settings for the look and feel
-		border-radius 				: (
-			default 					: 0.2em
-		),
-		padding-vertical 			: (
-			default 					: 1em
-		),
-		padding-horizontal 			: (
-			default 					: 0.8em
-		),
-		font-size 					: (
-			default 					: 1em
-		),
-		disabled-opacity 			: (
-			default 					: .5
-		)
+		border-radius 				: 0.2em,
+		padding-vertical 			: 1em,
+		padding-horizontal 			: 0.8em,
+		disabled-opacity 			: .5
 	),
 	spaces 						: (					// store all the spaces available
 		default 					: 1rem

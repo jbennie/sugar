@@ -33,7 +33,7 @@
 	}
 
 	// get font format from settings
-	$font-format : s-setting('typo.font-format');
+	$font-format : s-setting('typography.font-format');
 
 	// if the src is a string
 	// mean that's a url

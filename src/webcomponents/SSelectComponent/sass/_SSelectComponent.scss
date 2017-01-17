@@ -156,7 +156,6 @@ $_s-select-component-inited : false;
 			@include s-input-component-select-field-bare();
 			$paddingTag : s-lnf(padding-horizontal);
 			$padding : s-lnf(padding-horizontal) * .6;
-			$fontSizeTag : s-lnf(font-size) * .8;
 
 			$h : 1em;
 			&#{s-component-selector('multiple')} {

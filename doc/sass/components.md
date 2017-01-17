@@ -35,12 +35,14 @@ Here the list of components that are shipped out of the box with Sugar:
 
 ## Components structure
 
-Each components are divided in four parts:
+Each components usually are divided in four parts:
 
 1. The **bare** part that gives you only the structure of the component (sizes, paddings, etc...)
+	- Some components does not support this part...
 2. The **style** part that gives you a pre-build style if you don't want to make your own
-3. The **component-bare** part that create default classes with only the **bare** part
-4. The **component-style** part that apply to default classes the **style** part
+	- Some components does not support this part...
+3. The **classes-bare** part that create default classes with only the **bare** part
+4. The **classes-style** part that apply to default classes the **style** part
 
 ## Usage
 
@@ -61,13 +63,13 @@ Here how to use the components
 }
 
 // will print out classes for the button including bare and style part
-@include s-button-component(
+@include s-button-classes(
 	$colors : default primary secondary
 );
 // will print out classes for the button including only bare part
-@include s-button-component-bare();
+@include s-button-classes-bare();
 // will print out classes for the button including only style part
-@include s-button-component-style(
+@include s-button-classes-style(
 	$colors : default primary secondary
 );
 ```
@@ -80,4 +82,4 @@ Here how to use the components
 - **s-{component-name}-classes-bare**
 - **s-{component-name}-classes-style**
 
-Don't forget to check the documentation of each components to see exactly the parameters allowed
+Don't forget to check the documentation of each components to see exactly the parameters allowed.

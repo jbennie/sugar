@@ -1,8 +1,8 @@
 /**
  * Return the generated vertical rhythme properties map calculated depending on the passed arguments
  *
- * @param 			{Number} 				[$font-size=settings.typo.font-size] 			The font size wanted
- * @param 			{String} 				[$font-family=settings.typo.font-family] 		The font family to use
+ * @param 			{Number} 				[$font-size=settings.typography.font-size] 			The font size wanted
+ * @param 			{String} 				[$font-family=settings.typography.font-family] 		The font family to use
  * @param 			{Number} 				[$line-height=null] 							The line height to use
  * @param 			{Number} 				[$margin-top=0] 								The targeted margin-top
  * @param 			{Number} 				[$margin-bottom=0] 								The targeted margin-bottom
@@ -24,8 +24,8 @@
  * @author 			Olivier Bossel <olivier.bossel@gmail.com>
  */
 @function s-vertical-rhythme(
-	$font-size : s-setting('typo.font-size'),
-	$font-family : s-setting('typo.font-family'),
+	$font-size : s-setting('typography.font-size'),
+	$font-family : s-setting('typography.font-family'),
 	$line-height : null,
 	$margin-top : 0,
 	$margin-bottom : 0,
@@ -60,7 +60,7 @@
 		$calculate-height : s-test-argument('s-vertical-rhythme','calculate-height',(true,false,min-height,max-height,height),$calculate-height);
 	}
 
-	$root-font-size : s-setting('typo.font-size');
+	$root-font-size : s-setting('typography.font-size');
 
 	// get the font object
 	$fonts : s-setting('fonts');
