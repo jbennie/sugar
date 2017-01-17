@@ -74,7 +74,42 @@ The primary goal of this toolkit is to cover these needs:
 
 Release the kraken !!! 🦑
 
-## <a id="readme-sass-features"></a>Sass features
+<a id="readme-get-started"></a>
+## Get Started
+
+Here's how to get started quickly:
+
+#### SASS (scss)
+
+Here's how to quickly start with sass integration:
+
+```scss
+// import sugar
+@import 'node_modules/coffeekraken-sugar/index';
+
+// configure your sugar
+@include s-setup((
+	// configuration here...
+));
+
+// init (required to be just after s-setup calls)
+@include s-init();
+
+// generate the classes if you want
+@include s-classes();
+```
+
+#### JS
+
+In javascript, you just need to import what you want from the toolkit like so:
+
+```js
+import STimer from 'coffeekraken-sugar/js/classes/STimer';
+// etc...
+```
+
+<a id="readme-sass-features"></a>
+## Sass features
 
 Here's a list of features that the toolkit will offer you. **Don't worry**, it seems like a lot, but you don't need to use all of them to start. Just pick what you need and let the rest aside...
 
