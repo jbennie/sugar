@@ -14,9 +14,9 @@ Sugar allows you to easily manage and organize your fonts by giving them a name.
 
 ## Default fonts available
 
-By default, Sugar comes with tree fonts set out of the box. It's a good idea to use these names first before register new ones. That will help you work in team. You can obviously override these fonts properties if you want.
+By default, Sugar comes with three fonts set out of the box. It's a good idea to use these names first before register new ones. That will help you work in team. You can obviously override these fonts properties if you want.
 
-Here's the tree names available by default:
+Here's the three names available by default:
 
 1. **default** : Default font used across the website
 2. **quote** : Serif base font used for quotes, etc...

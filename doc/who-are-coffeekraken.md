@@ -1,9 +1,9 @@
 # Who are Coffeekraken?
 
-The only requirement to be part of Coffeekraken is to love coffee and krakens. If you know how to develop in html, javascript (nodejs, etc...), css (sass, etc...), it's good as well.
+The only requirement to be part of Coffeekraken is to love coffee ☕️ and krakens 🦑. If you know how to develop in html, javascript (nodejs, etc...), css (sass, etc...), it's good as well.
 
 More seriously, we are a young collectve of front-end creative developers with a goal in mind. Build tools to make every team working day life better.
-This is our first and only concern and all our tools are build around that purpose.
+This is our first and only concern. All our tools are build around that purpose.
 
 ## Why?
 
@@ -11,7 +11,7 @@ Coffeekraken has been started by **employees working in the same agency**. To wo
 
 1. **Styleguide**:
 	- Give some base guidelines for developers and designer to work together
-	- Keep track of what styles and components are available in a website
+	- Keep track of which styles and components are available in a website
 	- Define basic HTML markup to use across websites
 2. **Documentation**:
 	- Complete and nice documentation is the backbone of a good codebase

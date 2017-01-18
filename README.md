@@ -11,7 +11,7 @@ We like to think about this toolkit as
 
 1. [Goals](#readme-goals)
 2. [Install](#readme-install)
-3. [Get started](#readme-get-started)
+3. [Quick start](#readme-quick-start)
 4. [Sass features](#readme-sass-features)
 5. [JS features](#readme-js-features)
 6. [What sugar does not](#readme-does-not)
@@ -75,8 +75,8 @@ The primary goal of this toolkit is to cover these needs:
 
 Release the kraken !!! 🦑
 
-<a id="readme-get-started"></a>
-## Get Started
+<a id="readme-quick-start"></a>
+## Quick start
 
 Here's how to get started quickly:
 
@@ -128,14 +128,18 @@ Here's a list of features that the toolkit will offer you. **Don't worry**, it s
 	- Helper classes (optional) (lowercase, uppercase, aligns, etc...)
 	- [And more...](doc/sass/typography.md)
 - **[Components](doc/sass/components.md)** : Full stack optional components
-	- Divided in two parts
+	- Divided in four parts
 		1. The **bare** part that gives you only the structure of the component (sizes, paddings, etc...)
+			- Some components does not support this part...
 		2. The **style** part that gives you a pre-build style if you don't want to make your own
+			- Some components does not support this part...
+		3. The **classes-bare** part that create default classes with only the **bare** part
+		4. The **classes-style** part that apply to default classes the **style** part
 	- Buttons
 	- Forms (input, select, group, addons, etc...)
 	- Tables
 	- [And more...](doc/sass/components.md)
-- **[Sizes](doc/sass/sizes.md)*** : Manage sizes ratios to keep consistent margins, etc...
+- **[Sizes](doc/sass/sizes.md)** : Manage sizes ratios to keep consistent margins, etc...
 	- Named sizes (smaller, small, default, etc...)
 	- Fully customizable
 	- Ratio based
@@ -203,14 +207,14 @@ import SWebComponent from 'coffeekraken-sugar/js/core/SWebComponent'
 	- [And more](doc/js/dom.md)
 - **[Easings](doc/src/js/easings)** : Set of easings functions
 - **[Filters](doc/js/filters.md)** : Cool js filters like:
-	- [SGooeySvgFilter](doc/src/js/filters/SGooeySvgFilter.md) : Make a gooey effect like in [this demo](https://tympanus.net/Development/CreativeGooeyEffects/)
+	- [SGooeySvgFilter](doc/src/js/filters/SGooeySvgFilter.md) : Make a gooey effect like in [this demo](https://tympanus.net/Development/CreativeGooeyEffects)
 	- [SGradientSvgFilter](doc/src/js/filters/SGradientSvgFilter.md) : Apply an SVG gradient filter on top of any HTMLElement
 	- [SMotionblurSvgFilter](doc/src/js/filters/SMotionblurSvgFilter.md) : Monitor an HTMLElement movement and apply a nice motion blur accordingly
 - **[Features](doc/js/features.md)** : Additional auto-applied DOM behaviors
 - **[Utils](doc/src/js/utils)** : Utils function for strings, colors, objects, etc... like:
-	- [throttle](doc/src/js/utils/functions/throttle) : Throttle a function call
-	- [isColor](doc/src/js/utils/is/color) : Check if is a valid color
-	- [isEmail](doc/src/js/utils/is/email) : Check if is a valid email
+	- [throttle](doc/src/js/utils/functions/throttle.md) : Throttle a function call
+	- [isColor](doc/src/js/utils/is/color.md) : Check if is a valid color
+	- [isEmail](doc/src/js/utils/is/email.md) : Check if is a valid email
 	- [whenProperty](doc/src/js/utils/objects/whenProperty) : Be notified when a property exist or match a certain check function
 	- [And more...](doc/src/js/utils)
 - **[Web Components](doc/js/webcomponents.md)** : Powerful web components library like:
