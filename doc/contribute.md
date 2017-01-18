@@ -7,7 +7,7 @@ If you want to use and share our tools, you become a member of the team. Open so
 To do so, their's only some guidelines to follow in order to keep nice and clean products. Here's how you can contribute:
 
 <a id="contribute-share-the-love"></a>
-## Share the love
+## Share the love ❤️
 
 Not so much guidelines here. At least, if you want to share some thoughts about our work, positive or negative, try to stay constructive... Keep in mind that we provide these tools for free. We see too much negative comments around some open source projects on the social networks these days by haters... Keep in mind that the open source community prefer guys that **do** something bad over guys that only **say** bad things....
 
@@ -21,7 +21,7 @@ This is the most basic contribution you can make to a project. Here's just some 
 	- How to reproduce the issue
 	- Error messages, etc...
 2. Stay in touch with your issue feed
-	- Don't run away... You're in charge of your issues
+	- Don't run away... **You're in charge of your issues**
 
 <a id="contribute-fix-issues"></a>
 ## Fix issues
@@ -69,3 +69,9 @@ Here's how to contribute to new features:
 
 <a id="contribute-build-web-component"></a>
 ## Build web component
+
+In order to write nice web components, we provide you a [nice boilerplate](https://github.com/coffeekraken/s-boilerplate-component) that you can start with. This boilerplate cover these areas:
+
+1. Pre-configured to write ES6/7 Using babel
+2. Pre-configured to write tests through karma
+3. Basically, clone and start working

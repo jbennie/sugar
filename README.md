@@ -11,14 +11,15 @@ We like to think about this toolkit as
 
 1. [Goals](#readme-goals)
 2. [Install](#readme-install)
-3. [Sass features](#readme-sass-features)
-4. [JS features](#readme-js-features)
-5. [What sugar does not](#readme-does-not)
-6. [Other tools integration](#readme-tools-integration)
-7. [Contribute](#readme-contribute)
-8. [Browsers support](#readme-browsers-support)
-9. [License](#readme-license)
-10. [Who are Coffeekraken](#readme-who-are-coffeekraken)
+3. [Get started](#readme-get-started)
+4. [Sass features](#readme-sass-features)
+5. [JS features](#readme-js-features)
+6. [What sugar does not](#readme-does-not)
+7. [Other tools integration](#readme-tools-integration)
+8. [Contribute](#readme-contribute)
+9. [Browsers support](#readme-browsers-support)
+10. [License](#readme-license)
+11. [Who are Coffeekraken](#readme-who-are-coffeekraken)
 
 <a id="readme-goals"></a>
 ## Goals
@@ -80,8 +81,6 @@ Release the kraken !!! 🦑
 Here's how to get started quickly:
 
 #### SASS (scss)
-
-Here's how to quickly start with sass integration:
 
 ```scss
 // import sugar
