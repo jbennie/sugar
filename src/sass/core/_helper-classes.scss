@@ -263,7 +263,7 @@
 	 * 	I'm left aligned
 	 * </div>
 	 */
-	text-align: left;
+	text-align: left !important;
 }
 @include s-register-class(t-right, 'sugar.text.align.right') {
 	/**
@@ -275,7 +275,7 @@
 	 * 	I'm right aligned
 	 * </div>
 	 */
-	text-align: right;
+	text-align: right !important;
 }
 @include s-register-class(t-center, 'sugar.text.align.center') {
 	/**
@@ -287,7 +287,7 @@
 	 * 	I'm centered
 	 * </div>
 	 */
-	text-align: center;
+	text-align: center !important;
 }
 @include s-register-class(t-justify, 'sugar.text.align.justify') {
 	/**
@@ -299,7 +299,7 @@
 	 * 	Nullam vel feugiat nunc. Phasellus facilisis, nisi sit amet viverra rhoncus, arcu risus volutpat dolor, sed euismod magna tellus ac purus. Praesent augue lorem, ullamcorper ac accumsan nec, suscipit eu.
 	 * </div>
 	 */
-	text-align: justify;
+	text-align: justify !important;
 }
 @include s-register-class(t-lowercase, 'sugar.text.transform.lowercase') {
 	/**
@@ -311,7 +311,7 @@
 	 * 	I'M LOWERCASE
 	 * </div>
 	 */
-	text-transform: lowercase;
+	text-transform: lowercase !important;
 }
 @include s-register-class(t-uppercase, 'sugar.text.transform.uppercase') {
 	/**
@@ -323,7 +323,7 @@
 	 * 	I'm uppercase
 	 * </div>
 	 */
-	text-transform: uppercase;
+	text-transform: uppercase !important;
 }
 @include s-register-class(t-capitalize, 'sugar.text.transform.capitalize') {
 	/**
@@ -335,7 +335,7 @@
 	 * 	I'm capitalized
 	 * </div>
 	 */
-	text-transform: capitalize;
+	text-transform: capitalize !important;
 }
 
 //

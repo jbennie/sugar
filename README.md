@@ -158,7 +158,7 @@ Here's a list of features that the toolkit will offer you. **Don't worry**, it s
 	- Helper mixins
 	- Ensure a consistent feel across your website
 	- [And more...](doc/sass/look-and-feel.md)
-- **[Filters](doc/sass/filters)** : Manage and keep your filters organized
+- **[Filters](doc/sass/filters.md)** : Manage and keep your filters organized
 	- Named filters
 	- Helper mixins
 	- Helper classes (optional)
