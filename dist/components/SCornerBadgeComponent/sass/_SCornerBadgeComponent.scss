@@ -1,42 +1,33 @@
-$_s-corner-badge-component-inited : false;
-@mixin s-corner-badge-component-init() {
-	@if not $_s-corner-badge-component-inited {
-		$_s-corner-badge-component-inited : true ! global;
+%corner-badge {
+	position: absolute;
+	display: block;
 
-		%corner-badge {
-			position: absolute;
-			display: block;
+	> * {
+		position:relative;
 
-			> * {
-				position:relative;
-
-			}
-
-			&:before {
-				content:'';
-				display:block;
-				position: absolute;
-				border-style: solid;
-				border-color: transparent;
-			}
-		}
+	}
+	&:before {
+		content:'';
+		display:block;
+		position: absolute;
+		border-style: solid;
+		border-color: transparent;
 	}
 }
 
-@mixin s-corner-badge-component(
+@mixin s-corner-badge-classes(
 	$corners : tl tr bl br,
 	$colors : null
 ) {
-	@include s-corner-badge-component-bare($corners);
+	@include s-corner-badge-classes-bare($corners);
 	@if $colors {
-		@include s-corner-badge-component-style($colors);
+		@include s-corner-badge-classes-style($colors);
 	}
 }
 
-@mixin s-corner-badge-component-bare(
+@mixin s-corner-badge-classes-bare(
 	$corners : tl tr bl br
 ) {
-	@include s-corner-badge-component-init();
 	@include s-component('corner-badge') {
 
 		// @TODO parse properties
@@ -45,8 +36,8 @@ $_s-corner-badge-component-inited : false;
 
 		.#{s-component()} {
 			@extend %corner-badge;
-	        $w : s-lnf(padding-vertical) * 2 + s-lnf(font-size);
-	    	font-size : s-lnf(font-size);
+	        $w : s-lnf(padding-vertical) * 2 + 1em;
+	    	font-size : 1em;
 	    	width: $w;
 	    	height: $w;
 	    	padding: s-lnf(padding-vertical) * .4;
@@ -137,12 +128,12 @@ $_s-corner-badge-component-inited : false;
 	}
 }
 
-@mixin s-corner-badge-component-style(
+@mixin s-corner-badge-classes-style(
 	$colors : default primary secondary
 ) {
 	// @TODO parse properties
 	@if $_sugar-test-arguments {
-		// $colors : s-test-argument('s-corner-badge-component-style','colors',map-keys(s-setting('colors')),$colors);
+		// $colors : s-test-argument('s-corner-badge-classes-style','colors',map-keys(s-setting('colors')),$colors);
 	}
 	@include s-component('corner-badge') {
 		.#{s-component()} {

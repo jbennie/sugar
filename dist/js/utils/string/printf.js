@@ -5,7 +5,7 @@ exports.default = printf;
 /**
  * printf php equavalent
  * @param 		{String} 						source 			The source in which to replace the tokens
- * @param 		{Object}{Array}{...} 			values 			An object/array/list of values to replace
+ * @param 		{Object|Array|...} 			values 			An object/array/list of values to replace
  * @return 	{String} 										The resulting string
  *
  * @example

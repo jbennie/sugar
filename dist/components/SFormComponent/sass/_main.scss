@@ -13,23 +13,10 @@
 }
 %s-form-field-style {
 	border-width:1px;
-	border-bottom-width : 3px;
 	border-style : solid;
 
-	[data-input-activator]:focus ~ &,
-	&:focus {
-		border-left-width : 5px;
-	}
 	&:disabled {
 		cursor: not-allowed;
-	}
-}
-
-$_s-form-input-component-inited : false;
-@mixin s-form-component-init() {
-	@if not $_s-form-input-component-inited {
-		$_s-form-input-component-inited : true !global;
-
 	}
 }
 
@@ -43,20 +30,17 @@ $_s-form-input-component-inited : false;
 }
 @mixin s-form-field-color($color) {
 	border-color: s-color($color, -opacity .1);
-	border-bottom-color: s-color($color, -opacity .3);
 
 	[data-input-activator]:focus ~ &,
 	[data-input-activator]:checked ~ &,
-	&:hover:not(:disabled),
-	&:focus:not(:disabled),
-	&.active:not(:disabled) {
+	&:hover:not(:disabled) {
 		border-bottom-color: s-color($color, -opacity .6);
 	}
 	[data-input-activator]:focus ~ &,
 	[data-input-activator]:checked ~ &,
 	&:focus:not(:disabled),
 	&.active:not(:disabled) {
-		border-left-color: s-color($color, -opacity .6);
+		border-color: s-color($color, -opacity .6);
 	}
 }
 
@@ -68,16 +52,14 @@ $_s-form-input-component-inited : false;
 }
 
 @mixin s-form-input-bare() {
-	@include s-form-component-init();
 	@extend %s-form-field-bare;
-	@include s-font(s-setting('typo.font-family'));
+	@include s-font(s-setting('typography.font-family'));
 	@include s-form-field-size();
 }
 
 @mixin s-form-input-style(
 	$color : default
 ) {
-	@include s-form-component-init();
 	@extend %s-form-field-style;
 	color: s-color(text);
 	@include s-transition(fast);
@@ -103,15 +85,13 @@ $_s-form-input-component-inited : false;
 	display: inline-block;
 }
 @mixin s-form-textarea-bare() {
-	@include s-form-component-init();
 	@extend %s-form-field-bare;
-	@include s-font(s-setting('typo.font-family'));
+	@include s-font(s-setting('typography.font-family'));
 	@include s-form-textarea-field-size();
 }
 @mixin s-form-textarea-style(
 	$color : default
 ) {
-	@include s-form-component-init();
 	@extend %s-form-field-style;
 	color: s-color(text);
 	@include s-transition(fast);
@@ -136,9 +116,8 @@ $_s-form-input-component-inited : false;
 	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A#{str-replace("#{s-color($color)}","#","%23")}"></polygon></svg>');
 }
 @mixin s-form-select-bare() {
-	@include s-form-component-init();
 	@extend %s-form-field-bare;
-	@include s-font(s-setting('typo.font-family'));
+	@include s-font(s-setting('typography.font-family'));
 	background-size: 9px 6px;
 	background-position: right center;
 	background-origin: content-box;
@@ -149,7 +128,6 @@ $_s-form-input-component-inited : false;
 @mixin s-form-select-style(
 	$color : default
 ) {
-	@include s-form-component-init();
 	@extend %s-form-field-style;
 	color: s-color(text);
 	@include s-transition(fast);

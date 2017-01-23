@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "main": "index.js",
   "scripts": {
-    "dist": "m -rf dist npm run dist.js && npm run dist.components.scss && npm run dist.webcomponents.scss",
+    "dist": "rm -rf dist && npm run dist.js && npm run dist.components.scss",
     "dist.js": "babel src -d dist",
     "dist.components.scss": "copyfiles -u 2 './src/components/**/*.scss' ./dist/components",
     "dist.webcomponents.scss": "copyfiles -u 2 './src/webcomponents/**/*.scss' ./dist/webcomponents",

@@ -1,11 +1,11 @@
-@mixin s-table-component(
+@mixin s-table-classes(
     $colors : default primary secondary
 ) {
-    @include s-table-component-bare();
-    @include s-table-component-style($colors);
+    @include s-table-classes-bare();
+    @include s-table-classes-style($colors);
 }
 
-@mixin s-table-component-style(
+@mixin s-table-classes-style(
     $colors : default primary secondary
 ) {
     @include s-component('table') {
@@ -41,7 +41,8 @@
 				 * 	</tr>
 				 * </table>
 				 */
-				&.#{s-component()}--#{$color} {
+				$sel : #{s-component()}--#{$color};
+				&.#{s-selector($sel)} {
 
 					th {
 						color: s-color($color);
@@ -49,7 +50,7 @@
 
 					/**
 					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> striped #{s-component()}
-					 * Display #{$color} table contents
+					 * Display #{$color} striped table contents
 					 * @styleguide 		Components / #{_start-case(s-component())}
 					 * @example 		html
 					 * <table class="#{s-component()} #{s-component()}--#{$color} #{s-component()}--striped">
@@ -153,7 +154,7 @@
     }
 }
 
-@mixin s-table-component-bare(
+@mixin s-table-classes-bare(
 ) {
 	@include s-component('table') {
 

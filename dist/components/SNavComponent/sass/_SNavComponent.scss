@@ -1,19 +1,12 @@
-$_s-nav-component-inited : false;
-@mixin s-nav-component-init() {
-	@if not $_s-nav-component-inited {
-		$_s-nav-component-inited : true !global;
-		%s-nav-component-bare {
-			list-style: none;
-			padding: 0;
-			margin: 0;
-			user-select:none;
-		}
-	}
+%s-nav-bare {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	user-select:none;
 }
 
-@mixin s-nav-justify-component-bare() {
+@mixin s-nav-justify-classes-bare() {
 
-	@include s-nav-component-init();
 	@include s-component('nav') {
 		/**
 		 * @name 	#{_start-case(s-component())} justify
@@ -33,7 +26,7 @@ $_s-nav-component-inited : false;
 		 * </ul>
 		 */
 		.#{s-component()}--justify {
-			@extend %s-nav-component-bare;
+			@extend %s-nav-bare;
 			display: table;
 			width: 100%;
 
@@ -52,9 +45,8 @@ $_s-nav-component-inited : false;
 	}
 }
 
-@mixin s-nav-inline-component-bare() {
+@mixin s-nav-inline-classes-bare() {
 	// init nav
-	@include s-nav-component-init();
 	@include s-component('nav') {
 		/**
 		 * @name 	#{_start-case(s-component())} inline
@@ -74,7 +66,7 @@ $_s-nav-component-inited : false;
 		 * </ul>
 		 */
 		.#{s-component()}--inline {
-			@extend %s-nav-component-bare;
+			@extend %s-nav-bare;
 			display: block;
 
 			> li,
@@ -89,17 +81,16 @@ $_s-nav-component-inited : false;
 	}
 }
 
-@mixin s-nav-tabs-component(
+@mixin s-nav-tabs-classes(
 	$colors : null
 ) {
-	@include s-nav-tabs-component-bare();
+	@include s-nav-tabs-classes-bare();
 	@if $colors {
-		@include s-nav-tabs-component-style($colors);
+		@include s-nav-tabs-classes-style($colors);
 	}
 }
 
-@mixin s-nav-tabs-component-bare() {
-	@include s-nav-component-init();
+@mixin s-nav-tabs-classes-bare() {
 	@include s-component('nav') {
 		/**
 		 * @name 	#{_start-case(s-component())} tabs
@@ -119,7 +110,7 @@ $_s-nav-component-inited : false;
 		 * </ul>
 		 */
 		.#{s-component()}--tabs {
-			@extend %s-nav-component-bare;
+			@extend %s-nav-bare;
 
 			> li,
 			> .#{s-component()}__item {
@@ -139,19 +130,17 @@ $_s-nav-component-inited : false;
 	}
 }
 
-@mixin s-nav-tabs-component-style(
+@mixin s-nav-tabs-classes-style(
 	$colors : default primary secondary
 ) {
 	// init nav
-	@include s-nav-component-init();
-
 	@if $_sugar-test-arguments {
-		// $colors : s-test-argument('s-nav-component-tabs','colors',map-keys(s-setting('colors')),$colors);
+		// $colors : s-test-argument('s-nav-classes-tabs','colors',map-keys(s-setting('colors')),$colors);
 	}
 	@include s-component('nav') {
 
 		.#{s-component()}--tabs {
-			@extend %s-nav-component-bare;
+			@extend %s-nav-bare;
 			@include s-corner(
 				$top-left : s-lnf(border-radius),
 				$top-right : s-lnf(border-radius)

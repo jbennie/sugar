@@ -67,7 +67,7 @@ export default function propertyProxy(obj, property, descriptor, applySetterAtSt
 				_val = descriptor.get(_val);
 			}
 			if (currentDescriptor && currentDescriptor.get) {
-				_val = descriptor.get();
+				_val = currentDescriptor.get();
 			}
 			return _val;
 		},

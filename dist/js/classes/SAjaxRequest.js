@@ -7,7 +7,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 /**
  * @class 		SAjaxRequest
  * Class that represent an ajax request that will be passed to an SAjax instance
- *
  * @example 	js
  * const request = new SAjaxRequest({
  *  	url : '/api/...',
@@ -16,7 +15,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  *  		myVar : 'myVal'
  *  	}
  * });
- *
  * @author 		Olivier Bossel<olivier.bossel@gmail.com>
  */
 var SAjaxRequest = function () {
@@ -30,28 +28,24 @@ var SAjaxRequest = function () {
 	/**
   * Set the Authorization header
   * @type 		{String}
-  * @default 	null
   */
 
 
 	/**
   * Set the content type header to send with the request
   * @type 		{String}
-  * @default 	null
   */
 
 
 	/**
   * The data that will be sent with the request in JSON format
   * @type 		{Object}
-  * @default 	null
   */
 
 
 	/**
   * Use the CORS or not (only for IE)
   * @type 		{Boolean}
-  * @default 	true
   */
 
 
@@ -89,14 +83,12 @@ var SAjaxRequest = function () {
 	/**
   * Set additional headers to send with the request
   * @type 		{Object}
-  * @default 	null
   */
 
 
 	/**
   * Set the X-Requested-With header
   * @type 		{String}
-  * @default 	XMLHttpRequest
   */
 
 
@@ -104,21 +96,18 @@ var SAjaxRequest = function () {
   * The data type expected from the response
   * Accepted dataType are : text | json | html
   * @type 		{String}
-  * @default 	text
   */
 
 
 	/**
   * Use the cache or not
   * @type 		{Boolean}
-  * @default 	true
   */
 
 
 	/**
   * The request method to use like GET, POST, DELETE or PUT
   * @type 		{String}
-  * @default 	GET
   */
 
 

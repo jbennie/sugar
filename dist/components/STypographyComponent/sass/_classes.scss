@@ -3,35 +3,39 @@
  * @param 		{Color} 	[$color=primary] 		The main color used to generate the texts styles
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-component(
+@mixin s-typography-classes(
 	$color : primary
 ) {
 	// titles
-	@include s-typography-titles-component();
+	@include s-typography-titles-classes();
 	// paragraphs
-	@include s-typography-paragraphs-component();
+	@include s-typography-paragraphs-classes();
 	// links
-	@include s-typography-links-component($color);
+	@include s-typography-links-classes($color);
 	// inline texts
-	@include s-typography-inline-texts-component($color);
+	@include s-typography-inline-texts-classes($color);
 	// lists
-	@include s-typography-lists-component($color);
+	@include s-typography-lists-classes($color);
+	// captions
+	@include s-typography-captions-classes();
+	// quotes
+	@include s-typography-quotes-classes();
 }
 
 /**
  * Provide the styling for the titles classes
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-titles-component() {
-	@include s-typography-titles-component-bare();
-	@include s-typography-titles-component-style();
+@mixin s-typography-titles-classes() {
+	@include s-typography-titles-classes-bare();
+	@include s-typography-titles-classes-style();
 }
 
 /**
  * Provide the bare styling for the titles classes
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-titles-component-bare() {
+@mixin s-typography-titles-classes-bare() {
 	/**
 	 * @name 	h1
 	 * h1 title styling
@@ -117,9 +121,17 @@
 		@include s-typography-title-bare(1em);
 	}
 	// vertical rhythme
-	h1,h2,h3,h4,h5,h6 {
+	h1,h2,h3,h4,h5,h6,
+	.h1,.h2,.h3,.h4,.h5,.h6 {
 		@include s-vertical-rhythme() {
-			margin-bottom: 1em;
+			// margin-top:.5em;
+			margin-bottom:1em;
+			// &:first-child {
+			// 	margin-top:0;
+			// }
+			&:last-child {
+				margin-bottom:0;
+			}
 		}
 	}
 }
@@ -128,7 +140,7 @@
  * Provide the style styling for the titles classes
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-titles-component-style() {
+@mixin s-typography-titles-classes-style() {
 	.h1,
 	.#{s-setting('text-format.scope-class')} h1 {
 		@include s-typography-title-style(3.5em);
@@ -159,16 +171,16 @@
  * Provide the styling for the paragraphs classes
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-paragraphs-component() {
-	@include s-typography-paragraphs-component-bare();
-	@include s-typography-paragraphs-component-style();
+@mixin s-typography-paragraphs-classes() {
+	@include s-typography-paragraphs-classes-bare();
+	@include s-typography-paragraphs-classes-style();
 }
 
 /**
  * Provide the bare styling for the ```.p``` and ```.p--lead``` classes
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-paragraphs-component-bare() {
+@mixin s-typography-paragraphs-classes-bare() {
 	/**
 	 * @name 	Default
 	 * Default paragraph styling
@@ -209,7 +221,14 @@
 	// vertical rhythme
 	p,.p {
 		@include s-vertical-rhythme() {
-			margin-bottom: 1em;
+			// margin-top:.5em;
+			margin-bottom:1em;
+			// &:first-child {
+			// 	margin-top:0;
+			// }
+			&:last-child {
+				margin-bottom:0;
+			}
 		}
 	}
 }
@@ -218,7 +237,7 @@
  * Provide the bare styling for the ```.p``` class
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-paragraphs-component-style() {
+@mixin s-typography-paragraphs-classes-style() {
 	.p,
 	.#{s-setting('text-format.scope-class')} p {
 		@include s-typography-paragraph-style();
@@ -230,18 +249,18 @@
  * @param 		{Color} 		[$color=primary] 		The color used to style links
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-links-component(
+@mixin s-typography-links-classes(
 	$color : primary
 ) {
-	@include s-typography-links-component-bare();
-	@include s-typography-links-component-style($color);
+	@include s-typography-links-classes-bare();
+	@include s-typography-links-classes-style($color);
 }
 
 /**
  * Provide the bare styling for the links classes
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-links-component-bare() {
+@mixin s-typography-links-classes-bare() {
 	.link,
 	.#{s-setting('text-format.scope-class')} a {
 		@include s-typography-link-bare();
@@ -252,7 +271,7 @@
  * @param 		{Color} 		[$color=primary] 		The color used to style links
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-links-component-style(
+@mixin s-typography-links-classes-style(
 	$color : primary
 ) {
 	.link,
@@ -266,18 +285,18 @@
  * @param 		{Color} 		[$color=primary] 		The color used to style different inline text elements
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-inline-texts-component(
+@mixin s-typography-inline-texts-classes(
 	$color : primary
 ) {
-	@include s-typography-inline-texts-component-bare();
-	@include s-typography-inline-texts-component-style($color);
+	@include s-typography-inline-texts-classes-bare();
+	@include s-typography-inline-texts-classes-style($color);
 }
 
 /**
  * Provide the bare styling for the inline-text classes
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-inline-texts-component-bare() {
+@mixin s-typography-inline-texts-classes-bare() {
 	/**
 	 * @name 		Marked text
 	 * For highlighting a run of text due to its relevance in another context, use the ```mark``` tag.
@@ -396,7 +415,7 @@
  * @param 		{Color} 		[$color=primary] 		The color used to style different inline text elements
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-inline-texts-component-style(
+@mixin s-typography-inline-texts-classes-style(
 	$color : primary
 ) {
 	.mark,
@@ -438,18 +457,18 @@
  * @param 		{Color} 		[$color=primary] 		The color used to style bullets
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-lists-component(
+@mixin s-typography-lists-classes(
 	$color : primary
 ) {
-	@include s-typography-lists-component-bare();
-	@include s-typography-lists-component-style($color);
+	@include s-typography-lists-classes-bare();
+	@include s-typography-lists-classes-style($color);
 }
 
 /**
  * Provide the bare styling for the lists classes
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-lists-component-bare() {
+@mixin s-typography-lists-classes-bare() {
 	/**
 	 * @name 	Description list
 	 * A list of terms with their associated descriptions.
@@ -524,13 +543,33 @@
 	.#{s-setting('text-format.scope-class')} ol > li {
 		@include s-typography-list-bare(ol li);
 	}
+
+	// vertucal rhythme
+	dl, ul, ol,
+	.dl, .ul, .ol {
+		@include s-vertical-rhythme() {
+			// margin-top:.5em;
+			margin-bottom:1em;
+			// &:first-child {
+			// 	margin-top:0;
+			// }
+			&:last-child {
+				margin-bottom:0;
+			}
+			dl, ul, ol,
+			.dl, .ul, .ol {
+				margin-top:.5em;
+				margin-bottom:.5em;
+			}
+		}
+	}
 }
 /**
  * Provide the style styling for the lists classes
  * @param 		{Color} 		[$color=primary] 		The color used to style bullets
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-lists-component-style(
+@mixin s-typography-lists-classes-style(
 	$color : primary
 ) {
 	.dl,
@@ -562,5 +601,122 @@
 	.ol > li,
 	.#{s-setting('text-format.scope-class')} ol > li {
 		@include s-typography-list-style(ol li, $color);
+	}
+}
+
+/**
+ * Provide the styling for the captions classes
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-captions-classes() {
+	@include s-typography-captions-classes-bare();
+	@include s-typography-captions-classes-style();
+}
+
+/**
+ * Provide the bare styling for the captions classes
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-captions-classes-bare() {
+	/**
+	 * @name 		Default caption
+	 * Display a caption styled text
+	 * @styleguide 	Typography / Caption
+	 * @example 	html
+	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * 	<div class="caption">
+	 * 		Nunc venenatis, odio at porta egestas, tortor eros mollis sapien.
+	 * 	</div>
+	 * </div>
+	 */
+	.caption,
+	.#{s-setting('text-format.scope-class')} caption,
+	.#{s-setting('text-format.scope-class')} figcaption {
+		@include s-typography-caption-bare();
+	}
+
+	// vertucal rhythme
+	.caption,
+	caption,
+	figcaption {
+		@include s-vertical-rhythme() {
+			// margin-top:.5em;
+			margin-bottom:1em;
+			// &:first-child {
+			// 	margin-top:0;
+			// }
+			&:last-child {
+				margin-bottom:0;
+			}
+		}
+	}
+}
+/**
+ * Provide the style styling for the captions classes
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-captions-classes-style() {
+	.caption,
+	.#{s-setting('text-format.scope-class')} caption,
+	.#{s-setting('text-format.scope-class')} figcaption {
+		@include s-typography-caption-style();
+	}
+}
+
+/**
+ * Provide the styling for the quotes classes
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-quotes-classes() {
+	@include s-typography-quotes-classes-bare();
+	@include s-typography-quotes-classes-style();
+}
+
+/**
+ * Provide the bare styling for the quotes classes
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-quotes-classes-bare() {
+	/**
+	 * @name 		Default quote
+	 * Display a quote styled text
+	 * @styleguide 	Typography / Quote
+	 * @example 	html
+	 * <div class="#{s-setting('text-format.scope-class')}">
+	 * 	<quote>
+	 * 		Nunc venenatis, odio at porta egestas, tortor eros mollis sapien.
+	 * 	</quote>
+	 * 	<div class="caption pull-right">
+	 *  	John Doe
+	 * 	</div>
+	 * </div>
+	 */
+	.quote,
+	.#{s-setting('text-format.scope-class')} quote {
+		@include s-typography-quote-bare();
+	}
+	// vertucal rhythme
+	.quote,
+	quote {
+		@include s-vertical-rhythme() {
+			// margin-top:.5em;
+			margin-bottom:1em;
+			// &:first-child {
+			// 	margin-top:0;
+			// }
+			&:last-child {
+				margin-bottom:0;
+			}
+		}
+	}
+}
+/**
+ * Provide the style styling for the quotes classes
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-typography-quotes-classes-style() {
+	.quote,
+	.#{s-setting('text-format.scope-class')} quote {
+		@include s-typography-quote-style();
 	}
 }
