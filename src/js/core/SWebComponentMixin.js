@@ -312,6 +312,9 @@ export default Mixin((superclass) => class extends superclass {
 	*/
 	componentWillMount() {
 
+		// update lifecycle state
+		this._lifecycle.componentWillMount = true;
+
 		// dispatch event
 		this.onComponentWillMount && this.onComponentWillMount();
 		// this.dispatchComponentEvent('componentWillMount');
@@ -375,6 +378,8 @@ export default Mixin((superclass) => class extends superclass {
 		* @author 		Olivier Bossel <olivier.bossel@gmail.com>
 		*/
 		componentMount() {
+			// update the lifecycle state
+			this._lifecycle.componentMount = true;
 			// update the status
 			this._componentMounted = true;
 			// dispatch event
@@ -395,6 +400,8 @@ export default Mixin((superclass) => class extends superclass {
 		* @author 		Olivier Bossel <olivier.bossel@gmail.com>
 		*/
 		componentDidMount() {
+			// update lifecycle state
+			this._lifecycle.componentDidMount = true;
 			// dispatch event
 			this.onComponentDidMount && this.onComponentDidMount();
 			// this.dispatchComponentEvent('componentDidMount');
@@ -448,12 +455,16 @@ export default Mixin((superclass) => class extends superclass {
 		}
 
 		componentWillUnmount() {
+			// update lifecycle state
+			this._lifecycle.componentWillUnmount = true;
 			// dispatch event
 			this.onComponentWillUnmount && this.onComponentWillUnmount();
 			// this.dispatchComponentEvent('componentWillUnmount');
 		}
 
 		componentUnmount() {
+			// update lifecycle state
+			this._lifecycle.componentUnmount = true;
 			// update the status
 			this._componentMounted = false;
 			// dispatch event
@@ -462,6 +473,8 @@ export default Mixin((superclass) => class extends superclass {
 		}
 
 		componentDidUnmount() {
+			// update lifecycle state
+			this._lifecycle.componentDidUnmount = true;
 			// dispatch event
 			this.onComponentDidUnmount && this.onComponentDidUnmount();
 			// this.dispatchComponentEvent('componentDidUnmount');
@@ -471,6 +484,18 @@ export default Mixin((superclass) => class extends superclass {
 		* When the component is created
 		*/
 		createdCallback() {
+			if ( ! document.body.contains(this)) return;
+
+			// track the lifecyle
+			this._lifecycle = {
+				componentWillMount : false,
+				componentMount : false,
+				componentDidMount : false,
+				componentWillUnmount : false,
+				componentUnmount : false,
+				componentDidUnmount : false
+			};
+
 			// component will mount only if part of the active document
 			this.componentWillMount();
 		}
@@ -479,6 +504,12 @@ export default Mixin((superclass) => class extends superclass {
 		* When the element is attached
 		*/
 		attachedCallback() {
+
+			// check if need to launch the will mount
+			if ( ! this._lifecycle.componentWillMount) {
+				this.componentWillMount();
+			}
+
 			// update attached status
 			this._componentAttached = true;
 
@@ -700,7 +731,7 @@ export default Mixin((superclass) => class extends superclass {
 				}
 
 				// should component update
-				if (this.shouldComponentUpdate && ! this.shouldComponentUpdate(this._nextPropsStack, nextPropsArray)) return;
+				if (this.shouldComponentUpdate && ! this.shouldComponentUpdate(this._nextPropsStack, this._prevPropsStack)) return;
 
 				// component will update
 				this.componentWillUpdate(this._nextPropsStack, nextPropsArray);

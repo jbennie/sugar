@@ -233,6 +233,9 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		_class2.prototype.componentWillMount = function componentWillMount() {
 			var _this2 = this;
 
+			// update lifecycle state
+			this._lifecycle.componentWillMount = true;
+
 			// dispatch event
 			this.onComponentWillMount && this.onComponentWillMount();
 			// this.dispatchComponentEvent('componentWillMount');
@@ -298,6 +301,8 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 
 		_class2.prototype.componentMount = function componentMount() {
+			// update the lifecycle state
+			this._lifecycle.componentMount = true;
 			// update the status
 			this._componentMounted = true;
 			// dispatch event
@@ -320,6 +325,8 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 
 		_class2.prototype.componentDidMount = function componentDidMount() {
+			// update lifecycle state
+			this._lifecycle.componentDidMount = true;
 			// dispatch event
 			this.onComponentDidMount && this.onComponentDidMount();
 			// this.dispatchComponentEvent('componentDidMount');
@@ -377,12 +384,16 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		};
 
 		_class2.prototype.componentWillUnmount = function componentWillUnmount() {
+			// update lifecycle state
+			this._lifecycle.componentWillUnmount = true;
 			// dispatch event
 			this.onComponentWillUnmount && this.onComponentWillUnmount();
 			// this.dispatchComponentEvent('componentWillUnmount');
 		};
 
 		_class2.prototype.componentUnmount = function componentUnmount() {
+			// update lifecycle state
+			this._lifecycle.componentUnmount = true;
 			// update the status
 			this._componentMounted = false;
 			// dispatch event
@@ -391,6 +402,8 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		};
 
 		_class2.prototype.componentDidUnmount = function componentDidUnmount() {
+			// update lifecycle state
+			this._lifecycle.componentDidUnmount = true;
 			// dispatch event
 			this.onComponentDidUnmount && this.onComponentDidUnmount();
 			// this.dispatchComponentEvent('componentDidUnmount');
@@ -402,6 +415,18 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 
 		_class2.prototype.createdCallback = function createdCallback() {
+			if (!document.body.contains(this)) return;
+
+			// track the lifecyle
+			this._lifecycle = {
+				componentWillMount: false,
+				componentMount: false,
+				componentDidMount: false,
+				componentWillUnmount: false,
+				componentUnmount: false,
+				componentDidUnmount: false
+			};
+
 			// component will mount only if part of the active document
 			this.componentWillMount();
 		};
@@ -413,6 +438,11 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 		_class2.prototype.attachedCallback = function attachedCallback() {
 			var _this3 = this;
+
+			// check if need to launch the will mount
+			if (!this._lifecycle.componentWillMount) {
+				this.componentWillMount();
+			}
 
 			// update attached status
 			this._componentAttached = true;
@@ -668,7 +698,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 				}
 
 				// should component update
-				if (_this8.shouldComponentUpdate && !_this8.shouldComponentUpdate(_this8._nextPropsStack, nextPropsArray)) return;
+				if (_this8.shouldComponentUpdate && !_this8.shouldComponentUpdate(_this8._nextPropsStack, _this8._prevPropsStack)) return;
 
 				// component will update
 				_this8.componentWillUpdate(_this8._nextPropsStack, nextPropsArray);

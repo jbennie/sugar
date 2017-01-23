@@ -111,37 +111,11 @@ export default class STemplate {
 	settings = {
 
 		/**
-		 * A compile function to process the template
-		 * This function will revieve the template and the data as parameters
-		 * and need to return the compiled string version
-		 * @setting
-		 * @type 		{Function}
-		 * @default 	null
-		 */
-		compile : null,
-
-		/**
 		 * Function called when a data is updated with his new and old value as parameter
 		 * @setting
 		 * @type 		{Function}
 		 */
 		onDataUpdate : null,
-
-		/**
-		 * Function that runs before the template will be compiled so that you can have a change to process it if needed
-		 * before it will be passed to the compile step
-		 * @param 		{String} 				template 				The template before compilation
-		 * @return 		{String} 										The processed template to pass to compilation step
-		 */
-		beforeCompile : null,
-
-		/**
-		 * Function that runs after the template has been compiled so that you can have a chance to process it if needed
-		 * before that the dom will be updated
-		 * @param 		{String} 			 	compiledTemplate 		The compiled template
-		 * @return 		{String|HTMLElement} 							The processed template
-		 */
-		afterCompile : null,
 
 		/**
 		 * Function that runs before the template will be rendered in the dom so that you can have a change to process it if needed
@@ -210,14 +184,8 @@ export default class STemplate {
 		// generate a uniqid for the template
 		this.templateId = this.settings.id || __uniqid();
 
-		// save the template
+		// set the template
 		this.templateString = templateString;
-
-		// save the template string version
-		this.templateString = this.templateString.replace('>', ` s-template-id="${this.templateId}">`);
-
-		// apply a node id to each nodes
-		this.templateString = this._applyTemplateNodeIdAttribute(this.templateString);
 
 		// set the data into instance
 		this.data = data;
@@ -249,6 +217,9 @@ export default class STemplate {
 
 		// watch each data
 		for (let name in this.data) {
+			if (name === 'sTemplate') {
+				continue;
+			}
 			__propertyProxy(this.data, name, {
 				set : (value) => {
 					if (typeof(value) === 'string') {
@@ -339,6 +310,26 @@ export default class STemplate {
 	}
 
 	/**
+	 * Set the template string
+	 * @param 		{String} 	template 	The template string
+	 */
+	set templateString(templateString) {
+		// save the template
+		this._templateString = templateString;
+
+		// apply a node id to each nodes
+		this._templateString = this._applyTemplateNodeIdAttribute(this.templateString);
+	}
+
+	/**
+	 * Get the template
+	 * @type 	{String}
+	 */
+	get templateString() {
+		return this._templateString;
+	}
+
+	/**
 	 * _getParentTemplate
 	 * Return the parent template instance if exist
 	 * @return 	{STemplate}
@@ -393,17 +384,6 @@ export default class STemplate {
 	}
 
 	/**
-	 * Compile the template
-	 * @protected
-	 * @param 		{String} 	template 	The template to compile
-	 * @param 		{Object} 	data 		The data used to compile the template
-	 * @return		{String} 				The compiled template string
-	 */
-	_compile(template, data) {
-		return template;
-	}
-
-	/**
 	 * Render the template
 	 * Usually, you don't need to call this by yourself. The template
 	 * will be rendered again each time that a data is updated
@@ -420,29 +400,13 @@ export default class STemplate {
 	 * Render the template
 	 */
 	_internalRender() {
-
 		// check if the template need to render itself again or not
 		if (this.settings.shouldTemplateUpdate) {
-			if (this.settings.shouldTemplateUpdate(Object.assign({}, this._updatedDataStack)) === false) return;
-		}
-
-		// copy the templateString before compilation
-		let templateString = this.templateString;
-
-		// process the template before compile it
-		if (this.settings.beforeCompile) {
-			templateString = this.settings.beforeCompile(templateString);
+			if (this.settings.shouldTemplateUpdate(this._updatedDataStack) === false) return;
 		}
 
 		// compile the template
-		let compiled = '';
-		if (this.settings.compile) {
-			compiled = this.settings.compile(templateString, this.data);
-		} else {
-			compiled = this._compile(templateString, this.data);
-		}
-		// process compiled template
-		compiled = this._processOutput(compiled);
+		let compiled = this.templateString;
 
 		// remove all the elements that need to be fully refreshed
 		[].forEach.call(this.domNode.querySelectorAll(`[s-template-refresh]`), (elm) => {
@@ -454,6 +418,11 @@ export default class STemplate {
 		if (this.settings.beforeRender) {
 			compiled = this.settings.beforeRender(compiled);
 		}
+
+		// process compiled template
+		compiled = this._processOutput(compiled);
+
+		console.error('patch node', compiled);
 
 		// patch dom
 		this.domNode = this.patchDom(compiled);
@@ -481,11 +450,9 @@ export default class STemplate {
 	 */
 	patchDom(compiledTemplate) {
 
-		// compiledTemplate.split("\n").forEach((line) => {
-		// 	console.log(line);
-		// });
 		let dom;
 		if (this.domNode.innerHTML.trim() === '') {
+			console.warn('this', this);
 			dom = morphdom(this.domNode, compiledTemplate.trim());
 		} else {
 			// set the new html
@@ -773,13 +740,6 @@ export default class STemplate {
 	 */
 	_processOutput(renderedTemplate) {
 		let ret = renderedTemplate;
-
-		// after compile callback
-		// to have a chance to process the template
-		// from outside
-		if (this.settings.afterCompile) {
-			ret = this.settings.afterCompile(ret);
-		}
 
 		// apply template node id where there's not one for now
 		ret = this._applyTemplateNodeIdAttribute(ret);

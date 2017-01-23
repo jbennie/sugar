@@ -6,6 +6,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _dispatchEvent = require('../dom/dispatchEvent');
 
 var _dispatchEvent2 = _interopRequireDefault(_dispatchEvent);
@@ -189,37 +191,11 @@ var STemplate = function () {
 		this.settings = {
 
 			/**
-    * A compile function to process the template
-    * This function will revieve the template and the data as parameters
-    * and need to return the compiled string version
-    * @setting
-    * @type 		{Function}
-    * @default 	null
-    */
-			compile: null,
-
-			/**
     * Function called when a data is updated with his new and old value as parameter
     * @setting
     * @type 		{Function}
     */
 			onDataUpdate: null,
-
-			/**
-    * Function that runs before the template will be compiled so that you can have a change to process it if needed
-    * before it will be passed to the compile step
-    * @param 		{String} 				template 				The template before compilation
-    * @return 		{String} 										The processed template to pass to compilation step
-    */
-			beforeCompile: null,
-
-			/**
-    * Function that runs after the template has been compiled so that you can have a chance to process it if needed
-    * before that the dom will be updated
-    * @param 		{String} 			 	compiledTemplate 		The compiled template
-    * @return 		{String|HTMLElement} 							The processed template
-    */
-			afterCompile: null,
 
 			/**
     * Function that runs before the template will be rendered in the dom so that you can have a change to process it if needed
@@ -281,14 +257,8 @@ var STemplate = function () {
 		// generate a uniqid for the template
 		this.templateId = this.settings.id || (0, _uniqid2.default)();
 
-		// save the template
+		// set the template
 		this.templateString = templateString;
-
-		// save the template string version
-		this.templateString = this.templateString.replace('>', ' s-template-id="' + this.templateId + '">');
-
-		// apply a node id to each nodes
-		this.templateString = this._applyTemplateNodeIdAttribute(this.templateString);
 
 		// set the data into instance
 		this.data = data;
@@ -321,6 +291,9 @@ var STemplate = function () {
 		// watch each data
 
 		var _loop = function _loop(name) {
+			if (name === 'sTemplate') {
+				return 'continue';
+			}
 			(0, _propertyProxy2.default)(_this.data, name, {
 				set: function set(value) {
 					if (typeof value === 'string') {
@@ -381,7 +354,9 @@ var STemplate = function () {
 		};
 
 		for (var name in this.data) {
-			_loop(name);
+			var _ret = _loop(name);
+
+			if (_ret === 'continue') continue;
 		}
 	}
 
@@ -419,12 +394,16 @@ var STemplate = function () {
 	};
 
 	/**
+  * Set the template string
+  * @param 		{String} 	template 	The template string
+  */
+
+
+	/**
   * _getParentTemplate
   * Return the parent template instance if exist
   * @return 	{STemplate}
   */
-
-
 	STemplate.prototype._getParentTemplate = function _getParentTemplate() {
 		if (this._parentTemplate) return this._parentTemplate;
 		// console.log('dom', this.domNode);
@@ -479,19 +458,6 @@ var STemplate = function () {
 	};
 
 	/**
-  * Compile the template
-  * @protected
-  * @param 		{String} 	template 	The template to compile
-  * @param 		{Object} 	data 		The data used to compile the template
-  * @return		{String} 				The compiled template string
-  */
-
-
-	STemplate.prototype._compile = function _compile(template, data) {
-		return template;
-	};
-
-	/**
   * Render the template
   * Usually, you don't need to call this by yourself. The template
   * will be rendered again each time that a data is updated
@@ -514,29 +480,13 @@ var STemplate = function () {
 
 
 	STemplate.prototype._internalRender = function _internalRender() {
-
 		// check if the template need to render itself again or not
 		if (this.settings.shouldTemplateUpdate) {
-			if (this.settings.shouldTemplateUpdate(Object.assign({}, this._updatedDataStack)) === false) return;
-		}
-
-		// copy the templateString before compilation
-		var templateString = this.templateString;
-
-		// process the template before compile it
-		if (this.settings.beforeCompile) {
-			templateString = this.settings.beforeCompile(templateString);
+			if (this.settings.shouldTemplateUpdate(this._updatedDataStack) === false) return;
 		}
 
 		// compile the template
-		var compiled = '';
-		if (this.settings.compile) {
-			compiled = this.settings.compile(templateString, this.data);
-		} else {
-			compiled = this._compile(templateString, this.data);
-		}
-		// process compiled template
-		compiled = this._processOutput(compiled);
+		var compiled = this.templateString;
 
 		// remove all the elements that need to be fully refreshed
 		[].forEach.call(this.domNode.querySelectorAll('[s-template-refresh]'), function (elm) {
@@ -548,6 +498,11 @@ var STemplate = function () {
 		if (this.settings.beforeRender) {
 			compiled = this.settings.beforeRender(compiled);
 		}
+
+		// process compiled template
+		compiled = this._processOutput(compiled);
+
+		console.error('patch node', compiled);
 
 		// patch dom
 		this.domNode = this.patchDom(compiled);
@@ -578,11 +533,9 @@ var STemplate = function () {
 	STemplate.prototype.patchDom = function patchDom(compiledTemplate) {
 		var _this3 = this;
 
-		// compiledTemplate.split("\n").forEach((line) => {
-		// 	console.log(line);
-		// });
 		var dom = void 0;
 		if (this.domNode.innerHTML.trim() === '') {
+			console.warn('this', this);
 			dom = (0, _morphdom2.default)(this.domNode, compiledTemplate.trim());
 		} else {
 			// set the new html
@@ -886,13 +839,6 @@ var STemplate = function () {
 	STemplate.prototype._processOutput = function _processOutput(renderedTemplate) {
 		var ret = renderedTemplate;
 
-		// after compile callback
-		// to have a chance to process the template
-		// from outside
-		if (this.settings.afterCompile) {
-			ret = this.settings.afterCompile(ret);
-		}
-
 		// apply template node id where there's not one for now
 		ret = this._applyTemplateNodeIdAttribute(ret);
 
@@ -936,6 +882,26 @@ var STemplate = function () {
 		// remove datas
 		this.data = null;
 	};
+
+	_createClass(STemplate, [{
+		key: 'templateString',
+		set: function set(templateString) {
+			// save the template
+			this._templateString = templateString;
+
+			// apply a node id to each nodes
+			this._templateString = this._applyTemplateNodeIdAttribute(this.templateString);
+		}
+
+		/**
+   * Get the template
+   * @type 	{String}
+   */
+		,
+		get: function get() {
+			return this._templateString;
+		}
+	}]);
 
 	return STemplate;
 }();
