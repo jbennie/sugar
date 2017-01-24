@@ -33,7 +33,6 @@ export default Mixin((superclass) => class extends superclass {
 		const componentNameDash = name;
 		window.sugar._webComponentsStack[componentName] = component;
 
-
 		// register the webcomponent
 		let webcomponent;
 		if (document.registerElement) {
@@ -257,19 +256,20 @@ export default Mixin((superclass) => class extends superclass {
 	* Return an array of props to set on the dom
 	*/
 	static get mountDependencies() {
-		// return [];
-		return [function() {
-			return new Promise((resolve, reject) => {
-				let isTemplate = false;
-				if (this._typeOf.indexOf('STemplateWebComponent')) {
-					resolve();
-				} else {
-					setTimeout(() => {
-						resolve();
-					});
-				}
-			});
-		}];
+		return [];
+		// return [function() {
+		// 	return new Promise((resolve, reject) => {
+		// 		let isTemplate = false;
+		// 		resolve();
+		// 		if (this._typeOf.indexOf('STemplateWebComponent')) {
+		// 			resolve();
+		// 		} else {
+		// 			setTimeout(() => {
+		// 				resolve();
+		// 			});
+		// 		}
+		// 	});
+		// }];
 	}
 
 	/**
@@ -333,626 +333,632 @@ export default Mixin((superclass) => class extends superclass {
 		this._componentName = __upperFirst(__camelize(sourceName));
 
 		// save each instances into the element _sComponents stack
-		this._typeOf = [];
-		let comp = window.sugar._webComponentsStack[this._componentName];
-		while(comp) {
-			let funcNameRegex = /function (.{1,})\(/;
-				const res = (funcNameRegex).exec(comp.toString());
-				if (res && res[1]) {
-					if ( this._typeOf.indexOf(res[1]) === -1) {
-						this._typeOf.push(res[1]);
-					}
-				}
-				comp = Object.getPrototypeOf(comp);
+		// this._typeOf = [];
+		// let comp = window.sugar._webComponentsStack[this._componentName];
+		// while(comp) {
+		// 	let funcNameRegex = /function (.{1,})\(/;
+		// 	const res = (funcNameRegex).exec(comp.toString());
+		// 	if (res && res[1]) {
+		// 		if ( this._typeOf.indexOf(res[1]) === -1) {
+		// 			this._typeOf.push(res[1]);
+		// 		}
+		// 	}
+		// 	comp = Object.getPrototypeOf(comp);
+		// }
+
+		// default props init
+		this.props = Object.assign({}, this.defaultProps, this.props);
+
+		// compute props
+		this._computeProps();
+
+		// props proxy
+		// this._initPropsProxy();
+
+		// check the required props
+		this.requiredProps.forEach((prop) => {
+			if ( ! this.props[prop]) {
+				throw `The "${this._componentNameDash}" component need the "${prop}" property in order to work`;
 			}
+		});
+	}
 
-			// default props init
-			this.props = Object.assign({}, this.defaultProps);
+	/**
+	* Method called right after that the component has been added in the dom,
+	* and before the initial render
+	* This is the first place where you will have access to the dom.
+	*
+	* @example
+	* componentMount() {
+	* 		// call parent method
+	* 		super.componentMount();
+	* 		// do something here...
+	* }
+	*
+	* @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	*/
+	componentMount() {
+		// update the lifecycle state
+		this._lifecycle.componentMount = true;
+		// update the status
+		this._componentMounted = true;
+		// dispatch event
+		this.onComponentMount && this.onComponentMount();
+		// this.dispatchComponentEvent('componentMount');
+	}
 
-			// compute props
-			this._computeProps();
+	/**
+	* Method called after the initial component render
+	*
+	* @example
+	* componentDidMount() {
+	* 		// call parent method
+	* 		super.componentDidMount();
+	* 		// do something here...
+	* }
+	*
+	* @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	*/
+	componentDidMount() {
+		// update lifecycle state
+		this._lifecycle.componentDidMount = true;
+		// dispatch event
+		this.onComponentDidMount && this.onComponentDidMount();
+		// this.dispatchComponentEvent('componentDidMount');
+	}
 
-			// props proxy
-			// this._initPropsProxy();
+	/**
+	* Method called right before the render when some props have been updated.
+	* This method is not called before the initial render
+	*
+	* @param 		{Object} 		nextProps 			An object that represent the props that have been updated
+	* @param 		{Array} 		nextPropsArray 		An array representation of the nextProps object [{name:...,value:...}]
+	*
+	* @example
+	* componentWillUpdate() {
+	* 		// call parent method
+	* 		super.componentWillUpdate();
+	* 		// do something here...
+	* }
+	*
+	* @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	*/
+	componentWillUpdate(nextProps) {
+		// dispatch event
+		this.onComponentWillUpdate && this.onComponentWillUpdate(nextProps);
+		// this.dispatchComponentEvent('componentWillUpdate', nextProps);
+	}
 
-			// check the required props
-			this.requiredProps.forEach((prop) => {
-				if ( ! this.props[prop]) {
-					throw `The "${this._componentNameDash}" component need the "${prop}" property in order to work`;
-				}
-			});
-		}
+	/**
+	* Apply all the updated that you need in the dom for the component to reflect the props
+	*
+	* @example
+	* render() {
+	* 		// call the parent method
+	* 		super.render();
+	* 		// apply some classes, properties, styles, etc... in the dom
+	* 		// in order to reflect the props object state
+	* }
+	*
+	* @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	*/
+	render() {
+		// dispatch event
+		this.onComponentRender && this.onComponentRender();
+		// this.dispatchComponentEvent('componentRender');
+	}
 
-		/**
-		* Method called right after that the component has been added in the dom,
-		* and before the initial render
-		* This is the first place where you will have access to the dom.
-		*
-		* @example
-		* componentMount() {
-		* 		// call parent method
-		* 		super.componentMount();
-		* 		// do something here...
-		* }
-		*
-		* @author 		Olivier Bossel <olivier.bossel@gmail.com>
-		*/
-		componentMount() {
-			// update the lifecycle state
-			this._lifecycle.componentMount = true;
-			// update the status
-			this._componentMounted = true;
-			// dispatch event
-			this.onComponentMount && this.onComponentMount();
-			// this.dispatchComponentEvent('componentMount');
-		}
+	componentDidUpdate(prevProps) {
+		// dispatch event
+		this.onComponentDidUpdate && this.onComponentDidUpdate(prevProps);
+		// this.dispatchComponentEvent('componentDidUpdate', prevProps);
+	}
 
-		/**
-		* Method called after the initial component render
-		*
-		* @example
-		* componentDidMount() {
-		* 		// call parent method
-		* 		super.componentDidMount();
-		* 		// do something here...
-		* }
-		*
-		* @author 		Olivier Bossel <olivier.bossel@gmail.com>
-		*/
-		componentDidMount() {
-			// update lifecycle state
-			this._lifecycle.componentDidMount = true;
-			// dispatch event
-			this.onComponentDidMount && this.onComponentDidMount();
-			// this.dispatchComponentEvent('componentDidMount');
-		}
+	componentWillUnmount() {
+		// update lifecycle state
+		this._lifecycle.componentWillUnmount = true;
+		// dispatch event
+		this.onComponentWillUnmount && this.onComponentWillUnmount();
+		// this.dispatchComponentEvent('componentWillUnmount');
+	}
 
-		/**
-		* Method called right before the render when some props have been updated.
-		* This method is not called before the initial render
-		*
-		* @param 		{Object} 		nextProps 			An object that represent the props that have been updated
-		* @param 		{Array} 		nextPropsArray 		An array representation of the nextProps object [{name:...,value:...}]
-		*
-		* @example
-		* componentWillUpdate() {
-		* 		// call parent method
-		* 		super.componentWillUpdate();
-		* 		// do something here...
-		* }
-		*
-		* @author 		Olivier Bossel <olivier.bossel@gmail.com>
-		*/
-		componentWillUpdate(nextProps) {
-			// dispatch event
-			this.onComponentWillUpdate && this.onComponentWillUpdate(nextProps);
-			// this.dispatchComponentEvent('componentWillUpdate', nextProps);
-		}
+	componentUnmount() {
+		// update lifecycle state
+		this._lifecycle.componentUnmount = true;
+		// update the status
+		this._componentMounted = false;
+		// dispatch event
+		this.onComponentUnmount && this.onComponentUnmount();
+		// this.dispatchComponentEvent('componentUnmount');
+	}
 
-		/**
-		* Apply all the updated that you need in the dom for the component to reflect the props
-		*
-		* @example
-		* render() {
-		* 		// call the parent method
-		* 		super.render();
-		* 		// apply some classes, properties, styles, etc... in the dom
-		* 		// in order to reflect the props object state
-		* }
-		*
-		* @author 		Olivier Bossel <olivier.bossel@gmail.com>
-		*/
-		render() {
-			// dispatch event
-			this.onComponentRender && this.onComponentRender();
-			// this.dispatchComponentEvent('componentRender');
-		}
+	componentDidUnmount() {
+		// update lifecycle state
+		this._lifecycle.componentDidUnmount = true;
+		// dispatch event
+		this.onComponentDidUnmount && this.onComponentDidUnmount();
+		// this.dispatchComponentEvent('componentDidUnmount');
+	}
 
-		componentDidUpdate(prevProps) {
-			// dispatch event
-			this.onComponentDidUpdate && this.onComponentDidUpdate(prevProps);
-			// this.dispatchComponentEvent('componentDidUpdate', prevProps);
-		}
+	/**
+	* When the component is created
+	*/
+	createdCallback() {
 
-		componentWillUnmount() {
-			// update lifecycle state
-			this._lifecycle.componentWillUnmount = true;
-			// dispatch event
-			this.onComponentWillUnmount && this.onComponentWillUnmount();
-			// this.dispatchComponentEvent('componentWillUnmount');
-		}
+		// props
+		this.props = {};
 
-		componentUnmount() {
-			// update lifecycle state
-			this._lifecycle.componentUnmount = true;
-			// update the status
-			this._componentMounted = false;
-			// dispatch event
-			this.onComponentUnmount && this.onComponentUnmount();
-			// this.dispatchComponentEvent('componentUnmount');
-		}
+		// track the lifecyle
+		this._lifecycle = {
+			componentWillMount : false,
+			componentMount : false,
+			componentDidMount : false,
+			componentWillUnmount : false,
+			componentUnmount : false,
+			componentDidUnmount : false
+		};
 
-		componentDidUnmount() {
-			// update lifecycle state
-			this._lifecycle.componentDidUnmount = true;
-			// dispatch event
-			this.onComponentDidUnmount && this.onComponentDidUnmount();
-			// this.dispatchComponentEvent('componentDidUnmount');
-		}
+		// if ( ! document.body.contains(this)) return;
 
-		/**
-		* When the component is created
-		*/
-		createdCallback() {
+		// component will mount only if part of the active document
+		this.componentWillMount();
+	}
 
-			// track the lifecyle
-			this._lifecycle = {
-				componentWillMount : false,
-				componentMount : false,
-				componentDidMount : false,
-				componentWillUnmount : false,
-				componentUnmount : false,
-				componentDidUnmount : false
-			};
+	/**
+	* When the element is attached
+	*/
+	attachedCallback() {
 
-			if ( ! document.body.contains(this)) return;
-
-			// component will mount only if part of the active document
+		// check if need to launch the will mount
+		if ( ! this._lifecycle.componentWillMount) {
 			this.componentWillMount();
 		}
 
-		/**
-		* When the element is attached
-		*/
-		attachedCallback() {
+		// update attached status
+		this._componentAttached = true;
 
-			// check if need to launch the will mount
-			if ( ! this._lifecycle.componentWillMount) {
-				this.componentWillMount();
+		// wait until dependencies are ok
+		this._whenMountDependenciesAreOk().then(() => {
+			// switch on the mountWhen prop
+			switch(this.props.mountWhen) {
+				case 'inViewport':
+				__whenInViewport(this).then(() => {
+					this._mountComponent();
+				});
+				break;
+				case 'mouseover':
+				this.addEventListener('mouseover', this._onMouseoverComponentMount.bind(this));
+				break;
+				case 'isVisible':
+				__whenVisible(this).then(() => {
+					this._mountComponent();
+				});
+				break;
+				default:
+				// mount component directly
+				this._mountComponent();
+				break;
 			}
+		});
+	}
 
-			// update attached status
-			this._componentAttached = true;
-
-			// wait until dependencies are ok
-			this._whenMountDependenciesAreOk().then(() => {
-				// switch on the mountWhen prop
-				switch(this.props.mountWhen) {
-					case 'inViewport':
-						__whenInViewport(this).then(() => {
-							this._mountComponent();
-						});
-					break;
-					case 'mouseover':
-						this.addEventListener('mouseover', this._onMouseoverComponentMount.bind(this));
-					break;
-					case 'isVisible':
-						__whenVisible(this).then(() => {
-							this._mountComponent();
-						});
-					break;
-					default:
-						// mount component directly
-						this._mountComponent();
-					break;
-				}
-			});
-		}
-
-		/**
-		* When mount dependencies
-		* @return 			{Promise} 				A promise that will be resolved when the dependencies are resolved
-		*/
-		_whenMountDependenciesAreOk() {
-			const promise = new Promise((resolve, reject) => {
-				if ( ! this.mountDependencies.length) {
+	/**
+	* When mount dependencies
+	* @return 			{Promise} 				A promise that will be resolved when the dependencies are resolved
+	*/
+	_whenMountDependenciesAreOk() {
+		const promise = new Promise((resolve, reject) => {
+			if ( ! this.mountDependencies.length) {
+				resolve();
+			} else {
+				// resolve all the promises
+				Promise.all(this.mountDependencies).then(() => {
 					resolve();
-				} else {
-					// resolve all the promises
-					Promise.all(this.mountDependencies).then(() => {
-						resolve();
-					});
-				}
-			});
-			return promise;
-		}
-
-		/**
-		* Init props proxy.
-		* This will create a getter/setter accessor on the item itself
-		* that get and update his corresponding props.{name} property
-		*/
-		_initPropsProxy() {
-			// loop on each props
-			for(let key in this.props) {
-				__propertyProxy(this, key, {
-					get : () => {
-						return this.props[key];
-					},
-					set : (value) => {
-						this.setProp(key, value);
-					}
 				});
 			}
-		}
+		});
+		return promise;
+	}
 
-		/**
-		* On mouse over
-		*/
-		_onMouseoverComponentMount() {
-			this._mountComponent();
-			this.removeEventListener('mouseover', this._onMouseoverComponentMount);
-		}
-
-		/**
-		* Internal mount component method
-		*/
-		_mountComponent() {
-			// wait next frame
-			fastdom.clear(this._fastdomSetProp);
-			this._fastdomSetProp = this.mutate(() => {
-				// sometimes, the component has been unmounted between the
-				// fastdom execution, so we stop here if it's the case
-				if ( ! this._componentAttached) return;
-				// init
-				this.componentMount();
-				// render
-				this.render();
-				// component did mount
-				this.componentDidMount();
-			});
-
-		}
-
-		/**
-		* When the component is detached
-		*/
-		detachedCallback() {
-			// update attached status
-			this._componentAttached = false;
-			// will unmount
-			this.componentWillUnmount();
-			// wait next frame
-			fastdom.clear(this._fastdomSetProp);
-			this._fastdomSetProp = this.mutate(() => {
-				// unmount only if the component is mounted
-				if ( ! this._componentMounted) return;
-				// unmount
-				this.componentUnmount();
-				// did unmount
-				this.componentDidUnmount();
+	/**
+	* Init props proxy.
+	* This will create a getter/setter accessor on the item itself
+	* that get and update his corresponding props.{name} property
+	*/
+	_initPropsProxy() {
+		// loop on each props
+		for(let key in this.props) {
+			__propertyProxy(this, key, {
+				get : () => {
+					return this.props[key];
+				},
+				set : (value) => {
+					this.setProp(key, value);
+				}
 			});
 		}
+	}
 
-		/**
-		* When any of the component attribute changes
-		*/
-		attributeChangedCallback(attribute, oldVal, newVal) {
+	/**
+	* On mouse over
+	*/
+	_onMouseoverComponentMount() {
+		this._mountComponent();
+		this.removeEventListener('mouseover', this._onMouseoverComponentMount);
+	}
 
-			// stop if component has not been mounted
-			if ( ! this._lifecycle.componentWillMount) {
-				return;
-			}
+	/**
+	* Internal mount component method
+	*/
+	_mountComponent() {
+		// wait next frame
+		fastdom.clear(this._fastdomSetProp);
+		this._fastdomSetProp = this.mutate(() => {
+			// sometimes, the component has been unmounted between the
+			// fastdom execution, so we stop here if it's the case
+			if ( ! this._componentAttached) return;
+			// init
+			this.componentMount();
+			// render
+			this.render();
+			// component did mount
+			this.componentDidMount();
+		});
 
-			// cast the new val
-			newVal = __autoCast(newVal);
+	}
 
-			// keep an original attribute name
-			const _attribute = attribute;
+	/**
+	* When the component is detached
+	*/
+	detachedCallback() {
+		// update attached status
+		this._componentAttached = false;
+		// will unmount
+		this.componentWillUnmount();
+		// wait next frame
+		fastdom.clear(this._fastdomSetProp);
+		this._fastdomSetProp = this.mutate(() => {
+			// unmount only if the component is mounted
+			if ( ! this._componentMounted) return;
+			// unmount
+			this.componentUnmount();
+			// did unmount
+			this.componentDidUnmount();
+		});
+	}
 
-			// process the attribute to camelCase
-			attribute = __camelize(attribute);
+	/**
+	* When any of the component attribute changes
+	*/
+	attributeChangedCallback(attribute, oldVal, newVal) {
 
-			// handle the case when newVal is undefined (added attribute whithout any value)
-			if (newVal === undefined
-						&& this.hasAttribute(_attribute)) {
-						newVal = true;
-			}
-
-			// do nothing if the value is already the same
-			if (this.props[attribute] === newVal) return;
-
-			// set the new prop
-			this.setProp(attribute, newVal);
+		// stop if component has not been mounted
+		if ( ! this._lifecycle.componentWillMount) {
+			return;
 		}
 
-		/**
-		* Dispatch an event from the tag with namespaced event name
-		* This will dispatch actually two events :
-		* 1. {tagName}.{name} : example : s-datepicker.change
-		* 2. {name} 		   : example : change
-		*
-		* @param		{String} 		name 		The event name
-		* @param 		{Mixed} 		data 		Some data to attach to the event
-		*/
-		dispatchComponentEvent(name, data = null) {
-			__dispatchEvent(this, name, data);
-			__dispatchEvent(this, `${this.tagName.toLowerCase()}.${name}`, data);
+		// cast the new val
+		newVal = __autoCast(newVal);
+
+		// keep an original attribute name
+		const _attribute = attribute;
+
+		// process the attribute to camelCase
+		attribute = __camelize(attribute);
+
+		// handle the case when newVal is undefined (added attribute whithout any value)
+		if (newVal === undefined
+			&& this.hasAttribute(_attribute)
+		) {
+			newVal = true;
 		}
 
-		/**
-		* Set properties
-		*/
-		setProps(props = {}) {
-			// set each props
-			for (let key in props) {
-				this.setProp(key, props[key]);
+		// do nothing if the value is already the same
+		if (this.props[attribute] === newVal) return;
+
+		// set the new prop
+		this.setProp(attribute, newVal);
+	}
+
+	/**
+	* Dispatch an event from the tag with namespaced event name
+	* This will dispatch actually two events :
+	* 1. {tagName}.{name} : example : s-datepicker.change
+	* 2. {name} 		   : example : change
+	*
+	* @param		{String} 		name 		The event name
+	* @param 		{Mixed} 		data 		Some data to attach to the event
+	*/
+	dispatchComponentEvent(name, data = null) {
+		__dispatchEvent(this, name, data);
+		__dispatchEvent(this, `${this.tagName.toLowerCase()}.${name}`, data);
+	}
+
+	/**
+	* Set properties
+	*/
+	setProps(props = {}) {
+		// set each props
+		for (let key in props) {
+			this.setProp(key, props[key]);
+		}
+		return this;
+	}
+
+	/**
+	* Set a property
+	*/
+	setProp(prop, value) {
+
+		// save the oldVal
+		const _oldVal = this.props[prop];
+
+		// stop if same value
+		if (_oldVal === value) return;
+
+		// set the prop
+		this.props[prop] = value
+
+		// handle physical props
+		this._handlePhysicalProps(prop, value);
+
+		// if the component is not mounted
+		// we do nothing here...
+		if ( ! this.isComponentMounted()) return;
+
+		// create the stacks
+		this._prevPropsStack[prop] = _oldVal;
+		this._nextPropsStack[prop] = value;
+
+		// component will receive prop
+		if (this.componentWillReceiveProp) {
+			this.componentWillReceiveProp(prop, value, _oldVal);
+		}
+
+		// wait till next frame
+		fastdom.clear(this._fastdomSetProp);
+		this._fastdomSetProp = fastdom.mutate(() => {
+
+			// create array version of each stacks
+			const nextPropsArray = [],
+			prevPropsArray = [];
+			for (let key in this._nextPropsStack) {
+				const val = this._nextPropsStack[key];
+				nextPropsArray.push({
+					name : key,
+					value : val
+				});
 			}
+			for (let key in this._prevPropsStack) {
+				const val = this._prevPropsStack[key];
+				prevPropsArray.push({
+					name : key,
+					value : val
+				});
+			}
+
+			// call the will reveiveProps if exist
+			if (this.componentWillReceiveProps) {
+				this.componentWillReceiveProps(this._nextPropsStack, nextPropsArray);
+			}
+
+			// should component update
+			if (this.shouldComponentUpdate && ! this.shouldComponentUpdate(this._nextPropsStack, this._prevPropsStack)) return;
+
+			// component will update
+			this.componentWillUpdate(this._nextPropsStack, nextPropsArray);
+
+			console.warn('up', this, this._nextPropsStack);
+
+			// render the component
+			this.render();
+
+			// component did update
+			this.componentDidUpdate(this._prevPropsStack, prevPropsArray);
+		});
+	}
+
+	/**
+	* Check if component is mounted
+	* @return 			{Boolean} 			true if mounted, false if not
+	*/
+	isComponentMounted() {
+		return this._componentMounted;
+	}
+
+	/**
+	* Handle physical props by setting or not the prop
+	* on the dom element as attribute
+	*/
+	_handlePhysicalProps(prop, value) {
+		// check if is a physical prop to set it in the dom
+		const physicalProps = this.physicalProps;
+		if (physicalProps.indexOf(prop) !== -1) {
+			// set the prop on the node
+			if (value !== 0
+				&& (value === false || value === 'null' || ! value)
+			) {
+				this.removeAttribute(prop);
+			} else if (typeof(value) === 'object') {
+				this.setAttribute(prop, JSON.stringify(value));
+			} else if (typeof(value) === 'function') {
+				this.setAttribute(prop, 'fn');
+			} else {
+				this.setAttribute(prop, value);
+			}
+		}
+	}
+
+	/**
+	* Compute props by mixing settings with attributes presents on the component
+	*/
+	_computeProps() {
+		for (let i=0; i<this.attributes.length; i++) {
+			const attr = this.attributes[i];
+			if ( ! attr.value) {
+				// the attribute has no value but it is present
+				// so we assume the prop value is true
+				this.props[__camelize(attr.name)] = true
+				continue;
+			}
+			// cast the value
+			this.props[__camelize(attr.name)] = __autoCast(attr.value);
+		}
+
+		// handle physicalProps
+		for (let key in this.props) {
+			const value = this.props[key];
+			// handle physical props
+			this._handlePhysicalProps(key, value);
+		}
+	}
+
+	/**
+	* Mutate the dom using an optimize requestAnimationFrame technique
+	* @param 		{Function} 		cb 			The callback to exexute
+	*/
+	mutate(cb) {
+		return fastdom.mutate(cb);
+	}
+
+	/**
+	* componentClassName
+	* Set a class that will be construct with the componentNameDash,
+	* an optional element and modifier
+	* @param 	{String} 	[element=null] 		The element name
+	* @param 	{String} 	[modifier=null] 	The modifier name
+	* @param 	{String} 	[state=null] 		The state name
+	* @return 	{String} 						The generated class
+	*/
+	componentClassName(element = null, modifier = null, state = null) {
+		// if the method is BEM
+		let sel = this._componentNameDash;
+		// @TODO : handle the sSettings at component load
+		if ( false && sSettings && sSettings.selector.method.toLowerCase() === 'smaccs') {
+			if (element) {
+				sel += `-${element}`;
+			}
+			if (modifier) {
+				sel += `-${modifier}`;
+			}
+			if (state) {
+				sel += ` is-${state}`;
+			}
+		} else {
+			if (element) {
+				sel += `__${element}`;
+			}
+			if (modifier) {
+				sel += `--${modifier}`;
+			}
+			if (state) {
+				sel += `--${state}`;
+			}
+		}
+		return sel;
+	}
+
+	/**
+	* Get a component selector class built with the passed element, modifier and state parameters
+	* @param 	{String} 	[element=null] 		The element name
+	* @param 	{String} 	[modifier=null] 	The modifier name
+	* @param 	{String} 	[state=null] 		The state name
+	* @return 	{String} 						The generated class
+	*/
+	componentSelector(element = null, modifier = null, state = null) {
+		let sel = this.componentClassName(element, modifier, state);
+		sel = `.${sel}`.replace(' ','.');
+		return sel;
+	}
+
+	/**
+	* hasComponentClass
+	* Check if the passed element has the component class generated by the element and modifier argument
+	* @param 	{HTMLElement} 	elm 				The element to check
+	* @param 	{String} 		[element=null] 		The element name
+	* @param 	{String} 		[modifier=null] 	The modifier name
+	* @param 	{String} 		[state=null] 		The state name
+	* @return 	{Boolean} 							The check result
+	*/
+	hasComponentClass(elm, element = null, modifier = null, state = null) {
+		// generate the class
+		const cls = this.componentSelector(element, modifier, state);
+		const _cls = cls.split('.');
+		for (let i=0; i<_cls.length; i++) {
+			const cl = _cls[i];
+			if (cl && cl !== '') {
+				if ( ! elm.classList.contains(cl)) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	/**
+	* Add a class on the passed element that will be construct with the componentNameDash,
+	* an optional element, modifier and state
+	* @param 	{String} 	[element=null] 		The element name
+	* @param 	{String} 	[modifier=null] 	The modifier name
+	* @param 	{String} 	[state=null] 		The state name
+	* @return 	{SComponent}} 			The component itself
+	*/
+	addComponentClass(elm, element = null, modifier = null, state = null) {
+		// if is an array
+		if (elm instanceof Array
+			|| elm instanceof NodeList
+		) {
+			[].forEach.call(elm, (el) => {
+				this.addComponentClass(el, element, modifier, state);
+			});
 			return this;
 		}
 
-		/**
-		* Set a property
-		*/
-		setProp(prop, value) {
-
-			// save the oldVal
-			const _oldVal = this.props[prop];
-
-			// stop if same value
-			if (_oldVal === value) return;
-
-			// set the prop
-			this.props[prop] = value
-
-			// handle physical props
-			this._handlePhysicalProps(prop, value);
-
-			// if the component is not mounted
-			// we do nothing here...
-			if ( ! this.isComponentMounted()) return;
-
-			// create the stacks
-			this._prevPropsStack[prop] = _oldVal;
-			this._nextPropsStack[prop] = value;
-
-			// component will receive prop
-			if (this.componentWillReceiveProp) {
-				this.componentWillReceiveProp(prop, value, _oldVal);
-			}
-
-			// wait till next frame
-			fastdom.clear(this._fastdomSetProp);
-			this._fastdomSetProp = fastdom.mutate(() => {
-
-				// create array version of each stacks
-				const nextPropsArray = [],
-				prevPropsArray = [];
-				for (let key in this._nextPropsStack) {
-					const val = this._nextPropsStack[key];
-					nextPropsArray.push({
-						name : key,
-						value : val
-					});
-				}
-				for (let key in this._prevPropsStack) {
-					const val = this._prevPropsStack[key];
-					prevPropsArray.push({
-						name : key,
-						value : val
-					});
-				}
-
-				// call the will reveiveProps if exist
-				if (this.componentWillReceiveProps) {
-					this.componentWillReceiveProps(this._nextPropsStack, nextPropsArray);
-				}
-
-				// should component update
-				if (this.shouldComponentUpdate && ! this.shouldComponentUpdate(this._nextPropsStack, this._prevPropsStack)) return;
-
-				// component will update
-				this.componentWillUpdate(this._nextPropsStack, nextPropsArray);
-
-				console.warn('up', this, this._nextPropsStack);
-
-				// render the component
-				this.render();
-
-				// component did update
-				this.componentDidUpdate(this._prevPropsStack, prevPropsArray);
-			});
-		}
-
-		/**
-		* Check if component is mounted
-		* @return 			{Boolean} 			true if mounted, false if not
-		*/
-		isComponentMounted() {
-			return this._componentMounted;
-		}
-
-		/**
-		* Handle physical props by setting or not the prop
-		* on the dom element as attribute
-		*/
-		_handlePhysicalProps(prop, value) {
-			// check if is a physical prop to set it in the dom
-			const physicalProps = this.physicalProps;
-			if (physicalProps.indexOf(prop) !== -1) {
-				// set the prop on the node
-				if (value !== 0
-					&& (value === false || value === 'null' || ! value)
-				) {
-					this.removeAttribute(prop);
-				} else if (typeof(value) === 'object') {
-					this.setAttribute(prop, JSON.stringify(value));
-				} else if (typeof(value) === 'function') {
-					this.setAttribute(prop, 'fn');
-				} else {
-					this.setAttribute(prop, value);
-				}
-			}
-		}
-
-		/**
-		* Compute props by mixing settings with attributes presents on the component
-		*/
-		_computeProps() {
-			for (let i=0; i<this.attributes.length; i++) {
-				const attr = this.attributes[i];
-				if ( ! attr.value) {
-					// the attribute has no value but it is present
-					// so we assume the prop value is true
-					this.props[__camelize(attr.name)] = true
-					continue;
-				}
-				// cast the value
-				this.props[__camelize(attr.name)] = __autoCast(attr.value);
-			}
-
-			// handle physicalProps
-			for (let key in this.props) {
-				const value = this.props[key];
-				// handle physical props
-				this._handlePhysicalProps(key, value);
-			}
-		}
-
-		/**
-		* Mutate the dom using an optimize requestAnimationFrame technique
-		* @param 		{Function} 		cb 			The callback to exexute
-		*/
-		mutate(cb) {
-			return fastdom.mutate(cb);
-		}
-
-		/**
-		* componentClassName
-		* Set a class that will be construct with the componentNameDash,
-		* an optional element and modifier
-		* @param 	{String} 	[element=null] 		The element name
-		* @param 	{String} 	[modifier=null] 	The modifier name
-		* @param 	{String} 	[state=null] 		The state name
-		* @return 	{String} 						The generated class
-		*/
-		componentClassName(element = null, modifier = null, state = null) {
-			// if the method is BEM
-			let sel = this._componentNameDash;
-			// @TODO : handle the sSettings at component load
-			if ( false && sSettings && sSettings.selector.method.toLowerCase() === 'smaccs') {
-				if (element) {
-					sel += `-${element}`;
-				}
-				if (modifier) {
-					sel += `-${modifier}`;
-				}
-				if (state) {
-					sel += ` is-${state}`;
-				}
-			} else {
-				if (element) {
-					sel += `__${element}`;
-				}
-				if (modifier) {
-					sel += `--${modifier}`;
-				}
-				if (state) {
-					sel += `--${state}`;
-				}
-			}
-			return sel;
-		}
-
-		/**
-		* Get a component selector class built with the passed element, modifier and state parameters
-		* @param 	{String} 	[element=null] 		The element name
-		* @param 	{String} 	[modifier=null] 	The modifier name
-		* @param 	{String} 	[state=null] 		The state name
-		* @return 	{String} 						The generated class
-		*/
-		componentSelector(element = null, modifier = null, state = null) {
-			let sel = this.componentClassName(element, modifier, state);
-			sel = `.${sel}`.replace(' ','.');
-			return sel;
-		}
-
-		/**
-		* hasComponentClass
-		* Check if the passed element has the component class generated by the element and modifier argument
-		* @param 	{HTMLElement} 	elm 				The element to check
-		* @param 	{String} 		[element=null] 		The element name
-		* @param 	{String} 		[modifier=null] 	The modifier name
-		* @param 	{String} 		[state=null] 		The state name
-		* @return 	{Boolean} 							The check result
-		*/
-		hasComponentClass(elm, element = null, modifier = null, state = null) {
-			// generate the class
-			const cls = this.componentSelector(element, modifier, state);
-			const _cls = cls.split('.');
-			for (let i=0; i<_cls.length; i++) {
-				const cl = _cls[i];
-				if (cl && cl !== '') {
-					if ( ! elm.classList.contains(cl)) {
-						return false;
-					}
-				}
-			}
-			return true;
-		}
-
-		/**
-		* Add a class on the passed element that will be construct with the componentNameDash,
-		* an optional element, modifier and state
-		* @param 	{String} 	[element=null] 		The element name
-		* @param 	{String} 	[modifier=null] 	The modifier name
-		* @param 	{String} 	[state=null] 		The state name
-		* @return 	{SComponent}} 			The component itself
-		*/
-		addComponentClass(elm, element = null, modifier = null, state = null) {
-			// if is an array
-			if (elm instanceof Array
-				|| elm instanceof NodeList) {
-					[].forEach.call(elm, (el) => {
-						this.addComponentClass(el, element, modifier, state);
-					});
-					return this;
-				}
-
-				// get the component class
-				let cls = this.componentSelector(element, modifier, state);
-				// loop on each classes to add
-				cls.split('.').forEach((cl) => {
-					if (cl && cl !== '') {
-						this.mutate(() => {
-							elm.classList.add(cl);
-						});
-					}
+		// get the component class
+		let cls = this.componentSelector(element, modifier, state);
+		// loop on each classes to add
+		cls.split('.').forEach((cl) => {
+			if (cl && cl !== '') {
+				this.mutate(() => {
+					elm.classList.add(cl);
 				});
-				// return the instance to maintain chainability
-				return this;
 			}
+		});
+		// return the instance to maintain chainability
+		return this;
+	}
 
-			/**
-			* Remove a class on the passed element that will be construct with the componentNameDash,
-			* an optional element, modifier and state
-			* @param 	{String} 	[element=null] 		The element name
-			* @param 	{String} 	[modifier=null] 	The modifier name
-			* @param 	{String} 	[state=null] 		The state name
-			* @return 	{SComponent}} 					The component itself
-			*/
-			removeComponentClass(elm, element = null, modifier = null, state = null) {
-				// if is an array
-				if (elm instanceof Array
-					|| elm instanceof NodeList) {
-						[].forEach.call(elm, (el) => {
-							this.removeComponentClass(el, element, modifier, state);
-						});
-						return this;
-					}
-
-					// get the component class
-					let cls = this.componentSelector(element, modifier, state);
-					// loop on each classes to add
-					cls.split('.').forEach((cl) => {
-						if (cl && cl !== '') {
-							this.mutate(() => {
-								elm.classList.remove(cl);
-							});
-						}
-					});
-					// return the instance to maintain chainability
-					return this;
-				}
-
+	/**
+	* Remove a class on the passed element that will be construct with the componentNameDash,
+	* an optional element, modifier and state
+	* @param 	{String} 	[element=null] 		The element name
+	* @param 	{String} 	[modifier=null] 	The modifier name
+	* @param 	{String} 	[state=null] 		The state name
+	* @return 	{SComponent}} 					The component itself
+	*/
+	removeComponentClass(elm, element = null, modifier = null, state = null) {
+		// if is an array
+		if (elm instanceof Array
+			|| elm instanceof NodeList
+		) {
+			[].forEach.call(elm, (el) => {
+				this.removeComponentClass(el, element, modifier, state);
 			});
+			return this;
+		}
+
+		// get the component class
+		let cls = this.componentSelector(element, modifier, state);
+		// loop on each classes to add
+		cls.split('.').forEach((cl) => {
+			if (cl && cl !== '') {
+				this.mutate(() => {
+					elm.classList.remove(cl);
+				});
+			}
+		});
+		// return the instance to maintain chainability
+		return this;
+	}
+
+});

@@ -254,21 +254,21 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			this._componentName = (0, _upperFirst2.default)((0, _camelize2.default)(sourceName));
 
 			// save each instances into the element _sComponents stack
-			this._typeOf = [];
-			var comp = window.sugar._webComponentsStack[this._componentName];
-			while (comp) {
-				var funcNameRegex = /function (.{1,})\(/;
-				var res = funcNameRegex.exec(comp.toString());
-				if (res && res[1]) {
-					if (this._typeOf.indexOf(res[1]) === -1) {
-						this._typeOf.push(res[1]);
-					}
-				}
-				comp = Object.getPrototypeOf(comp);
-			}
+			// this._typeOf = [];
+			// let comp = window.sugar._webComponentsStack[this._componentName];
+			// while(comp) {
+			// 	let funcNameRegex = /function (.{1,})\(/;
+			// 	const res = (funcNameRegex).exec(comp.toString());
+			// 	if (res && res[1]) {
+			// 		if ( this._typeOf.indexOf(res[1]) === -1) {
+			// 			this._typeOf.push(res[1]);
+			// 		}
+			// 	}
+			// 	comp = Object.getPrototypeOf(comp);
+			// }
 
 			// default props init
-			this.props = Object.assign({}, this.defaultProps);
+			this.props = Object.assign({}, this.defaultProps, this.props);
 
 			// compute props
 			this._computeProps();
@@ -416,6 +416,9 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 		_class2.prototype.createdCallback = function createdCallback() {
 
+			// props
+			this.props = {};
+
 			// track the lifecyle
 			this._lifecycle = {
 				componentWillMount: false,
@@ -426,7 +429,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 				componentDidUnmount: false
 			};
 
-			if (!document.body.contains(this)) return;
+			// if ( ! document.body.contains(this)) return;
 
 			// component will mount only if part of the active document
 			this.componentWillMount();
@@ -1122,21 +1125,20 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		}, {
 			key: 'mountDependencies',
 			get: function get() {
-				// return [];
-				return [function () {
-					var _this12 = this;
-
-					return new Promise(function (resolve, reject) {
-						var isTemplate = false;
-						if (_this12._typeOf.indexOf('STemplateWebComponent')) {
-							resolve();
-						} else {
-							setTimeout(function () {
-								resolve();
-							});
-						}
-					});
-				}];
+				return [];
+				// return [function() {
+				// 	return new Promise((resolve, reject) => {
+				// 		let isTemplate = false;
+				// 		resolve();
+				// 		if (this._typeOf.indexOf('STemplateWebComponent')) {
+				// 			resolve();
+				// 		} else {
+				// 			setTimeout(() => {
+				// 				resolve();
+				// 			});
+				// 		}
+				// 	});
+				// }];
 			}
 		}]);
 

@@ -21,6 +21,13 @@
 button {
 	line-height: 1;
 }
+
+/**
+ * Apply the button css
+ * @param 		{Number} 		[$modifiers=null] 			The modifiers that represent the button you want. Available : {color} outline link
+ * @param 		{Integer}		[$state=null] 				The state of the button you want like. Available : disabled
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-button(
 	$modifiers : null,
 	$state : null
@@ -28,6 +35,13 @@ button {
 	@include s-button-bare($modifiers, $state);
 	@include s-button-style($modifiers, $state);
 }
+
+/**
+ * Apply the button bare css
+ * @param 		{Number} 		[$modifiers=null] 			The modifiers that represent the button you want. Available : {color} outline link
+ * @param 		{Integer}		[$state=null] 				The state of the button you want like. Available : disabled
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-button-bare(
 	$modifiers : null,
 	$state : null
@@ -49,6 +63,13 @@ button {
 		width: 100%;
 	}
 }
+
+/**
+ * Apply the button style css
+ * @param 		{Number} 		[$modifiers=null] 			The modifiers that represent the button you want. Available : {color} outline link
+ * @param 		{Integer}		[$state=null] 				The state of the button you want like. Available : disabled
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-button-style(
 	$modifiers : null,
 	$state : null

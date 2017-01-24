@@ -1,30 +1,35 @@
-%corner-badge {
-	position: absolute;
-	display: block;
-
-	> * {
-		position:relative;
-
-	}
-	&:before {
-		content:'';
-		display:block;
-		position: absolute;
-		border-style: solid;
-		border-color: transparent;
-	}
-}
-
+/**
+ * Provide all the classes of the corner badge component like:
+ * - ```.corner-badge```
+ * - ```.corner-badge--tl```
+ * - ```.corner-badge--tr```
+ * - ```.corner-badge--bl```
+ * - ```.corner-badge--br```
+ * - ```.corner-badge--{color}```
+ *
+ * @param 		{List<String>} 		[$corners=tl tr bl br] 						The corners to generate
+ * @param 		{List<Color>} 		[$colors=default primary secondary] 		The colors to generate
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-corner-badge-classes(
 	$corners : tl tr bl br,
-	$colors : null
+	$colors : default primary secondary
 ) {
 	@include s-corner-badge-classes-bare($corners);
-	@if $colors {
-		@include s-corner-badge-classes-style($colors);
-	}
+	@include s-corner-badge-classes-style($colors);
 }
 
+/**
+ * Provide all the bare classes of the corner badge component like:
+ * - ```.corner-badge```
+ * - ```.corner-badge--tl```
+ * - ```.corner-badge--tr```
+ * - ```.corner-badge--bl```
+ * - ```.corner-badge--br```
+ *
+ * @param 		{List<String>} 		[$corners=tl tr bl br] 						The corners to generate
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-corner-badge-classes-bare(
 	$corners : tl tr bl br
 ) {
@@ -35,16 +40,7 @@
 		}
 
 		.#{s-component()} {
-			@extend %corner-badge;
-	        $w : s-lnf(padding-vertical) * 2 + 1em;
-	    	font-size : 1em;
-	    	width: $w;
-	    	height: $w;
-	    	padding: s-lnf(padding-vertical) * .4;
-
-	    	&:before {
-	    		border-width: $w / 2;
-	    	}
+			@include s-corner-badge();
 	    }
 
 		@if (index($corners, tl)) {
@@ -57,13 +53,7 @@
 			 * </div>
 			 */
 			.#{s-component()}--tl {
-				top:0; left:0;
-
-				&:before {
-					border-right-color: transparent !important;
-					border-bottom-color: transparent !important;
-					top:0; left:0;
-				}
+				@include s-corner-badge(tl);
 			}
 		}
 		@if (index($corners, tr)) {
@@ -76,14 +66,7 @@
 			 * </div>
 			 */
 			.#{s-component()}--tr {
-				top:0; right:0;
-				text-align:right;
-
-				&:before {
-					border-bottom-color: transparent !important;
-					border-left-color: transparent !important;
-					top:0; right:0;
-				}
+				@include s-corner-badge(tr);
 			}
 		}
 		@if (index($corners, bl)) {
@@ -96,14 +79,7 @@
 			 * </div>
 			 */
 			.#{s-component()}--bl {
-				bottom:0; left:0;
-
-				&:before {
-					border-top-color: transparent !important;
-					border-right-color: transparent !important;
-					// border-bottom-color: transparent !important;
-					bottom:0; left:0;
-				}
+				@include s-corner-badge(bl);
 			}
 		}
 		@if (index($corners, br)) {
@@ -116,18 +92,19 @@
 			 * </div>
 			 */
 			.#{s-component()}--br {
-				bottom:0; right:0;
-
-				&:before {
-					border-top-color: transparent !important;
-					border-left-color: transparent !important;
-					bottom:0; right:0;
-				}
+				@include s-corner-badge(br);
 			}
 		}
 	}
 }
 
+/**
+ * Provide all the style classes of the corner badge component like:
+ * - ```.corner-badge--{color}```
+ *
+ * @param 		{List<Color>} 		[$colors=default primary secondary] 		The colors to generate
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-corner-badge-classes-style(
 	$colors : default primary secondary
 ) {
@@ -136,12 +113,6 @@
 		// $colors : s-test-argument('s-corner-badge-classes-style','colors',map-keys(s-setting('colors')),$colors);
 	}
 	@include s-component('corner-badge') {
-		.#{s-component()} {
-			color: white;
-			&:before {
-				border-color: s-color(default);
-			}
-		}
 		@each $color in $colors {
 			/**
 			 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> #{_start-case(s-component())}
@@ -151,10 +122,9 @@
 			 * 	<!-- content here -->
 			 * </div>
 			 */
-			.#{s-component()}--#{$color} {
-				&:before {
-					border-color: s-color($color);
-				}
+			$sel : #{s-component()}--#{$color};
+ 			.#{s-selector($sel)} {
+				@include s-corner-badge-style($color);
 			}
 		}
 	}
