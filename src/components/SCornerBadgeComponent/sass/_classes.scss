@@ -40,7 +40,7 @@
 		}
 
 		.#{s-component()} {
-			@include s-corner-badge();
+			@include s-corner-badge-bare();
 	    }
 
 		@if (index($corners, tl)) {
@@ -53,7 +53,7 @@
 			 * </div>
 			 */
 			.#{s-component()}--tl {
-				@include s-corner-badge(tl);
+				@include s-corner-badge-bare(tl);
 			}
 		}
 		@if (index($corners, tr)) {
@@ -66,7 +66,7 @@
 			 * </div>
 			 */
 			.#{s-component()}--tr {
-				@include s-corner-badge(tr);
+				@include s-corner-badge-bare(tr);
 			}
 		}
 		@if (index($corners, bl)) {
@@ -79,7 +79,7 @@
 			 * </div>
 			 */
 			.#{s-component()}--bl {
-				@include s-corner-badge(bl);
+				@include s-corner-badge-bare(bl);
 			}
 		}
 		@if (index($corners, br)) {
@@ -92,7 +92,7 @@
 			 * </div>
 			 */
 			.#{s-component()}--br {
-				@include s-corner-badge(br);
+				@include s-corner-badge-bare(br);
 			}
 		}
 	}
