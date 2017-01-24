@@ -7,19 +7,19 @@
 	$color : primary
 ) {
 	// titles
-	@include s-typography-titles-classes();
+	@include s-typography-title-classes();
 	// paragraphs
-	@include s-typography-paragraphs-classes();
+	@include s-typography-paragraph-classes();
 	// links
-	@include s-typography-links-classes($color);
+	@include s-typography-link-classes($color);
 	// inline texts
-	@include s-typography-inline-texts-classes($color);
+	@include s-typography-inline-text-classes($color);
 	// lists
-	@include s-typography-lists-classes($color);
+	@include s-typography-list-classes($color);
 	// captions
-	@include s-typography-captions-classes();
+	@include s-typography-caption-classes();
 	// quotes
-	@include s-typography-quotes-classes();
+	@include s-typography-quote-classes();
 }
 
 /**
@@ -28,9 +28,9 @@
  * - ```.tf h1-h6```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-titles-classes() {
-	@include s-typography-titles-classes-bare();
-	@include s-typography-titles-classes-style();
+@mixin s-typography-title-classes() {
+	@include s-typography-title-classes-bare();
+	@include s-typography-title-classes-style();
 }
 
 /**
@@ -39,7 +39,7 @@
  * - ```.tf h1-h6```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-titles-classes-bare() {
+@mixin s-typography-title-classes-bare() {
 	/**
 	 * @name 	h1
 	 * h1 title styling
@@ -146,7 +146,7 @@
  * - ```.tf h1-h6```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-titles-classes-style() {
+@mixin s-typography-title-classes-style() {
 	.h1,
 	.#{s-setting('text-format.scope-class')} h1 {
 		@include s-typography-title-style(3.5em);
@@ -179,9 +179,9 @@
  * - ```.p--lead```, ```.tf p.p--lead```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-paragraphs-classes() {
-	@include s-typography-paragraphs-classes-bare();
-	@include s-typography-paragraphs-classes-style();
+@mixin s-typography-paragraph-classes() {
+	@include s-typography-paragraph-classes-bare();
+	@include s-typography-paragraph-classes-style();
 }
 
 /**
@@ -190,7 +190,7 @@
  * - ```.p--lead```, ```.tf p.p--lead```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-paragraphs-classes-bare() {
+@mixin s-typography-paragraph-classes-bare() {
 	/**
 	 * @name 	Default
 	 * Default paragraph styling
@@ -249,7 +249,7 @@
  * - ```.p--lead```, ```.tf p.p--lead```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-paragraphs-classes-style() {
+@mixin s-typography-paragraph-classes-style() {
 	.p,
 	.#{s-setting('text-format.scope-class')} p {
 		@include s-typography-paragraph-style();
@@ -262,11 +262,11 @@
  * @param 		{Color} 		[$color=primary] 		The color used to style links
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-links-classes(
+@mixin s-typography-link-classes(
 	$color : primary
 ) {
-	@include s-typography-links-classes-bare();
-	@include s-typography-links-classes-style($color);
+	@include s-typography-link-classes-bare();
+	@include s-typography-link-classes-style($color);
 }
 
 /**
@@ -274,7 +274,7 @@
  * - ```.link```, ```.tf a```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-links-classes-bare() {
+@mixin s-typography-link-classes-bare() {
 	.link,
 	.#{s-setting('text-format.scope-class')} a {
 		@include s-typography-link-bare();
@@ -286,7 +286,7 @@
  * @param 		{Color} 		[$color=primary] 		The color used to style links
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-links-classes-style(
+@mixin s-typography-link-classes-style(
 	$color : primary
 ) {
 	.link,
@@ -308,11 +308,11 @@
  * @param 		{Color} 		[$color=primary] 		The color used to style different inline text elements
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-inline-texts-classes(
+@mixin s-typography-inline-text-classes(
 	$color : primary
 ) {
-	@include s-typography-inline-texts-classes-bare();
-	@include s-typography-inline-texts-classes-style($color);
+	@include s-typography-inline-text-classes-bare();
+	@include s-typography-inline-text-classes-style($color);
 }
 
 /**
@@ -327,7 +327,7 @@
  * - ```.em```, ```.tf em```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-inline-texts-classes-bare() {
+@mixin s-typography-inline-text-classes-bare() {
 	/**
 	 * @name 		Marked text
 	 * For highlighting a run of text due to its relevance in another context, use the ```mark``` tag.
@@ -454,7 +454,7 @@
  * @param 		{Color} 		[$color=primary] 		The color used to style different inline text elements
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-inline-texts-classes-style(
+@mixin s-typography-inline-text-classes-style(
 	$color : primary
 ) {
 	.mark,
@@ -503,11 +503,11 @@
  * @param 		{Color} 		[$color=primary] 		The color used to style bullets
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-lists-classes(
+@mixin s-typography-list-classes(
 	$color : primary
 ) {
-	@include s-typography-lists-classes-bare();
-	@include s-typography-lists-classes-style($color);
+	@include s-typography-list-classes-bare();
+	@include s-typography-list-classes-style($color);
 }
 
 /**
@@ -521,7 +521,7 @@
  * 	- ```.li```, ```.tf li```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-lists-classes-bare() {
+@mixin s-typography-list-classes-bare() {
 	/**
 	 * @name 	Description list
 	 * A list of terms with their associated descriptions.
@@ -629,7 +629,7 @@
  * @param 		{Color} 		[$color=primary] 		The color used to style bullets
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-lists-classes-style(
+@mixin s-typography-list-classes-style(
 	$color : primary
 ) {
 	.dl,
@@ -669,9 +669,9 @@
  * - ```.caption```, ```.figcaption```, ```.tf caption```, ```.tf figcaption```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-captions-classes() {
-	@include s-typography-captions-classes-bare();
-	@include s-typography-captions-classes-style();
+@mixin s-typography-caption-classes() {
+	@include s-typography-caption-classes-bare();
+	@include s-typography-caption-classes-style();
 }
 
 /**
@@ -679,7 +679,7 @@
  * - ```.caption```, ```.figcaption```, ```.tf caption```, ```.tf figcaption```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-captions-classes-bare() {
+@mixin s-typography-caption-classes-bare() {
 	/**
 	 * @name 		Default caption
 	 * Display a caption styled text
@@ -718,7 +718,7 @@
  * - ```.caption```, ```.figcaption```, ```.tf caption```, ```.tf figcaption```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-captions-classes-style() {
+@mixin s-typography-caption-classes-style() {
 	.caption,
 	.figcaption
 	.#{s-setting('text-format.scope-class')} caption,
@@ -733,9 +733,9 @@
  * - ```.blockquote```, ```.tf blockquote```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-quotes-classes() {
-	@include s-typography-quotes-classes-bare();
-	@include s-typography-quotes-classes-style();
+@mixin s-typography-quote-classes() {
+	@include s-typography-quote-classes-bare();
+	@include s-typography-quote-classes-style();
 }
 
 /**
@@ -744,7 +744,7 @@
  * - ```.blockquote```, ```.tf blockquote```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-quotes-classes-bare() {
+@mixin s-typography-quote-classes-bare() {
 	/**
 	 * @name 		Default quote
 	 * Display a quote styled text
@@ -788,7 +788,7 @@
  * - ```.blockquote```, ```.tf blockquote```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-typography-quotes-classes-style() {
+@mixin s-typography-quote-classes-style() {
 	.quote,
 	.blockquote,
 	.#{s-setting('text-format.scope-class')} blockquote,
