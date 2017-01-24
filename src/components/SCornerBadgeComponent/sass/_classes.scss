@@ -40,7 +40,7 @@
 		}
 
 		.#{s-component()} {
-			@include s-corner-badge-bare();
+			@include s-corner-badge-bare(null);
 	    }
 
 		@if (index($corners, tl)) {
