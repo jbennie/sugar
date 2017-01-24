@@ -217,6 +217,104 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		};
 
 		/**
+  * When the component is created
+  */
+		_class2.prototype.createdCallback = function createdCallback() {
+
+			// props
+			this.props = {};
+
+			// track the lifecyle
+			this._lifecycle = {
+				componentWillMount: false,
+				componentMount: false,
+				componentDidMount: false,
+				componentWillUnmount: false,
+				componentUnmount: false,
+				componentDidUnmount: false
+			};
+
+			// if ( ! document.body.contains(this)) return;
+
+			// component will mount only if part of the active document
+			this.componentWillMount();
+		};
+
+		/**
+  * When the element is attached
+  */
+
+
+		_class2.prototype.attachedCallback = function attachedCallback() {
+			var _this2 = this;
+
+			// check if need to launch the will mount
+			// if ( ! this._lifecycle.componentWillMount) {
+			// 	this.componentWillMount();
+			// }
+
+			// update attached status
+			this._componentAttached = true;
+
+			// wait until dependencies are ok
+			this._whenMountDependenciesAreOk().then(function () {
+				// switch on the mountWhen prop
+				switch (_this2.props.mountWhen) {
+					case 'inViewport':
+						(0, _whenInViewport2.default)(_this2).then(function () {
+							_this2._mountComponent();
+						});
+						break;
+					case 'mouseover':
+						_this2.addEventListener('mouseover', _this2._onMouseoverComponentMount.bind(_this2));
+						break;
+					case 'isVisible':
+						(0, _whenVisible2.default)(_this2).then(function () {
+							_this2._mountComponent();
+						});
+						break;
+					default:
+						// mount component directly
+						_this2._mountComponent();
+						break;
+				}
+			});
+		};
+
+		/**
+  * When any of the component attribute changes
+  */
+
+
+		_class2.prototype.attributeChangedCallback = function attributeChangedCallback(attribute, oldVal, newVal) {
+
+			// stop if component has not been mounted
+			// if ( ! this._lifecycle.componentWillMount) {
+			// 	return;
+			// }
+
+			// cast the new val
+			newVal = (0, _autoCast2.default)(newVal);
+
+			// keep an original attribute name
+			var _attribute = attribute;
+
+			// process the attribute to camelCase
+			attribute = (0, _camelize2.default)(attribute);
+
+			// handle the case when newVal is undefined (added attribute whithout any value)
+			if (newVal === undefined && this.hasAttribute(_attribute)) {
+				newVal = true;
+			}
+
+			// do nothing if the value is already the same
+			if (this.props[attribute] === newVal) return;
+
+			// set the new prop
+			this.setProp(attribute, newVal);
+		};
+
+		/**
   * Method called before the component will be added in the dom.
   * You will not have access to the siblings, etc here.
   * This is the place to init your component, just like a constructor
@@ -230,8 +328,10 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
   *
   * @author 		Olivier Bossel <olivier.bossel@gmail.com>
   */
+
+
 		_class2.prototype.componentWillMount = function componentWillMount() {
-			var _this2 = this;
+			var _this3 = this;
 
 			// update lifecycle state
 			this._lifecycle.componentWillMount = true;
@@ -278,8 +378,8 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 			// check the required props
 			this.requiredProps.forEach(function (prop) {
-				if (!_this2.props[prop]) {
-					throw 'The "' + _this2._componentNameDash + '" component need the "' + prop + '" property in order to work';
+				if (!_this3.props[prop]) {
+					throw 'The "' + _this3._componentNameDash + '" component need the "' + prop + '" property in order to work';
 				}
 			});
 		};
@@ -410,73 +510,6 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		};
 
 		/**
-  * When the component is created
-  */
-
-
-		_class2.prototype.createdCallback = function createdCallback() {
-
-			// props
-			this.props = {};
-
-			// track the lifecyle
-			this._lifecycle = {
-				componentWillMount: false,
-				componentMount: false,
-				componentDidMount: false,
-				componentWillUnmount: false,
-				componentUnmount: false,
-				componentDidUnmount: false
-			};
-
-			// if ( ! document.body.contains(this)) return;
-
-			// component will mount only if part of the active document
-			this.componentWillMount();
-		};
-
-		/**
-  * When the element is attached
-  */
-
-
-		_class2.prototype.attachedCallback = function attachedCallback() {
-			var _this3 = this;
-
-			// check if need to launch the will mount
-			if (!this._lifecycle.componentWillMount) {
-				this.componentWillMount();
-			}
-
-			// update attached status
-			this._componentAttached = true;
-
-			// wait until dependencies are ok
-			this._whenMountDependenciesAreOk().then(function () {
-				// switch on the mountWhen prop
-				switch (_this3.props.mountWhen) {
-					case 'inViewport':
-						(0, _whenInViewport2.default)(_this3).then(function () {
-							_this3._mountComponent();
-						});
-						break;
-					case 'mouseover':
-						_this3.addEventListener('mouseover', _this3._onMouseoverComponentMount.bind(_this3));
-						break;
-					case 'isVisible':
-						(0, _whenVisible2.default)(_this3).then(function () {
-							_this3._mountComponent();
-						});
-						break;
-					default:
-						// mount component directly
-						_this3._mountComponent();
-						break;
-				}
-			});
-		};
-
-		/**
   * When mount dependencies
   * @return 			{Promise} 				A promise that will be resolved when the dependencies are resolved
   */
@@ -583,39 +616,6 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		};
 
 		/**
-  * When any of the component attribute changes
-  */
-
-
-		_class2.prototype.attributeChangedCallback = function attributeChangedCallback(attribute, oldVal, newVal) {
-
-			// stop if component has not been mounted
-			if (!this._lifecycle.componentWillMount) {
-				return;
-			}
-
-			// cast the new val
-			newVal = (0, _autoCast2.default)(newVal);
-
-			// keep an original attribute name
-			var _attribute = attribute;
-
-			// process the attribute to camelCase
-			attribute = (0, _camelize2.default)(attribute);
-
-			// handle the case when newVal is undefined (added attribute whithout any value)
-			if (newVal === undefined && this.hasAttribute(_attribute)) {
-				newVal = true;
-			}
-
-			// do nothing if the value is already the same
-			if (this.props[attribute] === newVal) return;
-
-			// set the new prop
-			this.setProp(attribute, newVal);
-		};
-
-		/**
   * Dispatch an event from the tag with namespaced event name
   * This will dispatch actually two events :
   * 1. {tagName}.{name} : example : s-datepicker.change
@@ -713,8 +713,6 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 				// component will update
 				_this8.componentWillUpdate(_this8._nextPropsStack, nextPropsArray);
-
-				console.warn('up', _this8, _this8._nextPropsStack);
 
 				// render the component
 				_this8.render();

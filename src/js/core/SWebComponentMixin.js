@@ -297,6 +297,101 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
+	* When the component is created
+	*/
+	createdCallback() {
+
+		// props
+		this.props = {};
+
+		// track the lifecyle
+		this._lifecycle = {
+			componentWillMount : false,
+			componentMount : false,
+			componentDidMount : false,
+			componentWillUnmount : false,
+			componentUnmount : false,
+			componentDidUnmount : false
+		};
+
+		// if ( ! document.body.contains(this)) return;
+
+		// component will mount only if part of the active document
+		this.componentWillMount();
+	}
+
+	/**
+	* When the element is attached
+	*/
+	attachedCallback() {
+
+		// check if need to launch the will mount
+		// if ( ! this._lifecycle.componentWillMount) {
+		// 	this.componentWillMount();
+		// }
+
+		// update attached status
+		this._componentAttached = true;
+
+		// wait until dependencies are ok
+		this._whenMountDependenciesAreOk().then(() => {
+			// switch on the mountWhen prop
+			switch(this.props.mountWhen) {
+				case 'inViewport':
+				__whenInViewport(this).then(() => {
+					this._mountComponent();
+				});
+				break;
+				case 'mouseover':
+				this.addEventListener('mouseover', this._onMouseoverComponentMount.bind(this));
+				break;
+				case 'isVisible':
+				__whenVisible(this).then(() => {
+					this._mountComponent();
+				});
+				break;
+				default:
+				// mount component directly
+				this._mountComponent();
+				break;
+			}
+		});
+	}
+
+	/**
+	* When any of the component attribute changes
+	*/
+	attributeChangedCallback(attribute, oldVal, newVal) {
+
+		// stop if component has not been mounted
+		// if ( ! this._lifecycle.componentWillMount) {
+		// 	return;
+		// }
+
+		// cast the new val
+		newVal = __autoCast(newVal);
+
+		// keep an original attribute name
+		const _attribute = attribute;
+
+		// process the attribute to camelCase
+		attribute = __camelize(attribute);
+
+		// handle the case when newVal is undefined (added attribute whithout any value)
+		if (newVal === undefined
+			&& this.hasAttribute(_attribute)
+		) {
+			newVal = true;
+		}
+
+		// do nothing if the value is already the same
+		if (this.props[attribute] === newVal) return;
+
+		// set the new prop
+		this.setProp(attribute, newVal);
+	}
+
+	/**
 	* Method called before the component will be added in the dom.
 	* You will not have access to the siblings, etc here.
 	* This is the place to init your component, just like a constructor
@@ -481,68 +576,6 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	* When the component is created
-	*/
-	createdCallback() {
-
-		// props
-		this.props = {};
-
-		// track the lifecyle
-		this._lifecycle = {
-			componentWillMount : false,
-			componentMount : false,
-			componentDidMount : false,
-			componentWillUnmount : false,
-			componentUnmount : false,
-			componentDidUnmount : false
-		};
-
-		// if ( ! document.body.contains(this)) return;
-
-		// component will mount only if part of the active document
-		this.componentWillMount();
-	}
-
-	/**
-	* When the element is attached
-	*/
-	attachedCallback() {
-
-		// check if need to launch the will mount
-		if ( ! this._lifecycle.componentWillMount) {
-			this.componentWillMount();
-		}
-
-		// update attached status
-		this._componentAttached = true;
-
-		// wait until dependencies are ok
-		this._whenMountDependenciesAreOk().then(() => {
-			// switch on the mountWhen prop
-			switch(this.props.mountWhen) {
-				case 'inViewport':
-				__whenInViewport(this).then(() => {
-					this._mountComponent();
-				});
-				break;
-				case 'mouseover':
-				this.addEventListener('mouseover', this._onMouseoverComponentMount.bind(this));
-				break;
-				case 'isVisible':
-				__whenVisible(this).then(() => {
-					this._mountComponent();
-				});
-				break;
-				default:
-				// mount component directly
-				this._mountComponent();
-				break;
-			}
-		});
-	}
-
-	/**
 	* When mount dependencies
 	* @return 			{Promise} 				A promise that will be resolved when the dependencies are resolved
 	*/
@@ -625,39 +658,6 @@ export default Mixin((superclass) => class extends superclass {
 			// did unmount
 			this.componentDidUnmount();
 		});
-	}
-
-	/**
-	* When any of the component attribute changes
-	*/
-	attributeChangedCallback(attribute, oldVal, newVal) {
-
-		// stop if component has not been mounted
-		if ( ! this._lifecycle.componentWillMount) {
-			return;
-		}
-
-		// cast the new val
-		newVal = __autoCast(newVal);
-
-		// keep an original attribute name
-		const _attribute = attribute;
-
-		// process the attribute to camelCase
-		attribute = __camelize(attribute);
-
-		// handle the case when newVal is undefined (added attribute whithout any value)
-		if (newVal === undefined
-			&& this.hasAttribute(_attribute)
-		) {
-			newVal = true;
-		}
-
-		// do nothing if the value is already the same
-		if (this.props[attribute] === newVal) return;
-
-		// set the new prop
-		this.setProp(attribute, newVal);
 	}
 
 	/**
@@ -747,8 +747,6 @@ export default Mixin((superclass) => class extends superclass {
 
 			// component will update
 			this.componentWillUpdate(this._nextPropsStack, nextPropsArray);
-
-			console.warn('up', this, this._nextPropsStack);
 
 			// render the component
 			this.render();

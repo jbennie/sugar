@@ -56,7 +56,8 @@
 				border-bottom-color: transparent !important;
 				top:0; left:0;
 			}
-		} @else if index($modifiers, tr) {
+		}
+		@if index($modifiers, tr) {
 			top:0; right:0;
 			text-align:right;
 
@@ -65,7 +66,8 @@
 				border-left-color: transparent !important;
 				top:0; right:0;
 			}
-		} @else if index($modifiers, bl) {
+		}
+		@if index($modifiers, bl) {
 			bottom:0; left:0;
 
 			&:before {
@@ -74,7 +76,8 @@
 				// border-bottom-color: transparent !important;
 				bottom:0; left:0;
 			}
-		} @else if index($modifiers, br) {
+		}
+		@if index($modifiers, br) {
 			bottom:0; right:0;
 
 			&:before {
