@@ -790,6 +790,8 @@
  */
 @mixin s-typography-quotes-classes-style() {
 	.quote,
+	.blockquote,
+	.#{s-setting('text-format.scope-class')} blockquote,
 	.#{s-setting('text-format.scope-class')} quote {
 		@include s-typography-quote-style();
 	}
