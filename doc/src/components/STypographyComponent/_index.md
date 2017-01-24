@@ -1,4 +1,4 @@
-### STypographyComponent
+## STypographyComponent
 
 Provide ability to generate base typography classes for:
 - Titles:
@@ -33,8 +33,8 @@ Provide ability to generate base typography classes for:
 	- ```.blockquote```, ```.tf blockquote```
 
 See:
-- [Element level mixins API](./sass/_main.scss)
-- [Classes level mixins API](./sass/_classes.scss)
+- [Element level mixins API](./sass/_main.md)
+- [Classes level mixins API](./sass/_classes.md)
 
 
 #### Example

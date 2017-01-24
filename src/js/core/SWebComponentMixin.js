@@ -24,10 +24,10 @@ if ( ! window.sugar._webComponentCss) window.sugar._webComponentCss = {};
 export default Mixin((superclass) => class extends superclass {
 
 	/**
-	* Define the new web component
-	* @param 			{String} 			name 		The name of the component
-	* @param 			{SWebComponent} 	component 	The component class
-	*/
+	 * Define the new web component
+	 * @param 			{String} 			name 		The name of the component
+	 * @param 			{SWebComponent} 	component 	The component class
+	 */
 	static define(name, component, ext = null) {
 		const componentName = __upperFirst(__camelize(name));
 		const componentNameDash = name;
@@ -65,10 +65,10 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	* Inject css into html
-	* @param 		{String} 		componentName 		The component name
-	* @param 		{String} 		componentNameDash 	The dash formated component name
-	*/
+	 * Inject css into html
+	 * @param 		{String} 		componentName 		The component name
+	 * @param 		{String} 		componentNameDash 	The dash formated component name
+	 */
 	static _injectCss(componentClass, componentName, componentNameDash) {
 		// __domReady().then(() => {
 		// check if component has a css to be injected into the page
@@ -99,27 +99,27 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	* Store all the props of the component
-	* Props are actual computed props with attributes
-	* @type 		{Object}
-	*/
+	 * Store all the props of the component
+	 * Props are actual computed props with attributes
+	 * @type 		{Object}
+	 */
 	props = {};
 
 	/**
-	* Return the default props for the component.
-	* Need to take care of the passed props parameter and mix it at the
-	* end of your default props
-	*
-	* @example
-	* getDefaultProps(props = {}) {
-	* 		return super.getDefaultProps({
-	* 			myCoolProp : null,
-	* 			...props
-	* 		});
-	* }
-	*
-	* @author 		Olivier Bossel <olivier.bossel@gmail.com>
-	*/
+	 * Return the default props for the component.
+	 * Need to take care of the passed props parameter and mix it at the
+	 * end of your default props
+	 *
+	 * @example
+	 * getDefaultProps(props = {}) {
+	 * 		return super.getDefaultProps({
+	 * 			myCoolProp : null,
+	 * 			...props
+	 * 		});
+	 * }
+	 *
+	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	 */
 	static get defaultProps() {
 		return {
 			mountWhen : null
@@ -148,9 +148,9 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	* Get the default props for this particular instance
-	* @return 		{Object} 			The default props
-	*/
+	 * Get the default props for this particular instance
+	 * @return 		{Object} 			The default props
+	 */
 	get defaultProps() {
 		let props = window.sugar._webComponentsStack[this._componentName].defaultProps;
 		let comp = window.sugar._webComponentsStack[this._componentName];
@@ -180,16 +180,16 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	* Return an array of props to set on the dom
-	*/
+	 * Return an array of props to set on the dom
+	 */
 	static get physicalProps() {
 		return [];
 	}
 
 	/**
-	* Get physical props for this particular instance
-	* @return 		{Object} 			The physical props array
-	*/
+	 * Get physical props for this particular instance
+	 * @return 		{Object} 			The physical props array
+	 */
 	get physicalProps() {
 		let props = window.sugar._webComponentsStack[this._componentName].physicalProps;
 		let comp = window.sugar._webComponentsStack[this._componentName];
@@ -207,16 +207,16 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	* Return an array of required props to init the component
-	*/
+	 * Return an array of required props to init the component
+	 */
 	static get requiredProps() {
 		return [];
 	}
 
 	/**
-	* Get the required props array for this particular instance
-	* @return 		{Array} 			An array of required props
-	*/
+	 * Get the required props array for this particular instance
+	 * @return 		{Array} 			An array of required props
+	 */
 	get requiredProps() {
 		let props = window.sugar._webComponentsStack[this._componentName].requiredProps;
 		let comp = window.sugar._webComponentsStack[this._componentName];
@@ -234,8 +234,8 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	* Component css
-	*/
+	 * Component css
+	 */
 	static css(componentName, componentNameDash) {
 		return '';
 	}
@@ -253,8 +253,8 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	* Return an array of props to set on the dom
-	*/
+	 * Return an array of props to set on the dom
+	 */
 	static get mountDependencies() {
 		return [];
 		// return [function() {
@@ -273,9 +273,9 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	* Get physical props for this particular instance
-	* @return 		{Object} 			The physical props array
-	*/
+	 * Get physical props for this particular instance
+	 * @return 		{Object} 			The physical props array
+	 */
 	get mountDependencies() {
 		let deps = window.sugar._webComponentsStack[this._componentName].mountDependencies;
 		let comp = window.sugar._webComponentsStack[this._componentName];
@@ -297,8 +297,8 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	* When the component is created
-	*/
+	 * When the component is created
+	 */
 	createdCallback() {
 
 		// props
@@ -321,8 +321,8 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	* When the element is attached
-	*/
+	 * When the element is attached
+	 */
 	attachedCallback() {
 
 		// check if need to launch the will mount
@@ -338,29 +338,29 @@ export default Mixin((superclass) => class extends superclass {
 			// switch on the mountWhen prop
 			switch(this.props.mountWhen) {
 				case 'inViewport':
-				__whenInViewport(this).then(() => {
-					this._mountComponent();
-				});
+					__whenInViewport(this).then(() => {
+						this._mountComponent();
+					});
 				break;
 				case 'mouseover':
-				this.addEventListener('mouseover', this._onMouseoverComponentMount.bind(this));
+					this.addEventListener('mouseover', this._onMouseoverComponentMount.bind(this));
 				break;
 				case 'isVisible':
-				__whenVisible(this).then(() => {
-					this._mountComponent();
-				});
+					__whenVisible(this).then(() => {
+						this._mountComponent();
+					});
 				break;
 				default:
-				// mount component directly
-				this._mountComponent();
+					// mount component directly
+					this._mountComponent();
 				break;
 			}
 		});
 	}
 
 	/**
-	* When any of the component attribute changes
-	*/
+	 * When any of the component attribute changes
+	 */
 	attributeChangedCallback(attribute, oldVal, newVal) {
 
 		// stop if component has not been mounted
@@ -392,19 +392,19 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	* Method called before the component will be added in the dom.
-	* You will not have access to the siblings, etc here.
-	* This is the place to init your component, just like a constructor
-	*
-	* @example
-	* componentWillMount() {
-	* 		// call parent method
-	* 		super.componentWillMount();
-	* 		// do something here...
-	* }
-	*
-	* @author 		Olivier Bossel <olivier.bossel@gmail.com>
-	*/
+	 * Method called before the component will be added in the dom.
+	 * You will not have access to the siblings, etc here.
+	 * This is the place to init your component, just like a constructor
+	 *
+	 * @example
+	 * componentWillMount() {
+	 * 		// call parent method
+	 * 		super.componentWillMount();
+	 * 		// do something here...
+	 * }
+	 *
+	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	 */
 	componentWillMount() {
 
 		// update lifecycle state
@@ -459,19 +459,19 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	* Method called right after that the component has been added in the dom,
-	* and before the initial render
-	* This is the first place where you will have access to the dom.
-	*
-	* @example
-	* componentMount() {
-	* 		// call parent method
-	* 		super.componentMount();
-	* 		// do something here...
-	* }
-	*
-	* @author 		Olivier Bossel <olivier.bossel@gmail.com>
-	*/
+	 * Method called right after that the component has been added in the dom,
+	 * and before the initial render
+	 * This is the first place where you will have access to the dom.
+	 *
+	 * @example
+	 * componentMount() {
+	 * 		// call parent method
+	 * 		super.componentMount();
+	 * 		// do something here...
+	 * }
+	 *
+	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	 */
 	componentMount() {
 		// update the lifecycle state
 		this._lifecycle.componentMount = true;
@@ -483,17 +483,17 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	* Method called after the initial component render
-	*
-	* @example
-	* componentDidMount() {
-	* 		// call parent method
-	* 		super.componentDidMount();
-	* 		// do something here...
-	* }
-	*
-	* @author 		Olivier Bossel <olivier.bossel@gmail.com>
-	*/
+	 * Method called after the initial component render
+	 *
+	 * @example
+	 * componentDidMount() {
+	 * 		// call parent method
+	 * 		super.componentDidMount();
+	 * 		// do something here...
+	 * }
+	 *
+	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	 */
 	componentDidMount() {
 		// update lifecycle state
 		this._lifecycle.componentDidMount = true;
@@ -503,21 +503,21 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	* Method called right before the render when some props have been updated.
-	* This method is not called before the initial render
-	*
-	* @param 		{Object} 		nextProps 			An object that represent the props that have been updated
-	* @param 		{Array} 		nextPropsArray 		An array representation of the nextProps object [{name:...,value:...}]
-	*
-	* @example
-	* componentWillUpdate() {
-	* 		// call parent method
-	* 		super.componentWillUpdate();
-	* 		// do something here...
-	* }
-	*
-	* @author 		Olivier Bossel <olivier.bossel@gmail.com>
-	*/
+	 * Method called right before the render when some props have been updated.
+	 * This method is not called before the initial render
+	 *
+	 * @param 		{Object} 		nextProps 			An object that represent the props that have been updated
+	 * @param 		{Array} 		nextPropsArray 		An array representation of the nextProps object [{name:...,value:...}]
+	 *
+	 * @example
+	 * componentWillUpdate() {
+	 * 		// call parent method
+	 * 		super.componentWillUpdate();
+	 * 		// do something here...
+	 * }
+	 *
+	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	 */
 	componentWillUpdate(nextProps) {
 		// dispatch event
 		this.onComponentWillUpdate && this.onComponentWillUpdate(nextProps);
@@ -525,18 +525,18 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	* Apply all the updated that you need in the dom for the component to reflect the props
-	*
-	* @example
-	* render() {
-	* 		// call the parent method
-	* 		super.render();
-	* 		// apply some classes, properties, styles, etc... in the dom
-	* 		// in order to reflect the props object state
-	* }
-	*
-	* @author 		Olivier Bossel <olivier.bossel@gmail.com>
-	*/
+	 * Apply all the updated that you need in the dom for the component to reflect the props
+	 *
+	 * @example
+	 * render() {
+	 * 		// call the parent method
+	 * 		super.render();
+	 * 		// apply some classes, properties, styles, etc... in the dom
+	 * 		// in order to reflect the props object state
+	 * }
+	 *
+	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	 */
 	render() {
 		// dispatch event
 		this.onComponentRender && this.onComponentRender();
@@ -576,9 +576,9 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	* When mount dependencies
-	* @return 			{Promise} 				A promise that will be resolved when the dependencies are resolved
-	*/
+	 * When mount dependencies
+	 * @return 			{Promise} 				A promise that will be resolved when the dependencies are resolved
+	 */
 	_whenMountDependenciesAreOk() {
 		const promise = new Promise((resolve, reject) => {
 			if ( ! this.mountDependencies.length) {
@@ -594,10 +594,10 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	* Init props proxy.
-	* This will create a getter/setter accessor on the item itself
-	* that get and update his corresponding props.{name} property
-	*/
+	 * Init props proxy.
+	 * This will create a getter/setter accessor on the item itself
+	 * that get and update his corresponding props.{name} property
+	 */
 	_initPropsProxy() {
 		// loop on each props
 		for(let key in this.props) {
@@ -613,16 +613,16 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	* On mouse over
-	*/
+	 * On mouse over
+	 */
 	_onMouseoverComponentMount() {
 		this._mountComponent();
 		this.removeEventListener('mouseover', this._onMouseoverComponentMount);
 	}
 
 	/**
-	* Internal mount component method
-	*/
+	 * Internal mount component method
+	 */
 	_mountComponent() {
 		// wait next frame
 		fastdom.clear(this._fastdomSetProp);
@@ -641,8 +641,8 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	* When the component is detached
-	*/
+	 * When the component is detached
+	 */
 	detachedCallback() {
 		// update attached status
 		this._componentAttached = false;
@@ -661,22 +661,22 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	* Dispatch an event from the tag with namespaced event name
-	* This will dispatch actually two events :
-	* 1. {tagName}.{name} : example : s-datepicker.change
-	* 2. {name} 		   : example : change
-	*
-	* @param		{String} 		name 		The event name
-	* @param 		{Mixed} 		data 		Some data to attach to the event
-	*/
+	 * Dispatch an event from the tag with namespaced event name
+	 * This will dispatch actually two events :
+	 * 1. {tagName}.{name} : example : s-datepicker.change
+	 * 2. {name} 		   : example : change
+	 *
+	 * @param		{String} 		name 		The event name
+	 * @param 		{Mixed} 		data 		Some data to attach to the event
+	 */
 	dispatchComponentEvent(name, data = null) {
 		__dispatchEvent(this, name, data);
 		__dispatchEvent(this, `${this.tagName.toLowerCase()}.${name}`, data);
 	}
 
 	/**
-	* Set properties
-	*/
+	 * Set properties
+	 */
 	setProps(props = {}) {
 		// set each props
 		for (let key in props) {
@@ -686,8 +686,8 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	* Set a property
-	*/
+	 * Set a property
+	 */
 	setProp(prop, value) {
 
 		// save the oldVal
@@ -757,17 +757,17 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	* Check if component is mounted
-	* @return 			{Boolean} 			true if mounted, false if not
-	*/
+	 * Check if component is mounted
+	 * @return 			{Boolean} 			true if mounted, false if not
+	 */
 	isComponentMounted() {
 		return this._componentMounted;
 	}
 
 	/**
-	* Handle physical props by setting or not the prop
-	* on the dom element as attribute
-	*/
+	 * Handle physical props by setting or not the prop
+	 * on the dom element as attribute
+	 */
 	_handlePhysicalProps(prop, value) {
 		// check if is a physical prop to set it in the dom
 		const physicalProps = this.physicalProps;
@@ -788,8 +788,8 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	* Compute props by mixing settings with attributes presents on the component
-	*/
+	 * Compute props by mixing settings with attributes presents on the component
+	 */
 	_computeProps() {
 		for (let i=0; i<this.attributes.length; i++) {
 			const attr = this.attributes[i];
@@ -812,57 +812,44 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	* Mutate the dom using an optimize requestAnimationFrame technique
-	* @param 		{Function} 		cb 			The callback to exexute
-	*/
+	 * Mutate the dom using an optimize requestAnimationFrame technique
+	 * @param 		{Function} 		cb 			The callback to exexute
+	 */
 	mutate(cb) {
 		return fastdom.mutate(cb);
 	}
 
 	/**
-	* componentClassName
-	* Set a class that will be construct with the componentNameDash,
-	* an optional element and modifier
-	* @param 	{String} 	[element=null] 		The element name
-	* @param 	{String} 	[modifier=null] 	The modifier name
-	* @param 	{String} 	[state=null] 		The state name
-	* @return 	{String} 						The generated class
-	*/
+	 * componentClassName
+	 * Set a class that will be construct with the componentNameDash,
+	 * an optional element and modifier
+	 * @param 	{String} 	[element=null] 		The element name
+	 * @param 	{String} 	[modifier=null] 	The modifier name
+	 * @param 	{String} 	[state=null] 		The state name
+	 * @return 	{String} 						The generated class
+	 */
 	componentClassName(element = null, modifier = null, state = null) {
 		// if the method is BEM
 		let sel = this._componentNameDash;
-		// @TODO : handle the sSettings at component load
-		if ( false && sSettings && sSettings.selector.method.toLowerCase() === 'smaccs') {
-			if (element) {
-				sel += `-${element}`;
-			}
-			if (modifier) {
-				sel += `-${modifier}`;
-			}
-			if (state) {
-				sel += ` is-${state}`;
-			}
-		} else {
-			if (element) {
-				sel += `__${element}`;
-			}
-			if (modifier) {
-				sel += `--${modifier}`;
-			}
-			if (state) {
-				sel += `--${state}`;
-			}
+		if (element) {
+			sel += `__${element}`;
+		}
+		if (modifier) {
+			sel += `--${modifier}`;
+		}
+		if (state) {
+			sel += `--${state}`;
 		}
 		return sel;
 	}
 
 	/**
-	* Get a component selector class built with the passed element, modifier and state parameters
-	* @param 	{String} 	[element=null] 		The element name
-	* @param 	{String} 	[modifier=null] 	The modifier name
-	* @param 	{String} 	[state=null] 		The state name
-	* @return 	{String} 						The generated class
-	*/
+	 * Get a component selector class built with the passed element, modifier and state parameters
+	 * @param 	{String} 	[element=null] 		The element name
+	 * @param 	{String} 	[modifier=null] 	The modifier name
+	 * @param 	{String} 	[state=null] 		The state name
+	 * @return 	{String} 						The generated class
+	 */
 	componentSelector(element = null, modifier = null, state = null) {
 		let sel = this.componentClassName(element, modifier, state);
 		sel = `.${sel}`.replace(' ','.');
@@ -870,14 +857,14 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	* hasComponentClass
-	* Check if the passed element has the component class generated by the element and modifier argument
-	* @param 	{HTMLElement} 	elm 				The element to check
-	* @param 	{String} 		[element=null] 		The element name
-	* @param 	{String} 		[modifier=null] 	The modifier name
-	* @param 	{String} 		[state=null] 		The state name
-	* @return 	{Boolean} 							The check result
-	*/
+	 * hasComponentClass
+	 * Check if the passed element has the component class generated by the element and modifier argument
+	 * @param 	{HTMLElement} 	elm 				The element to check
+	 * @param 	{String} 		[element=null] 		The element name
+	 * @param 	{String} 		[modifier=null] 	The modifier name
+	 * @param 	{String} 		[state=null] 		The state name
+	 * @return 	{Boolean} 							The check result
+	 */
 	hasComponentClass(elm, element = null, modifier = null, state = null) {
 		// generate the class
 		const cls = this.componentSelector(element, modifier, state);
@@ -894,13 +881,13 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	* Add a class on the passed element that will be construct with the componentNameDash,
-	* an optional element, modifier and state
-	* @param 	{String} 	[element=null] 		The element name
-	* @param 	{String} 	[modifier=null] 	The modifier name
-	* @param 	{String} 	[state=null] 		The state name
-	* @return 	{SComponent}} 			The component itself
-	*/
+	 * Add a class on the passed element that will be construct with the componentNameDash,
+	 * an optional element, modifier and state
+	 * @param 	{String} 	[element=null] 		The element name
+	 * @param 	{String} 	[modifier=null] 	The modifier name
+	 * @param 	{String} 	[state=null] 		The state name
+	 * @return 	{SComponent}} 			The component itself
+	 */
 	addComponentClass(elm, element = null, modifier = null, state = null) {
 		// if is an array
 		if (elm instanceof Array
@@ -927,13 +914,13 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	* Remove a class on the passed element that will be construct with the componentNameDash,
-	* an optional element, modifier and state
-	* @param 	{String} 	[element=null] 		The element name
-	* @param 	{String} 	[modifier=null] 	The modifier name
-	* @param 	{String} 	[state=null] 		The state name
-	* @return 	{SComponent}} 					The component itself
-	*/
+	 * Remove a class on the passed element that will be construct with the componentNameDash,
+	 * an optional element, modifier and state
+	 * @param 	{String} 	[element=null] 		The element name
+	 * @param 	{String} 	[modifier=null] 	The modifier name
+	 * @param 	{String} 	[state=null] 		The state name
+	 * @return 	{SComponent}} 					The component itself
+	 */
 	removeComponentClass(elm, element = null, modifier = null, state = null) {
 		// if is an array
 		if (elm instanceof Array

@@ -1,4 +1,4 @@
-### SButtonComponent
+## SButtonComponent
 
 Provide ability to generate buttons that follow your settings like colors, look and feel, etc...
 
@@ -11,8 +11,8 @@ Provide ability to generate buttons that follow your settings like colors, look 
 - ```.btn--hover-{$color}```
 
 See:
-- [Element level mixins API](./sass/_main.scss)
-- [Classes level mixins API](./sass/_classes.scss)
+- [Element level mixins API](./sass/_main.md)
+- [Classes level mixins API](./sass/_classes.md)
 
 
 #### Example

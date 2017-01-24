@@ -1,4 +1,4 @@
-### $_sugar-settings-cache
+## $_sugar-settings-cache
 
 Get a settings from the global settings stack
 

@@ -13,7 +13,7 @@ $color  |  **{ [Color](http://www.sass-lang.com/documentation/file.SASS_REFERENC
 Author : Olivier Bossel <olivier.bossel@gmail.com>
 
 
-### s-typography-titles-classes
+### s-typography-title-classes
 
 Provide the styling for the titles classes:
 - ```.h1-h6```
@@ -22,7 +22,7 @@ Provide the styling for the titles classes:
 Author : Olivier Bossel <olivier.bossel@gmail.com>
 
 
-### s-typography-titles-classes-bare
+### s-typography-title-classes-bare
 
 Provide the bare styling for the titles classes
 - ```.h1-h6```
@@ -31,7 +31,7 @@ Provide the bare styling for the titles classes
 Author : Olivier Bossel <olivier.bossel@gmail.com>
 
 
-### s-typography-titles-classes-style
+### s-typography-title-classes-style
 
 Provide the style styling for the titles classes
 - ```.h1-h6```
@@ -40,7 +40,7 @@ Provide the style styling for the titles classes
 Author : Olivier Bossel <olivier.bossel@gmail.com>
 
 
-### s-typography-paragraphs-classes
+### s-typography-paragraph-classes
 
 Provide the styling for the paragraphs classes
 - ```.p```, ```.tf p```
@@ -49,7 +49,7 @@ Provide the styling for the paragraphs classes
 Author : Olivier Bossel <olivier.bossel@gmail.com>
 
 
-### s-typography-paragraphs-classes-bare
+### s-typography-paragraph-classes-bare
 
 Provide the bare styling for the ```.p``` and ```.p--lead``` classes
 - ```.p```, ```.tf p```
@@ -58,7 +58,7 @@ Provide the bare styling for the ```.p``` and ```.p--lead``` classes
 Author : Olivier Bossel <olivier.bossel@gmail.com>
 
 
-### s-typography-paragraphs-classes-style
+### s-typography-paragraph-classes-style
 
 Provide the bare styling for the ```.p``` class
 - ```.p```, ```.tf p```
@@ -67,7 +67,7 @@ Provide the bare styling for the ```.p``` class
 Author : Olivier Bossel <olivier.bossel@gmail.com>
 
 
-### s-typography-links-classes
+### s-typography-link-classes
 
 Provide the styling for the links classes
 - ```.link```, ```.tf a```
@@ -80,7 +80,7 @@ $color  |  **{ [Color](http://www.sass-lang.com/documentation/file.SASS_REFERENC
 Author : Olivier Bossel <olivier.bossel@gmail.com>
 
 
-### s-typography-links-classes-bare
+### s-typography-link-classes-bare
 
 Provide the bare styling for the links classes
 - ```.link```, ```.tf a```
@@ -88,7 +88,7 @@ Provide the bare styling for the links classes
 Author : Olivier Bossel <olivier.bossel@gmail.com>
 
 
-### s-typography-links-classes-style
+### s-typography-link-classes-style
 
 Provide the style styling for the links classes
 - ```.link```, ```.tf a```
@@ -101,7 +101,7 @@ $color  |  **{ [Color](http://www.sass-lang.com/documentation/file.SASS_REFERENC
 Author : Olivier Bossel <olivier.bossel@gmail.com>
 
 
-### s-typography-inline-texts-classes
+### s-typography-inline-text-classes
 
 Provide the styling for the inline-text classes
 - ```.mark```, ```.tf mark```
@@ -121,7 +121,7 @@ $color  |  **{ [Color](http://www.sass-lang.com/documentation/file.SASS_REFERENC
 Author : Olivier Bossel <olivier.bossel@gmail.com>
 
 
-### s-typography-inline-texts-classes-bare
+### s-typography-inline-text-classes-bare
 
 Provide the bare styling for the inline-text classes
 - ```.mark```, ```.tf mark```
@@ -136,7 +136,7 @@ Provide the bare styling for the inline-text classes
 Author : Olivier Bossel <olivier.bossel@gmail.com>
 
 
-### s-typography-inline-texts-classes-style
+### s-typography-inline-text-classes-style
 
 Provide the style styling for the inline-text classes
 - ```.mark```, ```.tf mark```
@@ -156,7 +156,7 @@ $color  |  **{ [Color](http://www.sass-lang.com/documentation/file.SASS_REFERENC
 Author : Olivier Bossel <olivier.bossel@gmail.com>
 
 
-### s-typography-lists-classes
+### s-typography-list-classes
 
 Provide the styling for the lists classes
 - ```.dl```, ```.tf dl```
@@ -175,7 +175,7 @@ $color  |  **{ [Color](http://www.sass-lang.com/documentation/file.SASS_REFERENC
 Author : Olivier Bossel <olivier.bossel@gmail.com>
 
 
-### s-typography-lists-classes-bare
+### s-typography-list-classes-bare
 
 Provide the bare styling for the lists classes
 - ```.dl```, ```.tf dl```
@@ -189,7 +189,7 @@ Provide the bare styling for the lists classes
 Author : Olivier Bossel <olivier.bossel@gmail.com>
 
 
-### s-typography-lists-classes-style
+### s-typography-list-classes-style
 
 Provide the style styling for the lists classes
 - ```.dl```, ```.tf dl```
@@ -208,7 +208,7 @@ $color  |  **{ [Color](http://www.sass-lang.com/documentation/file.SASS_REFERENC
 Author : Olivier Bossel <olivier.bossel@gmail.com>
 
 
-### s-typography-captions-classes
+### s-typography-caption-classes
 
 Provide the styling for the captions classes
 - ```.caption```, ```.figcaption```, ```.tf caption```, ```.tf figcaption```
@@ -216,7 +216,7 @@ Provide the styling for the captions classes
 Author : Olivier Bossel <olivier.bossel@gmail.com>
 
 
-### s-typography-captions-classes-bare
+### s-typography-caption-classes-bare
 
 Provide the bare styling for the captions classes
 - ```.caption```, ```.figcaption```, ```.tf caption```, ```.tf figcaption```
@@ -224,7 +224,7 @@ Provide the bare styling for the captions classes
 Author : Olivier Bossel <olivier.bossel@gmail.com>
 
 
-### s-typography-captions-classes-style
+### s-typography-caption-classes-style
 
 Provide the style styling for the captions classes
 - ```.caption```, ```.figcaption```, ```.tf caption```, ```.tf figcaption```
@@ -232,7 +232,7 @@ Provide the style styling for the captions classes
 Author : Olivier Bossel <olivier.bossel@gmail.com>
 
 
-### s-typography-quotes-classes
+### s-typography-quote-classes
 
 Provide the styling for the quotes classes
 - ```.quote```, ```.tf quote```
@@ -241,7 +241,7 @@ Provide the styling for the quotes classes
 Author : Olivier Bossel <olivier.bossel@gmail.com>
 
 
-### s-typography-quotes-classes-bare
+### s-typography-quote-classes-bare
 
 Provide the bare styling for the quotes classes
 - ```.quote```, ```.tf quote```
@@ -250,7 +250,7 @@ Provide the bare styling for the quotes classes
 Author : Olivier Bossel <olivier.bossel@gmail.com>
 
 
-### s-typography-quotes-classes-style
+### s-typography-quote-classes-style
 
 Provide the style styling for the quotes classes
 - ```.quote```, ```.tf quote```

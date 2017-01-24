@@ -1,4 +1,4 @@
-### $_s-default-transition-map
+## $_s-default-transition-map
 
 Take a transition as parameter and parse it to return the {Map} corresponding
 The $transition parameter can be either a registered transition name or a custom css transition like : all .2s ease-in-out 2s

@@ -1,4 +1,4 @@
-### $_sugar-component-name
+## $_sugar-component-name
 
 
 
