@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s-test-argument
+## s-test-argument
 
 Test an argument passed to a function or a mixin to ensure his type, value, etc...
 If the argument does not pass the test, an error will be thrown, unless the $check-only argument is true
@@ -18,7 +18,7 @@ $check-only  |  **{ Boolean }**  |  If this is true, will not thrown any error  
 
 Return **{ Mixed }** The value if ok, false if not
 
-#### Example
+### Example
 ```scss
 	@mixin my-cool-mixin($argument1, $argument2) {
        $argument1 : s-test-argument(my-cool-mixin, argument1, string, $argument1);

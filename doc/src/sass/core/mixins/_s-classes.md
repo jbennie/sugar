@@ -1,7 +1,7 @@
-## Mixins
+# Mixins
 
 
-### s-classes
+## s-classes
 
 
 
@@ -10,7 +10,7 @@ Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $namespaces  |  **{ List<string> }**  |  The classes namespaces wanted  |  required  |
 
-#### Example
+### Example
 ```scss
 	@include s-classes(); // will print out all the classes
 @include s-classes('sugar.font'); // will print all the font classes

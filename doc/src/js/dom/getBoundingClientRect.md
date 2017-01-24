@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### closest
+## closest
 
 Proxy to the HTMLElement.getBoundingClientRect function.
 This proxy make some optimisations like it store in cache the
@@ -16,7 +16,7 @@ elm  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElem
 
 Return **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }** The bouding client rect object
 
-#### Example
+### Example
 ```js
 	import getBoundingClientRect from 'sugarcss/js/dom/getBoundingClientRect'
 const rect = getBoundingClientRect(myCoolHTMLElement);

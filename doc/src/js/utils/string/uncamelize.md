@@ -1,7 +1,4 @@
-## Methods
-
-
-### uncamelize
+# uncamelize
 
 Uncamelize a string
 

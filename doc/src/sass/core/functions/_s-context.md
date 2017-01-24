@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s-context
+## s-context
 
 Return the name of the context setted with the [../mixins/_s-context.scss] mixin
 
@@ -13,7 +13,7 @@ $default  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFER
 
 Return **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }** The context name
 
-#### Example
+### Example
 ```scss
 	// register a context
 @include s-context-setup('my-context', (

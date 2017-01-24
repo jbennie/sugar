@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s-position
+## s-position
 
 Return the representation of a position styling like position:absolute; top:0; left:100%; etc...
 This function gives you some shortcuts to align your element top, bottom, middle, center, etc...
@@ -20,7 +20,7 @@ $left  |  **{ Number }**  |  The left property wanted  |  optional  |  null
 
 Return **{ [Map](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#maps) }** The map representation of the position wanted
 
-#### Example
+### Example
 ```scss
 	s-position(absolute, top, right);
 s-position(absolute, middle, center);

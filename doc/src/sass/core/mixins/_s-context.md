@@ -1,7 +1,7 @@
-## Mixins
+# Mixins
 
 
-### s-context
+## s-context
 
 
 
@@ -10,7 +10,7 @@ Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $name-or-map  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) , [Map](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#maps) }**  |  The name of a registered context or a map  |  required  |
 
-#### Example
+### Example
 ```scss
 	// register a context
 @include s-context-setup(my-cool-context, (

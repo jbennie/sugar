@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s-pt
+## s-pt
 
 Convert the passed value to pt
 

@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### domReady
+## domReady
 
 Wait that the dom is ready before resolving the promise
 If you need that some css files are loaded before considering the dom as loaded
@@ -15,7 +15,7 @@ cb  |  **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refer
 
 Return **{ [Promise](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise) }** A promise that will be resolved when the dom is ready
 
-#### Example
+### Example
 ```js
 	import domReady from 'sugarcss/js/dom/domReady'
 // using callback

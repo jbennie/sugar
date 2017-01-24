@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### style
+## style
 
 Set or remove a css style property on an HTMLElement
 
@@ -14,7 +14,7 @@ styleObj  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/R
 
 Return **{ (Object) }** The element applied style
 
-#### Example
+### Example
 ```js
 	import style from 'sugarcss/js/dom/style'
 style(myCoolHTMLElement, {

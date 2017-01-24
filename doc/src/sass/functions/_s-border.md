@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s-border
+## s-border
 
 Parse and return the Map respresentation of a border property
 The $border argument will be parsed with the [s-parse-properties](../core/functions/_s-parse-properties.scss) function.
@@ -14,7 +14,7 @@ $border  |  **{ [List](http://www.sass-lang.com/documentation/file.SASS_REFERENC
 
 Return **{ [Map](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#maps) }** The Map represenration of the border
 
-#### Example
+### Example
 ```scss
 	s-border(1px solid white);
 // return

@@ -1,7 +1,4 @@
-## Methods
-
-
-### scrollTo
+# scrollTo
 
 
 
@@ -15,7 +12,7 @@ offset  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Ref
 align  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The destination align (top, center, bottom)  |  required  |
 onFinish  |  **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function) }**  |  A callback to call when the animation if finished  |  required  |
 
-#### Example
+### Example
 ```js
 	import scrollTop from 'sugarcss/js/dom/scrollTo'
 import easeInOutQuad from 'sugarcss/js/easings/easeInOutQuad'

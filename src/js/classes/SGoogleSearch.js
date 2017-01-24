@@ -1,5 +1,5 @@
 /**
- * @class 		SGoogleSearch
+ * @name 		SGoogleSearch
  * This class let you make with ease search requests to the google custom search service
  * with useful features like:
  * - Simple pagination system

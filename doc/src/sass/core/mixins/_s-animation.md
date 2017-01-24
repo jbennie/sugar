@@ -1,7 +1,7 @@
-## Mixins
+# Mixins
 
 
-### s-animation
+## s-animation
 
 
 
@@ -10,7 +10,7 @@ Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $animations  |  **{ [List](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#lists) }**  |  The animations wanted like : coco .2s ease-in-out reverse  |  required  |
 
-#### Example
+### Example
 ```scss
 	// animation : my-animation 1s 0s ease-in-out 1 normal forwards, another-animation 4s 1s ease-in-out 1 normal forwards;
 }

@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### template
+## template
 
 Return a usable nodeTree from a variable source like selector, an html string, an html template tag or a node that will be cloned.
 

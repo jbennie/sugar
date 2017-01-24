@@ -1,7 +1,7 @@
-## Mixins
+# Mixins
 
 
-### s-register-class
+## s-register-class
 
 
 
@@ -11,7 +11,7 @@ Name  |  Type  |  Description  |  Status  |  Default
 $classname  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  The classname that will be printed out  |  required  |
 $namespace  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  The dots separated namespace under which the class will live  |  required  |
 
-#### Example
+### Example
 ```scss
 	@include s-register-class(my-cool-class, 'my.cool.namespace') {
 		background : pink;

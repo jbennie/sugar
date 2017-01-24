@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s-interpolate
+## s-interpolate
 
 Return the specified or calculated value of the given stack and size
 depending on the settings.sizes ratios stack
@@ -15,7 +15,7 @@ $size  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENC
 
 Return **{ Number }** The $stack.$size value or the interpolated one depending on the settings.sizes ratios
 
-#### Example
+### Example
 ```scss
 	// settings.sizes
 @include s-setup((

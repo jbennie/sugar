@@ -1,11 +1,14 @@
-# SAjax  extends {SObject}
+# SAjax
+
+Extends **SObject**
+
 Class that allows to simply handle ajax requests with ease.
 This class give some useful features like :
 - Promise support
 - Observable support
 - Recursive requests
 
-#### Example
+### Example
 ```js
 	const ajx = new SAjax({
 		url : 'api/...',

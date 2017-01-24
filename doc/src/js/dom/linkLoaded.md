@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### linkLoaded
+## linkLoaded
 
 Wait until the passed HTMLLinkElement is fully loaded
 
@@ -14,7 +14,7 @@ cb  |  **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refer
 
 Return **{ [Promise](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise) }** The promise that will be resolved
 
-#### Example
+### Example
 ```js
 	import linkLoaded from 'sugarcss/js/dom/linkLoaded'
 linkLoaded(myCoolHTMLLinlElement).then((link) => {

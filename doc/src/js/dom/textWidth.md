@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### textWidth
+## textWidth
 
 Get the text width in px of a passed string or the passed HTMLElement
 
@@ -13,7 +13,7 @@ source  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Ref
 
 Return **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }** The calculated width of the text
 
-#### Example
+### Example
 ```js
 	import textWidth from 'sugarcss/js/dom/textWidth'
 // text of an HTMLElement

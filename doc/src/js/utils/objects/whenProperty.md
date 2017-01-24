@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### whenProperty
+## whenProperty
 
 Resolve a promise when the wanted property on the passed object exist or pass the check function provided
 
@@ -15,7 +15,7 @@ checkFn  |  **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript/
 
 Return **{ (Promise) }** The promise that will be resolved when the property exist on the object (and that it passes the checkFn)
 
-#### Example
+### Example
 ```js
 	import whenProperty from 'sugarcss/js/utils/objects/whenProperty'
 

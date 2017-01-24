@@ -1,8 +1,8 @@
-## Settings
+# Settings
 
 Here's the list of available settings.
 
-### visible
+## visible
 
 If we want only visible elements
 
@@ -11,7 +11,7 @@ Type : **{ [Boolean](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refere
 Default : **false**
 
 
-### inViewport
+## inViewport
 
 If we want only elements that are in the viewport
 
@@ -20,7 +20,7 @@ Type : **{ [Boolean](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refere
 Default : **false**
 
 
-### rootNode
+## rootNode
 
 The root node to start the query from
 
@@ -30,10 +30,10 @@ Default : **document.body**
 
 
 
-## Methods
+# Methods
 
 
-### querySelectorAll
+## querySelectorAll
 
 Enhanced proxy of the Element.querySelectorAll function that let you specify
 if you want elements that are visible, or even that are in the viewport
@@ -47,7 +47,7 @@ settings  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/R
 
 Return **{ Array<HTMLElement> }** The founded elements
 
-#### Example
+### Example
 ```js
 	// simple query
 const elms = querySelectorAll('.a-cool-css-selector');

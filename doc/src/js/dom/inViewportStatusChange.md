@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### inViewportStatusChange
+## inViewportStatusChange
 
 Monitor when the passed element enter or exit the viewport
 
@@ -15,7 +15,7 @@ onExit  |  **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript/R
 
 Return **{ InViewportStatusChangeDetector }** The in viewport status change detector instance
 
-#### Example
+### Example
 ```js
 	import inViewportStatusChange from 'sugarcss/js/dom/inViewportStatusChange'
 const detector = inViewportStatusChange(myCoolHTMLElement, () => {

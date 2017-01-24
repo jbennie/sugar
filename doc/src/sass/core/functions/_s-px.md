@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s-px
+## s-px
 
 Convert the passed value to px
 

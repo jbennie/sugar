@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s-render-round
+## s-render-round
 
 Return the passed values in the same unit but that has been rounded on the corresponding px value
 This ensure that your passed value will be a round px value for final rander in the viewport
@@ -14,7 +14,7 @@ $value  |  **{ Number }**  |  The value to process  |  required  |
 
 Return **{ Number }** The rounded value in same input unit but px rounded
 
-#### Example
+### Example
 ```scss
 	// if settings.typography.font-size == 16px
 s-render-round(5.2rem);

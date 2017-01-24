@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s-dash-to-map
+## s-dash-to-map
 
 Transform a dash notation value into a map
 Dash notation value is : -key1 value1 -key2 value2
@@ -14,7 +14,7 @@ $dash  |  **{ [List](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.
 
 Return **{ [Map](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#maps) }** The map generated
 
-#### Example
+### Example
 ```scss
 	$dash : -hello world -coco universe
 s-dash-to-map($dash);

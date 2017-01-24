@@ -1,7 +1,7 @@
 import uniqid from '../utils/uniqid'
 
 /**
- * @class 			SSvgFilter
+ * @name 			SSvgFilter
  * This class allows you to create with ease some complexe SVG filters and to apply it on any HTMLElement that you want
  * by extending this class like so
  *

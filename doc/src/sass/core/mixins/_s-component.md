@@ -1,4 +1,4 @@
-## $_sugar-component-name
+# $_sugar-component-name
 
 
 
@@ -8,7 +8,7 @@ Name  |  Type  |  Description  |  Status  |  Default
 $name  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  The name of the component to set  |  optional  |  null
 $context  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) , [Map](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#maps) }**  |  A context name or map to use inside the mixin  |  optional  |  null
 
-#### Example
+### Example
 ```scss
 	@include s-component('my-component') {
 		s-component('hello') // => 'my-component'

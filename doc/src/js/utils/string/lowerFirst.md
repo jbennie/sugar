@@ -1,6 +1,3 @@
-## Methods
-
-
-### lowerFirst
+# lowerFirst
 
 Lower first letter

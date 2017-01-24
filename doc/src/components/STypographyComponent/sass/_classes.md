@@ -1,3 +1,8 @@
+# STypographyComponent Classes
+
+This file provide the mixins to generate typography classes
+
+
 ## Mixins
 
 

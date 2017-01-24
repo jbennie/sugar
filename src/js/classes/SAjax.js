@@ -7,7 +7,8 @@ import SAjaxRequest from './SAjaxRequest'
 import __autoCast from '../utils/string/autoCast'
 
 /**
- * @class 		SAjax 	{SObject}
+ * @name 		SAjax
+ * @extends 	SObject
  * Class that allows to simply handle ajax requests with ease.
  * This class give some useful features like :
  * - Promise support

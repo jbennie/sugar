@@ -1,7 +1,7 @@
-## Mixins
+# Mixins
 
 
-### s-loader-couch-potato
+## s-loader-couch-potato
 
 
 
@@ -16,7 +16,7 @@ $a-ease  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERE
 $a-rotate  |  **{ Degree }**  |  The animation rotation  |  optional  |  360deg
 $a-scale  |  **{ Number }**  |  The animation scale  |  optional  |  .7
 
-#### Example
+### Example
 ```scss
 	.my-cool-loader {
 		@include s-loader-couch-potato();

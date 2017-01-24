@@ -1,3 +1,3 @@
-## SFormComponent
+# SFormComponent
 
 Documentation coming soon...

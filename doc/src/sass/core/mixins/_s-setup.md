@@ -1,7 +1,7 @@
-## Mixins
+# Mixins
 
 
-### s-setup
+## s-setup
 
 
 
@@ -10,7 +10,7 @@ Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $settings  |  **{ [Map](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#maps) }**  |  The settings to override  |  required  |
 
-#### Example
+### Example
 ```scss
 	@include s-setup((
 		typo : (

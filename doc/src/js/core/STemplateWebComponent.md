@@ -1,3 +1,12 @@
+# defaultProps
+
+Default props
+
+
+
+
+
+
 ## Properties
 
 
@@ -22,11 +31,6 @@ Default : **null**
 
 
 ## Methods
-
-
-### defaultProps
-
-Default props
 
 
 ### defaultTemplateData

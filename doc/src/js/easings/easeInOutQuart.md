@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### easeInOutQuart
+## easeInOutQuart
 
 Ease in out quart function
 

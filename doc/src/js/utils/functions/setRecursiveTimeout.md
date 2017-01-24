@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### setRecursiveTimeout
+## setRecursiveTimeout
 
 This utils function allows you to call a passed function each x time during a certain duration
 
@@ -16,7 +16,7 @@ spread  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Ref
 
 Return **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function) }** clearer
 
-#### Example
+### Example
 ```js
 	setRecursiveTimeout(() => {
 		// I will be executed 10 times

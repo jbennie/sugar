@@ -1,8 +1,6 @@
-# SMotionblurSvgFilter  extends {SSvgFilter}
-This class represent a motion blur svg filter that will blur your
-element depending on his movements, direction and speed
+# SMotionblurSvgFilter
 
-#### Example
+### Example
 ```js
 	const filter = new SMotionblurSvgFilter();
 filter.applyTo(myCoolHTMLElement);

@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### whenOutOfViewport
+## whenOutOfViewport
 
 Monitor an HTMLElement to be notified when it exit the viewport
 
@@ -14,7 +14,7 @@ cb  |  **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refer
 
 Return **{ (Promise) }** The promise that will be resolved when the element exit the viewport
 
-#### Example
+### Example
 ```js
 	import whenOutOfViewport from 'sugarcss/js/dom/whenOutOfViewport'
 whenOutOfViewport(myCoolHTMLElement).then((elm) => {

@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### easeOutQuad
+## easeOutQuad
 
 Ease out quad function
 

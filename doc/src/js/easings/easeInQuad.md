@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### easeInQuad
+## easeInQuad
 
 Ease in quad function
 

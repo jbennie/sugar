@@ -1,5 +1,5 @@
 /**
- * @class 		SAjaxRequest
+ * @name 		SAjaxRequest
  * Class that represent an ajax request that will be passed to an SAjax instance
  * @example 	js
  * const request = new SAjaxRequest({

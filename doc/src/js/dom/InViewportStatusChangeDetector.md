@@ -1,3 +1,21 @@
+# InViewportStatusChangeDetector
+
+This class allows you to monitor an HTMLElement and be notified when it enters or exit the viewport.
+
+
+### Example
+```js
+	const detector = new InViewportStatusChangeDetector(myCoolHTMLElement);
+detector.on('enter', (elm) => {
+		// the element has entered the viewport
+});
+detector.on('exit', (elm) => {
+		// the element has exit the viewport
+});
+```
+Author : Olivier Bossel <olivier.bossel@gmail.com>
+
+
 ## Constructor
 
 
@@ -11,24 +29,6 @@ elm  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElem
 
 
 ## Methods
-
-
-### InViewportStatusChangeDetector
-
-This class allows you to monitor an HTMLElement and be notified when it enters or exit the viewport.
-
-
-#### Example
-```js
-	const detector = new InViewportStatusChangeDetector(myCoolHTMLElement);
-detector.on('enter', (elm) => {
-		// the element has entered the viewport
-});
-detector.on('exit', (elm) => {
-		// the element has exit the viewport
-});
-```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
 
 
 ### on

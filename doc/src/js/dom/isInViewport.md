@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### isInViewport
+## isInViewport
 
 Check if the passed HTMLElement is in the viewport or not
 
@@ -14,7 +14,7 @@ offset  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Ref
 
 Return **{ [Boolean](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean) }** If the element is in the viewport or not
 
-#### Example
+### Example
 ```js
 	import isInViewport from 'sugarcss/js/dom/isInViewport'
 if (isInViewport(myCoolHTMLElement) {

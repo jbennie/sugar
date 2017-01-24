@@ -1,4 +1,9 @@
 /**
+ * @name 	STypographyComponent
+ * This file provide the mixins to create typography elements
+ */
+
+/**
  * Apply the title css
  * @param 		{Number} 		$size 		The size wanted. If unitless, will use modular scale to calculate size
  * @param 		{Integer}		[$base=null] 		The base on which to calculate the modular scale if needed

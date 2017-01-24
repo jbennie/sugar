@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s-space
+## s-space
 
 Return a value interpolated from the settings.spaces stack
 
@@ -13,7 +13,7 @@ $size  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENC
 
 Return **{ Number }** The actual space value
 
-#### Example
+### Example
 ```scss
 	.my-cool-section {
 		padding : s-pace(big);

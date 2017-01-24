@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### imageLoaded
+## imageLoaded
 
 Wait until the passed image is fully loaded
 
@@ -14,7 +14,7 @@ cb  |  **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refer
 
 Return **{ [Promise](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise) }** The promise that will be resolved
 
-#### Example
+### Example
 ```js
 	import imageLoaded from 'sugarcss/js/dom/imageLoaded'
 imageLoaded(myCoolHTMLImageElement).then((img) => {

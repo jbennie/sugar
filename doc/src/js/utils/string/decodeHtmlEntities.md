@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### decodeHtmlEntities
+## decodeHtmlEntities
 
 Decode an htmlentities encoded string
 
@@ -13,7 +13,7 @@ string  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Ref
 
 Return **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }** The decoded string
 
-#### Example
+### Example
 ```js
 	decodeHtmlentities('&#111;&#108;&#105;&#118;&#105;&#101;&#114;&#046;&#098;&#111;&#115;&#115;&#101;&#108;&#064;&#103;&#109;&#097;&#105;&#108;&#046;&#099;&#111;&#109;');
 // return => olivier.bossel@gmail.com

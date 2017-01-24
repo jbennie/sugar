@@ -1,7 +1,7 @@
-## Mixins
+# Mixins
 
 
-### s-background
+## s-background
 
 
 
@@ -24,7 +24,7 @@ $suffix4x  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFE
 $resolution  |  **{ [List](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#lists) }**  |  The resolution wanted like 2x, 3x and 4x  |  optional  |  null
 $position  |  **{ [List](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#lists) }**  |  The background-position property  |  optional  |  null
 
-#### Example
+### Example
 ```scss
 	.my-cool-element {
 		@include s-background(

@@ -3,7 +3,7 @@ import __whenOutOfViewport from './whenOutOfViewport'
 import __isInViewport from './isInViewport'
 
 /**
- * @class 		InViewportStatusChangeDetector
+ * @name 		InViewportStatusChangeDetector
  * This class allows you to monitor an HTMLElement and be notified when it enters or exit the viewport.
  *
  * @example 	js

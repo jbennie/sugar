@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### whenInViewport
+## whenInViewport
 
 Monitor an HTMLElement to be notified when it is in the viewport
 
@@ -14,7 +14,7 @@ cb  |  **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refer
 
 Return **{ (Promise) }** The promise that will be resolved when the element is in the viewport
 
-#### Example
+### Example
 ```js
 	import whenInViewport from 'sugarcss/js/dom/whenInViewport'
 whenInViewport(myCoolHTMLElement).then((elm) => {

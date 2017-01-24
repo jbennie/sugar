@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s-transition
+## s-transition
 
 Take a transition as parameter and parse it to return the {List} corresponding
 The $transitions parameter can be either a registered transition name or a custom css transition like : all .2s ease-in-out 2s
@@ -15,7 +15,7 @@ $transitions  |  **{ [List](http://www.sass-lang.com/documentation/file.SASS_REF
 
 Return **{ [List](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#lists) }** The corresponding transition list properties
 
-#### Example
+### Example
 ```scss
 	// register a transition
 @include s-setup((

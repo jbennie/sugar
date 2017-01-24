@@ -1,10 +1,6 @@
-# STemplate  extends {SOject}
-This class allows you to create complexe and dynamic templates that will stay
-in sync with his data object automatically.
-Under the hood, this class use the `morphdom` library that will be in charge of updating
-the minimum dom as needed.
+# STemplate
 
-#### Example
+### Example
 ```js
 	// our data object
 const data = {

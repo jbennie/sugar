@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### matches
+## matches
 
 Polyfill for the Element.matches function
 
@@ -14,7 +14,7 @@ selector  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/R
 
 Return **{ [Boolean](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean) }** If the element match the selector or not
 
-#### Example
+### Example
 ```js
 	import matches from 'sugarcss/js/dom/matches'
 if (matches(myCoolHTMLElement, '.my-cool-css-selector')) {

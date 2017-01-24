@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### inViewportPercentage
+## inViewportPercentage
 
 Return how many percent the passed element is visible in the viewport
 
@@ -13,7 +13,7 @@ elm  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElem
 
 Return **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }** The percentage visible in the viewport
 
-#### Example
+### Example
 ```js
 	import inViewportPercentage from 'sugarcss/js/dom/inViewportPercentage'
 const percentage = inViewportPercentage(myCoolHTMLElement);

@@ -1,20 +1,9 @@
-## Constructor
-
-
-
-
-
-
-
-## Methods
-
-
-### SWatcher
+# SWathcer
 
 This class allows you to easily monitor some object properties and get the new and old value of it
 
 
-#### Example
+### Example
 ```js
 	// create the watcher instance
 const watcher = new SWatcher();
@@ -33,6 +22,17 @@ watcher.watch(myObject, 'title', (newVal, oldVal) => {
 myObject.title = 'Hello Universe';
 ```
 Author : Olivier Bossel <olivier.bossel@gmail.com>
+
+
+## Constructor
+
+
+
+
+
+
+
+## Methods
 
 
 ### destroy

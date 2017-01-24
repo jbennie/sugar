@@ -1,7 +1,7 @@
-## Mixins
+# Mixins
 
 
-### s-font-face
+## s-font-face
 
 
 
@@ -14,7 +14,7 @@ $extensions  |  **{ [List](http://www.sass-lang.com/documentation/file.SASS_REFE
 $font-weight  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  The font-weight property  |  optional  |  normal
 $font-style  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  The font-style property  |  optional  |  normal
 
-#### Example
+### Example
 ```scss
 	// if you have these extensions files : .woff .eot .woff2
 @include s-font-face(

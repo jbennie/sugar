@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s-filter
+## s-filter
 
 Return a list with all the filters that are passed as argument
 This will use the [./_s-filter-map.scss] function to parse the filters
@@ -14,7 +14,7 @@ $filters  |  **{ List<String> }**  |  The registered filter(s) name(s) or the fi
 
 Return **{ [List](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#lists) }** The converted filters list to use as css property
 
-#### Example
+### Example
 ```scss
 	// register a filter
 @include s-setup((

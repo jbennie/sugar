@@ -1,7 +1,7 @@
-## Mixins
+# Mixins
 
 
-### s-color-schema
+## s-color-schema
 
 
 
@@ -10,7 +10,7 @@ Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $name  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  The color schema name  |  required  |
 
-#### Example
+### Example
 ```scss
 	@include s-color-schema(light) {
 		h1, h2 {

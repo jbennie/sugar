@@ -2,7 +2,8 @@ import SSvgFilter from './SSvgFilter'
 
 
 /**
- * @class 			SGooeySvgFilter 			{SSvgFilter}
+ * @name 			SGooeySvgFilter
+ * @extends 		SSvgFilter
  * This class represent a gooey SVG filter that can be applied on any HTMLElement.
  *
  * @example 		js

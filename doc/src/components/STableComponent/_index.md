@@ -1,3 +1,3 @@
-## STableComponent
+# STableComponent
 
 Documentation coming soon...

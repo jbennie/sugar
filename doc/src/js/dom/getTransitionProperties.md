@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### getTransitionProperties
+## getTransitionProperties
 
 Get the css transition properties from an HTMLElement in an object format
 
@@ -13,7 +13,7 @@ elm  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElem
 
 Return **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }** The animation properties
 
-#### Example
+### Example
 ```js
 	import getTransitionProperties from 'sugarcss/js/dom/getTransitionProperties'
 const props = getTransitionProperties(myCoolHTMLElement);

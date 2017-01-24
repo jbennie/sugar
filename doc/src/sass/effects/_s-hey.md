@@ -1,7 +1,7 @@
-## Mixins
+# Mixins
 
 
-### s-hey
+## s-hey
 
 
 
@@ -17,7 +17,7 @@ $offset-right  |  **{ Number }**  |  The offset right  |  optional  |  0
 $offset-bottom  |  **{ Number }**  |  The offset bottom  |  optional  |  0
 $offset-left  |  **{ Number }**  |  The offset left  |  optional  |  0
 
-#### Example
+### Example
 ```scss
 	.my-cool-element {
 		@include s-hey(

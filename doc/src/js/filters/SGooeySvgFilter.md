@@ -1,7 +1,11 @@
-# SGooeySvgFilter  extends {SSvgFilter}
+# SGooeySvgFilter
+
+Extends **SSvgFilter**
+
 This class represent a gooey SVG filter that can be applied on any HTMLElement.
 
-#### Example
+
+### Example
 ```js
 	const filter = new SGooeySvgFilter();
 filter.applyTo(myCoolHTMLElement);

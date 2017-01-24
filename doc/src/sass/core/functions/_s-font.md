@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s-font
+## s-font
 
 Return the font {Map} that correspond to the passed arguments
 
@@ -28,7 +28,7 @@ $wrap  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENC
 
 Return **{ [Map](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#maps) }** The corresponding font map
 
-#### Example
+### Example
 ```scss
 	s-font(
 		$family : 'Helvetica Neue',

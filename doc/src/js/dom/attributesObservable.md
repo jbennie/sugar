@@ -1,8 +1,8 @@
-## Settings
+# Settings
 
 Here's the list of available settings.
 
-### attributes
+## attributes
 
 List of attributes to observe
 
@@ -12,10 +12,10 @@ Default : **null**
 
 
 
-## Methods
+# Methods
 
 
-### attributesObservable
+## attributesObservable
 
 Observe attributes on an HTMLElement and get mutations through the observable subscription
 
@@ -28,7 +28,7 @@ settings  |  **{ MutationObserverInit }**  |  The mutation observer settings  | 
 
 Return **{ Observable }** The mutation observable
 
-#### Example
+### Example
 ```js
 	import attributesObservable from 'sugarcss/js/dom/attributesObservable'
 attributesObservable(myCoolHTMLElement).subscribe((mutation) => {

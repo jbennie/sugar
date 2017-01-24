@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s-filter-map
+## s-filter-map
 
 Take a filter as parameter and parse it to return the {Map} corresponding
 The $filter parameter can be either a registered filter name or a filter formated like `filterName(filterValue)`
@@ -14,7 +14,7 @@ $filter  |  **{ List<String> }**  |  The registered filter name or the filter st
 
 Return **{ [Map](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#maps) }** The corresponding filter map properties
 
-#### Example
+### Example
 ```scss
 	// register a filter
 @include s-setup((

@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### previous
+## previous
 
 Browse the passed element previous siblings to find the first element that matches the passed selector
 
@@ -14,7 +14,7 @@ selector  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/R
 
 Return **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElement) }** The element found or null
 
-#### Example
+### Example
 ```js
 	import previous from 'sugarcss/js/dom/previous'
 const previousElm = previous(myCoolElement, '.my-cool-class');

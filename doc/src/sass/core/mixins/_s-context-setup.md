@@ -1,7 +1,7 @@
-## Mixins
+# Mixins
 
 
-### s-context-setup
+## s-context-setup
 
 
 
@@ -11,7 +11,7 @@ Name  |  Type  |  Description  |  Status  |  Default
 $name  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  The context name  |  required  |
 $settings  |  **{ [Map](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#maps) }**  |  The settings to override for this context  |  required  |
 
-#### Example
+### Example
 ```scss
 	@include s-context-setup(my-cool-context, (
 		look-and-feel : (

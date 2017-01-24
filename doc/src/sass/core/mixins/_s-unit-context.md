@@ -1,7 +1,7 @@
-## Mixins
+# Mixins
 
 
-### s-unit-context
+## s-unit-context
 
 
 
@@ -10,7 +10,7 @@ Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $unit  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  The unit wanted  |  required  |
 
-#### Example
+### Example
 ```scss
 	// if settings.typography.font-size == 16px
 s-setting('typography.font-size'); // => 16px

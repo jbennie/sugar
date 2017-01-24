@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s-look-and-feel
+## s-look-and-feel
 
 Return a settings.look-and-feel stack value
 
@@ -13,7 +13,7 @@ $name  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENC
 
 Return **{ Number }** The look and feel value in em
 
-#### Example
+### Example
 ```scss
 	.my-cool-element {
 		padding : s-look-and-feel(padding-horizontal) s-look-and-feel(padding-vertical);

@@ -1,6 +1,3 @@
-## Methods
-
-
-### camelize
+# camelize
 
 Camelize a string

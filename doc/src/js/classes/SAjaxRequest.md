@@ -1,3 +1,20 @@
+# SAjaxRequest
+
+Class that represent an ajax request that will be passed to an SAjax instance
+
+### Example
+```js
+	const request = new SAjaxRequest({
+ 	url : '/api/...',
+ 	method : 'GET',
+ 	data : {
+ 		myVar : 'myVal'
+ 	}
+});
+```
+Author : Olivier Bossel<olivier.bossel@gmail.com>
+
+
 ## Constructor
 
 
@@ -101,23 +118,3 @@ Set additional headers to send with the request
 Type : **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }**
 
 Default : **null**
-
-
-## Methods
-
-
-### SAjaxRequest
-
-Class that represent an ajax request that will be passed to an SAjax instance
-
-#### Example
-```js
-	const request = new SAjaxRequest({
- 	url : '/api/...',
- 	method : 'GET',
- 	data : {
- 		myVar : 'myVal'
- 	}
-});
-```
-Author : Olivier Bossel<olivier.bossel@gmail.com>

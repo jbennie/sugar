@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### isColor
+## isColor
 
 Check if the passed value is a color
 
@@ -13,7 +13,7 @@ value  |  **{ Mixed }**  |  The value to check  |  required  |
 
 Return **{ [Boolean](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean) }** The check result
 
-#### Example
+### Example
 ```js
 	isColor('red') => true
 isColor('#fff') => true

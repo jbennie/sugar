@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### offset
+## offset
 
 Get the offset top and left of the passed element from the document top left point
 
@@ -13,7 +13,7 @@ elm  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElem
 
 Return **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }** The offset top and left object
 
-#### Example
+### Example
 ```js
 	import offset from 'sugarcss/js/dom/offset'
 const offsetElm = offset(myCoolElement);

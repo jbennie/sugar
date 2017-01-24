@@ -1,3 +1,20 @@
+# define
+
+Define the new web component
+
+
+Name  |  Type  |  Description  |  Status  |  Default
+------------  |  ------------  |  ------------  |  ------------  |  ------------
+name  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The name of the component  |  required  |
+component  |  **{ SWebComponent }**  |  The component class  |  required  |
+
+Default : **null) {**
+
+
+
+
+
+
 ## Properties
 
 
@@ -12,19 +29,6 @@ Default : **{}**
 
 
 ## Methods
-
-
-### define
-
-Define the new web component
-
-
-Name  |  Type  |  Description  |  Status  |  Default
-------------  |  ------------  |  ------------  |  ------------  |  ------------
-name  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The name of the component  |  required  |
-component  |  **{ SWebComponent }**  |  The component class  |  required  |
-
-Default : **null) {**
 
 
 ### defaultProps
@@ -92,6 +96,21 @@ Return an array of props to set on the dom
 Get physical props for this particular instance
 
 Return **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }** The physical props array
+
+
+### createdCallback
+
+When the component is created
+
+
+### attachedCallback
+
+When the element is attached
+
+
+### attributeChangedCallback
+
+When any of the component attribute changes
 
 
 ### componentWillMount
@@ -184,24 +203,9 @@ Apply all the updated that you need in the dom for the component to reflect the 
 Author : Olivier Bossel <olivier.bossel@gmail.com>
 
 
-### createdCallback
-
-When the component is created
-
-
-### attachedCallback
-
-When the element is attached
-
-
 ### detachedCallback
 
 When the component is detached
-
-
-### attributeChangedCallback
-
-When any of the component attribute changes
 
 
 ### dispatchComponentEvent

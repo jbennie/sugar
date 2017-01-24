@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s-font-family
+## s-font-family
 
 Return the font-family string or a registered font
 
@@ -13,7 +13,7 @@ $name  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENC
 
 Return **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }** The corresponding font-family property to set in your css
 
-#### Example
+### Example
 ```scss
 	// register a font
 @include s-setup((

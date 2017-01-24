@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s-columns
+## s-columns
 
 Return the Map representation of a columns properties
 
@@ -20,7 +20,7 @@ $rule-width  |  **{ Number }**  |  The column-rule-width property  |  optional  
 
 Return **{ [Map](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#maps) }** The map representation or the columns properties
 
-#### Example
+### Example
 ```scss
 	s-columns(2, 20px);
 // return

@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### offset
+## offset
 
 Get the offset top and left of the passed element from his parent top left point
 
@@ -13,7 +13,7 @@ elm  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElem
 
 Return **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }** The offset top and left object
 
-#### Example
+### Example
 ```js
 	import offsetParent from 'sugarcss/js/dom/offsetParent'
 const offsetParentElm = offsetParent(myCoolElement);

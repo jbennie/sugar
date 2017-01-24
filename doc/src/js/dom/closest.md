@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### closest
+## closest
 
 Go up the dom three to find the first element that matches the passed selector
 
@@ -14,7 +14,7 @@ selector  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/R
 
 Return **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElement) }** The element found or null
 
-#### Example
+### Example
 ```js
 	import closest from 'sugarcss/js/dom/closest'
 const closestElm = closest(myCoolElement, '.my-cool-class');

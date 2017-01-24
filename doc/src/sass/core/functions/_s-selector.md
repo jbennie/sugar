@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s-selector
+## s-selector
 
 Process selector to avoid having --default, etc...
 
@@ -12,7 +12,7 @@ $selector  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFE
 
 Return **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }** The processed selector
 
-#### Example
+### Example
 ```scss
 	s-selector('.input--default'); // => .input
 s-selector('.input-default'); // => .input

@@ -1,4 +1,4 @@
-## SButtonComponent
+# SButtonComponent
 
 Provide ability to generate buttons that follow your settings like colors, look and feel, etc...
 
@@ -15,7 +15,7 @@ See:
 - [Classes level mixins API](./sass/_classes.md)
 
 
-#### Example
+### Example
 ```scss
 	// apply the button bare and style to my custom element
 .my-cool-element {

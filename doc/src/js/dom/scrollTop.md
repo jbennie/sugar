@@ -1,6 +1,3 @@
-## Methods
-
-
-### scrollTop
+# scrollTop
 
 document.scrollTop polyfill

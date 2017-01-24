@@ -1,7 +1,8 @@
 import SSvgFilter from './SSvgFilter'
 
 /**
- * @class 			SGradientSvgFilter 			{SSvgFilter}
+ * @name 			SGradientSvgFilter
+ * @extends 		SSvgFilter
  * This SVG filter class apply either a linear or a radial gradient of your choice
  * on an HTMLElement.
  * This is useful cause the gradient will only be applied on part of the elements that is really visible and will respect the opacity

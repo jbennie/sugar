@@ -1,6 +1,3 @@
-## Methods
-
-
-### constructor
+# constructor
 
 Constructor

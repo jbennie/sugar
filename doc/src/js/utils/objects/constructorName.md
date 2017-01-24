@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### constructorName
+## constructorName
 
 Return the constructor name of the passed object
 
@@ -13,7 +13,7 @@ obj  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refere
 
 Return **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }** The constructor name
 
-#### Example
+### Example
 ```js
 	class MyCoolClass {
 		// class implementation...

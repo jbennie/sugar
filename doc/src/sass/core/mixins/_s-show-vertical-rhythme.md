@@ -1,11 +1,11 @@
-## Mixins
+# Mixins
 
 
-### s-show-vertical-rhythme
+## s-show-vertical-rhythme
 
 
 
-#### Example
+### Example
 ```scss
 	}
 ```

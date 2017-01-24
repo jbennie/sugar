@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### getTranslateProperties
+## getTranslateProperties
 
 Get a translate properties of an HTMLElement
 
@@ -13,7 +13,7 @@ elm  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElem
 
 Return **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }** The translate x,y and z properties
 
-#### Example
+### Example
 ```js
 	import getTranslateProperties from 'sugarcss/js/dom/getTranslateProperties'
 const props = getTranslateProperties(myCoolHTMLElement);

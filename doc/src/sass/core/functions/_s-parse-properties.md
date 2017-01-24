@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s-parse-properties
+## s-parse-properties
 
 Parse a given string/list properties and return the Map corresponding to the Map description
 
@@ -14,7 +14,7 @@ $descriptor  |  **{ [Map](http://www.sass-lang.com/documentation/file.SASS_REFER
 
 Return **{ [Map](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#maps) }** The properties in map format
 
-#### Example
+### Example
 ```scss
 	s-parse-properties(10px hello -delay 20s, (
  	myNumber : Number,

@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### whenAttribute
+## whenAttribute
 
 Resolve a promise when the wanted attribute on the passed HTMLElement exist or pass the check function provided
 
@@ -15,7 +15,7 @@ checkFn  |  **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript/
 
 Return **{ (Promise) }** The promise that will be resolved when the attribute exist on the element (and that it passes the checkFn)
 
-#### Example
+### Example
 ```js
 	import whenAttribute from 'sugarcss/js/dom/whenAttribute'
 whenAttribute(myCoolHTMLElement, 'value').then((value) => {

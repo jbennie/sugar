@@ -1,7 +1,7 @@
-## Mixins
+# Mixins
 
 
-### s-filter
+## s-filter
 
 
 
@@ -10,7 +10,7 @@ Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $filters  |  **{ List<String> }**  |  The registered filter(s) name(s) or the filter(s) string(s) to transform into list  |  required  |
 
-#### Example
+### Example
 ```scss
 	// register a filter
 @include s-setup((

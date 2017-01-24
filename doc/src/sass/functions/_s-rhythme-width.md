@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s-rhythme-width
+## s-rhythme-width
 
 Return the Map properties representation for the rhythme width
 The rhythme width is the width of an element that target a certain number of letters by line
@@ -14,7 +14,7 @@ $letters-count  |  **{ Integer }**  |  The number of letters to target by line  
 
 Return **{ [Map](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#maps) }** The Map properties representation
 
-#### Example
+### Example
 ```scss
 	s-rhythme-width(50);
 // return

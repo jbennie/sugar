@@ -1,3 +1,8 @@
+# SCornerBadgeComponent Classes
+
+This file provide the mixins to generate corner badge classes
+
+
 ## Mixins
 
 

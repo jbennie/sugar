@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### stylesheetsReady
+## stylesheetsReady
 
 Wait until all the HTMLLinkElement's are properly loaded
 
@@ -14,7 +14,7 @@ cb  |  **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refer
 
 Return **{ [Promise](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise) }** The promise that will be resolved when all the links are loaded
 
-#### Example
+### Example
 ```js
 	import stylesheetsReady from 'sugarcss/js/dom/stylesheetsReady'
 stylesheetsReady([

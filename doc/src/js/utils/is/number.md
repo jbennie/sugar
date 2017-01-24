@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### isNumber
+## isNumber
 
 Check if the passed value is a number
 
@@ -13,7 +13,7 @@ value  |  **{ Mixed }**  |  The value to check  |  required  |
 
 Return **{ [Boolean](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean) }** The check result
 
-#### Example
+### Example
 ```js
 	isNumber(12) => true
 isNumber(22.3) => true

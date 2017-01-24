@@ -1,4 +1,4 @@
-## STypographyComponent
+# STypographyComponent
 
 Provide ability to generate base typography classes for:
 - Titles:
@@ -37,7 +37,7 @@ See:
 - [Classes level mixins API](./sass/_classes.md)
 
 
-#### Example
+### Example
 ```scss
 	// apply the title bare and style to my custom element
 h1 {

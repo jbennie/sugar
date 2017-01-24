@@ -1,18 +1,10 @@
-## Constructor
-
-
-
-
-
-
-
-## Methods
+# SSvgFilter
 
 This class allows you to create with ease some complexe SVG filters and to apply it on any HTMLElement that you want
 by extending this class like so
 
 
-#### Example
+### Example
 ```js
 	class MyBlurFilter extends SSvgFilter {
 
@@ -28,6 +20,17 @@ const myFilter = new MyBlurFilter(10);
 myFilter.applyTo(myCoolHTMLElement);
 ```
 Author : Olivier Bossel <olivier.bossel@gmail.com>
+
+
+## Constructor
+
+
+
+
+
+
+
+## Methods
 
 
 ### applyTo

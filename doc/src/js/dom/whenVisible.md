@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### whenVisible
+## whenVisible
 
 Monitor an HTMLElement to be notified when it is visible
 
@@ -14,7 +14,7 @@ cb  |  **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refer
 
 Return **{ (Promise) }** The promise that will be resolved when the element is visible
 
-#### Example
+### Example
 ```js
 	import whenVisible from 'sugarcss/js/dom/whenVisible'
 whenVisible(myCoolHTMLElement).then((elm) => {

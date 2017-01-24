@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s-even
+## s-even
 
 Convert the passed value to the closest even value
 

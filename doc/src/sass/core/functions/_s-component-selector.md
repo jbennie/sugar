@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s-component-selector
+## s-component-selector
 
 Return the css class selector for the current component setted by the [core/mixins/_s-component.scss] mixin
 and build with the passed arguments.
@@ -16,7 +16,7 @@ $state  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFEREN
 
 Return **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }** The generated class selector
 
-#### Example
+### Example
 ```scss
 	@incluse s-component('my-component') {
 		// if settings.selector.method === 'BEM'

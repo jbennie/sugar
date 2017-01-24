@@ -1,8 +1,8 @@
-## Settings
+# Settings
 
 Here's the list of available settings.
 
-### rootNode
+## rootNode
 
 The root node to start the monitoring from
 
@@ -11,7 +11,7 @@ Type : **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLEleme
 Default : **document.body**
 
 
-### onNodeRemoved
+## onNodeRemoved
 
 An array of callbacks to call when the detected element is removed from the dom
 
@@ -21,7 +21,7 @@ Default : **[]**
 
 
 
-## Methods
+# Methods
 
 Observe the dom to get all the elements that matches the passed selector at any point in time
 
@@ -34,7 +34,7 @@ settings  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/R
 
 Return **{ QuerySelectorLiveObservable }** The augmented observable instance to subscribe to
 
-#### Example
+### Example
 ```js
 	const observer = querySelectorLive('.some-cool-css-selector').subscribe((elm) => {
 		// do something with the element found in the dom

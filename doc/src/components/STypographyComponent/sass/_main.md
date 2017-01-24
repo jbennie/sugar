@@ -1,3 +1,8 @@
+# STypographyComponent
+
+This file provide the mixins to create typography elements
+
+
 ## Mixins
 
 

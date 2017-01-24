@@ -1,6 +1,3 @@
-## Methods
-
-
-### save
+# save
 
 Save the cache

@@ -1,11 +1,16 @@
-## Methods
-
-
-### colors
+# colors
 
 Static color names map
 
 Default : **{**
+
+
+
+
+
+
+
+## Methods
 
 
 ### toStringFormat

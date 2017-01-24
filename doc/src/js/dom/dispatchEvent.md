@@ -1,7 +1,4 @@
-## Methods
-
-
-### dispatchEvent
+# dispatchEvent
 
 
 
@@ -12,7 +9,7 @@ target  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLE
 name  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The event name to dispatch  |  required  |
 data  |  **{ Mixed }**  |  The data to attache to the event  |  required  |
 
-#### Example
+### Example
 ```js
 	import dispatchEvent from 'sugarcss/js/dom/dispatchEvent'
 dispatchEvent(myCoolHTMLElement, 'myCoolEventName', {

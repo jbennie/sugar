@@ -1,3 +1,3 @@
-## SDropdownComponent
+# SDropdownComponent
 
 Documentation coming soon...

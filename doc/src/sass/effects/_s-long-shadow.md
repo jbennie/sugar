@@ -1,7 +1,7 @@
-## Mixins
+# Mixins
 
 
-### s-long-shadow
+## s-long-shadow
 
 
 
@@ -16,7 +16,7 @@ $fade  |  **{ Boolean }**  |  If true, the shadow will fade itself  |  optional 
 $blur  |  **{ Number }**  |  The blur amount of the shadow  |  optional  |  0
 $blur-ratio  |  **{ Number }**  |  The ratio to blur each depth more  |  optional  |  0
 
-#### Example
+### Example
 ```scss
 	.my-cool-title {
 		@include s-long-shadow(

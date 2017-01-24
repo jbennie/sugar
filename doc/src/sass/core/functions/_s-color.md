@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s-color
+## s-color
 
 Get a registered color by name or wrap a new color into a s-color call
 to manipulate it with ease.
@@ -26,7 +26,7 @@ $modifier  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFE
 
 Return **{ [Color](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#colors) }** The actual color value
 
-#### Example
+### Example
 ```scss
 	// default color (settings.colors.default)
 $myColor : s-color(default);

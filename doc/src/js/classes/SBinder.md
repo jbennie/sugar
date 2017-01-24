@@ -1,17 +1,9 @@
-## Constructor
-
-
-
-
-
-
-
-## Methods
+# SBinder
 
 This class allows to bind properties between objects, object to HTMLElement attribute and vice versa.
 
 
-#### Example
+### Example
 ```js
 	const binder = new SBinder();
 
@@ -24,6 +16,17 @@ binder.bindObjectPath2ElementAttribute(myObject1, 'title', myHTMLElement, 'title
 // and more...
 ```
 Author : Olivier Bossel<olivier.bossel@gmail.com>
+
+
+## Constructor
+
+
+
+
+
+
+
+## Methods
 
 
 ### bindObjectPath2ObjectPath

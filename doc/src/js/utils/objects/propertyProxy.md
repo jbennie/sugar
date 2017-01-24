@@ -1,7 +1,4 @@
-## Methods
-
-
-### propertyProxy
+# propertyProxy
 
 
 
@@ -13,7 +10,7 @@ property  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/R
 descriptor  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }**  |  A descriptor object that contains at least a get or a set method, or both  |  required  |
 applySetterAtStart  |  **{ [Boolean](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean) }**  |  If need to apply the descriptor setter directly on the current value or not  |  required  |
 
-#### Example
+### Example
 ```js
 	const myObject = {
 		title : 'World'

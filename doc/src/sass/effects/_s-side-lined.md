@@ -1,7 +1,7 @@
-## Mixins
+# Mixins
 
 
-### s-side-lined
+## s-side-lined
 
 
 
@@ -16,7 +16,7 @@ $color  |  **{ [Color](http://www.sass-lang.com/documentation/file.SASS_REFERENC
 $padding  |  **{ Number }**  |  The padding between the lines and the content  |  optional  |  0
 $offset-top  |  **{ Number }**  |  The line offset top  |  optional  |  null
 
-#### Example
+### Example
 ```scss
 	h1 {
 		@include s-side-lined(

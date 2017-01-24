@@ -1,6 +1,6 @@
-## Mixins
+# Mixins
 
 
-### s-center-block
+## s-center-block
 
 Center block

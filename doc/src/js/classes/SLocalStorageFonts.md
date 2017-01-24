@@ -1,3 +1,26 @@
+# SLocalStorageFonts
+
+This class allows to easily store and load custom fonts from the localStorage
+
+
+### Example
+```js
+	new SLocalStorageFonts({
+ 	json_path : '/fonts/fonts.json#v1'
+});
+
+// the fonts.json file looks like this
+{
+		"fonts" : [{
+  		"font-family" : "Open Sans",
+    	"font-weight" : 300,
+     	"src" : "url(data:application/font-woff;base64,d09GRgA..."
+     }]
+}
+```
+Author : Olivier Bossel<olivier.bossel@gmail.com>
+
+
 ## Constructor
 
 
@@ -40,30 +63,3 @@ Set if want the debug messages in the console
 Type : **{ [Boolean](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean) }**
 
 Default : **false**
-
-
-
-## Methods
-
-
-### SLocalStorageFonts
-
-This class allows to easily store and load custom fonts from the localStorage
-
-
-#### Example
-```js
-	new SLocalStorageFonts({
- 	json_path : '/fonts/fonts.json#v1'
-});
-
-// the fonts.json file looks like this
-{
-		"fonts" : [{
-  		"font-family" : "Open Sans",
-    	"font-weight" : 300,
-     	"src" : "url(data:application/font-woff;base64,d09GRgA..."
-     }]
-}
-```
-Author : Olivier Bossel<olivier.bossel@gmail.com>

@@ -1,6 +1,3 @@
-## Methods
-
-
-### uniqid
+# uniqid
 
 Get a uniq id

@@ -1,7 +1,7 @@
-## Mixins
+# Mixins
 
 
-### s-loader-circle
+## s-loader-circle
 
 
 

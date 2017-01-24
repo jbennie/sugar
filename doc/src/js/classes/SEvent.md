@@ -1,3 +1,26 @@
+# SEvent
+
+Proxy class to create custom events that can be dispatched
+through the standard dispatch method on any HTMLElement
+
+
+### Example
+```js
+	let myEvent = new SEvent('myCoolEvent', {
+		cancelable : true,
+		bubbles : false,
+		detail : {
+			// some datas to send with the event
+		}
+});
+// dispatch the event from an HTMLElement
+myHTMLElement.dispatch(myEvent);
+```
+See more : [https://www.npmjs.com/package/customevent](https://www.npmjs.com/package/customevent)
+
+Author : Olivier Bossel<olivier.bossel@gmail.com>
+
+
 ## Constructor
 
 
@@ -38,30 +61,3 @@ Pass an object that will be sent with the event
 Type : **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }**
 
 Default : **null**
-
-
-
-## Methods
-
-
-### from
-
-Proxy class to create custom events that can be dispatched
-through the standard dispatch method on any HTMLElement
-
-
-#### Example
-```js
-	let myEvent = new SEvent('myCoolEvent', {
-		cancelable : true,
-		bubbles : false,
-		detail : {
-			// some datas to send with the event
-		}
-});
-// dispatch the event from an HTMLElement
-myHTMLElement.dispatch(myEvent);
-```
-See more : [https://www.npmjs.com/package/customevent](https://www.npmjs.com/package/customevent)
-
-Author : Olivier Bossel<olivier.bossel@gmail.com>

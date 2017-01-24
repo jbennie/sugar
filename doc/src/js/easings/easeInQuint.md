@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### easeInQuint
+## easeInQuint
 
 Ease in quint function
 

@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### whenTransitionEnd
+## whenTransitionEnd
 
 Monitor an HTMLElement to be notified when his transition has ended
 
@@ -14,7 +14,7 @@ cb  |  **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refer
 
 Return **{ (Promise) }** The promise that will be resolved when the element transition has ended
 
-#### Example
+### Example
 ```js
 	import whenTransitionEnd from 'sugarcss/js/dom/whenTransitionEnd'
 whenTransitionEnd(myCoolHTMLElement).then((elm) => {

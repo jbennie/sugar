@@ -1,4 +1,4 @@
-## SCornerBadgeComponent
+# SCornerBadgeComponent
 
 Provide ability to generate corner badges that follow your settings like colors.
 
@@ -14,7 +14,7 @@ See:
 - [Classes level mixins API](./sass/_classes.md)
 
 
-#### Example
+### Example
 ```scss
 	// apply the corner badge bare and style to my custom element
 .my-cool-element {

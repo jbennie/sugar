@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s-strip-units
+## s-strip-units
 
 Return a number without any units
 
@@ -13,7 +13,7 @@ $number  |  **{ Number }**  |  The number to process  |  required  |
 
 Return **{ Number }** The number without units
 
-#### Example
+### Example
 ```scss
 	s-strip-units(12px); // => 12
 s-strip-units(30rem); // => 30

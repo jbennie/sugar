@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s
+## s
 
 Generic sugar function can return multiple settings types like:
 - any settings : s('settings.{path}')
@@ -13,7 +13,7 @@ Generic sugar function can return multiple settings types like:
 - filter : s('filter.{name}')
 
 
-#### Example
+### Example
 ```scss
 	$my-color : s('color.primary');
 $my-transition : s('transition.fast');

@@ -1,4 +1,4 @@
-## $_sugar-settings-cache
+# $_sugar-settings-cache
 
 Get a settings from the global settings stack
 
@@ -11,7 +11,7 @@ $context  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFER
 
 Return **{ Mixed }** The setting value¨
 
-#### Example
+### Example
 ```scss
 	$font-size : s-setting('typography.font-size');
 // etc...

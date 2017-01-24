@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### styleObject2String
+## styleObject2String
 
 Transform a style object to inline string separated by ;
 
@@ -13,7 +13,7 @@ styleObj  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/R
 
 Return **{ (String) }** The string style representation
 
-#### Example
+### Example
 ```js
 	import styleObject2String from 'sugarcss/js/dom/styleObject2String'
 const styleString = styleObject2String({

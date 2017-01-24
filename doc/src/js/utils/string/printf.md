@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### printf
+## printf
 
 printf php equavalent
 
@@ -13,7 +13,7 @@ values  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Ref
 
 Return **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }** The resulting string
 
-#### Example
+### Example
 ```js
 	printf('Hello %s', 'world'); // => Hello world
 printf('Hello %s, I\'m %s', 'world', 'John Doe'); // Hello world, I'm John Doe

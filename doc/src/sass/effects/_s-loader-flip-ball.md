@@ -1,7 +1,7 @@
-## Mixins
+# Mixins
 
 
-### s-loader-flip-ball
+## s-loader-flip-ball
 
 
 
@@ -15,7 +15,7 @@ $a-duration  |  **{ Second }**  |  The overall animation duration  |  optional  
 $a-delay  |  **{ Second }**  |  The delay between two animation cycle  |  optional  |  0s
 $a-ease  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  The ease to use for the animation  |  optional  |  ease-in-out
 
-#### Example
+### Example
 ```scss
 	.my-cool-loader {
 		@include s-loader-flip-ball();

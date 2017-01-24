@@ -1,3 +1,31 @@
+# SGoogleSearch
+
+This class let you make with ease search requests to the google custom search service
+with useful features like:
+- Simple pagination system
+- Promise support
+
+
+### Example
+```js
+	// create a google search instance
+const googleSearch = new SGoogleSearch('myApiKey', 'myCustomSearchContextKey');
+
+// make a search...
+googleSearch.search('hello world').then((response) => {
+		// do something with the google response...
+});
+
+// get the nexts results
+googleSearch.next().then((response) => {
+		// do something with the new response...
+});
+```
+See more : [https://developers.google.com/custom-search/](https://developers.google.com/custom-search/)
+
+Author : Olivier Bossel<olivier.bossel@gmail.com>
+
+
 ## Constructor
 
 
@@ -34,31 +62,6 @@ Default : **1**
 
 
 ## Methods
-
-This class let you make with ease search requests to the google custom search service
-with useful features like:
-- Simple pagination system
-- Promise support
-
-
-#### Example
-```js
-	// create a google search instance
-const googleSearch = new SGoogleSearch('myApiKey', 'myCustomSearchContextKey');
-
-// make a search...
-googleSearch.search('hello world').then((response) => {
-		// do something with the google response...
-});
-
-// get the nexts results
-googleSearch.next().then((response) => {
-		// do something with the new response...
-});
-```
-See more : [https://developers.google.com/custom-search/](https://developers.google.com/custom-search/)
-
-Author : Olivier Bossel<olivier.bossel@gmail.com>
 
 
 ### search

@@ -1,7 +1,7 @@
-## Mixins
+# Mixins
 
 
-### s-bubble
+## s-bubble
 
 
 
@@ -16,7 +16,7 @@ $arrow-offset  |  **{ Number }**  |  The arrow offset from the side of the bubbl
 $border-width  |  **{ Number }**  |  The border width of the bubble  |  optional  |  0
 $border-color  |  **{ [Color](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#colors) }**  |  The border color of the bubble  |  optional  |  null
 
-#### Example
+### Example
 ```scss
 	.my-cool-bubble {
 		@include s-bubble(

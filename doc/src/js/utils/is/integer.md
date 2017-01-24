@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### isInteger
+## isInteger
 
 Check if the passed value is an integer
 
@@ -13,7 +13,7 @@ value  |  **{ Mixed }**  |  The value to check  |  required  |
 
 Return **{ [Boolean](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean) }** The check result
 
-#### Example
+### Example
 ```js
 	isInteger(10) => true
 isInteger('hello') => false

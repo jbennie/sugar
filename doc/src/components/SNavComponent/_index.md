@@ -1,3 +1,3 @@
-## SNavComponent
+# SNavComponent
 
 Documentation coming soon...

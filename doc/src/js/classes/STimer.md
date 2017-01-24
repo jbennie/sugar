@@ -1,3 +1,24 @@
+# STimer
+
+Class that let you create and handle timer with ease.
+With this class you can set some callback function that will be
+called each x ms or tell that you want your callbacks to be called
+a certain number of time during the timer time.
+
+
+### Example
+```js
+	const myTimer = new STimer(2000, {
+		tickCount : 5
+});
+myTimer.onTick((myTimer) => {
+		// do something here...
+});
+myTimer.start();
+```
+Author : Olivier Bossel<olivier.bossel@gmail.com>
+
+
 ## Constructor
 
 
@@ -49,27 +70,6 @@ Default : **false**
 
 
 ## Methods
-
-
-### STimer
-
-Class that let you create and handle timer with ease.
-With this class you can set some callback function that will be
-called each x ms or tell that you want your callbacks to be called
-a certain number of time during the timer time.
-
-
-#### Example
-```js
-	const myTimer = new STimer(2000, {
-		tickCount : 5
-});
-myTimer.onTick((myTimer) => {
-		// do something here...
-});
-myTimer.start();
-```
-Author : Olivier Bossel<olivier.bossel@gmail.com>
 
 
 ### remaining

@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s-percent
+## s-percent
 
 Convert the passed value to %
 

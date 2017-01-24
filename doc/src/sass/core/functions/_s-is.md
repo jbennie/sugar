@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s-is
+## s-is
 
 Check if the passed value is of a certain type
 
@@ -44,7 +44,7 @@ $type  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENC
 
 Return **{ Boolean }** true if match the type, false if not
 
-#### Example
+### Example
 ```scss
 	s-is(hello, string) // => true
 s-is('hello', string) // => true

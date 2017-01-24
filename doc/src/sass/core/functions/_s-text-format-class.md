@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s-text-format-class
+## s-text-format-class
 
 Return the text-format setting scope class
 

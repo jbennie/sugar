@@ -1,5 +1,5 @@
 /**
- * @class 		SLocalStorageFonts
+ * @name 		SLocalStorageFonts
  * This class allows to easily store and load custom fonts from the localStorage
  *
  * @example 	js

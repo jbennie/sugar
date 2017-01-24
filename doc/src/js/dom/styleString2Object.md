@@ -1,7 +1,7 @@
-## Methods
+# Methods
 
 
-### styleString2Object
+## styleString2Object
 
 Transform a style string to an object representation
 
@@ -13,7 +13,7 @@ style  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refe
 
 Return **{ (Object) }** The string object representation
 
-#### Example
+### Example
 ```js
 	import styleString2Object from 'sugarcss/js/dom/styleString2Object'
 const styleString = styleString2Object('padding-left:20px; display:block;');

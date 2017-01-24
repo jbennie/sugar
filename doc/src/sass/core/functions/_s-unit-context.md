@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s-unit-context
+## s-unit-context
 
 Return the unit context if has been set by the [s-unit-context mixin](../mixins/_s-unit-context.scss)
 

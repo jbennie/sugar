@@ -1,7 +1,7 @@
-## Functions
+# Functions
 
 
-### s-convert
+## s-convert
 
 Convert a passed value to the wanted unit
 The conversion between some units that depends on a font-size will take the settings.typography.font-size value as reference.
@@ -41,7 +41,7 @@ $unit  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENC
 
 Return **{ Number }** The converted value
 
-#### Example
+### Example
 ```scss
 	// if the settings.typography.font-size === 16px
 s-convert(24px, rem) // 1.5rem
