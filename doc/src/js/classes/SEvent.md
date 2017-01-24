@@ -8,6 +8,7 @@ settings  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/R
 
 
 
+
 ## Settings
 
 Here's the list of available settings.

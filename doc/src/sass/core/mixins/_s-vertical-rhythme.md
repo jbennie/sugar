@@ -8,8 +8,8 @@
 
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
-$font-size  |  **{ Number }**  |  The font size wanted  |  optional  |  settings.typo.font-size
-$font-family  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  The font family to use  |  optional  |  settings.typo.font-family
+$font-size  |  **{ Number }**  |  The font size wanted  |  optional  |  settings.typography.font-size
+$font-family  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  The font family to use  |  optional  |  settings.typography.font-family
 $line-height  |  **{ Number }**  |  The line height to use  |  optional  |  null
 $margin-top  |  **{ Number }**  |  The targeted margin-top  |  optional  |  0
 $margin-bottom  |  **{ Number }**  |  The targeted margin-bottom  |  optional  |  0

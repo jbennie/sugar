@@ -41,3 +41,5 @@ setTimeout(() => {
 },1000);
 ```
 Author : Olivier Bossel <olivier.bossel@gmail.com>
+
+Default : **null) {**

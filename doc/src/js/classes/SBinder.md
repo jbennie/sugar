@@ -5,6 +5,7 @@
 
 
 
+
 ## Methods
 
 This class allows to bind properties between objects, object to HTMLElement attribute and vice versa.

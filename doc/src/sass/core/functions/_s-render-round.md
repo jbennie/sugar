@@ -16,7 +16,7 @@ Return **{ Number }** The rounded value in same input unit but px rounded
 
 #### Example
 ```scss
-	// if settings.typo.font-size == 16px
+	// if settings.typography.font-size == 16px
 s-render-round(5.2rem);
 // 1. transform to px values : 5.2 * 16px = 83.2px
 // 2. round even the px value : 83px

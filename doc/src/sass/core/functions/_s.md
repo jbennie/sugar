@@ -17,7 +17,7 @@ Generic sugar function can return multiple settings types like:
 ```scss
 	$my-color : s('color.primary');
 $my-transition : s('transition.fast');
-$my-font-size : s('settings.typo.font.size')
+$my-font-size : s('settings.typography.font.size')
 // etc...
 ```
 Author : Olivier Bossel <olivier.bossel@gmail.com>

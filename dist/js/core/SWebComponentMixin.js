@@ -415,7 +415,6 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 
 		_class2.prototype.createdCallback = function createdCallback() {
-			if (!document.body.contains(this)) return;
 
 			// track the lifecyle
 			this._lifecycle = {
@@ -426,6 +425,8 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 				componentUnmount: false,
 				componentDidUnmount: false
 			};
+
+			if (!document.body.contains(this)) return;
 
 			// component will mount only if part of the active document
 			this.componentWillMount();
@@ -540,7 +541,8 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			var _this6 = this;
 
 			// wait next frame
-			this.mutate(function () {
+			_fastdom2.default.clear(this._fastdomSetProp);
+			this._fastdomSetProp = this.mutate(function () {
 				// sometimes, the component has been unmounted between the
 				// fastdom execution, so we stop here if it's the case
 				if (!_this6._componentAttached) return;
@@ -566,7 +568,8 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			// will unmount
 			this.componentWillUnmount();
 			// wait next frame
-			this.mutate(function () {
+			_fastdom2.default.clear(this._fastdomSetProp);
+			this._fastdomSetProp = this.mutate(function () {
 				// unmount only if the component is mounted
 				if (!_this7._componentMounted) return;
 				// unmount
@@ -582,6 +585,11 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 
 		_class2.prototype.attributeChangedCallback = function attributeChangedCallback(attribute, oldVal, newVal) {
+
+			// stop if component has not been mounted
+			if (!this._lifecycle.componentWillMount) {
+				return;
+			}
 
 			// cast the new val
 			newVal = (0, _autoCast2.default)(newVal);
@@ -702,6 +710,8 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 				// component will update
 				_this8.componentWillUpdate(_this8._nextPropsStack, nextPropsArray);
+
+				console.warn('up', _this8, _this8._nextPropsStack);
 
 				// render the component
 				_this8.render();

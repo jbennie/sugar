@@ -4,7 +4,7 @@
 ### s-convert
 
 Convert a passed value to the wanted unit
-The conversion between some units that depends on a font-size will take the settings.typo.font-size value as reference.
+The conversion between some units that depends on a font-size will take the settings.typography.font-size value as reference.
 
 Available conversions
 - from px
@@ -43,7 +43,7 @@ Return **{ Number }** The converted value
 
 #### Example
 ```scss
-	// if the settings.typo.font-size === 16px
+	// if the settings.typography.font-size === 16px
 s-convert(24px, rem) // 1.5rem
 s-convert(3rem, pt) // 36pt
 ```

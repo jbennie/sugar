@@ -22,3 +22,5 @@ import easeInOutQuad from 'sugarcss/js/easings/easeInOutQuad'
 scrollTo(myCoolHTMLElement, 2000, easeInOutQuad);
 ```
 Author : Olivier Bossel <olivier.bossel@gmail.com>
+
+Default : **false**

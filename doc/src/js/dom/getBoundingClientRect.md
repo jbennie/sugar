@@ -24,3 +24,5 @@ const rect = getBoundingClientRect(myCoolHTMLElement);
 See more : [https://developer.mozilla.org/en/docs/Web/API/Element/getBoundingClientRect](https://developer.mozilla.org/en/docs/Web/API/Element/getBoundingClientRect)
 
 Author : Olivier Bossel <olivier.bossel@gmail.com>
+
+Default : **[]**

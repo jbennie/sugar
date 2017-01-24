@@ -23,3 +23,5 @@ Return **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refer
 }, 1000, 10000);
 ```
 Author : Olivier Bossel <olivier.bossel@gmail.com>
+
+Default : **0) {**

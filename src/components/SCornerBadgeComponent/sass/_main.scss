@@ -1,0 +1,104 @@
+%corner-badge {
+	position: absolute;
+	display: block;
+
+	> * {
+		position:relative;
+
+	}
+	&:before {
+		content:'';
+		display:block;
+		position: absolute;
+		border-style: solid;
+		border-color: transparent;
+	}
+}
+
+/**
+ * Apply the corner badge css
+ * @param 		{Number} 		[$modifiers=default tr] 			The modifiers that represent the corner badge you want. Available : {color} tl tr bl br
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-corner-badge(
+	$modifiers : default tr
+) {
+	@include s-corner-badge-bare($modifiers);
+	@include s-corner-badge-style($modifiers);
+}
+
+/**
+ * Apply the corner badge bare css
+ * @param 		{Number} 		[$modifiers=tr] 			The modifiers that represent the corner badge you want. Available : tl tr bl br
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-corner-badge-bare(
+	$modifiers : tr
+) {
+	@include s-component('corner-badge') {
+
+		@extend %corner-badge;
+		$w : s-lnf(padding-vertical) * 2 + 1em;
+		font-size : 1em;
+		width: $w;
+		height: $w;
+		padding: s-lnf(padding-vertical) * .4;
+
+		&:before {
+			border-width: $w / 2;
+		}
+
+		@if index($modifiers, tl) {
+			top:0; left:0;
+
+			&:before {
+				border-right-color: transparent !important;
+				border-bottom-color: transparent !important;
+				top:0; left:0;
+			}
+		} @else if index($modifiers, tr) {
+			top:0; right:0;
+			text-align:right;
+
+			&:before {
+				border-bottom-color: transparent !important;
+				border-left-color: transparent !important;
+				top:0; right:0;
+			}
+		} @else if index($modifiers, bl) {
+			bottom:0; left:0;
+
+			&:before {
+				border-top-color: transparent !important;
+				border-right-color: transparent !important;
+				// border-bottom-color: transparent !important;
+				bottom:0; left:0;
+			}
+		} @else if index($modifiers, br) {
+			bottom:0; right:0;
+
+			&:before {
+				border-top-color: transparent !important;
+				border-left-color: transparent !important;
+				bottom:0; right:0;
+			}
+		}
+	}
+}
+
+/**
+ * Apply the corner badge style css
+ * @param 		{Number} 		[$modifiers=default] 			The modifiers that represent the corner badge you want. Available : {color}
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-corner-badge-style(
+	$modifiers : default
+) {
+	@include s-component('corner-badge') {
+		$color : s-color-modifier($modifiers, 'default');
+		color: white;
+		&:before {
+			border-color: s-color($color);
+		}
+	}
+}

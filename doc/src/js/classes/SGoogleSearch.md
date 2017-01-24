@@ -8,6 +8,7 @@ cx  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Referen
 
 
 
+
 ## Settings
 
 Here's the list of available settings.
@@ -71,6 +72,8 @@ keywords  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/R
 settings  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }**  |  The settings object  |  required  |
 
 Return **{ [Promise](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise) }** A promise of results
+
+Default : **{}) {**
 
 
 ### next

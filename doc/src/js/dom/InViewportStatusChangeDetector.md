@@ -9,6 +9,7 @@ elm  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElem
 
 
 
+
 ## Methods
 
 
@@ -54,6 +55,8 @@ status  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Ref
 cb  |  **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function) }**  |  The callback to remove  |  required  |
 
 Return **{ InViewportStatusChangeDetector }** The instance itself to maintain chainability
+
+Default : **null) {**
 
 
 ### destroy

@@ -23,7 +23,9 @@
 }
 
 /**
- * Provide the styling for the titles classes
+ * Provide the styling for the titles classes:
+ * - ```.h1-h6```
+ * - ```.tf h1-h6```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 @mixin s-typography-titles-classes() {
@@ -33,6 +35,8 @@
 
 /**
  * Provide the bare styling for the titles classes
+ * - ```.h1-h6```
+ * - ```.tf h1-h6```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 @mixin s-typography-titles-classes-bare() {
@@ -138,6 +142,8 @@
 
 /**
  * Provide the style styling for the titles classes
+ * - ```.h1-h6```
+ * - ```.tf h1-h6```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 @mixin s-typography-titles-classes-style() {
@@ -169,6 +175,8 @@
 
 /**
  * Provide the styling for the paragraphs classes
+ * - ```.p```, ```.tf p```
+ * - ```.p--lead```, ```.tf p.p--lead```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 @mixin s-typography-paragraphs-classes() {
@@ -178,6 +186,8 @@
 
 /**
  * Provide the bare styling for the ```.p``` and ```.p--lead``` classes
+ * - ```.p```, ```.tf p```
+ * - ```.p--lead```, ```.tf p.p--lead```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 @mixin s-typography-paragraphs-classes-bare() {
@@ -235,6 +245,8 @@
 
 /**
  * Provide the bare styling for the ```.p``` class
+ * - ```.p```, ```.tf p```
+ * - ```.p--lead```, ```.tf p.p--lead```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 @mixin s-typography-paragraphs-classes-style() {
@@ -246,6 +258,7 @@
 
 /**
  * Provide the styling for the links classes
+ * - ```.link```, ```.tf a```
  * @param 		{Color} 		[$color=primary] 		The color used to style links
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
@@ -258,6 +271,7 @@
 
 /**
  * Provide the bare styling for the links classes
+ * - ```.link```, ```.tf a```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 @mixin s-typography-links-classes-bare() {
@@ -268,6 +282,7 @@
 }
 /**
  * Provide the style styling for the links classes
+ * - ```.link```, ```.tf a```
  * @param 		{Color} 		[$color=primary] 		The color used to style links
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
@@ -282,6 +297,14 @@
 
 /**
  * Provide the styling for the inline-text classes
+ * - ```.mark```, ```.tf mark```
+ * - ```.del```, ```.tf del```
+ * - ```.s```, ```.tf s```
+ * - ```.ins```, ```.tf ins```
+ * - ```.u```, ```.tf u```
+ * - ```.small```, ```.tf small```
+ * - ```.strong```, ```.tf strong```
+ * - ```.em```, ```.tf em```
  * @param 		{Color} 		[$color=primary] 		The color used to style different inline text elements
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
@@ -294,6 +317,14 @@
 
 /**
  * Provide the bare styling for the inline-text classes
+ * - ```.mark```, ```.tf mark```
+ * - ```.del```, ```.tf del```
+ * - ```.s```, ```.tf s```
+ * - ```.ins```, ```.tf ins```
+ * - ```.u```, ```.tf u```
+ * - ```.small```, ```.tf small```
+ * - ```.strong```, ```.tf strong```
+ * - ```.em```, ```.tf em```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 @mixin s-typography-inline-texts-classes-bare() {
@@ -412,6 +443,14 @@
 }
 /**
  * Provide the style styling for the inline-text classes
+ * - ```.mark```, ```.tf mark```
+ * - ```.del```, ```.tf del```
+ * - ```.s```, ```.tf s```
+ * - ```.ins```, ```.tf ins```
+ * - ```.u```, ```.tf u```
+ * - ```.small```, ```.tf small```
+ * - ```.strong```, ```.tf strong```
+ * - ```.em```, ```.tf em```
  * @param 		{Color} 		[$color=primary] 		The color used to style different inline text elements
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
@@ -454,6 +493,13 @@
 
 /**
  * Provide the styling for the lists classes
+ * - ```.dl```, ```.tf dl```
+ * 	- ```.dt```, ```.tf dt```
+ * 	- ```.dd```, ```.tf dd```
+ * - ```.ul```, ```.tf ul```
+ * 	- ```.li```, ```.tf li```
+ * - ```.ol```, ```.tf ol```
+ * 	- ```.li```, ```.tf li```
  * @param 		{Color} 		[$color=primary] 		The color used to style bullets
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
@@ -466,6 +512,13 @@
 
 /**
  * Provide the bare styling for the lists classes
+ * - ```.dl```, ```.tf dl```
+ * 	- ```.dt```, ```.tf dt```
+ * 	- ```.dd```, ```.tf dd```
+ * - ```.ul```, ```.tf ul```
+ * 	- ```.li```, ```.tf li```
+ * - ```.ol```, ```.tf ol```
+ * 	- ```.li```, ```.tf li```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 @mixin s-typography-lists-classes-bare() {
@@ -566,6 +619,13 @@
 }
 /**
  * Provide the style styling for the lists classes
+ * - ```.dl```, ```.tf dl```
+ * 	- ```.dt```, ```.tf dt```
+ * 	- ```.dd```, ```.tf dd```
+ * - ```.ul```, ```.tf ul```
+ * 	- ```.li```, ```.tf li```
+ * - ```.ol```, ```.tf ol```
+ * 	- ```.li```, ```.tf li```
  * @param 		{Color} 		[$color=primary] 		The color used to style bullets
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
@@ -606,6 +666,7 @@
 
 /**
  * Provide the styling for the captions classes
+ * - ```.caption```, ```.figcaption```, ```.tf caption```, ```.tf figcaption```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 @mixin s-typography-captions-classes() {
@@ -615,6 +676,7 @@
 
 /**
  * Provide the bare styling for the captions classes
+ * - ```.caption```, ```.figcaption```, ```.tf caption```, ```.tf figcaption```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 @mixin s-typography-captions-classes-bare() {
@@ -653,10 +715,12 @@
 }
 /**
  * Provide the style styling for the captions classes
+ * - ```.caption```, ```.figcaption```, ```.tf caption```, ```.tf figcaption```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 @mixin s-typography-captions-classes-style() {
 	.caption,
+	.figcaption
 	.#{s-setting('text-format.scope-class')} caption,
 	.#{s-setting('text-format.scope-class')} figcaption {
 		@include s-typography-caption-style();
@@ -665,6 +729,8 @@
 
 /**
  * Provide the styling for the quotes classes
+ * - ```.quote```, ```.tf quote```
+ * - ```.blockquote```, ```.tf blockquote```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 @mixin s-typography-quotes-classes() {
@@ -674,6 +740,8 @@
 
 /**
  * Provide the bare styling for the quotes classes
+ * - ```.quote```, ```.tf quote```
+ * - ```.blockquote```, ```.tf blockquote```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 @mixin s-typography-quotes-classes-bare() {
@@ -692,12 +760,16 @@
 	 * </div>
 	 */
 	.quote,
-	.#{s-setting('text-format.scope-class')} quote {
+	.blockquote,
+	.#{s-setting('text-format.scope-class')} quote,
+	.#{s-setting('text-format.scope-class')} blockquote {
 		@include s-typography-quote-bare();
 	}
 	// vertucal rhythme
 	.quote,
-	quote {
+	.blockquote,
+	quote,
+	blockquote {
 		@include s-vertical-rhythme() {
 			// margin-top:.5em;
 			margin-bottom:1em;
@@ -712,6 +784,8 @@
 }
 /**
  * Provide the style styling for the quotes classes
+ * - ```.quote```, ```.tf quote```
+ * - ```.blockquote```, ```.tf blockquote```
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 @mixin s-typography-quotes-classes-style() {

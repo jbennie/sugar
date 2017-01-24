@@ -28,3 +28,5 @@ const detector = inViewportStatusChange(myCoolHTMLElement, () => {
 detector.destroy();
 ```
 Author : Olivier Bossel <olivier.bossel@gmail.com>
+
+Default : **null, onExit = null) {**

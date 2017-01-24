@@ -38,3 +38,5 @@ attributesObservable(myCoolHTMLElement).subscribe((mutation) => {
 See more : [https://developer.mozilla.org/en/docs/Web/API/MutationObserver](https://developer.mozilla.org/en/docs/Web/API/MutationObserver)
 
 Author : Olivier Bossel <olivier.bossel@gmail.com>
+
+Default : **{}) {**

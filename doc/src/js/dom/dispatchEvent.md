@@ -20,3 +20,5 @@ dispatchEvent(myCoolHTMLElement, 'myCoolEventName', {
 });
 ```
 Author : Olivier Bossel <olivier.bossel@gmail.com>
+
+Default : **null) {**

@@ -55,7 +55,7 @@ export default class STemplate {
   	 * @return 		{STemplate} 					The parent template instance found in the html
 	 */
 	static getParentTemplate(of) {
-		const templateElm = __closest(of, '[s-template-id]');
+		const templateElm = __closest(of, '[s-tpl]');
 		if ( ! templateElm) return null;
 		return templateElm._sTemplate;
 	}
@@ -111,11 +111,25 @@ export default class STemplate {
 	settings = {
 
 		/**
+		 * Set if the render happend automatically or not
+		 * @setting
+		 * @type 		{Boolean}
+		 */
+		autoRenderOnDataUpdate : true,
+
+		/**
 		 * Function called when a data is updated with his new and old value as parameter
 		 * @setting
 		 * @type 		{Function}
 		 */
 		onDataUpdate : null,
+
+		/**
+		 * Function called when some datas has been updated with his new and old value as parameter
+		 * @setting
+		 * @type 		{Function}
+		 */
+		onDatasUpdate : null,
 
 		/**
 		 * Function that runs before the template will be rendered in the dom so that you can have a change to process it if needed
@@ -271,8 +285,12 @@ export default class STemplate {
 				// by waiting next loop
 				clearTimeout(this._updateTimeout);
 				this._updateTimeout = setTimeout(() => {
-					// render the template again
-					this._internalRender();
+					// on datas updated
+					this.settings.onDatasUpdate && this.settings.onDatasUpdate(this._updatedDataStack);
+					// render the template again if the autoRenderOnDataUpdate is true
+					if (this.settings.autoRenderOnDataUpdate) {
+						this._internalRender();
+					}
 					// reset the updated data stack
 					this._updatedDataStack = {};
 				});
@@ -286,9 +304,9 @@ export default class STemplate {
 	 * @return 			{Boolean} 								True if part of this template, false if not
  	 */
  	isNodeBelongToMe(node) {
-		// if the node has the templateId has s-template-node attribute
-		if (node.hasAttribute('s-template-node')
-			&& node.getAttribute('s-template-node') === this.templateId
+		// if the node has the templateId has s-tpl-node attribute
+		if (node.hasAttribute('s-tpl-node')
+			&& node.getAttribute('s-tpl-node') === this.templateId
 		) return true;
 		// otherwise, the node does not belong to the template
 		return false;
@@ -300,11 +318,11 @@ export default class STemplate {
 	 * @return 		{String} 							The processed template string
 	 */
 	_applyTemplateNodeIdAttribute(templateString) {
-		return templateString.replace(/<[a-zA-Z0-9-]+(?!.*s-template-node)(?!.*s-template-id)(\s|>)/g, (itm, s) => {
+		return templateString.replace(/<[a-zA-Z0-9-]+(?!.*s-tpl-node)(?!.*s-tpl)(\s|>)/g, (itm, s) => {
 			if (s === '>') {
-				return `${itm.trim().replace('>','')} s-template-node="${this.templateId}">`;
+				return `${itm.trim().replace('>','')} s-tpl-node="${this.templateId}">`;
 			} else {
-				return `${itm.trim()} s-template-node="${this.templateId}" `;
+				return `${itm.trim()} s-tpl-node="${this.templateId}" `;
 			}
 		});
 	}
@@ -338,7 +356,7 @@ export default class STemplate {
 		if (this._parentTemplate) return this._parentTemplate;
 		// console.log('dom', this.domNode);
 		if (this.domNode && this.domNode.parentNode) {
-			const parentTemplateNode = __closest(this.domNode, '[s-template-id]');
+			const parentTemplateNode = __closest(this.domNode, '[s-tpl]');
 			// console.log('parent', this.domNode, parentTemplateNode);
 			if (parentTemplateNode && parentTemplateNode._sTemplate) {
 				this._parentTemplate = parentTemplateNode._sTemplate;
@@ -353,14 +371,14 @@ export default class STemplate {
 	 */
 	setDomNode(node) {
 		// prepare the node
-		if ( ! node.hasAttribute('s-template-id')) {
-			node.setAttribute('s-template-id', this.templateId);
-			// node.setAttribute('s-template-node', this.templateId);
+		if ( ! node.hasAttribute('s-tpl')) {
+			node.setAttribute('s-tpl', this.templateId);
+			// node.setAttribute('s-tpl-node', this.templateId);
 			// ignore the template node id
 			sTemplateIntegrator.ignore(node, {
-				's-template-node' : true,
-				's-template-id' : true,
-				's-template-dirty' : true
+				's-tpl-node' : true,
+				's-tpl' : true,
+				's-tpl-dirty' : true
 			});
 
 			// save the template instance into the dom
@@ -435,9 +453,9 @@ export default class STemplate {
 		this._listenDataChangesInDom();
 
 		// set the template as dirty
-		if ( ! this.domNode.hasAttribute('s-template-dirty')) {
-			this.domNode.setAttribute('s-template-dirty', true);
-		}
+		// if ( ! this.domNode.hasAttribute('s-tpl-dirty')) {
+		// 	this.domNode.setAttribute('s-tpl-dirty', true);
+		// }
 
 		// after render
 		this.settings.afterRender && this.settings.afterRender(this.domNode);
@@ -465,7 +483,7 @@ export default class STemplate {
 					if ( ! fromNode.hasAttribute) return true;
 
 					// do not take care of childs of another template
-					if ( fromNode.hasAttribute('s-template-id')
+					if ( toNode.hasAttribute('s-tpl')
 						&& fromNode !== this.domNode) return false;
 
 					// check if an onBeforeElUpdated is present in the settings
@@ -484,6 +502,12 @@ export default class STemplate {
 					// don't care about no html elements
 					// such has comments, text, etc...
 					if ( ! fromNode.hasAttribute) return true;
+
+					// if ( toNode.hasAttribute('s-tpl')
+					// 	&& toNode.getAttribute('s-tpl') === 'true'
+					// ) {
+					// 	toNode.setAttribute('s-tpl', this.templateId);
+					// }
 
 					// apply integration on component
 					this._applyIntegrationOnNode(fromNode);
@@ -525,7 +549,7 @@ export default class STemplate {
 					// cause it's not part of the initial template.
 					// maybe it has been added by any component after
 					// so it's not our business...
-					if ( ! fromNode.hasAttribute('s-template-node')) return false;
+					if ( ! toNode.hasAttribute('s-tpl-node')) return false;
 
 					// check if an onBeforeElUpdated is present in the settings
 					if (this.settings.onBeforeElUpdated) {
@@ -551,13 +575,13 @@ export default class STemplate {
 					if ( ! node.hasAttribute) return true;
 
 					// is the node is template and that it's not us
-					if (node.hasAttribute('s-template-id') && node !== this.domNode) return false;
+					if (node.hasAttribute('s-tpl') && node !== this.domNode) return false;
 
 					// we do not discard any elements that
-					// have no s-template-node attribute
+					// have no s-tpl-node attribute
 					// cause they maybe has been added by another plugins
 					// and it is not our business...
-					if ( ! node.hasAttribute('s-template-node')) return false;
+					if ( ! node.hasAttribute('s-tpl-node')) return false;
 
 					// check if an onBeforeElUpdated is present in the settings
 					if (this.settings.onBeforeElDiscarded) {
@@ -592,7 +616,7 @@ export default class STemplate {
 		// save the element itself
 		this.refs.elm = this.domNode;
 		// search for name and id's
-		[].forEach.call(this.domNode.querySelectorAll(`[id][s-template-node="${this.templateId}"],[name][s-template-node="${this.templateId}"]`), (elm) => {
+		[].forEach.call(this.domNode.querySelectorAll(`[id][s-tpl-node="${this.templateId}"],[name][s-tpl-node="${this.templateId}"]`), (elm) => {
 			// get the id or name
 			const id = elm.id || elm.getAttribute('name');
 			// save the reference
@@ -654,7 +678,7 @@ export default class STemplate {
 	 */
 	_listenDataChangesInDom() {
 		// find elements that have a data binded into it
-		[].forEach.call(this.domNode.querySelectorAll(`[s-template-model][s-template-node="${this.templateId}"]`), (elm) => {
+		[].forEach.call(this.domNode.querySelectorAll(`[s-template-model][s-tpl-node="${this.templateId}"]`), (elm) => {
 
 			// check if already binded
 			const model = elm.getAttribute('s-template-model');

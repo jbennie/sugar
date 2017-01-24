@@ -484,7 +484,6 @@ export default Mixin((superclass) => class extends superclass {
 		* When the component is created
 		*/
 		createdCallback() {
-			if ( ! document.body.contains(this)) return;
 
 			// track the lifecyle
 			this._lifecycle = {
@@ -495,6 +494,8 @@ export default Mixin((superclass) => class extends superclass {
 				componentUnmount : false,
 				componentDidUnmount : false
 			};
+
+			if ( ! document.body.contains(this)) return;
 
 			// component will mount only if part of the active document
 			this.componentWillMount();
@@ -588,7 +589,8 @@ export default Mixin((superclass) => class extends superclass {
 		*/
 		_mountComponent() {
 			// wait next frame
-			this.mutate(() => {
+			fastdom.clear(this._fastdomSetProp);
+			this._fastdomSetProp = this.mutate(() => {
 				// sometimes, the component has been unmounted between the
 				// fastdom execution, so we stop here if it's the case
 				if ( ! this._componentAttached) return;
@@ -611,7 +613,8 @@ export default Mixin((superclass) => class extends superclass {
 			// will unmount
 			this.componentWillUnmount();
 			// wait next frame
-			this.mutate(() => {
+			fastdom.clear(this._fastdomSetProp);
+			this._fastdomSetProp = this.mutate(() => {
 				// unmount only if the component is mounted
 				if ( ! this._componentMounted) return;
 				// unmount
@@ -625,6 +628,11 @@ export default Mixin((superclass) => class extends superclass {
 		* When any of the component attribute changes
 		*/
 		attributeChangedCallback(attribute, oldVal, newVal) {
+
+			// stop if component has not been mounted
+			if ( ! this._lifecycle.componentWillMount) {
+				return;
+			}
 
 			// cast the new val
 			newVal = __autoCast(newVal);
@@ -735,6 +743,8 @@ export default Mixin((superclass) => class extends superclass {
 
 				// component will update
 				this.componentWillUpdate(this._nextPropsStack, nextPropsArray);
+
+				console.warn('up', this, this._nextPropsStack);
 
 				// render the component
 				this.render();

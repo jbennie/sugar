@@ -1,0 +1,3 @@
+### SNavComponent
+
+Documentation coming soon...

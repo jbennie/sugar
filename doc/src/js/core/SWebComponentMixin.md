@@ -8,6 +8,8 @@ Props are actual computed props with attributes
 
 Type : **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }**
 
+Default : **{}**
+
 
 ## Methods
 
@@ -21,6 +23,8 @@ Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 name  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The name of the component  |  required  |
 component  |  **{ SWebComponent }**  |  The component class  |  required  |
+
+Default : **null) {**
 
 
 ### defaultProps
@@ -214,10 +218,14 @@ Name  |  Type  |  Description  |  Status  |  Default
 name  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The event name  |  required  |
 data  |  **{ Mixed }**  |  Some data to attach to the event  |  required  |
 
+Default : **null) {**
+
 
 ### setProps
 
 Set properties
+
+Default : **{}) {**
 
 
 ### setProp
@@ -257,6 +265,8 @@ state  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refe
 
 Return **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }** The generated class
 
+Default : **null, modifier = null, state = null) {**
+
 
 ### componentSelector
 
@@ -270,6 +280,8 @@ modifier  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/R
 state  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The state name  |  optional  |  null
 
 Return **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }** The generated class
+
+Default : **null, modifier = null, state = null) {**
 
 
 ### hasComponentClass
@@ -287,6 +299,8 @@ state  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refe
 
 Return **{ [Boolean](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean) }** The check result
 
+Default : **null, modifier = null, state = null) {**
+
 
 ### addComponentClass
 
@@ -302,6 +316,8 @@ state  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refe
 
 Return **{ SComponent} }** The component itself
 
+Default : **null, modifier = null, state = null) {**
+
 
 ### removeComponentClass
 
@@ -316,3 +332,5 @@ modifier  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/R
 state  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The state name  |  optional  |  null
 
 Return **{ SComponent} }** The component itself
+
+Default : **null, modifier = null, state = null) {**

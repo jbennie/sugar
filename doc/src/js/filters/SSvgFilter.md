@@ -5,6 +5,7 @@
 
 
 
+
 ## Methods
 
 This class allows you to create with ease some complexe SVG filters and to apply it on any HTMLElement that you want

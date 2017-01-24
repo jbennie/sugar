@@ -8,6 +8,8 @@ The compile function to use
 
 Type : **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function) }**
 
+Default : **null**
+
 
 ### template
 
@@ -15,6 +17,8 @@ template
 The template to use. If not specified, will be the element itself used as template
 
 Type : **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**
+
+Default : **null**
 
 
 ## Methods

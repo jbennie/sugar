@@ -30,19 +30,18 @@ Author : Olivier Bossel <olivier.bossel@gmail.com>
 
 
 
+
 ## Settings
 
 Here's the list of available settings.
 
-### compile
+### autoRenderOnDataUpdate
 
-A compile function to process the template
-This function will revieve the template and the data as parameters
-and need to return the compiled string version
+Set if the render happend automatically or not
 
-Type : **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function) }**
+Type : **{ [Boolean](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean) }**
 
-Default : **null**
+Default : **true**
 
 
 ### onDataUpdate
@@ -50,6 +49,17 @@ Default : **null**
 Function called when a data is updated with his new and old value as parameter
 
 Type : **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function) }**
+
+Default : **null**
+
+
+### onDatasUpdate
+
+Function called when some datas has been updated with his new and old value as parameter
+
+Type : **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function) }**
+
+Default : **null**
 
 
 ### onBeforeElUpdated
@@ -88,6 +98,8 @@ Function called after any HTMLElement has been removed from the dom
 
 Type : **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function) }**
 
+Default : **null**
+
 
 ## Properties
 
@@ -99,12 +111,16 @@ this particular class in the window.sTemplateClasses
 
 Type : **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**
 
+Default : **null**
+
 
 ### refs
 
 Store the reference to html elements that have an id or a name
 
 Type : **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }**
+
+Default : **{}**
 
 
 ### data
@@ -113,12 +129,23 @@ Store the data object used to render the template
 
 Type : **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }**
 
+Default : **{}**
+
 
 ### settings
 
 Store the settings
 
 Type : **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }**
+
+Default : **{**
+
+
+### templateString
+
+Get the template
+
+Type : **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**
 
 
 ## Methods
@@ -140,31 +167,7 @@ Return **{ STemplate }** The parent template instance found in the html
 
 Store the reference to the created dom structure
 
-
-### beforeCompile
-
-Function that runs before the template will be compiled so that you can have a change to process it if needed
-before it will be passed to the compile step
-
-
-Name  |  Type  |  Description  |  Status  |  Default
-------------  |  ------------  |  ------------  |  ------------  |  ------------
-template  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The template before compilation  |  required  |
-
-Return **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }** The processed template to pass to compilation step
-
-
-### afterCompile
-
-Function that runs after the template has been compiled so that you can have a chance to process it if needed
-before that the dom will be updated
-
-
-Name  |  Type  |  Description  |  Status  |  Default
-------------  |  ------------  |  ------------  |  ------------  |  ------------
-compiledTemplate  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The compiled template  |  required  |
-
-Return **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) , [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElement) }** The processed template
+Default : **null**
 
 
 ### beforeRender
@@ -179,6 +182,8 @@ template  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/R
 
 Return **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }** The processed template to pass to render step
 
+Default : **null**
+
 
 ### afterRender
 
@@ -189,10 +194,14 @@ Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 inDomTemplate  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElement) }**  |  The dom element that represent the template  |  required  |
 
+Default : **null**
+
 
 ### constructor
 
 Constructor
+
+Default : **{}, settings = {}, parentTemplate = null) {**
 
 
 ### isNodeBelongToMe
@@ -205,6 +214,16 @@ Name  |  Type  |  Description  |  Status  |  Default
 node  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElement) }**  |  The node to test  |  required  |
 
 Return **{ [Boolean](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean) }** True if part of this template, false if not
+
+
+### templateString
+
+Set the template string
+
+
+Name  |  Type  |  Description  |  Status  |  Default
+------------  |  ------------  |  ------------  |  ------------  |  ------------
+template  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The template string  |  required  |
 
 
 ### setDomNode
@@ -233,6 +252,8 @@ template  |  **{ STemplate }**  |  The parent template instance  |  required  |
 Render the template
 Usually, you don't need to call this by yourself. The template
 will be rendered again each time that a data is updated
+
+Default : **null) {**
 
 
 ### patchDom

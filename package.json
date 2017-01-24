@@ -19,8 +19,8 @@
     "demo.watch.js": "nodemon -w demo/src -w src -e js -x \"npm run demo.js\"",
     "install": "./scripts/install.sh",
     "doc": "rm -rf doc/src && npm run doc.scss && npm run doc.js",
-    "doc.scss": "coffeekraken-docblock-to-markdown -s 'src/**/*.scss' -d doc",
-    "doc.js": "coffeekraken-docblock-to-markdown -s 'src/**/*.js' -d doc"
+    "doc.scss": "coffeekraken-docblock-to-markdown -f 'src/**/*.scss' -d doc",
+    "doc.js": "coffeekraken-docblock-to-markdown -f 'src/**/*.js' -d doc"
   },
   "repository": {
     "type": "git",

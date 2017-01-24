@@ -1,11 +1,26 @@
+/**
+ * Provide all the classes of the button component like .btn, .btn--outline, etc...
+ * - ```.btn```
+ * - ```.btn--{color}```
+ * - ```.btn--outline```
+ * - ```.btn--link```
+ * - ```.btn--block```
+ * @param 		{List<Color>} 		[$colors=default primary secondary] 		The colors to generate
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-button-classes(
-	$colors : null
+	$colors : default primary secondary
 ) {
 	@include s-button-classes-bare();
-	@if $colors {
-		@include s-button-classes-style($colors);
-	}
+	@include s-button-classes-style($colors);
 }
+
+/**
+ * Provide the bare styling for the buttons classes
+ * - ```.btn```
+ * - ```.btn--block```
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-button-classes-bare(
 ) {
 	// init dropdown
@@ -36,6 +51,17 @@
 		}
 	}
 }
+
+/**
+ * Provide the style styling for the buttons classes
+ * - ```.btn--{color}```
+ * - ```.btn--outline```
+ * - ```.btn--link```
+ * - ```.btn:disabled```
+ * - ```.btn--hover-{$color}```
+ * @param 		{List<Color>} 		[$colors=default primary secondary] 		The colors to generate
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-button-classes-style(
 	$colors : default primary secondary
 ) {
