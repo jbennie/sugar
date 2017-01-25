@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-look-and-feel
+# s-look-and-feel
 
 Return a settings.look-and-feel stack value
 

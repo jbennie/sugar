@@ -1,7 +1,4 @@
-# Methods
-
-
-## whenProperty
+# whenProperty
 
 Resolve a promise when the wanted property on the passed object exist or pass the check function provided
 

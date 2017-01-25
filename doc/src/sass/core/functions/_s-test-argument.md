@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-test-argument
+# s-test-argument
 
 Test an argument passed to a function or a mixin to ensure his type, value, etc...
 If the argument does not pass the test, an error will be thrown, unless the $check-only argument is true

@@ -1,7 +1,4 @@
-# Methods
-
-
-## realHeight
+# realHeight
 
 Return the full height of an element that has maybe a max-height, etc...
 

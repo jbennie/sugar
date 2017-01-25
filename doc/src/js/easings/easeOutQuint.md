@@ -1,7 +1,4 @@
-# Methods
-
-
-## easeOutQuint
+# easeOutQuint
 
 Ease out quint function
 

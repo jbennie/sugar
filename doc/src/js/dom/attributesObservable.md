@@ -1,21 +1,4 @@
-# Settings
-
-Here's the list of available settings.
-
-## attributes
-
-List of attributes to observe
-
-Type : **{ [Array](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Array) }**
-
-Default : **null**
-
-
-
-# Methods
-
-
-## attributesObservable
+# attributesObservable
 
 Observe attributes on an HTMLElement and get mutations through the observable subscription
 
@@ -40,3 +23,19 @@ See more : [https://developer.mozilla.org/en/docs/Web/API/MutationObserver](http
 Author : Olivier Bossel <olivier.bossel@gmail.com>
 
 Default : **{}) {**
+
+
+
+
+
+## Settings
+
+Here's the list of available settings.
+
+### attributes
+
+List of attributes to observe
+
+Type : **{ [Array](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Array) }**
+
+Default : **null**

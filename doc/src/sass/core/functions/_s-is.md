@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-is
+# s-is
 
 Check if the passed value is of a certain type
 

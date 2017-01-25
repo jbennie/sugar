@@ -1,7 +1,4 @@
-# Methods
-
-
-## styleString2Object
+# styleString2Object
 
 Transform a style string to an object representation
 

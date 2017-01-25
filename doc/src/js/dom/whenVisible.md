@@ -1,7 +1,4 @@
-# Methods
-
-
-## whenVisible
+# whenVisible
 
 Monitor an HTMLElement to be notified when it is visible
 

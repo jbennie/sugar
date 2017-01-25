@@ -1,7 +1,4 @@
-# Methods
-
-
-## getStyleProperty
+# getStyleProperty
 
 Get a style property on the passed element through the computed style.
 This function try to store the actual style to not trigger more that 1 redraw

@@ -1,7 +1,4 @@
-# Mixins
-
-
-## s-background
+# s-background
 
 
 

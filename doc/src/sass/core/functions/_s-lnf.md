@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-lnf
+# s-lnf
 
 Alias to the [./_s-look-and-feel.scss] function
 

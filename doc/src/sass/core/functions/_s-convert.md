@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-convert
+# s-convert
 
 Convert a passed value to the wanted unit
 The conversion between some units that depends on a font-size will take the settings.typography.font-size value as reference.

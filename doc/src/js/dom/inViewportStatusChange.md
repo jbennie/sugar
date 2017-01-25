@@ -1,7 +1,4 @@
-# Methods
-
-
-## inViewportStatusChange
+# inViewportStatusChange
 
 Monitor when the passed element enter or exit the viewport
 

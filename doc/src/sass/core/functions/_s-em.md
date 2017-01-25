@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-em
+# s-em
 
 Convert the passed value to em
 

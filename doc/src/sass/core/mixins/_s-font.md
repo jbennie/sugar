@@ -1,7 +1,4 @@
-# Mixins
-
-
-## s-font
+# s-font
 
 Print all the fonts properties that correspond to the passed arguments
 

@@ -1,7 +1,4 @@
-# Methods
-
-
-## isInViewport
+# isInViewport
 
 Check if the passed HTMLElement is in the viewport or not
 
@@ -22,3 +19,5 @@ if (isInViewport(myCoolHTMLElement) {
 }
 ```
 Author : Olivier Bossel <olivier.bossel@gmail.com>
+
+Default : **50) {**

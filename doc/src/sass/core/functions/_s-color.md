@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-color
+# s-color
 
 Get a registered color by name or wrap a new color into a s-color call
 to manipulate it with ease.

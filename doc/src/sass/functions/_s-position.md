@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-position
+# s-position
 
 Return the representation of a position styling like position:absolute; top:0; left:100%; etc...
 This function gives you some shortcuts to align your element top, bottom, middle, center, etc...

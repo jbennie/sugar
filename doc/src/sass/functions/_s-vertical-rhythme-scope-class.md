@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-vertical-rhythme-scope-class
+# s-vertical-rhythme-scope-class
 
 Return the settings.vertical-rhythme.scope-class value
 

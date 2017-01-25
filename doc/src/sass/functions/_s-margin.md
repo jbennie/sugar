@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-margin
+# s-margin
 
 Parse and return the Map respresentation of a margin property
 The $margin argument will be parsed with the [s-parse-properties](../core/functions/_s-parse-properties.scss) function.

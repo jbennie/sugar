@@ -1,7 +1,4 @@
-# Methods
-
-
-## linkLoaded
+# linkLoaded
 
 Wait until the passed HTMLLinkElement is fully loaded
 

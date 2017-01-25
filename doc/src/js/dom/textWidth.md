@@ -1,7 +1,4 @@
-# Methods
-
-
-## textWidth
+# textWidth
 
 Get the text width in px of a passed string or the passed HTMLElement
 

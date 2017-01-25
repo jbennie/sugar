@@ -1,7 +1,4 @@
-# Methods
-
-
-## constructorName
+# constructorName
 
 Return the constructor name of the passed object
 

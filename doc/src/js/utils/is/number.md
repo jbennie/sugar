@@ -1,7 +1,4 @@
-# Methods
-
-
-## isNumber
+# isNumber
 
 Check if the passed value is a number
 

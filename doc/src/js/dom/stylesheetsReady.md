@@ -1,7 +1,4 @@
-# Methods
-
-
-## stylesheetsReady
+# stylesheetsReady
 
 Wait until all the HTMLLinkElement's are properly loaded
 

@@ -1,7 +1,4 @@
-# Mixins
-
-
-## s-register-class
+# s-register-class
 
 
 

@@ -1,7 +1,4 @@
-# Methods
-
-
-## printf
+# printf
 
 printf php equavalent
 

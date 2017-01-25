@@ -1,4 +1,13 @@
-# Constructor
+# name
+
+Store the cache name
+
+Type : **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**
+
+Default : **null**
+
+
+## Constructor
 
 
 Name  |  Type  |  Description  |  Status  |  Default
@@ -11,19 +20,10 @@ Default : **{}) {**
 
 
 
-# Properties
+## Properties
 
 
-## name
-
-Store the cache name
-
-Type : **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**
-
-Default : **null**
-
-
-## cache
+### cache
 
 Store the cache object
 
@@ -32,10 +32,10 @@ Type : **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Referen
 Default : **{}**
 
 
-# Methods
+## Methods
 
 
-## id
+### id
 
 Get a value from the cache
 
@@ -47,14 +47,14 @@ id  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Referen
 Return **{ Mixed }** The cache value or null if not exist
 
 
-## now
+### now
 
 Get the now timestamp
 
 Return **{ Integer }** The timestamp of now
 
 
-## id,
+### id,
 
 Set a value in the cache
 

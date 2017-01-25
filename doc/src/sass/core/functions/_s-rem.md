@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-rem
+# s-rem
 
 Convert the passed value to rem
 

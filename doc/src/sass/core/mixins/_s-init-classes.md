@@ -1,7 +1,4 @@
-# Mixins
-
-
-## s-init-classes
+# s-init-classes
 
 Register all the dynamic helper classes that depends on the settings, etc...
 This is used internaly

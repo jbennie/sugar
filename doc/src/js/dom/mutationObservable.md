@@ -1,7 +1,4 @@
-# Methods
-
-
-## mutationObservable
+# mutationObservable
 
 Observe mutations on an HTMLElement and get them through the observable subscription
 

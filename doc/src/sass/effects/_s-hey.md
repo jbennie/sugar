@@ -1,7 +1,4 @@
-# Mixins
-
-
-## s-hey
+# s-hey
 
 
 

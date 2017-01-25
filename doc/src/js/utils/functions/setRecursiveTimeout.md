@@ -1,7 +1,4 @@
-# Methods
-
-
-## setRecursiveTimeout
+# setRecursiveTimeout
 
 This utils function allows you to call a passed function each x time during a certain duration
 

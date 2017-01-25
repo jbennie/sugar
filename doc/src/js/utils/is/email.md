@@ -1,7 +1,4 @@
-# Methods
-
-
-## isEmail
+# isEmail
 
 Check if the passed value is a valid email address
 

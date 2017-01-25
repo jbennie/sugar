@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-strip-units
+# s-strip-units
 
 Return a number without any units
 

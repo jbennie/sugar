@@ -1,5 +1,4 @@
 import __isVisible from './isVisible'
-// import __getBoundingClientRect from './getBoundingClientRect'
 
 /**
  * Return how many percent the passed element is visible in the viewport

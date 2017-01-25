@@ -1,7 +1,4 @@
-# Methods
-
-
-## decodeHtmlEntities
+# decodeHtmlEntities
 
 Decode an htmlentities encoded string
 

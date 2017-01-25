@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-render-round
+# s-render-round
 
 Return the passed values in the same unit but that has been rounded on the corresponding px value
 This ensure that your passed value will be a round px value for final rander in the viewport

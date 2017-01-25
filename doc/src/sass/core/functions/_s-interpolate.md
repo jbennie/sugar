@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-interpolate
+# s-interpolate
 
 Return the specified or calculated value of the given stack and size
 depending on the settings.sizes ratios stack

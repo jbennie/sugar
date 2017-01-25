@@ -1,7 +1,4 @@
-# Methods
-
-
-## isVisible
+# isVisible
 
 Check if the passed HTMLElement is visible or not.
 Visible mean that it has not an opacity of 0, not a visibility of hidden and not a display of none

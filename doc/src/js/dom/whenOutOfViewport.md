@@ -1,7 +1,4 @@
-# Methods
-
-
-## whenOutOfViewport
+# whenOutOfViewport
 
 Monitor an HTMLElement to be notified when it exit the viewport
 

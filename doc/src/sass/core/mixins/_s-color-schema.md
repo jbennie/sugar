@@ -1,7 +1,4 @@
-# Mixins
-
-
-## s-color-schema
+# s-color-schema
 
 
 

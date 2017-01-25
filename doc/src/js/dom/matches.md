@@ -1,7 +1,4 @@
-# Methods
-
-
-## matches
+# matches
 
 Polyfill for the Element.matches function
 

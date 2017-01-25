@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-selector
+# s-selector
 
 Process selector to avoid having --default, etc...
 

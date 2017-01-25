@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-component
+# s-component
 
 Return the name of the top level component setted with the [../mixins/_s-component.scss] mixin
 

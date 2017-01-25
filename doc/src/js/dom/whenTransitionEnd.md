@@ -1,7 +1,4 @@
-# Methods
-
-
-## whenTransitionEnd
+# whenTransitionEnd
 
 Monitor an HTMLElement to be notified when his transition has ended
 

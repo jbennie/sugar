@@ -1,7 +1,4 @@
-# Mixins
-
-
-## s-loader-couch-potato
+# s-loader-couch-potato
 
 
 

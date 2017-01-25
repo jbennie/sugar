@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-columns
+# s-columns
 
 Return the Map representation of a columns properties
 

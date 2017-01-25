@@ -1,7 +1,4 @@
-# Methods
-
-
-## offset
+# offset
 
 Get the offset top and left of the passed element from the document top left point
 

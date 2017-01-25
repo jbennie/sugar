@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-modular-scale
+# s-modular-scale
 
 Return the modular scale value based on the settings ```modular-scale.base``` and ```modular-scale.ratio```.
 

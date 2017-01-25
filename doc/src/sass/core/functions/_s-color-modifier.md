@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-color-modifier
+# s-color-modifier
 
 Return the color in a modifier list
 

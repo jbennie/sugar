@@ -1,7 +1,4 @@
-# Methods
-
-
-## isInteger
+# isInteger
 
 Check if the passed value is an integer
 

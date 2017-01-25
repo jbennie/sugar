@@ -1,7 +1,4 @@
-# Mixins
-
-
-## s-context-setup
+# s-context-setup
 
 
 

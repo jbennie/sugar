@@ -1,7 +1,4 @@
-# Methods
-
-
-## whenInViewport
+# whenInViewport
 
 Monitor an HTMLElement to be notified when it is in the viewport
 

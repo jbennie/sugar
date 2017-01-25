@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-space
+# s-space
 
 Return a value interpolated from the settings.spaces stack
 

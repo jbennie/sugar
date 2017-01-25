@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-replace-tokens
+# s-replace-tokens
 
 Search and replace tokens like colors #primary in a passed string, list or map
 Supported tokens types :

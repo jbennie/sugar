@@ -1,7 +1,4 @@
-# Mixins
-
-
-## s-setup
+# s-setup
 
 
 

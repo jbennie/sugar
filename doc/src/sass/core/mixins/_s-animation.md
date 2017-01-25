@@ -1,7 +1,4 @@
-# Mixins
-
-
-## s-animation
+# s-animation
 
 
 

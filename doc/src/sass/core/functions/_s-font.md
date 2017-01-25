@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-font
+# s-font
 
 Return the font {Map} that correspond to the passed arguments
 

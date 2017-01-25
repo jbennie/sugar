@@ -1,7 +1,4 @@
-# Mixins
-
-
-## s-filter
+# s-filter
 
 
 

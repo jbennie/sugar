@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-context
+# s-context
 
 Return the name of the context setted with the [../mixins/_s-context.scss] mixin
 

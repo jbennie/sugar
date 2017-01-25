@@ -1,39 +1,4 @@
-# Settings
-
-Here's the list of available settings.
-
-## visible
-
-If we want only visible elements
-
-Type : **{ [Boolean](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean) }**
-
-Default : **false**
-
-
-## inViewport
-
-If we want only elements that are in the viewport
-
-Type : **{ [Boolean](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean) }**
-
-Default : **false**
-
-
-## rootNode
-
-The root node to start the query from
-
-Type : **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElement) }**
-
-Default : **document.body**
-
-
-
-# Methods
-
-
-## querySelectorAll
+# querySelectorAll
 
 Enhanced proxy of the Element.querySelectorAll function that let you specify
 if you want elements that are visible, or even that are in the viewport
@@ -58,3 +23,37 @@ const elms = querySelectorAll('.a-cool-css-selector', {
 });
 ```
 Author : Olivier Bossel <olivier.bossel@gmail.com>
+
+
+
+
+
+## Settings
+
+Here's the list of available settings.
+
+### visible
+
+If we want only visible elements
+
+Type : **{ [Boolean](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean) }**
+
+Default : **false**
+
+
+### inViewport
+
+If we want only elements that are in the viewport
+
+Type : **{ [Boolean](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean) }**
+
+Default : **false**
+
+
+### rootNode
+
+The root node to start the query from
+
+Type : **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElement) }**
+
+Default : **document.body**

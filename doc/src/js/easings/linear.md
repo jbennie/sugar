@@ -1,7 +1,4 @@
-# Methods
-
-
-## linear
+# linear
 
 Ease linear function
 

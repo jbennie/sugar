@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-render-round-even
+# s-render-round-even
 
 Return the passed values in the same unit but that has been even rounded on the corresponding px value
 This ensure that your passed value will be a round px value for final rander in the viewport

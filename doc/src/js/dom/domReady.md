@@ -1,7 +1,4 @@
-# Methods
-
-
-## domReady
+# domReady
 
 Wait that the dom is ready before resolving the promise
 If you need that some css files are loaded before considering the dom as loaded

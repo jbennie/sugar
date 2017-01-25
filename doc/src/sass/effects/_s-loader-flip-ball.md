@@ -1,7 +1,4 @@
-# Mixins
-
-
-## s-loader-flip-ball
+# s-loader-flip-ball
 
 
 

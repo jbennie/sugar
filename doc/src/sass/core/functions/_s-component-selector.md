@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-component-selector
+# s-component-selector
 
 Return the css class selector for the current component setted by the [core/mixins/_s-component.scss] mixin
 and build with the passed arguments.

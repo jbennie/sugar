@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-dash-to-map
+# s-dash-to-map
 
 Transform a dash notation value into a map
 Dash notation value is : -key1 value1 -key2 value2

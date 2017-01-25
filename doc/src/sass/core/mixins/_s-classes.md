@@ -1,7 +1,4 @@
-# Mixins
-
-
-## s-classes
+# s-classes
 
 
 

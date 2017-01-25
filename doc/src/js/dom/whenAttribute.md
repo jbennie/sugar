@@ -1,7 +1,4 @@
-# Methods
-
-
-## whenAttribute
+# whenAttribute
 
 Resolve a promise when the wanted attribute on the passed HTMLElement exist or pass the check function provided
 

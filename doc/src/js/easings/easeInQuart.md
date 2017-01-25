@@ -1,7 +1,4 @@
-# Methods
-
-
-## easeInQuart
+# easeInQuart
 
 Ease in quart function
 

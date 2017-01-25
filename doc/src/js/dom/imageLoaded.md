@@ -1,7 +1,4 @@
-# Methods
-
-
-## imageLoaded
+# imageLoaded
 
 Wait until the passed image is fully loaded
 

@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-render-round-odd
+# s-render-round-odd
 
 Return the passed values in the same unit but that has been odd rounded on the corresponding px value
 This ensure that your passed value will be a round px value for final rander in the viewport

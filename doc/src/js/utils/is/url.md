@@ -1,7 +1,4 @@
-# Methods
-
-
-## isUrl
+# isUrl
 
 Check if the passed value is a valid url
 

@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-font-family
+# s-font-family
 
 Return the font-family string or a registered font
 

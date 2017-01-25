@@ -1,7 +1,4 @@
-# Methods
-
-
-## getTransitionProperties
+# getTransitionProperties
 
 Get the css transition properties from an HTMLElement in an object format
 

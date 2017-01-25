@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-parse-properties
+# s-parse-properties
 
 Parse a given string/list properties and return the Map corresponding to the Map description
 

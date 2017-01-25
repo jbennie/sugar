@@ -1,7 +1,4 @@
-# Mixins
-
-
-## s-font-face
+# s-font-face
 
 
 

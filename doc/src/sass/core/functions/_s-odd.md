@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-odd
+# s-odd
 
 Convert the passed value to the closest odd value
 

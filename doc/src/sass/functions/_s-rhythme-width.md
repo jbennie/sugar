@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-rhythme-width
+# s-rhythme-width
 
 Return the Map properties representation for the rhythme width
 The rhythme width is the width of an element that target a certain number of letters by line

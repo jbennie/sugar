@@ -1,7 +1,4 @@
-# Methods
-
-
-## styleObject2String
+# styleObject2String
 
 Transform a style object to inline string separated by ;
 

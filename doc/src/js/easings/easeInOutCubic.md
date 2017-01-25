@@ -1,7 +1,4 @@
-# Methods
-
-
-## easeInOutCubic
+# easeInOutCubic
 
 Ease in out cubic function
 

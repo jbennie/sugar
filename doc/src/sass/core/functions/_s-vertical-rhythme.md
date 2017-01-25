@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-vertical-rhythme
+# s-vertical-rhythme
 
 
 

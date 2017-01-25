@@ -14,24 +14,7 @@
  *
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-// import __getBoundingClientRect from './getBoundingClientRect'
 export default function isInViewport(elm, offset = 50) {
-	// // try to get the closest element that has an overflow
-	// if ( ! elm._inViewportContainer) {
-	// 	const overflowContainer = __closest(elm, '[data-in-viewport-container]');
-	// 	if (overflowContainer) {
-	// 		elm._inViewportContainer = overflowContainer;
-	// 	} else {
-	// 		elm._inViewportContainer = window;
-	// 	}
-	// }
-	//
-	// if (elm._inViewportContainer !== window) {
-	// 	containerOffset = __getBoundingClientRect(elm._inViewportContainer);
-	// 	containerHeight = elm._inViewportContainer.offsetHeight;
-	// 	containerWidth = elm._inViewportContainer.offsetWidth;
-	// }
-
 	const containerHeight = window.innerHeight || document.documentElement.clientHeight;
 	const containerWidth = window.innerWidth || document.documentElement.clientWidth;
 	const rect = elm.getBoundingClientRect();

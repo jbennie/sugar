@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-filter-map
+# s-filter-map
 
 Take a filter as parameter and parse it to return the {Map} corresponding
 The $filter parameter can be either a registered filter name or a filter formated like `filterName(filterValue)`

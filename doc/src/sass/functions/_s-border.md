@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-border
+# s-border
 
 Parse and return the Map respresentation of a border property
 The $border argument will be parsed with the [s-parse-properties](../core/functions/_s-parse-properties.scss) function.

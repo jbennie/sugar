@@ -1,7 +1,4 @@
-# Methods
-
-
-## isColor
+# isColor
 
 Check if the passed value is a color
 

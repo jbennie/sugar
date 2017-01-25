@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-selector-method
+# s-selector-method
 
 Return the selector method define at the top level with the the [../mixins/_s-selector-method.scss] mixin
 

@@ -1,7 +1,4 @@
-# Methods
-
-
-## closest
+# closest
 
 Go up the dom three to find the first element that matches the passed selector
 

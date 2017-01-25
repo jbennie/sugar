@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-filter
+# s-filter
 
 Return a list with all the filters that are passed as argument
 This will use the [./_s-filter-map.scss] function to parse the filters

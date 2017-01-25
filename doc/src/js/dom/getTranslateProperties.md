@@ -1,7 +1,4 @@
-# Methods
-
-
-## getTranslateProperties
+# getTranslateProperties
 
 Get a translate properties of an HTMLElement
 

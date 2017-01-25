@@ -1,7 +1,4 @@
-# Methods
-
-
-## getAnimationProperties
+# getAnimationProperties
 
 Get the css animation properties from an HTMLElement in an object format
 

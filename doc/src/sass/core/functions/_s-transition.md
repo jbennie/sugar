@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-transition
+# s-transition
 
 Take a transition as parameter and parse it to return the {List} corresponding
 The $transitions parameter can be either a registered transition name or a custom css transition like : all .2s ease-in-out 2s

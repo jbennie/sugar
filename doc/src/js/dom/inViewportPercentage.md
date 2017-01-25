@@ -1,7 +1,4 @@
-# Methods
-
-
-## inViewportPercentage
+# inViewportPercentage
 
 Return how many percent the passed element is visible in the viewport
 

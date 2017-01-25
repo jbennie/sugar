@@ -1,5 +1,4 @@
 import __getTranslateProperties from './getTranslateProperties'
-// import __getBoundingClientRect from './getBoundingClientRect'
 
 /**
  * Get the offset top and left of the passed element from the document top left point

@@ -1,7 +1,4 @@
-# Methods
-
-
-## style
+# style
 
 Set or remove a css style property on an HTMLElement
 

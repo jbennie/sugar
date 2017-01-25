@@ -1,7 +1,4 @@
-# Functions
-
-
-## s-translate
+# s-translate
 
 Return the Map properties representation of a translate x,y and z
 

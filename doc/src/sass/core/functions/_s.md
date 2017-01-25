@@ -1,7 +1,4 @@
-# Functions
-
-
-## s
+# s
 
 Generic sugar function can return multiple settings types like:
 - any settings : s('settings.{path}')
