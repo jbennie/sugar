@@ -181,7 +181,7 @@
 		} @else if $tag == underlined or $tag == u {
 			text-decoration: underline;
 		} @else if $tag == small {
-			font-size:.85em;
+			font-size:.65em;
 		} @else if $tag == strong or $tag == bold {
 			font-weight: bold;
 		} @else if $tag == em or $tag == italic {
