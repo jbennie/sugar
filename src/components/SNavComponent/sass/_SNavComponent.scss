@@ -5,6 +5,10 @@
 	user-select:none;
 }
 
+@mixin s-nav-justify-classes() {
+	@include s-nav-justify-classes-bare();
+}
+
 @mixin s-nav-justify-classes-bare() {
 
 	@include s-component('nav') {
@@ -45,6 +49,10 @@
 	}
 }
 
+@mixin s-nav-inline-classes() {
+	@include s-nav-inline-classes-bare();
+}
+
 @mixin s-nav-inline-classes-bare() {
 	// init nav
 	@include s-component('nav') {
@@ -82,12 +90,10 @@
 }
 
 @mixin s-nav-tabs-classes(
-	$colors : null
+	$colors : default primary secondary
 ) {
 	@include s-nav-tabs-classes-bare();
-	@if $colors {
-		@include s-nav-tabs-classes-style($colors);
-	}
+	@include s-nav-tabs-classes-style($colors);
 }
 
 @mixin s-nav-tabs-classes-bare() {

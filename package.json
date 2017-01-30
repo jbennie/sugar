@@ -2,6 +2,7 @@
   "name": "coffeekraken-sugar",
   "description": "A little sugar in your codebase",
   "version": "0.0.1",
+  "homepage": "http://coffekraken.io",
   "main": "index.js",
   "scripts": {
     "dist": "rm -rf dist && npm run dist.js && npm run dist.components.scss",
