@@ -95,6 +95,11 @@ Sugar provide some cool helper classes that you can take advantage of. Here's th
 - sugar.font.style.oblique : ```.f-oblique```
 - sugar.font.variant.small-caps : ```.f-small-caps```
 - sugar.block.align.center : ```.block-center```
+- sugar.ratio.16-9 : ```.ratio-16-9```
+- sugar.ratio.4-3 : ```.ratio-4-3```
+- sugar.ratio.1-1 : ```.ratio-1-1```
+- sugar.size.abs.cover : ```.abs-cover```
+- sugar.size.abs.contain : ```.abs-contain```
 - sugar.clearfix.default : ```.clearfix```
 - sugar.clearfix.float : ```.clearfix-float```
 - sugar.clearfix.micro : ```.clearfix-micro```
