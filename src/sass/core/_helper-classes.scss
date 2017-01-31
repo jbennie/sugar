@@ -478,6 +478,39 @@
 }
 
 //
+// Images
+//
+@include s-register-class(abs-cover, 'sugar.size.abs.cover') {
+	/**
+	 * @name 		```.abs-cover```
+	 * Set a size that will cover the entire parent surface by positionning it in absolute
+	 * @styleguide 	Helpers / Sizes
+	 * @example 	html
+	 * <div class="ratio-16-9">
+	 * 	<img src="http://eskipaper.com/images/landscape-3.jpg" class="abs-cover" />
+	 * </div>
+	 */
+	@include s-size(cover,
+		$position : absolute
+	);
+}
+@include s-register-class(abs-contain, 'sugar.size.abs.contain') {
+	/**
+	 * @name 		```.abs-contain```
+	 * Set a size that will contain the entire parent surface by positionning it in absolute
+	 * @styleguide 	Helpers / Sizes
+	 * @example 	html
+	 * <div class="ratio-16-9">
+	 * 	<img src="http://eskipaper.com/images/landscape-3.jpg" class="abs-contain" />
+	 * </div>
+	 */
+	@include s-size(contain,
+		$position : absolute
+	);
+}
+
+
+//
 // Clearfix
 //
 @include s-register-class(clearfix, 'sugar.clearfix.default') {
@@ -554,6 +587,46 @@
 	 * </div>
 	 */
 	@include s-clearfix(facebook);
+}
+
+//
+// Ratios
+//
+@include s-register-class(ratio-16-9, 'sugar.ratio.16-9') {
+	/**
+	 * @name 		```.ratio-16-9```
+	 * Keep a 16/9 ratio on a particular element. Applied by setting height to 0 and paddingtop to 100% / 16 * 9
+	 * @styleguide 	Helpers / Ratios
+	 * @example 	html
+	 * <div class="ratio-16-9">
+	 * 	I will keep my ratio
+	 * </div>
+	 */
+	@include s-ratio(16/9);
+}
+@include s-register-class(ratio-4-3, 'sugar.ratio.4-3') {
+	/**
+	 * @name 		```.ratio-4-3```
+	 * Keep a 4/3 ratio on a particular element. Applied by setting height to 0 and paddingtop to 100% / 4 * 3
+	 * @styleguide 	Helpers / Ratios
+	 * @example 	html
+	 * <div class="ratio-4-3">
+	 * 	I will keep my ratio
+	 * </div>
+	 */
+	@include s-ratio(4/3);
+}
+@include s-register-class(ratio-1-1, 'sugar.ratio.1-1') {
+	/**
+	 * @name 		```.ratio-1-1```
+	 * Keep a 1/1 ratio on a particular element. Applied by setting height to 0 and paddingtop to 100%
+	 * @styleguide 	Helpers / Ratios
+	 * @example 	html
+	 * <div class="ratio-1-1">
+	 * 	I will keep my ratio
+	 * </div>
+	 */
+	@include s-ratio(4/3);
 }
 
 //
