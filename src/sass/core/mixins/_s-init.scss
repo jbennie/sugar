@@ -93,9 +93,11 @@ $_sugar-inited : false;
 			@include s-font(s-setting('typography.font-family'));
 		}
 
-		// default color
+		// default color and stuffs on the body
 		body {
 			color : s-color(text);
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
 		}
 
 		// font faces
