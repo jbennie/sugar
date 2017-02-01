@@ -75,3 +75,21 @@ In order to write nice web components, we provide you a [nice boilerplate](https
 1. Pre-configured to write ES6/7 Using babel
 2. Pre-configured to write tests through karma
 3. Basically, clone and start working
+
+
+<a id="contribute-become-maintainer"></a>
+## Become an official maintainer
+
+We would be more than pleased if you want to help us keep and push Coffeekraken forward. To do so, follow these steps:
+
+1. Contribute to our repositories at least a couple times
+2. Drop us a line to [hello@coffeekraken.io](mailto:hello@coffeekraken.io) with:
+	- Your motivations in just few lines
+	- Your github username
+	- Some kind words are appreciated... ☕️
+
+
+<a id="contribute-donation"></a>
+## Make a small donation
+
+As all the open source projects out there, the Coffeekraken team works proudly and freely to provide you the nicest tools possible. You can show your gratitude by just dropping some kind lines to [hello@coffeekraken.io](hello@coffeekraken.io), or by making a small (large donations are accepted as well) donation [here (paypal)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ENAXDUGMWU2PQ).

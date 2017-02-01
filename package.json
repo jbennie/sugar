@@ -43,7 +43,6 @@
     "morphdom": "^2.3.1",
     "nouislider": "^8.5.1",
     "rxjs": "^5.0.0-beta.10",
-    "sharer.npm.js": "0.0.10",
     "simple-ajax": "^2.6.0",
     "tocca": "^1.0.1"
   },
