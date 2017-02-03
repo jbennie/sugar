@@ -51,7 +51,7 @@
 		@if (index($corners, tl)) {
 			/**
 			 * @name 	#{_start-case(s-component())} top left
-			 * @styleguide 	Components / #{_start-case(s-component())}
+			 * @styleguide 	Objects / #{_start-case(s-component())}
 			 * @example 	html
 			 * <div class="#{s-component()} #{s-component()}--tl">
 			 * 	<!-- content here -->
@@ -64,7 +64,7 @@
 		@if (index($corners, tr)) {
 			/**
 			 * @name 	#{_start-case(s-component())} top right
-			 * @styleguide 	Components / #{_start-case(s-component())}
+			 * @styleguide 	Objects / #{_start-case(s-component())}
 			 * @example 	html
 			 * <div class="#{s-component()} #{s-component()}--tr">
 			 * 	<!-- content here -->
@@ -77,7 +77,7 @@
 		@if (index($corners, bl)) {
 			/**
 			 * @name 	#{_start-case(s-component())} bottom left
-			 * @styleguide 	Components / #{_start-case(s-component())}
+			 * @styleguide 	Objects / #{_start-case(s-component())}
 			 * @example 	html
 			 * <div class="#{s-component()} #{s-component()}--bl">
 			 * 	<!-- content here -->
@@ -90,7 +90,7 @@
 		@if (index($corners, br)) {
 			/**
 			 * @name 	#{_start-case(s-component())} bottom right
-			 * @styleguide 	Components / #{_start-case(s-component())}
+			 * @styleguide 	Objects / #{_start-case(s-component())}
 			 * @example 	html
 			 * <div class="#{s-component()} #{s-component()}--br">
 			 * 	<!-- content here -->
@@ -121,7 +121,7 @@
 		@each $color in $colors {
 			/**
 			 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> #{_start-case(s-component())}
-			 * @styleguide 	Components / #{_start-case(s-component())}
+			 * @styleguide 	Objects / #{_start-case(s-component())}
 			 * @example 	html
 			 * <div class="#{s-component()} #{s-component()}--tl #{s-component()}--#{$color}">
 			 * 	<!-- content here -->

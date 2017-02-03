@@ -22,11 +22,13 @@
 
 @mixin s-tooltip-classes-bare(
 ) {
+
 	@include s-component('tooltip') {
 		.#{s-component()} {
 			@extend %s-tooltip-component-bare;
 			border-radius: s-lnf(border-radius);
 			padding: s-lnf(padding-horizontal) s-lnf(padding-vertical);
+			line-height: s-lnf(line-height);
 			@include s-transition(fast);
 		}
 	}
@@ -39,7 +41,6 @@
 		.#{s-component()} {
 			@include s-depth(5);
 		}
-
 		@keyframes s-tooltip-component {
 			0% {
 				transform: scale(0.9,0.9);
@@ -110,6 +111,17 @@
 				}
 
 				@if index($sides, c) {
+					/**
+					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> centered #{s-component()}
+					 * Display a #{$color} centered #{s-component()}
+					 * @styleguide 		Objects / #{_start-case(s-component())}
+					 * @example 	html
+					 * <div class="active bkg-primary" style="display: block; width: 10px; height: 10px; position: relative; margin: 50px auto;">
+					 * 	<div class="#{s-component()} #{s-component()}--#{$color} #{s-component()}--c">
+					 * 		I'm a cool tooltip
+					 * 	</div>
+					 * </div>
+					 */
 					&.#{s-component()}--c {
 						left:50%; top:50%;
 						transform-origin: 0 0;
@@ -125,6 +137,17 @@
 				}
 
 				@if index($sides, t) {
+					/**
+					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> top #{s-component()}
+					 * Display a #{$color} top centered #{s-component()}
+					 * @styleguide 		Objects / #{_start-case(s-component())}
+					 * @example 	html
+					 * <div class="active bkg-primary" style="display: block; width: 10px; height: 10px; position: relative; margin: 50px auto;">
+					 * 	<div class="#{s-component()} #{s-component()}--#{$color} #{s-component()}--t">
+					 * 		I'm a cool tooltip
+					 * 	</div>
+					 * </div>
+					 */
 					&.#{s-component()}--t {
 						transform-origin:0 calc(100% + 0.5em);
 						left:50%; bottom:calc(100% + 1em);
@@ -148,6 +171,17 @@
 					}
 				}
 				@if index($sides, tl) {
+					/**
+					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> top left #{s-component()}
+					 * Display a #{$color} top left #{s-component()}
+					 * @styleguide 		Objects / #{_start-case(s-component())}
+					 * @example 	html
+					 * <div class="active bkg-primary" style="display: block; width: 10px; height: 10px; position: relative; margin: 50px auto;">
+					 * 	<div class="#{s-component()} #{s-component()}--#{$color} #{s-component()}--tl">
+					 * 		I'm a cool tooltip
+					 * 	</div>
+					 * </div>
+					 */
 					&.#{s-component()}--tl {
 						transform-origin:0 calc(100% + 0.5em);
 						left:0; bottom:calc(100% + 1em);
@@ -170,6 +204,17 @@
 					}
 				}
 				@if index($sides, tr) {
+					/**
+					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> top right #{s-component()}
+					 * Display a #{$color} top right #{s-component()}
+					 * @styleguide 		Objects / #{_start-case(s-component())}
+					 * @example 	html
+					 * <div class="active bkg-primary" style="display: block; width: 10px; height: 10px; position: relative; margin: 50px auto;">
+					 * 	<div class="#{s-component()} #{s-component()}--#{$color} #{s-component()}--tr">
+					 * 		I'm a cool tooltip
+					 * 	</div>
+					 * </div>
+					 */
 					&.#{s-component()}--tr {
 						transform-origin:100% 100%;
 						right:0; bottom:calc(100% + 1em);
@@ -193,6 +238,17 @@
 				}
 
 				@if index($sides, l) {
+					/**
+					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> left #{s-component()}
+					 * Display a #{$color} left #{s-component()}
+					 * @styleguide 		Objects / #{_start-case(s-component())}
+					 * @example 	html
+					 * <div class="active bkg-primary" style="display: block; width: 10px; height: 10px; position: relative; margin: 50px auto;">
+					 * 	<div class="#{s-component()} #{s-component()}--#{$color} #{s-component()}--l">
+					 * 		I'm a cool tooltip
+					 * 	</div>
+					 * </div>
+					 */
 					&.#{s-component()}--l {
 						transform-origin:calc(100% + 0.5em) 50%;
 						right:calc(100% + 0.5em); top:50%;
@@ -216,6 +272,17 @@
 					}
 				}
 				@if index($sides, r) {
+					/**
+					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> right #{s-component()}
+					 * Display a #{$color} right #{s-component()}
+					 * @styleguide 		Objects / #{_start-case(s-component())}
+					 * @example 	html
+					 * <div class="active bkg-primary" style="display: block; width: 10px; height: 10px; position: relative; margin: 50px auto;">
+					 * 	<div class="#{s-component()} #{s-component()}--#{$color} #{s-component()}--r">
+					 * 		I'm a cool tooltip
+					 * 	</div>
+					 * </div>
+					 */
 					&.#{s-component()}--r {
 						transform-origin:-.5em 50%;
 						left:calc(100% + 1em); top:50%;
@@ -239,6 +306,17 @@
 					}
 				}
 				@if index($sides, bl) {
+					/**
+					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> bottom left #{s-component()}
+					 * Display a #{$color} bottom left #{s-component()}
+					 * @styleguide 		Objects / #{_start-case(s-component())}
+					 * @example 	html
+					 * <div class="active bkg-primary" style="display: block; width: 10px; height: 10px; position: relative; margin: 50px auto;">
+					 * 	<div class="#{s-component()} #{s-component()}--#{$color} #{s-component()}--bl">
+					 * 		I'm a cool tooltip
+					 * 	</div>
+					 * </div>
+					 */
 					&.#{s-component()}--bl {
 						transform-origin:1em -1em;
 						left:0; top:calc(100% + 1em);
@@ -261,6 +339,17 @@
 					}
 				}
 				@if index($sides, b) {
+					/**
+					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> bottom #{s-component()}
+					 * Display a #{$color} bottom #{s-component()}
+					 * @styleguide 		Objects / #{_start-case(s-component())}
+					 * @example 	html
+					 * <div class="active bkg-primary" style="display: block; width: 10px; height: 10px; position: relative; margin: 50px auto;">
+					 * 	<div class="#{s-component()} #{s-component()}--#{$color} #{s-component()}--b">
+					 * 		I'm a cool tooltip
+					 * 	</div>
+					 * </div>
+					 */
 					&.#{s-component()}--b {
 						transform-origin:0 -1em;
 						left:50%; top:calc(100% + 1em);
@@ -284,6 +373,17 @@
 					}
 				}
 				@if index($sides, br) {
+					/**
+					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> bottom right #{s-component()}
+					 * Display a #{$color} bottom right #{s-component()}
+					 * @styleguide 		Objects / #{_start-case(s-component())}
+					 * @example 	html
+					 * <div class="active bkg-primary" style="display: block; width: 10px; height: 10px; position: relative; margin: 50px auto;">
+					 * 	<div class="#{s-component()} #{s-component()}--#{$color} #{s-component()}--br">
+					 * 		I'm a cool tooltip
+					 * 	</div>
+					 * </div>
+					 */
 					&.#{s-component()}--br {
 						transform-origin:calc(100% - 1em) -1em;
 						right:0; top:calc(100% + 1em);

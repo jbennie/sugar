@@ -35,18 +35,15 @@ $_sugar-settings : (								// store all the settings
 		border-radius 				: 0em,
 		padding-vertical 			: 1.4em,
 		padding-horizontal 			: 0.8em,
-		disabled-opacity 			: .5
+		disabled-opacity 			: .5,
+		line-height 				: 1.4
 	),
 	spaces 						: (					// store all the spaces available
 		default 					: 1rem
 								),
 	colors 						: (					// store all the colors
 		default 					: (
-			color 						: #848e91,
-			modifiers 					: (
-				light 						: -lighten 15%,
-				dark 						: -darken 15%
-										)
+			color 						: #848e91
 									),
 		title 						: (
 			color 						: #2b3438

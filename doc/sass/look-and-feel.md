@@ -18,6 +18,7 @@ Here's the list of properties that are available for configuration and styling i
 - **padding-horizontal** {em} : Specify the padding horizontal
 - **border-radius** {em} : Specify the border radius to use
 - **disabled-opacity** {unitless} : Specify the opacity for disabled elements
+- **line-height** {unitless} : Specify the line-height to use
 
 ## Setting up your look and feel
 
@@ -29,7 +30,8 @@ To setting up your look and feel, use the [s-setup](../src/sass/core/mixins/_s-s
 		border-radius : 0em,
 		padding-vertical : 1em,
 		padding-horizontal : .8em,
-		disabled-opacity : .5
+		disabled-opacity : .5,
+		line-height : 1.4
 	)
 ));
 ```
@@ -42,6 +44,7 @@ Here's how to use and apply your look and feel across your components:
 .my-cool-item {
 	padding: s-lnf(padding-vertical) s-lnf(padding-horizontal);
 	border-radius: s-lnf(border-radius);
+	line-height: s-lnf(line-height);
 
 	&:disabled {
 		opacity : s-lnf(disabled-opacity);

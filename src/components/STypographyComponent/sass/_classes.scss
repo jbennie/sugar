@@ -295,7 +295,7 @@
 	$color : primary
 ) {
 	.link,
-	.#{s-setting('text-format.scope-class')} a {
+	.#{s-setting('text-format.scope-class')} a:not(.btn) {
 		@include s-typography-link-style($color);
 	}
 }

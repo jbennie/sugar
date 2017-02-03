@@ -101,7 +101,7 @@
 			@if $scope-class {
 				@each $cls in $sc {
 					&.#{$cls},
-					.#{$cls} > & {
+					.#{$cls} & {
 						@each $prop, $value in $rhythme-map {
 							#{$prop} : $value;
 						}
@@ -120,7 +120,7 @@
 			@if $scope-class {
 				@each $cls in $sc {
 					&.#{$cls},
-					.#{$cls} > & {
+					.#{$cls} & {
 						@content;
 					}
 				}
