@@ -33,7 +33,7 @@ var _dispatchEvent2 = _interopRequireDefault(_dispatchEvent);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } } /**
-                                                                                                                                                           * @class 		SBinder
+                                                                                                                                                           * @name 		SBinder
                                                                                                                                                            * This class allows to bind properties between objects, object to HTMLElement attribute and vice versa.
                                                                                                                                                            *
                                                                                                                                                            * @example		js

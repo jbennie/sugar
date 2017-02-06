@@ -19,7 +19,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
- * @class 		InViewportStatusChangeDetector
+ * @name 		InViewportStatusChangeDetector
  * This class allows you to monitor an HTMLElement and be notified when it enters or exit the viewport.
  *
  * @example 	js

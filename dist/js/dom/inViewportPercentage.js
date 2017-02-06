@@ -9,8 +9,6 @@ var _isVisible2 = _interopRequireDefault(_isVisible);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import __getBoundingClientRect from './getBoundingClientRect'
-
 /**
  * Return how many percent the passed element is visible in the viewport
  *

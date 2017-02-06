@@ -7,7 +7,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
- * @class 		SLocalStorageFonts
+ * @name 		SLocalStorageFonts
  * This class allows to easily store and load custom fonts from the localStorage
  *
  * @example 	js

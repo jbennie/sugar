@@ -27,7 +27,7 @@
 		/**
 		 * @name 	#{_start-case(s-component())}
 		 * Provide a nice dropdown component
-		 * @styleguide 		Components / #{_start-case(s-component())}
+		 * @styleguide 		Objects / #{_start-case(s-component())}
 		 * @example 	html
 		 * <div style="display:inline-block" class="#{s-component()}">
 		 * 	<a>Display dropdown</a>
@@ -74,7 +74,7 @@
 			/**
 			 * @name 	#{_start-case(s-component())} right
 			 * Provide a nice dropdown component aligned to the right
-			 * @styleguide 		Components / #{_start-case(s-component())}
+			 * @styleguide 		Objects / #{_start-case(s-component())}
 			 * @example 	html
 			 * <div style="display:inline-block" class="#{s-component()} #{s-component()}--right">
 			 * 	<a>Display right dropdown</a>
@@ -175,7 +175,7 @@
 			/**
 			 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> #{_start-case(s-component())}
 			 * Provide a nice dropdown #{$color} component
-			 * @styleguide 		Components / #{_start-case(s-component())}
+			 * @styleguide 		Objects / #{_start-case(s-component())}
 			 * @example 	html
 			 * <div style="display:inline-block" class="#{s-component()} #{s-component()}--#{$color}">
 			 * 	<a>Display #{$color} dropdown</a>

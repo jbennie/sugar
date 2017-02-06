@@ -1,4 +1,9 @@
 /**
+ * @name 	STypographyComponent
+ * This file provide the mixins to create typography elements
+ */
+
+/**
  * Apply the title css
  * @param 		{Number} 		$size 		The size wanted. If unitless, will use modular scale to calculate size
  * @param 		{Integer}		[$base=null] 		The base on which to calculate the modular scale if needed
@@ -176,7 +181,7 @@
 		} @else if $tag == underlined or $tag == u {
 			text-decoration: underline;
 		} @else if $tag == small {
-			font-size:.85em;
+			font-size:.65em;
 		} @else if $tag == strong or $tag == bold {
 			font-weight: bold;
 		} @else if $tag == em or $tag == italic {

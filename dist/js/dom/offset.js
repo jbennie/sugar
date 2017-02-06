@@ -9,8 +9,6 @@ var _getTranslateProperties2 = _interopRequireDefault(_getTranslateProperties);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import __getBoundingClientRect from './getBoundingClientRect'
-
 /**
  * Get the offset top and left of the passed element from the document top left point
  *

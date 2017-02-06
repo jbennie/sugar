@@ -5,13 +5,17 @@
 	user-select:none;
 }
 
+@mixin s-nav-justify-classes() {
+	@include s-nav-justify-classes-bare();
+}
+
 @mixin s-nav-justify-classes-bare() {
 
 	@include s-component('nav') {
 		/**
 		 * @name 	#{_start-case(s-component())} justify
 		 * Provide a simple justify navigation component
-		 * @styleguide 	Components / #{_start-case(s-component())}
+		 * @styleguide 	Blocks / #{_start-case(s-component())}
 		 * @example 	html
 		 * <ul class="#{s-component()} #{s-component()}--justify">
 		 * 	<li class="#{s-component()}__item">
@@ -45,13 +49,17 @@
 	}
 }
 
+@mixin s-nav-inline-classes() {
+	@include s-nav-inline-classes-bare();
+}
+
 @mixin s-nav-inline-classes-bare() {
 	// init nav
 	@include s-component('nav') {
 		/**
 		 * @name 	#{_start-case(s-component())} inline
 		 * Provide a simple inline navigation component
-		 * @styleguide 	Components / #{_start-case(s-component())}
+		 * @styleguide 	Blocks / #{_start-case(s-component())}
 		 * @example 	html
 		 * <ul class="#{s-component()} #{s-component()}--inline">
 		 * 	<li class="#{s-component()}__item">
@@ -82,12 +90,10 @@
 }
 
 @mixin s-nav-tabs-classes(
-	$colors : null
+	$colors : default primary secondary
 ) {
 	@include s-nav-tabs-classes-bare();
-	@if $colors {
-		@include s-nav-tabs-classes-style($colors);
-	}
+	@include s-nav-tabs-classes-style($colors);
 }
 
 @mixin s-nav-tabs-classes-bare() {
@@ -95,7 +101,7 @@
 		/**
 		 * @name 	#{_start-case(s-component())} tabs
 		 * Provide a simple tabs navigation component
-		 * @styleguide 	Components / #{_start-case(s-component())}
+		 * @styleguide 	Blocks / #{_start-case(s-component())}
 		 * @example 	html
 		 * <ul class="#{s-component()} #{s-component()}--tabs">
 		 * 	<li class="#{s-component()}__item">
@@ -159,7 +165,7 @@
 				/**
 				 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> #{_start-case(s-component())} tabs
 				 * Provide a simple tabs navigation component
-				 * @styleguide 	Components / #{_start-case(s-component())}
+				 * @styleguide 	Blocks / #{_start-case(s-component())}
 				 * @example 	html
 				 * <ul class="#{s-component()} #{s-component()}--tabs #{s-component()}--#{$color}">
 				 * 	<li class="#{s-component()}__item active">

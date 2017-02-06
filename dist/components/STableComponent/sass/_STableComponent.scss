@@ -24,7 +24,7 @@
 				/**
 				 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> #{s-component()}
 				 * Display #{$color} table contents
-				 * @styleguide 		Components / #{_start-case(s-component())}
+				 * @styleguide 		Objects / #{_start-case(s-component())}
 				 * @example 		html
 				 * <table class="#{s-component()} #{s-component()}--#{$color}">
 				 * 	<tr>
@@ -51,7 +51,7 @@
 					/**
 					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> striped #{s-component()}
 					 * Display #{$color} striped table contents
-					 * @styleguide 		Components / #{_start-case(s-component())}
+					 * @styleguide 		Objects / #{_start-case(s-component())}
 					 * @example 		html
 					 * <table class="#{s-component()} #{s-component()}--#{$color} #{s-component()}--striped">
 					 * 	<tr>
@@ -88,7 +88,7 @@
 					/**
 					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> bordered #{s-component()}
 					 * Display #{$color} bordered table contents
-					 * @styleguide 		Components / #{_start-case(s-component())}
+					 * @styleguide 		Objects / #{_start-case(s-component())}
 					 * @example 		html
 					 * <table class="#{s-component()} #{s-component()}--#{$color} #{s-component()}--bordered">
 					 * 	<tr>
@@ -122,7 +122,7 @@
 					/**
 					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> hoverable #{s-component()}
 					 * Display #{$color} hoverable table contents
-					 * @styleguide 		Components / #{_start-case(s-component())}
+					 * @styleguide 		Objects / #{_start-case(s-component())}
 					 * @example 		html
 					 * <table class="#{s-component()} #{s-component()}--#{$color} #{s-component()}--hover">
 					 * 	<tr>
@@ -161,7 +161,7 @@
 		/**
 		 * @name 		Default #{s-component()}
 		 * Display table contents
-		 * @styleguide 		Components / #{_start-case(s-component())}
+		 * @styleguide 		Objects / #{_start-case(s-component())}
 		 * @example 		html
 		 * <table class="#{s-component()}">
 		 * 	<tr>
@@ -271,7 +271,7 @@
 		/**
 		 * @name 		Centered #{s-component()}
 		 * Display centered table contents
-		 * @styleguide 		Components / #{_start-case(s-component())}
+		 * @styleguide 		Objects / #{_start-case(s-component())}
 		 * @example 		html
 		 * <table class="#{s-component()} #{s-component()}--center">
 		 * 	<tr>
@@ -298,7 +298,7 @@
 		/**
 		 * @name 		Middle #{s-component()}
 		 * Display middle aligned table contents
-		 * @styleguide 		Components / #{_start-case(s-component())}
+		 * @styleguide 		Objects / #{_start-case(s-component())}
 		 * @example 		html
 		 * <table class="#{s-component()} #{s-component()}--middle">
 		 * 	<tr>

@@ -41,7 +41,7 @@ exports.default = _customEvent2.default;
  * @default 	null
  */
 /**
- * @class 		SEvent
+ * @name 		SEvent
  * Proxy class to create custom events that can be dispatched
  * through the standard dispatch method on any HTMLElement
  *

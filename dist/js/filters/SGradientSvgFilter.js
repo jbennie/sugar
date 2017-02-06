@@ -15,7 +15,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 /**
- * @class 			SGradientSvgFilter 			{SSvgFilter}
+ * @name 			SGradientSvgFilter
+ * @extends 		SSvgFilter
  * This SVG filter class apply either a linear or a radial gradient of your choice
  * on an HTMLElement.
  * This is useful cause the gradient will only be applied on part of the elements that is really visible and will respect the opacity

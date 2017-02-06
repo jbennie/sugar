@@ -1,4 +1,9 @@
 /**
+ * @name 	STypographyComponent Classes
+ * This file provide the mixins to generate typography classes
+ */
+
+/**
  * Provide all the classes of the typography component like titles, paragraphs, lists, etc..
  * @param 		{Color} 	[$color=primary] 		The main color used to generate the texts styles
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
@@ -290,7 +295,7 @@
 	$color : primary
 ) {
 	.link,
-	.#{s-setting('text-format.scope-class')} a {
+	.#{s-setting('text-format.scope-class')} a:not(.btn) {
 		@include s-typography-link-style($color);
 	}
 }

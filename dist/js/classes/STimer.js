@@ -5,7 +5,7 @@ exports.__esModule = true;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
- * @class 		STimer
+ * @name 		STimer
  * Class that let you create and handle timer with ease.
  * With this class you can set some callback function that will be
  * called each x ms or tell that you want your callbacks to be called

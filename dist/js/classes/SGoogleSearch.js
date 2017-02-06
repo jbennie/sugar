@@ -11,7 +11,7 @@ var _SAjax2 = _interopRequireDefault(_SAjax);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } } /**
-                                                                                                                                                           * @class 		SGoogleSearch
+                                                                                                                                                           * @name 		SGoogleSearch
                                                                                                                                                            * This class let you make with ease search requests to the google custom search service
                                                                                                                                                            * with useful features like:
                                                                                                                                                            * - Simple pagination system

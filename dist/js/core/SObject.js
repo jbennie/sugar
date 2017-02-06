@@ -7,7 +7,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 require('../features/inputAdditionalAttributes');
 
 /**
- * @class 		SObject
+ * @name 		SObject
  * This is the main class that will be the base one for all the others.
  * One class to rule them all...
  *

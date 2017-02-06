@@ -5,7 +5,7 @@ exports.__esModule = true;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
- * @class 		SAjaxRequest
+ * @name 		SAjaxRequest
  * Class that represent an ajax request that will be passed to an SAjax instance
  * @example 	js
  * const request = new SAjaxRequest({
