@@ -9,6 +9,8 @@
  * - sugar.clear.left : ```.clear-left```
  * - sugar.clear.right : ```.clear-right```
  * - sugar.clear.both : ```.clear```
+ * - sugar.pointer.events.all : ```.pointer-events-all```
+ * - sugar.pointer.events.none : ```.pointer-events-none```
  * - sugar.display.show : ```.show```
  * - sugar.display.show-inline : ```.show-inline```
  * - sugar.display.hidden : ```.hidden```
@@ -147,6 +149,34 @@
 	 * </div>
 	 */
 	clear: both;
+}
+
+//
+// Pointer
+//
+@include s-register-class(pointer-events-none, 'sugar.pointer.events.none') {
+	/**
+	 * @name 		```.pointer-events-none```
+	 * Disable any pointer events
+	 * @styleguide 	Helpers / Pointer events
+	 * @example 	html
+	 * <div class="pointer-events-none">
+	 * 	I will not react to any pointer events
+	 * </div>
+	 */
+	pointer-events: none;
+}
+@include s-register-class(pointer-events-all, 'sugar.pointer.events.all') {
+	/**
+	 * @name 		```.pointer-events-all```
+	 * Disable any pointer events
+	 * @styleguide 	Helpers / Pointer events
+	 * @example 	html
+	 * <div class="pointer-events-all">
+	 * 	I will not react to any pointer events
+	 * </div>
+	 */
+	pointer-events: all;
 }
 
 

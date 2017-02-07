@@ -71,6 +71,8 @@ Sugar provide some cool helper classes that you can take advantage of. Here's th
 - sugar.clear.left : ```.clear-left```
 - sugar.clear.right : ```.clear-right```
 - sugar.clear.both : ```.clear```
+- sugar.pointer.events.all : ```.pointer-events-all```
+- sugar.pointer.events.none : ```.pointer-events-none```
 - sugar.display.show : ```.show```
 - sugar.display.show-inline : ```.show-inline```
 - sugar.display.hidden : ```.hidden```
