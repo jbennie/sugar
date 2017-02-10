@@ -298,6 +298,7 @@ export default Mixin((superclass) => class extends superclass {
 		// concat the mountDependencies from
 		if ( ! deps.length) deps = [];
 		deps = deps.concat(this.props.mountDependencies || []);
+		console.log(this._componentNameDash, deps);
 		return deps;
 	}
 
