@@ -520,9 +520,9 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 			var promise = new Promise(function (resolve, reject) {
 
-				var dependencies = _this4.mountDependencies || [];
+				var dependencies = [].concat(_this4.mountDependencies || []);
 				dependencies = dependencies.concat(_this4.props.mountDependencies);
-
+				console.log('dependencies', dependencies);
 				// if ( ! this.mountDependencies.length) {
 				// 	resolve();
 				// } else {

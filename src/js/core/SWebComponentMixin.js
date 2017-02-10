@@ -583,9 +583,9 @@ export default Mixin((superclass) => class extends superclass {
 	_whenMountDependenciesAreOk() {
 		const promise = new Promise((resolve, reject) => {
 
-			let dependencies = this.mountDependencies || [];
+			let dependencies = [].concat(this.mountDependencies || []);
 			dependencies = dependencies.concat(this.props.mountDependencies);
-
+			console.log('dependencies', dependencies);
 			// if ( ! this.mountDependencies.length) {
 			// 	resolve();
 			// } else {
