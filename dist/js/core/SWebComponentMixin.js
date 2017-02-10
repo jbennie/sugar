@@ -1055,15 +1055,11 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			get: function get() {
 				var _this11 = this;
 
-				var deps = [].concat(window.sugar._webComponentsStack[this._componentName].mountDependencies || []);
+				var deps = [];
 				var comp = window.sugar._webComponentsStack[this._componentName];
 				while (comp) {
 					if (comp.mountDependencies) {
 						comp.mountDependencies.forEach(function (dep) {
-							if (typeof dep === 'function') {
-								dep = dep.bind(_this11);
-								dep = dep();
-							}
 							if (deps.indexOf(dep) === -1) {
 								deps.push(dep);
 							}
@@ -1074,13 +1070,11 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 				// props mount dependencies
 				var propsDeps = [].concat(this.props.mountDependencies);
-				propsDeps = propsDeps.map(function (dep) {
+				deps = deps.concat(this.props.mountDependencies);
+				deps = deps.map(function (dep) {
 					if (typeof dep === 'function') {
 						dep = dep.bind(_this11);
 						dep = dep();
-					}
-					if (deps.indexOf(dep) === -1) {
-						deps.push(dep);
 					}
 				});
 
