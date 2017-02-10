@@ -1073,11 +1073,12 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 				deps = deps.concat(this.props.mountDependencies);
 				deps = deps.map(function (dep) {
 					if (typeof dep === 'function') {
+						console.log('dde', _this11);
 						dep = dep.bind(_this11);
 						dep = dep();
 					}
+					return dep;
 				});
-
 				return deps;
 			}
 		}], [{

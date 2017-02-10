@@ -296,11 +296,12 @@ export default Mixin((superclass) => class extends superclass {
 		deps = deps.concat(this.props.mountDependencies);
 		deps = deps.map((dep) => {
 			if (typeof(dep) === 'function') {
+				console.log('dde', this);
 				dep = dep.bind(this);
 				dep = dep();
 			}
+			return dep;
 		});
-
 		return deps;
 	}
 
