@@ -278,7 +278,7 @@ export default Mixin((superclass) => class extends superclass {
 	 * @return 		{Object} 			The physical props array
 	 */
 	get mountDependencies() {
-		let deps = window.sugar._webComponentsStack[this._componentName].mountDependencies;
+		let deps = [].concat(window.sugar._webComponentsStack[this._componentName].mountDependencies || []);
 		let comp = window.sugar._webComponentsStack[this._componentName];
 		while(comp) {
 			if (comp.mountDependencies) {
@@ -295,10 +295,18 @@ export default Mixin((superclass) => class extends superclass {
 			comp = Object.getPrototypeOf(comp);
 		}
 
-		// concat the mountDependencies from
-		if ( ! deps.length) deps = [];
-		deps = deps.concat(this.props.mountDependencies || []);
-		console.log(this._componentNameDash, deps);
+		// props mount dependencies
+		let propsDeps = [].concat(this.props.mountDependencies);
+		propsDeps = propsDeps.map((dep) => {
+			if (typeof(dep) === 'function') {
+				dep = dep.bind(this);
+				dep = dep();
+			}
+			if (deps.indexOf(dep) === -1) {
+				deps.push(dep);
+			}
+		});
+
 		return deps;
 	}
 
