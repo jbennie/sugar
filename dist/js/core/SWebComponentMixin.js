@@ -519,14 +519,18 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			var _this4 = this;
 
 			var promise = new Promise(function (resolve, reject) {
-				if (!_this4.mountDependencies.length) {
+
+				var dependencies = _this4.mountDependencies || [];
+				dependencies = dependencies.concat(_this4.props.mountDependencies);
+
+				// if ( ! this.mountDependencies.length) {
+				// 	resolve();
+				// } else {
+				// resolve all the promises
+				Promise.all(dependencies).then(function () {
 					resolve();
-				} else {
-					// resolve all the promises
-					Promise.all(_this4.mountDependencies).then(function () {
-						resolve();
-					});
-				}
+				});
+				// }
 			});
 			return promise;
 		};
@@ -1094,7 +1098,8 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
     */
 			get: function get() {
 				return {
-					mountWhen: null
+					mountWhen: null,
+					mountDependencies: []
 				};
 			}
 		}, {

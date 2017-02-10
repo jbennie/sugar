@@ -122,7 +122,8 @@ export default Mixin((superclass) => class extends superclass {
 	 */
 	static get defaultProps() {
 		return {
-			mountWhen : null
+			mountWhen : null,
+			mountDependencies : []
 		};
 	}
 
@@ -581,14 +582,18 @@ export default Mixin((superclass) => class extends superclass {
 	 */
 	_whenMountDependenciesAreOk() {
 		const promise = new Promise((resolve, reject) => {
-			if ( ! this.mountDependencies.length) {
-				resolve();
-			} else {
+
+			let dependencies = this.mountDependencies || [];
+			dependencies = dependencies.concat(this.props.mountDependencies);
+
+			// if ( ! this.mountDependencies.length) {
+			// 	resolve();
+			// } else {
 				// resolve all the promises
-				Promise.all(this.mountDependencies).then(() => {
+				Promise.all(dependencies).then(() => {
 					resolve();
 				});
-			}
+			// }
 		});
 		return promise;
 	}
