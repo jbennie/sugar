@@ -294,6 +294,10 @@ export default Mixin((superclass) => class extends superclass {
 			}
 			comp = Object.getPrototypeOf(comp);
 		}
+
+		// concat the mountDependencies from
+		if ( ! deps.length) deps = [];
+		deps = deps.concat(this.props.mountDependencies || []);
 		return deps;
 	}
 
@@ -582,18 +586,14 @@ export default Mixin((superclass) => class extends superclass {
 	 */
 	_whenMountDependenciesAreOk() {
 		const promise = new Promise((resolve, reject) => {
-
-			let dependencies = [].concat(this.mountDependencies || []);
-			dependencies = dependencies.concat(this.props.mountDependencies);
-			console.log('dependencies', dependencies);
-			// if ( ! this.mountDependencies.length) {
-			// 	resolve();
-			// } else {
+			if ( ! this.mountDependencies.length) {
+				resolve();
+			} else {
 				// resolve all the promises
-				Promise.all(dependencies).then(() => {
+				Promise.all(this.mountDependencies).then(() => {
 					resolve();
 				});
-			// }
+			}
 		});
 		return promise;
 	}

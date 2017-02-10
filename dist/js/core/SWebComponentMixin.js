@@ -519,18 +519,14 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			var _this4 = this;
 
 			var promise = new Promise(function (resolve, reject) {
-
-				var dependencies = [].concat(_this4.mountDependencies || []);
-				dependencies = dependencies.concat(_this4.props.mountDependencies);
-				console.log('dependencies', dependencies);
-				// if ( ! this.mountDependencies.length) {
-				// 	resolve();
-				// } else {
-				// resolve all the promises
-				Promise.all(dependencies).then(function () {
+				if (!_this4.mountDependencies.length) {
 					resolve();
-				});
-				// }
+				} else {
+					// resolve all the promises
+					Promise.all(_this4.mountDependencies).then(function () {
+						resolve();
+					});
+				}
 			});
 			return promise;
 		};
@@ -1075,6 +1071,10 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 					}
 					comp = Object.getPrototypeOf(comp);
 				}
+
+				// concat the mountDependencies from
+				if (!deps.length) deps = [];
+				deps = deps.concat(this.props.mountDependencies || []);
 				return deps;
 			}
 		}], [{
