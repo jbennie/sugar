@@ -123,7 +123,8 @@ export default Mixin((superclass) => class extends superclass {
 	static get defaultProps() {
 		return {
 			mountWhen : null,
-			mountDependencies : []
+			mountDependencies : [],
+			unmountTimeout : 500
 		};
 	}
 
@@ -296,7 +297,6 @@ export default Mixin((superclass) => class extends superclass {
 		deps = deps.concat(this.props.mountDependencies);
 		deps = deps.map((dep) => {
 			if (typeof(dep) === 'function') {
-				console.log('dde', this);
 				dep = dep.bind(this);
 				dep = dep();
 			}
@@ -339,8 +339,14 @@ export default Mixin((superclass) => class extends superclass {
 		// 	this.componentWillMount();
 		// }
 
+		// clear the unmount timeout
+		clearTimeout(this._unmountTimeout);
+
 		// update attached status
 		this._componentAttached = true;
+
+		// stop here if already mounted once
+		if (this._lifecycle.componentMount) return;
 
 		// wait until dependencies are ok
 		this._whenMountDependenciesAreOk().then(() => {
@@ -391,6 +397,13 @@ export default Mixin((superclass) => class extends superclass {
 			&& this.hasAttribute(_attribute)
 		) {
 			newVal = true;
+		} else if (newVal === null
+			&& ! this.hasAttribute(_attribute)
+			&& this.props[attribute] === false
+		) {
+			// the attribute has been removed and
+			// the prop is already to false
+			return;
 		}
 
 		// do nothing if the value is already the same
@@ -421,13 +434,11 @@ export default Mixin((superclass) => class extends superclass {
 
 		// dispatch event
 		this.onComponentWillMount && this.onComponentWillMount();
-		// this.dispatchComponentEvent('componentWillMount');
 
 		// internal properties
 		this._nextPropsStack = {};
 		this._prevPropsStack = {};
 		this._nextPropsTimeout = null;
-		this._componentMounted = false;
 		this._componentAttached = false;
 		this._fastdomSetProp = null;
 
@@ -436,20 +447,6 @@ export default Mixin((superclass) => class extends superclass {
 		this._componentNameDash = sourceName;
 		this._componentName = __upperFirst(__camelize(sourceName));
 
-		// save each instances into the element _sComponents stack
-		// this._typeOf = [];
-		// let comp = window.sugar._webComponentsStack[this._componentName];
-		// while(comp) {
-		// 	let funcNameRegex = /function (.{1,})\(/;
-		// 	const res = (funcNameRegex).exec(comp.toString());
-		// 	if (res && res[1]) {
-		// 		if ( this._typeOf.indexOf(res[1]) === -1) {
-		// 			this._typeOf.push(res[1]);
-		// 		}
-		// 	}
-		// 	comp = Object.getPrototypeOf(comp);
-		// }
-
 		// default props init
 		this.props = Object.assign({}, this.defaultProps, this.props);
 
@@ -457,7 +454,7 @@ export default Mixin((superclass) => class extends superclass {
 		this._computeProps();
 
 		// props proxy
-		// this._initPropsProxy();
+		this._initPropsProxy();
 
 		// check the required props
 		this.requiredProps.forEach((prop) => {
@@ -484,11 +481,8 @@ export default Mixin((superclass) => class extends superclass {
 	componentMount() {
 		// update the lifecycle state
 		this._lifecycle.componentMount = true;
-		// update the status
-		this._componentMounted = true;
 		// dispatch event
 		this.onComponentMount && this.onComponentMount();
-		// this.dispatchComponentEvent('componentMount');
 	}
 
 	/**
@@ -508,7 +502,10 @@ export default Mixin((superclass) => class extends superclass {
 		this._lifecycle.componentDidMount = true;
 		// dispatch event
 		this.onComponentDidMount && this.onComponentDidMount();
-		// this.dispatchComponentEvent('componentDidMount');
+		// update lifecycle
+		this._lifecycle.componentWillUnmount = false;
+		this._lifecycle.componentUnmount = false;
+		this._lifecycle.componentDidUnmount = false;
 	}
 
 	/**
@@ -530,7 +527,6 @@ export default Mixin((superclass) => class extends superclass {
 	componentWillUpdate(nextProps) {
 		// dispatch event
 		this.onComponentWillUpdate && this.onComponentWillUpdate(nextProps);
-		// this.dispatchComponentEvent('componentWillUpdate', nextProps);
 	}
 
 	/**
@@ -549,13 +545,11 @@ export default Mixin((superclass) => class extends superclass {
 	render() {
 		// dispatch event
 		this.onComponentRender && this.onComponentRender();
-		// this.dispatchComponentEvent('componentRender');
 	}
 
 	componentDidUpdate(prevProps) {
 		// dispatch event
 		this.onComponentDidUpdate && this.onComponentDidUpdate(prevProps);
-		// this.dispatchComponentEvent('componentDidUpdate', prevProps);
 	}
 
 	componentWillUnmount() {
@@ -563,17 +557,13 @@ export default Mixin((superclass) => class extends superclass {
 		this._lifecycle.componentWillUnmount = true;
 		// dispatch event
 		this.onComponentWillUnmount && this.onComponentWillUnmount();
-		// this.dispatchComponentEvent('componentWillUnmount');
 	}
 
 	componentUnmount() {
 		// update lifecycle state
 		this._lifecycle.componentUnmount = true;
-		// update the status
-		this._componentMounted = false;
 		// dispatch event
 		this.onComponentUnmount && this.onComponentUnmount();
-		// this.dispatchComponentEvent('componentUnmount');
 	}
 
 	componentDidUnmount() {
@@ -581,7 +571,6 @@ export default Mixin((superclass) => class extends superclass {
 		this._lifecycle.componentDidUnmount = true;
 		// dispatch event
 		this.onComponentDidUnmount && this.onComponentDidUnmount();
-		// this.dispatchComponentEvent('componentDidUnmount');
 	}
 
 	/**
@@ -590,11 +579,12 @@ export default Mixin((superclass) => class extends superclass {
 	 */
 	_whenMountDependenciesAreOk() {
 		const promise = new Promise((resolve, reject) => {
-			if ( ! this.mountDependencies.length) {
+			const deps = this.mountDependencies;
+			if ( ! deps.length) {
 				resolve();
 			} else {
-				// resolve all the promises
-				Promise.all(this.mountDependencies).then(() => {
+			// resolve all the promises
+				Promise.all(deps).then(() => {
 					resolve();
 				});
 			}
@@ -610,14 +600,18 @@ export default Mixin((superclass) => class extends superclass {
 	_initPropsProxy() {
 		// loop on each props
 		for(let key in this.props) {
-			__propertyProxy(this, key, {
+			if (this.hasOwnProperty(key)) {
+				console.warn(`The component ${this._componentNameDash} has already an "${key}" property... This property will not reflect the this.props['${key}'] value... Try to use a property name that does not already exist on an HTMLElement...`);
+				continue;
+			}
+			Object.defineProperty(this, key, {
 				get : () => {
 					return this.props[key];
 				},
 				set : (value) => {
 					this.setProp(key, value);
 				}
-			});
+			})
 		}
 	}
 
@@ -653,20 +647,31 @@ export default Mixin((superclass) => class extends superclass {
 	 * When the component is detached
 	 */
 	detachedCallback() {
+
 		// update attached status
 		this._componentAttached = false;
-		// will unmount
-		this.componentWillUnmount();
-		// wait next frame
-		fastdom.clear(this._fastdomSetProp);
-		this._fastdomSetProp = this.mutate(() => {
-			// unmount only if the component is mounted
-			if ( ! this._componentMounted) return;
-			// unmount
-			this.componentUnmount();
-			// did unmount
-			this.componentDidUnmount();
-		});
+
+		// unmount timeout
+		clearTimeout(this._unmountTimeout);
+		this._unmountTimeout = setTimeout(() => {
+
+			// will unmount
+			this.componentWillUnmount();
+			// wait next frame
+			fastdom.clear(this._fastdomSetProp);
+			this._fastdomSetProp = this.mutate(() => {
+				// unmount only if the component is mounted
+				if ( ! this._lifecycle.componentMount) return;
+				// unmount
+				this.componentUnmount();
+				// did unmount
+				this.componentDidUnmount();
+				// update lifecycle
+				this._lifecycle.componentWillMount = false;
+				this._lifecycle.componentMount = false;
+				this._lifecycle.componentDidUnmount = false;
+			});
+		}, this.props.unmountTimeout);
 	}
 
 	/**
@@ -770,7 +775,7 @@ export default Mixin((superclass) => class extends superclass {
 	 * @return 			{Boolean} 			true if mounted, false if not
 	 */
 	isComponentMounted() {
-		return this._componentMounted;
+		return this._lifecycle.componentMount;
 	}
 
 	/**

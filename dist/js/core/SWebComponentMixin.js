@@ -253,8 +253,14 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			// 	this.componentWillMount();
 			// }
 
+			// clear the unmount timeout
+			clearTimeout(this._unmountTimeout);
+
 			// update attached status
 			this._componentAttached = true;
+
+			// stop here if already mounted once
+			if (this._lifecycle.componentMount) return;
 
 			// wait until dependencies are ok
 			this._whenMountDependenciesAreOk().then(function () {
@@ -305,6 +311,10 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			// handle the case when newVal is undefined (added attribute whithout any value)
 			if (newVal === undefined && this.hasAttribute(_attribute)) {
 				newVal = true;
+			} else if (newVal === null && !this.hasAttribute(_attribute) && this.props[attribute] === false) {
+				// the attribute has been removed and
+				// the prop is already to false
+				return;
 			}
 
 			// do nothing if the value is already the same
@@ -338,13 +348,11 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 			// dispatch event
 			this.onComponentWillMount && this.onComponentWillMount();
-			// this.dispatchComponentEvent('componentWillMount');
 
 			// internal properties
 			this._nextPropsStack = {};
 			this._prevPropsStack = {};
 			this._nextPropsTimeout = null;
-			this._componentMounted = false;
 			this._componentAttached = false;
 			this._fastdomSetProp = null;
 
@@ -353,20 +361,6 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			this._componentNameDash = sourceName;
 			this._componentName = (0, _upperFirst2.default)((0, _camelize2.default)(sourceName));
 
-			// save each instances into the element _sComponents stack
-			// this._typeOf = [];
-			// let comp = window.sugar._webComponentsStack[this._componentName];
-			// while(comp) {
-			// 	let funcNameRegex = /function (.{1,})\(/;
-			// 	const res = (funcNameRegex).exec(comp.toString());
-			// 	if (res && res[1]) {
-			// 		if ( this._typeOf.indexOf(res[1]) === -1) {
-			// 			this._typeOf.push(res[1]);
-			// 		}
-			// 	}
-			// 	comp = Object.getPrototypeOf(comp);
-			// }
-
 			// default props init
 			this.props = Object.assign({}, this.defaultProps, this.props);
 
@@ -374,7 +368,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			this._computeProps();
 
 			// props proxy
-			// this._initPropsProxy();
+			this._initPropsProxy();
 
 			// check the required props
 			this.requiredProps.forEach(function (prop) {
@@ -403,11 +397,8 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		_class2.prototype.componentMount = function componentMount() {
 			// update the lifecycle state
 			this._lifecycle.componentMount = true;
-			// update the status
-			this._componentMounted = true;
 			// dispatch event
 			this.onComponentMount && this.onComponentMount();
-			// this.dispatchComponentEvent('componentMount');
 		};
 
 		/**
@@ -429,7 +420,10 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			this._lifecycle.componentDidMount = true;
 			// dispatch event
 			this.onComponentDidMount && this.onComponentDidMount();
-			// this.dispatchComponentEvent('componentDidMount');
+			// update lifecycle
+			this._lifecycle.componentWillUnmount = false;
+			this._lifecycle.componentUnmount = false;
+			this._lifecycle.componentDidUnmount = false;
 		};
 
 		/**
@@ -453,7 +447,6 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		_class2.prototype.componentWillUpdate = function componentWillUpdate(nextProps) {
 			// dispatch event
 			this.onComponentWillUpdate && this.onComponentWillUpdate(nextProps);
-			// this.dispatchComponentEvent('componentWillUpdate', nextProps);
 		};
 
 		/**
@@ -474,13 +467,11 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		_class2.prototype.render = function render() {
 			// dispatch event
 			this.onComponentRender && this.onComponentRender();
-			// this.dispatchComponentEvent('componentRender');
 		};
 
 		_class2.prototype.componentDidUpdate = function componentDidUpdate(prevProps) {
 			// dispatch event
 			this.onComponentDidUpdate && this.onComponentDidUpdate(prevProps);
-			// this.dispatchComponentEvent('componentDidUpdate', prevProps);
 		};
 
 		_class2.prototype.componentWillUnmount = function componentWillUnmount() {
@@ -488,17 +479,13 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			this._lifecycle.componentWillUnmount = true;
 			// dispatch event
 			this.onComponentWillUnmount && this.onComponentWillUnmount();
-			// this.dispatchComponentEvent('componentWillUnmount');
 		};
 
 		_class2.prototype.componentUnmount = function componentUnmount() {
 			// update lifecycle state
 			this._lifecycle.componentUnmount = true;
-			// update the status
-			this._componentMounted = false;
 			// dispatch event
 			this.onComponentUnmount && this.onComponentUnmount();
-			// this.dispatchComponentEvent('componentUnmount');
 		};
 
 		_class2.prototype.componentDidUnmount = function componentDidUnmount() {
@@ -506,7 +493,6 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			this._lifecycle.componentDidUnmount = true;
 			// dispatch event
 			this.onComponentDidUnmount && this.onComponentDidUnmount();
-			// this.dispatchComponentEvent('componentDidUnmount');
 		};
 
 		/**
@@ -519,11 +505,12 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			var _this4 = this;
 
 			var promise = new Promise(function (resolve, reject) {
-				if (!_this4.mountDependencies.length) {
+				var deps = _this4.mountDependencies;
+				if (!deps.length) {
 					resolve();
 				} else {
 					// resolve all the promises
-					Promise.all(_this4.mountDependencies).then(function () {
+					Promise.all(deps).then(function () {
 						resolve();
 					});
 				}
@@ -542,7 +529,11 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			var _this5 = this;
 
 			var _loop = function _loop(key) {
-				(0, _propertyProxy2.default)(_this5, key, {
+				if (_this5.hasOwnProperty(key)) {
+					console.warn('The component ' + _this5._componentNameDash + ' has already an "' + key + '" property... This property will not reflect the this.props[\'' + key + '\'] value... Try to use a property name that does not already exist on an HTMLElement...');
+					return 'continue';
+				}
+				Object.defineProperty(_this5, key, {
 					get: function get() {
 						return _this5.props[key];
 					},
@@ -554,7 +545,9 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 			// loop on each props
 			for (var key in this.props) {
-				_loop(key);
+				var _ret2 = _loop(key);
+
+				if (_ret2 === 'continue') continue;
 			}
 		};
 
@@ -601,18 +594,28 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 			// update attached status
 			this._componentAttached = false;
-			// will unmount
-			this.componentWillUnmount();
-			// wait next frame
-			_fastdom2.default.clear(this._fastdomSetProp);
-			this._fastdomSetProp = this.mutate(function () {
-				// unmount only if the component is mounted
-				if (!_this7._componentMounted) return;
-				// unmount
-				_this7.componentUnmount();
-				// did unmount
-				_this7.componentDidUnmount();
-			});
+
+			// unmount timeout
+			clearTimeout(this._unmountTimeout);
+			this._unmountTimeout = setTimeout(function () {
+
+				// will unmount
+				_this7.componentWillUnmount();
+				// wait next frame
+				_fastdom2.default.clear(_this7._fastdomSetProp);
+				_this7._fastdomSetProp = _this7.mutate(function () {
+					// unmount only if the component is mounted
+					if (!_this7._lifecycle.componentMount) return;
+					// unmount
+					_this7.componentUnmount();
+					// did unmount
+					_this7.componentDidUnmount();
+					// update lifecycle
+					_this7._lifecycle.componentWillMount = false;
+					_this7._lifecycle.componentMount = false;
+					_this7._lifecycle.componentDidUnmount = false;
+				});
+			}, this.props.unmountTimeout);
 		};
 
 		/**
@@ -729,7 +732,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 
 		_class2.prototype.isComponentMounted = function isComponentMounted() {
-			return this._componentMounted;
+			return this._lifecycle.componentMount;
 		};
 
 		/**
@@ -1073,7 +1076,6 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 				deps = deps.concat(this.props.mountDependencies);
 				deps = deps.map(function (dep) {
 					if (typeof dep === 'function') {
-						console.log('dde', _this11);
 						dep = dep.bind(_this11);
 						dep = dep();
 					}
@@ -1103,7 +1105,8 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			get: function get() {
 				return {
 					mountWhen: null,
-					mountDependencies: []
+					mountDependencies: [],
+					unmountTimeout: 500
 				};
 			}
 		}, {
