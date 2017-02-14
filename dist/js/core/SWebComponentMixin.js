@@ -368,7 +368,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			this._computeProps();
 
 			// props proxy
-			this._initPropsProxy();
+			// this._initPropsProxy();
 
 			// check the required props
 			this.requiredProps.forEach(function (prop) {
