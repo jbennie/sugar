@@ -544,7 +544,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			};
 
 			// loop on each props
-			for (var key in this.props) {
+			for (var key in this.defaultProps) {
 				var _ret2 = _loop(key);
 
 				if (_ret2 === 'continue') continue;
@@ -956,6 +956,12 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		_createClass(_class2, [{
 			key: 'defaultProps',
 			get: function get() {
+
+				// check if default props in cache to avoid multiple time
+				// computing
+				if (this._defaultPropsCache) return this._defaultPropsCache;
+
+				// compute
 				var props = window.sugar._webComponentsStack[this._componentName].defaultProps;
 				var comp = window.sugar._webComponentsStack[this._componentName];
 				while (comp) {
@@ -971,6 +977,11 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 				if (window.sugar._webComponentsDefaultPropsStack[this._componentName]) {
 					props = _extends({}, props, window.sugar._webComponentsDefaultPropsStack[this._componentName]);
 				}
+
+				// save in cache
+				this._defaultPropsCache = Object.assign({}, props);
+
+				// return props
 				return props;
 			}
 

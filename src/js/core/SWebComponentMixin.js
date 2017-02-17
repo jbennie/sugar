@@ -154,6 +154,12 @@ export default Mixin((superclass) => class extends superclass {
 	 * @return 		{Object} 			The default props
 	 */
 	get defaultProps() {
+
+		// check if default props in cache to avoid multiple time
+		// computing
+		if (this._defaultPropsCache) return this._defaultPropsCache;
+
+		// compute
 		let props = window.sugar._webComponentsStack[this._componentName].defaultProps;
 		let comp = window.sugar._webComponentsStack[this._componentName];
 		while(comp) {
@@ -178,6 +184,11 @@ export default Mixin((superclass) => class extends superclass {
 				...window.sugar._webComponentsDefaultPropsStack[this._componentName]
 			}
 		}
+
+		// save in cache
+		this._defaultPropsCache = Object.assign({}, props);
+
+		// return props
 		return props;
 	}
 
@@ -599,7 +610,7 @@ export default Mixin((superclass) => class extends superclass {
 	 */
 	_initPropsProxy() {
 		// loop on each props
-		for(let key in this.props) {
+		for(let key in this.defaultProps) {
 			if (this.hasOwnProperty(key)) {
 				console.warn(`The component ${this._componentNameDash} has already an "${key}" property... This property will not reflect the this.props['${key}'] value... Try to use a property name that does not already exist on an HTMLElement...`);
 				continue;
