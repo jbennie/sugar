@@ -615,14 +615,16 @@ export default Mixin((superclass) => class extends superclass {
 				console.warn(`The component ${this._componentNameDash} has already an "${key}" property... This property will not reflect the this.props['${key}'] value... Try to use a property name that does not already exist on an HTMLElement...`);
 				continue;
 			}
-			Object.defineProperty(this, key, {
-				get : () => {
-					return this.props[key];
-				},
-				set : (value) => {
-					this.setProp(key, value);
-				}
-			})
+			if ( ! key in this) {
+				Object.defineProperty(this, key, {
+					get : () => {
+						return this.props[key];
+					},
+					set : (value) => {
+						this.setProp(key, value);
+					}
+				})
+			}
 		}
 	}
 

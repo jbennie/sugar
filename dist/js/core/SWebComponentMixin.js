@@ -533,14 +533,16 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 					console.warn('The component ' + _this5._componentNameDash + ' has already an "' + key + '" property... This property will not reflect the this.props[\'' + key + '\'] value... Try to use a property name that does not already exist on an HTMLElement...');
 					return 'continue';
 				}
-				Object.defineProperty(_this5, key, {
-					get: function get() {
-						return _this5.props[key];
-					},
-					set: function set(value) {
-						_this5.setProp(key, value);
-					}
-				});
+				if (!key in _this5) {
+					Object.defineProperty(_this5, key, {
+						get: function get() {
+							return _this5.props[key];
+						},
+						set: function set(value) {
+							_this5.setProp(key, value);
+						}
+					});
+				}
 			};
 
 			// loop on each props

@@ -447,11 +447,11 @@ var STemplate = function () {
 			node.setAttribute('s-tpl', this.templateId);
 			// node.setAttribute('s-tpl-node', this.templateId);
 			// ignore the template node id
-			_sTemplateIntegrator2.default.ignore(node, {
-				's-tpl-node': true,
-				's-tpl': true,
-				's-tpl-dirty': true
-			});
+			// sTemplateIntegrator.ignore(node, {
+			// 	's-tpl-node' : true,
+			// 	's-tpl' : true,
+			// 	's-tpl-dirty' : true
+			// });
 
 			// save the template instance into the dom
 			node._sTemplate = this;
@@ -579,6 +579,12 @@ var STemplate = function () {
 					// update the children
 					return true;
 				},
+				onBeforeElAttributeAdded: function onBeforeElAttributeAdded(fromNode, toNode, attrName, attrValue) {
+					console.log('attribute added', fromNode, attrName, attrValue);
+				},
+				onBeforeElAttributeRemoved: function onBeforeElAttributeRemoved(fromNode, toNode, attrName, attrValue) {
+					console.log('attribute removed', fromNode, attrName, attrValue);
+				},
 				onBeforeElUpdated: function onBeforeElUpdated(fromNode, toNode) {
 
 					// don't care about no html elements
@@ -592,42 +598,40 @@ var STemplate = function () {
 					// }
 
 					// apply integration on component
-					_this3._applyIntegrationOnNode(fromNode);
+					// this._applyIntegrationOnNode(fromNode);
 
 					// get the integration from the node
-					var integration = _sTemplateIntegrator2.default.getIntegrationFrom(fromNode);
-					if (integration) {
-						_sTemplateIntegrator2.default.setIntegrationTo(toNode, integration);
-					}
-
-					// handle the ingnore integration
-					if (_typeof(integration.ignore) === 'object') {
-						for (var key in integration.ignore) {
-							var value = integration.ignore[key];
-							// if is class, handle multiple class to ignore
-							if (key === 'class' && value !== true) {
-								if (typeof value === 'string') {
-									value = value.split(',').map(function (v) {
-										return v.trim();
-									});
-								}
-								// loop on each classes to ignore
-								value.forEach(function (cls) {
-									if (fromNode.classList.contains(cls)) {
-										toNode.classList.add(cls);
-									} else {
-										toNode.classList.remove(cls);
-									}
-								});
-							} else {
-								// set or remove the attribute
-								// to keep in sync the from and to nodes
-								if (fromNode.hasAttribute(key)) {
-									toNode.setAttribute(key, fromNode.getAttribute(key));
-								}
-							}
-						}
-					}
+					// const integration = sTemplateIntegrator.getIntegrationFrom(fromNode);
+					// if (integration) {
+					// 	sTemplateIntegrator.setIntegrationTo(toNode, integration);
+					// }
+					//
+					// // handle the ingnore integration
+					// if (typeof(integration.ignore) === 'object') {
+					// 	for(let key in integration.ignore) {
+					// 		let value = integration.ignore[key];
+					// 		// if is class, handle multiple class to ignore
+					// 		if (key === 'class' && value !== true) {
+					// 			if (typeof(value) === 'string') {
+					// 				value = value.split(',').map((v) => { return v.trim(); });
+					// 			}
+					// 			// loop on each classes to ignore
+					// 			value.forEach((cls) => {
+					// 				if (fromNode.classList.contains(cls)) {
+					// 					toNode.classList.add(cls);
+					// 				} else {
+					// 					toNode.classList.remove(cls);
+					// 				}
+					// 			});
+					// 		} else {
+					// 			// set or remove the attribute
+					// 			// to keep in sync the from and to nodes
+					// 			if (fromNode.hasAttribute(key)) {
+					// 				toNode.setAttribute(key, fromNode.getAttribute(key));
+					// 			}
+					// 		}
+					// 	}
+					// }
 
 					// do not update this element
 					// cause it's not part of the initial template.
@@ -719,19 +723,19 @@ var STemplate = function () {
   */
 
 
-	STemplate.prototype._applyIntegrationOnNode = function _applyIntegrationOnNode(node) {
-		if (!node._sTemplateTypesIntegration) node._sTemplateTypesIntegration = {};
-		var fns = _sTemplateIntegrator2.default.getComponentIntegrationFunctionsFrom(node);
-		fns.forEach(function (fn) {
-			fn(node);
-		});
-	};
+	STemplate.prototype._applyIntegrationOnNode = function _applyIntegrationOnNode(node) {}
+	// if ( ! node._sTemplateTypesIntegration) node._sTemplateTypesIntegration = {};
+	// const fns = sTemplateIntegrator.getComponentIntegrationFunctionsFrom(node);
+	// fns.forEach((fn) => {
+	// 	fn(node);
+	// });
+
 
 	/**
   * Update the data model from an s-template-model element
   * @param 	{HTMLElement} 	element 	The s-template-model element
   */
-
+	;
 
 	STemplate.prototype._updateDataModelFromElement = function _updateDataModelFromElement(element) {
 
