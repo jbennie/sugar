@@ -270,19 +270,6 @@ export default Mixin((superclass) => class extends superclass {
 	 */
 	static get mountDependencies() {
 		return [];
-		// return [function() {
-		// 	return new Promise((resolve, reject) => {
-		// 		let isTemplate = false;
-		// 		resolve();
-		// 		if (this._typeOf.indexOf('STemplateWebComponent')) {
-		// 			resolve();
-		// 		} else {
-		// 			setTimeout(() => {
-		// 				resolve();
-		// 			});
-		// 		}
-		// 	});
-		// }];
 	}
 
 	/**
@@ -291,7 +278,7 @@ export default Mixin((superclass) => class extends superclass {
 	 */
 	get mountDependencies() {
 		let deps = [];
-		let comp = window.sugar._webComponentsStack[this._componentName];
+		let comp = Object.getPrototypeOf(window.sugar._webComponentsStack[this._componentName]);
 		while(comp) {
 			if (comp.mountDependencies) {
 				comp.mountDependencies.forEach((dep) => {
@@ -305,15 +292,16 @@ export default Mixin((superclass) => class extends superclass {
 
 		// props mount dependencies
 		let propsDeps = [].concat(this.props.mountDependencies);
-		deps = deps.concat(this.props.mountDependencies);
-		deps = deps.map((dep) => {
+		let finalDeps = [];
+		finalDeps = finalDeps.concat(this.props.mountDependencies);
+		deps.forEach((dep) => {
 			if (typeof(dep) === 'function') {
 				dep = dep.bind(this);
 				dep = dep();
 			}
-			return dep;
+			finalDeps.push(dep);
 		});
-		return deps;
+		return finalDeps;
 	}
 
 	/**
@@ -336,14 +324,16 @@ export default Mixin((superclass) => class extends superclass {
 
 		// if ( ! document.body.contains(this)) return;
 
-		// component will mount only if part of the active document
-		this.componentWillMount();
+
 	}
 
 	/**
 	 * When the element is attached
 	 */
 	attachedCallback() {
+
+		// component will mount only if part of the active document
+		this.componentWillMount();
 
 		// check if need to launch the will mount
 		// if ( ! this._lifecycle.componentWillMount) {
@@ -402,6 +392,9 @@ export default Mixin((superclass) => class extends superclass {
 
 		// process the attribute to camelCase
 		attribute = __camelize(attribute);
+
+		// if the property is not a real property
+		if (this.props[attribute] === undefined) return;
 
 		// handle the case when newVal is undefined (added attribute whithout any value)
 		if (newVal === undefined
@@ -820,14 +813,17 @@ export default Mixin((superclass) => class extends superclass {
 	_computeProps() {
 		for (let i=0; i<this.attributes.length; i++) {
 			const attr = this.attributes[i];
+			const attrCamelName = __camelize(attr.name);
+			// do not set if it's not an existing prop
+			if (this.props[attrCamelName] === undefined) continue;
+			// the attribute has no value but it is present
+			// so we assume the prop value is true
 			if ( ! attr.value) {
-				// the attribute has no value but it is present
-				// so we assume the prop value is true
-				this.props[__camelize(attr.name)] = true
+				this.props[attrCamelName] = true
 				continue;
 			}
 			// cast the value
-			this.props[__camelize(attr.name)] = __autoCast(attr.value);
+			this.props[attrCamelName] = __autoCast(attr.value);
 		}
 
 		// handle physicalProps

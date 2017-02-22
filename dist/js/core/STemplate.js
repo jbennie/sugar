@@ -302,6 +302,8 @@ var STemplate = function () {
 		// instanciate a watcher
 		this._watcher = new _SWatcher2.default();
 
+		this._windowDataObserver = {};
+
 		// watch each data
 
 		var _loop = function _loop(name) {
@@ -309,44 +311,61 @@ var STemplate = function () {
 				return 'continue';
 			}
 			(0, _propertyProxy2.default)(_this.data, name, {
+				// set : (value) => {
+				// 	if (typeof(value) === 'string') {
+				// 		if (value.match(/^this\\./g)) {
+				// 			// grab the path
+				// 			const path = value.replace('this.','');
+				// 			// get the value from the data
+				// 			value = _get(this.data, path);
+				// 		} else if (value.match(/^window\\./g)) {
+				// 			const path = value.replace('window.','');
+				// 			value = _get(window, path);
+				// 			console.log('new val', name, value);
+				// 		} else if (value.match(/^parent\\./g)) {
+				// 			// get parent template
+				// 			const parentTemplate = this._getParentTemplate();
+				// 			if (parentTemplate && parentTemplate.data) {
+				// 				const _v = _get(parentTemplate.data, value);
+				// 				if (_v) value = _v;
+				// 			} else {
+				// 				throw `You try to access the "${value}" value but your template is not embeded in another one`;
+				// 			}
+				// 		} else if (value.substr(0,1) === '<' && value.substr(-1) === '>') {
+				// 			// apply a node id to each nodes
+				// 			value = this._applyTemplateNodeIdAttribute(value);
+				// 		} else if (this.data[value]) {
+				// 			// the value exist in the current data
+				// 			value = _get(this.data, value);
+				// 		} else {
+				// 			// get parent template
+				// 			const parentTemplate = this._getParentTemplate();
+				// 			if (parentTemplate && parentTemplate.data) {
+				// 				const _v = _get(parentTemplate.data, value);
+				// 				if (_v) value = _v;
+				// 			}
+				// 		}
+				// 	}
+				// 	return value;
+				// }
 				set: function set(value) {
 					if (typeof value === 'string') {
-						if (value.match(/^this\\./g)) {
-							// grab the path
-							var path = value.replace('this.', '');
-							// get the value from the data
-							value = (0, _get3.default)(_this.data, path);
-						} else if (value.match(/^window\\./g)) {
-							var _path = value.replace('window.', '');
-							value = (0, _get3.default)(window, _path);
-						} else if (value.match(/^parent\\./g)) {
-							// get parent template
-							var _parentTemplate = _this._getParentTemplate();
-							if (_parentTemplate && _parentTemplate.data) {
-								var _v = (0, _get3.default)(_parentTemplate.data, value);
-								if (_v) value = _v;
-							} else {
-								throw 'You try to access the "' + value + '" value but your template is not embeded in another one';
+						if (value.match(/^window\./g)) {
+							if (!_this._windowDataObserver[value]) {
+								_this._windowDataObserver[value] = true;
+								_this._watcher.watch(window, value.replace('window.', ''), function (newVal, oldVal) {
+									_this.data[value.split('.').splice(4).join('.')] = newVal;
+								});
 							}
-						} else if (value.substr(0, 1) === '<' && value.substr(-1) === '>') {
-							// apply a node id to each nodes
-							value = _this._applyTemplateNodeIdAttribute(value);
-						} else if (_this.data[value]) {
-							// the value exist in the current data
-							value = (0, _get3.default)(_this.data, value);
-						} else {
-							// get parent template
-							var _parentTemplate2 = _this._getParentTemplate();
-							if (_parentTemplate2 && _parentTemplate2.data) {
-								var _v2 = (0, _get3.default)(_parentTemplate2.data, value);
-								if (_v2) value = _v2;
-							}
+							return eval(value);
 						}
 					}
 					return value;
 				}
 			});
+
 			_this._watcher.watch(_this.data, name, function (newVal, oldVal) {
+
 				// save the update in the stack
 				_this._updatedDataStack[name] = newVal;
 				// check if has a function to listen to data update
@@ -443,15 +462,8 @@ var STemplate = function () {
 
 	STemplate.prototype.setDomNode = function setDomNode(node) {
 		// prepare the node
-		if (!node.hasAttribute('s-tpl')) {
+		if (!node.hasAttribute('s-tpl') || node.getAttribute('s-tpl') === 'true') {
 			node.setAttribute('s-tpl', this.templateId);
-			// node.setAttribute('s-tpl-node', this.templateId);
-			// ignore the template node id
-			// sTemplateIntegrator.ignore(node, {
-			// 	's-tpl-node' : true,
-			// 	's-tpl' : true,
-			// 	's-tpl-dirty' : true
-			// });
 
 			// save the template instance into the dom
 			node._sTemplate = this;
@@ -520,8 +532,6 @@ var STemplate = function () {
 		// process compiled template
 		compiled = this._processOutput(compiled);
 
-		console.error('patch node', compiled);
-
 		// patch dom
 		this.domNode = this.patchDom(compiled);
 
@@ -533,9 +543,9 @@ var STemplate = function () {
 		this._listenDataChangesInDom();
 
 		// set the template as dirty
-		// if ( ! this.domNode.hasAttribute('s-tpl-dirty')) {
-		// 	this.domNode.setAttribute('s-tpl-dirty', true);
-		// }
+		if (!this.domNode.hasAttribute('s-tpl-dirty')) {
+			this.domNode.setAttribute('s-tpl-dirty', true);
+		}
 
 		// after render
 		this.settings.afterRender && this.settings.afterRender(this.domNode);
@@ -553,12 +563,15 @@ var STemplate = function () {
 
 		var dom = void 0;
 		if (this.domNode.innerHTML.trim() === '') {
-			console.warn('this', this);
 			dom = (0, _morphdom2.default)(this.domNode, compiledTemplate.trim());
 		} else {
 			// set the new html
 			dom = (0, _morphdom2.default)(this.domNode, compiledTemplate.trim(), {
 				childrenOnly: true,
+				// getNodeKey : (node) => {
+				// 	if ( ! node.getAttribute) return null;
+				// 	return node.getAttribute('s-node-key') || node.id || null;
+				// },
 				onBeforeElChildrenUpdated: function onBeforeElChildrenUpdated(fromNode, toNode) {
 
 					// don't care about no html elements
@@ -580,10 +593,18 @@ var STemplate = function () {
 					return true;
 				},
 				onBeforeElAttributeAdded: function onBeforeElAttributeAdded(fromNode, toNode, attrName, attrValue) {
-					console.log('attribute added', fromNode, attrName, attrValue);
+					// store the added attributes
+					if (!fromNode._sTemplateAttributes) fromNode._sTemplateAttributes = {};
+					fromNode._sTemplateAttributes[attrName] = true;
+					return true;
 				},
 				onBeforeElAttributeRemoved: function onBeforeElAttributeRemoved(fromNode, toNode, attrName, attrValue) {
-					console.log('attribute removed', fromNode, attrName, attrValue);
+					if (!fromNode._sTemplateAttributes || !fromNode._sTemplateAttributes[attrName]) return false;
+					return true;
+				},
+				onBeforeElAttributeUpdated: function onBeforeElAttributeUpdated(fromNode, toNode, attrName, fromAtteValue, toAttrValue) {
+					if (attrName === 's-tpl') return false;
+					return true;
 				},
 				onBeforeElUpdated: function onBeforeElUpdated(fromNode, toNode) {
 
@@ -595,42 +616,6 @@ var STemplate = function () {
 					// 	&& toNode.getAttribute('s-tpl') === 'true'
 					// ) {
 					// 	toNode.setAttribute('s-tpl', this.templateId);
-					// }
-
-					// apply integration on component
-					// this._applyIntegrationOnNode(fromNode);
-
-					// get the integration from the node
-					// const integration = sTemplateIntegrator.getIntegrationFrom(fromNode);
-					// if (integration) {
-					// 	sTemplateIntegrator.setIntegrationTo(toNode, integration);
-					// }
-					//
-					// // handle the ingnore integration
-					// if (typeof(integration.ignore) === 'object') {
-					// 	for(let key in integration.ignore) {
-					// 		let value = integration.ignore[key];
-					// 		// if is class, handle multiple class to ignore
-					// 		if (key === 'class' && value !== true) {
-					// 			if (typeof(value) === 'string') {
-					// 				value = value.split(',').map((v) => { return v.trim(); });
-					// 			}
-					// 			// loop on each classes to ignore
-					// 			value.forEach((cls) => {
-					// 				if (fromNode.classList.contains(cls)) {
-					// 					toNode.classList.add(cls);
-					// 				} else {
-					// 					toNode.classList.remove(cls);
-					// 				}
-					// 			});
-					// 		} else {
-					// 			// set or remove the attribute
-					// 			// to keep in sync the from and to nodes
-					// 			if (fromNode.hasAttribute(key)) {
-					// 				toNode.setAttribute(key, fromNode.getAttribute(key));
-					// 			}
-					// 		}
-					// 	}
 					// }
 
 					// do not update this element
@@ -717,25 +702,10 @@ var STemplate = function () {
 	};
 
 	/**
-  * Apply the STemplate integration on a node that has
-  * some components on it
-  * @param 		{HTMLElement} 	 node 		The node on which to apply the integration
-  */
-
-
-	STemplate.prototype._applyIntegrationOnNode = function _applyIntegrationOnNode(node) {}
-	// if ( ! node._sTemplateTypesIntegration) node._sTemplateTypesIntegration = {};
-	// const fns = sTemplateIntegrator.getComponentIntegrationFunctionsFrom(node);
-	// fns.forEach((fn) => {
-	// 	fn(node);
-	// });
-
-
-	/**
   * Update the data model from an s-template-model element
   * @param 	{HTMLElement} 	element 	The s-template-model element
   */
-	;
+
 
 	STemplate.prototype._updateDataModelFromElement = function _updateDataModelFromElement(element) {
 

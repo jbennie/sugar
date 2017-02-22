@@ -19,15 +19,6 @@ export default function autoCast(string) {
 	if (typeof(string) === 'string' && string.substr(0,1) === '{') {
 		return eval('('+string+')');
 	}
-	// window. || document.
-	if (typeof(string) === 'string'
-		&& (string.indexOf('window.') === 0
-			|| string.indexOf('document.') === 0
-		)
-	) {
-		const val = eval(string);
-		if (val) return val;
-	}
 	// return the string if nothing can be casted
 	return string;
 }

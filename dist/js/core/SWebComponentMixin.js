@@ -236,8 +236,6 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 			// if ( ! document.body.contains(this)) return;
 
-			// component will mount only if part of the active document
-			this.componentWillMount();
 		};
 
 		/**
@@ -247,6 +245,9 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 		_class2.prototype.attachedCallback = function attachedCallback() {
 			var _this2 = this;
+
+			// component will mount only if part of the active document
+			this.componentWillMount();
 
 			// check if need to launch the will mount
 			// if ( ! this._lifecycle.componentWillMount) {
@@ -307,6 +308,9 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 			// process the attribute to camelCase
 			attribute = (0, _camelize2.default)(attribute);
+
+			// if the property is not a real property
+			if (this.props[attribute] === undefined) return;
 
 			// handle the case when newVal is undefined (added attribute whithout any value)
 			if (newVal === undefined && this.hasAttribute(_attribute)) {
@@ -768,14 +772,17 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		_class2.prototype._computeProps = function _computeProps() {
 			for (var i = 0; i < this.attributes.length; i++) {
 				var attr = this.attributes[i];
+				var attrCamelName = (0, _camelize2.default)(attr.name);
+				// do not set if it's not an existing prop
+				if (this.props[attrCamelName] === undefined) continue;
+				// the attribute has no value but it is present
+				// so we assume the prop value is true
 				if (!attr.value) {
-					// the attribute has no value but it is present
-					// so we assume the prop value is true
-					this.props[(0, _camelize2.default)(attr.name)] = true;
+					this.props[attrCamelName] = true;
 					continue;
 				}
 				// cast the value
-				this.props[(0, _camelize2.default)(attr.name)] = (0, _autoCast2.default)(attr.value);
+				this.props[attrCamelName] = (0, _autoCast2.default)(attr.value);
 			}
 
 			// handle physicalProps
@@ -1072,7 +1079,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 				var _this11 = this;
 
 				var deps = [];
-				var comp = window.sugar._webComponentsStack[this._componentName];
+				var comp = Object.getPrototypeOf(window.sugar._webComponentsStack[this._componentName]);
 				while (comp) {
 					if (comp.mountDependencies) {
 						comp.mountDependencies.forEach(function (dep) {
@@ -1086,15 +1093,16 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 				// props mount dependencies
 				var propsDeps = [].concat(this.props.mountDependencies);
-				deps = deps.concat(this.props.mountDependencies);
-				deps = deps.map(function (dep) {
+				var finalDeps = [];
+				finalDeps = finalDeps.concat(this.props.mountDependencies);
+				deps.forEach(function (dep) {
 					if (typeof dep === 'function') {
 						dep = dep.bind(_this11);
 						dep = dep();
 					}
-					return dep;
+					finalDeps.push(dep);
 				});
-				return deps;
+				return finalDeps;
 			}
 		}], [{
 			key: 'defaultProps',
@@ -1136,19 +1144,6 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			key: 'mountDependencies',
 			get: function get() {
 				return [];
-				// return [function() {
-				// 	return new Promise((resolve, reject) => {
-				// 		let isTemplate = false;
-				// 		resolve();
-				// 		if (this._typeOf.indexOf('STemplateWebComponent')) {
-				// 			resolve();
-				// 		} else {
-				// 			setTimeout(() => {
-				// 				resolve();
-				// 			});
-				// 		}
-				// 	});
-				// }];
 			}
 		}]);
 

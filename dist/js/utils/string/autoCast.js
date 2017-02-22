@@ -19,11 +19,6 @@ function autoCast(string) {
 	if (typeof string === 'string' && string.substr(0, 1) === '{') {
 		return eval('(' + string + ')');
 	}
-	// window. || document.
-	if (typeof string === 'string' && (string.indexOf('window.') === 0 || string.indexOf('document.') === 0)) {
-		var _val = eval(string);
-		if (_val) return _val;
-	}
 	// return the string if nothing can be casted
 	return string;
 }
