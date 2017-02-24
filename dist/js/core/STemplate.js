@@ -32,6 +32,18 @@ var _get2 = require('lodash/get');
 
 var _get3 = _interopRequireDefault(_get2);
 
+var _set2 = require('lodash/set');
+
+var _set3 = _interopRequireDefault(_set2);
+
+var _merge2 = require('lodash/merge');
+
+var _merge3 = _interopRequireDefault(_merge2);
+
+var _isEqual2 = require('lodash/isEqual');
+
+var _isEqual3 = _interopRequireDefault(_isEqual2);
+
 var _autoCast = require('../utils/string/autoCast');
 
 var _autoCast2 = _interopRequireDefault(_autoCast);
@@ -67,6 +79,10 @@ var _propertyProxy2 = _interopRequireDefault(_propertyProxy);
 var _sTemplateIntegrator = require('./sTemplateIntegrator');
 
 var _sTemplateIntegrator2 = _interopRequireDefault(_sTemplateIntegrator);
+
+var _cloneDeep = require('lodash/cloneDeep');
+
+var _cloneDeep2 = _interopRequireDefault(_cloneDeep);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -108,37 +124,13 @@ if (!window.sugar._sTemplateData) window.sugar._sTemplateData = {};
 var STemplate = function () {
 
 	/**
-  * Get the parent template instance
-  * @param 		{HTMLElement} 		of 			The element to get the parent template from
-  	 * @return 		{STemplate} 					The parent template instance found in the html
-  */
-	STemplate.getParentTemplate = function getParentTemplate(of) {
-		var templateElm = (0, _closest2.default)(of, '[s-tpl]');
-		if (!templateElm) return null;
-		return templateElm._sTemplate;
-	};
-
-	/**
-  * Store a uniqid that will be used as identifier for
-  * this particular class in the window.sTemplateClasses
-  * @type 	{String}
+  * Constructor
   */
 
 
 	/**
-  * Store the reference to html elements that have an id or a name
-  * @type 	{Object}
-  */
-
-
-	/**
-  * Store the reference to the created dom structure
-  */
-
-
-	/**
-  * Store the data object used to render the template
-  * @type 	{Object}
+  * Store the timeout used to update the template only once when multiple changes have been made
+  * @type 	{Number}
   */
 
 
@@ -151,33 +143,20 @@ var STemplate = function () {
 
 
 	/**
-  * Store a stack of updated data between two render
-  * @type 	{Object}
+  * Store the reference to the created dom structure
   */
 
 
 	/**
-  * Store the timeout used to update the template only once when multiple changes have been made
-  * @type 	{Number}
-  */
-
-
-	/**
-  * Store the settings
-  * @type 	{Object}
-  */
-
-
-	/**
-  * Constructor
+  * Store a uniqid that will be used as identifier for
+  * this particular class in the window.sTemplateClasses
+  * @type 	{String}
   */
 	function STemplate(templateString) {
-		var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
 		var _this = this;
 
+		var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 		var settings = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-		var parentTemplate = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
 
 		_classCallCheck(this, STemplate);
 
@@ -212,6 +191,14 @@ var STemplate = function () {
 			onDatasUpdate: null,
 
 			/**
+    * Function that runs before the template will be first rendered in the dom so that you can have a change to process it if needed
+    * before it will be passed to the render step
+    * @param 		{String} 				template 				The template before compilation
+    * @return 		{String} 										The processed template to pass to render step
+    */
+			beforeRenderFirst: null,
+
+			/**
     * Function that runs before the template will be rendered in the dom so that you can have a change to process it if needed
     * before it will be passed to the render step
     * @param 		{String} 				template 				The template before compilation
@@ -224,6 +211,12 @@ var STemplate = function () {
     * @param 		{HTMLElement} 			 	inDomTemplate 		The dom element that represent the template
     */
 			afterRender: null,
+
+			/**
+    * Function that runs after the template has been first rendered to the dom so that you can have a chance to process it if needed
+    * @param 		{HTMLElement} 			 	inDomTemplate 		The dom element that represent the template
+    */
+			afterRenderFirst: null,
 
 			/**
     * Function called before any HTMLElement will be updated in the dom
@@ -265,8 +258,8 @@ var STemplate = function () {
 		// save settings
 		this.settings = _extends({}, this.settings, settings);
 
-		// set the parent template
-		if (parentTemplate) this.setParentTemplate(parentTemplate);
+		// renderedFirst
+		this._renderedFirst = false;
 
 		// generate a uniqid for the template
 		this.templateId = this.settings.id || (0, _uniqid2.default)();
@@ -278,26 +271,32 @@ var STemplate = function () {
 		this.data = data;
 
 		// keep a copy of the original datas
-		this._originalData = Object.assign({}, data);
+		this._originalData = (0, _cloneDeep2.default)(this.data);
+
+		// previous data
+		this._previousData = this._originalData;
+		this._previousDataTimeout;
 
 		// bound some methods into the data
-		this.data.sTemplate = {
-			value: function value(of) {
-				var idx = _this._modelValuesStack.indexOf(of);
-				if (idx !== -1) {
-					return 'object:' + idx;
-				} else {
-					_this._modelValuesStack.push(of);
-					var newIdx = _this._modelValuesStack.length - 1;
-					return 'object:' + newIdx;
-				}
-				return of;
-			}
-		};
+		// this.data.sTemplate = {
+		// 	value : (of) => {
+		// 		const idx = this._modelValuesStack.indexOf(of);
+		// 		if (idx !== -1) {
+		// 			return `object:${idx}`;
+		// 		} else {
+		// 			this._modelValuesStack.push(of);
+		// 			const newIdx = this._modelValuesStack.length - 1;
+		// 			return `object:${newIdx}`;
+		// 		}
+		// 		return of;
+		// 	}
+		// };
 
-		// bound the class into the window to be apple to call it into
+		// bound the class into the window to be able to call it into
 		// templates
 		window.sugar._sTemplateData[this.templateId] = this.data;
+
+		this._dataWatcherMap = new Map();
 
 		// instanciate a watcher
 		this._watcher = new _SWatcher2.default();
@@ -305,49 +304,11 @@ var STemplate = function () {
 		this._windowDataObserver = {};
 
 		// watch each data
-
-		var _loop = function _loop(name) {
+		for (var name in this.data) {
 			if (name === 'sTemplate') {
-				return 'continue';
+				continue;
 			}
-			(0, _propertyProxy2.default)(_this.data, name, {
-				// set : (value) => {
-				// 	if (typeof(value) === 'string') {
-				// 		if (value.match(/^this\\./g)) {
-				// 			// grab the path
-				// 			const path = value.replace('this.','');
-				// 			// get the value from the data
-				// 			value = _get(this.data, path);
-				// 		} else if (value.match(/^window\\./g)) {
-				// 			const path = value.replace('window.','');
-				// 			value = _get(window, path);
-				// 			console.log('new val', name, value);
-				// 		} else if (value.match(/^parent\\./g)) {
-				// 			// get parent template
-				// 			const parentTemplate = this._getParentTemplate();
-				// 			if (parentTemplate && parentTemplate.data) {
-				// 				const _v = _get(parentTemplate.data, value);
-				// 				if (_v) value = _v;
-				// 			} else {
-				// 				throw `You try to access the "${value}" value but your template is not embeded in another one`;
-				// 			}
-				// 		} else if (value.substr(0,1) === '<' && value.substr(-1) === '>') {
-				// 			// apply a node id to each nodes
-				// 			value = this._applyTemplateNodeIdAttribute(value);
-				// 		} else if (this.data[value]) {
-				// 			// the value exist in the current data
-				// 			value = _get(this.data, value);
-				// 		} else {
-				// 			// get parent template
-				// 			const parentTemplate = this._getParentTemplate();
-				// 			if (parentTemplate && parentTemplate.data) {
-				// 				const _v = _get(parentTemplate.data, value);
-				// 				if (_v) value = _v;
-				// 			}
-				// 		}
-				// 	}
-				// 	return value;
-				// }
+			(0, _propertyProxy2.default)(this.data, name, {
 				set: function set(value) {
 					if (typeof value === 'string') {
 						if (value.match(/^window\./g)) {
@@ -363,39 +324,145 @@ var STemplate = function () {
 					return value;
 				}
 			});
-
-			_this._watcher.watch(_this.data, name, function (newVal, oldVal) {
-
-				// save the update in the stack
-				_this._updatedDataStack[name] = newVal;
-				// check if has a function to listen to data update
-				// do this OUTSIDE the setTimeout cause the onDataUpdate function
-				// can update itself the templateData.
-				// If it where in the setTImeout, the data will be updated after the render happend,
-				// resulting in multiple useless renders
-				_this.settings.onDataUpdate && _this.settings.onDataUpdate(name, newVal, oldVal);
-				// make update only once
-				// by waiting next loop
-				clearTimeout(_this._updateTimeout);
-				_this._updateTimeout = setTimeout(function () {
-					// on datas updated
-					_this.settings.onDatasUpdate && _this.settings.onDatasUpdate(_this._updatedDataStack);
-					// render the template again if the autoRenderOnDataUpdate is true
-					if (_this.settings.autoRenderOnDataUpdate) {
-						_this._internalRender();
-					}
-					// reset the updated data stack
-					_this._updatedDataStack = {};
-				});
-			});
-		};
-
-		for (var name in this.data) {
-			var _ret = _loop(name);
-
-			if (_ret === 'continue') continue;
 		}
+
+		// watch every data properties and objects
+		this._watchRecursive(this.data);
 	}
+
+	/**
+  * Store the settings
+  * @type 	{Object}
+  */
+
+
+	/**
+  * Store a stack of updated data between two render
+  * @type 	{Object}
+  */
+
+
+	/**
+  * Store the data object used to render the template
+  * @type 	{Object}
+  */
+
+
+	/**
+  * Store the reference to html elements that have an id or a name
+  * @type 	{Object}
+  */
+
+
+	STemplate.prototype._watchRecursive = function _watchRecursive(obj) {
+		var _this2 = this;
+
+		var watcher = new _SWatcher2.default();
+		for (var property in obj) {
+
+			if (!obj.hasOwnProperty(property)) continue;
+
+			// property closure
+			(function (property) {
+
+				_this2._dataWatcherMap.set((0, _get3.default)(obj, property), true);
+
+				(0, _propertyProxy2.default)(obj, property, {
+					set: function set(value) {
+						var oldVal = obj[property];
+						if (value === oldVal) return;
+
+						// if the watched element is a new object,
+						// we watch it as well
+						if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' && !_this2._dataWatcherMap.get(value)) {
+							console.log('watch new', value);
+							_this2._watchRecursive(value);
+						}
+
+						console.log('notify', property, value, (0, _cloneDeep2.default)(oldVal));
+
+						// save previousData
+						if (!_this2._previousDataTimeout) {
+							_this2._previousData = (0, _cloneDeep2.default)(_this2.data);
+							console.log('save previous data');
+							_this2._previousDataTimeout = setTimeout(function () {
+								_this2._previousDataTimeout = null;
+							});
+						}
+
+						_this2._notifyDataUpdate(value, (0, _cloneDeep2.default)(oldVal));
+						return value;
+					}
+				}, false);
+
+				// watcher.watch(obj, property, (newVal, oldVal) => {
+				//
+				// 	// if the watched element is a new object,
+				// 	// we watch it as well
+				// 	if ( typeof(newVal) === 'object' && ! this._dataWatcherMap.get(newVal)) {
+				// 		console.log('watch new', newVal);
+				// 		this._watchRecursive(newVal);
+				// 	}
+				// 	console.log('notify', property, newVal);
+				// 	this._notifyDataUpdate(property, newVal, oldVal);
+				//
+				// 	// if (typeof)
+				// 	//
+				// 	// const flatDatas = this._flattenObject(this.data);
+				// 	// console.log(flatDatas);
+				// 	// console.log(obj, property, newVal);
+				// 	// let path;
+				// 	// for (let key in flatDatas) {
+				// 	// 	if (flatDatas[key] === obj) {
+				// 	// 		path = key + '.' + property;
+				// 	// 		console.log('ppp', path);
+				// 	// 		break;
+				// 	// 	}
+				// 	// }
+				// 	// console.log('n', obj, property, newVal, path);
+				// 	// if (path) {
+				// 	// 	console.log('update', path, newVal);
+				// 	// 	this._notifyDataUpdate(path, newVal, oldVal);
+				// 	// } else {
+				// 	// 	if (_get(this.data, property) instanceof Array) return;
+				// 	// 	// watch the new object if needed
+				// 	// 	this._watchRecursive(_get(this.data, property));
+				// 	// }
+				//
+				//
+				//
+				// });
+			})(property);
+
+			if (obj[property] instanceof Array) {
+				obj[property].forEach(function (item) {
+					if ((typeof item === 'undefined' ? 'undefined' : _typeof(item)) === 'object') {
+						_this2._watchRecursive(item);
+					}
+				});
+			} else if (_typeof(obj[property]) === "object" && !this._dataWatcherMap.get(obj[property])) {
+				this._watchRecursive(obj[property]);
+			}
+		}
+	};
+
+	STemplate.prototype._notifyDataUpdate = function _notifyDataUpdate(newVal, oldVal) {
+		var _this3 = this;
+
+		if (newVal === oldVal) return;
+
+		// make update only once
+		// by waiting next loop
+		clearTimeout(this._updateTimeout);
+		this._updateTimeout = setTimeout(function () {
+			// on datas updated
+			_this3.settings.onDataUpdate && _this3.settings.onDataUpdate(_this3.data, _this3._previousData);
+			// render the template again if the autoRenderOnDataUpdate is true
+			if (_this3.settings.autoRenderOnDataUpdate) {
+				_this3._internalRender();
+			}
+		});
+	};
 
 	/**
   * Check if the passed node is part of this template
@@ -419,13 +486,13 @@ var STemplate = function () {
 
 
 	STemplate.prototype._applyTemplateNodeIdAttribute = function _applyTemplateNodeIdAttribute(templateString) {
-		var _this2 = this;
+		var _this4 = this;
 
 		return templateString.replace(/<[a-zA-Z0-9-]+(?!.*s-tpl-node)(?!.*s-tpl)(\s|>)/g, function (itm, s) {
 			if (s === '>') {
-				return itm.trim().replace('>', '') + ' s-tpl-node="' + _this2.templateId + '">';
+				return itm.trim().replace('>', '') + ' s-tpl-node="' + _this4.templateId + '">';
 			} else {
-				return itm.trim() + ' s-tpl-node="' + _this2.templateId + '" ';
+				return itm.trim() + ' s-tpl-node="' + _this4.templateId + '" ';
 			}
 		});
 	};
@@ -437,29 +504,9 @@ var STemplate = function () {
 
 
 	/**
-  * _getParentTemplate
-  * Return the parent template instance if exist
-  * @return 	{STemplate}
-  */
-	STemplate.prototype._getParentTemplate = function _getParentTemplate() {
-		if (this._parentTemplate) return this._parentTemplate;
-		// console.log('dom', this.domNode);
-		if (this.domNode && this.domNode.parentNode) {
-			var parentTemplateNode = (0, _closest2.default)(this.domNode, '[s-tpl]');
-			// console.log('parent', this.domNode, parentTemplateNode);
-			if (parentTemplateNode && parentTemplateNode._sTemplate) {
-				this._parentTemplate = parentTemplateNode._sTemplate;
-			}
-		}
-		return this._parentTemplate;
-	};
-
-	/**
   * Set the dom node in which to render the template
   * @param 		{HTMLElement} 		node 			The node that will represent the template
   */
-
-
 	STemplate.prototype.setDomNode = function setDomNode(node) {
 		// prepare the node
 		if (!node.hasAttribute('s-tpl') || node.getAttribute('s-tpl') === 'true') {
@@ -471,20 +518,6 @@ var STemplate = function () {
 
 		// set the node
 		this.domNode = node;
-	};
-
-	/**
-  * Set the parent STemplate instance.
-  * This is needed if you want your template to talk together through attributes
-  * @param 	{STemplate} 	template 	The parent template instance
-  */
-
-
-	STemplate.prototype.setParentTemplate = function setParentTemplate(template) {
-		if (!template instanceof STemplate) {
-			throw 'the template passed to setParentTemplate is not a STemplate instance';
-		}
-		this._parentTemplate = template;
 	};
 
 	/**
@@ -524,6 +557,11 @@ var STemplate = function () {
 			elm.parentNode.removeChild(elm);
 		});
 
+		// before render first
+		if (this.settings.beforeRenderFirst && !this._renderedFirst) {
+			compiled = this.settings.beforeRenderFirst(compiled);
+		}
+
 		// before render
 		if (this.settings.beforeRender) {
 			compiled = this.settings.beforeRender(compiled);
@@ -540,7 +578,7 @@ var STemplate = function () {
 
 		// listen for changes of datas in the DOM
 		// through the s-template-model attribute
-		this._listenDataChangesInDom();
+		// this._listenDataChangesInDom();
 
 		// set the template as dirty
 		if (!this.domNode.hasAttribute('s-tpl-dirty')) {
@@ -548,7 +586,13 @@ var STemplate = function () {
 		}
 
 		// after render
+		!this._renderedFirst && this.settings.afterRenderFirst && this.settings.afterRenderFirst(this.domNode);
+
+		// after render
 		this.settings.afterRender && this.settings.afterRender(this.domNode);
+
+		// update rendered
+		this._renderedFirst = true;
 	};
 
 	/**
@@ -559,125 +603,209 @@ var STemplate = function () {
 
 
 	STemplate.prototype.patchDom = function patchDom(compiledTemplate) {
-		var _this3 = this;
+		var _this5 = this;
 
 		var dom = void 0;
-		if (this.domNode.innerHTML.trim() === '') {
-			dom = (0, _morphdom2.default)(this.domNode, compiledTemplate.trim());
-		} else {
-			// set the new html
-			dom = (0, _morphdom2.default)(this.domNode, compiledTemplate.trim(), {
-				childrenOnly: true,
-				// getNodeKey : (node) => {
-				// 	if ( ! node.getAttribute) return null;
-				// 	return node.getAttribute('s-node-key') || node.id || null;
-				// },
-				onBeforeElChildrenUpdated: function onBeforeElChildrenUpdated(fromNode, toNode) {
+		// set the new html
+		dom = (0, _morphdom2.default)(this.domNode, compiledTemplate.trim(), {
+			childrenOnly: true,
+			onBeforeElChildrenUpdated: function onBeforeElChildrenUpdated(fromNode, toNode) {
 
-					// don't care about no html elements
-					// such has comments, text, etc...
-					if (!fromNode.hasAttribute) return true;
+				// don't care about no html elements
+				// such has comments, text, etc...
+				if (!fromNode.hasAttribute) return true;
 
-					// do not take care of childs of another template
-					if (toNode.hasAttribute('s-tpl') && fromNode !== _this3.domNode) return false;
+				// do not take care of childs of another template
+				if (toNode.hasAttribute('s-tpl') && fromNode !== _this5.domNode) return false;
 
-					// check if an onBeforeElUpdated is present in the settings
-					if (_this3.settings.onBeforeElChildrenUpdated) {
-						var res = _this3.settings.onBeforeElChildrenUpdated(fromNode, toNode);
-						if (res === true || res === false) {
-							return res;
-						}
-					}
-
-					// update the children
-					return true;
-				},
-				onBeforeElAttributeAdded: function onBeforeElAttributeAdded(fromNode, toNode, attrName, attrValue) {
-					// store the added attributes
-					if (!fromNode._sTemplateAttributes) fromNode._sTemplateAttributes = {};
-					fromNode._sTemplateAttributes[attrName] = true;
-					return true;
-				},
-				onBeforeElAttributeRemoved: function onBeforeElAttributeRemoved(fromNode, toNode, attrName, attrValue) {
-					if (!fromNode._sTemplateAttributes || !fromNode._sTemplateAttributes[attrName]) return false;
-					return true;
-				},
-				onBeforeElAttributeUpdated: function onBeforeElAttributeUpdated(fromNode, toNode, attrName, fromAtteValue, toAttrValue) {
-					if (attrName === 's-tpl') return false;
-					return true;
-				},
-				onBeforeElUpdated: function onBeforeElUpdated(fromNode, toNode) {
-
-					// don't care about no html elements
-					// such has comments, text, etc...
-					if (!fromNode.hasAttribute) return true;
-
-					// if ( toNode.hasAttribute('s-tpl')
-					// 	&& toNode.getAttribute('s-tpl') === 'true'
-					// ) {
-					// 	toNode.setAttribute('s-tpl', this.templateId);
-					// }
-
-					// do not update this element
-					// cause it's not part of the initial template.
-					// maybe it has been added by any component after
-					// so it's not our business...
-					if (!toNode.hasAttribute('s-tpl-node')) return false;
-
-					// check if an onBeforeElUpdated is present in the settings
-					if (_this3.settings.onBeforeElUpdated) {
-						var res = _this3.settings.onBeforeElUpdated(fromNode, toNode);
-						if (res === true || res === false) {
-							return res;
-						}
-					}
-
-					// update the element
-					return true;
-				},
-				onElUpdated: function onElUpdated(node) {
-					// check if an onBeforeElUpdated is present in the settings
-					if (_this3.settings.onElUpdated) {
-						_this3.settings.onElUpdated(node);
-					}
-				},
-				onBeforeNodeDiscarded: function onBeforeNodeDiscarded(node) {
-
-					// don't care about no html elements
-					// such has comments, text, etc...
-					if (!node.hasAttribute) return true;
-
-					// is the node is template and that it's not us
-					if (node.hasAttribute('s-tpl') && node !== _this3.domNode) return false;
-
-					// we do not discard any elements that
-					// have no s-tpl-node attribute
-					// cause they maybe has been added by another plugins
-					// and it is not our business...
-					if (!node.hasAttribute('s-tpl-node')) return false;
-
-					// check if an onBeforeElUpdated is present in the settings
-					if (_this3.settings.onBeforeElDiscarded) {
-						var res = _this3.settings.onBeforeElDiscarded(fromNode, toNode);
-						if (res === true || res === false) {
-							return res;
-						}
-					}
-
-					// discard the element
-					return true;
-				},
-				onElDiscarded: function onElDiscarded(node) {
-					// check if an onBeforeElUpdated is present in the settings
-					if (_this3.settings.onElDiscarded) {
-						_this3.settings.onElDiscarded(node);
+				// check if an onBeforeElUpdated is present in the settings
+				if (_this5.settings.onBeforeElChildrenUpdated) {
+					var res = _this5.settings.onBeforeElChildrenUpdated(fromNode, toNode);
+					if (res === true || res === false) {
+						return res;
 					}
 				}
-			});
-		}
+
+				// update the children
+				return true;
+			},
+			onBeforeElAttributeAdded: function onBeforeElAttributeAdded(fromNode, toNode, attrName, attrValue) {
+				// store the added attributes
+				if (!fromNode._sTemplateAttributes) fromNode._sTemplateAttributes = {};
+				fromNode._sTemplateAttributes[attrName] = true;
+				return true;
+			},
+			onBeforeElAttributeRemoved: function onBeforeElAttributeRemoved(fromNode, toNode, attrName, attrValue) {
+				if (!fromNode._sTemplateAttributes || !fromNode._sTemplateAttributes[attrName]) return false;
+				return true;
+			},
+			onBeforeElAttributeUpdated: function onBeforeElAttributeUpdated(fromNode, toNode, attrName, fromAtteValue, toAttrValue) {
+				if (attrName === 's-tpl') return false;
+				return true;
+			},
+			onBeforeNodeAdded: function onBeforeNodeAdded(node) {
+				if (!node.hasAttribute) return node;
+
+				// check if an onBeforeElUpdated is present in the settings
+				if (_this5.settings.onBeforeNodeAdded) {
+					var res = _this5.settings.onBeforeNodeAdded(node);
+					if (res === true || res === false) {
+						return res;
+					}
+				}
+				return node;
+			},
+			onNodeAdded: function onNodeAdded(node) {
+				if (!node.hasAttribute) return node;
+				if (node.hasAttribute('s-template-model')) {
+					_this5._handleModelElement(node);
+				}
+			},
+			onBeforeElUpdated: function onBeforeElUpdated(fromNode, toNode) {
+
+				// don't care about no html elements
+				// such has comments, text, etc...
+				if (!fromNode.hasAttribute) return true;
+
+				if (fromNode.hasAttribute('s-template-model')) {
+					_this5._handleModelElement(fromNode, toNode);
+				}
+
+				// do not update this element
+				// cause it's not part of the initial template.
+				// maybe it has been added by any component after
+				// so it's not our business...
+				if (!toNode.hasAttribute('s-tpl-node')) return false;
+
+				// check if an onBeforeElUpdated is present in the settings
+				if (_this5.settings.onBeforeElUpdated) {
+					var res = _this5.settings.onBeforeElUpdated(fromNode, toNode);
+					if (res === true || res === false) {
+						return res;
+					}
+				}
+
+				// update the element
+				return true;
+			},
+			onElUpdated: function onElUpdated(node) {
+				if (!node.hasAttribute) return;
+
+				// check if an onBeforeElUpdated is present in the settings
+				if (_this5.settings.onElUpdated) {
+					_this5.settings.onElUpdated(node);
+				}
+			},
+			onBeforeNodeDiscarded: function onBeforeNodeDiscarded(node) {
+
+				// don't care about no html elements
+				// such has comments, text, etc...
+				if (!node.hasAttribute) return true;
+
+				// is the node is template and that it's not us
+				if (node.hasAttribute('s-tpl') && node !== _this5.domNode) return false;
+
+				// we do not discard any elements that
+				// have no s-tpl-node attribute
+				// cause they maybe has been added by another plugins
+				// and it is not our business...
+				if (!node.hasAttribute('s-tpl-node')) return false;
+
+				// check if an onBeforeElUpdated is present in the settings
+				if (_this5.settings.onBeforeElDiscarded) {
+					var res = _this5.settings.onBeforeElDiscarded(fromNode, toNode);
+					if (res === true || res === false) {
+						return res;
+					}
+				}
+
+				// discard the element
+				return true;
+			},
+			onElDiscarded: function onElDiscarded(node) {
+				// check if an onBeforeElUpdated is present in the settings
+				if (_this5.settings.onElDiscarded) {
+					_this5.settings.onElDiscarded(node);
+				}
+			}
+		});
 
 		// return the dom template
 		return dom;
+	};
+
+	STemplate.prototype._handleModelElement = function _handleModelElement(fromNode) {
+		var _this6 = this;
+
+		var toNode = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+		var model = fromNode.getAttribute('s-template-model');
+		var value = (0, _get3.default)(this.data, model);
+		var rootModel = model.split('.')[0];
+		switch (fromNode.nodeName.toLowerCase()) {
+			case 'select':
+				setTimeout(function () {
+					if (toNode) {
+						toNode.value = fromNode._sTemplateSelectRawValue;
+						toNode.selectedIndex = fromNode._sTemplateSelectedIndex;
+					}
+					fromNode.value = fromNode._sTemplateSelectRawValue;
+					fromNode.selectedIndex = fromNode._sTemplateSelectedIndex;
+				});
+				if (!fromNode._sTemplateUpdaterRoutine) {
+					fromNode._sTemplateUpdaterRoutine = true;
+					fromNode.addEventListener(fromNode.getAttribute('s-template-model-trigger') || 'change', function (e) {
+						var model = e.target.getAttribute('s-template-model');
+						e.target._sTemplateSelectedIndex = e.target.selectedIndex;
+						e.target._sTemplateSelectRawValue = e.target.value;
+						(0, _set3.default)(_this6.data, model, e.target.value);
+						// this.setData(model, e.target.value);
+					});
+				}
+				break;
+			case 'input':
+				switch (fromNode.type) {
+					case 'checkbox':
+						if (toNode) toNode.checked = value;
+						fromNode.checked = value;
+						if (!fromNode._sTemplateUpdaterRoutine) {
+							fromNode._sTemplateUpdaterRoutine = true;
+							fromNode.addEventListener(fromNode.getAttribute('s-template-model-trigger') || 'change', function (e) {
+								var model = e.target.getAttribute('s-template-model');
+								(0, _set3.default)(_this6.data, model, e.target.checked);
+								// this.setData(model, e.target.checked);
+							});
+						}
+						break;
+					default:
+						if (toNode) toNode.value = value;
+						fromNode.value = value;
+						if (!fromNode._sTemplateUpdaterRoutine) {
+							(function () {
+								var timeout = fromNode.getAttribute('s-template-model-timeout') || 0;
+								fromNode._sTemplateUpdaterRoutine = true;
+								fromNode.addEventListener(fromNode.getAttribute('s-template-model-trigger') || 'keyup', function (e) {
+									clearTimeout(fromNode._sTemplateUpdateTimeout);
+									fromNode._sTemplateUpdateTimeout = setTimeout(function () {
+										var model = e.target.getAttribute('s-template-model');
+										(0, _set3.default)(_this6.data, model, e.target.value);
+										// this.setData(model, e.target.value);
+									}, parseInt(timeout));
+								});
+								fromNode.addEventListener('keyup', function (e) {
+									if (e.keyCode === 13) {
+										clearTimeout(fromNode._sTemplateUpdateTimeout);
+										var _model = e.target.getAttribute('s-template-model');
+										(0, _set3.default)(_this6.data, _model, e.target.value);
+										// this.setData(model, e.target.value);
+									}
+								});
+							})();
+						}
+						break;
+				}
+				break;
+		}
 	};
 
 	/**
@@ -686,7 +814,7 @@ var STemplate = function () {
 
 
 	STemplate.prototype._updateRefs = function _updateRefs() {
-		var _this4 = this;
+		var _this7 = this;
 
 		// reset refs
 		this.refs = {};
@@ -697,7 +825,7 @@ var STemplate = function () {
 			// get the id or name
 			var id = elm.id || elm.getAttribute('name');
 			// save the reference
-			_this4.refs[id] = elm;
+			_this7.refs[id] = elm;
 		});
 	};
 
@@ -724,86 +852,19 @@ var STemplate = function () {
 		// if has a value into data
 		// take that as value to set into model
 		if (valueInData) {
-			this.data[model] = valueInData;
+			(0, _set3.default)(this.data, model, valueInData);
 		} else if (typeof value === 'string' && value.substr(0, 7) === 'object:') {
 			var split = value.split(':');
 			var idx = split[1];
-			this.data[model] = this._modelValuesStack[idx];
+			(0, _set3.default)(this.data, model, this._modelValuesStack[idx]);
 		} else if (value !== undefined) {
-			this.data[model] = value;
+			(0, _set3.default)(this.data, model, value);
 		} else if (this._originalData[model]) {
 			// reset the data to his original value
-			this.data[model] = this._originalData[model];
+			(0, _set3.default)(this.data, model, this._originalData[model]);
 		} else {
-			this.data[model] = null;
+			(0, _set3.default)(this.data, model, null);
 		}
-	};
-
-	/**
-  * Listen for changes of datas in dom
-  */
-
-
-	STemplate.prototype._listenDataChangesInDom = function _listenDataChangesInDom() {
-		var _this5 = this;
-
-		// find elements that have a data binded into it
-		[].forEach.call(this.domNode.querySelectorAll('[s-template-model][s-tpl-node="' + this.templateId + '"]'), function (elm) {
-
-			// check if already binded
-			var model = elm.getAttribute('s-template-model');
-
-			// get update timeout from model element
-			var updateModelTimeout = (0, _autoCast2.default)(elm.getAttribute('s-template-model-timeout')) || 100;
-
-			// listen for change on the model
-			if (!elm._sTemplateBinded) {
-				elm._sTemplateBinded = true;
-				elm.addEventListener('change', function (e) {
-					// update the model from the element
-					clearTimeout(_this5._keyUpTimeout);
-					_this5._updateDataModelFromElement(e.target);
-				});
-				elm.addEventListener('keyup', function (e) {
-					clearTimeout(_this5._keyUpTimeout);
-					_this5._keyUpTimeout = setTimeout(function () {
-						// update the model from the element
-						_this5._updateDataModelFromElement(e.target);
-					}, updateModelTimeout);
-				});
-			}
-
-			var htmlVal = _this5.data[model];
-
-			// if the model value is not something like a string,
-			// a number, etc, we build a stack to map actual model value
-			// with a string identifier
-			if (_this5.data[model] && (_typeof(_this5.data[model]) === 'object' || _this5.data[model] instanceof Array)) {
-				// try to find the model into the stack
-				var idx = _this5._modelValuesStack.indexOf(_this5.data[model]);
-				// if we already have the value into the stack
-				if (idx !== -1) {
-					htmlVal = 'object:' + idx;
-				} else {
-					// we don't have the value into the stack
-					// add it and set the new htmlVal
-					_this5._modelValuesStack.push(_this5.data[model]);
-					var newIdx = _this5._modelValuesStack.length - 1;
-					htmlVal = 'object:' + newIdx;
-				}
-			}
-
-			// set the initial value coming from the model
-			elm.value = htmlVal;
-
-			// dispatch a change event if the value has been updated from last render
-			if (htmlVal === null || htmlVal === undefined || elm._sTemplateLastRenderValue !== elm.value) {
-				(0, _dispatchEvent2.default)(elm, 'change');
-			}
-
-			// save the value from render to render
-			elm._sTemplateLastRenderValue = elm.value;
-		});
 	};
 
 	/**
@@ -845,21 +906,9 @@ var STemplate = function () {
 			return value;
 		});
 
-		// replace the parent.
-		// if we have a parent template
-		if (this._parentTemplate) {
-			// replace all the this. with the proper window.sTemplateDataObjects reference
-			var parentDotReg = new RegExp('parent\\.', 'g');
-			ret = ret.replace(parentDotReg, 'window.sugar._sTemplateData.' + this._parentTemplate.templateId + '.');
-		}
-
 		// replace all the this. with the proper window.sTemplateDataObjects reference
-		var thisDotReg = new RegExp('this\\.', 'g');
+		var thisDotReg = new RegExp('\\$this\\.', 'g');
 		ret = ret.replace(thisDotReg, 'window.sugar._sTemplateData.' + this.templateId + '.');
-
-		// element regexp
-		var dollarElementReg = new RegExp('\\$element', 'g');
-		ret = ret.replace(dollarElementReg, 'this');
 
 		// return the processed template
 		return ret;
@@ -875,8 +924,8 @@ var STemplate = function () {
 		delete window.sugar._sTemplateData[this.templateId];
 		// destroy watcher
 		this._watcher.destroy();
-		// delete reference to parentTemplate
-		this._parentTemplate = null;
+		// destroy data watcher map
+		this._dataWatcherMap.clear();
 		// remove datas
 		this.data = null;
 	};
