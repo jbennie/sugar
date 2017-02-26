@@ -20,7 +20,7 @@ import sTemplateIntegrator from './sTemplateIntegrator'
 import __cloneDeep from 'lodash/cloneDeep'
 
 if (! window.sugar) window.sugar = {};
-if (! window.sugar._sTemplateData) window.sugar._sTemplateData = {};
+if (! window.sugar._templateData) window.sugar._templateData = {};
 
 /**
  * @class 		STemplate 		{SOject}
@@ -218,24 +218,9 @@ export default class STemplate {
 		this._previousData = this._originalData;
 		this._previousDataTimeout;
 
-		// bound some methods into the data
-		// this.data.sTemplate = {
-		// 	value : (of) => {
-		// 		const idx = this._modelValuesStack.indexOf(of);
-		// 		if (idx !== -1) {
-		// 			return `object:${idx}`;
-		// 		} else {
-		// 			this._modelValuesStack.push(of);
-		// 			const newIdx = this._modelValuesStack.length - 1;
-		// 			return `object:${newIdx}`;
-		// 		}
-		// 		return of;
-		// 	}
-		// };
-
 		// bound the class into the window to be able to call it into
 		// templates
-		window.sugar._sTemplateData[this.templateId] = this.data;
+		window.sugar._templateData[this.templateId] = this.data;
 
 		this._dataWatcherMap = new Map();
 
@@ -274,99 +259,88 @@ export default class STemplate {
 
 	_watchRecursive(obj) {
 		const watcher = new SWatcher();
-	    for (var property in obj) {
+		for (var property in obj) {
 
-	        if ( ! obj.hasOwnProperty(property)) continue;
+			if ( ! obj.hasOwnProperty(property)) continue;
+
+			// recursive routine
+			if (obj[property] instanceof Array) {
+				obj[property].forEach((item) => {
+					if (typeof item === 'object' && ! this._dataWatcherMap.get(item)) {
+						this._watchRecursive(item);
+					}
+				});
+			} else if (typeof obj[property] === "object" && ! this._dataWatcherMap.get(obj[property])) {
+				this._watchRecursive(obj[property]);
+			}
 
 			// property closure
 			((property) => {
 
+				// save the item into a map to be able
+				// to check later if this particular item has already
+				// his property proxy setted or not
 				this._dataWatcherMap.set(_get(obj, property), true);
 
-				__propertyProxy(obj, property, {
-					set : (value) => {
-						const oldVal = obj[property];
-						if (value === oldVal) return;
+				// proxy the property to be able to notify for new
+				// data updates as well as watch newly created data.
+				// ONLY the actual data that are present passed to the constructor
+				// and all new newly created data inside these ones will be monitored.
+				// newly created items at the root of the this.data will not bein monitored...
+				watcher.watch(obj, property, (value, oldVal, updateInfo) => {
 
-						// if the watched element is a new object,
-						// we watch it as well
+					if (typeof(value) !== 'object' && ! value instanceof Array) {
+						if (value === obj[property]) return;
+					}
+
+					// if the watched element is a new object,
+					// we watch it as well
+					if (value instanceof Array && updateInfo && updateInfo.type === Array && updateInfo.addedItems) {
+						updateInfo.addedItems.forEach((newItem) => {
+							if ( typeof(newItem) === 'object' && ! this._dataWatcherMap.get(newItem)) {
+								this._watchRecursive(newItem);
+							}
+						});
+					} else {
 						if ( typeof(value) === 'object' && ! this._dataWatcherMap.get(value)) {
-							console.log('watch new', value);
 							this._watchRecursive(value);
 						}
+					}
 
 
-						console.log('notify', property, value, __cloneDeep(oldVal));
+
+					// notify the new datas
+					this._notifyDataUpdate();
+				}, {
+					set : (value) => {
 
 						// save previousData
+						// do that first and not until next loop to batch
+						// simultaneous updates that may occurs
 						if ( ! this._previousDataTimeout) {
 							this._previousData = __cloneDeep(this.data);
-							console.log('save previous data');
 							this._previousDataTimeout = setTimeout(() => {
 								this._previousDataTimeout = null;
 							});
 						}
 
-						this._notifyDataUpdate(value, __cloneDeep(oldVal));
+						// return the actual value to be setted normaly
 						return value;
 					}
-				}, false);
+				});
 
-
-				// watcher.watch(obj, property, (newVal, oldVal) => {
+				// __propertyProxy(obj, property, {
+				// 	set : (value) => {
 				//
-				// 	// if the watched element is a new object,
-				// 	// we watch it as well
-				// 	if ( typeof(newVal) === 'object' && ! this._dataWatcherMap.get(newVal)) {
-				// 		console.log('watch new', newVal);
-				// 		this._watchRecursive(newVal);
 				// 	}
-				// 	console.log('notify', property, newVal);
-				// 	this._notifyDataUpdate(property, newVal, oldVal);
-				//
-				// 	// if (typeof)
-				// 	//
-				// 	// const flatDatas = this._flattenObject(this.data);
-				// 	// console.log(flatDatas);
-				// 	// console.log(obj, property, newVal);
-				// 	// let path;
-				// 	// for (let key in flatDatas) {
-				// 	// 	if (flatDatas[key] === obj) {
-				// 	// 		path = key + '.' + property;
-				// 	// 		console.log('ppp', path);
-				// 	// 		break;
-				// 	// 	}
-				// 	// }
-				// 	// console.log('n', obj, property, newVal, path);
-				// 	// if (path) {
-				// 	// 	console.log('update', path, newVal);
-				// 	// 	this._notifyDataUpdate(path, newVal, oldVal);
-				// 	// } else {
-				// 	// 	if (_get(this.data, property) instanceof Array) return;
-				// 	// 	// watch the new object if needed
-				// 	// 	this._watchRecursive(_get(this.data, property));
-				// 	// }
-				//
-				//
-				//
-				// });
+				// }, false);
+
 			})(property);
 
-			if (obj[property] instanceof Array) {
-				obj[property].forEach((item) => {
-					if (typeof item === 'object') {
-						this._watchRecursive(item);
-					}
-				});
-			} else if (typeof obj[property] === "object" && ! this._dataWatcherMap.get(obj[property])) {
-                this._watchRecursive(obj[property]);
-            }
-	    }
+		}
 	}
 
-	_notifyDataUpdate(newVal, oldVal) {
-
-		if (newVal === oldVal) return;
+	_notifyDataUpdate() {
 
 		// make update only once
 		// by waiting next loop
@@ -674,7 +648,6 @@ export default class STemplate {
 						e.target._sTemplateSelectedIndex = e.target.selectedIndex;
 						e.target._sTemplateSelectRawValue = e.target.value;
 						_set(this.data, model, e.target.value);
-						// this.setData(model, e.target.value);
 					});
 				}
 			break;
@@ -688,7 +661,6 @@ export default class STemplate {
 							fromNode.addEventListener(fromNode.getAttribute('s-template-model-trigger') || 'change', (e) => {
 								const model = e.target.getAttribute('s-template-model');
 								_set(this.data, model, e.target.checked);
-								// this.setData(model, e.target.checked);
 							});
 						}
 					break;
@@ -703,7 +675,6 @@ export default class STemplate {
 								fromNode._sTemplateUpdateTimeout = setTimeout(() => {
 									const model = e.target.getAttribute('s-template-model');
 									_set(this.data, model, e.target.value);
-									// this.setData(model, e.target.value);
 								}, parseInt(timeout));
 							});
 							fromNode.addEventListener('keyup', (e) => {
@@ -711,7 +682,6 @@ export default class STemplate {
 									clearTimeout(fromNode._sTemplateUpdateTimeout);
 									const model = e.target.getAttribute('s-template-model');
 									_set(this.data, model, e.target.value);
-									// this.setData(model, e.target.value);
 								}
 							});
 						}
@@ -809,7 +779,7 @@ export default class STemplate {
 
 		// replace all the this. with the proper window.sTemplateDataObjects reference
 		const thisDotReg = new RegExp('\\$this\\.','g');
-		ret = ret.replace(thisDotReg, `window.sugar._sTemplateData.${this.templateId}.`);
+		ret = ret.replace(thisDotReg, `window.sugar._templateData.${this.templateId}.`);
 
 		// return the processed template
 		return ret;
@@ -820,7 +790,7 @@ export default class STemplate {
 	 */
 	destroy() {
 		// remove the template data into window
-		delete window.sugar._sTemplateData[this.templateId];
+		delete window.sugar._templateData[this.templateId];
 		// destroy watcher
 		this._watcher.destroy();
 		// destroy data watcher map

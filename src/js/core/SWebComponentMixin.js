@@ -16,10 +16,9 @@ import __domReady from '../dom/domReady'
 import __prependChild from '../dom/prependChild'
 
 if ( ! window.sugar) window.sugar = {};
-if ( ! window.sugar._webComponentsStack) window.sugar._webComponentsStack = {};
-if ( ! window.sugar._webComponentsDefaultPropsStack) window.sugar._webComponentsDefaultPropsStack = {};
-if ( ! window.sugar._templateWebComponents) window.sugar._templateWebComponents = {};
-if ( ! window.sugar._webComponentCss) window.sugar._webComponentCss = {};
+if ( ! window.sugar._webComponentsClasses) window.sugar._webComponentsClasses = {};
+if ( ! window.sugar._webComponentsDefaultProps) window.sugar._webComponentsDefaultProps = {};
+if ( ! window.sugar._webComponentsDefaultCss) window.sugar._webComponentsDefaultCss = {};
 
 export default Mixin((superclass) => class extends superclass {
 
@@ -31,7 +30,7 @@ export default Mixin((superclass) => class extends superclass {
 	static define(name, component, ext = null) {
 		const componentName = __upperFirst(__camelize(name));
 		const componentNameDash = name;
-		window.sugar._webComponentsStack[componentName] = component;
+		window.sugar._webComponentsClasses[componentName] = component;
 
 		// register the webcomponent
 		let webcomponent;
@@ -58,7 +57,7 @@ export default Mixin((superclass) => class extends superclass {
 		});
 
 		// handle css
-		component._injectCss(component, componentName, componentNameDash);
+		component._injectDefaultCss(component, componentName, componentNameDash);
 
 		// return the webcomponent instance
 		return webcomponent;
@@ -69,21 +68,21 @@ export default Mixin((superclass) => class extends superclass {
 	 * @param 		{String} 		componentName 		The component name
 	 * @param 		{String} 		componentNameDash 	The dash formated component name
 	 */
-	static _injectCss(componentClass, componentName, componentNameDash) {
+	static _injectDefaultCss(componentClass, componentName, componentNameDash) {
 		// __domReady().then(() => {
 		// check if component has a css to be injected into the page
-		if (window.sugar._webComponentCss[componentName] === undefined) {
+		if (window.sugar._webComponentsDefaultCss[componentName] === undefined) {
 			let css = '';
 			let comp = componentClass;
 			while(comp) {
-				if (comp.css) {
-					css += comp.css(componentName, componentNameDash);
+				if (comp.defaultCss) {
+					css += comp.defaultCss(componentName, componentNameDash);
 				}
 				comp = Object.getPrototypeOf(comp);
 			}
 			if (css) {
 				css = css.replace(/[\s]+/g,' ');
-				window.sugar._webComponentCss[componentName] = css;
+				window.sugar._webComponentsDefaultCss[componentName] = css;
 				// fastdom.mutate(() => {
 				const styleElm = document.createElement('style');
 				styleElm.setAttribute('name', componentName);
@@ -92,7 +91,7 @@ export default Mixin((superclass) => class extends superclass {
 				// document.head.appendChild(styleElm);
 				// });
 			} else {
-				window.sugar._webComponentCss[componentName] = false;
+				window.sugar._webComponentsDefaultCss[componentName] = false;
 			}
 		}
 		// });
@@ -135,8 +134,8 @@ export default Mixin((superclass) => class extends superclass {
 			tagname = [].concat(tagname);
 			tagname.forEach((tag) => {
 				tag = __upperFirst(__camelize(tag));
-				window.sugar._webComponentsDefaultPropsStack[tag] = {
-					...window.sugar._webComponentsDefaultPropsStack[tag] || {},
+				window.sugar._webComponentsDefaultProps[tag] = {
+					...window.sugar._webComponentsDefaultProps[tag] || {},
 					...props
 				};
 			});
@@ -160,8 +159,8 @@ export default Mixin((superclass) => class extends superclass {
 		if (this._defaultPropsCache) return this._defaultPropsCache;
 
 		// compute
-		let props = window.sugar._webComponentsStack[this._componentName].defaultProps;
-		let comp = window.sugar._webComponentsStack[this._componentName];
+		let props = window.sugar._webComponentsClasses[this.componentName].defaultProps;
+		let comp = window.sugar._webComponentsClasses[this.componentName];
 		while(comp) {
 			if (comp.defaultProps) {
 				props = {
@@ -178,10 +177,10 @@ export default Mixin((superclass) => class extends superclass {
 			comp = Object.getPrototypeOf(comp);
 		}
 		// extend with default props stored in the component default props stack by tagname
-		if (window.sugar._webComponentsDefaultPropsStack[this._componentName]) {
+		if (window.sugar._webComponentsDefaultProps[this.componentName]) {
 			props = {
 				...props,
-				...window.sugar._webComponentsDefaultPropsStack[this._componentName]
+				...window.sugar._webComponentsDefaultProps[this.componentName]
 			}
 		}
 
@@ -204,8 +203,8 @@ export default Mixin((superclass) => class extends superclass {
 	 * @return 		{Object} 			The physical props array
 	 */
 	get physicalProps() {
-		let props = window.sugar._webComponentsStack[this._componentName].physicalProps;
-		let comp = window.sugar._webComponentsStack[this._componentName];
+		let props = window.sugar._webComponentsClasses[this.componentName].physicalProps;
+		let comp = window.sugar._webComponentsClasses[this.componentName];
 		while(comp) {
 			if (comp.physicalProps) {
 				comp.physicalProps.forEach((prop) => {
@@ -231,8 +230,8 @@ export default Mixin((superclass) => class extends superclass {
 	 * @return 		{Array} 			An array of required props
 	 */
 	get requiredProps() {
-		let props = window.sugar._webComponentsStack[this._componentName].requiredProps;
-		let comp = window.sugar._webComponentsStack[this._componentName];
+		let props = window.sugar._webComponentsClasses[this.componentName].requiredProps;
+		let comp = window.sugar._webComponentsClasses[this.componentName];
 		while(comp) {
 			if (comp.requiredProps) {
 				comp.requiredProps.forEach((prop) => {
@@ -253,12 +252,12 @@ export default Mixin((superclass) => class extends superclass {
 		return '';
 	}
 
-	get css() {
+	get defaultCss() {
 		let css = '';
-		let comp = window.sugar._webComponentsStack[this._componentName];
+		let comp = window.sugar._webComponentsClasses[this.componentName];
 		while(comp) {
-			if (comp.css) {
-				css += comp.css(this._componentName, this._componentNameDash);
+			if (comp.defaultCss) {
+				css += comp.defaultCss(this.componentName, this.componentNameDash);
 			}
 			comp = Object.getPrototypeOf(comp);
 		}
@@ -278,7 +277,7 @@ export default Mixin((superclass) => class extends superclass {
 	 */
 	get mountDependencies() {
 		let deps = [];
-		let comp = Object.getPrototypeOf(window.sugar._webComponentsStack[this._componentName]);
+		let comp = Object.getPrototypeOf(window.sugar._webComponentsClasses[this.componentName]);
 		while(comp) {
 			if (comp.mountDependencies) {
 				comp.mountDependencies.forEach((dep) => {
@@ -308,6 +307,9 @@ export default Mixin((superclass) => class extends superclass {
 	 * When the component is created
 	 */
 	createdCallback() {
+
+		// create the "s" namespace
+		this.s = {};
 
 		// props
 		this.props = {};
@@ -442,14 +444,13 @@ export default Mixin((superclass) => class extends superclass {
 		// internal properties
 		this._nextPropsStack = {};
 		this._prevPropsStack = {};
-		this._nextPropsTimeout = null;
 		this._componentAttached = false;
 		this._fastdomSetProp = null;
 
 		// set the componentName
 		const sourceName = this.getAttribute('is') || this.tagName.toLowerCase()
-		this._componentNameDash = sourceName;
-		this._componentName = __upperFirst(__camelize(sourceName));
+		this.componentNameDash = this._componentNameDash = sourceName;
+		this.componentName = this._componentName = __upperFirst(__camelize(sourceName));
 
 		// default props init
 		this.props = Object.assign({}, this.defaultProps, this.props);
@@ -463,7 +464,7 @@ export default Mixin((superclass) => class extends superclass {
 		// check the required props
 		this.requiredProps.forEach((prop) => {
 			if ( ! this.props[prop]) {
-				throw `The "${this._componentNameDash}" component need the "${prop}" property in order to work`;
+				throw `The "${this.componentNameDash}" component need the "${prop}" property in order to work`;
 			}
 		});
 	}
@@ -605,7 +606,7 @@ export default Mixin((superclass) => class extends superclass {
 		// loop on each props
 		for(let key in this.defaultProps) {
 			if (this.hasOwnProperty(key)) {
-				console.warn(`The component ${this._componentNameDash} has already an "${key}" property... This property will not reflect the this.props['${key}'] value... Try to use a property name that does not already exist on an HTMLElement...`);
+				console.warn(`The component ${this.componentNameDash} has already an "${key}" property... This property will not reflect the this.props['${key}'] value... Try to use a property name that does not already exist on an HTMLElement...`);
 				continue;
 			}
 			if ( ! key in this) {
@@ -853,7 +854,7 @@ export default Mixin((superclass) => class extends superclass {
 	 */
 	componentClassName(element = null, modifier = null, state = null) {
 		// if the method is BEM
-		let sel = this._componentNameDash;
+		let sel = this.componentNameDash;
 		if (element) {
 			sel += `__${element}`;
 		}

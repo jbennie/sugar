@@ -79,10 +79,9 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 if (!window.sugar) window.sugar = {};
-if (!window.sugar._webComponentsStack) window.sugar._webComponentsStack = {};
-if (!window.sugar._webComponentsDefaultPropsStack) window.sugar._webComponentsDefaultPropsStack = {};
-if (!window.sugar._templateWebComponents) window.sugar._templateWebComponents = {};
-if (!window.sugar._webComponentCss) window.sugar._webComponentCss = {};
+if (!window.sugar._webComponentsClasses) window.sugar._webComponentsClasses = {};
+if (!window.sugar._webComponentsDefaultProps) window.sugar._webComponentsDefaultProps = {};
+if (!window.sugar._webComponentsDefaultCss) window.sugar._webComponentsDefaultCss = {};
 
 exports.default = (0, _mixwith.Mixin)(function (superclass) {
 	return function (_superclass) {
@@ -110,7 +109,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 			var componentName = (0, _upperFirst2.default)((0, _camelize2.default)(name));
 			var componentNameDash = name;
-			window.sugar._webComponentsStack[componentName] = component;
+			window.sugar._webComponentsClasses[componentName] = component;
 
 			// register the webcomponent
 			var webcomponent = void 0;
@@ -137,7 +136,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			});
 
 			// handle css
-			component._injectCss(component, componentName, componentNameDash);
+			component._injectDefaultCss(component, componentName, componentNameDash);
 
 			// return the webcomponent instance
 			return webcomponent;
@@ -150,21 +149,21 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
    */
 
 
-		_class2._injectCss = function _injectCss(componentClass, componentName, componentNameDash) {
+		_class2._injectDefaultCss = function _injectDefaultCss(componentClass, componentName, componentNameDash) {
 			// __domReady().then(() => {
 			// check if component has a css to be injected into the page
-			if (window.sugar._webComponentCss[componentName] === undefined) {
+			if (window.sugar._webComponentsDefaultCss[componentName] === undefined) {
 				var css = '';
 				var comp = componentClass;
 				while (comp) {
-					if (comp.css) {
-						css += comp.css(componentName, componentNameDash);
+					if (comp.defaultCss) {
+						css += comp.defaultCss(componentName, componentNameDash);
 					}
 					comp = Object.getPrototypeOf(comp);
 				}
 				if (css) {
 					css = css.replace(/[\s]+/g, ' ');
-					window.sugar._webComponentCss[componentName] = css;
+					window.sugar._webComponentsDefaultCss[componentName] = css;
 					// fastdom.mutate(() => {
 					var styleElm = document.createElement('style');
 					styleElm.setAttribute('name', componentName);
@@ -173,7 +172,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 					// document.head.appendChild(styleElm);
 					// });
 				} else {
-					window.sugar._webComponentCss[componentName] = false;
+					window.sugar._webComponentsDefaultCss[componentName] = false;
 				}
 			}
 			// });
@@ -195,7 +194,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 				tagname = [].concat(tagname);
 				tagname.forEach(function (tag) {
 					tag = (0, _upperFirst2.default)((0, _camelize2.default)(tag));
-					window.sugar._webComponentsDefaultPropsStack[tag] = _extends({}, window.sugar._webComponentsDefaultPropsStack[tag] || {}, props);
+					window.sugar._webComponentsDefaultProps[tag] = _extends({}, window.sugar._webComponentsDefaultProps[tag] || {}, props);
 				});
 			} else {
 				var proto = this;
@@ -220,6 +219,9 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
    * When the component is created
    */
 		_class2.prototype.createdCallback = function createdCallback() {
+
+			// create the "s" namespace
+			this.s = {};
 
 			// props
 			this.props = {};
@@ -356,14 +358,13 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			// internal properties
 			this._nextPropsStack = {};
 			this._prevPropsStack = {};
-			this._nextPropsTimeout = null;
 			this._componentAttached = false;
 			this._fastdomSetProp = null;
 
 			// set the componentName
 			var sourceName = this.getAttribute('is') || this.tagName.toLowerCase();
-			this._componentNameDash = sourceName;
-			this._componentName = (0, _upperFirst2.default)((0, _camelize2.default)(sourceName));
+			this.componentNameDash = this._componentNameDash = sourceName;
+			this.componentName = this._componentName = (0, _upperFirst2.default)((0, _camelize2.default)(sourceName));
 
 			// default props init
 			this.props = Object.assign({}, this.defaultProps, this.props);
@@ -377,7 +378,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			// check the required props
 			this.requiredProps.forEach(function (prop) {
 				if (!_this3.props[prop]) {
-					throw 'The "' + _this3._componentNameDash + '" component need the "' + prop + '" property in order to work';
+					throw 'The "' + _this3.componentNameDash + '" component need the "' + prop + '" property in order to work';
 				}
 			});
 		};
@@ -534,7 +535,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 			var _loop = function _loop(key) {
 				if (_this5.hasOwnProperty(key)) {
-					console.warn('The component ' + _this5._componentNameDash + ' has already an "' + key + '" property... This property will not reflect the this.props[\'' + key + '\'] value... Try to use a property name that does not already exist on an HTMLElement...');
+					console.warn('The component ' + _this5.componentNameDash + ' has already an "' + key + '" property... This property will not reflect the this.props[\'' + key + '\'] value... Try to use a property name that does not already exist on an HTMLElement...');
 					return 'continue';
 				}
 				if (!key in _this5) {
@@ -820,7 +821,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			var state = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
 			// if the method is BEM
-			var sel = this._componentNameDash;
+			var sel = this.componentNameDash;
 			if (element) {
 				sel += '__' + element;
 			}
@@ -971,8 +972,8 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 				if (this._defaultPropsCache) return this._defaultPropsCache;
 
 				// compute
-				var props = window.sugar._webComponentsStack[this._componentName].defaultProps;
-				var comp = window.sugar._webComponentsStack[this._componentName];
+				var props = window.sugar._webComponentsClasses[this.componentName].defaultProps;
+				var comp = window.sugar._webComponentsClasses[this.componentName];
 				while (comp) {
 					if (comp.defaultProps) {
 						props = _extends({}, comp.defaultProps, props);
@@ -983,8 +984,8 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 					comp = Object.getPrototypeOf(comp);
 				}
 				// extend with default props stored in the component default props stack by tagname
-				if (window.sugar._webComponentsDefaultPropsStack[this._componentName]) {
-					props = _extends({}, props, window.sugar._webComponentsDefaultPropsStack[this._componentName]);
+				if (window.sugar._webComponentsDefaultProps[this.componentName]) {
+					props = _extends({}, props, window.sugar._webComponentsDefaultProps[this.componentName]);
 				}
 
 				// save in cache
@@ -1007,8 +1008,8 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
     * @return 		{Object} 			The physical props array
     */
 			get: function get() {
-				var props = window.sugar._webComponentsStack[this._componentName].physicalProps;
-				var comp = window.sugar._webComponentsStack[this._componentName];
+				var props = window.sugar._webComponentsClasses[this.componentName].physicalProps;
+				var comp = window.sugar._webComponentsClasses[this.componentName];
 				while (comp) {
 					if (comp.physicalProps) {
 						comp.physicalProps.forEach(function (prop) {
@@ -1035,8 +1036,8 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
     * @return 		{Array} 			An array of required props
     */
 			get: function get() {
-				var props = window.sugar._webComponentsStack[this._componentName].requiredProps;
-				var comp = window.sugar._webComponentsStack[this._componentName];
+				var props = window.sugar._webComponentsClasses[this.componentName].requiredProps;
+				var comp = window.sugar._webComponentsClasses[this.componentName];
 				while (comp) {
 					if (comp.requiredProps) {
 						comp.requiredProps.forEach(function (prop) {
@@ -1050,13 +1051,13 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 				return props;
 			}
 		}, {
-			key: 'css',
+			key: 'defaultCss',
 			get: function get() {
 				var css = '';
-				var comp = window.sugar._webComponentsStack[this._componentName];
+				var comp = window.sugar._webComponentsClasses[this.componentName];
 				while (comp) {
-					if (comp.css) {
-						css += comp.css(this._componentName, this._componentNameDash);
+					if (comp.defaultCss) {
+						css += comp.defaultCss(this.componentName, this.componentNameDash);
 					}
 					comp = Object.getPrototypeOf(comp);
 				}
@@ -1079,7 +1080,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 				var _this11 = this;
 
 				var deps = [];
-				var comp = Object.getPrototypeOf(window.sugar._webComponentsStack[this._componentName]);
+				var comp = Object.getPrototypeOf(window.sugar._webComponentsClasses[this.componentName]);
 				while (comp) {
 					if (comp.mountDependencies) {
 						comp.mountDependencies.forEach(function (dep) {
