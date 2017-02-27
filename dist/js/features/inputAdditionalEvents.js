@@ -4,9 +4,11 @@ var _fastdom = require('fastdom');
 
 var _fastdom2 = _interopRequireDefault(_fastdom);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _dispatchEvent = require('../dom/dispatchEvent');
 
-console.log('coco');
+var _dispatchEvent2 = _interopRequireDefault(_dispatchEvent);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function handleInputAttributes(e) {
 	var field = e.target ? e.target : e;
@@ -19,14 +21,15 @@ function handleInputAttributes(e) {
 					switch (e.keyCode) {
 						case 13:
 							// enter
-							console.log('eneter', field);
 							if (field.hasAttribute('onenter')) {
 								eval(field.getAttribute('onenter'));
+								(0, _dispatchEvent2.default)(field, 'onenter');
 							}
 							break;
 						case 27:
 							if (field.hasAttribute('onescape')) {
 								eval(field.getAttribute('onescape'));
+								(0, _dispatchEvent2.default)(field, 'onescape');
 							}
 							break;
 					}

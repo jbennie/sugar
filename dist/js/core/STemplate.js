@@ -84,6 +84,10 @@ var _cloneDeep = require('lodash/cloneDeep');
 
 var _cloneDeep2 = _interopRequireDefault(_cloneDeep);
 
+var _fastdom = require('fastdom');
+
+var _fastdom2 = _interopRequireDefault(_fastdom);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -425,8 +429,10 @@ var STemplate = function () {
 
 		// make update only once
 		// by waiting next loop
-		clearTimeout(this._updateTimeout);
-		this._updateTimeout = setTimeout(function () {
+		_fastdom2.default.clear(this._notifyDataUpdateTimeout);
+		// clearTimeout(this._updateTimeout);
+		// this._updateTimeout = setTimeout(() => {
+		this._notifyDataUpdateTimeout = _fastdom2.default.mutate(function () {
 			// on datas updated
 			_this3.settings.onDataUpdate && _this3.settings.onDataUpdate(_this3.data, _this3._previousData);
 			// render the template again if the autoRenderOnDataUpdate is true
@@ -716,7 +722,8 @@ var STemplate = function () {
 		var rootModel = model.split('.')[0];
 		switch (fromNode.nodeName.toLowerCase()) {
 			case 'select':
-				setTimeout(function () {
+				_fastdom2.default.mutate(function () {
+					// setTimeout(() => {
 					if (toNode) {
 						toNode.value = fromNode._sTemplateSelectRawValue;
 						toNode.selectedIndex = fromNode._sTemplateSelectedIndex;

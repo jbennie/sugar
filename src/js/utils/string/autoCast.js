@@ -2,6 +2,8 @@
  * Auto cast the string into the correct variable type
  */
 export default function autoCast(string) {
+	// printed object
+	if (string === '[object Object]') return null;
 	// boolean values
 	if (string === 'false'
 		|| string === 'true'

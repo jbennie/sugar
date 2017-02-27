@@ -1,6 +1,5 @@
 import fastdom from 'fastdom'
-
-console.log('coco');
+import __dispatchEvent from '../dom/dispatchEvent'
 
 function handleInputAttributes(e) {
 	const field = e.target ? e.target : e;
@@ -12,14 +11,15 @@ function handleInputAttributes(e) {
 				if (e.keyCode) {
 					switch(e.keyCode) {
 						case 13: // enter
-							console.log('eneter', field);
 							if (field.hasAttribute('onenter')) {
 								eval(field.getAttribute('onenter'));
+								__dispatchEvent(field, 'onenter');
 							}
 						break;
 						case 27:
 							if (field.hasAttribute('onescape')) {
 								eval(field.getAttribute('onescape'));
+								__dispatchEvent(field, 'onescape');
 							}
 						break;
 					}

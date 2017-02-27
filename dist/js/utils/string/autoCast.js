@@ -6,6 +6,8 @@ exports.default = autoCast;
  * Auto cast the string into the correct variable type
  */
 function autoCast(string) {
+	// printed object
+	if (string === '[object Object]') return null;
 	// boolean values
 	if (string === 'false' || string === 'true' || string === 'undefined' || string === 'null' || !isNaN(string)) {
 		return eval(string);

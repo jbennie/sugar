@@ -29,6 +29,9 @@ export default Mixin((superclass) => class extends superclass {
 	 * @param 			{SWebComponent} 	component 	The component class
 	 */
 	static define(name, component, ext = null) {
+
+		if (window.sugar._webComponentsClasses[componentName]) return;
+
 		const componentName = __upperFirst(__camelize(name));
 		const componentNameDash = name;
 		window.sugar._webComponentsClasses[componentName] = component;

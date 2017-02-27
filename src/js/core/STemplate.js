@@ -18,6 +18,7 @@ import __whenAttribute from '../dom/whenAttribute'
 import __propertyProxy from '../utils/objects/propertyProxy'
 import sTemplateIntegrator from './sTemplateIntegrator'
 import __cloneDeep from 'lodash/cloneDeep'
+import __fastdom from 'fastdom'
 
 if (! window.sugar) window.sugar = {};
 if (! window.sugar._templateData) window.sugar._templateData = {};
@@ -342,8 +343,10 @@ export default class STemplate {
 
 		// make update only once
 		// by waiting next loop
-		clearTimeout(this._updateTimeout);
-		this._updateTimeout = setTimeout(() => {
+		__fastdom.clear(this._notifyDataUpdateTimeout);
+		// clearTimeout(this._updateTimeout);
+		// this._updateTimeout = setTimeout(() => {
+		this._notifyDataUpdateTimeout = __fastdom.mutate(() => {
 			// on datas updated
 			this.settings.onDataUpdate && this.settings.onDataUpdate(this.data, this._previousData);
 			// render the template again if the autoRenderOnDataUpdate is true
@@ -631,7 +634,8 @@ export default class STemplate {
 		const rootModel = model.split('.')[0];
 		switch(fromNode.nodeName.toLowerCase()) {
 			case 'select':
-				setTimeout(() => {
+				__fastdom.mutate(() => {
+				// setTimeout(() => {
 					if (toNode) {
 						toNode.value = fromNode._sTemplateSelectRawValue;
 						toNode.selectedIndex = fromNode._sTemplateSelectedIndex;

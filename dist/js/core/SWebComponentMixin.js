@@ -111,6 +111,9 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		_class2.define = function define(name, component) {
 			var ext = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
+
+			if (window.sugar._webComponentsClasses[componentName]) return;
+
 			var componentName = (0, _upperFirst2.default)((0, _camelize2.default)(name));
 			var componentNameDash = name;
 			window.sugar._webComponentsClasses[componentName] = component;
