@@ -14,6 +14,7 @@ import __whenAttribute from '../dom/whenAttribute'
 import __propertyProxy from '../utils/objects/propertyProxy'
 import __domReady from '../dom/domReady'
 import __prependChild from '../dom/prependChild'
+import __SWatcher from '../classes/SWatcher'
 
 if ( ! window.sugar) window.sugar = {};
 if ( ! window.sugar._webComponentsClasses) window.sugar._webComponentsClasses = {};
@@ -324,6 +325,9 @@ export default Mixin((superclass) => class extends superclass {
 			componentDidUnmount : false
 		};
 
+		// init watcher
+		this._sWatcher = new __SWatcher();
+
 		// if ( ! document.body.contains(this)) return;
 
 
@@ -574,6 +578,8 @@ export default Mixin((superclass) => class extends superclass {
 	componentDidUnmount() {
 		// update lifecycle state
 		this._lifecycle.componentDidUnmount = true;
+		// destroy things
+		this._sWatcher.destroy();
 		// dispatch event
 		this.onComponentDidUnmount && this.onComponentDidUnmount();
 	}
@@ -783,6 +789,15 @@ export default Mixin((superclass) => class extends superclass {
 	 */
 	isComponentMounted() {
 		return this._lifecycle.componentMount;
+	}
+
+	/**
+	 * Watch any data of the component
+	 * @param 		{String} 		path 		The path from the component root to watch
+	 * @param 		{Function}		cb 			The callback to call when the item has changed
+	 */
+	watch(path, cb) {
+		this._sWatcher.watch(this, path, cb);
 	}
 
 	/**

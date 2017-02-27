@@ -307,8 +307,6 @@ export default class STemplate {
 						}
 					}
 
-
-
 					// notify the new datas
 					this._notifyDataUpdate();
 				}, {
@@ -666,17 +664,19 @@ export default class STemplate {
 					break;
 					default:
 						if (toNode) toNode.value = value;
-						fromNode.value = value;
+						if (fromNode.value !== value) fromNode.value = value;
 						if ( ! fromNode._sTemplateUpdaterRoutine) {
-							const timeout = fromNode.getAttribute('s-template-model-timeout') || 0;
+							const timeout = fromNode.getAttribute('s-template-model-timeout') || -1;
 							fromNode._sTemplateUpdaterRoutine = true;
-							fromNode.addEventListener(fromNode.getAttribute('s-template-model-trigger') || 'keyup', (e) => {
-								clearTimeout(fromNode._sTemplateUpdateTimeout);
-								fromNode._sTemplateUpdateTimeout = setTimeout(() => {
-									const model = e.target.getAttribute('s-template-model');
-									_set(this.data, model, e.target.value);
-								}, parseInt(timeout));
-							});
+							if (timeout !== -1) {
+								fromNode.addEventListener(fromNode.getAttribute('s-template-model-trigger') || 'keyup', (e) => {
+									clearTimeout(fromNode._sTemplateUpdateTimeout);
+									fromNode._sTemplateUpdateTimeout = setTimeout(() => {
+										const model = e.target.getAttribute('s-template-model');
+										_set(this.data, model, e.target.value);
+									}, parseInt(timeout));
+								});
+							}
 							fromNode.addEventListener('keyup', (e) => {
 								if (e.keyCode === 13) {
 									clearTimeout(fromNode._sTemplateUpdateTimeout);

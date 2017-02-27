@@ -70,6 +70,10 @@ var _prependChild = require('../dom/prependChild');
 
 var _prependChild2 = _interopRequireDefault(_prependChild);
 
+var _SWatcher = require('../classes/SWatcher');
+
+var _SWatcher2 = _interopRequireDefault(_SWatcher);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -235,6 +239,9 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 				componentUnmount: false,
 				componentDidUnmount: false
 			};
+
+			// init watcher
+			this._sWatcher = new _SWatcher2.default();
 
 			// if ( ! document.body.contains(this)) return;
 
@@ -496,6 +503,8 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		_class2.prototype.componentDidUnmount = function componentDidUnmount() {
 			// update lifecycle state
 			this._lifecycle.componentDidUnmount = true;
+			// destroy things
+			this._sWatcher.destroy();
 			// dispatch event
 			this.onComponentDidUnmount && this.onComponentDidUnmount();
 		};
@@ -740,6 +749,17 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 		_class2.prototype.isComponentMounted = function isComponentMounted() {
 			return this._lifecycle.componentMount;
+		};
+
+		/**
+   * Watch any data of the component
+   * @param 		{String} 		path 		The path from the component root to watch
+   * @param 		{Function}		cb 			The callback to call when the item has changed
+   */
+
+
+		_class2.prototype.watch = function watch(path, cb) {
+			this._sWatcher.watch(this, path, cb);
 		};
 
 		/**

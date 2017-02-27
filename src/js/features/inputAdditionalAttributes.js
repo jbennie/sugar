@@ -1,4 +1,3 @@
-import sTemplateIntegrator from '../core/sTemplateIntegrator'
 import fastdom from 'fastdom'
 
 function handleInputAttributes(eOrElm) {
@@ -42,11 +41,3 @@ function handleFormReset(e) {
 document.addEventListener('change', handleInputAttributes);
 document.addEventListener('keyup', handleInputAttributes);
 document.addEventListener('reset', handleFormReset);
-
-sTemplateIntegrator.registerComponentIntegration([HTMLInputElement,HTMLSelectElement], (input) => {
-	sTemplateIntegrator.ignore(input, {
-		"has-value" : true,
-		empty : true,
-		dirty : true
-	});
-});

@@ -1,4 +1,6 @@
 require('../features/inputAdditionalAttributes');
+require('../features/inputAdditionalEvents');
+
 
 /**
  * @name 		SObject

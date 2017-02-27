@@ -1,9 +1,5 @@
 'use strict';
 
-var _sTemplateIntegrator = require('../core/sTemplateIntegrator');
-
-var _sTemplateIntegrator2 = _interopRequireDefault(_sTemplateIntegrator);
-
 var _fastdom = require('fastdom');
 
 var _fastdom2 = _interopRequireDefault(_fastdom);
@@ -51,11 +47,3 @@ function handleFormReset(e) {
 document.addEventListener('change', handleInputAttributes);
 document.addEventListener('keyup', handleInputAttributes);
 document.addEventListener('reset', handleFormReset);
-
-_sTemplateIntegrator2.default.registerComponentIntegration([HTMLInputElement, HTMLSelectElement], function (input) {
-	_sTemplateIntegrator2.default.ignore(input, {
-		"has-value": true,
-		empty: true,
-		dirty: true
-	});
-});

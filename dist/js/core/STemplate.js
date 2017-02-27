@@ -749,18 +749,20 @@ var STemplate = function () {
 						break;
 					default:
 						if (toNode) toNode.value = value;
-						fromNode.value = value;
+						if (fromNode.value !== value) fromNode.value = value;
 						if (!fromNode._sTemplateUpdaterRoutine) {
 							(function () {
-								var timeout = fromNode.getAttribute('s-template-model-timeout') || 0;
+								var timeout = fromNode.getAttribute('s-template-model-timeout') || -1;
 								fromNode._sTemplateUpdaterRoutine = true;
-								fromNode.addEventListener(fromNode.getAttribute('s-template-model-trigger') || 'keyup', function (e) {
-									clearTimeout(fromNode._sTemplateUpdateTimeout);
-									fromNode._sTemplateUpdateTimeout = setTimeout(function () {
-										var model = e.target.getAttribute('s-template-model');
-										(0, _set3.default)(_this6.data, model, e.target.value);
-									}, parseInt(timeout));
-								});
+								if (timeout !== -1) {
+									fromNode.addEventListener(fromNode.getAttribute('s-template-model-trigger') || 'keyup', function (e) {
+										clearTimeout(fromNode._sTemplateUpdateTimeout);
+										fromNode._sTemplateUpdateTimeout = setTimeout(function () {
+											var model = e.target.getAttribute('s-template-model');
+											(0, _set3.default)(_this6.data, model, e.target.value);
+										}, parseInt(timeout));
+									});
+								}
 								fromNode.addEventListener('keyup', function (e) {
 									if (e.keyCode === 13) {
 										clearTimeout(fromNode._sTemplateUpdateTimeout);
