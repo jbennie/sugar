@@ -88,6 +88,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 			var componentName = (0, _upperFirst2.default)((0, _camelize2.default)(name));
 			var componentNameDash = name;
+
 			window.sugar._webComponentsClasses[componentName] = component;
 
 			// register the webcomponent
@@ -216,6 +217,14 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			// init watcher
 			this._sWatcher = new _SWatcher2.default();
 
+			// set the componentName
+			var sourceName = this.getAttribute('is') || this.tagName.toLowerCase();
+			this.componentNameDash = this._componentNameDash = sourceName;
+			this.componentName = this._componentName = (0, _upperFirst2.default)((0, _camelize2.default)(sourceName));
+
+			// default props init
+			this.props = Object.assign({}, this.defaultProps, this.props);
+
 			// if ( ! document.body.contains(this)) return;
 
 		};
@@ -230,11 +239,6 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 			// component will mount only if part of the active document
 			this.componentWillMount();
-
-			// check if need to launch the will mount
-			// if ( ! this._lifecycle.componentWillMount) {
-			// 	this.componentWillMount();
-			// }
 
 			// clear the unmount timeout
 			clearTimeout(this._unmountTimeout);
@@ -329,6 +333,9 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		_class2.prototype.componentWillMount = function componentWillMount() {
 			var _this3 = this;
 
+			// protect from mounting multiple times when unecessary
+			if (this._lifecycle.componentWillMount) return;
+
 			// update lifecycle state
 			this._lifecycle.componentWillMount = true;
 
@@ -340,14 +347,6 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			this._prevPropsStack = {};
 			this._componentAttached = false;
 			this._fastdomSetProp = null;
-
-			// set the componentName
-			var sourceName = this.getAttribute('is') || this.tagName.toLowerCase();
-			this.componentNameDash = this._componentNameDash = sourceName;
-			this.componentName = this._componentName = (0, _upperFirst2.default)((0, _camelize2.default)(sourceName));
-
-			// default props init
-			this.props = Object.assign({}, this.defaultProps, this.props);
 
 			// compute props
 			this._computeProps();
@@ -380,6 +379,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 
 		_class2.prototype.componentMount = function componentMount() {
+			if (this._lifecycle.componentMount) return;
 			// update the lifecycle state
 			this._lifecycle.componentMount = true;
 			// dispatch event
@@ -401,6 +401,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 
 		_class2.prototype.componentDidMount = function componentDidMount() {
+			if (this._lifecycle.componentDidMount) return;
 			// update lifecycle state
 			this._lifecycle.componentDidMount = true;
 			// dispatch event
@@ -460,6 +461,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		};
 
 		_class2.prototype.componentWillUnmount = function componentWillUnmount() {
+			if (this._lifecycle.componentWillUnmount) return;
 			// update lifecycle state
 			this._lifecycle.componentWillUnmount = true;
 			// dispatch event
@@ -467,6 +469,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		};
 
 		_class2.prototype.componentUnmount = function componentUnmount() {
+			if (this._lifecycle.componentUnmount) return;
 			// update lifecycle state
 			this._lifecycle.componentUnmount = true;
 			// dispatch event
@@ -474,6 +477,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		};
 
 		_class2.prototype.componentDidUnmount = function componentDidUnmount() {
+			if (this._lifecycle.componentDidMount) return;
 			// update lifecycle state
 			this._lifecycle.componentDidUnmount = true;
 			// destroy things
@@ -1001,6 +1005,9 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
     * @return 		{Object} 			The physical props array
     */
 			get: function get() {
+
+				if (this._physicalPropsCache) return this._physicalPropsCache;
+
 				var props = window.sugar._webComponentsClasses[this.componentName].physicalProps;
 				var comp = window.sugar._webComponentsClasses[this.componentName];
 				while (comp) {
@@ -1013,6 +1020,9 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 					}
 					comp = Object.getPrototypeOf(comp);
 				}
+
+				this._physicalPropsCache = props;
+
 				return props;
 			}
 
@@ -1029,6 +1039,9 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
     * @return 		{Array} 			An array of required props
     */
 			get: function get() {
+
+				if (this._requiredPropsCache) return this._requiredPropsCache;
+
 				var props = window.sugar._webComponentsClasses[this.componentName].requiredProps;
 				var comp = window.sugar._webComponentsClasses[this.componentName];
 				while (comp) {
@@ -1041,11 +1054,17 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 					}
 					comp = Object.getPrototypeOf(comp);
 				}
+
+				this._requiredPropsCache = props;
+
 				return props;
 			}
 		}, {
 			key: 'defaultCss',
 			get: function get() {
+
+				if (this._defaultCssCache) return this._defaultCssCache;
+
 				var css = '';
 				var comp = window.sugar._webComponentsClasses[this.componentName];
 				while (comp) {
@@ -1054,6 +1073,9 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 					}
 					comp = Object.getPrototypeOf(comp);
 				}
+
+				this._defaultCssCache = css;
+
 				return css;
 			}
 

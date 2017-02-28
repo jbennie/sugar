@@ -27,6 +27,7 @@ export default Mixin((superclass) => class extends superclass {
 
 		const componentName = __upperFirst(__camelize(name));
 		const componentNameDash = name;
+
 		window.sugar._webComponentsClasses[componentName] = component;
 
 		// register the webcomponent
@@ -198,6 +199,9 @@ export default Mixin((superclass) => class extends superclass {
 	 * @return 		{Object} 			The physical props array
 	 */
 	get physicalProps() {
+
+		if (this._physicalPropsCache) return this._physicalPropsCache;
+
 		let props = window.sugar._webComponentsClasses[this.componentName].physicalProps;
 		let comp = window.sugar._webComponentsClasses[this.componentName];
 		while(comp) {
@@ -210,6 +214,9 @@ export default Mixin((superclass) => class extends superclass {
 			}
 			comp = Object.getPrototypeOf(comp);
 		}
+
+		this._physicalPropsCache = props;
+
 		return props;
 	}
 
@@ -225,6 +232,9 @@ export default Mixin((superclass) => class extends superclass {
 	 * @return 		{Array} 			An array of required props
 	 */
 	get requiredProps() {
+
+		if (this._requiredPropsCache) return this._requiredPropsCache;
+
 		let props = window.sugar._webComponentsClasses[this.componentName].requiredProps;
 		let comp = window.sugar._webComponentsClasses[this.componentName];
 		while(comp) {
@@ -237,6 +247,9 @@ export default Mixin((superclass) => class extends superclass {
 			}
 			comp = Object.getPrototypeOf(comp);
 		}
+
+		this._requiredPropsCache = props;
+
 		return props;
 	}
 
@@ -248,6 +261,9 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	get defaultCss() {
+
+		if (this._defaultCssCache) return this._defaultCssCache;
+
 		let css = '';
 		let comp = window.sugar._webComponentsClasses[this.componentName];
 		while(comp) {
@@ -256,6 +272,9 @@ export default Mixin((superclass) => class extends superclass {
 			}
 			comp = Object.getPrototypeOf(comp);
 		}
+
+		this._defaultCssCache = css;
+
 		return css;
 	}
 
@@ -271,6 +290,7 @@ export default Mixin((superclass) => class extends superclass {
 	 * @return 		{Object} 			The physical props array
 	 */
 	get mountDependencies() {
+
 		let deps = [];
 		let comp = Object.getPrototypeOf(window.sugar._webComponentsClasses[this.componentName]);
 		while(comp) {
@@ -322,6 +342,14 @@ export default Mixin((superclass) => class extends superclass {
 		// init watcher
 		this._sWatcher = new __SWatcher();
 
+		// set the componentName
+		const sourceName = this.getAttribute('is') || this.tagName.toLowerCase()
+		this.componentNameDash = this._componentNameDash = sourceName;
+		this.componentName = this._componentName = __upperFirst(__camelize(sourceName));
+
+		// default props init
+		this.props = Object.assign({}, this.defaultProps, this.props);
+
 		// if ( ! document.body.contains(this)) return;
 
 
@@ -334,11 +362,6 @@ export default Mixin((superclass) => class extends superclass {
 
 		// component will mount only if part of the active document
 		this.componentWillMount();
-
-		// check if need to launch the will mount
-		// if ( ! this._lifecycle.componentWillMount) {
-		// 	this.componentWillMount();
-		// }
 
 		// clear the unmount timeout
 		clearTimeout(this._unmountTimeout);
@@ -433,6 +456,9 @@ export default Mixin((superclass) => class extends superclass {
 	 */
 	componentWillMount() {
 
+		// protect from mounting multiple times when unecessary
+		if (this._lifecycle.componentWillMount) return;
+
 		// update lifecycle state
 		this._lifecycle.componentWillMount = true;
 
@@ -444,14 +470,6 @@ export default Mixin((superclass) => class extends superclass {
 		this._prevPropsStack = {};
 		this._componentAttached = false;
 		this._fastdomSetProp = null;
-
-		// set the componentName
-		const sourceName = this.getAttribute('is') || this.tagName.toLowerCase()
-		this.componentNameDash = this._componentNameDash = sourceName;
-		this.componentName = this._componentName = __upperFirst(__camelize(sourceName));
-
-		// default props init
-		this.props = Object.assign({}, this.defaultProps, this.props);
 
 		// compute props
 		this._computeProps();
@@ -482,6 +500,7 @@ export default Mixin((superclass) => class extends superclass {
 	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
 	 */
 	componentMount() {
+		if (this._lifecycle.componentMount) return;
 		// update the lifecycle state
 		this._lifecycle.componentMount = true;
 		// dispatch event
@@ -501,6 +520,7 @@ export default Mixin((superclass) => class extends superclass {
 	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
 	 */
 	componentDidMount() {
+		if (this._lifecycle.componentDidMount) return;
 		// update lifecycle state
 		this._lifecycle.componentDidMount = true;
 		// dispatch event
@@ -556,6 +576,7 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	componentWillUnmount() {
+		if (this._lifecycle.componentWillUnmount) return;
 		// update lifecycle state
 		this._lifecycle.componentWillUnmount = true;
 		// dispatch event
@@ -563,6 +584,7 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	componentUnmount() {
+		if (this._lifecycle.componentUnmount) return;
 		// update lifecycle state
 		this._lifecycle.componentUnmount = true;
 		// dispatch event
@@ -570,6 +592,7 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	componentDidUnmount() {
+		if (this._lifecycle.componentDidMount) return;
 		// update lifecycle state
 		this._lifecycle.componentDidUnmount = true;
 		// destroy things
