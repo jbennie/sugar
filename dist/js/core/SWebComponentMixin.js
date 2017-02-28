@@ -18,17 +18,9 @@ var _camelize = require('../utils/string/camelize');
 
 var _camelize2 = _interopRequireDefault(_camelize);
 
-var _uniqid = require('../utils/uniqid');
-
-var _uniqid2 = _interopRequireDefault(_uniqid);
-
 var _upperFirst = require('../utils/string/upperFirst');
 
 var _upperFirst2 = _interopRequireDefault(_upperFirst);
-
-var _sSettings = require('./sSettings');
-
-var _sSettings2 = _interopRequireDefault(_sSettings);
 
 var _fastdom = require('fastdom');
 
@@ -45,26 +37,6 @@ var _whenInViewport2 = _interopRequireDefault(_whenInViewport);
 var _whenVisible = require('../dom/whenVisible');
 
 var _whenVisible2 = _interopRequireDefault(_whenVisible);
-
-var _matches = require('../dom/matches');
-
-var _matches2 = _interopRequireDefault(_matches);
-
-var _closest = require('../dom/closest');
-
-var _closest2 = _interopRequireDefault(_closest);
-
-var _whenAttribute = require('../dom/whenAttribute');
-
-var _whenAttribute2 = _interopRequireDefault(_whenAttribute);
-
-var _propertyProxy = require('../utils/objects/propertyProxy');
-
-var _propertyProxy2 = _interopRequireDefault(_propertyProxy);
-
-var _domReady = require('../dom/domReady');
-
-var _domReady2 = _interopRequireDefault(_domReady);
 
 var _prependChild = require('../dom/prependChild');
 
@@ -157,7 +129,6 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 
 		_class2._injectDefaultCss = function _injectDefaultCss(componentClass, componentName, componentNameDash) {
-			// __domReady().then(() => {
 			// check if component has a css to be injected into the page
 			if (window.sugar._webComponentsDefaultCss[componentName] === undefined) {
 				var css = '';
@@ -182,7 +153,6 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 					window.sugar._webComponentsDefaultCss[componentName] = false;
 				}
 			}
-			// });
 		};
 
 		/**

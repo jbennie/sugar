@@ -1,18 +1,11 @@
 import { Mixin } from '../vendors/mixwith'
 import __autoCast from '../utils/string/autoCast'
 import __camelize from '../utils/string/camelize'
-import __uniqid from '../utils/uniqid'
 import __upperFirst from '../utils/string/upperFirst'
-import sSettings from './sSettings'
 import fastdom from 'fastdom'
 import __dispatchEvent from '../dom/dispatchEvent'
 import __whenInViewport from '../dom/whenInViewport'
 import __whenVisible from '../dom/whenVisible'
-import __matches from '../dom/matches'
-import __closest from '../dom/closest'
-import __whenAttribute from '../dom/whenAttribute'
-import __propertyProxy from '../utils/objects/propertyProxy'
-import __domReady from '../dom/domReady'
 import __prependChild from '../dom/prependChild'
 import __SWatcher from '../classes/SWatcher'
 
@@ -73,7 +66,6 @@ export default Mixin((superclass) => class extends superclass {
 	 * @param 		{String} 		componentNameDash 	The dash formated component name
 	 */
 	static _injectDefaultCss(componentClass, componentName, componentNameDash) {
-		// __domReady().then(() => {
 		// check if component has a css to be injected into the page
 		if (window.sugar._webComponentsDefaultCss[componentName] === undefined) {
 			let css = '';
@@ -98,7 +90,6 @@ export default Mixin((superclass) => class extends superclass {
 				window.sugar._webComponentsDefaultCss[componentName] = false;
 			}
 		}
-		// });
 	}
 
 	/**
