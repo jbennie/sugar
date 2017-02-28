@@ -43,34 +43,17 @@ window.sugar._styles = new Map();
 
 function style(elm, styleObj) {
 
-	// get the current style of the element
-	var current = window.sugar._styles.get(elm);
+  // convert style string to object
+  var styleAttr = elm.getAttribute('style');
 
-	// if first time handling style
-	if (!current) {
-		// convert style string to object
-		var styleAttr = elm.getAttribute('style');
+  if (styleAttr) {
+    styleObj = _extends({}, (0, _styleString2Object2.default)(styleAttr), styleObj);
+  }
 
-		if (styleAttr) {
-			styleObj = _extends({}, (0, _styleString2Object2.default)(styleAttr), styleObj);
-		}
+  // apply the style to the element
+  // elm.setAttribute('style', __styleObject2String(current.styleObj));
+  elm.style.cssText = (0, _styleObject2String2.default)(styleObj);
 
-		current = {
-			styleObj: styleObj,
-			elm: elm
-		};
-	}
-
-	// mix the style oject
-	current.styleObj = _extends({}, current.styleObj, styleObj);
-
-	// apply the style to the element
-	// elm.setAttribute('style', __styleObject2String(current.styleObj));
-	elm.style.cssText = (0, _styleObject2String2.default)(current.styleObj);
-
-	// save the styleObj into map
-	window.sugar._styles.set(elm, current);
-
-	// return the style
-	return elm.style;
+  // return the style
+  return elm.style;
 }
