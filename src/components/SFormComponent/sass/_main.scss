@@ -62,7 +62,7 @@
 ) {
 	@extend %s-form-field-style;
 	color: s-color(text);
-	@include s-transition(fast border);
+	@include s-transition(border fast);
 	@include s-placeholder() {
 		color: s-color(text, -opacity .4);
 	}
@@ -94,7 +94,7 @@
 ) {
 	@extend %s-form-field-style;
 	color: s-color(text);
-	@include s-transition(fast border);
+	@include s-transition(border fast);
 	@include s-placeholder() {
 		color: s-color(text, -opacity .4);
 	}
@@ -130,7 +130,7 @@
 ) {
 	@extend %s-form-field-style;
 	color: s-color(text);
-	@include s-transition(fast border);
+	@include s-transition(border fast);
 	@include s-placeholder() {
 		color: s-color(text, -opacity .4);
 	}
