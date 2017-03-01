@@ -46,6 +46,10 @@ var _SWatcher = require('../classes/SWatcher');
 
 var _SWatcher2 = _interopRequireDefault(_SWatcher);
 
+var _propertyProxy = require('../utils/objects/propertyProxy');
+
+var _propertyProxy2 = _interopRequireDefault(_propertyProxy);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -84,11 +88,10 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			var ext = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
 
-			if (window.sugar._webComponentsClasses[componentName]) return;
-
 			var componentName = (0, _upperFirst2.default)((0, _camelize2.default)(name));
 			var componentNameDash = name;
 
+			if (window.sugar._webComponentsClasses[componentName]) return;
 			window.sugar._webComponentsClasses[componentName] = component;
 
 			// register the webcomponent
@@ -354,6 +357,22 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			// props proxy
 			this._initPropsProxy();
 
+			var _loop = function _loop(key) {
+				(0, _propertyProxy2.default)(_this3.props, key, {
+					set: function set(value) {
+						var oldVal = _this3.props[key];
+						// handle new prop value
+						_this3._handleNewPropValue(key, value, oldVal);
+						// set the value
+						return value;
+					}
+				}, false);
+			};
+
+			for (var key in this.props) {
+				_loop(key);
+			}
+
 			// check the required props
 			this.requiredProps.forEach(function (prop) {
 				if (!_this3.props[prop]) {
@@ -519,7 +538,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		_class2.prototype._initPropsProxy = function _initPropsProxy() {
 			var _this5 = this;
 
-			var _loop = function _loop(key) {
+			var _loop2 = function _loop2(key) {
 				if (_this5.hasOwnProperty(key)) {
 					console.warn('The component ' + _this5.componentNameDash + ' has already an "' + key + '" property... This property will not reflect the this.props[\'' + key + '\'] value... Try to use a property name that does not already exist on an HTMLElement...');
 					return 'continue';
@@ -538,9 +557,9 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 			// loop on each props
 			for (var key in this.defaultProps) {
-				var _ret2 = _loop(key);
+				var _ret3 = _loop2(key);
 
-				if (_ret2 === 'continue') continue;
+				if (_ret3 === 'continue') continue;
 			}
 		};
 
@@ -650,32 +669,43 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 
 		_class2.prototype.setProp = function setProp(prop, value) {
-			var _this8 = this;
 
 			// save the oldVal
-			var _oldVal = this.props[prop];
+			var oldVal = this.props[prop];
 
 			// stop if same value
-			if (_oldVal === value) return;
+			if (oldVal === value) return;
 
 			// set the prop
 			this.props[prop] = value;
 
+			// handle new property value
+			// this._handleNewPropValue(prop, value, oldVal);
+		};
+
+		/**
+   * Handle new property
+   * @param 		{String} 		prop 		The property name
+   * @param 		{Mixed} 		value 		The new property value
+   */
+
+
+		_class2.prototype._handleNewPropValue = function _handleNewPropValue(prop, newVal, oldVal) {
+			var _this8 = this;
+
 			// handle physical props
-			this._handlePhysicalProps(prop, value);
+			this._handlePhysicalProps(prop, newVal);
 
 			// if the component is not mounted
 			// we do nothing here...
 			if (!this.isComponentMounted()) return;
 
 			// create the stacks
-			this._prevPropsStack[prop] = _oldVal;
-			this._nextPropsStack[prop] = value;
+			this._prevPropsStack[prop] = oldVal;
+			this._nextPropsStack[prop] = newVal;
 
 			// component will receive prop
-			if (this.componentWillReceiveProp) {
-				this.componentWillReceiveProp(prop, value, _oldVal);
-			}
+			this.componentWillReceiveProp(prop, newVal, oldVal);
 
 			// wait till next frame
 			_fastdom2.default.clear(this._fastdomSetProp);
@@ -718,11 +748,15 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			});
 		};
 
+		_class2.prototype.componentWillReceiveProp = function componentWillReceiveProp(prop, newVal, oldVal) {}
+		// do something
+
+
 		/**
    * Check if component is mounted
    * @return 			{Boolean} 			true if mounted, false if not
    */
-
+		;
 
 		_class2.prototype.isComponentMounted = function isComponentMounted() {
 			return this._lifecycle.componentMount;

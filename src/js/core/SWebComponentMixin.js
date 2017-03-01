@@ -8,6 +8,7 @@ import __whenInViewport from '../dom/whenInViewport'
 import __whenVisible from '../dom/whenVisible'
 import __prependChild from '../dom/prependChild'
 import __SWatcher from '../classes/SWatcher'
+import __propertyProxy from '../utils/objects/propertyProxy'
 
 if ( ! window.sugar) window.sugar = {};
 if ( ! window.sugar._webComponentsClasses) window.sugar._webComponentsClasses = {};
@@ -23,11 +24,10 @@ export default Mixin((superclass) => class extends superclass {
 	 */
 	static define(name, component, ext = null) {
 
-		if (window.sugar._webComponentsClasses[componentName]) return;
-
 		const componentName = __upperFirst(__camelize(name));
 		const componentNameDash = name;
 
+		if (window.sugar._webComponentsClasses[componentName]) return;
 		window.sugar._webComponentsClasses[componentName] = component;
 
 		// register the webcomponent
@@ -477,6 +477,18 @@ export default Mixin((superclass) => class extends superclass {
 		// props proxy
 		this._initPropsProxy();
 
+		for(let key in this.props) {
+			__propertyProxy(this.props, key, {
+				set : (value) => {
+					const oldVal = this.props[key];
+					// handle new prop value
+					this._handleNewPropValue(key, value, oldVal);
+					// set the value
+					return value;
+				}
+			}, false);
+		}
+
 		// check the required props
 		this.requiredProps.forEach((prop) => {
 			if ( ! this.props[prop]) {
@@ -735,29 +747,37 @@ export default Mixin((superclass) => class extends superclass {
 	setProp(prop, value) {
 
 		// save the oldVal
-		const _oldVal = this.props[prop];
+		const oldVal = this.props[prop];
 
 		// stop if same value
-		if (_oldVal === value) return;
+		if (oldVal === value) return;
 
 		// set the prop
 		this.props[prop] = value
 
+		// handle new property value
+		// this._handleNewPropValue(prop, value, oldVal);
+	}
+
+	/**
+	 * Handle new property
+	 * @param 		{String} 		prop 		The property name
+	 * @param 		{Mixed} 		value 		The new property value
+	 */
+	_handleNewPropValue(prop, newVal, oldVal) {
 		// handle physical props
-		this._handlePhysicalProps(prop, value);
+		this._handlePhysicalProps(prop, newVal);
 
 		// if the component is not mounted
 		// we do nothing here...
 		if ( ! this.isComponentMounted()) return;
 
 		// create the stacks
-		this._prevPropsStack[prop] = _oldVal;
-		this._nextPropsStack[prop] = value;
+		this._prevPropsStack[prop] = oldVal;
+		this._nextPropsStack[prop] = newVal;
 
 		// component will receive prop
-		if (this.componentWillReceiveProp) {
-			this.componentWillReceiveProp(prop, value, _oldVal);
-		}
+		this.componentWillReceiveProp(prop, newVal, oldVal);
 
 		// wait till next frame
 		fastdom.clear(this._fastdomSetProp);
@@ -798,6 +818,10 @@ export default Mixin((superclass) => class extends superclass {
 			// component did update
 			this.componentDidUpdate(this._prevPropsStack, prevPropsArray);
 		});
+	}
+
+	componentWillReceiveProp(prop, newVal, oldVal) {
+		// do something
 	}
 
 	/**
