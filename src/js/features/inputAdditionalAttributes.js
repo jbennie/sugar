@@ -14,6 +14,7 @@ function handleInputAttributes(eOrElm) {
 					field.removeAttribute('empty');
 				} else if ( ! field.value && field.hasAttribute('has-value')) {
 					field.removeAttribute('has-value');
+					field.removeAttribute('value');
 					if ( ! field.hasAttribute('empty')) {
 						field.setAttribute('empty', true);
 					}

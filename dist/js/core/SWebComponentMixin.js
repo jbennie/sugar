@@ -83,6 +83,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
    * Define the new web component
    * @param 			{String} 			name 		The name of the component
    * @param 			{SWebComponent} 	component 	The component class
+   * @param 			{Object|String}		ext 		An object or string of base HTMLElement to extend
    */
 		_class2.define = function define(name, component) {
 			var ext = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
@@ -127,6 +128,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 		/**
    * Inject css into html
+   * @param 		{HTMLElement}	componentClass 		The component class for which to inject the base css
    * @param 		{String} 		componentName 		The component name
    * @param 		{String} 		componentNameDash 	The dash formated component name
    */
@@ -166,6 +168,12 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
    */
 
 
+		/**
+   * Set some default props for a specific component
+   * @param 		{Object} 		props 			A props object to set
+   * @param 		{String} 		[tagname=null] 	The tagname of the component you want to setting up
+   * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+   */
 		_class2.setDefaultProps = function setDefaultProps(props) {
 			var tagname = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
@@ -185,19 +193,29 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 		/**
    * Get the default props for this particular instance
-   * @return 		{Object} 			The default props
+   * @type  		{Object}
    */
 
 
 		/**
-   * Component css
+   * Specify the default css for the component
+   * @param 		{String} 		componentName 		The camelcase component name
+   * @param 		{String} 		componentNameDash 	The dashcase component name
+   * @return 		{String} 							The default css for the component
    */
-		_class2.css = function css(componentName, componentNameDash) {
+		_class2.defaultCss = function defaultCss(componentName, componentNameDash) {
 			return '';
 		};
 
 		/**
-   * When the component is created
+   * Get the default css of the component
+   * @type 		{String}
+   */
+
+
+		/**
+   * When the component is created.
+   * This is called even if the component is not attached in the DOM tree
    */
 		_class2.prototype.createdCallback = function createdCallback() {
 
@@ -228,12 +246,14 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			// default props init
 			this.props = Object.assign({}, this.defaultProps, this.props);
 
-			// if ( ! document.body.contains(this)) return;
+			// created callback
+			this.componentCreated();
 
+			// if ( ! document.body.contains(this)) return;
 		};
 
 		/**
-   * When the element is attached
+   * When the element is attached in the DOM tree
    */
 
 
@@ -279,6 +299,9 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 		/**
    * When any of the component attribute changes
+   * @param 		{String} 		attribute 		The attribute name that has changed
+   * @param 		{String}		oldVal 			The previous attribute value
+   * @param 		{String} 		newVal 			The new attribute value
    */
 
 
@@ -318,9 +341,24 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		};
 
 		/**
-   * Method called before the component will be added in the dom.
-   * You will not have access to the siblings, etc here.
-   * This is the place to init your component, just like a constructor
+   * Called directly when the component is created. This act like a constructor.
+   *
+   * @example
+   * componentCreated() {
+   * 		// call parent method
+   * 		super.componentCreated();
+   * 		// do something here...
+   * }
+   *
+   * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+   */
+
+
+		_class2.prototype.componentCreated = function componentCreated() {};
+
+		/**
+   * Method called before the component will actually mount and BEFORE the the mountDependencies to be resolved or not.
+   * This is a good place to do directl when the component is attached in the DOM but before any dependencies are resolved
    *
    * @example
    * componentWillMount() {
@@ -383,8 +421,8 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 		/**
    * Method called right after that the component has been added in the dom,
-   * and before the initial render
-   * This is the first place where you will have access to the dom.
+   * after and only if the mountDependencies are resolved
+   * and before the initial render.
    *
    * @example
    * componentMount() {
@@ -439,9 +477,9 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
    * @param 		{Array} 		nextPropsArray 		An array representation of the nextProps object [{name:...,value:...}]
    *
    * @example
-   * componentWillUpdate() {
+   * componentWillUpdate(nextProps, nextPropsArray) {
    * 		// call parent method
-   * 		super.componentWillUpdate();
+   * 		super.componentWillUpdate(nextProps, nextPropsArray);
    * 		// do something here...
    * }
    *
@@ -474,10 +512,42 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			this.onComponentRender && this.onComponentRender();
 		};
 
-		_class2.prototype.componentDidUpdate = function componentDidUpdate(prevProps) {
+		/**
+   * Method called right after the render when some props have been updated.
+   * This method is not called after the initial render
+   *
+   * @param 		{Object} 		prevProps 			An object that represent the props that have been updated
+   * @param 		{Array} 		prevPropsArray 		An array representation of the prevProps object [{name:...,value:...}]
+   *
+   * @example
+   * componentDidUpdate(prevProps, prevPropsArray) {
+   * 		// call parent method
+   * 		super.componentDidUpdate(prevProps, prevPropsArray);
+   * 		// do something here...
+   * }
+   *
+   * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+   */
+
+
+		_class2.prototype.componentDidUpdate = function componentDidUpdate(prevProps, prevPropsArray) {
 			// dispatch event
-			this.onComponentDidUpdate && this.onComponentDidUpdate(prevProps);
+			this.onComponentDidUpdate && this.onComponentDidUpdate(prevProps, prevPropsArray);
 		};
+
+		/**
+   * Method called before the component will unmount cause it has been removed from the DOM tree and that the props.unmountTimeout is passed.
+   *
+   * @example
+   * componentWillUnmount() {
+   * 		// call parent method
+   * 		super.componentWillUnmount();
+   * 		// do something here...
+   * }
+   *
+   * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+   */
+
 
 		_class2.prototype.componentWillUnmount = function componentWillUnmount() {
 			if (this._lifecycle.componentWillUnmount) return;
@@ -487,6 +557,20 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			this.onComponentWillUnmount && this.onComponentWillUnmount();
 		};
 
+		/**
+   * Method called when the component need to unmount itself cause it has been removed from the DOM tree and the props.unmountTimeout is passed.
+   *
+   * @example
+   * componentUnmount() {
+   * 		// call parent method
+   * 		super.componentUnmount();
+   * 		// do something here...
+   * }
+   *
+   * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+   */
+
+
 		_class2.prototype.componentUnmount = function componentUnmount() {
 			if (this._lifecycle.componentUnmount) return;
 			// update lifecycle state
@@ -494,6 +578,20 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			// dispatch event
 			this.onComponentUnmount && this.onComponentUnmount();
 		};
+
+		/**
+   * Method called when the component has been unmounted
+   *
+   * @example
+   * componentDidUnmount() {
+   * 		// call parent method
+   * 		super.componentDidUnmount();
+   * 		// do something here...
+   * }
+   *
+   * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+   */
+
 
 		_class2.prototype.componentDidUnmount = function componentDidUnmount() {
 			if (this._lifecycle.componentDidMount) return;
@@ -506,7 +604,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		};
 
 		/**
-   * When mount dependencies
+   * Check all the mountDependencies and try to resolve them.
    * @return 			{Promise} 				A promise that will be resolved when the dependencies are resolved
    */
 
@@ -597,7 +695,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		};
 
 		/**
-   * When the component is detached
+   * Detect when the component is detached from the DOM tree.
    */
 
 
@@ -649,7 +747,8 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		};
 
 		/**
-   * Set properties
+   * Set a bunch of properties at once
+   * @param 			{Object} 		[props={}] 		An object of props to set
    */
 
 
@@ -665,6 +764,8 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 		/**
    * Set a property
+   * @param 			{String} 		prop 			The property name to set
+   * @param 			{Mixed} 		value 			The new property value
    */
 
 
@@ -686,7 +787,8 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		/**
    * Handle new property
    * @param 		{String} 		prop 		The property name
-   * @param 		{Mixed} 		value 		The new property value
+   * @param 		{Mixed} 		newVal 		The new property value
+   * @param 		{Mixed}			oldVal 		The old property value
    */
 
 
@@ -748,6 +850,24 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			});
 		};
 
+		/**
+   * Method called when the component will receive new props
+   * @param 		{String} 		prop 		The property name
+   * @param 		{Mixed} 		newVal 		The new property value
+   * @param 		{Mixed}			oldVal 		The old property value
+   * @example 	js
+   * componentWillReceiveProp(prop, newVal, oldVal) {
+   *  	switch(prop) {
+   *  		case ...
+   *    			// do something...
+   * 			break;
+   *  	}
+   * }
+   *
+   * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+   */
+
+
 		_class2.prototype.componentWillReceiveProp = function componentWillReceiveProp(prop, newVal, oldVal) {}
 		// do something
 
@@ -764,7 +884,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 		/**
    * Watch any data of the component
-   * @param 		{String} 		path 		The path from the component root to watch
+   * @param 		{String} 		path 		The path from the component root to watch like "props.myCoolProp"
    * @param 		{Function}		cb 			The callback to call when the item has changed
    */
 
@@ -776,6 +896,9 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		/**
    * Handle physical props by setting or not the prop
    * on the dom element as attribute
+   * @param 			{String} 			prop 			The property to handle
+   * @param 			{Mixed} 			value 			The property value
+   * @author 			Olivier Bossel <olivier.bossel@gmail.com>
    */
 
 
@@ -836,7 +959,6 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		};
 
 		/**
-   * componentClassName
    * Set a class that will be construct with the componentNameDash,
    * an optional element and modifier
    * @param 	{String} 	[element=null] 		The element name
@@ -885,7 +1007,6 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		};
 
 		/**
-   * hasComponentClass
    * Check if the passed element has the component class generated by the element and modifier argument
    * @param 	{HTMLElement} 	elm 				The element to check
    * @param 	{String} 		[element=null] 		The element name
@@ -1028,6 +1149,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 			/**
     * Return an array of props to set on the dom
+    * @return 		{Array}
     */
 
 		}, {
@@ -1036,7 +1158,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 			/**
     * Get physical props for this particular instance
-    * @return 		{Object} 			The physical props array
+    * @return 		{Array} 			The physical props array
     */
 			get: function get() {
 
@@ -1062,6 +1184,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 			/**
     * Return an array of required props to init the component
+    * @return 		{Array}
     */
 
 		}, {
@@ -1115,6 +1238,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 			/**
     * Return an array of props to set on the dom
+    * @type 		{Array}
     */
 
 		}, {
@@ -1122,8 +1246,8 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 
 			/**
-    * Get physical props for this particular instance
-    * @return 		{Object} 			The physical props array
+    * Get an array of promises to resolve before mounting the component.
+    * @type 		{Array<Promise>}
     */
 			get: function get() {
 				var _this11 = this;
@@ -1163,6 +1287,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
     * Need to take care of the passed props parameter and mix it at the
     * end of your default props
     *
+    * @type 	{Object}
     * @example
     * getDefaultProps(props = {}) {
     * 		return super.getDefaultProps({

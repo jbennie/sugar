@@ -21,6 +21,7 @@ export default Mixin((superclass) => class extends superclass {
 	 * Define the new web component
 	 * @param 			{String} 			name 		The name of the component
 	 * @param 			{SWebComponent} 	component 	The component class
+	 * @param 			{Object|String}		ext 		An object or string of base HTMLElement to extend
 	 */
 	static define(name, component, ext = null) {
 
@@ -63,6 +64,7 @@ export default Mixin((superclass) => class extends superclass {
 
 	/**
 	 * Inject css into html
+	 * @param 		{HTMLElement}	componentClass 		The component class for which to inject the base css
 	 * @param 		{String} 		componentName 		The component name
 	 * @param 		{String} 		componentNameDash 	The dash formated component name
 	 */
@@ -105,6 +107,7 @@ export default Mixin((superclass) => class extends superclass {
 	 * Need to take care of the passed props parameter and mix it at the
 	 * end of your default props
 	 *
+	 * @type 	{Object}
 	 * @example
 	 * getDefaultProps(props = {}) {
 	 * 		return super.getDefaultProps({
@@ -123,6 +126,12 @@ export default Mixin((superclass) => class extends superclass {
 		};
 	}
 
+	/**
+	 * Set some default props for a specific component
+	 * @param 		{Object} 		props 			A props object to set
+	 * @param 		{String} 		[tagname=null] 	The tagname of the component you want to setting up
+	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	 */
 	static setDefaultProps(props, tagname = null) {
 		// if a tagname is specified, we store the default props for a
 		// particular tagname
@@ -146,7 +155,7 @@ export default Mixin((superclass) => class extends superclass {
 
 	/**
 	 * Get the default props for this particular instance
-	 * @return 		{Object} 			The default props
+	 * @type  		{Object}
 	 */
 	get defaultProps() {
 
@@ -189,6 +198,7 @@ export default Mixin((superclass) => class extends superclass {
 
 	/**
 	 * Return an array of props to set on the dom
+	 * @return 		{Array}
 	 */
 	static get physicalProps() {
 		return [];
@@ -196,7 +206,7 @@ export default Mixin((superclass) => class extends superclass {
 
 	/**
 	 * Get physical props for this particular instance
-	 * @return 		{Object} 			The physical props array
+	 * @return 		{Array} 			The physical props array
 	 */
 	get physicalProps() {
 
@@ -222,6 +232,7 @@ export default Mixin((superclass) => class extends superclass {
 
 	/**
 	 * Return an array of required props to init the component
+	 * @return 		{Array}
 	 */
 	static get requiredProps() {
 		return [];
@@ -254,12 +265,19 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	 * Component css
+	 * Specify the default css for the component
+	 * @param 		{String} 		componentName 		The camelcase component name
+	 * @param 		{String} 		componentNameDash 	The dashcase component name
+	 * @return 		{String} 							The default css for the component
 	 */
-	static css(componentName, componentNameDash) {
+	static defaultCss(componentName, componentNameDash) {
 		return '';
 	}
 
+	/**
+	 * Get the default css of the component
+	 * @type 		{String}
+	 */
 	get defaultCss() {
 
 		if (this._defaultCssCache) return this._defaultCssCache;
@@ -280,14 +298,15 @@ export default Mixin((superclass) => class extends superclass {
 
 	/**
 	 * Return an array of props to set on the dom
+	 * @type 		{Array}
 	 */
 	static get mountDependencies() {
 		return [];
 	}
 
 	/**
-	 * Get physical props for this particular instance
-	 * @return 		{Object} 			The physical props array
+	 * Get an array of promises to resolve before mounting the component.
+	 * @type 		{Array<Promise>}
 	 */
 	get mountDependencies() {
 
@@ -319,7 +338,8 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	 * When the component is created
+	 * When the component is created.
+	 * This is called even if the component is not attached in the DOM tree
 	 */
 	createdCallback() {
 
@@ -350,13 +370,15 @@ export default Mixin((superclass) => class extends superclass {
 		// default props init
 		this.props = Object.assign({}, this.defaultProps, this.props);
 
-		// if ( ! document.body.contains(this)) return;
+		// created callback
+		this.componentCreated();
 
+		// if ( ! document.body.contains(this)) return;
 
 	}
 
 	/**
-	 * When the element is attached
+	 * When the element is attached in the DOM tree
 	 */
 	attachedCallback() {
 
@@ -399,6 +421,9 @@ export default Mixin((superclass) => class extends superclass {
 
 	/**
 	 * When any of the component attribute changes
+	 * @param 		{String} 		attribute 		The attribute name that has changed
+	 * @param 		{String}		oldVal 			The previous attribute value
+	 * @param 		{String} 		newVal 			The new attribute value
 	 */
 	attributeChangedCallback(attribute, oldVal, newVal) {
 
@@ -441,9 +466,23 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	 * Method called before the component will be added in the dom.
-	 * You will not have access to the siblings, etc here.
-	 * This is the place to init your component, just like a constructor
+	 * Called directly when the component is created. This act like a constructor.
+	 *
+	 * @example
+	 * componentCreated() {
+	 * 		// call parent method
+	 * 		super.componentCreated();
+	 * 		// do something here...
+	 * }
+	 *
+	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	 */
+	componentCreated() {
+	}
+
+	/**
+	 * Method called before the component will actually mount and BEFORE the the mountDependencies to be resolved or not.
+	 * This is a good place to do directl when the component is attached in the DOM but before any dependencies are resolved
 	 *
 	 * @example
 	 * componentWillMount() {
@@ -499,8 +538,8 @@ export default Mixin((superclass) => class extends superclass {
 
 	/**
 	 * Method called right after that the component has been added in the dom,
-	 * and before the initial render
-	 * This is the first place where you will have access to the dom.
+	 * after and only if the mountDependencies are resolved
+	 * and before the initial render.
 	 *
 	 * @example
 	 * componentMount() {
@@ -551,9 +590,9 @@ export default Mixin((superclass) => class extends superclass {
 	 * @param 		{Array} 		nextPropsArray 		An array representation of the nextProps object [{name:...,value:...}]
 	 *
 	 * @example
-	 * componentWillUpdate() {
+	 * componentWillUpdate(nextProps, nextPropsArray) {
 	 * 		// call parent method
-	 * 		super.componentWillUpdate();
+	 * 		super.componentWillUpdate(nextProps, nextPropsArray);
 	 * 		// do something here...
 	 * }
 	 *
@@ -582,11 +621,39 @@ export default Mixin((superclass) => class extends superclass {
 		this.onComponentRender && this.onComponentRender();
 	}
 
-	componentDidUpdate(prevProps) {
+	/**
+	 * Method called right after the render when some props have been updated.
+	 * This method is not called after the initial render
+	 *
+	 * @param 		{Object} 		prevProps 			An object that represent the props that have been updated
+	 * @param 		{Array} 		prevPropsArray 		An array representation of the prevProps object [{name:...,value:...}]
+	 *
+	 * @example
+	 * componentDidUpdate(prevProps, prevPropsArray) {
+	 * 		// call parent method
+	 * 		super.componentDidUpdate(prevProps, prevPropsArray);
+	 * 		// do something here...
+	 * }
+	 *
+	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	 */
+	componentDidUpdate(prevProps, prevPropsArray) {
 		// dispatch event
-		this.onComponentDidUpdate && this.onComponentDidUpdate(prevProps);
+		this.onComponentDidUpdate && this.onComponentDidUpdate(prevProps, prevPropsArray);
 	}
 
+	/**
+	 * Method called before the component will unmount cause it has been removed from the DOM tree and that the props.unmountTimeout is passed.
+	 *
+	 * @example
+	 * componentWillUnmount() {
+	 * 		// call parent method
+	 * 		super.componentWillUnmount();
+	 * 		// do something here...
+	 * }
+	 *
+	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	 */
 	componentWillUnmount() {
 		if (this._lifecycle.componentWillUnmount) return;
 		// update lifecycle state
@@ -595,6 +662,18 @@ export default Mixin((superclass) => class extends superclass {
 		this.onComponentWillUnmount && this.onComponentWillUnmount();
 	}
 
+	/**
+	 * Method called when the component need to unmount itself cause it has been removed from the DOM tree and the props.unmountTimeout is passed.
+	 *
+	 * @example
+	 * componentUnmount() {
+	 * 		// call parent method
+	 * 		super.componentUnmount();
+	 * 		// do something here...
+	 * }
+	 *
+	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	 */
 	componentUnmount() {
 		if (this._lifecycle.componentUnmount) return;
 		// update lifecycle state
@@ -603,6 +682,18 @@ export default Mixin((superclass) => class extends superclass {
 		this.onComponentUnmount && this.onComponentUnmount();
 	}
 
+	/**
+	 * Method called when the component has been unmounted
+	 *
+	 * @example
+	 * componentDidUnmount() {
+	 * 		// call parent method
+	 * 		super.componentDidUnmount();
+	 * 		// do something here...
+	 * }
+	 *
+	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	 */
 	componentDidUnmount() {
 		if (this._lifecycle.componentDidMount) return;
 		// update lifecycle state
@@ -614,7 +705,7 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	 * When mount dependencies
+	 * Check all the mountDependencies and try to resolve them.
 	 * @return 			{Promise} 				A promise that will be resolved when the dependencies are resolved
 	 */
 	_whenMountDependenciesAreOk() {
@@ -686,7 +777,7 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	 * When the component is detached
+	 * Detect when the component is detached from the DOM tree.
 	 */
 	detachedCallback() {
 
@@ -731,7 +822,8 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	 * Set properties
+	 * Set a bunch of properties at once
+	 * @param 			{Object} 		[props={}] 		An object of props to set
 	 */
 	setProps(props = {}) {
 		// set each props
@@ -743,6 +835,8 @@ export default Mixin((superclass) => class extends superclass {
 
 	/**
 	 * Set a property
+	 * @param 			{String} 		prop 			The property name to set
+	 * @param 			{Mixed} 		value 			The new property value
 	 */
 	setProp(prop, value) {
 
@@ -762,7 +856,8 @@ export default Mixin((superclass) => class extends superclass {
 	/**
 	 * Handle new property
 	 * @param 		{String} 		prop 		The property name
-	 * @param 		{Mixed} 		value 		The new property value
+	 * @param 		{Mixed} 		newVal 		The new property value
+	 * @param 		{Mixed}			oldVal 		The old property value
 	 */
 	_handleNewPropValue(prop, newVal, oldVal) {
 		// handle physical props
@@ -820,6 +915,22 @@ export default Mixin((superclass) => class extends superclass {
 		});
 	}
 
+	/**
+	 * Method called when the component will receive new props
+	 * @param 		{String} 		prop 		The property name
+	 * @param 		{Mixed} 		newVal 		The new property value
+	 * @param 		{Mixed}			oldVal 		The old property value
+	 * @example 	js
+	 * componentWillReceiveProp(prop, newVal, oldVal) {
+	 *  	switch(prop) {
+	 *  		case ...
+	 *    			// do something...
+	 * 			break;
+	 *  	}
+	 * }
+	 *
+	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	 */
 	componentWillReceiveProp(prop, newVal, oldVal) {
 		// do something
 	}
@@ -834,7 +945,7 @@ export default Mixin((superclass) => class extends superclass {
 
 	/**
 	 * Watch any data of the component
-	 * @param 		{String} 		path 		The path from the component root to watch
+	 * @param 		{String} 		path 		The path from the component root to watch like "props.myCoolProp"
 	 * @param 		{Function}		cb 			The callback to call when the item has changed
 	 */
 	watch(path, cb) {
@@ -844,6 +955,9 @@ export default Mixin((superclass) => class extends superclass {
 	/**
 	 * Handle physical props by setting or not the prop
 	 * on the dom element as attribute
+	 * @param 			{String} 			prop 			The property to handle
+	 * @param 			{Mixed} 			value 			The property value
+	 * @author 			Olivier Bossel <olivier.bossel@gmail.com>
 	 */
 	_handlePhysicalProps(prop, value) {
 		// check if is a physical prop to set it in the dom
@@ -900,7 +1014,6 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	 * componentClassName
 	 * Set a class that will be construct with the componentNameDash,
 	 * an optional element and modifier
 	 * @param 	{String} 	[element=null] 		The element name
@@ -937,7 +1050,6 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	 * hasComponentClass
 	 * Check if the passed element has the component class generated by the element and modifier argument
 	 * @param 	{HTMLElement} 	elm 				The element to check
 	 * @param 	{String} 		[element=null] 		The element name
