@@ -422,7 +422,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 
 
 			_this.props = {};
-			createdCallback();
+			_this.createdCallback();
 			return _this;
 		}
 

@@ -344,7 +344,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		// ctor
 		super();
 		// createdCallback
-		createdCallback();
+		this.createdCallback();
 	}
 
 	/**
