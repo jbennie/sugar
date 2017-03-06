@@ -33,12 +33,13 @@ export default Mixin((superclass) => class extends superclass {
 
 		// register the webcomponent
 		let webcomponent;
-		if (document.registerElement) {
-			webcomponent = document.registerElement(name, {
-				prototype : component.prototype,
-				extends : ext
-			});
-		} else if (window.customElements) {
+		// if (document.registerElement) {
+		// 	webcomponent = document.registerElement(name, {
+		// 		prototype : component.prototype,
+		// 		extends : ext
+		// 	});
+		// } else
+		if (window.customElements) {
 			webcomponent = window.customElements.define(name, component, {
 				extends : ext
 			});
