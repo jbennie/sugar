@@ -86,9 +86,10 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			// register the webcomponent
 			var webcomponent = void 0;
 			if (window.customElements) {
-				webcomponent = window.customElements.define(name, component, {
+				window.customElements.define(name, component, {
 					extends: ext
 				});
+				webcomponent = component;
 			} else if (document.registerElement) {
 				webcomponent = document.registerElement(name, {
 					prototype: component.prototype,

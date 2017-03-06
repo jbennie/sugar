@@ -34,9 +34,10 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		// register the webcomponent
 		let webcomponent;
 		if (window.customElements) {
-			webcomponent = window.customElements.define(name, component, {
+			window.customElements.define(name, component, {
 				extends : ext
 			});
+			webcomponent = component;
 		} else if (document.registerElement) {
 			webcomponent = document.registerElement(name, {
 				prototype : component.prototype,
