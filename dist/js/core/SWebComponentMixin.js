@@ -63,21 +63,9 @@ if (!window.sugar._webComponentsClasses) window.sugar._webComponentsClasses = {}
 if (!window.sugar._webComponentsDefaultProps) window.sugar._webComponentsDefaultProps = {};
 if (!window.sugar._webComponentsDefaultCss) window.sugar._webComponentsDefaultCss = {};
 
-exports.default = (0, _mixwith.Mixin)(function (superclass) {
+var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 	return function (_superclass) {
 		_inherits(_class2, _superclass);
-
-		function _class2() {
-			var _temp, _this, _ret;
-
-			_classCallCheck(this, _class2);
-
-			for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-				args[_key] = arguments[_key];
-			}
-
-			return _ret = (_temp = (_this = _possibleConstructorReturn(this, _superclass.call.apply(_superclass, [this].concat(args))), _this), _this.props = {}, _temp), _possibleConstructorReturn(_this, _ret);
-		}
 
 		/**
    * Define the new web component
@@ -97,14 +85,13 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 			// register the webcomponent
 			var webcomponent = void 0;
-			// if (document.registerElement) {
-			// 	webcomponent = document.registerElement(name, {
-			// 		prototype : component.prototype,
-			// 		extends : ext
-			// 	});
-			// } else
 			if (window.customElements) {
 				webcomponent = window.customElements.define(name, component, {
+					extends: ext
+				});
+			} else if (document.registerElement) {
+				webcomponent = document.registerElement(name, {
+					prototype: component.prototype,
 					extends: ext
 				});
 			} else {
@@ -214,10 +201,237 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
    */
 
 
+		_createClass(_class2, [{
+			key: 'defaultProps',
+			get: function get() {
+
+				// check if default props in cache to avoid multiple time
+				// computing
+				if (this._defaultPropsCache) return this._defaultPropsCache;
+
+				// compute
+				var props = window.sugar._webComponentsClasses[this.componentName].defaultProps;
+				var comp = window.sugar._webComponentsClasses[this.componentName];
+				while (comp) {
+					if (comp.defaultProps) {
+						props = _extends({}, comp.defaultProps, props);
+					}
+					if (comp._defaultProps) {
+						props = _extends({}, props, comp._defaultProps);
+					}
+					comp = Object.getPrototypeOf(comp);
+				}
+				// extend with default props stored in the component default props stack by tagname
+				if (window.sugar._webComponentsDefaultProps[this.componentName]) {
+					props = _extends({}, props, window.sugar._webComponentsDefaultProps[this.componentName]);
+				}
+
+				// save in cache
+				this._defaultPropsCache = Object.assign({}, props);
+
+				// return props
+				return props;
+			}
+
+			/**
+    * Return an array of props to set on the dom
+    * @return 		{Array}
+    */
+
+		}, {
+			key: 'physicalProps',
+
+
+			/**
+    * Get physical props for this particular instance
+    * @return 		{Array} 			The physical props array
+    */
+			get: function get() {
+
+				if (this._physicalPropsCache) return this._physicalPropsCache;
+
+				var props = window.sugar._webComponentsClasses[this.componentName].physicalProps;
+				var comp = window.sugar._webComponentsClasses[this.componentName];
+				while (comp) {
+					if (comp.physicalProps) {
+						comp.physicalProps.forEach(function (prop) {
+							if (props.indexOf(prop) === -1) {
+								props.push(prop);
+							}
+						});
+					}
+					comp = Object.getPrototypeOf(comp);
+				}
+
+				this._physicalPropsCache = props;
+
+				return props;
+			}
+
+			/**
+    * Return an array of required props to init the component
+    * @return 		{Array}
+    */
+
+		}, {
+			key: 'requiredProps',
+
+
+			/**
+    * Get the required props array for this particular instance
+    * @return 		{Array} 			An array of required props
+    */
+			get: function get() {
+
+				if (this._requiredPropsCache) return this._requiredPropsCache;
+
+				var props = window.sugar._webComponentsClasses[this.componentName].requiredProps;
+				var comp = window.sugar._webComponentsClasses[this.componentName];
+				while (comp) {
+					if (comp.requiredProps) {
+						comp.requiredProps.forEach(function (prop) {
+							if (props.indexOf(prop) === -1) {
+								props.push(prop);
+							}
+						});
+					}
+					comp = Object.getPrototypeOf(comp);
+				}
+
+				this._requiredPropsCache = props;
+
+				return props;
+			}
+		}, {
+			key: 'defaultCss',
+			get: function get() {
+
+				if (this._defaultCssCache) return this._defaultCssCache;
+
+				var css = '';
+				var comp = window.sugar._webComponentsClasses[this.componentName];
+				while (comp) {
+					if (comp.defaultCss) {
+						css += comp.defaultCss(this.componentName, this.componentNameDash);
+					}
+					comp = Object.getPrototypeOf(comp);
+				}
+
+				this._defaultCssCache = css;
+
+				return css;
+			}
+
+			/**
+    * Return an array of props to set on the dom
+    * @type 		{Array}
+    */
+
+		}, {
+			key: 'mountDependencies',
+
+
+			/**
+    * Get an array of promises to resolve before mounting the component.
+    * @type 		{Array<Promise>}
+    */
+			get: function get() {
+				var _this2 = this;
+
+				var deps = [];
+				var comp = Object.getPrototypeOf(window.sugar._webComponentsClasses[this.componentName]);
+				while (comp) {
+					if (comp.mountDependencies) {
+						comp.mountDependencies.forEach(function (dep) {
+							if (deps.indexOf(dep) === -1) {
+								deps.push(dep);
+							}
+						});
+					}
+					comp = Object.getPrototypeOf(comp);
+				}
+
+				// props mount dependencies
+				var propsDeps = [].concat(this.props.mountDependencies);
+				var finalDeps = [];
+				finalDeps = finalDeps.concat(this.props.mountDependencies);
+				deps.forEach(function (dep) {
+					if (typeof dep === 'function') {
+						dep = dep.bind(_this2);
+						dep = dep();
+					}
+					finalDeps.push(dep);
+				});
+				return finalDeps;
+			}
+
+			/**
+    * Constructor
+    */
+
+		}], [{
+			key: 'defaultProps',
+
+
+			/**
+    * Return the default props for the component.
+    * Need to take care of the passed props parameter and mix it at the
+    * end of your default props
+    *
+    * @type 	{Object}
+    * @example
+    * getDefaultProps(props = {}) {
+    * 		return super.getDefaultProps({
+    * 			myCoolProp : null,
+    * 			...props
+    * 		});
+    * }
+    *
+    * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+    */
+			get: function get() {
+				return {
+					mountWhen: null,
+					mountDependencies: [],
+					unmountTimeout: 500
+				};
+			}
+		}, {
+			key: 'physicalProps',
+			get: function get() {
+				return [];
+			}
+		}, {
+			key: 'requiredProps',
+			get: function get() {
+				return [];
+			}
+		}, {
+			key: 'mountDependencies',
+			get: function get() {
+				return [];
+			}
+		}]);
+
+		function _class2() {
+			_classCallCheck(this, _class2);
+
+			// createdCallback
+			var _this = _possibleConstructorReturn(this, _superclass.call(this));
+			// ctor
+
+
+			_this.props = {};
+			createdCallback();
+			return _this;
+		}
+
 		/**
    * When the component is created.
    * This is called even if the component is not attached in the DOM tree
    */
+
+
 		_class2.prototype.createdCallback = function createdCallback() {
 
 			// create the "s" namespace
@@ -258,8 +472,8 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
    */
 
 
-		_class2.prototype.attachedCallback = function attachedCallback() {
-			var _this2 = this;
+		_class2.prototype.connectedCallback = function connectedCallback() {
+			var _this3 = this;
 
 			// component will mount only if part of the active document
 			this.componentWillMount();
@@ -276,23 +490,23 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			// wait until dependencies are ok
 			this._whenMountDependenciesAreOk().then(function () {
 				// switch on the mountWhen prop
-				switch (_this2.props.mountWhen) {
+				switch (_this3.props.mountWhen) {
 					case 'inViewport':
-						(0, _whenInViewport2.default)(_this2).then(function () {
-							_this2._mountComponent();
+						(0, _whenInViewport2.default)(_this3).then(function () {
+							_this3._mountComponent();
 						});
 						break;
 					case 'mouseover':
-						_this2.addEventListener('mouseover', _this2._onMouseoverComponentMount.bind(_this2));
+						_this3.addEventListener('mouseover', _this3._onMouseoverComponentMount.bind(_this3));
 						break;
 					case 'isVisible':
-						(0, _whenVisible2.default)(_this2).then(function () {
-							_this2._mountComponent();
+						(0, _whenVisible2.default)(_this3).then(function () {
+							_this3._mountComponent();
 						});
 						break;
 					default:
 						// mount component directly
-						_this2._mountComponent();
+						_this3._mountComponent();
 						break;
 				}
 			});
@@ -373,7 +587,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 
 		_class2.prototype.componentWillMount = function componentWillMount() {
-			var _this3 = this;
+			var _this4 = this;
 
 			// protect from mounting multiple times when unecessary
 			if (this._lifecycle.componentWillMount) return;
@@ -397,11 +611,11 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			this._initPropsProxy();
 
 			var _loop = function _loop(key) {
-				(0, _propertyProxy2.default)(_this3.props, key, {
+				(0, _propertyProxy2.default)(_this4.props, key, {
 					set: function set(value) {
-						var oldVal = _this3.props[key];
+						var oldVal = _this4.props[key];
 						// handle new prop value
-						_this3._handleNewPropValue(key, value, oldVal);
+						_this4._handleNewPropValue(key, value, oldVal);
 						// set the value
 						return value;
 					}
@@ -414,8 +628,8 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 			// check the required props
 			this.requiredProps.forEach(function (prop) {
-				if (!_this3.props[prop]) {
-					throw 'The "' + _this3.componentNameDash + '" component need the "' + prop + '" property in order to work';
+				if (!_this4.props[prop]) {
+					throw 'The "' + _this4.componentNameDash + '" component need the "' + prop + '" property in order to work';
 				}
 			});
 		};
@@ -611,10 +825,10 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 
 		_class2.prototype._whenMountDependenciesAreOk = function _whenMountDependenciesAreOk() {
-			var _this4 = this;
+			var _this5 = this;
 
 			var promise = new Promise(function (resolve, reject) {
-				var deps = _this4.mountDependencies;
+				var deps = _this5.mountDependencies;
 				if (!deps.length) {
 					resolve();
 				} else {
@@ -635,20 +849,20 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 
 		_class2.prototype._initPropsProxy = function _initPropsProxy() {
-			var _this5 = this;
+			var _this6 = this;
 
 			var _loop2 = function _loop2(key) {
-				if (_this5.hasOwnProperty(key)) {
-					console.warn('The component ' + _this5.componentNameDash + ' has already an "' + key + '" property... This property will not reflect the this.props[\'' + key + '\'] value... Try to use a property name that does not already exist on an HTMLElement...');
+				if (_this6.hasOwnProperty(key)) {
+					console.warn('The component ' + _this6.componentNameDash + ' has already an "' + key + '" property... This property will not reflect the this.props[\'' + key + '\'] value... Try to use a property name that does not already exist on an HTMLElement...');
 					return 'continue';
 				}
-				if (!key in _this5) {
-					Object.defineProperty(_this5, key, {
+				if (!key in _this6) {
+					Object.defineProperty(_this6, key, {
 						get: function get() {
-							return _this5.props[key];
+							return _this6.props[key];
 						},
 						set: function set(value) {
-							_this5.setProp(key, value);
+							_this6.setProp(key, value);
 						}
 					});
 				}
@@ -656,9 +870,9 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 			// loop on each props
 			for (var key in this.defaultProps) {
-				var _ret3 = _loop2(key);
+				var _ret2 = _loop2(key);
 
-				if (_ret3 === 'continue') continue;
+				if (_ret2 === 'continue') continue;
 			}
 		};
 
@@ -678,20 +892,20 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 
 		_class2.prototype._mountComponent = function _mountComponent() {
-			var _this6 = this;
+			var _this7 = this;
 
 			// wait next frame
 			_fastdom2.default.clear(this._fastdomSetProp);
 			this._fastdomSetProp = this.mutate(function () {
 				// sometimes, the component has been unmounted between the
 				// fastdom execution, so we stop here if it's the case
-				if (!_this6._componentAttached) return;
+				if (!_this7._componentAttached) return;
 				// init
-				_this6.componentMount();
+				_this7.componentMount();
 				// render
-				_this6.render();
+				_this7.render();
 				// component did mount
-				_this6.componentDidMount();
+				_this7.componentDidMount();
 			});
 		};
 
@@ -700,8 +914,8 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
    */
 
 
-		_class2.prototype.detachedCallback = function detachedCallback() {
-			var _this7 = this;
+		_class2.prototype.disconnectedCallback = function disconnectedCallback() {
+			var _this8 = this;
 
 			// update attached status
 			this._componentAttached = false;
@@ -711,20 +925,20 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			this._unmountTimeout = setTimeout(function () {
 
 				// will unmount
-				_this7.componentWillUnmount();
+				_this8.componentWillUnmount();
 				// wait next frame
-				_fastdom2.default.clear(_this7._fastdomSetProp);
-				_this7._fastdomSetProp = _this7.mutate(function () {
+				_fastdom2.default.clear(_this8._fastdomSetProp);
+				_this8._fastdomSetProp = _this8.mutate(function () {
 					// unmount only if the component is mounted
-					if (!_this7._lifecycle.componentMount) return;
+					if (!_this8._lifecycle.componentMount) return;
 					// unmount
-					_this7.componentUnmount();
+					_this8.componentUnmount();
 					// did unmount
-					_this7.componentDidUnmount();
+					_this8.componentDidUnmount();
 					// update lifecycle
-					_this7._lifecycle.componentWillMount = false;
-					_this7._lifecycle.componentMount = false;
-					_this7._lifecycle.componentDidUnmount = false;
+					_this8._lifecycle.componentWillMount = false;
+					_this8._lifecycle.componentMount = false;
+					_this8._lifecycle.componentDidUnmount = false;
 				});
 			}, this.props.unmountTimeout);
 		};
@@ -794,7 +1008,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 
 
 		_class2.prototype._handleNewPropValue = function _handleNewPropValue(prop, newVal, oldVal) {
-			var _this8 = this;
+			var _this9 = this;
 
 			// handle physical props
 			this._handlePhysicalProps(prop, newVal);
@@ -817,37 +1031,37 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 				// create array version of each stacks
 				var nextPropsArray = [],
 				    prevPropsArray = [];
-				for (var key in _this8._nextPropsStack) {
-					var val = _this8._nextPropsStack[key];
+				for (var key in _this9._nextPropsStack) {
+					var val = _this9._nextPropsStack[key];
 					nextPropsArray.push({
 						name: key,
 						value: val
 					});
 				}
-				for (var _key2 in _this8._prevPropsStack) {
-					var _val = _this8._prevPropsStack[_key2];
+				for (var _key in _this9._prevPropsStack) {
+					var _val = _this9._prevPropsStack[_key];
 					prevPropsArray.push({
-						name: _key2,
+						name: _key,
 						value: _val
 					});
 				}
 
 				// call the will reveiveProps if exist
-				if (_this8.componentWillReceiveProps) {
-					_this8.componentWillReceiveProps(_this8._nextPropsStack, nextPropsArray);
+				if (_this9.componentWillReceiveProps) {
+					_this9.componentWillReceiveProps(_this9._nextPropsStack, nextPropsArray);
 				}
 
 				// should component update
-				if (_this8.shouldComponentUpdate && !_this8.shouldComponentUpdate(_this8._nextPropsStack, _this8._prevPropsStack)) return;
+				if (_this9.shouldComponentUpdate && !_this9.shouldComponentUpdate(_this9._nextPropsStack, _this9._prevPropsStack)) return;
 
 				// component will update
-				_this8.componentWillUpdate(_this8._nextPropsStack, nextPropsArray);
+				_this9.componentWillUpdate(_this9._nextPropsStack, nextPropsArray);
 
 				// render the component
-				_this8.render();
+				_this9.render();
 
 				// component did update
-				_this8.componentDidUpdate(_this8._prevPropsStack, prevPropsArray);
+				_this9.componentDidUpdate(_this9._prevPropsStack, prevPropsArray);
 			});
 		};
 
@@ -1049,7 +1263,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		_class2.prototype.addComponentClass = function addComponentClass(elm) {
 			var element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-			var _this9 = this;
+			var _this10 = this;
 
 			var modifier = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 			var state = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
@@ -1057,7 +1271,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			// if is an array
 			if (elm instanceof Array || elm instanceof NodeList) {
 				[].forEach.call(elm, function (el) {
-					_this9.addComponentClass(el, element, modifier, state);
+					_this10.addComponentClass(el, element, modifier, state);
 				});
 				return this;
 			}
@@ -1067,7 +1281,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			// loop on each classes to add
 			cls.split('.').forEach(function (cl) {
 				if (cl && cl !== '') {
-					_this9.mutate(function () {
+					_this10.mutate(function () {
 						elm.classList.add(cl);
 					});
 				}
@@ -1089,7 +1303,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 		_class2.prototype.removeComponentClass = function removeComponentClass(elm) {
 			var element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-			var _this10 = this;
+			var _this11 = this;
 
 			var modifier = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 			var state = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
@@ -1097,7 +1311,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			// if is an array
 			if (elm instanceof Array || elm instanceof NodeList) {
 				[].forEach.call(elm, function (el) {
-					_this10.removeComponentClass(el, element, modifier, state);
+					_this11.removeComponentClass(el, element, modifier, state);
 				});
 				return this;
 			}
@@ -1107,7 +1321,7 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			// loop on each classes to add
 			cls.split('.').forEach(function (cl) {
 				if (cl && cl !== '') {
-					_this10.mutate(function () {
+					_this11.mutate(function () {
 						elm.classList.remove(cl);
 					});
 				}
@@ -1116,213 +1330,13 @@ exports.default = (0, _mixwith.Mixin)(function (superclass) {
 			return this;
 		};
 
-		_createClass(_class2, [{
-			key: 'defaultProps',
-			get: function get() {
-
-				// check if default props in cache to avoid multiple time
-				// computing
-				if (this._defaultPropsCache) return this._defaultPropsCache;
-
-				// compute
-				var props = window.sugar._webComponentsClasses[this.componentName].defaultProps;
-				var comp = window.sugar._webComponentsClasses[this.componentName];
-				while (comp) {
-					if (comp.defaultProps) {
-						props = _extends({}, comp.defaultProps, props);
-					}
-					if (comp._defaultProps) {
-						props = _extends({}, props, comp._defaultProps);
-					}
-					comp = Object.getPrototypeOf(comp);
-				}
-				// extend with default props stored in the component default props stack by tagname
-				if (window.sugar._webComponentsDefaultProps[this.componentName]) {
-					props = _extends({}, props, window.sugar._webComponentsDefaultProps[this.componentName]);
-				}
-
-				// save in cache
-				this._defaultPropsCache = Object.assign({}, props);
-
-				// return props
-				return props;
-			}
-
-			/**
-    * Return an array of props to set on the dom
-    * @return 		{Array}
-    */
-
-		}, {
-			key: 'physicalProps',
-
-
-			/**
-    * Get physical props for this particular instance
-    * @return 		{Array} 			The physical props array
-    */
-			get: function get() {
-
-				if (this._physicalPropsCache) return this._physicalPropsCache;
-
-				var props = window.sugar._webComponentsClasses[this.componentName].physicalProps;
-				var comp = window.sugar._webComponentsClasses[this.componentName];
-				while (comp) {
-					if (comp.physicalProps) {
-						comp.physicalProps.forEach(function (prop) {
-							if (props.indexOf(prop) === -1) {
-								props.push(prop);
-							}
-						});
-					}
-					comp = Object.getPrototypeOf(comp);
-				}
-
-				this._physicalPropsCache = props;
-
-				return props;
-			}
-
-			/**
-    * Return an array of required props to init the component
-    * @return 		{Array}
-    */
-
-		}, {
-			key: 'requiredProps',
-
-
-			/**
-    * Get the required props array for this particular instance
-    * @return 		{Array} 			An array of required props
-    */
-			get: function get() {
-
-				if (this._requiredPropsCache) return this._requiredPropsCache;
-
-				var props = window.sugar._webComponentsClasses[this.componentName].requiredProps;
-				var comp = window.sugar._webComponentsClasses[this.componentName];
-				while (comp) {
-					if (comp.requiredProps) {
-						comp.requiredProps.forEach(function (prop) {
-							if (props.indexOf(prop) === -1) {
-								props.push(prop);
-							}
-						});
-					}
-					comp = Object.getPrototypeOf(comp);
-				}
-
-				this._requiredPropsCache = props;
-
-				return props;
-			}
-		}, {
-			key: 'defaultCss',
-			get: function get() {
-
-				if (this._defaultCssCache) return this._defaultCssCache;
-
-				var css = '';
-				var comp = window.sugar._webComponentsClasses[this.componentName];
-				while (comp) {
-					if (comp.defaultCss) {
-						css += comp.defaultCss(this.componentName, this.componentNameDash);
-					}
-					comp = Object.getPrototypeOf(comp);
-				}
-
-				this._defaultCssCache = css;
-
-				return css;
-			}
-
-			/**
-    * Return an array of props to set on the dom
-    * @type 		{Array}
-    */
-
-		}, {
-			key: 'mountDependencies',
-
-
-			/**
-    * Get an array of promises to resolve before mounting the component.
-    * @type 		{Array<Promise>}
-    */
-			get: function get() {
-				var _this11 = this;
-
-				var deps = [];
-				var comp = Object.getPrototypeOf(window.sugar._webComponentsClasses[this.componentName]);
-				while (comp) {
-					if (comp.mountDependencies) {
-						comp.mountDependencies.forEach(function (dep) {
-							if (deps.indexOf(dep) === -1) {
-								deps.push(dep);
-							}
-						});
-					}
-					comp = Object.getPrototypeOf(comp);
-				}
-
-				// props mount dependencies
-				var propsDeps = [].concat(this.props.mountDependencies);
-				var finalDeps = [];
-				finalDeps = finalDeps.concat(this.props.mountDependencies);
-				deps.forEach(function (dep) {
-					if (typeof dep === 'function') {
-						dep = dep.bind(_this11);
-						dep = dep();
-					}
-					finalDeps.push(dep);
-				});
-				return finalDeps;
-			}
-		}], [{
-			key: 'defaultProps',
-
-
-			/**
-    * Return the default props for the component.
-    * Need to take care of the passed props parameter and mix it at the
-    * end of your default props
-    *
-    * @type 	{Object}
-    * @example
-    * getDefaultProps(props = {}) {
-    * 		return super.getDefaultProps({
-    * 			myCoolProp : null,
-    * 			...props
-    * 		});
-    * }
-    *
-    * @author 		Olivier Bossel <olivier.bossel@gmail.com>
-    */
-			get: function get() {
-				return {
-					mountWhen: null,
-					mountDependencies: [],
-					unmountTimeout: 500
-				};
-			}
-		}, {
-			key: 'physicalProps',
-			get: function get() {
-				return [];
-			}
-		}, {
-			key: 'requiredProps',
-			get: function get() {
-				return [];
-			}
-		}, {
-			key: 'mountDependencies',
-			get: function get() {
-				return [];
-			}
-		}]);
-
 		return _class2;
 	}(superclass);
 });
+
+// map v0 custom element spec
+SWebComponentMixin.prototype.attachedCallback = SWebComponentMixin.prototype.connectedCallback;
+SWebComponentMixin.prototype.detachedCallback = SWebComponentMixin.prototype.disconnectedCallback;
+
+// Export the mixin class
+exports.default = SWebComponentMixin;

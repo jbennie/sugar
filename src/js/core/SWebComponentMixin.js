@@ -15,7 +15,7 @@ if ( ! window.sugar._webComponentsClasses) window.sugar._webComponentsClasses = 
 if ( ! window.sugar._webComponentsDefaultProps) window.sugar._webComponentsDefaultProps = {};
 if ( ! window.sugar._webComponentsDefaultCss) window.sugar._webComponentsDefaultCss = {};
 
-export default Mixin((superclass) => class extends superclass {
+const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 
 	/**
 	 * Define the new web component
@@ -33,14 +33,13 @@ export default Mixin((superclass) => class extends superclass {
 
 		// register the webcomponent
 		let webcomponent;
-		// if (document.registerElement) {
-		// 	webcomponent = document.registerElement(name, {
-		// 		prototype : component.prototype,
-		// 		extends : ext
-		// 	});
-		// } else
 		if (window.customElements) {
 			webcomponent = window.customElements.define(name, component, {
+				extends : ext
+			});
+		} else if (document.registerElement) {
+			webcomponent = document.registerElement(name, {
+				prototype : component.prototype,
 				extends : ext
 			});
 		} else {
@@ -339,6 +338,16 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 	/**
+	 * Constructor
+	 */
+	constructor() {
+		// ctor
+		super();
+		// createdCallback
+		createdCallback();
+	}
+
+	/**
 	 * When the component is created.
 	 * This is called even if the component is not attached in the DOM tree
 	 */
@@ -381,7 +390,7 @@ export default Mixin((superclass) => class extends superclass {
 	/**
 	 * When the element is attached in the DOM tree
 	 */
-	attachedCallback() {
+	connectedCallback() {
 
 		// component will mount only if part of the active document
 		this.componentWillMount();
@@ -780,7 +789,7 @@ export default Mixin((superclass) => class extends superclass {
 	/**
 	 * Detect when the component is detached from the DOM tree.
 	 */
-	detachedCallback() {
+	disconnectedCallback() {
 
 		// update attached status
 		this._componentAttached = false;
@@ -1140,3 +1149,10 @@ export default Mixin((superclass) => class extends superclass {
 	}
 
 });
+
+// map v0 custom element spec
+SWebComponentMixin.prototype.attachedCallback = SWebComponentMixin.prototype.connectedCallback;
+SWebComponentMixin.prototype.detachedCallback = SWebComponentMixin.prototype.disconnectedCallback;
+
+// Export the mixin class
+export default SWebComponentMixin;
