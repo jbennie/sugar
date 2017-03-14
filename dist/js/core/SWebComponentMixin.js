@@ -456,7 +456,6 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 		_createClass(_class2, [{
 			key: 'init',
 			value: function init() {
-				console.log('init', this);
 				this.createdCallback();
 			}
 
@@ -468,8 +467,6 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 		}, {
 			key: 'createdCallback',
 			value: function createdCallback() {
-
-				console.log('created');
 
 				// create the "s" namespace
 				this.s = {};
@@ -515,8 +512,6 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 
 				// if not already passed through the created process
 				if (!this._lifecycle) this.createdCallback();
-
-				console.log('connected', this._lifecycle);
 
 				// component will mount only if part of the active document
 				this.componentWillMount();
