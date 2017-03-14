@@ -554,6 +554,11 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 					}
 				});
 			}
+		}, {
+			key: 'attachedCallback',
+			value: function attachedCallback() {
+				this.connectedCallback();
+			}
 
 			/**
     * When any of the component attribute changes
@@ -1001,6 +1006,11 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 					});
 				}, this.props.unmountTimeout);
 			}
+		}, {
+			key: 'detachedCallback',
+			value: function detachedCallback() {
+				this.disconnectedCallback();
+			}
 
 			/**
     * Dispatch an event from the tag with namespaced event name
@@ -1408,10 +1418,6 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 		return _class2;
 	}(superclass);
 });
-
-// map v0 custom element spec
-SWebComponentMixin.prototype.attachedCallback = SWebComponentMixin.prototype.connectedCallback;
-SWebComponentMixin.prototype.detachedCallback = SWebComponentMixin.prototype.disconnectedCallback;
 
 // Export the mixin class
 exports.default = SWebComponentMixin;

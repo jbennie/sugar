@@ -449,6 +449,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 			}
 		});
 	}
+	attachedCallback() { this.connectedCallback() }
 
 	/**
 	 * When any of the component attribute changes
@@ -837,6 +838,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 			});
 		}, this.props.unmountTimeout);
 	}
+	detachedCallback() { this.disconnectedCallback() }
 
 	/**
 	 * Dispatch an event from the tag with namespaced event name
@@ -1170,10 +1172,6 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	}
 
 });
-
-// map v0 custom element spec
-SWebComponentMixin.prototype.attachedCallback = SWebComponentMixin.prototype.connectedCallback;
-SWebComponentMixin.prototype.detachedCallback = SWebComponentMixin.prototype.disconnectedCallback;
 
 // Export the mixin class
 export default SWebComponentMixin;
