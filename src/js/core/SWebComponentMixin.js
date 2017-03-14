@@ -357,7 +357,6 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	// }
 	constructor(_) { return (_ = super(_)).init(), _; }
 	init() {
-		console.log('init', this);
 		this.createdCallback();
 	}
 
@@ -366,8 +365,6 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * This is called even if the component is not attached in the DOM tree
 	 */
 	createdCallback() {
-
-		console.log('created');
 
 		// create the "s" namespace
 		this.s = {};
@@ -410,8 +407,6 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 
 		// if not already passed through the created process
 		if ( ! this._lifecycle) this.createdCallback();
-
-		console.log('connected', this._lifecycle);
 
 		// component will mount only if part of the active document
 		this.componentWillMount();

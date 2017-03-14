@@ -3,9 +3,9 @@
 	display: inline-block;
 	-webkit-appearance: none;
 	-moz-appearance: none;
-	&:not(.input-addon):not(textarea) {
-		line-height: 1 !important;
-	}
+	// &:not(.input-addon):not(textarea) {
+	// 	line-height: 1 !important;
+	// }
 	border:none;
 	outline : none;
 	width:100%;
