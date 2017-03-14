@@ -35,24 +35,25 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		window.sugar._webComponentsClasses[componentName] = component;
 
 		// register the webcomponent
-		let webcomponent;
-		if (window.customElements) {
-			window.customElements.define(name, component, {
+		if (document.registerElement) {
+			document.registerElement(name, {
+				prototype : component.prototype,
 				extends : ext
 			});
-			webcomponent = function(props = {}) {
-				if (ext) {
-					return document.createElement(ext, name).setProps(props);
-				}
-				return document.createElement(name).setProps(props);
-			};
-		} else if (document.registerElement) {
-			webcomponent = document.registerElement(name, {
-				prototype : component.prototype,
+		} else if (window.customElements) {
+			window.customElements.define(name, component, {
 				extends : ext
 			});
 		} else {
 			throw `Your browser does not support either document.registerElement or window.customElements.define webcomponents specification...`;
+		}
+
+		// create a proxy factory
+		const webcomponent = function(props = {}) {
+			if (ext) {
+				return document.createElement(ext, name).setProps(props);
+			}
+			return document.createElement(name).setProps(props);
 		}
 
 		// fix for firefox and surely other crapy browser...

@@ -289,27 +289,28 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				window.sugar._webComponentsClasses[componentName] = component;
 
 				// register the webcomponent
-				var webcomponent = void 0;
-				if (window.customElements) {
-					window.customElements.define(name, component, {
+				if (document.registerElement) {
+					document.registerElement(name, {
+						prototype: component.prototype,
 						extends: ext
 					});
-					webcomponent = function webcomponent() {
-						var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-						if (ext) {
-							return document.createElement(ext, name).setProps(props);
-						}
-						return document.createElement(name).setProps(props);
-					};
-				} else if (document.registerElement) {
-					webcomponent = document.registerElement(name, {
-						prototype: component.prototype,
+				} else if (window.customElements) {
+					window.customElements.define(name, component, {
 						extends: ext
 					});
 				} else {
 					throw 'Your browser does not support either document.registerElement or window.customElements.define webcomponents specification...';
 				}
+
+				// create a proxy factory
+				var webcomponent = function webcomponent() {
+					var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+					if (ext) {
+						return document.createElement(ext, name).setProps(props);
+					}
+					return document.createElement(name).setProps(props);
+				};
 
 				// fix for firefox and surely other crapy browser...
 				// this make sur that the (static) methods of the component
