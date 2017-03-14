@@ -1,6 +1,8 @@
 'use strict';
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 exports.default = realHeight;
 /**
  * Return the full height of an element that has maybe a max-height, etc...

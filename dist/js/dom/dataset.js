@@ -1,6 +1,8 @@
 'use strict';
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 exports.default = dataset;
 
 var _uncamelize = require('../utils/string/uncamelize');

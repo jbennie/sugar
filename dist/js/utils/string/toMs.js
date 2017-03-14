@@ -1,6 +1,8 @@
 'use strict';
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 exports.default = toMs;
 function toMs(string) {
 	// parse the string to int to get the lenght of the suffix

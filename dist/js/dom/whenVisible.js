@@ -1,6 +1,8 @@
 'use strict';
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 exports.default = whenVisible;
 
 var _isVisible = require('./isVisible');

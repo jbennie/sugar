@@ -1,6 +1,8 @@
 "use strict";
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 exports.default = uniqid;
 var uniqidIdx = 0;
 if (!window.sugar) window.sugar = {};

@@ -1,8 +1,12 @@
 'use strict';
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _SObject2 = require('../core/SObject');
 
@@ -111,7 +115,7 @@ var SAjax = function (_SObject) {
 		_classCallCheck(this, SAjax);
 
 		// if the request is not an SAjaxRequest, create it
-		var _this = _possibleConstructorReturn(this, _SObject.call(this));
+		var _this = _possibleConstructorReturn(this, (SAjax.__proto__ || Object.getPrototypeOf(SAjax)).call(this));
 
 		// init parent
 
@@ -197,139 +201,143 @@ var SAjax = function (_SObject) {
   */
 
 
-	SAjax.prototype._createRequest = function _createRequest() {
-		var _this2 = this;
+	_createClass(SAjax, [{
+		key: '_createRequest',
+		value: function _createRequest() {
+			var _this2 = this;
 
-		// process request settings
-		if (this._settings.beforeSend) {
-			this._requestSetting = this._settings.beforeSend(this._requestSettings, this._requestsCount);
-		}
-
-		// check type and datas
-		// to set datas as query string if is a GET request
-		if (this._requestSettings.method.toLowerCase() === 'get' && this._requestSettings.data && typeof this._requestSettings.data === 'string') {
-			// append the data to the URL
-			var start = '?';
-			if (this._requestSettings.url.indexOf('?') !== -1) {
-				start = '&';
+			// process request settings
+			if (this._settings.beforeSend) {
+				this._requestSetting = this._settings.beforeSend(this._requestSettings, this._requestsCount);
 			}
-			this._requestSettings.url += '' + start + this._requestSettings.data;
-		}
 
-		// create the new simple ajax instance
-		var simpleAjax = new _simpleAjax2.default(_extends({}, this._requestSettings, {
-			url: this._requestSettings.url.split(/#|%23/)[0]
-		}));
-		simpleAjax._requestSettings = Object.assign({}, this._requestSettings);
+			// check type and datas
+			// to set datas as query string if is a GET request
+			if (this._requestSettings.method.toLowerCase() === 'get' && this._requestSettings.data && typeof this._requestSettings.data === 'string') {
+				// append the data to the URL
+				var start = '?';
+				if (this._requestSettings.url.indexOf('?') !== -1) {
+					start = '&';
+				}
+				this._requestSettings.url += '' + start + this._requestSettings.data;
+			}
 
-		// listen request states
-		simpleAjax.on('success', function (e) {
-			// grab response
-			var response = e.target.response;
+			// create the new simple ajax instance
+			var simpleAjax = new _simpleAjax2.default(_extends({}, this._requestSettings, {
+				url: this._requestSettings.url.split(/#|%23/)[0]
+			}));
+			simpleAjax._requestSettings = Object.assign({}, this._requestSettings);
 
-			// get the content type
-			var contentType = simpleAjax.request.getResponseHeader('content-type');
+			// listen request states
+			simpleAjax.on('success', function (e) {
+				// grab response
+				var response = e.target.response;
 
-			// switch on content type
-			switch (true) {
-				case contentType.indexOf('text/html') === 0:
-					// check if the url has an hash
-					// and that the request dataType is html
-					var urlParts = simpleAjax._requestSettings.url.toString().split(/#|%23/);
-					if (urlParts.length >= 2 && document !== undefined && document.querySelector !== undefined) {
-						var html = (0, _strToHtml2.default)(response);
-						if (html.id === urlParts[1]) {
-							response = (0, _htmlToStr2.default)(html);
-						} else {
-							var part = html.querySelector('#' + urlParts[1]);
-							if (part) {
-								response = (0, _htmlToStr2.default)(part);
+				// get the content type
+				var contentType = simpleAjax.request.getResponseHeader('content-type');
+
+				// switch on content type
+				switch (true) {
+					case contentType.indexOf('text/html') === 0:
+						// check if the url has an hash
+						// and that the request dataType is html
+						var urlParts = simpleAjax._requestSettings.url.toString().split(/#|%23/);
+						if (urlParts.length >= 2 && document !== undefined && document.querySelector !== undefined) {
+							var html = (0, _strToHtml2.default)(response);
+							if (html.id === urlParts[1]) {
+								response = (0, _htmlToStr2.default)(html);
+							} else {
+								var part = html.querySelector('#' + urlParts[1]);
+								if (part) {
+									response = (0, _htmlToStr2.default)(part);
+								}
 							}
 						}
-					}
-					break;
-				case contentType.indexOf('application/json') === 0:
-					response = JSON.parse(response);
-					break;
-			}
-
-			// check if need to store response in cache
-			if (_this2._settings.cache) {
-				console.log('set', simpleAjax._requestSettings.url, response);
-				_this2._settings.cache.set(simpleAjax._requestSettings.url, response);
-			}
-
-			// push the result into the observer
-			if (_this2._observer) _this2._observer.next(response);
-			// notify Promise
-			if (_this2._resolve) _this2._resolve(response);
-		});
-		simpleAjax.on('error', function (e) {
-			// error
-			if (_this2._observer) _this2._observer.error(e.target.response);
-			// notify promise
-			if (_this2._reject) _this2._reject(e.target.response);
-		});
-		simpleAjax.on('complete', function (e) {
-			// check the settings to see if we need to do it again
-			// after a certain timeout
-			if (_this2._settings.sendInterval) {
-				// handle sendCount
-				if (_this2._settings.sendCount && _this2._requestsCount >= _this2._settings.sendCount) {
-					// notify subscriber
-					if (_this2._observer) {
-						_this2._observer.complete();
-					}
-					// stop here
-					return;
-				} else if (_this2._settings.sendCount) {
-					// wait the requested timeout and send a new request
-					setTimeout(function () {
-						_this2.send();
-					}, _this2._settings.sendInterval);
+						break;
+					case contentType.indexOf('application/json') === 0:
+						response = JSON.parse(response);
+						break;
 				}
-			}
-		});
 
-		// save into instance
-		this._simpleAjax = simpleAjax;
-	};
-
-	/**
-  * Send the request and return a promise
-  * @return 	{Promise} 	The promise through which you will be notified when data are here
-  */
-
-
-	SAjax.prototype.send = function send() {
-		var _this3 = this;
-
-		// create the new request
-		this._createRequest();
-
-		// update request count
-		this._requestsCount++;
-
-		// return a promise
-		return new Promise(function (resolve, reject) {
-
-			// check if a cache exist and if we have the content
-			if (_this3._settings.cache) {
-				var response = _this3._settings.cache.get(_this3._requestSettings.url);
-				if (response) {
-					resolve(response);
-					return;
+				// check if need to store response in cache
+				if (_this2._settings.cache) {
+					console.log('set', simpleAjax._requestSettings.url, response);
+					_this2._settings.cache.set(simpleAjax._requestSettings.url, response);
 				}
-			}
 
-			// set the resolve and reject callback in the instance
-			_this3._resolve = resolve;
-			_this3._reject = reject;
+				// push the result into the observer
+				if (_this2._observer) _this2._observer.next(response);
+				// notify Promise
+				if (_this2._resolve) _this2._resolve(response);
+			});
+			simpleAjax.on('error', function (e) {
+				// error
+				if (_this2._observer) _this2._observer.error(e.target.response);
+				// notify promise
+				if (_this2._reject) _this2._reject(e.target.response);
+			});
+			simpleAjax.on('complete', function (e) {
+				// check the settings to see if we need to do it again
+				// after a certain timeout
+				if (_this2._settings.sendInterval) {
+					// handle sendCount
+					if (_this2._settings.sendCount && _this2._requestsCount >= _this2._settings.sendCount) {
+						// notify subscriber
+						if (_this2._observer) {
+							_this2._observer.complete();
+						}
+						// stop here
+						return;
+					} else if (_this2._settings.sendCount) {
+						// wait the requested timeout and send a new request
+						setTimeout(function () {
+							_this2.send();
+						}, _this2._settings.sendInterval);
+					}
+				}
+			});
 
-			// send the request
-			_this3._simpleAjax.send();
-		});
-	};
+			// save into instance
+			this._simpleAjax = simpleAjax;
+		}
+
+		/**
+   * Send the request and return a promise
+   * @return 	{Promise} 	The promise through which you will be notified when data are here
+   */
+
+	}, {
+		key: 'send',
+		value: function send() {
+			var _this3 = this;
+
+			// create the new request
+			this._createRequest();
+
+			// update request count
+			this._requestsCount++;
+
+			// return a promise
+			return new Promise(function (resolve, reject) {
+
+				// check if a cache exist and if we have the content
+				if (_this3._settings.cache) {
+					var response = _this3._settings.cache.get(_this3._requestSettings.url);
+					if (response) {
+						resolve(response);
+						return;
+					}
+				}
+
+				// set the resolve and reject callback in the instance
+				_this3._resolve = resolve;
+				_this3._reject = reject;
+
+				// send the request
+				_this3._simpleAjax.send();
+			});
+		}
+	}]);
 
 	return SAjax;
 }(_SObject3.default);

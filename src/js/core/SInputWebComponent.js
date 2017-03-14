@@ -8,9 +8,4 @@ if (typeof HTMLInputElement !== 'function'){
 }
 
 export default class SInputWebComponent extends mix(HTMLInputElement).with(SWebComponentMixin) {
-
-	/**
-	 * Constructor
-	 */
-	constructor() { super(); }
 }

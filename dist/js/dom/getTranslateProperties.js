@@ -1,6 +1,8 @@
 'use strict';
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 exports.default = getTranslateProperties;
 /**
  * Get a translate properties of an HTMLElement

@@ -1,6 +1,8 @@
 "use strict";
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 exports.default = throttle;
 /**
  * This utils function allows you to make sure that a function that will normally be called

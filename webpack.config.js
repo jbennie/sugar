@@ -9,7 +9,7 @@ module.exports = {
 	},
 	resolve: {
 		alias: {
-			"coffeekraken-sugar" : path.resolve(__dirname + '/src/')
+			"coffeekraken-sugar" : path.resolve(__dirname + '/dist/')
 		}
 	},
 	module: {

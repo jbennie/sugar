@@ -1,6 +1,8 @@
 'use strict';
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.default = getStyleProperty;
 
 var _camelize = require('../utils/string/camelize');

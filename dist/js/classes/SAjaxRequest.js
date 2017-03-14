@@ -1,6 +1,10 @@
 'use strict';
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -111,17 +115,20 @@ var SAjaxRequest = function () {
   */
 
 
-	SAjaxRequest.prototype._checkParams = function _checkParams(params) {
-		// loop on each params
-		for (var key in params) {
-			if (!this.hasOwnProperty(key)) {
-				throw 'The SAjaxRequest does not support the passed "' + key + '" parameter...';
-				return false;
+	_createClass(SAjaxRequest, [{
+		key: '_checkParams',
+		value: function _checkParams(params) {
+			// loop on each params
+			for (var key in params) {
+				if (!this.hasOwnProperty(key)) {
+					throw 'The SAjaxRequest does not support the passed "' + key + '" parameter...';
+					return false;
+				}
 			}
+			// all ok
+			return true;
 		}
-		// all ok
-		return true;
-	};
+	}]);
 
 	return SAjaxRequest;
 }();

@@ -1,5 +1,6 @@
 import { Mixin } from '../vendors/mixwith'
 import __autoCast from '../utils/string/autoCast'
+import _extend from 'lodash/extend'
 import __camelize from '../utils/string/camelize'
 import __upperFirst from '../utils/string/upperFirst'
 import fastdom from 'fastdom'
@@ -9,6 +10,8 @@ import __whenVisible from '../dom/whenVisible'
 import __prependChild from '../dom/prependChild'
 import __SWatcher from '../classes/SWatcher'
 import __propertyProxy from '../utils/objects/propertyProxy'
+
+// require('document-register-element');
 
 if ( ! window.sugar) window.sugar = {};
 if ( ! window.sugar._webComponentsClasses) window.sugar._webComponentsClasses = {};
@@ -37,7 +40,12 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 			window.customElements.define(name, component, {
 				extends : ext
 			});
-			webcomponent = component;
+			webcomponent = function(props = {}) {
+				if (ext) {
+					return document.createElement(ext, name).setProps(props);
+				}
+				return document.createElement(name).setProps(props);
+			};
 		} else if (document.registerElement) {
 			webcomponent = document.registerElement(name, {
 				prototype : component.prototype,
@@ -341,10 +349,14 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	/**
 	 * Constructor
 	 */
-	constructor() {
-		// ctor
-		super();
-		// createdCallback
+	// constructor() {
+	// 	super();
+	// 	// createdCallback
+	// 	this.createdCallback();
+	// }
+	constructor(_) { return (_ = super(_)).init(), _; }
+	init() {
+		console.log('init', this);
 		this.createdCallback();
 	}
 
@@ -353,6 +365,8 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * This is called even if the component is not attached in the DOM tree
 	 */
 	createdCallback() {
+
+		console.log('created');
 
 		// create the "s" namespace
 		this.s = {};
@@ -392,6 +406,11 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * When the element is attached in the DOM tree
 	 */
 	connectedCallback() {
+
+		// if not already passed through the created process
+		if ( ! this._lifecycle) this.createdCallback();
+
+		console.log('connected', this._lifecycle);
 
 		// component will mount only if part of the active document
 		this.componentWillMount();

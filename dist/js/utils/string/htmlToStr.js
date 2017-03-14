@@ -1,6 +1,8 @@
 'use strict';
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 exports.default = htmlToStr;
 function htmlToStr(html) {
 	var deep = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;

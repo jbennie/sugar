@@ -1,6 +1,8 @@
 'use strict';
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -56,68 +58,72 @@ var SCache = function () {
   */
 
 
-	SCache.prototype.get = function get(id) {
-		// get the data into the storage
-		var cacheObj = this.cache[id];
-		if (!cacheObj) return;
-		// check the lifetime
-		if (this.now > cacheObj.expire) {
-			// delete the cache item
-			delete this.cache[id];
+	_createClass(SCache, [{
+		key: 'get',
+		value: function get(id) {
+			// get the data into the storage
+			var cacheObj = this.cache[id];
+			if (!cacheObj) return;
+			// check the lifetime
+			if (this.now > cacheObj.expire) {
+				// delete the cache item
+				delete this.cache[id];
+				// save the cache
+				this.save();
+				// we not have any cache left
+				return null;
+			}
+			// otherwise, the value is valid so return it
+			return (0, _autoCast2.default)(cacheObj.value);
+		}
+
+		/**
+   * Get the now timestamp
+   * @return 		{Integer} 					The timestamp of now
+   */
+
+	}, {
+		key: 'set',
+
+
+		/**
+   * Set a value in the cache
+   * @param 		{String} 		id 			The id of the cache element to set
+   * @param 		{Mixed} 		value 		The value to set in cache
+   * @param 		{Integer} 		lifetime	The lifetime of this value in cache
+   */
+		value: function set(id, value) {
+			var lifetime = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+			var cacheObj = {};
+			// check if already have this item to update if
+			// if (this.cache[id]) {
+			// 	cacheObj = this.cache[id];
+			// 	// update the cache
+			// 	cacheObj = {
+			// 		...cacheObj,
+			// 		value,
+			// 		updated : this.now
+			// 	}
+			// } else {
+			// create the cache object that need to be stored
+			cacheObj = {
+				id: id,
+				value: value,
+				lifetime: lifetime || this.settings.lifetime,
+				expire: this.now + (lifetime || this.settings.lifetime),
+				created: this.now,
+				updated: null
+			};
+			// set the cache object into cache
+			this.cache[id] = cacheObj;
+			// }
 			// save the cache
 			this.save();
-			// we not have any cache left
-			return null;
+			// return the value to store
+			return cacheObj;
 		}
-		// otherwise, the value is valid so return it
-		return (0, _autoCast2.default)(cacheObj.value);
-	};
-
-	/**
-  * Get the now timestamp
-  * @return 		{Integer} 					The timestamp of now
-  */
-
-
-	/**
-  * Set a value in the cache
-  * @param 		{String} 		id 			The id of the cache element to set
-  * @param 		{Mixed} 		value 		The value to set in cache
-  * @param 		{Integer} 		lifetime	The lifetime of this value in cache
-  */
-	SCache.prototype.set = function set(id, value) {
-		var lifetime = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-
-		var cacheObj = {};
-		// check if already have this item to update if
-		// if (this.cache[id]) {
-		// 	cacheObj = this.cache[id];
-		// 	// update the cache
-		// 	cacheObj = {
-		// 		...cacheObj,
-		// 		value,
-		// 		updated : this.now
-		// 	}
-		// } else {
-		// create the cache object that need to be stored
-		cacheObj = {
-			id: id,
-			value: value,
-			lifetime: lifetime || this.settings.lifetime,
-			expire: this.now + (lifetime || this.settings.lifetime),
-			created: this.now,
-			updated: null
-		};
-		// set the cache object into cache
-		this.cache[id] = cacheObj;
-		// }
-		// save the cache
-		this.save();
-		// return the value to store
-		return cacheObj;
-	};
-
-	_createClass(SCache, [{
+	}, {
 		key: 'now',
 		get: function get() {
 			return Math.round(new Date().getTime() / 1000);

@@ -1,6 +1,8 @@
 "use strict";
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 exports.default = setRecursiveTimeout;
 /**
  * This utils function allows you to call a passed function each x time during a certain duration

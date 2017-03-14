@@ -1,6 +1,8 @@
 'use strict';
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 exports.default = strToHtml;
 function strToHtml(string) {
 	if (document !== undefined && document.createElement !== undefined) {

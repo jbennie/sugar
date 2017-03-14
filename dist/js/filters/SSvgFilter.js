@@ -1,6 +1,10 @@
 'use strict';
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _uniqid = require('../utils/uniqid');
 
@@ -66,81 +70,88 @@ var SSvgFilter = function () {
   */
 
 
-	SSvgFilter.prototype.applyTo = function applyTo(elm) {
-		var _this = this;
+	_createClass(SSvgFilter, [{
+		key: 'applyTo',
+		value: function applyTo(elm) {
+			var _this = this;
 
-		['-webkit-', '-moz-', '-ms-', '-o-', ''].forEach(function (vendor) {
-			elm.style[vendor + 'filter'] = 'url("#' + _this.id + '")';
-		});
-		this.elms.push(elm);
-	};
-
-	/**
-  * Unapply from
-  * @param 		{HTMLElement} 			elm 			The element from which to remove the filter
-  */
-
-
-	SSvgFilter.prototype.unapplyFrom = function unapplyFrom(elm) {
-		['-webkit-', '-moz-', '-ms-', '-o-', ''].forEach(function (vendor) {
-			delete elm.style[vendor + 'filter'];
-		});
-		// remove from stack
-		var idx = this.elms.indexOf(elm);
-		if (idx) this.elms.splice(idx, 1);
-	};
-
-	/**
-  * Insert the filter
-  */
-
-
-	SSvgFilter.prototype._insertFilter = function _insertFilter() {
-		var svg = '\n\t\t\t<svg xmlns="http://www.w3.org/2000/svg" version="1.1">\n\t\t\t\t<defs>\n\t\t\t\t</defs>\n\t\t\t</svg>\n\t\t';
-		var div = document.createElement('div');
-		div.innerHTML = svg;
-		var defs = div.querySelector('defs');
-
-		// add the filter to the svg
-		this.filter_content = '<filter id="' + this.id + '">' + this.filter_content + '</filter>';
-		defs.innerHTML = this.filter_content;
-		this.filter = defs.querySelector('#' + this.id);
-		this.svg = div.querySelector('svg');
-		SSvgFilter.filtersContainer.appendChild(this.svg);
-	};
-
-	/**
-  * Destroy the filter
-  */
-
-
-	SSvgFilter.prototype.destroy = function destroy() {
-		var _this2 = this;
-
-		// loop on each element savec in stack to remove the filter
-		this.elms.forEach(function (elm) {
-			_this2.unapplyFrom(elm);
-		});
-		// remove the filter from the html
-		this.svg.parentNode.removeChild(this.svg);
-	};
-
-	/**
-  * Inject the svg that will contains all the filters created through this class
-  * @private
-  */
-
-
-	SSvgFilter._injectFiltersContainer = function _injectFiltersContainer() {
-		var style = ['position:absolute;', 'left:-1000px;', 'top:-300px;'];
-		if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
-			style.push('display:none;');
+			['-webkit-', '-moz-', '-ms-', '-o-', ''].forEach(function (vendor) {
+				elm.style[vendor + 'filter'] = 'url("#' + _this.id + '")';
+			});
+			this.elms.push(elm);
 		}
-		SSvgFilter.filtersContainer = document.createElement('div');
-		SSvgFilter.filtersContainer.id = 's-svg-filters';
-		SSvgFilter.filtersContainer.style = style.join(' ');
-		document.body.appendChild(SSvgFilter.filtersContainer);
-	};
+
+		/**
+   * Unapply from
+   * @param 		{HTMLElement} 			elm 			The element from which to remove the filter
+   */
+
+	}, {
+		key: 'unapplyFrom',
+		value: function unapplyFrom(elm) {
+			['-webkit-', '-moz-', '-ms-', '-o-', ''].forEach(function (vendor) {
+				delete elm.style[vendor + 'filter'];
+			});
+			// remove from stack
+			var idx = this.elms.indexOf(elm);
+			if (idx) this.elms.splice(idx, 1);
+		}
+
+		/**
+   * Insert the filter
+   */
+
+	}, {
+		key: '_insertFilter',
+		value: function _insertFilter() {
+			var svg = '\n\t\t\t<svg xmlns="http://www.w3.org/2000/svg" version="1.1">\n\t\t\t\t<defs>\n\t\t\t\t</defs>\n\t\t\t</svg>\n\t\t';
+			var div = document.createElement('div');
+			div.innerHTML = svg;
+			var defs = div.querySelector('defs');
+
+			// add the filter to the svg
+			this.filter_content = '<filter id="' + this.id + '">' + this.filter_content + '</filter>';
+			defs.innerHTML = this.filter_content;
+			this.filter = defs.querySelector('#' + this.id);
+			this.svg = div.querySelector('svg');
+			SSvgFilter.filtersContainer.appendChild(this.svg);
+		}
+
+		/**
+   * Destroy the filter
+   */
+
+	}, {
+		key: 'destroy',
+		value: function destroy() {
+			var _this2 = this;
+
+			// loop on each element savec in stack to remove the filter
+			this.elms.forEach(function (elm) {
+				_this2.unapplyFrom(elm);
+			});
+			// remove the filter from the html
+			this.svg.parentNode.removeChild(this.svg);
+		}
+
+		/**
+   * Inject the svg that will contains all the filters created through this class
+   * @private
+   */
+
+	}], [{
+		key: '_injectFiltersContainer',
+		value: function _injectFiltersContainer() {
+			var style = ['position:absolute;', 'left:-1000px;', 'top:-300px;'];
+			if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
+				style.push('display:none;');
+			}
+			SSvgFilter.filtersContainer = document.createElement('div');
+			SSvgFilter.filtersContainer.id = 's-svg-filters';
+			SSvgFilter.filtersContainer.style = style.join(' ');
+			document.body.appendChild(SSvgFilter.filtersContainer);
+		}
+	}]);
 
 	return SSvgFilter;
 }();

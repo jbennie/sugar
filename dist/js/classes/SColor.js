@@ -1,6 +1,8 @@
 'use strict';
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -104,648 +106,682 @@ var SColor = function () {
      */
 
 
-    SColor.prototype._parse = function _parse(color) {
-        // detecting input format
-        if (typeof color == 'string') {
-            color = color.replace(/\s/g, '');
-            if (color.indexOf('rgb') != -1) {
-                color = this.parseRgba(color);
-            } else if (color.indexOf('hsv') != -1) {
-                color = this.parseHsv(color);
-                color = this.hsv2rgba(color.h, color.s, color.v);
-            } else if (color.indexOf('hsl') != -1) {
-                color = this.parseHsl(color);
-                color = this.hsl2rgba(color.h, color.s, color.l);
-            } else if (color.substring(0, 1) == '#') {
-                color = this.hex2rgba(color);
-            }
-        } else if ((typeof color === 'undefined' ? 'undefined' : _typeof(color)) == 'object') {
-            if (!(color.r && color.g && color.b) || !(color.h && color.s && color.l) || !(color.h && color.s && color.v)) {
-                throw 'The passed color object ' + color.toString() + ' is not valid';
-            }
-        } else {
-            throw 'The passed color ' + color.toString() + ' is not valid';
-        }
-        // assign new color values
-        this.r = color.r;
-        this.g = color.g;
-        this.b = color.b;
-        this.a = color.a;
-        // return the parsed color
-        return color;
-    };
-
-    /**
-     * Concert color
-     * @param {string} format The format wanted as output like (rgba,hsl,hsv and hex)
-     * @return {object} The color in wanted object format
-     */
-
-
-    SColor.prototype.convert2 = function convert2(format) {
-        switch (format) {
-            case 'rgba':
-                return this.rgba2rgba(this.r, this.g, this.b, this.a);
-                break;
-            case 'hsl':
-                return this.rgba2hsl(this.r, this.g, this.b, this.a);
-                break;
-            case 'hsv':
-                return this.rgba2hsv(this.r, this.g, this.b, this.a);
-                break;
-            case 'hex':
-                return this.rgba2hex(this.r, this.g, this.b, this.a);
-                break;
-        }
-    };
-
-    /**
-     * Parse RGBA
-     * @param {string} rgbaString The rgba string (rgba(r,g,b,a)) to parse
-     * @return {object} The rgba object representation
-     */
-
-
-    SColor.prototype.parseRgba = function parseRgba(rgbaString) {
-        rgbaString = rgbaString.toLowerCase();
-        var string = rgbaString.replace('rgba(', '').replace(')', '').replace(/\s/g, '');
-        var array = string.split(',');
-        return {
-            r: parseInt(array[0]),
-            g: parseInt(array[1]),
-            b: parseInt(array[2]),
-            a: parseInt(array[3])
-        };
-    };
-
-    /**
-     * Parse HSL
-     * @param {string} hslString The hsl string (hsl(h,s,l)) to parse
-     * @return {object} The hsl object representation
-     */
-
-
-    SColor.prototype.parseHsl = function parseHsl(hslString) {
-        hslString = hslString.toLowerCase();
-        var string = hslString.replace('hsl(', '').replace(')', '').replace(/\s/g, '');
-        var array = string.split(',');
-        return {
-            h: parseFloat(array[0]),
-            s: parseFloat(array[1]),
-            l: parseFloat(array[2])
-        };
-    };
-
-    /**
-     * Parse HSV
-     * @param {string} hsvString The hsv string (hsv(h,s,v)) to parse
-     * @return {object} The hsv object representation
-     */
-
-
-    SColor.prototype.parseHsv = function parseHsv(hsvString) {
-        hsvString = hsvString.toLowerCase();
-        var string = hsvString.replace('hsv(', '').replace(')', '').replace(/\s/g, '');
-        var array = string.split(',');
-        return {
-            h: parseFloat(array[0]),
-            s: parseFloat(array[1]),
-            v: parseFloat(array[2])
-        };
-    };
-
-    /**
-     * RGBA to HEX
-     * @param {Number} r The red value between 0-255
-     * @param {Number} g The green value between 0-255
-     * @param {Number} b The blue value between 0-255
-     * @param {Number} a The alpha value between 0-100|0-1
-     * @return {string} The hex string representation like #ff004f
-     */
-
-
-    SColor.prototype.rgba2hex = function rgba2hex(r, g, b) {
-        var a = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
-
-        var alpha = '';
-        if (a != 1 && a != 100) {
-            if (a < 1) {
-                a = 255 * a;
-            } else if (a > 1) {
-                a = 255 / 100 * a;
-            }
-            a = Math.round(a);
-            alpha = parseInt(a, 10).toString(16);
-        }
-        return '#' + ("0" + parseInt(r, 10).toString(16)).slice(-2) + ("0" + parseInt(g, 10).toString(16)).slice(-2) + ("0" + parseInt(b, 10).toString(16)).slice(-2) + alpha;
-    };
-
-    /**
-     * RGBA to RGBA
-     * @param {Number} r The red value between 0-255
-     * @param {Number} g The green value between 0-255
-     * @param {Number} b The blue value between 0-255
-     * @param {Number} a The alpha value between 0-100|0-1
-     * @return {object} The rgba object representation
-     */
-
-
-    SColor.prototype.rgba2rgba = function rgba2rgba(r, g, b, a) {
-        a = parseFloat(a);
-        if (a > 1) a = 1 / 100 * a;
-        return {
-            r: r,
-            g: g,
-            b: b,
-            a: a
-        };
-    };
-
-    /**
-     * Hex to RGBA
-     * @param {string} hex The hex string to convert
-     * @return {object} The rgba object representation
-     */
-
-
-    SColor.prototype.hex2rgba = function hex2rgba(hex) {
-        hex = hex.replace('#', '');
-        var r = parseInt(hex.substring(0, 2), 16);
-        var g = parseInt(hex.substring(2, 4), 16);
-        var b = parseInt(hex.substring(4, 6), 16);
-        var a = 1;
-        if (hex.length == 8) {
-            a = 1 / 255 * parseInt(hex.substring(6, 8), 16);
-        }
-        return {
-            r: r,
-            g: g,
-            b: b,
-            a: a
-        };
-    };
-
-    /**
-     * HSV to RGBA
-     * @param {Number} h The hue value between 0-360
-     * @param {Number} s The saturation value between 0-100|0-1
-     * @param {Number} v The value value between 0-100|0-1
-     * @param {Number} a The alpha value between 0-100|0-1
-     * @return {object} The rgba object representation
-     */
-
-
-    SColor.prototype.hsv2rgba = function hsv2rgba(h, s, v) {
-        var a = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
-
-        // manage arguments
-        h = parseFloat(h);
-        s = parseFloat(s);
-        v = parseFloat(v);
-        a = parseFloat(a);
-        if (h > 1) h = 1 / 360 * h;
-        if (s > 1) s = 1 / 100 * s;
-        if (v > 1) v = 1 / 100 * v;
-        if (a > 1) a = 1 / 100 * a;
-
-        var r, g, b, i, f, p, q, t;
-        i = Math.floor(h * 6);
-        f = h * 6 - i;
-        p = v * (1 - s);
-        q = v * (1 - f * s);
-        t = v * (1 - (1 - f) * s);
-        switch (i % 6) {
-            case 0:
-                r = v, g = t, b = p;
-                break;
-            case 1:
-                r = q, g = v, b = p;
-                break;
-            case 2:
-                r = p, g = v, b = t;
-                break;
-            case 3:
-                r = p, g = q, b = v;
-                break;
-            case 4:
-                r = t, g = p, b = v;
-                break;
-            case 5:
-                r = v, g = p, b = q;
-                break;
-        }
-        return {
-            r: Math.round(r * 255),
-            g: Math.round(g * 255),
-            b: Math.round(b * 255),
-            a: a
-        };
-    };
-
-    /**
-     * HSL to RGBA
-     * @param {Number} h The hue value between 0-360
-     * @param {Number} s The saturation value between 0-100|0-1
-     * @param {Number} l The luminence value between 0-100|0-1
-     * @param {Number} a The alpha value between 0-100|0-1
-     * @return {object} The rgba object representation
-     */
-
-
-    SColor.prototype.hsl2rgba = function hsl2rgba(h, s, l) {
-        var a = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
-
-        // manage arguments
-        h = parseFloat(h);
-        s = parseFloat(s);
-        l = parseFloat(l);
-        a = parseFloat(a);
-        if (h > 1) h = 1 / 360 * h;
-        if (s > 1) s = 1 / 100 * s;
-        if (l > 1) l = 1 / 100 * l;
-        if (a > 1) a = 1 / 100 * a;
-
-        var r = void 0,
-            g = void 0,
-            b = void 0;
-        if (s == 0) {
-            r = g = b = l; // achromatic
-        } else {
-            var hue2rgb = function hue2rgb(p, q, t) {
-                if (t < 0) t += 1;
-                if (t > 1) t -= 1;
-                if (t < 1 / 6) return p + (q - p) * 6 * t;
-                if (t < 1 / 2) return q;
-                if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-                return p;
-            };
-
-            var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-            var p = 2 * l - q;
-            r = hue2rgb(p, q, h + 1 / 3);
-            g = hue2rgb(p, q, h);
-            b = hue2rgb(p, q, h - 1 / 3);
-        }
-
-        return {
-            r: Math.round(r * 255),
-            g: Math.round(g * 255),
-            b: Math.round(b * 255),
-            a: a
-        };
-    };
-
-    /**
-     * RGBA to HSV
-     * @param {Number} r The red value between 0-255
-     * @param {Number} g The green value between 0-255
-     * @param {Number} b The blue value between 0-255
-     * @param {Number} a The alpha value between 0-100|0-1
-     * @return {object} The hsv object representation
-     */
-
-
-    SColor.prototype.rgba2hsv = function rgba2hsv(r, g, b) {
-        var a = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
-
-        var min = Math.min(r, g, b),
-            max = Math.max(r, g, b),
-            delta = max - min,
-            h = void 0,
-            s = void 0,
-            v = max;
-
-        v = Math.floor(max / 255 * 100);
-        if (max != 0) s = Math.floor(delta / max * 100);else {
-            // black
-            return [0, 0, 0];
-        }
-
-        if (r == max) h = (g - b) / delta; // between yellow & magenta
-        else if (g == max) h = 2 + (b - r) / delta; // between cyan & yellow
-            else h = 4 + (r - g) / delta; // between magenta & cyan
-
-        h = Math.floor(h * 60); // degrees
-        if (h < 0) h += 360;
-
-        return {
-            h: h,
-            s: s,
-            v: v
-        };
-    };
-
-    /**
-     * RGBA to HSL
-     * @param {Number} r The red value between 0-255
-     * @param {Number} g The green value between 0-255
-     * @param {Number} b The blue value between 0-255
-     * @param {Number} a The alpha value between 0-100|0-1
-     * @return {object} The hsl object representation
-     */
-
-
-    SColor.prototype.rgba2hsl = function rgba2hsl(r, g, b) {
-        var a = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
-
-        r /= 255, g /= 255, b /= 255;
-        var max = Math.max(r, g, b),
-            min = Math.min(r, g, b);
-        var h = void 0,
-            s = void 0,
-            l = (max + min) / 2;
-
-        if (max == min) {
-            h = s = 0; // achromatic
-        } else {
-            var d = max - min;
-            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-            switch (max) {
-                case r:
-                    h = (g - b) / d + (g < b ? 6 : 0);
-                    break;
-                case g:
-                    h = (b - r) / d + 2;
-                    break;
-                case b:
-                    h = (r - g) / d + 4;
-                    break;
-            }
-            h /= 6;
-        }
-        return {
-            h: Math.floor(h * 360),
-            s: Math.floor(s * 100),
-            l: Math.floor(l * 100)
-        };
-    };
-
-    /**
-     * To hex
-     * @return {string} The hex string representation
-     */
-
-
-    SColor.prototype.toHex = function toHex() {
-        return this.convert2('hex');
-    };
-
-    /**
-     * To hsl
-     * @return {object} The hsl object representation
-     */
-
-
-    SColor.prototype.toHsl = function toHsl() {
-        return this.convert2('hsl');
-    };
-
-    /**
-     * To hsv
-     * @return {object} The hsv object representation
-     */
-
-
-    SColor.prototype.toHsv = function toHsv() {
-        return this.convert2('hsv');
-    };
-
-    /**
-     * To rgba
-     * @return {object} The rgba object representation
-     */
-
-
-    SColor.prototype.toRgba = function toRgba() {
-        return this.convert2('rgba');
-    };
-
-    /**
-     * Get the red value
-     * @return {Number} The red value
-     */
-
-
-    /**
-     * Reset to the original color
-     */
-    SColor.prototype.reset = function reset() {
-        // parse again the color
-        this._parse(this.originalSColor);
-    };
-
-    /**
-     * Desaturate
-     * @param {Number} amount The amount of desaturation wanted between 0-100
-     * @return {object} The color instance to maintain chainability
-     */
-
-
-    SColor.prototype.desaturate = function desaturate(amount) {
-        amount = parseInt(amount);
-        var n = new SColor(this.toHex());
-        n.s -= amount;
-        return n;
-    };
-
-    /**
-     * Saturate
-     * @param {Number} amount The amount of saturation wanted between 0-100
-     * @return {object} The color instance to maintain chainability
-     */
-
-
-    SColor.prototype.saturate = function saturate(amount) {
-        amount = parseInt(amount);
-        var n = new SColor(this.toHex());
-        n.s += amount;
-        return n;
-    };
-
-    /**
-     * Grayscale
-     * @return {object} The color instance to maintain chainability
-     */
-
-
-    SColor.prototype.grayscale = function grayscale() {
-        var n = new SColor(this.toHex());
-        n.s = 0;
-        return n;
-    };
-
-    /**
-     * Spin
-     * @param {Number} amount The amount of hue spin wanted between 0-360
-     * @return {object} The color instance to maintain chainability
-     */
-
-
-    SColor.prototype.spin = function spin(amount) {
-        amount = parseInt(amount);
-        var hue = this.h;
-        var newHue = hue + amount;
-        if (newHue > 360) {
-            newHue -= 360;
-        }
-        var n = new SColor(this.toHex());
-        n.h = newHue;
-        return n;
-    };
-
-    /**
-     * Transparentize
-     * @param {Number} amount The amount of transparence to apply between 0-100|0-1
-     * @return {object} The color instance to maintain chainability
-     */
-
-
-    SColor.prototype.transparentize = function transparentize(amount) {
-        amount = parseFloat(amount);
-        var n = new SColor(this.toHex());
-        n.a -= amount;
-        return n;
-    };
-
-    /**
-     * Set the alpha
-     * @param {Number} alpha The new alpha value to apply between 0-100|0-1
-     * @return {object} The color instance to maintain chainability
-     */
-
-
-    SColor.prototype.alpha = function alpha(_alpha) {
-        _alpha = parseFloat(_alpha);
-        var n = new SColor(this.toHex());
-        n.a = _alpha;
-        return n;
-    };
-
-    /**
-     * Set the opacity (alias for alpha)
-     * @param {Number} opacity The new opacity value to apply between 0-100|0-1
-     * @return {object} The color instance to maintain chainability
-     */
-
-
-    SColor.prototype.opacity = function opacity(_opacity) {
-        return this.alpha(_opacity);
-    };
-
-    /**
-     * Opacify
-     * @param {Number} amount The amount of transparence to remove between 0-100|0-1
-     * @return {object} The color instance to maintain chainability
-     */
-
-
-    SColor.prototype.opacify = function opacify(amount) {
-        amount = parseFloat(amount);
-        var n = new SColor(this.toHex());
-        n.a += amount;
-        return n;
-    };
-
-    /**
-     * Darken
-     * @param {Number} amount The amount of darkness (of the nightmare of the shadow) to apply between 0-100
-     * @return {object} The color instance to maintain chainabiliy
-     */
-
-
-    SColor.prototype.darken = function darken(amount) {
-        amount = parseInt(amount);
-        var n = new SColor(this.toHex());
-        n.l -= amount;
-        return n;
-    };
-
-    /**
-     * Lighten
-     * @param {Number} amount The amount of lightness (of the sky of the angels) to apply between 0-100
-     * @return {object} The color instance to maintain chainability
-     */
-
-
-    SColor.prototype.lighten = function lighten(amount) {
-        amount = parseInt(amount);
-        var n = new SColor(this.toHex());
-        n.l += amount;
-        return n;
-    };
-
-    /**
-     * To hex string
-     * @return {string} The hex string representation of the color
-     */
-
-
-    SColor.prototype.toHexString = function toHexString() {
-        return this.convert2('hex');
-    };
-
-    /**
-     * To rgba string
-     * @return {string} The rgba string representation of the color
-     */
-
-
-    SColor.prototype.toRgbaString = function toRgbaString() {
-        return 'rgba(' + this._r + ',' + this._g + ',' + this._b + ',' + this._a + ')';
-    };
-
-    /**
-     * To hsl string
-     * @return {string} The hsl string representation of the color
-     */
-
-
-    SColor.prototype.toHslString = function toHslString() {
-        var hsl = this.convert2('hsl');
-        return 'hsl(' + hsl.h + ',' + hsl.s + ',' + hsl.l + ')';
-    };
-
-    /**
-     * To hsv string
-     * @return {string} The hsv string representation of the color
-     */
-
-
-    SColor.prototype.toHsvString = function toHsvString() {
-        var hsv = this.convert2('hsv');
-        return 'hsv(' + hsv.h + ',' + hsv.s + ',' + hsv.v + ')';
-    };
-
-    /**
-     * To string
-     * @return {string} The rgba string representation of the color
-     */
-
-
-    SColor.prototype.toString = function toString() {
-        var format = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-
-        if (!format) {
-            format = SColor.toStringFormat;
-        }
-        switch (format) {
-            case 'hex':
-                return this.toHexString();
-                break;
-            case 'hsl':
-                return this.toHslString();
-                break;
-            case 'hsv':
-                return this.toHsvString();
-                break;
-            case 'rgba':
-            default:
-                return this.toRgbaString();
-                break;
-        }
-    };
-
     _createClass(SColor, [{
+        key: '_parse',
+        value: function _parse(color) {
+            // detecting input format
+            if (typeof color == 'string') {
+                color = color.replace(/\s/g, '');
+                if (color.indexOf('rgb') != -1) {
+                    color = this.parseRgba(color);
+                } else if (color.indexOf('hsv') != -1) {
+                    color = this.parseHsv(color);
+                    color = this.hsv2rgba(color.h, color.s, color.v);
+                } else if (color.indexOf('hsl') != -1) {
+                    color = this.parseHsl(color);
+                    color = this.hsl2rgba(color.h, color.s, color.l);
+                } else if (color.substring(0, 1) == '#') {
+                    color = this.hex2rgba(color);
+                }
+            } else if ((typeof color === 'undefined' ? 'undefined' : _typeof(color)) == 'object') {
+                if (!(color.r && color.g && color.b) || !(color.h && color.s && color.l) || !(color.h && color.s && color.v)) {
+                    throw 'The passed color object ' + color.toString() + ' is not valid';
+                }
+            } else {
+                throw 'The passed color ' + color.toString() + ' is not valid';
+            }
+            // assign new color values
+            this.r = color.r;
+            this.g = color.g;
+            this.b = color.b;
+            this.a = color.a;
+            // return the parsed color
+            return color;
+        }
+
+        /**
+         * Concert color
+         * @param {string} format The format wanted as output like (rgba,hsl,hsv and hex)
+         * @return {object} The color in wanted object format
+         */
+
+    }, {
+        key: 'convert2',
+        value: function convert2(format) {
+            switch (format) {
+                case 'rgba':
+                    return this.rgba2rgba(this.r, this.g, this.b, this.a);
+                    break;
+                case 'hsl':
+                    return this.rgba2hsl(this.r, this.g, this.b, this.a);
+                    break;
+                case 'hsv':
+                    return this.rgba2hsv(this.r, this.g, this.b, this.a);
+                    break;
+                case 'hex':
+                    return this.rgba2hex(this.r, this.g, this.b, this.a);
+                    break;
+            }
+        }
+
+        /**
+         * Parse RGBA
+         * @param {string} rgbaString The rgba string (rgba(r,g,b,a)) to parse
+         * @return {object} The rgba object representation
+         */
+
+    }, {
+        key: 'parseRgba',
+        value: function parseRgba(rgbaString) {
+            rgbaString = rgbaString.toLowerCase();
+            var string = rgbaString.replace('rgba(', '').replace(')', '').replace(/\s/g, '');
+            var array = string.split(',');
+            return {
+                r: parseInt(array[0]),
+                g: parseInt(array[1]),
+                b: parseInt(array[2]),
+                a: parseInt(array[3])
+            };
+        }
+
+        /**
+         * Parse HSL
+         * @param {string} hslString The hsl string (hsl(h,s,l)) to parse
+         * @return {object} The hsl object representation
+         */
+
+    }, {
+        key: 'parseHsl',
+        value: function parseHsl(hslString) {
+            hslString = hslString.toLowerCase();
+            var string = hslString.replace('hsl(', '').replace(')', '').replace(/\s/g, '');
+            var array = string.split(',');
+            return {
+                h: parseFloat(array[0]),
+                s: parseFloat(array[1]),
+                l: parseFloat(array[2])
+            };
+        }
+
+        /**
+         * Parse HSV
+         * @param {string} hsvString The hsv string (hsv(h,s,v)) to parse
+         * @return {object} The hsv object representation
+         */
+
+    }, {
+        key: 'parseHsv',
+        value: function parseHsv(hsvString) {
+            hsvString = hsvString.toLowerCase();
+            var string = hsvString.replace('hsv(', '').replace(')', '').replace(/\s/g, '');
+            var array = string.split(',');
+            return {
+                h: parseFloat(array[0]),
+                s: parseFloat(array[1]),
+                v: parseFloat(array[2])
+            };
+        }
+
+        /**
+         * RGBA to HEX
+         * @param {Number} r The red value between 0-255
+         * @param {Number} g The green value between 0-255
+         * @param {Number} b The blue value between 0-255
+         * @param {Number} a The alpha value between 0-100|0-1
+         * @return {string} The hex string representation like #ff004f
+         */
+
+    }, {
+        key: 'rgba2hex',
+        value: function rgba2hex(r, g, b) {
+            var a = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
+
+            var alpha = '';
+            if (a != 1 && a != 100) {
+                if (a < 1) {
+                    a = 255 * a;
+                } else if (a > 1) {
+                    a = 255 / 100 * a;
+                }
+                a = Math.round(a);
+                alpha = parseInt(a, 10).toString(16);
+            }
+            return '#' + ("0" + parseInt(r, 10).toString(16)).slice(-2) + ("0" + parseInt(g, 10).toString(16)).slice(-2) + ("0" + parseInt(b, 10).toString(16)).slice(-2) + alpha;
+        }
+
+        /**
+         * RGBA to RGBA
+         * @param {Number} r The red value between 0-255
+         * @param {Number} g The green value between 0-255
+         * @param {Number} b The blue value between 0-255
+         * @param {Number} a The alpha value between 0-100|0-1
+         * @return {object} The rgba object representation
+         */
+
+    }, {
+        key: 'rgba2rgba',
+        value: function rgba2rgba(r, g, b, a) {
+            a = parseFloat(a);
+            if (a > 1) a = 1 / 100 * a;
+            return {
+                r: r,
+                g: g,
+                b: b,
+                a: a
+            };
+        }
+
+        /**
+         * Hex to RGBA
+         * @param {string} hex The hex string to convert
+         * @return {object} The rgba object representation
+         */
+
+    }, {
+        key: 'hex2rgba',
+        value: function hex2rgba(hex) {
+            hex = hex.replace('#', '');
+            var r = parseInt(hex.substring(0, 2), 16);
+            var g = parseInt(hex.substring(2, 4), 16);
+            var b = parseInt(hex.substring(4, 6), 16);
+            var a = 1;
+            if (hex.length == 8) {
+                a = 1 / 255 * parseInt(hex.substring(6, 8), 16);
+            }
+            return {
+                r: r,
+                g: g,
+                b: b,
+                a: a
+            };
+        }
+
+        /**
+         * HSV to RGBA
+         * @param {Number} h The hue value between 0-360
+         * @param {Number} s The saturation value between 0-100|0-1
+         * @param {Number} v The value value between 0-100|0-1
+         * @param {Number} a The alpha value between 0-100|0-1
+         * @return {object} The rgba object representation
+         */
+
+    }, {
+        key: 'hsv2rgba',
+        value: function hsv2rgba(h, s, v) {
+            var a = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
+
+            // manage arguments
+            h = parseFloat(h);
+            s = parseFloat(s);
+            v = parseFloat(v);
+            a = parseFloat(a);
+            if (h > 1) h = 1 / 360 * h;
+            if (s > 1) s = 1 / 100 * s;
+            if (v > 1) v = 1 / 100 * v;
+            if (a > 1) a = 1 / 100 * a;
+
+            var r, g, b, i, f, p, q, t;
+            i = Math.floor(h * 6);
+            f = h * 6 - i;
+            p = v * (1 - s);
+            q = v * (1 - f * s);
+            t = v * (1 - (1 - f) * s);
+            switch (i % 6) {
+                case 0:
+                    r = v, g = t, b = p;
+                    break;
+                case 1:
+                    r = q, g = v, b = p;
+                    break;
+                case 2:
+                    r = p, g = v, b = t;
+                    break;
+                case 3:
+                    r = p, g = q, b = v;
+                    break;
+                case 4:
+                    r = t, g = p, b = v;
+                    break;
+                case 5:
+                    r = v, g = p, b = q;
+                    break;
+            }
+            return {
+                r: Math.round(r * 255),
+                g: Math.round(g * 255),
+                b: Math.round(b * 255),
+                a: a
+            };
+        }
+
+        /**
+         * HSL to RGBA
+         * @param {Number} h The hue value between 0-360
+         * @param {Number} s The saturation value between 0-100|0-1
+         * @param {Number} l The luminence value between 0-100|0-1
+         * @param {Number} a The alpha value between 0-100|0-1
+         * @return {object} The rgba object representation
+         */
+
+    }, {
+        key: 'hsl2rgba',
+        value: function hsl2rgba(h, s, l) {
+            var a = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
+
+            // manage arguments
+            h = parseFloat(h);
+            s = parseFloat(s);
+            l = parseFloat(l);
+            a = parseFloat(a);
+            if (h > 1) h = 1 / 360 * h;
+            if (s > 1) s = 1 / 100 * s;
+            if (l > 1) l = 1 / 100 * l;
+            if (a > 1) a = 1 / 100 * a;
+
+            var r = void 0,
+                g = void 0,
+                b = void 0;
+            if (s == 0) {
+                r = g = b = l; // achromatic
+            } else {
+                var hue2rgb = function hue2rgb(p, q, t) {
+                    if (t < 0) t += 1;
+                    if (t > 1) t -= 1;
+                    if (t < 1 / 6) return p + (q - p) * 6 * t;
+                    if (t < 1 / 2) return q;
+                    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+                    return p;
+                };
+
+                var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                var p = 2 * l - q;
+                r = hue2rgb(p, q, h + 1 / 3);
+                g = hue2rgb(p, q, h);
+                b = hue2rgb(p, q, h - 1 / 3);
+            }
+
+            return {
+                r: Math.round(r * 255),
+                g: Math.round(g * 255),
+                b: Math.round(b * 255),
+                a: a
+            };
+        }
+
+        /**
+         * RGBA to HSV
+         * @param {Number} r The red value between 0-255
+         * @param {Number} g The green value between 0-255
+         * @param {Number} b The blue value between 0-255
+         * @param {Number} a The alpha value between 0-100|0-1
+         * @return {object} The hsv object representation
+         */
+
+    }, {
+        key: 'rgba2hsv',
+        value: function rgba2hsv(r, g, b) {
+            var a = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
+
+            var min = Math.min(r, g, b),
+                max = Math.max(r, g, b),
+                delta = max - min,
+                h = void 0,
+                s = void 0,
+                v = max;
+
+            v = Math.floor(max / 255 * 100);
+            if (max != 0) s = Math.floor(delta / max * 100);else {
+                // black
+                return [0, 0, 0];
+            }
+
+            if (r == max) h = (g - b) / delta; // between yellow & magenta
+            else if (g == max) h = 2 + (b - r) / delta; // between cyan & yellow
+                else h = 4 + (r - g) / delta; // between magenta & cyan
+
+            h = Math.floor(h * 60); // degrees
+            if (h < 0) h += 360;
+
+            return {
+                h: h,
+                s: s,
+                v: v
+            };
+        }
+
+        /**
+         * RGBA to HSL
+         * @param {Number} r The red value between 0-255
+         * @param {Number} g The green value between 0-255
+         * @param {Number} b The blue value between 0-255
+         * @param {Number} a The alpha value between 0-100|0-1
+         * @return {object} The hsl object representation
+         */
+
+    }, {
+        key: 'rgba2hsl',
+        value: function rgba2hsl(r, g, b) {
+            var a = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
+
+            r /= 255, g /= 255, b /= 255;
+            var max = Math.max(r, g, b),
+                min = Math.min(r, g, b);
+            var h = void 0,
+                s = void 0,
+                l = (max + min) / 2;
+
+            if (max == min) {
+                h = s = 0; // achromatic
+            } else {
+                var d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                switch (max) {
+                    case r:
+                        h = (g - b) / d + (g < b ? 6 : 0);
+                        break;
+                    case g:
+                        h = (b - r) / d + 2;
+                        break;
+                    case b:
+                        h = (r - g) / d + 4;
+                        break;
+                }
+                h /= 6;
+            }
+            return {
+                h: Math.floor(h * 360),
+                s: Math.floor(s * 100),
+                l: Math.floor(l * 100)
+            };
+        }
+
+        /**
+         * To hex
+         * @return {string} The hex string representation
+         */
+
+    }, {
+        key: 'toHex',
+        value: function toHex() {
+            return this.convert2('hex');
+        }
+
+        /**
+         * To hsl
+         * @return {object} The hsl object representation
+         */
+
+    }, {
+        key: 'toHsl',
+        value: function toHsl() {
+            return this.convert2('hsl');
+        }
+
+        /**
+         * To hsv
+         * @return {object} The hsv object representation
+         */
+
+    }, {
+        key: 'toHsv',
+        value: function toHsv() {
+            return this.convert2('hsv');
+        }
+
+        /**
+         * To rgba
+         * @return {object} The rgba object representation
+         */
+
+    }, {
+        key: 'toRgba',
+        value: function toRgba() {
+            return this.convert2('rgba');
+        }
+
+        /**
+         * Get the red value
+         * @return {Number} The red value
+         */
+
+    }, {
+        key: 'reset',
+
+
+        /**
+         * Reset to the original color
+         */
+        value: function reset() {
+            // parse again the color
+            this._parse(this.originalSColor);
+        }
+
+        /**
+         * Desaturate
+         * @param {Number} amount The amount of desaturation wanted between 0-100
+         * @return {object} The color instance to maintain chainability
+         */
+
+    }, {
+        key: 'desaturate',
+        value: function desaturate(amount) {
+            amount = parseInt(amount);
+            var n = new SColor(this.toHex());
+            n.s -= amount;
+            return n;
+        }
+
+        /**
+         * Saturate
+         * @param {Number} amount The amount of saturation wanted between 0-100
+         * @return {object} The color instance to maintain chainability
+         */
+
+    }, {
+        key: 'saturate',
+        value: function saturate(amount) {
+            amount = parseInt(amount);
+            var n = new SColor(this.toHex());
+            n.s += amount;
+            return n;
+        }
+
+        /**
+         * Grayscale
+         * @return {object} The color instance to maintain chainability
+         */
+
+    }, {
+        key: 'grayscale',
+        value: function grayscale() {
+            var n = new SColor(this.toHex());
+            n.s = 0;
+            return n;
+        }
+
+        /**
+         * Spin
+         * @param {Number} amount The amount of hue spin wanted between 0-360
+         * @return {object} The color instance to maintain chainability
+         */
+
+    }, {
+        key: 'spin',
+        value: function spin(amount) {
+            amount = parseInt(amount);
+            var hue = this.h;
+            var newHue = hue + amount;
+            if (newHue > 360) {
+                newHue -= 360;
+            }
+            var n = new SColor(this.toHex());
+            n.h = newHue;
+            return n;
+        }
+
+        /**
+         * Transparentize
+         * @param {Number} amount The amount of transparence to apply between 0-100|0-1
+         * @return {object} The color instance to maintain chainability
+         */
+
+    }, {
+        key: 'transparentize',
+        value: function transparentize(amount) {
+            amount = parseFloat(amount);
+            var n = new SColor(this.toHex());
+            n.a -= amount;
+            return n;
+        }
+
+        /**
+         * Set the alpha
+         * @param {Number} alpha The new alpha value to apply between 0-100|0-1
+         * @return {object} The color instance to maintain chainability
+         */
+
+    }, {
+        key: 'alpha',
+        value: function alpha(_alpha) {
+            _alpha = parseFloat(_alpha);
+            var n = new SColor(this.toHex());
+            n.a = _alpha;
+            return n;
+        }
+
+        /**
+         * Set the opacity (alias for alpha)
+         * @param {Number} opacity The new opacity value to apply between 0-100|0-1
+         * @return {object} The color instance to maintain chainability
+         */
+
+    }, {
+        key: 'opacity',
+        value: function opacity(_opacity) {
+            return this.alpha(_opacity);
+        }
+
+        /**
+         * Opacify
+         * @param {Number} amount The amount of transparence to remove between 0-100|0-1
+         * @return {object} The color instance to maintain chainability
+         */
+
+    }, {
+        key: 'opacify',
+        value: function opacify(amount) {
+            amount = parseFloat(amount);
+            var n = new SColor(this.toHex());
+            n.a += amount;
+            return n;
+        }
+
+        /**
+         * Darken
+         * @param {Number} amount The amount of darkness (of the nightmare of the shadow) to apply between 0-100
+         * @return {object} The color instance to maintain chainabiliy
+         */
+
+    }, {
+        key: 'darken',
+        value: function darken(amount) {
+            amount = parseInt(amount);
+            var n = new SColor(this.toHex());
+            n.l -= amount;
+            return n;
+        }
+
+        /**
+         * Lighten
+         * @param {Number} amount The amount of lightness (of the sky of the angels) to apply between 0-100
+         * @return {object} The color instance to maintain chainability
+         */
+
+    }, {
+        key: 'lighten',
+        value: function lighten(amount) {
+            amount = parseInt(amount);
+            var n = new SColor(this.toHex());
+            n.l += amount;
+            return n;
+        }
+
+        /**
+         * To hex string
+         * @return {string} The hex string representation of the color
+         */
+
+    }, {
+        key: 'toHexString',
+        value: function toHexString() {
+            return this.convert2('hex');
+        }
+
+        /**
+         * To rgba string
+         * @return {string} The rgba string representation of the color
+         */
+
+    }, {
+        key: 'toRgbaString',
+        value: function toRgbaString() {
+            return 'rgba(' + this._r + ',' + this._g + ',' + this._b + ',' + this._a + ')';
+        }
+
+        /**
+         * To hsl string
+         * @return {string} The hsl string representation of the color
+         */
+
+    }, {
+        key: 'toHslString',
+        value: function toHslString() {
+            var hsl = this.convert2('hsl');
+            return 'hsl(' + hsl.h + ',' + hsl.s + ',' + hsl.l + ')';
+        }
+
+        /**
+         * To hsv string
+         * @return {string} The hsv string representation of the color
+         */
+
+    }, {
+        key: 'toHsvString',
+        value: function toHsvString() {
+            var hsv = this.convert2('hsv');
+            return 'hsv(' + hsv.h + ',' + hsv.s + ',' + hsv.v + ')';
+        }
+
+        /**
+         * To string
+         * @return {string} The rgba string representation of the color
+         */
+
+    }, {
+        key: 'toString',
+        value: function toString() {
+            var format = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+            if (!format) {
+                format = SColor.toStringFormat;
+            }
+            switch (format) {
+                case 'hex':
+                    return this.toHexString();
+                    break;
+                case 'hsl':
+                    return this.toHslString();
+                    break;
+                case 'hsv':
+                    return this.toHsvString();
+                    break;
+                case 'rgba':
+                default:
+                    return this.toRgbaString();
+                    break;
+            }
+        }
+    }, {
         key: 'r',
         get: function get() {
             return this._r;

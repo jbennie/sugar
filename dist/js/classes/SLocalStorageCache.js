@@ -1,6 +1,10 @@
 'use strict';
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _SCache2 = require('./SCache');
 
@@ -21,7 +25,7 @@ var SLocalStorageCache = function (_SCache) {
 		_classCallCheck(this, SLocalStorageCache);
 
 		// grab the cache
-		var _this = _possibleConstructorReturn(this, _SCache.call(this, name));
+		var _this = _possibleConstructorReturn(this, (SLocalStorageCache.__proto__ || Object.getPrototypeOf(SLocalStorageCache)).call(this, name));
 
 		var ls = localStorage.getItem(_this.name);
 		if (!ls) return _possibleConstructorReturn(_this);
@@ -34,9 +38,12 @@ var SLocalStorageCache = function (_SCache) {
   */
 
 
-	SLocalStorageCache.prototype.save = function save() {
-		localStorage.setItem(this.name, JSON.stringify(this.cache));
-	};
+	_createClass(SLocalStorageCache, [{
+		key: 'save',
+		value: function save() {
+			localStorage.setItem(this.name, JSON.stringify(this.cache));
+		}
+	}]);
 
 	return SLocalStorageCache;
 }(_SCache3.default);

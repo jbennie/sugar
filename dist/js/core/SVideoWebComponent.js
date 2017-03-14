@@ -1,6 +1,8 @@
 'use strict';
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
 var _mixwith = require('../vendors/mixwith');
 
@@ -28,7 +30,7 @@ var SVideoWebComponent = function (_mix$with) {
     function SVideoWebComponent() {
         _classCallCheck(this, SVideoWebComponent);
 
-        return _possibleConstructorReturn(this, _mix$with.apply(this, arguments));
+        return _possibleConstructorReturn(this, (SVideoWebComponent.__proto__ || Object.getPrototypeOf(SVideoWebComponent)).apply(this, arguments));
     }
 
     return SVideoWebComponent;

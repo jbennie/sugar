@@ -1,6 +1,8 @@
 'use strict';
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -39,7 +41,7 @@ var SGooeySvgFilter = function (_SSvgFilter) {
 
 		_classCallCheck(this, SGooeySvgFilter);
 
-		var _this = _possibleConstructorReturn(this, _SSvgFilter.call(this, '\n\t\t\t<feGaussianBlur in="SourceGraphic" stdDeviation="' + amount + '" result="blur" />\n\t\t\t<feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + (parseInt(amount) + 9) + ' -9" result="gooey" />\n\t\t\t<feComposite in="SourceGraphic" in2="gooey" operator="atop"/>\n\t\t'));
+		var _this = _possibleConstructorReturn(this, (SGooeySvgFilter.__proto__ || Object.getPrototypeOf(SGooeySvgFilter)).call(this, '\n\t\t\t<feGaussianBlur in="SourceGraphic" stdDeviation="' + amount + '" result="blur" />\n\t\t\t<feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + (parseInt(amount) + 9) + ' -9" result="gooey" />\n\t\t\t<feComposite in="SourceGraphic" in2="gooey" operator="atop"/>\n\t\t'));
 
 		_this._blur = _this.filter.querySelector('feGaussianBlur');
 		_this._color_matrix = _this.filter.querySelector('feColorMatrix');

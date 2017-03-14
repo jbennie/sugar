@@ -1,6 +1,8 @@
 'use strict';
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
 var _mixwith = require('../vendors/mixwith');
 
@@ -28,7 +30,7 @@ var SAnchorWebComponent = function (_mix$with) {
     function SAnchorWebComponent() {
         _classCallCheck(this, SAnchorWebComponent);
 
-        return _possibleConstructorReturn(this, _mix$with.apply(this, arguments));
+        return _possibleConstructorReturn(this, (SAnchorWebComponent.__proto__ || Object.getPrototypeOf(SAnchorWebComponent)).apply(this, arguments));
     }
 
     return SAnchorWebComponent;

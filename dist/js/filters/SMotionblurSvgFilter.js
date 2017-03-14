@@ -1,6 +1,12 @@
 'use strict';
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
 
 var _offset = require('../dom/offset');
 
@@ -56,7 +62,7 @@ var SMotionblurSvgFilter = function (_SSvgFilter) {
 		_classCallCheck(this, SMotionblurSvgFilter);
 
 		// settings
-		var _this = _possibleConstructorReturn(this, _SSvgFilter.call(this, '\n\t\t\t<feGaussianBlur in="SourceGraphic" stdDeviation="0,0" />\n\t\t'));
+		var _this = _possibleConstructorReturn(this, (SMotionblurSvgFilter.__proto__ || Object.getPrototypeOf(SMotionblurSvgFilter)).call(this, '\n\t\t\t<feGaussianBlur in="SourceGraphic" stdDeviation="0,0" />\n\t\t'));
 
 		_this._isMoving = false;
 		_this._startMoveTimeout = null;
@@ -79,139 +85,148 @@ var SMotionblurSvgFilter = function (_SSvgFilter) {
   */
 
 
-	SMotionblurSvgFilter.prototype.applyTo = function applyTo(elm) {
-		// call parent method
-		_SSvgFilter.prototype.applyTo.call(this, elm);
-		// listen to animation, transitionstart and move event
-		elm.addEventListener('transitionstart', this._onMotionStart.bind(this));
-		elm.addEventListener('animationstart', this._onMotionStart.bind(this));
-		elm.addEventListener('dragstart', this._onMotionStart.bind(this));
-		elm.addEventListener('transitionend', this._onMotionStop.bind(this));
-		elm.addEventListener('animationend', this._onMotionStop.bind(this));
-		this._lastPos = (0, _offset2.default)(this.elms[0]);
-	};
-
-	/**
-  * Remove the filter from element
-  * @override
-  * @param 	{HTMLElement} 	elm 	The element to unapply the filter from
-  */
-
-
-	SMotionblurSvgFilter.prototype.unapplyFrom = function unapplyFrom(elm) {
-		// remove event listeners
-		elm.removeEventListener('animationStart', this._onMotionStart);
-		elm.removeEventListener('transitionstart', this._onMotionStart);
-		elm.removeEventListener('dragstart', this._onMotionStart);
-		elm.removeEventListener('transitionend', this._onMotionStop);
-		elm.removeEventListener('animationend', this._onMotionStop);
-		elm.removeEventListener('dragend', this._onMotionStop);
-		// call parent
-		_SSvgFilter.prototype.unapplyFrom.call(this, elm);
-	};
-
-	/**
-  * When the animation, transition or draging start
-  */
-
-
-	SMotionblurSvgFilter.prototype._onMotionStart = function _onMotionStart(e) {
-		var _this2 = this;
-
-		if (e.target !== this.elms[0]) return;
-		clearTimeout(this._startMoveTimeout);
-		this._startMoveTimeout = setTimeout(function () {
-			_this2._isMoving = true;
-			// handle filter
-			_this2._handleFilter();
-		});
-	};
-
-	/**
-  * Transition / animation end
-  */
-
-
-	SMotionblurSvgFilter.prototype._onMotionStop = function _onMotionStop(e) {
-		var _this3 = this;
-
-		if (e.target !== this.elms[0]) return;
-		if (!this._isMoving) return;
-		// update is moving status
-		this._isMoving = false;
-		_fastdom2.default.mutate(function () {
-			// set the blur
-			_this3._blur.setAttribute('stdDeviation', 0 + ',' + 0);
-			_this3.elms[0].style.opacity = .99;
-			_this3.elms[0].offsetHeight; // no need to store this anywhere, the reference is enough
-			_this3.elms[0].style.opacity = 1;
-		});
-	};
-
-	/**
-  * Handle filter
-  * @param 		{Boolean} 		recusrive 			If the function need to be called again at the end of it's execution
-  */
-
-
-	SMotionblurSvgFilter.prototype._handleFilter = function _handleFilter() {
-		var _this4 = this;
-
-		// animation or move is finished
-		if (!this._isMoving) return;
-
-		// set the motion blur and get the moving difference
-		var diff = this._setMotionBlur();
-
-		// check if the element is moving or not anymore
-		if (diff.x <= 0 && diff.y <= 0) {
-			this._currentStep += 1;
-			if (this._currentStep >= this._notMovingStepsBeforeStop) {
-				this._currentStep = 0;
-				return;
-			}
+	_createClass(SMotionblurSvgFilter, [{
+		key: 'applyTo',
+		value: function applyTo(elm) {
+			// call parent method
+			_get(SMotionblurSvgFilter.prototype.__proto__ || Object.getPrototypeOf(SMotionblurSvgFilter.prototype), 'applyTo', this).call(this, elm);
+			// listen to animation, transitionstart and move event
+			elm.addEventListener('transitionstart', this._onMotionStart.bind(this));
+			elm.addEventListener('animationstart', this._onMotionStart.bind(this));
+			elm.addEventListener('dragstart', this._onMotionStart.bind(this));
+			elm.addEventListener('transitionend', this._onMotionStop.bind(this));
+			elm.addEventListener('animationend', this._onMotionStop.bind(this));
+			this._lastPos = (0, _offset2.default)(this.elms[0]);
 		}
 
-		// recusrive call to apply the blur with requestAnimationFrame for performances
-		this._animationFrame = requestAnimationFrame(function () {
-			_this4._handleFilter();
-		});
-	};
+		/**
+   * Remove the filter from element
+   * @override
+   * @param 	{HTMLElement} 	elm 	The element to unapply the filter from
+   */
 
-	/**
-  * Set motion blur
-  */
+	}, {
+		key: 'unapplyFrom',
+		value: function unapplyFrom(elm) {
+			// remove event listeners
+			elm.removeEventListener('animationStart', this._onMotionStart);
+			elm.removeEventListener('transitionstart', this._onMotionStart);
+			elm.removeEventListener('dragstart', this._onMotionStart);
+			elm.removeEventListener('transitionend', this._onMotionStop);
+			elm.removeEventListener('animationend', this._onMotionStop);
+			elm.removeEventListener('dragend', this._onMotionStop);
+			// call parent
+			_get(SMotionblurSvgFilter.prototype.__proto__ || Object.getPrototypeOf(SMotionblurSvgFilter.prototype), 'unapplyFrom', this).call(this, elm);
+		}
 
+		/**
+   * When the animation, transition or draging start
+   */
 
-	SMotionblurSvgFilter.prototype._setMotionBlur = function _setMotionBlur() {
+	}, {
+		key: '_onMotionStart',
+		value: function _onMotionStart(e) {
+			var _this2 = this;
 
-		this._currentPos = (0, _offset2.default)(this.elms[0]);
-		var xDiff = Math.abs(this._currentPos.left - this._lastPos.left) * this._amount;
-		var yDiff = Math.abs(this._currentPos.top - this._lastPos.top) * this._amount;
+			if (e.target !== this.elms[0]) return;
+			clearTimeout(this._startMoveTimeout);
+			this._startMoveTimeout = setTimeout(function () {
+				_this2._isMoving = true;
+				// handle filter
+				_this2._handleFilter();
+			});
+		}
 
-		// set the blur
-		this._blur.setAttribute('stdDeviation', xDiff + ',' + yDiff);
+		/**
+   * Transition / animation end
+   */
 
-		// update lastPos
-		this._lastPos = (0, _offset2.default)(this.elms[0]);
+	}, {
+		key: '_onMotionStop',
+		value: function _onMotionStop(e) {
+			var _this3 = this;
 
-		// return the diff
-		return {
-			x: xDiff,
-			y: yDiff
-		};
-	};
+			if (e.target !== this.elms[0]) return;
+			if (!this._isMoving) return;
+			// update is moving status
+			this._isMoving = false;
+			_fastdom2.default.mutate(function () {
+				// set the blur
+				_this3._blur.setAttribute('stdDeviation', 0 + ',' + 0);
+				_this3.elms[0].style.opacity = .99;
+				_this3.elms[0].offsetHeight; // no need to store this anywhere, the reference is enough
+				_this3.elms[0].style.opacity = 1;
+			});
+		}
 
-	/**
-  * Destroy the filter
-  * @override
-  */
+		/**
+   * Handle filter
+   * @param 		{Boolean} 		recusrive 			If the function need to be called again at the end of it's execution
+   */
 
+	}, {
+		key: '_handleFilter',
+		value: function _handleFilter() {
+			var _this4 = this;
 
-	SMotionblurSvgFilter.prototype.destroy = function destroy() {
-		cancelAnimationFrame(this._animationFrame);
-		_SSvgFilter.prototype.destroy.call(this);
-	};
+			// animation or move is finished
+			if (!this._isMoving) return;
+
+			// set the motion blur and get the moving difference
+			var diff = this._setMotionBlur();
+
+			// check if the element is moving or not anymore
+			if (diff.x <= 0 && diff.y <= 0) {
+				this._currentStep += 1;
+				if (this._currentStep >= this._notMovingStepsBeforeStop) {
+					this._currentStep = 0;
+					return;
+				}
+			}
+
+			// recusrive call to apply the blur with requestAnimationFrame for performances
+			this._animationFrame = requestAnimationFrame(function () {
+				_this4._handleFilter();
+			});
+		}
+
+		/**
+   * Set motion blur
+   */
+
+	}, {
+		key: '_setMotionBlur',
+		value: function _setMotionBlur() {
+
+			this._currentPos = (0, _offset2.default)(this.elms[0]);
+			var xDiff = Math.abs(this._currentPos.left - this._lastPos.left) * this._amount;
+			var yDiff = Math.abs(this._currentPos.top - this._lastPos.top) * this._amount;
+
+			// set the blur
+			this._blur.setAttribute('stdDeviation', xDiff + ',' + yDiff);
+
+			// update lastPos
+			this._lastPos = (0, _offset2.default)(this.elms[0]);
+
+			// return the diff
+			return {
+				x: xDiff,
+				y: yDiff
+			};
+		}
+
+		/**
+   * Destroy the filter
+   * @override
+   */
+
+	}, {
+		key: 'destroy',
+		value: function destroy() {
+			cancelAnimationFrame(this._animationFrame);
+			_get(SMotionblurSvgFilter.prototype.__proto__ || Object.getPrototypeOf(SMotionblurSvgFilter.prototype), 'destroy', this).call(this);
+		}
+	}]);
 
 	return SMotionblurSvgFilter;
 }(_SSvgFilter3.default);

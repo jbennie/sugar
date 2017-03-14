@@ -1,6 +1,8 @@
 "use strict";
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.default = isUrl;
 /**
  * Check if the passed value is a valid url

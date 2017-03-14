@@ -1,6 +1,8 @@
 'use strict';
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
 var _mixwith = require('../vendors/mixwith');
 
@@ -17,24 +19,21 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 if (typeof HTMLElement !== 'function') {
-	var _HTMLElement = function _HTMLElement() {};
-	_HTMLElement.prototype = HTMLElement.prototype;
-	HTMLElement = _HTMLElement;
+    var _HTMLElement = function _HTMLElement() {};
+    _HTMLElement.prototype = HTMLElement.prototype;
+    HTMLElement = _HTMLElement;
 }
 
 var SWebComponent = function (_mix$with) {
-	_inherits(SWebComponent, _mix$with);
+    _inherits(SWebComponent, _mix$with);
 
-	/**
-  * Constructor
-  */
-	function SWebComponent() {
-		_classCallCheck(this, SWebComponent);
+    function SWebComponent() {
+        _classCallCheck(this, SWebComponent);
 
-		return _possibleConstructorReturn(this, _mix$with.call(this));
-	}
+        return _possibleConstructorReturn(this, (SWebComponent.__proto__ || Object.getPrototypeOf(SWebComponent)).apply(this, arguments));
+    }
 
-	return SWebComponent;
+    return SWebComponent;
 }((0, _mixwith.mix)(HTMLElement).with(_SWebComponentMixin2.default));
 
 exports.default = SWebComponent;

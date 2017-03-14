@@ -1,6 +1,8 @@
 "use strict";
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.default = insertAfter;
 /**
  * Insert an HTMLElement after another HTMLElement

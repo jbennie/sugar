@@ -1,6 +1,8 @@
 'use strict';
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 var STATE_OUTPUT = 0,
     STATE_HTML = 1,
     STATE_PRE_COMMENT = 2,

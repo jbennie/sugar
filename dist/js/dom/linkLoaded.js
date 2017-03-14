@@ -1,6 +1,8 @@
 'use strict';
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 exports.default = linkLoaded;
 /**
  * Wait until the passed HTMLLinkElement is fully loaded

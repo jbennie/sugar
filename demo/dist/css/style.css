@@ -1,0 +1,9 @@
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden; }
+
+s-interactive-demo {
+  height: 100vh; }
+  s-interactive-demo > * {
+    height: 50vh; }

@@ -1,6 +1,8 @@
 "use strict";
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.default = prependChild;
 /**
  * Prepend an HTMLElement into another HTMLElement
