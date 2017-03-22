@@ -69,5 +69,5 @@ function inViewportPercentage(elm) {
 	if (percentageWidth > 100) percentageWidth = 100;
 
 	// calculate the percentage in total
-	return percentageHeight < percentageWidth ? percentageHeight : percentageWidth;
+	return Math.round(100 / (100 * 100) * (percentageWidth * percentageHeight));
 }

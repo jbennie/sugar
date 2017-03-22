@@ -1,4 +1,4 @@
-import __getTranslateProperties from './getTranslateProperties'
+// import __getTranslateProperties from './getTranslateProperties'
 
 /**
  * Get the offset top and left of the passed element from the document top left point
@@ -23,11 +23,11 @@ export default function offset(elm) {
 	scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
 	clientTop = docEl.clientTop || body.clientTop || 0;
 	clientLeft = docEl.clientLeft || body.clientLeft || 0;
-	translates = __getTranslateProperties(elm);
-	transX = translates.x;
-	transY = translates.y;
-	top = box.top + scrollTop - clientTop + transY;
-	left = box.left + scrollLeft - clientLeft + transX;
+	// translates = __getTranslateProperties(elm);
+	// transX = translates.x;
+	// transY = translates.y;
+	top = box.top + scrollTop - clientTop;
+	left = box.left + scrollLeft - clientLeft;
 	return {
 		top: Math.round(top),
 		left: Math.round(left)

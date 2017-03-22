@@ -1,15 +1,10 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 exports.default = offset;
-
-var _getTranslateProperties = require('./getTranslateProperties');
-
-var _getTranslateProperties2 = _interopRequireDefault(_getTranslateProperties);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+// import __getTranslateProperties from './getTranslateProperties'
 
 /**
  * Get the offset top and left of the passed element from the document top left point
@@ -45,11 +40,11 @@ function offset(elm) {
 	scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
 	clientTop = docEl.clientTop || body.clientTop || 0;
 	clientLeft = docEl.clientLeft || body.clientLeft || 0;
-	translates = (0, _getTranslateProperties2.default)(elm);
-	transX = translates.x;
-	transY = translates.y;
-	top = box.top + scrollTop - clientTop + transY;
-	left = box.left + scrollLeft - clientLeft + transX;
+	// translates = __getTranslateProperties(elm);
+	// transX = translates.x;
+	// transY = translates.y;
+	top = box.top + scrollTop - clientTop;
+	left = box.left + scrollLeft - clientLeft;
 	return {
 		top: Math.round(top),
 		left: Math.round(left)
