@@ -1,5 +1,8 @@
 # Sugar <small>0.0.1</small>
 
+[![Build Status](https://travis-ci.org/coffeekraken/sugar.svg)](https://travis-ci.org/coffeekraken/sugar)
+
+
 Sugar gives you a lot of cool stuff to enhance your codebase.
 It basically does nothing by default but let you grab what you want from it. It can be the colors management feature, as well as the spaces management, helper classes, etc...
 
