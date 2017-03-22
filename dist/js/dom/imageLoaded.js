@@ -29,14 +29,14 @@ function imageLoaded(img) {
 			// resolve promise
 			resolve(img);
 			// call the callback if exist
-			callback != null && callback(img);
+			callback && callback(img);
 		} else {
 			// wait until loaded
 			img.addEventListener('load', function (e) {
 				// resolve the promise
 				resolve(img);
 				// callback if exist
-				callback != null && callback(img);
+				callback && callback(img);
 			});
 			// listen for error
 			img.addEventListener('error', function (e) {
