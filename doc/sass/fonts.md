@@ -1,4 +1,4 @@
-# Fonts
+# Fonts
 
 Sugar allows you to easily manage and organize your fonts by giving them a name.
 

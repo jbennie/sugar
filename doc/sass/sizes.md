@@ -1,4 +1,4 @@
-# Sizes (ratios)
+# Sizes (ratios)
 
 This concept can be a little tricky to understand at first but it will be a lot clearer when using the spaces, etc...
 

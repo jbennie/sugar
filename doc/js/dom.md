@@ -1,4 +1,4 @@
-# DOM helper functions
+# DOM helper functions
 
 > Stored in ```coffeekraken-sugar/js/dom/...```
 

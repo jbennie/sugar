@@ -98,7 +98,7 @@ Sugar have some [helper classes](helper-classes.md) that you can easily grab to 
 
 - ```.c-{color-name}``` : Apply a specific color
 - ```.bkg-{color-name}``` : Apply a specific background color
-- ```.c-{color-name}--{modifier-name} : Apply a specific modified color
-- ```.bkg-{color-name}--{modifier-name} : Apply a specific modified background color
+- ```.c-{color-name}--{modifier-name}``` : Apply a specific modified color
+- ```.bkg-{color-name}--{modifier-name}``` : Apply a specific modified background color
 
 > These classes are stored inside the ```sugar.color``` namespace. Check out the [helper classes](helper-classes.md) documentation for more info...

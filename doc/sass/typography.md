@@ -1,4 +1,4 @@
-# Typography
+# Typography
 
 Sugar provide some nice way to work with typography like helper mixins to apply properties quickly, vertical rhythme helpers, etc...
 
