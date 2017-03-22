@@ -83,7 +83,7 @@ Release the kraken !!! 🦑
 
 Here's how to get started quickly:
 
-#### SASS (scss)
+#### SASS (scss)
 
 ```scss
 // import sugar
@@ -269,7 +269,7 @@ To do so, you have several possibilities:
 5. [Build web component](doc/contribute.md#contribute-build-web-component)
 
 <a id="readme-browsers-support"></a>
-## Browsers support
+## Browsers support
 
 * Chrome *(latest 2)*
 * Firefox *(latest 2)*
