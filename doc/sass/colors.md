@@ -55,7 +55,7 @@ To register of modify an existing color, you have to use the [s-setup](../src/sa
 ));
 ```
 
-## Accessing your colors
+## Accessing your colors
 
 To access your colors inside your codebase, simple use the **[s-color](../src/sass/core/functions/_s-color.md)** function like so:
 
@@ -67,7 +67,7 @@ To access your colors inside your codebase, simple use the **[s-color](../src/sa
 }
 ```
 
-## Modifiers
+## Modifiers
 
 Each colors can have a modifier. A modifier is a list of actions to make on the color that will result in a modifier one. Here's some examples:
 

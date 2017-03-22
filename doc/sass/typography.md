@@ -55,7 +55,7 @@ h1 {
 }
 ```
 
-## Text format
+## Text format
 
 Applying some text formatting to a tag (h1, h2, h3, p, etc...) directly can lead to some issues and conflict after some times. This is why we encourage you to use this text format concept.
 

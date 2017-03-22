@@ -25,7 +25,7 @@ To register a new filter, use the [s-setup](../src/sass/core/mixins/_s-setup.md)
 ));
 ```
 
-## Use your transitions
+## Use your transitions
 
 To use your transitions inside your codebase, simply use the [s-transition](../src/sass/core/mixins/_s-transition.md) mixin like so:
 

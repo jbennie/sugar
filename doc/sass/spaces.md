@@ -31,7 +31,7 @@ Yu can easily hard code one or more spaces to avoid the interpolation from the [
 ));
 ```
 
-## Use your spaces
+## Use your spaces
 
 To use your spaces inside your codebase, simply use the [s-space](../src/sass/core/function/_s-space.md) function like so:
 

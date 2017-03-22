@@ -26,7 +26,7 @@ To register a new filter, use the [s-setup](../src/sass/core/mixins/_s-setup.md)
 ));
 ```
 
-## Use your filters
+## Use your filters
 
 To use your filters inside your codebase, simply use the [s-filter](../src/sass/core/mixins/_s-filter.md) mixin like so:
 
