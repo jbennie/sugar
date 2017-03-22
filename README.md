@@ -283,7 +283,7 @@ To do so, you have several possibilities:
 The code is available under the [MIT license](LICENSE.txt). This mean that you can use, modify, or do whatever you want with it. This mean also that it is shipped to you for free, so don't be a hater and if you find some issues, etc... feel free to [contribute](doc/contribute.md) instead of sharing your frustrations on social networks like an asshole...
 
 <a id="readme-who-are-coffeekraken"></a>
-## Who are Coffeekraken
+## Who are Coffeekraken
 
 We try to be **some cool guys** that build **some cool tools** to make our (and yours hopefully) **every day life better**.  
 
