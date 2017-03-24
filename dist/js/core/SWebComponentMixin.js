@@ -656,21 +656,20 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				// props proxy
 				this._initPropsProxy();
 
+				var _loop = function _loop(key) {
+					(0, _propertyProxy2.default)(_this4.props, key, {
+						set: function set(value) {
+							var oldVal = _this4.props[key];
+							// handle new prop value
+							_this4._handleNewPropValue(key, value, oldVal);
+							// set the value
+							return value;
+						}
+					}, false);
+				};
+
 				for (var key in this.props) {
-					// __propertyProxy(this.props, key, {
-					// 	set : (value) => {
-					// 		const oldVal = this.props[key];
-					// 		// handle new prop value
-					// 		this._handleNewPropValue(key, value, oldVal);
-					// 		// set the value
-					// 		return value;
-					// 	}
-					// }, false);
-					(function (key) {
-						_this4.watch(_this4.props, key, function (newVal, oldVal) {
-							_this4._handleNewPropValue(key, newVal, oldVal);
-						});
-					})(key);
+					_loop(key);
 				}
 
 				// check the required props
@@ -908,7 +907,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			value: function _initPropsProxy() {
 				var _this6 = this;
 
-				var _loop = function _loop(key) {
+				var _loop2 = function _loop2(key) {
 					if (_this6.hasOwnProperty(key)) {
 						console.warn('The component ' + _this6.componentNameDash + ' has already an "' + key + '" property... This property will not reflect the this.props[\'' + key + '\'] value... Try to use a property name that does not already exist on an HTMLElement...');
 						return 'continue';
@@ -927,9 +926,9 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 
 				// loop on each props
 				for (var key in this.defaultProps) {
-					var _ret2 = _loop(key);
+					var _ret3 = _loop2(key);
 
-					if (_ret2 === 'continue') continue;
+					if (_ret3 === 'continue') continue;
 				}
 			}
 

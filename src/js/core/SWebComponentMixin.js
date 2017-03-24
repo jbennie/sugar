@@ -544,20 +544,15 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		this._initPropsProxy();
 
 		for(let key in this.props) {
-			// __propertyProxy(this.props, key, {
-			// 	set : (value) => {
-			// 		const oldVal = this.props[key];
-			// 		// handle new prop value
-			// 		this._handleNewPropValue(key, value, oldVal);
-			// 		// set the value
-			// 		return value;
-			// 	}
-			// }, false);
-			((key) => {
-				this.watch(this.props, key, (newVal, oldVal) => {
-					this._handleNewPropValue(key, newVal, oldVal);
-				});
-			})(key);
+			__propertyProxy(this.props, key, {
+				set : (value) => {
+					const oldVal = this.props[key];
+					// handle new prop value
+					this._handleNewPropValue(key, value, oldVal);
+					// set the value
+					return value;
+				}
+			}, false);
 		}
 
 		// check the required props
