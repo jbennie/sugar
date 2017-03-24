@@ -656,6 +656,8 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				// props proxy
 				this._initPropsProxy();
 
+				// listen for props updates to handle them
+
 				var _loop = function _loop(key) {
 					(0, _propertyProxy2.default)(_this4.props, key, {
 						set: function set(value) {
@@ -1061,9 +1063,6 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 
 				// set the prop
 				this.props[prop] = value;
-
-				// handle new property value
-				// this._handleNewPropValue(prop, value, oldVal);
 			}
 
 			/**
@@ -1077,9 +1076,6 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			key: '_handleNewPropValue',
 			value: function _handleNewPropValue(prop, newVal, oldVal) {
 				var _this9 = this;
-
-				// handle physical props
-				this._handlePhysicalProps(prop, newVal);
 
 				// if the component is not mounted
 				// we do nothing here...
@@ -1105,6 +1101,9 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 							name: key,
 							value: val
 						});
+
+						// handle physical props
+						_this9._handlePhysicalProps(key, val);
 					}
 					for (var _key in _this9._prevPropsStack) {
 						var _val = _this9._prevPropsStack[_key];

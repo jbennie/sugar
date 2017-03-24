@@ -543,6 +543,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		// props proxy
 		this._initPropsProxy();
 
+		// listen for props updates to handle them
 		for(let key in this.props) {
 			__propertyProxy(this.props, key, {
 				set : (value) => {
@@ -876,9 +877,6 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 
 		// set the prop
 		this.props[prop] = value
-
-		// handle new property value
-		// this._handleNewPropValue(prop, value, oldVal);
 	}
 
 	/**
@@ -888,10 +886,8 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * @param 		{Mixed}			oldVal 		The old property value
 	 */
 	_handleNewPropValue(prop, newVal, oldVal) {
-		// handle physical props
-		this._handlePhysicalProps(prop, newVal);
 
-		// if the component is not mounted
+			// if the component is not mounted
 		// we do nothing here...
 		if ( ! this.isComponentMounted()) return;
 
@@ -915,6 +911,10 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 					name : key,
 					value : val
 				});
+
+				// handle physical props
+				this._handlePhysicalProps(key, val);
+
 			}
 			for (let key in this._prevPropsStack) {
 				const val = this._prevPropsStack[key];
