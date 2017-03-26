@@ -72,10 +72,12 @@ if (!window.sugar._webComponentsDefaultProps) window.sugar._webComponentsDefault
 if (!window.sugar._webComponentsDefaultCss) window.sugar._webComponentsDefaultCss = {};
 
 var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
-	return function (_superclass) {
-		_inherits(_class2, _superclass);
+	var _class, _temp2;
 
-		_createClass(_class2, [{
+	return _temp2 = _class = function (_superclass) {
+		_inherits(_class, _superclass);
+
+		_createClass(_class, [{
 			key: 'defaultProps',
 
 
@@ -111,6 +113,34 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 
 				// return props
 				return props;
+			}
+
+			/**
+    * Specify if this component accept other props that the ones defined in the defaultProps object
+    * @type 	{Boolean}
+    */
+
+		}, {
+			key: 'acceptOtherProps',
+
+
+			/**
+    * Get if this component accept other props that the ones defined in the defaultProps object
+    * @type 	{Boolean}
+    */
+			get: function get() {
+				if (this._acceptOtherPropsCache !== undefined) return this._acceptOtherPropsCache;
+				var acceptOtherProps = window.sugar._webComponentsClasses[this.componentName].acceptOtherProps;
+				var comp = window.sugar._webComponentsClasses[this.componentName];
+				while (comp) {
+					if (comp.acceptOtherProps === true) {
+						acceptOtherProps = true;
+						break;
+					}
+					comp = Object.getPrototypeOf(comp);
+				}
+				this._acceptOtherPropsCache = acceptOtherProps;
+				return acceptOtherProps;
 			}
 
 			/**
@@ -445,15 +475,15 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			}
 		}]);
 
-		function _class2(_) {
+		function _class(_) {
 			var _temp, _this, _ret;
 
-			_classCallCheck(this, _class2);
+			_classCallCheck(this, _class);
 
-			return _ret = ((_ = (_temp = (_this = _possibleConstructorReturn(this, (_class2.__proto__ || Object.getPrototypeOf(_class2)).call(this, _)), _this), _this.props = {}, _temp)).init(), _), _possibleConstructorReturn(_this, _ret);
+			return _ret = ((_ = (_temp = (_this = _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this, _)), _this), _this.props = {}, _temp)).init(), _), _possibleConstructorReturn(_this, _ret);
 		}
 
-		_createClass(_class2, [{
+		_createClass(_class, [{
 			key: 'init',
 			value: function init() {
 				this.createdCallback();
@@ -571,9 +601,6 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				// 	return;
 				// }
 
-				// cast the new val
-				newVal = (0, _autoCast2.default)(newVal);
-
 				// keep an original attribute name
 				var _attribute = attribute;
 
@@ -581,7 +608,10 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				attribute = (0, _camelize2.default)(attribute);
 
 				// if the property is not a real property
-				if (this.props[attribute] === undefined) return;
+				if (!this.acceptOtherProps && this.props[attribute] === undefined) return;
+
+				// cast the new val
+				newVal = (0, _autoCast2.default)(newVal);
 
 				// handle the case when newVal is undefined (added attribute whithout any value)
 				if (newVal === undefined && this.hasAttribute(_attribute)) {
@@ -1216,7 +1246,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 					var attr = this.attributes[i];
 					var attrCamelName = (0, _camelize2.default)(attr.name);
 					// do not set if it's not an existing prop
-					if (this.props[attrCamelName] === undefined) continue;
+					if (!this.acceptOtherProps && this.props[attrCamelName] === undefined) continue;
 					// the attribute has no value but it is present
 					// so we assume the prop value is true
 					if (!attr.value) {
@@ -1409,8 +1439,8 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			}
 		}]);
 
-		return _class2;
-	}(superclass);
+		return _class;
+	}(superclass), _class.acceptOtherProps = false, _temp2;
 });
 
 // Export the mixin class
