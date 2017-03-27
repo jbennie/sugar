@@ -580,6 +580,9 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				// if the property is not a real property
 				if (!this.shouldAcceptComponentProp(attribute)) return;
 
+				// if the attribute is not already a props, init new prop
+				if (this.props[attribute] === undefined) this._initNewProp(attribute);
+
 				// cast the new val
 				newVal = (0, _autoCast2.default)(newVal);
 
@@ -651,27 +654,15 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				this._fastdomSetProp = null;
 
 				// compute props
-				this._computeProps();
+				this._initInitialAttributes();
 
 				// props proxy
 				this._initPropsProxy();
 
 				// listen for props updates to handle them
-
-				var _loop = function _loop(key) {
-					(0, _propertyProxy2.default)(_this4.props, key, {
-						set: function set(value) {
-							var oldVal = _this4.props[key];
-							// handle new prop value
-							_this4._handleNewPropValue(key, value, oldVal);
-							// set the value
-							return value;
-						}
-					}, false);
-				};
-
 				for (var key in this.props) {
-					_loop(key);
+					// initNewProp
+					this._initNewProp(key);
 				}
 
 				// check the required props
@@ -909,7 +900,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			value: function _initPropsProxy() {
 				var _this6 = this;
 
-				var _loop2 = function _loop2(key) {
+				var _loop = function _loop(key) {
 					if (_this6.hasOwnProperty(key)) {
 						console.warn('The component ' + _this6.componentNameDash + ' has already an "' + key + '" property... This property will not reflect the this.props[\'' + key + '\'] value... Try to use a property name that does not already exist on an HTMLElement...');
 						return 'continue';
@@ -928,9 +919,9 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 
 				// loop on each props
 				for (var key in this.defaultProps) {
-					var _ret3 = _loop2(key);
+					var _ret2 = _loop(key);
 
-					if (_ret3 === 'continue') continue;
+					if (_ret2 === 'continue') continue;
 				}
 			}
 
@@ -1191,6 +1182,27 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			}
 
 			/**
+    * Initiate a new prop. This will add the propertyProxy on the new prop etc...
+    * @param 			{String} 			prop 			The property name to init
+    */
+
+		}, {
+			key: '_initNewProp',
+			value: function _initNewProp(prop) {
+				var _this10 = this;
+
+				(0, _propertyProxy2.default)(this.props, prop, {
+					set: function set(value) {
+						var oldVal = _this10.props[prop];
+						// handle new prop value
+						_this10._handleNewPropValue(prop, value, oldVal);
+						// set the value
+						return value;
+					}
+				}, false);
+			}
+
+			/**
     * Handle physical props by setting or not the prop
     * on the dom element as attribute
     * @param 			{String} 			prop 			The property to handle
@@ -1222,8 +1234,8 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
     */
 
 		}, {
-			key: '_computeProps',
-			value: function _computeProps() {
+			key: '_initInitialAttributes',
+			value: function _initInitialAttributes() {
 				for (var i = 0; i < this.attributes.length; i++) {
 					var attr = this.attributes[i];
 					var attrCamelName = (0, _camelize2.default)(attr.name);
@@ -1352,7 +1364,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			value: function addComponentClass(elm) {
 				var element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-				var _this10 = this;
+				var _this11 = this;
 
 				var modifier = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 				var state = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
@@ -1360,7 +1372,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				// if is an array
 				if (elm instanceof Array || elm instanceof NodeList) {
 					[].forEach.call(elm, function (el) {
-						_this10.addComponentClass(el, element, modifier, state);
+						_this11.addComponentClass(el, element, modifier, state);
 					});
 					return this;
 				}
@@ -1370,7 +1382,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				// loop on each classes to add
 				cls.split('.').forEach(function (cl) {
 					if (cl && cl !== '') {
-						_this10.mutate(function () {
+						_this11.mutate(function () {
 							elm.classList.add(cl);
 						});
 					}
@@ -1393,7 +1405,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			value: function removeComponentClass(elm) {
 				var element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-				var _this11 = this;
+				var _this12 = this;
 
 				var modifier = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 				var state = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
@@ -1401,7 +1413,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				// if is an array
 				if (elm instanceof Array || elm instanceof NodeList) {
 					[].forEach.call(elm, function (el) {
-						_this11.removeComponentClass(el, element, modifier, state);
+						_this12.removeComponentClass(el, element, modifier, state);
 					});
 					return this;
 				}
@@ -1411,7 +1423,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				// loop on each classes to add
 				cls.split('.').forEach(function (cl) {
 					if (cl && cl !== '') {
-						_this11.mutate(function () {
+						_this12.mutate(function () {
 							elm.classList.remove(cl);
 						});
 					}

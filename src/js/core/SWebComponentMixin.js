@@ -468,6 +468,9 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		// if the property is not a real property
 		if ( ! this.shouldAcceptComponentProp(attribute)) return;
 
+		// if the attribute is not already a props, init new prop
+		if ( this.props[attribute] === undefined) this._initNewProp(attribute);
+
 		// cast the new val
 		newVal = __autoCast(newVal);
 
@@ -538,22 +541,15 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		this._fastdomSetProp = null;
 
 		// compute props
-		this._computeProps();
+		this._initInitialAttributes();
 
 		// props proxy
 		this._initPropsProxy();
 
 		// listen for props updates to handle them
 		for(let key in this.props) {
-			__propertyProxy(this.props, key, {
-				set : (value) => {
-					const oldVal = this.props[key];
-					// handle new prop value
-					this._handleNewPropValue(key, value, oldVal);
-					// set the value
-					return value;
-				}
-			}, false);
+			// initNewProp
+			this._initNewProp(key);
 		}
 
 		// check the required props
@@ -990,6 +986,22 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	}
 
 	/**
+	 * Initiate a new prop. This will add the propertyProxy on the new prop etc...
+	 * @param 			{String} 			prop 			The property name to init
+	 */
+	_initNewProp(prop) {
+		__propertyProxy(this.props, prop, {
+			set : (value) => {
+				const oldVal = this.props[prop];
+				// handle new prop value
+				this._handleNewPropValue(prop, value, oldVal);
+				// set the value
+				return value;
+			}
+		}, false);
+	}
+
+	/**
 	 * Handle physical props by setting or not the prop
 	 * on the dom element as attribute
 	 * @param 			{String} 			prop 			The property to handle
@@ -1018,7 +1030,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	/**
 	 * Compute props by mixing settings with attributes presents on the component
 	 */
-	_computeProps() {
+	_initInitialAttributes() {
 		for (let i=0; i<this.attributes.length; i++) {
 			const attr = this.attributes[i];
 			const attrCamelName = __camelize(attr.name);
