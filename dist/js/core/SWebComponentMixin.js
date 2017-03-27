@@ -72,12 +72,10 @@ if (!window.sugar._webComponentsDefaultProps) window.sugar._webComponentsDefault
 if (!window.sugar._webComponentsDefaultCss) window.sugar._webComponentsDefaultCss = {};
 
 var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
-	var _class, _temp2;
+	return function (_superclass) {
+		_inherits(_class2, _superclass);
 
-	return _temp2 = _class = function (_superclass) {
-		_inherits(_class, _superclass);
-
-		_createClass(_class, [{
+		_createClass(_class2, [{
 			key: 'defaultProps',
 
 
@@ -113,34 +111,6 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 
 				// return props
 				return props;
-			}
-
-			/**
-    * Specify if this component accept other props that the ones defined in the defaultProps object
-    * @type 	{Boolean}
-    */
-
-		}, {
-			key: 'acceptOtherProps',
-
-
-			/**
-    * Get if this component accept other props that the ones defined in the defaultProps object
-    * @type 	{Boolean}
-    */
-			get: function get() {
-				if (this._acceptOtherPropsCache !== undefined) return this._acceptOtherPropsCache;
-				var acceptOtherProps = window.sugar._webComponentsClasses[this.componentName].acceptOtherProps;
-				var comp = window.sugar._webComponentsClasses[this.componentName];
-				while (comp) {
-					if (comp.acceptOtherProps === true) {
-						acceptOtherProps = true;
-						break;
-					}
-					comp = Object.getPrototypeOf(comp);
-				}
-				this._acceptOtherPropsCache = acceptOtherProps;
-				return acceptOtherProps;
 			}
 
 			/**
@@ -475,15 +445,15 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			}
 		}]);
 
-		function _class(_) {
+		function _class2(_) {
 			var _temp, _this, _ret;
 
-			_classCallCheck(this, _class);
+			_classCallCheck(this, _class2);
 
-			return _ret = ((_ = (_temp = (_this = _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this, _)), _this), _this.props = {}, _temp)).init(), _), _possibleConstructorReturn(_this, _ret);
+			return _ret = ((_ = (_temp = (_this = _possibleConstructorReturn(this, (_class2.__proto__ || Object.getPrototypeOf(_class2)).call(this, _)), _this), _this.props = {}, _temp)).init(), _), _possibleConstructorReturn(_this, _ret);
 		}
 
-		_createClass(_class, [{
+		_createClass(_class2, [{
 			key: 'init',
 			value: function init() {
 				this.createdCallback();
@@ -608,7 +578,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				attribute = (0, _camelize2.default)(attribute);
 
 				// if the property is not a real property
-				if (!this.acceptOtherProps && this.props[attribute] === undefined) return;
+				if (!this.shouldAcceptComponentProp(attribute)) return;
 
 				// cast the new val
 				newVal = (0, _autoCast2.default)(newVal);
@@ -1186,6 +1156,18 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 
 
 			/**
+    * Method that check if a property passed to the component has to be accepted or not.
+    * @param 		{String} 			prop 		The property name
+    * @return 		{Boolean} 						If true, the property will be accepted, if false, it will not be considered as a property
+    */
+
+		}, {
+			key: 'shouldAcceptComponentProp',
+			value: function shouldAcceptComponentProp(prop) {
+				return this.props[prop] !== undefined;
+			}
+
+			/**
     * Check if component is mounted
     * @return 			{Boolean} 			true if mounted, false if not
     */
@@ -1246,7 +1228,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 					var attr = this.attributes[i];
 					var attrCamelName = (0, _camelize2.default)(attr.name);
 					// do not set if it's not an existing prop
-					if (!this.acceptOtherProps && this.props[attrCamelName] === undefined) continue;
+					if (!this.shouldAcceptComponentProp(attrCamelName)) continue;
 					// the attribute has no value but it is present
 					// so we assume the prop value is true
 					if (!attr.value) {
@@ -1439,8 +1421,8 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			}
 		}]);
 
-		return _class;
-	}(superclass), _class.acceptOtherProps = false, _temp2;
+		return _class2;
+	}(superclass);
 });
 
 // Export the mixin class

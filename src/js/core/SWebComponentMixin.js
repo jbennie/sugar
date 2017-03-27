@@ -207,31 +207,6 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	 * Specify if this component accept other props that the ones defined in the defaultProps object
-	 * @type 	{Boolean}
-	 */
-	static acceptOtherProps = false;
-
-	/**
-	 * Get if this component accept other props that the ones defined in the defaultProps object
-	 * @type 	{Boolean}
-	 */
-	get acceptOtherProps() {
-		if (this._acceptOtherPropsCache !== undefined) return this._acceptOtherPropsCache;
-		let acceptOtherProps = window.sugar._webComponentsClasses[this.componentName].acceptOtherProps;
-		let comp = window.sugar._webComponentsClasses[this.componentName];
-		while(comp) {
-			if (comp.acceptOtherProps === true) {
-				acceptOtherProps = true;
-				break;
-			}
-			comp = Object.getPrototypeOf(comp);
-		}
-		this._acceptOtherPropsCache = acceptOtherProps;
-		return acceptOtherProps;
-	}
-
-	/**
 	 * Return an array of props to set on the dom
 	 * @return 		{Array}
 	 */
@@ -491,7 +466,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		attribute = __camelize(attribute);
 
 		// if the property is not a real property
-		if ( ! this.acceptOtherProps && this.props[attribute] === undefined) return;
+		if ( ! this.shouldAcceptComponentProp(attribute)) return;
 
 		// cast the new val
 		newVal = __autoCast(newVal);
@@ -989,6 +964,15 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	}
 
 	/**
+	 * Method that check if a property passed to the component has to be accepted or not.
+	 * @param 		{String} 			prop 		The property name
+	 * @return 		{Boolean} 						If true, the property will be accepted, if false, it will not be considered as a property
+	 */
+	shouldAcceptComponentProp(prop) {
+		return this.props[prop] !== undefined;
+	}
+
+	/**
 	 * Check if component is mounted
 	 * @return 			{Boolean} 			true if mounted, false if not
 	 */
@@ -1039,7 +1023,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 			const attr = this.attributes[i];
 			const attrCamelName = __camelize(attr.name);
 			// do not set if it's not an existing prop
-			if ( ! this.acceptOtherProps && this.props[attrCamelName] === undefined) continue;
+			if ( ! this.shouldAcceptComponentProp(attrCamelName)) continue;
 			// the attribute has no value but it is present
 			// so we assume the prop value is true
 			if ( ! attr.value) {
