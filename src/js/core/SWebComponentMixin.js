@@ -769,8 +769,9 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 					},
 					set : (value) => {
 						this.setProp(key, value);
-					}
-				})
+					},
+					enumarable : true
+				});
 			}
 		}
 	}
@@ -1000,7 +1001,8 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 				this._handleNewPropValue(prop, value, oldVal);
 				// set the value
 				return value;
-			}
+			},
+			enumarable : true
 		}, false);
 	}
 

@@ -915,7 +915,8 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 							},
 							set: function set(value) {
 								_this6.setProp(key, value);
-							}
+							},
+							enumarable: true
 						});
 					}
 				};
@@ -1201,7 +1202,8 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 						_this10._handleNewPropValue(prop, value, oldVal);
 						// set the value
 						return value;
-					}
+					},
+					enumarable: true
 				}, false);
 			}
 

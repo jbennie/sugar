@@ -92,8 +92,8 @@ function propertyProxy(obj, property, descriptor) {
 			// notify of new update
 			// this.notify(objPath, val, oldValue);
 		},
-		configurable: currentDescriptor && currentDescriptor.configurable !== undefined ? currentDescriptor.configurable : false,
-		enumarable: currentDescriptor && currentDescriptor.enumarable !== undefined ? currentDescriptor.enumarable : true
+		configurable: descriptor.configurable !== undefined ? descriptor.configurable : currentDescriptor && currentDescriptor.configurable !== undefined ? currentDescriptor.configurable : false,
+		enumarable: descriptor.enumarable !== undefined ? descriptor.enumarable : currentDescriptor && currentDescriptor.enumarable !== undefined ? currentDescriptor.enumarable : true
 	});
 
 	// return the value

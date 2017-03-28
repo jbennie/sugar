@@ -128,8 +128,10 @@ export default class SWatcher {
 				// _notify of new update
 				this._notify(objPath, val, oldValue);
 			},
-			configurable : currentDescriptor && currentDescriptor.configurable !== undefined ? currentDescriptor.configurable : false,
-			enumarable : currentDescriptor && currentDescriptor.enumarable !== undefined ? currentDescriptor.enumarable : true,
+			configurable : descriptor && descriptor.configurable !== undefined ? descriptor.configurable :
+								currentDescriptor && currentDescriptor.configurable !== undefined ? currentDescriptor.configurable : false,
+			enumarable : descriptor && descriptor.enumarable !== undefined ? descriptor.enumarable :
+								currentDescriptor && currentDescriptor.enumarable !== undefined ? currentDescriptor.enumarable : true,
 			// writable : currentDescriptor && currentDescriptor.writable !== undefined ? currentDescriptor.writable : true
 		});
 	}
