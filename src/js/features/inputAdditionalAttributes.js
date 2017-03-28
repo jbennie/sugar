@@ -27,7 +27,7 @@ function handleInputAttributes(eOrElm) {
 	}
 }
 
-function handleFormReset(e) {
+function handleFormSubmitOrReset(e) {
 	// loop on each form elements
 	[].forEach.call(e.target.elements, (field) => {
 		// reset the field attributes
@@ -41,4 +41,5 @@ function handleFormReset(e) {
 
 document.addEventListener('change', handleInputAttributes);
 document.addEventListener('keyup', handleInputAttributes);
-document.addEventListener('reset', handleFormReset);
+document.addEventListener('reset', handleFormSubmitOrReset);
+document.addEventListener('submit', handleFormSubmitOrReset);
