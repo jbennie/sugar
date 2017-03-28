@@ -471,11 +471,11 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		// if the property is not a real property
 		if ( ! this.shouldAcceptComponentProp(attribute)) return;
 
-		// if the attribute is not already a props, init new prop
-		if ( this.props[attribute] === undefined) this._initNewProp(attribute);
-
 		// cast the new val
 		newVal = __autoCast(newVal);
+
+		// if the attribute is not already a props, init new prop
+		if ( this.props[attribute] === undefined) this._initNewProp(attribute, newVal);
 
 		// handle the case when newVal is undefined (added attribute whithout any value)
 		if (newVal === undefined
@@ -993,7 +993,10 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * Initiate a new prop. This will add the propertyProxy on the new prop etc...
 	 * @param 			{String} 			prop 			The property name to init
 	 */
-	_initNewProp(prop) {
+	_initNewProp(prop, value = null) {
+		if (value) {
+			this.props[prop] = value;
+		}
 		__propertyProxy(this.props, prop, {
 			set : (value) => {
 				const oldVal = this.props[prop];

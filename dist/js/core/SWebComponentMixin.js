@@ -583,11 +583,11 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				// if the property is not a real property
 				if (!this.shouldAcceptComponentProp(attribute)) return;
 
-				// if the attribute is not already a props, init new prop
-				if (this.props[attribute] === undefined) this._initNewProp(attribute);
-
 				// cast the new val
 				newVal = (0, _autoCast2.default)(newVal);
+
+				// if the attribute is not already a props, init new prop
+				if (this.props[attribute] === undefined) this._initNewProp(attribute, newVal);
 
 				// handle the case when newVal is undefined (added attribute whithout any value)
 				if (newVal === undefined && this.hasAttribute(_attribute)) {
@@ -1195,6 +1195,11 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			value: function _initNewProp(prop) {
 				var _this10 = this;
 
+				var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+				if (value) {
+					this.props[prop] = value;
+				}
 				(0, _propertyProxy2.default)(this.props, prop, {
 					set: function set(value) {
 						var oldVal = _this10.props[prop];
