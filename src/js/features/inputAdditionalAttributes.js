@@ -12,7 +12,7 @@ function handleInputAttributes(eOrElm) {
 				if (field.value && ! field.hasAttribute('has-value')) {
 					field.setAttribute('has-value', true);
 					field.removeAttribute('empty');
-				} else if ( ! field.value && field.hasAttribute('has-value')) {
+				} else if ( ! field.value) {
 					field.removeAttribute('has-value');
 					field.removeAttribute('value');
 					if ( ! field.hasAttribute('empty')) {
