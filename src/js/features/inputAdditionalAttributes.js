@@ -19,7 +19,7 @@ function handleInputAttributes(eOrElm) {
 						field.setAttribute('empty', true);
 					}
 				}
-				if (field.value && ! field.hasAttribute('dirty')) {
+				if ( ! field.hasAttribute('dirty')) {
 					field.setAttribute('dirty', true);
 				}
 			});
@@ -32,6 +32,8 @@ function handleFormSubmitOrReset(e) {
 	[].forEach.call(e.target.elements, (field) => {
 		// reset the field attributes
 		handleInputAttributes(field);
+		// stop here if is a submit
+		if (e.type === 'submit') return;
 		// remove dirty attribute
 		fastdom.mutate(() => {
 			field.removeAttribute('dirty');
