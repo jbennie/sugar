@@ -1,13 +1,10 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-require('../features/inputAdditionalAttributes');
-require('../features/inputAdditionalEvents');
 
 /**
  * @name 		SObject
@@ -16,7 +13,6 @@ require('../features/inputAdditionalEvents');
  *
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-
 var SObject =
 /**
  * @constructor
