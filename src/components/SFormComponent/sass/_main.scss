@@ -152,6 +152,7 @@
 		// make form group flex
 		display: flex !important;
 		flex: 1 !important;
+		align-items: center !important;
 		> * {
 			flex: 1;
 		}
