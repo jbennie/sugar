@@ -1,14 +1,12 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
-var _mixwith = require('../vendors/mixwith');
+var _sNativeWebComponent = require('./sNativeWebComponent');
 
-var _SWebComponentMixin = require('./SWebComponentMixin');
-
-var _SWebComponentMixin2 = _interopRequireDefault(_SWebComponentMixin);
+var _sNativeWebComponent2 = _interopRequireDefault(_sNativeWebComponent);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -18,22 +16,16 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-if (typeof HTMLInputElement !== 'function') {
-    var _HTMLInputElement = function _HTMLInputElement() {};
-    _HTMLInputElement.prototype = HTMLInputElement.prototype;
-    HTMLInputElement = _HTMLInputElement;
-}
+var SInputWebComponent = function (_native) {
+  _inherits(SInputWebComponent, _native);
 
-var SInputWebComponent = function (_mix$with) {
-    _inherits(SInputWebComponent, _mix$with);
+  function SInputWebComponent() {
+    _classCallCheck(this, SInputWebComponent);
 
-    function SInputWebComponent() {
-        _classCallCheck(this, SInputWebComponent);
+    return _possibleConstructorReturn(this, (SInputWebComponent.__proto__ || Object.getPrototypeOf(SInputWebComponent)).apply(this, arguments));
+  }
 
-        return _possibleConstructorReturn(this, (SInputWebComponent.__proto__ || Object.getPrototypeOf(SInputWebComponent)).apply(this, arguments));
-    }
-
-    return SInputWebComponent;
-}((0, _mixwith.mix)(HTMLInputElement).with(_SWebComponentMixin2.default));
+  return SInputWebComponent;
+}((0, _sNativeWebComponent2.default)(HTMLInputElement));
 
 exports.default = SInputWebComponent;

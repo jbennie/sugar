@@ -14,8 +14,6 @@ Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 name  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The name of the cache  |  required  |
 
-Default : **{}) {**
-
 
 
 
@@ -64,5 +62,3 @@ Name  |  Type  |  Description  |  Status  |  Default
 id  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The id of the cache element to set  |  required  |
 value  |  **{ Mixed }**  |  The value to set in cache  |  required  |
 lifetime  |  **{ Integer }**  |  The lifetime of this value in cache  |  required  |
-
-Default : **null) {**

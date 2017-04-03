@@ -10,5 +10,3 @@ source  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Ref
 Return **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElement) }** An HTMLElement node tree that represent the template
 
 Author : Olivier Bossel <olivier.bossel@gmail.com>
-
-Default : **html') {**

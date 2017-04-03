@@ -22,5 +22,3 @@ stylesheetsReady([
 });
 ```
 Author : Olivier Bossel <olivier.bossel@gmail.com>
-
-Default : **null) {**

@@ -29,5 +29,3 @@ myObject.title = 'Universe';
 console.log(myObject.title) => 'Hello Youhou Universe';
 ```
 Author : Olivier Bossel <olivier.bossel@gmail.com>
-
-Default : **true) {**

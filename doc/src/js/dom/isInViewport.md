@@ -19,5 +19,3 @@ if (isInViewport(myCoolHTMLElement) {
 }
 ```
 Author : Olivier Bossel <olivier.bossel@gmail.com>
-
-Default : **50) {**

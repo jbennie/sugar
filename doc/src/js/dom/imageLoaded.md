@@ -19,5 +19,3 @@ imageLoaded(myCoolHTMLImageElement).then((img) => {
 });
 ```
 Author : Olivier Bossel <olivier.bossel@gmail.com>
-
-Default : **null) {**

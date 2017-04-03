@@ -16,6 +16,112 @@ require('../features/inputAdditionalEvents');
 
 // require('document-register-element');
 
+/**
+ * @name 		SWebComponent
+ * @extends 	HTMLElement
+ * Base class that abstract a lot of dirty work in order to create nice and clean webcomponents.
+ * Features:
+ * - Listen for attributes changes
+ * - Mount the component at a certain point in time (inViewport, visible, etc...)
+ * - **Automatically cast the attributes** to their proper js variable types (Array, Object, String, etc...)
+ * - **Physical props** : Specify some props that will ALWAYS be present as attribute on the component for styling purpose
+ * - Define some **default CSS** that will be injected in the head automatically
+ * - Specify some **required props**
+ * - **Full lifecycle management**:
+ * 	- componentCreated
+ * 	- componentWillMount
+ * 	- componentMount
+ * 	- componentDidMount
+ * 	- componentWillReceiveProp
+ * 	- componentWillReceiveProps
+ * 	- componentWillUpdate
+ * 	- render
+ * 	- componentDidUpdate
+ * 	- componentWillUnmount
+ * 	- componentUnmount
+ * 	- componentDidUnmount
+ * - **Mount dependencies** : This will allows you to set some promises that havwe to be resolved before mounting the component
+ *
+ * @example 	js
+ * import SWebComponent from 'coffeekraken-sugar/js/core/SWebComponent'
+ * class MyCoolComponent extends SWebComponent {
+ *
+ *	\/**
+ * 	 * Default props
+ * 	 * @definition 		SWebComponent.defaultProps
+ * 	 * @protected
+ * 	 *\/
+ * 	static get defaultProps() {
+ * 		return {
+ * 		};
+ * 	}
+ *
+ * 	\/**
+ * 	 * Css
+ * 	 * @protected
+ * 	 *\/
+ * 	static defaultCss(componentName, componentNameDash) {
+ * 		return `
+ * 			${componentNameDash} {
+ * 				display : block;
+ * 			}
+ * 		`;
+ * 	}
+ *
+ * 	\/**
+ * 	 * Component will mount
+ *  	 * @definition 		SWebComponent.componentWillMount
+ * 	 * @protected
+ * 	 *\/
+ * 	componentWillMount() {
+ * 		super.componentWillMount();
+ * 	}
+ *
+ * 	\/**
+ * 	 * Mount component
+ * 	 * @definition 		SWebComponent.componentMount
+ * 	 * @protected
+ * 	 *\/
+ * 	componentMount() {
+ * 		super.componentMount();
+ * 	}
+ *
+ * 	\/**
+ * 	 * Component unmount
+ * 	 * @definition 		SWebComponent.componentUnmount
+ * 	 * @protected
+ * 	 *\/
+ * 	componentUnmount() {
+ * 		super.componentUnmount();
+ * 	}
+ *
+ * 	\/**
+ * 	 * Component will receive prop
+ * 	 * @definition 		SWebComponent.componentWillReceiveProp
+ * 	 * @protected
+ * 	 *\/
+ * 	componentWillReceiveProp(name, newVal, oldVal) {
+ * 		switch(name) {
+ * 		}
+ * 	}
+ *
+ * 	\/**
+ * 	 * Render the component
+ * 	 * Here goes the code that reflect the this.props state on the actual html element
+ * 	 * @definition 		SWebComponent.render
+ * 	 * @protected
+ * 	 *\/
+ * 	render() {
+ * 		super.render();
+ * 	}
+ * }
+ *
+ * // define your component
+ * MyCoolComponent.define('my-cool-component', MyCoolComponent);
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+
 if ( ! window.sugar) window.sugar = {};
 if ( ! window.sugar._webComponentsClasses) window.sugar._webComponentsClasses = {};
 if ( ! window.sugar._webComponentsDefaultProps) window.sugar._webComponentsDefaultProps = {};
@@ -352,12 +458,8 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 
 	/**
 	 * Constructor
+	 * @protected
 	 */
-	// constructor() {
-	// 	super();
-	// 	// createdCallback
-	// 	this.createdCallback();
-	// }
 	constructor(_) { return (_ = super(_)).init(), _; }
 	init() {
 		this.createdCallback();
@@ -405,6 +507,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 
 	/**
 	 * When the element is attached in the DOM tree
+	 * @protected
 	 */
 	connectedCallback() {
 
@@ -428,14 +531,17 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 			// switch on the mountWhen prop
 			switch(this.props.mountWhen) {
 				case 'inViewport':
+				case 'isInViewport':
 					__whenInViewport(this).then(() => {
 						this._mountComponent();
 					});
 				break;
+				case 'isMouseover':
 				case 'mouseover':
 					this.addEventListener('mouseover', this._onMouseoverComponentMount.bind(this));
 				break;
 				case 'isVisible':
+				case 'visible':
 					__whenVisible(this).then(() => {
 						this._mountComponent();
 					});
@@ -454,6 +560,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * @param 		{String} 		attribute 		The attribute name that has changed
 	 * @param 		{String}		oldVal 			The previous attribute value
 	 * @param 		{String} 		newVal 			The new attribute value
+	 * @protected
 	 */
 	attributeChangedCallback(attribute, oldVal, newVal) {
 
@@ -806,6 +913,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 
 	/**
 	 * Detect when the component is detached from the DOM tree.
+	 * @protected
 	 */
 	disconnectedCallback() {
 
@@ -877,6 +985,15 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 
 		// set the prop
 		this.props[prop] = value
+	}
+
+	/**
+	 * Get a property
+	 * @param 		{String} 		prop 			The property name to get
+	 * @return 		{Mixed} 						The property value or null
+	 */
+	getProp(prop) {
+		return this.props[prop];
 	}
 
 	/**

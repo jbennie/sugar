@@ -2,7 +2,7 @@
 
 Static color names map
 
-Default : **{**
+**Static**
 
 
 
@@ -16,6 +16,8 @@ Default : **{**
 ### toStringFormat
 
 Default toString format
+
+**Static**
 
 Default : **rgba**
 
@@ -56,8 +58,6 @@ Parse HSV
 
 RGBA to HEX
 
-Default : **1) {**
-
 
 ### rgba2rgba
 
@@ -73,28 +73,20 @@ Hex to RGBA
 
 HSV to RGBA
 
-Default : **1) {**
-
 
 ### hsl2rgba
 
 HSL to RGBA
-
-Default : **1) {**
 
 
 ### rgba2hsv
 
 RGBA to HSV
 
-Default : **1) {**
-
 
 ### rgba2hsl
 
 RGBA to HSL
-
-Default : **1) {**
 
 
 ### toHex
@@ -271,5 +263,3 @@ To hsv string
 ### toString
 
 To string
-
-Default : **null) {**

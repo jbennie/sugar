@@ -19,5 +19,3 @@ whenInViewport(myCoolHTMLElement).then((elm) => {
 });
 ```
 Author : Olivier Bossel <olivier.bossel@gmail.com>
-
-Default : **null) {**

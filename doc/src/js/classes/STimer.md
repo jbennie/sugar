@@ -29,8 +29,6 @@ settings  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/R
 
 Return **{ STimer }** The STimer instance
 
-Default : **{}) {**
-
 
 
 
@@ -90,8 +88,6 @@ duration  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/R
 
 Return **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }** The duration
 
-Default : **null) {**
-
 
 ### onTick
 
@@ -114,14 +110,10 @@ Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 start  |  **{ [Boolean](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean) }**  |  If the timer has to start after reseting or not  |  required  |
 
-Default : **false) {**
-
 
 ### start
 
 Start the timer
-
-Default : **null) {**
 
 
 ### pause

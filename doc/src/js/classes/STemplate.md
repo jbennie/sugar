@@ -94,8 +94,6 @@ Function called after any HTMLElement has been removed from the dom
 
 Type : **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function) }**
 
-Default : **null**
-
 
 ## Properties
 
@@ -134,8 +132,6 @@ Store the settings
 
 Type : **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }**
 
-Default : **{**
-
 
 ### templateString
 
@@ -147,21 +143,24 @@ Type : **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Referen
 ## Methods
 
 
-### getParentTemplate
+### domNode
 
-Get the parent template instance
+Store the reference to the created dom structure
+
+Default : **null**
+
+
+### beforeRenderFirst
+
+Function that runs before the template will be first rendered in the dom so that you can have a change to process it if needed
+before it will be passed to the render step
 
 
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
-of  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElement) }**  |  The element to get the parent template from  |  required  |
+template  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The template before compilation  |  required  |
 
-Return **{ STemplate }** The parent template instance found in the html
-
-
-### domNode
-
-Store the reference to the created dom structure
+Return **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }** The processed template to pass to render step
 
 Default : **null**
 
@@ -193,11 +192,21 @@ inDomTemplate  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/AP
 Default : **null**
 
 
+### afterRenderFirst
+
+Function that runs after the template has been first rendered to the dom so that you can have a chance to process it if needed
+
+
+Name  |  Type  |  Description  |  Status  |  Default
+------------  |  ------------  |  ------------  |  ------------  |  ------------
+inDomTemplate  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElement) }**  |  The dom element that represent the template  |  required  |
+
+Default : **null**
+
+
 ### constructor
 
 Constructor
-
-Default : **{}, settings = {}, parentTemplate = null) {**
 
 
 ### isNodeBelongToMe
@@ -232,24 +241,11 @@ Name  |  Type  |  Description  |  Status  |  Default
 node  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElement) }**  |  The node that will represent the template  |  required  |
 
 
-### setParentTemplate
-
-Set the parent STemplate instance.
-This is needed if you want your template to talk together through attributes
-
-
-Name  |  Type  |  Description  |  Status  |  Default
-------------  |  ------------  |  ------------  |  ------------  |  ------------
-template  |  **{ STemplate }**  |  The parent template instance  |  required  |
-
-
 ### render
 
 Render the template
 Usually, you don't need to call this by yourself. The template
 will be rendered again each time that a data is updated
-
-Default : **null) {**
 
 
 ### patchDom

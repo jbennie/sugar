@@ -76,8 +76,6 @@ settings  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/R
 
 Return **{ [Promise](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise) }** A promise of results
 
-Default : **{}) {**
-
 
 ### next
 

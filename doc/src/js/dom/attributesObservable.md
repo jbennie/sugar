@@ -22,8 +22,6 @@ See more : [https://developer.mozilla.org/en/docs/Web/API/MutationObserver](http
 
 Author : Olivier Bossel <olivier.bossel@gmail.com>
 
-Default : **{}) {**
-
 
 
 

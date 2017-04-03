@@ -52,8 +52,6 @@ Name  |  Type  |  Description  |  Status  |  Default
 request  |  **{ SAjaxRequest }**  |  The request object used to make ajax call  |  required  |
 settings  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }**  |  Some settings around the request  |  optional  |  {}
 
-Default : **{}) {**
-
 
 
 

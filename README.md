@@ -262,11 +262,11 @@ Sugar has some goals it try to achieve, and have also **some things that it does
 Sugar is an open source project and will ever be! You are more that welcomed to contribute to his development and make it more awesome every day.
 To do so, you have several possibilities:
 
-1. [Share the love ❤️](doc/contribute.md#contribute-share-the-love)
-2. [Declare issues](doc/contribute.md#contribute-declare-issues)
-3. [Fix issues](doc/contribute.md#contribute-fix-issues)
-4. [Add features](doc/contribute.md#contribute-add-features)
-5. [Build web component](doc/contribute.md#contribute-build-web-component)
+1. [Share the love ❤️](https://github.com/Coffeekraken/coffeekraken/blob/master/contribute.md#contribute-share-the-love)
+2. [Declare issues](https://github.com/Coffeekraken/coffeekraken/blob/master/contribute.md#contribute-declare-issues)
+3. [Fix issues](https://github.com/Coffeekraken/coffeekraken/blob/master/contribute.md#contribute-fix-issues)
+4. [Add features](https://github.com/Coffeekraken/coffeekraken/blob/master/contribute.md#contribute-add-features)
+5. [Build web component](https://github.com/Coffeekraken/coffeekraken/blob/master/contribute.md#contribute-build-web-component)
 
 <a id="readme-browsers-support"></a>
 ## Browsers support
@@ -276,6 +276,8 @@ To do so, you have several possibilities:
 * Internet Explorer 10+
 * Opera *(latest 2)*
 * Safari *(latest 2)*
+
+> As browsers are automatically updated, we will keep as reference the last two versions of each but sugar will work on older ones as well.
 
 <a id="readme-license"></a>
 ## License
@@ -287,4 +289,4 @@ The code is available under the [MIT license](LICENSE.txt). This mean that you c
 
 We try to be **some cool guys** that build **some cool tools** to make our (and yours hopefully) **every day life better**.  
 
-#### [More on who we are](doc/who-are-coffeekraken.md)
+#### [More on who we are](https://github.com/Coffeekraken/coffeekraken/blob/master/who-are-we.md)

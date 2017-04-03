@@ -56,8 +56,6 @@ cb  |  **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refer
 
 Return **{ InViewportStatusChangeDetector }** The instance itself to maintain chainability
 
-Default : **null) {**
-
 
 ### destroy
 
