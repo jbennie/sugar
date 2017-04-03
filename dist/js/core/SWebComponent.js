@@ -1,14 +1,12 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
-var _mixwith = require('../vendors/mixwith');
+var _sNativeWebComponent = require('./sNativeWebComponent');
 
-var _SWebComponentMixin = require('./SWebComponentMixin');
-
-var _SWebComponentMixin2 = _interopRequireDefault(_SWebComponentMixin);
+var _sNativeWebComponent2 = _interopRequireDefault(_sNativeWebComponent);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -18,22 +16,16 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-if (typeof HTMLElement !== 'function') {
-    var _HTMLElement = function _HTMLElement() {};
-    _HTMLElement.prototype = HTMLElement.prototype;
-    HTMLElement = _HTMLElement;
-}
+var SVideoWebComponent = function (_native) {
+  _inherits(SVideoWebComponent, _native);
 
-var SWebComponent = function (_mix$with) {
-    _inherits(SWebComponent, _mix$with);
+  function SVideoWebComponent() {
+    _classCallCheck(this, SVideoWebComponent);
 
-    function SWebComponent() {
-        _classCallCheck(this, SWebComponent);
+    return _possibleConstructorReturn(this, (SVideoWebComponent.__proto__ || Object.getPrototypeOf(SVideoWebComponent)).apply(this, arguments));
+  }
 
-        return _possibleConstructorReturn(this, (SWebComponent.__proto__ || Object.getPrototypeOf(SWebComponent)).apply(this, arguments));
-    }
+  return SVideoWebComponent;
+}((0, _sNativeWebComponent2.default)(HTMLElement));
 
-    return SWebComponent;
-}((0, _mixwith.mix)(HTMLElement).with(_SWebComponentMixin2.default));
-
-exports.default = SWebComponent;
+exports.default = SVideoWebComponent;
