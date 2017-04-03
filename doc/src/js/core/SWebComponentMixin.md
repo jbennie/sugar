@@ -252,17 +252,6 @@ Return **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Referen
 **Static**
 
 
-### //
-
-Constructor
-
-
-### createdCallback
-
-When the component is created.
-This is called even if the component is not attached in the DOM tree
-
-
 ### componentCreated
 
 Called directly when the component is created. This act like a constructor.

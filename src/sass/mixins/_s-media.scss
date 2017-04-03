@@ -1,6 +1,3 @@
-//
-// Media queries specific
-//
 
 //
 // Universal media mixin
@@ -32,13 +29,47 @@ $media-keywords : (
 	webos : '.ua-webos',
 	blackberry : '.ua-blackberry',
 
-	2x : '(-webkit-min-device-pixel-ratio: 2), (min-resolution: 320dpi)',
-	3x : '(-webkit-min-device-pixel-ratio: 3), (min-resolution: 480dpi)',
-	4x : '(-webkit-min-device-pixel-ratio: 4), (min-resolution: 640dpi)'
+	// 2x : '(-webkit-min-device-pixel-ratio: 2), (min-resolution: 320dpi)',
+	// 3x : '(-webkit-min-device-pixel-ratio: 3), (min-resolution: 480dpi)',
+	// 4x : '(-webkit-min-device-pixel-ratio: 4), (min-resolution: 640dpi)',
+	// 5x : '(-webkit-min-device-pixel-ratio: 5), (min-resolution: 800dpi)',
+	// 6x : '(-webkit-min-device-pixel-ratio: 6), (min-resolution: 960dpi)'
 );
 @for $idx from 6 through 20 {
 	$media-keywords : map-set($media-keywords, 'ie#{$idx}', '.ua-ie-#{$idx}');
 }
+
+/**
+ * Easy to use media query mixin that support cssua classes to target specific browsers
+ * @param 		{String} 		[$screen=null] 			Any of the @media screen type property like "screen, handheld, print, etc..."
+ * @param 		{Number} 		[$min-width=null] 		The min width to target
+ * @param 		{Number} 		[$max-width=null] 		The max width to target
+ * @param 		{Number} 		[$min-height=null] 		The min height to target
+ * @param 		{Number} 		[$max-height=null] 		The max height to target
+ * @param 		{String} 		[$orientation=null] 	The orientation to target. Can be portrait or landscape
+ * @param 		{String} 		[$resolution=null] 		The resolution to target. Can be 2x, 3x, 4x, etc...
+ * @param 		{String} 		[$engine=null] 			The engine that powers the display. Can be gecko, webkit, trident, blink or presto
+ * @param 		{String} 		[$device=null] 			The device to target. Can be mobile, tablet, desktop, iphone or ipad
+ * @param 		{String} 		[$browser=null] 		The browser(s) to target. Can be chrome, safari, firefox, opera, ie, ie6-20
+ * @param 		{String} 		[$system=null] 			The system(s) to target. Can be ios, osx, windows, linux, android, webos or blackberry
+ *
+ * @example 	scss
+ * // simple min width
+ * \@include s-media(
+ * 	$min-width : 200px
+ * ) {
+ * 	// custom css here...
+ * }
+ *
+ * // target a specific engine
+ * \@include s-media(
+ * 	$engine : gecko webkit
+ * ) {
+ * 	// custom css here
+ * }
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-media(
 	$screen : null,
 	$min-width : null,
@@ -89,12 +120,20 @@ $media-keywords : (
 	// resolution
 	@if $resolution {
 		$res : ();
-		$resolutions : (2x,3x,4x);
-		@each $m in $resolution {
-			@if index($resolutions,$m) {
-				$res : append($res, map-get($media-keywords,$m));
+		@each $r in $resolution {
+			$r : _replace($r, 'x');
+			$r : _sc-to-number($r);
+			// check that the $r is now a proper integer
+			@if s-is($r, integer) {
+				$res : append($res, '(-webkit-min-device-pixel-ratio: #{$r}), (min-resolution: #{160 * $r}dpi)');
 			}
 		}
+		// $resolutions : (2x,3x,4x);
+		// @each $m in $resolution {
+		// 	@if index($resolutions,$m) {
+		// 		$res : append($res, map-get($media-keywords,$m));
+		// 	}
+		// }
 		$media : append($media, _join($res,','));
 	}
 

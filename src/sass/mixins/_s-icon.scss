@@ -1,6 +1,14 @@
-//
-// Icons specific
-//
+/**
+ * Apply an icon on the element. This mixin support font-awesome and custom icons systems that have an icon name formated like "icon-{name}"
+ * @param 		{String} 		$name 		The icon name to apply
+ *
+ * @example 	scss
+ * .my-cool-icon {
+ * 	\@include s-icon(fa-user);
+ * }
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-icon(
 	$name
 ) {

@@ -567,6 +567,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			/**
     * When the component is created.
     * This is called even if the component is not attached in the DOM tree
+    * @protected
     */
 
 		}, {

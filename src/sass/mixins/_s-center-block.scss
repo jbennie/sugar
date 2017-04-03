@@ -1,5 +1,11 @@
 /**
- * Center block
+ * Center a block element using margins etc...
+ * @example 	scss
+ * .my-cool-block-element {
+ * 	\@include s-center-block();
+ * }
+ *
+ * @author 	Olivier Bossel <olivier.bossel@gmail.com>
  */
 @mixin s-center-block() {
 	display: block;

@@ -1,6 +1,26 @@
-//
-// List item
-//
+/**
+ * Set how the list bullet has to be displayed.
+ * @param 		{String} 		[$type=null] 				The list type to use. Can be all the list-style-type values
+ * @param 		{Url} 			[$image=null] 				An image url to use as bullet
+ * @param 		{String} 		[$icon=null] 				An icon name to use as bullet. Will use the s-icon mixin under the hood
+ * @param 		{Color} 		[$color=s-color(default)] 	The color to use for the bullet
+ * @param 		{Number} 		[$size=null] 				The size to use for the bullet
+ * @param 		{Number|List<Number>} 	[$offset=null] 		A number that represent the top offset, or a list of two numbers that represent the top, left offset
+ * @param 		{String} 		[$font=null] 				The font name to use for the bullet
+ * @param 		{Number} 		[$space=null] 				The space between the bullet and the content
+ *
+ * @example 	scss
+ * .my-cool-list__item {
+ * 	@\include s-list-bullet(
+ * 		$image : '../img/my-cool-bullet.svg',
+ * 		$offset : 5px 10px,
+ * 		$size : 1em,
+ * 		$space : 2em
+ * 	);
+ * }
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-list-bullet(
 	$type : null,
 	$image : null,

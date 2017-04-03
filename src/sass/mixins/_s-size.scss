@@ -1,6 +1,16 @@
-//
-// Size
-//
+/**
+ * Quicky and easily set simple or complexe size to any element
+ * @param 		{String|Number} 		$size-width				The size like "cover" or "contain", or the width un number
+ * @param 		{Number} 				[$height=null] 			The height wanted
+ * @param 		{String} 				[$position=absolute] 	The position wanted if the size is "cover" or "contain"
+ *
+ * @example 	scss
+ * .my-cool-image {
+ * 	\@include s-size(cover);
+ * }
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-size(
 	$size-width,
 	$height : null,

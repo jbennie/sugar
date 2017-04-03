@@ -468,6 +468,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	/**
 	 * When the component is created.
 	 * This is called even if the component is not attached in the DOM tree
+	 * @protected
 	 */
 	createdCallback() {
 

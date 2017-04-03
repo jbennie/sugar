@@ -1,6 +1,13 @@
-//
-// Hide text
-//
+/**
+ * Hide the contained text
+ *
+ * @example 	scss
+ * .my-cool-container {
+ * 	\@include s-hide-text();
+ * }
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-hide-text() {
 	overflow:hidden;
     text-indent:-9000px;

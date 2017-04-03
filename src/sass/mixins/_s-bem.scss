@@ -1,6 +1,19 @@
-//
-// Block
-//
+/**
+ * @name 	BEM mixins
+ * Some useful mixins to work with BEM methodology
+ */
+
+/**
+ * BEM block selector
+ * @param 		{String} 				$name 		The block name
+ * @param 		{String|List<String>} 	[$extend=false] 	The list of item to extends
+ * @example 	scss
+ * \@include s-Bem('card') {
+ *  	background: white;
+ * }
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-Bem(
 	$name,
 	$extend : false
@@ -17,9 +30,21 @@
 	}
 }
 
-//
-// Block element
-//
+/**
+ * BEM element selector
+ * @param 		{String} 				$name 		The block name
+ * @param 		{String|List<String>} 	[$extend=false] 	The list of item to extends
+ * @example 	scss
+ * \@include s-Bem(card) {
+ * 	background:white;
+ *
+ * 	\@include s-bEm(title) {
+ * 		font-size:20px;
+ * 	}
+ * }
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-bEm(
 	$name,
 	$extend : false
@@ -42,9 +67,21 @@
 	}
 }
 
-//
-// Block modifier
-//
+/**
+ * BEM modifier selector
+ * @param 		{String} 				$name 		The block name
+ * @param 		{String|List<String>} 	[$extend=false] 	The list of item to extends
+ * @param 		{Boolean} 				[$standelone=s-setting('BEM.standelone')] 		If true, will automatically extends the base element
+ * @example 	scss
+ * \@include s-Bem(card) {
+ * 	background:white;
+ *
+ * 	\@include s-beM(blue) {
+ * 		background: blue;
+ * 	}
+ * }
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-beM(
 	$name,
 	$extend : false,

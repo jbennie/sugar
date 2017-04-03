@@ -1,6 +1,28 @@
-//
-// Corner
-//
+/**
+ * Apply some border radius
+ * @param 		{Number} 		[$radius=null] 			The radius to apply globally
+ * @param 		{Number} 		[$top=null] 			The radius to apply on top corners
+ * @param 		{Number} 		[$right=null] 			The radius to apply on right corners
+ * @param 		{Number} 		[$bottom=null] 			The radius to apply on bottom corners
+ * @param 		{Number} 		[$left=null] 			The radius to apply on left corners
+ * @param 		{Number} 		[$top-left=null] 		The radius to apply on top-left corners
+ * @param 		{Number} 		[$top-right=null] 		The radius to apply on top-right corners
+ * @param 		{Number} 		[$bottom-left=null] 	The radius to apply on bottom-left corners
+ * @param 		{Number} 		[$bottom-right=null] 	The radius to apply on bottom-right corners
+ *
+ * @example 	scss
+ * .my-cool-item {
+ * 	// apply on top left and right corners
+ * 	\@include s-corner(
+ * 		$top : 10px;
+ * 	);
+ * 	// apply on each corners
+ * 	\@include s-corner(10px);
+ * 	// etc...
+ * }
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-corner(
 	$radius : null,
 	$top : null,

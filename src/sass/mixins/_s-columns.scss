@@ -1,6 +1,26 @@
-//
-// Columns
-//
+/**
+ * Create a column layout my setting each columns properties at once
+ * @param 		{Integer} 		[$count=null] 		The number of columns wanted
+ * @param 		{Number} 		[$gap=null] 		The column-gap width wanted
+ * @param 		{String} 		[$fill=null] 		The column-fill wanted
+ * @param 		{Number} 		[$width=null] 		THe width of each columns wanted
+ * @param 		{String} 		[$span=null] 		Specify on how many columns the element has to span across
+ * @param 		{List} 			[$rule=null] 		Specify the shorthand version of the column-rule-color, column-rule-style and column-rule-width
+ * @param 		{String} 		[$rule-style=null] 	Specify the column-rule-style wanted
+ * @param 		{Color} 		[$rule-color=null] 	Specify the column-rule-color wanted
+ * @param 		{Number} 		[$rule-width=null] 	Specify the column-rule-width wanted
+ *
+ * @example 	scss
+ * .my-cool-container {
+ * 	\@include s-columns(
+ * 		$count : 3,
+ * 		$gap : 30px,
+ * 		$span : solid s-color(primary) 20px
+ * 	);
+ * }
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-columns(
 	$count : null,
 	$gap : null,

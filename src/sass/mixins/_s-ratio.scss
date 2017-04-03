@@ -1,8 +1,19 @@
-//
-// Ratio
-//
+/**
+ * Apply a ratio css styling. This will apply a before or after content that will make the element keep the specified ratio.
+ * The content need to be displayed as absolute top left and fit in size.
+ *
+ * @param 		{Number} 		$ratio 			The ratio to keep like 16/9, etc...
+ * @param 		{String} 		[$type=before] 	The type of ratio to apply. Can be before or after
+ *
+ * @example 	scss
+ * .my-cool-element {
+ * 	\@include s-ratio(16/9);
+ * }
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-ratio(
-	$ratio : null,
+	$ratio,
 	$type : before
 ) {
 	@if $_sugar-test-arguments {

@@ -1,4 +1,21 @@
-@mixin s-fit() {
+/**
+ * Make the element fit his container.
+ * @param 	{String} 			[$position=null] 		The position how to fit the element.
+ *
+ * @example 	scss
+ * .my-cool-element {
+ * 	\@include s-fit(absolute);
+ * }
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-fit(
+	$position : null
+) {
 	width: 100%;
 	height: 100%;
+	@if $position {
+		position : $position;
+		top: 0; left: 0;
+	}
 }

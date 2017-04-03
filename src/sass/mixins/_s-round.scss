@@ -1,24 +1,38 @@
-//
-// Round
-//
+/**
+ * Apply some css to have a rounded element with already an overflow on it
+ *
+ * @param 		{Number} 		[$size=null] 		The size (width and height) of the element wanted
+ * @param 		{Number} 		[$width=null] 		The width of the element wanted
+ * @param 		{Number} 		[$height=null] 		The height of the element wanted
+ *
+ * @example 	scss
+ * .my-cool-image {
+ * 	\@include s-round(100px);
+ *
+ * 	img {
+ * 		\@include s-size(cover);
+ * 	}
+ * }
+ */
 @mixin s-round(
-	$width : null,
+	$size : null,
 	$height : null,
 	$color : null
 ) {
 	@if $_sugar-test-arguments {
+		$size : s-test-argument('s-round','width',number,$size);
 		$width : s-test-argument('s-round','width',number,$width);
 		$height : s-test-argument('s-round','height',number,$height);
-		$color : s-test-argument('s-round','color',color,$color);
+	}
+	@if $size {
+		width : $size;
+		height : $size;
 	}
 	@if $width {
 		width : $width;
 	}
 	@if $height {
 		height : $height;
-	}
-	@if $color {
-		background-color : $color;
 	}
 	border-radius:50%;
 	overflow: hidden;

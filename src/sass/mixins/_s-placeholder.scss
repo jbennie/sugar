@@ -1,6 +1,15 @@
-//
-// Placeholder
-//
+/**
+ * Set the placeholder style for inputs, etc...
+ *
+ * @example 	scss
+ * input, textarea {
+ * 	\@include s-placeholder() {
+ * 		color : red;
+ * 	}
+ * }
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-placeholder {
 	&::-webkit-input-placeholder {@content}
 	&:-moz-placeholder           {@content}

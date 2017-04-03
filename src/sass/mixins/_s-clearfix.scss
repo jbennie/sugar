@@ -1,14 +1,20 @@
-/* # CLEARFIX
-	More infos to come..
-
-	https://github.com/stubbornella/oocss/blob/master/oocss/src/components/utils/_clearfix-me.scss
-
-	clearfix   used project wide to clear floats and create a new formatting context
-
-	usage      @include clearfix-me(<empty|overflow|facebook|micro|stubborn>)
-
-	$clearfix-method sets default method
-*/
+/**
+ * Apply a clearfix on the element.
+ * Supported methods:
+ * - micro
+ * - facebook
+ * - float
+ * - micro
+ *
+ * @param 		{String} 		[$method=micro] 		The clearfix method to use
+ *
+ * @example 	scss
+ * .my-cool-element {
+ *  \@include s-clearfix();
+ * }
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 
 // set default clearfix method to overflow
 $clearfix-method: overflow !default;

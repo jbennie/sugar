@@ -1,6 +1,14 @@
-//
-// Image rendering
-//
+/**
+ * Set how to render the image
+ * @param 		{String} 		[$mode=auto] 		The mode to use to render the image
+ *
+ * @example 	scss
+ * img {
+ * 	\@include s-image-rendering(crips-edges);
+ * }
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-image-rendering (
 	$mode : auto
 ) {

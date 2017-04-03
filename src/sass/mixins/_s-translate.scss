@@ -1,6 +1,16 @@
-//
-// Translate
-//
+/**
+ * Quicky set some translates
+ * @param 		{Number} 		[$x=0] 		The x translate value
+ * @param 		{Number} 		[$y=0] 		The y translate value
+ * @param 		{Number} 		[$z=0] 		The z translate value
+ *
+ * @example
+ * .my-cool-element {
+ * 	\@include s-translate(50%, 20px);
+ * }
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-translate(
 	$x : 0,
 	$y : 0,

@@ -1,6 +1,14 @@
-//
-// Selection
-//
+/**
+ * Set the user selection styling with ease
+ *
+ * @example 	scss
+ * \@include s-selection() {
+ * 	background: red;
+ * 	color: white;
+ * }
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-selection {
 	::-moz-selection { @content; }
 	::selection { @content; }

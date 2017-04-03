@@ -1,3 +1,15 @@
+/**
+ * Display a coffeekraken logo with two specified colors
+ * @param 		{Color} 		[$color=default] 	The base color to use
+ * @param 		{Color} 		[$accent=primary] 	The accent color to use
+ *
+ * @example 	scss
+ * .my-cool-coffeekraken-logo {
+ * 	\@include s-coffeekraken-logo();
+ * }
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-coffeekraken-logo(
 	$color : default,
 	$accent : primary

@@ -60,7 +60,7 @@ The primary goal of this toolkit is to cover these needs:
 	- [getAnimationProperties](doc/src/js/dom/getAnimationProperties.md) : Return an object with the css animations properties
 	- [And many, many, many more...](doc/src/js)
 5. Provide some powerful javascript classes like:
-	- [SWebComponent](doc/src/js/core/SWebComponent.md) : Base class to create webcomponent based on **react** methods naming (componentWillMount, componentMount, etc...)
+	- [SWebComponent](doc/src/js/core/SWebComponentMixin.md) : Base class to create webcomponent based on **react** methods naming (componentWillMount, componentMount, etc...)
 	- [SBinder](doc/src/js/classes/SBinder.md) : Allows you to bind object properties to another object
 	- [SWatcher](doc/src/js/classes/SWatcher.md) : Allows you to monitor object properties
 	- [STimer](doc/src/js/classes/SBinder.md) : Nice little class to handle timers (start, stop, pause, onTick, etc...)
