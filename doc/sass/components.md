@@ -24,7 +24,7 @@ Here the list of components that are shipped out of the box with Sugar:
 	- Stripped
 	- Hover
 	- Bordered
-- **[Typography](../src/components/STypography/_index.md)** : Provide base typography styles like:
+- **[Typography](../src/components/STypographyComponent/_index.md)** : Provide base typography styles like:
 	- Titles (h1, h2, ..., h6)
 	- Paragraphs (default, lead)
 	- Links

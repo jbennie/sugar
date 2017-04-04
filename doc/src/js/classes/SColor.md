@@ -1,7 +1,51 @@
-# Properties
+# SColor
+
+Class that provide complete and simple to use color manupilation capabilities like:
+- Modifiers
+	- opacity
+	- darken
+	- lighten
+	- desaturate
+	- saturate
+	- spin (change hue)
+	- transparentize
+	- alpha
+	- grayscale
+- Conversions
+	- rgba
+	- hsl
+	- hsv
+	- hex
+- Print out formats
+	- toRgbaString
+	- toHslString
+	- toHsvString
+	- toHexString
+	- toString(format = null)
+- Support registered sugar colors names like:
+	- ```new SColor('primary')```
 
 
-## toStringFormat
+### Example
+```js
+	import SColor from 'coffeekraken-sugar/js/classes/SColor'
+let myColor = new SColor(#ff0000);
+// get a lighter color
+let ligtherColor = myColor.lighten(20);
+// print the color to rgba
+console.log(lighterColor.toRgbaString());
+```
+Author : Olivier Bossel <olivier.bossel@gmail.com>
+
+
+
+
+
+
+## Properties
+
+
+### toStringFormat
 
 Default toString format
 
@@ -12,71 +56,71 @@ Type : **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Referen
 Default : **rgba**
 
 
-## r
+### r
 
 Get the red value
 
 Type : **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**
 
 
-## g
+### g
 
 Get the green value
 
 Type : **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**
 
 
-## b
+### b
 
 Get the blue value
 
 Type : **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**
 
 
-## a
+### a
 
 Get the alpha value
 
 Type : **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**
 
 
-## l
+### l
 
 The luminence value
 
 Type : **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**
 
 
-## s
+### s
 
 The saturation value
 
 Type : **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**
 
 
-## v
+### v
 
 The value
 
 Type : **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**
 
 
-## h
+### h
 
 Get the hue
 
 Type : **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**
 
 
-# Methods
+## Methods
 
 
-## constructor
+### constructor
 
 Constructor
 
 
-## convert2
+### convert2
 
 Concert color
 
@@ -88,7 +132,7 @@ format  |  **{ string }**  |  The format wanted as output like (rgba,hsl,hsv and
 Return **{ object }** The color in wanted object format
 
 
-## parseRgba
+### parseRgba
 
 Parse RGBA
 
@@ -100,7 +144,7 @@ rgbaString  |  **{ string }**  |  The rgba string (rgba(r,g,b,a)) to parse  |  r
 Return **{ object }** The rgba object representation
 
 
-## parseHsl
+### parseHsl
 
 Parse HSL
 
@@ -112,7 +156,7 @@ hslString  |  **{ string }**  |  The hsl string (hsl(h,s,l)) to parse  |  requir
 Return **{ object }** The hsl object representation
 
 
-## parseHsv
+### parseHsv
 
 Parse HSV
 
@@ -124,7 +168,7 @@ hsvString  |  **{ string }**  |  The hsv string (hsv(h,s,v)) to parse  |  requir
 Return **{ object }** The hsv object representation
 
 
-## rgba2hex
+### rgba2hex
 
 RGBA to HEX
 
@@ -139,7 +183,7 @@ a  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Referenc
 Return **{ string }** The hex string representation like #ff004f
 
 
-## rgba2rgba
+### rgba2rgba
 
 RGBA to RGBA
 
@@ -154,7 +198,7 @@ a  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Referenc
 Return **{ object }** The rgba object representation
 
 
-## hex2rgba
+### hex2rgba
 
 Hex to RGBA
 
@@ -166,7 +210,7 @@ hex  |  **{ string }**  |  The hex string to convert  |  required  |
 Return **{ object }** The rgba object representation
 
 
-## hsv2rgba
+### hsv2rgba
 
 HSV to RGBA
 
@@ -181,7 +225,7 @@ a  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Referenc
 Return **{ object }** The rgba object representation
 
 
-## hsl2rgba
+### hsl2rgba
 
 HSL to RGBA
 
@@ -196,7 +240,7 @@ a  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Referenc
 Return **{ object }** The rgba object representation
 
 
-## rgba2hsv
+### rgba2hsv
 
 RGBA to HSV
 
@@ -211,7 +255,7 @@ a  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Referenc
 Return **{ object }** The hsv object representation
 
 
-## rgba2hsl
+### rgba2hsl
 
 RGBA to HSL
 
@@ -226,40 +270,40 @@ a  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Referenc
 Return **{ object }** The hsl object representation
 
 
-## toHex
+### toHex
 
 To hex
 
 Return **{ string }** The hex string representation
 
 
-## toHsl
+### toHsl
 
 To hsl
 
 Return **{ object }** The hsl object representation
 
 
-## toHsv
+### toHsv
 
 To hsv
 
 Return **{ object }** The hsv object representation
 
 
-## toRgba
+### toRgba
 
 To rgba
 
 Return **{ object }** The rgba object representation
 
 
-## reset
+### reset
 
 Reset to the original color
 
 
-## desaturate
+### desaturate
 
 Desaturate
 
@@ -268,10 +312,10 @@ Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 amount  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**  |  The amount of desaturation wanted between 0-100  |  required  |
 
-Return **{ object }** The color instance to maintain chainability
+Return **{ SColor }** A new SColor instance of the updated color
 
 
-## saturate
+### saturate
 
 Saturate
 
@@ -280,17 +324,17 @@ Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 amount  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**  |  The amount of saturation wanted between 0-100  |  required  |
 
-Return **{ object }** The color instance to maintain chainability
+Return **{ SColor }** A new SColor instance of the updated color
 
 
-## grayscale
+### grayscale
 
 Grayscale
 
-Return **{ object }** The color instance to maintain chainability
+Return **{ SColor }** A new SColor instance of the updated color
 
 
-## spin
+### spin
 
 Spin
 
@@ -299,10 +343,10 @@ Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 amount  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**  |  The amount of hue spin wanted between 0-360  |  required  |
 
-Return **{ object }** The color instance to maintain chainability
+Return **{ SColor }** A new SColor instance of the updated color
 
 
-## transparentize
+### transparentize
 
 Transparentize
 
@@ -311,10 +355,10 @@ Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 amount  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**  |  The amount of transparence to apply between 0-100|0-1  |  required  |
 
-Return **{ object }** The color instance to maintain chainability
+Return **{ SColor }** A new SColor instance of the updated color
 
 
-## alpha
+### alpha
 
 Set the alpha
 
@@ -323,10 +367,10 @@ Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 alpha  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**  |  The new alpha value to apply between 0-100|0-1  |  required  |
 
-Return **{ object }** The color instance to maintain chainability
+Return **{ SColor }** A new SColor instance of the updated color
 
 
-## opacity
+### opacity
 
 Set the opacity (alias for alpha)
 
@@ -335,10 +379,10 @@ Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 opacity  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**  |  The new opacity value to apply between 0-100|0-1  |  required  |
 
-Return **{ object }** The color instance to maintain chainability
+Return **{ SColor }** A new SColor instance of the updated color
 
 
-## opacify
+### opacify
 
 Opacify
 
@@ -347,10 +391,10 @@ Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 amount  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**  |  The amount of transparence to remove between 0-100|0-1  |  required  |
 
-Return **{ object }** The color instance to maintain chainability
+Return **{ SColor }** A new SColor instance of the updated color
 
 
-## darken
+### darken
 
 Darken
 
@@ -359,10 +403,10 @@ Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 amount  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**  |  The amount of darkness (of the nightmare of the shadow) to apply between 0-100  |  required  |
 
-Return **{ object }** The color instance to maintain chainabiliy
+Return **{ SColor }** A new SColor instance of the updated color
 
 
-## lighten
+### lighten
 
 Lighten
 
@@ -371,38 +415,38 @@ Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 amount  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**  |  The amount of lightness (of the sky of the angels) to apply between 0-100  |  required  |
 
-Return **{ object }** The color instance to maintain chainability
+Return **{ SColor }** A new SColor instance of the updated color
 
 
-## toHexString
+### toHexString
 
 To hex string
 
 Return **{ string }** The hex string representation of the color
 
 
-## toRgbaString
+### toRgbaString
 
 To rgba string
 
 Return **{ string }** The rgba string representation of the color
 
 
-## toHslString
+### toHslString
 
 To hsl string
 
 Return **{ string }** The hsl string representation of the color
 
 
-## toHsvString
+### toHsvString
 
 To hsv string
 
 Return **{ string }** The hsv string representation of the color
 
 
-## toString
+### toString
 
 To string
 

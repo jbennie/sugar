@@ -24,20 +24,6 @@ function handleInputAttributes(e) {
 						break;
 					}
 				}
-
-				// if (field.type && (field.type === 'checkbox' || field.type === 'radio')) return;
-				// if (field.value && ! field.hasAttribute('has-value')) {
-				// 	field.setAttribute('has-value', true);
-				// 	field.removeAttribute('empty');
-				// } else if ( ! field.value && field.hasAttribute('has-value')) {
-				// 	field.removeAttribute('has-value');
-				// 	if ( ! field.hasAttribute('empty')) {
-				// 		field.setAttribute('empty', true);
-				// 	}
-				// }
-				// if (field.value && ! field.hasAttribute('dirty')) {
-				// 	field.setAttribute('dirty', true);
-				// }
 			});
 		break;
 	}

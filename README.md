@@ -198,7 +198,7 @@ import SWebComponent from 'coffeekraken-sugar/js/core/SWebComponent'
 // etc...
 ```
 
-- **[Classes](doc/js/classes.js)** : Set of useful classes like:
+- **[Classes](doc/js/classes.md)** : Set of useful classes like:
 	- [STimer](doc/src/js/classes/STimer.md) : Handle times with nice control like start, stop, pause, etc...
 	- [SColor](doc/src/js/classes/SColor.md) : Manipulate colors and access your sass registered colors
 	- [And more...](doc/js/classes.md)
@@ -218,14 +218,13 @@ import SWebComponent from 'coffeekraken-sugar/js/core/SWebComponent'
 	- [throttle](doc/src/js/utils/functions/throttle.md) : Throttle a function call
 	- [isColor](doc/src/js/utils/is/color.md) : Check if is a valid color
 	- [isEmail](doc/src/js/utils/is/email.md) : Check if is a valid email
-	- [whenProperty](doc/src/js/utils/objects/whenProperty) : Be notified when a property exist or match a certain check function
+	- [whenProperty](doc/src/js/utils/objects/whenProperty.md) : Be notified when a property exist or match a certain check function
 	- [And more...](doc/src/js/utils)
 - **[Web Components](doc/js/webcomponents.md)** : Powerful web components library like:
 	- [s-read-more](https://github.com/coffeekraken/s-read-more-component) : Simply create toggleable read more component
 	- [s-datepicker-component](https://github.com/coffeekraken/s-datepicker-component) : Clean and fully featured datepicker
 	- [s-ripple-component](https://github.com/coffeekraken/s-ripple-component) : Fully customizable ripple component
 	- [s-share-component](https://github.com/coffeekraken/s-share-component) : Create customizable sharing buttons with ease
-	- [s-slideshow-component](https://github.com/coffeekraken/s-slideshow-component) : Powerful and fully customizable slideshow component
 	- [s-drawer-component](https://github.com/coffeekraken/s-drawer-component) : Elegant and powefull component to create fully customizable components.
 	- And [many more](https://github.com/coffeekraken)...
 
@@ -282,7 +281,7 @@ To do so, you have several possibilities:
 <a id="readme-license"></a>
 ## License
 
-The code is available under the [MIT license](LICENSE.txt). This mean that you can use, modify, or do whatever you want with it. This mean also that it is shipped to you for free, so don't be a hater and if you find some issues, etc... feel free to [contribute](doc/contribute.md) instead of sharing your frustrations on social networks like an asshole...
+The code is available under the [MIT license](LICENSE.txt). This mean that you can use, modify, or do whatever you want with it. This mean also that it is shipped to you for free, so don't be a hater and if you find some issues, etc... feel free to [contribute](https://github.com/Coffeekraken/coffeekraken/blob/master/contribute.md) instead of sharing your frustrations on social networks like an asshole...
 
 <a id="readme-who-are-coffeekraken"></a>
 ## Who are Coffeekraken

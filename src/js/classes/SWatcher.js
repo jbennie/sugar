@@ -3,7 +3,7 @@ import _get from 'lodash/get';
 import _set from 'lodash/set';
 
 /**
- * @name 		SWathcer
+ * @name 		SWatcher
  * This class allows you to easily monitor some object properties and get the new and old value of it
  *
  * @example 	js

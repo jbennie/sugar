@@ -1,7 +1,44 @@
 import __domReady from '../dom/domReady'
 import __sSettings from '../core/sSettings'
 
-// color class
+/**
+ * @name 		SColor
+ * Class that provide complete and simple to use color manupilation capabilities like:
+ * - Modifiers
+ * 	- opacity
+ * 	- darken
+ * 	- lighten
+ * 	- desaturate
+ * 	- saturate
+ * 	- spin (change hue)
+ * 	- transparentize
+ * 	- alpha
+ * 	- grayscale
+ * - Conversions
+ * 	- rgba
+ * 	- hsl
+ * 	- hsv
+ * 	- hex
+ * - Print out formats
+ * 	- toRgbaString
+ * 	- toHslString
+ * 	- toHsvString
+ * 	- toHexString
+ * 	- toString(format = null)
+ * - Support registered sugar colors names like:
+ * 	- ```new SColor('primary')```
+ *
+ * @example 	js
+ * import SColor from 'coffeekraken-sugar/js/classes/SColor'
+ * let myColor = new SColor(#ff0000);
+ * // get a lighter color
+ * let ligtherColor = myColor.lighten(20);
+ * // print the color to rgba
+ * console.log(lighterColor.toRgbaString());
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+
 class SColor {
 
     /**
@@ -735,7 +772,7 @@ class SColor {
     /**
      * Desaturate
      * @param 	{Number} 	amount 		The amount of desaturation wanted between 0-100
-     * @return 	{object} 				The color instance to maintain chainability
+     * @return 	{SColor} 				A new SColor instance of the updated color
      */
     desaturate(amount) {
         amount = parseInt(amount);
@@ -747,7 +784,7 @@ class SColor {
     /**
      * Saturate
      * @param 	{Number} 	amount 		The amount of saturation wanted between 0-100
-     * @return 	{object} 				The color instance to maintain chainability
+     * @return 	{SColor} 				A new SColor instance of the updated color
      */
     saturate(amount) {
         amount = parseInt(amount);
@@ -758,7 +795,7 @@ class SColor {
 
     /**
      * Grayscale
-     * @return 	{object} 			The color instance to maintain chainability
+     * @return 	{SColor} 			A new SColor instance of the updated color
      */
     grayscale() {
         const n = new SColor(this.toHex());
@@ -769,7 +806,7 @@ class SColor {
     /**
      * Spin
      * @param 	{Number} 	amount 			The amount of hue spin wanted between 0-360
-     * @return 	{object} 					The color instance to maintain chainability
+     * @return 	{SColor} 					A new SColor instance of the updated color
      */
     spin(amount) {
         amount = parseInt(amount);
@@ -786,7 +823,7 @@ class SColor {
     /**
      * Transparentize
      * @param 	{Number} 		amount 			The amount of transparence to apply between 0-100|0-1
-     * @return 	{object} 						The color instance to maintain chainability
+     * @return 	{SColor} 						A new SColor instance of the updated color
      */
     transparentize(amount) {
         amount = parseFloat(amount);
@@ -798,7 +835,7 @@ class SColor {
     /**
      * Set the alpha
      * @param 	{Number} 	alpha 			The new alpha value to apply between 0-100|0-1
-     * @return 	{object} 					The color instance to maintain chainability
+     * @return 	{SColor} 					A new SColor instance of the updated color
      */
     alpha(alpha) {
         alpha = parseFloat(alpha);
@@ -810,7 +847,7 @@ class SColor {
     /**
      * Set the opacity (alias for alpha)
      * @param 	{Number} 	opacity 		The new opacity value to apply between 0-100|0-1
-     * @return 	{object} 					The color instance to maintain chainability
+     * @return 	{SColor} 					A new SColor instance of the updated color
      */
     opacity(opacity) {
         return this.alpha(opacity);
@@ -819,7 +856,7 @@ class SColor {
     /**
      * Opacify
      * @param 	{Number} 	amount 		The amount of transparence to remove between 0-100|0-1
-     * @return 	{object} 				The color instance to maintain chainability
+     * @return 	{SColor} 				A new SColor instance of the updated color
      */
     opacify(amount) {
         amount = parseFloat(amount);
@@ -831,7 +868,7 @@ class SColor {
     /**
      * Darken
      * @param 	{Number} 	amount 		The amount of darkness (of the nightmare of the shadow) to apply between 0-100
-     * @return 	{object} 				The color instance to maintain chainabiliy
+     * @return 	{SColor} 				A new SColor instance of the updated color
      */
     darken(amount) {
         amount = parseInt(amount);
@@ -843,7 +880,7 @@ class SColor {
     /**
      * Lighten
      * @param 	{Number} 	amount 		The amount of lightness (of the sky of the angels) to apply between 0-100
-     * @return 	{object} 				The color instance to maintain chainability
+     * @return 	{SColor} 				A new SColor instance of the updated color
      */
     lighten(amount) {
         amount = parseInt(amount);
