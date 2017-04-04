@@ -17,7 +17,7 @@
 export default function imageLoaded(img, callback = null) {
 	return new Promise((resolve, reject) => {
 		// check if image is already loaded
-		if (img.complete) {
+		if (img.hasAttribute('src') && img.complete) {
 			// resolve promise
 			resolve(img);
 			// call the callback if exist

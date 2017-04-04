@@ -25,7 +25,7 @@ function imageLoaded(img) {
 
 	return new Promise(function (resolve, reject) {
 		// check if image is already loaded
-		if (img.complete) {
+		if (img.hasAttribute('src') && img.complete) {
 			// resolve promise
 			resolve(img);
 			// call the callback if exist
