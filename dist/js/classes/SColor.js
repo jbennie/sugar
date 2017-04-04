@@ -20,7 +20,44 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-// color class
+/**
+ * @name 		SColor
+ * Class that provide complete and simple to use color manupilation capabilities like:
+ * - Modifiers
+ * 	- opacity
+ * 	- darken
+ * 	- lighten
+ * 	- desaturate
+ * 	- saturate
+ * 	- spin (change hue)
+ * 	- transparentize
+ * 	- alpha
+ * 	- grayscale
+ * - Conversions
+ * 	- rgba
+ * 	- hsl
+ * 	- hsv
+ * 	- hex
+ * - Print out formats
+ * 	- toRgbaString
+ * 	- toHslString
+ * 	- toHsvString
+ * 	- toHexString
+ * 	- toString(format = null)
+ * - Support registered sugar colors names like:
+ * 	- ```new SColor('primary')```
+ *
+ * @example 	js
+ * import SColor from 'coffeekraken-sugar/js/classes/SColor'
+ * let myColor = new SColor(#ff0000);
+ * // get a lighter color
+ * let ligtherColor = myColor.lighten(20);
+ * // print the color to rgba
+ * console.log(lighterColor.toRgbaString());
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+
 var SColor = function () {
 
     /**
@@ -50,11 +87,12 @@ var SColor = function () {
 
     /**
      * Static color names map
+     * @protected
      */
     function SColor(color) {
         _classCallCheck(this, SColor);
 
-        this.originalSColor = null;
+        this._originalSColor = null;
         this._r = null;
         this._g = null;
         this._b = null;
@@ -63,7 +101,7 @@ var SColor = function () {
 
 
         // save the original color
-        this.originalSColor = color;
+        this._originalSColor = color;
 
         // try to get the color from the map
         if (typeof color == 'string' && SColor.colors[color.toLowerCase()]) {
@@ -103,6 +141,8 @@ var SColor = function () {
 
     /**
      * Default toString format
+     * @type 		{String}
+     * @values 		hex | hsl | hsv | rgba
      */
 
 
@@ -141,8 +181,8 @@ var SColor = function () {
 
         /**
          * Concert color
-         * @param {string} format The format wanted as output like (rgba,hsl,hsv and hex)
-         * @return {object} The color in wanted object format
+         * @param 	{string}	format 		The format wanted as output like (rgba,hsl,hsv and hex)
+         * @return 	{object} 				The color in wanted object format
          */
 
     }, {
@@ -166,8 +206,8 @@ var SColor = function () {
 
         /**
          * Parse RGBA
-         * @param {string} rgbaString The rgba string (rgba(r,g,b,a)) to parse
-         * @return {object} The rgba object representation
+         * @param 	{string}	rgbaString		The rgba string (rgba(r,g,b,a)) to parse
+         * @return 	{object} 					The rgba object representation
          */
 
     }, {
@@ -186,8 +226,8 @@ var SColor = function () {
 
         /**
          * Parse HSL
-         * @param {string} hslString The hsl string (hsl(h,s,l)) to parse
-         * @return {object} The hsl object representation
+         * @param 	{string}	hslString			The hsl string (hsl(h,s,l)) to parse
+         * @return 	{object} 						The hsl object representation
          */
 
     }, {
@@ -205,8 +245,8 @@ var SColor = function () {
 
         /**
          * Parse HSV
-         * @param {string} hsvString The hsv string (hsv(h,s,v)) to parse
-         * @return {object} The hsv object representation
+         * @param 	{string}		hsvString			The hsv string (hsv(h,s,v)) to parse
+         * @return 	{object}							The hsv object representation
          */
 
     }, {
@@ -224,11 +264,11 @@ var SColor = function () {
 
         /**
          * RGBA to HEX
-         * @param {Number} r The red value between 0-255
-         * @param {Number} g The green value between 0-255
-         * @param {Number} b The blue value between 0-255
-         * @param {Number} a The alpha value between 0-100|0-1
-         * @return {string} The hex string representation like #ff004f
+         * @param	{Number}	r		The red value between 0-255
+         * @param	{Number}	g		The green value between 0-255
+         * @param	{Number}	b		The blue value between 0-255
+         * @param	{Number}	a		The alpha value between 0-100|0-1
+         * @return 	{string}			The hex string representation like #ff004f
          */
 
     }, {
@@ -251,11 +291,11 @@ var SColor = function () {
 
         /**
          * RGBA to RGBA
-         * @param {Number} r The red value between 0-255
-         * @param {Number} g The green value between 0-255
-         * @param {Number} b The blue value between 0-255
-         * @param {Number} a The alpha value between 0-100|0-1
-         * @return {object} The rgba object representation
+         * @param	{Number}	r 		The red value between 0-255
+         * @param	{Number} 	g 		The green value between 0-255
+         * @param	{Number} 	b 		The blue value between 0-255
+         * @param	{Number} 	a 		The alpha value between 0-100|0-1
+         * @return 	{object} 			The rgba object representation
          */
 
     }, {
@@ -273,8 +313,8 @@ var SColor = function () {
 
         /**
          * Hex to RGBA
-         * @param {string} hex The hex string to convert
-         * @return {object} The rgba object representation
+         * @param	{string} 	hex 		The hex string to convert
+         * @return 	{object} 				The rgba object representation
          */
 
     }, {
@@ -298,11 +338,11 @@ var SColor = function () {
 
         /**
          * HSV to RGBA
-         * @param {Number} h The hue value between 0-360
-         * @param {Number} s The saturation value between 0-100|0-1
-         * @param {Number} v The value value between 0-100|0-1
-         * @param {Number} a The alpha value between 0-100|0-1
-         * @return {object} The rgba object representation
+         * @param	{Number} 	h 		The hue value between 0-360
+         * @param	{Number} 	s 		The saturation value between 0-100|0-1
+         * @param	{Number} 	v 		The value value between 0-100|0-1
+         * @param	{Number} 	a 		The alpha value between 0-100|0-1
+         * @return 	{object} 			The rgba object representation
          */
 
     }, {
@@ -356,11 +396,11 @@ var SColor = function () {
 
         /**
          * HSL to RGBA
-         * @param {Number} h The hue value between 0-360
-         * @param {Number} s The saturation value between 0-100|0-1
-         * @param {Number} l The luminence value between 0-100|0-1
-         * @param {Number} a The alpha value between 0-100|0-1
-         * @return {object} The rgba object representation
+         * @param	{Number} 	h		The hue value between 0-360
+         * @param	{Number} 	s 		The saturation value between 0-100|0-1
+         * @param	{Number} 	l 		The luminence value between 0-100|0-1
+         * @param	{Number} 	a 		The alpha value between 0-100|0-1
+         * @return 	{object} 			The rgba object representation
          */
 
     }, {
@@ -410,11 +450,11 @@ var SColor = function () {
 
         /**
          * RGBA to HSV
-         * @param {Number} r The red value between 0-255
-         * @param {Number} g The green value between 0-255
-         * @param {Number} b The blue value between 0-255
-         * @param {Number} a The alpha value between 0-100|0-1
-         * @return {object} The hsv object representation
+         * @param	{Number} 	r 		The red value between 0-255
+         * @param	{Number} 	g 		The green value between 0-255
+         * @param	{Number} 	b 		The blue value between 0-255
+         * @param	{Number} 	a 		The alpha value between 0-100|0-1
+         * @return 	{object} 			The hsv object representation
          */
 
     }, {
@@ -451,11 +491,11 @@ var SColor = function () {
 
         /**
          * RGBA to HSL
-         * @param {Number} r The red value between 0-255
-         * @param {Number} g The green value between 0-255
-         * @param {Number} b The blue value between 0-255
-         * @param {Number} a The alpha value between 0-100|0-1
-         * @return {object} The hsl object representation
+         * @param	{Number} 	r 		The red value between 0-255
+         * @param	{Number} 	g 		The green value between 0-255
+         * @param	{Number} 	b 		The blue value between 0-255
+         * @param	{Number} 	a 		The alpha value between 0-100|0-1
+         * @return 	{object} 			The hsl object representation
          */
 
     }, {
@@ -497,7 +537,7 @@ var SColor = function () {
 
         /**
          * To hex
-         * @return {string} The hex string representation
+         * @return 	{string} 		The hex string representation
          */
 
     }, {
@@ -508,7 +548,7 @@ var SColor = function () {
 
         /**
          * To hsl
-         * @return {object} The hsl object representation
+         * @return 	{object} 		The hsl object representation
          */
 
     }, {
@@ -519,7 +559,7 @@ var SColor = function () {
 
         /**
          * To hsv
-         * @return {object} The hsv object representation
+         * @return 	{object} 		The hsv object representation
          */
 
     }, {
@@ -530,7 +570,7 @@ var SColor = function () {
 
         /**
          * To rgba
-         * @return {object} The rgba object representation
+         * @return 	{object} 		The rgba object representation
          */
 
     }, {
@@ -541,7 +581,7 @@ var SColor = function () {
 
         /**
          * Get the red value
-         * @return {Number} The red value
+         * @type 	{Number}
          */
 
     }, {
@@ -553,13 +593,13 @@ var SColor = function () {
          */
         value: function reset() {
             // parse again the color
-            this._parse(this.originalSColor);
+            this._parse(this._originalSColor);
         }
 
         /**
          * Desaturate
-         * @param {Number} amount The amount of desaturation wanted between 0-100
-         * @return {object} The color instance to maintain chainability
+         * @param 	{Number} 	amount 		The amount of desaturation wanted between 0-100
+         * @return 	{SColor} 				A new SColor instance of the updated color
          */
 
     }, {
@@ -573,8 +613,8 @@ var SColor = function () {
 
         /**
          * Saturate
-         * @param {Number} amount The amount of saturation wanted between 0-100
-         * @return {object} The color instance to maintain chainability
+         * @param 	{Number} 	amount 		The amount of saturation wanted between 0-100
+         * @return 	{SColor} 				A new SColor instance of the updated color
          */
 
     }, {
@@ -588,7 +628,7 @@ var SColor = function () {
 
         /**
          * Grayscale
-         * @return {object} The color instance to maintain chainability
+         * @return 	{SColor} 			A new SColor instance of the updated color
          */
 
     }, {
@@ -601,8 +641,8 @@ var SColor = function () {
 
         /**
          * Spin
-         * @param {Number} amount The amount of hue spin wanted between 0-360
-         * @return {object} The color instance to maintain chainability
+         * @param 	{Number} 	amount 			The amount of hue spin wanted between 0-360
+         * @return 	{SColor} 					A new SColor instance of the updated color
          */
 
     }, {
@@ -621,8 +661,8 @@ var SColor = function () {
 
         /**
          * Transparentize
-         * @param {Number} amount The amount of transparence to apply between 0-100|0-1
-         * @return {object} The color instance to maintain chainability
+         * @param 	{Number} 		amount 			The amount of transparence to apply between 0-100|0-1
+         * @return 	{SColor} 						A new SColor instance of the updated color
          */
 
     }, {
@@ -636,8 +676,8 @@ var SColor = function () {
 
         /**
          * Set the alpha
-         * @param {Number} alpha The new alpha value to apply between 0-100|0-1
-         * @return {object} The color instance to maintain chainability
+         * @param 	{Number} 	alpha 			The new alpha value to apply between 0-100|0-1
+         * @return 	{SColor} 					A new SColor instance of the updated color
          */
 
     }, {
@@ -651,8 +691,8 @@ var SColor = function () {
 
         /**
          * Set the opacity (alias for alpha)
-         * @param {Number} opacity The new opacity value to apply between 0-100|0-1
-         * @return {object} The color instance to maintain chainability
+         * @param 	{Number} 	opacity 		The new opacity value to apply between 0-100|0-1
+         * @return 	{SColor} 					A new SColor instance of the updated color
          */
 
     }, {
@@ -663,8 +703,8 @@ var SColor = function () {
 
         /**
          * Opacify
-         * @param {Number} amount The amount of transparence to remove between 0-100|0-1
-         * @return {object} The color instance to maintain chainability
+         * @param 	{Number} 	amount 		The amount of transparence to remove between 0-100|0-1
+         * @return 	{SColor} 				A new SColor instance of the updated color
          */
 
     }, {
@@ -678,8 +718,8 @@ var SColor = function () {
 
         /**
          * Darken
-         * @param {Number} amount The amount of darkness (of the nightmare of the shadow) to apply between 0-100
-         * @return {object} The color instance to maintain chainabiliy
+         * @param 	{Number} 	amount 		The amount of darkness (of the nightmare of the shadow) to apply between 0-100
+         * @return 	{SColor} 				A new SColor instance of the updated color
          */
 
     }, {
@@ -693,8 +733,8 @@ var SColor = function () {
 
         /**
          * Lighten
-         * @param {Number} amount The amount of lightness (of the sky of the angels) to apply between 0-100
-         * @return {object} The color instance to maintain chainability
+         * @param 	{Number} 	amount 		The amount of lightness (of the sky of the angels) to apply between 0-100
+         * @return 	{SColor} 				A new SColor instance of the updated color
          */
 
     }, {
@@ -708,7 +748,7 @@ var SColor = function () {
 
         /**
          * To hex string
-         * @return {string} The hex string representation of the color
+         * @return 	{string} 		The hex string representation of the color
          */
 
     }, {
@@ -719,7 +759,7 @@ var SColor = function () {
 
         /**
          * To rgba string
-         * @return {string} The rgba string representation of the color
+         * @return 	{string} 		The rgba string representation of the color
          */
 
     }, {
@@ -730,7 +770,7 @@ var SColor = function () {
 
         /**
          * To hsl string
-         * @return {string} The hsl string representation of the color
+         * @return 	{string} 		The hsl string representation of the color
          */
 
     }, {
@@ -742,7 +782,7 @@ var SColor = function () {
 
         /**
          * To hsv string
-         * @return {string} The hsv string representation of the color
+         * @return 	{string} 		The hsv string representation of the color
          */
 
     }, {
@@ -754,7 +794,7 @@ var SColor = function () {
 
         /**
          * To string
-         * @return {string} The rgba string representation of the color
+         * @return 	{string} 		The rgba string representation of the color
          */
 
     }, {
@@ -785,13 +825,7 @@ var SColor = function () {
         key: 'r',
         get: function get() {
             return this._r;
-        }
-
-        /**
-         * Set the red value
-         * @param {Number} value 	The new red value between 0-255
-         */
-        ,
+        },
         set: function set(value) {
             value = parseInt(value);
             value = value > 255 ? 255 : value;
@@ -800,20 +834,14 @@ var SColor = function () {
 
         /**
          * Get the green value
-         * @return {Number} The green value
+         * @type 	{Number}
          */
 
     }, {
         key: 'g',
         get: function get() {
             return this._g;
-        }
-
-        /**
-         * Set the green value
-         * @param {Number} value 	The new green value between 0-255
-         */
-        ,
+        },
         set: function set(value) {
             value = parseInt(value);
             value = value > 255 ? 255 : value;
@@ -822,20 +850,14 @@ var SColor = function () {
 
         /**
          * Get the blue value
-         * @return {Number} The blue value
+         * @type 	{Number}
          */
 
     }, {
         key: 'b',
         get: function get() {
             return this._b;
-        }
-
-        /**
-         * Set the blue value
-         * @param {Number} value 	The new blue value between 0-255
-         */
-        ,
+        },
         set: function set(value) {
             value = parseInt(value);
             value = value > 255 ? 255 : value;
@@ -844,20 +866,14 @@ var SColor = function () {
 
         /**
          * Get the alpha value
-         * @return {Number} The alpha value
+         * @type 	{Number}
          */
 
     }, {
         key: 'a',
         get: function get() {
             return this._a;
-        }
-
-        /**
-         * Set the alpha value
-         * @param {Number} value 	The new alpha value between 0-100|0-1
-         */
-        ,
+        },
         set: function set(value) {
             value = parseFloat(value);
             value = value > 1 ? 1 / 100 * value : value;
@@ -866,19 +882,15 @@ var SColor = function () {
         }
 
         /**
-         * @return {Number} 	The luminence value
+         * The luminence value
+         * @type 	{Number}
          */
 
     }, {
         key: 'l',
         get: function get() {
             return this.convert2('hsl').l;
-        }
-
-        /**
-         * @param  {Number} 	value 	The new luminence value between 0-100
-         */
-        ,
+        },
         set: function set(value) {
             var hsl = this.convert2('hsl');
             value = parseInt(value);
@@ -891,19 +903,15 @@ var SColor = function () {
         }
 
         /**
-         * @return {Number} 	The saturation value
+         * The saturation value
+         * @type 	{Number}
          */
 
     }, {
         key: 's',
         get: function get() {
             return this.convert2('hsl').s;
-        }
-
-        /**
-         * @param {Number} 	value 	The new saturation value between 0-100
-         */
-        ,
+        },
         set: function set(value) {
             var hsl = this.convert2('hsl');
             value = parseInt(value);
@@ -916,19 +924,15 @@ var SColor = function () {
         }
 
         /**
-         * @return {Number} 	The value
+         * The value
+         * @type 	{Number}
          */
 
     }, {
         key: 'v',
         get: function get() {
             return this.convert2('hsv').v;
-        }
-
-        /**
-         * @param  {Number} 	value 	The new value
-         */
-        ,
+        },
         set: function set(value) {
             var hsv = this.convert2('hsv');
             value = parseInt(value);
@@ -942,19 +946,14 @@ var SColor = function () {
 
         /**
          * Get the hue
-         * @return {Number} The current hue
+         * @type 	{Number}
          */
 
     }, {
         key: 'h',
         get: function get() {
             return this.convert2('hsl').h;
-        }
-
-        /**
-         * @param {Number}	value 	The new hue value between 0-360
-         */
-        ,
+        },
         set: function set(value) {
             var hsl = this.convert2('hsl');
             value = parseInt(value);

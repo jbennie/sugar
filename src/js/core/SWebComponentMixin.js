@@ -13,6 +13,7 @@ import __propertyProxy from '../utils/objects/propertyProxy'
 
 require('../features/inputAdditionalAttributes');
 require('../features/inputAdditionalEvents');
+require('../features/imagesLoadedAttribute');
 
 // require('document-register-element');
 

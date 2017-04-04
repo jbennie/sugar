@@ -5,6 +5,7 @@
 The goal of the features are to ad some features around certain element types like inputs, etc...
 They don't expose any API, classes or functions. They're just files that add some behaviors to certain elements.
 
+- **imagesLoadedAttribute** : Add a "loaded" attribute on images when loaded
 - **inputAdditionalAttributes** : Add and maintain to input, select, radio, etc... attributes "dirty", "empty" and "has-value"
 - **inputAdditionalEvents** : Dispatch some additional events from input, textarea, etc...:
 	- **onescape** : from ```textarea``` and ```input```
@@ -15,6 +16,7 @@ They don't expose any API, classes or functions. They're just files that add som
 Simply require the features you want into your codebase and that's it
 
 ```js
+require('coffeekraken-sugar/js/features/imagesLoadedAttribute');
 require('coffeekraken-sugar/js/features/inputAdditionalAttributes');
 require('coffeekraken-sugar/js/features/inputAdditionalEvents');
 ```

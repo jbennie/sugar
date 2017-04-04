@@ -66,6 +66,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 require('../features/inputAdditionalAttributes');
 require('../features/inputAdditionalEvents');
+require('../features/imagesLoadedAttribute');
 
 // require('document-register-element');
 
