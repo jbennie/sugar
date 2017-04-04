@@ -6,6 +6,7 @@ class SColor {
 
     /**
      * Static color names map
+     * @protected
      */
     static colors = {
         "aliceblue": "#f0f8ff",
@@ -152,6 +153,8 @@ class SColor {
 
     /**
      * Default toString format
+     * @type 		{String}
+     * @values 		hex | hsl | hsv | rgba
      */
     static toStringFormat = 'rgba';
 
@@ -159,7 +162,7 @@ class SColor {
      * Original color value
      * @type {object}
      */
-    originalSColor = null;
+    _originalSColor = null;
 
     /**
      * Internal red value
@@ -200,7 +203,7 @@ class SColor {
     constructor(color) {
 
         // save the original color
-        this.originalSColor = color;
+        this._originalSColor = color;
 
         // try to get the color from the map
         if (typeof(color) == 'string' && SColor.colors[color.toLowerCase()]) {
@@ -250,8 +253,8 @@ class SColor {
 
     /**
      * Concert color
-     * @param {string} format The format wanted as output like (rgba,hsl,hsv and hex)
-     * @return {object} The color in wanted object format
+     * @param 	{string}	format 		The format wanted as output like (rgba,hsl,hsv and hex)
+     * @return 	{object} 				The color in wanted object format
      */
     convert2(format) {
         switch (format) {
@@ -272,8 +275,8 @@ class SColor {
 
     /**
      * Parse RGBA
-     * @param {string} rgbaString The rgba string (rgba(r,g,b,a)) to parse
-     * @return {object} The rgba object representation
+     * @param 	{string}	rgbaString		The rgba string (rgba(r,g,b,a)) to parse
+     * @return 	{object} 					The rgba object representation
      */
     parseRgba(rgbaString) {
         rgbaString = rgbaString.toLowerCase();
@@ -289,8 +292,8 @@ class SColor {
 
     /**
      * Parse HSL
-     * @param {string} hslString The hsl string (hsl(h,s,l)) to parse
-     * @return {object} The hsl object representation
+     * @param 	{string}	hslString			The hsl string (hsl(h,s,l)) to parse
+     * @return 	{object} 						The hsl object representation
      */
     parseHsl(hslString) {
         hslString = hslString.toLowerCase();
@@ -305,8 +308,8 @@ class SColor {
 
     /**
      * Parse HSV
-     * @param {string} hsvString The hsv string (hsv(h,s,v)) to parse
-     * @return {object} The hsv object representation
+     * @param 	{string}		hsvString			The hsv string (hsv(h,s,v)) to parse
+     * @return 	{object}							The hsv object representation
      */
     parseHsv(hsvString) {
         hsvString = hsvString.toLowerCase();
@@ -321,11 +324,11 @@ class SColor {
 
     /**
      * RGBA to HEX
-     * @param {Number} r The red value between 0-255
-     * @param {Number} g The green value between 0-255
-     * @param {Number} b The blue value between 0-255
-     * @param {Number} a The alpha value between 0-100|0-1
-     * @return {string} The hex string representation like #ff004f
+     * @param	{Number}	r		The red value between 0-255
+     * @param	{Number}	g		The green value between 0-255
+     * @param	{Number}	b		The blue value between 0-255
+     * @param	{Number}	a		The alpha value between 0-100|0-1
+     * @return 	{string}			The hex string representation like #ff004f
      */
     rgba2hex(r, g, b, a = 1) {
         let alpha = '';
@@ -347,11 +350,11 @@ class SColor {
 
     /**
      * RGBA to RGBA
-     * @param {Number} r The red value between 0-255
-     * @param {Number} g The green value between 0-255
-     * @param {Number} b The blue value between 0-255
-     * @param {Number} a The alpha value between 0-100|0-1
-     * @return {object} The rgba object representation
+     * @param	{Number}	r 		The red value between 0-255
+     * @param	{Number} 	g 		The green value between 0-255
+     * @param	{Number} 	b 		The blue value between 0-255
+     * @param	{Number} 	a 		The alpha value between 0-100|0-1
+     * @return 	{object} 			The rgba object representation
      */
     rgba2rgba(r, g, b, a) {
         a = parseFloat(a);
@@ -366,8 +369,8 @@ class SColor {
 
     /**
      * Hex to RGBA
-     * @param {string} hex The hex string to convert
-     * @return {object} The rgba object representation
+     * @param	{string} 	hex 		The hex string to convert
+     * @return 	{object} 				The rgba object representation
      */
     hex2rgba(hex) {
         hex = hex.replace('#', '');
@@ -388,11 +391,11 @@ class SColor {
 
     /**
      * HSV to RGBA
-     * @param {Number} h The hue value between 0-360
-     * @param {Number} s The saturation value between 0-100|0-1
-     * @param {Number} v The value value between 0-100|0-1
-     * @param {Number} a The alpha value between 0-100|0-1
-     * @return {object} The rgba object representation
+     * @param	{Number} 	h 		The hue value between 0-360
+     * @param	{Number} 	s 		The saturation value between 0-100|0-1
+     * @param	{Number} 	v 		The value value between 0-100|0-1
+     * @param	{Number} 	a 		The alpha value between 0-100|0-1
+     * @return 	{object} 			The rgba object representation
      */
     hsv2rgba(h, s, v, a = 1) {
         // manage arguments
@@ -441,11 +444,11 @@ class SColor {
 
     /**
      * HSL to RGBA
-     * @param {Number} h The hue value between 0-360
-     * @param {Number} s The saturation value between 0-100|0-1
-     * @param {Number} l The luminence value between 0-100|0-1
-     * @param {Number} a The alpha value between 0-100|0-1
-     * @return {object} The rgba object representation
+     * @param	{Number} 	h		The hue value between 0-360
+     * @param	{Number} 	s 		The saturation value between 0-100|0-1
+     * @param	{Number} 	l 		The luminence value between 0-100|0-1
+     * @param	{Number} 	a 		The alpha value between 0-100|0-1
+     * @return 	{object} 			The rgba object representation
      */
     hsl2rgba(h, s, l, a = 1) {
         // manage arguments
@@ -488,11 +491,11 @@ class SColor {
 
     /**
      * RGBA to HSV
-     * @param {Number} r The red value between 0-255
-     * @param {Number} g The green value between 0-255
-     * @param {Number} b The blue value between 0-255
-     * @param {Number} a The alpha value between 0-100|0-1
-     * @return {object} The hsv object representation
+     * @param	{Number} 	r 		The red value between 0-255
+     * @param	{Number} 	g 		The green value between 0-255
+     * @param	{Number} 	b 		The blue value between 0-255
+     * @param	{Number} 	a 		The alpha value between 0-100|0-1
+     * @return 	{object} 			The hsv object representation
      */
     rgba2hsv(r, g, b, a = 1) {
         let min = Math.min(r, g, b),
@@ -527,11 +530,11 @@ class SColor {
 
     /**
      * RGBA to HSL
-     * @param {Number} r The red value between 0-255
-     * @param {Number} g The green value between 0-255
-     * @param {Number} b The blue value between 0-255
-     * @param {Number} a The alpha value between 0-100|0-1
-     * @return {object} The hsl object representation
+     * @param	{Number} 	r 		The red value between 0-255
+     * @param	{Number} 	g 		The green value between 0-255
+     * @param	{Number} 	b 		The blue value between 0-255
+     * @param	{Number} 	a 		The alpha value between 0-100|0-1
+     * @return 	{object} 			The hsl object representation
      */
     rgba2hsl(r, g, b, a = 1) {
         r /= 255, g /= 255, b /= 255;
@@ -566,7 +569,7 @@ class SColor {
 
     /**
      * To hex
-     * @return {string} The hex string representation
+     * @return 	{string} 		The hex string representation
      */
     toHex() {
         return this.convert2('hex');
@@ -574,7 +577,7 @@ class SColor {
 
     /**
      * To hsl
-     * @return {object} The hsl object representation
+     * @return 	{object} 		The hsl object representation
      */
     toHsl() {
         return this.convert2('hsl');
@@ -582,7 +585,7 @@ class SColor {
 
     /**
      * To hsv
-     * @return {object} The hsv object representation
+     * @return 	{object} 		The hsv object representation
      */
     toHsv() {
         return this.convert2('hsv');
@@ -590,7 +593,7 @@ class SColor {
 
     /**
      * To rgba
-     * @return {object} The rgba object representation
+     * @return 	{object} 		The rgba object representation
      */
     toRgba() {
         return this.convert2('rgba');
@@ -598,16 +601,11 @@ class SColor {
 
     /**
      * Get the red value
-     * @return {Number} The red value
+     * @type 	{Number}
      */
     get r() {
         return this._r;
     }
-
-    /**
-     * Set the red value
-     * @param {Number} value 	The new red value between 0-255
-     */
     set r(value) {
         value = parseInt(value);
         value = (value > 255) ? 255 : value;
@@ -616,16 +614,11 @@ class SColor {
 
     /**
      * Get the green value
-     * @return {Number} The green value
+     * @type 	{Number}
      */
     get g() {
         return this._g;
     }
-
-    /**
-     * Set the green value
-     * @param {Number} value 	The new green value between 0-255
-     */
     set g(value) {
         value = parseInt(value);
         value = (value > 255) ? 255 : value;
@@ -634,16 +627,11 @@ class SColor {
 
     /**
      * Get the blue value
-     * @return {Number} The blue value
+     * @type 	{Number}
      */
     get b() {
         return this._b;
     }
-
-    /**
-     * Set the blue value
-     * @param {Number} value 	The new blue value between 0-255
-     */
     set b(value) {
         value = parseInt(value);
         value = (value > 255) ? 255 : value;
@@ -652,16 +640,11 @@ class SColor {
 
     /**
      * Get the alpha value
-     * @return {Number} The alpha value
+     * @type 	{Number}
      */
     get a() {
         return this._a;
     }
-
-    /**
-     * Set the alpha value
-     * @param {Number} value 	The new alpha value between 0-100|0-1
-     */
     set a(value) {
         value = parseFloat(value);
         value = (value > 1) ? 1 / 100 * value : value;
@@ -670,15 +653,12 @@ class SColor {
     }
 
     /**
-     * @return {Number} 	The luminence value
+     * The luminence value
+     * @type 	{Number}
      */
     get l() {
         return this.convert2('hsl').l;
     }
-
-    /**
-     * @param  {Number} 	value 	The new luminence value between 0-100
-     */
     set l(value) {
         let hsl = this.convert2('hsl');
         value = parseInt(value);
@@ -691,15 +671,12 @@ class SColor {
     }
 
     /**
-     * @return {Number} 	The saturation value
+     * The saturation value
+     * @type 	{Number}
      */
     get s() {
         return this.convert2('hsl').s;
     }
-
-    /**
-     * @param {Number} 	value 	The new saturation value between 0-100
-     */
     set s(value) {
         let hsl = this.convert2('hsl');
         value = parseInt(value);
@@ -712,15 +689,12 @@ class SColor {
     }
 
     /**
-     * @return {Number} 	The value
+     * The value
+     * @type 	{Number}
      */
     get v() {
         return this.convert2('hsv').v;
     }
-
-    /**
-     * @param  {Number} 	value 	The new value
-     */
     set v(value) {
         let hsv = this.convert2('hsv');
         value = parseInt(value);
@@ -734,15 +708,11 @@ class SColor {
 
     /**
      * Get the hue
-     * @return {Number} The current hue
+     * @type 	{Number}
      */
     get h() {
         return this.convert2('hsl').h;
     }
-
-    /**
-     * @param {Number}	value 	The new hue value between 0-360
-     */
     set h(value) {
         let hsl = this.convert2('hsl');
         value = parseInt(value);
@@ -759,13 +729,13 @@ class SColor {
      */
     reset() {
         // parse again the color
-        this._parse(this.originalSColor);
+        this._parse(this._originalSColor);
     }
 
     /**
      * Desaturate
-     * @param {Number} amount The amount of desaturation wanted between 0-100
-     * @return {object} The color instance to maintain chainability
+     * @param 	{Number} 	amount 		The amount of desaturation wanted between 0-100
+     * @return 	{object} 				The color instance to maintain chainability
      */
     desaturate(amount) {
         amount = parseInt(amount);
@@ -776,8 +746,8 @@ class SColor {
 
     /**
      * Saturate
-     * @param {Number} amount The amount of saturation wanted between 0-100
-     * @return {object} The color instance to maintain chainability
+     * @param 	{Number} 	amount 		The amount of saturation wanted between 0-100
+     * @return 	{object} 				The color instance to maintain chainability
      */
     saturate(amount) {
         amount = parseInt(amount);
@@ -788,7 +758,7 @@ class SColor {
 
     /**
      * Grayscale
-     * @return {object} The color instance to maintain chainability
+     * @return 	{object} 			The color instance to maintain chainability
      */
     grayscale() {
         const n = new SColor(this.toHex());
@@ -798,8 +768,8 @@ class SColor {
 
     /**
      * Spin
-     * @param {Number} amount The amount of hue spin wanted between 0-360
-     * @return {object} The color instance to maintain chainability
+     * @param 	{Number} 	amount 			The amount of hue spin wanted between 0-360
+     * @return 	{object} 					The color instance to maintain chainability
      */
     spin(amount) {
         amount = parseInt(amount);
@@ -815,8 +785,8 @@ class SColor {
 
     /**
      * Transparentize
-     * @param {Number} amount The amount of transparence to apply between 0-100|0-1
-     * @return {object} The color instance to maintain chainability
+     * @param 	{Number} 		amount 			The amount of transparence to apply between 0-100|0-1
+     * @return 	{object} 						The color instance to maintain chainability
      */
     transparentize(amount) {
         amount = parseFloat(amount);
@@ -827,8 +797,8 @@ class SColor {
 
     /**
      * Set the alpha
-     * @param {Number} alpha The new alpha value to apply between 0-100|0-1
-     * @return {object} The color instance to maintain chainability
+     * @param 	{Number} 	alpha 			The new alpha value to apply between 0-100|0-1
+     * @return 	{object} 					The color instance to maintain chainability
      */
     alpha(alpha) {
         alpha = parseFloat(alpha);
@@ -839,8 +809,8 @@ class SColor {
 
     /**
      * Set the opacity (alias for alpha)
-     * @param {Number} opacity The new opacity value to apply between 0-100|0-1
-     * @return {object} The color instance to maintain chainability
+     * @param 	{Number} 	opacity 		The new opacity value to apply between 0-100|0-1
+     * @return 	{object} 					The color instance to maintain chainability
      */
     opacity(opacity) {
         return this.alpha(opacity);
@@ -848,8 +818,8 @@ class SColor {
 
     /**
      * Opacify
-     * @param {Number} amount The amount of transparence to remove between 0-100|0-1
-     * @return {object} The color instance to maintain chainability
+     * @param 	{Number} 	amount 		The amount of transparence to remove between 0-100|0-1
+     * @return 	{object} 				The color instance to maintain chainability
      */
     opacify(amount) {
         amount = parseFloat(amount);
@@ -860,8 +830,8 @@ class SColor {
 
     /**
      * Darken
-     * @param {Number} amount The amount of darkness (of the nightmare of the shadow) to apply between 0-100
-     * @return {object} The color instance to maintain chainabiliy
+     * @param 	{Number} 	amount 		The amount of darkness (of the nightmare of the shadow) to apply between 0-100
+     * @return 	{object} 				The color instance to maintain chainabiliy
      */
     darken(amount) {
         amount = parseInt(amount);
@@ -872,8 +842,8 @@ class SColor {
 
     /**
      * Lighten
-     * @param {Number} amount The amount of lightness (of the sky of the angels) to apply between 0-100
-     * @return {object} The color instance to maintain chainability
+     * @param 	{Number} 	amount 		The amount of lightness (of the sky of the angels) to apply between 0-100
+     * @return 	{object} 				The color instance to maintain chainability
      */
     lighten(amount) {
         amount = parseInt(amount);
@@ -884,7 +854,7 @@ class SColor {
 
     /**
      * To hex string
-     * @return {string} The hex string representation of the color
+     * @return 	{string} 		The hex string representation of the color
      */
     toHexString() {
         return this.convert2('hex');
@@ -892,7 +862,7 @@ class SColor {
 
     /**
      * To rgba string
-     * @return {string} The rgba string representation of the color
+     * @return 	{string} 		The rgba string representation of the color
      */
     toRgbaString() {
         return `rgba(${this._r},${this._g},${this._b},${this._a})`;
@@ -900,7 +870,7 @@ class SColor {
 
     /**
      * To hsl string
-     * @return {string} The hsl string representation of the color
+     * @return 	{string} 		The hsl string representation of the color
      */
     toHslString() {
         const hsl = this.convert2('hsl');
@@ -909,7 +879,7 @@ class SColor {
 
     /**
      * To hsv string
-     * @return {string} The hsv string representation of the color
+     * @return 	{string} 		The hsv string representation of the color
      */
     toHsvString() {
         const hsv = this.convert2('hsv');
@@ -918,7 +888,7 @@ class SColor {
 
     /**
      * To string
-     * @return {string} The rgba string representation of the color
+     * @return 	{string} 		The rgba string representation of the color
      */
     toString(format = null) {
         if (!format) {

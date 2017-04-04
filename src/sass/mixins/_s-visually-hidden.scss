@@ -1,6 +1,14 @@
-//
-// Visually hidden
-//
+/**
+ * Hide an element only visually. This ensure that the element is still correctly displayed in the page for SEO
+ * but will not being visible to the user
+ *
+ * @example 	scss
+ * .my-cool-element {
+ * 	\@include s-visually-hidden();
+ * }
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-visually-hidden {
 	margin: -1px;
 	padding: 0;

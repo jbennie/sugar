@@ -1,6 +1,13 @@
-//
-// Vertical aligner
-//
+/**
+ * Vertically align content by using the inline-block middle trick
+ *
+ * @example 	scss
+ * .my-cool-container {
+ * 	\@include s-vertical-aligner();
+ * }
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-vertical-aligner(
 ) {
 	&:before {

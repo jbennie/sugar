@@ -1,6 +1,13 @@
-//
-// Truncate
-//
+/**
+ * Print out the style to truncate the text if needed
+ *
+ * @example 	scss
+ * h1 {
+ * 	\@include s-truncate-text();
+ * }
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-truncate-text() {
 	display: inline-block;
 	max-width: 100%;
