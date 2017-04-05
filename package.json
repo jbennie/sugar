@@ -34,6 +34,7 @@
     "custom-event": "^1.0.0",
     "document-register-element": "^1.4.1",
     "domready": "^1.0.8",
+    "es6-object-assign": "^1.1.0",
     "fastdom": "^1.0.5",
     "form-serialize": "^0.7.1",
     "google-maps": "^3.2.1",

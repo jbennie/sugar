@@ -1,3 +1,5 @@
+require('es6-object-assign').polyfill();
+
 import { Mixin } from '../vendors/mixwith'
 import __autoCast from '../utils/string/autoCast'
 import _extend from 'lodash/extend'
