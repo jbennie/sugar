@@ -1,7 +1,28 @@
-# Sugar <small>0.0.1</small>
+# Sugar
 
-[![Build Status](https://travis-ci.org/coffeekraken/sugar.svg)](https://travis-ci.org/coffeekraken/sugar)
-
+<p>
+	<a href="https://travis-ci.org/Coffeekraken/sugar">
+		<img src="https://img.shields.io/travis/Coffeekraken/sugar.svg?style=flat-square" />
+	</a>
+	<a href="https://www.npmjs.com/package/coffeekraken-sugar">
+		<img src="https://img.shields.io/npm/v/coffeekraken-sugar.svg?style=flat-square" />
+	</a>
+	<a href="https://github.com/Coffeekraken/sugar/blob/master/LICENSE.txt">
+		<img src="https://img.shields.io/npm/l/coffeekraken-sugar.svg?style=flat-square" />
+	</a>
+	<!-- <a href="https://github.com/coffeekraken/sugar">
+		<img src="https://img.shields.io/npm/dt/coffeekraken-sugar.svg?style=flat-square" />
+	</a>
+	<a href="https://github.com/coffeekraken/sugar">
+		<img src="https://img.shields.io/github/forks/coffeekraken/sugar.svg?style=social&label=Fork&style=flat-square" />
+	</a>
+	<a href="https://github.com/coffeekraken/sugar">
+		<img src="https://img.shields.io/github/stars/coffeekraken/sugar.svg?style=social&label=Star&style=flat-square" />
+	</a>
+	<a href="https://twitter.com/coffeekrakenio">
+		<img src="https://img.shields.io/twitter/url/http/coffeekrakenio.svg?style=social&style=flat-square" />
+	</a> -->
+</p>
 
 Sugar gives you a lot of cool stuff to enhance your codebase.
 It basically does nothing by default but let you grab what you want from it. It can be the colors management feature, as well as the spaces management, helper classes, etc...
