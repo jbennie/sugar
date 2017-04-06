@@ -1,0 +1,9 @@
+/**
+ * Check if the provided color is a registered one or not
+ * @param 		{String} 		$color 		The color nane to check
+ * @return 		{Boolean} 					True if exists, false if not
+ */
+@function s-has-color($color) {
+	// grab the color in config
+	@return s-setting('colors.#{$color}') != null;
+}

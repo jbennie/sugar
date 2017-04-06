@@ -23,13 +23,15 @@
 		}
 	} @else if type-of($in) == string and str-slice($in,1,1) == '#' {
 		$color : str-slice($in,2);
-		$mod-idx : str-index($color,'--');
-		$mod : null;
-		@if $mod-idx {
-			$mod : str-slice($color,$mod-idx + 2);
-			$color : str-slice($color,1,$mod-idx - 1);
+		@if s-has-color($color) {
+			$mod-idx : str-index($color,'--');
+			$mod : null;
+			@if $mod-idx {
+				$mod : str-slice($color,$mod-idx + 2);
+				$color : str-slice($color,1,$mod-idx - 1);
+			}
+			$in : s-color($color, $mod);
 		}
-		$in : s-color($color, $mod);
 	}
 	@return $in;
 }
