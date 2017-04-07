@@ -1,3 +1,6 @@
+![Sugar](/.resources/doc-header.jpg)
+
+
 # Sugar
 
 <p>
