@@ -873,31 +873,32 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 			// 	console.warn(`The component ${this.componentNameDash} has already an "${key}" property... This property will not reflect the this.props['${key}'] value... Try to use a property name that does not already exist on an HTMLElement...`);
 			// 	continue;
 			// }
-			if ( ! key in this) {
-				Object.defineProperty(this, key, {
-					get : () => {
+			((key) => {
+				__propertyProxy(this, key, {
+					get : (value) => {
 						return this.props[key];
 					},
 					set : (value) => {
-						this.setProp(key, value);
-					},
-					enumarable : true
-				});
-			} else {
-				((key) => {
-					__propertyProxy(this, key, {
-						get : (value) => {
-							return this.props[key];
-						},
-						set : (value) => {
-							if (value !== undefined && this.hasAttribute(key)) {
-								this.setProp(key, value);
-								return value;
-							}
+						if (value !== undefined) {
+							this.setProp(key, value);
+							return value;
 						}
-					});
-				})(key);
-			}
+					}
+				}, true);
+			})(key);
+			// if ( ! key in this) {
+			// 	Object.defineProperty(this, key, {
+			// 		get : () => {
+			// 			return this.props[key];
+			// 		},
+			// 		set : (value) => {
+			// 			this.setProp(key, value);
+			// 		},
+			// 		enumarable : true
+			// 	});
+			// } else {
+			//
+			// }
 		}
 	}
 

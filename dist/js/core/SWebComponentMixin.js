@@ -1014,41 +1014,38 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			value: function _initPropsProxy() {
 				var _this6 = this;
 
-				var _loop = function _loop(key) {
+				// loop on each props
+				for (var key in this.defaultProps) {
 					// if (this.hasOwnProperty(key)) {
 					// 	console.warn(`The component ${this.componentNameDash} has already an "${key}" property... This property will not reflect the this.props['${key}'] value... Try to use a property name that does not already exist on an HTMLElement...`);
 					// 	continue;
 					// }
-					if (!key in _this6) {
-						Object.defineProperty(_this6, key, {
-							get: function get() {
+					(function (key) {
+						(0, _propertyProxy2.default)(_this6, key, {
+							get: function get(value) {
 								return _this6.props[key];
 							},
 							set: function set(value) {
-								_this6.setProp(key, value);
-							},
-							enumarable: true
-						});
-					} else {
-						(function (key) {
-							(0, _propertyProxy2.default)(_this6, key, {
-								get: function get(value) {
-									return _this6.props[key];
-								},
-								set: function set(value) {
-									if (value !== undefined && _this6.hasAttribute(key)) {
-										_this6.setProp(key, value);
-										return value;
-									}
+								if (value !== undefined) {
+									_this6.setProp(key, value);
+									return value;
 								}
-							});
-						})(key);
-					}
-				};
-
-				// loop on each props
-				for (var key in this.defaultProps) {
-					_loop(key);
+							}
+						}, true);
+					})(key);
+					// if ( ! key in this) {
+					// 	Object.defineProperty(this, key, {
+					// 		get : () => {
+					// 			return this.props[key];
+					// 		},
+					// 		set : (value) => {
+					// 			this.setProp(key, value);
+					// 		},
+					// 		enumarable : true
+					// 	});
+					// } else {
+					//
+					// }
 				}
 			}
 
