@@ -1015,10 +1015,10 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				var _this6 = this;
 
 				var _loop = function _loop(key) {
-					if (_this6.hasOwnProperty(key)) {
-						console.warn('The component ' + _this6.componentNameDash + ' has already an "' + key + '" property... This property will not reflect the this.props[\'' + key + '\'] value... Try to use a property name that does not already exist on an HTMLElement...');
-						return 'continue';
-					}
+					// if (this.hasOwnProperty(key)) {
+					// 	console.warn(`The component ${this.componentNameDash} has already an "${key}" property... This property will not reflect the this.props['${key}'] value... Try to use a property name that does not already exist on an HTMLElement...`);
+					// 	continue;
+					// }
 					if (!key in _this6) {
 						Object.defineProperty(_this6, key, {
 							get: function get() {
@@ -1029,14 +1029,26 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 							},
 							enumarable: true
 						});
+					} else {
+						(function (key) {
+							(0, _propertyProxy2.default)(_this6, key, {
+								get: function get(value) {
+									return _this6.props[key];
+								},
+								set: function set(value) {
+									if (value !== undefined && _this6.hasAttribute(key)) {
+										_this6.setProp(key, value);
+										return value;
+									}
+								}
+							});
+						})(key);
 					}
 				};
 
 				// loop on each props
 				for (var key in this.defaultProps) {
-					var _ret2 = _loop(key);
-
-					if (_ret2 === 'continue') continue;
+					_loop(key);
 				}
 			}
 
