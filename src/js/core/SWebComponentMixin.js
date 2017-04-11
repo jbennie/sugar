@@ -880,6 +880,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 					},
 					set : (value) => {
 						if (value !== undefined) {
+							value = __autoCast(value);
 							this.setProp(key, value);
 							return value;
 						}

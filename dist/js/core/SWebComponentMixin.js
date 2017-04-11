@@ -1027,6 +1027,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 							},
 							set: function set(value) {
 								if (value !== undefined) {
+									value = (0, _autoCast2.default)(value);
 									_this6.setProp(key, value);
 									return value;
 								}
