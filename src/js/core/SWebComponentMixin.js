@@ -13,6 +13,8 @@ import __prependChild from '../dom/prependChild'
 import __SWatcher from '../classes/SWatcher'
 import __propertyProxy from '../utils/objects/propertyProxy'
 
+require('proxy-polyfill');
+
 require('../features/inputAdditionalAttributes');
 require('../features/inputAdditionalEvents');
 require('../features/imagesLoadedAttribute');
@@ -861,32 +863,61 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		return promise;
 	}
 
+	_proxy(o, fn) {
+		return new Proxy(o, {
+			set(target, property, value) {
+				fn(property, value);
+				target[property] = value;
+			}
+		})
+	}
+
 	/**
 	 * Init props proxy.
 	 * This will create a getter/setter accessor on the item itself
 	 * that get and update his corresponding props.{name} property
 	 */
 	_initPropsProxy() {
+
+		this._proxy(this, (property, value) => {
+			console.log('new prop', property, value);
+		});
+
 		// loop on each props
 		for(let key in this.defaultProps) {
 			// if (this.hasOwnProperty(key)) {
 			// 	console.warn(`The component ${this.componentNameDash} has already an "${key}" property... This property will not reflect the this.props['${key}'] value... Try to use a property name that does not already exist on an HTMLElement...`);
 			// 	continue;
 			// }
-			((key) => {
-				__propertyProxy(this, key, {
-					get : (value) => {
-						return this.props[key];
-					},
-					set : (value) => {
-						if (value !== undefined) {
-							value = __autoCast(value);
-							this.setProp(key, value);
-							return value;
-						}
-					}
-				}, true);
-			})(key);
+			// if ( ! this.hasOwnProperty(key) || key in this) continue;
+			// proxy the property
+			if ( ! this.hasOwnProperty(key) && ! key in this) {
+				((key) => {
+					Object.defineProperty(this, key, {
+						get : () => {
+							return this.props[key];
+						},
+						set : (value) => {
+							this.setProp(key, __autoCast(value));
+						},
+						enumarable : true
+					});
+					// __propertyProxy(this, key, {
+					// 	get : (value) => {
+					// 		return this.props[key];
+					// 	},
+					// 	set : (value) => {
+					// 		if (value !== undefined) {
+					// 			value = __autoCast(value);
+					// 			this.setProp(key, value);
+					// 			return value;
+					// 		}
+					// 	}
+					// }, true);
+				})(key);
+			} else {
+
+			}
 			// if ( ! key in this) {
 			// 	Object.defineProperty(this, key, {
 			// 		get : () => {

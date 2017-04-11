@@ -66,6 +66,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 require('es6-object-assign').polyfill();
 
+require('proxy-polyfill');
+
 require('../features/inputAdditionalAttributes');
 require('../features/inputAdditionalEvents');
 require('../features/imagesLoadedAttribute');
@@ -1002,6 +1004,16 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				});
 				return promise;
 			}
+		}, {
+			key: '_proxy',
+			value: function _proxy(o, fn) {
+				return new Proxy(o, {
+					set: function set(target, property, value) {
+						fn(property, value);
+						target[property] = value;
+					}
+				});
+			}
 
 			/**
     * Init props proxy.
@@ -1014,26 +1026,43 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			value: function _initPropsProxy() {
 				var _this6 = this;
 
+				this._proxy(this, function (property, value) {
+					console.log('new prop', property, value);
+				});
+
 				// loop on each props
 				for (var key in this.defaultProps) {
 					// if (this.hasOwnProperty(key)) {
 					// 	console.warn(`The component ${this.componentNameDash} has already an "${key}" property... This property will not reflect the this.props['${key}'] value... Try to use a property name that does not already exist on an HTMLElement...`);
 					// 	continue;
 					// }
-					(function (key) {
-						(0, _propertyProxy2.default)(_this6, key, {
-							get: function get(value) {
-								return _this6.props[key];
-							},
-							set: function set(value) {
-								if (value !== undefined) {
-									value = (0, _autoCast2.default)(value);
-									_this6.setProp(key, value);
-									return value;
-								}
-							}
-						}, true);
-					})(key);
+					// if ( ! this.hasOwnProperty(key) || key in this) continue;
+					// proxy the property
+					if (!this.hasOwnProperty(key) && !key in this) {
+						(function (key) {
+							Object.defineProperty(_this6, key, {
+								get: function get() {
+									return _this6.props[key];
+								},
+								set: function set(value) {
+									_this6.setProp(key, (0, _autoCast2.default)(value));
+								},
+								enumarable: true
+							});
+							// __propertyProxy(this, key, {
+							// 	get : (value) => {
+							// 		return this.props[key];
+							// 	},
+							// 	set : (value) => {
+							// 		if (value !== undefined) {
+							// 			value = __autoCast(value);
+							// 			this.setProp(key, value);
+							// 			return value;
+							// 		}
+							// 	}
+							// }, true);
+						})(key);
+					} else {}
 					// if ( ! key in this) {
 					// 	Object.defineProperty(this, key, {
 					// 		get : () => {
