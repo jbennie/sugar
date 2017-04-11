@@ -1017,7 +1017,9 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				// loop on each props
 				for (var key in this.defaultProps) {
 					if (this.hasOwnProperty(key) || key in this) {
-						console.warn('The component ' + this.componentNameDash + ' has already an "' + key + '" property... This property will not reflect the this.props[\'' + key + '\'] value... Try to use a property name that does not already exist on an HTMLElement...');
+						if (this.props.debug) {
+							console.warn('The component ' + this.componentNameDash + ' has already an "' + key + '" property... This property will not reflect the this.props[\'' + key + '\'] value... Try to use a property name that does not already exist on an HTMLElement...');
+						}
 						continue;
 					}
 					(function (key) {

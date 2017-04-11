@@ -867,11 +867,12 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * that get and update his corresponding props.{name} property
 	 */
 	_initPropsProxy() {
-
 		// loop on each props
 		for(let key in this.defaultProps) {
 			if (this.hasOwnProperty(key) || key in this) {
-				console.warn(`The component ${this.componentNameDash} has already an "${key}" property... This property will not reflect the this.props['${key}'] value... Try to use a property name that does not already exist on an HTMLElement...`);
+				if (this.props.debug) {
+					console.warn(`The component ${this.componentNameDash} has already an "${key}" property... This property will not reflect the this.props['${key}'] value... Try to use a property name that does not already exist on an HTMLElement...`);
+				}
 				continue;
 			}
 			((key) => {
