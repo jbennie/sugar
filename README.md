@@ -1,7 +1,6 @@
-![Sugar](/.resources/doc-header.jpg)
+![Sugar](.resources/doc-header.jpg)
 
-
-# Sugar
+# Sugar <img src=".resources/coffeekraken-logo.jpg" height="25px" />
 
 <p>
 	<a href="https://travis-ci.org/Coffeekraken/sugar">
@@ -21,10 +20,13 @@
 	</a>
 	<a href="https://github.com/coffeekraken/sugar">
 		<img src="https://img.shields.io/github/stars/coffeekraken/sugar.svg?style=social&label=Star&style=flat-square" />
-	</a>
+	</a>-->
 	<a href="https://twitter.com/coffeekrakenio">
 		<img src="https://img.shields.io/twitter/url/http/coffeekrakenio.svg?style=social&style=flat-square" />
-	</a> -->
+	</a>
+	<a href="http://coffeekraken.io">
+		<img src="https://img.shields.io/twitter/url/http/shields.io.svg?style=flat-square&label=coffeekraken.io&colorB=f2bc2b&style=flat-square" />
+	</a>
 </p>
 
 Sugar gives you a lot of cool stuff to enhance your codebase.
@@ -43,10 +45,11 @@ We like to think about this toolkit as
 5. [JS features](#readme-js-features)
 6. [What sugar does not](#readme-does-not)
 7. [Other tools integration](#readme-tools-integration)
-8. [Contribute](#readme-contribute)
-9. [Browsers support](#readme-browsers-support)
-10. [License](#readme-license)
-11. [Who are Coffeekraken](#readme-who-are-coffeekraken)
+8. **[Some components demos](http://components.coffeekraken.io)**
+9. [Contribute](#readme-contribute)
+10. [Browsers support](#readme-browsers-support)
+11. [License](#readme-license)
+12. [Who are Coffeekraken](#readme-who-are-coffeekraken)
 
 <a id="readme-goals"></a>
 ## Goals
@@ -294,13 +297,11 @@ To do so, you have several possibilities:
 <a id="readme-browsers-support"></a>
 ## Browsers support
 
-* Chrome *(latest 2)*
-* Firefox *(latest 2)*
-* Internet Explorer 10+
-* Opera *(latest 2)*
-* Safari *(latest 2)*
+| [<img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/edge.png" alt="IE / Edge" width="16px" height="16px" />](http://godban.github.io/browsers-support-badges/)</br>IE / Edge | [<img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/firefox.png" alt="Firefox" width="16px" height="16px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/chrome.png" alt="Chrome" width="16px" height="16px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/safari.png" alt="Safari" width="16px" height="16px" />](http://godban.github.io/browsers-support-badges/)</br>Safari |
+| --------- | --------- | --------- | --------- |
+| IE11+ | last 2 versions| last 2 versions| last 2 versions
 
-> As browsers are automatically updated, we will keep as reference the last two versions of each but sugar will work on older ones as well.
+> As browsers are automatically updated, we will keep as reference the last two versions of each but this component can work on older ones as well.
 
 <a id="readme-license"></a>
 ## License
