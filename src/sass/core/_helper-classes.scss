@@ -40,6 +40,7 @@
  * - sugar.ratio.1-1 : ```.ratio-1-1```
  * - sugar.size.abs.cover : ```.abs-cover```
  * - sugar.size.abs.contain : ```.abs-contain```
+ * - sugar.size.abs.fit : ```.abs-fit```
  * - sugar.clearfix.default : ```.clearfix```
  * - sugar.clearfix.float : ```.clearfix-float```
  * - sugar.clearfix.micro : ```.clearfix-micro```
@@ -540,6 +541,20 @@
 	 * </div>
 	 */
 	@include s-size(contain,
+		$position : absolute
+	);
+}
+@include s-register-class(abs-fit, 'sugar.size.abs.fit') {
+	/**
+	 * @name 		```.abs-fit```
+	 * Set a size that will fit the entire parent surface by positionning it in absolute
+	 * @styleguide 	Helpers / Sizes
+	 * @example 	html
+	 * <div class="ratio-16-9">
+	 * 	<img src="http://eskipaper.com/images/landscape-3.jpg" class="abs-fit" />
+	 * </div>
+	 */
+	@include s-size(fit,
 		$position : absolute
 	);
 }
