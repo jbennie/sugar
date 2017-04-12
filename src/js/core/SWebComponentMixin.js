@@ -13,6 +13,8 @@ import __prependChild from '../dom/prependChild'
 import __SWatcher from '../classes/SWatcher'
 import __propertyProxy from '../utils/objects/propertyProxy'
 
+require('proxy-polyfill');
+
 require('../features/inputAdditionalAttributes');
 require('../features/inputAdditionalEvents');
 require('../features/imagesLoadedAttribute');
@@ -222,7 +224,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * Props are actual computed props with attributes
 	 * @type 		{Object}
 	 */
-	props = {};
+	_props = {};
 
 	/**
 	 * Return the default props for the component.
@@ -500,7 +502,16 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		this.componentName = this._componentName = __upperFirst(__camelize(sourceName));
 
 		// default props init
-		this.props = Object.assign({}, this.defaultProps, this.props);
+		this._props = Object.assign({}, this.defaultProps, this.props);
+
+		this.props = new Proxy(this._props, {
+			set : (target, property, value) => {
+				throw `In order to set a prop, you need to use the "setProp" method...`;
+			},
+			get : (target, property) => {
+				return target[property];
+			}
+		});
 
 		// created callback
 		this.componentCreated();
@@ -586,7 +597,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		newVal = __autoCast(newVal);
 
 		// if the attribute is not already a props, init new prop
-		if ( this.props[attribute] === undefined) this._initNewProp(attribute, newVal);
+		// if ( this.props[attribute] === undefined) this._initNewProp(attribute, newVal);
 
 		// handle the case when newVal is undefined (added attribute whithout any value)
 		if (newVal === undefined
@@ -990,7 +1001,10 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		if (oldVal === value) return;
 
 		// set the prop
-		this.props[prop] = value
+		this._props[prop] = value;
+
+		// handle new value
+		this._handleNewPropValue(prop, value, oldVal);
 	}
 
 	/**
@@ -1117,19 +1131,19 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * @param 			{String} 			prop 			The property name to init
 	 */
 	_initNewProp(prop, value = null) {
-		if (value) {
-			this.props[prop] = value;
-		}
-		__propertyProxy(this.props, prop, {
-			set : (value) => {
-				const oldVal = this.props[prop];
-				// handle new prop value
-				this._handleNewPropValue(prop, value, oldVal);
-				// set the value
-				return value;
-			},
-			enumarable : true
-		}, false);
+		// if (value) {
+		// 	this.props[prop] = value;
+		// }
+		// __propertyProxy(this.props, prop, {
+		// 	set : (value) => {
+		// 		const oldVal = this.props[prop];
+		// 		// handle new prop value
+		// 		this._handleNewPropValue(prop, value, oldVal);
+		// 		// set the value
+		// 		return value;
+		// 	},
+		// 	enumarable : true
+		// }, false);
 	}
 
 	/**
@@ -1170,11 +1184,11 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 			// the attribute has no value but it is present
 			// so we assume the prop value is true
 			if ( ! attr.value) {
-				this.props[attrCamelName] = true
+				this._props[attrCamelName] = true
 				continue;
 			}
 			// cast the value
-			this.props[attrCamelName] = __autoCast(attr.value);
+			this._props[attrCamelName] = __autoCast(attr.value);
 		}
 
 		// handle physicalProps
