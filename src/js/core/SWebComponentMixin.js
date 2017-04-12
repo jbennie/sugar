@@ -220,11 +220,18 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	 * Store all the props of the component
+	 * Internal store for all the props of the component
 	 * Props are actual computed props with attributes
 	 * @type 		{Object}
 	 */
 	_props = {};
+
+	/**
+	 * Store all the props of the component
+	 * Props are actual computed props with attributes
+	 * @type 		{Object}
+	 */
+	props = {};
 
 	/**
 	 * Return the default props for the component.

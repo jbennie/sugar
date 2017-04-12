@@ -475,6 +475,13 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			}
 
 			/**
+    * Internal store for all the props of the component
+    * Props are actual computed props with attributes
+    * @type 		{Object}
+    */
+
+
+			/**
     * Store all the props of the component
     * Props are actual computed props with attributes
     * @type 		{Object}
@@ -560,7 +567,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 
 			_classCallCheck(this, _class2);
 
-			return _ret = ((_ = (_temp = (_this = _possibleConstructorReturn(this, (_class2.__proto__ || Object.getPrototypeOf(_class2)).call(this, _)), _this), _this._props = {}, _temp)).init(), _), _possibleConstructorReturn(_this, _ret);
+			return _ret = ((_ = (_temp = (_this = _possibleConstructorReturn(this, (_class2.__proto__ || Object.getPrototypeOf(_class2)).call(this, _)), _this), _this._props = {}, _this.props = {}, _temp)).init(), _), _possibleConstructorReturn(_this, _ret);
 		}
 
 		_createClass(_class2, [{
