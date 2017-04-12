@@ -504,9 +504,10 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		// default props init
 		this._props = Object.assign({}, this.defaultProps, this.props);
 
+		// init properties proxy object
 		this.props = new Proxy(this._props, {
 			set : (target, property, value) => {
-				throw `In order to set a prop, you need to use the "setProp" method...`;
+				this.setProp(property, value);
 			},
 			get : (target, property) => {
 				return target[property];
@@ -596,9 +597,6 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		// cast the new val
 		newVal = __autoCast(newVal);
 
-		// if the attribute is not already a props, init new prop
-		// if ( this.props[attribute] === undefined) this._initNewProp(attribute, newVal);
-
 		// handle the case when newVal is undefined (added attribute whithout any value)
 		if (newVal === undefined
 			&& this.hasAttribute(_attribute)
@@ -670,12 +668,6 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 
 		// props proxy
 		this._initPropsProxy();
-
-		// listen for props updates to handle them
-		for(let key in this.props) {
-			// initNewProp
-			this._initNewProp(key);
-		}
 
 		// check the required props
 		this.requiredProps.forEach((prop) => {
