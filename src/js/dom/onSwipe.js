@@ -31,10 +31,10 @@ export default function onSwipe(elm, cb, settings = {}) {
 			swipeNfo.right = true;
 		}
 		if (touchendY + settings.threshold < touchstartY) {
-			swipeNfo.down = true;
+			swipeNfo.up = true;
 		}
 		if (touchendY - settings.threshold > touchstartY) {
-			swipeNfo.up = true;
+			swipeNfo.down = true;
 		}
 		if (swipeNfo.left || swipeNfo.right || swipeNfo.down || swipeNfo.up) {
 			cb(swipeNfo);
