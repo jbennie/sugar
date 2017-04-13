@@ -192,7 +192,9 @@ $_sugar-classes-inited : false;
 				$classname : $cname,
 				$namespace : 'sugar.padding.bottom.#{$name}'
 			) {
-				padding-bottom : s-space($name);
+				&:not(p) {
+					padding-bottom : s-space($name);
+				}
 			}
 			$cname : 'p-t-#{$name}';
 			@if $name == 'default' {
@@ -210,7 +212,9 @@ $_sugar-classes-inited : false;
 				$classname : $cname,
 				$namespace : 'sugar.padding.top.#{$name}'
 			) {
-				padding-top : s-space($name);
+				&:not(p) {
+					padding-top : s-space($name);
+				}
 			}
 			$cname : 'p-l-#{$name}';
 			@if $name == 'default' {
@@ -228,7 +232,9 @@ $_sugar-classes-inited : false;
 				$classname : $cname,
 				$namespace : 'sugar.padding.left.#{$name}'
 			) {
-				padding-left : s-space($name);
+				&:not(p) {
+					padding-left : s-space($name);
+				}
 			}
 			$cname : 'p-r-#{$name}';
 			@if $name == 'default' {
@@ -246,7 +252,9 @@ $_sugar-classes-inited : false;
 				$classname : $cname,
 				$namespace : 'sugar.padding.right.#{$name}'
 			) {
-				padding-right : s-space($name);
+				&:not(p) {
+					padding-right : s-space($name);
+				}
 			}
 			$cname : 'p-s-#{$name}';
 			@if $name == 'default' {
@@ -264,8 +272,10 @@ $_sugar-classes-inited : false;
 				$classname : $cname,
 				$namespace : 'sugar.padding.side.#{$name}'
 			) {
-				padding-left : s-space($name);
-				padding-right : s-space($name);
+				&:not(p) {
+					padding-left : s-space($name);
+					padding-right : s-space($name);
+				}
 			}
 		}
 
