@@ -27,9 +27,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Monitor an HTMLElement to be notified when it is in the viewport
  *
  * @name 		whenInViewport
- * @param 		{HTMLElement} 				elm 		The element to monitor
- * @param 		{Function} 					[cb=null] 	An optional callback to call when the element is in the viewport
- * @return 		(Promise) 								The promise that will be resolved when the element is in the viewport
+ * @param 		{HTMLElement} 				elm 			The element to monitor
+ * @param 		{Number} 					[offset=50] 	An offset that represent the distance before entering the viewport for the detection
+ * @return 		(Promise) 									The promise that will be resolved when the element is in the viewport
  *
  * @example 	js
  * import whenInViewport from 'sugarcss/js/dom/whenInViewport'
@@ -40,7 +40,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 function whenInViewport(elm) {
-	var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+	var offset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 50;
 
 	return new Promise(function (resolve, reject) {
 		// try to get the closest element that has an overflow
@@ -66,7 +66,7 @@ function whenInViewport(elm) {
 			}
 		};
 		var checkViewport = (0, _throttle2.default)(function (e) {
-			isInViewport = (0, _isInViewport2.default)(elm, 50);
+			isInViewport = (0, _isInViewport2.default)(elm, offset);
 			_cb();
 		}, 100);
 
