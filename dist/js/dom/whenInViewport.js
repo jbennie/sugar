@@ -61,7 +61,6 @@ function whenInViewport(elm) {
 			if (isVisible && isInViewport) {
 				scrollContainerElm.removeEventListener('scroll', checkViewport);
 				window.removeEventListener('resize', checkViewport);
-				if (cb) cb(elm);
 				resolve(elm);
 			}
 		};

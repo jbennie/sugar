@@ -39,7 +39,6 @@ export default function whenInViewport(elm, offset = 50) {
 				if (isVisible && isInViewport) {
 					scrollContainerElm.removeEventListener('scroll', checkViewport);
 					window.removeEventListener('resize', checkViewport);
-					if (cb)	cb(elm);
 					resolve(elm);
 				}
 			}
