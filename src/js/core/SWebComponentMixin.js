@@ -4,6 +4,7 @@ import { Mixin } from '../vendors/mixwith'
 import __autoCast from '../utils/string/autoCast'
 import _extend from 'lodash/extend'
 import __camelize from '../utils/string/camelize'
+import __uncamelize from '../utils/string/uncamelize'
 import __upperFirst from '../utils/string/upperFirst'
 import fastdom from 'fastdom'
 import __dispatchEvent from '../dom/dispatchEvent'
@@ -1160,13 +1161,13 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 			if (value !== 0
 				&& (value === false || value === 'null' || ! value)
 			) {
-				this.removeAttribute(prop);
+				this.removeAttribute(__uncamelize(prop));
 			} else if (typeof(value) === 'object') {
-				this.setAttribute(prop, JSON.stringify(value));
+				this.setAttribute(__uncamelize(prop), JSON.stringify(value));
 			} else if (typeof(value) === 'function') {
-				this.setAttribute(prop, 'fn');
+				this.setAttribute(__uncamelize(prop), 'fn');
 			} else {
-				this.setAttribute(prop, value);
+				this.setAttribute(__uncamelize(prop), value);
 			}
 		}
 	}

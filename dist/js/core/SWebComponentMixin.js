@@ -24,6 +24,10 @@ var _camelize = require('../utils/string/camelize');
 
 var _camelize2 = _interopRequireDefault(_camelize);
 
+var _uncamelize = require('../utils/string/uncamelize');
+
+var _uncamelize2 = _interopRequireDefault(_uncamelize);
+
 var _upperFirst = require('../utils/string/upperFirst');
 
 var _upperFirst2 = _interopRequireDefault(_upperFirst);
@@ -1360,13 +1364,13 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				if (physicalProps.indexOf(prop) !== -1) {
 					// set the prop on the node
 					if (value !== 0 && (value === false || value === 'null' || !value)) {
-						this.removeAttribute(prop);
+						this.removeAttribute((0, _uncamelize2.default)(prop));
 					} else if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object') {
-						this.setAttribute(prop, JSON.stringify(value));
+						this.setAttribute((0, _uncamelize2.default)(prop), JSON.stringify(value));
 					} else if (typeof value === 'function') {
-						this.setAttribute(prop, 'fn');
+						this.setAttribute((0, _uncamelize2.default)(prop), 'fn');
 					} else {
-						this.setAttribute(prop, value);
+						this.setAttribute((0, _uncamelize2.default)(prop), value);
 					}
 				}
 			}
