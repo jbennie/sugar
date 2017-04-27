@@ -15,7 +15,6 @@
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 export default function isInViewport(elm, offset = 50) {
-
 	// handle offset
 	let offsetTop = offset;
 	let offsetRight = offset;
@@ -27,14 +26,12 @@ export default function isInViewport(elm, offset = 50) {
 		offsetBottom = offset.bottom || 0;
 		offsetLeft = offset.left || 0;
 	}
-
 	const containerHeight = window.innerHeight || document.documentElement.clientHeight;
 	const containerWidth = window.innerWidth || document.documentElement.clientWidth;
 	const rect = elm.getBoundingClientRect();
-	return (
-		rect.top - containerHeight - offsetTop <= 0
-		&& rect.bottom + offsetBottom  >= 0
-		&& rect.left - containerWidth - offsetLeft <= 0
-		&& rect.right + offsetRight >= 0
-	);
+	const isTopIn = rect.top - containerHeight - offsetBottom <= 0;
+	const isBottomIn = rect.bottom - offsetTop >= 0;
+	const isLeftIn = rect.left - containerWidth - offsetRight <= 0;
+	const isRightIn = rect.right - offsetLeft >= 0;
+	return isTopIn && isBottomIn && isLeftIn && isRightIn;
 }

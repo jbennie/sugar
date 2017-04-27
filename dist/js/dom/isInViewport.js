@@ -26,7 +26,6 @@ exports.default = isInViewport;
 function isInViewport(elm) {
 	var offset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 50;
 
-
 	// handle offset
 	var offsetTop = offset;
 	var offsetRight = offset;
@@ -38,9 +37,12 @@ function isInViewport(elm) {
 		offsetBottom = offset.bottom || 0;
 		offsetLeft = offset.left || 0;
 	}
-
 	var containerHeight = window.innerHeight || document.documentElement.clientHeight;
 	var containerWidth = window.innerWidth || document.documentElement.clientWidth;
 	var rect = elm.getBoundingClientRect();
-	return rect.top - containerHeight - offsetTop <= 0 && rect.bottom + offsetBottom >= 0 && rect.left - containerWidth - offsetLeft <= 0 && rect.right + offsetRight >= 0;
+	var isTopIn = rect.top - containerHeight - offsetBottom <= 0;
+	var isBottomIn = rect.bottom - offsetTop >= 0;
+	var isLeftIn = rect.left - containerWidth - offsetRight <= 0;
+	var isRightIn = rect.right - offsetLeft >= 0;
+	return isTopIn && isBottomIn && isLeftIn && isRightIn;
 }
