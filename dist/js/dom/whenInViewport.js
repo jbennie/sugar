@@ -27,9 +27,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Monitor an HTMLElement to be notified when it is in the viewport
  *
  * @name 		whenInViewport
- * @param 		{HTMLElement} 				elm 			The element to monitor
- * @param 		{Number} 					[offset=50] 	An offset that represent the distance before entering the viewport for the detection
- * @return 		(Promise) 									The promise that will be resolved when the element is in the viewport
+ * @param 		{HTMLElement} 				elm 					The element to monitor
+ * @param 		{Number} 					[offset=50] 			An offset that represent the distance before entering the viewport for the detection or an object with top, right, bottom and left offsets
+ * @return 		(Promise) 											The promise that will be resolved when the element is in the viewport
  *
  * @example 	js
  * import whenInViewport from 'sugarcss/js/dom/whenInViewport'

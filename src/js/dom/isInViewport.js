@@ -2,9 +2,9 @@
  * Check if the passed HTMLElement is in the viewport or not
  *
  * @name 		isInViewport
- * @param 		{HTMLElement} 				elm  		The element to insert
- * @param 		{Object} 					offset 		An object of top, right, bottom and left offset used to detect the status
- * @return 		{Boolean								If the element is in the viewport or not
+ * @param 		{HTMLElement} 				elm  			The element to insert
+ * @param 		{Object} 					[offset=50] 	An object of top, right, bottom and left offset used to detect the status or an object with top, right, bottom and left offsets
+ * @return 		{Boolean									If the element is in the viewport or not
  *
  * @example  	js
  * import isInViewport from 'sugarcss/js/dom/isInViewport'
@@ -15,14 +15,26 @@
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 export default function isInViewport(elm, offset = 50) {
+
+	// handle offset
+	let offsetTop = offset;
+	let offsetRight = offset;
+	let offsetBottom = offset;
+	let offsetLeft = offset;
+	if (typeof(offset) === 'object') {
+		offsetTop = offset.top || 0;
+		offsetRight = offset.right || 0;
+		offsetBottom = offset.bottom || 0;
+		offsetLeft = offset.left || 0;
+	}
+
 	const containerHeight = window.innerHeight || document.documentElement.clientHeight;
 	const containerWidth = window.innerWidth || document.documentElement.clientWidth;
 	const rect = elm.getBoundingClientRect();
 	return (
-		rect.top - containerHeight - offset <= 0
-		&& rect.bottom + offset  >= 0
-		&& rect.left - containerWidth - offset <= 0
-		&& rect.right + offset >= 0
+		rect.top - containerHeight - offsetTop <= 0
+		&& rect.bottom + offsetBottom  >= 0
+		&& rect.left - containerWidth - offsetLeft <= 0
+		&& rect.right + offsetRight >= 0
 	);
 }
-window.__isInViewport = isInViewport;

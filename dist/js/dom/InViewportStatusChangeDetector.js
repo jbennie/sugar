@@ -103,7 +103,7 @@ var InViewportStatusChangeDetector = function () {
 			// return if not null
 			if (this._isInViewportCached !== null) return this._isInViewportCached;
 			// check if is in viewport
-			this._isInViewportCached = (0, _isInViewport3.default)(this._elm);
+			this._isInViewportCached = (0, _isInViewport3.default)(this._elm, 50);
 			setTimeout(function () {
 				_this._isInViewportCached = null;
 			});

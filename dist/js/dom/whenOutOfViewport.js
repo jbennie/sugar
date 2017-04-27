@@ -23,9 +23,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Monitor an HTMLElement to be notified when it exit the viewport
  *
  * @name 		whenOutOfViewport
- * @param 		{HTMLElement} 				elm 		The element to monitor
- * @param 		{Function} 					[cb=null] 	An optional callback to call when the element exit the viewport
- * @return 		(Promise) 								The promise that will be resolved when the element exit the viewport
+ * @param 		{HTMLElement} 				elm 				The element to monitor
+ * @param 		{Number} 					[offset=50] 		An offset that represent the distance before entering the viewport for the detection or an object with top, right, bottom and left offsets
+ * @return 		(Promise) 										The promise that will be resolved when the element exit the viewport
  *
  * @example 	js
  * import whenOutOfViewport from 'sugarcss/js/dom/whenOutOfViewport'
@@ -36,7 +36,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 function whenOutOfViewport(elm) {
-	var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+	var offset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 50;
 
 	return new Promise(function (resolve, reject) {
 		// try to get the closest element that has an overflow
@@ -61,7 +61,7 @@ function whenOutOfViewport(elm) {
 			}
 		};
 		var checkViewport = (0, _throttle2.default)(function (e) {
-			isInViewport = (0, _isInViewport2.default)(elm, 50);
+			isInViewport = (0, _isInViewport2.default)(elm, offset);
 			_cb();
 		}, 100);
 

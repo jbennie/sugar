@@ -6,9 +6,9 @@ import __closest from './closest'
  * Monitor an HTMLElement to be notified when it exit the viewport
  *
  * @name 		whenOutOfViewport
- * @param 		{HTMLElement} 				elm 		The element to monitor
- * @param 		{Function} 					[cb=null] 	An optional callback to call when the element exit the viewport
- * @return 		(Promise) 								The promise that will be resolved when the element exit the viewport
+ * @param 		{HTMLElement} 				elm 				The element to monitor
+ * @param 		{Number} 					[offset=50] 		An offset that represent the distance before entering the viewport for the detection or an object with top, right, bottom and left offsets
+ * @return 		(Promise) 										The promise that will be resolved when the element exit the viewport
  *
  * @example 	js
  * import whenOutOfViewport from 'sugarcss/js/dom/whenOutOfViewport'
@@ -18,7 +18,7 @@ import __closest from './closest'
  *
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-export default function whenOutOfViewport(elm, cb = null) {
+export default function whenOutOfViewport(elm, offset = 50) {
 	return new Promise((resolve, reject) => {
 		// try to get the closest element that has an overflow
 		let scrollContainerElm = document;
@@ -42,7 +42,7 @@ export default function whenOutOfViewport(elm, cb = null) {
 				}
 			}
 		let checkViewport = __throttle((e) => {
-			isInViewport = __isInViewport(elm, 50);
+			isInViewport = __isInViewport(elm, offset);
 			_cb();
 		},100);
 
