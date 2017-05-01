@@ -701,22 +701,6 @@
 	.#{s-setting('text-format.scope-class')} figcaption {
 		@include s-typography-caption-bare();
 	}
-
-	// vertucal rhythme
-	.caption,
-	caption,
-	figcaption {
-		@include s-vertical-rhythme() {
-			// margin-top:.5em;
-			margin-bottom:1em;
-			// &:first-child {
-			// 	margin-top:0;
-			// }
-			&:last-child {
-				margin-bottom:0;
-			}
-		}
-	}
 }
 /**
  * Provide the style styling for the captions classes
