@@ -37,7 +37,10 @@
 
 		// vertical rhythme
 		@include s-vertical-rhythme() {
-			margin-bottom:1rem;
+			margin-bottom:s-space(default);
+			&:last-child {
+				margin-bottom:0;
+			}
 		}
 	}
 }
@@ -69,7 +72,10 @@
 		line-height: 1.4;
 
 		@include s-vertical-rhythme() {
-			margin-bottom:1rem;
+			margin-bottom:s-space(default);
+			&:last-child {
+				margin-bottom:0;
+			}
 		}
 	}
 }
@@ -215,8 +221,11 @@
 	@include s-component('s-typography') {
 		@if $tag == dl {
 			@include s-list();
-			@include s-vertical-rhythme {
-				margin-bottom:2em;
+			@include s-vertical-rhythme() {
+				margin-bottom:s-space(default);
+				&:last-child {
+					margin-bottom:0;
+				}
 			}
 		} @else if length($tag) == 2 and nth($tag,2) == dt {
 			font-weight: bold;
@@ -225,8 +234,11 @@
 			margin-bottom: .5em;
 		} @else if $tag == ul {
 			@include s-list();
-			@include s-vertical-rhythme {
-				margin-bottom:2em;
+			@include s-vertical-rhythme() {
+				margin-bottom:s-space(default);
+				&:last-child {
+					margin-bottom:0;
+				}
 			}
 		} @else if length($tag) == 2 and nth($tag,1) == ul {
 			@include s-list-bullet(
@@ -236,8 +248,11 @@
 			margin-bottom:.3em;
 		} @else if $tag == ol {
 			@include s-list();
-			@include s-vertical-rhythme {
-				margin-bottom:2em;
+			@include s-vertical-rhythme() {
+				margin-bottom:s-space(default);
+				&:last-child {
+					margin-bottom:0;
+				}
 			}
 		} @else if length($tag) == 2 and nth($tag,1) == ol {
 			@include s-list-bullet(
@@ -264,8 +279,9 @@
 		@if $tag == dl {
 		} @else if length($tag) == 2 and nth($tag,2) == dt {
 			font-weight: bold;
+			color : s-color(text);
 		} @else if length($tag) == 2 and nth($tag,2) == dd {
-
+			color : s-color(text);
 		} @else if $tag == ul {
 
 		} @else if length($tag) == 2 and nth($tag,1) == ul {
@@ -274,6 +290,7 @@
 				$color : s-color($color),
 				$space : 1em
 			);
+			color : s-color(text);
 		} @else if $tag == ol {
 
 		} @else if length($tag) == 2 and nth($tag,1) == ol {
@@ -284,6 +301,7 @@
 				$offset : .4em 0,
 				$space : 1em
 			);
+			color : s-color(text);
 		}
 	}
 }
@@ -307,6 +325,13 @@
 		font-style: italic;
 		font-size:.65em;
 		display:block;
+
+		@include s-vertical-rhythme() {
+			margin-bottom:s-space(default);
+			&:last-child {
+				margin-bottom:0;
+			}
+		}
 	}
 }
 /**
@@ -340,6 +365,13 @@
 		@include s-font(quote);
 		padding: s-space(big) / 2 s-space(big) s-space(big) / 2 s-space(big);
 		display: block;
+
+		@include s-vertical-rhythme() {
+			margin-bottom:s-space(default);
+			&:last-child {
+				margin-bottom:0;
+			}
+		}
 	}
 }
 /**
