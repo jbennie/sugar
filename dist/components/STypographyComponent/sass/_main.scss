@@ -33,15 +33,7 @@
 		} @else {
 			font-size: $size;
 		}
-		line-height:1.1;
-
-		// vertical rhythme
-		@include s-vertical-rhythme() {
-			margin-bottom:s-space(default);
-			&:last-child {
-				margin-bottom:0;
-			}
-		}
+		line-height:1.5;
 	}
 }
 /**
@@ -69,14 +61,7 @@
 ) {
 	@include s-component('s-typography') {
 		font-size: $size;
-		line-height: 1.4;
-
-		@include s-vertical-rhythme() {
-			margin-bottom:s-space(default);
-			&:last-child {
-				margin-bottom:0;
-			}
-		}
+		line-height: 1.5;
 	}
 }
 /**
@@ -221,39 +206,26 @@
 	@include s-component('s-typography') {
 		@if $tag == dl {
 			@include s-list();
-			@include s-vertical-rhythme() {
-				margin-bottom:s-space(default);
-				&:last-child {
-					margin-bottom:0;
-				}
-			}
 		} @else if length($tag) == 2 and nth($tag,2) == dt {
 			font-weight: bold;
-			margin-bottom: .3em;
+			line-height: 1.5;
+			margin-bottom: s-space(default) * .5;
 		} @else if length($tag) == 2 and nth($tag,2) == dd {
-			margin-bottom: .5em;
+			margin-bottom: s-space(default);
+			line-height: 1.5;
 		} @else if $tag == ul {
 			@include s-list();
-			@include s-vertical-rhythme() {
-				margin-bottom:s-space(default);
-				&:last-child {
-					margin-bottom:0;
-				}
-			}
 		} @else if length($tag) == 2 and nth($tag,1) == ul {
 			@include s-list-bullet(
 				$type : circle,
 				$space : 1em
 			);
-			margin-bottom:.3em;
+			line-height: 1.5;
+			// &:last-child {
+			// 	margin-bottom: s-space(default) * .5;
+			// }
 		} @else if $tag == ol {
 			@include s-list();
-			@include s-vertical-rhythme() {
-				margin-bottom:s-space(default);
-				&:last-child {
-					margin-bottom:0;
-				}
-			}
 		} @else if length($tag) == 2 and nth($tag,1) == ol {
 			@include s-list-bullet(
 				$type : decimal,
@@ -261,7 +233,10 @@
 				$offset : .4em 0,
 				$space : 1em
 			);
-			margin-bottom:.3em;
+			line-height: 1.5;
+			// &:last-child {
+			// 	margin-bottom: s-space(default) * .5;
+			// }
 		}
 	}
 }
@@ -325,13 +300,6 @@
 		font-style: italic;
 		font-size:.65em;
 		display:block;
-
-		@include s-vertical-rhythme() {
-			margin-bottom:s-space(default);
-			&:last-child {
-				margin-bottom:0;
-			}
-		}
 	}
 }
 /**
@@ -365,13 +333,6 @@
 		@include s-font(quote);
 		padding: s-space(big) / 2 s-space(big) s-space(big) / 2 s-space(big);
 		display: block;
-
-		@include s-vertical-rhythme() {
-			margin-bottom:s-space(default);
-			&:last-child {
-				margin-bottom:0;
-			}
-		}
 	}
 }
 /**
