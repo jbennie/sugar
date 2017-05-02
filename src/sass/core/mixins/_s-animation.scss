@@ -52,7 +52,7 @@
 		@extend %#{$name} !optional;
 
 		// create the animations list
-		$anims : append($anims, $name $duration $current_delay $ease $iteration $direction $fill-mode, comma);
+		$anims : append($anims, unquote("#{$name $duration $current_delay $ease $iteration $direction $fill-mode}"), comma);
 
 		// manage if animation is parallel with next one
 		@if type-of($iteration) == number {
