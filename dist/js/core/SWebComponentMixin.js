@@ -70,7 +70,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 require('es6-object-assign').polyfill();
 
-require('proxy-polyfill');
+require('proxy-polyfill/proxy.min');
 
 require('../features/inputAdditionalAttributes');
 require('../features/inputAdditionalEvents');
