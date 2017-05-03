@@ -456,9 +456,8 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		}
 
 		// props mount dependencies
-		let propsDeps = [].concat(this.props.mountDependencies);
+		deps = deps.concat(this.props.mountDependencies);
 		let finalDeps = [];
-		finalDeps = finalDeps.concat(this.props.mountDependencies);
 		deps.forEach((dep) => {
 			if (typeof(dep) === 'function') {
 				dep = dep.bind(this);

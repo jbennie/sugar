@@ -364,9 +364,8 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				}
 
 				// props mount dependencies
-				var propsDeps = [].concat(this.props.mountDependencies);
+				deps = deps.concat(this.props.mountDependencies);
 				var finalDeps = [];
-				finalDeps = finalDeps.concat(this.props.mountDependencies);
 				deps.forEach(function (dep) {
 					if (typeof dep === 'function') {
 						dep = dep.bind(_this2);
