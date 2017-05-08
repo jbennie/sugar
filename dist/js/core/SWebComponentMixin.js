@@ -351,7 +351,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				var _this2 = this;
 
 				var deps = [];
-				var comp = Object.getPrototypeOf(window.sugar._webComponentsClasses[this.componentName]);
+				var comp = window.sugar._webComponentsClasses[this.componentName];
 				while (comp) {
 					if (comp.mountDependencies) {
 						comp.mountDependencies.forEach(function (dep) {

@@ -443,7 +443,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	get mountDependencies() {
 
 		let deps = [];
-		let comp = Object.getPrototypeOf(window.sugar._webComponentsClasses[this.componentName]);
+		let comp = window.sugar._webComponentsClasses[this.componentName];
 		while(comp) {
 			if (comp.mountDependencies) {
 				comp.mountDependencies.forEach((dep) => {
