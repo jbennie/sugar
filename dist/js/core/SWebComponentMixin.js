@@ -70,7 +70,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 require('es6-object-assign').polyfill();
 
-require('proxy-polyfill/proxy.min');
+// require('proxy-polyfill/proxy.min');
 
 require('../features/inputAdditionalAttributes');
 require('../features/inputAdditionalEvents');
@@ -618,14 +618,18 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				this._props = Object.assign({}, this.defaultProps, this.props);
 
 				// init properties proxy object
-				this.props = new Proxy(this._props, {
-					set: function set(target, property, value) {
-						_this3.setProp(property, value);
-					},
-					get: function get(target, property) {
-						return target[property];
-					}
-				});
+				if (window.Proxy) {
+					this.props = new Proxy(this._props, {
+						set: function set(target, property, value) {
+							_this3.setProp(property, value);
+						},
+						get: function get(target, property) {
+							return target[property];
+						}
+					});
+				} else {
+					this.props = this._props;
+				}
 
 				// created callback
 				this.componentCreated();
@@ -1179,10 +1183,10 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				if (oldVal === value) return;
 
 				// set the prop (duplicate and assign again the whole object to avoid issues with Proxy polyfill)
-				var newProps = Object.assign({}, this._props);
-				newProps[prop] = value;
-				this._props = newProps;
-				// this._props[prop] = value;
+				// const newProps = Object.assign({}, this._props);
+				// newProps[prop] = value;
+				// this._props = newProps;
+				this._props[prop] = value;
 
 				// handle new value
 				this._handleNewPropValue(prop, value, oldVal);

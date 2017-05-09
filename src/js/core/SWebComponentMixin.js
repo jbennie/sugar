@@ -14,7 +14,7 @@ import __prependChild from '../dom/prependChild'
 import __SWatcher from '../classes/SWatcher'
 import __propertyProxy from '../utils/objects/propertyProxy'
 
-require('proxy-polyfill/proxy.min');
+// require('proxy-polyfill/proxy.min');
 
 require('../features/inputAdditionalAttributes');
 require('../features/inputAdditionalEvents');
@@ -512,14 +512,18 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		this._props = Object.assign({}, this.defaultProps, this.props);
 
 		// init properties proxy object
-		this.props = new Proxy(this._props, {
-			set : (target, property, value) => {
-				this.setProp(property, value);
-			},
-			get : (target, property) => {
-				return target[property];
-			}
-		});
+		if (window.Proxy) {
+			this.props = new Proxy(this._props, {
+				set : (target, property, value) => {
+					this.setProp(property, value);
+				},
+				get : (target, property) => {
+					return target[property];
+				}
+			});
+		} else {
+			this.props = this._props;
+		}
 
 		// created callback
 		this.componentCreated();
@@ -1000,10 +1004,10 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		if (oldVal === value) return;
 
 		// set the prop (duplicate and assign again the whole object to avoid issues with Proxy polyfill)
-		const newProps = Object.assign({}, this._props);
-		newProps[prop] = value;
-		this._props = newProps;
-		// this._props[prop] = value;
+		// const newProps = Object.assign({}, this._props);
+		// newProps[prop] = value;
+		// this._props = newProps;
+		this._props[prop] = value;
 
 		// handle new value
 		this._handleNewPropValue(prop, value, oldVal);
