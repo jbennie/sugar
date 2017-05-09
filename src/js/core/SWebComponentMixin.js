@@ -999,8 +999,11 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		// stop if same value
 		if (oldVal === value) return;
 
-		// set the prop
-		this._props[prop] = value;
+		// set the prop (duplicate and assign again the whole object to avoid issues with Proxy polyfill)
+		const newProps = Object.assign({}, this._props);
+		newProps[prop] = value;
+		this._props = newProps;
+		// this._props[prop] = value;
 
 		// handle new value
 		this._handleNewPropValue(prop, value, oldVal);
