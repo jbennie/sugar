@@ -263,12 +263,20 @@
     		}
     	}
 
-		.#{s-component()}--responsive {
+		.#{s-component()}--responsive-overflow {
     		min-height: 0.01%;
     		overflow-x: auto;
     		width: 100%;
     		overflow-y: hidden;
     	}
+
+    	.#{s-component()}--responsive {
+    		@include s-media(
+    			$max-width : s-setting('table.responsive-under', $default : 640px)
+    		) {
+				@include s-table-responsive();
+    		}
+		}
 
 		/**
 		 * @name 		Centered #{s-component()}
