@@ -327,5 +327,38 @@
                 vertical-align: middle;
             }
     	}
+
+    	/**
+		 * @name 		Interactive #{s-component()}
+		 * Display cursor on table rows contents
+		 * @styleguide 		Objects / #{_start-case(s-component())}
+		 * @example 		html
+		 * <table class="#{s-component()} #{s-component()}--interactive">
+		 * 	<tr>
+		 *  	<th>#</th>
+		 *  	<th>Table head 1</th>
+		 *  	<th>Table head 2</th>
+		 *  	<th>Table head 3</th>
+		 * 	</tr>
+		 * 	<tr>
+		 *  	<td>1</td>
+		 *  	<td>Table cell 1</td>
+		 *  	<td>
+		 *  		Mauris sem nulla, maximus id dignissim vitae,<br>
+		 *  		ullamcorper a turpis. Vestibulum vel eros non nisl<br>
+		 *  		euismod tempus vitae non turpis.
+		 *  	</td>
+		 *  	<td>Table cell 3</td>
+		 * 	</tr>
+		 * </table>
+		 */
+		.#{s-component()}--interactive {
+    		tbody tr,
+    		tbody .tr,
+    		.tbody tr,
+    		.tbody .tr {
+                cursor:pointer;
+            }
+    	}
     }
 }
