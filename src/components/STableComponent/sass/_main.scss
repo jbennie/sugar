@@ -1,0 +1,28 @@
+@mixin s-table-responsive() {
+	/* Force table to not be like tables anymore */
+	&, thead, tbody, th, td, tr {
+		display: block;
+	}
+	/* Hide table headers (but not display: none;, for accessibility) */
+	thead .tr,
+	thead tr {
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+	.td,
+	td {
+		/* Behave  like a "row" */
+		position: relative;
+		padding-left: 50%;
+		width:100% !important;
+	}
+	.td:before,
+	td:before {
+		position: absolute;
+		width: 45%;
+		padding: s-lnf(padding-horizontal) s-lnf(padding-vertical);
+		white-space: nowrap;
+		content:attr(label);
+	}
+}
