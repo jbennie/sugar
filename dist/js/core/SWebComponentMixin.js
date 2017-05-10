@@ -1144,9 +1144,10 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			key: 'dispatchComponentEvent',
 			value: function dispatchComponentEvent(name) {
 				var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+				var fromElm = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this;
 
-				(0, _dispatchEvent2.default)(this, name, data);
-				(0, _dispatchEvent2.default)(this, this.tagName.toLowerCase() + '.' + name, data);
+				(0, _dispatchEvent2.default)(fromElm, name, data);
+				(0, _dispatchEvent2.default)(fromElm, this.tagName.toLowerCase() + '.' + name, data);
 			}
 
 			/**

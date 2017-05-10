@@ -973,9 +973,9 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * @param		{String} 		name 		The event name
 	 * @param 		{Mixed} 		data 		Some data to attach to the event
 	 */
-	dispatchComponentEvent(name, data = null) {
-		__dispatchEvent(this, name, data);
-		__dispatchEvent(this, `${this.tagName.toLowerCase()}.${name}`, data);
+	dispatchComponentEvent(name, data = null, fromElm = this) {
+		__dispatchEvent(fromElm, name, data);
+		__dispatchEvent(fromElm, `${this.tagName.toLowerCase()}.${name}`, data);
 	}
 
 	/**
