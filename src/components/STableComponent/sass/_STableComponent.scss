@@ -70,18 +70,22 @@
 				 * @styleguide 		Objects / #{_start-case(s-component())}
 				 * @example 		html
 				 * <table class="#{s-component()} #{s-component()}--#{$color}">
-				 * 	<tr>
-				 *  	<th>#</th>
-				 *  	<th>Table head 1</th>
-				 *  	<th>Table head 2</th>
-				 *  	<th>Table head 3</th>
-				 * 	</tr>
-				 * 	<tr>
-				 *  	<td>1</td>
-				 *  	<td>Table cell 1</td>
-				 *  	<td>Table cell 2</td>
-				 *  	<td>Table cell 3</td>
-				 * 	</tr>
+				 * 	<thead>
+				 * 		<tr>
+				 *  		<th>#</th>
+				 *  		<th>Table head 1</th>
+				 *  		<th>Table head 2</th>
+				 *  		<th>Table head 3</th>
+				 * 		</tr>
+				 * 	</thead>
+				 * 	<tbody>
+				 * 		<tr>
+				 *  		<td>1</td>
+				 *  		<td>Table cell 1</td>
+				 *  		<td>Table cell 2</td>
+				 *  		<td>Table cell 3</td>
+				 * 		</tr>
+				 * 	</tbody>
 				 * </table>
 				 */
 				$sel : #{s-component()}--#{$color};
@@ -98,18 +102,22 @@
 						 * @styleguide 		Objects / #{_start-case(s-component())}
 						 * @example 		html
 						 * <table class="#{s-component()} #{s-component()}--#{$color} #{s-component()}--striped">
-						 * 	<tr>
-						 *  	<th>#</th>
-						 *  	<th>Table head 1</th>
-						 *  	<th>Table head 2</th>
-						 *  	<th>Table head 3</th>
-						 * 	</tr>
-						 * 	<tr>
-						 *  	<td>1</td>
-						 *  	<td>Table cell 1</td>
-						 *  	<td>Table cell 2</td>
-						 *  	<td>Table cell 3</td>
-						 * 	</tr>
+						 * 	<thead>
+						 * 		<tr>
+						 *  		<th>#</th>
+						 *  		<th>Table head 1</th>
+						 *  		<th>Table head 2</th>
+						 *  		<th>Table head 3</th>
+						 * 		</tr>
+						 * 	</thead>
+						 * 	<tbody>
+						 * 		<tr>
+						 *  		<td>1</td>
+						 *  		<td>Table cell 1</td>
+						 *  		<td>Table cell 2</td>
+						 *  		<td>Table cell 3</td>
+						 * 		</tr>
+						 * 	</tbody>
 						 * </table>
 						 */
 	         			&.#{s-component()}--striped {
@@ -137,18 +145,22 @@
 						 * @styleguide 		Objects / #{_start-case(s-component())}
 						 * @example 		html
 						 * <table class="#{s-component()} #{s-component()}--#{$color} #{s-component()}--bordered">
-						 * 	<tr>
-						 *  	<th>#</th>
-						 *  	<th>Table head 1</th>
-						 *  	<th>Table head 2</th>
-						 *  	<th>Table head 3</th>
-						 * 	</tr>
-						 * 	<tr>
-						 *  	<td>1</td>
-						 *  	<td>Table cell 1</td>
-						 *  	<td>Table cell 2</td>
-						 *  	<td>Table cell 3</td>
-						 * 	</tr>
+						 * 	<thead>
+						 * 		<tr>
+						 *  		<th>#</th>
+						 *  		<th>Table head 1</th>
+						 *  		<th>Table head 2</th>
+						 *  		<th>Table head 3</th>
+						 * 		</tr>
+						 * 	</thead>
+						 * 	<tbody>
+						 * 		<tr>
+						 *  		<td>1</td>
+						 *  		<td>Table cell 1</td>
+						 *  		<td>Table cell 2</td>
+						 *  		<td>Table cell 3</td>
+						 * 		</tr>
+						 * 	</tbody>
 						 * </table>
 						 */
 	         			&.#{s-component()}--bordered {
@@ -173,18 +185,22 @@
 						 * @styleguide 		Objects / #{_start-case(s-component())}
 						 * @example 		html
 						 * <table class="#{s-component()} #{s-component()}--#{$color} #{s-component()}--hover">
-						 * 	<tr>
-						 *  	<th>#</th>
-						 *  	<th>Table head 1</th>
-						 *  	<th>Table head 2</th>
-						 *  	<th>Table head 3</th>
-						 * 	</tr>
-						 * 	<tr>
-						 *  	<td>1</td>
-						 *  	<td>Table cell 1</td>
-						 *  	<td>Table cell 2</td>
-						 *  	<td>Table cell 3</td>
-						 * 	</tr>
+						 * 	<thead>
+						 * 		<tr>
+						 *  		<th>#</th>
+						 *  		<th>Table head 1</th>
+						 *  		<th>Table head 2</th>
+						 *  		<th>Table head 3</th>
+						 * 		</tr>
+						 * 	</thead>
+						 * 	<tbody>
+						 * 		<tr>
+						 *  		<td>1</td>
+						 *  		<td>Table cell 1</td>
+						 *  		<td>Table cell 2</td>
+						 *  		<td>Table cell 3</td>
+						 * 		</tr>
+						 * 	</tbody>
 						 * </table>
 						 */
 	         			&.#{s-component()}--hover {
@@ -230,18 +246,22 @@
 		 * @styleguide 		Objects / #{_start-case(s-component())}
 		 * @example 		html
 		 * <table class="#{s-component()}">
-		 * 	<tr>
-		 *  	<th>#</th>
-		 *  	<th>Table head 1</th>
-		 *  	<th>Table head 2</th>
-		 *  	<th>Table head 3</th>
-		 * 	</tr>
-		 * 	<tr>
-		 *  	<td>1</td>
-		 *  	<td>Table cell 1</td>
-		 *  	<td>Table cell 2</td>
-		 *  	<td>Table cell 3</td>
-		 * 	</tr>
+		 * 	<thead>
+		 * 		<tr>
+		 *  		<th>#</th>
+		 *  		<th>Table head 1</th>
+		 *  		<th>Table head 2</th>
+		 *  		<th>Table head 3</th>
+		 * 		</tr>
+		 * 	</thead>
+		 * 	<tbody>
+		 * 		<tr>
+		 *  		<td>1</td>
+		 *  		<td>Table cell 1</td>
+		 *  		<td>Table cell 2</td>
+		 *  		<td>Table cell 3</td>
+		 * 		</tr>
+		 * 	</tbody>
 		 * </table>
 		 */
 		.#{s-component()} {
@@ -334,18 +354,22 @@
 			 * @styleguide 		Objects / #{_start-case(s-component())}
 			 * @example 		html
 			 * <table class="#{s-component()} #{s-component()}--responsive-overflow">
-			 * 	<tr>
-			 *  	<th>#</th>
-			 *  	<th>Table head 1</th>
-			 *  	<th>Table head 2</th>
-			 *  	<th>Table head 3</th>
-			 * 	</tr>
-			 * 	<tr>
-			 *  	<td>1</td>
-			 *  	<td>Table cell 1</td>
-			 *  	<td>Table cell 2</td>
-			 *  	<td>Table cell 3</td>
-			 * 	</tr>
+			 * 	<thead>
+			 * 		<tr>
+			 *  		<th>#</th>
+			 *  		<th>Table head 1</th>
+			 *  		<th>Table head 2</th>
+			 *  		<th>Table head 3</th>
+			 * 		</tr>
+			 * 	</thead>
+			 * 	<tbody>
+			 * 		<tr>
+			 *  		<td>1</td>
+			 *  		<td>Table cell 1</td>
+			 *  		<td>Table cell 2</td>
+			 *  		<td>Table cell 3</td>
+			 * 		</tr>
+			 * 	</tbody>
 			 * </table>
 			 */
 			.#{s-component()}--responsive-overflow {
@@ -363,18 +387,22 @@
 			 * @styleguide 		Objects / #{_start-case(s-component())}
 			 * @example 		html
 			 * <table class="#{s-component()} #{s-component()}--responsive">
-			 * 	<tr>
-			 *  	<th>#</th>
-			 *  	<th>Table head 1</th>
-			 *  	<th>Table head 2</th>
-			 *  	<th>Table head 3</th>
-			 * 	</tr>
-			 * 	<tr>
-			 *  	<td label="id">1</td>
-			 *  	<td label="Label #1">Table cell 1</td>
-			 *  	<td label="Label #2">Table cell 2</td>
-			 *  	<td label="Label #3">Table cell 3</td>
-			 * 	</tr>
+			 * 	<thead>
+			 * 		<tr>
+			 *  		<th>#</th>
+			 *  		<th>Table head 1</th>
+			 *  		<th>Table head 2</th>
+			 *  		<th>Table head 3</th>
+			 * 		</tr>
+			 * 	</head>
+			 * 	<tbody>
+			 * 		<tr>
+			 *  		<td label="id">1</td>
+			 *  		<td label="Label #1">Table cell 1</td>
+			 *  		<td label="Label #2">Table cell 2</td>
+			 *  		<td label="Label #3">Table cell 3</td>
+			 * 		</tr>
+			 * 	</tbody>
 			 * </table>
 			 */
 	    	.#{s-component()}--responsive {
@@ -393,18 +421,22 @@
 			 * @styleguide 		Objects / #{_start-case(s-component())}
 			 * @example 		html
 			 * <table class="#{s-component()} #{s-component()}--center">
-			 * 	<tr>
-			 *  	<th>#</th>
-			 *  	<th>Table head 1</th>
-			 *  	<th>Table head 2</th>
-			 *  	<th>Table head 3</th>
-			 * 	</tr>
-			 * 	<tr>
-			 *  	<td>1</td>
-			 *  	<td>Table cell 1</td>
-			 *  	<td>Table cell 2</td>
-			 *  	<td>Table cell 3</td>
-			 * 	</tr>
+			 * 	<thead>
+			 * 		<tr>
+			 *  		<th>#</th>
+			 *  		<th>Table head 1</th>
+			 *  		<th>Table head 2</th>
+			 *  		<th>Table head 3</th>
+			 * 		</tr>
+			 * 	</thead>
+			 * 	<tbody>
+			 * 		<tr>
+			 *  		<td>1</td>
+			 *  		<td>Table cell 1</td>
+			 *  		<td>Table cell 2</td>
+			 *  		<td>Table cell 3</td>
+			 * 		</tr>
+			 * 	</tbody>
 			 * </table>
 			 */
 			.#{s-component()}--center {
@@ -422,24 +454,28 @@
 			 * @styleguide 		Objects / #{_start-case(s-component())}
 			 * @example 		html
 			 * <table class="#{s-component()} #{s-component()}--middle">
-			 * 	<tr>
-			 *  	<th>#</th>
-			 *  	<th>Table head 1</th>
-			 *  	<th>Table head 2</th>
-			 *  	<th>Table head 3</th>
-			 * 	</tr>
-			 * 	<tr>
-			 *  	<td>1</td>
-			 *  	<td>Table cell 1</td>
-			 *  	<td>
-			 *  		<p class="p">
-			 *  		Mauris sem nulla, maximus id dignissim vitae,<br>
-			 *  		ullamcorper a turpis. Vestibulum vel eros non nisl<br>
-			 *  		euismod tempus vitae non turpis.
-			 *  		</p>
-			 *  	</td>
-			 *  	<td>Table cell 3</td>
-			 * 	</tr>
+			 * 	<thead>
+			 * 		<tr>
+			 *  		<th>#</th>
+			 *  		<th>Table head 1</th>
+			 *  		<th>Table head 2</th>
+			 *  		<th>Table head 3</th>
+			 * 		</tr>
+			 * 	</thead>
+			 * 	<tbody>
+			 * 		<tr>
+			 *  		<td>1</td>
+			 *  		<td>Table cell 1</td>
+			 *  		<td>
+			 *  			<p class="p">
+			 *  			Mauris sem nulla, maximus id dignissim vitae,<br>
+			 *  			ullamcorper a turpis. Vestibulum vel eros non nisl<br>
+			 *  			euismod tempus vitae non turpis.
+			 *  			</p>
+			 *  		</td>
+			 *  		<td>Table cell 3</td>
+			 * 		</tr>
+			 * 	</tbody>
 			 * </table>
 			 */
 			.#{s-component()}--middle {
@@ -457,24 +493,28 @@
 			 * @styleguide 		Objects / #{_start-case(s-component())}
 			 * @example 		html
 			 * <table class="#{s-component()} #{s-component()}--interactive">
-			 * 	<tr>
-			 *  	<th>#</th>
-			 *  	<th>Table head 1</th>
-			 *  	<th>Table head 2</th>
-			 *  	<th>Table head 3</th>
-			 * 	</tr>
-			 * 	<tr>
-			 *  	<td>1</td>
-			 *  	<td>Table cell 1</td>
-			 *  	<td>
-			 *  		<p class="p">
-			 *  		Mauris sem nulla, maximus id dignissim vitae,<br>
-			 *  		ullamcorper a turpis. Vestibulum vel eros non nisl<br>
-			 *  		euismod tempus vitae non turpis.
-			 *  		</p>
-			 *  	</td>
-			 *  	<td>Table cell 3</td>
-			 * 	</tr>
+			 * 	<thead>
+			 * 		<tr>
+			 *  		<th>#</th>
+			 *  		<th>Table head 1</th>
+			 *  		<th>Table head 2</th>
+			 *  		<th>Table head 3</th>
+			 * 		</tr>
+			 * 	</thead>
+			 * 	<tbody>
+			 * 		<tr>
+			 *  		<td>1</td>
+			 *  		<td>Table cell 1</td>
+			 *  		<td>
+			 *  			<p class="p">
+			 *  			Mauris sem nulla, maximus id dignissim vitae,<br>
+			 *  			ullamcorper a turpis. Vestibulum vel eros non nisl<br>
+			 *  			euismod tempus vitae non turpis.
+			 *  			</p>
+			 *  		</td>
+			 *  		<td>Table cell 3</td>
+			 * 		</tr>
+			 * 	</tbody>
 			 * </table>
 			 */
 			.#{s-component()}--interactive {
