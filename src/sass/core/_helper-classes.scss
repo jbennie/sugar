@@ -35,6 +35,7 @@
  * - sugar.font.style.oblique : ```.f-oblique```
  * - sugar.font.variant.small-caps : ```.f-small-caps```
  * - sugar.block.align.center : ```.block-center```
+ * - sugar.ratio.21-9 : ```.ratio-21-9```
  * - sugar.ratio.16-9 : ```.ratio-16-9```
  * - sugar.ratio.4-3 : ```.ratio-4-3```
  * - sugar.ratio.1-1 : ```.ratio-1-1```
@@ -523,7 +524,7 @@
 	 * @styleguide 	Helpers / Sizes
 	 * @example 	html
 	 * <div class="ratio-16-9">
-	 * 	<img src="http://eskipaper.com/images/landscape-3.jpg" class="abs-cover" />
+	 * 	<img src="https://source.unsplash.com/random" class="abs-cover" />
 	 * </div>
 	 */
 	@include s-size(cover,
@@ -537,7 +538,7 @@
 	 * @styleguide 	Helpers / Sizes
 	 * @example 	html
 	 * <div class="ratio-16-9">
-	 * 	<img src="http://eskipaper.com/images/landscape-3.jpg" class="abs-contain" />
+	 * 	<img src="https://source.unsplash.com/random" class="abs-contain" />
 	 * </div>
 	 */
 	@include s-size(contain,
@@ -551,7 +552,7 @@
 	 * @styleguide 	Helpers / Sizes
 	 * @example 	html
 	 * <div class="ratio-16-9">
-	 * 	<img src="http://eskipaper.com/images/landscape-3.jpg" class="abs-fit" />
+	 * 	<img src="https://source.unsplash.com/random" class="abs-fit" />
 	 * </div>
 	 */
 	@include s-size(fit,
@@ -642,15 +643,23 @@
 //
 // Ratios
 //
+@include s-register-class(ratio-21-9, 'sugar.ratio.21-9') {
+	/**
+	 * @name 		```.ratio-21-9```
+	 * Keep a 16/9 ratio on a particular element. Applied by setting height to 0 and paddingtop to 100% / 16 * 9
+	 * @styleguide 	Helpers / Ratios
+	 * @example 	html
+	 * <div class="bkg-primary ratio-21-9"></div>
+	 */
+	@include s-ratio(21/9);
+}
 @include s-register-class(ratio-16-9, 'sugar.ratio.16-9') {
 	/**
 	 * @name 		```.ratio-16-9```
 	 * Keep a 16/9 ratio on a particular element. Applied by setting height to 0 and paddingtop to 100% / 16 * 9
 	 * @styleguide 	Helpers / Ratios
 	 * @example 	html
-	 * <div class="ratio-16-9">
-	 * 	I will keep my ratio
-	 * </div>
+	 * <div class="bkg-primary ratio-16-9"></div>
 	 */
 	@include s-ratio(16/9);
 }
@@ -660,9 +669,7 @@
 	 * Keep a 4/3 ratio on a particular element. Applied by setting height to 0 and paddingtop to 100% / 4 * 3
 	 * @styleguide 	Helpers / Ratios
 	 * @example 	html
-	 * <div class="ratio-4-3">
-	 * 	I will keep my ratio
-	 * </div>
+	 * <div class="bkg-primary ratio-4-3"></div>
 	 */
 	@include s-ratio(4/3);
 }
@@ -672,11 +679,9 @@
 	 * Keep a 1/1 ratio on a particular element. Applied by setting height to 0 and paddingtop to 100%
 	 * @styleguide 	Helpers / Ratios
 	 * @example 	html
-	 * <div class="ratio-1-1">
-	 * 	I will keep my ratio
-	 * </div>
+	 * <div class="bkg-primary ratio-1-1"></div>
 	 */
-	@include s-ratio(4/3);
+	@include s-ratio(1);
 }
 
 //
