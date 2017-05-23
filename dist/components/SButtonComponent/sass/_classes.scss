@@ -33,7 +33,7 @@
 		/**
 		 * @name 	```.#{s-component()}```
 		 * Lead paragraph styling
-		 * @styleguide 	Objects / #{_start-case(s-component())}
+		 * @styleguide 	Objects / Buttons
 		 * @example 	html
 		 * <a class="#{s-component()}">
 		 * 	Default button
@@ -45,7 +45,7 @@
 		/**
 		 * @name 	```.#{s-component()}--block```
 		 * Lead paragraph styling
-		 * @styleguide 	Objects / #{_start-case(s-component())}
+		 * @styleguide 	Objects / Buttons
 		 * @example 	html
 		 * <a class="#{s-component()} #{s-component()}--block">
 		 * 	Block button
@@ -92,7 +92,7 @@
 			/**
 			 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}```
 			 * #{_start-case($color)} button
-			 * @styleguide 	Objects / #{_start-case(s-component())}
+			 * @styleguide 	Objects / Buttons
 			 * @example 	html
 			 * <a class="#{s-component()} #{s-component()}--#{$color}">
 			 * 	#{_start-case($color)} button
@@ -103,7 +103,7 @@
 				/**
 				 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}--outline```
 				 * Outline #{$color} button
-				 * @styleguide 	Objects / #{_start-case(s-component())}
+				 * @styleguide 	Objects / Buttons
 				 * @example 	html
 				 * <a class="#{s-component()} #{s-component()}--outline #{s-component()}--#{$color}">
 				 * 	#{_start-case($color)} outlined button
@@ -116,7 +116,7 @@
 				/**
 				 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}--link```
 				 * Link #{$color} button
-				 * @styleguide 	Objects / #{_start-case(s-component())}
+				 * @styleguide 	Objects / Buttons
 				 * @example 	html
 				 * <a class="#{s-component()} #{s-component()}--link #{s-component()}--#{$color}">
 				 * 	#{_start-case($color)} link button
@@ -129,7 +129,7 @@
 				/**
 				 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}:disabled```
 				 * Disabled #{$color} button
-				 * @styleguide 	Objects / #{_start-case(s-component())}
+				 * @styleguide 	Objects / Buttons
 				 * @example 	html
 				 * <button disabled class="#{s-component()} #{s-component()}--#{$color}">
 				 * 	#{_start-case($color)} disabled button
