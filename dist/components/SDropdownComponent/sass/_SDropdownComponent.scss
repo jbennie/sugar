@@ -25,7 +25,7 @@
 	// init dropdown
 	@include s-component('dropdown') {
 		/**
-		 * @name 	#{_start-case(s-component())}
+		 * @name 	```.#{s-component()}```
 		 * Provide a nice dropdown component
 		 * @styleguide 		Objects / #{_start-case(s-component())}
 		 * @example 	html
@@ -72,7 +72,7 @@
 			}
 
 			/**
-			 * @name 	#{_start-case(s-component())} right
+			 * @name 	```.#{s-component()}--right```
 			 * Provide a nice dropdown component aligned to the right
 			 * @styleguide 		Objects / #{_start-case(s-component())}
 			 * @example 	html
@@ -173,7 +173,7 @@
 
 		@each $color in $colors {
 			/**
-			 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> #{_start-case(s-component())}
+			 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}--#{$color}```
 			 * Provide a nice dropdown #{$color} component
 			 * @styleguide 		Objects / #{_start-case(s-component())}
 			 * @example 	html

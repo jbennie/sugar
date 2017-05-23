@@ -13,7 +13,7 @@
 
 	@include s-component('nav') {
 		/**
-		 * @name 	#{_start-case(s-component())} justify
+		 * @name 	```.#{s-component()}--justify```
 		 * Provide a simple justify navigation component
 		 * @styleguide 	Blocks / #{_start-case(s-component())}
 		 * @example 	html
@@ -57,7 +57,7 @@
 	// init nav
 	@include s-component('nav') {
 		/**
-		 * @name 	#{_start-case(s-component())} inline
+		 * @name 	```.#{s-component()}--inline```
 		 * Provide a simple inline navigation component
 		 * @styleguide 	Blocks / #{_start-case(s-component())}
 		 * @example 	html
@@ -99,7 +99,7 @@
 @mixin s-nav-tabs-classes-bare() {
 	@include s-component('nav') {
 		/**
-		 * @name 	#{_start-case(s-component())} tabs
+		 * @name 	```.#{s-component()}--tabs```
 		 * Provide a simple tabs navigation component
 		 * @styleguide 	Blocks / #{_start-case(s-component())}
 		 * @example 	html
@@ -163,7 +163,7 @@
 			@each $color in $colors {
 
 				/**
-				 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> #{_start-case(s-component())} tabs
+				 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component())}--tabs.#{s-component()}--#{$color}```
 				 * Provide a simple tabs navigation component
 				 * @styleguide 	Blocks / #{_start-case(s-component())}
 				 * @example 	html
