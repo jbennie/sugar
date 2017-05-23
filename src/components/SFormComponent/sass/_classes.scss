@@ -10,7 +10,7 @@
 	@include s-component('form') {
 		/**
 		 * @name 	```.#{s-component()}-input```
-		 * @styleguide 		Form / Input
+		 * @styleguide 		Forms / Input
 		 * @example 	html
 		 * <input class="#{s-component()}-input" placeholder="Hello world" />
 		 */
@@ -19,7 +19,7 @@
 		}
 		/**
 		 * @name 	```.#{s-component()}-select```
-		 * @styleguide 		Form / Select
+		 * @styleguide 		Forms / Select
 		 * @example 	html
 		 * <select class="form-select">
 		 * 	<option>Value 1</option>
@@ -32,7 +32,7 @@
 		}
 		/**
 		 * @name 	```.#{s-component()}-textarea```
-		 * @styleguide 		Form / Textarea
+		 * @styleguide 		Forms / Textarea
 		 * @example 	html
 		 * <textarea class="#{s-component()}-textarea" placeholder="Hello world"></textarea>
 		 */
@@ -41,7 +41,7 @@
 		}
 		/**
 		 * @name 	```.#{s-component()}-group```
-		 * @styleguide 		Form / Group
+		 * @styleguide 		Forms / Group
 		 * @example 	html
 		 * <div class="#{s-component()}-group">
 		 * 	<input class="#{s-component()}-input" placeholder="Hello world" />
@@ -53,7 +53,7 @@
 		}
 		/**
 		 * @name 	```.#{s-component()}-addon```
-		 * @styleguide 		Form / Addon
+		 * @styleguide 		Forms / Addon
 		 * @example 	html
 		 * <div class="#{s-component()}-group">
 		 * 	<div class="#{s-component()}-addon">
@@ -75,7 +75,7 @@
 		@each $color in $colors {
 			/**
 			 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}-input--#{$color}```
-			 * @styleguide 		Form / Input
+			 * @styleguide 		Forms / Input
 			 * @example 	html
 			 * <input class="#{s-component()}-input #{s-component()}-input--#{$color}" placeholder="Hello world" />
 			 */
@@ -84,7 +84,7 @@
 			}
 			/**
 			 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}-select--#{$color}```
-			 * @styleguide 		Form / Select
+			 * @styleguide 		Forms / Select
 			 * @example 	html
 			 * <select class="#{s-component()}-select #{s-component()}-select--#{$color}">
 			 * 	<option>Value 1</option>
@@ -97,7 +97,7 @@
 			}
 			/**
 			 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}-textear--#{$color}```
-			 * @styleguide 		Form / Textarea
+			 * @styleguide 		Forms / Textarea
 			 * @example 	html
 			 * <textarea class="#{s-component()}-textarea #{s-component()}-textarea--#{$color}" placeholder="Hello world"></textarea>
 			 */
@@ -106,7 +106,7 @@
 			}
 			/**
 			 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}-addon--#{$color}```
-			 * @styleguide 		Form / Addon
+			 * @styleguide 		Forms / Addon
 			 * @example 	html
 			 * <div class="#{s-component()}-group">
 			 * 	<div class="#{s-component()}-addon #{s-component()}-addon--#{$color}">
