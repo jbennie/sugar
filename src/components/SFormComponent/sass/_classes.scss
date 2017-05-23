@@ -9,7 +9,7 @@
 @mixin s-form-classes-bare() {
 	@include s-component('form') {
 		/**
-		 * @name 	Basic input
+		 * @name 	```.#{s-component()}-input```
 		 * @styleguide 		Form / Input
 		 * @example 	html
 		 * <input class="#{s-component()}-input" placeholder="Hello world" />
@@ -18,7 +18,7 @@
 			@include s-form-input-bare();
 		}
 		/**
-		 * @name 	Basic select
+		 * @name 	```.#{s-component()}-select```
 		 * @styleguide 		Form / Select
 		 * @example 	html
 		 * <select class="form-select">
@@ -31,7 +31,7 @@
 			@include s-form-select-bare();
 		}
 		/**
-		 * @name 	Basic textarea
+		 * @name 	```.#{s-component()}-textarea```
 		 * @styleguide 		Form / Textarea
 		 * @example 	html
 		 * <textarea class="#{s-component()}-textarea" placeholder="Hello world"></textarea>
@@ -40,7 +40,7 @@
 			@include s-form-textarea-bare();
 		}
 		/**
-		 * @name 	Group
+		 * @name 	```.#{s-component()}-group```
 		 * @styleguide 		Form / Group
 		 * @example 	html
 		 * <div class="#{s-component()}-group">
@@ -52,7 +52,7 @@
 			@include s-form-group-bare();
 		}
 		/**
-		 * @name 	Addon
+		 * @name 	```.#{s-component()}-addon```
 		 * @styleguide 		Form / Addon
 		 * @example 	html
 		 * <div class="#{s-component()}-group">
@@ -74,7 +74,7 @@
 	@include s-component('form') {
 		@each $color in $colors {
 			/**
-			 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> input
+			 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}-input--#{$color}```
 			 * @styleguide 		Form / Input
 			 * @example 	html
 			 * <input class="#{s-component()}-input #{s-component()}-input--#{$color}" placeholder="Hello world" />
@@ -83,7 +83,7 @@
 				@include s-form-input-style($color);
 			}
 			/**
-			 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> select
+			 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}-select--#{$color}```
 			 * @styleguide 		Form / Select
 			 * @example 	html
 			 * <select class="#{s-component()}-select #{s-component()}-select--#{$color}">
@@ -96,7 +96,7 @@
 				@include s-form-select-style($color);
 			}
 			/**
-			 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> textarea
+			 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}-textear--#{$color}```
 			 * @styleguide 		Form / Textarea
 			 * @example 	html
 			 * <textarea class="#{s-component()}-textarea #{s-component()}-textarea--#{$color}" placeholder="Hello world"></textarea>
@@ -105,7 +105,7 @@
 				@include s-form-textarea-style($color);
 			}
 			/**
-			 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> addon
+			 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}-addon--#{$color}```
 			 * @styleguide 		Form / Addon
 			 * @example 	html
 			 * <div class="#{s-component()}-group">

@@ -31,7 +31,7 @@
 	// init dropdown
 	@include s-component('btn') {
 		/**
-		 * @name 	#{s-component()}
+		 * @name 	```.#{s-component()}```
 		 * Lead paragraph styling
 		 * @styleguide 	Objects / #{_start-case(s-component())}
 		 * @example 	html
@@ -43,7 +43,7 @@
 			@include s-button-bare();
 		}
 		/**
-		 * @name 	#{s-component()} block
+		 * @name 	```.#{s-component()}--block```
 		 * Lead paragraph styling
 		 * @styleguide 	Objects / #{_start-case(s-component())}
 		 * @example 	html
@@ -90,7 +90,7 @@
 		// generate each colors
 		@each $color in $colors {
 			/**
-			 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> #{s-component()}
+			 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}```
 			 * #{_start-case($color)} button
 			 * @styleguide 	Objects / #{_start-case(s-component())}
 			 * @example 	html
@@ -101,7 +101,7 @@
 			.#{s-component()}--#{$color} {
 				@include s-button-style($color);
 				/**
-				 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> outline #{s-component()}
+				 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}--outline```
 				 * Outline #{$color} button
 				 * @styleguide 	Objects / #{_start-case(s-component())}
 				 * @example 	html
@@ -114,7 +114,7 @@
 				}
 
 				/**
-				 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> link #{s-component()}
+				 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}--link```
 				 * Link #{$color} button
 				 * @styleguide 	Objects / #{_start-case(s-component())}
 				 * @example 	html
@@ -127,7 +127,7 @@
 				}
 
 				/**
-				 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> disabled #{s-component()}
+				 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}:disabled```
 				 * Disabled #{$color} button
 				 * @styleguide 	Objects / #{_start-case(s-component())}
 				 * @example 	html

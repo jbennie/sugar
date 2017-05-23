@@ -338,7 +338,7 @@
 	/**
 	 * @name 		```.t-left```
 	 * Align the text to the left
-	 * @styleguide 	Helpers / Text
+	 * @styleguide 	Helpers / Text Align
 	 * @example 	html
 	 * <div class="t-left">
 	 * 	I'm left aligned
@@ -350,7 +350,7 @@
 	/**
 	 * @name 		```.t-right```
 	 * Align the text to the right
-	 * @styleguide 	Helpers / Text
+	 * @styleguide 	Helpers / Text Align
 	 * @example 	html
 	 * <div class="t-right">
 	 * 	I'm right aligned
@@ -362,7 +362,7 @@
 	/**
 	 * @name 		```.t-center```
 	 * Align the text to the center
-	 * @styleguide 	Helpers / Text
+	 * @styleguide 	Helpers / Text Align
 	 * @example 	html
 	 * <div class="t-center">
 	 * 	I'm centered
@@ -374,7 +374,7 @@
 	/**
 	 * @name 		```.t-justify```
 	 * Make the text justified
-	 * @styleguide 	Helpers / Text
+	 * @styleguide 	Helpers / Text Align
 	 * @example 	html
 	 * <div class="t-justify">
 	 * 	Nullam vel feugiat nunc. Phasellus facilisis, nisi sit amet viverra rhoncus, arcu risus volutpat dolor, sed euismod magna tellus ac purus. Praesent augue lorem, ullamcorper ac accumsan nec, suscipit eu.
@@ -386,7 +386,7 @@
 	/**
 	 * @name 		```.t-lowercase```
 	 * Transform the text to lowercase
-	 * @styleguide 	Helpers / Text
+	 * @styleguide 	Helpers / Text Transform
 	 * @example 	html
 	 * <div class="t-lowercase">
 	 * 	I'M LOWERCASE
@@ -398,7 +398,7 @@
 	/**
 	 * @name 		```.t-uppercase```
 	 * Transform the text to uppercase
-	 * @styleguide 	Helpers / Text
+	 * @styleguide 	Helpers / Text Transform
 	 * @example 	html
 	 * <div class="t-uppercase">
 	 * 	I'm uppercase
@@ -410,7 +410,7 @@
 	/**
 	 * @name 		```.t-capitalize```
 	 * Capizalize the words
-	 * @styleguide 	Helpers / Text
+	 * @styleguide 	Helpers / Text Transform
 	 * @example 	html
 	 * <div class="t-capitalize">
 	 * 	I'm capitalized
@@ -426,7 +426,7 @@
 	/**
 	 * @name 		```.f-bold```
 	 * Set the font-weight to ```bold```
-	 * @styleguide 	Helpers / Font
+	 * @styleguide 	Helpers / Font Weight
 	 * @example 	html
 	 * This <span class="f-bold">word</span> is bold
 	 */
@@ -436,7 +436,7 @@
 	/**
 	 * @name 		```.f-lighter```
 	 * Set the font-weight to ```lighter```
-	 * @styleguide 	Helpers / Font
+	 * @styleguide 	Helpers / Font Weight
 	 * @example 	html
 	 * 	This <span class="f-lighter">word</span> is lighter
 	 */
@@ -446,7 +446,7 @@
 	/**
 	 * @name 		```.f-bolder```
 	 * Set the font-weight to ```bolder```
-	 * @styleguide 	Helpers / Font
+	 * @styleguide 	Helpers / Font Weight
 	 * @example 	html
 	 * This <span class="f-bolder">word</span> is bolder
 	 */
@@ -456,7 +456,7 @@
 	/**
 	 * @name 		```.f-normal```
 	 * Set the font-weight to ```normal```
-	 * @styleguide 	Helpers / Font
+	 * @styleguide 	Helpers / Font Weight
 	 * @example 	html
 	 * <div class="f-bold">
 	 * 	This <span class="f-normal">word</span> is normal
@@ -479,7 +479,7 @@
 	/**
 	 * @name 		```.f-oblique```
 	 * Set the font-style to ```oblique```
-	 * @styleguide 	Helpers / Font
+	 * @styleguide 	Helpers / Font Style
 	 * @example 	html
 	 * This <span class="f-oblique">word</span> is oblique
 	 */
@@ -489,7 +489,7 @@
 	/**
 	 * @name 		```.f-small-caps```
 	 * Set the font-variant to ```small-caps```
-	 * @styleguide 	Helpers / Font
+	 * @styleguide 	Helpers / Font Variant
 	 * @example 	html
 	 * This <span class="f-small-caps">word</span> is small-caps
 	 */

@@ -65,7 +65,7 @@
             @each $color in $colors {
 
 				/**
-				 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> #{s-component()}
+				 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}--#{$color}```
 				 * Display #{$color} table contents
 				 * @styleguide 		Objects / #{_start-case(s-component())}
 				 * @example 		html
@@ -97,7 +97,7 @@
 
 					@if index($modifiers, striped) {
 						/**
-						 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> striped #{s-component()}
+						 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}--striped.#{s-component()}--#{$color}```
 						 * Display #{$color} striped table contents
 						 * @styleguide 		Objects / #{_start-case(s-component())}
 						 * @example 		html
@@ -140,7 +140,7 @@
 
 					@if index($modifiers, bordered) {
 						/**
-						 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> bordered #{s-component()}
+						 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}--bordered.#{s-component()}--#{$color}```
 						 * Display #{$color} bordered table contents
 						 * @styleguide 		Objects / #{_start-case(s-component())}
 						 * @example 		html
@@ -180,7 +180,7 @@
 
 					@if index($modifiers, hover) {
 						/**
-						 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> hoverable #{s-component()}
+						 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}--hover.#{s-component()}--#{$color}```
 						 * Display #{$color} hoverable table contents
 						 * @styleguide 		Objects / #{_start-case(s-component())}
 						 * @example 		html
@@ -241,7 +241,7 @@
 	@include s-component('table') {
 
 		/**
-		 * @name 		Default #{s-component()}
+		 * @name 		```.#{s-component()}```
 		 * Display table contents
 		 * @styleguide 		Objects / #{_start-case(s-component())}
 		 * @example 		html
@@ -349,7 +349,7 @@
 
 		@if index($modifiers, responsive-overflow) {
 			/**
-			 * @name 			Responsive overflow #{s-component()}
+			 * @name 			```.#{s-component()}--responsive-overflow```
 			 * Display responsive overflow table contents
 			 * @styleguide 		Objects / #{_start-case(s-component())}
 			 * @example 		html
@@ -382,7 +382,7 @@
 
 		@if index($modifiers, responsive) {
 			/**
-			 * @name 			Responsive #{s-component()}
+			 * @name 			```.#{s-component()}--responsive```
 			 * Display responsive table contents
 			 * @styleguide 		Objects / #{_start-case(s-component())}
 			 * @example 		html
@@ -416,7 +416,7 @@
 
 		@if index($modifiers, center) {
 			/**
-			 * @name 		Centered #{s-component()}
+			 * @name 		```.#{s-component()}--center```
 			 * Display centered table contents
 			 * @styleguide 		Objects / #{_start-case(s-component())}
 			 * @example 		html
@@ -449,7 +449,7 @@
 
 		@if index($modifiers, middle) {
 			/**
-			 * @name 		Middle #{s-component()}
+			 * @name 		```.#{s-component()}--middle```
 			 * Display middle aligned table contents
 			 * @styleguide 		Objects / #{_start-case(s-component())}
 			 * @example 		html
@@ -488,7 +488,7 @@
 
 		@if index($modifiers, interactive) {
 	    	/**
-			 * @name 		Interactive #{s-component()}
+			 * @name 		```.#{s-component()}--interactive```
 			 * Display cursor on table rows contents
 			 * @styleguide 		Objects / #{_start-case(s-component())}
 			 * @example 		html
