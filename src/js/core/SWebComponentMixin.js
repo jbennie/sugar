@@ -4,6 +4,7 @@ import { Mixin } from '../vendors/mixwith'
 import __autoCast from '../utils/string/autoCast'
 import _extend from 'lodash/extend'
 import __camelize from '../utils/string/camelize'
+import __uncamelize from '../utils/string/uncamelize'
 import __upperFirst from '../utils/string/upperFirst'
 import fastdom from 'fastdom'
 import __dispatchEvent from '../dom/dispatchEvent'
@@ -13,7 +14,7 @@ import __prependChild from '../dom/prependChild'
 import __SWatcher from '../classes/SWatcher'
 import __propertyProxy from '../utils/objects/propertyProxy'
 
-require('proxy-polyfill');
+// require('proxy-polyfill/proxy.min');
 
 require('../features/inputAdditionalAttributes');
 require('../features/inputAdditionalEvents');
@@ -220,11 +221,18 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	 * Store all the props of the component
+	 * Internal store for all the props of the component
 	 * Props are actual computed props with attributes
 	 * @type 		{Object}
 	 */
 	_props = {};
+
+	/**
+	 * Store all the props of the component
+	 * Props are actual computed props with attributes
+	 * @type 		{Object}
+	 */
+	props = {};
 
 	/**
 	 * Return the default props for the component.
@@ -435,7 +443,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	get mountDependencies() {
 
 		let deps = [];
-		let comp = Object.getPrototypeOf(window.sugar._webComponentsClasses[this.componentName]);
+		let comp = window.sugar._webComponentsClasses[this.componentName];
 		while(comp) {
 			if (comp.mountDependencies) {
 				comp.mountDependencies.forEach((dep) => {
@@ -448,9 +456,8 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		}
 
 		// props mount dependencies
-		let propsDeps = [].concat(this.props.mountDependencies);
+		deps = deps.concat(this.props.mountDependencies);
 		let finalDeps = [];
-		finalDeps = finalDeps.concat(this.props.mountDependencies);
 		deps.forEach((dep) => {
 			if (typeof(dep) === 'function') {
 				dep = dep.bind(this);
@@ -505,14 +512,18 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		this._props = Object.assign({}, this.defaultProps, this.props);
 
 		// init properties proxy object
-		this.props = new Proxy(this._props, {
-			set : (target, property, value) => {
-				this.setProp(property, value);
-			},
-			get : (target, property) => {
-				return target[property];
-			}
-		});
+		if (window.Proxy) {
+			this.props = new Proxy(this._props, {
+				set : (target, property, value) => {
+					this.setProp(property, value);
+				},
+				get : (target, property) => {
+					return target[property];
+				}
+			});
+		} else {
+			this.props = this._props;
+		}
 
 		// created callback
 		this.componentCreated();
@@ -962,9 +973,9 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * @param		{String} 		name 		The event name
 	 * @param 		{Mixed} 		data 		Some data to attach to the event
 	 */
-	dispatchComponentEvent(name, data = null) {
-		__dispatchEvent(this, name, data);
-		__dispatchEvent(this, `${this.tagName.toLowerCase()}.${name}`, data);
+	dispatchComponentEvent(name, data = null, fromElm = this) {
+		__dispatchEvent(fromElm, name, data);
+		__dispatchEvent(fromElm, `${this.tagName.toLowerCase()}.${name}`, data);
 	}
 
 	/**
@@ -992,7 +1003,10 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		// stop if same value
 		if (oldVal === value) return;
 
-		// set the prop
+		// set the prop (duplicate and assign again the whole object to avoid issues with Proxy polyfill)
+		// const newProps = Object.assign({}, this._props);
+		// newProps[prop] = value;
+		// this._props = newProps;
 		this._props[prop] = value;
 
 		// handle new value
@@ -1153,13 +1167,13 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 			if (value !== 0
 				&& (value === false || value === 'null' || ! value)
 			) {
-				this.removeAttribute(prop);
+				this.removeAttribute(__uncamelize(prop));
 			} else if (typeof(value) === 'object') {
-				this.setAttribute(prop, JSON.stringify(value));
+				this.setAttribute(__uncamelize(prop), JSON.stringify(value));
 			} else if (typeof(value) === 'function') {
-				this.setAttribute(prop, 'fn');
+				this.setAttribute(__uncamelize(prop), 'fn');
 			} else {
-				this.setAttribute(prop, value);
+				this.setAttribute(__uncamelize(prop), value);
 			}
 		}
 	}

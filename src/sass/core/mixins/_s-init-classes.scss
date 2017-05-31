@@ -172,7 +172,11 @@ $_sugar-classes-inited : false;
 				$classname : $cname,
 				$namespace : 'sugar.padding.all.#{$name}'
 			) {
-				&:not(p) {
+				@if $name == 'default' {
+					&:not(p) {
+						padding : s-space($name);
+					}
+				} @else {
 					padding : s-space($name);
 				}
 			}

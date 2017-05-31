@@ -1,12 +1,53 @@
+/**
+ * @name 	STableComponent Classes
+ * This file provide the mixins to generate table classes
+ */
+
+/**
+ * Provide all the classes of the button component like .table, .table--striped, etc...
+ * - ```.table```
+ * - ```.table--striped```
+ * - ```.table--bordered```
+ * - ```.table--hover```
+ * - ```.table--responsive```
+ * - ```.table--responsive-overflow```
+ * - ```.table--interactive```
+ * - ```.table--middle```
+ * - ```.table--center```
+ *
+ * @param 		{Color} 		[$colors=default primary secondary]	 		Specify the colors to generate
+ * @param 		{String} 		[$modifiers=striped bordered hover responsive responsive-overflow interactive middle center] 		Specify the modifiers to generate
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-table-classes(
-    $colors : default primary secondary
+    $colors : default primary secondary,
+    $modifiers : striped bordered hover responsive responsive-overflow interactive middle center
 ) {
-    @include s-table-classes-bare();
-    @include s-table-classes-style($colors);
+    @include s-table-classes-bare($modifiers);
+    @include s-table-classes-style($colors, $modifiers);
 }
 
+/**
+ * Provide all the style classes of the button component like .table, .table--striped, etc...
+ * - ```.table```
+ * - ```.table--striped```
+ * - ```.table--bordered```
+ * - ```.table--hover```
+ * - ```.table--responsive```
+ * - ```.table--responsive-overflow```
+ * - ```.table--interactive```
+ * - ```.table--middle```
+ * - ```.table--center```
+ *
+ * @param 		{Color} 		[$colors=default primary secondary]	 		Specify the colors to generate
+ * @param 		{String} 		[$modifiers=striped bordered hover responsive responsive-overflow interactive middle center] 		Specify the modifiers to generate
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-table-classes-style(
-    $colors : default primary secondary
+    $colors : default primary secondary,
+    $modifiers : striped bordered hover responsive responsive-overflow interactive middle center
 ) {
     @include s-component('table') {
 
@@ -14,6 +55,8 @@
 
 			tr {
 				border-bottom: 1px solid s-color(default, -opacity .1);
+			}
+			tbody tr {
 				&:last-of-type {
 					border-bottom: none;
 				}
@@ -22,23 +65,27 @@
             @each $color in $colors {
 
 				/**
-				 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> #{s-component()}
+				 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}--#{$color}```
 				 * Display #{$color} table contents
 				 * @styleguide 		Objects / #{_start-case(s-component())}
 				 * @example 		html
 				 * <table class="#{s-component()} #{s-component()}--#{$color}">
-				 * 	<tr>
-				 *  	<th>#</th>
-				 *  	<th>Table head 1</th>
-				 *  	<th>Table head 2</th>
-				 *  	<th>Table head 3</th>
-				 * 	</tr>
-				 * 	<tr>
-				 *  	<td>1</td>
-				 *  	<td>Table cell 1</td>
-				 *  	<td>Table cell 2</td>
-				 *  	<td>Table cell 3</td>
-				 * 	</tr>
+				 * 	<thead>
+				 * 		<tr>
+				 *  		<th>#</th>
+				 *  		<th>Table head 1</th>
+				 *  		<th>Table head 2</th>
+				 *  		<th>Table head 3</th>
+				 * 		</tr>
+				 * 	</thead>
+				 * 	<tbody>
+				 * 		<tr>
+				 *  		<td>1</td>
+				 *  		<td>Table cell 1</td>
+				 *  		<td>Table cell 2</td>
+				 *  		<td>Table cell 3</td>
+				 * 		</tr>
+				 * 	</tbody>
 				 * </table>
 				 */
 				$sel : #{s-component()}--#{$color};
@@ -48,134 +95,173 @@
 						color: s-color($color);
 					}
 
-					/**
-					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> striped #{s-component()}
-					 * Display #{$color} striped table contents
-					 * @styleguide 		Objects / #{_start-case(s-component())}
-					 * @example 		html
-					 * <table class="#{s-component()} #{s-component()}--#{$color} #{s-component()}--striped">
-					 * 	<tr>
-					 *  	<th>#</th>
-					 *  	<th>Table head 1</th>
-					 *  	<th>Table head 2</th>
-					 *  	<th>Table head 3</th>
-					 * 	</tr>
-					 * 	<tr>
-					 *  	<td>1</td>
-					 *  	<td>Table cell 1</td>
-					 *  	<td>Table cell 2</td>
-					 *  	<td>Table cell 3</td>
-					 * 	</tr>
-					 * </table>
-					 */
-         			&.#{s-component()}--striped {
-                        > thead > .tr:nth-of-type(odd),
-         				> thead > tr:nth-of-type(odd) {
-                            > td,
-                            > th {
-         					    background-color : s-color($color, -opacity .2);
-                            }
-         				}
-                        > tbody > .tr:nth-of-type(even),
-         				> tbody > tr:nth-of-type(even) {
-                            > td,
-                            > th {
-         					    background-color : s-color($color, -opacity .05);
-                            }
-                        }
-         			}
+					@if index($modifiers, striped) {
+						/**
+						 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}--striped.#{s-component()}--#{$color}```
+						 * Display #{$color} striped table contents
+						 * @styleguide 		Objects / #{_start-case(s-component())}
+						 * @example 		html
+						 * <table class="#{s-component()} #{s-component()}--#{$color} #{s-component()}--striped">
+						 * 	<thead>
+						 * 		<tr>
+						 *  		<th>#</th>
+						 *  		<th>Table head 1</th>
+						 *  		<th>Table head 2</th>
+						 *  		<th>Table head 3</th>
+						 * 		</tr>
+						 * 	</thead>
+						 * 	<tbody>
+						 * 		<tr>
+						 *  		<td>1</td>
+						 *  		<td>Table cell 1</td>
+						 *  		<td>Table cell 2</td>
+						 *  		<td>Table cell 3</td>
+						 * 		</tr>
+						 * 	</tbody>
+						 * </table>
+						 */
+	         			&.#{s-component()}--striped {
+	                        > thead > .tr:nth-of-type(odd),
+	         				> thead > tr:nth-of-type(odd) {
+	                            > td,
+	                            > th {
+	         					    background-color : s-color($color, -opacity .2);
+	                            }
+	         				}
+	                        > tbody > .tr:nth-of-type(even),
+	         				> tbody > tr:nth-of-type(even) {
+	                            > td,
+	                            > th {
+	         					    background-color : s-color($color, -opacity .05);
+	                            }
+	                        }
+	         			}
+	         		}
 
-					/**
-					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> bordered #{s-component()}
-					 * Display #{$color} bordered table contents
-					 * @styleguide 		Objects / #{_start-case(s-component())}
-					 * @example 		html
-					 * <table class="#{s-component()} #{s-component()}--#{$color} #{s-component()}--bordered">
-					 * 	<tr>
-					 *  	<th>#</th>
-					 *  	<th>Table head 1</th>
-					 *  	<th>Table head 2</th>
-					 *  	<th>Table head 3</th>
-					 * 	</tr>
-					 * 	<tr>
-					 *  	<td>1</td>
-					 *  	<td>Table cell 1</td>
-					 *  	<td>Table cell 2</td>
-					 *  	<td>Table cell 3</td>
-					 * 	</tr>
-					 * </table>
-					 */
-         			&.#{s-component()}--bordered {
-         				border: 1px solid s-color($color, -opacity .1);
-						tr {
-							border-bottom: 1px solid s-color($color, -opacity .1);
-							&:last-of-type {
-								border-bottom: none;
+					@if index($modifiers, bordered) {
+						/**
+						 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}--bordered.#{s-component()}--#{$color}```
+						 * Display #{$color} bordered table contents
+						 * @styleguide 		Objects / #{_start-case(s-component())}
+						 * @example 		html
+						 * <table class="#{s-component()} #{s-component()}--#{$color} #{s-component()}--bordered">
+						 * 	<thead>
+						 * 		<tr>
+						 *  		<th>#</th>
+						 *  		<th>Table head 1</th>
+						 *  		<th>Table head 2</th>
+						 *  		<th>Table head 3</th>
+						 * 		</tr>
+						 * 	</thead>
+						 * 	<tbody>
+						 * 		<tr>
+						 *  		<td>1</td>
+						 *  		<td>Table cell 1</td>
+						 *  		<td>Table cell 2</td>
+						 *  		<td>Table cell 3</td>
+						 * 		</tr>
+						 * 	</tbody>
+						 * </table>
+						 */
+	         			&.#{s-component()}--bordered {
+	         				border: 1px solid s-color($color, -opacity .1);
+							tr {
+								border-bottom: 1px solid s-color($color, -opacity .1);
+								&:last-of-type {
+									border-bottom: none;
+								}
 							}
-						}
-         				td,
-         				th {
-         					border-right: 1px solid s-color($color, -opacity .1);
-         				}
-         			}
+	         				td,
+	         				th {
+	         					border-right: 1px solid s-color($color, -opacity .1);
+	         				}
+	         			}
+	         		}
 
-					/**
-					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> hoverable #{s-component()}
-					 * Display #{$color} hoverable table contents
-					 * @styleguide 		Objects / #{_start-case(s-component())}
-					 * @example 		html
-					 * <table class="#{s-component()} #{s-component()}--#{$color} #{s-component()}--hover">
-					 * 	<tr>
-					 *  	<th>#</th>
-					 *  	<th>Table head 1</th>
-					 *  	<th>Table head 2</th>
-					 *  	<th>Table head 3</th>
-					 * 	</tr>
-					 * 	<tr>
-					 *  	<td>1</td>
-					 *  	<td>Table cell 1</td>
-					 *  	<td>Table cell 2</td>
-					 *  	<td>Table cell 3</td>
-					 * 	</tr>
-					 * </table>
-					 */
-         			&.#{s-component()}--hover {
-                        > tbody > .tr:hover,
-                        > tbody > tr:hover {
-                           td,.td,
-                           th,.th {
-                               background-color: s-color($color, -opacity .1);
-                           }
-                       }
-                    }
+					@if index($modifiers, hover) {
+						/**
+						 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}--hover.#{s-component()}--#{$color}```
+						 * Display #{$color} hoverable table contents
+						 * @styleguide 		Objects / #{_start-case(s-component())}
+						 * @example 		html
+						 * <table class="#{s-component()} #{s-component()}--#{$color} #{s-component()}--hover">
+						 * 	<thead>
+						 * 		<tr>
+						 *  		<th>#</th>
+						 *  		<th>Table head 1</th>
+						 *  		<th>Table head 2</th>
+						 *  		<th>Table head 3</th>
+						 * 		</tr>
+						 * 	</thead>
+						 * 	<tbody>
+						 * 		<tr>
+						 *  		<td>1</td>
+						 *  		<td>Table cell 1</td>
+						 *  		<td>Table cell 2</td>
+						 *  		<td>Table cell 3</td>
+						 * 		</tr>
+						 * 	</tbody>
+						 * </table>
+						 */
+	         			&.#{s-component()}--hover {
+	                        > tbody > .tr:hover,
+	                        > tbody > tr:hover {
+	                           td,.td,
+	                           th,.th {
+	                               background-color: s-color($color, -opacity .1);
+	                           }
+	                       }
+	                    }
+	                }
          		}
             }
         }
     }
 }
 
+/**
+ * Provide all the bare classes of the button component like .table, .table--striped, etc...
+ * - ```.table```
+ * - ```.table--striped```
+ * - ```.table--bordered```
+ * - ```.table--hover```
+ * - ```.table--responsive```
+ * - ```.table--responsive-overflow```
+ * - ```.table--interactive```
+ * - ```.table--middle```
+ * - ```.table--center```
+ *
+ * @param 		{String} 		[$modifiers=striped bordered hover responsive responsive-overflow interactive middle center] 		Specify the modifiers to generate
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-table-classes-bare(
+	$modifiers : striped bordered hover responsive responsive-overflow interactive middle center
 ) {
 	@include s-component('table') {
 
 		/**
-		 * @name 		Default #{s-component()}
+		 * @name 		```.#{s-component()}```
 		 * Display table contents
 		 * @styleguide 		Objects / #{_start-case(s-component())}
 		 * @example 		html
 		 * <table class="#{s-component()}">
-		 * 	<tr>
-		 *  	<th>#</th>
-		 *  	<th>Table head 1</th>
-		 *  	<th>Table head 2</th>
-		 *  	<th>Table head 3</th>
-		 * 	</tr>
-		 * 	<tr>
-		 *  	<td>1</td>
-		 *  	<td>Table cell 1</td>
-		 *  	<td>Table cell 2</td>
-		 *  	<td>Table cell 3</td>
-		 * 	</tr>
+		 * 	<thead>
+		 * 		<tr>
+		 *  		<th>#</th>
+		 *  		<th>Table head 1</th>
+		 *  		<th>Table head 2</th>
+		 *  		<th>Table head 3</th>
+		 * 		</tr>
+		 * 	</thead>
+		 * 	<tbody>
+		 * 		<tr>
+		 *  		<td>1</td>
+		 *  		<td>Table cell 1</td>
+		 *  		<td>Table cell 2</td>
+		 *  		<td>Table cell 3</td>
+		 * 		</tr>
+		 * 	</tbody>
 		 * </table>
 		 */
 		.#{s-component()} {
@@ -261,69 +347,184 @@
     		}
     	}
 
-		.#{s-component()}--responsive {
-    		min-height: 0.01%;
-    		overflow-x: auto;
-    		width: 100%;
-    		overflow-y: hidden;
-    	}
+		@if index($modifiers, responsive-overflow) {
+			/**
+			 * @name 			```.#{s-component()}--responsive-overflow```
+			 * Display responsive overflow table contents
+			 * @styleguide 		Objects / #{_start-case(s-component())}
+			 * @example 		html
+			 * <table class="#{s-component()} #{s-component()}--responsive-overflow">
+			 * 	<thead>
+			 * 		<tr>
+			 *  		<th>#</th>
+			 *  		<th>Table head 1</th>
+			 *  		<th>Table head 2</th>
+			 *  		<th>Table head 3</th>
+			 * 		</tr>
+			 * 	</thead>
+			 * 	<tbody>
+			 * 		<tr>
+			 *  		<td>1</td>
+			 *  		<td>Table cell 1</td>
+			 *  		<td>Table cell 2</td>
+			 *  		<td>Table cell 3</td>
+			 * 		</tr>
+			 * 	</tbody>
+			 * </table>
+			 */
+			.#{s-component()}--responsive-overflow {
+	    		min-height: 0.01%;
+	    		overflow-x: auto;
+	    		width: 100%;
+	    		overflow-y: hidden;
+	    	}
+	    }
 
-		/**
-		 * @name 		Centered #{s-component()}
-		 * Display centered table contents
-		 * @styleguide 		Objects / #{_start-case(s-component())}
-		 * @example 		html
-		 * <table class="#{s-component()} #{s-component()}--center">
-		 * 	<tr>
-		 *  	<th>#</th>
-		 *  	<th>Table head 1</th>
-		 *  	<th>Table head 2</th>
-		 *  	<th>Table head 3</th>
-		 * 	</tr>
-		 * 	<tr>
-		 *  	<td>1</td>
-		 *  	<td>Table cell 1</td>
-		 *  	<td>Table cell 2</td>
-		 *  	<td>Table cell 3</td>
-		 * 	</tr>
-		 * </table>
-		 */
-		.#{s-component()}--center {
-    		td,.td,
-            th,.th {
-                text-align: center;
-            }
-    	}
+		@if index($modifiers, responsive) {
+			/**
+			 * @name 			```.#{s-component()}--responsive```
+			 * Display responsive table contents
+			 * @styleguide 		Objects / #{_start-case(s-component())}
+			 * @example 		html
+			 * <table class="#{s-component()} #{s-component()}--responsive">
+			 * 	<thead>
+			 * 		<tr>
+			 *  		<th>#</th>
+			 *  		<th>Table head 1</th>
+			 *  		<th>Table head 2</th>
+			 *  		<th>Table head 3</th>
+			 * 		</tr>
+			 * 	</thead>
+			 * 	<tbody>
+			 * 		<tr>
+			 *  		<td label="id">1</td>
+			 *  		<td label="Label #1">Table cell 1</td>
+			 *  		<td label="Label #2">Table cell 2</td>
+			 *  		<td label="Label #3">Table cell 3</td>
+			 * 		</tr>
+			 * 	</tbody>
+			 * </table>
+			 */
+	    	.#{s-component()}--responsive {
+	    		@include s-media(
+	    			$max-width : s-setting('table.responsive-under', $default : 640px)
+	    		) {
+					@include s-table-responsive();
+	    		}
+			}
+		}
 
-		/**
-		 * @name 		Middle #{s-component()}
-		 * Display middle aligned table contents
-		 * @styleguide 		Objects / #{_start-case(s-component())}
-		 * @example 		html
-		 * <table class="#{s-component()} #{s-component()}--middle">
-		 * 	<tr>
-		 *  	<th>#</th>
-		 *  	<th>Table head 1</th>
-		 *  	<th>Table head 2</th>
-		 *  	<th>Table head 3</th>
-		 * 	</tr>
-		 * 	<tr>
-		 *  	<td>1</td>
-		 *  	<td>Table cell 1</td>
-		 *  	<td>
-		 *  		Mauris sem nulla, maximus id dignissim vitae,<br>
-		 *  		ullamcorper a turpis. Vestibulum vel eros non nisl<br>
-		 *  		euismod tempus vitae non turpis.
-		 *  	</td>
-		 *  	<td>Table cell 3</td>
-		 * 	</tr>
-		 * </table>
-		 */
-		.#{s-component()}--middle {
-    		td,.td,
-            th,.th {
-                vertical-align: middle;
-            }
-    	}
+		@if index($modifiers, center) {
+			/**
+			 * @name 		```.#{s-component()}--center```
+			 * Display centered table contents
+			 * @styleguide 		Objects / #{_start-case(s-component())}
+			 * @example 		html
+			 * <table class="#{s-component()} #{s-component()}--center">
+			 * 	<thead>
+			 * 		<tr>
+			 *  		<th>#</th>
+			 *  		<th>Table head 1</th>
+			 *  		<th>Table head 2</th>
+			 *  		<th>Table head 3</th>
+			 * 		</tr>
+			 * 	</thead>
+			 * 	<tbody>
+			 * 		<tr>
+			 *  		<td>1</td>
+			 *  		<td>Table cell 1</td>
+			 *  		<td>Table cell 2</td>
+			 *  		<td>Table cell 3</td>
+			 * 		</tr>
+			 * 	</tbody>
+			 * </table>
+			 */
+			.#{s-component()}--center {
+	    		td,.td,
+	            th,.th {
+	                text-align: center;
+	            }
+	    	}
+	    }
+
+		@if index($modifiers, middle) {
+			/**
+			 * @name 		```.#{s-component()}--middle```
+			 * Display middle aligned table contents
+			 * @styleguide 		Objects / #{_start-case(s-component())}
+			 * @example 		html
+			 * <table class="#{s-component()} #{s-component()}--middle">
+			 * 	<thead>
+			 * 		<tr>
+			 *  		<th>#</th>
+			 *  		<th>Table head 1</th>
+			 *  		<th>Table head 2</th>
+			 *  		<th>Table head 3</th>
+			 * 		</tr>
+			 * 	</thead>
+			 * 	<tbody>
+			 * 		<tr>
+			 *  		<td>1</td>
+			 *  		<td>Table cell 1</td>
+			 *  		<td>
+			 *  			<p class="p">
+			 *  			Mauris sem nulla, maximus id dignissim vitae,<br>
+			 *  			ullamcorper a turpis. Vestibulum vel eros non nisl<br>
+			 *  			euismod tempus vitae non turpis.
+			 *  			</p>
+			 *  		</td>
+			 *  		<td>Table cell 3</td>
+			 * 		</tr>
+			 * 	</tbody>
+			 * </table>
+			 */
+			.#{s-component()}--middle {
+	    		td,.td,
+	            th,.th {
+	                vertical-align: middle;
+	            }
+	    	}
+	    }
+
+		@if index($modifiers, interactive) {
+	    	/**
+			 * @name 		```.#{s-component()}--interactive```
+			 * Display cursor on table rows contents
+			 * @styleguide 		Objects / #{_start-case(s-component())}
+			 * @example 		html
+			 * <table class="#{s-component()} #{s-component()}--interactive">
+			 * 	<thead>
+			 * 		<tr>
+			 *  		<th>#</th>
+			 *  		<th>Table head 1</th>
+			 *  		<th>Table head 2</th>
+			 *  		<th>Table head 3</th>
+			 * 		</tr>
+			 * 	</thead>
+			 * 	<tbody>
+			 * 		<tr>
+			 *  		<td>1</td>
+			 *  		<td>Table cell 1</td>
+			 *  		<td>
+			 *  			<p class="p">
+			 *  			Mauris sem nulla, maximus id dignissim vitae,<br>
+			 *  			ullamcorper a turpis. Vestibulum vel eros non nisl<br>
+			 *  			euismod tempus vitae non turpis.
+			 *  			</p>
+			 *  		</td>
+			 *  		<td>Table cell 3</td>
+			 * 		</tr>
+			 * 	</tbody>
+			 * </table>
+			 */
+			.#{s-component()}--interactive {
+	    		tbody tr,
+	    		tbody .tr,
+	    		.tbody tr,
+	    		.tbody .tr {
+	                cursor:pointer;
+	            }
+	    	}
+	    }
     }
 }

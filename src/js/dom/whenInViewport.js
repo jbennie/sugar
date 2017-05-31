@@ -7,9 +7,9 @@ import __closest from './closest'
  * Monitor an HTMLElement to be notified when it is in the viewport
  *
  * @name 		whenInViewport
- * @param 		{HTMLElement} 				elm 		The element to monitor
- * @param 		{Function} 					[cb=null] 	An optional callback to call when the element is in the viewport
- * @return 		(Promise) 								The promise that will be resolved when the element is in the viewport
+ * @param 		{HTMLElement} 				elm 					The element to monitor
+ * @param 		{Number} 					[offset=50] 			An offset that represent the distance before entering the viewport for the detection or an object with top, right, bottom and left offsets
+ * @return 		(Promise) 											The promise that will be resolved when the element is in the viewport
  *
  * @example 	js
  * import whenInViewport from 'sugarcss/js/dom/whenInViewport'
@@ -19,7 +19,7 @@ import __closest from './closest'
  *
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-export default function whenInViewport(elm, cb = null) {
+export default function whenInViewport(elm, offset = 50) {
 	return new Promise((resolve, reject) => {
 		// try to get the closest element that has an overflow
 		let scrollContainerElm = document;
@@ -39,12 +39,11 @@ export default function whenInViewport(elm, cb = null) {
 				if (isVisible && isInViewport) {
 					scrollContainerElm.removeEventListener('scroll', checkViewport);
 					window.removeEventListener('resize', checkViewport);
-					if (cb)	cb(elm);
 					resolve(elm);
 				}
 			}
 		let checkViewport = __throttle((e) => {
-			isInViewport = __isInViewport(elm, 50);
+			isInViewport = __isInViewport(elm, offset);
 			_cb();
 		},100);
 

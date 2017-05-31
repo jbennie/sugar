@@ -51,6 +51,8 @@ Default toString format
 
 Type : **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**
 
+Values : **hex,hsl,hsv,rgba**
+
 **Static**
 
 Default : **rgba**

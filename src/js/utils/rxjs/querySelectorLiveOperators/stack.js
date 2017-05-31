@@ -21,6 +21,9 @@ export default function(_stack = null) {
 		// subscribe to the source
 		const subscription = source.subscribe(elm => {
 
+			// if already in the stack, stop here
+			if (stack.indexOf(elm) !== -1) return;
+
 			// check if the elm has a next sibling
 			const next = elm.nextSibling;
 			if (next) {

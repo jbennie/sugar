@@ -7,7 +7,7 @@ Monitor an HTMLElement to be notified when it exit the viewport
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 elm  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElement) }**  |  The element to monitor  |  required  |
-cb  |  **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function) }**  |  An optional callback to call when the element exit the viewport  |  optional  |  null
+offset  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**  |  An offset that represent the distance before entering the viewport for the detection or an object with top, right, bottom and left offsets  |  optional  |  50
 
 Return **{ (Promise) }** The promise that will be resolved when the element exit the viewport
 

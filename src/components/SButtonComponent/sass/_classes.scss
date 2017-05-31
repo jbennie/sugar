@@ -31,9 +31,9 @@
 	// init dropdown
 	@include s-component('btn') {
 		/**
-		 * @name 	#{s-component()}
+		 * @name 	```.#{s-component()}```
 		 * Lead paragraph styling
-		 * @styleguide 	Objects / #{_start-case(s-component())}
+		 * @styleguide 	Objects / Buttons
 		 * @example 	html
 		 * <a class="#{s-component()}">
 		 * 	Default button
@@ -43,9 +43,9 @@
 			@include s-button-bare();
 		}
 		/**
-		 * @name 	#{s-component()} block
+		 * @name 	```.#{s-component()}--block```
 		 * Lead paragraph styling
-		 * @styleguide 	Objects / #{_start-case(s-component())}
+		 * @styleguide 	Objects / Buttons
 		 * @example 	html
 		 * <a class="#{s-component()} #{s-component()}--block">
 		 * 	Block button
@@ -90,9 +90,9 @@
 		// generate each colors
 		@each $color in $colors {
 			/**
-			 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> #{s-component()}
+			 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}```
 			 * #{_start-case($color)} button
-			 * @styleguide 	Objects / #{_start-case(s-component())}
+			 * @styleguide 	Objects / Buttons
 			 * @example 	html
 			 * <a class="#{s-component()} #{s-component()}--#{$color}">
 			 * 	#{_start-case($color)} button
@@ -101,9 +101,9 @@
 			.#{s-component()}--#{$color} {
 				@include s-button-style($color);
 				/**
-				 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> outline #{s-component()}
+				 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}--outline```
 				 * Outline #{$color} button
-				 * @styleguide 	Objects / #{_start-case(s-component())}
+				 * @styleguide 	Objects / Buttons
 				 * @example 	html
 				 * <a class="#{s-component()} #{s-component()}--outline #{s-component()}--#{$color}">
 				 * 	#{_start-case($color)} outlined button
@@ -114,9 +114,9 @@
 				}
 
 				/**
-				 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> link #{s-component()}
+				 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}--link```
 				 * Link #{$color} button
-				 * @styleguide 	Objects / #{_start-case(s-component())}
+				 * @styleguide 	Objects / Buttons
 				 * @example 	html
 				 * <a class="#{s-component()} #{s-component()}--link #{s-component()}--#{$color}">
 				 * 	#{_start-case($color)} link button
@@ -127,9 +127,9 @@
 				}
 
 				/**
-				 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> disabled #{s-component()}
+				 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}:disabled```
 				 * Disabled #{$color} button
-				 * @styleguide 	Objects / #{_start-case(s-component())}
+				 * @styleguide 	Objects / Buttons
 				 * @example 	html
 				 * <button disabled class="#{s-component()} #{s-component()}--#{$color}">
 				 * 	#{_start-case($color)} disabled button

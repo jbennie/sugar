@@ -97,6 +97,7 @@ Sugar provide some cool helper classes that you can take advantage of. Here's th
 - sugar.font.style.oblique : ```.f-oblique```
 - sugar.font.variant.small-caps : ```.f-small-caps```
 - sugar.block.align.center : ```.block-center```
+- sugar.ratio.21-9 : ```.ratio-21-9```
 - sugar.ratio.16-9 : ```.ratio-16-9```
 - sugar.ratio.4-3 : ```.ratio-4-3```
 - sugar.ratio.1-1 : ```.ratio-1-1```

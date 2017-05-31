@@ -70,7 +70,7 @@ export default class InViewportStatusChangeDetector {
 		// return if not null
 		if (this._isInViewportCached !== null) return this._isInViewportCached;
 		// check if is in viewport
-		this._isInViewportCached = __isInViewport(this._elm);
+		this._isInViewportCached = __isInViewport(this._elm, 50);
 		setTimeout(() => {
 			this._isInViewportCached = null;
 		});

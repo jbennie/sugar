@@ -1,4 +1,4 @@
-# SWathcer
+# SWatcher
 
 This class allows you to easily monitor some object properties and get the new and old value of it
 

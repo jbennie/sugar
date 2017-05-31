@@ -28,6 +28,9 @@ exports.default = function () {
 		// subscribe to the source
 		var subscription = source.subscribe(function (elm) {
 
+			// if already in the stack, stop here
+			if (stack.indexOf(elm) !== -1) return;
+
 			// check if the elm has a next sibling
 			var next = elm.nextSibling;
 			if (next) {

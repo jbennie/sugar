@@ -46,7 +46,7 @@
  */
 @mixin s-typography-title-classes-bare() {
 	/**
-	 * @name 	h1
+	 * @name 	```.h1```
 	 * h1 title styling
 	 * @styleguide 	Typography / Titles
 	 * @example 	html
@@ -60,7 +60,7 @@
 		@include s-typography-title-bare(3.5em);
 	}
 	/**
-	 * @name 	h2
+	 * @name 	```.h2```
 	 * h2 title styling
 	 * @styleguide 	Typography / Titles
 	 * @example 	html
@@ -74,7 +74,7 @@
 		@include s-typography-title-bare(3em);
 	}
 	/**
-	 * @name 	h3
+	 * @name 	```.h3```
 	 * h3 title styling
 	 * @styleguide 	Typography / Titles
 	 * @example 	html
@@ -88,7 +88,7 @@
 		@include s-typography-title-bare(2.5em);
 	}
 	/**
-	 * @name 	h4
+	 * @name 	```.h4```
 	 * h4 title styling
 	 * @styleguide 	Typography / Titles
 	 * @example 	html
@@ -102,7 +102,7 @@
 		@include s-typography-title-bare(2em);
 	}
 	/**
-	 * @name 	h5
+	 * @name 	```.h5```
 	 * h5 title styling
 	 * @styleguide 	Typography / Titles
 	 * @example 	html
@@ -116,7 +116,7 @@
 		@include s-typography-title-bare(1.5em);
 	}
 	/**
-	 * @name 	h6
+	 * @name 	```.h6```
 	 * h6 title styling
 	 * @styleguide 	Typography / Titles
 	 * @example 	html
@@ -133,11 +133,7 @@
 	h1,h2,h3,h4,h5,h6,
 	.h1,.h2,.h3,.h4,.h5,.h6 {
 		@include s-vertical-rhythme() {
-			// margin-top:.5em;
-			margin-bottom:1em;
-			// &:first-child {
-			// 	margin-top:0;
-			// }
+			margin-bottom:s-space(default);
 			&:last-child {
 				margin-bottom:0;
 			}
@@ -197,7 +193,7 @@
  */
 @mixin s-typography-paragraph-classes-bare() {
 	/**
-	 * @name 	Default
+	 * @name 	```.p```
 	 * Default paragraph styling
 	 * @styleguide 	Typography / Paragraphs
 	 * @example 	html
@@ -215,7 +211,7 @@
 		@include s-typography-paragraph-bare(1em);
 	}
 	/**
-	 * @name 	Lead
+	 * @name 	```.p--lead```
 	 * Lead paragraph styling
 	 * @styleguide 	Typography / Paragraphs
 	 * @example 	html
@@ -236,11 +232,7 @@
 	// vertical rhythme
 	p,.p {
 		@include s-vertical-rhythme() {
-			// margin-top:.5em;
-			margin-bottom:1em;
-			// &:first-child {
-			// 	margin-top:0;
-			// }
+			margin-bottom:s-space(default);
 			&:last-child {
 				margin-bottom:0;
 			}
@@ -334,7 +326,7 @@
  */
 @mixin s-typography-inline-text-classes-bare() {
 	/**
-	 * @name 		Marked text
+	 * @name 		Marked text ```.mark```
 	 * For highlighting a run of text due to its relevance in another context, use the ```mark``` tag.
 	 * @styleguide 		Typography / Inline texts
 	 * @example 		html
@@ -348,7 +340,7 @@
 		@include s-typography-inline-text-bare(mark);
 	}
 	/**
-	 * @name 		Deleted text
+	 * @name 		Deleted text ```.del```
 	 * For indicating blocks of text that have been deleted use the ```del``` tag.
 	 * @styleguide 		Typography / Inline texts
 	 * @example 		html
@@ -362,7 +354,7 @@
 		@include s-typography-inline-text-bare(del);
 	}
 	/**
-	 * @name 		Strikethrough text
+	 * @name 		Strikethrough text ```.s```
 	 * For indicating blocks of text that are no longer relevant use the ```s``` tag.
 	 * @styleguide 		Typography / Inline texts
 	 * @example 		html
@@ -376,7 +368,7 @@
 		@include s-typography-inline-text-bare(s);
 	}
 	/**
-	 * @name 		Inserted text
+	 * @name 		Inserted text ```.ins```
 	 * For indicating additions to the document use the ```ins``` tag.
 	 * @styleguide 		Typography / Inline texts
 	 * @example 		html
@@ -390,7 +382,7 @@
 		@include s-typography-inline-text-bare(ins);
 	}
 	/**
-	 * @name 		Underlined text
+	 * @name 		Underlined text ```.u```
 	 * To underline text use the ```u``` tag.
 	 * @styleguide 		Typography / Inline texts
 	 * @example 		html
@@ -404,7 +396,7 @@
 		@include s-typography-inline-text-bare(u);
 	}
 	/**
-	 * @name 		Small text
+	 * @name 		Small text ```.small```
 	 * For de-emphasizing inline or blocks of text, use the ```small``` tag to set text at 85% the size of the parent.
 	 * @styleguide 		Typography / Inline texts
 	 * @example 		html
@@ -418,7 +410,7 @@
 		@include s-typography-inline-text-bare(small);
 	}
 	/**
-	 * @name 		Bold
+	 * @name 		Bold ```.strong```
 	 * For emphasizing a snippet of text with a heavier font-weight.
 	 * @styleguide 		Typography / Inline texts
 	 * @example 		html
@@ -432,7 +424,7 @@
 		@include s-typography-inline-text-bare(strong);
 	}
 	/**
-	 * @name 		Italics
+	 * @name 		Italics ```.em```
 	 * For emphasizing a snippet of text with italics.
 	 * @styleguide 		Typography / Inline texts
 	 * @example 		html
@@ -528,7 +520,7 @@
  */
 @mixin s-typography-list-classes-bare() {
 	/**
-	 * @name 	Description list
+	 * @name 	Description list ```.dl .dt .dd```
 	 * A list of terms with their associated descriptions.
 	 * @styleguide 		Typography / Lists
 	 * @example 	html
@@ -556,7 +548,7 @@
 		@include s-typography-list-bare(dl dd);
 	}
 	/**
-	 * @name 	Unordered list
+	 * @name 	Unordered list ```.ul .li```
 	 * A list of items in which the order does not explicitly matter.
 	 * @styleguide 		Typography / Lists
 	 * @example 	html
@@ -579,7 +571,7 @@
 		@include s-typography-list-bare(ul li);
 	}
 	/**
-	 * @name 	Ordered list
+	 * @name 	Ordered list ```.ol .li```
 	 * A list of items in which the order does explicitly matter.
 	 * @styleguide 		Typography / Lists
 	 * @example 	html
@@ -606,11 +598,7 @@
 	dl, ul, ol,
 	.dl, .ul, .ol {
 		@include s-vertical-rhythme() {
-			// margin-top:.5em;
-			margin-bottom:1em;
-			// &:first-child {
-			// 	margin-top:0;
-			// }
+			margin-bottom:s-space(default);
 			&:last-child {
 				margin-bottom:0;
 			}
@@ -686,7 +674,7 @@
  */
 @mixin s-typography-caption-classes-bare() {
 	/**
-	 * @name 		Default caption
+	 * @name 		Default caption ```.caption```
 	 * Display a caption styled text
 	 * @styleguide 	Typography / Caption
 	 * @example 	html
@@ -700,22 +688,6 @@
 	.#{s-setting('text-format.scope-class')} caption,
 	.#{s-setting('text-format.scope-class')} figcaption {
 		@include s-typography-caption-bare();
-	}
-
-	// vertucal rhythme
-	.caption,
-	caption,
-	figcaption {
-		@include s-vertical-rhythme() {
-			// margin-top:.5em;
-			margin-bottom:1em;
-			// &:first-child {
-			// 	margin-top:0;
-			// }
-			&:last-child {
-				margin-bottom:0;
-			}
-		}
 	}
 }
 /**
@@ -751,7 +723,7 @@
  */
 @mixin s-typography-quote-classes-bare() {
 	/**
-	 * @name 		Default quote
+	 * @name 		Default quote ```.blockquote```
 	 * Display a quote styled text
 	 * @styleguide 	Typography / Quote
 	 * @example 	html
@@ -776,11 +748,7 @@
 	quote,
 	blockquote {
 		@include s-vertical-rhythme() {
-			// margin-top:.5em;
-			margin-bottom:1em;
-			// &:first-child {
-			// 	margin-top:0;
-			// }
+			margin-bottom:s-space(default);
 			&:last-child {
 				margin-bottom:0;
 			}

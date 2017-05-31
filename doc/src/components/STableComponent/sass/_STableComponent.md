@@ -1,21 +1,44 @@
-# <span class="c-#{$color}">#{_start-case($color)}</span> #{s-component()}
+# STableComponent Classes
 
-Display #{$color} table contents
+This file provide the mixins to generate table classes
 
-### Example
-```html
-	<table class="#{s-component()} #{s-component()}--#{$color}">
-	<tr>
- 	<th>#</th>
- 	<th>Table head 1</th>
- 	<th>Table head 2</th>
- 	<th>Table head 3</th>
-	</tr>
-	<tr>
- 	<td>1</td>
- 	<td>Table cell 1</td>
- 	<td>Table cell 2</td>
- 	<td>Table cell 3</td>
-	</tr>
-</table>
-```
+
+## Mixins
+
+
+### s-table-classes
+
+
+
+
+Name  |  Type  |  Description  |  Status  |  Default
+------------  |  ------------  |  ------------  |  ------------  |  ------------
+$colors  |  **{ [Color](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#colors) }**  |    |  optional  |  default primary secondary
+$modifiers  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  Specify the modifiers to generate  |  optional  |  striped bordered hover responsive responsive-overflow interactive middle center
+
+Author : Olivier Bossel <olivier.bossel@gmail.com>
+
+
+### s-table-classes-style
+
+
+
+
+Name  |  Type  |  Description  |  Status  |  Default
+------------  |  ------------  |  ------------  |  ------------  |  ------------
+$colors  |  **{ [Color](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#colors) }**  |    |  optional  |  default primary secondary
+$modifiers  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  Specify the modifiers to generate  |  optional  |  striped bordered hover responsive responsive-overflow interactive middle center
+
+Author : Olivier Bossel <olivier.bossel@gmail.com>
+
+
+### s-table-classes-bare
+
+
+
+
+Name  |  Type  |  Description  |  Status  |  Default
+------------  |  ------------  |  ------------  |  ------------  |  ------------
+$modifiers  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  Specify the modifiers to generate  |  optional  |  striped bordered hover responsive responsive-overflow interactive middle center
+
+Author : Olivier Bossel <olivier.bossel@gmail.com>

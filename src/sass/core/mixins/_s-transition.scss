@@ -36,7 +36,7 @@
 	$trans : s-transition($transitions...);
 
 	// add the outline-color transition to detect the transitionstart in js
-	$trans : append($trans, outline-color 0.000001s linear 0s, comma);
+	$trans : append(unquote("#{$trans}"), outline-color 0.000001s linear 0s, comma);
 
 	// set transition
 	transition: $trans;

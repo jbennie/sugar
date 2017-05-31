@@ -24,6 +24,10 @@ var _camelize = require('../utils/string/camelize');
 
 var _camelize2 = _interopRequireDefault(_camelize);
 
+var _uncamelize = require('../utils/string/uncamelize');
+
+var _uncamelize2 = _interopRequireDefault(_uncamelize);
+
 var _upperFirst = require('../utils/string/upperFirst');
 
 var _upperFirst2 = _interopRequireDefault(_upperFirst);
@@ -66,7 +70,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 require('es6-object-assign').polyfill();
 
-require('proxy-polyfill');
+// require('proxy-polyfill/proxy.min');
 
 require('../features/inputAdditionalAttributes');
 require('../features/inputAdditionalEvents');
@@ -347,7 +351,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				var _this2 = this;
 
 				var deps = [];
-				var comp = Object.getPrototypeOf(window.sugar._webComponentsClasses[this.componentName]);
+				var comp = window.sugar._webComponentsClasses[this.componentName];
 				while (comp) {
 					if (comp.mountDependencies) {
 						comp.mountDependencies.forEach(function (dep) {
@@ -360,9 +364,8 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				}
 
 				// props mount dependencies
-				var propsDeps = [].concat(this.props.mountDependencies);
+				deps = deps.concat(this.props.mountDependencies);
 				var finalDeps = [];
-				finalDeps = finalDeps.concat(this.props.mountDependencies);
 				deps.forEach(function (dep) {
 					if (typeof dep === 'function') {
 						dep = dep.bind(_this2);
@@ -475,6 +478,13 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			}
 
 			/**
+    * Internal store for all the props of the component
+    * Props are actual computed props with attributes
+    * @type 		{Object}
+    */
+
+
+			/**
     * Store all the props of the component
     * Props are actual computed props with attributes
     * @type 		{Object}
@@ -560,7 +570,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 
 			_classCallCheck(this, _class2);
 
-			return _ret = ((_ = (_temp = (_this = _possibleConstructorReturn(this, (_class2.__proto__ || Object.getPrototypeOf(_class2)).call(this, _)), _this), _this._props = {}, _temp)).init(), _), _possibleConstructorReturn(_this, _ret);
+			return _ret = ((_ = (_temp = (_this = _possibleConstructorReturn(this, (_class2.__proto__ || Object.getPrototypeOf(_class2)).call(this, _)), _this), _this._props = {}, _this.props = {}, _temp)).init(), _), _possibleConstructorReturn(_this, _ret);
 		}
 
 		_createClass(_class2, [{
@@ -608,14 +618,18 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				this._props = Object.assign({}, this.defaultProps, this.props);
 
 				// init properties proxy object
-				this.props = new Proxy(this._props, {
-					set: function set(target, property, value) {
-						_this3.setProp(property, value);
-					},
-					get: function get(target, property) {
-						return target[property];
-					}
-				});
+				if (window.Proxy) {
+					this.props = new Proxy(this._props, {
+						set: function set(target, property, value) {
+							_this3.setProp(property, value);
+						},
+						get: function get(target, property) {
+							return target[property];
+						}
+					});
+				} else {
+					this.props = this._props;
+				}
 
 				// created callback
 				this.componentCreated();
@@ -1130,9 +1144,10 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			key: 'dispatchComponentEvent',
 			value: function dispatchComponentEvent(name) {
 				var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+				var fromElm = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this;
 
-				(0, _dispatchEvent2.default)(this, name, data);
-				(0, _dispatchEvent2.default)(this, this.tagName.toLowerCase() + '.' + name, data);
+				(0, _dispatchEvent2.default)(fromElm, name, data);
+				(0, _dispatchEvent2.default)(fromElm, this.tagName.toLowerCase() + '.' + name, data);
 			}
 
 			/**
@@ -1168,7 +1183,10 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				// stop if same value
 				if (oldVal === value) return;
 
-				// set the prop
+				// set the prop (duplicate and assign again the whole object to avoid issues with Proxy polyfill)
+				// const newProps = Object.assign({}, this._props);
+				// newProps[prop] = value;
+				// this._props = newProps;
 				this._props[prop] = value;
 
 				// handle new value
@@ -1353,13 +1371,13 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				if (physicalProps.indexOf(prop) !== -1) {
 					// set the prop on the node
 					if (value !== 0 && (value === false || value === 'null' || !value)) {
-						this.removeAttribute(prop);
+						this.removeAttribute((0, _uncamelize2.default)(prop));
 					} else if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object') {
-						this.setAttribute(prop, JSON.stringify(value));
+						this.setAttribute((0, _uncamelize2.default)(prop), JSON.stringify(value));
 					} else if (typeof value === 'function') {
-						this.setAttribute(prop, 'fn');
+						this.setAttribute((0, _uncamelize2.default)(prop), 'fn');
 					} else {
-						this.setAttribute(prop, value);
+						this.setAttribute((0, _uncamelize2.default)(prop), value);
 					}
 				}
 			}

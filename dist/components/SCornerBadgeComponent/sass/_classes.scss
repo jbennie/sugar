@@ -50,7 +50,7 @@
 
 		@if (index($corners, tl)) {
 			/**
-			 * @name 	#{_start-case(s-component())} top left
+			 * @name 	```.#{s-component()}--tl```
 			 * @styleguide 	Objects / #{_start-case(s-component())}
 			 * @example 	html
 			 * <div class="#{s-component()} #{s-component()}--tl">
@@ -63,7 +63,7 @@
 		}
 		@if (index($corners, tr)) {
 			/**
-			 * @name 	#{_start-case(s-component())} top right
+			 * @name 	```.#{s-component()}--tr```
 			 * @styleguide 	Objects / #{_start-case(s-component())}
 			 * @example 	html
 			 * <div class="#{s-component()} #{s-component()}--tr">
@@ -76,7 +76,7 @@
 		}
 		@if (index($corners, bl)) {
 			/**
-			 * @name 	#{_start-case(s-component())} bottom left
+			 * @name 	```.#{s-component()}--bl```
 			 * @styleguide 	Objects / #{_start-case(s-component())}
 			 * @example 	html
 			 * <div class="#{s-component()} #{s-component()}--bl">
@@ -89,7 +89,7 @@
 		}
 		@if (index($corners, br)) {
 			/**
-			 * @name 	#{_start-case(s-component())} bottom right
+			 * @name 	```.#{s-component()}--br```
 			 * @styleguide 	Objects / #{_start-case(s-component())}
 			 * @example 	html
 			 * <div class="#{s-component()} #{s-component()}--br">
@@ -120,7 +120,7 @@
 	@include s-component('corner-badge') {
 		@each $color in $colors {
 			/**
-			 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> #{_start-case(s-component())}
+			 * @name 	<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}--#{$color}```
 			 * @styleguide 	Objects / #{_start-case(s-component())}
 			 * @example 	html
 			 * <div class="#{s-component()} #{s-component()}--tl #{s-component()}--#{$color}">

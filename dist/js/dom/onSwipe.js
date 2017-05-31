@@ -7,6 +7,26 @@ Object.defineProperty(exports, "__esModule", {
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 exports.default = onSwipe;
+/**
+ * @name 	onSwipe
+ * Detect swipes gestures on touch devices.
+ *
+ * @example 	js
+ * import onSwipe from 'coffeekraken-sugar/js/dom/onSwipe'
+ * onSwipe(myCoolElm, (swipe) => {
+ * 	// check the swipe direction
+ * 	if (swipe.left) {
+ * 		// do something...
+ * 	}
+ * 	// support : left, right, up, down
+ * 	// etc...
+ * }, {
+ * 	threshold : 50
+ * });
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @see 		https://gist.github.com/SleepWalker/da5636b1abcbaff48c4d 	Based on
+ */
 function onSwipe(elm, cb) {
 	var settings = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
@@ -41,10 +61,10 @@ function onSwipe(elm, cb) {
 			swipeNfo.right = true;
 		}
 		if (touchendY + settings.threshold < touchstartY) {
-			swipeNfo.down = true;
+			swipeNfo.up = true;
 		}
 		if (touchendY - settings.threshold > touchstartY) {
-			swipeNfo.up = true;
+			swipeNfo.down = true;
 		}
 		if (swipeNfo.left || swipeNfo.right || swipeNfo.down || swipeNfo.up) {
 			cb(swipeNfo);

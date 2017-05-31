@@ -3,6 +3,7 @@
  *
  * @param 				{String} 			$path 						The setting path wanted separated by dots
  * @param 				{String} 			[$context=s-context()] 		The context name to get the setting
+ * @param 				{Mixed} 			[$default=null] 			The value to return if no value is found
  * @return 				{Mixed} 										The setting value¨
  *
  * @example
@@ -14,7 +15,8 @@
 $_sugar-settings-cache : ();
 @function s-setting(
 	$path,
-	$context : $_sugar-current-context
+	$context : $_sugar-current-context,
+	$default : null
 ) {
 	$base_path : $path;
 	@if $context == default {
@@ -36,7 +38,7 @@ $_sugar-settings-cache : ();
 
 	@if not $value and $context {
 		// try to get the value from the base component
-		$value : s-setting($base_path, default);
+		$value : s-setting($base_path, default, $default);
 	}
 
 	@if type-of($value) == number and not unitless($value) {
@@ -47,6 +49,11 @@ $_sugar-settings-cache : ();
 
 	// save the value in cache
 	$_sugar-settings-cache : map-set($_sugar-settings-cache, $path, $value) !global;
+
+	// if no value
+	@if not $value {
+		@return $default;
+	}
 
 	// return the value
 	@return $value;

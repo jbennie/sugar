@@ -112,7 +112,7 @@
 
 				@if index($sides, c) {
 					/**
-					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> centered #{s-component()}
+					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}--c.#{s-component()}--#{$color}```
 					 * Display a #{$color} centered #{s-component()}
 					 * @styleguide 		Objects / #{_start-case(s-component())}
 					 * @example 	html
@@ -138,7 +138,7 @@
 
 				@if index($sides, t) {
 					/**
-					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> top #{s-component()}
+					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}--t.#{s-component()}--#{$color}```
 					 * Display a #{$color} top centered #{s-component()}
 					 * @styleguide 		Objects / #{_start-case(s-component())}
 					 * @example 	html
@@ -172,7 +172,7 @@
 				}
 				@if index($sides, tl) {
 					/**
-					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> top left #{s-component()}
+					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}--tl.#{s-component()}--#{$color}```
 					 * Display a #{$color} top left #{s-component()}
 					 * @styleguide 		Objects / #{_start-case(s-component())}
 					 * @example 	html
@@ -205,7 +205,7 @@
 				}
 				@if index($sides, tr) {
 					/**
-					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> top right #{s-component()}
+					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}--tr.#{s-component()}--#{$color}```
 					 * Display a #{$color} top right #{s-component()}
 					 * @styleguide 		Objects / #{_start-case(s-component())}
 					 * @example 	html
@@ -239,7 +239,7 @@
 
 				@if index($sides, l) {
 					/**
-					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> left #{s-component()}
+					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}--l.#{s-component()}--#{$color}```
 					 * Display a #{$color} left #{s-component()}
 					 * @styleguide 		Objects / #{_start-case(s-component())}
 					 * @example 	html
@@ -273,7 +273,7 @@
 				}
 				@if index($sides, r) {
 					/**
-					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> right #{s-component()}
+					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}--r.#{s-component()}--#{$color}```
 					 * Display a #{$color} right #{s-component()}
 					 * @styleguide 		Objects / #{_start-case(s-component())}
 					 * @example 	html
@@ -307,7 +307,7 @@
 				}
 				@if index($sides, bl) {
 					/**
-					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> bottom left #{s-component()}
+					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}--bl.#{s-component()}--#{$color}```
 					 * Display a #{$color} bottom left #{s-component()}
 					 * @styleguide 		Objects / #{_start-case(s-component())}
 					 * @example 	html
@@ -340,7 +340,7 @@
 				}
 				@if index($sides, b) {
 					/**
-					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> bottom #{s-component()}
+					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}--b.#{s-component()}--#{$color}```
 					 * Display a #{$color} bottom #{s-component()}
 					 * @styleguide 		Objects / #{_start-case(s-component())}
 					 * @example 	html
@@ -374,7 +374,7 @@
 				}
 				@if index($sides, br) {
 					/**
-					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> bottom right #{s-component()}
+					 * @name 		<span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}--br.#{s-component()}--#{$color}```
 					 * Display a #{$color} bottom right #{s-component()}
 					 * @styleguide 		Objects / #{_start-case(s-component())}
 					 * @example 	html
