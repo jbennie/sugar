@@ -1,4 +1,4 @@
-# <span class="c-#{$color}">#{_start-case($color)}</span> centered #{s-component()}
+# <span class="c-#{$color}">#{_start-case($color)}</span> ```.#{s-component()}--c.#{s-component()}--#{$color}```
 
 Display a #{$color} centered #{s-component()}
 

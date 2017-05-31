@@ -101,7 +101,7 @@ The primary goal of this toolkit is to cover these needs:
 <a id="readme-install"></a>
 ## Install
 
-```npm install git+ssh://git@github.com:Coffeekraken/sugar.git#release/0.0.1 --save```
+```npm install coffeekraken-sugar --save```
 
 Release the kraken !!! 🦑
 

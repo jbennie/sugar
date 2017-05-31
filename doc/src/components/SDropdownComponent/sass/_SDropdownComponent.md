@@ -1,4 +1,4 @@
-# #{_start-case(s-component())}
+# ```.#{s-component()}```
 
 Provide a nice dropdown component
 

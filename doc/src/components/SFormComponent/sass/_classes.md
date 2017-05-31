@@ -1,4 +1,4 @@
-# Basic input
+# ```.#{s-component()}-input```
 
 ### Example
 ```html

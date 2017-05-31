@@ -1,4 +1,4 @@
-# #{_start-case(s-component())} justify
+# ```.#{s-component()}--justify```
 
 Provide a simple justify navigation component
 
