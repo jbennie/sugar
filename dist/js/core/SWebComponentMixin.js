@@ -633,8 +633,6 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 
 				// created callback
 				this.componentCreated();
-
-				// if ( ! document.body.contains(this)) return;
 			}
 
 			/**
@@ -719,7 +717,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				attribute = (0, _camelize2.default)(attribute);
 
 				// if the property is not a real property
-				if (!this.shouldAcceptComponentProp(attribute)) return;
+				if (!this.shouldComponentAcceptProp(attribute)) return;
 
 				// cast the new val
 				newVal = (0, _autoCast2.default)(newVal);
@@ -828,6 +826,8 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				this._lifecycle.componentMount = true;
 				// dispatch event
 				this.onComponentMount && this.onComponentMount();
+				// mark the component as mounted
+				this.setAttribute('mounted', true);
 			}
 
 			/**
@@ -1302,8 +1302,8 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
     */
 
 		}, {
-			key: 'shouldAcceptComponentProp',
-			value: function shouldAcceptComponentProp(prop) {
+			key: 'shouldComponentAcceptProp',
+			value: function shouldComponentAcceptProp(prop) {
 				return this.props[prop] !== undefined;
 			}
 
@@ -1393,7 +1393,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 					var attr = this.attributes[i];
 					var attrCamelName = (0, _camelize2.default)(attr.name);
 					// do not set if it's not an existing prop
-					if (!this.shouldAcceptComponentProp(attrCamelName)) continue;
+					if (!this.shouldComponentAcceptProp(attrCamelName)) continue;
 					// the attribute has no value but it is present
 					// so we assume the prop value is true
 					if (!attr.value) {

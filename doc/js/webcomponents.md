@@ -13,15 +13,17 @@ Sugar provide a nice stack for webcomponent development. This stack is basically
 	- componentWillMount
 	- componentMount
 	- componentDidMount
+	- shouldComponentAcceptProp
 	- componentWillReceiveProp
 	- componentWillReceiveProps
 	- componentWillUpdate
+	- shouldComponentUpdate
 	- render
 	- componentDidUpdate
 	- componentWillUnmount
 	- componentUnmount
 	- componentDidUnmount
-- **Mount dependencies** : This will allows you to set some promises that havwe to be resolved before mounting the component
+- **Mount dependencies** : This will allows you to set some promises that have to be resolved before mounting the component
 
 ## Table of content
 
@@ -155,16 +157,18 @@ Each component expose his "state" through the ```this.props``` object. These pro
 #### Set a prop :
 
 1. **```<my-component {propName}="{propValue}"></my-component>```**
-1. **```this.props.{propName} = {propValue}```**
 2. **```this.setProp(prop, value)```**
 3. **```this.setProps(propsObj)```**
-4. **```this.{propName} = {propValue}```** : The props are exposed directly in the component instance. This is mostly for frameworks like react etc... Try to not use this as your main property setting method...
+4. **```this.props.{propName} = {propValue}```** : This use the Proxy capabilities of modern browsers. Try to use instead the ```this.setProp``` function to avoid issues with older browsers like IE11...
+5. **```this.{propName} = {propValue}```** : The props are exposed directly in the component instance. This is mostly for frameworks like react etc... Do not use this as your main property setting method...
 
 #### Get a prop :
 
 1. **```const myProp = this.props.{propName}```**
 2. **```const myProp = this.getProp({propName})```**
 3. **```const myProp = this.{propName}```** : The props are exposed directly in the component instance. This is mostly for frameworks like react etc... Try to not use this as your main property getting method...
+
+> Avoid using names of properties that already exists on the HTMLElement object. If you do so, you can have some unexpected issues...
 
 <a name="render-method"></a>
 ## The ```render``` method
