@@ -527,9 +527,6 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 
 		// created callback
 		this.componentCreated();
-
-		// if ( ! document.body.contains(this)) return;
-
 	}
 
 	/**
@@ -603,7 +600,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		attribute = __camelize(attribute);
 
 		// if the property is not a real property
-		if ( ! this.shouldAcceptComponentProp(attribute)) return;
+		if ( ! this.shouldComponentAcceptProp(attribute)) return;
 
 		// cast the new val
 		newVal = __autoCast(newVal);
@@ -708,6 +705,8 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		this._lifecycle.componentMount = true;
 		// dispatch event
 		this.onComponentMount && this.onComponentMount();
+		// mark the component as mounted
+		this.setAttribute('mounted', true);
 	}
 
 	/**
@@ -1111,7 +1110,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * @param 		{String} 			prop 		The property name
 	 * @return 		{Boolean} 						If true, the property will be accepted, if false, it will not be considered as a property
 	 */
-	shouldAcceptComponentProp(prop) {
+	shouldComponentAcceptProp(prop) {
 		return this.props[prop] !== undefined;
 	}
 
@@ -1186,7 +1185,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 			const attr = this.attributes[i];
 			const attrCamelName = __camelize(attr.name);
 			// do not set if it's not an existing prop
-			if ( ! this.shouldAcceptComponentProp(attrCamelName)) continue;
+			if ( ! this.shouldComponentAcceptProp(attrCamelName)) continue;
 			// the attribute has no value but it is present
 			// so we assume the prop value is true
 			if ( ! attr.value) {

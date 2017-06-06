@@ -498,7 +498,7 @@ oldVal  |  **{ Mixed }**  |  The old property value  |  required  |
 Author : Olivier Bossel <olivier.bossel@gmail.com>
 
 
-### shouldAcceptComponentProp
+### shouldComponentAcceptProp
 
 Method that check if a property passed to the component has to be accepted or not.
 
