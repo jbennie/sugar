@@ -164,6 +164,7 @@ var SWatcher = function () {
 				},
 				configurable: descriptor && descriptor.configurable !== undefined ? descriptor.configurable : currentDescriptor && currentDescriptor.configurable !== undefined ? currentDescriptor.configurable : false,
 				enumarable: descriptor && descriptor.enumarable !== undefined ? descriptor.enumarable : currentDescriptor && currentDescriptor.enumarable !== undefined ? currentDescriptor.enumarable : true
+				// writable : currentDescriptor && currentDescriptor.writable !== undefined ? currentDescriptor.writable : true
 			});
 		}
 
