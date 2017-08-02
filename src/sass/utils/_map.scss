@@ -95,9 +95,15 @@
 			@each $key, $value in $current {
 
 				// If value is a nested map and same key from map is a nested map as well
-				@if type-of($value) == "map" and type-of(map-get($map, $key)) == "map" {
+				// @if type-of($value) == "map" and type-of(map-get($map, $key)) == "map" {
+				// 	// Recursive extend
+				// 	$value: map-extend(map-get($map, $key), $value, true);
+				// }
+				@if (type-of($value) == "map" and type-of(map-get($map, $key)) == "map") {
 					// Recursive extend
 					$value: map-extend(map-get($map, $key), $value, true);
+				} @else if type-of($value) == 'list' and length($value) <= 0 {
+					$value : map-get($map, $key);
 				}
 
 				// Merge current tuple with map
