@@ -1,7 +1,7 @@
 {
   "name": "coffeekraken-sugar",
   "description": "A little sugar in your codebase",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "http://coffekraken.io",
   "main": "index.js",
   "scripts": {
@@ -22,7 +22,8 @@
     "doc": "rm -rf doc/src && npm run doc.scss && npm run doc.js",
     "doc.scss": "coffeekraken-docblock-to-markdown -f 'src/**/*.scss' -d doc",
     "doc.js": "coffeekraken-docblock-to-markdown -f 'src/**/*.js' -d doc",
-    "test": "coffeekraken-testing-stack"
+    "test": "coffeekraken-testing-stack",
+    "changelog": "git-changelog --version_name $npm_package_version  --app_name $npm_package_name --intro \"$npm_package_description\" --logo \".resources/coffeekraken-logo.jpg\""
   },
   "repository": {
     "type": "git",
@@ -66,6 +67,7 @@
     "coffeekraken-testing-stack": "0.0.2",
     "concurrently": "^3.1.0",
     "copyfiles": "^1.0.0",
+    "git-changelog": "^1.1.2",
     "http-server": "^0.9.0",
     "node-sass": "^3.4.2",
     "nodemon": "^1.11.0",
