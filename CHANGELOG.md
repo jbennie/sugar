@@ -4,19 +4,21 @@
 
 _A little sugar in your codebase_
 
-## 1.0.1  ( Wed Aug 02 2017 16:46:12 GMT+0200 (CEST) )
+## 1.0.2  ( Wed Sep 27 2017 17:30:24 GMT+0200 (CEST) )
 
 
 ## Bug Fixes
-  - avoid issue when using s-setup with empty map
-  ([cfa8b9a6](https://github.com/Coffeekraken/sugar/commit/cfa8b9a6b59984e87149e8ac46564bdb8c21e849))
+  - Fix the attributesObservable function
+  ([354a675c](https://github.com/Coffeekraken/sugar/commit/354a675c18fc3430f25cbd72628d5da30cd1ba35))
+  - fix the attributesObservable function
+  ([7568b58f](https://github.com/Coffeekraken/sugar/commit/7568b58fddb07c3aeb8a645f4cb0b9d626e30e47))
 
 
 
 
-## Style
-  - Do not apply the “title” color by default when using the “s-typography-title-style” mixin
-  ([8e886179](https://github.com/Coffeekraken/sugar/commit/8e8861792a97ac8ae3e2afd11a14b5773e854ff8))
+## Features
+  - Add intersectionobserver capability when possible for the whenOutOfViewport and whenInViewport functions
+  ([5667053b](https://github.com/Coffeekraken/sugar/commit/5667053bc46f10299f7a5bc483a37d245d6e93eb))
 
 
 
