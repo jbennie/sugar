@@ -27,9 +27,9 @@ export default function(target, settings = {}) {
 			// loop on mutations
 			mutations.forEach((mutation) => {
 				// push mutation
-				if ( ! mutedAttrs[mutation.attributeName]) {
+				if ( ! mutedAttrs[mutation.attribute]) {
 					observer.next(mutation);
-					mutedAttrs[mutation.attributeName] = true;
+					mutedAttrs[mutation.attribute] = true;
 				}
 			});
 			mutedAttrs = {};
