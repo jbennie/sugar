@@ -120,7 +120,7 @@
 	}
 
 	@if $height {
-		$return : map-set($return, line-height, s-rem($height));
+		$return : map-set($return, line-height, $height);
 	}
 
 	// font-style
