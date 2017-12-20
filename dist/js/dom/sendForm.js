@@ -15,6 +15,19 @@ var _formSerialize2 = _interopRequireDefault(_formSerialize);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Send a form through an ajax call and return back a promise resolved with the server response
+ *
+ * @example 	js
+ * import __sendForm from 'coffeekraken-sugar/js/dom/sendForm'
+ * const myCoolForm = document.querySelector('.my-cool-form')
+ * __sentForm(myCoolForm).then((response) => {
+ * 	// do something with the response
+ * })
+ *
+ * @param 		{HTMLFormElement} 		form 		The form to send
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 function sendForm(form) {
 
 	// protect
