@@ -97,7 +97,7 @@ $media-keywords : (
 		$system : s-test-argument('s-media','system','string|list-string',$system);
 	}
 
-	$media : ();
+	$media : ('all');
 	@if $screen {
 		$media : append($media, $screen);
 	}
@@ -122,7 +122,7 @@ $media-keywords : (
 		$res : ();
 		@each $r in $resolution {
 			$r : _replace($r, 'x');
-			$r : _sc-to-number($r);
+			$r : to-number($r);
 			// check that the $r is now a proper integer
 			@if s-is($r, integer) {
 				$res : append($res, '(-webkit-min-device-pixel-ratio: #{$r}), (min-resolution: #{160 * $r}dpi)');
@@ -147,7 +147,7 @@ $media-keywords : (
 		$engines : (blink,gecko,trident,webkit,presto);
 		@each $e in $engine {
 			@if index($engines,$e) {
-				$refine : append($refine, map-get($media-keywords,$e));
+				$refine : append($refine, map-get($media-keywords,$e), comma);
 			}
 		}
 	}
@@ -158,7 +158,7 @@ $media-keywords : (
 		}
 		@each $b in $browser {
 			@if index($browsers,$b) {
-				$refine : append($refine, map-get($media-keywords,$b));
+				$refine : append($refine, map-get($media-keywords,$b), comma);
 			}
 		}
 	}
@@ -166,7 +166,7 @@ $media-keywords : (
 		$devices : (mobile,tablet,desktop,iphone,ipad);
 		@each $d in $device {
 			@if index($devices,$d) {
-				$refine : append($refine, map-get($media-keywords,$d));
+				$refine : append($refine, map-get($media-keywords,$d), comma);
 			}
 		}
 	}
@@ -174,24 +174,22 @@ $media-keywords : (
 		$systems : (ios,android,blackberry,windows,osx,linux,webos);
 		@each $s in $system {
 			@if index($systems,$s) {
-				$refine : append($refine, map-get($media-keywords,$s));
+				$refine : append($refine, map-get($media-keywords,$s), comma);
 			}
 		}
 	}
 
-	@media #{$med} {
-		@if length($refine) >= 1 {
+	@each $ref in $refine {
+		@media #{$med} {
 			@if $this != '' {
-				#{unquote(_join($refine,''))} & {
+				#{$ref} & {
 					@content;
 				}
 			} @else {
-				#{unquote(_join($refine,''))} {
+				#{$ref} {
 					@content;
 				}
 			}
-		} @else {
-			@content;
 		}
 	}
 }
