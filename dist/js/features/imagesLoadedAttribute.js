@@ -9,6 +9,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 document.addEventListener('DOMContentLoaded', function () {
 	document.body.addEventListener('load', function (e) {
 		if (!e.target.tagName) return;
+		if (e.target.tagName.toLowerCase() !== 'img') return;
 		if (e.target.hasAttribute('loaded')) return;
 		e.target.setAttribute('loaded', true);
 	}, true);
