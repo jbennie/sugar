@@ -4,9 +4,15 @@ var _fastdom = require('fastdom');
 
 var _fastdom2 = _interopRequireDefault(_fastdom);
 
+var _querySelectorLive = require('coffeekraken-sugar/js/dom/querySelectorLive');
+
+var _querySelectorLive2 = _interopRequireDefault(_querySelectorLive);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function handleInputAttributes(eOrElm) {
+	var setDirty = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
 	var field = eOrElm.target ? eOrElm.target : eOrElm;
 	if (!field || !field.tagName) return;
 	switch (field.tagName) {
@@ -25,8 +31,10 @@ function handleInputAttributes(eOrElm) {
 						field.setAttribute('empty', true);
 					}
 				}
-				if (!field.hasAttribute('dirty')) {
-					field.setAttribute('dirty', true);
+				if (setDirty) {
+					if (!field.hasAttribute('dirty')) {
+						field.setAttribute('dirty', true);
+					}
 				}
 			});
 			break;
@@ -46,6 +54,10 @@ function handleFormSubmitOrReset(e) {
 		});
 	});
 }
+
+(0, _querySelectorLive2.default)('select, textarea, input:not([type="submit"])', function (elm) {
+	handleInputAttributes(elm, false);
+});
 
 document.addEventListener('change', handleInputAttributes);
 document.addEventListener('keyup', handleInputAttributes);

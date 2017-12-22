@@ -1,0 +1,123 @@
+/**
+ * @name 	SAnimationComponent Classes
+ * This file provide the mixins to generate animation classes
+ */
+
+/**
+ * Provide the classes for the anim="slide-in" animation
+ * - ```[anim="slide-in-up"]```
+ * - ```[anim="slide-in-right"]```
+ * - ```[anim="slide-in-bottom"]```
+ * - ```[anim="slide-in-left"]```
+ * @param 	{List} 		[$directions=up right down left]		Specify the directions to generate the classes for
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-anim-slide-in-classes(
+	$offset : s-rem(50px),
+	$directions : up right down left
+) {
+	@include s-anim-slide-in-bare($offset, $directions);
+	@include s-anim-slide-in-style();
+}
+
+
+/**
+ * Provide the bare styling for the anim="slide-in" classes
+ * - ```[anim="slide-in-up"]```
+ * - ```[anim="slide-in-right"]```
+ * - ```[anim="slide-in-bottom"]```
+ * - ```[anim="slide-in-left"]```
+ * @param 	{List} 		[$directions=up right down left]		Specify the directions to generate the classes for
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+*/
+@mixin s-anim-slide-in-bare(
+	$offset : s-rem(50px),
+	$directions : up right bottom left
+) {
+
+	$sels : ();
+	@if index($directions, up) {
+		$sels : append($sels, '[anim="slide-in-up"]', comma);
+	}
+	@if index($directions, right) {
+		$sels : append($sels, '[anim="slide-in-right"]', comma);
+	}
+	@if index($directions, down) {
+		$sels : append($sels, '[anim="slide-in-down"]', comma);
+	}
+	@if index($directions, left) {
+		$sels : append($sels, '[anim="slide-in-left"]', comma);
+	}
+
+	#{$sels} {
+		@include s-translate($offset * -1);
+		opacity:0.001; // avoid 0 cause it will not bein detected by js otherwise
+		@include s-transition(anim-slide-in);
+
+		@if index($directions, right) {
+			&[anim="slide-in-right"] {
+				@include s-translate($offset * -1);
+			}
+		}
+		@if index($directions, left) {
+			&[anim="slide-in-left"] {
+				@include s-translate($offset);
+			}
+		}
+		@if index($directions, up) {
+			&[anim="slide-in-up"] {
+				@include s-translate(0, $offset);
+			}
+		}
+		@if index($directions, down) {
+			&[anim="slide-in-down"] {
+				@include s-translate(0, $offset * -1);
+			}
+		}
+
+		&.anim-play {
+			@include s-translate(0,0);
+			opacity:1;
+		}
+
+		[anim-activator] & {
+			opacity:0;
+
+			@if index($directions, right) {
+				&[anim="slide-in-right"] {
+					@include s-translate($offset * -1);
+				}
+			}
+			@if index($directions, left) {
+				&[anim="slide-in-left"] {
+					@include s-translate($offset);
+				}
+			}
+			@if index($directions, up) {
+				&[anim="slide-in-up"] {
+					@include s-translate(0, $offset);
+				}
+			}
+			@if index($directions, down) {
+				&[anim="slide-in-down"] {
+					@include s-translate(0, $offset * -1);
+				}
+			}
+		}
+		[anim-activator].active &,
+		[anim-activator][active] & {
+			@include s-translate(0,0);
+			opacity:1 !important;
+		}
+
+	}
+}
+
+/**
+ * Provide the style styling for the anim="slide-in" classes
+ * - ```[anim="slide-in"]```
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-anim-slide-in-style() {
+
+}

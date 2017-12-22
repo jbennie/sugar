@@ -55,6 +55,7 @@
 
 			&:hover,
 			&.active,
+			&:active,
 			&.#{s-component()}--active {
 				z-index:1;
 
@@ -65,6 +66,7 @@
 
 			&:hover,
 			&.active,
+			&:active,
 			&.#{s-component()}--active {
 				.#{s-component()}__menu {
 					top: 100%;
@@ -112,6 +114,7 @@
 
 				&:hover,
 				&.active,
+				&:active,
 				&.#{s-component()}--active {
 					.#{s-component()}__menu {
 						top: auto;
@@ -158,6 +161,7 @@
 
 			&:hover,
 			&.active,
+			&:active,
 			&.#{s-component()}--active {
 				left:5px;
 			}

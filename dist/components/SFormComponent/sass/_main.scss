@@ -1,3 +1,8 @@
+/**
+ * @name 	SFormComponent
+ * This file provide the mixins and functions to create form elements
+ */
+
 // input
 %s-form-field-bare {
 	display: inline-block;
@@ -20,6 +25,10 @@
 	}
 }
 
+/**
+ * Set the styling for field sizes like padding, height, etc...
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-form-field-size() {
 	border-radius: s-lnf(border-radius);
 	padding : 0 s-lnf(padding-vertical);
@@ -28,6 +37,12 @@
 		padding : s-lnf(padding-horizontal) s-lnf(padding-vertical);
 	}
 }
+
+/**
+ * Set the styling for field color like borders
+ * @param 		{Color} 		$color 		The color wanted for the field
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-form-field-color($color) {
 	border-color: s-color($color, -opacity .1);
 
@@ -44,6 +59,11 @@
 	}
 }
 
+/**
+ * Apply the bare and style css for input field (text, email, etc...)
+ * @param 		{Color} 		[$color=default] 		The color wanted for the field
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-form-input(
 	$color : default
 ) {
@@ -51,12 +71,34 @@
 	@include s-form-input-style($color);
 }
 
+/**
+ * Apply the bare css for input field (text, email, etc...)
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-form-input-bare() {
 	@extend %s-form-field-bare;
 	@include s-font(s-setting('typography.font-family'));
 	@include s-form-field-size();
+
+	// disable anoying contact icon selection
+	// on safari
+	&::-webkit-contacts-auto-fill-button {
+		visibility: hidden;
+		display: none !important;
+		pointer-events: none;
+		position: absolute;
+		right: 0;
+	}
+	&::-ms-clear {
+		display: none;
+	}
 }
 
+/**
+ * Apply the style css for input field (text, email, etc...)
+ * @param 		{Color} 		[$color=default] 		The color wanted for the field
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-form-input-style(
 	$color : default
 ) {
@@ -74,21 +116,42 @@
 	}
 }
 
+/**
+ * Apply the bare and style css for textarea
+ * @param 		{Color} 		[$color=default] 		The color wanted for the textarea
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-form-textarea(
 	$color : default
 ) {
 	@include s-form-textarea-bare();
 	@include s-form-textarea-style($color);
 }
+
+/**
+ * Set the styling for textarea sizes like padding, etc...
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-form-textarea-field-size() {
 	padding : s-lnf(padding-horizontal) s-lnf(padding-vertical);
 	display: inline-block;
 }
+
+/**
+ * Apply the bare css for textarea
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-form-textarea-bare() {
 	@extend %s-form-field-bare;
 	@include s-font(s-setting('typography.font-family'));
 	@include s-form-textarea-field-size();
 }
+
+/**
+ * Apply the style css for textarea
+ * @param 		{Color} 		[$color=default] 		The color wanted for the textarea
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-form-textarea-style(
 	$color : default
 ) {
@@ -106,15 +169,30 @@
 	}
 }
 
+/**
+* Apply the bare and style css for select
+* @param 		{Color} 		[$color=default] 		The color wanted for the select
+* @author 		Olivier Bossel <olivier.bossel@gmail.com>
+*/
 @mixin s-form-select(
 	$color : default
 ) {
 	@include s-form-select-bare();
 	@include s-form-select-style($color);
 }
+
+/**
+ * Set the styling for select colors like background arrow, etc...
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-form-select-field-color($color) {
-	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill%3A#{str-replace("#{s-color($color)}","#","%23")}"></polygon></svg>');
+	background-image: url(s-base64-icon(arrow-down, $color));
 }
+
+/**
+* Apply the bare css for select
+* @author 		Olivier Bossel <olivier.bossel@gmail.com>
+*/
 @mixin s-form-select-bare() {
 	@extend %s-form-field-bare;
 	@include s-font(s-setting('typography.font-family'));
@@ -124,7 +202,16 @@
 	background-repeat: no-repeat;
 	background-color: white;
 	@include s-form-field-size();
+	&::-ms-expand {
+		display: none;
+	}
 }
+
+/**
+* Apply the style css for select
+* @param 		{Color} 		[$color=default] 		The color wanted for the select
+* @author 		Olivier Bossel <olivier.bossel@gmail.com>
+*/
 @mixin s-form-select-style(
 	$color : default
 ) {
@@ -143,10 +230,19 @@
 	}
 }
 
+/**
+* Apply the bare and style css for form group
+* @author 		Olivier Bossel <olivier.bossel@gmail.com>
+*/
 @mixin s-form-group() {
 	@include s-form-group-bare();
 	@include s-form-group-style();
 }
+
+/**
+* Apply the bare css for form group
+* @author 		Olivier Bossel <olivier.bossel@gmail.com>
+*/
 @mixin s-form-group-bare() {
 	@include s-component('form') {
 		// make form group flex
@@ -165,18 +261,34 @@
 		}
 	}
 }
+
+/**
+* Apply the style css for form group
+* @author 		Olivier Bossel <olivier.bossel@gmail.com>
+*/
 @mixin s-form-group-style() {
 
 }
 
-@mixin s-form-addon() {
+/**
+* Apply the bare and style css for form addon
+* @param 		{Color} 		[$color=default] 		The color wanted for the form addon
+* @author 		Olivier Bossel <olivier.bossel@gmail.com>
+*/
+@mixin s-form-addon(
+	$color : default
+) {
 	@include s-form-addon-bare();
-	@include s-form-addon-style();
+	@include s-form-addon-style($color);
 }
+
+/**
+* Apply the bare css for form group
+* @author 		Olivier Bossel <olivier.bossel@gmail.com>
+*/
 @mixin s-form-addon-bare() {
 	@include s-component('form') {
 		@extend %s-form-field-bare;
-		pointer-events: none;
 		// set input styling
 		@include s-form-field-size();
 
@@ -185,6 +297,12 @@
 		}
 	}
 }
+
+/**
+* Apply the bare and style css for form group
+* @param 		{Color} 		[$color=default] 		The color wanted for the select
+* @author 		Olivier Bossel <olivier.bossel@gmail.com>
+*/
 @mixin s-form-addon-style(
 	$color : default
 ) {

@@ -19,9 +19,9 @@
 	&:not(button):not(input) {
 		line-height:0.9;
 	}
-	> * {
-		vertical-align: middle;
-	}
+	// > * {
+	// 	vertical-align: middle;
+	// }
 }
 button {
 	line-height: 1;
