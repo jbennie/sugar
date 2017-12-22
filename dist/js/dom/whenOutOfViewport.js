@@ -62,7 +62,7 @@ function whenOutOfViewport(elm) {
 			}, {
 				root: null, // viewport
 				rootMargin: offset + 'px',
-				threshold: [0]
+				threshold: [0, .1, .2, .3, .4, .5, .6, .7, .8, .9, 1]
 			});
 
 			observer.observe(elm);

@@ -122,7 +122,6 @@ var SLocalStorageFonts = function () {
 				window.addEventListener('load', function (e) {
 					var request = new XMLHttpRequest(),
 					    response = undefined;
-					console.log(_this);
 					request.open('GET', _this._settings.json_path, true);
 					request.onload = function () {
 						if (request.status == 200) {

@@ -1,3 +1,22 @@
+/**
+ * @name 	SFormComponent Classes
+ * This file provide the mixins to generate form classes
+ */
+
+/**
+ * Provide all the classes of the form component like .form-input, .form-textarea, etc...
+ * - ```.form-input```
+ * - ```.form-input--{color}```
+ * - ```.form-textarea```
+ * - ```.form-textarea--{color}```
+ * - ```.form-select```
+ * - ```.form-select--{color}```
+ * - ```.form-group````
+ * - ```.form-addon```
+ * - ```.form-addon--{color}```
+ * @param 		{List<Color>} 		[$colors=default primary secondary] 		The colors to generate
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-form-classes(
 	$colors : default
 ) {
@@ -6,6 +25,16 @@
 		@include s-form-classes-style($colors);
 	}
 }
+
+/**
+ * Provide all the bare classes of the form component like .form-input, .form-textarea, etc...
+ * - ```.form-input```
+ * - ```.form-textarea```
+ * - ```.form-select```
+ * - ```.form-group````
+ * - ```.form-addon```
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-form-classes-bare() {
 	@include s-component('form') {
 		/**
@@ -68,6 +97,21 @@
 		}
 	};
 }
+
+/**
+ * Provide all the style classes of the form component like .form-input, .form-textarea, etc...
+ * - ```.form-input```
+ * - ```.form-input--{color}```
+ * - ```.form-textarea```
+ * - ```.form-textarea--{color}```
+ * - ```.form-select```
+ * - ```.form-select--{color}```
+ * - ```.form-group````
+ * - ```.form-addon```
+ * - ```.form-addon--{color}```
+ * @param 		{List<Color>} 		[$colors=default primary secondary] 		The colors to generate
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
 @mixin s-form-classes-style(
 	$colors : default
 ) {

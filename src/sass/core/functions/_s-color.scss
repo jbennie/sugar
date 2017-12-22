@@ -59,7 +59,7 @@
 	// test parameters
 	@if $_sugar-test-arguments {
 		$name : s-test-argument('s-color','name','color|string',$name);
-		$actions : s-test-argument('s-color','actions','map|string',$actions);
+		$actions : s-test-argument('s-color','actions','map|string|color',$actions);
 	}
 
 	// grab the colors
