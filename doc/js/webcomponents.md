@@ -250,8 +250,9 @@ MyCoolInputComponent.define('my-cool-input', MyCoolInputComponent, 'input');
 
 You can see two things here:
 
-1. The component extends the ```SInputWebComponent``` class
-2. The component is defined with a third parameter that represent the native DOM element to extend
+1. The component extends the ```HTMLInputElement``` class
+2. The ```HTMLInputElement``` is passed to the ```native``` function that abstract some dark instructions to allow the extend to work properly with native HTMLElement
+3. The component is defined with a third parameter that represent the native DOM element to extend
 
 You can now use your input component using the **is** notation like so:
 
