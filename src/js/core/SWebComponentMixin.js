@@ -138,13 +138,16 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	/**
 	 * Define the new web component
 	 * @param 			{String} 			name 		The name of the component
-	 * @param 			{SWebComponent} 	component 	The component class
-	 * @param 			{Object|String}		ext 		An object or string of base HTMLElement to extend
+	 * @param 			{Object|String} 	[componentClassOrExt=null] 	The component class or the HTML tag to extend like "input", "button", etc...
+	 * @param 			{Object|String}		ext 		The HTML tag to extend like "input", "button", etc...
 	 */
-	static define(name, component, ext = null) {
+	static define(name, componentOrExt = null, ext = null) {
 
+		const component = (componentOrExt && typeof componentOrExt !== 'string') ? componentOrExt : this;
 		const componentName = __upperFirst(__camelize(name));
 		const componentNameDash = name;
+
+		ext = (typeof componentOrExt === 'string') ? componentOrExt : ext;
 
 		if (window.sugar._webComponentsClasses[componentName]) return;
 		window.sugar._webComponentsClasses[componentName] = component;
@@ -174,8 +177,10 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		// fix for firefox and surely other crapy browser...
 		// this make sur that the (static) methods of the component
 		// are present on the webcomponent itself
-		Object.keys(component).forEach((key) => {
-			if ( ! webcomponent[key]) {
+		const staticFns = Object.getOwnPropertyNames(component).filter(prop => typeof component[prop] === "function");
+		const keys = staticFns.concat(Object.keys(component));
+		keys.forEach(function (key) {
+			if (!webcomponent[key]) {
 				webcomponent[key] = component[key];
 			}
 		});
