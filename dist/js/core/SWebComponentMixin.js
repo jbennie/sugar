@@ -388,15 +388,19 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			/**
     * Define the new web component
     * @param 			{String} 			name 		The name of the component
-    * @param 			{SWebComponent} 	component 	The component class
-    * @param 			{Object|String}		ext 		An object or string of base HTMLElement to extend
+    * @param 			{Object|String} 	[componentClassOrExt=null] 	The component class or the HTML tag to extend like "input", "button", etc...
+    * @param 			{Object|String}		ext 		The HTML tag to extend like "input", "button", etc...
     */
-			value: function define(name, component) {
+			value: function define(name) {
+				var componentOrExt = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 				var ext = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
 
+				var component = componentOrExt && typeof componentOrExt !== 'string' ? componentOrExt : this;
 				var componentName = (0, _upperFirst2.default)((0, _camelize2.default)(name));
 				var componentNameDash = name;
+
+				ext = typeof componentOrExt === 'string' ? componentOrExt : ext;
 
 				if (window.sugar._webComponentsClasses[componentName]) return;
 				window.sugar._webComponentsClasses[componentName] = component;
@@ -428,7 +432,11 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				// fix for firefox and surely other crapy browser...
 				// this make sur that the (static) methods of the component
 				// are present on the webcomponent itself
-				Object.keys(component).forEach(function (key) {
+				var staticFns = Object.getOwnPropertyNames(component).filter(function (prop) {
+					return typeof component[prop] === "function";
+				});
+				var keys = staticFns.concat(Object.keys(component));
+				keys.forEach(function (key) {
 					if (!webcomponent[key]) {
 						webcomponent[key] = component[key];
 					}
