@@ -179,15 +179,27 @@ $media-keywords : (
 		}
 	}
 
-	@each $ref in $refine {
+	@if length($refine) <= 0 {
 		@media #{$med} {
 			@if $this != '' {
-				#{$ref} & {
+				& {
 					@content;
 				}
 			} @else {
-				#{$ref} {
-					@content;
+				@content;
+			}
+		}
+	} @else {
+		@each $ref in $refine {
+			@media #{$med} {
+				@if $this != '' {
+					#{$ref} & {
+						@content;
+					}
+				} @else {
+					#{$ref} {
+						@content;
+					}
 				}
 			}
 		}
