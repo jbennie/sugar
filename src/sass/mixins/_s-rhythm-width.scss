@@ -3,15 +3,15 @@
  *
  * @example 	scss
  * h1 {
- * 	\@include s-rhythme-width(45);
+ * 	\@include s-rhythm-width(45);
  * }
  *
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-rhythme-width(
+@mixin s-rhythm-width(
 	$letters-count : s-setting('typography.line-letters-count')
 ) {
-	@each $prop, $value in s-rhythme-width($letters-count) {
+	@each $prop, $value in s-rhythm-width($letters-count) {
 		#{$prop} : $value;
 	}
 }

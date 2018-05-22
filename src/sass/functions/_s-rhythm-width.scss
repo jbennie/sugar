@@ -6,7 +6,7 @@
  * @return 			{Map} 																		The Map properties representation
  *
  * @example
- * s-rhythme-width(50);
+ * s-rhythm-width(50);
  * // return
  * // (
  * // 	display : block,
@@ -15,7 +15,7 @@
  *
  * @author 			Olivier Bossel <olivier.bossel@gmail.com>
  */
-@function s-rhythme-width(
+@function s-rhythm-width(
 	$letters-count : s-setting('typography.line-letters-count')
 ) {
 	@if unitless($letters-count) {
