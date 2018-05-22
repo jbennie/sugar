@@ -61,56 +61,46 @@
 	$calculate-height : false
 ) {
 
-	@if s-setting('vertical-rhythme.enabled') {
+	$sc : s-setting('vertical-rhythme.scope-class');
+	@if type-of($scope-class) == string or type-of($scope-class) == list {
+		$sc : $scope-class;
+	}
 
-		$sc : s-setting('vertical-rhythme.scope-class');
-		@if type-of($scope-class) == string or type-of($scope-class) == list {
-			$sc : $scope-class;
+	// check if we have some arguments
+	// mean that we want the vertical rhythme css properties
+	// otherwise we just need to wrap content in vertical-align scope
+	@if $font-size {
+
+		// get the rhythme
+		$rhythme-map : s-vertical-rhythme(
+			$font-size : $font-size,
+			$line-height : $line-height,
+			$margin : $margin,
+			$margin-top : $margin-top,
+			$margin-bottom : $margin-bottom,
+			$padding : $padding,
+			$padding-top : $padding-top,
+			$padding-bottom : $padding-bottom,
+			$border-top-width : $border-top-width,
+			$border-top : $border-top,
+			$border-bottom-width : $border-bottom-width,
+			$border-bottom : $border-bottom,
+			$cap-height : $cap-height,
+			$calculate-height : $calculate-height
+		);
+		// remove margin-top cause it's done by top and margin-bottom compensation
+		@if map-get($rhythme-map, top) {
+			$rhythme-map : map-remove($rhythme-map, margin-top);
 		}
 
-		// check if we have some arguments
-		// mean that we want the vertical rhythme css properties
-		// otherwise we just need to wrap content in vertical-align scope
-		@if $font-size {
-
-			// get the rhythme
-			$rhythme-map : s-vertical-rhythme(
-				$font-size : $font-size,
-				$line-height : $line-height,
-				$margin : $margin,
-				$margin-top : $margin-top,
-				$margin-bottom : $margin-bottom,
-				$padding : $padding,
-				$padding-top : $padding-top,
-				$padding-bottom : $padding-bottom,
-				$border-top-width : $border-top-width,
-				$border-top : $border-top,
-				$border-bottom-width : $border-bottom-width,
-				$border-bottom : $border-bottom,
-				$cap-height : $cap-height,
-				$calculate-height : $calculate-height
-			);
-			// remove margin-top cause it's done by top and margin-bottom compensation
-			@if map-get($rhythme-map, top) {
-				$rhythme-map : map-remove($rhythme-map, margin-top);
-			}
-
-			// set values
-			$rhythme-map : map-remove($rhythme-map, cap-height);
-			$rhythme-map : map-remove($rhythme-map, scope-class);
-			$rhythme-map : map-remove($rhythme-map, calculate-height);
-			@if $scope-class {
-				@each $cls in $sc {
-					&.#{$cls},
-					.#{$cls} & {
-						@each $prop, $value in $rhythme-map {
-							#{$prop} : $value;
-						}
-						@content;
-					}
-				}
-			} @else {
-				& {
+		// set values
+		$rhythme-map : map-remove($rhythme-map, cap-height);
+		$rhythme-map : map-remove($rhythme-map, scope-class);
+		$rhythme-map : map-remove($rhythme-map, calculate-height);
+		@if $scope-class {
+			@each $cls in $sc {
+				&.#{$cls},
+				.#{$cls} & {
 					@each $prop, $value in $rhythme-map {
 						#{$prop} : $value;
 					}
@@ -118,17 +108,24 @@
 				}
 			}
 		} @else {
-			@if $scope-class {
-				@each $cls in $sc {
-					&.#{$cls},
-					.#{$cls} & {
-						@content;
-					}
+			& {
+				@each $prop, $value in $rhythme-map {
+					#{$prop} : $value;
 				}
-			} @else {
-				& {
+				@content;
+			}
+		}
+	} @else {
+		@if $scope-class {
+			@each $cls in $sc {
+				&.#{$cls},
+				.#{$cls} & {
 					@content;
 				}
+			}
+		} @else {
+			& {
+				@content;
 			}
 		}
 	}
