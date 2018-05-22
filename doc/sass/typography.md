@@ -4,7 +4,6 @@ Sugar provide some nice way to work with typography like helper mixins to apply 
 
 ## Features
 
-- Default typography styles (only if needed)
 - Nice mixins to handle typography properties
 	- [s-font(quote italic bold underline)](../src/sass/core/mixins/_s-font.md) mixin to quickly apply text styles
 	- [s-vertical-rhythme()](../src/sass/core/mixins/_s-vertical-rhythme.md) mixin To handle vertical spaces
@@ -24,25 +23,6 @@ Typography in sugar is an important part. That's why this part has his own setti
 		line-letters-count			: 55,				// optimal letters count in a line
 	)
 ));
-```
-
-## Optional base styles
-
-You can quickly get base typography styles from the toolkit through the [STypographyComponent](../src/components/STypographyComponent/_index.md). These styles are totally optional but are a good start to cover the basics like:
-
-- Titles
-- Paragraphs
-- Lists
-- Captions
-- Quotes
-- Inline text elements (del, mark, ins, etc...)
-
-#### Get the styles
-
-Here's how to get these styles for free:
-
-```scss
-@include s-typography-classes();
 ```
 
 ## Applying font properties
