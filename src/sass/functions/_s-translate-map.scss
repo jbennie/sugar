@@ -7,7 +7,7 @@
  * @return 			{Map} 								The translate Map representation
  *
  * @example
- * s-translate(10px,20px);
+ * s-translate-map(10px,20px);
  * // return
  * // (
  * // 	transform: translateX(10px) translateY(20px) translateZ(0)
@@ -15,15 +15,15 @@
  *
  * @author 			Olivier Bossel <olivier.bossel@gmail.com>
  */
-@function s-translate(
+@function s-translate-map(
 	$x : 0,
 	$y : 0,
 	$z : 0
 ) {
 	@if $_sugar-test-arguments {
-		$x : s-test-argument('s-translate','x',number,$x);
-		$y : s-test-argument('s-translate','y',number,$y);
-		$z : s-test-argument('s-translate','z',number,$z);
+		$x : s-test-argument('s-translate-map','x',number,$x);
+		$y : s-test-argument('s-translate-map','y',number,$y);
+		$z : s-test-argument('s-translate-map','z',number,$z);
 	}
 
 	// build translate

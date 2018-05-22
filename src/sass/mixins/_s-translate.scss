@@ -17,7 +17,7 @@
 	$z : 0
 ) {
 	// get the translate props
-	$translate : s-translate(
+	$translate : s-translate-map(
 		$x : $x,
 		$y : $y,
 		$z : $z
