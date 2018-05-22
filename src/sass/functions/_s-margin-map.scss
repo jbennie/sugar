@@ -6,13 +6,13 @@
  * @return 			{Map} 										The map representation
  *
  * @example
- * s-margin(10px); // => ( top:10px, right:10px, bottom:10px, left:10px )
- * s-margin(10px 20px); // => ( top:10px, right:20px, bottom:10px, left:20px )
- * s-margin(5px 10px 15px 20px); // => ( top:5px, right:10px, bottom:15px, left:20px )
+ * s-margin-map(10px); // => ( top:10px, right:10px, bottom:10px, left:10px )
+ * s-margin-map(10px 20px); // => ( top:10px, right:20px, bottom:10px, left:20px )
+ * s-margin-map(5px 10px 15px 20px); // => ( top:5px, right:10px, bottom:15px, left:20px )
  *
  * @author 			Olivier Bossel <olivier.bossel@gmail.com>
  */
-@function s-margin(
+@function s-margin-map(
 	$margin
 ) {
 	@if type-of($margin) == number {

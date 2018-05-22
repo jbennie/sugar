@@ -88,10 +88,10 @@
 	@if $border-bottom-width {
 		$border-bottom : $border-bottom-width;
 	} @else if $border-bottom and type-of($border-bottom) != number {
-		$map : s-border($border-bottom);
+		$map : s-border-map($border-bottom);
 		$border-bottom : map-get-or($map, width, $border-bottom);
 	} @else if $border and type-of($border) != number {
-		$map : s-border($border);
+		$map : s-border-map($border);
 		$border-bottom : map-get-or($map, width, $border);
 	} @else if $border and type-of($border) == number {
 		$border-bottom : $border;
@@ -99,21 +99,21 @@
 	@if $border-top-width {
 		$border-top : $border-top-width;
 	} @else if $border-top and type-of($border-top) != number {
-		$map : s-border($border-top);
+		$map : s-border-map($border-top);
 		$border-top : map-get-or($map, width, $border-top);
 	} @else if $border and type-of($border) != number {
-		$map : s-border($border);
+		$map : s-border-map($border);
 		$border-top : map-get-or($map, width, $border);
 	} @else if $border and type-of($border) == number {
 		$border-top : $border;
 	}
 	@if $margin {
-		$map : s-margin($margin);
+		$map : s-margin-map($margin);
 		$margin-top : map-get-or($map, top, $margin-top);
 		$margin-bottom : map-get-or($map, bottom, $margin-bottom);
 	}
 	@if $padding {
-		$map : s-margin($padding);
+		$map : s-margin-map($padding);
 		$padding-top : map-get-or($map, top, $padding-top);
 		$padding-bottom : map-get-or($map, bottom, $padding-bottom);
 	}
