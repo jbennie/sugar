@@ -5,12 +5,12 @@
  *
  * @example
  * body {
- * 		@include s-show-vertical-rhythme();
+ * 		@include s-show-vertical-rhythm();
  * }
  *
  * @author 			Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-show-vertical-rhythme(
+@mixin s-show-vertical-rhythm(
 	$color : #0ff
 ) {
 	// overflow: hidden;

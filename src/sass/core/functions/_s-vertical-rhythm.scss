@@ -23,7 +23,7 @@
  * @see 			https://medium.com/written-in-code/aligning-type-to-baseline-the-right-way-using-sass-e258fce47a9b#.lck2lgbni
  * @author 			Olivier Bossel <olivier.bossel@gmail.com>
  */
-@function s-vertical-rhythme(
+@function s-vertical-rhythm(
 	$font-size : s-setting('typography.font-size'),
 	$font-family : s-setting('typography.font-family'),
 	$line-height : null,
@@ -42,22 +42,22 @@
 	$calculate-height : false
 ) {
 	@if $_sugar-test-arguments {
-		$font-size : s-test-argument('s-vertical-rhythme','font-size',number,$font-size);
-		$font-family : s-test-argument('s-vertical-rhythme','font-family',map-keys(s-setting('fonts')),$font-family);
-		$line-height : s-test-argument('s-vertical-rhythme','line-height',number,$line-height);
-		$margin-top : s-test-argument('s-vertical-rhythme','margin-top',number,$margin-top);
-		$margin-bottom : s-test-argument('s-vertical-rhythme','margin-bottom',number,$margin-bottom);
-		$padding-top : s-test-argument('s-vertical-rhythme','padding-top',number,$padding-top);
-		$padding-bottom : s-test-argument('s-vertical-rhythme','padding-bottom',number,$padding-bottom);
-		$margin : s-test-argument('s-vertical-rhythme','margin','number|list',$margin);
-		$padding : s-test-argument('s-vertical-rhythme','padding','number|list',$padding);
-		$border-bottom : s-test-argument('s-vertical-rhythme','border-bottom','number|list',$border-bottom);
-		$border-top : s-test-argument('s-vertical-rhythme','border-top','number|list',$border-top);
-		$border-bottom-width : s-test-argument('s-vertical-rhythme','border-bottom-width',number,$border-bottom-width);
-		$border-top-width : s-test-argument('s-vertical-rhythme','border-top-width',number,$border-top-width);
-		$border : s-test-argument('s-vertical-rhythme','border','number|list',$border);
-		$cap-height : s-test-argument('s-vertical-rhythme','cap-height',number,$cap-height);
-		$calculate-height : s-test-argument('s-vertical-rhythme','calculate-height',(true,false,min-height,max-height,height),$calculate-height);
+		$font-size : s-test-argument('s-vertical-rhythm','font-size',number,$font-size);
+		$font-family : s-test-argument('s-vertical-rhythm','font-family',map-keys(s-setting('fonts')),$font-family);
+		$line-height : s-test-argument('s-vertical-rhythm','line-height',number,$line-height);
+		$margin-top : s-test-argument('s-vertical-rhythm','margin-top',number,$margin-top);
+		$margin-bottom : s-test-argument('s-vertical-rhythm','margin-bottom',number,$margin-bottom);
+		$padding-top : s-test-argument('s-vertical-rhythm','padding-top',number,$padding-top);
+		$padding-bottom : s-test-argument('s-vertical-rhythm','padding-bottom',number,$padding-bottom);
+		$margin : s-test-argument('s-vertical-rhythm','margin','number|list',$margin);
+		$padding : s-test-argument('s-vertical-rhythm','padding','number|list',$padding);
+		$border-bottom : s-test-argument('s-vertical-rhythm','border-bottom','number|list',$border-bottom);
+		$border-top : s-test-argument('s-vertical-rhythm','border-top','number|list',$border-top);
+		$border-bottom-width : s-test-argument('s-vertical-rhythm','border-bottom-width',number,$border-bottom-width);
+		$border-top-width : s-test-argument('s-vertical-rhythm','border-top-width',number,$border-top-width);
+		$border : s-test-argument('s-vertical-rhythm','border','number|list',$border);
+		$cap-height : s-test-argument('s-vertical-rhythm','cap-height',number,$cap-height);
+		$calculate-height : s-test-argument('s-vertical-rhythm','calculate-height',(true,false,min-height,max-height,height),$calculate-height);
 	}
 
 	$root-font-size : s-setting('typography.font-size');
@@ -120,7 +120,7 @@
 
 	// protect
 	@if not $font-size {
-		@error("The function s-vertical-rhythme need a font-size...");
+		@error("The function s-vertical-rhythm need a font-size...");
 	}
 
 	// calculate number of line height needed

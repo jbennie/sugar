@@ -1,0 +1,8 @@
+/**
+ * Return the vertical-rhythm setting scope class
+ * @return 		{String} 		The vertical-rhythm scope class from settings.vertical-rhythm.scope-class
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@function s-vertical-rhythm-class() {
+	@return s-setting('vertical-rhythm.scope-class');
+}

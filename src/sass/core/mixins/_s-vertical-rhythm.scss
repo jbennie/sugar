@@ -1,5 +1,5 @@
 /**
- * @name 	s-vertical-rhythme
+ * @name 	s-vertical-rhythm
  * Print out the vertical rhythme properties map calculated depending on the passed arguments
  *
  * @param 			{Number} 				[$font-size=settings.typography.font-size] 			The font size wanted
@@ -34,14 +34,14 @@
 	}
 	@return $new-list;
 }
-@function _s-exclude-vertical-rhythme-scope-selectors($item, $args...) {
-	$scope-class : s-setting('vertical-rhythme.scope-class');
+@function _s-exclude-vertical-rhythm-scope-selectors($item, $args...) {
+	$scope-class : s-setting('vertical-rhythm.scope-class');
 	@if not $item or $item == '' {
 		@return false;
 	}
 	@return index($scope-class, _replace($item,'.','')) == null;
 }
-@mixin s-vertical-rhythme(
+@mixin s-vertical-rhythm(
 	$font-size : null,
 	$font-family : s-setting('typography.font-family'),
 	$line-height : null,
@@ -61,7 +61,7 @@
 	$calculate-height : false
 ) {
 
-	$sc : s-setting('vertical-rhythme.scope-class');
+	$sc : s-setting('vertical-rhythm.scope-class');
 	@if type-of($scope-class) == string or type-of($scope-class) == list {
 		$sc : $scope-class;
 	}
@@ -72,7 +72,7 @@
 	@if $font-size {
 
 		// get the rhythme
-		$rhythme-map : s-vertical-rhythme(
+		$rhythme-map : s-vertical-rhythm(
 			$font-size : $font-size,
 			$line-height : $line-height,
 			$margin : $margin,
