@@ -60,7 +60,7 @@
 //
 // Pull
 //
-@include s-register-class(pull-left, 'sugar.pull.left') {
+@include s-register-helper-class(pull-left, 'sugar.pull.left') {
 	/**
 	 * @name 		```.pull-left```
 	 * Allows you to pull an element to the left side
@@ -71,7 +71,7 @@
 	 */
 	float: left;
 }
-@include s-register-class(pull-right, 'sugar.pull.right') {
+@include s-register-helper-class(pull-right, 'sugar.pull.right') {
 	/**
 	 * @name 		```.pull-right```
 	 * Allows you to pull an element to the right side
@@ -87,7 +87,7 @@
 //
 // Position
 //
-@include s-register-class(relative, 'sugar.position.relative') {
+@include s-register-helper-class(relative, 'sugar.position.relative') {
 	/**
 	 * @name 		```.relative```
 	 * Set an element position as ```relative```
@@ -99,7 +99,7 @@
 	 */
 	position: relative;
 }
-@include s-register-class(absolute, 'sugar.position.absolute') {
+@include s-register-helper-class(absolute, 'sugar.position.absolute') {
 	/**
 	 * @name 		```.absolute```
 	 * Set an element position as ```absolute```
@@ -116,7 +116,7 @@
 //
 // Clear
 //
-@include s-register-class(clear-left, 'sugar.clear.left') {
+@include s-register-helper-class(clear-left, 'sugar.clear.left') {
 	/**
 	 * @name 		```.clear-left```
 	 * Clear the left float on the element
@@ -128,7 +128,7 @@
 	 */
 	clear: left;
 }
-@include s-register-class(clear-right, 'sugar.clear.right') {
+@include s-register-helper-class(clear-right, 'sugar.clear.right') {
 	/**
 	 * @name 		```.clear-right```
 	 * Clear the right float on the element
@@ -140,7 +140,7 @@
 	 */
 	clear: right;
 }
-@include s-register-class(clear, 'sugar.clear.both') {
+@include s-register-helper-class(clear, 'sugar.clear.both') {
 	/**
 	 * @name 		```.clear```
 	 * Clear both float on the element
@@ -156,7 +156,7 @@
 //
 // Pointer
 //
-@include s-register-class(pointer-events-none, 'sugar.pointer.events.none') {
+@include s-register-helper-class(pointer-events-none, 'sugar.pointer.events.none') {
 	/**
 	 * @name 		```.pointer-events-none```
 	 * Disable any pointer events
@@ -168,7 +168,7 @@
 	 */
 	pointer-events: none;
 }
-@include s-register-class(pointer-events-all, 'sugar.pointer.events.all') {
+@include s-register-helper-class(pointer-events-all, 'sugar.pointer.events.all') {
 	/**
 	 * @name 		```.pointer-events-all```
 	 * Disable any pointer events
@@ -185,7 +185,7 @@
 //
 // Show / hide
 //
-@include s-register-class(block, 'sugar.display.block') {
+@include s-register-helper-class(block, 'sugar.display.block') {
 	/**
 	 * @name 		```.block```
 	 * Display the element as ```block```
@@ -197,7 +197,7 @@
 	 */
 	display : block;
 }
-@include s-register-class(inline, 'sugar.display.inline') {
+@include s-register-helper-class(inline, 'sugar.display.inline') {
 	/**
 	 * @name 		```.inline```
 	 * Display the element as ```inline```
@@ -209,7 +209,7 @@
 	 */
 	display : inline;
 }
-@include s-register-class(inline-block, 'sugar.display.inline-block') {
+@include s-register-helper-class(inline-block, 'sugar.display.inline-block') {
 	/**
 	 * @name 		```.inline-block```
 	 * Display the element as ```inline-block```
@@ -221,7 +221,7 @@
 	 */
 	display : inline-block;
 }
-@include s-register-class(show, 'sugar.display.show') {
+@include s-register-helper-class(show, 'sugar.display.show') {
 	/**
 	 * @name 		```.show```
 	 * Display the element as ```block```
@@ -233,7 +233,7 @@
 	 */
 	display : block;
 }
-@include s-register-class(show-inline, 'sugar.display.show-inline') {
+@include s-register-helper-class(show-inline, 'sugar.display.show-inline') {
 	/**
 	 * @name 		```.show-inline```
 	 * Display the element as ```inline-block```
@@ -245,7 +245,7 @@
 	 */
 	display: inline-block;
 }
-@include s-register-class(hidden, 'sugar.display.hidden') {
+@include s-register-helper-class(hidden, 'sugar.display.hidden') {
 	/**
 	 * @name 		```.hidden```
 	 * Hide the element by setting the display to ```none```
@@ -257,7 +257,7 @@
 	 */
 	display: none;
 }
-@include s-register-class(hide, 'sugar.display.hide') {
+@include s-register-helper-class(hide, 'sugar.display.hide') {
 	/**
 	 * @name 		```.hide```
 	 * Hide the element by setting the display to ```none```
@@ -269,7 +269,7 @@
 	 */
 	display: none;
 }
-@include s-register-class(visible, 'sugar.display.visible') {
+@include s-register-helper-class(visible, 'sugar.display.visible') {
 	/**
 	 * @name 		```.visible```
 	 * Display the element by setting the visibility to ```visible```
@@ -281,7 +281,7 @@
 	 */
 	visibility: visible;
 }
-@include s-register-class(invisible, 'sugar.display.invisible') {
+@include s-register-helper-class(invisible, 'sugar.display.invisible') {
 	/**
 	 * @name 		```.invisible```
 	 * Display the element by setting the visibility to ```hidden```
@@ -293,7 +293,7 @@
 	 */
 	visibility: hidden;
 }
-@include s-register-class(visually-hidden, 'sugar.display.visually-hidden') {
+@include s-register-helper-class(visually-hidden, 'sugar.display.visually-hidden') {
 	/**
 	 * @name 		```.visually-hidden```
 	 * Hide the element from display but not for SEO.
@@ -310,7 +310,7 @@
 //
 // Text
 //
-@include s-register-class(t-hidden, 'sugar.text.hidden') {
+@include s-register-helper-class(t-hidden, 'sugar.text.hidden') {
 	/**
 	 * @name 		```.t-hidden```
 	 * Hide the text
@@ -322,7 +322,7 @@
 	 */
 	@include s-hide-text();
 }
-@include s-register-class(t-truncate, 'sugar.text.truncate') {
+@include s-register-helper-class(t-truncate, 'sugar.text.truncate') {
 	/**
 	 * @name 		```.t-truncate```
 	 * Hide the text
@@ -334,7 +334,7 @@
 	 */
 	@include s-truncate-text();
 }
-@include s-register-class(t-left, 'sugar.text.align.left') {
+@include s-register-helper-class(t-left, 'sugar.text.align.left') {
 	/**
 	 * @name 		```.t-left```
 	 * Align the text to the left
@@ -346,7 +346,7 @@
 	 */
 	text-align: left;
 }
-@include s-register-class(t-right, 'sugar.text.align.right') {
+@include s-register-helper-class(t-right, 'sugar.text.align.right') {
 	/**
 	 * @name 		```.t-right```
 	 * Align the text to the right
@@ -358,7 +358,7 @@
 	 */
 	text-align: right;
 }
-@include s-register-class(t-center, 'sugar.text.align.center') {
+@include s-register-helper-class(t-center, 'sugar.text.align.center') {
 	/**
 	 * @name 		```.t-center```
 	 * Align the text to the center
@@ -370,7 +370,7 @@
 	 */
 	text-align: center;
 }
-@include s-register-class(t-justify, 'sugar.text.align.justify') {
+@include s-register-helper-class(t-justify, 'sugar.text.align.justify') {
 	/**
 	 * @name 		```.t-justify```
 	 * Make the text justified
@@ -382,7 +382,7 @@
 	 */
 	text-align: justify;
 }
-@include s-register-class(t-lowercase, 'sugar.text.transform.lowercase') {
+@include s-register-helper-class(t-lowercase, 'sugar.text.transform.lowercase') {
 	/**
 	 * @name 		```.t-lowercase```
 	 * Transform the text to lowercase
@@ -394,7 +394,7 @@
 	 */
 	text-transform: lowercase;
 }
-@include s-register-class(t-uppercase, 'sugar.text.transform.uppercase') {
+@include s-register-helper-class(t-uppercase, 'sugar.text.transform.uppercase') {
 	/**
 	 * @name 		```.t-uppercase```
 	 * Transform the text to uppercase
@@ -406,7 +406,7 @@
 	 */
 	text-transform: uppercase;
 }
-@include s-register-class(t-capitalize, 'sugar.text.transform.capitalize') {
+@include s-register-helper-class(t-capitalize, 'sugar.text.transform.capitalize') {
 	/**
 	 * @name 		```.t-capitalize```
 	 * Capizalize the words
@@ -422,7 +422,7 @@
 //
 // Fonts
 //
-@include s-register-class(f-bold, 'sugar.font.weight.bold') {
+@include s-register-helper-class(f-bold, 'sugar.font.weight.bold') {
 	/**
 	 * @name 		```.f-bold```
 	 * Set the font-weight to ```bold```
@@ -432,7 +432,7 @@
 	 */
 	font-weight: bold;
 }
-@include s-register-class(f-lighter, 'sugar.font.weight.lighter') {
+@include s-register-helper-class(f-lighter, 'sugar.font.weight.lighter') {
 	/**
 	 * @name 		```.f-lighter```
 	 * Set the font-weight to ```lighter```
@@ -442,7 +442,7 @@
 	 */
 	font-weight: lighter;
 }
-@include s-register-class(f-bolder, 'sugar.font.weight.bolder') {
+@include s-register-helper-class(f-bolder, 'sugar.font.weight.bolder') {
 	/**
 	 * @name 		```.f-bolder```
 	 * Set the font-weight to ```bolder```
@@ -452,7 +452,7 @@
 	 */
 	font-weight: bolder;
 }
-@include s-register-class(f-normal, 'sugar.font.weight.normal') {
+@include s-register-helper-class(f-normal, 'sugar.font.weight.normal') {
 	/**
 	 * @name 		```.f-normal```
 	 * Set the font-weight to ```normal```
@@ -465,7 +465,7 @@
 	font-weight: normal;
 	font-style: normal;
 }
-@include s-register-class(f-italic, 'sugar.font.style.italic') {
+@include s-register-helper-class(f-italic, 'sugar.font.style.italic') {
 	/**
 	 * @name 		```.f-italic```
 	 * Set the font-style to ```italic```
@@ -475,7 +475,7 @@
 	 */
 	font-style: italic;
 }
-@include s-register-class(f-oblique, 'sugar.font.style.oblique') {
+@include s-register-helper-class(f-oblique, 'sugar.font.style.oblique') {
 	/**
 	 * @name 		```.f-oblique```
 	 * Set the font-style to ```oblique```
@@ -485,7 +485,7 @@
 	 */
 	font-style: oblique;
 }
-@include s-register-class(f-small-caps, 'sugar.font.variant.small-caps') {
+@include s-register-helper-class(f-small-caps, 'sugar.font.variant.small-caps') {
 	/**
 	 * @name 		```.f-small-caps```
 	 * Set the font-variant to ```small-caps```
@@ -499,7 +499,7 @@
 //
 // Blocks
 //
-@include s-register-class(block-center, 'sugar.block.align.center') {
+@include s-register-helper-class(block-center, 'sugar.block.align.center') {
 	/**
 	 * @name 		```.block-center```
 	 * Set the element to as ```display:block``` and center it
@@ -517,7 +517,7 @@
 //
 // Images
 //
-@include s-register-class(abs-cover, 'sugar.size.abs.cover') {
+@include s-register-helper-class(abs-cover, 'sugar.size.abs.cover') {
 	/**
 	 * @name 		```.abs-cover```
 	 * Set a size that will cover the entire parent surface by positionning it in absolute
@@ -531,7 +531,7 @@
 		$position : absolute
 	);
 }
-@include s-register-class(abs-contain, 'sugar.size.abs.contain') {
+@include s-register-helper-class(abs-contain, 'sugar.size.abs.contain') {
 	/**
 	 * @name 		```.abs-contain```
 	 * Set a size that will contain the entire parent surface by positionning it in absolute
@@ -545,7 +545,7 @@
 		$position : absolute
 	);
 }
-@include s-register-class(abs-fit, 'sugar.size.abs.fit') {
+@include s-register-helper-class(abs-fit, 'sugar.size.abs.fit') {
 	/**
 	 * @name 		```.abs-fit```
 	 * Set a size that will fit the entire parent surface by positionning it in absolute
@@ -564,7 +564,7 @@
 //
 // Clearfix
 //
-@include s-register-class(clearfix, 'sugar.clearfix.default') {
+@include s-register-helper-class(clearfix, 'sugar.clearfix.default') {
 	/**
 	 * @name 		```.clearfix```
 	 * Apply the micro clearfix on the element
@@ -579,7 +579,7 @@
 	 */
 	@include s-clearfix(micro);
 }
-@include s-register-class(clearfix-float, 'sugar.clearfix.float') {
+@include s-register-helper-class(clearfix-float, 'sugar.clearfix.float') {
 	/**
 	 * @name 		```.clearfix-float```
 	 * Apply the float clearfix on the element
@@ -594,7 +594,7 @@
 	 */
 	@include s-clearfix(float);
 }
-@include s-register-class(clearfix-micro, 'sugar.clearfix.micro') {
+@include s-register-helper-class(clearfix-micro, 'sugar.clearfix.micro') {
 	/**
 	 * @name 		```.clearfix```
 	 * Apply the micro clearfix on the element
@@ -609,7 +609,7 @@
 	 */
 	@include s-clearfix(micro);
 }
-@include s-register-class(clearfix-overflow, 'sugar.clearfix.overflow') {
+@include s-register-helper-class(clearfix-overflow, 'sugar.clearfix.overflow') {
 	/**
 	 * @name 		```.clearfix-overflow```
 	 * Apply the overflow clearfix on the element
@@ -624,7 +624,7 @@
 	 */
 	@include s-clearfix(overflow);
 }
-@include s-register-class(clearfix-facebook, 'sugar.clearfix.facebook') {
+@include s-register-helper-class(clearfix-facebook, 'sugar.clearfix.facebook') {
 	/**
 	 * @name 		```.clearfix-facebook```
 	 * Apply the facebook clearfix on the element
@@ -643,7 +643,7 @@
 //
 // Ratios
 //
-@include s-register-class(ratio-21-9, 'sugar.ratio.21-9') {
+@include s-register-helper-class(ratio-21-9, 'sugar.ratio.21-9') {
 	/**
 	 * @name 		```.ratio-21-9```
 	 * Keep a 16/9 ratio on a particular element. Applied by setting height to 0 and paddingtop to 100% / 16 * 9
@@ -653,7 +653,7 @@
 	 */
 	@include s-ratio(21/9);
 }
-@include s-register-class(ratio-16-9, 'sugar.ratio.16-9') {
+@include s-register-helper-class(ratio-16-9, 'sugar.ratio.16-9') {
 	/**
 	 * @name 		```.ratio-16-9```
 	 * Keep a 16/9 ratio on a particular element. Applied by setting height to 0 and paddingtop to 100% / 16 * 9
@@ -663,7 +663,7 @@
 	 */
 	@include s-ratio(16/9);
 }
-@include s-register-class(ratio-4-3, 'sugar.ratio.4-3') {
+@include s-register-helper-class(ratio-4-3, 'sugar.ratio.4-3') {
 	/**
 	 * @name 		```.ratio-4-3```
 	 * Keep a 4/3 ratio on a particular element. Applied by setting height to 0 and paddingtop to 100% / 4 * 3
@@ -673,7 +673,7 @@
 	 */
 	@include s-ratio(4/3);
 }
-@include s-register-class(ratio-1-1, 'sugar.ratio.1-1') {
+@include s-register-helper-class(ratio-1-1, 'sugar.ratio.1-1') {
 	/**
 	 * @name 		```.ratio-1-1```
 	 * Keep a 1/1 ratio on a particular element. Applied by setting height to 0 and paddingtop to 100%
@@ -687,7 +687,7 @@
 //
 // Transition / Animation
 //
-@include s-register-class(no-transitions, 'sugar.no-transitions') {
+@include s-register-helper-class(no-transitions, 'sugar.no-transitions') {
 	/**
 	 * @name 		```.no-transitions```
 	 * Disable the transitions <span class="f-bold">only on the element</span>
@@ -702,7 +702,7 @@
 		transition: none !important;
 	}
 }
-@include s-register-class(clear-transitions, 'sugar.clear-transitions') {
+@include s-register-helper-class(clear-transitions, 'sugar.clear-transitions') {
 	/**
 	 * @name 		```.clear-transitions```
 	 * Disable the transitions <span class="f-bold">on the element and all his children</span>
@@ -718,7 +718,7 @@
 		transition: none !important;
 	}
 }
-@include s-register-class(no-animations, 'sugar.no-animations') {
+@include s-register-helper-class(no-animations, 'sugar.no-animations') {
 	/**
 	 * @name 		```.no-animations```
 	 * Disable the animations <span class="f-bold">only on the element</span>
@@ -733,7 +733,7 @@
 		animation: none !important;
 	}
 }
-@include s-register-class(clear-animations, 'sugar.clear-animations') {
+@include s-register-helper-class(clear-animations, 'sugar.clear-animations') {
 	/**
 	 * @name 		```.clear-animations```
 	 * Disable the transitions <span class="f-bold">on the element and all his children</span>
@@ -749,7 +749,7 @@
 		animation: none !important;
 	}
 }
-@include s-register-class(no-transmations, 'sugar.no-transmations') {
+@include s-register-helper-class(no-transmations, 'sugar.no-transmations') {
 	/**
 	 * @name 		```.no-transmations```
 	 * Disable the animations and transitions <span class="f-bold">only on the element</span>
@@ -765,7 +765,7 @@
 		animation: none !important;
 	}
 }
-@include s-register-class(clear-transmations, 'sugar.clear-transmations') {
+@include s-register-helper-class(clear-transmations, 'sugar.clear-transmations') {
 	/**
 	 * @name 		```.clear-transmations```
 	 * Disable the animations and transitions <span class="f-bold">on the element and all his children</span>
