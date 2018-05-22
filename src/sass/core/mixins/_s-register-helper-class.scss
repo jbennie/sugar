@@ -7,10 +7,10 @@ $_sugar-test-arguments : true !default;
  * @param 			{String} 		$namespace 		The dots separated namespace under which the class will live
  *
  * @example
- * \@include s-register-class(my-cool-class, 'my.cool.namespace') {
+ * \@include s-register-helper-class(my-cool-class, 'my.cool.namespace') {
  * 		background : pink;
  * }
- * \@include s-register-class(another-cool-class, 'my.another.namespace') {
+ * \@include s-register-helper-class(another-cool-class, 'my.another.namespace') {
  * 		background : red;
  * }
  *
@@ -19,13 +19,13 @@ $_sugar-test-arguments : true !default;
  *
  * @author 			Olivier Bossel <olivier.bossel@gmail.com>
  */
-@mixin s-register-class(
+@mixin s-register-helper-class(
 	$classname,
 	$namespace
 ) {
 	@if $_sugar-test-arguments {
-		$classname : s-test-argument('s-register-class','classname',string,$classname);
-		$namespace : s-test-argument('s-register-class','namespace',string,$namespace);
+		$classname : s-test-argument('s-register-helper-class','classname',string,$classname);
+		$namespace : s-test-argument('s-register-helper-class','namespace',string,$namespace);
 	}
 
 	// register the class

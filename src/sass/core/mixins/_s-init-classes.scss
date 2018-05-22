@@ -22,7 +22,7 @@ $_sugar-classes-inited : false;
 			 * 	I'm filtered with #{$name}
 			 * </div>
 			 */
-			@include s-register-class(
+			@include s-register-helper-class(
 				$classname : 'fi-#{$name}',
 				$namespace : 'sugar.filter.#{$name}'
 			) {
@@ -41,7 +41,7 @@ $_sugar-classes-inited : false;
 			 * 	I'm transitionned with #{$name}
 			 * </div>
 			 */
-			@include s-register-class(
+			@include s-register-helper-class(
 				$classname : 'tr-#{$name}',
 				$namespace : 'sugar.transition.#{$name}'
 			) {
@@ -58,7 +58,7 @@ $_sugar-classes-inited : false;
 			 * 	I have the font "#{$name}" applied
 			 * </div>
 			 */
-			@include s-register-class(
+			@include s-register-helper-class(
 				$classname : 'f-#{$name}',
 				$namespace : 'sugar.font.family.#{$name}'
 			) {
@@ -80,7 +80,7 @@ $_sugar-classes-inited : false;
 			 * <div class="#{$cname}" style="background:#{s-color(primary)}; width:100px; height:5px"></div>
 			 * <div style="background:#{s-color(secondary)}; width:100px; height:5px"></div>
 			 */
-			@include s-register-class(
+			@include s-register-helper-class(
 				$classname : $cname,
 				$namespace : 'sugar.margin.bottom.#{$name}'
 			) {
@@ -97,7 +97,7 @@ $_sugar-classes-inited : false;
 			 * <div style="background:#{s-color(primary)}; width:100px; height:5px"></div>
 			 * <div class="#{$cname}" style="background:#{s-color(secondary)}; width:100px; height:5px"></div>
 			 */
-			@include s-register-class(
+			@include s-register-helper-class(
 				$classname : $cname,
 				$namespace : 'sugar.margin.top.#{$name}'
 			) {
@@ -114,7 +114,7 @@ $_sugar-classes-inited : false;
 			 * <div style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px"></div>
 			 * <div class="#{$cname}" style="display:inline-block; background:#{s-color(secondary)}; width:50px; height:50px"></div>
 			 */
-			@include s-register-class(
+			@include s-register-helper-class(
 				$classname : $cname,
 				$namespace : 'sugar.margin.left.#{$name}'
 			) {
@@ -131,7 +131,7 @@ $_sugar-classes-inited : false;
 			 * <div class="#{$cname}" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px"></div>
 			 * <div style="display:inline-block; background:#{s-color(secondary)}; width:50px; height:50px"></div>
 			 */
-			@include s-register-class(
+			@include s-register-helper-class(
 				$classname : $cname,
 				$namespace : 'sugar.margin.right.#{$name}'
 			) {
@@ -148,7 +148,7 @@ $_sugar-classes-inited : false;
 			 * <div class="#{$cname}" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px"></div>
 			 * <div style="display:inline-block; background:#{s-color(secondary)}; width:50px; height:50px"></div>
 			 */
-			@include s-register-class(
+			@include s-register-helper-class(
 				$classname : $cname,
 				$namespace : 'sugar.margin.side.#{$name}'
 			) {
@@ -168,7 +168,7 @@ $_sugar-classes-inited : false;
 			 * 	<div style="background:#{s-color(secondary)}; width:100%; height:100%"></div>
 			 * </div>
 			 */
-			@include s-register-class(
+			@include s-register-helper-class(
 				$classname : $cname,
 				$namespace : 'sugar.padding.all.#{$name}'
 			) {
@@ -192,7 +192,7 @@ $_sugar-classes-inited : false;
 			 * 	<div style="background:#{s-color(secondary)}; width:100%; height:100%"></div>
 			 * </div>
 			 */
-			@include s-register-class(
+			@include s-register-helper-class(
 				$classname : $cname,
 				$namespace : 'sugar.padding.bottom.#{$name}'
 			) {
@@ -210,7 +210,7 @@ $_sugar-classes-inited : false;
 			 * 	<div style="background:#{s-color(secondary)}; width:100%; height:100%"></div>
 			 * </div>
 			 */
-			@include s-register-class(
+			@include s-register-helper-class(
 				$classname : $cname,
 				$namespace : 'sugar.padding.top.#{$name}'
 			) {
@@ -228,7 +228,7 @@ $_sugar-classes-inited : false;
 			 * 	<div style="background:#{s-color(secondary)}; width:100%; height:100%"></div>
 			 * </div>
 			 */
-			@include s-register-class(
+			@include s-register-helper-class(
 				$classname : $cname,
 				$namespace : 'sugar.padding.left.#{$name}'
 			) {
@@ -246,7 +246,7 @@ $_sugar-classes-inited : false;
 			 * 	<div style="background:#{s-color(secondary)}; width:100%; height:100%"></div>
 			 * </div>
 			 */
-			@include s-register-class(
+			@include s-register-helper-class(
 				$classname : $cname,
 				$namespace : 'sugar.padding.right.#{$name}'
 			) {
@@ -264,7 +264,7 @@ $_sugar-classes-inited : false;
 			 * 	<div style="background:#{s-color(secondary)}; width:100%; height:100%"></div>
 			 * </div>
 			 */
-			@include s-register-class(
+			@include s-register-helper-class(
 				$classname : $cname,
 				$namespace : 'sugar.padding.side.#{$name}'
 			) {
@@ -285,7 +285,7 @@ $_sugar-classes-inited : false;
 			 * 	I have the size "#{$size}" defined
 			 * </div>
 			 */
-			@include s-register-class(s-#{$size}, 'sugar.size.#{$size}') {
+			@include s-register-helper-class(s-#{$size}, 'sugar.size.#{$size}') {
 				font-size : s-rem($value);
 			}
 			/**
@@ -296,7 +296,7 @@ $_sugar-classes-inited : false;
 			 * 	I have the size "#{$size}" defined relative to my parent
 			 * </div>
 			 */
-			@include s-register-class(s-#{$size}-rel, 'sugar.size.rel.#{$size}') {
+			@include s-register-helper-class(s-#{$size}-rel, 'sugar.size.rel.#{$size}') {
 				font-size : s-em($value);
 			}
 		}
@@ -308,7 +308,7 @@ $_sugar-classes-inited : false;
 		 * @example 	html
 		 * <div class="no-p-t" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px;"></div>
 		 */
-		@include s-register-class(no-p-t,'sugar.padding.no.top') {
+		@include s-register-helper-class(no-p-t,'sugar.padding.no.top') {
 			padding-top: 0 !important;
 		}
 		/**
@@ -318,7 +318,7 @@ $_sugar-classes-inited : false;
 		 * @example 	html
 		 * <div class="no-p-r" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px;"></div>
 		 */
-		@include s-register-class(no-p-r,'sugar.padding.no.right') {
+		@include s-register-helper-class(no-p-r,'sugar.padding.no.right') {
 			padding-right: 0 !important;
 		}
 		/**
@@ -328,7 +328,7 @@ $_sugar-classes-inited : false;
 		 * @example 	html
 		 * <div class="no-p-b" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px;"></div>
 		 */
-		@include s-register-class(no-p-b,'sugar.padding.no.bottom') {
+		@include s-register-helper-class(no-p-b,'sugar.padding.no.bottom') {
 			padding-bottom: 0 !important;
 		}
 		/**
@@ -338,7 +338,7 @@ $_sugar-classes-inited : false;
 		 * @example 	html
 		 * <div class="no-p-l" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px;"></div>
 		 */
-		@include s-register-class(no-p-l,'sugar.padding.no.left') {
+		@include s-register-helper-class(no-p-l,'sugar.padding.no.left') {
 			padding-left: 0 !important;
 		}
 		/**
@@ -348,7 +348,7 @@ $_sugar-classes-inited : false;
 		 * @example 	html
 		 * <div class="no-p-s" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px;"></div>
 		 */
-		@include s-register-class(no-p-s,'sugar.padding.no.side') {
+		@include s-register-helper-class(no-p-s,'sugar.padding.no.side') {
 			padding-left: 0 !important;
 			padding-right: 0 !important;
 		}
@@ -360,7 +360,7 @@ $_sugar-classes-inited : false;
 		 * @example 	html
 		 * <div class="no-m-t" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px;"></div>
 		 */
-		@include s-register-class(no-m-t,'sugar.margin.no.top') {
+		@include s-register-helper-class(no-m-t,'sugar.margin.no.top') {
 			margin-top: 0 !important;
 		}
 		/**
@@ -370,7 +370,7 @@ $_sugar-classes-inited : false;
 		 * @example 	html
 		 * <div class="no-m-r" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px;"></div>
 		 */
-		@include s-register-class(no-m-r,'sugar.margin.no.right') {
+		@include s-register-helper-class(no-m-r,'sugar.margin.no.right') {
 			margin-right: 0 !important;
 		}
 		/**
@@ -380,7 +380,7 @@ $_sugar-classes-inited : false;
 		 * @example 	html
 		 * <div class="no-m-b" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px;"></div>
 		 */
-		@include s-register-class(no-m-b,'sugar.margin.no.bottom') {
+		@include s-register-helper-class(no-m-b,'sugar.margin.no.bottom') {
 			margin-bottom: 0 !important;
 		}
 		/**
@@ -390,7 +390,7 @@ $_sugar-classes-inited : false;
 		 * @example 	html
 		 * <div class="no-m-l" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px;"></div>
 		 */
-		@include s-register-class(no-m-l,'sugar.margin.no.left') {
+		@include s-register-helper-class(no-m-l,'sugar.margin.no.left') {
 			margin-left: 0 !important;
 		}
 		/**
@@ -400,7 +400,7 @@ $_sugar-classes-inited : false;
 		 * @example 	html
 		 * <div class="no-m-s" style="display:inline-block; background:#{s-color(primary)}; width:50px; height:50px;"></div>
 		 */
-		@include s-register-class(no-m-s,'sugar.margin.no.side') {
+		@include s-register-helper-class(no-m-s,'sugar.margin.no.side') {
 			margin-left: 0 !important;
 			margin-right: 0 !important;
 		}
@@ -424,7 +424,7 @@ $_sugar-classes-inited : false;
 				 * 	I'm in "#{$name}" color
 				 * </div>
 				 */
-				@include s-register-class(
+				@include s-register-helper-class(
 					$classname : $cls,
 					$namespace : 'sugar.color.#{$name}.color'
 				) {
@@ -440,7 +440,7 @@ $_sugar-classes-inited : false;
 				 * 	My background color is "#{$name}"
 				 * </div>
 				 */
-				@include s-register-class(
+				@include s-register-helper-class(
 					$classname : $cls,
 					$namespace : 'sugar.color.#{$name}.bkg'
 				) {
@@ -460,7 +460,7 @@ $_sugar-classes-inited : false;
 						 * 	I'm in "#{$name}--#{$mod-name}" color
 						 * </div>
 						 */
-						@include s-register-class(
+						@include s-register-helper-class(
 							$classname : $cls,
 							$namespace : 'sugar.color.#{$name}.modifier.#{$mod-name}.color'
 						) {
@@ -476,7 +476,7 @@ $_sugar-classes-inited : false;
 						 * 	My background color is "#{$name}--#{$mod-name}"
 						 * </div>
 						 */
-						@include s-register-class(
+						@include s-register-helper-class(
 							$classname : $cls,
 							$namespace : 'sugar.color.#{$name}.modifier.#{$mod-name}.bkg'
 						) {
