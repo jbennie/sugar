@@ -12,7 +12,7 @@
  * @return 		{Map} 										The map representation or the columns properties
  *
  * @example
- * s-columns(2, 20px);
+ * s-columns-map(2, 20px);
  * // return
  * // (
  * // 	column-count : 2,
@@ -21,7 +21,7 @@
  *
  * @author 			Olivier Bossel <olivier.bossel@gmail.com>
  */
-@function s-columns(
+@function s-columns-map(
 	$count : null,
 	$gap : null,
 	$fill : null,
@@ -33,15 +33,15 @@
 	$rule-width : null
 ) {
 	@if $_sugar-test-arguments {
-		$fill : s-test-argument('s-columns','fill',(balance,auto,initial,inherit),$fill);
-		$rule-style : s-test-argument('s-columns','rule-style',(none,hidden,dotted,dashed,solid,double,groove,ridge,inset,outset,initial,inherit),$rule-style);
-		$count : s-test-argument('s-columns','count',integer,$count);
-		$gap : s-test-argument('s-columns','gap',number,$gap);
-		$width : s-test-argument('s-columns','width',number,$width);
-		$span : s-test-argument('s-columns','span',number,$span);
-		$rule-color : s-test-argument('s-columns','rule-color',color,$rule-color);
-		$rule-width : s-test-argument('s-columns','rule-width',number,$rule-width);
-		$rule : s-test-argument('s-columns','rule',mixed,$rule);
+		$fill : s-test-argument('s-columns-map','fill',(balance,auto,initial,inherit),$fill);
+		$rule-style : s-test-argument('s-columns-map','rule-style',(none,hidden,dotted,dashed,solid,double,groove,ridge,inset,outset,initial,inherit),$rule-style);
+		$count : s-test-argument('s-columns-map','count',integer,$count);
+		$gap : s-test-argument('s-columns-map','gap',number,$gap);
+		$width : s-test-argument('s-columns-map','width',number,$width);
+		$span : s-test-argument('s-columns-map','span',number,$span);
+		$rule-color : s-test-argument('s-columns-map','rule-color',color,$rule-color);
+		$rule-width : s-test-argument('s-columns-map','rule-width',number,$rule-width);
+		$rule : s-test-argument('s-columns-map','rule',mixed,$rule);
 	}
 
 	$return : ();
