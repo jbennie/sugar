@@ -1,3 +1,0 @@
-# SDropdownComponent
-
-Documentation coming soon...

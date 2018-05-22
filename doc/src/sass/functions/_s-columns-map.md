@@ -1,4 +1,4 @@
-# s-columns
+# s-columns-map
 
 Return the Map representation of a columns properties
 
@@ -19,7 +19,7 @@ Return **{ [Map](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html
 
 ### Example
 ```scss
-	s-columns(2, 20px);
+	s-columns-map(2, 20px);
 // return
 // (
 // 	column-count : 2,

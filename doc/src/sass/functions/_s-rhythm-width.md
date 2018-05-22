@@ -1,4 +1,4 @@
-# s-rhythme-width
+# s-rhythm-width
 
 Return the Map properties representation for the rhythme width
 The rhythme width is the width of an element that target a certain number of letters by line
@@ -13,7 +13,7 @@ Return **{ [Map](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html
 
 ### Example
 ```scss
-	s-rhythme-width(50);
+	s-rhythm-width(50);
 // return
 // (
 // 	display : block,

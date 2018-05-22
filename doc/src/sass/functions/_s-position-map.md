@@ -19,10 +19,10 @@ Return **{ [Map](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html
 
 ### Example
 ```scss
-	s-position(absolute, top, right);
-s-position(absolute, middle, center);
-s-position(relative, bottom, right);
-s-position(absolute, bottom, center);
+	s-position-map(absolute, top, right);
+s-position-map(absolute, middle, center);
+s-position-map(relative, bottom, right);
+s-position-map(absolute, bottom, center);
 // etc...
 ```
 Author : Olivier Bossel <olivier.bossel@gmail.com>

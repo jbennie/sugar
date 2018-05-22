@@ -1,4 +1,4 @@
-# s-show-vertical-rhythme
+# s-show-vertical-rhythm
 
 
 
