@@ -14,13 +14,9 @@ import __prependChild from '../dom/prependChild'
 import __SWatcher from '../classes/SWatcher'
 import __propertyProxy from '../utils/objects/propertyProxy'
 
-// require('proxy-polyfill/proxy.min');
-
 require('../features/inputAdditionalAttributes');
 require('../features/inputAdditionalEvents');
 require('../features/imagesLoadedAttribute');
-
-// require('document-register-element');
 
 /**
  * @name 		SWebComponent
