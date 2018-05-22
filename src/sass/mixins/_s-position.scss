@@ -36,7 +36,7 @@
 	$z : null
 ) {
 	// get map
-	$map : s-position(
+	$map : s-position-map(
 		$position : $position,
 		$vertical-align : $vertical-align,
 		$align : $align,

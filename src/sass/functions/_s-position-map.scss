@@ -12,15 +12,15 @@
  * @return 		{Map} 												The map representation of the position wanted
  *
  * @example
- * s-position(absolute, top, right);
- * s-position(absolute, middle, center);
- * s-position(relative, bottom, right);
- * s-position(absolute, bottom, center);
+ * s-position-map(absolute, top, right);
+ * s-position-map(absolute, middle, center);
+ * s-position-map(relative, bottom, right);
+ * s-position-map(absolute, bottom, center);
  * // etc...
  *
  * @author 			Olivier Bossel <olivier.bossel@gmail.com>
  */
-@function s-position(
+@function s-position-map(
 	$position : absolute,
 	$vertical-align : top,
 	$align : left,
@@ -30,13 +30,13 @@
 	$left : null
 ) {
 	@if $_sugar-test-arguments {
-		$t : s-test-argument('s-position','position',(fixed,relative,absolute),$position);
-		$t : s-test-argument('s-position','vertical-align',(top,middle,bottom),$vertical-align);
-		$t : s-test-argument('s-position','align',(left,center,right),$align);
-		$t : s-test-argument('s-position','top','number|null',$top);
-		$t : s-test-argument('s-position','right','number|null',$right);
-		$t : s-test-argument('s-position','bottom','number|null',$bottom);
-		$t : s-test-argument('s-position','left','number|null',$left);
+		$t : s-test-argument('s-position-map','position',(fixed,relative,absolute),$position);
+		$t : s-test-argument('s-position-map','vertical-align',(top,middle,bottom),$vertical-align);
+		$t : s-test-argument('s-position-map','align',(left,center,right),$align);
+		$t : s-test-argument('s-position-map','top','number|null',$top);
+		$t : s-test-argument('s-position-map','right','number|null',$right);
+		$t : s-test-argument('s-position-map','bottom','number|null',$bottom);
+		$t : s-test-argument('s-position-map','left','number|null',$left);
 	}
 
 	$return : ();
