@@ -17,13 +17,8 @@
 	}
 }
 @mixin s-vertical-rhythm() {
-
 	$sc : s-setting('vertical-rhythm.scope-class');
-	@if type-of($scope-class) == string or type-of($scope-class) == list {
-		$sc : $scope-class;
-	}
-
-	@if $scope-class {
+	@if $sc {
 		@each $cls in $sc {
 			&.#{$cls},
 			.#{$cls} & {
