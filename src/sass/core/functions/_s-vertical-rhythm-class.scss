@@ -6,3 +6,6 @@
 @function s-vertical-rhythm-class() {
 	@return s-setting('vertical-rhythm.scope-class');
 }
+@function s-vertical-rhythme-class() {
+	@return s-vertical-rhythm-class();
+}
