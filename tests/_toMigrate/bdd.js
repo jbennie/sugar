@@ -48,27 +48,6 @@ describe('js/dom/attributeObservable', () => {
 	});
 });
 
-// js/dom/closest
-import __closest from '../dist/js/dom/closest'
-describe('js/dom/closest', () => {
-	let elm, refs;
-	before((done) => {
-		elm = document.querySelector('#closest');
-		refs = getRefs(elm);
-		done();
-	});
-	it('Should find the target from the source element', (done) => {
-		const target = __closest(refs.source, '[ref="target"]');
-		if (target) done();
-		else done('Cannot find the target...');
-	});
-	it('Should not find any target from the noTarget element', (done) => {
-		const target = __closest(refs.noTarget, '[ref="target"]');
-		if (target) done('Has found a target...');
-		else done();
-	});
-});
-
 // js/dom/closestNotVisible
 import __closestNotVisible from '../dist/js/dom/closestNotVisible'
 describe('js/dom/closestNotVisible', () => {
@@ -122,16 +101,6 @@ describe('js/dom/dispatchEvent', () => {
 		});
 		__dispatchEvent(refs.dispatcher, 'dispatchEvent-test-2', {
 			hello : 'world'
-		});
-	});
-});
-
-// js/dom/domReady
-import __domReady from '../dist/js/dom/domReady'
-describe('js/dom/domReady', () => {
-	it('Should detect when the dom is ready', (done) => {
-		__domReady().then(() => {
-			done();
 		});
 	});
 });
