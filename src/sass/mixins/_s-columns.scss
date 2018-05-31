@@ -34,7 +34,7 @@
 
 ) {
 	// get columns props
-	$columns : s-columns(
+	$columns : s-columns-map(
 		$count : $count,
 		$gap : $gap,
 		$fill : $fill,
