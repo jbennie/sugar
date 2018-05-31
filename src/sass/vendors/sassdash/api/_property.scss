@@ -36,7 +36,7 @@
 
 @function __property-of($map, $args...) {
     $_: __scope((
-        'map', $map
+        'map': $map
     ));
     $property-of-function: __bind('__property-of-function');
     $_: __scope(false);
@@ -67,7 +67,7 @@
 /// // => ('barney', 'fred')
 
 @function _property($args...) {
-    @return call('__property', $args...);
+    @return call(get-function('__property'), $args...);
 }
 
 
@@ -87,5 +87,5 @@
 /// // => ('b', 'c', 'a')
 
 @function _property-of($args...) {
-    @return call('__property-of', $args...);
+    @return call(get-function('__property-of'), $args...);
 }

@@ -108,8 +108,11 @@
     @return 1;
 }
 
+@function __unit-group-predicate($unit, $group, $args...) {
+  @return __includes($group, $unit);
+}
 @function __unit-group($value, $args...) {
-    @return __find-key(__const('UNIT_GROUPS'), __includes $value);
+    @return __find-key(__const('UNIT_GROUPS'), __partial(__unit-group-predicate, $value));
 }
 
 
@@ -151,15 +154,15 @@
 
 
 @function _parse-float($args...) {
-    @return call('__parse-float', $args...);
+    @return call(get-function('__parse-float'), $args...);
 }
 
 
 @function _to-number($args...) {
-    @return call('__parse-float', $args...);
+    @return call(get-function('__parse-float'), $args...);
 }
 
 
 @function _pow($args...) {
-    @return call('__math-pow', $args...);
+    @return call(get-function('__math-pow'), $args...);
 }
