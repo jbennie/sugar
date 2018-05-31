@@ -70,10 +70,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 require('es6-object-assign').polyfill();
 
-require('../features/inputAdditionalAttributes');
-require('../features/inputAdditionalEvents');
-require('../features/imagesLoadedAttribute');
-
 /**
  * @name 		SWebComponent
  * @extends 	HTMLElement
