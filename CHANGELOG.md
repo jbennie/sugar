@@ -4,12 +4,16 @@
 
 _A little sugar in your codebase_
 
-## 1.0.8  ( Thu May 31 2018 18:31:36 GMT+0200 (CEST) )
+## 1.0.11  ( Thu May 31 2018 20:21:29 GMT+0200 (CEST) )
 
 
 ## Bug Fixes
-  - compile dist for the autoCast fix to be published correctly
-  ([51b538d4](https://github.com/Coffeekraken/sugar/commit/51b538d4708bc46de7a4bba24bc12bc50c355262))
+  - fix s-columns mixin
+  ([06a9fa5a](https://github.com/Coffeekraken/sugar/commit/06a9fa5a76d2e607152af785a9ecd527a74d77e2))
+  - fix package
+  ([044ca0f6](https://github.com/Coffeekraken/sugar/commit/044ca0f6f2204b55d2d918e1c53133957b6ba256))
+  - move the fs-extra package from devDependencies to dependencies to make sure it’s available for installing the package
+  ([e697027d](https://github.com/Coffeekraken/sugar/commit/e697027d4f430bc8a053c099693845588b71f191))
 
 
 
