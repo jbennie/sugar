@@ -4,59 +4,16 @@
 
 _A little sugar in your codebase_
 
-## 1.0.6  ( Thu May 31 2018 11:12:40 GMT+0200 (CEST) )
-
-
-## Breaking changes
-  - do not load anymore by default the features from the SWebComponentMixin file. Need to load them by hand now!
-  ([6d056893](https://github.com/Coffeekraken/sugar/commit/6d0568937572f99fffe4bb9c669ac9002f0472b5))
-  - remove the s-vertical-rhythm function cause it was too complicated and not so useful
-  ([6ab30bfd](https://github.com/Coffeekraken/sugar/commit/6ab30bfd17420c2720365a548d14ab7baf3600dc))
-  - remove the s-dom-node-inserted mixin
-  ([7ee046c4](https://github.com/Coffeekraken/sugar/commit/7ee046c49df62bff8405696b09095b357577c7e1))
-  - remove the s-transition-start mixin as well as the sTransitionStartEventDispatcher js file
-  ([9ea881f7](https://github.com/Coffeekraken/sugar/commit/9ea881f7ebe5c7216f3a8eba37f4dc2c567a5633))
-  - remove STemplate class
-  ([bae006ba](https://github.com/Coffeekraken/sugar/commit/bae006ba4a65cbe9f4afff879921baaf78dd1fcd))
-  - rename the s-rhythme-width mixin and function to s-rhythm-width
-  ([1333efa4](https://github.com/Coffeekraken/sugar/commit/1333efa47be66bd727eb9d11b6624fbcd5920537))
-  - rename all the vertical-rhythme mispelled to vertical-rhythm
-  ([aee4771f](https://github.com/Coffeekraken/sugar/commit/aee4771f3c870ed9242d22752b0607bdd5f01128))
-  - remove the setting vertical-rhythme.enabled
-  ([8f5f63d6](https://github.com/Coffeekraken/sugar/commit/8f5f63d62dbf79b8f25cc678711d8352aff2fba7))
-  - removing the s-Bem, s-bEm and s-beM mixins
-  ([c314cd6a](https://github.com/Coffeekraken/sugar/commit/c314cd6a821cf25473a8e371bea07e7429ab3260))
-  - delete the s-component-selector function
-  ([df21830f](https://github.com/Coffeekraken/sugar/commit/df21830f587291f87a6e28a3847223d2214b8c12))
-  - remove all components and migrate them inside their own repositories
-  ([717bcb0d](https://github.com/Coffeekraken/sugar/commit/717bcb0de4a7f4aa92f51761084416bd04e8307a))
-  - rename s-translate function to s-translate-map
-  ([12327d40](https://github.com/Coffeekraken/sugar/commit/12327d400a6fd235fb00b178e7afb3e5df6eec4c))
-  - rename s-margin function to s-margin-map
-  ([331e5939](https://github.com/Coffeekraken/sugar/commit/331e5939979b3e0d7d054b6cfac8224cf7697016))
-  - rename s-border function to s-border-map
-  ([32dd4f13](https://github.com/Coffeekraken/sugar/commit/32dd4f13e87b8b4ce7d2b1bee7e072d1409fdc5e))
-  - rename s-border function to s-border-map
-  ([c3085b02](https://github.com/Coffeekraken/sugar/commit/c3085b0216daf937ff4a81897abac7dea6f0f559))
-  - rename s-register-class mixin to s-register-helper-class
-  ([f8cc5cfa](https://github.com/Coffeekraken/sugar/commit/f8cc5cfa106d17200942ab3e7c91e5ea4dd91c03))
-  - rename s-position function to s-position-map
-  ([c88b8971](https://github.com/Coffeekraken/sugar/commit/c88b89718767c32b6d8664b6e18ffdbb6ac5da53))
-  - rename the s-columns function to s-columns-map
-  ([ad2bb2b6](https://github.com/Coffeekraken/sugar/commit/ad2bb2b60318baab527bed5b55e9988058d468b5))
-  - rename s-register-class mixin to s-register-helper-class
-  ([2b09ac4a](https://github.com/Coffeekraken/sugar/commit/2b09ac4a5b799bdad2b2f33047f32b0f6c2fd7d7))
-
-
+## 1.0.7  ( Thu May 31 2018 18:27:30 GMT+0200 (CEST) )
 
 
 ## Bug Fixes
-  - fix small issue in the imagesLoadedAttribute feature
-  ([cbebf545](https://github.com/Coffeekraken/sugar/commit/cbebf54523f4b3a15db94ba86202691e057d0ce3))
-  - fix small issue with s-vertical-rhythm mixin
-  ([57061c00](https://github.com/Coffeekraken/sugar/commit/57061c006258a3b874d0177c4609cd168880a5aa))
-  - fix:Fix s-media mixin when using it without any refiners like os detection, etc...
-  ([46e1f29d](https://github.com/Coffeekraken/sugar/commit/46e1f29d855489f072de925b3913cdf9739d91d9))
+  - fix the deprecation warning for the call method in sassyjson
+  ([a0c33883](https://github.com/Coffeekraken/sugar/commit/a0c33883e42c2468a2d34e4683291219b0756a18))
+  - fix the autoCast function to return directly the value if the passed value to cast is not a string
+  ([b496552c](https://github.com/Coffeekraken/sugar/commit/b496552c127e87112cb68ccf55a62c245996519d))
+  - fix the s-position-map sass function
+  ([a304505b](https://github.com/Coffeekraken/sugar/commit/a304505b8a60029d1ce28a62ba549c7888773780))
 
 
 
