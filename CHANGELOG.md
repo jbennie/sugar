@@ -4,10 +4,14 @@
 
 _A little sugar in your codebase_
 
-## 1.0.6  ( Tue May 22 2018 21:34:22 GMT+0200 (CEST) )
+## 1.0.6  ( Thu May 31 2018 11:12:40 GMT+0200 (CEST) )
 
 
 ## Breaking changes
+  - do not load anymore by default the features from the SWebComponentMixin file. Need to load them by hand now!
+  ([6d056893](https://github.com/Coffeekraken/sugar/commit/6d0568937572f99fffe4bb9c669ac9002f0472b5))
+  - remove the s-vertical-rhythm function cause it was too complicated and not so useful
+  ([6ab30bfd](https://github.com/Coffeekraken/sugar/commit/6ab30bfd17420c2720365a548d14ab7baf3600dc))
   - remove the s-dom-node-inserted mixin
   ([7ee046c4](https://github.com/Coffeekraken/sugar/commit/7ee046c49df62bff8405696b09095b357577c7e1))
   - remove the s-transition-start mixin as well as the sTransitionStartEventDispatcher js file
@@ -42,6 +46,17 @@ _A little sugar in your codebase_
   ([ad2bb2b6](https://github.com/Coffeekraken/sugar/commit/ad2bb2b60318baab527bed5b55e9988058d468b5))
   - rename s-register-class mixin to s-register-helper-class
   ([2b09ac4a](https://github.com/Coffeekraken/sugar/commit/2b09ac4a5b799bdad2b2f33047f32b0f6c2fd7d7))
+
+
+
+
+## Bug Fixes
+  - fix small issue in the imagesLoadedAttribute feature
+  ([cbebf545](https://github.com/Coffeekraken/sugar/commit/cbebf54523f4b3a15db94ba86202691e057d0ce3))
+  - fix small issue with s-vertical-rhythm mixin
+  ([57061c00](https://github.com/Coffeekraken/sugar/commit/57061c006258a3b874d0177c4609cd168880a5aa))
+  - fix:Fix s-media mixin when using it without any refiners like os detection, etc...
+  ([46e1f29d](https://github.com/Coffeekraken/sugar/commit/46e1f29d855489f072de925b3913cdf9739d91d9))
 
 
 
