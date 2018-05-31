@@ -1,7 +1,7 @@
 {
   "name": "coffeekraken-sugar",
   "description": "A little sugar in your codebase",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "homepage": "http://coffekraken.io",
   "main": "index.js",
   "watch": {
@@ -38,7 +38,8 @@
     "lodash": "^4.15.0",
     "modularscale-sass": "^2.1.1",
     "rxjs": "^5.0.0-beta.10",
-    "simple-ajax": "^2.6.0"
+    "simple-ajax": "^2.6.0",
+    "fs-extra": "^6.0.1",
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -53,7 +54,6 @@
     "chai": "^3.5.0",
     "coffeekraken-docblock-to-markdown": "0.0.2",
     "coffeekraken-scripts-stack": "^1.0.1",
-    "fs-extra": "^6.0.1",
     "git-changelog": "^1.1.2",
     "jest": "^23.0.1",
     "karma": "^2.0.2",
