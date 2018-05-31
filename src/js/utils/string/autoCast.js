@@ -3,6 +3,9 @@
  */
 export default function autoCast(string) {
 
+	// if the passed string is not a string, return the value
+	if (typeof string !== 'string') return string
+
 	// handle the single quotes strings like '"hello world"'
 	if (string.substr(0,1) === '\'' && string.substr(-1) === '\'') {
 		return string.substr(1,string.length-2)
