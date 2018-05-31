@@ -1,3 +1,15 @@
+/**
+ * @name 	inputAdditionalAttributes
+ * Add some attributes on inputs, textarea and select to help with styling purposes and more.
+ * Here's the attributes added:
+ * - `has-value`: When the input has a value in it
+ * - `empty`: When the input is has no value in it
+ * - `dirty`: When the input has been touched
+ * @exemple 	js
+ * import 'coffeekraken-sugar/features/inputAdditionalAttributes'
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+
 import fastdom from 'fastdom'
 import __querySelectorLive from 'coffeekraken-sugar/js/dom/querySelectorLive'
 

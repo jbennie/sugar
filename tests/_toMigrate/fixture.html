@@ -1,0 +1,203 @@
+<!-- js/dom/attributesObservable -->
+<div id="attributesObservable"></div>
+
+<!-- js/dom/closestNotVisible -->
+<div id="closestNotVisible">
+	<div ref="targetVisibilityHidden" style="visibility:hidden">
+		<div ref="sourceVisibilityHidden"></div>
+	</div>
+	<div ref="targetDisplayNone" style="display:none">
+		<div ref="sourceDisplayNone"></div>
+	</div>
+	<div ref="targetOpacityZero" style="opacity:0">
+		<div ref="sourceOpacityZero"></div>
+	</div>
+	<div ref="targetVisible">
+		<div ref="sourceVisible"></div>
+	</div>
+</div>
+
+<!-- js/dom/dispatchEvent -->
+<div id="dispatchEvent">
+	<div ref="target">
+		<div ref="dispatcher"></div>
+	</div>
+</div>
+
+<!-- js/dom/getAnimationProperties -->
+<style>
+	@keyframes getAnimationProperties {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity : 1
+		}
+	}
+	#getAnimationProperties [ref="animated"] {
+		-webkit-animation : getAnimationProperties .2s ease-in-out 0s;
+		-moz-animation : getAnimationProperties .2s ease-in-out 0s;
+		-ms-animation : getAnimationProperties .2s ease-in-out 0s;
+		animation : getAnimationProperties .2s ease-in-out 0s;
+	}
+</style>
+<div id="getAnimationProperties">
+	<div ref="animated"></div>
+</div>
+
+<!-- js/dom/getStyleProperty -->
+<style>
+	#getStyleProperty [ref="element"] {
+		padding: 10px 20px;
+		position: absolute;
+	}
+</style>
+<div id="getStyleProperty">
+	<div ref="element"></div>
+</div>
+
+<!-- js/dom/getTransitionProperties -->
+<style>
+	#getTransitionProperties [ref="element"] {
+		-webkit-transition : border .2s ease-in-out 0s;
+		-moz-transition : border .2s ease-in-out 0s;
+		-ms-transition : border .2s ease-in-out 0s;
+		transition : border .2s ease-in-out 0s;
+	}
+</style>
+<div id="getTransitionProperties">
+	<div ref="element"></div>
+</div>
+
+<!-- js/dom/getTranslateProperties -->
+<style>
+	#getTranslateProperties [ref="element"] {
+		-webkit-transform : translateX(100px) translateY(50px) translateZ(200px);
+		-moz-transform : translateX(100px) translateY(50px) translateZ(200px);
+		-ms-transform : translateX(100px) translateY(50px) translateZ(200px);
+		transform : translateX(100px) translateY(50px) translateZ(200px);
+	}
+</style>
+<div id="getTranslateProperties">
+	<div ref="element"></div>
+</div>
+
+<!-- js/dom/imageLoaded -->
+<div id="imageLoaded">
+	<img src="https://github.com/Coffeekraken/sugar/raw/master/tests/img/test.jpg" ref="image" />
+</div>
+
+<!-- js/dom/insertAfter -->
+<div id="insertAfter">
+	<div ref="firstElement"></div>
+	<div ref="lastElement"></div>
+</div>
+
+<!-- js/dom/inViewportPercentage -->
+<style>
+	#inViewportPercentage [ref="element"] {
+		position:absolute;
+		background: red;
+		top:0; left:0;
+		width:200px; height:200px;
+		-webkit-transform: translateX(-50%) translateY(-50%);
+		-moz-transform: translateX(-50%) translateY(-50%);
+		-ms-transform: translateX(-50%) translateY(-50%);
+		transform: translateX(-50%) translateY(-50%);
+	}
+</style>
+<div id="inViewportPercentage">
+	<div ref="element"></div>
+</div>
+
+<!-- js/dom/isInViewport -->
+<style>
+	#isInViewport [ref="inViewportElement"] {
+		position:absolute;
+		background: red;
+		top:0; left:0;
+		width:200px; height:200px;
+	}
+	#isInViewport [ref="notInViewportElement"] {
+		position:absolute;
+		background: red;
+		top:200vh; left:0;
+		width:200px; height:200px;
+	}
+</style>
+<div id="isInViewport">
+	<div ref="inViewportElement"></div>
+	<div ref="notInViewportElement"></div>
+</div>
+
+<!-- js/dom/isVisible -->
+<div id="isVisible">
+	<div ref="targetVisibilityHidden" style="visibility:hidden"></div>
+	<div ref="targetDisplayNone" style="display:none"></div>
+	<div ref="targetOpacityZero" style="opacity:0"></div>
+	<div ref="targetVisible"></div>
+</div>
+
+<!-- js/dom/matches -->
+<div id="matches">
+	<div ref="class" class="hello"></div>
+	<div ref="attribute" hello="world"></div>
+	<div ref="not" hello="world"></div>
+</div>
+
+<!-- js/dom/next -->
+<div id="next">
+	<div ref="firstElement"></div>
+	<div ref="secondElement"></div>
+	<div ref="thirdElement"></div>
+</div>
+
+<!-- js/dom/offset -->
+<style>
+	#offset [ref="element"] {
+		position:absolute;
+		top:200px; left:200px;
+		width:10px; height:10px;
+		-webkit-transform: translateX(100px) translateY(50px);
+		-moz-transform: translateX(100px) translateY(50px);
+		-ms-transform: translateX(100px) translateY(50px);
+		transform: translateX(100px) translateY(50px);
+	}
+</style>
+<div id="offset">
+	<div ref="element"></div>
+</div>
+
+<!-- js/dom/prependChild -->
+<div id="prependChild">
+	<div ref="firstElement"></div>
+	<div ref="lastElement"></div>
+</div>
+
+<!-- js/dom/previous -->
+<div id="previous">
+	<div ref="firstElement"></div>
+	<div ref="secondElement"></div>
+	<div ref="thirdElement"></div>
+</div>
+
+<!-- js/dom/realHeight -->
+<style>
+	#realHeight [ref="container"] {
+		height: 200px;
+		overflow-y: hidden;
+	}
+	#realHeight [ref="content"] {
+		height: 400px;
+	}
+</style>
+<div id="realHeight">
+	<div ref="container">
+		<div ref="content"></div>
+	</div>
+</div>
+
+<!-- js/dom/whenAttribute -->
+<div id="whenAttribute">
+	<div ref="element"></div>
+</div>

@@ -1,0 +1,32 @@
+/**
+ * Display the vertical rhythme
+ *
+ * @param 			{Color} 		The color wanted
+ *
+ * @example
+ * body {
+ * 		@include s-show-vertical-rhythm();
+ * }
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-show-vertical-rhythm(
+	$color : #0ff
+) {
+	// overflow: hidden;
+	position: relative;
+	&:after {
+		pointer-events: none;
+		content:'';
+		display: block;
+		position: absolute;
+		top:0; left:0;
+		width:100%; height:100%;
+		background-image: -webkit-linear-gradient(top,$color 0,rgba(255,255,255,0)1px);
+		background-image: -moz-linear-gradient(top,$color 0,rgba(255,255,255,0)1px);
+		background-image: -o-linear-gradient(top,$color 0,rgba(255,255,255,0)1px);
+		background-image: linear-gradient(to bottom,$color 0,rgba(255,255,255,0)1px);
+		background-repeat: repeat-y;
+		background-size: 100% 1rem;
+	}
+}

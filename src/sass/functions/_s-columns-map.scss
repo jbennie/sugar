@@ -1,0 +1,80 @@
+/**
+ * Return the Map representation of a columns properties
+ * @param  		{Interger} 			[$count=null] 			The number of columns
+ * @param 		{Number} 			[$gap=null] 			The gap width between each columns
+ * @param 		{String} 			[$fill=null] 			The fill property (balance,auto,initial,inherit)
+ * @param 		{Number} 			[$width=null] 			The width of the columns
+ * @param 		{Integer|String} 	[$span=null] 			The column-span property (1,all,initial,inherit)
+ * @param 		{List} 				[$rule=null] 			The column-rule property
+ * @param 		{String} 			[$rule-style=null]  	The column-rule-style property
+ * @param 		{Color} 			[$rule-color=null] 		The column-rule-color property
+ * @param 		{Number} 			[$rule-width=null] 		The column-rule-width property
+ * @return 		{Map} 										The map representation or the columns properties
+ *
+ * @example
+ * s-columns-map(2, 20px);
+ * // return
+ * // (
+ * // 	column-count : 2,
+ * // 	column-gap : 20px
+ * // )
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@function s-columns-map(
+	$count : null,
+	$gap : null,
+	$fill : null,
+	$width : null,
+	$span : null,
+	$rule : null,
+	$rule-style : null,
+	$rule-color : null,
+	$rule-width : null
+) {
+	@if $_sugar-test-arguments {
+		$fill : s-test-argument('s-columns-map','fill',(balance,auto,initial,inherit),$fill);
+		$rule-style : s-test-argument('s-columns-map','rule-style',(none,hidden,dotted,dashed,solid,double,groove,ridge,inset,outset,initial,inherit),$rule-style);
+		$count : s-test-argument('s-columns-map','count',integer,$count);
+		$gap : s-test-argument('s-columns-map','gap',number,$gap);
+		$width : s-test-argument('s-columns-map','width',number,$width);
+		$span : s-test-argument('s-columns-map','span',number,$span);
+		$rule-color : s-test-argument('s-columns-map','rule-color',color,$rule-color);
+		$rule-width : s-test-argument('s-columns-map','rule-width',number,$rule-width);
+		$rule : s-test-argument('s-columns-map','rule',mixed,$rule);
+	}
+
+	$return : ();
+
+	@if $count {
+		$return : map-set($return, column-count, $count);
+	}
+	@if $width {
+		$return : map-set($return, column-width, $width);
+	}
+	@if $rule {
+		$return : map-set($return, column-rule, $rule);
+	} @else {
+		@if $rule-style {
+			$return : map-set($return, column-rule-style, $rule-style);
+		}
+		@if $rule-color {
+			$return : map-set($return, column-rule-color, $rule-color);
+		}
+		@if $rule-width {
+			$return : map-set($return, column-rule-width, $rule-width);
+		}
+	}
+	@if $gap {
+		$return : map-set($return, column-gap, $gap);
+	}
+	@if $fill {
+		$return : map-set($return, column-fill, $fill);
+	}
+	@if $span {
+		$return : map-set($return, column-span, $span);
+	}
+
+	// return
+	@return $return;
+}

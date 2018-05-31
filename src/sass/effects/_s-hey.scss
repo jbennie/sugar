@@ -47,7 +47,7 @@
 
 	$color : s-color($color);
 
-	$position : s-position(
+	$position : s-position-map(
 		$vertical-align : $vertical-align,
 		$align : $align
 	);

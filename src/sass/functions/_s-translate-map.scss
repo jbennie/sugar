@@ -1,0 +1,45 @@
+/**
+ * Return the Map properties representation of a translate x,y and z
+ *
+ * @param 			{Number} 			[$x=0] 			The x translate value
+ * @param 			{Number} 			[$y=0] 			The y translate value
+ * @param 			{Number} 			[$z=0] 			The z translate value
+ * @return 			{Map} 								The translate Map representation
+ *
+ * @example
+ * s-translate-map(10px,20px);
+ * // return
+ * // (
+ * // 	transform: translateX(10px) translateY(20px) translateZ(0)
+ * // )
+ *
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@function s-translate-map(
+	$x : 0,
+	$y : 0,
+	$z : 0
+) {
+	@if $_sugar-test-arguments {
+		$x : s-test-argument('s-translate-map','x',number,$x);
+		$y : s-test-argument('s-translate-map','y',number,$y);
+		$z : s-test-argument('s-translate-map','z',number,$z);
+	}
+
+	// build translate
+	$translates : ();
+	@if $x {
+		$translates : append($translates, translateX($x));
+	}
+	@if $y {
+		$translates : append($translates, translateY($y));
+	}
+	@if $z {
+		$translates : append($translates, translateZ($z));
+	}
+
+	// return translate
+	@return (
+		transform : $translates
+	);
+}

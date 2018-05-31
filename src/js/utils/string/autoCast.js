@@ -2,25 +2,20 @@
  * Auto cast the string into the correct variable type
  */
 export default function autoCast(string) {
-	// printed object
-	if (string === '[object Object]') return null;
-	// boolean values
-	if (string === 'false'
-		|| string === 'true'
-		|| string === 'undefined'
-		|| string === 'null'
-		|| ! isNaN(string)) {
-		return eval(string);
+
+	// handle the single quotes strings like '"hello world"'
+	if (string.substr(0,1) === '\'' && string.substr(-1) === '\'') {
+		return string.substr(1,string.length-2)
 	}
-	// array
-	if (typeof(string) === 'string' && string.substr(0,1) === '[') {
-		const val = eval(string);
-		if (val instanceof Array) return val;
+
+	// try to eval the passed string
+	// if no exception, mean that it's a valid
+	// js variable type
+	try {
+		const obj = eval(`(${string})`)
+		return obj
+	} catch(e) {
+		// assume that the string passed is a string
+		return string
 	}
-	// parse json
-	if (typeof(string) === 'string' && string.substr(0,1) === '{') {
-		return eval('('+string+')');
-	}
-	// return the string if nothing can be casted
-	return string;
 }

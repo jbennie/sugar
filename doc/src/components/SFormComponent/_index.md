@@ -1,3 +1,0 @@
-# SFormComponent
-
-Documentation coming soon...

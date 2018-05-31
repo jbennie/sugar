@@ -1,3 +1,12 @@
+/**
+ * @name 	inputAdditionalEvents
+ * Add some events on some DOM Elements. Here's the list:
+ * **input/textarea**: `onenter`, `onescape`
+ * @exemple 	js
+ * import 'coffeekraken-sugar/features/inputAdditionalEvents'
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+
 import fastdom from 'fastdom'
 import __dispatchEvent from '../dom/dispatchEvent'
 

@@ -1,0 +1,17 @@
+/**
+ * Print out the css on a container that will make the lines displays a maximum number of characters.
+ *
+ * @example 	scss
+ * h1 {
+ * 	\@include s-rhythm-width(45);
+ * }
+ *
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ */
+@mixin s-rhythm-width(
+	$letters-count : s-setting('typography.line-letters-count')
+) {
+	@each $prop, $value in s-rhythm-width($letters-count) {
+		#{$prop} : $value;
+	}
+}
