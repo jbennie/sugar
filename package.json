@@ -5,19 +5,17 @@
   "homepage": "http://coffekraken.io",
   "main": "index.js",
   "watch": {
-    "dist:js": {
-      "paths": "src/**/*.js"
-    }
+
   },
   "scripts": {
     "dist": "rm -rf dist && npm run dist:js",
-    "dist:js": "babel src -d dist",
+    "dist:js": "babel src -d dist --watch",
     "install": "node ./scripts/install.js",
     "doc": "rm -rf doc/src && npm run doc:scss && npm run doc:js",
     "doc:scss": "coffeekraken-docblock-to-markdown -f 'src/**/*.scss' -d doc",
     "doc:js": "coffeekraken-docblock-to-markdown -f 'src/**/*.js' -d doc",
     "test": "jest --watch",
-    "start": "coffeekraken-scripts-stack -i dist -i install -i start",
+    "start": "coffeekraken-scripts-stack dist:js -i dist -i install -i start",
     "changelog": "git-changelog --version_name $npm_package_version  --app_name $npm_package_name --intro \"$npm_package_description\" --logo \".resources/coffeekraken-logo.jpg\""
   },
   "repository": {
