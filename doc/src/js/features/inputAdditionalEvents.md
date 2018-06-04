@@ -1,20 +1,10 @@
 # inputAdditionalEvents
 
-import 'coffeekraken-sugar/features/inputAdditionalEvents'
+Add some events on some DOM Elements. Here's the list:
+**input/textarea**: `onenter`, `onescape`
 
-Author : Olivier Bossel <olivier.bossel@gmail.com>
-
-
-
-
-
-
-
-## Methods
-
-
-### inputAdditionalEvents
-
-import 'coffeekraken-sugar/features/inputAdditionalEvents'
-
+### Example
+```js
+	import 'coffeekraken-sugar/js/features/inputAdditionalEvents'
+```
 Author : Olivier Bossel <olivier.bossel@gmail.com>
