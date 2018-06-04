@@ -61,12 +61,6 @@ var SWatcher = function () {
   */
 
 
-	// static setters = {
-	// 	CSSStyleDeclaration : (obj, property, value) => {
-	// 		obj.setProperty(property, value);
-	// 	}
-	// }
-
 	/**
   * Watch stack
   * @type 		{Object}
@@ -75,9 +69,10 @@ var SWatcher = function () {
 
 	_createClass(SWatcher, [{
 		key: 'destroy',
-		value: function destroy() {}
-		// @TODO watcher destroy implementation
-
+		value: function destroy() {
+			// destroy the watchStack
+			this._watchStack = {};
+		}
 
 		/**
    * Internal implementation of the defineProp
@@ -104,11 +99,6 @@ var SWatcher = function () {
 
 			// custom setter check
 			var _set = function _set(value) {
-				// check if have a custom setter for this object
-				// if (customSetter) {
-				// 	customSetter(obj, property, value);
-				// 	val = value;
-				// }
 				// descriptor
 				if (currentDescriptor && currentDescriptor.set) {
 					var ret = currentDescriptor.set(value);
@@ -126,15 +116,6 @@ var SWatcher = function () {
 					val = newVal;
 				});
 			};
-
-			// get the setter
-			// let customSetter;
-			// for (let name in SWatcher.setters) {
-			// 	if (__constructorName(obj) === name) {
-			// 		customSetter = SWatcher.setters[name];
-			// 		break;
-			// 	}
-			// }
 
 			// set the value
 			_set(value);
@@ -251,7 +232,7 @@ var SWatcher = function () {
 				path = path.split(',');
 			}
 			if (!path instanceof Array) {
-				throw "The 'path' parameter has to be a string or an array...";
+				throw "The 'path' parameter has to be an array...";
 			}
 			// loop on each path to watch
 			path.forEach(function (p) {
