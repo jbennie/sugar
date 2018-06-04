@@ -181,7 +181,7 @@ if (!window.sugar._webComponentsClasses) window.sugar._webComponentsClasses = {}
 if (!window.sugar._webComponentsDefaultProps) window.sugar._webComponentsDefaultProps = {};
 if (!window.sugar._webComponentsDefaultCss) window.sugar._webComponentsDefaultCss = {};
 
-var SWebComponentMixin = (0, _mixwith.__Mixin)(function (superclass) {
+var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 	return function (_superclass) {
 		_inherits(_class2, _superclass);
 
@@ -475,16 +475,8 @@ var SWebComponentMixin = (0, _mixwith.__Mixin)(function (superclass) {
 			}
 
 			/**
-    * Internal store for all the props of the component
-    * Props are actual computed props with attributes
-    * @type 		{Object}
-    */
-
-
-			/**
-    * Store all the props of the component
-    * Props are actual computed props with attributes
-    * @type 		{Object}
+    * Tell the webcomponent v1 spec which attributes to observe for changes
+    * @private
     */
 
 		}, {
@@ -518,6 +510,36 @@ var SWebComponentMixin = (0, _mixwith.__Mixin)(function (superclass) {
 			value: function defaultCss(componentName, componentNameDash) {
 				return '';
 			}
+		}, {
+			key: 'observedAttributes',
+			get: function get() {
+				var props = this.defaultProps;
+				var comp = this;
+				while (comp) {
+					if (comp.defaultProps) {
+						props = _extends({}, comp.defaultProps, props);
+					}
+					if (comp._defaultProps) {
+						props = _extends({}, props, comp._defaultProps);
+					}
+					comp = Object.getPrototypeOf(comp);
+				}
+				return Object.keys(props);
+			}
+
+			/**
+    * Internal store for all the props of the component
+    * Props are actual computed props with attributes
+    * @type 		{Object}
+    */
+
+
+			/**
+    * Store all the props of the component
+    * Props are actual computed props with attributes
+    * @type 		{Object}
+    */
+
 		}, {
 			key: 'defaultProps',
 

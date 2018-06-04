@@ -1,6 +1,6 @@
 require('es6-object-assign').polyfill();
 
-import { __Mixin } from '../vendors/mixwith'
+import { Mixin } from '../vendors/mixwith'
 import __autoCast from '../utils/string/autoCast'
 import _extend from 'lodash/extend'
 import __camelize from '../utils/string/camelize'
@@ -125,7 +125,7 @@ if ( ! window.sugar._webComponentsClasses) window.sugar._webComponentsClasses = 
 if ( ! window.sugar._webComponentsDefaultProps) window.sugar._webComponentsDefaultProps = {};
 if ( ! window.sugar._webComponentsDefaultCss) window.sugar._webComponentsDefaultCss = {};
 
-const SWebComponentMixin = __Mixin((superclass) => class extends superclass {
+const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 
 	/**
 	 * Define the new web component
@@ -212,6 +212,31 @@ const SWebComponentMixin = __Mixin((superclass) => class extends superclass {
 				window.sugar._webComponentsDefaultCss[componentName] = false;
 			}
 		}
+	}
+
+	/**
+	 * Tell the webcomponent v1 spec which attributes to observe for changes
+	 * @private
+	 */
+	static get observedAttributes() {
+		let props = this.defaultProps;
+		let comp = this;
+		while(comp) {
+			if (comp.defaultProps) {
+				props = {
+					...comp.defaultProps,
+					...props
+				};
+			}
+			if (comp._defaultProps) {
+				props = {
+					...props,
+					...comp._defaultProps
+				};
+			}
+			comp = Object.getPrototypeOf(comp);
+		}
+		return Object.keys(props);
 	}
 
 	/**
