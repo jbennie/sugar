@@ -39,10 +39,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-
-if (!window.sugar) window.sugar = {};
-window.sugar._styles = new Map();
-
 function style(elm, styleObj) {
 
   // convert style string to object

@@ -74,9 +74,5 @@ class SGooeySvgFilter extends SSvgFilter {
 	}
 }
 
-// expose in window.sugar
-if (window.sugar == null) { window.sugar = {}; }
-window.sugar.SGooeySvgFilter = SGooeySvgFilter;
-
 // export modules
 export default SGooeySvgFilter;

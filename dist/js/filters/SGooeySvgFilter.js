@@ -110,13 +110,7 @@ var SGooeySvgFilter = function (_SSvgFilter) {
 	return SGooeySvgFilter;
 }(_SSvgFilter3.default);
 
-// expose in window.sugar
-
-
-if (window.sugar == null) {
-	window.sugar = {};
-}
-window.sugar.SGooeySvgFilter = SGooeySvgFilter;
-
 // export modules
+
+
 exports.default = SGooeySvgFilter;

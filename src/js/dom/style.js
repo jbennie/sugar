@@ -19,10 +19,6 @@ import __styleObject2String from './styleObject2String'
  *
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
-
-if ( ! window.sugar) window.sugar = {};
-window.sugar._styles = new Map();
-
 export default function style(elm, styleObj) {
 
 	// convert style string to object

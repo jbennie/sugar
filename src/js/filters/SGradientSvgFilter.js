@@ -138,9 +138,5 @@ class SGradientSvgFilter extends SSvgFilter {
 	}
 }
 
-// expose in window.sugar
-if (window.sugar == null) { window.sugar = {}; }
-window.sugar.SGradientSvgFilter = SGradientSvgFilter;
-
 // export modules
 export default SGradientSvgFilter;
