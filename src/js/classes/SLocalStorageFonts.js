@@ -155,9 +155,5 @@ class SLocalStorageFonts {
 	}
 };
 
-// expose in window.sugar
-if (window.sugar == null) { window.sugar = {}; }
-window.sugar.sLocalStorageFonts = SLocalStorageFonts;
-
 // export modules
 export default SLocalStorageFonts;
