@@ -1,12 +1,12 @@
 require('es6-object-assign').polyfill();
 
-import { Mixin } from '../vendors/mixwith'
+import { __Mixin } from '../vendors/mixwith'
 import __autoCast from '../utils/string/autoCast'
 import _extend from 'lodash/extend'
 import __camelize from '../utils/string/camelize'
 import __uncamelize from '../utils/string/uncamelize'
 import __upperFirst from '../utils/string/upperFirst'
-import fastdom from 'fastdom'
+import __fastdom from 'fastdom'
 import __dispatchEvent from '../dom/dispatchEvent'
 import __whenInViewport from '../dom/whenInViewport'
 import __whenVisible from '../dom/whenVisible'
@@ -125,7 +125,7 @@ if ( ! window.sugar._webComponentsClasses) window.sugar._webComponentsClasses = 
 if ( ! window.sugar._webComponentsDefaultProps) window.sugar._webComponentsDefaultProps = {};
 if ( ! window.sugar._webComponentsDefaultCss) window.sugar._webComponentsDefaultCss = {};
 
-const SWebComponentMixin = Mixin((superclass) => class extends superclass {
+const SWebComponentMixin = __Mixin((superclass) => class extends superclass {
 
 	/**
 	 * Define the new web component
@@ -204,13 +204,10 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 			if (css) {
 				css = css.replace(/[\s]+/g,' ');
 				window.sugar._webComponentsDefaultCss[componentName] = css;
-				// fastdom.mutate(() => {
 				const styleElm = document.createElement('style');
 				styleElm.setAttribute('name', componentName);
 				styleElm.innerHTML = css;
 				__prependChild(styleElm, document.head);
-				// document.head.appendChild(styleElm);
-				// });
 			} else {
 				window.sugar._webComponentsDefaultCss[componentName] = false;
 			}
@@ -481,9 +478,6 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 */
 	createdCallback() {
 
-		// create the "s" namespace
-		this.s = {};
-
 		// props
 		this.props = {};
 
@@ -584,11 +578,6 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * @protected
 	 */
 	attributeChangedCallback(attribute, oldVal, newVal) {
-
-		// stop if component has not been mounted
-		// if ( ! this._lifecycle.componentWillMount) {
-		// 	return;
-		// }
 
 		// keep an original attribute name
 		const _attribute = attribute;
@@ -912,7 +901,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 */
 	_mountComponent() {
 		// wait next frame
-		fastdom.clear(this._fastdomSetProp);
+		__fastdom.clear(this._fastdomSetProp);
 		this._fastdomSetProp = this.mutate(() => {
 			// sometimes, the component has been unmounted between the
 			// fastdom execution, so we stop here if it's the case
@@ -943,7 +932,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 			// will unmount
 			this.componentWillUnmount();
 			// wait next frame
-			fastdom.clear(this._fastdomSetProp);
+			__fastdom.clear(this._fastdomSetProp);
 			this._fastdomSetProp = this.mutate(() => {
 				// unmount only if the component is mounted
 				if ( ! this._lifecycle.componentMount) return;
@@ -1038,8 +1027,8 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		this.componentWillReceiveProp(prop, newVal, oldVal);
 
 		// wait till next frame
-		fastdom.clear(this._fastdomSetProp);
-		this._fastdomSetProp = fastdom.mutate(() => {
+		__fastdom.clear(this._fastdomSetProp);
+		this._fastdomSetProp = __fastdom.mutate(() => {
 
 			// create array version of each stacks
 			const nextPropsArray = [],
@@ -1052,7 +1041,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 				});
 
 				// handle physical props
-				this._handlePhysicalProps(key, val);
+				this._handlePhysicalProp(key, val);
 
 			}
 			for (let key in this._prevPropsStack) {
@@ -1129,33 +1118,13 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	 * Initiate a new prop. This will add the propertyProxy on the new prop etc...
-	 * @param 			{String} 			prop 			The property name to init
-	 */
-	_initNewProp(prop, value = null) {
-		// if (value) {
-		// 	this.props[prop] = value;
-		// }
-		// __propertyProxy(this.props, prop, {
-		// 	set : (value) => {
-		// 		const oldVal = this.props[prop];
-		// 		// handle new prop value
-		// 		this._handleNewPropValue(prop, value, oldVal);
-		// 		// set the value
-		// 		return value;
-		// 	},
-		// 	enumarable : true
-		// }, false);
-	}
-
-	/**
 	 * Handle physical props by setting or not the prop
 	 * on the dom element as attribute
 	 * @param 			{String} 			prop 			The property to handle
 	 * @param 			{Mixed} 			value 			The property value
 	 * @author 			Olivier Bossel <olivier.bossel@gmail.com>
 	 */
-	_handlePhysicalProps(prop, value) {
+	_handlePhysicalProp(prop, value) {
 		// check if is a physical prop to set it in the dom
 		const physicalProps = this.physicalProps;
 		if (physicalProps.indexOf(prop) !== -1) {
@@ -1197,7 +1166,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		for (let key in this.props) {
 			const value = this.props[key];
 			// handle physical props
-			this._handlePhysicalProps(key, value);
+			this._handlePhysicalProp(key, value);
 		}
 	}
 
@@ -1206,7 +1175,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * @param 		{Function} 		cb 			The callback to exexute
 	 */
 	mutate(cb) {
-		return fastdom.mutate(cb);
+		return __fastdom.mutate(cb);
 	}
 
 	/**

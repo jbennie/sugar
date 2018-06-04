@@ -181,7 +181,7 @@ if (!window.sugar._webComponentsClasses) window.sugar._webComponentsClasses = {}
 if (!window.sugar._webComponentsDefaultProps) window.sugar._webComponentsDefaultProps = {};
 if (!window.sugar._webComponentsDefaultCss) window.sugar._webComponentsDefaultCss = {};
 
-var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
+var SWebComponentMixin = (0, _mixwith.__Mixin)(function (superclass) {
 	return function (_superclass) {
 		_inherits(_class2, _superclass);
 
@@ -464,13 +464,10 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 					if (css) {
 						css = css.replace(/[\s]+/g, ' ');
 						window.sugar._webComponentsDefaultCss[componentName] = css;
-						// fastdom.mutate(() => {
 						var styleElm = document.createElement('style');
 						styleElm.setAttribute('name', componentName);
 						styleElm.innerHTML = css;
 						(0, _prependChild2.default)(styleElm, document.head);
-						// document.head.appendChild(styleElm);
-						// });
 					} else {
 						window.sugar._webComponentsDefaultCss[componentName] = false;
 					}
@@ -590,9 +587,6 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			value: function createdCallback() {
 				var _this3 = this;
 
-				// create the "s" namespace
-				this.s = {};
-
 				// props
 				this.props = {};
 
@@ -704,11 +698,6 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 		}, {
 			key: 'attributeChangedCallback',
 			value: function attributeChangedCallback(attribute, oldVal, newVal) {
-
-				// stop if component has not been mounted
-				// if ( ! this._lifecycle.componentWillMount) {
-				// 	return;
-				// }
 
 				// keep an original attribute name
 				var _attribute = attribute;
@@ -1243,7 +1232,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 						});
 
 						// handle physical props
-						_this10._handlePhysicalProps(key, val);
+						_this10._handlePhysicalProp(key, val);
 					}
 					for (var _key in _this10._prevPropsStack) {
 						var _val = _this10._prevPropsStack[_key];
@@ -1331,31 +1320,6 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			}
 
 			/**
-    * Initiate a new prop. This will add the propertyProxy on the new prop etc...
-    * @param 			{String} 			prop 			The property name to init
-    */
-
-		}, {
-			key: '_initNewProp',
-			value: function _initNewProp(prop) {
-				var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-			}
-			// if (value) {
-			// 	this.props[prop] = value;
-			// }
-			// __propertyProxy(this.props, prop, {
-			// 	set : (value) => {
-			// 		const oldVal = this.props[prop];
-			// 		// handle new prop value
-			// 		this._handleNewPropValue(prop, value, oldVal);
-			// 		// set the value
-			// 		return value;
-			// 	},
-			// 	enumarable : true
-			// }, false);
-
-
-			/**
     * Handle physical props by setting or not the prop
     * on the dom element as attribute
     * @param 			{String} 			prop 			The property to handle
@@ -1364,8 +1328,8 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
     */
 
 		}, {
-			key: '_handlePhysicalProps',
-			value: function _handlePhysicalProps(prop, value) {
+			key: '_handlePhysicalProp',
+			value: function _handlePhysicalProp(prop, value) {
 				// check if is a physical prop to set it in the dom
 				var physicalProps = this.physicalProps;
 				if (physicalProps.indexOf(prop) !== -1) {
@@ -1408,7 +1372,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				for (var key in this.props) {
 					var value = this.props[key];
 					// handle physical props
-					this._handlePhysicalProps(key, value);
+					this._handlePhysicalProp(key, value);
 				}
 			}
 
