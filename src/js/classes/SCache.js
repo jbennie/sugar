@@ -14,21 +14,29 @@ export default class SCache {
 	cache = {};
 
 	/**
+	 * @name 	lifetime
+	 * The lifetime in second of the cache items by default. Can be set individually by cache item
+	 * @setting
+	 * @type 	{Integer}
+	 * @default 	86400
+	 */
+
+	/**
 	 * @constructor
 	 * @param 		{String} 		name 		The name of the cache
+	 * @param 		{Object} 		[settings={}] 	The cache settings
 	 */
 	constructor(name, settings = {}) {
 		// set the cache name
 		this.name = name;
 		this.settings = {
 			lifetime : 3600 * 24,
-			maxItems : 2000,
-			strategy : 'LRU',
 			...settings
 		}
 	}
 
 	/**
+	 * @name 	get
 	 * Get a value from the cache
 	 * @param 		{String} 		id 		The id of the cache element to retreive
 	 * @return 		{Mixed} 				The cache value or null if not exist
@@ -42,7 +50,7 @@ export default class SCache {
 			// delete the cache item
 			delete this.cache[id];
 			// save the cache
-			this.save();
+			this._save();
 			// we not have any cache left
 			return null;
 		}
@@ -51,6 +59,7 @@ export default class SCache {
 	}
 
 	/**
+	 * @name 	now
 	 * Get the now timestamp
 	 * @return 		{Integer} 					The timestamp of now
 	 */
@@ -59,6 +68,7 @@ export default class SCache {
 	}
 
 	/**
+	 * @name 	set
 	 * Set a value in the cache
 	 * @param 		{String} 		id 			The id of the cache element to set
 	 * @param 		{Mixed} 		value 		The value to set in cache
@@ -66,30 +76,19 @@ export default class SCache {
 	 */
 	set(id, value, lifetime = null) {
 		let cacheObj = {};
-		// check if already have this item to update if
-		// if (this.cache[id]) {
-		// 	cacheObj = this.cache[id];
-		// 	// update the cache
-		// 	cacheObj = {
-		// 		...cacheObj,
-		// 		value,
-		// 		updated : this.now
-		// 	}
-		// } else {
-			// create the cache object that need to be stored
-			cacheObj = {
-				id,
-				value,
-				lifetime : lifetime || this.settings.lifetime,
-				expire : this.now + (lifetime || this.settings.lifetime),
-				created : this.now,
-				updated : null
-			};
-			// set the cache object into cache
-			this.cache[id] = cacheObj;
-		// }
+		// create the cache object that need to be stored
+		cacheObj = {
+			id,
+			value,
+			lifetime : lifetime || this.settings.lifetime,
+			expire : this.now + (lifetime || this.settings.lifetime),
+			created : this.now,
+			updated : null
+		};
+		// set the cache object into cache
+		this.cache[id] = cacheObj;
 		// save the cache
-		this.save();
+		this._save();
 		// return the value to store
 		return cacheObj;
 	}
