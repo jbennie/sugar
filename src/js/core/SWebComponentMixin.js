@@ -226,31 +226,6 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	 * Tell the webcomponent v1 spec which attributes to observe for changes
-	 * @private
-	 */
-	// static get observedAttributes() {
-	// 	let props = this.defaultProps;
-	// 	let comp = this;
-	// 	while(comp) {
-	// 		if (comp.defaultProps) {
-	// 			props = {
-	// 				...comp.defaultProps,
-	// 				...props
-	// 			};
-	// 		}
-	// 		if (comp._defaultProps) {
-	// 			props = {
-	// 				...props,
-	// 				...comp._defaultProps
-	// 			};
-	// 		}
-	// 		comp = Object.getPrototypeOf(comp);
-	// 	}
-	// 	return Object.keys(props);
-	// }
-
-	/**
 	 * Internal store for all the props of the component
 	 * Props are actual computed props with attributes
 	 * @type 		{Object}
