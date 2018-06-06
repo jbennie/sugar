@@ -424,9 +424,18 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				// fix for firefox and surely other crapy browser...
 				// this make sur that the (static) methods of the component
 				// are present on the webcomponent itself
-				var staticFns = Object.getOwnPropertyNames(component).filter(function (prop) {
-					return typeof component[prop] === "function";
-				});
+				var staticFns = [];
+				var comp = component;
+				while (comp) {
+					try {
+						staticFns = staticFns.concat(Object.getOwnPropertyNames(comp).filter(function (prop) {
+							return typeof comp[prop] === "function";
+						}));
+						comp = Object.getPrototypeOf(comp);
+					} catch (e) {
+						break;
+					}
+				}
 				var keys = staticFns.concat(Object.keys(component));
 				keys.forEach(function (key) {
 					if (!webcomponent[key]) {
@@ -478,6 +487,39 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
     * Tell the webcomponent v1 spec which attributes to observe for changes
     * @private
     */
+			// static get observedAttributes() {
+			// 	let props = this.defaultProps;
+			// 	let comp = this;
+			// 	while(comp) {
+			// 		if (comp.defaultProps) {
+			// 			props = {
+			// 				...comp.defaultProps,
+			// 				...props
+			// 			};
+			// 		}
+			// 		if (comp._defaultProps) {
+			// 			props = {
+			// 				...props,
+			// 				...comp._defaultProps
+			// 			};
+			// 		}
+			// 		comp = Object.getPrototypeOf(comp);
+			// 	}
+			// 	return Object.keys(props);
+			// }
+
+			/**
+    * Internal store for all the props of the component
+    * Props are actual computed props with attributes
+    * @type 		{Object}
+    */
+
+
+			/**
+    * Store all the props of the component
+    * Props are actual computed props with attributes
+    * @type 		{Object}
+    */
 
 		}, {
 			key: 'setDefaultProps',
@@ -510,36 +552,6 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			value: function defaultCss(componentName, componentNameDash) {
 				return '';
 			}
-		}, {
-			key: 'observedAttributes',
-			get: function get() {
-				var props = this.defaultProps;
-				var comp = this;
-				while (comp) {
-					if (comp.defaultProps) {
-						props = _extends({}, comp.defaultProps, props);
-					}
-					if (comp._defaultProps) {
-						props = _extends({}, props, comp._defaultProps);
-					}
-					comp = Object.getPrototypeOf(comp);
-				}
-				return Object.keys(props);
-			}
-
-			/**
-    * Internal store for all the props of the component
-    * Props are actual computed props with attributes
-    * @type 		{Object}
-    */
-
-
-			/**
-    * Store all the props of the component
-    * Props are actual computed props with attributes
-    * @type 		{Object}
-    */
-
 		}, {
 			key: 'defaultProps',
 
@@ -647,6 +659,25 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 					this.props = this._props;
 				}
 
+				// listen for updates on the element itself
+				// instead of using the attributesChangedCallback
+				// cause with the attributesChangedCallback, you'll need to declare
+				// at start which attributes to listen and this behavior is not suitable
+				// for new attributes added after the component creation...
+				var observer = new MutationObserver(function (mutationList) {
+					var mutatedAttributes = [];
+					mutationList.forEach(function (mutation) {
+						if (mutatedAttributes.indexOf(mutation.attributeName) === -1) {
+							_this3._attributeMutationCallback(mutation.attributeName, mutation.oldValue, _this3.getAttribute(mutation.attributeName));
+						}
+						mutatedAttributes.push(mutation.attributeName);
+					});
+				});
+				observer.observe(this, {
+					attributes: true,
+					attributeOldValue: true
+				});
+
 				// created callback
 				this.componentCreated();
 			}
@@ -718,8 +749,11 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
     */
 
 		}, {
-			key: 'attributeChangedCallback',
-			value: function attributeChangedCallback(attribute, oldVal, newVal) {
+			key: '_attributeMutationCallback',
+			value: function _attributeMutationCallback(attribute, oldVal, newVal) {
+
+				// stop if the attribute has not changed
+				if (oldVal === newVal) return;
 
 				// keep an original attribute name
 				var _attribute = attribute;

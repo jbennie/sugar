@@ -169,7 +169,18 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		// fix for firefox and surely other crapy browser...
 		// this make sur that the (static) methods of the component
 		// are present on the webcomponent itself
-		const staticFns = Object.getOwnPropertyNames(component).filter(prop => typeof component[prop] === "function");
+		let staticFns = [];
+		let comp = component;
+		while(comp) {
+			try {
+				staticFns = staticFns.concat(
+					Object.getOwnPropertyNames(comp).filter(prop => typeof comp[prop] === "function")
+				);
+				comp = Object.getPrototypeOf(comp);
+			} catch(e) {
+				break;
+			}
+		}
 		const keys = staticFns.concat(Object.keys(component));
 		keys.forEach(function (key) {
 			if (!webcomponent[key]) {
@@ -218,26 +229,26 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * Tell the webcomponent v1 spec which attributes to observe for changes
 	 * @private
 	 */
-	static get observedAttributes() {
-		let props = this.defaultProps;
-		let comp = this;
-		while(comp) {
-			if (comp.defaultProps) {
-				props = {
-					...comp.defaultProps,
-					...props
-				};
-			}
-			if (comp._defaultProps) {
-				props = {
-					...props,
-					...comp._defaultProps
-				};
-			}
-			comp = Object.getPrototypeOf(comp);
-		}
-		return Object.keys(props);
-	}
+	// static get observedAttributes() {
+	// 	let props = this.defaultProps;
+	// 	let comp = this;
+	// 	while(comp) {
+	// 		if (comp.defaultProps) {
+	// 			props = {
+	// 				...comp.defaultProps,
+	// 				...props
+	// 			};
+	// 		}
+	// 		if (comp._defaultProps) {
+	// 			props = {
+	// 				...props,
+	// 				...comp._defaultProps
+	// 			};
+	// 		}
+	// 		comp = Object.getPrototypeOf(comp);
+	// 	}
+	// 	return Object.keys(props);
+	// }
 
 	/**
 	 * Internal store for all the props of the component
@@ -541,6 +552,25 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 			this.props = this._props;
 		}
 
+		// listen for updates on the element itself
+		// instead of using the attributesChangedCallback
+		// cause with the attributesChangedCallback, you'll need to declare
+		// at start which attributes to listen and this behavior is not suitable
+		// for new attributes added after the component creation...
+		const observer = new MutationObserver((mutationList) => {
+			const mutatedAttributes = []
+			mutationList.forEach((mutation) => {
+				if (mutatedAttributes.indexOf(mutation.attributeName) === -1) {
+					this._attributeMutationCallback(mutation.attributeName, mutation.oldValue, this.getAttribute(mutation.attributeName));
+				}
+				mutatedAttributes.push(mutation.attributeName);
+			});
+		});
+		observer.observe(this, {
+			attributes: true,
+			attributeOldValue: true
+		});
+
 		// created callback
 		this.componentCreated();
 	}
@@ -602,7 +632,10 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * @param 		{String} 		newVal 			The new attribute value
 	 * @protected
 	 */
-	attributeChangedCallback(attribute, oldVal, newVal) {
+	_attributeMutationCallback(attribute, oldVal, newVal) {
+
+		// stop if the attribute has not changed
+		if (oldVal === newVal) return;
 
 		// keep an original attribute name
 		const _attribute = attribute;
