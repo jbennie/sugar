@@ -185,11 +185,5 @@ var SLocalStorageFonts = function () {
 
 ;
 
-// expose in window.sugar
-if (window.sugar == null) {
-	window.sugar = {};
-}
-window.sugar.sLocalStorageFonts = SLocalStorageFonts;
-
 // export modules
 exports.default = SLocalStorageFonts;

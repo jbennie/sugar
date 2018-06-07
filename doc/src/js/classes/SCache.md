@@ -13,9 +13,22 @@ Default : **null**
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 name  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The name of the cache  |  required  |
+settings  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }**  |  The cache settings  |  optional  |  {}
 
 
 
+
+## Settings
+
+Here's the list of available settings.
+
+### lifetime
+
+The lifetime in second of the cache items by default. Can be set individually by cache item
+
+Type : **{ Integer }**
+
+Default : **86400**
 
 
 ## Properties
@@ -33,7 +46,7 @@ Default : **{}**
 ## Methods
 
 
-### id
+### get
 
 Get a value from the cache
 
@@ -52,7 +65,7 @@ Get the now timestamp
 Return **{ Integer }** The timestamp of now
 
 
-### id,
+### set
 
 Set a value in the cache
 

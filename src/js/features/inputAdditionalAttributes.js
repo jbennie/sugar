@@ -5,8 +5,8 @@
  * - `has-value`: When the input has a value in it
  * - `empty`: When the input is has no value in it
  * - `dirty`: When the input has been touched
- * @exemple 	js
- * import 'coffeekraken-sugar/features/inputAdditionalAttributes'
+ * @example 	js
+ * import 'coffeekraken-sugar/js/features/inputAdditionalAttributes'
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 
