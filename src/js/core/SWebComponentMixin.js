@@ -517,7 +517,11 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		if (window.Proxy) {
 			this.props = new Proxy(this._props, {
 				set : (target, property, value) => {
-					this.setProp(property, value);
+					// apply the new value
+					target[property] = value;
+					// call setProp
+					this.setProp(property, value, false);
+					return true;
 				},
 				get : (target, property) => {
 					return target[property];
@@ -1013,22 +1017,28 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * @param 			{String} 		prop 			The property name to set
 	 * @param 			{Mixed} 		value 			The new property value
 	 */
-	setProp(prop, value) {
+	setProp(prop, value, set = true) {
 
 		// save the oldVal
 		const oldVal = this.props[prop];
 
-		// stop if same value
-		if (oldVal === value) return;
+		// if need to set the prop, check that
+		// it's not the same as before, otherwise
+		// stop.
+		// this is done like so to avoid recursive property setting
+		// by the window.Proxy above in the code
+		if (set) {
+			// stop if same value
+			if (oldVal === value) return;
 
-		// set the prop (duplicate and assign again the whole object to avoid issues with Proxy polyfill)
-		// const newProps = Object.assign({}, this._props);
-		// newProps[prop] = value;
-		// this._props = newProps;
-		this._props[prop] = value;
+			// set the prop
+			this._props[prop] = value;
+		}
 
 		// handle new value
 		this._handleNewPropValue(prop, value, oldVal);
+
+		return this;
 	}
 
 	/**
