@@ -517,13 +517,17 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		if (window.Proxy) {
 			this.props = new Proxy(this._props, {
 				set : (target, property, value) => {
+					// get the old value
+					const oldVal = target[property];
 					// apply the new value
 					target[property] = value;
-					// call setProp
-					this.setProp(property, value, false);
+					// handle the new property value
+					this._handleNewPropValue(property, value, oldVal);
+					// notify the proxy that the property has been updated
 					return true;
 				},
 				get : (target, property) => {
+					// simply return the property value from the target
 					return target[property];
 				}
 			});
@@ -1009,6 +1013,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		for (let key in props) {
 			this.setProp(key, props[key]);
 		}
+		// return the component
 		return this;
 	}
 
@@ -1022,22 +1027,16 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		// save the oldVal
 		const oldVal = this.props[prop];
 
-		// if need to set the prop, check that
-		// it's not the same as before, otherwise
-		// stop.
-		// this is done like so to avoid recursive property setting
-		// by the window.Proxy above in the code
-		if (set) {
-			// stop if same value
-			if (oldVal === value) return;
+		// stop if same value
+		if (oldVal === value) return;
 
-			// set the prop
-			this._props[prop] = value;
-		}
+		// set the prop
+		this._props[prop] = value;
 
 		// handle new value
 		this._handleNewPropValue(prop, value, oldVal);
 
+		// return the component
 		return this;
 	}
 
@@ -1058,7 +1057,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 */
 	_handleNewPropValue(prop, newVal, oldVal) {
 
-			// if the component is not mounted
+		// if the component is not mounted
 		// we do nothing here...
 		if ( ! this.isComponentMounted()) return;
 
