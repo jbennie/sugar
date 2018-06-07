@@ -2,8 +2,8 @@
  * @name 	imagesLoadedAttribute
  * Add on every images the attribute "loaded" when it has been fully loaded. This is useful
  * for styling purposes and for others thinks as well.
- * @exemple 	js
- * import 'coffeekraken-sugar/features/imagesLoadedAttribute'
+ * @example 	js
+ * import 'coffeekraken-sugar/js/features/imagesLoadedAttribute'
  * @author 		Olivier Bossel <olivier.bossel@gmail.com>
  */
 

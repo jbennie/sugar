@@ -27,12 +27,6 @@ import _set from 'lodash/set';
  */
 export default class SWatcher {
 
-	// static setters = {
-	// 	CSSStyleDeclaration : (obj, property, value) => {
-	// 		obj.setProperty(property, value);
-	// 	}
-	// }
-
 	/**
 	 * Watch stack
 	 * @type 		{Object}
@@ -49,7 +43,8 @@ export default class SWatcher {
 	 * Destroy the watcher
 	 */
 	destroy() {
-		// @TODO watcher destroy implementation
+		// destroy the watchStack
+		this._watchStack = {};
 	}
 
 	/**
@@ -70,11 +65,6 @@ export default class SWatcher {
 
 		// custom setter check
 		const _set = (value) => {
-			// check if have a custom setter for this object
-			// if (customSetter) {
-			// 	customSetter(obj, property, value);
-			// 	val = value;
-			// }
 			// descriptor
 			if (currentDescriptor && currentDescriptor.set) {
 				let ret = currentDescriptor.set(value);
@@ -92,15 +82,6 @@ export default class SWatcher {
 				val = newVal;
 			});
 		}
-
-		// get the setter
-		// let customSetter;
-		// for (let name in SWatcher.setters) {
-		// 	if (__constructorName(obj) === name) {
-		// 		customSetter = SWatcher.setters[name];
-		// 		break;
-		// 	}
-		// }
 
 		// set the value
 		_set(value);
@@ -208,7 +189,7 @@ export default class SWatcher {
 			path = path.split(',');
 		}
 		if ( ! path instanceof Array) {
-			throw "The 'path' parameter has to be a string or an array...";
+			throw "The 'path' parameter has to be an array...";
 		}
 		// loop on each path to watch
 		path.forEach((p) => {

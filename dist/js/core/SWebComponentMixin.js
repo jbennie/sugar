@@ -424,9 +424,18 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				// fix for firefox and surely other crapy browser...
 				// this make sur that the (static) methods of the component
 				// are present on the webcomponent itself
-				var staticFns = Object.getOwnPropertyNames(component).filter(function (prop) {
-					return typeof component[prop] === "function";
-				});
+				var staticFns = [];
+				var comp = component;
+				while (comp) {
+					try {
+						staticFns = staticFns.concat(Object.getOwnPropertyNames(comp).filter(function (prop) {
+							return typeof comp[prop] === "function";
+						}));
+						comp = Object.getPrototypeOf(comp);
+					} catch (e) {
+						break;
+					}
+				}
 				var keys = staticFns.concat(Object.keys(component));
 				keys.forEach(function (key) {
 					if (!webcomponent[key]) {
@@ -464,13 +473,10 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 					if (css) {
 						css = css.replace(/[\s]+/g, ' ');
 						window.sugar._webComponentsDefaultCss[componentName] = css;
-						// fastdom.mutate(() => {
 						var styleElm = document.createElement('style');
 						styleElm.setAttribute('name', componentName);
 						styleElm.innerHTML = css;
 						(0, _prependChild2.default)(styleElm, document.head);
-						// document.head.appendChild(styleElm);
-						// });
 					} else {
 						window.sugar._webComponentsDefaultCss[componentName] = false;
 					}
@@ -590,9 +596,6 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			value: function createdCallback() {
 				var _this3 = this;
 
-				// create the "s" namespace
-				this.s = {};
-
 				// props
 				this.props = {};
 
@@ -621,15 +624,42 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				if (window.Proxy) {
 					this.props = new Proxy(this._props, {
 						set: function set(target, property, value) {
-							_this3.setProp(property, value);
+							// get the old value
+							var oldVal = target[property];
+							// apply the new value
+							target[property] = value;
+							// handle the new property value
+							_this3._handleNewPropValue(property, value, oldVal);
+							// notify the proxy that the property has been updated
+							return true;
 						},
 						get: function get(target, property) {
+							// simply return the property value from the target
 							return target[property];
 						}
 					});
 				} else {
 					this.props = this._props;
 				}
+
+				// listen for updates on the element itself
+				// instead of using the attributesChangedCallback
+				// cause with the attributesChangedCallback, you'll need to declare
+				// at start which attributes to listen and this behavior is not suitable
+				// for new attributes added after the component creation...
+				var observer = new MutationObserver(function (mutationList) {
+					var mutatedAttributes = [];
+					mutationList.forEach(function (mutation) {
+						if (mutatedAttributes.indexOf(mutation.attributeName) === -1) {
+							_this3._attributeMutationCallback(mutation.attributeName, mutation.oldValue, _this3.getAttribute(mutation.attributeName));
+						}
+						mutatedAttributes.push(mutation.attributeName);
+					});
+				});
+				observer.observe(this, {
+					attributes: true,
+					attributeOldValue: true
+				});
 
 				// created callback
 				this.componentCreated();
@@ -702,13 +732,11 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
     */
 
 		}, {
-			key: 'attributeChangedCallback',
-			value: function attributeChangedCallback(attribute, oldVal, newVal) {
+			key: '_attributeMutationCallback',
+			value: function _attributeMutationCallback(attribute, oldVal, newVal) {
 
-				// stop if component has not been mounted
-				// if ( ! this._lifecycle.componentWillMount) {
-				// 	return;
-				// }
+				// stop if the attribute has not changed
+				if (oldVal === newVal) return;
 
 				// keep an original attribute name
 				var _attribute = attribute;
@@ -1164,6 +1192,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				for (var key in props) {
 					this.setProp(key, props[key]);
 				}
+				// return the component
 				return this;
 			}
 
@@ -1176,6 +1205,8 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 		}, {
 			key: 'setProp',
 			value: function setProp(prop, value) {
+				var set = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
 
 				// save the oldVal
 				var oldVal = this.props[prop];
@@ -1183,14 +1214,14 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				// stop if same value
 				if (oldVal === value) return;
 
-				// set the prop (duplicate and assign again the whole object to avoid issues with Proxy polyfill)
-				// const newProps = Object.assign({}, this._props);
-				// newProps[prop] = value;
-				// this._props = newProps;
+				// set the prop
 				this._props[prop] = value;
 
 				// handle new value
 				this._handleNewPropValue(prop, value, oldVal);
+
+				// return the component
+				return this;
 			}
 
 			/**
@@ -1243,7 +1274,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 						});
 
 						// handle physical props
-						_this10._handlePhysicalProps(key, val);
+						_this10._handlePhysicalProp(key, val);
 					}
 					for (var _key in _this10._prevPropsStack) {
 						var _val = _this10._prevPropsStack[_key];
@@ -1331,31 +1362,6 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			}
 
 			/**
-    * Initiate a new prop. This will add the propertyProxy on the new prop etc...
-    * @param 			{String} 			prop 			The property name to init
-    */
-
-		}, {
-			key: '_initNewProp',
-			value: function _initNewProp(prop) {
-				var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-			}
-			// if (value) {
-			// 	this.props[prop] = value;
-			// }
-			// __propertyProxy(this.props, prop, {
-			// 	set : (value) => {
-			// 		const oldVal = this.props[prop];
-			// 		// handle new prop value
-			// 		this._handleNewPropValue(prop, value, oldVal);
-			// 		// set the value
-			// 		return value;
-			// 	},
-			// 	enumarable : true
-			// }, false);
-
-
-			/**
     * Handle physical props by setting or not the prop
     * on the dom element as attribute
     * @param 			{String} 			prop 			The property to handle
@@ -1364,8 +1370,8 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
     */
 
 		}, {
-			key: '_handlePhysicalProps',
-			value: function _handlePhysicalProps(prop, value) {
+			key: '_handlePhysicalProp',
+			value: function _handlePhysicalProp(prop, value) {
 				// check if is a physical prop to set it in the dom
 				var physicalProps = this.physicalProps;
 				if (physicalProps.indexOf(prop) !== -1) {
@@ -1408,7 +1414,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				for (var key in this.props) {
 					var value = this.props[key];
 					// handle physical props
-					this._handlePhysicalProps(key, value);
+					this._handlePhysicalProp(key, value);
 				}
 			}
 

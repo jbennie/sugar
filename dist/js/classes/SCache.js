@@ -19,8 +19,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var SCache = function () {
 
 	/**
+  * @name 	lifetime
+  * The lifetime in second of the cache items by default. Can be set individually by cache item
+  * @setting
+  * @type 	{Integer}
+  * @default 	86400
+  */
+
+	/**
   * @constructor
   * @param 		{String} 		name 		The name of the cache
+  * @param 		{Object} 		[settings={}] 	The cache settings
   */
 
 
@@ -39,13 +48,12 @@ var SCache = function () {
 		// set the cache name
 		this.name = name;
 		this.settings = _extends({
-			lifetime: 3600 * 24,
-			maxItems: 2000,
-			strategy: 'LRU'
+			lifetime: 3600 * 24
 		}, settings);
 	}
 
 	/**
+  * @name 	get
   * Get a value from the cache
   * @param 		{String} 		id 		The id of the cache element to retreive
   * @return 		{Mixed} 				The cache value or null if not exist
@@ -69,7 +77,7 @@ var SCache = function () {
 				// delete the cache item
 				delete this.cache[id];
 				// save the cache
-				this.save();
+				this._save();
 				// we not have any cache left
 				return null;
 			}
@@ -78,6 +86,7 @@ var SCache = function () {
 		}
 
 		/**
+   * @name 	now
    * Get the now timestamp
    * @return 		{Integer} 					The timestamp of now
    */
@@ -87,6 +96,7 @@ var SCache = function () {
 
 
 		/**
+   * @name 	set
    * Set a value in the cache
    * @param 		{String} 		id 			The id of the cache element to set
    * @param 		{Mixed} 		value 		The value to set in cache
@@ -96,16 +106,6 @@ var SCache = function () {
 			var lifetime = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
 			var cacheObj = {};
-			// check if already have this item to update if
-			// if (this.cache[id]) {
-			// 	cacheObj = this.cache[id];
-			// 	// update the cache
-			// 	cacheObj = {
-			// 		...cacheObj,
-			// 		value,
-			// 		updated : this.now
-			// 	}
-			// } else {
 			// create the cache object that need to be stored
 			cacheObj = {
 				id: id,
@@ -117,9 +117,8 @@ var SCache = function () {
 			};
 			// set the cache object into cache
 			this.cache[id] = cacheObj;
-			// }
 			// save the cache
-			this.save();
+			this._save();
 			// return the value to store
 			return cacheObj;
 		}

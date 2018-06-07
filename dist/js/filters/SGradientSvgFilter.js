@@ -186,13 +186,7 @@ var SGradientSvgFilter = function (_SSvgFilter) {
 	return SGradientSvgFilter;
 }(_SSvgFilter3.default);
 
-// expose in window.sugar
-
-
-if (window.sugar == null) {
-	window.sugar = {};
-}
-window.sugar.SGradientSvgFilter = SGradientSvgFilter;
-
 // export modules
+
+
 exports.default = SGradientSvgFilter;

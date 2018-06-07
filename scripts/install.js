@@ -11,6 +11,7 @@ if (process.env.PWD.match(/node_modules/)) {
 
 	// clean repo
 	fse.removeSync('_toMigrate');
+	fse.removeSync('demo');
 	fse.removeSync('dist');
 	fse.removeSync('scripts');
 	fse.removeSync('src');
