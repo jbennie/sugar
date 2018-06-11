@@ -94,7 +94,7 @@ require('es6-object-assign').polyfill();
  * 	- componentWillUnmount
  * 	- componentUnmount
  * 	- componentDidUnmount
- * - **Mount dependencies** : This will allows you to set some promises that havwe to be resolved before mounting the component
+ * - **Mount dependencies** : This will allows you to set some promises that have to be resolved before mounting the component
  *
  * @example 	js
  * import SWebComponent from 'coffeekraken-sugar/js/core/SWebComponent'
