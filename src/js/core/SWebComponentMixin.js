@@ -633,7 +633,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		newVal = __autoCast(newVal);
 
 		// handle the case when newVal is undefined (added attribute whithout any value)
-		if (newVal === undefined
+		if ( (newVal === undefined || newVal === null || newVal === '')
 			&& this.hasAttribute(_attribute)
 		) {
 			newVal = true;

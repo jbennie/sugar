@@ -751,7 +751,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				newVal = (0, _autoCast2.default)(newVal);
 
 				// handle the case when newVal is undefined (added attribute whithout any value)
-				if (newVal === undefined && this.hasAttribute(_attribute)) {
+				if ((newVal === undefined || newVal === null || newVal === '') && this.hasAttribute(_attribute)) {
 					newVal = true;
 				} else if (newVal === null && !this.hasAttribute(_attribute) && this.props[attribute] === false) {
 					// the attribute has been removed and
