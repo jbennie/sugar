@@ -4,10 +4,16 @@
 
 _A little sugar in your codebase_
 
-## 1.0.12  ( Thu Jun 07 2018 20:02:06 GMT+0200 (CEST) )
+## 1.0.13  ( Wed Jun 13 2018 22:24:29 GMT+0200 (CEST) )
 
 
 ## Bug Fixes
+  - fix some minor issues to the svg motion blur filter as well as the base svg filter class
+  ([afc79491](https://github.com/Coffeekraken/sugar/commit/afc79491cac302fcac323fa2d3db90961d373f6d))
+  - fix small typo
+  ([3c34ebdf](https://github.com/Coffeekraken/sugar/commit/3c34ebdfd4dc9daae8bf243b2c3b516149f985ec))
+  - fix set prop to true when the prop exist on the item but that it has no particular value
+  ([00a473fa](https://github.com/Coffeekraken/sugar/commit/00a473fa434c1600d937338e3bcdcb8a220825c8))
   - fix small issue with the props Proxy
   ([76944973](https://github.com/Coffeekraken/sugar/commit/7694497387bbe87e1ad13504db5c2454d977308d))
   - fix small typo
