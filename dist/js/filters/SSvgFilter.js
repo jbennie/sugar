@@ -90,6 +90,7 @@ var SSvgFilter = function () {
 		key: 'unapplyFrom',
 		value: function unapplyFrom(elm) {
 			['-webkit-', '-moz-', '-ms-', '-o-', ''].forEach(function (vendor) {
+				elm.style[vendor + 'filter'] = null;
 				delete elm.style[vendor + 'filter'];
 			});
 			// remove from stack
