@@ -65,6 +65,7 @@ export default class SSvgFilter {
 	 */
 	unapplyFrom(elm) {
 		['-webkit-','-moz-','-ms-','-o-',''].forEach((vendor) => {
+			elm.style[vendor+'filter'] = null;
 			delete elm.style[vendor+'filter'];
 		});
 		// remove from stack

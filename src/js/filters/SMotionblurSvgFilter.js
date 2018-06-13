@@ -1,7 +1,6 @@
 import __offset from '../dom/offset'
 import SSvgFilter from './SSvgFilter'
 import fastdom from 'fastdom'
-require('../events/sTransitionStartEventDispatcher');
 
 /**
  * @class 			SMotionblurSvgFilter 			{SSvgFilter}
@@ -35,8 +34,6 @@ export default class SMotionblurSvgFilter extends SSvgFilter {
 		`);
 
 		// settings
-		this._notMovingStepsBeforeStop = 5;
-		this._currentStep = 0;
 		this._amount = parseFloat(amount);
 
 		// variables
@@ -103,10 +100,12 @@ export default class SMotionblurSvgFilter extends SSvgFilter {
 		this._isMoving = false;
 		fastdom.mutate(() => {
 			// set the blur
+			const opacity = this.elms[0].style.opacity;
 			this._blur.setAttribute('stdDeviation', 0 +','+ 0);
 			this.elms[0].style.opacity = .99;
 			this.elms[0].offsetHeight; // no need to store this anywhere, the reference is enough
-			this.elms[0].style.opacity = 1;
+			this.elms[0].style.opacity = opacity;
+			console.log('opacity', opacity);
 		});
 	}
 
@@ -120,15 +119,6 @@ export default class SMotionblurSvgFilter extends SSvgFilter {
 
 		// set the motion blur and get the moving difference
 		let diff = this._setMotionBlur();
-
-		// check if the element is moving or not anymore
-		if (diff.x <= 0 && diff.y <= 0) {
-			this._currentStep += 1;
-			if (this._currentStep >= this._notMovingStepsBeforeStop) {
-				this._currentStep = 0;
-				return;
-			}
-		}
 
 		// recusrive call to apply the blur with requestAnimationFrame for performances
 		this._animationFrame = requestAnimationFrame(() => {

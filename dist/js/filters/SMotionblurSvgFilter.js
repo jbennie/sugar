@@ -28,8 +28,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-require('../events/sTransitionStartEventDispatcher');
-
 /**
  * @class 			SMotionblurSvgFilter 			{SSvgFilter}
  * This class represent a motion blur svg filter that will blur your
@@ -42,7 +40,6 @@ require('../events/sTransitionStartEventDispatcher');
  *
  * @author 			Olivier Bossel <olivier.bossel@gmail.com>
  */
-
 var SMotionblurSvgFilter = function (_SSvgFilter) {
 	_inherits(SMotionblurSvgFilter, _SSvgFilter);
 
@@ -66,8 +63,6 @@ var SMotionblurSvgFilter = function (_SSvgFilter) {
 
 		_this._isMoving = false;
 		_this._startMoveTimeout = null;
-		_this._notMovingStepsBeforeStop = 5;
-		_this._currentStep = 0;
 		_this._amount = parseFloat(amount);
 
 		// variables
@@ -152,10 +147,12 @@ var SMotionblurSvgFilter = function (_SSvgFilter) {
 			this._isMoving = false;
 			_fastdom2.default.mutate(function () {
 				// set the blur
+				var opacity = _this3.elms[0].style.opacity;
 				_this3._blur.setAttribute('stdDeviation', 0 + ',' + 0);
 				_this3.elms[0].style.opacity = .99;
 				_this3.elms[0].offsetHeight; // no need to store this anywhere, the reference is enough
-				_this3.elms[0].style.opacity = 1;
+				_this3.elms[0].style.opacity = opacity;
+				console.log('opacity', opacity);
 			});
 		}
 
@@ -174,15 +171,6 @@ var SMotionblurSvgFilter = function (_SSvgFilter) {
 
 			// set the motion blur and get the moving difference
 			var diff = this._setMotionBlur();
-
-			// check if the element is moving or not anymore
-			if (diff.x <= 0 && diff.y <= 0) {
-				this._currentStep += 1;
-				if (this._currentStep >= this._notMovingStepsBeforeStop) {
-					this._currentStep = 0;
-					return;
-				}
-			}
 
 			// recusrive call to apply the blur with requestAnimationFrame for performances
 			this._animationFrame = requestAnimationFrame(function () {
