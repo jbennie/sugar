@@ -38,7 +38,7 @@ import __propertyProxy from '../utils/objects/propertyProxy'
  * 	- componentWillUnmount
  * 	- componentUnmount
  * 	- componentDidUnmount
- * - **Mount dependencies** : This will allows you to set some promises that havwe to be resolved before mounting the component
+ * - **Mount dependencies** : This will allows you to set some promises that have to be resolved before mounting the component
  *
  * @example 	js
  * import SWebComponent from 'coffeekraken-sugar/js/core/SWebComponent'
@@ -633,7 +633,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		newVal = __autoCast(newVal);
 
 		// handle the case when newVal is undefined (added attribute whithout any value)
-		if (newVal === undefined
+		if ( (newVal === undefined || newVal === null || newVal === '')
 			&& this.hasAttribute(_attribute)
 		) {
 			newVal = true;
