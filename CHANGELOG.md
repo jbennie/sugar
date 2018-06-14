@@ -4,7 +4,7 @@
 
 _A little sugar in your codebase_
 
-## 1.0.13  ( Wed Jun 13 2018 22:24:29 GMT+0200 (CEST) )
+## 1.0.14  ( Thu Jun 14 2018 10:37:21 GMT+0200 (CEST) )
 
 
 ## Bug Fixes
@@ -28,6 +28,13 @@ _A little sugar in your codebase_
   ([044ca0f6](https://github.com/Coffeekraken/sugar/commit/044ca0f6f2204b55d2d918e1c53133957b6ba256))
   - move the fs-extra package from devDependencies to dependencies to make sure it’s available for installing the package
   ([e697027d](https://github.com/Coffeekraken/sugar/commit/e697027d4f430bc8a053c099693845588b71f191))
+
+
+
+
+## Features
+  - make the SMotionBlurFilter amount property public
+  ([d2b62123](https://github.com/Coffeekraken/sugar/commit/d2b6212324a95a017e6d68f5862d38135200e5f2))
 
 
 
