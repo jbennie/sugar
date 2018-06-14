@@ -17,6 +17,12 @@ import fastdom from 'fastdom'
 export default class SMotionblurSvgFilter extends SSvgFilter {
 
 	/**
+	 * Store the amount of motion blur to apply
+	 * @type 	{Number}
+	 */
+	amount = 0.5;
+
+	/**
 	 * Store the status of the animation
 	 * @type 		{Boolean}
 	 */
@@ -34,7 +40,7 @@ export default class SMotionblurSvgFilter extends SSvgFilter {
 		`);
 
 		// settings
-		this._amount = parseFloat(amount);
+		this.amount = parseFloat(amount);
 
 		// variables
 		this._animationFrame = null;
@@ -100,12 +106,7 @@ export default class SMotionblurSvgFilter extends SSvgFilter {
 		this._isMoving = false;
 		fastdom.mutate(() => {
 			// set the blur
-			const opacity = this.elms[0].style.opacity;
 			this._blur.setAttribute('stdDeviation', 0 +','+ 0);
-			this.elms[0].style.opacity = .99;
-			this.elms[0].offsetHeight; // no need to store this anywhere, the reference is enough
-			this.elms[0].style.opacity = opacity;
-			console.log('opacity', opacity);
 		});
 	}
 
@@ -132,8 +133,8 @@ export default class SMotionblurSvgFilter extends SSvgFilter {
 	_setMotionBlur() {
 
 		this._currentPos = __offset(this.elms[0]);
-		let xDiff = Math.abs(this._currentPos.left - this._lastPos.left) * this._amount;
-		let yDiff = Math.abs(this._currentPos.top - this._lastPos.top) * this._amount;
+		let xDiff = Math.abs(this._currentPos.left - this._lastPos.left) * this.amount;
+		let yDiff = Math.abs(this._currentPos.top - this._lastPos.top) * this.amount;
 
 		// set the blur
 		this._blur.setAttribute('stdDeviation', xDiff+','+yDiff);

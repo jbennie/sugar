@@ -61,9 +61,10 @@ var SMotionblurSvgFilter = function (_SSvgFilter) {
 		// settings
 		var _this = _possibleConstructorReturn(this, (SMotionblurSvgFilter.__proto__ || Object.getPrototypeOf(SMotionblurSvgFilter)).call(this, '\n\t\t\t<feGaussianBlur in="SourceGraphic" stdDeviation="0,0" />\n\t\t'));
 
+		_this.amount = 0.5;
 		_this._isMoving = false;
 		_this._startMoveTimeout = null;
-		_this._amount = parseFloat(amount);
+		_this.amount = parseFloat(amount);
 
 		// variables
 		_this._animationFrame = null;
@@ -77,6 +78,12 @@ var SMotionblurSvgFilter = function (_SSvgFilter) {
   * Apply the filter to element
   * @override
   * @param 		{HTMLElement} 		elm 		The element on which to apply the filter
+  */
+
+
+	/**
+  * Store the amount of motion blur to apply
+  * @type 	{Number}
   */
 
 
@@ -147,12 +154,7 @@ var SMotionblurSvgFilter = function (_SSvgFilter) {
 			this._isMoving = false;
 			_fastdom2.default.mutate(function () {
 				// set the blur
-				var opacity = _this3.elms[0].style.opacity;
 				_this3._blur.setAttribute('stdDeviation', 0 + ',' + 0);
-				_this3.elms[0].style.opacity = .99;
-				_this3.elms[0].offsetHeight; // no need to store this anywhere, the reference is enough
-				_this3.elms[0].style.opacity = opacity;
-				console.log('opacity', opacity);
 			});
 		}
 
@@ -187,8 +189,8 @@ var SMotionblurSvgFilter = function (_SSvgFilter) {
 		value: function _setMotionBlur() {
 
 			this._currentPos = (0, _offset2.default)(this.elms[0]);
-			var xDiff = Math.abs(this._currentPos.left - this._lastPos.left) * this._amount;
-			var yDiff = Math.abs(this._currentPos.top - this._lastPos.top) * this._amount;
+			var xDiff = Math.abs(this._currentPos.left - this._lastPos.left) * this.amount;
+			var yDiff = Math.abs(this._currentPos.top - this._lastPos.top) * this.amount;
 
 			// set the blur
 			this._blur.setAttribute('stdDeviation', xDiff + ',' + yDiff);
