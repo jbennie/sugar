@@ -11,7 +11,7 @@
  */
 
 import fastdom from 'fastdom'
-import __querySelectorLive from 'coffeekraken-sugar/js/dom/querySelectorLive'
+import __querySelectorLive from '../dom/querySelectorLive'
 
 function handleInputAttributes(eOrElm, setDirty = true) {
 	const field = eOrElm.target ? eOrElm.target : eOrElm;
