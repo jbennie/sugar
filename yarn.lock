@@ -1480,24 +1480,24 @@ code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
 
-coffeekraken-docblock-json-to-markdown@0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/coffeekraken-docblock-json-to-markdown/-/coffeekraken-docblock-json-to-markdown-0.0.2.tgz#254a802a674870cc15093d1d0c9de1cdfe63cc4b"
+coffeekraken-docblock-json-to-markdown@^1.0.0:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/coffeekraken-docblock-json-to-markdown/-/coffeekraken-docblock-json-to-markdown-1.0.2.tgz#94940c2614a3ee8c53fa016e15e288be10ae18aa"
   dependencies:
     js-beautify "^1.6.8"
     lodash "^4.17.2"
     trim-lines "^1.1.0"
 
-coffeekraken-docblock-parser@0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/coffeekraken-docblock-parser/-/coffeekraken-docblock-parser-0.0.2.tgz#17bd3c6899bc2133e63f1209bb7595b57174594b"
+coffeekraken-docblock-parser@^1.0.0:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/coffeekraken-docblock-parser/-/coffeekraken-docblock-parser-1.0.3.tgz#1bb8a9cdb05988cc462c4ea729acee7799eaf5c0"
 
-coffeekraken-docblock-to-markdown@0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/coffeekraken-docblock-to-markdown/-/coffeekraken-docblock-to-markdown-0.0.2.tgz#377b979f8873702fcdf843b326dd4c1447b8c19e"
+coffeekraken-docblock-to-markdown@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/coffeekraken-docblock-to-markdown/-/coffeekraken-docblock-to-markdown-1.0.0.tgz#dc9ea8060b88e45b8f97022a069db6df9188a9d0"
   dependencies:
-    coffeekraken-docblock-json-to-markdown "0.0.2"
-    coffeekraken-docblock-parser "0.0.2"
+    coffeekraken-docblock-json-to-markdown "^1.0.0"
+    coffeekraken-docblock-parser "^1.0.0"
     commander "^2.9.0"
     fs-extra "^1.0.0"
     glob "^7.1.1"
