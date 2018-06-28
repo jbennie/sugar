@@ -14,7 +14,7 @@
   },
   "scripts": {
     "dist": "rm -rf dist && npm run dist:js",
-    "dist:js": "babel src -d dist --watch",
+    "dist:js": "babel src -d . --watch",
     "install": "node ./scripts/install.js",
     "doc": "rm -rf doc/src && npm run doc:scss && npm run doc:js",
     "doc:scss": "coffeekraken-docblock-to-markdown -f 'src/**/*.scss' -d doc",
