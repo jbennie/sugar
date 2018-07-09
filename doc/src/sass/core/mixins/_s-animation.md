@@ -1,5 +1,10 @@
 # s-animation
 
+Print out the animation property calculated with the passed arguments
+This mixin support all the standard css animation properties like name, duration, delay, ease, direction and fill-mode.
+The $animations argument will be parsed with the [../functions/_s-parse-properties.scss] function.
+If you specify multiple animations at a time, this mixin will take care
+of the delay calculation for each animations and make them play one after another
 
 
 

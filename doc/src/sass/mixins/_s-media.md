@@ -1,6 +1,6 @@
 # s-media
 
-
+Easy to use media query mixin that support cssua classes to target specific browsers
 
 
 Name  |  Type  |  Description  |  Status  |  Default

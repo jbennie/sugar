@@ -1,5 +1,6 @@
 # insertAfter
 
+Insert an HTMLElement after another HTMLElement
 
 
 

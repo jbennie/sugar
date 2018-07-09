@@ -1,5 +1,7 @@
 # s-ratio
 
+Apply a ratio css styling. This will apply a before or after content that will make the element keep the specified ratio.
+The content need to be displayed as absolute top left and fit in size.
 
 
 

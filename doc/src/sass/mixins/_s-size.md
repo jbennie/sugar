@@ -1,6 +1,6 @@
 # s-size
 
-
+Quicky and easily set simple or complexe size to any element
 
 
 Name  |  Type  |  Description  |  Status  |  Default

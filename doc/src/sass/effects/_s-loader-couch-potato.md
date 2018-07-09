@@ -1,5 +1,6 @@
 # s-loader-couch-potato
 
+Generate a full animated, single element, couch-potato style loader
 
 
 

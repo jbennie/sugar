@@ -1,6 +1,6 @@
 # s-columns
 
-
+Create a column layout my setting each columns properties at once
 
 
 Name  |  Type  |  Description  |  Status  |  Default

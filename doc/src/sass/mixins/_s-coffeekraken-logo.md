@@ -1,6 +1,6 @@
 # s-coffeekraken-logo
 
-
+Display a coffeekraken logo with two specified colors
 
 
 Name  |  Type  |  Description  |  Status  |  Default

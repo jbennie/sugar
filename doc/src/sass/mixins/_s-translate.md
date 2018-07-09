@@ -1,6 +1,6 @@
 # s-translate
 
-
+Quicky set some translates
 
 
 Name  |  Type  |  Description  |  Status  |  Default

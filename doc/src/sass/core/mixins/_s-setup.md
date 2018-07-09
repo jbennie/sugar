@@ -1,5 +1,7 @@
 # s-setup
 
+Setup sugar toolkit by overriding the default [settings](../_settings.scss)
+This has to be called **BEFORE** the [s-init mixin](./_s-init.scss)
 
 
 

@@ -1,5 +1,6 @@
 # s-loader-circle
 
+Generate a full animated, single element, circle loader
 
 
 

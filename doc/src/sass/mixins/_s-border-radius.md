@@ -1,6 +1,6 @@
 # s-border-radius
 
-
+Apply some border radius
 
 
 Name  |  Type  |  Description  |  Status  |  Default

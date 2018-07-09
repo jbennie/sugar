@@ -1,6 +1,6 @@
 # s-list-bullet
 
-
+Set how the list bullet has to be displayed.
 
 
 Name  |  Type  |  Description  |  Status  |  Default

@@ -1,6 +1,6 @@
 # s-image-rendering
 
-
+Set how to render the image
 
 
 Name  |  Type  |  Description  |  Status  |  Default

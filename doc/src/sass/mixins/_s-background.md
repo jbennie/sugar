@@ -1,5 +1,6 @@
 # s-background
 
+Helper mixin to set a background image
 
 
 

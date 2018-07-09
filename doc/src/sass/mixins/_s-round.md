@@ -1,5 +1,6 @@
 # s-round
 
+Apply some css to have a rounded element with already an overflow on it
 
 
 

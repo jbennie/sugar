@@ -1,5 +1,6 @@
 # s-register-helper-class
 
+Register a helper class under a certain namespace
 
 
 

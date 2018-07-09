@@ -23,7 +23,7 @@ Features:
 	- componentWillUnmount
 	- componentUnmount
 	- componentDidUnmount
-- **Mount dependencies** : This will allows you to set some promises that havwe to be resolved before mounting the component
+- **Mount dependencies** : This will allows you to set some promises that have to be resolved before mounting the component
 
 
 ### Example
@@ -321,6 +321,8 @@ Author : Olivier Bossel <olivier.bossel@gmail.com>
 
 ### componentWillUpdate
 
+Method called right before the render when some props have been updated.
+This method is not called before the initial render
 
 
 
@@ -359,6 +361,8 @@ Author : Olivier Bossel <olivier.bossel@gmail.com>
 
 ### componentDidUpdate
 
+Method called right after the render when some props have been updated.
+This method is not called after the initial render
 
 
 

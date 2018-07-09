@@ -1,5 +1,6 @@
 # s-show-vertical-rhythm
 
+Display the vertical rhythme
 
 
 ### Example

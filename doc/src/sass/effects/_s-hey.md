@@ -1,5 +1,7 @@
 # s-hey
 
+Create a poping dot effect to catch user attention on a particular item
+This mixin affect the :before and :after pseudo selector of the item
 
 
 

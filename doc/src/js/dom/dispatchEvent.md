@@ -1,5 +1,6 @@
 # dispatchEvent
 
+Helper to quickly display an event with some optional data attached to it
 
 
 

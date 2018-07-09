@@ -1,5 +1,8 @@
 # propertyProxy
 
+Create a proxy for and object property.
+This gives you the possibility to process the data of the property
+when it is getted or setted.
 
 
 

@@ -1,6 +1,6 @@
 # s-fit
 
-
+Make the element fit his container.
 
 
 Name  |  Type  |  Description  |  Status  |  Default

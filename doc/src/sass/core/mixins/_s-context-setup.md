@@ -1,5 +1,6 @@
 # s-context-setup
 
+Register a context with a name to use it later
 
 
 

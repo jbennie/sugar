@@ -1,5 +1,6 @@
 # s-color-schema
 
+Print out the scoped color schema css
 
 
 

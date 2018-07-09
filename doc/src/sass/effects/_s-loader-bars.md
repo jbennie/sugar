@@ -1,5 +1,6 @@
 # s-loader-bars
 
+Generate a full animated, single element, bars loader
 
 
 

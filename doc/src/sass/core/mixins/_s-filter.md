@@ -1,5 +1,7 @@
 # s-filter
 
+Print out a list with all the filters that are passed as argument
+This will use the [../functions/_s-filter-map.scss] function to parse the filters
 
 
 

@@ -1,6 +1,6 @@
 # s-icon
 
-
+Apply an icon on the element. This mixin support font-awesome and custom icons systems that have an icon name formated like "icon-{name}"
 
 
 Name  |  Type  |  Description  |  Status  |  Default

@@ -1,5 +1,11 @@
 # s-clearfix
 
+Apply a clearfix on the element.
+Supported methods:
+- micro
+- facebook
+- float
+- micro
 
 
 

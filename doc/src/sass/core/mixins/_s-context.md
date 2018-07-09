@@ -1,5 +1,6 @@
 # s-context
 
+Set a context to be used inside the mixin
 
 
 

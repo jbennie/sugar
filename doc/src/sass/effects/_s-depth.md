@@ -1,5 +1,6 @@
 # s-depth
 
+Generate a drop shadow depending on the depth specified
 
 
 

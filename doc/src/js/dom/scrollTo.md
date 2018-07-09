@@ -1,5 +1,6 @@
 # scrollTo
 
+Function that let you make a smooth page scroll to a specific element in the page
 
 
 

@@ -1,5 +1,6 @@
 # s-loader-flip-ball
 
+Generate a full animated, single element, flip ball style loader
 
 
 

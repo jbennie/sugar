@@ -8,6 +8,8 @@ filter.applyTo(myCoolHTMLElement);
 ```
 Author : Olivier Bossel <olivier.bossel@gmail.com>
 
+Extends **SSvgFilter**
+
 
 ## Constructor
 
@@ -19,6 +21,17 @@ amount  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Ref
 
 
 
+
+## Properties
+
+
+### amount
+
+Store the amount of motion blur to apply
+
+Type : **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**
+
+Default : **0.5**
 
 
 ## Methods

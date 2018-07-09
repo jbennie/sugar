@@ -1,5 +1,6 @@
-# $_sugar-component-name
+# s-component
 
+Set the name of the component that will be handled inside the mixin
 
 
 
