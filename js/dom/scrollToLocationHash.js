@@ -25,12 +25,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  * @param    {Integer}    [duration=500]    The scroll duration
  * @param    {Integer}    [offset=0]    A pixel value to offset the scroll with
+ * @param    {Function}    [easing=__easeing]    An easing function to use to scroll
  *
  * @author    Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com) (https://olivierbossel.com)
  */
 function scrollToLocationHash() {
   var duration = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 500;
   var offset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  var easing = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _easeInOutQuint2.default;
 
 
   // check if we have an hash in the url
@@ -46,5 +48,5 @@ function scrollToLocationHash() {
   if (!targetElm) return;
 
   // scroll to target
-  (0, _scrollTo2.default)(targetElm, duration, _easeInOutQuint2.default, offset, 'top');
+  (0, _scrollTo2.default)(targetElm, duration, easing, offset, 'top');
 }

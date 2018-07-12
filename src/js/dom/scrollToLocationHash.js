@@ -1,5 +1,5 @@
 import __scrollTo from './scrollTo'
-import __ease from '../easings/easeInOutQuint'
+import __easeing from '../easings/easeInOutQuint'
 
 /**
  * Scroll to the location hash if an hash is present.
@@ -11,10 +11,11 @@ import __ease from '../easings/easeInOutQuint'
  *
  * @param    {Integer}    [duration=500]    The scroll duration
  * @param    {Integer}    [offset=0]    A pixel value to offset the scroll with
+ * @param    {Function}    [easing=__easeing]    An easing function to use to scroll
  *
  * @author    Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com) (https://olivierbossel.com)
  */
-export default function scrollToLocationHash(duration = 500, offset = 0) {
+export default function scrollToLocationHash(duration = 500, offset = 0, easing = __easeing) {
 
 	// check if we have an hash in the url
 	const hash = document.location.hash
@@ -29,6 +30,6 @@ export default function scrollToLocationHash(duration = 500, offset = 0) {
 	if ( ! targetElm) return
 
 	// scroll to target
-	__scrollTo(targetElm , duration, __ease, offset, 'top');
+	__scrollTo(targetElm , duration, easing, offset, 'top');
 
 }

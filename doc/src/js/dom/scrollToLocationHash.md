@@ -15,5 +15,6 @@ Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 duration  |  **{ Integer }**  |  The scroll duration  |  optional  |  500
 offset  |  **{ Integer }**  |  A pixel value to offset the scroll with  |  optional  |  0
+easing  |  **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function) }**  |  An easing function to use to scroll  |  optional  |  __easeing
 
 Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)
