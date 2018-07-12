@@ -27,7 +27,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  * const filter = new SGooeySvgFilter();
  * filter.applyTo(myCoolHTMLElement);
  *
- * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 var SGooeySvgFilter = function (_SSvgFilter) {
 	_inherits(SGooeySvgFilter, _SSvgFilter);

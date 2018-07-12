@@ -31,4 +31,4 @@ Return **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.h
 		// font-family : 'Helvetica Neue';
 }
 ```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)

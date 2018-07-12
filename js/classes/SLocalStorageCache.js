@@ -29,7 +29,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  * });
  * // set an item into the cache
  * myCache.set('my-cool-item', 'something');
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 var SLocalStorageCache = function (_SCache) {
 	_inherits(SLocalStorageCache, _SCache);

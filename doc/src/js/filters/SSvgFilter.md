@@ -19,7 +19,7 @@ by extending this class like so
 const myFilter = new MyBlurFilter(10);
 myFilter.applyTo(myCoolHTMLElement);
 ```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)
 
 
 ## Constructor

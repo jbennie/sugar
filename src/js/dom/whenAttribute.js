@@ -23,7 +23,7 @@ import __autoCast from '../utils/string/autoCast'
  * 		// do something with your number value...
  * });
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function whenAttribute(elm, attrName, checkFn = null) {
 	return new Promise((resolve, reject) => {

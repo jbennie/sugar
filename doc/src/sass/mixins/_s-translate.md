@@ -16,4 +16,4 @@ $z  |  **{ Number }**  |  The z translate value  |  optional  |  0
 	@include s-translate(50%, 20px);
 }
 ```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)

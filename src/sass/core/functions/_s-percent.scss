@@ -4,7 +4,7 @@
  * @param 			{Number} 		$value 		The value to convert
  * @return 			{Number} 					The % converted value
  *
- * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 @function s-percent($value) {
 	@return s-convert($value, '%');

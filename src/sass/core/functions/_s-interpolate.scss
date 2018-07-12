@@ -25,7 +25,7 @@
  * s-interpolate($myStack, big) // 6rem cause specified in the $myStack value
  * s-interpolate($myStack, small) // 1.5rem => calculated like : 3rem * 0.5 = 1.5rem
  *
- * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 @function s-interpolate(
 	$stack,

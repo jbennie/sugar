@@ -81,7 +81,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  * }, (error) => {
  * 		// something went wrong...
  * });
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 var SAjax = function (_SObject) {
 	_inherits(SAjax, _SObject);

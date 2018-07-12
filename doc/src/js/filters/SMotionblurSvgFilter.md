@@ -10,7 +10,7 @@ element depending on his movements, direction and speed
 filter.applyTo(myCoolHTMLElement);
 // now when your element will move, it will be blured accordingly
 ```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)
 
 Extends **SSvgFilter**
 

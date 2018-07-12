@@ -25,7 +25,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 		var1 : 'value1'
  * });
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 function dispatchEvent(target, name) {
   var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;

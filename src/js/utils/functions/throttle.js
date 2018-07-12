@@ -14,7 +14,7 @@
  * 		myThrottledFn();
  * });
  *
- * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function throttle(fn, threshhold) {
     threshhold || (threshhold = 250);

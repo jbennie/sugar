@@ -14,7 +14,7 @@ import SEvent from '../classes/SEvent';
  * 		var1 : 'value1'
  * });
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function dispatchEvent(target, name, data = null) {
 	// create new event

@@ -15,7 +15,7 @@ exports.default = isInteger;
  * isInteger(10) => true
  * isInteger('hello') => false
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 function isInteger(data) {
   return !isNaN(data) && function (x) {

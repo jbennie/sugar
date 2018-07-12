@@ -173,7 +173,7 @@ require('es6-object-assign').polyfill();
  * // define your component
  * MyCoolComponent.define('my-cool-component', MyCoolComponent);
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 
 if (!window.sugar) window.sugar = {};
@@ -504,7 +504,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
     * Set some default props for a specific component
     * @param 		{Object} 		props 			A props object to set
     * @param 		{String} 		[tagname=null] 	The tagname of the component you want to setting up
-    * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+    * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
     */
 			value: function setDefaultProps(props) {
 				var tagname = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
@@ -545,7 +545,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
     * 		});
     * }
     *
-    * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+    * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
     */
 			get: function get() {
 				return {
@@ -776,7 +776,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
     * 		// do something here...
     * }
     *
-    * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+    * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
     */
 
 		}, {
@@ -794,7 +794,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
     * 		// do something here...
     * }
     *
-    * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+    * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
     */
 
 		}, {
@@ -843,7 +843,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
     * 		// do something here...
     * }
     *
-    * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+    * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
     */
 
 		}, {
@@ -868,7 +868,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
     * 		// do something here...
     * }
     *
-    * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+    * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
     */
 
 		}, {
@@ -899,7 +899,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
     * 		// do something here...
     * }
     *
-    * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+    * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
     */
 
 		}, {
@@ -920,7 +920,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
     * 		// in order to reflect the props object state
     * }
     *
-    * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+    * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
     */
 
 		}, {
@@ -944,7 +944,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
     * 		// do something here...
     * }
     *
-    * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+    * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
     */
 
 		}, {
@@ -964,7 +964,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
     * 		// do something here...
     * }
     *
-    * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+    * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
     */
 
 		}, {
@@ -987,7 +987,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
     * 		// do something here...
     * }
     *
-    * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+    * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
     */
 
 		}, {
@@ -1010,7 +1010,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
     * 		// do something here...
     * }
     *
-    * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+    * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
     */
 
 		}, {
@@ -1317,7 +1317,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
     *  	}
     * }
     *
-    * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+    * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
     */
 
 		}, {
@@ -1366,7 +1366,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
     * on the dom element as attribute
     * @param 			{String} 			prop 			The property to handle
     * @param 			{Mixed} 			value 			The property value
-    * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+    * @author 			Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
     */
 
 		}, {

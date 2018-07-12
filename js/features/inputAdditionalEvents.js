@@ -16,7 +16,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * **input/textarea**: `onenter`, `onescape`
  * @example 	js
  * import 'coffeekraken-sugar/js/features/inputAdditionalEvents'
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 
 function handleInputAttributes(e) {

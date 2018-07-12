@@ -19,7 +19,7 @@ import uniqid from '../utils/uniqid'
  * const myFilter = new MyBlurFilter(10);
  * myFilter.applyTo(myCoolHTMLElement);
  *
- * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 
 let _sSvgFilters = [];

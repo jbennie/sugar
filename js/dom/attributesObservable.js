@@ -28,7 +28,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
  * });
  *
  * @see 		https://developer.mozilla.org/en/docs/Web/API/MutationObserver
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 
 

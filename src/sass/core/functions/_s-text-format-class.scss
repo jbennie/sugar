@@ -1,7 +1,7 @@
 /**
  * Return the text-format setting scope class
  * @return 		{String} 		The text-format scope class from settings.text-format.scope-class
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 @function s-text-format-class() {
 	@return s-setting('text-format.scope-class');

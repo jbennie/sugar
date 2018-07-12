@@ -15,7 +15,7 @@
  * 	threshold : 50
  * });
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  * @see 		https://gist.github.com/SleepWalker/da5636b1abcbaff48c4d 	Based on
  */
 export default function onSwipe(elm, cb, settings = {}) {

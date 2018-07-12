@@ -9,7 +9,7 @@
  * 	value1 : 'plop'
  * }));
  * // => ?value1=coco&value2=plop
- * @author  Olivier Bossel <olivier.bossel@gmail.com>
+ * @author  Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function objectToQueryString(obj) {
 	return '?'+Object.keys(obj).reduce(function(a,k){a.push(k+'='+encodeURIComponent(obj[k]));return a},[]).join('&');

@@ -15,4 +15,4 @@ refElm  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLE
 	import insertAfter from 'sugarcss/js/dom/insertAfter'
 insertAfter(myElementToInsert, theReferenceElement);
 ```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)

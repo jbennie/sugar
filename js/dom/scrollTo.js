@@ -19,7 +19,7 @@ Object.defineProperty(exports, "__esModule", {
  * import easeInOutQuad from 'sugarcss/js/easings/easeInOutQuad'
  * scrollTo(myCoolHTMLElement, 2000, easeInOutQuad);
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 var isUserScrolling = false;
 var userScrollingTimeout = void 0;

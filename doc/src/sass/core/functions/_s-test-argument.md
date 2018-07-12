@@ -26,4 +26,4 @@ Return **{ Mixed }** The value if ok, false if not
 @mixin my-cool-mixin(hello, universe); // throw an error
 @mixin my-cool-mixin(12, world); // throw an error
 ```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)

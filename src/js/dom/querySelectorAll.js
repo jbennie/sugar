@@ -20,7 +20,7 @@ import __closestNotVisible from './closestNotVisible'
  * 		inViewport : true
  * });
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 
 /**

@@ -22,4 +22,4 @@ $namespace  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REF
 // print out my helpers classes
 @include s-classes('my');
 ```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)

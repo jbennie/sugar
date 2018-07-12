@@ -18,7 +18,7 @@ exports.default = offset;
  * const offsetElm = offset(myCoolElement);
  * // output : { top : 200, left : 300 }
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 function offset(elm) {
 	var body = void 0,

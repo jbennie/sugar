@@ -4,7 +4,7 @@
  * for styling purposes and for others thinks as well.
  * @example 	js
  * import 'coffeekraken-sugar/js/features/imagesLoadedAttribute'
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 
 import __imageLoaded from '../dom/imageLoaded'

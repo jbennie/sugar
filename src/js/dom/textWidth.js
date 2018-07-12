@@ -15,7 +15,7 @@ import __getStyleProperty from './getStyleProperty'
  * // text directly (no font-size management so it's less accurate...)
  * const width = textWidth('Hello World');
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function textWidth(source) {
 	// create an element

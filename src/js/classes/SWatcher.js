@@ -23,7 +23,7 @@ import _set from 'lodash/set';
  * // update the title
  * myObject.title = 'Hello Universe';
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default class SWatcher {
 

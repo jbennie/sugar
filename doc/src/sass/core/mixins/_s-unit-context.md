@@ -19,4 +19,4 @@ s-setting('typography.font-size'); // => 16px
 		s-setting('typography.font-size'); // => 1rem
 }
 ```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)

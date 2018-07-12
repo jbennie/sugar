@@ -28,4 +28,4 @@ $bottom-right  |  **{ Number }**  |  The radius to apply on bottom-right corners
 	// etc...
 }
 ```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)

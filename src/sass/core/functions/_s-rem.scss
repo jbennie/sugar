@@ -4,7 +4,7 @@
  * @param 			{Number} 		$value 		The value to convert
  * @return 			{Number} 					The rem converted value
  *
- * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 @function s-rem($value) {
 	@return s-convert($value, rem);

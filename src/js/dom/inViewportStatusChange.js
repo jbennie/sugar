@@ -20,7 +20,7 @@ import InViewportStatusChangeDetector from './InViewportStatusChangeDetector'
  * // stop listening
  * detector.destroy();
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function inViewportStatusChange(elm, onEnter = null, onExit = null) {
 	const detector = new InViewportStatusChangeDetector(elm);

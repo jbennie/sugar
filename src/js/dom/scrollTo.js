@@ -14,7 +14,7 @@
  * import easeInOutQuad from 'sugarcss/js/easings/easeInOutQuad'
  * scrollTo(myCoolHTMLElement, 2000, easeInOutQuad);
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 let isUserScrolling = false;
 let userScrollingTimeout;

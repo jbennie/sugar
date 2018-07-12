@@ -21,4 +21,4 @@ if (matches(myCoolHTMLElement, '.my-cool-css-selector')) {
 ```
 See : **See more** : [https://developer.mozilla.org/en/docs/Web/API/Element/matches](https://developer.mozilla.org/en/docs/Web/API/Element/matches)
 
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)

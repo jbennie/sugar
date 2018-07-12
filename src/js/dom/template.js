@@ -38,7 +38,7 @@ function processNodeElm(elm, format) {
  *
  * @TODO : sample
  *
- * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function template(source, format = 'html') {
 

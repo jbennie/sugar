@@ -33,7 +33,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  * filter.linear(['red','blue','green']);
  * filter.applyTo(myCoolHTMLElement);
  *
- * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 var SGradientSvgFilter = function (_SSvgFilter) {
 	_inherits(SGradientSvgFilter, _SSvgFilter);

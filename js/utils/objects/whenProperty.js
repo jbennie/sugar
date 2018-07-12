@@ -48,7 +48,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 		myObj.title = 'Hello World';
  * },1000);
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 function whenProperty(object, property) {
   var checkFn = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;

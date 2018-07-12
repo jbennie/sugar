@@ -58,7 +58,7 @@ function _decodeHtml(html) {
  * @param 	{String} 			[tag="span"] 	The tag to use to split the letters
  * @param 	{String} 			[tagClass="s-split-letters"] 		The class to apply on the tags
  * @return 	{HTMLElement} 						The HTMLElement processed
- * @author 	Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 	Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function splitLetters(elm, tag = 'span', tagClass = 'split-letters') {
 

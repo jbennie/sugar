@@ -7,7 +7,7 @@
  * - `dirty`: When the input has been touched
  * @example 	js
  * import 'coffeekraken-sugar/js/features/inputAdditionalAttributes'
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 
 import fastdom from 'fastdom'
