@@ -4,6 +4,7 @@ Return the modular scale value based on the settings ```modular-scale.base``` an
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $scale  |  **{ Number }**  |  The wanted scale  |  required  |
@@ -11,4 +12,4 @@ $base  |  **{ Number }**  |  The base of calculation  |  optional  |  settings.m
 
 Return **{ Number }** The calculated resulting value
 
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

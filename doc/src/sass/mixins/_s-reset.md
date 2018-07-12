@@ -6,4 +6,4 @@ Print out a reset css
 ```scss
 	@include s-reset();
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

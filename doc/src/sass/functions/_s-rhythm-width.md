@@ -5,6 +5,7 @@ The rhythme width is the width of an element that target a certain number of let
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $letters-count  |  **{ Integer }**  |  The number of letters to target by line  |  optional  |  settings.typography.line-letters-count
@@ -20,4 +21,4 @@ Return **{ [Map](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html
 // 	max-width : 50ex
 // )
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

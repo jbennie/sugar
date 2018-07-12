@@ -4,6 +4,7 @@ Check if the passed value is a valid url
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 value  |  **{ Mixed }**  |  The value to check  |  required  |

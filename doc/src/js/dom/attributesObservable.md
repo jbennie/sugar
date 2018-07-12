@@ -4,6 +4,7 @@ Observe attributes on an HTMLElement and get mutations through the observable su
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 target  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElement) }**  |  The element to observe  |  required  |
@@ -18,9 +19,9 @@ attributesObservable(myCoolHTMLElement).subscribe((mutation) => {
 		// do something with the mutation
 });
 ```
-See more : [https://developer.mozilla.org/en/docs/Web/API/MutationObserver](https://developer.mozilla.org/en/docs/Web/API/MutationObserver)
+See : **See more** : [https://developer.mozilla.org/en/docs/Web/API/MutationObserver](https://developer.mozilla.org/en/docs/Web/API/MutationObserver)
 
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
 
 
@@ -28,7 +29,7 @@ Author : Olivier Bossel <olivier.bossel@gmail.com>
 
 ## Settings
 
-Here's the list of available settings.
+Here's the list of available setting(s).
 
 ### attributes
 

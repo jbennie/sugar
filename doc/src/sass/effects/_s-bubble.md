@@ -1,8 +1,10 @@
 # s-bubble
 
+Create an arrow bubble effect
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $side  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  The side (top,right,bottom,left)  |  optional  |  bottom
@@ -22,6 +24,6 @@ $border-color  |  **{ [Color](http://www.sass-lang.com/documentation/file.SASS_R
 		color : white;
 }
 ```
-See more : [https://codepen.io/kirkas/pen/otqyJ](https://codepen.io/kirkas/pen/otqyJ)
+See : **See more** : [https://codepen.io/kirkas/pen/otqyJ](https://codepen.io/kirkas/pen/otqyJ)
 
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

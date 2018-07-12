@@ -1,3 +1,4 @@
+$_sugar-component-name : null;
 /**
  * Set the name of the component that will be handled inside the mixin
  *
@@ -14,7 +15,6 @@
  *
  * @author 			Olivier Bossel <olivier.bossel@gmail.com>;
  */
-$_sugar-component-name : null;
 @mixin s-component(
 	$name : null,
 	$context : null

@@ -3,6 +3,7 @@
 Transform an object (key => pairs) to a query string like "?var1=value1&var2"
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 obj  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }**  |  The object to serialize  |  required  |
@@ -18,4 +19,4 @@ console.log(__objectToQueryString({
 }));
 // => ?value1=coco&value2=plop
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

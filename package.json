@@ -1,10 +1,16 @@
 {
   "name": "coffeekraken-sugar",
   "description": "A little sugar in your codebase",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "homepage": "http://coffekraken.io",
   "main": "index.js",
   "watch": {
+    "doc:js": {
+      "paths": "src/**/*.js"
+    },
+    "doc:scss": {
+      "paths": "src/**/*.scss"
+    },
     "demo:js": {
       "paths": "demo/src/**/*.js"
     },
@@ -14,7 +20,7 @@
   },
   "scripts": {
     "dist": "rm -rf dist && npm run dist:js",
-    "dist:js": "babel src -d dist --watch",
+    "dist:js": "babel src -d . --watch",
     "install": "node ./scripts/install.js",
     "doc": "rm -rf doc/src && npm run doc:scss && npm run doc:js",
     "doc:scss": "coffeekraken-docblock-to-markdown -f 'src/**/*.scss' -d doc",

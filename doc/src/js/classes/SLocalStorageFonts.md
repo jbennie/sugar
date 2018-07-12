@@ -18,12 +18,13 @@ This class allows to easily store and load custom fonts from the localStorage
      }]
 }
 ```
-Author : Olivier Bossel<olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
 
 ## Constructor
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 settings  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }**  |  The settings  |  required  |
@@ -33,7 +34,7 @@ settings  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/R
 
 ## Settings
 
-Here's the list of available settings.
+Here's the list of available setting(s).
 
 ### version
 

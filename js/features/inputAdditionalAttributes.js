@@ -4,7 +4,7 @@ var _fastdom = require('fastdom');
 
 var _fastdom2 = _interopRequireDefault(_fastdom);
 
-var _querySelectorLive = require('coffeekraken-sugar/js/dom/querySelectorLive');
+var _querySelectorLive = require('../dom/querySelectorLive');
 
 var _querySelectorLive2 = _interopRequireDefault(_querySelectorLive);
 

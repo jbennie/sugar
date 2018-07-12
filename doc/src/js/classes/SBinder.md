@@ -15,7 +15,7 @@ binder.bindObjectPath2ElementAttribute(myObject1, 'title', myHTMLElement, 'title
 
 // and more...
 ```
-Author : Olivier Bossel<olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
 
 ## Constructor
@@ -34,6 +34,7 @@ Author : Olivier Bossel<olivier.bossel@gmail.com>
 Bind object path 2 object path
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 object1  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }**  |  The source object that will be watched  |  required  |
@@ -49,6 +50,7 @@ Return **{ SBinder }** The binder instance to allow chainability
 Bind element attribute to object path
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 elm  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElement) }**  |  The source html element that will be watched  |  required  |
@@ -64,6 +66,7 @@ Return **{ SBinder }** The binder instance to allow chainability
 Bind object path to element attribute
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 object  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }**  |  The source object that will be watched  |  required  |

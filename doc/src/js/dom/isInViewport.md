@@ -4,6 +4,7 @@ Check if the passed HTMLElement is in the viewport or not
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 elm  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElement) }**  |  The element to insert  |  required  |
@@ -18,4 +19,4 @@ if (isInViewport(myCoolHTMLElement) {
 		// i'm in the viewport
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

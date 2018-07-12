@@ -5,6 +5,7 @@ This function gives you some shortcuts to align your element top, bottom, middle
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $position  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  The position css property  |  optional  |  absolute
@@ -25,4 +26,4 @@ s-position-map(relative, bottom, right);
 s-position-map(absolute, bottom, center);
 // etc...
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

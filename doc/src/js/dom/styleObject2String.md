@@ -4,6 +4,7 @@ Transform a style object to inline string separated by ;
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 styleObj  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }**  |  An object of style to apply  |  required  |
@@ -19,4 +20,4 @@ const styleString = styleObject2String({
 });
 // output => padding-left:20px; display:block;
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

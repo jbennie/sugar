@@ -23,7 +23,7 @@ Features:
 	- componentWillUnmount
 	- componentUnmount
 	- componentDidUnmount
-- **Mount dependencies** : This will allows you to set some promises that havwe to be resolved before mounting the component
+- **Mount dependencies** : This will allows you to set some promises that have to be resolved before mounting the component
 
 
 ### Example
@@ -104,8 +104,14 @@ class MyCoolComponent extends SWebComponent {
 // define your component
 MyCoolComponent.define('my-cool-component', MyCoolComponent);
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
+
+## Constructor
+
+Constructor
+
+**Protected**
 
 
 
@@ -142,7 +148,7 @@ Type : **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Referen
 		});
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
 **Static**
 
@@ -185,6 +191,7 @@ Type : **{ Array<Promise> }**
 Define the new web component
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 name  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The name of the component  |  required  |
@@ -199,12 +206,13 @@ ext  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refere
 Set some default props for a specific component
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 props  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }**  |  A props object to set  |  required  |
 tagname  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The tagname of the component you want to setting up  |  optional  |  null
 
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
 **Static**
 
@@ -242,6 +250,7 @@ Return **{ [Array](https://developer.mozilla.org/fr/docs/Web/JavaScript/Referenc
 Specify the default css for the component
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 componentName  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The camelcase component name  |  required  |
@@ -265,7 +274,7 @@ Called directly when the component is created. This act like a constructor.
 		// do something here...
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
 
 ### componentWillMount
@@ -282,7 +291,7 @@ This is a good place to do directl when the component is attached in the DOM but
 		// do something here...
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
 
 ### componentMount
@@ -300,7 +309,7 @@ and before the initial render.
 		// do something here...
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
 
 ### componentDidMount
@@ -316,14 +325,17 @@ Method called after the initial component render
 		// do something here...
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
 
 ### componentWillUpdate
 
+Method called right before the render when some props have been updated.
+This method is not called before the initial render
 
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 nextProps  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }**  |  An object that represent the props that have been updated  |  required  |
@@ -337,7 +349,7 @@ nextPropsArray  |  **{ [Array](https://developer.mozilla.org/fr/docs/Web/JavaScr
 		// do something here...
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
 
 ### render
@@ -354,14 +366,17 @@ Apply all the updated that you need in the dom for the component to reflect the 
 		// in order to reflect the props object state
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
 
 ### componentDidUpdate
 
+Method called right after the render when some props have been updated.
+This method is not called after the initial render
 
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 prevProps  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }**  |  An object that represent the props that have been updated  |  required  |
@@ -375,7 +390,7 @@ prevPropsArray  |  **{ [Array](https://developer.mozilla.org/fr/docs/Web/JavaScr
 		// do something here...
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
 
 ### componentWillUnmount
@@ -391,7 +406,7 @@ Method called before the component will unmount cause it has been removed from t
 		// do something here...
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
 
 ### componentUnmount
@@ -407,7 +422,7 @@ Method called when the component need to unmount itself cause it has been remove
 		// do something here...
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
 
 ### componentDidUnmount
@@ -423,7 +438,7 @@ Method called when the component has been unmounted
 		// do something here...
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
 
 ### dispatchComponentEvent
@@ -435,6 +450,7 @@ This will dispatch actually two events :
 
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 name  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The event name  |  required  |
@@ -446,6 +462,7 @@ data  |  **{ Mixed }**  |  Some data to attach to the event  |  required  |
 Set a bunch of properties at once
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 props  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }**  |  An object of props to set  |  optional  |  {}
@@ -456,6 +473,7 @@ props  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refe
 Set a property
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 prop  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The property name to set  |  required  |
@@ -467,6 +485,7 @@ value  |  **{ Mixed }**  |  The new property value  |  required  |
 Get a property
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 prop  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The property name to get  |  required  |
@@ -479,6 +498,7 @@ Return **{ Mixed }** The property value or null
 Method called when the component will receive new props
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 prop  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The property name  |  required  |
@@ -495,7 +515,7 @@ oldVal  |  **{ Mixed }**  |  The old property value  |  required  |
  	}
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
 
 ### shouldComponentAcceptProp
@@ -503,6 +523,7 @@ Author : Olivier Bossel <olivier.bossel@gmail.com>
 Method that check if a property passed to the component has to be accepted or not.
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 prop  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The property name  |  required  |
@@ -522,6 +543,7 @@ Return **{ [Boolean](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refere
 Watch any data of the component
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 path  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The path from the component root to watch like "props.myCoolProp"  |  required  |
@@ -533,6 +555,7 @@ cb  |  **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refer
 Mutate the dom using an optimize requestAnimationFrame technique
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 cb  |  **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function) }**  |  The callback to exexute  |  required  |
@@ -544,6 +567,7 @@ Set a class that will be construct with the componentNameDash,
 an optional element and modifier
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 element  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The element name  |  optional  |  null
@@ -558,6 +582,7 @@ Return **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Referen
 Get a component selector class built with the passed element, modifier and state parameters
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 element  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The element name  |  optional  |  null
@@ -572,6 +597,7 @@ Return **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Referen
 Check if the passed element has the component class generated by the element and modifier argument
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 elm  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElement) }**  |  The element to check  |  required  |
@@ -588,6 +614,7 @@ Add a class on the passed element that will be construct with the componentNameD
 an optional element, modifier and state
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 element  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The element name  |  optional  |  null
@@ -603,6 +630,7 @@ Remove a class on the passed element that will be construct with the componentNa
 an optional element, modifier and state
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 element  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The element name  |  optional  |  null

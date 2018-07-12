@@ -54,7 +54,7 @@ var SGradientSvgFilter = function (_SSvgFilter) {
 	/**
   * Linear gradient
   * @param 		{Array} 			colors 			An array of colors for your gradient
-  * @param 		{Object} 			settings 		The settings of your gradient
+  * @param 		{Object} 			settings 		The settings of your gradient that consist of an object like : ```{width: 512, height: 512, x0: 0, x1: 512, y0: 0, y1: 1}```
   */
 
 
@@ -89,7 +89,7 @@ var SGradientSvgFilter = function (_SSvgFilter) {
 		/**
    * Linear gradient
    * @param 		{Array} 			colors 			An array of colors for your gradient
-   * @param 		{Object} 			settings 		The settings of your gradient
+   * @param 		{Object} 			settings 		The settings of your gradient that consist of an object like : ```{width: 512, height: 512, x0: 256, x1: 256, y0: 256, y1: 256, r0: 0, r1: 512}```
    */
 
 	}, {

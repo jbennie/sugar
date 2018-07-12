@@ -4,6 +4,7 @@ Polyfill for the Element.matches function
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 elm  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElement) }**  |  The element to check  |  required  |
@@ -18,6 +19,6 @@ if (matches(myCoolHTMLElement, '.my-cool-css-selector')) {
 		// the element match the selector
 }
 ```
-See more : [https://developer.mozilla.org/en/docs/Web/API/Element/matches](https://developer.mozilla.org/en/docs/Web/API/Element/matches)
+See : **See more** : [https://developer.mozilla.org/en/docs/Web/API/Element/matches](https://developer.mozilla.org/en/docs/Web/API/Element/matches)
 
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

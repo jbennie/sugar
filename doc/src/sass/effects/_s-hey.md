@@ -1,8 +1,11 @@
 # s-hey
 
+Create a poping dot effect to catch user attention on a particular item
+This mixin affect the :before and :after pseudo selector of the item
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $vertical-align  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  Where to put the dot verticaly (top,middle,bottom)  |  optional  |  top
@@ -26,4 +29,4 @@ $offset-left  |  **{ Number }**  |  The offset left  |  optional  |  0
 		);
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

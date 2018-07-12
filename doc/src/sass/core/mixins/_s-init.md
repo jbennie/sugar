@@ -9,4 +9,4 @@ and **BEFORE** all the others sugar mixins and functions calls
 ```scss
 	@include s-init();
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

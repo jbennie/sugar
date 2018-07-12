@@ -46,16 +46,16 @@ function scrollTo(target, duration, easing, offset, align, onFinish) {
 	var elementBounds = isNaN(target) ? target.getBoundingClientRect() : 0;
 
 	if (align === "center") {
-		targetY += isNaN(target) ? elementBounds.top + elementBounds.height / 2 : target;
+		targetY += elementBounds.top + elementBounds.height / 2;
 		targetY -= windowHeight / 2;
 		targetY -= offset;
 	} else if (align === "bottom") {
-		targetY += elementBounds.bottom || target;
+		targetY += elementBounds.bottom;
 		targetY -= windowHeight;
 		targetY += offset;
 	} else {
 		// top, undefined
-		targetY += elementBounds.top || target;
+		targetY += elementBounds.top;
 		targetY -= offset;
 	}
 	targetY = Math.max(Math.min(maxScroll, targetY), 0);

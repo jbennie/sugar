@@ -1,8 +1,10 @@
 # s-context
 
+Set a context to be used inside the mixin
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $name-or-map  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) , [Map](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#maps) }**  |  The name of a registered context or a map  |  required  |
@@ -34,4 +36,4 @@ $name-or-map  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_R
 		// your code here...
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

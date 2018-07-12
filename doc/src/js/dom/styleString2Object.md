@@ -4,6 +4,7 @@ Transform a style string to an object representation
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 style  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The style string  |  required  |
@@ -19,4 +20,4 @@ const styleString = styleString2Object('padding-left:20px; display:block;');
 // 		display : 'block'
 // }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

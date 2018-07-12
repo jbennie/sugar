@@ -17,6 +17,6 @@ onSwipe(myCoolElm, (swipe) => {
 	threshold : 50
 });
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
-Based on : [https://gist.github.com/SleepWalker/da5636b1abcbaff48c4d](https://gist.github.com/SleepWalker/da5636b1abcbaff48c4d)
+See : **Based on** : [https://gist.github.com/SleepWalker/da5636b1abcbaff48c4d](https://gist.github.com/SleepWalker/da5636b1abcbaff48c4d)

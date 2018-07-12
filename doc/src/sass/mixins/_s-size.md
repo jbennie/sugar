@@ -1,8 +1,9 @@
 # s-size
 
+Quicky and easily set simple or complexe size to any element
 
 
-
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $size-width  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) , Number }**  |  The size like "cover" or "contain", or the width un number  |  required  |
@@ -15,4 +16,4 @@ $position  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFE
 	@include s-size(cover);
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

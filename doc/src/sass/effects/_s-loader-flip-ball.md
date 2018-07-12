@@ -1,8 +1,10 @@
 # s-loader-flip-ball
 
+Generate a full animated, single element, flip ball style loader
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $shape  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  The shape of the loader (circle,rect)  |  optional  |  circle
@@ -18,4 +20,4 @@ $a-ease  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERE
 		@include s-loader-flip-ball();
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

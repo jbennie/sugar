@@ -5,6 +5,7 @@ If the argument does not pass the test, an error will be thrown, unless the $che
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $method  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  The function/mixin name (debug purpose)  |  required  |
@@ -25,4 +26,4 @@ Return **{ Mixed }** The value if ok, false if not
 @mixin my-cool-mixin(hello, universe); // throw an error
 @mixin my-cool-mixin(12, world); // throw an error
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
