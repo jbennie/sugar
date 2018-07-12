@@ -5,6 +5,7 @@ This ensure that your passed value will be a round px value for final rander in 
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $value  |  **{ Number }**  |  The value to process  |  required  |
@@ -19,4 +20,4 @@ s-render-round-even(5.2rem);
 // 2. round even the px value : 84px
 // 3. transform to passed unit value : 84px / 16px = 5.25rem
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

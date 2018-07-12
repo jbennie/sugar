@@ -4,6 +4,7 @@ Check if the passed value is a valid email address
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 value  |  **{ Mixed }**  |  The value to check  |  required  |
@@ -16,4 +17,4 @@ Return **{ [Boolean](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refere
 isEmail('plop@yop.com') => true
 isEmail('hello') => false
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

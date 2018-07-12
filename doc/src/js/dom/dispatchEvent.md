@@ -1,8 +1,10 @@
 # dispatchEvent
 
+Helper to quickly display an event with some optional data attached to it
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 target  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElement) }**  |  The element to dispatch the event from  |  required  |
@@ -16,4 +18,4 @@ dispatchEvent(myCoolHTMLElement, 'myCoolEventName', {
 		var1 : 'value1'
 });
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

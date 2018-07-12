@@ -10,12 +10,13 @@ This class represent a gooey SVG filter that can be applied on any HTMLElement.
 	const filter = new SGooeySvgFilter();
 filter.applyTo(myCoolHTMLElement);
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
 
 ## Constructor
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 amount  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**  |  The amount of effect to apply  |  required  |

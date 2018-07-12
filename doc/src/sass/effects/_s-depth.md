@@ -1,8 +1,10 @@
 # s-depth
 
+Generate a drop shadow depending on the depth specified
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $depth  |  **{ Integer }**  |  The depth wanted (1,2,3,4,etc...)  |  required  |
@@ -14,4 +16,4 @@ $color  |  **{ [Color](http://www.sass-lang.com/documentation/file.SASS_REFERENC
 		@include s-depth(2);
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

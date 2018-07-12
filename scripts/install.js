@@ -4,8 +4,6 @@ const fse = require('fs-extra');
 
 if (process.env.PWD.match(/node_modules/)) {
 	// move sources
-	fse.removeSync('js');
-	fse.moveSync('dist/js','js');
 	fse.removeSync('sass');
 	fse.moveSync('src/sass','sass');
 

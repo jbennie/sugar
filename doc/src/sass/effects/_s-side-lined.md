@@ -1,8 +1,10 @@
 # s-side-lined
 
+Create side lines around an item
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $style  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  The line style, same possible values as the border-style property  |  optional  |  solid
@@ -23,4 +25,4 @@ $offset-top  |  **{ Number }**  |  The line offset top  |  optional  |  null
 		);
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

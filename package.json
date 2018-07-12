@@ -1,10 +1,16 @@
 {
   "name": "coffeekraken-sugar",
   "description": "A little sugar in your codebase",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "homepage": "http://coffekraken.io",
   "main": "index.js",
   "watch": {
+    "doc:js": {
+      "paths": "src/**/*.js"
+    },
+    "doc:scss": {
+      "paths": "src/**/*.scss"
+    },
     "demo:js": {
       "paths": "demo/src/**/*.js"
     },

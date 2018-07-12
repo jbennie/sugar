@@ -1,8 +1,12 @@
 # querySelectorLive
 
+Observe the dom to get all the elements that matches a passed css selector at any point in time.
+Be warned that this use the mutation observer API and will monitor all the document for new nodes. Make sure to use it
+when you don't have the chance to use the custom elements API instead
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 selector  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The css selector that we are interested in  |  required  |
@@ -16,14 +20,14 @@ querySelectorLive('.my-cool-item', (node) => {
 	// do something here with the detected node
 });
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
 
 
 
 ## Attributes
 
-Here's the list of available attribute to set on the element.
+Here's the list of available attribute(s).
 
 ### settings.rootNode
 

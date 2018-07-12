@@ -1,8 +1,9 @@
 # s-columns
 
+Create a column layout my setting each columns properties at once
 
 
-
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $count  |  **{ Integer }**  |  The number of columns wanted  |  optional  |  null
@@ -25,4 +26,4 @@ $rule-width  |  **{ Number }**  |  Specify the column-rule-width wanted  |  opti
 	);
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

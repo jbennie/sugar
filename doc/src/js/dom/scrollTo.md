@@ -1,8 +1,10 @@
 # scrollTo
 
+Function that let you make a smooth page scroll to a specific element in the page
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 target  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElement) }**  |  The element to scroll to  |  required  |
@@ -18,6 +20,6 @@ onFinish  |  **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript
 import easeInOutQuad from 'sugarcss/js/easings/easeInOutQuad'
 scrollTo(myCoolHTMLElement, 2000, easeInOutQuad);
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
 Default : **false**

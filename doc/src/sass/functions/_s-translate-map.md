@@ -4,6 +4,7 @@ Return the Map properties representation of a translate x,y and z
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $x  |  **{ Number }**  |  The x translate value  |  optional  |  0
@@ -20,4 +21,4 @@ Return **{ [Map](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html
 // 	transform: translateX(10px) translateY(20px) translateZ(0)
 // )
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

@@ -16,14 +16,15 @@ through the standard dispatch method on any HTMLElement
 // dispatch the event from an HTMLElement
 myHTMLElement.dispatch(myEvent);
 ```
-See more : [https://www.npmjs.com/package/customevent](https://www.npmjs.com/package/customevent)
+See : **See more** : [https://www.npmjs.com/package/customevent](https://www.npmjs.com/package/customevent)
 
-Author : Olivier Bossel<olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
 
 ## Constructor
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 name  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The event name  |  required  |
@@ -34,7 +35,7 @@ settings  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/R
 
 ## Settings
 
-Here's the list of available settings.
+Here's the list of available setting(s).
 
 ### cancelable
 

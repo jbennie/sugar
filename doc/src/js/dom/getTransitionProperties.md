@@ -4,6 +4,7 @@ Get the css transition properties from an HTMLElement in an object format
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 elm  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElement) }**  |  The element to get the properties from  |  required  |
@@ -23,4 +24,4 @@ const props = getTransitionProperties(myCoolHTMLElement);
 // 	totalDuration : 200
 // }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

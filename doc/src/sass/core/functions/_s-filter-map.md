@@ -5,6 +5,7 @@ The $filter parameter can be either a registered filter name or a filter formate
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $filter  |  **{ List<String> }**  |  The registered filter name or the filter string to transform into map  |  required  |
@@ -34,4 +35,4 @@ s-filter-map(blur(10px));
 // 	blur : 10px
 // }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

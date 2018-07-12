@@ -2,7 +2,7 @@ import 'babel-polyfill'
 import '@webcomponents/webcomponentsjs/bundles/webcomponents-ce'
 import '@webcomponents/webcomponentsjs/custom-elements-es5-adapter'
 // import 'webcomponents.js/webcomponents-lite'
-import SWebComponent from 'coffeekraken-sugar/js/core/SWebComponent'
+import SWebComponent from '../../../js/core/SWebComponent'
 class MyComponentClass extends SWebComponent {
 
 	static get defaultProps() {

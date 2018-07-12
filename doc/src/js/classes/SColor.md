@@ -35,8 +35,12 @@ let ligtherColor = myColor.lighten(20);
 // print the color to rgba
 console.log(lighterColor.toRgbaString());
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
+
+## Constructor
+
+Constructor
 
 
 
@@ -117,16 +121,12 @@ Type : **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Referen
 ## Methods
 
 
-### constructor
-
-Constructor
-
-
 ### convert2
 
 Concert color
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 format  |  **{ string }**  |  The format wanted as output like (rgba,hsl,hsv and hex)  |  required  |
@@ -139,6 +139,7 @@ Return **{ object }** The color in wanted object format
 Parse RGBA
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 rgbaString  |  **{ string }**  |  The rgba string (rgba(r,g,b,a)) to parse  |  required  |
@@ -151,6 +152,7 @@ Return **{ object }** The rgba object representation
 Parse HSL
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 hslString  |  **{ string }**  |  The hsl string (hsl(h,s,l)) to parse  |  required  |
@@ -163,6 +165,7 @@ Return **{ object }** The hsl object representation
 Parse HSV
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 hsvString  |  **{ string }**  |  The hsv string (hsv(h,s,v)) to parse  |  required  |
@@ -175,6 +178,7 @@ Return **{ object }** The hsv object representation
 RGBA to HEX
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 r  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**  |  The red value between 0-255  |  required  |
@@ -190,6 +194,7 @@ Return **{ string }** The hex string representation like #ff004f
 RGBA to RGBA
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 r  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**  |  The red value between 0-255  |  required  |
@@ -205,6 +210,7 @@ Return **{ object }** The rgba object representation
 Hex to RGBA
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 hex  |  **{ string }**  |  The hex string to convert  |  required  |
@@ -217,6 +223,7 @@ Return **{ object }** The rgba object representation
 HSV to RGBA
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 h  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**  |  The hue value between 0-360  |  required  |
@@ -232,6 +239,7 @@ Return **{ object }** The rgba object representation
 HSL to RGBA
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 h  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**  |  The hue value between 0-360  |  required  |
@@ -247,6 +255,7 @@ Return **{ object }** The rgba object representation
 RGBA to HSV
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 r  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**  |  The red value between 0-255  |  required  |
@@ -262,6 +271,7 @@ Return **{ object }** The hsv object representation
 RGBA to HSL
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 r  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**  |  The red value between 0-255  |  required  |
@@ -310,6 +320,7 @@ Reset to the original color
 Desaturate
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 amount  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**  |  The amount of desaturation wanted between 0-100  |  required  |
@@ -322,6 +333,7 @@ Return **{ SColor }** A new SColor instance of the updated color
 Saturate
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 amount  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**  |  The amount of saturation wanted between 0-100  |  required  |
@@ -341,6 +353,7 @@ Return **{ SColor }** A new SColor instance of the updated color
 Spin
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 amount  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**  |  The amount of hue spin wanted between 0-360  |  required  |
@@ -353,6 +366,7 @@ Return **{ SColor }** A new SColor instance of the updated color
 Transparentize
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 amount  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**  |  The amount of transparence to apply between 0-100|0-1  |  required  |
@@ -365,6 +379,7 @@ Return **{ SColor }** A new SColor instance of the updated color
 Set the alpha
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 alpha  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**  |  The new alpha value to apply between 0-100|0-1  |  required  |
@@ -377,6 +392,7 @@ Return **{ SColor }** A new SColor instance of the updated color
 Set the opacity (alias for alpha)
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 opacity  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**  |  The new opacity value to apply between 0-100|0-1  |  required  |
@@ -389,6 +405,7 @@ Return **{ SColor }** A new SColor instance of the updated color
 Opacify
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 amount  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**  |  The amount of transparence to remove between 0-100|0-1  |  required  |
@@ -401,6 +418,7 @@ Return **{ SColor }** A new SColor instance of the updated color
 Darken
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 amount  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**  |  The amount of darkness (of the nightmare of the shadow) to apply between 0-100  |  required  |
@@ -413,6 +431,7 @@ Return **{ SColor }** A new SColor instance of the updated color
 Lighten
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 amount  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**  |  The amount of lightness (of the sky of the angels) to apply between 0-100  |  required  |

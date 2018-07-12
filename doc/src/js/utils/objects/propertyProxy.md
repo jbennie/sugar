@@ -1,8 +1,12 @@
 # propertyProxy
 
+Create a proxy for and object property.
+This gives you the possibility to process the data of the property
+when it is getted or setted.
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 obj  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }**  |  The object on which to create the proxy  |  required  |
@@ -28,4 +32,4 @@ console.log(myObject.title) => 'Hello World';
 myObject.title = 'Universe';
 console.log(myObject.title) => 'Hello Youhou Universe';
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

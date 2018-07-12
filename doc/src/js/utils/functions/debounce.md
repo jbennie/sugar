@@ -17,4 +17,4 @@ document.addEventListener('scroll', (e) => {
 		myDebouncedFn();
 });
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

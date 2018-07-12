@@ -1,17 +1,24 @@
 # SMotionblurSvgFilter
 
+This class represent a motion blur svg filter that will blur your
+element depending on his movements, direction and speed
+
+
 ### Example
 ```js
 	const filter = new SMotionblurSvgFilter();
 filter.applyTo(myCoolHTMLElement);
 // now when your element will move, it will be blured accordingly
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+
+Extends **SSvgFilter**
 
 
 ## Constructor
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 amount  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**  |  The motion blur amount  |  required  |
@@ -19,6 +26,17 @@ amount  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Ref
 
 
 
+
+## Properties
+
+
+### amount
+
+Store the amount of motion blur to apply
+
+Type : **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**
+
+Default : **0.5**
 
 
 ## Methods
@@ -28,7 +46,10 @@ amount  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Ref
 
 Apply the filter to element
 
+**Override**
 
+
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 elm  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElement) }**  |  The element on which to apply the filter  |  required  |
@@ -38,7 +59,10 @@ elm  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElem
 
 Remove the filter from element
 
+**Override**
 
+
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 elm  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElement) }**  |  The element to unapply the filter from  |  required  |
@@ -47,3 +71,5 @@ elm  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElem
 ### destroy
 
 Destroy the filter
+
+**Override**

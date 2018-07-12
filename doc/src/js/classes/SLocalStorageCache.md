@@ -13,7 +13,7 @@ const myCache = new SLocalStorageCache('my-cache', {
 // set an item into the cache
 myCache.set('my-cool-item', 'something');
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
 
 ## Constructor
@@ -22,6 +22,7 @@ Create a new local storage cache
 
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 name  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The cache name  |  required  |

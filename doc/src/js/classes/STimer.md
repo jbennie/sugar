@@ -16,12 +16,13 @@ myTimer.onTick((myTimer) => {
 });
 myTimer.start();
 ```
-Author : Olivier Bossel<olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
 
 ## Constructor
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 duration  |  **{ number }**  |  The duration of the timer in ms  |  optional  |  1000
@@ -34,7 +35,7 @@ Return **{ STimer }** The STimer instance
 
 ## Settings
 
-Here's the list of available settings.
+Here's the list of available setting(s).
 
 ### tickInterval
 
@@ -82,6 +83,7 @@ Return **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Referen
 Set or get the duration
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 duration  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }**  |  Set the duration  |  optional  |  null
@@ -106,6 +108,7 @@ Register a function called on complete
 Reset the timer
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 start  |  **{ [Boolean](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean) }**  |  If the timer has to start after reseting or not  |  required  |

@@ -41,12 +41,13 @@ ajx.send().then((response) => {
 		// something went wrong...
 });
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
 
 ## Constructor
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 request  |  **{ SAjaxRequest }**  |  The request object used to make ajax call  |  required  |
@@ -57,7 +58,7 @@ settings  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/R
 
 ## Settings
 
-Here's the list of available settings.
+Here's the list of available setting(s).
 
 ### sendInterval
 
