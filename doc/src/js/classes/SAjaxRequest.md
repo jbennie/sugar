@@ -12,12 +12,13 @@ Class that represent an ajax request that will be passed to an SAjax instance
  	}
 });
 ```
-Author : Olivier Bossel<olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
 
 ## Constructor
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 params  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }**  |  The request params  |  required  |

@@ -4,6 +4,7 @@ Wait until the passed image is fully loaded
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 img  |  **{ HTMLImageElement }**  |  The image to check the loading state  |  required  |
@@ -18,4 +19,4 @@ imageLoaded(myCoolHTMLImageElement).then((img) => {
 		// do something when the image is loaded
 });
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

@@ -86,6 +86,7 @@ Available namespaces
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $namespaces  |  **{ List<string> }**  |  The classes namespaces wanted  |  required  |
@@ -97,4 +98,4 @@ $namespaces  |  **{ List<string> }**  |  The classes namespaces wanted  |  requi
 @include s-classes('sugar.clearfix' 'sugar.pull'); // the clearfixes and the pull classes
 // etc...
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

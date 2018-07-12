@@ -4,6 +4,7 @@ Helper to print a font-face
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $font-family  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  The font-family  |  required  |
@@ -21,4 +22,4 @@ $font-style  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_RE
 		$extensions : eot woff woff2
 )
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

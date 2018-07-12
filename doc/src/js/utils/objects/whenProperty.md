@@ -4,6 +4,7 @@ Resolve a promise when the wanted property on the passed object exist or pass th
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 object  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }**  |  The object on which to monitor the property  |  required  |
@@ -37,4 +38,4 @@ setTimeout(() => {
 		myObj.title = 'Hello World';
 },1000);
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

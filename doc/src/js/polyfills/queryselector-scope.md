@@ -8,4 +8,4 @@ To use it, just require this file in your codebase
 ```js
 	require('coffeekraken-sugar/js/polyfill/queryselector-scope');
 ```
-See more : [http://stackoverflow.com/questions/6481612/queryselector-search-immediate-children](http://stackoverflow.com/questions/6481612/queryselector-search-immediate-children)
+See : **See more** : [http://stackoverflow.com/questions/6481612/queryselector-search-immediate-children](http://stackoverflow.com/questions/6481612/queryselector-search-immediate-children)

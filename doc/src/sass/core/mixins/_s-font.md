@@ -4,6 +4,7 @@ Print all the fonts properties that correspond to the passed arguments
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $family  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  The font family wanted (can be a registered font name)  |  optional  |  null
@@ -39,4 +40,4 @@ Return **{ [Map](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html
 		word-wrap : nowrap
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

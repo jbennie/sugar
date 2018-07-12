@@ -3,6 +3,7 @@
 Quicky set some translates
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $x  |  **{ Number }**  |  The x translate value  |  optional  |  0
@@ -15,4 +16,4 @@ $z  |  **{ Number }**  |  The z translate value  |  optional  |  0
 	@include s-translate(50%, 20px);
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

@@ -5,6 +5,7 @@ Dash notation value is : -key1 value1 -key2 value2
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $dash  |  **{ [List](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#lists) }**  |  The dash list notation to transform  |  required  |
@@ -20,4 +21,4 @@ s-dash-to-map($dash);
 // 	coco : universe
 // )
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

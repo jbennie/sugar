@@ -4,6 +4,7 @@ Generate a long shadow effect like [this](https://www.google.ch/search?q=long+sh
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $color  |  **{ [Color](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#colors) }**  |  The shadow color  |  optional  |  rgba(0,0,0,.3)
@@ -27,4 +28,4 @@ $blur-ratio  |  **{ Number }**  |  The ratio to blur each depth more  |  optiona
 		);
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

@@ -4,6 +4,7 @@ Set the name of the component that will be handled inside the mixin
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $name  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  The name of the component to set  |  optional  |  null
@@ -18,4 +19,3 @@ $context  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFER
 		}
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>;

@@ -3,6 +3,7 @@
 Set how the list bullet has to be displayed.
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $type  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  The list type to use. Can be all the list-style-type values  |  optional  |  null
@@ -23,4 +24,4 @@ $space  |  **{ Number }**  |  The space between the bullet and the content  |  o
 	);
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

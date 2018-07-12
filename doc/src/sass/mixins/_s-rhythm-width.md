@@ -9,4 +9,4 @@ Print out the css on a container that will make the lines displays a maximum num
 	@include s-rhythm-width(45);
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

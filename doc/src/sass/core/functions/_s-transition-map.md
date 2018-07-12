@@ -6,6 +6,7 @@ The $transition argument will be parsed with the [./_s-parse-properties.scss] fu
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $transition  |  **{ [List](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#lists) }**  |  The registered transition name or the transition string to transform into map  |  required  |
@@ -39,4 +40,4 @@ s-transition-map(fast -delay .5s);
 // 	delay : .5s
 // }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

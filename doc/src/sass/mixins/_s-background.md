@@ -4,6 +4,7 @@ Helper mixin to set a background image
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $repeat  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  The background-repeat property  |  optional  |  null
@@ -32,4 +33,4 @@ $position  |  **{ [List](http://www.sass-lang.com/documentation/file.SASS_REFERE
 		);
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

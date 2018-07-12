@@ -4,6 +4,7 @@ Monitor an HTMLElement to be notified when his transition has ended
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 elm  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElement) }**  |  The element to monitor  |  required  |
@@ -18,4 +19,4 @@ whenTransitionEnd(myCoolHTMLElement).then((elm) => {
 		// do something with your element transition has ended...
 });
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

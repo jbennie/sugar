@@ -21,14 +21,15 @@ googleSearch.next().then((response) => {
 		// do something with the new response...
 });
 ```
-See more : [https://developers.google.com/custom-search/](https://developers.google.com/custom-search/)
+See : **See more** : [https://developers.google.com/custom-search/](https://developers.google.com/custom-search/)
 
-Author : Olivier Bossel<olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
 
 ## Constructor
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 apiKey  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The google api key to reach the services  |  required  |
@@ -39,7 +40,7 @@ cx  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Referen
 
 ## Settings
 
-Here's the list of available settings.
+Here's the list of available setting(s).
 
 ### num
 
@@ -69,6 +70,7 @@ Default : **1**
 Launch a search
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 keywords  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The keywords to search  |  required  |

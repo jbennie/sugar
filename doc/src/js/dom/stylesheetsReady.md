@@ -4,6 +4,7 @@ Wait until all the HTMLLinkElement's are properly loaded
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 links  |  **{ Array<HTMLLinkElement> }**  |  The HTMLLinkElement tags to process  |  required  |
@@ -21,4 +22,4 @@ stylesheetsReady([
 		// do something when all the links are loaded
 });
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

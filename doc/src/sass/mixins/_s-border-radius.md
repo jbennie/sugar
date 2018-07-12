@@ -3,6 +3,7 @@
 Apply some border radius
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $radius  |  **{ Number }**  |  The radius to apply globally  |  optional  |  null
@@ -27,4 +28,4 @@ $bottom-right  |  **{ Number }**  |  The radius to apply on bottom-right corners
 	// etc...
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

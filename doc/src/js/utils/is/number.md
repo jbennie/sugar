@@ -4,6 +4,7 @@ Check if the passed value is a number
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 value  |  **{ Mixed }**  |  The value to check  |  required  |
@@ -16,4 +17,4 @@ Return **{ [Boolean](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refere
 isNumber(22.3) => true
 isNumber('20') => false
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

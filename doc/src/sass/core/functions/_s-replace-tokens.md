@@ -9,4 +9,4 @@ Supported tokens types :
 ```scss
 	s-replace-tokens(12px #primary hello #secondary); // > 12px #ddd hello #fff;
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

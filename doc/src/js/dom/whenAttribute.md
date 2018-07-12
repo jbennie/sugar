@@ -4,6 +4,7 @@ Resolve a promise when the wanted attribute on the passed HTMLElement exist or p
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 elm  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElement) }**  |  The HTMLElement on which to monitor the property  |  required  |
@@ -26,4 +27,4 @@ whenAttribute(myCoolHTMLElement, 'value', (newVal, oldVal) => {
 		// do something with your number value...
 });
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

@@ -4,6 +4,7 @@ Get a settings from the global settings stack
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $path  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  The setting path wanted separated by dots  |  required  |
@@ -17,4 +18,4 @@ Return **{ Mixed }** The setting value¨
 	$font-size : s-setting('typography.font-size');
 // etc...
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

@@ -3,6 +3,7 @@
 Easy to use media query mixin that support cssua classes to target specific browsers
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $screen  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  Any of the @media screen type property like "screen, handheld, print, etc..."  |  optional  |  null
@@ -33,4 +34,4 @@ $system  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERE
 	// custom css here
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

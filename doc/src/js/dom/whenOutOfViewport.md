@@ -4,6 +4,7 @@ Monitor an HTMLElement to be notified when it exit the viewport
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 elm  |  **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLElement) }**  |  The element to monitor  |  required  |
@@ -18,4 +19,4 @@ whenOutOfViewport(myCoolHTMLElement).then((elm) => {
 		// do something with your element that has exit the viewport...
 });
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

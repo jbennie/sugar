@@ -34,6 +34,7 @@ Here's the available types that you can check
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $value  |  **{ Mixed }**  |  The value to check  |  required  |
@@ -50,4 +51,4 @@ s-is(hello #fff, list-color) // => false
 s-is(#fff #ddd, list-color) // => true
 // etc...
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

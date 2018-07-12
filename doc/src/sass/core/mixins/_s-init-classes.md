@@ -8,4 +8,4 @@ This is used internaly
 ```scss
 	@include s-init-classes();
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

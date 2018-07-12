@@ -31,6 +31,7 @@ Available conversions
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $value  |  **{ Number }**  |  The value to convert  |  required  |
@@ -44,4 +45,4 @@ Return **{ Number }** The converted value
 s-convert(24px, rem) // 1.5rem
 s-convert(3rem, pt) // 36pt
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

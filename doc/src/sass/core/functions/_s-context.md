@@ -4,6 +4,7 @@ Return the name of the context setted with the [../mixins/_s-context.scss] mixin
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $default  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  The name to return if no context exist  |  optional  |  null
@@ -22,4 +23,3 @@ s-context('hello') // => 'hello'
 		s-context('hello') // => 'my-context'
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>;

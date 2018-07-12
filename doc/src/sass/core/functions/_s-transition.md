@@ -6,6 +6,7 @@ The $transitions argument will be parsed with the [./_s-parse-properties.scss] f
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $transitions  |  **{ [List](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#lists) }**  |  The registered transition(s) name(s) or the transition(s) strings(s) to transform into list  |  required  |
@@ -34,4 +35,4 @@ Return **{ [List](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.htm
  	// transition : all .2s ease-in-out .5s, width .2s ease-in 0s;
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

@@ -5,6 +5,7 @@ This will use the [./_s-filter-map.scss] function to parse the filters
 
 
 
+### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 $filters  |  **{ List<String> }**  |  The registered filter(s) name(s) or the filter(s) string(s) to transform into list  |  required  |
@@ -33,4 +34,4 @@ Return **{ [List](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.htm
 		// filter : box-shadow(#000 0 0 10px) blur(30px) invert(100%);
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

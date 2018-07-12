@@ -9,4 +9,4 @@ Vertically align content by using the inline-block middle trick
 	@include s-vertical-aligner();
 }
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)

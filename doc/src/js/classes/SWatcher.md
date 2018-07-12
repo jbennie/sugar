@@ -21,7 +21,7 @@ watcher.watch(myObject, 'title', (newVal, oldVal) => {
 // update the title
 myObject.title = 'Hello Universe';
 ```
-Author : Olivier Bossel <olivier.bossel@gmail.com>
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
 
 ## Constructor
@@ -45,6 +45,7 @@ Destroy the watcher
 Watch something on an object
 
 
+#### Parameters
 Name  |  Type  |  Description  |  Status  |  Default
 ------------  |  ------------  |  ------------  |  ------------  |  ------------
 object  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }**  |  The object to watch  |  required  |
