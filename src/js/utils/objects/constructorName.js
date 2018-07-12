@@ -12,7 +12,7 @@
  * const myObj = new MyCoolClass();
  * console.log(constructorName(myObj)); => MyCoolClass
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function constructorName(obj) {
 	let funcNameRegex = /function (.{1,})\(/;

@@ -35,7 +35,7 @@ let ligtherColor = myColor.lighten(20);
 // print the color to rgba
 console.log(lighterColor.toRgbaString());
 ```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)
 
 
 ## Constructor

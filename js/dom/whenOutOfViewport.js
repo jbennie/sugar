@@ -33,7 +33,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 		// do something with your element that has exit the viewport...
  * });
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 function whenOutOfViewport(elm) {
 	var offset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 50;

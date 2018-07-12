@@ -12,7 +12,7 @@ import fastdom from 'fastdom'
  * filter.applyTo(myCoolHTMLElement);
  * // now when your element will move, it will be blured accordingly
  *
- * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default class SMotionblurSvgFilter extends SSvgFilter {
 

@@ -45,7 +45,7 @@ import __autoCast from '../utils/string/autoCast'
  * }, (error) => {
  * 		// something went wrong...
  * });
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default class SAjax extends SObject {
 

@@ -17,4 +17,4 @@ $my-transition : s('transition.fast');
 $my-font-size : s('settings.typography.font.size')
 // etc...
 ```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)

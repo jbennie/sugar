@@ -12,7 +12,7 @@
  * const offsetElm = offset(myCoolElement);
  * // output : { top : 200, left : 300 }
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function offset(elm) {
 	let body, box, clientLeft, clientTop, docEl, left, scrollLeft, scrollTop, top, translates, transX, transY;

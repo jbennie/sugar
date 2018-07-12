@@ -27,7 +27,7 @@ import _get from 'lodash/get'
  * myObject.title = 'Universe';
  * console.log(myObject.title) => 'Hello Youhou Universe';
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function propertyProxy(obj, property, descriptor, applySetterAtStart = true) {
 

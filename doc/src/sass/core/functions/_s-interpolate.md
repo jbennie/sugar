@@ -32,4 +32,4 @@ $myStack : (
 s-interpolate($myStack, big) // 6rem cause specified in the $myStack value
 s-interpolate($myStack, small) // 1.5rem => calculated like : 3rem * 0.5 = 1.5rem
 ```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)

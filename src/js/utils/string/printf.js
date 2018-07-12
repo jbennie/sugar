@@ -11,7 +11,7 @@
   * printf('Hello {first}, I\'m {name}', { first : 'world', name : 'John Doe'}); // Hello world, I'm John Doe
   *
   * @see 				https://monocleglobe.wordpress.com/2010/01/12/everybody-needs-a-little-printf-in-their-javascript/
-  * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+  * @author 			Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
   */
  export default function printf(source, values) {
 	 let useArguments = false;

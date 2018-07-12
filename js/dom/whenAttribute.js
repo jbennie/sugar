@@ -37,7 +37,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 		// do something with your number value...
  * });
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 function whenAttribute(elm, attrName) {
 	var checkFn = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;

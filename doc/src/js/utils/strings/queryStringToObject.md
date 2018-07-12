@@ -10,6 +10,6 @@ queryString  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScrip
 
 Return **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }** The object representation of the query string
 
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)
 
 See : **See more** : [http://stackoverflow.com/questions/8648892/convert-url-parameters-to-a-javascript-object](http://stackoverflow.com/questions/8648892/convert-url-parameters-to-a-javascript-object)

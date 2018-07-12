@@ -33,7 +33,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  * const myFilter = new MyBlurFilter(10);
  * myFilter.applyTo(myCoolHTMLElement);
  *
- * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 
 var _sSvgFilters = [];

@@ -14,4 +14,4 @@ $mode  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENC
 	@include s-image-rendering(crips-edges);
 }
 ```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)

@@ -15,7 +15,7 @@
  * // 	z : 0
  * // }
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function getTranslateProperties(elm) {
 	if ( ! window.getComputedStyle) return;

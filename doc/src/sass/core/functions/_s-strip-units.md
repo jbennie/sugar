@@ -16,4 +16,4 @@ Return **{ Number }** The number without units
 	s-strip-units(12px); // => 12
 s-strip-units(30rem); // => 30
 ```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)

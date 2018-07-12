@@ -37,4 +37,4 @@ $primary-light : s-color(primary, light);
 // $name as list
 $modified primary : s-color((primary, -darken 10%));
 ```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)

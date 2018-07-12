@@ -21,7 +21,7 @@ exports.default = getTranslateProperties;
  * // 	z : 0
  * // }
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 function getTranslateProperties(elm) {
 	if (!window.getComputedStyle) return;

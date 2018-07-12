@@ -18,7 +18,7 @@ exports.default = imageLoaded;
  * 		// do something when the image is loaded
  * });
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 function imageLoaded(img) {
 	var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;

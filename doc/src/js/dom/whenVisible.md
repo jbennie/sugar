@@ -19,4 +19,4 @@ whenVisible(myCoolHTMLElement).then((elm) => {
 		// do something with your element that is now visible
 });
 ```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)

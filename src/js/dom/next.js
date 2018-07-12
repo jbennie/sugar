@@ -15,7 +15,7 @@ import __matches from './matches'
  * 		// we have found en element that matches the selector
  * }
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function next(elm, selector) {
 	elm = elm.nextSibling;

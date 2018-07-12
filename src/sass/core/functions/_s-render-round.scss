@@ -12,7 +12,7 @@
  * // 2. round even the px value : 83px
  * // 3. transform to passed unit value : 84px / 16px = 5.1875rem
  *
- * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 @function s-render-round($value) {
 	$value : call('s-#{unit($value)}',round(s-px($value)));

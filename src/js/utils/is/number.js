@@ -10,7 +10,7 @@
  * isNumber(22.3) => true
  * isNumber('20') => false
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function isNumber(source) {
 	return !isNaN(parseFloat(source)) && isFinite(source);

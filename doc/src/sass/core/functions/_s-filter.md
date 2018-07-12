@@ -34,4 +34,4 @@ Return **{ [List](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.htm
 		// filter : box-shadow(#000 0 0 10px) blur(30px) invert(100%);
 }
 ```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)

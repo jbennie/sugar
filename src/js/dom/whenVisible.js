@@ -15,7 +15,7 @@ import __closestNotVisible from './closestNotVisible'
  * 		// do something with your element that is now visible
  * });
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function whenVisible(elm, cb = null) {
 	return new Promise((resolve, reject) => {

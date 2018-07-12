@@ -10,7 +10,7 @@ import SSvgFilter from './SSvgFilter'
  * const filter = new SGooeySvgFilter();
  * filter.applyTo(myCoolHTMLElement);
  *
- * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 class SGooeySvgFilter extends SSvgFilter {
 

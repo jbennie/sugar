@@ -17,4 +17,4 @@ Return **{ Number }** The look and feel value in em
 		padding : s-look-and-feel(padding-horizontal) s-look-and-feel(padding-vertical);
 }
 ```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)

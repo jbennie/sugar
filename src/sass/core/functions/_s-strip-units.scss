@@ -8,7 +8,7 @@
  * s-strip-units(12px); // => 12
  * s-strip-units(30rem); // => 30
  *
- * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 @function s-strip-units($number) {
 	@return $number / ($number * 0 + 1);

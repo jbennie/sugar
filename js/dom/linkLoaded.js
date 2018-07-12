@@ -18,7 +18,7 @@ exports.default = linkLoaded;
  * 		// do something when the link is loaded
  * });
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 function alreadyLoaded(link) {
 	var href = link.href;

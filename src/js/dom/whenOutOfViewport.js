@@ -16,7 +16,7 @@ import __closest from './closest'
  * 		// do something with your element that has exit the viewport...
  * });
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function whenOutOfViewport(elm, offset = 50) {
 	return new Promise((resolve, reject) => {

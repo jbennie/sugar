@@ -36,7 +36,7 @@ import __sSettings from '../core/sSettings'
  * // print the color to rgba
  * console.log(lighterColor.toRgbaString());
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 
 class SColor {

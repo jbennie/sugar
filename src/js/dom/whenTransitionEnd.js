@@ -14,7 +14,7 @@ import __getTransitionProperties from './getTransitionProperties'
  * 		// do something with your element transition has ended...
  * });
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function whenTransitionEnd(elm, cb = null) {
 	return new Promise((resolve, reject) => {

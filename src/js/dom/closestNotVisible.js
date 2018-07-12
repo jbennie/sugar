@@ -15,7 +15,7 @@ import isVisible from './isVisible'
  * 		// we have found en element is not visible
  * }
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function closestNotVisible(elm) {
 	elm = elm.parentNode;

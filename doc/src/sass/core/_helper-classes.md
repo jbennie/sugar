@@ -55,4 +55,4 @@ This file is responsible to register the static helper classes like:
 - sugar.clear-transmations : ```.clear-transmations```
 
 
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)
