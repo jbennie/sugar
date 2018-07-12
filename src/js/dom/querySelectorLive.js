@@ -16,7 +16,7 @@ import matches from './matches'
  * 	// do something here with the detected node
  * });
  *
- * @author 	Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 	Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function querySelectorLive(selector, cb, settings = {}) {
 	const id = `${selector} - ${uniqid()}`;

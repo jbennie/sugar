@@ -11,7 +11,7 @@ import __offset from './offset';
  * const offsetParentElm = offsetParent(myCoolElement);
  * // output : { top : 200, left : 300 }
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function offsetParent(elm) {
 	const parentOffset = __offset(elm.parentNode);

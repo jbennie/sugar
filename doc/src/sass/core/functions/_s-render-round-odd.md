@@ -20,4 +20,4 @@ s-render-round-odd(5.2rem);
 // 2. round odd the px value : 83px
 // 3. transform to passed unit value : 84px / 16px = 5.1875rem
 ```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)

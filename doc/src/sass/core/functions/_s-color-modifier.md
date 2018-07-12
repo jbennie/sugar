@@ -14,4 +14,4 @@ Return **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.h
 ```scss
 	$my-color : s-color-modifier(outline primary); // => primary
 ```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)

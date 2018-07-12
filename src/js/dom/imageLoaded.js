@@ -12,7 +12,7 @@
  * 		// do something when the image is loaded
  * });
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function imageLoaded(img, callback = null) {
 	return new Promise((resolve, reject) => {

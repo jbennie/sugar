@@ -13,7 +13,7 @@
  * }
  *
  * @see 		https://developer.mozilla.org/en/docs/Web/API/Element/matches
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function matches(el, selector) {
 	if (el.nodeName == '#comment' || el.nodeName == '#text') { return false; }

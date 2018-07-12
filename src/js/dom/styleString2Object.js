@@ -16,7 +16,7 @@ import __autoCast from '../utils/string/autoCast'
  * // 		display : 'block'
  * // }
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function styleString2Object(style) {
 	if ( ! style || style === '') return {};

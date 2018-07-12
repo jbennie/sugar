@@ -21,7 +21,7 @@ exports.default = isInViewport;
  * 		// i'm in the viewport
  * }
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 function isInViewport(elm) {
 	var offset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 50;

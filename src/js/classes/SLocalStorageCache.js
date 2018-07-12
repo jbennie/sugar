@@ -11,7 +11,7 @@ import SCache from './SCache';
  * });
  * // set an item into the cache
  * myCache.set('my-cool-item', 'something');
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default class SLocalStorageCache extends SCache {
 

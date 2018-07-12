@@ -17,7 +17,7 @@ import {Observable} from 'rxjs/Observable'
  * });
  *
  * @see 		https://developer.mozilla.org/en/docs/Web/API/MutationObserver
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 
 const selectorsStack = [];

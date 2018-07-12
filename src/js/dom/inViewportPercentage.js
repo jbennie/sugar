@@ -12,7 +12,7 @@ import __isVisible from './isVisible'
  * const percentage = inViewportPercentage(myCoolHTMLElement);
  * // 20
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function inViewportPercentage(elm) {
 

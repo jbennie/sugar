@@ -38,5 +38,5 @@ function domReady() {
    * 		// do something
    * });
    *
-   * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+   * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
    */

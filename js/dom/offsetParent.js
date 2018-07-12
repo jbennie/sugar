@@ -23,7 +23,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * const offsetParentElm = offsetParent(myCoolElement);
  * // output : { top : 200, left : 300 }
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 function offsetParent(elm) {
   var parentOffset = (0, _offset2.default)(elm.parentNode);

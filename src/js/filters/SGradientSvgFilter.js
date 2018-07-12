@@ -13,7 +13,7 @@ import SSvgFilter from './SSvgFilter'
  * filter.linear(['red','blue','green']);
  * filter.applyTo(myCoolHTMLElement);
  *
- * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 class SGradientSvgFilter extends SSvgFilter {
 

@@ -13,7 +13,7 @@
  * 		// I will be executed 10 times
  * }, 1000, 10000);
  *
- * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function setRecursiveTimeout(fn, timeout, duration, spread = 0) {
 

@@ -19,7 +19,7 @@ exports.default = setRecursiveTimeout;
  * 		// I will be executed 10 times
  * }, 1000, 10000);
  *
- * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 function setRecursiveTimeout(fn, timeout, duration) {
 	var spread = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;

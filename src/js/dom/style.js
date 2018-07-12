@@ -17,7 +17,7 @@ import __styleObject2String from './styleObject2String'
  * 		display : null
  * });
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function style(elm, styleObj) {
 

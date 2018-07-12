@@ -14,7 +14,7 @@ exports.default = prependChild;
  * import prependChild from 'sugarcss/js/dom/prependChild'
  * prependChild(myElementToInsert, theReferenceElement);
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 function prependChild(elm, refElm) {
   if (!refElm.firstChild) {

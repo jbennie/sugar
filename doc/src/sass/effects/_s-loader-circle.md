@@ -18,4 +18,4 @@ $a-delay  |  **{ Second }**  |  The delay between two animation cycle  |  option
 $a-near  |  **{ Integer }**  |  How many bars are affected by the animated one  |  optional  |  1
 $a-ease  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  The ease to use to animate each bars  |  optional  |  ease-in-out
 
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)

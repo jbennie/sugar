@@ -17,7 +17,7 @@ $_sugar-test-arguments : true !default;
  * // print out my helpers classes
  * \@include s-classes('my');
  *
- * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 @mixin s-register-helper-class(
 	$classname,

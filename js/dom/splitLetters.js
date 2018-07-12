@@ -69,7 +69,7 @@ function _decodeHtml(html) {
  * @param 	{String} 			[tag="span"] 	The tag to use to split the letters
  * @param 	{String} 			[tagClass="s-split-letters"] 		The class to apply on the tags
  * @return 	{HTMLElement} 						The HTMLElement processed
- * @author 	Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 	Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 function splitLetters(elm) {
   var tag = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'span';

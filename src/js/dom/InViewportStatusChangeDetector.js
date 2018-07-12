@@ -15,7 +15,7 @@ import __isInViewport from './isInViewport'
  * 		// the element has exit the viewport
  * });
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default class InViewportStatusChangeDetector {
 

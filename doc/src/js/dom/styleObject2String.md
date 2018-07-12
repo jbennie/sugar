@@ -20,4 +20,4 @@ const styleString = styleObject2String({
 });
 // output => padding-left:20px; display:block;
 ```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)

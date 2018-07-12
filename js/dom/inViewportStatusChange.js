@@ -31,7 +31,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * // stop listening
  * detector.destroy();
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 function inViewportStatusChange(elm) {
   var onEnter = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;

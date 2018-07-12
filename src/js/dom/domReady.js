@@ -16,7 +16,7 @@
  * 		// do something
  * });
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 import __domReady from 'domready'
 export default function domReady(cb = null) {

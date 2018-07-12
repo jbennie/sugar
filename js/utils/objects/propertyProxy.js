@@ -39,7 +39,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * myObject.title = 'Universe';
  * console.log(myObject.title) => 'Hello Youhou Universe';
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 function propertyProxy(obj, property, descriptor) {
 	var applySetterAtStart = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;

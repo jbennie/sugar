@@ -30,7 +30,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 	// do something here with the detected node
  * });
  *
- * @author 	Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 	Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 function querySelectorLive(selector, cb) {
 	var settings = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};

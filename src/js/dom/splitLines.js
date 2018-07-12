@@ -21,7 +21,7 @@ import __throttle from '../utils/functions/throttle'
  * @param 	{String} 			[tag="p"] 		The tag to use to split the lines
  * @param 	{String} 			[tagClass="s-split-lines"] 		The class to apply on the tags
  * @return 	{HTMLElement} 						The HTMLElement processed
- * @author 	Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 	Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function splitLines(elm, tag = 'p', tagClass = 'split-lines') {
 

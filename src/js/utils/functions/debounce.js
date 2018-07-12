@@ -15,7 +15,7 @@
  * 		myDebouncedFn();
  * });
  *
- * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function debounce(fn, delay) {
 	var timer = null;

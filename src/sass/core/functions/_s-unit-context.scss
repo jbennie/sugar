@@ -2,7 +2,7 @@
  * Return the unit context if has been set by the [s-unit-context mixin](../mixins/_s-unit-context.scss)
  *
  * @return 		{String} 				The unit context setted
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 @function s-unit-context() {
 	@if not $_s-unit-context {

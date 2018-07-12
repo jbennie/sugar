@@ -9,7 +9,7 @@
  * import insertAfter from 'sugarcss/js/dom/insertAfter'
  * insertAfter(myElementToInsert, theReferenceElement);
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function insertAfter(elm, refElm) {
 	// next sibling of ref elm

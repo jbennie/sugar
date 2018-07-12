@@ -19,4 +19,4 @@ isColor('hello') => false
 ```
 See : **See more** : [http://stackoverflow.com/questions/6386090/validating-css-color-names](http://stackoverflow.com/questions/6386090/validating-css-color-names)
 
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)

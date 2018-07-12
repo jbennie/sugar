@@ -20,7 +20,7 @@ exports.default = throttle;
  * 		myThrottledFn();
  * });
  *
- * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 function throttle(fn, threshhold) {
     threshhold || (threshhold = 250);

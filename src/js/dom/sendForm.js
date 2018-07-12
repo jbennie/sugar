@@ -12,7 +12,7 @@ import __formSerialize from 'form-serialize'
  * })
  *
  * @param 		{HTMLFormElement} 		form 		The form to send
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function sendForm(form) {
 

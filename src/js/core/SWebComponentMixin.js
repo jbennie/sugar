@@ -117,7 +117,7 @@ import __propertyProxy from '../utils/objects/propertyProxy'
  * // define your component
  * MyCoolComponent.define('my-cool-component', MyCoolComponent);
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 
 if ( ! window.sugar) window.sugar = {};
@@ -253,7 +253,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * 		});
 	 * }
 	 *
-	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	 * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
 	 */
 	static get defaultProps() {
 		return {
@@ -267,7 +267,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * Set some default props for a specific component
 	 * @param 		{Object} 		props 			A props object to set
 	 * @param 		{String} 		[tagname=null] 	The tagname of the component you want to setting up
-	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	 * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
 	 */
 	static setDefaultProps(props, tagname = null) {
 		// if a tagname is specified, we store the default props for a
@@ -663,7 +663,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * 		// do something here...
 	 * }
 	 *
-	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	 * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
 	 */
 	componentCreated() {
 	}
@@ -679,7 +679,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * 		// do something here...
 	 * }
 	 *
-	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	 * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
 	 */
 	componentWillMount() {
 
@@ -724,7 +724,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * 		// do something here...
 	 * }
 	 *
-	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	 * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
 	 */
 	componentMount() {
 		if (this._lifecycle.componentMount) return;
@@ -746,7 +746,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * 		// do something here...
 	 * }
 	 *
-	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	 * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
 	 */
 	componentDidMount() {
 		if (this._lifecycle.componentDidMount) return;
@@ -774,7 +774,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * 		// do something here...
 	 * }
 	 *
-	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	 * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
 	 */
 	componentWillUpdate(nextProps) {
 		// dispatch event
@@ -792,7 +792,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * 		// in order to reflect the props object state
 	 * }
 	 *
-	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	 * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
 	 */
 	render() {
 		// dispatch event
@@ -813,7 +813,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * 		// do something here...
 	 * }
 	 *
-	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	 * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
 	 */
 	componentDidUpdate(prevProps, prevPropsArray) {
 		// dispatch event
@@ -830,7 +830,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * 		// do something here...
 	 * }
 	 *
-	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	 * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
 	 */
 	componentWillUnmount() {
 		if (this._lifecycle.componentWillUnmount) return;
@@ -850,7 +850,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * 		// do something here...
 	 * }
 	 *
-	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	 * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
 	 */
 	componentUnmount() {
 		if (this._lifecycle.componentUnmount) return;
@@ -870,7 +870,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * 		// do something here...
 	 * }
 	 *
-	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	 * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
 	 */
 	componentDidUnmount() {
 		if (this._lifecycle.componentDidMount) return;
@@ -1127,7 +1127,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 *  	}
 	 * }
 	 *
-	 * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+	 * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
 	 */
 	componentWillReceiveProp(prop, newVal, oldVal) {
 		// do something
@@ -1164,7 +1164,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * on the dom element as attribute
 	 * @param 			{String} 			prop 			The property to handle
 	 * @param 			{Mixed} 			value 			The property value
-	 * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+	 * @author 			Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
 	 */
 	_handlePhysicalProp(prop, value) {
 		// check if is a physical prop to set it in the dom

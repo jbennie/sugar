@@ -3,7 +3,7 @@
  * Load all the features to avoid doing it by hand for each ones
  * @example 	js
  * import 'coffeekraken-sugar/js/features/all'
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 import './imagesLoadedAttribute'
 import './inputAdditionalAttributes'

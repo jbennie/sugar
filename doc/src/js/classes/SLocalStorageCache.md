@@ -13,7 +13,7 @@ const myCache = new SLocalStorageCache('my-cache', {
 // set an item into the cache
 myCache.set('my-cool-item', 'something');
 ```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)
 
 
 ## Constructor

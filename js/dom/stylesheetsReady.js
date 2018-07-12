@@ -28,7 +28,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 		// do something when all the links are loaded
  * });
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 function stylesheetsReady(links) {
 	var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;

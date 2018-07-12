@@ -38,7 +38,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  * filter.applyTo(myCoolHTMLElement);
  * // now when your element will move, it will be blured accordingly
  *
- * @author 			Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 			Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 var SMotionblurSvgFilter = function (_SSvgFilter) {
 	_inherits(SMotionblurSvgFilter, _SSvgFilter);

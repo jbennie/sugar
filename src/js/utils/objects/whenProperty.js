@@ -34,7 +34,7 @@ import SWatcher from '../../classes/SWatcher'
  * 		myObj.title = 'Hello World';
  * },1000);
  *
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function whenProperty(object, property, checkFn = null) {
 	return new Promise((resolve, reject) => {

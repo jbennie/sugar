@@ -45,4 +45,4 @@ Return **{ Number }** The converted value
 s-convert(24px, rem) // 1.5rem
 s-convert(3rem, pt) // 36pt
 ```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)

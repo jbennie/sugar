@@ -20,4 +20,4 @@ Return **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refer
 		// I will be executed 10 times
 }, 1000, 10000);
 ```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)

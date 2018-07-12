@@ -32,4 +32,4 @@ console.log(myObject.title) => 'Hello World';
 myObject.title = 'Universe';
 console.log(myObject.title) => 'Hello Youhou Universe';
 ```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)

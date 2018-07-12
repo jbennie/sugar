@@ -25,4 +25,4 @@ $settings  |  **{ [Map](http://www.sass-lang.com/documentation/file.SASS_REFEREN
 // this allows you to separate your configs setup into multiple
 // files...
 ```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
+Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)

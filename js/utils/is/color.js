@@ -17,7 +17,7 @@ exports.default = isColor;
  * isColor('hello') => false
  *
  * @see 		http://stackoverflow.com/questions/6386090/validating-css-color-names
- * @author 		Olivier Bossel <olivier.bossel@gmail.com>
+ * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 function isColor(value) {
   var ele = document.createElement("div");
