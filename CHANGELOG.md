@@ -4,10 +4,16 @@
 
 _A little sugar in your codebase_
 
-## 1.0.14  ( Thu Jun 14 2018 10:37:21 GMT+0200 (CEST) )
+## 1.0.17  ( Mon Aug 06 2018 21:04:15 GMT+0200 (CEST) )
 
 
 ## Bug Fixes
+  - fix autocast function to avoid getting objects from the window scope
+  ([a1f842a5](https://github.com/Coffeekraken/sugar/commit/a1f842a5173081a3be19858852fd37d7c7f7b143))
+  - fix scrollTo function
+  ([52f85df9](https://github.com/Coffeekraken/sugar/commit/52f85df90a1049d9a940d62dba1faf6abd0ea541))
+  - fix demo
+  ([13de21c2](https://github.com/Coffeekraken/sugar/commit/13de21c237496ee814ab97cf631b2c993b14bdb7))
   - fix some minor issues to the svg motion blur filter as well as the base svg filter class
   ([afc79491](https://github.com/Coffeekraken/sugar/commit/afc79491cac302fcac323fa2d3db90961d373f6d))
   - fix small typo
@@ -35,6 +41,13 @@ _A little sugar in your codebase_
 ## Features
   - make the SMotionBlurFilter amount property public
   ([d2b62123](https://github.com/Coffeekraken/sugar/commit/d2b6212324a95a017e6d68f5862d38135200e5f2))
+
+
+
+
+## Style
+  - add js folder to the root folder instead of the dist one
+  ([51d20c95](https://github.com/Coffeekraken/sugar/commit/51d20c9532532e620f270e11fb699f25cf69e7f9))
 
 
 
