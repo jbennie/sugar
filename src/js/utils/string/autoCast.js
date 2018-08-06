@@ -11,6 +11,11 @@ export default function autoCast(string) {
 		return string.substr(1,string.length-2)
 	}
 
+	// avoid getting item from the window object
+	if (window[string]) {
+		return string
+	}
+
 	// try to eval the passed string
 	// if no exception, mean that it's a valid
 	// js variable type
