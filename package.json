@@ -52,6 +52,7 @@
     "form-serialize": "^0.7.1",
     "fs-extra": "^6.0.1",
     "lodash": "^4.15.0",
+    "mobile-detect": "^1.4.2",
     "modularscale-sass": "^2.1.1",
     "rxjs": "^5.0.0-beta.10",
     "simple-ajax": "^2.6.0"
