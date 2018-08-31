@@ -17,6 +17,13 @@ function autoCast(string) {
 		return string.substr(1, string.length - 2);
 	}
 
+	// number
+	// before the window check cause window['0'] correspond to something
+	var presumedNumber = parseFloat(string);
+	if (presumedNumber !== NaN) {
+		return presumedNumber;
+	}
+
 	// avoid getting item from the window object
 	if (window[string]) {
 		return string;
