@@ -20,7 +20,7 @@ function autoCast(string) {
 	// number
 	// before the window check cause window['0'] correspond to something
 	var presumedNumber = parseFloat(string);
-	if (presumedNumber !== NaN) {
+	if (!isNaN(presumedNumber)) {
 		return presumedNumber;
 	}
 
