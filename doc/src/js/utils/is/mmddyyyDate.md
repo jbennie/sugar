@@ -1,7 +1,7 @@
-# isDdmmyyyyDate
+# isMmddYyyyDate
 
-Check if is a valid dd.mm.yyyy date
-This will match : dd.mm.yyyy | dd/mm/yyyy | dd-mm-yyyy | dd mm yyyy
+Check if is a valid mm.dd.yyyy date
+This will match : mm.dd.yyyy | mm/dd/yyyy | mm-dd-yyyy | mm dd yyyy
 
 
 ### Parameters
@@ -13,8 +13,8 @@ Return **{ [Boolean](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refere
 
 ### Example
 ```js
-	import isDdmmyyyyDate from 'coffeekraken-sugar/js/utils/is/ddmmyyyyDate'
-if (isDdmmyyyyDate('20.12.2018')) {
+	import isMmddyyyyDate from 'coffeekraken-sugar/js/utils/is/mmddyyyyDate'
+if (isMmddyyyyDate('12.25.2018')) {
     // do something cool
 }
 ```
