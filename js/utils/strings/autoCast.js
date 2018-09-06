@@ -21,7 +21,9 @@ function autoCast(string) {
 	// before the window check cause window['0'] correspond to something
 	var presumedNumber = parseFloat(string);
 	if (!isNaN(presumedNumber)) {
-		return presumedNumber;
+		if (presumedNumber.toString() === string) {
+			return presumedNumber;
+		}
 	}
 
 	// avoid getting item from the window object
