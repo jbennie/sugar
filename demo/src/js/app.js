@@ -3,6 +3,9 @@ import '@webcomponents/webcomponentsjs/bundles/webcomponents-ce'
 import '@webcomponents/webcomponentsjs/custom-elements-es5-adapter'
 // import 'webcomponents.js/webcomponents-lite'
 import SWebComponent from '../../../js/core/SWebComponent'
+
+import toggleFullscreen from '../../../js/dom/toggleFullscreen'
+
 class MyComponentClass extends SWebComponent {
 
 	static get defaultProps() {
@@ -37,3 +40,8 @@ setTimeout(() => {
 	}, 1000);
 
 }, 1000);
+
+const fullscreenElm = document.querySelector('#fullscreen')
+fullscreenElm.addEventListener('click', (e) => {
+	toggleFullscreen(fullscreenElm)
+})
