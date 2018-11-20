@@ -398,13 +398,15 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				window.sugar._webComponentsClasses[componentName] = component;
 
 				// register the webcomponent
-				if (document.registerElement) {
+				if (window.customElements) {
+					var extendsObj = {};
+					if (ext) {
+						extendsObj.extends = ext;
+					}
+					window.customElements.define(name, component, extendsObj);
+				} else if (document.registerElement) {
 					document.registerElement(name, {
 						prototype: component.prototype,
-						extends: ext
-					});
-				} else if (window.customElements) {
-					window.customElements.define(name, component, {
 						extends: ext
 					});
 				} else {
@@ -571,12 +573,16 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			}
 		}]);
 
-		function _class2(_) {
-			var _temp, _this, _ret;
-
+		function _class2() {
 			_classCallCheck(this, _class2);
 
-			return _ret = ((_ = (_temp = (_this = _possibleConstructorReturn(this, (_class2.__proto__ || Object.getPrototypeOf(_class2)).call(this, _)), _this), _this._props = {}, _this.props = {}, _temp)).init(), _), _possibleConstructorReturn(_this, _ret);
+			var _this = _possibleConstructorReturn(this, (_class2.__proto__ || Object.getPrototypeOf(_class2)).call(this));
+
+			_this._props = {};
+			_this.props = {};
+
+			_this.init();
+			return _this;
 		}
 
 		_createClass(_class2, [{

@@ -16,16 +16,16 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var SVideoWebComponent = function (_native) {
-  _inherits(SVideoWebComponent, _native);
+var SWebComponent = function (_native) {
+  _inherits(SWebComponent, _native);
 
-  function SVideoWebComponent() {
-    _classCallCheck(this, SVideoWebComponent);
+  function SWebComponent() {
+    _classCallCheck(this, SWebComponent);
 
-    return _possibleConstructorReturn(this, (SVideoWebComponent.__proto__ || Object.getPrototypeOf(SVideoWebComponent)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (SWebComponent.__proto__ || Object.getPrototypeOf(SWebComponent)).apply(this, arguments));
   }
 
-  return SVideoWebComponent;
+  return SWebComponent;
 }((0, _sNativeWebComponent2.default)(HTMLElement));
 
-exports.default = SVideoWebComponent;
+exports.default = SWebComponent;
