@@ -145,13 +145,15 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		window.sugar._webComponentsClasses[componentName] = component;
 
 		// register the webcomponent
-		if (document.registerElement) {
+		if (window.customElements) {
+			const extendsObj = {};
+			if (ext) {
+				extendsObj.extends = ext;
+			}
+			window.customElements.define(name, component, extendsObj);
+		} else if (document.registerElement) {
 			document.registerElement(name, {
 				prototype : component.prototype,
-				extends : ext
-			});
-		} else if (window.customElements) {
-			window.customElements.define(name, component, {
 				extends : ext
 			});
 		} else {
@@ -477,7 +479,10 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * Constructor
 	 * @protected
 	 */
-	constructor(_) { return (_ = super(_)).init(), _; }
+	constructor() {
+		super()
+		this.init()
+	}
 	init() {
 		this.createdCallback();
 	}
