@@ -122,7 +122,6 @@ var STimer = function () {
 		// calculate the tickInterval
 		if (this._settings.tickCount) {
 			this._tickInterval = this._duration / this._settings.tickCount; // remove 1 cause the first tick is always the start time
-			this._tickInterval = Math.round(this._tickInterval);
 		} else {
 			this._tickInterval = this._settings.tickInterval;
 		}
@@ -232,7 +231,6 @@ var STimer = function () {
 				this._duration = _duration;
 				if (this._settings.tickCount) {
 					this._tickInterval = this._duration / this._settings.tickCount; // remove 1 cause the first tick is always the start time
-					this._tickInterval = Math.round(this._tickInterval);
 				}
 			}
 			return this._duration;
