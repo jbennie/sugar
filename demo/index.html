@@ -9,6 +9,42 @@
 		Click to toggle fullscreen
 	</div>
 
+	<style>
+		@keyframes in-left {
+			0% { transform: translateX(-50%) translateY(-50%); }
+			50% { transform: translateX(-60%) translateY(-50%); }
+			100% { transform: translateX(-50%) translateY(-50%); }
+		}
+		@keyframes in-right {
+			0% { transform: translateX(-50%) translateY(-50%); }
+			50% { transform: translateX(-40%) translateY(-50%); }
+			100% { transform: translateX(-50%) translateY(-50%); }
+		}
+		@keyframes in-up {
+			0% { transform: translateX(-50%) translateY(-50%); }
+			50% { transform: translateX(-50%) translateY(-60%); }
+			100% { transform: translateX(-50%) translateY(-50%); }
+		}
+		@keyframes in-down {
+			0% { transform: translateX(-50%) translateY(-50%); }
+			50% { transform: translateX(-50%) translateY(-40%); }
+			100% { transform: translateX(-50%) translateY(-50%); }
+		}
+		#detectInOutDirection.in-left {
+			animation: in-left .2s ease-in-out 0s;
+		}
+		#detectInOutDirection.in-right {
+			animation: in-right .2s ease-in-out 0s;
+		}
+		#detectInOutDirection.in-up {
+			animation: in-up .2s ease-in-out 0s;
+		}
+		#detectInOutDirection.in-down {
+			animation: in-down .2s ease-in-out 0s;
+		}
+	</style>
+	<div id="detectInOutDirection" style="display:inline-block; position:absolute; top:50%; left:50%; width:200px; height:200px; background: red; transform: translateX(-50%) translateY(-50%)"></div>
+
 	<script src="dist/js/app.js"></script>
 </body>
 </html>
