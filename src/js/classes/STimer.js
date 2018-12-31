@@ -8,11 +8,11 @@
  * @example 	js
  * const myTimer = new STimer(2000, {
  * 		tickCount : 5
- * });
+ * })
  * myTimer.onTick((myTimer) => {
  * 		// do something here...
- * });
- * myTimer.start();
+ * })
+ * myTimer.start()
  *
  * @author 		Olivier Bossel<olivier.bossel@gmail.com>
  */
@@ -52,70 +52,70 @@ export default class STimer {
 		 */
 		loop : false
 
-	};
+	}
 
 	/**
 	 * Store the timer duration wanted
 	 *
 	 * @type 	{Number}
 	 */
-	_duration = 0;
+	_duration = 0
 
 	/**
 	 * Store the remaining time
 	 *
 	 * @type 	{Number}
 	 */
-	_remaining = 0;
+	_remaining = 0
 
 	/**
 	 * Computed value depending on the settings
 	 *
 	 * @type 	{Number}
 	 */
-	_tickInterval = 1000;
+	_tickInterval = 1000
 
 	/**
 	 * Store all the functions to call on tick
 	 *
 	 * @type 	{Array}
 	 */
-	_ticks = [];
+	_ticks = []
 
 	/**
 	 * Store all the functions to call on complete
 	 *
 	 * @type 	{Array}
 	 */
-	_completes = [];
+	_completes = []
 
 	/**
 	 * Store the setInterval instance
 	 *
 	 * @type 	{Number}
 	 */
-	_tickSetTimeout = null;
+	_tickSetTimeout = null
 
 	/**
 	 * Store the time when the timer is started
 	 *
 	 * @type 	{Date}
 	 */
-	_startTime = null;
+	_startTime = null
 
 	/**
 	 * Store the last tick time
 	 *
 	 * @type 	{Date}
 	 */
-	_tickTime = null;
+	_tickTime = null
 
 	/**
 	 * Store the pause time
 	 *
 	 * @type 	{Date}
 	 */
-	_pauseTime = null;
+	_pauseTime = null
 
 	/**
 	 * @constructor
@@ -124,17 +124,17 @@ export default class STimer {
 	 * @return 	{STimer} 					The STimer instance
 	 */
 	constructor(duration, settings = {}) {
-		this._duration = duration;
+		this._duration = duration
 
 		// updating settings
-		this._settings = Object.assign(this._settings, settings);
+		this._settings = Object.assign(this._settings, settings)
 
 		// calculate the tickInterval
 		if (this._settings.tickCount) {
-			this._tickInterval = this._duration / this._settings.tickCount; // remove 1 cause the first tick is always the start time
-			this._tickInterval = Math.round(this._tickInterval);
+			this._tickInterval = this._duration / this._settings.tickCount // remove 1 cause the first tick is always the start time
+			this._tickInterval = Math.round(this._tickInterval)
 		} else {
-			this._tickInterval = this._settings.tickInterval;
+			this._tickInterval = this._settings.tickInterval
 		}
 	}
 
@@ -145,34 +145,34 @@ export default class STimer {
 	_tick() {
 
 		// save the remaining timeout
-		this._tickTime = new Date();
+		this._tickTime = new Date()
 
 		// update remaing
-		this._remaining -= this._tickInterval;
+		this._remaining -= this._tickInterval
 
 		// loop on each ticks functions
 		this._ticks.forEach((tick) => {
-			tick(this);
-		});
+			tick(this)
+		})
 
 		// if we are at the end of the timer
 		if (this.remaining() <= 0) {
 			// stop the timer
-			this.stop();
+			this.stop()
 			// loop on each completes functions
 			this._completes.forEach((complete) => {
-				complete(this);
-			});
+				complete(this)
+			})
 			// check if need to loop
 			if (this._settings.loop) {
-				this.start();
+				this.start()
 			}
 		} else {
 			// launch another tick
-			clearTimeout(this._tickSetTimeout);
+			clearTimeout(this._tickSetTimeout)
 			this._tickSetTimeout = setTimeout(() => {
-				this._tick();
-			}, this._tickInterval);
+				this._tick()
+			}, this._tickInterval)
 		}
 	}
 
@@ -181,7 +181,7 @@ export default class STimer {
 	 * @return 	{Number} 	The remaining time in ms
 	 */
 	remaining() {
-		return this._remaining;
+		return this._remaining
 	}
 
 	/**
@@ -191,13 +191,13 @@ export default class STimer {
 	 */
 	duration(duration = null) {
 		if (duration) {
-			this._duration = duration;
+			this._duration = duration
 			if (this._settings.tickCount) {
-				this._tickInterval = this._duration / this._settings.tickCount; // remove 1 cause the first tick is always the start time
-				this._tickInterval = Math.round(this._tickInterval);
+				this._tickInterval = this._duration / this._settings.tickCount // remove 1 cause the first tick is always the start time
+				this._tickInterval = Math.round(this._tickInterval)
 			}
 		}
-		return this._duration;
+		return this._duration
 	}
 
 	/**
@@ -207,8 +207,8 @@ export default class STimer {
 	 */
 	onTick(fn) {
 		// add the function if not already
-		if (this._ticks.indexOf(fn) !== -1) return;
-		this._ticks.push(fn);
+		if (this._ticks.indexOf(fn) !== -1) return
+		this._ticks.push(fn)
 	}
 
 	/**
@@ -218,8 +218,8 @@ export default class STimer {
 	 */
 	onComplete(fn) {
 		// add the function if not already
-		if (this._completes.indexOf(fn) !== -1) return;
-		this._completes.push(fn);
+		if (this._completes.indexOf(fn) !== -1) return
+		this._completes.push(fn)
 	}
 
 	/**
@@ -230,17 +230,18 @@ export default class STimer {
 	reset(start = false) {
 
 		// stop the timeout
-		clearTimeout(this._tickSetTimeout);
+		clearTimeout(this._tickSetTimeout)
 
 		// reset the different timer elements
-		this._pauseTime = null;
-		this._remaining = this._duration;
+		this._pauseTime = null
+		this._startTime = null
+		this._remaining = this._duration
 
 		// check if need to start again
-		if (start) this.start();
+		if (start) this.start()
 
 		// maintain chainability
-		return this;
+		return this
 	}
 
 	/**
@@ -250,14 +251,14 @@ export default class STimer {
 	start(duration = null) {
 
 		// clear the timeout to be sure
-		clearTimeout(this._tickSetTimeout);
+		clearTimeout(this._tickSetTimeout)
 
 		// set the duration
-		if (duration) this.duration(duration);
+		if (duration) this.duration(duration)
 
 		// if no tick time
 		if ( ! this._tickTime) {
-			this._tickTime = new Date();
+			this._tickTime = new Date()
 		}
 
 		// if is a pausetime
@@ -265,30 +266,30 @@ export default class STimer {
 		if (this._pauseTime) {
 
 			// calculate time before new tick
-			const elapsed = this._pauseTime.getTime() - this._tickTime.getTime();
-			const remaining = this._tickInterval - elapsed;
-			clearTimeout(this._tickSetTimeout);
+			const elapsed = this._pauseTime.getTime() - this._tickTime.getTime()
+			const remaining = this._tickInterval - elapsed
+			clearTimeout(this._tickSetTimeout)
 			this._tickSetTimeout = setTimeout(() => {
-				this._tick();
-			}, remaining);
+				this._tick()
+			}, remaining)
 
 			// reset pauseTime
-			this._pauseTime = null;
+			this._pauseTime = null
 
 		} else {
 			// save the start time
-			this._startTime = new Date();
-			this._remaining = this._duration;
+			this._startTime = new Date()
+			this._remaining = this._duration
 
 			// first time tick
-			clearTimeout(this._tickSetTimeout);
+			clearTimeout(this._tickSetTimeout)
 			this._tickSetTimeout = setTimeout(() => {
-				this._tick();
-			}, this._tickInterval);
+				this._tick()
+			}, this._tickInterval)
 		}
 
 		// maintain chainability
-		return this;
+		return this
 	}
 
 	/**
@@ -298,13 +299,13 @@ export default class STimer {
 	pause() {
 
 		// set the pauseTime
-		this._pauseTime = new Date();
+		this._pauseTime = new Date()
 
 		// clean the interval
-		clearTimeout(this._tickSetTimeout);
+		clearTimeout(this._tickSetTimeout)
 
 		// maintain chainability
-		return this;
+		return this
 	}
 
 	/**
@@ -313,18 +314,26 @@ export default class STimer {
 	 */
 	stop() {
 		// reset
-		this.reset();
+		this.reset()
 
 		// maintain chainability
-		return this;
+		return this
 	}
 
 	/**
 	 * Destroy the timer
 	 */
 	destroy() {
-		this.stop();
-		this._completes = [];
-		this._ticks = [];
+		this.stop()
+		this._completes = []
+		this._ticks = []
+	}
+
+	/**
+	 * Check if the timer is started
+	 * @return    {Boolean}    true if is started, false if not
+	 */
+	isStarted() {
+		return this._startTime && ! this._pauseTime
 	}
 }
