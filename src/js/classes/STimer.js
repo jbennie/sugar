@@ -131,8 +131,7 @@ export default class STimer {
 
 		// calculate the tickInterval
 		if (this._settings.tickCount) {
-			this._tickInterval = this._duration / this._settings.tickCount // remove 1 cause the first tick is always the start time
-			this._tickInterval = Math.round(this._tickInterval)
+			this._tickInterval = this._duration / this._settings.tickCount; // remove 1 cause the first tick is always the start time
 		} else {
 			this._tickInterval = this._settings.tickInterval
 		}
@@ -193,8 +192,7 @@ export default class STimer {
 		if (duration) {
 			this._duration = duration
 			if (this._settings.tickCount) {
-				this._tickInterval = this._duration / this._settings.tickCount // remove 1 cause the first tick is always the start time
-				this._tickInterval = Math.round(this._tickInterval)
+				this._tickInterval = this._duration / this._settings.tickCount; // remove 1 cause the first tick is always the start time
 			}
 		}
 		return this._duration
