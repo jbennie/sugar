@@ -29,8 +29,8 @@
 	</a>
 </p>
 
-Sugar gives you a lot of cool stuff to enhance your codebase.
-It basically does nothing by default but let you grab what you want from it. It can be the colors management feature, as well as the spaces management, helper classes, etc...
+<p class="lead">Sugar gives you a lot of cool stuff to enhance your codebase.
+It basically does nothing by default but let you grab what you want from it. It can be the colors management feature, as well as the spaces management, helper classes, etc...</p>
 
 We like to think about this toolkit as
 
