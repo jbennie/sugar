@@ -37,7 +37,14 @@
     "type": "git",
     "url": "git@github.com:coffeekraken/sugar.git"
   },
-  "author": "Olivier Bossel <olivier.bossel@gmail.com>",
+  "author": "Coffeekraken <hello@coffeekraken.io>",
+  "contributors": [
+    {
+      "name": "Olivier Bossel",
+      "email": "olivier.bossel@gmail.com",
+      "url": "http://olivierbossel.com"
+    }
+  ],
   "license": "MIT",
   "jest": {
     "roots": [
