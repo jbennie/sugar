@@ -101,7 +101,9 @@ The primary goal of this toolkit is to cover these needs:
 <a id="readme-install"></a>
 ## Install
 
-```npm install coffeekraken-sugar --save```
+```
+npm install coffeekraken-sugar --save
+```
 
 Release the kraken !!! 🦑
 
@@ -193,7 +195,8 @@ Here's a list of features that the toolkit will offer you. **Don't worry**, it s
 		- And more...
 	- We let you discover the rest by yourself...
 
-## <a id="readme-js-features"></a>JS features
+<a id="readme-js-features"></a>
+## JS features
 
 Sugar provide a lot of cool functions and classes that you can use inside your project.
 The main goal sugar try to achieve is to give you some cool tools that you can or not use. It's your choice and sugar will never force you in any way.
