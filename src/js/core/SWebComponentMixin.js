@@ -510,6 +510,19 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		// init watcher
 		this._sWatcher = new __SWatcher();
 
+		// created callback
+		this.componentCreated();
+	}
+
+	/**
+	 * When the element is attached in the DOM tree
+	 * @protected
+	 */
+	connectedCallback() {
+
+		// if not already passed through the created process
+		if ( ! this._lifecycle) this.createdCallback();
+
 		// set the componentName
 		const sourceName = this.getAttribute('is') || this.tagName.toLowerCase()
 		this.componentNameDash = this._componentNameDash = sourceName;
@@ -559,30 +572,17 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 			attributeOldValue: true
 		});
 
-		// created callback
-		this.componentCreated();
-	}
-
-	/**
-	 * When the element is attached in the DOM tree
-	 * @protected
-	 */
-	connectedCallback() {
-
-		// if not already passed through the created process
-		if ( ! this._lifecycle) this.createdCallback();
-
-		// component will mount only if part of the active document
-		this.componentWillMount();
+		// update attached status
+		this._componentAttached = true;
 
 		// clear the unmount timeout
 		clearTimeout(this._unmountTimeout);
 
-		// update attached status
-		this._componentAttached = true;
-
 		// stop here if already mounted once
-		if (this._lifecycle.componentMount) return;
+		if (this._lifecycle.componentMount || this._lifecycle.componentWillMount) return;
+
+		// component will mount only if part of the active document
+		this.componentWillMount();
 
 		// wait until dependencies are ok
 		this._whenMountDependenciesAreOk().then(() => {
@@ -700,7 +700,6 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		// internal properties
 		this._nextPropsStack = {};
 		this._prevPropsStack = {};
-		this._componentAttached = false;
 		this._fastdomSetProp = null;
 
 		// compute props

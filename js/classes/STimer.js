@@ -18,11 +18,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  * @example 	js
  * const myTimer = new STimer(2000, {
  * 		tickCount : 5
- * });
+ * })
  * myTimer.onTick((myTimer) => {
  * 		// do something here...
- * });
- * myTimer.start();
+ * })
+ * myTimer.start()
  *
  * @author 		Olivier Bossel<olivier.bossel@gmail.com>
  */
@@ -103,6 +103,11 @@ var STimer = function () {
     */
 			loop: false
 
+			/**
+    * Store the timer duration wanted
+    *
+    * @type 	{Number}
+    */
 		};
 		this._duration = 0;
 		this._remaining = 0;
@@ -156,13 +161,6 @@ var STimer = function () {
 
 	/**
   * Computed value depending on the settings
-  *
-  * @type 	{Number}
-  */
-
-
-	/**
-  * Store the timer duration wanted
   *
   * @type 	{Number}
   */
@@ -281,6 +279,7 @@ var STimer = function () {
 
 			// reset the different timer elements
 			this._pauseTime = null;
+			this._startTime = null;
 			this._remaining = this._duration;
 
 			// check if need to start again
@@ -388,6 +387,17 @@ var STimer = function () {
 			this.stop();
 			this._completes = [];
 			this._ticks = [];
+		}
+
+		/**
+   * Check if the timer is started
+   * @return    {Boolean}    true if is started, false if not
+   */
+
+	}, {
+		key: "isStarted",
+		value: function isStarted() {
+			return this._startTime && !this._pauseTime;
 		}
 	}]);
 
