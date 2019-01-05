@@ -574,15 +574,19 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 		}]);
 
 		function _class2() {
+			var _ref;
+
+			var _temp, _this, _ret;
+
 			_classCallCheck(this, _class2);
 
-			var _this = _possibleConstructorReturn(this, (_class2.__proto__ || Object.getPrototypeOf(_class2)).call(this));
+			for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+				args[_key] = arguments[_key];
+			}
 
-			_this._props = {};
-			_this.props = {};
-
-			_this.init();
-			return _this;
+			var self = (_temp = (_this = _possibleConstructorReturn(this, (_ref = _class2.__proto__ || Object.getPrototypeOf(_class2)).call.apply(_ref, [this].concat(args))), _this), _this._props = {}, _this.props = {}, _temp);
+			self.init();
+			return _ret = self, _possibleConstructorReturn(_this, _ret);
 		}
 
 		_createClass(_class2, [{
@@ -1280,10 +1284,10 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 						// handle physical props
 						_this9._handlePhysicalProp(key, val);
 					}
-					for (var _key in _this9._prevPropsStack) {
-						var _val = _this9._prevPropsStack[_key];
+					for (var _key2 in _this9._prevPropsStack) {
+						var _val = _this9._prevPropsStack[_key2];
 						prevPropsArray.push({
-							name: _key,
+							name: _key2,
 							value: _val
 						});
 					}

@@ -479,9 +479,10 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * Constructor
 	 * @protected
 	 */
-	constructor() {
-		super()
-		this.init()
+	constructor(...args) {
+		const self = super(...args)
+		self.init()
+		return self
 	}
 	init() {
 		this.createdCallback();
