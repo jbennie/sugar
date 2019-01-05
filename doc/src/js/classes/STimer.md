@@ -10,11 +10,11 @@ a certain number of time during the timer time.
 ```js
 	const myTimer = new STimer(2000, {
 		tickCount : 5
-});
+})
 myTimer.onTick((myTimer) => {
 		// do something here...
-});
-myTimer.start();
+})
+myTimer.start()
 ```
 Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com)
 
@@ -132,3 +132,10 @@ Stop the timer
 ### destroy
 
 Destroy the timer
+
+
+### isStarted
+
+Check if the timer is started
+
+Return **{ [Boolean](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean) }** true if is started, false if not

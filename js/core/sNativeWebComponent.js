@@ -9,6 +9,10 @@ require('document-register-element');
 
 require('@ungap/custom-elements-builtin');
 
+var _safari = require('../utils/is/safari');
+
+var _safari2 = _interopRequireDefault(_safari);
+
 var _mixwith = require('../vendors/mixwith');
 
 var _SWebComponentMixin = require('./SWebComponentMixin');
@@ -17,22 +21,22 @@ var _SWebComponentMixin2 = _interopRequireDefault(_SWebComponentMixin);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import '@webcomponents/webcomponentsjs'
-// import '@webcomponents/webcomponentsjs/custom-elements-es5-adapter'
 function sNativeWebComponent(HTMLElementToExtend) {
 
-	HTMLElementToExtend = function (OriginalHTMLElement) {
-		function BabelHTMLElement() {
-			if (typeof Reflect == 'undefined' || typeof Reflect.construct != 'function' || typeof customElements == 'undefined') {
-				// Use your favorite polyfill.
+	if (!(0, _safari2.default)()) {
+		HTMLElementToExtend = function (OriginalHTMLElement) {
+			function BabelHTMLElement() {
+				if (typeof Reflect == 'undefined' || typeof Reflect.construct != 'function' || typeof customElements == 'undefined') {
+					// Use your favorite polyfill.
+				}
+				var newTarget = this.__proto__.constructor;
+				return Reflect.construct(OriginalHTMLElement, [], newTarget);
 			}
-			var newTarget = this.__proto__.constructor;
-			return Reflect.construct(OriginalHTMLElement, [], newTarget);
-		}
-		Object.setPrototypeOf(BabelHTMLElement, OriginalHTMLElement);
-		Object.setPrototypeOf(BabelHTMLElement.prototype, OriginalHTMLElement.prototype);
-		return BabelHTMLElement;
-	}(HTMLElementToExtend);
+			Object.setPrototypeOf(BabelHTMLElement, OriginalHTMLElement);
+			Object.setPrototypeOf(BabelHTMLElement.prototype, OriginalHTMLElement.prototype);
+			return BabelHTMLElement;
+		}(HTMLElementToExtend);
+	}
 
 	if (typeof HTMLElementToExtend !== 'function') {
 		var _HTMLElementToExtend = function _HTMLElementToExtend() {};
