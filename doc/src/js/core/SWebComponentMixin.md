@@ -14,15 +14,10 @@ Features:
 	- componentCreated
 	- componentWillMount
 	- componentMount
-	- componentDidMount
 	- componentWillReceiveProp
 	- componentWillReceiveProps
-	- componentWillUpdate
 	- render
-	- componentDidUpdate
-	- componentWillUnmount
 	- componentUnmount
-	- componentDidUnmount
 - **Mount dependencies** : This will allows you to set some promises that have to be resolved before mounting the component
 
 
@@ -88,16 +83,6 @@ class MyCoolComponent extends SWebComponent {
 	componentWillReceiveProp(name, newVal, oldVal) {
 		switch(name) {
 		}
-	}
-
-	/**
-	 * Render the component
-	 * Here goes the code that reflect the this.props state on the actual html element
-	 * @definition 		SWebComponent.render
-	 * @protected
-	 */
-	render() {
-		super.render();
 	}
 }
 
@@ -312,46 +297,6 @@ and before the initial render.
 Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)
 
 
-### componentDidMount
-
-Method called after the initial component render
-
-
-#### Example
-```js
-	componentDidMount() {
-		// call parent method
-		super.componentDidMount();
-		// do something here...
-}
-```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)
-
-
-### componentWillUpdate
-
-Method called right before the render when some props have been updated.
-This method is not called before the initial render
-
-
-
-#### Parameters
-Name  |  Type  |  Description  |  Status  |  Default
-------------  |  ------------  |  ------------  |  ------------  |  ------------
-nextProps  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }**  |  An object that represent the props that have been updated  |  required  |
-nextPropsArray  |  **{ [Array](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Array) }**  |  An array representation of the nextProps object [{name:...,value:...}]  |  required  |
-
-#### Example
-```js
-	componentWillUpdate(nextProps, nextPropsArray) {
-		// call parent method
-		super.componentWillUpdate(nextProps, nextPropsArray);
-		// do something here...
-}
-```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)
-
-
 ### render
 
 Apply all the updated that you need in the dom for the component to reflect the props
@@ -369,46 +314,6 @@ Apply all the updated that you need in the dom for the component to reflect the 
 Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)
 
 
-### componentDidUpdate
-
-Method called right after the render when some props have been updated.
-This method is not called after the initial render
-
-
-
-#### Parameters
-Name  |  Type  |  Description  |  Status  |  Default
-------------  |  ------------  |  ------------  |  ------------  |  ------------
-prevProps  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }**  |  An object that represent the props that have been updated  |  required  |
-prevPropsArray  |  **{ [Array](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Array) }**  |  An array representation of the prevProps object [{name:...,value:...}]  |  required  |
-
-#### Example
-```js
-	componentDidUpdate(prevProps, prevPropsArray) {
-		// call parent method
-		super.componentDidUpdate(prevProps, prevPropsArray);
-		// do something here...
-}
-```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)
-
-
-### componentWillUnmount
-
-Method called before the component will unmount cause it has been removed from the DOM tree and that the props.unmountTimeout is passed.
-
-
-#### Example
-```js
-	componentWillUnmount() {
-		// call parent method
-		super.componentWillUnmount();
-		// do something here...
-}
-```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)
-
-
 ### componentUnmount
 
 Method called when the component need to unmount itself cause it has been removed from the DOM tree and the props.unmountTimeout is passed.
@@ -419,22 +324,6 @@ Method called when the component need to unmount itself cause it has been remove
 	componentUnmount() {
 		// call parent method
 		super.componentUnmount();
-		// do something here...
-}
-```
-Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)
-
-
-### componentDidUnmount
-
-Method called when the component has been unmounted
-
-
-#### Example
-```js
-	componentDidUnmount() {
-		// call parent method
-		super.componentDidUnmount();
 		// do something here...
 }
 ```
@@ -536,18 +425,6 @@ Return **{ [Boolean](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refere
 Check if component is mounted
 
 Return **{ [Boolean](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean) }** true if mounted, false if not
-
-
-### watch
-
-Watch any data of the component
-
-
-#### Parameters
-Name  |  Type  |  Description  |  Status  |  Default
-------------  |  ------------  |  ------------  |  ------------  |  ------------
-path  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The path from the component root to watch like "props.myCoolProp"  |  required  |
-cb  |  **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function) }**  |  The callback to call when the item has changed  |  required  |
 
 
 ### mutate

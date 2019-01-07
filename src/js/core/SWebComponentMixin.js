@@ -11,7 +11,6 @@ import __dispatchEvent from '../dom/dispatchEvent'
 import __whenInViewport from '../dom/whenInViewport'
 import __whenVisible from '../dom/whenVisible'
 import __prependChild from '../dom/prependChild'
-import __SWatcher from '../classes/SWatcher'
 import __propertyProxy from '../utils/objects/propertyProxy'
 
 /**
@@ -29,15 +28,10 @@ import __propertyProxy from '../utils/objects/propertyProxy'
  * 	- componentCreated
  * 	- componentWillMount
  * 	- componentMount
- * 	- componentDidMount
  * 	- componentWillReceiveProp
  * 	- componentWillReceiveProps
- * 	- componentWillUpdate
  * 	- render
- * 	- componentDidUpdate
- * 	- componentWillUnmount
  * 	- componentUnmount
- * 	- componentDidUnmount
  * - **Mount dependencies** : This will allows you to set some promises that have to be resolved before mounting the component
  *
  * @example 	js
@@ -101,16 +95,6 @@ import __propertyProxy from '../utils/objects/propertyProxy'
  * 	componentWillReceiveProp(name, newVal, oldVal) {
  * 		switch(name) {
  * 		}
- * 	}
- *
- * 	\/**
- * 	 * Render the component
- * 	 * Here goes the code that reflect the this.props state on the actual html element
- * 	 * @definition 		SWebComponent.render
- * 	 * @protected
- * 	 *\/
- * 	render() {
- * 		super.render();
  * 	}
  * }
  *
@@ -502,14 +486,8 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		this._lifecycle = {
 			componentWillMount : false,
 			componentMount : false,
-			componentDidMount : false,
-			componentWillUnmount : false,
 			componentUnmount : false,
-			componentDidUnmount : false
 		};
-
-		// init watcher
-		this._sWatcher = new __SWatcher();
 
 		// created callback
 		this.componentCreated();
@@ -523,6 +501,15 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 
 		// if not already passed through the created process
 		if ( ! this._lifecycle) this.createdCallback();
+
+		// update attached status
+		this._componentAttached = true;
+
+		// clear the unmount timeout
+		clearTimeout(this._unmountTimeout);
+
+		// stop here if already mounted once
+		if (this._lifecycle.componentMount || this._lifecycle.componentWillMount) return;
 
 		// set the componentName
 		const sourceName = this.getAttribute('is') || this.tagName.toLowerCase()
@@ -573,14 +560,23 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 			attributeOldValue: true
 		});
 
-		// update attached status
-		this._componentAttached = true;
+		// internal properties
+		this._nextPropsStack = {};
+		this._prevPropsStack = {};
+		this._fastdomSetProp = null;
 
-		// clear the unmount timeout
-		clearTimeout(this._unmountTimeout);
+		// compute props
+		this._initInitialAttributes();
 
-		// stop here if already mounted once
-		if (this._lifecycle.componentMount || this._lifecycle.componentWillMount) return;
+		// props proxy
+		this._initPropsProxy();
+
+		// check the required props
+		this.requiredProps.forEach((prop) => {
+			if ( ! this.props[prop]) {
+				throw `The "${this.componentNameDash}" component need the "${prop}" property in order to work`;
+			}
+		});
 
 		// component will mount only if part of the active document
 		this.componentWillMount();
@@ -694,27 +690,6 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 
 		// update lifecycle state
 		this._lifecycle.componentWillMount = true;
-
-		// dispatch event
-		this.onComponentWillMount && this.onComponentWillMount();
-
-		// internal properties
-		this._nextPropsStack = {};
-		this._prevPropsStack = {};
-		this._fastdomSetProp = null;
-
-		// compute props
-		this._initInitialAttributes();
-
-		// props proxy
-		this._initPropsProxy();
-
-		// check the required props
-		this.requiredProps.forEach((prop) => {
-			if ( ! this.props[prop]) {
-				throw `The "${this.componentNameDash}" component need the "${prop}" property in order to work`;
-			}
-		});
 	}
 
 	/**
@@ -735,55 +710,8 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		if (this._lifecycle.componentMount) return;
 		// update the lifecycle state
 		this._lifecycle.componentMount = true;
-		// dispatch event
-		this.onComponentMount && this.onComponentMount();
 		// mark the component as mounted
 		this.setAttribute('mounted', true);
-	}
-
-	/**
-	 * Method called after the initial component render
-	 *
-	 * @example
-	 * componentDidMount() {
-	 * 		// call parent method
-	 * 		super.componentDidMount();
-	 * 		// do something here...
-	 * }
-	 *
-	 * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
-	 */
-	componentDidMount() {
-		if (this._lifecycle.componentDidMount) return;
-		// update lifecycle state
-		this._lifecycle.componentDidMount = true;
-		// dispatch event
-		this.onComponentDidMount && this.onComponentDidMount();
-		// update lifecycle
-		this._lifecycle.componentWillUnmount = false;
-		this._lifecycle.componentUnmount = false;
-		this._lifecycle.componentDidUnmount = false;
-	}
-
-	/**
-	 * Method called right before the render when some props have been updated.
-	 * This method is not called before the initial render
-	 *
-	 * @param 		{Object} 		nextProps 			An object that represent the props that have been updated
-	 * @param 		{Array} 		nextPropsArray 		An array representation of the nextProps object [{name:...,value:...}]
-	 *
-	 * @example
-	 * componentWillUpdate(nextProps, nextPropsArray) {
-	 * 		// call parent method
-	 * 		super.componentWillUpdate(nextProps, nextPropsArray);
-	 * 		// do something here...
-	 * }
-	 *
-	 * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
-	 */
-	componentWillUpdate(nextProps) {
-		// dispatch event
-		this.onComponentWillUpdate && this.onComponentWillUpdate(nextProps);
 	}
 
 	/**
@@ -800,49 +728,6 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
 	 */
 	render() {
-		// dispatch event
-		this.onComponentRender && this.onComponentRender();
-	}
-
-	/**
-	 * Method called right after the render when some props have been updated.
-	 * This method is not called after the initial render
-	 *
-	 * @param 		{Object} 		prevProps 			An object that represent the props that have been updated
-	 * @param 		{Array} 		prevPropsArray 		An array representation of the prevProps object [{name:...,value:...}]
-	 *
-	 * @example
-	 * componentDidUpdate(prevProps, prevPropsArray) {
-	 * 		// call parent method
-	 * 		super.componentDidUpdate(prevProps, prevPropsArray);
-	 * 		// do something here...
-	 * }
-	 *
-	 * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
-	 */
-	componentDidUpdate(prevProps, prevPropsArray) {
-		// dispatch event
-		this.onComponentDidUpdate && this.onComponentDidUpdate(prevProps, prevPropsArray);
-	}
-
-	/**
-	 * Method called before the component will unmount cause it has been removed from the DOM tree and that the props.unmountTimeout is passed.
-	 *
-	 * @example
-	 * componentWillUnmount() {
-	 * 		// call parent method
-	 * 		super.componentWillUnmount();
-	 * 		// do something here...
-	 * }
-	 *
-	 * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
-	 */
-	componentWillUnmount() {
-		if (this._lifecycle.componentWillUnmount) return;
-		// update lifecycle state
-		this._lifecycle.componentWillUnmount = true;
-		// dispatch event
-		this.onComponentWillUnmount && this.onComponentWillUnmount();
 	}
 
 	/**
@@ -861,30 +746,6 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		if (this._lifecycle.componentUnmount) return;
 		// update lifecycle state
 		this._lifecycle.componentUnmount = true;
-		// dispatch event
-		this.onComponentUnmount && this.onComponentUnmount();
-	}
-
-	/**
-	 * Method called when the component has been unmounted
-	 *
-	 * @example
-	 * componentDidUnmount() {
-	 * 		// call parent method
-	 * 		super.componentDidUnmount();
-	 * 		// do something here...
-	 * }
-	 *
-	 * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
-	 */
-	componentDidUnmount() {
-		if (this._lifecycle.componentDidMount) return;
-		// update lifecycle state
-		this._lifecycle.componentDidUnmount = true;
-		// destroy things
-		this._sWatcher.destroy();
-		// dispatch event
-		this.onComponentDidUnmount && this.onComponentDidUnmount();
 	}
 
 	/**
@@ -956,8 +817,6 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 			this.componentMount();
 			// render
 			this.render();
-			// component did mount
-			this.componentDidMount();
 		});
 
 	}
@@ -974,9 +833,6 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		// unmount timeout
 		clearTimeout(this._unmountTimeout);
 		this._unmountTimeout = setTimeout(() => {
-
-			// will unmount
-			this.componentWillUnmount();
 			// wait next frame
 			__fastdom.clear(this._fastdomSetProp);
 			this._fastdomSetProp = this.mutate(() => {
@@ -984,12 +840,8 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 				if ( ! this._lifecycle.componentMount) return;
 				// unmount
 				this.componentUnmount();
-				// did unmount
-				this.componentDidUnmount();
 				// update lifecycle
-				this._lifecycle.componentWillMount = false;
 				this._lifecycle.componentMount = false;
-				this._lifecycle.componentDidUnmount = false;
 			});
 		}, this.props.unmountTimeout);
 	}
@@ -1107,14 +959,8 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 			// should component update
 			if (this.shouldComponentUpdate && ! this.shouldComponentUpdate(this._nextPropsStack, this._prevPropsStack)) return;
 
-			// component will update
-			this.componentWillUpdate(this._nextPropsStack, nextPropsArray);
-
 			// render the component
 			this.render();
-
-			// component did update
-			this.componentDidUpdate(this._prevPropsStack, prevPropsArray);
 		});
 	}
 
@@ -1153,15 +999,6 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 */
 	isComponentMounted() {
 		return this._lifecycle.componentMount;
-	}
-
-	/**
-	 * Watch any data of the component
-	 * @param 		{String} 		path 		The path from the component root to watch like "props.myCoolProp"
-	 * @param 		{Function}		cb 			The callback to call when the item has changed
-	 */
-	watch(path, cb) {
-		this._sWatcher.watch(this, path, cb);
 	}
 
 	/**

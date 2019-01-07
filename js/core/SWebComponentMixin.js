@@ -52,10 +52,6 @@ var _prependChild = require('../dom/prependChild');
 
 var _prependChild2 = _interopRequireDefault(_prependChild);
 
-var _SWatcher = require('../classes/SWatcher');
-
-var _SWatcher2 = _interopRequireDefault(_SWatcher);
-
 var _propertyProxy = require('../utils/objects/propertyProxy');
 
 var _propertyProxy2 = _interopRequireDefault(_propertyProxy);
@@ -85,15 +81,10 @@ require('es6-object-assign').polyfill();
  * 	- componentCreated
  * 	- componentWillMount
  * 	- componentMount
- * 	- componentDidMount
  * 	- componentWillReceiveProp
  * 	- componentWillReceiveProps
- * 	- componentWillUpdate
  * 	- render
- * 	- componentDidUpdate
- * 	- componentWillUnmount
  * 	- componentUnmount
- * 	- componentDidUnmount
  * - **Mount dependencies** : This will allows you to set some promises that have to be resolved before mounting the component
  *
  * @example 	js
@@ -157,16 +148,6 @@ require('es6-object-assign').polyfill();
  * 	componentWillReceiveProp(name, newVal, oldVal) {
  * 		switch(name) {
  * 		}
- * 	}
- *
- * 	\/**
- * 	 * Render the component
- * 	 * Here goes the code that reflect the this.props state on the actual html element
- * 	 * @definition 		SWebComponent.render
- * 	 * @protected
- * 	 *\/
- * 	render() {
- * 		super.render();
  * 	}
  * }
  *
@@ -612,14 +593,8 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				this._lifecycle = {
 					componentWillMount: false,
 					componentMount: false,
-					componentDidMount: false,
-					componentWillUnmount: false,
-					componentUnmount: false,
-					componentDidUnmount: false
+					componentUnmount: false
 				};
-
-				// init watcher
-				this._sWatcher = new _SWatcher2.default();
 
 				// created callback
 				this.componentCreated();
@@ -637,6 +612,15 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 
 				// if not already passed through the created process
 				if (!this._lifecycle) this.createdCallback();
+
+				// update attached status
+				this._componentAttached = true;
+
+				// clear the unmount timeout
+				clearTimeout(this._unmountTimeout);
+
+				// stop here if already mounted once
+				if (this._lifecycle.componentMount || this._lifecycle.componentWillMount) return;
 
 				// set the componentName
 				var sourceName = this.getAttribute('is') || this.tagName.toLowerCase();
@@ -687,14 +671,23 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 					attributeOldValue: true
 				});
 
-				// update attached status
-				this._componentAttached = true;
+				// internal properties
+				this._nextPropsStack = {};
+				this._prevPropsStack = {};
+				this._fastdomSetProp = null;
 
-				// clear the unmount timeout
-				clearTimeout(this._unmountTimeout);
+				// compute props
+				this._initInitialAttributes();
 
-				// stop here if already mounted once
-				if (this._lifecycle.componentMount || this._lifecycle.componentWillMount) return;
+				// props proxy
+				this._initPropsProxy();
+
+				// check the required props
+				this.requiredProps.forEach(function (prop) {
+					if (!_this3.props[prop]) {
+						throw 'The "' + _this3.componentNameDash + '" component need the "' + prop + '" property in order to work';
+					}
+				});
 
 				// component will mount only if part of the active document
 				this.componentWillMount();
@@ -809,34 +802,12 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 		}, {
 			key: 'componentWillMount',
 			value: function componentWillMount() {
-				var _this4 = this;
 
 				// protect from mounting multiple times when unecessary
 				if (this._lifecycle.componentWillMount) return;
 
 				// update lifecycle state
 				this._lifecycle.componentWillMount = true;
-
-				// dispatch event
-				this.onComponentWillMount && this.onComponentWillMount();
-
-				// internal properties
-				this._nextPropsStack = {};
-				this._prevPropsStack = {};
-				this._fastdomSetProp = null;
-
-				// compute props
-				this._initInitialAttributes();
-
-				// props proxy
-				this._initPropsProxy();
-
-				// check the required props
-				this.requiredProps.forEach(function (prop) {
-					if (!_this4.props[prop]) {
-						throw 'The "' + _this4.componentNameDash + '" component need the "' + prop + '" property in order to work';
-					}
-				});
 			}
 
 			/**
@@ -860,61 +831,8 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				if (this._lifecycle.componentMount) return;
 				// update the lifecycle state
 				this._lifecycle.componentMount = true;
-				// dispatch event
-				this.onComponentMount && this.onComponentMount();
 				// mark the component as mounted
 				this.setAttribute('mounted', true);
-			}
-
-			/**
-    * Method called after the initial component render
-    *
-    * @example
-    * componentDidMount() {
-    * 		// call parent method
-    * 		super.componentDidMount();
-    * 		// do something here...
-    * }
-    *
-    * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
-    */
-
-		}, {
-			key: 'componentDidMount',
-			value: function componentDidMount() {
-				if (this._lifecycle.componentDidMount) return;
-				// update lifecycle state
-				this._lifecycle.componentDidMount = true;
-				// dispatch event
-				this.onComponentDidMount && this.onComponentDidMount();
-				// update lifecycle
-				this._lifecycle.componentWillUnmount = false;
-				this._lifecycle.componentUnmount = false;
-				this._lifecycle.componentDidUnmount = false;
-			}
-
-			/**
-    * Method called right before the render when some props have been updated.
-    * This method is not called before the initial render
-    *
-    * @param 		{Object} 		nextProps 			An object that represent the props that have been updated
-    * @param 		{Array} 		nextPropsArray 		An array representation of the nextProps object [{name:...,value:...}]
-    *
-    * @example
-    * componentWillUpdate(nextProps, nextPropsArray) {
-    * 		// call parent method
-    * 		super.componentWillUpdate(nextProps, nextPropsArray);
-    * 		// do something here...
-    * }
-    *
-    * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
-    */
-
-		}, {
-			key: 'componentWillUpdate',
-			value: function componentWillUpdate(nextProps) {
-				// dispatch event
-				this.onComponentWillUpdate && this.onComponentWillUpdate(nextProps);
 			}
 
 			/**
@@ -933,57 +851,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 
 		}, {
 			key: 'render',
-			value: function render() {
-				// dispatch event
-				this.onComponentRender && this.onComponentRender();
-			}
-
-			/**
-    * Method called right after the render when some props have been updated.
-    * This method is not called after the initial render
-    *
-    * @param 		{Object} 		prevProps 			An object that represent the props that have been updated
-    * @param 		{Array} 		prevPropsArray 		An array representation of the prevProps object [{name:...,value:...}]
-    *
-    * @example
-    * componentDidUpdate(prevProps, prevPropsArray) {
-    * 		// call parent method
-    * 		super.componentDidUpdate(prevProps, prevPropsArray);
-    * 		// do something here...
-    * }
-    *
-    * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
-    */
-
-		}, {
-			key: 'componentDidUpdate',
-			value: function componentDidUpdate(prevProps, prevPropsArray) {
-				// dispatch event
-				this.onComponentDidUpdate && this.onComponentDidUpdate(prevProps, prevPropsArray);
-			}
-
-			/**
-    * Method called before the component will unmount cause it has been removed from the DOM tree and that the props.unmountTimeout is passed.
-    *
-    * @example
-    * componentWillUnmount() {
-    * 		// call parent method
-    * 		super.componentWillUnmount();
-    * 		// do something here...
-    * }
-    *
-    * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
-    */
-
-		}, {
-			key: 'componentWillUnmount',
-			value: function componentWillUnmount() {
-				if (this._lifecycle.componentWillUnmount) return;
-				// update lifecycle state
-				this._lifecycle.componentWillUnmount = true;
-				// dispatch event
-				this.onComponentWillUnmount && this.onComponentWillUnmount();
-			}
+			value: function render() {}
 
 			/**
     * Method called when the component need to unmount itself cause it has been removed from the DOM tree and the props.unmountTimeout is passed.
@@ -1004,33 +872,6 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				if (this._lifecycle.componentUnmount) return;
 				// update lifecycle state
 				this._lifecycle.componentUnmount = true;
-				// dispatch event
-				this.onComponentUnmount && this.onComponentUnmount();
-			}
-
-			/**
-    * Method called when the component has been unmounted
-    *
-    * @example
-    * componentDidUnmount() {
-    * 		// call parent method
-    * 		super.componentDidUnmount();
-    * 		// do something here...
-    * }
-    *
-    * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
-    */
-
-		}, {
-			key: 'componentDidUnmount',
-			value: function componentDidUnmount() {
-				if (this._lifecycle.componentDidMount) return;
-				// update lifecycle state
-				this._lifecycle.componentDidUnmount = true;
-				// destroy things
-				this._sWatcher.destroy();
-				// dispatch event
-				this.onComponentDidUnmount && this.onComponentDidUnmount();
 			}
 
 			/**
@@ -1041,10 +882,10 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 		}, {
 			key: '_whenMountDependenciesAreOk',
 			value: function _whenMountDependenciesAreOk() {
-				var _this5 = this;
+				var _this4 = this;
 
 				var promise = new Promise(function (resolve, reject) {
-					var deps = _this5.mountDependencies;
+					var deps = _this4.mountDependencies;
 					if (!deps.length) {
 						resolve();
 					} else {
@@ -1066,7 +907,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 		}, {
 			key: '_initPropsProxy',
 			value: function _initPropsProxy() {
-				var _this6 = this;
+				var _this5 = this;
 
 				// loop on each props
 				for (var key in this.defaultProps) {
@@ -1077,12 +918,12 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 						continue;
 					}
 					(function (key) {
-						Object.defineProperty(_this6, key, {
+						Object.defineProperty(_this5, key, {
 							get: function get() {
-								return _this6.props[key];
+								return _this5.props[key];
 							},
 							set: function set(value) {
-								_this6.setProp(key, (0, _autoCast2.default)(value));
+								_this5.setProp(key, (0, _autoCast2.default)(value));
 							},
 							enumarable: true
 						});
@@ -1108,20 +949,18 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 		}, {
 			key: '_mountComponent',
 			value: function _mountComponent() {
-				var _this7 = this;
+				var _this6 = this;
 
 				// wait next frame
 				_fastdom2.default.clear(this._fastdomSetProp);
 				this._fastdomSetProp = this.mutate(function () {
 					// sometimes, the component has been unmounted between the
 					// fastdom execution, so we stop here if it's the case
-					if (!_this7._componentAttached) return;
+					if (!_this6._componentAttached) return;
 					// init
-					_this7.componentMount();
+					_this6.componentMount();
 					// render
-					_this7.render();
-					// component did mount
-					_this7.componentDidMount();
+					_this6.render();
 				});
 			}
 
@@ -1133,7 +972,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 		}, {
 			key: 'disconnectedCallback',
 			value: function disconnectedCallback() {
-				var _this8 = this;
+				var _this7 = this;
 
 				// update attached status
 				this._componentAttached = false;
@@ -1141,22 +980,15 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				// unmount timeout
 				clearTimeout(this._unmountTimeout);
 				this._unmountTimeout = setTimeout(function () {
-
-					// will unmount
-					_this8.componentWillUnmount();
 					// wait next frame
-					_fastdom2.default.clear(_this8._fastdomSetProp);
-					_this8._fastdomSetProp = _this8.mutate(function () {
+					_fastdom2.default.clear(_this7._fastdomSetProp);
+					_this7._fastdomSetProp = _this7.mutate(function () {
 						// unmount only if the component is mounted
-						if (!_this8._lifecycle.componentMount) return;
+						if (!_this7._lifecycle.componentMount) return;
 						// unmount
-						_this8.componentUnmount();
-						// did unmount
-						_this8.componentDidUnmount();
+						_this7.componentUnmount();
 						// update lifecycle
-						_this8._lifecycle.componentWillMount = false;
-						_this8._lifecycle.componentMount = false;
-						_this8._lifecycle.componentDidUnmount = false;
+						_this7._lifecycle.componentMount = false;
 					});
 				}, this.props.unmountTimeout);
 			}
@@ -1254,7 +1086,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 		}, {
 			key: '_handleNewPropValue',
 			value: function _handleNewPropValue(prop, newVal, oldVal) {
-				var _this9 = this;
+				var _this8 = this;
 
 				// if the component is not mounted
 				// we do nothing here...
@@ -1274,18 +1106,18 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 					// create array version of each stacks
 					var nextPropsArray = [],
 					    prevPropsArray = [];
-					for (var key in _this9._nextPropsStack) {
-						var val = _this9._nextPropsStack[key];
+					for (var key in _this8._nextPropsStack) {
+						var val = _this8._nextPropsStack[key];
 						nextPropsArray.push({
 							name: key,
 							value: val
 						});
 
 						// handle physical props
-						_this9._handlePhysicalProp(key, val);
+						_this8._handlePhysicalProp(key, val);
 					}
-					for (var _key2 in _this9._prevPropsStack) {
-						var _val = _this9._prevPropsStack[_key2];
+					for (var _key2 in _this8._prevPropsStack) {
+						var _val = _this8._prevPropsStack[_key2];
 						prevPropsArray.push({
 							name: _key2,
 							value: _val
@@ -1293,21 +1125,15 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 					}
 
 					// call the will reveiveProps if exist
-					if (_this9.componentWillReceiveProps) {
-						_this9.componentWillReceiveProps(_this9._nextPropsStack, nextPropsArray);
+					if (_this8.componentWillReceiveProps) {
+						_this8.componentWillReceiveProps(_this8._nextPropsStack, nextPropsArray);
 					}
 
 					// should component update
-					if (_this9.shouldComponentUpdate && !_this9.shouldComponentUpdate(_this9._nextPropsStack, _this9._prevPropsStack)) return;
-
-					// component will update
-					_this9.componentWillUpdate(_this9._nextPropsStack, nextPropsArray);
+					if (_this8.shouldComponentUpdate && !_this8.shouldComponentUpdate(_this8._nextPropsStack, _this8._prevPropsStack)) return;
 
 					// render the component
-					_this9.render();
-
-					// component did update
-					_this9.componentDidUpdate(_this9._prevPropsStack, prevPropsArray);
+					_this8.render();
 				});
 			}
 
@@ -1355,18 +1181,6 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			key: 'isComponentMounted',
 			value: function isComponentMounted() {
 				return this._lifecycle.componentMount;
-			}
-
-			/**
-    * Watch any data of the component
-    * @param 		{String} 		path 		The path from the component root to watch like "props.myCoolProp"
-    * @param 		{Function}		cb 			The callback to call when the item has changed
-    */
-
-		}, {
-			key: 'watch',
-			value: function watch(path, cb) {
-				this._sWatcher.watch(this, path, cb);
 			}
 
 			/**
@@ -1531,7 +1345,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			value: function addComponentClass(elm) {
 				var element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-				var _this10 = this;
+				var _this9 = this;
 
 				var modifier = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 				var state = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
@@ -1539,7 +1353,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				// if is an array
 				if (elm instanceof Array || elm instanceof NodeList) {
 					[].forEach.call(elm, function (el) {
-						_this10.addComponentClass(el, element, modifier, state);
+						_this9.addComponentClass(el, element, modifier, state);
 					});
 					return this;
 				}
@@ -1549,7 +1363,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				// loop on each classes to add
 				cls.split('.').forEach(function (cl) {
 					if (cl && cl !== '') {
-						_this10.mutate(function () {
+						_this9.mutate(function () {
 							elm.classList.add(cl);
 						});
 					}
@@ -1572,7 +1386,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			value: function removeComponentClass(elm) {
 				var element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-				var _this11 = this;
+				var _this10 = this;
 
 				var modifier = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 				var state = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
@@ -1580,7 +1394,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				// if is an array
 				if (elm instanceof Array || elm instanceof NodeList) {
 					[].forEach.call(elm, function (el) {
-						_this11.removeComponentClass(el, element, modifier, state);
+						_this10.removeComponentClass(el, element, modifier, state);
 					});
 					return this;
 				}
@@ -1590,7 +1404,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				// loop on each classes to add
 				cls.split('.').forEach(function (cl) {
 					if (cl && cl !== '') {
-						_this11.mutate(function () {
+						_this10.mutate(function () {
 							elm.classList.remove(cl);
 						});
 					}

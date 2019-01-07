@@ -10,6 +10,18 @@ var STATE_OUTPUT = 0,
     WHITESPACE = /\s/,
     ALLOWED_TAGS_REGEX = /<(\w*)>/g;
 
+/**
+ * Strip tags of an html string
+ * @param    {String}    html    The html string to process
+ * @param    {String}    allowableTags    The tags that are allowed like <h1><h2>...
+ * @return    {String}    The processed string without tags
+ *
+ * @example    js
+ * import striptags from 'coffeekraken-sugar/js/utils/strings/striptags'
+ * striptags('<p><span>Hello</span> world</p>', '<span>') // <span>Hello</span> world
+ *
+ * @author    Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
+ */
 function striptags(html, allowableTags) {
     var html = html || '',
         state = STATE_OUTPUT,
