@@ -91,6 +91,19 @@ duration  |  **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/R
 Return **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Number) }** The duration
 
 
+### tickCount
+
+Set of get the tickCount
+
+
+#### Parameters
+Name  |  Type  |  Description  |  Status  |  Default
+------------  |  ------------  |  ------------  |  ------------  |  ------------
+tickCount  |  **{ Inreger }**  |  Set the tickCount  |  optional  |  null
+
+Return **{ Inreger }** The tickCount
+
+
 ### onTick
 
 Register a function called on tick
