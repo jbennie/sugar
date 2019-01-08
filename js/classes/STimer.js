@@ -58,16 +58,16 @@ var STimer = function () {
 
 
 	/**
-  * Store the remaining time
+  * How many ticks wanted during the timeout
   *
-  * @type 	{Number}
+  * @type    {Integer}
   */
 
 
 	/**
-  * Store the settings for the timer
+  * Store the timer duration wanted
   *
-  * @type 		{Object}
+  * @type 	{Number}
   */
 	function STimer(duration) {
 		var settings = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -101,16 +101,10 @@ var STimer = function () {
     * @type 		{Boolean}
     * @default 	false
     */
-			loop: false
-
-			/**
-    * Store the timer duration wanted
-    *
-    * @type 	{Number}
-    */
-		};
+			loop: false };
 		this._duration = 0;
 		this._remaining = 0;
+		this._tickCount = null;
 		this._tickInterval = 1000;
 		this._ticks = [];
 		this._completes = [];
@@ -126,7 +120,8 @@ var STimer = function () {
 
 		// calculate the tickInterval
 		if (this._settings.tickCount) {
-			this._tickInterval = this._duration / this._settings.tickCount; // remove 1 cause the first tick is always the start time
+			this._tickCount = this._settings.tickCount;
+			this._tickInterval = this._duration / this._tickCount; // remove 1 cause the first tick is always the start time
 		} else {
 			this._tickInterval = this._settings.tickInterval;
 		}
@@ -163,6 +158,20 @@ var STimer = function () {
   * Computed value depending on the settings
   *
   * @type 	{Number}
+  */
+
+
+	/**
+  * Store the remaining time
+  *
+  * @type 	{Number}
+  */
+
+
+	/**
+  * Store the settings for the timer
+  *
+  * @type 		{Object}
   */
 
 
@@ -227,11 +236,28 @@ var STimer = function () {
 
 			if (_duration) {
 				this._duration = _duration;
-				if (this._settings.tickCount) {
-					this._tickInterval = this._duration / this._settings.tickCount; // remove 1 cause the first tick is always the start time
+				if (this._tickCount) {
+					this._tickInterval = this._duration / this._tickCount; // remove 1 cause the first tick is always the start time
 				}
 			}
 			return this._duration;
+		}
+
+		/**
+   * Set of get the tickCount
+   * @param    {Inreger}    [tickCount=null]    Set the tickCount
+   * @return    {Inreger}    The tickCount
+   */
+
+	}, {
+		key: "tickCount",
+		value: function tickCount() {
+			var _tickCount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+			if (_tickCount) {
+				this._tickCount = _tickCount;
+				this._tickInterval = this._duration / this._tickCount;
+			}
 		}
 
 		/**

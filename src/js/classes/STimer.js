@@ -69,6 +69,13 @@ export default class STimer {
 	_remaining = 0
 
 	/**
+	 * How many ticks wanted during the timeout
+	 *
+	 * @type    {Integer}
+	 */
+	_tickCount = null
+
+	/**
 	 * Computed value depending on the settings
 	 *
 	 * @type 	{Number}
@@ -131,7 +138,8 @@ export default class STimer {
 
 		// calculate the tickInterval
 		if (this._settings.tickCount) {
-			this._tickInterval = this._duration / this._settings.tickCount; // remove 1 cause the first tick is always the start time
+			this._tickCount = this._settings.tickCount
+			this._tickInterval = this._duration / this._tickCount; // remove 1 cause the first tick is always the start time
 		} else {
 			this._tickInterval = this._settings.tickInterval
 		}
@@ -191,11 +199,23 @@ export default class STimer {
 	duration(duration = null) {
 		if (duration) {
 			this._duration = duration
-			if (this._settings.tickCount) {
-				this._tickInterval = this._duration / this._settings.tickCount; // remove 1 cause the first tick is always the start time
+			if (this._tickCount) {
+				this._tickInterval = this._duration / this._tickCount; // remove 1 cause the first tick is always the start time
 			}
 		}
 		return this._duration
+	}
+
+	/**
+	 * Set of get the tickCount
+	 * @param    {Inreger}    [tickCount=null]    Set the tickCount
+	 * @return    {Inreger}    The tickCount
+	 */
+	tickCount(tickCount = null) {
+		if (tickCount) {
+			this._tickCount = tickCount
+			this._tickInterval = this._duration / this._tickCount
+		}
 	}
 
 	/**
