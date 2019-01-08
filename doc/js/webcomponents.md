@@ -12,17 +12,12 @@ Sugar provide a nice stack for webcomponent development. This stack is basically
 	- componentCreated
 	- componentWillMount
 	- componentMount
-	- componentDidMount
 	- shouldComponentAcceptProp
 	- componentWillReceiveProp
 	- componentWillReceiveProps
-	- componentWillUpdate
 	- shouldComponentUpdate
 	- render
-	- componentDidUpdate
-	- componentWillUnmount
 	- componentUnmount
-	- componentDidUnmount
 - **Mount dependencies** : This will allows you to set some promises that have to be resolved before mounting the component
 
 ## Table of content
@@ -30,11 +25,10 @@ Sugar provide a nice stack for webcomponent development. This stack is basically
 1. [Get Started](#get-started)
 2. [Lifecycle](#lifecycle)
 3. [Props](#props)
-4. [The ```render``` method](#render-method)
-5. [Mount dependencies](#mount-dependencies)
-6. [Default CSS](#default-css)
-7. [Component boilerplate](#boilerplate)
-8. [Full SWebComponent API documentation](../src/js/core/SWebComponentMixin.md)
+4. [Mount dependencies](#mount-dependencies)
+5. [Default CSS](#default-css)
+6. [Component boilerplate](#boilerplate)
+7. [Full SWebComponent API documentation](../src/js/core/SWebComponentMixin.md)
 
 <a name="get-started"></a>
 ## Get Started
@@ -112,16 +106,6 @@ class MyCoolComponent extends SWebComponent {
 		switch(name) {
 		}
 	}
-
-	/**
-	 * Render the component
-	 * Here goes the code that reflect the this.props state on the actual html element
-	 * @definition 		SWebComponent.render
-	 * @protected
-	 */
-	render() {
-		super.render();
-	}
 }
 
 // define your component
@@ -137,15 +121,10 @@ Each component will have his own lifecycle. Here it is:
 1. **```componentCreated```** : When the component has being created in memory
 2. **```componentWillMount```** : Callded before the component is actually mounted and before the mountDependencies are resolved
 3. **```componentMount```** : When the component is actually mounted
-4. **```componentDidMount```** : Right after that the component has been mounted
-5. **```componentWillReceiveProp(prop, newVal, oldVal)```** : When the component receive a new property
-6. **```componentWillReceiveProps(nextProps)```** : When the component receive some new properties. It will be called after the componentWillReceiveProp with all the updated properties at once
-7. **```componentWillUpdate(nextProps)```** : Before the component will be updated through the render method. If this return false, the render will not being called
-8. **```render```** : Method called to update the DOM depending on the props
-9. **```componentDidUpdate(prevProps)```** : Called after the render has been made
-10. **```componentWillUnmount```** : Called just before the component will be unmounted
-11. **```componentUnmount```** : Called when the component is unmouted
-12. **```componentDidUnmount```** : Called after the component has been unmounted
+4. **```componentWillReceiveProp(prop, newVal, oldVal)```** : When the component receive a new property
+5. **```componentWillReceiveProps(nextProps)```** : When the component receive some new properties. It will be called after the componentWillReceiveProp with all the updated properties at once
+6. **```render```** : Method called to update the DOM depending on the props
+7. **```componentUnmount```** : Called when the component is unmouted
 
 > Don't forget to call the ```super.{methodName}``` to ensure that you don't skip important features executions.
 
@@ -169,16 +148,6 @@ Each component expose his "state" through the ```this.props``` object. These pro
 3. **```const myProp = this.{propName}```** : The props are exposed directly in the component instance. This is mostly for frameworks like react etc... Try to not use this as your main property getting method...
 
 > Avoid using names of properties that already exists on the HTMLElement object. If you do so, you can have some unexpected issues...
-
-<a name="render-method"></a>
-## The ```render``` method
-
-Each component has his own lifecycle. In this lifecycle you will find the ```render``` method. This method will be called automatically and with some performance optimization at each of these steps:
-
-1. When the component is **mounting**
-2. When the component has **received one or more new props**
-
-The purpose of this method is to reflect in the DOM his props. This mean that ideally, you will not touch the DOM outside of this method. Sometimes it's not possible to stick to this rule and it's fine as well. You will just need to check that the performance of your component is not degrading the overall user experience if you do so...
 
 
 <a name="mount-dependencies"></a>

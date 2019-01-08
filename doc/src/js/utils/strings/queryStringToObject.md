@@ -10,6 +10,11 @@ queryString  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScrip
 
 Return **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }** The object representation of the query string
 
+### Example
+```js
+	import queryStringToObject from 'coffeekraken-sugar/js/utils/strings/queryStringToObject'
+queryStringToObject('?var1=value1&var2=value2') // { var1: 'value1', var2: 'value2' }
+```
 Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)
 
 See : **See more** : [http://stackoverflow.com/questions/8648892/convert-url-parameters-to-a-javascript-object](http://stackoverflow.com/questions/8648892/convert-url-parameters-to-a-javascript-object)

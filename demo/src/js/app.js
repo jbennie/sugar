@@ -32,7 +32,6 @@ setTimeout(() => {
 	}, 1000);
 }, 1000);
 
-
 const detectInOutDirectionElm = document.querySelector('#detectInOutDirection')
 detectInOutDirection(detectInOutDirectionElm, (direction, elm) => {
 	addAnimationClass(elm, `in-${direction}`)
