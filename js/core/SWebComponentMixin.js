@@ -802,7 +802,6 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 		}, {
 			key: 'componentWillMount',
 			value: function componentWillMount() {
-
 				// protect from mounting multiple times when unecessary
 				if (this._lifecycle.componentWillMount) return;
 
@@ -872,6 +871,8 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				if (this._lifecycle.componentUnmount) return;
 				// update lifecycle state
 				this._lifecycle.componentUnmount = true;
+				// remove the component mounted attribute
+				this.removeAttribute('mounted');
 			}
 
 			/**

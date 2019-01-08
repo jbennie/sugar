@@ -1,4 +1,26 @@
 import __autoCast from '../utils/string/autoCast'
+
+/**
+ * Base class for cache like SLocalStorageCache and others that you can create
+ *
+ * @example    js
+ * class SLocalStorageCache extends SCache {
+ *   // in the constructor, you need to get the cache from
+ *   // the localstorage (or whatever), and set the `this.cache` property
+ *   constructor(name, settings = {}) {
+ *     super(name, settings)
+ *     const ls = localStorage.getItem(this.name)
+ *     if (!ls) return
+ *     this.cache = JSON.parse(ls)
+ *   }
+ *   // in the `_save` method, you'll need to save the cache in localstorage (or whatever)
+ *   _save() {
+ *     localStorage.setItem(this.name, JSON.stringify(this.cache))
+ *   }
+ * }
+ *
+ * @author    Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
+ */
 export default class SCache {
 
 	/**
@@ -18,7 +40,7 @@ export default class SCache {
 	 * The lifetime in second of the cache items by default. Can be set individually by cache item
 	 * @setting
 	 * @type 	{Integer}
-	 * @default 	86400
+	 * @default 	3600 * 24
 	 */
 
 	/**
@@ -72,7 +94,7 @@ export default class SCache {
 	 * Set a value in the cache
 	 * @param 		{String} 		id 			The id of the cache element to set
 	 * @param 		{Mixed} 		value 		The value to set in cache
-	 * @param 		{Integer} 		lifetime	The lifetime of this value in cache
+	 * @param 		{Integer} 		lifetime	The lifetime of this value in cache in second
 	 */
 	set(id, value, lifetime = null) {
 		let cacheObj = {};
@@ -82,8 +104,7 @@ export default class SCache {
 			value,
 			lifetime : lifetime || this.settings.lifetime,
 			expire : this.now + (lifetime || this.settings.lifetime),
-			created : this.now,
-			updated : null
+			created : this.now
 		};
 		// set the cache object into cache
 		this.cache[id] = cacheObj;

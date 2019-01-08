@@ -16,6 +16,27 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+/**
+ * Base class for cache like SLocalStorageCache and others that you can create
+ *
+ * @example    js
+ * class SLocalStorageCache extends SCache {
+ *   // in the constructor, you need to get the cache from
+ *   // the localstorage (or whatever), and set the `this.cache` property
+ *   constructor(name, settings = {}) {
+ *     super(name, settings)
+ *     const ls = localStorage.getItem(this.name)
+ *     if (!ls) return
+ *     this.cache = JSON.parse(ls)
+ *   }
+ *   // in the `_save` method, you'll need to save the cache in localstorage (or whatever)
+ *   _save() {
+ *     localStorage.setItem(this.name, JSON.stringify(this.cache))
+ *   }
+ * }
+ *
+ * @author    Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
+ */
 var SCache = function () {
 
 	/**
@@ -23,7 +44,7 @@ var SCache = function () {
   * The lifetime in second of the cache items by default. Can be set individually by cache item
   * @setting
   * @type 	{Integer}
-  * @default 	86400
+  * @default 	3600 * 24
   */
 
 	/**
@@ -100,7 +121,7 @@ var SCache = function () {
    * Set a value in the cache
    * @param 		{String} 		id 			The id of the cache element to set
    * @param 		{Mixed} 		value 		The value to set in cache
-   * @param 		{Integer} 		lifetime	The lifetime of this value in cache
+   * @param 		{Integer} 		lifetime	The lifetime of this value in cache in second
    */
 		value: function set(id, value) {
 			var lifetime = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
@@ -112,8 +133,7 @@ var SCache = function () {
 				value: value,
 				lifetime: lifetime || this.settings.lifetime,
 				expire: this.now + (lifetime || this.settings.lifetime),
-				created: this.now,
-				updated: null
+				created: this.now
 			};
 			// set the cache object into cache
 			this.cache[id] = cacheObj;

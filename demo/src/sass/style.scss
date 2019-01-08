@@ -1,0 +1,6 @@
+@import '../../../index';
+
+.coffeekraken-logo {
+	@include s-coffeekraken-logo(primary, secondary);
+	width:300px;
+}

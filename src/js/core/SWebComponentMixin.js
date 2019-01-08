@@ -684,7 +684,6 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
 	 */
 	componentWillMount() {
-
 		// protect from mounting multiple times when unecessary
 		if (this._lifecycle.componentWillMount) return;
 
@@ -746,6 +745,8 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		if (this._lifecycle.componentUnmount) return;
 		// update lifecycle state
 		this._lifecycle.componentUnmount = true;
+		// remove the component mounted attribute
+		this.removeAttribute('mounted');
 	}
 
 	/**
