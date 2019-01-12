@@ -1,13 +1,17 @@
 # Spaces
 
-Sugar provide a space feature that let you apply some margins, paddings, etc... using your [sizes](sizes.md) names.
+Sugar provide a space feature that let you apply some margins, paddings, etc... 
 
 ## Features
 
-- Let you specify the default space for your website, then the other spaces will be interpolated from the sizes ratios
-	- Default space : 1rem (customizable as well)
-	- Big space will be 1rem * 2.4 = 2.4rem
-- Each spaces can be hard coded to bypass the sizes ratios
+- Let you specify the spaces for your website
+	- `smaller` : 5px
+	- `small` : 10px
+	- `default` : 20px
+	- `medium` : 40px
+	- `big` : 70px
+	- `bigger` : 100px
+- Each spaces can be overrided
 	- Use the ```@include s-setup()``` mixin to do so
 - Provide some helper classes like:
 	- ```.m-b``` : Default margin bottom
@@ -18,15 +22,15 @@ Sugar provide a space feature that let you apply some margins, paddings, etc... 
 	- Etc...
 - Can be applied across your codebase with the ```s-space($size)``` function
 
-## Bypass the sizes interpolation
+## Override the default spaces
 
-Yu can easily hard code one or more spaces to avoid the interpolation from the [sizes](sizes.md). Just do it like so:
+You can easily override any of the default spaces like so:
 
 ```scss
 @include s-setup((
 	spaces : (
-		small : 0.8rem,
-		big : 3rem
+		small : 5px,
+		big : 50px
 	)
 ));
 ```

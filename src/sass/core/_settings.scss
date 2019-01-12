@@ -39,7 +39,12 @@ $_sugar-settings : (								// store all the settings
 		line-height 				: 1.4
 	),
 	spaces 						: (					// store all the spaces available
-		default 					: 1rem
+		smaller						: 5px,
+		small						: 10px,
+		default 					: 20px,
+		medium 						: 40px,
+		big							: 70px,
+		bigger 						: 100px
 								),
 	colors 						: (					// store all the colors
 		default 					: (
