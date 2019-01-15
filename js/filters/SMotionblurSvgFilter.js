@@ -20,6 +20,10 @@ var _fastdom = require('fastdom');
 
 var _fastdom2 = _interopRequireDefault(_fastdom);
 
+var _forceRedraw = require('../dom/forceRedraw');
+
+var _forceRedraw2 = _interopRequireDefault(_forceRedraw);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -93,11 +97,14 @@ var SMotionblurSvgFilter = function (_SSvgFilter) {
 			// call parent method
 			_get(SMotionblurSvgFilter.prototype.__proto__ || Object.getPrototypeOf(SMotionblurSvgFilter.prototype), 'applyTo', this).call(this, elm);
 			// listen to animation, transitionstart and move event
-			elm.addEventListener('transitionstart', this._onMotionStart.bind(this));
-			elm.addEventListener('animationstart', this._onMotionStart.bind(this));
-			elm.addEventListener('dragstart', this._onMotionStart.bind(this));
-			elm.addEventListener('transitionend', this._onMotionStop.bind(this));
-			elm.addEventListener('animationend', this._onMotionStop.bind(this));
+			this._onMotionStartFn = this._onMotionStart.bind(this);
+			this._onMotionStopFn = this._onMotionStop.bind(this);
+			elm.addEventListener('transitionstart', this._onMotionStartFn);
+			elm.addEventListener('animationstart', this._onMotionStartFn);
+			elm.addEventListener('dragstart', this._onMotionStartFn);
+			elm.addEventListener('transitionend', this._onMotionStopFn);
+			elm.addEventListener('animationend', this._onMotionStopFn);
+			elm.addEventListener('dragend', this._onMotionStopFn);
 			this._lastPos = (0, _offset2.default)(this.elms[0]);
 		}
 
@@ -111,12 +118,12 @@ var SMotionblurSvgFilter = function (_SSvgFilter) {
 		key: 'unapplyFrom',
 		value: function unapplyFrom(elm) {
 			// remove event listeners
-			elm.removeEventListener('animationStart', this._onMotionStart);
-			elm.removeEventListener('transitionstart', this._onMotionStart);
-			elm.removeEventListener('dragstart', this._onMotionStart);
-			elm.removeEventListener('transitionend', this._onMotionStop);
-			elm.removeEventListener('animationend', this._onMotionStop);
-			elm.removeEventListener('dragend', this._onMotionStop);
+			elm.removeEventListener('animationStart', this._onMotionStartFn);
+			elm.removeEventListener('transitionstart', this._onMotionStartFn);
+			elm.removeEventListener('dragstart', this._onMotionStartFn);
+			elm.removeEventListener('transitionend', this._onMotionStopFn);
+			elm.removeEventListener('animationend', this._onMotionStopFn);
+			elm.removeEventListener('dragend', this._onMotionStopFn);
 			// call parent
 			_get(SMotionblurSvgFilter.prototype.__proto__ || Object.getPrototypeOf(SMotionblurSvgFilter.prototype), 'unapplyFrom', this).call(this, elm);
 		}
@@ -155,6 +162,8 @@ var SMotionblurSvgFilter = function (_SSvgFilter) {
 			_fastdom2.default.mutate(function () {
 				// set the blur
 				_this3._blur.setAttribute('stdDeviation', 0 + ',' + 0);
+				// redraw the element to ensure proper display
+				(0, _forceRedraw2.default)(_this3.elms[0]);
 			});
 		}
 
