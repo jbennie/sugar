@@ -1,6 +1,7 @@
 import __offset from '../dom/offset'
 import SSvgFilter from './SSvgFilter'
 import fastdom from 'fastdom'
+import forceRedraw from '../dom/forceRedraw'
 
 /**
  * @class 			SMotionblurSvgFilter 			{SSvgFilter}
@@ -58,11 +59,14 @@ export default class SMotionblurSvgFilter extends SSvgFilter {
 		// call parent method
 		super.applyTo(elm);
 		// listen to animation, transitionstart and move event
-		elm.addEventListener('transitionstart', this._onMotionStart.bind(this));
-		elm.addEventListener('animationstart', this._onMotionStart.bind(this));
-		elm.addEventListener('dragstart', this._onMotionStart.bind(this));
-		elm.addEventListener('transitionend', this._onMotionStop.bind(this));
-		elm.addEventListener('animationend', this._onMotionStop.bind(this));
+		this._onMotionStartFn = this._onMotionStart.bind(this)
+		this._onMotionStopFn = this._onMotionStop.bind(this)
+		elm.addEventListener('transitionstart', this._onMotionStartFn);
+		elm.addEventListener('animationstart', this._onMotionStartFn);
+		elm.addEventListener('dragstart', this._onMotionStartFn);
+		elm.addEventListener('transitionend', this._onMotionStopFn);
+		elm.addEventListener('animationend', this._onMotionStopFn);
+		elm.addEventListener('dragend', this._onMotionStopFn);
 		this._lastPos = __offset(this.elms[0]);
 	}
 
@@ -73,12 +77,12 @@ export default class SMotionblurSvgFilter extends SSvgFilter {
 	 */
 	unapplyFrom(elm) {
 		// remove event listeners
-		elm.removeEventListener('animationStart', this._onMotionStart);
-		elm.removeEventListener('transitionstart', this._onMotionStart);
-		elm.removeEventListener('dragstart', this._onMotionStart);
-		elm.removeEventListener('transitionend', this._onMotionStop);
-		elm.removeEventListener('animationend', this._onMotionStop);
-		elm.removeEventListener('dragend', this._onMotionStop);
+		elm.removeEventListener('animationStart', this._onMotionStartFn);
+		elm.removeEventListener('transitionstart', this._onMotionStartFn);
+		elm.removeEventListener('dragstart', this._onMotionStartFn);
+		elm.removeEventListener('transitionend', this._onMotionStopFn);
+		elm.removeEventListener('animationend', this._onMotionStopFn);
+		elm.removeEventListener('dragend', this._onMotionStopFn);
 		// call parent
 		super.unapplyFrom(elm);
 	}
@@ -107,6 +111,8 @@ export default class SMotionblurSvgFilter extends SSvgFilter {
 		fastdom.mutate(() => {
 			// set the blur
 			this._blur.setAttribute('stdDeviation', 0 +','+ 0);
+			// redraw the element to ensure proper display
+			forceRedraw(this.elms[0])
 		});
 	}
 
