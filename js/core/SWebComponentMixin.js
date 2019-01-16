@@ -630,6 +630,9 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				// default props init
 				this._props = Object.assign({}, this.defaultProps, this.props);
 
+				// if we have some initial props, we set them now
+				if (this._initialProps) this.setProps(this._initialProps);
+
 				// init properties proxy object
 				if (window.Proxy) {
 					this.props = new Proxy(this._props, {
@@ -1048,6 +1051,14 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			value: function setProp(prop, value) {
 				var set = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
+
+				// if the component is not attached to the dom, we don't have the props etc
+				// so we save them inside an object that we will merge later in the props
+				if (!this._componentAttached) {
+					if (!this._initialProps) this._initialProps = {};
+					this._initialProps[prop] = value;
+					return;
+				}
 
 				// save the oldVal
 				var oldVal = this.props[prop];
