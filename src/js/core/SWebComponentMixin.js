@@ -519,6 +519,9 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		// default props init
 		this._props = Object.assign({}, this.defaultProps, this.props);
 
+		// if we have some initial props, we set them now
+		if (this._initialProps) this.setProps(this._initialProps)
+
 		// init properties proxy object
 		if (window.Proxy) {
 			this.props = new Proxy(this._props, {
@@ -881,6 +884,14 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * @param 			{Mixed} 		value 			The new property value
 	 */
 	setProp(prop, value, set = true) {
+
+		// if the component is not attached to the dom, we don't have the props etc
+		// so we save them inside an object that we will merge later in the props
+		if ( ! this._componentAttached) {
+			if ( ! this._initialProps) this._initialProps = {}
+			this._initialProps[prop] = value
+			return
+		}
 
 		// save the oldVal
 		const oldVal = this.props[prop];

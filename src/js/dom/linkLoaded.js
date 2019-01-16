@@ -19,10 +19,6 @@ function alreadyLoaded(link) {
 	let result = false;
 	for (var i = 0; i < document.styleSheets.length; i++) {
 	    if (document.styleSheets[i].href && document.styleSheets[i].href.match(href)) {
-			if ( ! document.styleSheets[i].cssRules || document.styleSheets[i].cssRules.length == 0) {
-	            // Fallback. There is a request for the css file, but it failed.
-	            break;
-	        }
 			// the css is already loaded
 			result = true;
 	    } else if (i == document.styleSheets.length - 1) {
