@@ -3,6 +3,26 @@ import SWebComponent from '../../../js/core/SWebComponent'
 import toggleFullscreen from '../../../js/dom/toggleFullscreen'
 import detectInOutDirection from '../../../js/dom/detectInOutDirection'
 import addAnimationClass from '../../../js/dom/addAnimationClass'
+import imagesLoaded from '../../../js/dom/imagesLoaded'
+import appendStylesheetLink from '../../../js/dom/appendStylesheetLink'
+import linkLoaded from '../../../js/dom/linkLoaded'
+
+import appendScriptTag from '../../../js/dom/appendScriptTag'
+import scriptLoaded from '../../../js/dom/scriptLoaded'
+
+// const $link = appendStylesheetLink('http://coffeekraken.io/dist/css/style.css');
+// linkLoaded($link).then(() => {
+// 	console.log('link loaded')
+// })
+
+// const $script = appendScriptTag('http://coffeekraken.io/dist/js/app.js');
+// scriptLoaded($script).then(() => {
+// 	console.log('script loaded')
+// })
+
+// imagesLoaded(document.querySelectorAll('img')).then(() => {
+// 	console.log('loaded')
+// })
 
 class MyComponentClass extends SWebComponent {
 	static get defaultProps() {
