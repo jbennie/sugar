@@ -1,6 +1,14 @@
 @import '../../../index';
 
+@include s-init();
+
 .coffeekraken-logo {
 	@include s-coffeekraken-logo(primary, secondary);
+	background-size: cover;
 	width:300px;
+}
+
+.kraken {
+	background-image: url('../../dist/img/kraken.png');
+	width: 300px; height: 300px;
 }
