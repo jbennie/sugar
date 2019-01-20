@@ -6,6 +6,8 @@ import addAnimationClass from '../../../js/dom/addAnimationClass'
 import imagesLoaded from '../../../js/dom/imagesLoaded'
 import appendStylesheetLink from '../../../js/dom/appendStylesheetLink'
 import linkLoaded from '../../../js/dom/linkLoaded'
+import querySelectorAllWithStyle from '../../../js/dom/querySelectorAllWithStyle'
+import backgroundImageLoaded from '../../../js/dom/backgroundImageLoaded'
 
 import appendScriptTag from '../../../js/dom/appendScriptTag'
 import scriptLoaded from '../../../js/dom/scriptLoaded'
@@ -63,3 +65,13 @@ const fullscreenElm = document.querySelector('#fullscreen')
 fullscreenElm.addEventListener('click', (e) => {
 	toggleFullscreen(fullscreenElm)
 })
+
+const $elms = querySelectorAllWithStyle('*', {
+	backgroundImage: /^url/
+})
+$elms.forEach(($elm) => {
+	backgroundImageLoaded($elm).then(() => {
+		console.log('loaded!!!')
+	})
+})
+console.log('querySelectorAllWithStyle', $elms)
