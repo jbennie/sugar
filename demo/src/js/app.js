@@ -8,6 +8,7 @@ import appendStylesheetLink from '../../../js/dom/appendStylesheetLink'
 import linkLoaded from '../../../js/dom/linkLoaded'
 import querySelectorAllWithStyle from '../../../js/dom/querySelectorAllWithStyle'
 import backgroundImageLoaded from '../../../js/dom/backgroundImageLoaded'
+import unquote from '../../../js/utils/strings/unquote'
 
 import appendScriptTag from '../../../js/dom/appendScriptTag'
 import scriptLoaded from '../../../js/dom/scriptLoaded'
@@ -25,6 +26,10 @@ import scriptLoaded from '../../../js/dom/scriptLoaded'
 // imagesLoaded(document.querySelectorAll('img')).then(() => {
 // 	console.log('loaded')
 // })
+
+console.log('unquote "', unquote('"Hello World"'))
+console.log('unquote \'', unquote("'Hello World'"))
+console.log('unquote ”', unquote('”Hello World”'))
 
 class MyComponentClass extends SWebComponent {
 	static get defaultProps() {
