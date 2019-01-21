@@ -13,6 +13,10 @@ var _imageLoaded = require('./imageLoaded');
 
 var _imageLoaded2 = _interopRequireDefault(_imageLoaded);
 
+var _unquote = require('../utils/strings/unquote');
+
+var _unquote2 = _interopRequireDefault(_unquote);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
@@ -32,14 +36,16 @@ function backgroundImageLoaded($elm) {
 	return new Promise(function (resolve, reject) {
 		// get the background-image property from computed style
 		var backgroundImage = (0, _getStyleProperty2.default)($elm, 'background-image');
-		var matches = backgroundImage.match(/.*url\(['|"](.*)['|"]\):*/);
-		if (!matches[1]) {
+		var matches = backgroundImage.match(/.*url\((.*)\).*/);
+		if (!matches || !matches[1]) {
 			reject('No background image url found...');
 			return;
 		}
+		// process url
+		var url = (0, _unquote2.default)(matches[1]);
 		// make a new image with the image set
 		var $img = new Image();
-		$img.src = matches[1];
+		$img.src = url;
 		// return the promise of image loaded
 		resolve((0, _imageLoaded2.default)($img));
 	});
