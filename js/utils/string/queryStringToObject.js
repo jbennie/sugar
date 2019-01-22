@@ -32,7 +32,6 @@ function queryStringToObject(str) {
     return ch !== '';
   });
   for (var c = 0; c < chunks.length; c++) {
-    console.log(c);
     var split = chunks[c].split('=', 2);
     obj[split[0]] = split[1];
   }
