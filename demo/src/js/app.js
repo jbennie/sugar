@@ -13,6 +13,14 @@ import unquote from '../../../js/utils/strings/unquote'
 import appendScriptTag from '../../../js/dom/appendScriptTag'
 import scriptLoaded from '../../../js/dom/scriptLoaded'
 
+import ltrim from '../../../js/utils/strings/ltrim'
+import rtrim from '../../../js/utils/strings/rtrim'
+import queryStringToObject from  '../../../js/utils/strings/queryStringToObject'
+
+
+console.log('qs', queryStringToObject('?plop=hello&world=universe'))
+
+
 // const $link = appendStylesheetLink('http://coffeekraken.io/dist/css/style.css');
 // linkLoaded($link).then(() => {
 // 	console.log('link loaded')

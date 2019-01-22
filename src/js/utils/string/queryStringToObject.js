@@ -1,3 +1,5 @@
+import ltrim from './ltrim'
+
 /**
  * Transform a query string into his object (key => pairs) representation
  * @param 	{String}  	queryString  	The query string to process
@@ -11,10 +13,15 @@
  * @see  	http://stackoverflow.com/questions/8648892/convert-url-parameters-to-a-javascript-object
  */
 export default function queryStringToObject(str) {
+  str = ltrim(str, '?')
   str = decodeURIComponent(str);
   var chunks = str.split('&'),
-      obj = {};
+	  obj = {};
+  chunks = chunks.filter((ch) => {
+	  return ch !== ''
+  })
   for(var c=0; c < chunks.length; c++) {
+	  console.log(c)
     var split = chunks[c].split('=', 2);
     obj[split[0]] = split[1];
   }
