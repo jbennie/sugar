@@ -161,14 +161,14 @@ export default class STimer {
 		if (this.remaining() <= 0) {
 			// stop the timer
 			this.stop()
-			// loop on each completes functions
-			this._completes.forEach((complete) => {
-				complete(this)
-			})
 			// check if need to loop
 			if (this._settings.loop) {
 				this.start()
 			}
+			// loop on each completes functions
+			this._completes.forEach((complete) => {
+				complete(this)
+			})
 		} else {
 			// launch another tick
 			clearTimeout(this._tickSetTimeout)
@@ -250,8 +250,6 @@ export default class STimer {
 		// stop the timeout
 		clearTimeout(this._tickSetTimeout)
 
-		console.warn('reset');
-
 		// reset the different timer elements
 		this._pauseTime = null
 		this._startTime = null
@@ -303,8 +301,6 @@ export default class STimer {
 			// save the start time
 			this._startTime = new Date()
 			this._remaining = this._duration
-
-			console.log('start')
 
 			// first time tick
 			clearTimeout(this._tickSetTimeout)
