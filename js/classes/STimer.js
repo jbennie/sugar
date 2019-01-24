@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -176,7 +176,7 @@ var STimer = function () {
 
 
 	_createClass(STimer, [{
-		key: "_tick",
+		key: '_tick',
 		value: function _tick() {
 			var _this = this;
 
@@ -185,11 +185,6 @@ var STimer = function () {
 
 			// update remaing
 			this._remaining -= this._tickInterval;
-
-			// loop on each ticks functions
-			this._ticks.forEach(function (tick) {
-				tick(_this);
-			});
 
 			// if we are at the end of the timer
 			if (this.remaining() <= 0) {
@@ -210,6 +205,11 @@ var STimer = function () {
 					_this._tick();
 				}, this._tickInterval);
 			}
+
+			// loop on each ticks functions
+			this._ticks.forEach(function (tick) {
+				tick(_this);
+			});
 		}
 
 		/**
@@ -218,7 +218,7 @@ var STimer = function () {
    */
 
 	}, {
-		key: "remaining",
+		key: 'remaining',
 		value: function remaining() {
 			return this._remaining;
 		}
@@ -230,7 +230,7 @@ var STimer = function () {
    */
 
 	}, {
-		key: "duration",
+		key: 'duration',
 		value: function duration() {
 			var _duration = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
@@ -250,7 +250,7 @@ var STimer = function () {
    */
 
 	}, {
-		key: "tickCount",
+		key: 'tickCount',
 		value: function tickCount() {
 			var _tickCount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
@@ -267,7 +267,7 @@ var STimer = function () {
    */
 
 	}, {
-		key: "onTick",
+		key: 'onTick',
 		value: function onTick(fn) {
 			// add the function if not already
 			if (this._ticks.indexOf(fn) !== -1) return;
@@ -281,7 +281,7 @@ var STimer = function () {
    */
 
 	}, {
-		key: "onComplete",
+		key: 'onComplete',
 		value: function onComplete(fn) {
 			// add the function if not already
 			if (this._completes.indexOf(fn) !== -1) return;
@@ -295,13 +295,15 @@ var STimer = function () {
    */
 
 	}, {
-		key: "reset",
+		key: 'reset',
 		value: function reset() {
 			var start = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
 
 			// stop the timeout
 			clearTimeout(this._tickSetTimeout);
+
+			console.warn('reset');
 
 			// reset the different timer elements
 			this._pauseTime = null;
@@ -321,7 +323,7 @@ var STimer = function () {
    */
 
 	}, {
-		key: "start",
+		key: 'start',
 		value: function start() {
 			var _this2 = this;
 
@@ -351,12 +353,17 @@ var STimer = function () {
 					_this2._tick();
 				}, remaining);
 
+				// set the start time
+				this._startTime = new Date();
+
 				// reset pauseTime
 				this._pauseTime = null;
 			} else {
 				// save the start time
 				this._startTime = new Date();
 				this._remaining = this._duration;
+
+				console.log('start');
 
 				// first time tick
 				clearTimeout(this._tickSetTimeout);
@@ -375,7 +382,7 @@ var STimer = function () {
    */
 
 	}, {
-		key: "pause",
+		key: 'pause',
 		value: function pause() {
 
 			// set the pauseTime
@@ -394,7 +401,7 @@ var STimer = function () {
    */
 
 	}, {
-		key: "stop",
+		key: 'stop',
 		value: function stop() {
 			// reset
 			this.reset();
@@ -408,7 +415,7 @@ var STimer = function () {
    */
 
 	}, {
-		key: "destroy",
+		key: 'destroy',
 		value: function destroy() {
 			this.stop();
 			this._completes = [];
@@ -421,7 +428,7 @@ var STimer = function () {
    */
 
 	}, {
-		key: "isStarted",
+		key: 'isStarted',
 		value: function isStarted() {
 			return this._startTime && !this._pauseTime;
 		}
