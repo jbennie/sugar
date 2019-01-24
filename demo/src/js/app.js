@@ -10,6 +10,8 @@ import querySelectorAllWithStyle from '../../../js/dom/querySelectorAllWithStyle
 import backgroundImageLoaded from '../../../js/dom/backgroundImageLoaded'
 import unquote from '../../../js/utils/strings/unquote'
 
+import STimer from '../../../js/classes/STimer'
+
 import appendScriptTag from '../../../js/dom/appendScriptTag'
 import scriptLoaded from '../../../js/dom/scriptLoaded'
 
@@ -18,7 +20,7 @@ import rtrim from '../../../js/utils/strings/rtrim'
 import queryStringToObject from  '../../../js/utils/strings/queryStringToObject'
 
 
-console.log('qs', queryStringToObject('?plop=hello&world=universe'))
+// console.log('qs', queryStringToObject('?plop=hello&world=universe'))
 
 
 // const $link = appendStylesheetLink('http://coffeekraken.io/dist/css/style.css');
@@ -35,9 +37,22 @@ console.log('qs', queryStringToObject('?plop=hello&world=universe'))
 // 	console.log('loaded')
 // })
 
-console.log('unquote "', unquote('"Hello World"'))
-console.log('unquote \'', unquote("'Hello World'"))
-console.log('unquote ”', unquote('”Hello World”'))
+// console.log('unquote "', unquote('"Hello World"'))
+// console.log('unquote \'', unquote("'Hello World'"))
+// console.log('unquote ”', unquote('”Hello World”'))
+
+const timer = new STimer(1000, {
+	loop: true
+})
+let i = 0
+timer.onTick(() => {
+	console.log('tick', i)
+	if (i >= 5) {
+		timer.pause()
+	}
+	i++
+})
+timer.start()
 
 class MyComponentClass extends SWebComponent {
 	static get defaultProps() {
