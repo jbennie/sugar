@@ -1,7 +1,7 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+	value: true
 });
 exports.default = keysLast;
 
@@ -25,14 +25,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @author    Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 function keysLast(array, keys) {
-  // add the keys at start
-  var res = [].concat(array).concat(keys);
-  // reverse the array
-  res = res.reverse();
-  // remove double items
-  res = (0, _uniq2.default)(res);
-  // reverse back the array
-  res = res.reverse();
-  // return the result
-  return res;
+	// all the keys has to exist in the array stack
+	// otherwise we filter it out
+	keys = keys.filter(function (key) {
+		return array.indexOf(key) !== -1;
+	});
+	// add the keys at start
+	var res = [].concat(array).concat(keys);
+	// reverse the array
+	res = res.reverse();
+	// remove double items
+	res = (0, _uniq2.default)(res);
+	// reverse back the array
+	res = res.reverse();
+	// return the result
+	return res;
 }

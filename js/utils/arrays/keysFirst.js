@@ -25,6 +25,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @author    Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 function keysFirst(array, keys) {
+  // all the keys has to exist in the array stack
+  // otherwise we filter it out
+  keys = keys.filter(function (key) {
+    return array.indexOf(key) !== -1;
+  });
   // add the keys at start
   var res = [].concat(keys).concat(array);
   // remove double items
