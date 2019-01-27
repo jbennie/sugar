@@ -19,8 +19,12 @@ import ltrim from '../../../js/utils/strings/ltrim'
 import rtrim from '../../../js/utils/strings/rtrim'
 import queryStringToObject from  '../../../js/utils/strings/queryStringToObject'
 
+import keysFirst from '../../../js/utils/arrays/keysFirst'
+import keysLast from '../../../js/utils/arrays/keysLast'
 
 // console.log('qs', queryStringToObject('?plop=hello&world=universe'))
+
+console.log(keysLast(['a','b','d','g','c'], ['d','g']))
 
 
 // const $link = appendStylesheetLink('http://coffeekraken.io/dist/css/style.css');
