@@ -977,6 +977,22 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	}
 
 	/**
+	 * Get the previous props stack
+	 * @return    {Object}    The previous props stack
+	 */
+	getPreviousPropsStack() {
+		return this._prevPropsStack
+	}
+
+	/**
+	 * Get the next props stack
+	 * @return    {Object}    The next props stack
+	 */
+	getNextPropsStack() {
+		return this._nextPropsStack
+	}
+
+	/**
 	 * Method called when the component will receive new props
 	 * @param 		{String} 		prop 		The property name
 	 * @param 		{Mixed} 		newVal 		The new property value
