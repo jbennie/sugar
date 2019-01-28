@@ -22,6 +22,10 @@ import queryStringToObject from  '../../../js/utils/strings/queryStringToObject'
 import keysFirst from '../../../js/utils/arrays/keysFirst'
 import keysLast from '../../../js/utils/arrays/keysLast'
 
+import isSamsumgBrowser from '../../../js/utils/is/samsungBrowser'
+
+console.log('isSamsungBrowser', isSamsumgBrowser())
+
 // console.log('qs', queryStringToObject('?plop=hello&world=universe'))
 
 console.log(keysFirst(['a','b','d','g','c'], ['d','g','z','y']))

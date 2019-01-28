@@ -3,9 +3,11 @@ import '@ungap/custom-elements-builtin'
 import isSafari from '../utils/is/safari'
 import { mix } from '../vendors/mixwith'
 import SWebComponentMixin from './SWebComponentMixin'
+import isSamsumgBrowser from '../utils/is/samsungBrowser'
+import isUcBrowser from '../utils/is/ucBrowser'
 export default function sNativeWebComponent(HTMLElementToExtend) {
 
-	if (!isSafari()) {
+	if (!isSafari() && !isSamsumgBrowser() && !isUcBrowser()) {
 		HTMLElementToExtend = (function (OriginalHTMLElement) {
 			function BabelHTMLElement()
 			{
