@@ -382,6 +382,20 @@ prop  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refer
 Return **{ Mixed }** The property value or null
 
 
+### getPreviousPropsStack
+
+Get the previous props stack
+
+Return **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }** The previous props stack
+
+
+### getNextPropsStack
+
+Get the next props stack
+
+Return **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }** The next props stack
+
+
 ### componentWillReceiveProp
 
 Method called when the component will receive new props

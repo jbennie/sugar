@@ -1150,6 +1150,28 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			}
 
 			/**
+    * Get the previous props stack
+    * @return    {Object}    The previous props stack
+    */
+
+		}, {
+			key: 'getPreviousPropsStack',
+			value: function getPreviousPropsStack() {
+				return this._prevPropsStack;
+			}
+
+			/**
+    * Get the next props stack
+    * @return    {Object}    The next props stack
+    */
+
+		}, {
+			key: 'getNextPropsStack',
+			value: function getNextPropsStack() {
+				return this._nextPropsStack;
+			}
+
+			/**
     * Method called when the component will receive new props
     * @param 		{String} 		prop 		The property name
     * @param 		{Mixed} 		newVal 		The new property value
