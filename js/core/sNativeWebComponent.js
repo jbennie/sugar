@@ -19,11 +19,19 @@ var _SWebComponentMixin = require('./SWebComponentMixin');
 
 var _SWebComponentMixin2 = _interopRequireDefault(_SWebComponentMixin);
 
+var _samsungBrowser = require('../utils/is/samsungBrowser');
+
+var _samsungBrowser2 = _interopRequireDefault(_samsungBrowser);
+
+var _ucBrowser = require('../utils/is/ucBrowser');
+
+var _ucBrowser2 = _interopRequireDefault(_ucBrowser);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function sNativeWebComponent(HTMLElementToExtend) {
 
-	if (!(0, _safari2.default)()) {
+	if (!(0, _safari2.default)() && !(0, _samsungBrowser2.default)() && !(0, _ucBrowser2.default)()) {
 		HTMLElementToExtend = function (OriginalHTMLElement) {
 			function BabelHTMLElement() {
 				if (typeof Reflect == 'undefined' || typeof Reflect.construct != 'function' || typeof customElements == 'undefined') {
