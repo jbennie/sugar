@@ -21,7 +21,7 @@ function constrain(value) {
   var min = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
   var max = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
-  if (min && value < min) value = min;
-  if (max && value > max) value = max;
+  if (min !== null && value < min) value = min;
+  if (max !== null && value > max) value = max;
   return value;
 }

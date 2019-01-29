@@ -12,9 +12,9 @@
  * @author    Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function constrain(value, min = null, max = null) {
-	if (min && value < min)
+	if (min !== null && value < min)
 		value = min
-	if (max && value > max)
+	if (max !== null && value > max)
 		value = max
 	return value
 }
