@@ -480,7 +480,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	createdCallback() {
 
 		// props
-		this.props = {};
+		this.props = this.props || {};
 
 		// track the lifecyle
 		this._lifecycle = {
@@ -517,7 +517,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		this.componentName = this._componentName = __upperFirst(__camelize(sourceName));
 
 		// default props init
-		this._props = Object.assign({}, this.defaultProps, this.props);
+		this._props = Object.assign({}, this.defaultProps, this._props || {}, this.props);
 
 		// if we have some initial props, we set them now
 		if (this._initialProps) this.setProps(this._initialProps)

@@ -587,7 +587,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			value: function createdCallback() {
 
 				// props
-				this.props = {};
+				this.props = this.props || {};
 
 				// track the lifecyle
 				this._lifecycle = {
@@ -628,7 +628,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				this.componentName = this._componentName = (0, _upperFirst2.default)((0, _camelize2.default)(sourceName));
 
 				// default props init
-				this._props = Object.assign({}, this.defaultProps, this.props);
+				this._props = Object.assign({}, this.defaultProps, this._props || {}, this.props);
 
 				// if we have some initial props, we set them now
 				if (this._initialProps) this.setProps(this._initialProps);
