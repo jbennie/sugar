@@ -330,6 +330,13 @@ Method called when the component need to unmount itself cause it has been remove
 Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)
 
 
+### //
+
+Init props proxy.
+This will create a getter/setter accessor on the item itself
+that get and update his corresponding props.{name} property
+
+
 ### dispatchComponentEvent
 
 Dispatch an event from the tag with namespaced event name
