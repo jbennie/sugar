@@ -572,7 +572,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		this._initInitialAttributes();
 
 		// props proxy
-		this._initPropsProxy();
+		// this._initPropsProxy();
 
 		// check the required props
 		this.requiredProps.forEach((prop) => {
@@ -776,28 +776,28 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 * This will create a getter/setter accessor on the item itself
 	 * that get and update his corresponding props.{name} property
 	 */
-	_initPropsProxy() {
-		// loop on each props
-		for(let key in this.defaultProps) {
-			if (this.hasOwnProperty(key) || key in this) {
-				if (this.props.debug) {
-					console.warn(`The component ${this.componentNameDash} has already an "${key}" property... This property will not reflect the this.props['${key}'] value... Try to use a property name that does not already exist on an HTMLElement...`);
-				}
-				continue;
-			}
-			((key) => {
-				Object.defineProperty(this, key, {
-					get : () => {
-						return this.props[key];
-					},
-					set : (value) => {
-						this.setProp(key, __autoCast(value));
-					},
-					enumarable : true
-				});
-			})(key);
-		}
-	}
+	// _initPropsProxy() {
+	// 	// loop on each props
+	// 	for(let key in this.defaultProps) {
+	// 		if (this.hasOwnProperty(key) || key in this) {
+	// 			if (this.props.debug) {
+	// 				console.warn(`The component ${this.componentNameDash} has already an "${key}" property... This property will not reflect the this.props['${key}'] value... Try to use a property name that does not already exist on an HTMLElement...`);
+	// 			}
+	// 			continue;
+	// 		}
+	// 		((key) => {
+	// 			Object.defineProperty(this, key, {
+	// 				get : () => {
+	// 					return this.props[key];
+	// 				},
+	// 				set : (value) => {
+	// 					this.setProp(key, __autoCast(value));
+	// 				},
+	// 				enumarable : true
+	// 			});
+	// 		})(key);
+	// 	}
+	// }
 
 	/**
 	 * On mouse over
