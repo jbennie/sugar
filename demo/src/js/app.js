@@ -26,6 +26,11 @@ import isSamsumgBrowser from "../../../js/utils/is/samsungBrowser";
 
 import sprintf from "../../../js/utils/strings/sprintf";
 
+import isOdd from "../../../js/utils/is/odd";
+
+console.log("isOdd 1", isOdd(1));
+console.log("isOdd 2", isOdd(2));
+
 console.log("isSamsungBrowser", isSamsumgBrowser());
 
 console.log(sprintf("Hello %s", "World"));
