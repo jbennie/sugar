@@ -1,7 +1,7 @@
 {
   "name": "coffeekraken-sugar",
   "description": "A little sugar in your codebase",
-  "version": "1.0.58",
+  "version": "1.0.59",
   "homepage": "http://coffekraken.io",
   "main": "index.js",
   "watch": {
