@@ -10,6 +10,9 @@ import querySelectorAllWithStyle from "../../../js/dom/querySelectorAllWithStyle
 import backgroundImageLoaded from "../../../js/dom/backgroundImageLoaded";
 import unquote from "../../../js/utils/strings/unquote";
 
+import wrap from "../../../src/js/dom/wrap";
+import wrapInner from "../../../src/js/dom/wrapInner";
+
 import STimer from "../../../js/classes/STimer";
 
 import appendScriptTag from "../../../js/dom/appendScriptTag";
@@ -57,6 +60,12 @@ console.log(keysFirst(["a", "b", "d", "g", "c"], ["d", "g", "z", "y"]));
 // console.log('unquote "', unquote('"Hello World"'))
 // console.log('unquote \'', unquote("'Hello World'"))
 // console.log('unquote ”', unquote('”Hello World”'))
+
+const $wrapInner = document.querySelector(".wrapInner");
+wrapInner($wrapInner, document.createElement("article"));
+
+const $wrap = document.querySelector(".wrap");
+wrap($wrap, document.createElement("article"));
 
 const timer = new STimer(1000, {
 	loop: true
