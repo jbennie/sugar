@@ -1,4 +1,5 @@
 import "babel-polyfill";
+import native from "../../../js/core/sNativeWebComponent";
 import SWebComponent from "../../../js/core/SWebComponent";
 import toggleFullscreen from "../../../js/dom/toggleFullscreen";
 import detectInOutDirection from "../../../js/dom/detectInOutDirection";
@@ -60,6 +61,14 @@ console.log(keysFirst(["a", "b", "d", "g", "c"], ["d", "g", "z", "y"]));
 // console.log('unquote "', unquote('"Hello World"'))
 // console.log('unquote \'', unquote("'Hello World'"))
 // console.log('unquote ”', unquote('”Hello World”'))
+
+class MyAnchorComponent extends native(HTMLAnchorElement) {
+	componentMount() {
+		super.componentMount();
+		this.innerHTML = "PLOP LINK";
+	}
+}
+MyAnchorComponent.define("my-anchor", MyAnchorComponent, "a");
 
 const $wrapInner = document.querySelector(".wrapInner");
 wrapInner($wrapInner, document.createElement("article"));
