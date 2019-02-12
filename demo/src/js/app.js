@@ -95,10 +95,6 @@ class MyComponentClass extends SWebComponent {
 	static defaultCss(componentName, componentNameDash) {
 		return `${componentNameDash} { content: 'hello world'; }`;
 	}
-	componentMount() {
-		super.componentMount();
-		this.innerHTML = "EEFEFEFE";
-	}
 }
 const MyComponent = MyComponentClass.define("my-component");
 
