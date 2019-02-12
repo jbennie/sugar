@@ -1,7 +1,7 @@
 {
   "name": "coffeekraken-sugar",
   "description": "A little sugar in your codebase",
-  "version": "1.0.62",
+  "version": "1.0.63",
   "homepage": "http://coffekraken.io",
   "main": "index.js",
   "watch": {
@@ -52,8 +52,9 @@
     ]
   },
   "dependencies": {
-    "@webcomponents/webcomponentsjs": "^2.2.7",
+    "@ungap/custom-elements-builtin": "^0.1.2",
     "custom-event": "^1.0.0",
+    "document-register-element": "^1.13.1",
     "domready": "^1.0.8",
     "es6-object-assign": "^1.1.0",
     "fastdom": "^1.0.5",
@@ -82,7 +83,7 @@
     "http-server": "^0.11.1",
     "jest": "^23.6.0",
     "node-sass": "^4.0.0",
-    "webpack": "^4.28.3",
-    "webpack-cli": "^3.2.1"
+    "webpack": "^4.29.3",
+    "webpack-cli": "^3.2.3"
   }
 }
