@@ -7,13 +7,11 @@ import isSamsumgBrowser from "../utils/is/samsungBrowser";
 import isUcBrowser from "../utils/is/ucBrowser";
 const extendsStack = {};
 export default function sNativeWebComponent(HTMLElementToExtend) {
-	if (
-		!isSafari() &&
-		!isSamsumgBrowser() &&
-		!isUcBrowser() &&
-	) {
+	if (!isSafari() && !isSamsumgBrowser() && !isUcBrowser()) {
 		HTMLElementToExtend = (function(OriginalHTMLElement) {
-			if (extendsStack[OriginalHTMLElement.name]) return extendsStack[OriginalHTMLElement.name]
+			if (!window[OriginalHTMLElement.name]) return OriginalHTMLElement;
+			if (extendsStack[OriginalHTMLElement.name])
+				return extendsStack[OriginalHTMLElement.name];
 			function BabelHTMLElement() {
 				if (
 					typeof Reflect == "undefined" ||
