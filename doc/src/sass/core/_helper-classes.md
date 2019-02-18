@@ -42,6 +42,7 @@ This file is responsible to register the static helper classes like:
 - sugar.size.abs.cover : ```.abs-cover```
 - sugar.size.abs.contain : ```.abs-contain```
 - sugar.size.abs.fit : ```.abs-fit```
+- sugar.media.object : ```.mo .mo--center .mo--end .mo__content```
 - sugar.clearfix.default : ```.clearfix```
 - sugar.clearfix.float : ```.clearfix-float```
 - sugar.clearfix.micro : ```.clearfix-micro```

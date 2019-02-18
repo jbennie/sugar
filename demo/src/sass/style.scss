@@ -2,6 +2,8 @@
 
 @include s-init();
 
+@include s-classes();
+
 .coffeekraken-logo {
 	@include s-coffeekraken-logo(primary, secondary);
 	background-size: cover;

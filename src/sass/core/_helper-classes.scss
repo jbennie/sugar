@@ -42,6 +42,7 @@
  * - sugar.size.abs.cover : ```.abs-cover```
  * - sugar.size.abs.contain : ```.abs-contain```
  * - sugar.size.abs.fit : ```.abs-fit```
+ * - sugar.media.object : ```.mo .mo--center .mo--end .mo__content```
  * - sugar.clearfix.default : ```.clearfix```
  * - sugar.clearfix.float : ```.clearfix-float```
  * - sugar.clearfix.micro : ```.clearfix-micro```
@@ -558,6 +559,41 @@
 	@include s-size(fit,
 		$position : absolute
 	);
+}
+
+//
+// Media object
+//
+@include s-register-helper-class(mo, 'sugar.media.object') {
+	/**
+	 * @name 		```.mo .mo--center .mo__content```
+	 * Famous media object class
+	 * @styleguide 	Helpers / Media object
+	 * @example 	html
+	 * <div class="mo">
+	 *   <div class="mo__content">
+	 *     <img src="https://source.unsplash.com/random/100x100" />
+	 *   </div>
+	 *   <div class="mo__content">
+	 *     <h2 class="h3">Hello World</h2>
+	 *     <p class="p">Phasellus fringilla aliquet justo eget pulvinar. Donec in justo leo.</p>
+	 *   </div>
+	 * </div>
+	 */
+	display: flex;
+	flex-wrap: nowrap;
+
+	@at-root {
+		.mo--center {
+			align-items: center;
+		}
+		.mo--end {
+			align-items: flex-end;
+		}
+		.mo__content {
+			flex: 0 1 auto;
+		}
+	}
 }
 
 

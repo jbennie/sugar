@@ -70,24 +70,24 @@ class MyAnchorComponent extends native(HTMLAnchorElement) {
 }
 MyAnchorComponent.define("my-anchor", MyAnchorComponent, "a");
 
-const $wrapInner = document.querySelector(".wrapInner");
-wrapInner($wrapInner, document.createElement("article"));
+// const $wrapInner = document.querySelector(".wrapInner");
+// wrapInner($wrapInner, document.createElement("article"));
 
-const $wrap = document.querySelector(".wrap");
-wrap($wrap, document.createElement("article"));
+// const $wrap = document.querySelector(".wrap");
+// wrap($wrap, document.createElement("article"));
 
-const timer = new STimer(1000, {
-	loop: true
-});
-let i = 0;
-timer.onTick(() => {
-	console.log("tick", i);
-	if (i >= 5) {
-		timer.pause();
-	}
-	i++;
-});
-timer.start();
+// const timer = new STimer(1000, {
+// 	loop: true
+// });
+// let i = 0;
+// timer.onTick(() => {
+// 	console.log("tick", i);
+// 	if (i >= 5) {
+// 		timer.pause();
+// 	}
+// 	i++;
+// });
+// timer.start();
 
 class MyComponentClass extends SWebComponent {
 	static get defaultProps() {
@@ -119,28 +119,28 @@ setTimeout(() => {
 	}, 1000);
 }, 1000);
 
-const detectInOutDirectionElm = document.querySelector("#detectInOutDirection");
-detectInOutDirection(
-	detectInOutDirectionElm,
-	(direction, elm) => {
-		addAnimationClass(elm, `in-${direction}`);
-	},
-	(direction, elm) => {
-		addAnimationClass(elm, `in-${direction}`);
-	}
-);
+// const detectInOutDirectionElm = document.querySelector("#detectInOutDirection");
+// detectInOutDirection(
+// 	detectInOutDirectionElm,
+// 	(direction, elm) => {
+// 		addAnimationClass(elm, `in-${direction}`);
+// 	},
+// 	(direction, elm) => {
+// 		addAnimationClass(elm, `in-${direction}`);
+// 	}
+// );
 
-const fullscreenElm = document.querySelector("#fullscreen");
-fullscreenElm.addEventListener("click", e => {
-	toggleFullscreen(fullscreenElm);
-});
+// const fullscreenElm = document.querySelector("#fullscreen");
+// fullscreenElm.addEventListener("click", e => {
+// 	toggleFullscreen(fullscreenElm);
+// });
 
-const $elms = querySelectorAllWithStyle("*", {
-	backgroundImage: /^url/
-});
-$elms.forEach($elm => {
-	backgroundImageLoaded($elm).then(() => {
-		console.log("loaded!!!");
-	});
-});
-console.log("querySelectorAllWithStyle", $elms);
+// const $elms = querySelectorAllWithStyle("*", {
+// 	backgroundImage: /^url/
+// });
+// $elms.forEach($elm => {
+// 	backgroundImageLoaded($elm).then(() => {
+// 		console.log("loaded!!!");
+// 	});
+// });
+// console.log("querySelectorAllWithStyle", $elms);
