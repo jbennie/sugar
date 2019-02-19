@@ -13,6 +13,8 @@ Supported actions :
 - invert {Boolean}
 - opacity {Percent}
 - mix {Color}
+- lightness {Percent}
+- saturation {Percent}
 
 
 

@@ -91,6 +91,8 @@ Here the list of the supported modifiers:
 - **invert** {boolean} : Set if we want to invert the color
 - **opacity** {0-1} : Set the opacity wanted
 - **mix** {color} : Mix the color with another
+- **lightness** {percent} : Set the absolute lightness value of the color
+- **saturation** {percent} : Set the absolute saturation value of the color
 
 ## Helper classes
 
