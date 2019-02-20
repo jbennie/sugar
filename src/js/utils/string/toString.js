@@ -39,11 +39,16 @@ export default function toString(value) {
 	} else if (value === undefined) {
 		return "undefined";
 	} else {
+		let returnVal;
 		try {
-			value.toString();
+			returnVal = JSON.stringify(value);
 		} catch (e) {
-			return value;
+			try {
+				returnVal = value.toString();
+			} catch (e) {
+				return value;
+			}
 		}
-		return value.toString();
+		return returnVal;
 	}
 }
