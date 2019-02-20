@@ -32,6 +32,20 @@ import sprintf from "../../../js/utils/strings/sprintf";
 
 import isOdd from "../../../js/utils/is/odd";
 
+import toString from "../../../js/utils/strings/toString";
+
+function coco() {
+	console.log("coco");
+}
+const cocoObj = {
+	id: "Hello World",
+	coco: "PLop"
+};
+
+console.log("toString function", toString(coco));
+console.log("toString object", toString(cocoObj));
+console.log("toString boolean", toString(true));
+
 console.log("isOdd 1", isOdd(1));
 console.log("isOdd 2", isOdd(2));
 
