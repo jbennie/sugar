@@ -70,11 +70,16 @@ function toString(value) {
 	} else if (value === undefined) {
 		return "undefined";
 	} else {
+		var returnVal = void 0;
 		try {
-			value.toString();
+			returnVal = JSON.stringify(value);
 		} catch (e) {
-			return value;
+			try {
+				returnVal = value.toString();
+			} catch (e) {
+				return value;
+			}
 		}
-		return value.toString();
+		return returnVal;
 	}
 }

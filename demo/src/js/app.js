@@ -41,7 +41,9 @@ const cocoObj = {
 	id: "Hello World",
 	coco: "PLop"
 };
+const proxyObj = new Proxy(cocoObj, {});
 
+console.log("toString proxy", toString(proxyObj));
 console.log("toString function", toString(coco));
 console.log("toString object", toString(cocoObj));
 console.log("toString boolean", toString(true));
