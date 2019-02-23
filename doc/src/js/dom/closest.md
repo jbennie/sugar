@@ -19,5 +19,9 @@ const closestElm = closest(myCoolElement, '.my-cool-class');
 if (closestElm) {
 		// we have found en element that matches the selector
 }
+// the selector param can be a function that need to return either true or false like so:
+closest(myCoolElement, (elm) => {
+  return elm.hasAttribute('my-cool-attribute')
+})
 ```
 Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)

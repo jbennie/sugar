@@ -1,4 +1,4 @@
-import isVisible from './isVisible'
+import isVisible from "./isVisible";
 
 /**
  * Go up the dom three to find the first element that is not visible.
@@ -10,21 +10,21 @@ import isVisible from './isVisible'
  *
  * @example  	js
  * import closestNotVisible from 'sugarcss/js/dom/closestNotVisible'
- * const closestElm = closest(myCoolElement);
+ * const closestElm = closestNotVisible(myCoolElement);
  * if (closestElm) {
- * 		// we have found en element is not visible
+ * 		// we have found en element that is not visible
  * }
  *
  * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function closestNotVisible(elm) {
+	const originalElm = elm;
 	elm = elm.parentNode;
-	while(elm && elm != document) {
-		if ( ! isVisible(elm)) {
+	while (elm && elm != originalElm.ownerDocument) {
+		if (!isVisible(elm)) {
 			return elm;
 		}
 		elm = elm.parentNode;
 	}
-	return false;
+	return null;
 }
-window.__closestNotVisible = closestNotVisible;

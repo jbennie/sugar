@@ -1,11 +1,11 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = closestNotVisible;
 
-var _isVisible = require('./isVisible');
+var _isVisible = require("./isVisible");
 
 var _isVisible2 = _interopRequireDefault(_isVisible);
 
@@ -21,21 +21,21 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  * @example  	js
  * import closestNotVisible from 'sugarcss/js/dom/closestNotVisible'
- * const closestElm = closest(myCoolElement);
+ * const closestElm = closestNotVisible(myCoolElement);
  * if (closestElm) {
- * 		// we have found en element is not visible
+ * 		// we have found en element that is not visible
  * }
  *
  * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 function closestNotVisible(elm) {
+  var originalElm = elm;
   elm = elm.parentNode;
-  while (elm && elm != document) {
+  while (elm && elm != originalElm.ownerDocument) {
     if (!(0, _isVisible2.default)(elm)) {
       return elm;
     }
     elm = elm.parentNode;
   }
-  return false;
+  return null;
 }
-window.__closestNotVisible = closestNotVisible;
