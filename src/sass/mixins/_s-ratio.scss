@@ -3,7 +3,6 @@
  * The content need to be displayed as absolute top left and fit in size.
  *
  * @param 		{Number} 		$ratio 			The ratio to keep like 16/9, etc...
- * @param 		{String} 		[$type=before] 	The type of ratio to apply. Can be before or after
  *
  * @example 	scss
  * .my-cool-element {
@@ -13,20 +12,21 @@
  * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 @mixin s-ratio(
-	$ratio,
-	$type : before
+	$ratio
 ) {
 	@if $_sugar-test-arguments {
-		$type : s-test-argument('s-ratio','type',(before,after),$type);
 		$ratio : s-test-argument('s-ratio','ratio',number,$ratio);
 	}
 
 	position: relative;
-	overflow: hidden;
-	&:#{$type} {
-		content:'';
-		display: block;
-		height: 0;
+	&::before {
+		content: '';
 		padding-top: percentage(1 / $ratio);
+		float: left;
+	}
+	&::after {
+		content: '';
+		display: block;
+		clear: both;
 	}
 }

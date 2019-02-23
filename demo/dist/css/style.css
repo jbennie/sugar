@@ -426,7 +426,6 @@
  * The content need to be displayed as absolute top left and fit in size.
  *
  * @param 		{Number} 		$ratio 			The ratio to keep like 16/9, etc...
- * @param 		{String} 		[$type=before] 	The type of ratio to apply. Can be before or after
  *
  * @example 	scss
  * .my-cool-element {
@@ -2328,14 +2327,18 @@
 	 * <div class="bkg-primary ratio-21-9"></div>
 	 */
   position: relative;
-  overflow: hidden;
 }
 
-.ratio-21-9:before {
+.ratio-21-9::before {
+  content: '';
+  padding-top: 42.85714%;
+  float: left;
+}
+
+.ratio-21-9::after {
   content: '';
   display: block;
-  height: 0;
-  padding-top: 42.85714%;
+  clear: both;
 }
 
 .ratio-16-9 {
@@ -2347,14 +2350,18 @@
 	 * <div class="bkg-primary ratio-16-9"></div>
 	 */
   position: relative;
-  overflow: hidden;
 }
 
-.ratio-16-9:before {
+.ratio-16-9::before {
+  content: '';
+  padding-top: 56.25%;
+  float: left;
+}
+
+.ratio-16-9::after {
   content: '';
   display: block;
-  height: 0;
-  padding-top: 56.25%;
+  clear: both;
 }
 
 .ratio-4-3 {
@@ -2366,14 +2373,18 @@
 	 * <div class="bkg-primary ratio-4-3"></div>
 	 */
   position: relative;
-  overflow: hidden;
 }
 
-.ratio-4-3:before {
+.ratio-4-3::before {
+  content: '';
+  padding-top: 75%;
+  float: left;
+}
+
+.ratio-4-3::after {
   content: '';
   display: block;
-  height: 0;
-  padding-top: 75%;
+  clear: both;
 }
 
 .ratio-1-1 {
@@ -2385,14 +2396,18 @@
 	 * <div class="bkg-primary ratio-1-1"></div>
 	 */
   position: relative;
-  overflow: hidden;
 }
 
-.ratio-1-1:before {
+.ratio-1-1::before {
+  content: '';
+  padding-top: 100%;
+  float: left;
+}
+
+.ratio-1-1::after {
   content: '';
   display: block;
-  height: 0;
-  padding-top: 100%;
+  clear: both;
 }
 
 .no-transitions {
