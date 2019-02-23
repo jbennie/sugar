@@ -15,9 +15,9 @@ Return **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLEleme
 ### Example
 ```js
 	import closestNotVisible from 'sugarcss/js/dom/closestNotVisible'
-const closestElm = closest(myCoolElement);
+const closestElm = closestNotVisible(myCoolElement);
 if (closestElm) {
-		// we have found en element is not visible
+		// we have found en element that is not visible
 }
 ```
 Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)
