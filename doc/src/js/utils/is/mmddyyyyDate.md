@@ -1,4 +1,4 @@
-# isMmddYyyyDate
+# isMmddyyyyDate
 
 Check if is a valid mm.dd.yyyy date
 This will match : mm.dd.yyyy | mm/dd/yyyy | mm-dd-yyyy | mm dd yyyy
