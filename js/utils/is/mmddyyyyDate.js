@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = isMmddYyyyDate;
+exports.default = isMmddyyyyDate;
 /**
  * Check if is a valid mm.dd.yyyy date
  * This will match : mm.dd.yyyy | mm/dd/yyyy | mm-dd-yyyy | mm dd yyyy
@@ -17,7 +17,7 @@ exports.default = isMmddYyyyDate;
  *
  * @author    Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
-function isMmddYyyyDate(date) {
+function isMmddyyyyDate(date) {
   return (/^(0[1-9]|1[012])[- \/.](0[1-9]|[12][0-9]|3[01])[- \/.]\d\d\d\d$/.test(date)
   );
 }
