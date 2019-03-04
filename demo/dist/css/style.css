@@ -1,5 +1,19 @@
 @charset "UTF-8";
 /**
+ * Get an icon in base64 url encoded format
+ * Available icons:
+ * - search
+ * - arrow-down
+ * - angle-down
+ * - angle-up
+ * - angle-left
+ * - angle-right
+ *
+ * @param    {String}    $icon    The icon name wanted
+ * @param    {String}    [$color="default"]    The color wanted
+ * @author    Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
+ */
+/**
  * Parse and return the Map respresentation of a border property
  * The $border argument will be parsed with the [s-parse-properties](../core/functions/_s-parse-properties.scss) function.
  *
@@ -433,6 +447,13 @@
  * }
  *
  * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
+ */
+/**
+ * Register a new icon to be used as base64 encoded url.
+ * If you want your icon to be colorable, you need to specify this code on your paths: `style="fill:%color"`
+ * @param    {String}    $name    The icon name
+ * @param    {String}    $svgCode    The icons svg code
+ * @author    Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 /**
  * Print out a reset css
@@ -4232,6 +4253,11 @@ body {
 				 */
 .bkg-info {
   background-color: #2199e8;
+}
+
+#fullscreen {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg width='1792' height='1792' viewBox='0 0 1792 1792' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath style='fill:%23848e91' d='M1203 544q0 13-10 23l-393 393 393 393q10 10 10 23t-10 23l-50 50q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l50 50q10 10 10 23z'/%3E%3C/svg%3E");
+  background-size: 10px;
 }
 
 .coffeekraken-logo {
