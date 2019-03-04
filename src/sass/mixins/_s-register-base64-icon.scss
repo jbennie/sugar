@@ -1,0 +1,22 @@
+/**
+ * Register a new icon to be used as base64 encoded url.
+ * If you want your icon to be colorable, you need to specify this code on your paths: `style="fill:%color"`
+ * @param    {String}    $name    The icon name
+ * @param    {String}    $svgCode    The icons svg code
+ * @author    Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
+ */
+@mixin s-register-base64-icon(
+	$name,
+	$svgCode
+) {
+	// check if the icon exist
+	@if map-has-key($_s-base64-icons, $name) {
+		@error("An icon named \"#{$name}\" already exist. Please choose another name for your icon...");
+	}
+
+	// register the new icon
+	$newMap : map-set($_s-base64-icons, $name, $svgCode);
+
+	// save the new map
+	$_s-base64-icons: $newMap !global;
+}

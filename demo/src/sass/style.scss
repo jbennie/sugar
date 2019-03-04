@@ -4,6 +4,11 @@
 
 @include s-classes();
 
+#fullscreen {
+	background-image: url(s-base64-icon(angle-left));
+	background-size: 10px;
+}
+
 .coffeekraken-logo {
 	@include s-coffeekraken-logo(primary, secondary);
 	background-size: cover;
