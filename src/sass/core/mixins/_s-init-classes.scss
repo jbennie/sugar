@@ -427,7 +427,7 @@ $_sugar-classes-inited : false;
 					$classname : $cls,
 					$namespace : 'sugar.color.#{$name}.color'
 				) {
-					color : s-color($color);
+					color : s-color($name);
 				}
 				$cls : unquote("bkg-#{$name}");
 				/**
@@ -443,7 +443,7 @@ $_sugar-classes-inited : false;
 					$classname : $cls,
 					$namespace : 'sugar.color.#{$name}.bkg'
 				) {
-					background-color : s-color($color);
+					background-color : s-color($name);
 				}
 
 				$cls : unquote("b-#{$name}");
@@ -460,7 +460,7 @@ $_sugar-classes-inited : false;
 					$classname : $cls,
 					$namespace : 'sugar.border.#{$name}.all'
 				) {
-					border : s-rem(1px) solid s-color($color);
+					border : s-rem(1px) solid s-color($name);
 				}
 
 				$cls : unquote("b-t-#{$name}");
@@ -477,7 +477,7 @@ $_sugar-classes-inited : false;
 					$classname : $cls,
 					$namespace : 'sugar.border.#{$name}.top'
 				) {
-					border-top : s-rem(1px) solid s-color($color);
+					border-top : s-rem(1px) solid s-color($name);
 				}
 
 				$cls : unquote("b-r-#{$name}");
@@ -494,7 +494,7 @@ $_sugar-classes-inited : false;
 					$classname : $cls,
 					$namespace : 'sugar.border.#{$name}.right'
 				) {
-					border-right : s-rem(1px) solid s-color($color);
+					border-right : s-rem(1px) solid s-color($name);
 				}
 
 				$cls : unquote("b-b-#{$name}");
@@ -511,7 +511,7 @@ $_sugar-classes-inited : false;
 					$classname : $cls,
 					$namespace : 'sugar.border.#{$name}.bottom'
 				) {
-					border-bottom : s-rem(1px) solid s-color($color);
+					border-bottom : s-rem(1px) solid s-color($name);
 				}
 
 				$cls : unquote("b-l-#{$name}");
@@ -528,7 +528,7 @@ $_sugar-classes-inited : false;
 					$classname : $cls,
 					$namespace : 'sugar.border.#{$name}.left'
 				) {
-					border-left : s-rem(1px) solid s-color($color);
+					border-left : s-rem(1px) solid s-color($name);
 				}
 
 				$cls : unquote("b-s-#{$name}");
@@ -545,8 +545,8 @@ $_sugar-classes-inited : false;
 					$classname : $cls,
 					$namespace : 'sugar.border.#{$name}.side'
 				) {
-					border-left : s-rem(1px) solid s-color($color);
-					border-right : s-rem(1px) solid s-color($color);
+					border-left : s-rem(1px) solid s-color($name);
+					border-right : s-rem(1px) solid s-color($name);
 				}
 
 				// modifiers
@@ -599,7 +599,7 @@ $_sugar-classes-inited : false;
 							$classname : $cls,
 							$namespace : 'sugar.border.#{$name}.modifier.#{$mod-name}.all'
 						) {
-							border : s-rem(1px) solid s-color($color, $mod-name);
+							border : s-rem(1px) solid s-color($name, $mod-name);
 						}
 						$cls : unquote("b-t-#{$name}--#{$mod-name}");
 						/**
@@ -615,7 +615,7 @@ $_sugar-classes-inited : false;
 							$classname : $cls,
 							$namespace : 'sugar.border.#{$name}.modifier.#{$mod-name}.top'
 						) {
-							border-top : s-rem(1px) solid s-color($color, $mod-name);
+							border-top : s-rem(1px) solid s-color($name, $mod-name);
 						}
 						$cls : unquote("b-r-#{$name}--#{$mod-name}");
 						/**
@@ -631,7 +631,7 @@ $_sugar-classes-inited : false;
 							$classname : $cls,
 							$namespace : 'sugar.border.#{$name}.modifier.#{$mod-name}.right'
 						) {
-							border : s-rem(1px) solid s-color($color, $mod-name);
+							border : s-rem(1px) solid s-color($name, $mod-name);
 						}
 						$cls : unquote("b-b-#{$name}--#{$mod-name}");
 						/**
@@ -647,7 +647,7 @@ $_sugar-classes-inited : false;
 							$classname : $cls,
 							$namespace : 'sugar.border.#{$name}.modifier.#{$mod-name}.bottom'
 						) {
-							border : s-rem(1px) solid s-color($color, $mod-name);
+							border : s-rem(1px) solid s-color($name, $mod-name);
 						}
 						$cls : unquote("b-l-#{$name}--#{$mod-name}");
 						/**
@@ -663,7 +663,7 @@ $_sugar-classes-inited : false;
 							$classname : $cls,
 							$namespace : 'sugar.border.#{$name}.modifier.#{$mod-name}.left'
 						) {
-							border-left : s-rem(1px) solid s-color($color, $mod-name);
+							border-left : s-rem(1px) solid s-color($name, $mod-name);
 						}
 						$cls : unquote("b-s-#{$name}--#{$mod-name}");
 						/**
@@ -679,8 +679,8 @@ $_sugar-classes-inited : false;
 							$classname : $cls,
 							$namespace : 'sugar.border.#{$name}.modifier.#{$mod-name}.side'
 						) {
-							border-left : s-rem(1px) solid s-color($color, $mod-name);
-							border-right : s-rem(1px) solid s-color($color, $mod-name);
+							border-left : s-rem(1px) solid s-color($name, $mod-name);
+							border-right : s-rem(1px) solid s-color($name, $mod-name);
 						}
 					}
 				}
