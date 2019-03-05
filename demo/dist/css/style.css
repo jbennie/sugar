@@ -4022,6 +4022,85 @@ body {
 }
 
 /**
+				 * @name 	```.b-default```
+				 * Specify the border of 1px solid to **default**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-default">
+				 * 	I have a default border color
+				 * </div>
+				 */
+.b-default {
+  border: 0.07143rem solid #848e91;
+}
+
+/**
+				 * @name 	```.b-t-default```
+				 * Specify the border top of 1px solid to **default**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-t-default">
+				 * 	I have a default border top color
+				 * </div>
+				 */
+.b-t-default {
+  border-top: 0.07143rem solid #848e91;
+}
+
+/**
+				 * @name 	```.b-r-default```
+				 * Specify the border right of 1px solid to **default**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-r-default">
+				 * 	I have a default border right color
+				 * </div>
+				 */
+.b-r-default {
+  border-right: 0.07143rem solid #848e91;
+}
+
+/**
+				 * @name 	```.b-b-default```
+				 * Specify the border bottom of 1px solid to **default**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-b-default">
+				 * 	I have a default border bottom color
+				 * </div>
+				 */
+.b-b-default {
+  border-bottom: 0.07143rem solid #848e91;
+}
+
+/**
+				 * @name 	```.b-l-default```
+				 * Specify the border left of 1px solid to **default**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-l-default">
+				 * 	I have a default border left color
+				 * </div>
+				 */
+.b-l-default {
+  border-left: 0.07143rem solid #848e91;
+}
+
+/**
+				 * @name 	```.b-s-default```
+				 * Specify the border side of 1px solid to **default**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-s-default">
+				 * 	I have a default border side color
+				 * </div>
+				 */
+.b-s-default {
+  border-left: 0.07143rem solid #848e91;
+  border-right: 0.07143rem solid #848e91;
+}
+
+/**
 				 * @name 	```.c-title```
 				 * Specify the color to **title**
 				 * @styleguide  	Colors / Classes
@@ -4045,6 +4124,85 @@ body {
 				 */
 .bkg-title {
   background-color: #2b3438;
+}
+
+/**
+				 * @name 	```.b-title```
+				 * Specify the border of 1px solid to **title**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-title">
+				 * 	I have a title border color
+				 * </div>
+				 */
+.b-title {
+  border: 0.07143rem solid #2b3438;
+}
+
+/**
+				 * @name 	```.b-t-title```
+				 * Specify the border top of 1px solid to **title**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-t-title">
+				 * 	I have a title border top color
+				 * </div>
+				 */
+.b-t-title {
+  border-top: 0.07143rem solid #2b3438;
+}
+
+/**
+				 * @name 	```.b-r-title```
+				 * Specify the border right of 1px solid to **title**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-r-title">
+				 * 	I have a title border right color
+				 * </div>
+				 */
+.b-r-title {
+  border-right: 0.07143rem solid #2b3438;
+}
+
+/**
+				 * @name 	```.b-b-title```
+				 * Specify the border bottom of 1px solid to **title**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-b-title">
+				 * 	I have a title border bottom color
+				 * </div>
+				 */
+.b-b-title {
+  border-bottom: 0.07143rem solid #2b3438;
+}
+
+/**
+				 * @name 	```.b-l-title```
+				 * Specify the border left of 1px solid to **title**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-l-title">
+				 * 	I have a title border left color
+				 * </div>
+				 */
+.b-l-title {
+  border-left: 0.07143rem solid #2b3438;
+}
+
+/**
+				 * @name 	```.b-s-title```
+				 * Specify the border side of 1px solid to **title**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-s-title">
+				 * 	I have a title border side color
+				 * </div>
+				 */
+.b-s-title {
+  border-left: 0.07143rem solid #2b3438;
+  border-right: 0.07143rem solid #2b3438;
 }
 
 /**
@@ -4074,6 +4232,85 @@ body {
 }
 
 /**
+				 * @name 	```.b-text```
+				 * Specify the border of 1px solid to **text**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-text">
+				 * 	I have a text border color
+				 * </div>
+				 */
+.b-text {
+  border: 0.07143rem solid #848e91;
+}
+
+/**
+				 * @name 	```.b-t-text```
+				 * Specify the border top of 1px solid to **text**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-t-text">
+				 * 	I have a text border top color
+				 * </div>
+				 */
+.b-t-text {
+  border-top: 0.07143rem solid #848e91;
+}
+
+/**
+				 * @name 	```.b-r-text```
+				 * Specify the border right of 1px solid to **text**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-r-text">
+				 * 	I have a text border right color
+				 * </div>
+				 */
+.b-r-text {
+  border-right: 0.07143rem solid #848e91;
+}
+
+/**
+				 * @name 	```.b-b-text```
+				 * Specify the border bottom of 1px solid to **text**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-b-text">
+				 * 	I have a text border bottom color
+				 * </div>
+				 */
+.b-b-text {
+  border-bottom: 0.07143rem solid #848e91;
+}
+
+/**
+				 * @name 	```.b-l-text```
+				 * Specify the border left of 1px solid to **text**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-l-text">
+				 * 	I have a text border left color
+				 * </div>
+				 */
+.b-l-text {
+  border-left: 0.07143rem solid #848e91;
+}
+
+/**
+				 * @name 	```.b-s-text```
+				 * Specify the border side of 1px solid to **text**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-s-text">
+				 * 	I have a text border side color
+				 * </div>
+				 */
+.b-s-text {
+  border-left: 0.07143rem solid #848e91;
+  border-right: 0.07143rem solid #848e91;
+}
+
+/**
 				 * @name 	```.c-link```
 				 * Specify the color to **link**
 				 * @styleguide  	Colors / Classes
@@ -4097,6 +4334,85 @@ body {
 				 */
 .bkg-link {
   background-color: #f2bc2b;
+}
+
+/**
+				 * @name 	```.b-link```
+				 * Specify the border of 1px solid to **link**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-link">
+				 * 	I have a link border color
+				 * </div>
+				 */
+.b-link {
+  border: 0.07143rem solid #f2bc2b;
+}
+
+/**
+				 * @name 	```.b-t-link```
+				 * Specify the border top of 1px solid to **link**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-t-link">
+				 * 	I have a link border top color
+				 * </div>
+				 */
+.b-t-link {
+  border-top: 0.07143rem solid #f2bc2b;
+}
+
+/**
+				 * @name 	```.b-r-link```
+				 * Specify the border right of 1px solid to **link**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-r-link">
+				 * 	I have a link border right color
+				 * </div>
+				 */
+.b-r-link {
+  border-right: 0.07143rem solid #f2bc2b;
+}
+
+/**
+				 * @name 	```.b-b-link```
+				 * Specify the border bottom of 1px solid to **link**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-b-link">
+				 * 	I have a link border bottom color
+				 * </div>
+				 */
+.b-b-link {
+  border-bottom: 0.07143rem solid #f2bc2b;
+}
+
+/**
+				 * @name 	```.b-l-link```
+				 * Specify the border left of 1px solid to **link**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-l-link">
+				 * 	I have a link border left color
+				 * </div>
+				 */
+.b-l-link {
+  border-left: 0.07143rem solid #f2bc2b;
+}
+
+/**
+				 * @name 	```.b-s-link```
+				 * Specify the border side of 1px solid to **link**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-s-link">
+				 * 	I have a link border side color
+				 * </div>
+				 */
+.b-s-link {
+  border-left: 0.07143rem solid #f2bc2b;
+  border-right: 0.07143rem solid #f2bc2b;
 }
 
 /**
@@ -4126,6 +4442,85 @@ body {
 }
 
 /**
+				 * @name 	```.b-primary```
+				 * Specify the border of 1px solid to **primary**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-primary">
+				 * 	I have a primary border color
+				 * </div>
+				 */
+.b-primary {
+  border: 0.07143rem solid #f2bc2b;
+}
+
+/**
+				 * @name 	```.b-t-primary```
+				 * Specify the border top of 1px solid to **primary**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-t-primary">
+				 * 	I have a primary border top color
+				 * </div>
+				 */
+.b-t-primary {
+  border-top: 0.07143rem solid #f2bc2b;
+}
+
+/**
+				 * @name 	```.b-r-primary```
+				 * Specify the border right of 1px solid to **primary**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-r-primary">
+				 * 	I have a primary border right color
+				 * </div>
+				 */
+.b-r-primary {
+  border-right: 0.07143rem solid #f2bc2b;
+}
+
+/**
+				 * @name 	```.b-b-primary```
+				 * Specify the border bottom of 1px solid to **primary**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-b-primary">
+				 * 	I have a primary border bottom color
+				 * </div>
+				 */
+.b-b-primary {
+  border-bottom: 0.07143rem solid #f2bc2b;
+}
+
+/**
+				 * @name 	```.b-l-primary```
+				 * Specify the border left of 1px solid to **primary**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-l-primary">
+				 * 	I have a primary border left color
+				 * </div>
+				 */
+.b-l-primary {
+  border-left: 0.07143rem solid #f2bc2b;
+}
+
+/**
+				 * @name 	```.b-s-primary```
+				 * Specify the border side of 1px solid to **primary**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-s-primary">
+				 * 	I have a primary border side color
+				 * </div>
+				 */
+.b-s-primary {
+  border-left: 0.07143rem solid #f2bc2b;
+  border-right: 0.07143rem solid #f2bc2b;
+}
+
+/**
 				 * @name 	```.c-secondary```
 				 * Specify the color to **secondary**
 				 * @styleguide  	Colors / Classes
@@ -4149,6 +4544,85 @@ body {
 				 */
 .bkg-secondary {
   background-color: #2b3438;
+}
+
+/**
+				 * @name 	```.b-secondary```
+				 * Specify the border of 1px solid to **secondary**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-secondary">
+				 * 	I have a secondary border color
+				 * </div>
+				 */
+.b-secondary {
+  border: 0.07143rem solid #2b3438;
+}
+
+/**
+				 * @name 	```.b-t-secondary```
+				 * Specify the border top of 1px solid to **secondary**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-t-secondary">
+				 * 	I have a secondary border top color
+				 * </div>
+				 */
+.b-t-secondary {
+  border-top: 0.07143rem solid #2b3438;
+}
+
+/**
+				 * @name 	```.b-r-secondary```
+				 * Specify the border right of 1px solid to **secondary**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-r-secondary">
+				 * 	I have a secondary border right color
+				 * </div>
+				 */
+.b-r-secondary {
+  border-right: 0.07143rem solid #2b3438;
+}
+
+/**
+				 * @name 	```.b-b-secondary```
+				 * Specify the border bottom of 1px solid to **secondary**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-b-secondary">
+				 * 	I have a secondary border bottom color
+				 * </div>
+				 */
+.b-b-secondary {
+  border-bottom: 0.07143rem solid #2b3438;
+}
+
+/**
+				 * @name 	```.b-l-secondary```
+				 * Specify the border left of 1px solid to **secondary**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-l-secondary">
+				 * 	I have a secondary border left color
+				 * </div>
+				 */
+.b-l-secondary {
+  border-left: 0.07143rem solid #2b3438;
+}
+
+/**
+				 * @name 	```.b-s-secondary```
+				 * Specify the border side of 1px solid to **secondary**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-s-secondary">
+				 * 	I have a secondary border side color
+				 * </div>
+				 */
+.b-s-secondary {
+  border-left: 0.07143rem solid #2b3438;
+  border-right: 0.07143rem solid #2b3438;
 }
 
 /**
@@ -4178,6 +4652,85 @@ body {
 }
 
 /**
+				 * @name 	```.b-success```
+				 * Specify the border of 1px solid to **success**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-success">
+				 * 	I have a success border color
+				 * </div>
+				 */
+.b-success {
+  border: 0.07143rem solid #5cb85c;
+}
+
+/**
+				 * @name 	```.b-t-success```
+				 * Specify the border top of 1px solid to **success**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-t-success">
+				 * 	I have a success border top color
+				 * </div>
+				 */
+.b-t-success {
+  border-top: 0.07143rem solid #5cb85c;
+}
+
+/**
+				 * @name 	```.b-r-success```
+				 * Specify the border right of 1px solid to **success**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-r-success">
+				 * 	I have a success border right color
+				 * </div>
+				 */
+.b-r-success {
+  border-right: 0.07143rem solid #5cb85c;
+}
+
+/**
+				 * @name 	```.b-b-success```
+				 * Specify the border bottom of 1px solid to **success**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-b-success">
+				 * 	I have a success border bottom color
+				 * </div>
+				 */
+.b-b-success {
+  border-bottom: 0.07143rem solid #5cb85c;
+}
+
+/**
+				 * @name 	```.b-l-success```
+				 * Specify the border left of 1px solid to **success**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-l-success">
+				 * 	I have a success border left color
+				 * </div>
+				 */
+.b-l-success {
+  border-left: 0.07143rem solid #5cb85c;
+}
+
+/**
+				 * @name 	```.b-s-success```
+				 * Specify the border side of 1px solid to **success**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-s-success">
+				 * 	I have a success border side color
+				 * </div>
+				 */
+.b-s-success {
+  border-left: 0.07143rem solid #5cb85c;
+  border-right: 0.07143rem solid #5cb85c;
+}
+
+/**
 				 * @name 	```.c-warning```
 				 * Specify the color to **warning**
 				 * @styleguide  	Colors / Classes
@@ -4201,6 +4754,85 @@ body {
 				 */
 .bkg-warning {
   background-color: #f0ad4e;
+}
+
+/**
+				 * @name 	```.b-warning```
+				 * Specify the border of 1px solid to **warning**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-warning">
+				 * 	I have a warning border color
+				 * </div>
+				 */
+.b-warning {
+  border: 0.07143rem solid #f0ad4e;
+}
+
+/**
+				 * @name 	```.b-t-warning```
+				 * Specify the border top of 1px solid to **warning**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-t-warning">
+				 * 	I have a warning border top color
+				 * </div>
+				 */
+.b-t-warning {
+  border-top: 0.07143rem solid #f0ad4e;
+}
+
+/**
+				 * @name 	```.b-r-warning```
+				 * Specify the border right of 1px solid to **warning**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-r-warning">
+				 * 	I have a warning border right color
+				 * </div>
+				 */
+.b-r-warning {
+  border-right: 0.07143rem solid #f0ad4e;
+}
+
+/**
+				 * @name 	```.b-b-warning```
+				 * Specify the border bottom of 1px solid to **warning**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-b-warning">
+				 * 	I have a warning border bottom color
+				 * </div>
+				 */
+.b-b-warning {
+  border-bottom: 0.07143rem solid #f0ad4e;
+}
+
+/**
+				 * @name 	```.b-l-warning```
+				 * Specify the border left of 1px solid to **warning**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-l-warning">
+				 * 	I have a warning border left color
+				 * </div>
+				 */
+.b-l-warning {
+  border-left: 0.07143rem solid #f0ad4e;
+}
+
+/**
+				 * @name 	```.b-s-warning```
+				 * Specify the border side of 1px solid to **warning**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-s-warning">
+				 * 	I have a warning border side color
+				 * </div>
+				 */
+.b-s-warning {
+  border-left: 0.07143rem solid #f0ad4e;
+  border-right: 0.07143rem solid #f0ad4e;
 }
 
 /**
@@ -4230,6 +4862,85 @@ body {
 }
 
 /**
+				 * @name 	```.b-error```
+				 * Specify the border of 1px solid to **error**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-error">
+				 * 	I have a error border color
+				 * </div>
+				 */
+.b-error {
+  border: 0.07143rem solid #d9534f;
+}
+
+/**
+				 * @name 	```.b-t-error```
+				 * Specify the border top of 1px solid to **error**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-t-error">
+				 * 	I have a error border top color
+				 * </div>
+				 */
+.b-t-error {
+  border-top: 0.07143rem solid #d9534f;
+}
+
+/**
+				 * @name 	```.b-r-error```
+				 * Specify the border right of 1px solid to **error**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-r-error">
+				 * 	I have a error border right color
+				 * </div>
+				 */
+.b-r-error {
+  border-right: 0.07143rem solid #d9534f;
+}
+
+/**
+				 * @name 	```.b-b-error```
+				 * Specify the border bottom of 1px solid to **error**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-b-error">
+				 * 	I have a error border bottom color
+				 * </div>
+				 */
+.b-b-error {
+  border-bottom: 0.07143rem solid #d9534f;
+}
+
+/**
+				 * @name 	```.b-l-error```
+				 * Specify the border left of 1px solid to **error**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-l-error">
+				 * 	I have a error border left color
+				 * </div>
+				 */
+.b-l-error {
+  border-left: 0.07143rem solid #d9534f;
+}
+
+/**
+				 * @name 	```.b-s-error```
+				 * Specify the border side of 1px solid to **error**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-s-error">
+				 * 	I have a error border side color
+				 * </div>
+				 */
+.b-s-error {
+  border-left: 0.07143rem solid #d9534f;
+  border-right: 0.07143rem solid #d9534f;
+}
+
+/**
 				 * @name 	```.c-info```
 				 * Specify the color to **info**
 				 * @styleguide  	Colors / Classes
@@ -4253,6 +4964,85 @@ body {
 				 */
 .bkg-info {
   background-color: #2199e8;
+}
+
+/**
+				 * @name 	```.b-info```
+				 * Specify the border of 1px solid to **info**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-info">
+				 * 	I have a info border color
+				 * </div>
+				 */
+.b-info {
+  border: 0.07143rem solid #2199e8;
+}
+
+/**
+				 * @name 	```.b-t-info```
+				 * Specify the border top of 1px solid to **info**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-t-info">
+				 * 	I have a info border top color
+				 * </div>
+				 */
+.b-t-info {
+  border-top: 0.07143rem solid #2199e8;
+}
+
+/**
+				 * @name 	```.b-r-info```
+				 * Specify the border right of 1px solid to **info**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-r-info">
+				 * 	I have a info border right color
+				 * </div>
+				 */
+.b-r-info {
+  border-right: 0.07143rem solid #2199e8;
+}
+
+/**
+				 * @name 	```.b-b-info```
+				 * Specify the border bottom of 1px solid to **info**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-b-info">
+				 * 	I have a info border bottom color
+				 * </div>
+				 */
+.b-b-info {
+  border-bottom: 0.07143rem solid #2199e8;
+}
+
+/**
+				 * @name 	```.b-l-info```
+				 * Specify the border left of 1px solid to **info**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-l-info">
+				 * 	I have a info border left color
+				 * </div>
+				 */
+.b-l-info {
+  border-left: 0.07143rem solid #2199e8;
+}
+
+/**
+				 * @name 	```.b-s-info```
+				 * Specify the border side of 1px solid to **info**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="b-s-info">
+				 * 	I have a info border side color
+				 * </div>
+				 */
+.b-s-info {
+  border-left: 0.07143rem solid #2199e8;
+  border-right: 0.07143rem solid #2199e8;
 }
 
 #fullscreen {

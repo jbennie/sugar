@@ -446,6 +446,109 @@ $_sugar-classes-inited : false;
 					background-color : s-color($color);
 				}
 
+				$cls : unquote("b-#{$name}");
+				/**
+				 * @name 	```.#{$cls}```
+				 * Specify the border of 1px solid to **#{$name}**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="#{$cls}">
+				 * 	I have a #{$name} border color
+				 * </div>
+				 */
+				@include s-register-helper-class(
+					$classname : $cls,
+					$namespace : 'sugar.border.#{$name}.all'
+				) {
+					border : s-rem(1px) solid s-color($color);
+				}
+
+				$cls : unquote("b-t-#{$name}");
+				/**
+				 * @name 	```.#{$cls}```
+				 * Specify the border top of 1px solid to **#{$name}**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="#{$cls}">
+				 * 	I have a #{$name} border top color
+				 * </div>
+				 */
+				@include s-register-helper-class(
+					$classname : $cls,
+					$namespace : 'sugar.border.#{$name}.top'
+				) {
+					border-top : s-rem(1px) solid s-color($color);
+				}
+
+				$cls : unquote("b-r-#{$name}");
+				/**
+				 * @name 	```.#{$cls}```
+				 * Specify the border right of 1px solid to **#{$name}**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="#{$cls}">
+				 * 	I have a #{$name} border right color
+				 * </div>
+				 */
+				@include s-register-helper-class(
+					$classname : $cls,
+					$namespace : 'sugar.border.#{$name}.right'
+				) {
+					border-right : s-rem(1px) solid s-color($color);
+				}
+
+				$cls : unquote("b-b-#{$name}");
+				/**
+				 * @name 	```.#{$cls}```
+				 * Specify the border bottom of 1px solid to **#{$name}**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="#{$cls}">
+				 * 	I have a #{$name} border bottom color
+				 * </div>
+				 */
+				@include s-register-helper-class(
+					$classname : $cls,
+					$namespace : 'sugar.border.#{$name}.bottom'
+				) {
+					border-bottom : s-rem(1px) solid s-color($color);
+				}
+
+				$cls : unquote("b-l-#{$name}");
+				/**
+				 * @name 	```.#{$cls}```
+				 * Specify the border left of 1px solid to **#{$name}**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="#{$cls}">
+				 * 	I have a #{$name} border left color
+				 * </div>
+				 */
+				@include s-register-helper-class(
+					$classname : $cls,
+					$namespace : 'sugar.border.#{$name}.left'
+				) {
+					border-left : s-rem(1px) solid s-color($color);
+				}
+
+				$cls : unquote("b-s-#{$name}");
+				/**
+				 * @name 	```.#{$cls}```
+				 * Specify the border side of 1px solid to **#{$name}**
+				 * @styleguide  	Colors / Classes
+				 * @example 	html
+				 * <div class="#{$cls}">
+				 * 	I have a #{$name} border side color
+				 * </div>
+				 */
+				@include s-register-helper-class(
+					$classname : $cls,
+					$namespace : 'sugar.border.#{$name}.side'
+				) {
+					border-left : s-rem(1px) solid s-color($color);
+					border-right : s-rem(1px) solid s-color($color);
+				}
+
 				// modifiers
 				@if $modifiers {
 					@each $mod-name, $mod in $modifiers {
@@ -480,6 +583,104 @@ $_sugar-classes-inited : false;
 							$namespace : 'sugar.color.#{$name}.modifier.#{$mod-name}.bkg'
 						) {
 							background-color : s-color($name, $mod-name);
+						}
+
+						$cls : unquote("b-#{$name}--#{$mod-name}");
+						/**
+						 * @name 	```.#{$cls}```
+						 * Specify the border of 1px solid to **#{$name}--#{$mod-name}**
+						 * @styleguide  	Colors / Classes
+						 * @example 	html
+						 * <div class="#{$cls}">
+						 * 	I have a "#{$name}--#{$mod-name}" border color
+						 * </div>
+						 */
+						@include s-register-helper-class(
+							$classname : $cls,
+							$namespace : 'sugar.border.#{$name}.modifier.#{$mod-name}.all'
+						) {
+							border : s-rem(1px) solid s-color($color, $mod-name);
+						}
+						$cls : unquote("b-t-#{$name}--#{$mod-name}");
+						/**
+						 * @name 	```.#{$cls}```
+						 * Specify the border top of 1px solid to **#{$name}--#{$mod-name}**
+						 * @styleguide  	Colors / Classes
+						 * @example 	html
+						 * <div class="#{$cls}">
+						 * 	I have a "#{$name}--#{$mod-name}" border top color
+						 * </div>
+						 */
+						@include s-register-helper-class(
+							$classname : $cls,
+							$namespace : 'sugar.border.#{$name}.modifier.#{$mod-name}.top'
+						) {
+							border-top : s-rem(1px) solid s-color($color, $mod-name);
+						}
+						$cls : unquote("b-r-#{$name}--#{$mod-name}");
+						/**
+						 * @name 	```.#{$cls}```
+						 * Specify the border right of 1px solid to **#{$name}--#{$mod-name}**
+						 * @styleguide  	Colors / Classes
+						 * @example 	html
+						 * <div class="#{$cls}">
+						 * 	I have a "#{$name}--#{$mod-name}" border right color
+						 * </div>
+						 */
+						@include s-register-helper-class(
+							$classname : $cls,
+							$namespace : 'sugar.border.#{$name}.modifier.#{$mod-name}.right'
+						) {
+							border : s-rem(1px) solid s-color($color, $mod-name);
+						}
+						$cls : unquote("b-b-#{$name}--#{$mod-name}");
+						/**
+						 * @name 	```.#{$cls}```
+						 * Specify the border bottom of 1px solid to **#{$name}--#{$mod-name}**
+						 * @styleguide  	Colors / Classes
+						 * @example 	html
+						 * <div class="#{$cls}">
+						 * 	I have a "#{$name}--#{$mod-name}" border bottom color
+						 * </div>
+						 */
+						@include s-register-helper-class(
+							$classname : $cls,
+							$namespace : 'sugar.border.#{$name}.modifier.#{$mod-name}.bottom'
+						) {
+							border : s-rem(1px) solid s-color($color, $mod-name);
+						}
+						$cls : unquote("b-l-#{$name}--#{$mod-name}");
+						/**
+						 * @name 	```.#{$cls}```
+						 * Specify the border left of 1px solid to **#{$name}--#{$mod-name}**
+						 * @styleguide  	Colors / Classes
+						 * @example 	html
+						 * <div class="#{$cls}">
+						 * 	I have a "#{$name}--#{$mod-name}" border left color
+						 * </div>
+						 */
+						@include s-register-helper-class(
+							$classname : $cls,
+							$namespace : 'sugar.border.#{$name}.modifier.#{$mod-name}.left'
+						) {
+							border-left : s-rem(1px) solid s-color($color, $mod-name);
+						}
+						$cls : unquote("b-s-#{$name}--#{$mod-name}");
+						/**
+						 * @name 	```.#{$cls}```
+						 * Specify the border side of 1px solid to **#{$name}--#{$mod-name}**
+						 * @styleguide  	Colors / Classes
+						 * @example 	html
+						 * <div class="#{$cls}">
+						 * 	I have a "#{$name}--#{$mod-name}" border side color
+						 * </div>
+						 */
+						@include s-register-helper-class(
+							$classname : $cls,
+							$namespace : 'sugar.border.#{$name}.modifier.#{$mod-name}.side'
+						) {
+							border-left : s-rem(1px) solid s-color($color, $mod-name);
+							border-right : s-rem(1px) solid s-color($color, $mod-name);
 						}
 					}
 				}

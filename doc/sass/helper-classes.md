@@ -37,6 +37,7 @@ Sugar provide some cool helper classes that you can take advantage of. Here's th
 - sugar.filter.{name} : ```.fi-{name}```
 - sugar.transition.{name} : ```.tr-{name}```
 - sugar.font.family.{name} : ```.f-{name}```
+- sugar.margin.all.{size} : ```.m-{size}```
 - sugar.margin.bottom.{size} : ```.m-b-{size}```
 - sugar.margin.top.{size} : ```.m-t-{size}```
 - sugar.margin.left.{size} : ```.m-l-{size}```
@@ -64,6 +65,18 @@ Sugar provide some cool helper classes that you can take advantage of. Here's th
 - sugar.color.{name}.bkg : ```.bkg-{name}```
 - sugar.color.{name}.modifier.{mod-name}.color : ```.c-{name}--{mod-name}```
 - sugar.color.{name}.modifier.{mod-name}.bkg : ```.bkg-{name}--{mod-name}```
+- sugar.border.{name}.all : ```.b-{name}```
+- sugar.border.{name}.top : ```.b-t-{name}```
+- sugar.border.{name}.right : ```.b-r-{name}```
+- sugar.border.{name}.bottom : ```.b-b-{name}```
+- sugar.border.{name}.left : ```.b-l-{name}```
+- sugar.border.{name}.side : ```.b-s-{name}```
+- sugar.border.{name}.modifier.{mod-name}.all : ```.b-{name}--{mod-name}```
+- sugar.border.{name}.modifier.{mod-name}.top : ```.b-t-{name}--{mod-name}```
+- sugar.border.{name}.modifier.{mod-name}.right : ```.b-r-{name}--{mod-name}```
+- sugar.border.{name}.modifier.{mod-name}.bottom : ```.b-b-{name}--{mod-name}```
+- sugar.border.{name}.modifier.{mod-name}.left : ```.b-l-{name}--{mod-name}```
+- sugar.border.{name}.modifier.{mod-name}.side : ```.b-s-{name}--{mod-name}```
 - sugar.pull.left : ```.pull-left```
 - sugar.pull.right : ```.pull-right```
 - sugar.position.relative : ```.relative```
