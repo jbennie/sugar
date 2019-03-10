@@ -24,6 +24,12 @@ export default function wrap($elm, $wrapper) {
 	if (typeof $wrapper === "string") {
 		$wrapper = document.createElement($wrapper);
 	}
-	$elm.parentNode.appendChild($wrapper);
+	const $parent = $elm.parentNode
+	const $sibling = $elm.nextSibling
+	if ($sibling) {
+		$parent.insertBefore($wrapper, $sibling)
+	} else {
+		$parent.appendChild($wrapper)
+	}
 	return $wrapper.appendChild($elm);
 }
