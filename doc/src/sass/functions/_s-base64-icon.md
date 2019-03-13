@@ -4,10 +4,25 @@ Get an icon in base64 url encoded format
 Available icons:
 - search
 - arrow-down
+- arrow-left
+- arrow-up
+- arrow-right
 - angle-down
 - angle-up
 - angle-left
 - angle-right
+- check
+- cross
+- menu
+- gear
+- list
+- refresh
+- trash
+- share
+- edit
+- save
+- grid
+- filter
 
 
 
