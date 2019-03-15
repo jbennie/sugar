@@ -4,10 +4,25 @@
  * Available icons:
  * - search
  * - arrow-down
+ * - arrow-left
+ * - arrow-up
+ * - arrow-right
  * - angle-down
  * - angle-up
  * - angle-left
  * - angle-right
+ * - check
+ * - cross
+ * - menu
+ * - gear
+ * - list
+ * - refresh
+ * - trash
+ * - share
+ * - edit
+ * - save
+ * - grid
+ * - filter
  *
  * @param    {String}    $icon    The icon name wanted
  * @param    {String}    [$color="default"]    The color wanted

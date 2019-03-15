@@ -697,28 +697,41 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 
 				// wait until dependencies are ok
 				this._whenMountDependenciesAreOk().then(function () {
-					// switch on the mountWhen prop
-					switch (_this3.props.mountWhen) {
-						case 'inViewport':
-						case 'isInViewport':
-							(0, _whenInViewport2.default)(_this3).then(function () {
-								_this3._mountComponent();
-							});
-							break;
-						case 'isMouseover':
-						case 'mouseover':
-							_this3.addEventListener('mouseover', _this3._onMouseoverComponentMount.bind(_this3));
-							break;
-						case 'isVisible':
-						case 'visible':
-							(0, _whenVisible2.default)(_this3).then(function () {
-								_this3._mountComponent();
-							});
-							break;
-						default:
-							// mount component directly
+					// if mountWhen is a function, assuming that this function return a promise
+					if (_this3.props.mountWhen && typeof _this3.props.mountWhen === 'function') {
+						_this3.props.mountWhen().then(function () {
+							// mount component
 							_this3._mountComponent();
-							break;
+						}).catch(function (e) {
+							throw new Error(e);
+						});
+					} else if (_this3.props.mountWhen && typeof _this3.props.mountWhen === 'string') {
+						// switch on the mountWhen prop
+						switch (_this3.props.mountWhen) {
+							case 'inViewport':
+							case 'isInViewport':
+								(0, _whenInViewport2.default)(_this3).then(function () {
+									_this3._mountComponent();
+								});
+								break;
+							case 'isMouseover':
+							case 'mouseover':
+								_this3.addEventListener('mouseover', _this3._onMouseoverComponentMount.bind(_this3));
+								break;
+							case 'isVisible':
+							case 'visible':
+								(0, _whenVisible2.default)(_this3).then(function () {
+									_this3._mountComponent();
+								});
+								break;
+							default:
+								// mount component directly
+								_this3._mountComponent();
+								break;
+						}
+					} else {
+						// mount directly
+						_this3._mountComponent();
 					}
 				});
 			}
