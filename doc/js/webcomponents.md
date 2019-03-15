@@ -25,10 +25,11 @@ Sugar provide a nice stack for webcomponent development. This stack is basically
 1. [Get Started](#get-started)
 2. [Lifecycle](#lifecycle)
 3. [Props](#props)
-4. [Mount dependencies](#mount-dependencies)
-5. [Default CSS](#default-css)
-6. [Component boilerplate](#boilerplate)
-7. [Full SWebComponent API documentation](../src/js/core/SWebComponentMixin.md)
+4. [Mount when](#mount-when)
+5. [Mount dependencies](#mount-dependencies)
+6. [Default CSS](#default-css)
+7. [Component boilerplate](#boilerplate)
+8. [Full SWebComponent API documentation](../src/js/core/SWebComponentMixin.md)
 
 <a name="get-started"></a>
 ## Get Started
@@ -147,6 +148,16 @@ Each component expose his "state" through the ```this.props``` object. These pro
 
 > Avoid using names of properties that already exists on the HTMLElement object. If you do so, you can have some unexpected issues...
 
+
+<a name="mount-when"></a>
+## Mount when
+
+You can specify when you want your component to be mounted by using the `mountWhen` property. Here's the possible values
+
+- `inViewport` : Mount the component when it is/enter the viewport
+- `mouseover` : Mount the component when the user mouseover it
+- `visible` : Mount the component when the component is/became visible
+- `{function}` : A function that need to return a promise resolved when you want the component to be mounted
 
 <a name="mount-dependencies"></a>
 ## Mount dependencies

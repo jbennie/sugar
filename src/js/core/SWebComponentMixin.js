@@ -586,28 +586,41 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 
 		// wait until dependencies are ok
 		this._whenMountDependenciesAreOk().then(() => {
-			// switch on the mountWhen prop
-			switch(this.props.mountWhen) {
-				case 'inViewport':
-				case 'isInViewport':
-					__whenInViewport(this).then(() => {
-						this._mountComponent();
-					});
-				break;
-				case 'isMouseover':
-				case 'mouseover':
-					this.addEventListener('mouseover', this._onMouseoverComponentMount.bind(this));
-				break;
-				case 'isVisible':
-				case 'visible':
-					__whenVisible(this).then(() => {
-						this._mountComponent();
-					});
-				break;
-				default:
-					// mount component directly
+			// if mountWhen is a function, assuming that this function return a promise
+			if (this.props.mountWhen && typeof this.props.mountWhen === 'function') {
+				this.props.mountWhen().then(() => {
+					// mount component
 					this._mountComponent();
-				break;
+				}).catch(e => {
+					throw new Error(e);
+				});
+			} else if (this.props.mountWhen && typeof this.props.mountWhen === 'string') {
+				// switch on the mountWhen prop
+				switch(this.props.mountWhen) {
+					case 'inViewport':
+					case 'isInViewport':
+						__whenInViewport(this).then(() => {
+							this._mountComponent();
+						});
+					break;
+					case 'isMouseover':
+					case 'mouseover':
+						this.addEventListener('mouseover', this._onMouseoverComponentMount.bind(this));
+					break;
+					case 'isVisible':
+					case 'visible':
+						__whenVisible(this).then(() => {
+							this._mountComponent();
+						});
+					break;
+					default:
+						// mount component directly
+						this._mountComponent();
+					break;
+				}
+			} else {
+				// mount directly
+				this._mountComponent();
 			}
 		});
 	}
