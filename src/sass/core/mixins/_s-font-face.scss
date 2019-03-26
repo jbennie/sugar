@@ -6,6 +6,7 @@
  * @param 			{List} 			[$extensions=woff2] 	The extensions list that you have available
  * @param 			{String} 		[$font-weight=normal] 	The font-weight property
  * @param 			{String} 		[$font-style=normal] 	The font-style property
+ * @param       {String}    [$font-display=auto]    The font-display property
  *
  * @example
  * // if you have these extensions files : .woff .eot .woff2
@@ -22,7 +23,8 @@
 	$src,
 	$extensions : woff2,
 	$font-weight : normal,
-	$font-style : normal
+	$font-style : normal,
+	$font-display: auto
 ) {
 	@if $_sugar-test-arguments {
 		$font-family : s-test-argument('s-font-face','font-family',string,$font-family);
@@ -30,6 +32,7 @@
 		$extensions : s-test-argument('s-font-face','extensions','string|list',$extensions);
 		$font-weight : s-test-argument('s-font-face','font-weight',(normal,bold,bolder,lighter,number,initial,inherit),$font-weight);
 		$font-style : s-test-argument('s-font-face','font-style',(normal,italic,oblique,initial,inherit),$font-style);
+		$font-display : s-test-argument('s-font-face','font-display',(auto,block,swap,fallback,optional),$font-display);
 	}
 
 	// get font format from settings
@@ -76,6 +79,9 @@
 		}
 		@if $font-weight {
 			font-weight : $font-weight;
+		}
+		@if $font-display {
+			font-display: $font-display;
 		}
 	}
 }

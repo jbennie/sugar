@@ -116,6 +116,7 @@ $_sugar-inited : false;
 				$ff : map-get($font,font-family);
 				$fs : map-get($font,font-style);
 				$fw : map-get($font,font-weight);
+				$fd : map-get($font,font-display);
 				/**
 				 * @name   			#{$font-name}
 				 * @styleguide 		Fonts / Faces
@@ -123,6 +124,7 @@ $_sugar-inited : false;
 				 * @font-family 	#{$ff}
 				 * @font-style 		#{$fs}
 				 * @font-weight 	#{$fw}
+				 * @font-display    #{$fd}
 				 */
 			}
 		}
