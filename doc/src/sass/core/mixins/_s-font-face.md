@@ -12,6 +12,7 @@ $src  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE
 $extensions  |  **{ [List](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#lists) }**  |  The extensions list that you have available  |  optional  |  woff2
 $font-weight  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  The font-weight property  |  optional  |  normal
 $font-style  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  The font-style property  |  optional  |  normal
+$font-display  |  **{ [String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings) }**  |  The font-display property  |  optional  |  auto
 
 ### Example
 ```scss
