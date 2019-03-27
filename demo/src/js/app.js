@@ -1,4 +1,6 @@
 import "babel-polyfill";
+import '../../../js/features/all';
+
 import native from "../../../js/core/sNativeWebComponent";
 import SWebComponent from "../../../js/core/SWebComponent";
 import toggleFullscreen from "../../../js/dom/toggleFullscreen";

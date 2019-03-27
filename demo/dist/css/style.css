@@ -1480,6 +1480,7 @@
  * @param 			{List} 			[$extensions=woff2] 	The extensions list that you have available
  * @param 			{String} 		[$font-weight=normal] 	The font-weight property
  * @param 			{String} 		[$font-style=normal] 	The font-style property
+ * @param       {String}    [$font-display=auto]    The font-display property
  *
  * @example
  * // if you have these extensions files : .woff .eot .woff2
@@ -2885,6 +2886,7 @@ body {
 				 * @font-family 	Helvetica Neue, Helvetica, Verdana, Arial, sans-serif
 				 * @font-style 		
 				 * @font-weight 	normal
+				 * @font-display    
 				 */
 /**
 				 * @name   			quote
@@ -2893,6 +2895,7 @@ body {
 				 * @font-family 	Palatino, Times, Georgia, serif
 				 * @font-style 		
 				 * @font-weight 	normal
+				 * @font-display    
 				 */
 /**
 				 * @name   			code
@@ -2901,6 +2904,7 @@ body {
 				 * @font-family 	Menlo, Monaco, Consolas, Courier New, monospace
 				 * @font-style 		
 				 * @font-weight 	normal
+				 * @font-display    
 				 */
 /**
 			 * @name 	```.tr-fast```
