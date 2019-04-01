@@ -24,7 +24,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return 		(Promise) 								The promise that will be resolved when the element is visible
  *
  * @example 	js
- * import whenVisible from 'sugarcss/js/dom/whenVisible'
+ * import whenVisible from 'coffeekraken-sugar/js/dom/whenVisible'
  * whenVisible(myCoolHTMLElement).then((elm) => {
  * 		// do something with your element that is now visible
  * });

@@ -1,5 +1,5 @@
-import camelize from '../utils/string/camelize';
-import autoCast from '../utils/string/autoCast';
+import camelize from '../utils/strings/camelize';
+import autoCast from '../utils/strings/autoCast';
 
 /**
  * Get a style property on the passed element through the computed style.

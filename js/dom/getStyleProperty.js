@@ -5,11 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = getStyleProperty;
 
-var _camelize = require('../utils/string/camelize');
+var _camelize = require('../utils/strings/camelize');
 
 var _camelize2 = _interopRequireDefault(_camelize);
 
-var _autoCast = require('../utils/string/autoCast');
+var _autoCast = require('../utils/strings/autoCast');
 
 var _autoCast2 = _interopRequireDefault(_autoCast);
 

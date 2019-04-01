@@ -14,7 +14,7 @@ Return **{ [HTMLElement](https://developer.mozilla.org/fr/docs/Web/API/HTMLEleme
 
 ### Example
 ```js
-	import next from 'sugarcss/js/dom/next'
+	import next from 'coffeekraken-sugar/js/dom/next'
 const nextElm = next(myCoolElement, '.my-cool-class');
 if (nextElm) {
 		// we have found en element that matches the selector

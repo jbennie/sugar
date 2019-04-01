@@ -10,7 +10,7 @@ import InViewportStatusChangeDetector from './InViewportStatusChangeDetector'
  * @return 		{InViewportStatusChangeDetector} 				The in viewport status change detector instance
  *
  * @example  	js
- * import inViewportStatusChange from 'sugarcss/js/dom/inViewportStatusChange'
+ * import inViewportStatusChange from 'coffeekraken-sugar/js/dom/inViewportStatusChange'
  * const detector = inViewportStatusChange(myCoolHTMLElement, () => {
  * 		// i'm now in the viewport
  * }, () => {

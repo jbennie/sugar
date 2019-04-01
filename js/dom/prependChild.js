@@ -11,7 +11,7 @@ exports.default = prependChild;
  * @param 		{HTMLElement} 				elm  		The element to prepend
  * @param 		{HTMLElement} 				refElm 		The element in which to prepend the new element
  * @example  	js
- * import prependChild from 'sugarcss/js/dom/prependChild'
+ * import prependChild from 'coffeekraken-sugar/js/dom/prependChild'
  * prependChild(myElementToInsert, theReferenceElement);
  *
  * @author 		Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)

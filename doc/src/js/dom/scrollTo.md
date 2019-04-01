@@ -16,8 +16,8 @@ onFinish  |  **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript
 
 ### Example
 ```js
-	import scrollTop from 'sugarcss/js/dom/scrollTo'
-import easeInOutQuad from 'sugarcss/js/easings/easeInOutQuad'
+	import scrollTop from 'coffeekraken-sugar/js/dom/scrollTo'
+import easeInOutQuad from 'coffeekraken-sugar/js/easings/easeInOutQuad'
 scrollTo(myCoolHTMLElement, 2000, easeInOutQuad);
 ```
 Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)

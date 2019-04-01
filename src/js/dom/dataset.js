@@ -1,4 +1,4 @@
-import uncamelize from '../utils/string/uncamelize'
+import uncamelize from '../utils/strings/uncamelize'
 
 // @TODO : delete this method and find a way to replace it by a polyfill
 export default function dataset(elm, key, value = null) {

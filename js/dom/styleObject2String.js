@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = styleObject2String;
 
-var _uncamelize = require('../utils/string/uncamelize');
+var _uncamelize = require('../utils/strings/uncamelize');
 
 var _uncamelize2 = _interopRequireDefault(_uncamelize);
 
@@ -19,7 +19,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return 		(String) 								The string style representation
  *
  * @example 	js
- * import styleObject2String from 'sugarcss/js/dom/styleObject2String'
+ * import styleObject2String from 'coffeekraken-sugar/js/dom/styleObject2String'
  * const styleString = styleObject2String({
  * 		paddingLeft : '20px',
  * 		display : 'block'

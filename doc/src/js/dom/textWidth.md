@@ -13,7 +13,7 @@ Return **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Referen
 
 ### Example
 ```js
-	import textWidth from 'sugarcss/js/dom/textWidth'
+	import textWidth from 'coffeekraken-sugar/js/dom/textWidth'
 // text of an HTMLElement
 const width = textWidth(myCoolHTMLElement);
 

@@ -1,4 +1,4 @@
-import __autoCast from '../utils/string/autoCast'
+import __autoCast from '../utils/strings/autoCast'
 
 /**
  * Base class for cache like SLocalStorageCache and others that you can create

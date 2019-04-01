@@ -26,15 +26,15 @@ var _SWatcher = require('./SWatcher');
 
 var _SWatcher2 = _interopRequireDefault(_SWatcher);
 
-var _camelize = require('../utils/string/camelize');
+var _camelize = require('../utils/strings/camelize');
 
 var _camelize2 = _interopRequireDefault(_camelize);
 
-var _uncamelize = require('../utils/string/uncamelize');
+var _uncamelize = require('../utils/strings/uncamelize');
 
 var _uncamelize2 = _interopRequireDefault(_uncamelize);
 
-var _autoCast = require('../utils/string/autoCast');
+var _autoCast = require('../utils/strings/autoCast');
 
 var _autoCast2 = _interopRequireDefault(_autoCast);
 

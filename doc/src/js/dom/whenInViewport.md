@@ -14,7 +14,7 @@ Return **{ (Promise) }** The promise that will be resolved when the element is i
 
 ### Example
 ```js
-	import whenInViewport from 'sugarcss/js/dom/whenInViewport'
+	import whenInViewport from 'coffeekraken-sugar/js/dom/whenInViewport'
 whenInViewport(myCoolHTMLElement).then((elm) => {
 		// do something with your element that has entered the viewport...
 });

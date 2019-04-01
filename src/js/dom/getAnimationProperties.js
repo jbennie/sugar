@@ -1,5 +1,5 @@
 import getStyleProperty from './getStyleProperty';
-import toMs from '../utils/string/toMs';
+import toMs from '../utils/strings/toMs';
 
 /**
  * Get the css animation properties from an HTMLElement in an object format

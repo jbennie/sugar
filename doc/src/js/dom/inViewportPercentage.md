@@ -13,7 +13,7 @@ Return **{ [Number](https://developer.mozilla.org/fr/docs/Web/JavaScript/Referen
 
 ### Example
 ```js
-	import inViewportPercentage from 'sugarcss/js/dom/inViewportPercentage'
+	import inViewportPercentage from 'coffeekraken-sugar/js/dom/inViewportPercentage'
 const percentage = inViewportPercentage(myCoolHTMLElement);
 // 20
 ```

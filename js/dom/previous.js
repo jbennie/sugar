@@ -20,7 +20,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return 		{HTMLElement} 								The element found or null
  *
  * @example  	js
- * import previous from 'sugarcss/js/dom/previous'
+ * import previous from 'coffeekraken-sugar/js/dom/previous'
  * const previousElm = previous(myCoolElement, '.my-cool-class');
  * if (previousElm) {
  * 		// we have found en element that matches the selector

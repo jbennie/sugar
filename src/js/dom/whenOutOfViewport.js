@@ -11,7 +11,7 @@ import __closest from './closest'
  * @return 		(Promise) 										The promise that will be resolved when the element exit the viewport
  *
  * @example 	js
- * import whenOutOfViewport from 'sugarcss/js/dom/whenOutOfViewport'
+ * import whenOutOfViewport from 'coffeekraken-sugar/js/dom/whenOutOfViewport'
  * whenOutOfViewport(myCoolHTMLElement).then((elm) => {
  * 		// do something with your element that has exit the viewport...
  * });

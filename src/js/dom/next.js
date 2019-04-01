@@ -9,7 +9,7 @@ import __matches from './matches'
  * @return 		{HTMLElement} 								The element found or null
  *
  * @example  	js
- * import next from 'sugarcss/js/dom/next'
+ * import next from 'coffeekraken-sugar/js/dom/next'
  * const nextElm = next(myCoolElement, '.my-cool-class');
  * if (nextElm) {
  * 		// we have found en element that matches the selector

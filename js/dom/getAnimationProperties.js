@@ -9,7 +9,7 @@ var _getStyleProperty = require('./getStyleProperty');
 
 var _getStyleProperty2 = _interopRequireDefault(_getStyleProperty);
 
-var _toMs = require('../utils/string/toMs');
+var _toMs = require('../utils/strings/toMs');
 
 var _toMs2 = _interopRequireDefault(_toMs);
 

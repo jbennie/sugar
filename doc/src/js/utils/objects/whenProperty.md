@@ -15,7 +15,7 @@ Return **{ (Promise) }** The promise that will be resolved when the property exi
 
 ### Example
 ```js
-	import whenProperty from 'sugarcss/js/utils/objects/whenProperty'
+	import whenProperty from 'coffeekraken-sugar/js/utils/objects/whenProperty'
 
 const myObj = {
  	title : 'Hello'

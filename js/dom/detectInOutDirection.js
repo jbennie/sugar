@@ -25,11 +25,11 @@ exports.default = detectInOutDirection;
  * @author    Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 function detectInOutDirection(elm, onIn, onOut) {
-	// detect when mouseover/out the element
-	elm.addEventListener('mouseover', function (e) {
+	// detect when mouseenter/leave the element
+	elm.addEventListener('mouseenter', function (e) {
 		onIn && onIn(direction, elm);
 	});
-	elm.addEventListener('mouseout', function (e) {
+	elm.addEventListener('mouseleave', function (e) {
 		onOut && onOut(direction, elm);
 	});
 }

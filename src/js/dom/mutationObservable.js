@@ -11,7 +11,7 @@ import {Observable} from 'rxjs/Observable'
  * @return 		{Observable} 								The mutation observable
  *
  * @example  	js
- * import mutationObservable from 'sugarcss/js/dom/mutationObservable'
+ * import mutationObservable from 'coffeekraken-sugar/js/dom/mutationObservable'
  * mutationObservable(myCoolHTMLElement).subscribe((mutation) => {
  * 		// do something with the mutation
  * });

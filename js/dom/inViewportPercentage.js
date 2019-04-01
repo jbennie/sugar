@@ -19,7 +19,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return 		{Number} 								The percentage visible in the viewport
  *
  * @example  	js
- * import inViewportPercentage from 'sugarcss/js/dom/inViewportPercentage'
+ * import inViewportPercentage from 'coffeekraken-sugar/js/dom/inViewportPercentage'
  * const percentage = inViewportPercentage(myCoolHTMLElement);
  * // 20
  *

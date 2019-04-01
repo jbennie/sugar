@@ -8,7 +8,7 @@ import linkLoaded from './linkLoaded';
  * @return 		{Promise} 										The promise that will be resolved when all the links are loaded
  *
  * @example 	js
- * import stylesheetsReady from 'sugarcss/js/dom/stylesheetsReady'
+ * import stylesheetsReady from 'coffeekraken-sugar/js/dom/stylesheetsReady'
  * stylesheetsReady([
  * 		myHTMLLinkElement1,
  * 		myHTMLLinkElement2

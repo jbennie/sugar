@@ -19,7 +19,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return 		{Number} 								The calculated width of the text
  *
  * @example 	js
- * import textWidth from 'sugarcss/js/dom/textWidth'
+ * import textWidth from 'coffeekraken-sugar/js/dom/textWidth'
  * // text of an HTMLElement
  * const width = textWidth(myCoolHTMLElement);
  *

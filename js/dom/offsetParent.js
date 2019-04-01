@@ -19,7 +19,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return 		{Object} 									The offset top and left object
  *
  * @example  	js
- * import offsetParent from 'sugarcss/js/dom/offsetParent'
+ * import offsetParent from 'coffeekraken-sugar/js/dom/offsetParent'
  * const offsetParentElm = offsetParent(myCoolElement);
  * // output : { top : 200, left : 300 }
  *
