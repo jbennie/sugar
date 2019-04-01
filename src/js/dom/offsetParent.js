@@ -7,7 +7,7 @@ import __offset from './offset';
  * @return 		{Object} 									The offset top and left object
  *
  * @example  	js
- * import offsetParent from 'sugarcss/js/dom/offsetParent'
+ * import offsetParent from 'coffeekraken-sugar/js/dom/offsetParent'
  * const offsetParentElm = offsetParent(myCoolElement);
  * // output : { top : 200, left : 300 }
  *

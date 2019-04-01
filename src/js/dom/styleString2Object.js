@@ -1,5 +1,5 @@
-import __camelize from '../utils/string/camelize'
-import __autoCast from '../utils/string/autoCast'
+import __camelize from '../utils/strings/camelize'
+import __autoCast from '../utils/strings/autoCast'
 
 /**
  * Transform a style string to an object representation
@@ -9,7 +9,7 @@ import __autoCast from '../utils/string/autoCast'
  * @return 		(Object) 								The string object representation
  *
  * @example 	js
- * import styleString2Object from 'sugarcss/js/dom/styleString2Object'
+ * import styleString2Object from 'coffeekraken-sugar/js/dom/styleString2Object'
  * const styleString = styleString2Object('padding-left:20px; display:block;');
  * // output => {
  * //		paddingLeft : '20px',

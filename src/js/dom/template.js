@@ -1,4 +1,4 @@
-import __strToHtml from '../utils/string/strToHtml'
+import __strToHtml from '../utils/strings/strToHtml'
 
 function processString(string) {
 	return string.replace(/&gt;/g,'>').replace(/&lt;/g,'<').replace(/&nbsp;/g,' ');

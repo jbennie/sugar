@@ -5,11 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = styleString2Object;
 
-var _camelize = require('../utils/string/camelize');
+var _camelize = require('../utils/strings/camelize');
 
 var _camelize2 = _interopRequireDefault(_camelize);
 
-var _autoCast = require('../utils/string/autoCast');
+var _autoCast = require('../utils/strings/autoCast');
 
 var _autoCast2 = _interopRequireDefault(_autoCast);
 
@@ -23,7 +23,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return 		(Object) 								The string object representation
  *
  * @example 	js
- * import styleString2Object from 'sugarcss/js/dom/styleString2Object'
+ * import styleString2Object from 'coffeekraken-sugar/js/dom/styleString2Object'
  * const styleString = styleString2Object('padding-left:20px; display:block;');
  * // output => {
  * //		paddingLeft : '20px',

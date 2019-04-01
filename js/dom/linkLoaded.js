@@ -13,7 +13,7 @@ exports.default = linkLoaded;
  * @return 		{Promise} 								The promise that will be resolved
  *
  * @example  	js
- * import linkLoaded from 'sugarcss/js/dom/linkLoaded'
+ * import linkLoaded from 'coffeekraken-sugar/js/dom/linkLoaded'
  * linkLoaded(myCoolHTMLLinlElement).then((link) => {
  * 		// do something when the link is loaded
  * });

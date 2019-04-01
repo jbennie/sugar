@@ -14,7 +14,7 @@ Return **{ [Boolean](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refere
 
 ### Example
 ```js
-	import isVisible from 'sugarcss/js/dom/isVisible'
+	import isVisible from 'coffeekraken-sugar/js/dom/isVisible'
 if (isVisible(myCoolHTMLElement) {
 		// i'm visible
 }

@@ -8,7 +8,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 exports.default = style;
 
-var _uncamelize = require('../utils/string/uncamelize');
+var _uncamelize = require('../utils/strings/uncamelize');
 
 var _uncamelize2 = _interopRequireDefault(_uncamelize);
 

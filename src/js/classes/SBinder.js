@@ -17,9 +17,9 @@
  */
 
 import SWatcher from './SWatcher';
-import __camelize from '../utils/string/camelize';
-import __uncamelize from '../utils/string/uncamelize';
-import __autoCast from '../utils/string/autoCast'
+import __camelize from '../utils/strings/camelize';
+import __uncamelize from '../utils/strings/uncamelize';
+import __autoCast from '../utils/strings/autoCast'
 import __uniqid from '../utils/uniqid';
 import _set from 'lodash/set';
 import __dispatchEvent from '../dom/dispatchEvent';

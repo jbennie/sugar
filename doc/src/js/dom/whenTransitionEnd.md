@@ -14,7 +14,7 @@ Return **{ (Promise) }** The promise that will be resolved when the element tran
 
 ### Example
 ```js
-	import whenTransitionEnd from 'sugarcss/js/dom/whenTransitionEnd'
+	import whenTransitionEnd from 'coffeekraken-sugar/js/dom/whenTransitionEnd'
 whenTransitionEnd(myCoolHTMLElement).then((elm) => {
 		// do something with your element transition has ended...
 });

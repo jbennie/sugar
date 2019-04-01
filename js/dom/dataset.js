@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = dataset;
 
-var _uncamelize = require('../utils/string/uncamelize');
+var _uncamelize = require('../utils/strings/uncamelize');
 
 var _uncamelize2 = _interopRequireDefault(_uncamelize);
 

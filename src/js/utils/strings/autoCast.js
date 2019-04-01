@@ -1,5 +1,15 @@
 /**
  * Auto cast the string into the correct variable type
+ * @param    {String}    string    The string to auto cast
+ * @return    {Mixed}    The casted value
+ * 
+ * @example    js
+ * import autoCast from 'coffeekraken-sugar/js/utils/strings/autoCast'
+ * autoCast('12') // => 12
+ * autoCast('window.HTMLElement') // => HTMLElement
+ * autoCast('{"hello":"world"}') // {hello:'world'}
+ * 
+ * @author    Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 export default function autoCast(string) {
 

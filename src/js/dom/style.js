@@ -1,4 +1,4 @@
-import __uncamelize from '../utils/string/uncamelize'
+import __uncamelize from '../utils/strings/uncamelize'
 import __styleString2Object from './styleString2Object'
 import __styleObject2String from './styleObject2String'
 

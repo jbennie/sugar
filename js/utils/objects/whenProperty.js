@@ -25,7 +25,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return 		(Promise) 										The promise that will be resolved when the property exist on the object (and that it passes the checkFn)
  *
  * @example 	js
- * import whenProperty from 'sugarcss/js/utils/objects/whenProperty'
+ * import whenProperty from 'coffeekraken-sugar/js/utils/objects/whenProperty'
  *
  * const myObj = {
  *  	title : 'Hello'

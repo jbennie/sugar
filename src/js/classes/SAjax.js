@@ -1,10 +1,10 @@
 import SObject from '../core/SObject'
 import SimpleAjax from 'simple-ajax'
 import {Observable} from 'rxjs/Observable'
-import strToHtml from '../utils/string/strToHtml'
-import htmlToStr from '../utils/string/htmlToStr'
+import strToHtml from '../utils/strings/strToHtml'
+import htmlToStr from '../utils/strings/htmlToStr'
 import SAjaxRequest from './SAjaxRequest'
-import __autoCast from '../utils/string/autoCast'
+import __autoCast from '../utils/strings/autoCast'
 
 /**
  * @name 		SAjax

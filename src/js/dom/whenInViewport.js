@@ -12,7 +12,7 @@ import __closest from './closest'
  * @return 		(Promise) 											The promise that will be resolved when the element is in the viewport
  *
  * @example 	js
- * import whenInViewport from 'sugarcss/js/dom/whenInViewport'
+ * import whenInViewport from 'coffeekraken-sugar/js/dom/whenInViewport'
  * whenInViewport(myCoolHTMLElement).then((elm) => {
  * 		// do something with your element that has entered the viewport...
  * });

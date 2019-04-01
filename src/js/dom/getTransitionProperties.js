@@ -1,6 +1,6 @@
 import getStyleProperty from './getStyleProperty';
-import autoCast from '../utils/string/autoCast';
-import toMs from '../utils/string/toMs';
+import autoCast from '../utils/strings/autoCast';
+import toMs from '../utils/strings/toMs';
 
 /**
  * Get the css transition properties from an HTMLElement in an object format

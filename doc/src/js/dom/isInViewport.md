@@ -14,7 +14,7 @@ Return **{ [Boolean](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refere
 
 ### Example
 ```js
-	import isInViewport from 'sugarcss/js/dom/isInViewport'
+	import isInViewport from 'coffeekraken-sugar/js/dom/isInViewport'
 if (isInViewport(myCoolHTMLElement) {
 		// i'm in the viewport
 }

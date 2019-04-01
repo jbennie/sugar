@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = template;
 
-var _strToHtml = require('../utils/string/strToHtml');
+var _strToHtml = require('../utils/strings/strToHtml');
 
 var _strToHtml2 = _interopRequireDefault(_strToHtml);
 

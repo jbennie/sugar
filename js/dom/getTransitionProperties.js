@@ -9,11 +9,11 @@ var _getStyleProperty = require('./getStyleProperty');
 
 var _getStyleProperty2 = _interopRequireDefault(_getStyleProperty);
 
-var _autoCast = require('../utils/string/autoCast');
+var _autoCast = require('../utils/strings/autoCast');
 
 var _autoCast2 = _interopRequireDefault(_autoCast);
 
-var _toMs = require('../utils/string/toMs');
+var _toMs = require('../utils/strings/toMs');
 
 var _toMs2 = _interopRequireDefault(_toMs);
 

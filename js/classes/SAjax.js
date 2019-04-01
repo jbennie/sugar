@@ -18,11 +18,11 @@ var _simpleAjax2 = _interopRequireDefault(_simpleAjax);
 
 var _Observable = require('rxjs/Observable');
 
-var _strToHtml = require('../utils/string/strToHtml');
+var _strToHtml = require('../utils/strings/strToHtml');
 
 var _strToHtml2 = _interopRequireDefault(_strToHtml);
 
-var _htmlToStr = require('../utils/string/htmlToStr');
+var _htmlToStr = require('../utils/strings/htmlToStr');
 
 var _htmlToStr2 = _interopRequireDefault(_htmlToStr);
 
@@ -30,7 +30,7 @@ var _SAjaxRequest = require('./SAjaxRequest');
 
 var _SAjaxRequest2 = _interopRequireDefault(_SAjaxRequest);
 
-var _autoCast = require('../utils/string/autoCast');
+var _autoCast = require('../utils/strings/autoCast');
 
 var _autoCast2 = _interopRequireDefault(_autoCast);
 

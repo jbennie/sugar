@@ -13,7 +13,7 @@ Return **{ (Object) }** The string object representation
 
 ### Example
 ```js
-	import styleString2Object from 'sugarcss/js/dom/styleString2Object'
+	import styleString2Object from 'coffeekraken-sugar/js/dom/styleString2Object'
 const styleString = styleString2Object('padding-left:20px; display:block;');
 // output => {
 //		paddingLeft : '20px',

@@ -12,7 +12,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _mixwith = require('../vendors/mixwith');
 
-var _autoCast = require('../utils/string/autoCast');
+var _autoCast = require('../utils/strings/autoCast');
 
 var _autoCast2 = _interopRequireDefault(_autoCast);
 
@@ -20,15 +20,15 @@ var _extend2 = require('lodash/extend');
 
 var _extend3 = _interopRequireDefault(_extend2);
 
-var _camelize = require('../utils/string/camelize');
+var _camelize = require('../utils/strings/camelize');
 
 var _camelize2 = _interopRequireDefault(_camelize);
 
-var _uncamelize = require('../utils/string/uncamelize');
+var _uncamelize = require('../utils/strings/uncamelize');
 
 var _uncamelize2 = _interopRequireDefault(_uncamelize);
 
-var _upperFirst = require('../utils/string/upperFirst');
+var _upperFirst = require('../utils/strings/upperFirst');
 
 var _upperFirst2 = _interopRequireDefault(_upperFirst);
 

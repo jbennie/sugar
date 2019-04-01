@@ -14,7 +14,7 @@ Return **{ [Promise](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refere
 
 ### Example
 ```js
-	import stylesheetsReady from 'sugarcss/js/dom/stylesheetsReady'
+	import stylesheetsReady from 'coffeekraken-sugar/js/dom/stylesheetsReady'
 stylesheetsReady([
 		myHTMLLinkElement1,
 		myHTMLLinkElement2

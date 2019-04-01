@@ -14,7 +14,7 @@ Return **{ (Promise) }** The promise that will be resolved when the element is v
 
 ### Example
 ```js
-	import whenVisible from 'sugarcss/js/dom/whenVisible'
+	import whenVisible from 'coffeekraken-sugar/js/dom/whenVisible'
 whenVisible(myCoolHTMLElement).then((elm) => {
 		// do something with your element that is now visible
 });

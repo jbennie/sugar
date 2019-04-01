@@ -1,11 +1,11 @@
 require('es6-object-assign').polyfill();
 
 import { Mixin } from '../vendors/mixwith'
-import __autoCast from '../utils/string/autoCast'
+import __autoCast from '../utils/strings/autoCast'
 import _extend from 'lodash/extend'
-import __camelize from '../utils/string/camelize'
-import __uncamelize from '../utils/string/uncamelize'
-import __upperFirst from '../utils/string/upperFirst'
+import __camelize from '../utils/strings/camelize'
+import __uncamelize from '../utils/strings/uncamelize'
+import __upperFirst from '../utils/strings/upperFirst'
 import __fastdom from 'fastdom'
 import __dispatchEvent from '../dom/dispatchEvent'
 import __whenInViewport from '../dom/whenInViewport'

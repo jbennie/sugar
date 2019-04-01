@@ -13,7 +13,7 @@ Return **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Referen
 
 ### Example
 ```js
-	import offsetParent from 'sugarcss/js/dom/offsetParent'
+	import offsetParent from 'coffeekraken-sugar/js/dom/offsetParent'
 const offsetParentElm = offsetParent(myCoolElement);
 // output : { top : 200, left : 300 }
 ```

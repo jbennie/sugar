@@ -13,7 +13,7 @@ exports.default = matches;
  * @return 		{Boolean} 								If the element match the selector or not
  *
  * @example  	js
- * import matches from 'sugarcss/js/dom/matches'
+ * import matches from 'coffeekraken-sugar/js/dom/matches'
  * if (matches(myCoolHTMLElement, '.my-cool-css-selector')) {
  * 		// the element match the selector
  * }

@@ -14,7 +14,7 @@ Return **{ [Boolean](https://developer.mozilla.org/fr/docs/Web/JavaScript/Refere
 
 ### Example
 ```js
-	import matches from 'sugarcss/js/dom/matches'
+	import matches from 'coffeekraken-sugar/js/dom/matches'
 if (matches(myCoolHTMLElement, '.my-cool-css-selector')) {
 		// the element match the selector
 }

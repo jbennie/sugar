@@ -9,7 +9,7 @@ var _attributesObservable = require('./attributesObservable');
 
 var _attributesObservable2 = _interopRequireDefault(_attributesObservable);
 
-var _autoCast = require('../utils/string/autoCast');
+var _autoCast = require('../utils/strings/autoCast');
 
 var _autoCast2 = _interopRequireDefault(_autoCast);
 
@@ -25,7 +25,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return 		(Promise) 										The promise that will be resolved when the attribute exist on the element (and that it passes the checkFn)
  *
  * @example 	js
- * import whenAttribute from 'sugarcss/js/dom/whenAttribute'
+ * import whenAttribute from 'coffeekraken-sugar/js/dom/whenAttribute'
  * whenAttribute(myCoolHTMLElement, 'value').then((value) => {
  * 		// the value attribute exist on the element
  * });

@@ -1,4 +1,4 @@
-import __uncamelize from '../utils/string/uncamelize'
+import __uncamelize from '../utils/strings/uncamelize'
 
 /**
  * Transform a style object to inline string separated by ;
@@ -8,7 +8,7 @@ import __uncamelize from '../utils/string/uncamelize'
  * @return 		(String) 								The string style representation
  *
  * @example 	js
- * import styleObject2String from 'sugarcss/js/dom/styleObject2String'
+ * import styleObject2String from 'coffeekraken-sugar/js/dom/styleObject2String'
  * const styleString = styleObject2String({
  * 		paddingLeft : '20px',
  * 		display : 'block'
