@@ -1,6 +1,8 @@
 import "babel-polyfill";
 import '../../../js/features/all';
 
+import autoScrollAnchorLinks from '../../../js/dom/autoScrollAnchorLinks'
+
 import native from "../../../js/core/sNativeWebComponent";
 import SWebComponent from "../../../js/core/SWebComponent";
 import toggleFullscreen from "../../../js/dom/toggleFullscreen";
@@ -35,6 +37,8 @@ import sprintf from "../../../js/utils/strings/sprintf";
 import isOdd from "../../../js/utils/is/odd";
 
 import toString from "../../../js/utils/strings/toString";
+
+autoScrollAnchorLinks()
 
 function coco() {
 	console.log("coco");

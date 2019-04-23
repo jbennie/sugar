@@ -1,7 +1,7 @@
 {
   "name": "coffeekraken-sugar",
   "description": "A little sugar in your codebase",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "homepage": "http://coffekraken.io",
   "main": "index.js",
   "watch": {
@@ -12,7 +12,10 @@
       "paths": "src/**/*.scss"
     },
     "demo:js": {
-      "paths": "demo/src/**/*.js"
+      "paths": [
+        "demo/src/**/*.js",
+        "src/**/*.js"
+      ]
     },
     "demo:css": {
       "paths": "demo/src/**/*.scss"
@@ -64,7 +67,8 @@
     "mobile-detect": "^1.4.3",
     "rxjs": "^5.5.12",
     "simple-ajax": "^2.6.0",
-    "sprintf-js": "^1.1.2"
+    "sprintf-js": "^1.1.2",
+    "url-parse": "^1.4.6"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

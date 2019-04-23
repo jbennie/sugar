@@ -29,6 +29,11 @@ export default function scrollToLocationHash(duration = 500, offset = 0, easing 
 	// if no target found, do nothing
 	if ( ! targetElm) return
 
+	// tell the browser that we handle the scroll restoration manually
+	if ('scrollRestoration' in history) {
+		history.scrollRestoration = 'manual';
+	}
+
 	// scroll to target
 	__scrollTo(targetElm , duration, easing, offset, 'top');
 

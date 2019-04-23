@@ -1,7 +1,7 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+	value: true
 });
 exports.default = scrollToLocationHash;
 
@@ -30,23 +30,28 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @author    Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com) (https://olivierbossel.com)
  */
 function scrollToLocationHash() {
-  var duration = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 500;
-  var offset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-  var easing = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _easeInOutQuint2.default;
+	var duration = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 500;
+	var offset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+	var easing = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _easeInOutQuint2.default;
 
 
-  // check if we have an hash in the url
-  var hash = document.location.hash;
+	// check if we have an hash in the url
+	var hash = document.location.hash;
 
-  // if not, do nothing
-  if (!hash) return;
+	// if not, do nothing
+	if (!hash) return;
 
-  // try to get the hash target in the page
-  var targetElm = document.querySelector(hash);
+	// try to get the hash target in the page
+	var targetElm = document.querySelector(hash);
 
-  // if no target found, do nothing
-  if (!targetElm) return;
+	// if no target found, do nothing
+	if (!targetElm) return;
 
-  // scroll to target
-  (0, _scrollTo2.default)(targetElm, duration, easing, offset, 'top');
+	// tell the browser that we handle the scroll restoration manually
+	if ('scrollRestoration' in history) {
+		history.scrollRestoration = 'manual';
+	}
+
+	// scroll to target
+	(0, _scrollTo2.default)(targetElm, duration, easing, offset, 'top');
 }
