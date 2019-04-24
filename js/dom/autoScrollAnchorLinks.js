@@ -28,6 +28,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @param    {Integer}    [duration=500]    The scroll duration in ms
  * @param    {Integer}    [offset=0]    A scroll offset to apply
  * @param    {Function}    [easing=__easing]    An easing function used to scroll
+ * @param    {Boolean}    [checkPathnames=true]    Specify if need to check the pathnames correspondance or not
  * 
  * @example    js
  * import autoScrollAnchorLinks from 'coffeekraken-sugar/js/autoScrollAnchorLinks'
@@ -39,6 +40,7 @@ function autoScrollAnchorLinks() {
   var duration = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 500;
   var offset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
   var easing = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _easeInOutQuint2.default;
+  var checkPathnames = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
 
 
   (0, _querySelectorLive2.default)('a:not([is])[href*="#"]', function ($link) {
@@ -55,7 +57,7 @@ function autoScrollAnchorLinks() {
 
       // if it's not the same pathname between the current url and the link one,
       // we do nothing and we let the link behave as he want
-      if (currentUrl.pathname !== linkUrl.pathname) return;
+      if (checkPathnames && currentUrl.pathname !== linkUrl.pathname) return;
 
       // try to get the target from the hash
       var $target = document.querySelector(linkUrl.hash);
@@ -70,7 +72,7 @@ function autoScrollAnchorLinks() {
       history.pushState({}, null, linkUrl.hash);
 
       // all seems to be good, we can scroll to the target
-      (0, _scrollTo2.default)($target, duration, easing, offset, 'top');
+      (0, _scrollTo2.default)($target, duration, easing || _easeInOutQuint2.default, offset, 'top');
     });
   });
 }
