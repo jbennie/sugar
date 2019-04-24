@@ -9,6 +9,7 @@ Name  |  Type  |  Description  |  Status  |  Default
 duration  |  **{ Integer }**  |  The scroll duration in ms  |  optional  |  500
 offset  |  **{ Integer }**  |  A scroll offset to apply  |  optional  |  0
 easing  |  **{ [Function](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function) }**  |  An easing function used to scroll  |  optional  |  __easing
+checkPathnames  |  **{ [Boolean](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Boolean) }**  |  Specify if need to check the pathnames correspondance or not  |  optional  |  true
 
 ### Example
 ```js
