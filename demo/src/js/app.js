@@ -85,6 +85,13 @@ console.log(keysFirst(["a", "b", "d", "g", "c"], ["d", "g", "z", "y"]));
 // console.log('unquote ”', unquote('”Hello World”'))
 
 class MyAnchorComponent extends native(HTMLAnchorElement) {
+
+	static get defaultState() {
+		return {
+			coco: 'hello'
+		}
+	}
+
 	componentMount() {
 		super.componentMount();
 		this.innerHTML = "PLOP LINK";

@@ -571,6 +571,8 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 				set : (target, property, value) => {
 					// get the old value
 					const oldVal = target[property];
+					// protect against same value assignation
+					if (oldVal === value) return true
 					// apply the new value
 					target[property] = value;
 					// handle the new property value
@@ -593,6 +595,8 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 				set : (target, property, value) => {
 					// get the old value
 					const oldVal = target[property];
+					// protect against same value assignation
+					if (oldVal === value) return true
 					// apply the new value
 					target[property] = value;
 					// handle the new property value
@@ -860,8 +864,8 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 */
 	_mountComponent() {
 		// wait next frame
-		__fastdom.clear(this._fastDomRenderTimeout);
-		this._fastDomRenderTimeout = this.mutate(() => {
+		__fastdom.clear(this._fastDomFirstRenderTimeout);
+		this._fastDomFirstRenderTimeout = this.mutate(() => {
 			// sometimes, the component has been unmounted between the
 			// fastdom execution, so we stop here if it's the case
 			if ( ! this._componentAttached) return;
