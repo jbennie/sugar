@@ -22,13 +22,13 @@ function handleInputAttributes(e) {
 						case 13: // enter
 							if (field.hasAttribute('onenter')) {
 								eval(field.getAttribute('onenter'));
-								__dispatchEvent(field, 'onenter');
+								__dispatchEvent(field, 'enter');
 							}
 						break;
 						case 27:
 							if (field.hasAttribute('onescape')) {
 								eval(field.getAttribute('onescape'));
-								__dispatchEvent(field, 'onescape');
+								__dispatchEvent(field, 'escape');
 							}
 						break;
 					}
