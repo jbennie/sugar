@@ -687,6 +687,8 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 						set: function set(target, property, value) {
 							// get the old value
 							var oldVal = target[property];
+							// protect against same value assignation
+							if (oldVal === value) return true;
 							// apply the new value
 							target[property] = value;
 							// handle the new property value
@@ -709,6 +711,8 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 						set: function set(target, property, value) {
 							// get the old value
 							var oldVal = target[property];
+							// protect against same value assignation
+							if (oldVal === value) return true;
 							// apply the new value
 							target[property] = value;
 							// handle the new property value
@@ -1004,8 +1008,8 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				var _this5 = this;
 
 				// wait next frame
-				_fastdom2.default.clear(this._fastDomRenderTimeout);
-				this._fastDomRenderTimeout = this.mutate(function () {
+				_fastdom2.default.clear(this._fastDomFirstRenderTimeout);
+				this._fastDomFirstRenderTimeout = this.mutate(function () {
 					// sometimes, the component has been unmounted between the
 					// fastdom execution, so we stop here if it's the case
 					if (!_this5._componentAttached) return;
