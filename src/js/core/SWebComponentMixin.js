@@ -12,6 +12,7 @@ import __whenInViewport from '../dom/whenInViewport'
 import __whenVisible from '../dom/whenVisible'
 import __prependChild from '../dom/prependChild'
 import __propertyProxy from '../utils/objects/propertyProxy'
+import __onchange from 'on-change'
 
 /**
  * @name 		SWebComponent
@@ -388,6 +389,45 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	}
 
 	/**
+   * Default state
+   * Specify the default state object to start with. The state can be updated using the setState function and passing a new state object
+   * that will be merged inside the actual one
+   * @protected
+   */
+  static get defaultState() {
+    return {}
+  }
+
+	/**
+   * Get the default state for this particular instance
+   * @type  		{Object}
+   * @protected
+   */
+  get defaultState() {
+    // check if default state in cache to avoid multiple time
+    // computing
+    if (this._defaultStateCache) return this._defaultStateCache
+
+    // compute
+    let state =
+      window.sugar._webComponentsClasses[this.componentName].defaultState
+    let comp = window.sugar._webComponentsClasses[this.componentName]
+    while (comp) {
+      if (comp.defaultState) {
+        state = {
+          ...comp.defaultState,
+          ...state
+        }
+      }
+      comp = Object.getPrototypeOf(comp)
+    }
+    // save in cache
+    this._defaultStateCache = Object.assign({}, state)
+    // return state
+    return state
+  }
+
+	/**
 	 * Specify the default css for the component
 	 * @param 		{String} 		componentName 		The camelcase component name
 	 * @param 		{String} 		componentNameDash 	The dashcase component name
@@ -522,6 +562,9 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		// if we have some initial props, we set them now
 		if (this._initialProps) this.setProps(this._initialProps)
 
+		// set the state
+    this._state = Object.assign({}, this.defaultState, this._state || {}, this.state || {})
+    
 		// init properties proxy object
 		if (window.Proxy) {
 			this.props = new Proxy(this._props, {
@@ -542,6 +585,28 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 			});
 		} else {
 			this.props = this._props;
+		}
+
+		// init state proxy object
+		if (window.Proxy) {
+			this.state = new Proxy(this._state, {
+				set : (target, property, value) => {
+					// get the old value
+					const oldVal = target[property];
+					// apply the new value
+					target[property] = value;
+					// handle the new property value
+					this._handleNewStateValue(property, value, oldVal);
+					// notify the proxy that the property has been updated
+					return true;
+				},
+				get : (target, property) => {
+					// simply return the property value from the target
+					return target[property];
+				}
+			});
+		} else {
+			this.state = this._state;
 		}
 
 		// listen for updates on the element itself
@@ -566,13 +631,11 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		// internal properties
 		this._nextPropsStack = {};
 		this._prevPropsStack = {};
-		this._fastdomSetProp = null;
+		this._nextStateStack = {};
+		this._prevStateStack = {};
 
 		// compute props
 		this._initInitialAttributes();
-
-		// props proxy
-		// this._initPropsProxy();
 
 		// check the required props
 		this.requiredProps.forEach((prop) => {
@@ -785,34 +848,6 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	}
 
 	/**
-	 * Init props proxy.
-	 * This will create a getter/setter accessor on the item itself
-	 * that get and update his corresponding props.{name} property
-	 */
-	// _initPropsProxy() {
-	// 	// loop on each props
-	// 	for(let key in this.defaultProps) {
-	// 		if (this.hasOwnProperty(key) || key in this) {
-	// 			if (this.props.debug) {
-	// 				console.warn(`The component ${this.componentNameDash} has already an "${key}" property... This property will not reflect the this.props['${key}'] value... Try to use a property name that does not already exist on an HTMLElement...`);
-	// 			}
-	// 			continue;
-	// 		}
-	// 		((key) => {
-	// 			Object.defineProperty(this, key, {
-	// 				get : () => {
-	// 					return this.props[key];
-	// 				},
-	// 				set : (value) => {
-	// 					this.setProp(key, __autoCast(value));
-	// 				},
-	// 				enumarable : true
-	// 			});
-	// 		})(key);
-	// 	}
-	// }
-
-	/**
 	 * On mouse over
 	 */
 	_onMouseoverComponentMount() {
@@ -825,8 +860,8 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 	 */
 	_mountComponent() {
 		// wait next frame
-		__fastdom.clear(this._fastdomSetProp);
-		this._fastdomSetProp = this.mutate(() => {
+		__fastdom.clear(this._fastDomRenderTimeout);
+		this._fastDomRenderTimeout = this.mutate(() => {
 			// sometimes, the component has been unmounted between the
 			// fastdom execution, so we stop here if it's the case
 			if ( ! this._componentAttached) return;
@@ -955,8 +990,7 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 		this._fastdomSetProp = __fastdom.mutate(() => {
 
 			// create array version of each stacks
-			const nextPropsArray = [],
-			prevPropsArray = [];
+			const nextPropsArray = []
 			for (let key in this._nextPropsStack) {
 				const val = this._nextPropsStack[key];
 				nextPropsArray.push({
@@ -966,14 +1000,6 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 
 				// handle physical props
 				this._handlePhysicalProp(key, val);
-
-			}
-			for (let key in this._prevPropsStack) {
-				const val = this._prevPropsStack[key];
-				prevPropsArray.push({
-					name : key,
-					value : val
-				});
 			}
 
 			// call the will reveiveProps if exist
@@ -982,7 +1008,90 @@ const SWebComponentMixin = Mixin((superclass) => class extends superclass {
 			}
 
 			// should component update
-			if (this.shouldComponentUpdate && ! this.shouldComponentUpdate(this._nextPropsStack, this._prevPropsStack)) return;
+			if (this.shouldComponentUpdate && ! this.shouldComponentUpdate(this._nextPropsStack, this._prevPropsStack, this._nextStateStack, this._prevStateStack)) return;
+
+			// render the component
+			this.render();
+		});
+	}
+
+	/**
+   * Set a new state
+   * @param    {Object}    newState    The new state to merge with the actual one
+   * @return    {Object}    The new state computed
+   */
+  setState(newState) {
+    // update the state
+    for (const key in newState) {
+			this.setStateValue(key, newState[key])
+    }
+	}
+
+	/**
+	 * Set a property
+	 * @param 			{String} 		prop 			The property name to set
+	 * @param 			{Mixed} 		value 			The new property value
+	 */
+	setStateValue(prop, value, set = true) {
+
+		// if the component is not attached to the dom, we don't have the props etc
+		// so we save them inside an object that we will merge later in the props
+		if ( ! this._componentAttached) {
+			if ( ! this._initialState) this._initialState = {}
+			this._initialState[prop] = value
+			return
+		}
+
+		// save the oldVal
+		const oldVal = this.state[prop];
+
+		// stop if same value
+		if (oldVal === value) return;
+
+		// set the prop
+		this._state[prop] = value;
+
+		// handle new value
+		this._handleNewStateValue(prop, value, oldVal);
+
+		// return the component
+		return this;
+	}
+	
+	/**
+	 * Get a state property
+	 * @param    {String}    [prop=null]    The state property to retrieve
+	 * @return    {Mixed}    The requested state value or the full state object
+	 */
+	getState(prop = null) {
+		// return the full state object if no prop requested
+		if (!prop) return this.state
+		// return the requested state prop
+		return this.state[prop]
+	}
+
+	/**
+	 * Handle new property
+	 * @param 		{String} 		prop 		The property name
+	 * @param 		{Mixed} 		newVal 		The new property value
+	 * @param 		{Mixed}			oldVal 		The old property value
+	 */
+	_handleNewStateValue(prop, newVal, oldVal) {
+
+		// if the component is not mounted
+		// we do nothing here...
+		if ( ! this.isComponentMounted()) return;
+
+		// create the stacks
+		this._prevStateStack[prop] = oldVal;
+		this._nextStateStack[prop] = newVal;
+
+		// wait till next frame
+		__fastdom.clear(this._fastDomNewStateTimeout);
+		this._fastDomNewStateTimeout = __fastdom.mutate(() => {
+
+			// should component update
+			if (this.shouldComponentUpdate && ! this.shouldComponentUpdate(this._nextPropsStack, this._prevPropsStack, this._nextStateStack, this._prevStateStack)) return;
 
 			// render the component
 			this.render();

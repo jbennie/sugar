@@ -56,6 +56,10 @@ var _propertyProxy = require('../utils/objects/propertyProxy');
 
 var _propertyProxy2 = _interopRequireDefault(_propertyProxy);
 
+var _onChange = require('on-change');
+
+var _onChange2 = _interopRequireDefault(_onChange);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -272,6 +276,42 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				this._requiredPropsCache = props;
 
 				return props;
+			}
+
+			/**
+     * Default state
+     * Specify the default state object to start with. The state can be updated using the setState function and passing a new state object
+     * that will be merged inside the actual one
+     * @protected
+     */
+
+		}, {
+			key: 'defaultState',
+
+
+			/**
+     * Get the default state for this particular instance
+     * @type  		{Object}
+     * @protected
+     */
+			get: function get() {
+				// check if default state in cache to avoid multiple time
+				// computing
+				if (this._defaultStateCache) return this._defaultStateCache;
+
+				// compute
+				var state = window.sugar._webComponentsClasses[this.componentName].defaultState;
+				var comp = window.sugar._webComponentsClasses[this.componentName];
+				while (comp) {
+					if (comp.defaultState) {
+						state = _extends({}, comp.defaultState, state);
+					}
+					comp = Object.getPrototypeOf(comp);
+				}
+				// save in cache
+				this._defaultStateCache = Object.assign({}, state);
+				// return state
+				return state;
 			}
 
 			/**
@@ -548,6 +588,11 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				return [];
 			}
 		}, {
+			key: 'defaultState',
+			get: function get() {
+				return {};
+			}
+		}, {
 			key: 'mountDependencies',
 			get: function get() {
 				return [];
@@ -633,6 +678,9 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				// if we have some initial props, we set them now
 				if (this._initialProps) this.setProps(this._initialProps);
 
+				// set the state
+				this._state = Object.assign({}, this.defaultState, this._state || {}, this.state || {});
+
 				// init properties proxy object
 				if (window.Proxy) {
 					this.props = new Proxy(this._props, {
@@ -653,6 +701,28 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 					});
 				} else {
 					this.props = this._props;
+				}
+
+				// init state proxy object
+				if (window.Proxy) {
+					this.state = new Proxy(this._state, {
+						set: function set(target, property, value) {
+							// get the old value
+							var oldVal = target[property];
+							// apply the new value
+							target[property] = value;
+							// handle the new property value
+							_this3._handleNewStateValue(property, value, oldVal);
+							// notify the proxy that the property has been updated
+							return true;
+						},
+						get: function get(target, property) {
+							// simply return the property value from the target
+							return target[property];
+						}
+					});
+				} else {
+					this.state = this._state;
 				}
 
 				// listen for updates on the element itself
@@ -677,13 +747,11 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				// internal properties
 				this._nextPropsStack = {};
 				this._prevPropsStack = {};
-				this._fastdomSetProp = null;
+				this._nextStateStack = {};
+				this._prevStateStack = {};
 
 				// compute props
 				this._initInitialAttributes();
-
-				// props proxy
-				// this._initPropsProxy();
 
 				// check the required props
 				this.requiredProps.forEach(function (prop) {
@@ -916,34 +984,6 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			}
 
 			/**
-    * Init props proxy.
-    * This will create a getter/setter accessor on the item itself
-    * that get and update his corresponding props.{name} property
-    */
-			// _initPropsProxy() {
-			// 	// loop on each props
-			// 	for(let key in this.defaultProps) {
-			// 		if (this.hasOwnProperty(key) || key in this) {
-			// 			if (this.props.debug) {
-			// 				console.warn(`The component ${this.componentNameDash} has already an "${key}" property... This property will not reflect the this.props['${key}'] value... Try to use a property name that does not already exist on an HTMLElement...`);
-			// 			}
-			// 			continue;
-			// 		}
-			// 		((key) => {
-			// 			Object.defineProperty(this, key, {
-			// 				get : () => {
-			// 					return this.props[key];
-			// 				},
-			// 				set : (value) => {
-			// 					this.setProp(key, __autoCast(value));
-			// 				},
-			// 				enumarable : true
-			// 			});
-			// 		})(key);
-			// 	}
-			// }
-
-			/**
     * On mouse over
     */
 
@@ -964,8 +1004,8 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				var _this5 = this;
 
 				// wait next frame
-				_fastdom2.default.clear(this._fastdomSetProp);
-				this._fastdomSetProp = this.mutate(function () {
+				_fastdom2.default.clear(this._fastDomRenderTimeout);
+				this._fastDomRenderTimeout = this.mutate(function () {
 					// sometimes, the component has been unmounted between the
 					// fastdom execution, so we stop here if it's the case
 					if (!_this5._componentAttached) return;
@@ -1124,8 +1164,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				this._fastdomSetProp = _fastdom2.default.mutate(function () {
 
 					// create array version of each stacks
-					var nextPropsArray = [],
-					    prevPropsArray = [];
+					var nextPropsArray = [];
 					for (var key in _this7._nextPropsStack) {
 						var val = _this7._nextPropsStack[key];
 						nextPropsArray.push({
@@ -1136,13 +1175,6 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 						// handle physical props
 						_this7._handlePhysicalProp(key, val);
 					}
-					for (var _key2 in _this7._prevPropsStack) {
-						var _val = _this7._prevPropsStack[_key2];
-						prevPropsArray.push({
-							name: _key2,
-							value: _val
-						});
-					}
 
 					// call the will reveiveProps if exist
 					if (_this7.componentWillReceiveProps) {
@@ -1150,10 +1182,110 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 					}
 
 					// should component update
-					if (_this7.shouldComponentUpdate && !_this7.shouldComponentUpdate(_this7._nextPropsStack, _this7._prevPropsStack)) return;
+					if (_this7.shouldComponentUpdate && !_this7.shouldComponentUpdate(_this7._nextPropsStack, _this7._prevPropsStack, _this7._nextStateStack, _this7._prevStateStack)) return;
 
 					// render the component
 					_this7.render();
+				});
+			}
+
+			/**
+     * Set a new state
+     * @param    {Object}    newState    The new state to merge with the actual one
+     * @return    {Object}    The new state computed
+     */
+
+		}, {
+			key: 'setState',
+			value: function setState(newState) {
+				// update the state
+				for (var key in newState) {
+					this.setStateValue(key, newState[key]);
+				}
+			}
+
+			/**
+    * Set a property
+    * @param 			{String} 		prop 			The property name to set
+    * @param 			{Mixed} 		value 			The new property value
+    */
+
+		}, {
+			key: 'setStateValue',
+			value: function setStateValue(prop, value) {
+				var set = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
+
+				// if the component is not attached to the dom, we don't have the props etc
+				// so we save them inside an object that we will merge later in the props
+				if (!this._componentAttached) {
+					if (!this._initialState) this._initialState = {};
+					this._initialState[prop] = value;
+					return;
+				}
+
+				// save the oldVal
+				var oldVal = this.state[prop];
+
+				// stop if same value
+				if (oldVal === value) return;
+
+				// set the prop
+				this._state[prop] = value;
+
+				// handle new value
+				this._handleNewStateValue(prop, value, oldVal);
+
+				// return the component
+				return this;
+			}
+
+			/**
+    * Get a state property
+    * @param    {String}    [prop=null]    The state property to retrieve
+    * @return    {Mixed}    The requested state value or the full state object
+    */
+
+		}, {
+			key: 'getState',
+			value: function getState() {
+				var prop = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+				// return the full state object if no prop requested
+				if (!prop) return this.state;
+				// return the requested state prop
+				return this.state[prop];
+			}
+
+			/**
+    * Handle new property
+    * @param 		{String} 		prop 		The property name
+    * @param 		{Mixed} 		newVal 		The new property value
+    * @param 		{Mixed}			oldVal 		The old property value
+    */
+
+		}, {
+			key: '_handleNewStateValue',
+			value: function _handleNewStateValue(prop, newVal, oldVal) {
+				var _this8 = this;
+
+				// if the component is not mounted
+				// we do nothing here...
+				if (!this.isComponentMounted()) return;
+
+				// create the stacks
+				this._prevStateStack[prop] = oldVal;
+				this._nextStateStack[prop] = newVal;
+
+				// wait till next frame
+				_fastdom2.default.clear(this._fastDomNewStateTimeout);
+				this._fastDomNewStateTimeout = _fastdom2.default.mutate(function () {
+
+					// should component update
+					if (_this8.shouldComponentUpdate && !_this8.shouldComponentUpdate(_this8._nextPropsStack, _this8._prevPropsStack, _this8._nextStateStack, _this8._prevStateStack)) return;
+
+					// render the component
+					_this8.render();
 				});
 			}
 
@@ -1387,7 +1519,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			value: function addComponentClass(elm) {
 				var element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-				var _this8 = this;
+				var _this9 = this;
 
 				var modifier = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 				var state = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
@@ -1395,7 +1527,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				// if is an array
 				if (elm instanceof Array || elm instanceof NodeList) {
 					[].forEach.call(elm, function (el) {
-						_this8.addComponentClass(el, element, modifier, state);
+						_this9.addComponentClass(el, element, modifier, state);
 					});
 					return this;
 				}
@@ -1405,7 +1537,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				// loop on each classes to add
 				cls.split('.').forEach(function (cl) {
 					if (cl && cl !== '') {
-						_this8.mutate(function () {
+						_this9.mutate(function () {
 							elm.classList.add(cl);
 						});
 					}
@@ -1428,7 +1560,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 			value: function removeComponentClass(elm) {
 				var element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-				var _this9 = this;
+				var _this10 = this;
 
 				var modifier = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 				var state = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
@@ -1436,7 +1568,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				// if is an array
 				if (elm instanceof Array || elm instanceof NodeList) {
 					[].forEach.call(elm, function (el) {
-						_this9.removeComponentClass(el, element, modifier, state);
+						_this10.removeComponentClass(el, element, modifier, state);
 					});
 					return this;
 				}
@@ -1446,7 +1578,7 @@ var SWebComponentMixin = (0, _mixwith.Mixin)(function (superclass) {
 				// loop on each classes to add
 				cls.split('.').forEach(function (cl) {
 					if (cl && cl !== '') {
-						_this9.mutate(function () {
+						_this10.mutate(function () {
 							elm.classList.remove(cl);
 						});
 					}
