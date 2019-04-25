@@ -10,7 +10,7 @@ import querySelectorLive from '../dom/querySelectorLive'
  * @author    Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
 querySelectorLive(
-  'img[lazy-src]:not([src]):not([is="s-responsive-img"])',
+  'img[lazy-src]:not([is])',
   $imgElm => {
     whenInViewport($imgElm).then(() => {
       $imgElm.setAttribute('src', $imgElm.getAttribute('lazy-src'))

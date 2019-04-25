@@ -25,11 +25,12 @@ Sugar provide a nice stack for webcomponent development. This stack is basically
 1. [Get Started](#get-started)
 2. [Lifecycle](#lifecycle)
 3. [Props](#props)
-4. [Mount when](#mount-when)
-5. [Mount dependencies](#mount-dependencies)
-6. [Default CSS](#default-css)
-7. [Component boilerplate](#boilerplate)
-8. [Full SWebComponent API documentation](../src/js/core/SWebComponentMixin.md)
+4. [State](#state)
+5. [Mount when](#mount-when)
+6. [Mount dependencies](#mount-dependencies)
+7. [Default CSS](#default-css)
+8. [Component boilerplate](#boilerplate)
+9. [Full SWebComponent API documentation](../src/js/core/SWebComponentMixin.md)
 
 <a name="get-started"></a>
 ## Get Started
@@ -39,6 +40,16 @@ Here's how to use the ```SWebComponent``` class :
 ```js
 import SWebComponent from 'coffeekraken-sugar/js/core/SWebComponent'
 class MyCoolComponent extends SWebComponent {
+
+	/**
+	 * Default state
+	 * @definition 		SWebComponent.defaultState
+	 * @protected
+	 */
+	static get defaultState() {
+		return {
+		};
+	}
 
 	/**
 	 * Default props
@@ -148,6 +159,21 @@ Each component expose his "state" through the ```this.props``` object. These pro
 
 > Avoid using names of properties that already exists on the HTMLElement object. If you do so, you can have some unexpected issues...
 
+<a name="state"></a>
+## State
+
+Each component expose his internal state through the ```this.state``` object. These props are reachable and settable through several methods:
+
+#### Set the state :
+
+1. **```this.setStateValue(prop, value)```**
+2. **```this.setState(stateObj)```**
+3. **```this.state.{propName} = {propValue}```** : This use the Proxy capabilities of modern browsers. Try to use instead the ```this.setProp``` function to avoid issues with older browsers like IE11...
+
+#### Get a state value :
+
+1. **```const myStateValue = this.state.{propName}```**
+2. **```const myStateValue = this.getState({propName})```**
 
 <a name="mount-when"></a>
 ## Mount when

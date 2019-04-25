@@ -330,13 +330,6 @@ Method called when the component need to unmount itself cause it has been remove
 Author : Olivier Bossel [olivier.bossel@gmail.com](mailto:olivier.bossel@gmail.com) [https://olivierbossel.com](https://olivierbossel.com)
 
 
-### //
-
-Init props proxy.
-This will create a getter/setter accessor on the item itself
-that get and update his corresponding props.{name} property
-
-
 ### dispatchComponentEvent
 
 Dispatch an event from the tag with namespaced event name
@@ -387,6 +380,44 @@ Name  |  Type  |  Description  |  Status  |  Default
 prop  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The property name to get  |  required  |
 
 Return **{ Mixed }** The property value or null
+
+
+### setState
+
+Set a new state
+
+
+#### Parameters
+Name  |  Type  |  Description  |  Status  |  Default
+------------  |  ------------  |  ------------  |  ------------  |  ------------
+newState  |  **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }**  |  The new state to merge with the actual one  |  required  |
+
+Return **{ [Object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object) }** The new state computed
+
+
+### setStateValue
+
+Set a property
+
+
+#### Parameters
+Name  |  Type  |  Description  |  Status  |  Default
+------------  |  ------------  |  ------------  |  ------------  |  ------------
+prop  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The property name to set  |  required  |
+value  |  **{ Mixed }**  |  The new property value  |  required  |
+
+
+### getState
+
+Get a state property
+
+
+#### Parameters
+Name  |  Type  |  Description  |  Status  |  Default
+------------  |  ------------  |  ------------  |  ------------  |  ------------
+prop  |  **{ [String](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String) }**  |  The state property to retrieve  |  optional  |  null
+
+Return **{ Mixed }** The requested state value or the full state object
 
 
 ### getPreviousPropsStack

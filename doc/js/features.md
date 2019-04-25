@@ -10,8 +10,8 @@ They don't expose any API, classes or functions. They're just files that add som
 - **imagesLoadedAttribute** : Add a "loaded" attribute on images when loaded
 - **inputAdditionalAttributes** : Add and maintain to input, select, radio, etc... attributes "dirty", "empty" and "has-value"
 - **inputAdditionalEvents** : Dispatch some additional events from input, textarea, etc...:
-	- **onescape** : from ```textarea``` and ```input```
-	- **onenter** : from ```textarea``` and ```input```
+	- **escape** : from ```textarea``` and ```input```
+	- **enter** : from ```textarea``` and ```input```
 - **linksScrollHrefAttribute** : Allows to use links href attribute like so:
 	- **scroll:#my-target-id** : On click, will scroll to #my-target-id
 - **videoLazySrcAttribute** : Add support for the attribute `lazy-src` on videos

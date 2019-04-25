@@ -32,13 +32,13 @@ function handleInputAttributes(e) {
 							// enter
 							if (field.hasAttribute('onenter')) {
 								eval(field.getAttribute('onenter'));
-								(0, _dispatchEvent2.default)(field, 'onenter');
+								(0, _dispatchEvent2.default)(field, 'enter');
 							}
 							break;
 						case 27:
 							if (field.hasAttribute('onescape')) {
 								eval(field.getAttribute('onescape'));
-								(0, _dispatchEvent2.default)(field, 'onescape');
+								(0, _dispatchEvent2.default)(field, 'escape');
 							}
 							break;
 					}

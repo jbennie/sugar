@@ -18,7 +18,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * <img lazy-src="my-cool-image.jpg" />
  * @author    Olivier Bossel <olivier.bossel@gmail.com> (https://olivierbossel.com)
  */
-(0, _querySelectorLive2.default)('img[lazy-src]:not([src]):not([is="s-responsive-img"])', function ($imgElm) {
+(0, _querySelectorLive2.default)('img[lazy-src]:not([is])', function ($imgElm) {
   (0, _whenInViewport2.default)($imgElm).then(function () {
     $imgElm.setAttribute('src', $imgElm.getAttribute('lazy-src'));
   });
